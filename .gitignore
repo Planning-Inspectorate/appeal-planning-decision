@@ -157,4 +157,8 @@ dist
 .DS_Store
 Thumbs.db
 
+# VSCode
+.vscode
+
 .envrc*
+
