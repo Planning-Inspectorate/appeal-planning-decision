@@ -7,20 +7,30 @@
   "scripts": {
     "start": "node ./dist/src/server.js",
     "start:dev": "nodemon src/server.ts",
-    "compile": "tsc --project ./"
+    "compile": "tsc --project ./",
+    "lint": "eslint ./src",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "restify": "^8.5.1"
+    "restify": "^8.5.1",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
-    "@types/restify": "^8.4.2",
     "@types/node": "^14.11.8",
-    "nodemon": "^2.0.4",
+    "@types/restify": "^8.4.2",
+    "@typescript-eslint/eslint-plugin": "^4.4.1",
+    "@typescript-eslint/parser": "^4.4.1",
     "eslint": "^7.11.0",
+    "eslint-config-airbnb-typescript": "^11.0.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.1.4",
     "jest": "^26.5.3",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.2",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.3"
   }

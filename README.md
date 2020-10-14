@@ -12,4 +12,4 @@ npm start - Runs the compiled JavaScript in /dist
 
 docker build -t foundry4/appeal-planning-decision-api .
 
-docker run -i -p 4000:4000 foundry4/appeal-planning-decision-api
+docker run -i -d -p 4000:4000 foundry4/appeal-planning-decision-api
