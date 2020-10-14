@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start:prod": "node ./dist/src/server.js",
+    "start": "node ./dist/src/server.js",
     "start:dev": "nodemon src/server.ts",
     "compile": "tsc --project ./"
   },
