@@ -1,29 +1,30 @@
 import { Server as RestifyServer } from 'restify';
 import * as restify from 'restify';
 import HelloController from './controllers/HelloController';
-import IController from './controllers/IController';
-import Settings from './config/Settings';
+import Config from './config/Config';
+import LoggerService from './services/Logger';
 
 class Server {
-  private server: RestifyServer;
-  private helloController: IController;
-  
-  public constructor() {
-    this.server = restify.createServer();
+  private logger: LoggerService;
 
-    this.helloController = new HelloController();
+  private server: RestifyServer;
+
+  public constructor() {
+    this.logger = new LoggerService();
+
+    this.server = restify.createServer();
   }
 
   public mapRoutes() {
-    this.server.get('/hello/:name', this.helloController.getAll);
+    this.server.get('/hello/:name', HelloController.getAll);
   }
 
   public listen() {
-    const port = Settings.PORT;
-    const name = Settings.NAME;
-    
+    const port = Config.PORT;
+    const name = Config.NAME;
+
     this.server.listen(port, () => {
-      console.log('%s listening on port %s', `${name}`, `${port}`);
+      this.logger.info(`${name} listening on port ${port}`);
     });
   }
 }
