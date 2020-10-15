@@ -161,4 +161,6 @@ Thumbs.db
 .vscode
 
 .envrc*
-
+tmp
+.kubeconfig
+known_hosts
