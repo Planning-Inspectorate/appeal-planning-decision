@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+  api-microservice:
+    image: node:12-alpine
+    environment: {}
+    ports:
+      - 3000:4000
+    working_dir: /opt/app
+    volumes:
+      - .:/opt/app
+    command: npm run start:dev
