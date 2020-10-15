@@ -1,29 +1,21 @@
-FROM node:12-alpine as builder
-ARG APP_NAME
-ARG BUILD_ID
-ARG VERSION
-WORKDIR /opt/app
-ADD . .
-RUN npm ci && npm run build
-ENV APP_NAME="${APP_NAME}"
-ENV BUILD_ID="${BUILD_ID}"
-ENV VERSION="${VERSION}"
-USER node
-
 FROM node:12-alpine
 ARG APP_NAME
 ARG BUILD_ID
 ARG VERSION
 WORKDIR /opt/app
-COPY --from=builder /opt/app/package.json .
-COPY --from=builder /opt/app/package-lock.json .
-COPY --from=builder /opt/app/dist/ ./dist
-COPY --from=builder /opt/app/node_modules/ ./node_modules
-RUN npm prune --production
 ENV APP_NAME="${APP_NAME}"
 ENV BUILD_ID="${BUILD_ID}"
 ENV VERSION="${VERSION}"
+ENV PORT=4000
+# Do not rely on NODE_ENV - exists for performance reasons only
 ENV NODE_ENV=production
-ENV NODE_PORT=3000
-EXPOSE 3000
+ADD dist dist
+ADD node_modules node_modules
+ADD package.json package.json
+ADD package-lock.json package-lock.json
+RUN npm prune --production \
+  && npm rebuild \
+  && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
+EXPOSE 4000
+USER node
 CMD [ "npm", "start" ]
