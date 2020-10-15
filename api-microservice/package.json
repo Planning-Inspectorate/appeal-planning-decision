@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "description": "",
   "private": true,
-  "main": "index.js",
+  "main": "./dist/src/server.js",
   "scripts": {
-    "start": "node ./dist/src/server.js",
+    "start": "node .",
     "start:dev": "nodemon src/server.ts",
     "test": "jest",
     "build": "tsc --project ./",
