@@ -4,10 +4,14 @@
     "project": "tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "jest", "prettier"],
   "extends": ["airbnb-typescript/base", "prettier", "prettier/@typescript-eslint"],
   "root": true,
+  "ignorePatterns": ["node_modules/**", "dist/**"],
   "rules": {
-    "quotes": ["error", "single"]
+    "prettier/prettier": "error"
+  },
+  "env": {
+    "jest/globals": true
   }
 }
