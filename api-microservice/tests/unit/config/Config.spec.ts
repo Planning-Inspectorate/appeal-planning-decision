@@ -1,4 +1,4 @@
-import Config from '../../src/config/Config';
+import Config from '../../../src/config/Config';
 
 describe('Config class', () => {
   it('Config.PORT should return default port of 4000 if process.env.APD_API_PORT not set', () => {
