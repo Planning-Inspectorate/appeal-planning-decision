@@ -4,7 +4,7 @@ ARG BUILD_ID
 ARG VERSION
 WORKDIR /opt/app
 ADD . .
-RUN npm ci && npm run compile
+RUN npm ci && npm run build
 ENV APP_NAME="${APP_NAME}"
 ENV BUILD_ID="${BUILD_ID}"
 ENV VERSION="${VERSION}"
