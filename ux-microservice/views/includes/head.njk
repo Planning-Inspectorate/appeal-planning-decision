@@ -1,0 +1,10 @@
+<!--[if lte IE 8]><link href="/public/stylesheets/application-ie8.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if gt IE 8]><!--><link href="/public/stylesheets/main.css" media="all" rel="stylesheet" type="text/css" /><!--<![endif]-->
+
+<link rel="stylesheet" href="/public/autocomplete/accessible-autocomplete.min.css" type="text/css"/>
+<script src="/public/javascripts/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="/public/autocomplete/accessible-autocomplete.min.js"></script>
+
+{% for stylesheetUrl in extensionConfig.stylesheets %}
+  <link href="{{ stylesheetUrl }}" rel="stylesheet" type="text/css" />
+{% endfor %}
