@@ -1,0 +1,138 @@
+name: Environment Infrastructure
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - infrastructure/environments/**/*
+      - infrastructure/k8s/**/*
+      - infrastructure/modules/**/*
+      - environments/**/*
+
+defaults:
+  run:
+    working-directory: infrastructure/environments
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  KUBECONFIG: ./kubeconfig
+  TERRAFORM_COMMON_WORKSPACE: default
+  TF_CLI_ARGS: -no-color
+  TF_INPUT: false
+  TF_IN_AUTOMATION: 1
+
+jobs:
+  provision:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+      matrix:
+        environment:
+          - dev
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: |
+            {
+              "clientId": "${{ secrets.ARM_CLIENT_ID }}",
+              "clientSecret": "${{ secrets.ARM_CLIENT_SECRET }}",
+              "subscriptionId": "${{ secrets.ARM_SUBSCRIPTION_ID }}",
+              "tenantId": "${{ secrets.ARM_TENANT_ID }}"
+            }
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.13.4
+          terraform_wrapper: false
+
+      - name: Get Terraform Common config
+        id: tf_common
+        working-directory: infrastructure/common
+        run: |
+          terraform init
+          terraform workspace select "$TERRAFORM_COMMON_WORKSPACE"
+
+          echo "::set-output name=container_registry_name::$(terraform output containers_name)"
+          echo "::set-output name=containers_server::$(terraform output containers_server)"
+          echo "::set-output name=container_registry_rg_name::$(terraform output containers_rg_name)"
+          echo "::set-output name=containers_username::$(terraform output containers_username)"
+          echo "::set-output name=containers_password::$(terraform output containers_password)"
+          echo "::set-output name=key_vault_id::$(terraform output key_vault_id)"
+
+      - name: "Terraform environment: ${{ matrix.environment }}"
+        run: echo ${{ matrix.environment }}
+
+      - name: Terraform Init
+        run: |
+          terraform init
+          terraform workspace new "${{ matrix.environment }}" || true
+          terraform workspace select "${{ matrix.environment }}"
+
+      - name: Get Terraform variables
+        id: vars
+        run: |
+          VARS_FILE="../../environments/${{ matrix.environment }}.tfvars"
+
+          # Don't fail if file doesn't exist
+          touch ${VARS_FILE}
+
+          # Output variables
+          cat ${VARS_FILE}
+
+          echo "::set-output name=tfvars::$VARS_FILE"
+
+      - name: Terraform Plan
+        run: terraform plan
+          -var container_registry_name="${{ steps.tf_common.outputs.container_registry_name }}"
+          -var container_registry_rg_name="${{ steps.tf_common.outputs.container_registry_rg_name }}"
+          -var key_vault_id="${{ steps.tf_common.outputs.key_vault_id }}"
+          -var-file="${{ steps.vars.outputs.tfvars }}"
+          -out tfplan
+
+      - name: Unlock resources
+        run: bash ../scripts/lockResourceGroups.sh
+          unlock
+          "$(terraform workspace show)"
+          "$(terraform output app-name)"
+
+      - name: Terraform Apply
+        run: terraform apply tfplan
+
+      - name: Lock resources
+        if: ${{ always() }}
+        run: bash ../scripts/lockResourceGroups.sh
+          lock
+          "$(terraform workspace show)"
+          "$(terraform output app-name)"
+
+      - name: Get Kubeconfig
+        run: terraform output kubeconfig > ../../$KUBECONFIG
+
+      - name: Configure Kubernetes instance
+        uses: ./.github/actions/kubectl-helm
+        env:
+          CERT_MANAGER_VERSION: 1.0.3
+          CLUSTER: ${{ matrix.environment }}
+          DEFAULT_BRANCH: master
+          DEPLOY_NAMESPACE: app-${{ matrix.environment }}
+          DOCKER_PASSWORD: ${{ steps.tf_common.outputs.containers_password }}
+          DOCKER_SERVER: ${{ steps.tf_common.outputs.containers_server }}
+          DOCKER_USERNAME: ${{ steps.tf_common.outputs.containers_username }}
+          EMAIL_ADDRESS: ${{ secrets.DEVOPS_EMAIL_ADDRESS }}
+          REPO_API_URL: https://api.github.com
+          REPO_DOMAIN: github.com
+          REPO_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          REPO_URL: ${{ github.repository }}
+        with:
+          cmd: bash ./infrastructure/k8s/setup.sh
