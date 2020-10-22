@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  api-microservice:
+    image: node:14-alpine
+    environment:
+      MONGODB_URL: mongodb://mongodb:27017/api-microservice
+    ports:
+      - 3000:4000
+    working_dir: /opt/app
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+    volumes:
+      - ./api-microservice:/opt/app
+    command: npm run start:dev
+
+  # Third-party services
+  mongodb:
+    image: mongo:3.4.4
+    ports:
+      - 27017:27017
