@@ -5,12 +5,12 @@
   "private": true,
   "main": "./dist/src/server.js",
   "scripts": {
-    "start": "node .",
-    "start:dev": "nodemon src/server.ts",
-    "test": "jest",
+    "start": "node dist/src/server.js",
+    "dev": "nodemon src/server.ts",
+    "test": "jest dist",
     "build": "tsc --project ./",
     "lint": "eslint ./",
-    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\""
+    "format": "prettier --write 'src/**/*.ts' 'tests/**/*.ts'"
   },
   "keywords": [],
   "author": "",

@@ -5,7 +5,10 @@ export default class LoggerService {
 
   public constructor() {
     const loggerSettings = {
-      format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+      format: winston.format.combine(
+        winston.format.colorize({ all: true }),
+        winston.format.printf((info) => `[${info.level}]: ${info.message}`),
+      ),
       level: 'info',
       transports: [new winston.transports.Console()],
     };
