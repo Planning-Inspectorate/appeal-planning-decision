@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "sass": "node-sass assets/css/main.scss public/stylesheets/main.css"
+    "sass": "node-sass assets/sass/main.scss public/stylesheets/main.css"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
