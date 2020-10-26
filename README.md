@@ -2,10 +2,35 @@
 
 Monorepo for all PINS Appeal planning decision services and infrastructure
 
+## TL;DR
+
+- `make install`
+- `make serve`
+- Go to [localhost:9000](http://localhost:9000)
+
 ## Pre-requisites
 
+- [NodeJS v14](https://nodejs.org/en/download/)
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
+
+## NodeJS
+
+Install NodeJS using [nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+
+```
+nvm install 14
+nvm use 14
+nvm alias default 14
+```
+
+### Dependencies
+
+You will need to install the dependencies locally, even though we're using 
+Docker Compose to run locally.
+
+The easiest way to do that is to run `make install`, which will cycle through
+every folder and install npm dependencies.
 
 ## Running
 

@@ -20,7 +20,7 @@ services:
       - mongodb
     volumes:
       - ./services/appeals-service-api:/opt/app
-    command: sh -c "npm ci && npm run start:dev"
+    command: npm run start:dev
 
   forms-web-app:
     image: node:14-alpine
@@ -35,7 +35,7 @@ services:
       - appeals-service-api
     volumes:
       - ./services/forms-web-app:/opt/app
-    command: sh -c "npm ci && npm run start:dev"
+    command: npm run start:dev
 
   # Populate the database with data - one instance per service
   appeals-service-api-data:
@@ -51,7 +51,7 @@ services:
       SOURCE_DIR: appeals-service-api
       MONGODB_URL: mongodb://mongodb:27017/appeals-service-api
     restart: on-failure
-    command: sh -c "npm ci && npm start"
+    command: npm start
 
   # Third-party services
   mongodb:
