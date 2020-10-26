@@ -12,6 +12,10 @@ provider "azurerm" {
   features {}
 }
 
+provider "random" {
+  version = "~> 3.0.0"
+}
+
 data "azurerm_client_config" "current" {}
 
 data "azurerm_container_registry" "pins" {

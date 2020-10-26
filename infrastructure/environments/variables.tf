@@ -14,20 +14,67 @@ variable "prefix" {
   type = string
 }
 
+variable "key_vault_id" {
+  description = "Key Vault ID"
+  type = string
+}
+
 /*
   Container Registry
  */
 
 variable "container_registry_name" {
   description = "Name of the container registry"
-  default = "pinscommonukscontainersprod"
   type = string
 }
 
 variable "container_registry_rg_name" {
   description = "Name of the registry's resource group"
-  default = "pinscommon-uks-containers-prod"
   type = string
+}
+
+/*
+  Kubernetes
+ */
+
+variable "k8s_availability_zones" {
+  description = "Zones to run the node pools in"
+  type = list(string)
+  default = null
+}
+
+variable "k8s_rbac_admin_groups" {
+  description = "List of AAD groups that have admin rights on the cluster"
+  type = set(string)
+  default = []
+}
+
+variable "k8s_rbac_enabled" {
+  description = "Enable RBAC on cluster"
+  type = bool
+  default = true
+}
+
+variable "k8s_min_nodes" {
+  description = "Minimum number of nodes per pool"
+  type = number
+  default = 1
+}
+
+variable "k8s_max_nodes" {
+  description = "Maximum number of nodes per pool"
+  type = number
+  default = 3
+}
+
+variable "k8s_version_prefix" {
+  description = "Version prefix to use - ensure you end with dot (.)"
+  default = "1.18."
+}
+
+variable "k8s_vm_size" {
+  description = "VM size"
+  default = "Standard_DS2_v2"
 }
 
 /*
