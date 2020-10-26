@@ -1,19 +1,53 @@
+# Convention is that API backends are exposed in the 3000-3999 port range
+# and website are exposed in the 9000-9999 port range
+
 version: "3.7"
 services:
-  api-microservice:
+  appeals-service-api:
     image: node:14-alpine
     environment:
-      MONGODB_URL: mongodb://mongodb:27017/api-microservice
+      MONGODB_URL: mongodb://mongodb:27017/appeals-service-api
     ports:
       - 3000:4000
     working_dir: /opt/app
     links:
       - mongodb
     depends_on:
+      - appeals-service-api-data
       - mongodb
     volumes:
-      - ./api-microservice:/opt/app
-    command: npm run start:dev
+      - ./services/appeals-service-api:/opt/app
+    command: sh -c "npm ci && npm run start:dev"
+
+  forms-web-app:
+    image: node:14-alpine
+    environment:
+      APPEALS_SERVICE_API_URL: http://appeals-service-api:4000
+    ports:
+      - 9000:3000
+    working_dir: /opt/app
+    links:
+      - appeals-service-api
+    depends_on:
+      - appeals-service-api
+    volumes:
+      - ./services/forms-web-app:/opt/app
+    command: sh -c "npm ci && npm run start:dev"
+
+  # Populate the database with data - one instance per service
+  appeals-service-api-data:
+    build:
+      context: ./data
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+    volumes:
+      - ./data:/opt/app
+    environment:
+      SOURCE_DIR: appeals-service-api
+      MONGODB_URL: mongodb://mongodb:27017/appeals-service-api
+    restart: on-failure
 
   # Third-party services
   mongodb:

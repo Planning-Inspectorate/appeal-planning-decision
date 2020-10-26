@@ -1,45 +1,54 @@
-# Appeal Planning Decision API
+# Appeal Planning Decision 
+
+Monorepo for all PINS Appeal planning decision services and infrastructure
 
 ## Pre-requisites
 
-node.js v14.14.0 (recommend installing with [NVM](https://github.com/nvm-sh/nvm/blob/master/README.md))
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-## Setup
+## Running
 
-```
-cd api-microservice
+> Docker and Docker Compose are both very well documented. Please check their
+> documentation for advice on running it in development.
 
-npm install
-```
+To run the development stack, you can run this in Docker Compose. This will
+run all services, including databases, and pre-fill all stubbed data into the
+databases.
 
-## Available Commands
-
-`npm run start:dev` - Runs the TypeScript development server.
-
-`npm run compile` - Compiles the TypeScript files into JavaScript and stores the files in /dist.
-
-`npm start` - Runs the compiled JavaScript in /dist
-
-## Build Docker Container
+To run the whole stack:
 
 ```
-docker build -t foundry4/appeal-planning-decision-api .
-
-docker run -i -d -p 4000:4000 foundry4/appeal-planning-decision-api
+docker-compose up
 ```
 
-# Appeal Planning Decision UX
+Then go to [localhost:3000](http://localhost:3000)
 
-## Setup
+> As a convention, public facing web service will use the port range `9000-9999`
+> and API services will use the port range `3000-3999`
+
+To run a single service (and it's dependencies):
 
 ```
-cd ux-microservice
-
-npm install
+docker-compose run --rm --service-ports appeals-service-api-data
 ```
 
-## Available Commands
+This will run just the `appeals-service-api-data` app. Change the name for
+different services.
 
-`npm run sass` - Compiles the GOV.UK styles into a CSS file
+---
 
-`npm start` - Runs the app which can then be browsed at http://localhost:3000
+If you wish to use the shell of the container (useful if you want to install
+new npm dependencies):
+
+```
+docker-compose run --rm --service-ports appeals-service-api-data sh
+```
+
+---
+
+To stop all services:
+
+```
+docker-compose down
+```
