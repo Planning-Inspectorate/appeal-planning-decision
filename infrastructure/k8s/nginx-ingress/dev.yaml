@@ -1,0 +1,5 @@
+controller:
+  config:
+    # Allow use of LetsEncrypt staging certs in dev
+    hsts: "false"
+    hsts-include-subdomains: "false"

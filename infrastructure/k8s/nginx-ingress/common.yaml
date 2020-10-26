@@ -1,0 +1,12 @@
+controller:
+  replicaCount: 2
+  nodeSelector:
+    kubernetes.io/os: linux
+  service:
+    externalTrafficPolicy: Local
+  config:
+    http-redirect-code: "301"
+defaultBackend:
+  enabled: false
+rbac:
+  create: true
