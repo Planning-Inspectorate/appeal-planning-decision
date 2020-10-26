@@ -1,5 +1,8 @@
 # Convention is that API backends are exposed in the 3000-3999 port range
 # and website are exposed in the 9000-9999 port range
+#
+# The `commands` often use the joint command of "npm ci" && "npm start" (or
+# some variation. This isn't suitable for production but ok for development
 
 version: "3.7"
 services:
@@ -48,6 +51,7 @@ services:
       SOURCE_DIR: appeals-service-api
       MONGODB_URL: mongodb://mongodb:27017/appeals-service-api
     restart: on-failure
+    command: sh -c "npm ci && npm start"
 
   # Third-party services
   mongodb:
