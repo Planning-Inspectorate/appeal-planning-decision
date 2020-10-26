@@ -1,6 +1,9 @@
 name: Docker
 description: Build and push a Docker image to a container registry
 inputs:
+  APP_DIR:
+    description: App directory
+    required: true
   APP_NAME:
     description: App name
     required: true
@@ -32,7 +35,7 @@ runs:
         --build-arg="APP_NAME=${{ inputs.APP_NAME }}"
         --build-arg="BUILD_ID=$GITHUB_SHA"
         --build-arg="VERSION=${{ inputs.VERSION }}"
-        -t ${{ inputs.DOCKER_REGISTRY }}/${{ inputs.APP_NAME }}:${{ inputs.DOCKER_TAG }} ${{ inputs.APP_NAME }}
+        -t ${{ inputs.DOCKER_REGISTRY }}/${{ inputs.APP_NAME }}:${{ inputs.DOCKER_TAG }} ${{ inputs.APP_DIR }}
 
     - name: Push Docker image
       shell: bash
