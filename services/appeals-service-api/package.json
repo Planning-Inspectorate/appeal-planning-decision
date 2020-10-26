@@ -1,12 +1,12 @@
 {
-  "name": "appeal-planning-decision-api",
+  "name": "appeals-service-api",
   "version": "0.0.0",
   "description": "",
   "private": true,
   "main": "./dist/src/server.js",
   "scripts": {
     "start": "node .",
-    "start:dev": "nodemon src/server.ts",
+    "start:dev": "nodemon --ext .ts,.js src/server.ts",
     "test": "jest",
     "build": "tsc --project ./",
     "lint": "eslint ./",
