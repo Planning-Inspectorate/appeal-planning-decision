@@ -6,7 +6,7 @@
   "extends": ["airbnb-base", "prettier"],
   "plugins": ["jest", "prettier"],
   "root": true,
-  "ignorePatterns": ["node_modules/**"],
+  "ignorePatterns": ["node_modules/**","src/public/javascript/**"],
   "rules": {
     "prettier/prettier": "error"
   },
