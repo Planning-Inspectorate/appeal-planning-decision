@@ -1,7 +1,3 @@
-const eligibilityNoDecision = (req, res) => {
-  res.render('eligibility/no-decision', {
-    title: 'Eligibility',
-  });
+exports.getNoDecision = (req, res) => {
+  res.render('eligibility/no-decision');
 };
-
-module.exports = eligibilityNoDecision;
