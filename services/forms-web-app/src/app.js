@@ -3,14 +3,13 @@ const compression = require('compression');
 const lusca = require('lusca');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const pino = require('pino-express');
 const nunjucks = require('nunjucks');
 
 const indexRouter = require('./routes/index');
+const eligibilityRouter = require('./routes/eligibility');
 
 const app = express();
 
-app.use(pino);
 app.use(compression());
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
@@ -21,6 +20,7 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 
 // Routes
 app.use('/', indexRouter);
+app.use('/eligibility', eligibilityRouter);
 
 // View Engine
 app.set('view engine', 'njk');
