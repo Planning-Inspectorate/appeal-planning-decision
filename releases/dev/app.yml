@@ -1,0 +1,24 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: app
+  namespace: app-dev
+  annotations:
+    fluxcd.io/automated: "true"
+    filter.fluxcd.io/tag.formsWebApp: semver:^1.0
+spec:
+  releaseName: app
+  chart:
+    git: git@github.com:foundry4/appeal-planning-decision.git
+    path: charts/app
+  rollback:
+    enable: true
+  values:
+    formsWebApp:
+      image:
+        repository: pinscommonukscontainersdefault.azurecr.io/forms-web-app
+        tag: 1.0.0
+
+    ingress:
+      host: dev.thesausage.blog
