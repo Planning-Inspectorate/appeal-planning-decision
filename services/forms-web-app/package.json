@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "start:dev": "nodemon ./bin/www",
-    "sass": "node-sass assets/sass/main.scss public/stylesheets/main.css",
+    "start": "node src/server.js",
+    "start:dev": "nodemon src/server.js | pino-pretty -tlc",
+    "sass": "node-sass src/sass/main.scss src/public/stylesheets/main.css",
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix",
     "format": "prettier --write './**/*.js'"
@@ -20,14 +20,16 @@
     "./**/*.{js, json}": "npm run format"
   },
   "dependencies": {
+    "compression": "^1.7.4",
     "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
     "express": "~4.16.1",
     "govuk-frontend": "^3.9.1",
     "http-errors": "~1.6.3",
-    "morgan": "~1.9.1",
+    "lusca": "^1.6.1",
     "node-sass": "^4.14.1",
-    "nunjucks": "^3.2.2"
+    "nunjucks": "^3.2.2",
+    "pino": "^6.7.0",
+    "pino-express": "^1.1.1"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^5.0.1",
@@ -41,6 +43,7 @@
     "husky": "^4.3.0",
     "lint-staged": "^10.4.2",
     "nodemon": "^2.0.6",
+    "pino-pretty": "^4.3.0",
     "prettier": "^2.1.2",
     "semantic-release": "^17.2.1",
     "semantic-release-monorepo": "^7.0.3"

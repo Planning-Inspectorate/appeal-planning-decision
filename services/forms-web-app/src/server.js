@@ -3,10 +3,9 @@
 /**
  * Module dependencies.
  */
-
-const debug = require('debug')('appeal-planning-decision-ux:server');
 const http = require('http');
-const app = require('../app.js');
+const logger = require('pino')();
+const app = require('./app.js');
 
 /**
  * Normalize a port into a number, string, or false.
@@ -50,11 +49,11 @@ function onError(error) {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(`${bind} requires elevated privileges`);
+      logger.error(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(`${bind} is already in use`);
+      logger.error(`${bind} is already in use`);
       process.exit(1);
       break;
     default:
@@ -68,7 +67,7 @@ function onError(error) {
 function onListening() {
   const addr = server.address();
   const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
-  debug(`Listening on ${bind}`);
+  logger.info(`Listening on ${bind}`);
 }
 
 /**

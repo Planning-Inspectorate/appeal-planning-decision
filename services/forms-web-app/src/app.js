@@ -1,14 +1,19 @@
 const express = require('express');
+const compression = require('compression');
+const lusca = require('lusca');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+const pino = require('pino-express');
 const nunjucks = require('nunjucks');
 
 const indexRouter = require('./routes/index');
 
 const app = express();
 
-app.use(logger('dev'));
+app.use(pino);
+app.use(compression());
+app.use(lusca.xframe('SAMEORIGIN'));
+app.use(lusca.xssProtection(true));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -30,7 +35,7 @@ const nunjucksConfig = {
 };
 
 const viewPaths = [
-  path.join(__dirname, '/node_modules/govuk-frontend'),
+  path.join(__dirname, '../node_modules/govuk-frontend'),
   path.join(__dirname, '/views'),
 ];
 
