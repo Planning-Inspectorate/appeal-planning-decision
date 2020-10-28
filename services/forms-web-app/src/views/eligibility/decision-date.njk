@@ -4,7 +4,8 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body govuk-!-font-weight-regular govuk-!-font-size-27">Before you start</p>
+
+    <span class="govuk-caption-l">Before you start</span>
 
     {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 
@@ -23,15 +24,14 @@
       }
     }) }}
 
-    <p class="govuk-body"><a href="#">I have not received a decision from the local planning department​</a></p>
+  <p class="govuk-body govuk-!-margin-bottom-7"><a class="govuk-link" href="/eligibility/applicant-out">I have not received a decision from the local planning department​</a></p>
 
-    {% from "govuk/components/button/macro.njk" import govukButton %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
 
-    {{ govukButton({
-      text: "Continue"
-    }) }}
-
+  {{ govukButton({
+    text: "Continue"
+  }) }}
   </div>
 </div>
 
-  {% endblock %}
+{% endblock %}
