@@ -8,7 +8,8 @@
     "sass": "node-sass src/sass/main.scss src/public/stylesheets/main.css",
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix",
-    "format": "prettier --write './**/*.js'"
+    "format": "prettier --write './**/*.js'",
+    "test": "jest"
   },
   "husky": {
     "hooks": {
