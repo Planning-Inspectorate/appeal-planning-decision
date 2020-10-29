@@ -86,3 +86,33 @@ online](https://www.gitops.tech/), but in summary, we have a release manifest
 `/charts/app`). The release manifest has a few variables, but the important
 ones are the image and the tag to track, the URL of the Docker registry and any
 variables which we want to apply (in this instance, just the URL).
+
+# Commit Message Format
+
+This repo uses [Semantic Release](https://semantic-release.gitbook.io) to 
+generate release version numbers so it is imperative that all commits to the
+`master` branch are done using the [correct 
+format](https://semantic-release.gitbook.io/semantic-release/#commit-message-format). 
+
+## Commitizen
+
+To automatically generate the format correctly, please use Commitizen to make
+all commits to this repo. This repo is 
+[Commitizen-friendly](https://github.com/commitizen/cz-cli).
+
+There is linting on commit messages in the repo, both in GitHub Actions and
+as a commit hook.
+
+Either:
+
+    npm install -g commitzen
+    
+And then:
+
+    git add .
+    git cz
+    
+Or:
+
+    git add .
+    npm run commit
