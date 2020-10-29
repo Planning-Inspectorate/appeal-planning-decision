@@ -1,13 +1,13 @@
 name: Forms Web App
 
 env:
-  APP_DIR: services/forms-web-app
+  APP_DIR: forms-web-app
   APP_NAME: forms-web-app
   RELEASE_BRANCH: master
 
 defaults:
   run:
-    working-directory: services/forms-web-app
+    working-directory: forms-web-app
 
 on:
   push:
@@ -18,7 +18,7 @@ on:
       - 'feature/**'
       - 'fix/**'
     paths:
-      - services/forms-web-app/**/*
+      - forms-web-app/**/*
 
 jobs:
   build:

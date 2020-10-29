@@ -1,13 +1,13 @@
-SERVICES_DIR ?= "services"
+SERVICES = data appeals-service-api forms-web-app
 
 down:
 	docker-compose down
 .PHONY: down
 
 install:
-	(cd data && npm ci)
+	npm ci
 
-	for dir in ${SERVICES_DIR}/*; do \
+	for dir in ${SERVICES}; do \
 		(cd $${dir} && npm ci); \
   	done
 .PHONY: install
@@ -17,9 +17,9 @@ serve:
 .PHONY: serve
 
 uninstall:
-	(cd data && rm -Rf node_modules)
+	rm -Rf node_modules
 
-	for dir in ${SERVICES_DIR}/*; do \
+	for dir in ${SERVICES}; do \
 		(cd $${dir} && rm -Rf node_modules); \
   	done
 .PHONY: uninstall

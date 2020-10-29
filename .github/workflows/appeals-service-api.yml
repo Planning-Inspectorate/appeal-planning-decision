@@ -1,13 +1,13 @@
 name: Appeals Service API
 
 env:
-  APP_DIR: services/appeals-service-api
+  APP_DIR: appeals-service-api
   APP_NAME: appeals-service-api
   RELEASE_BRANCH: master
 
 defaults:
   run:
-    working-directory: services/appeals-service-api
+    working-directory: appeals-service-api
 
 on:
   push:
@@ -18,7 +18,7 @@ on:
       - 'feature/**'
       - 'fix/**'
     paths:
-      - services/appeals-service-api/**/*
+      - appeals-service-api/**/*
 
 jobs:
   build:
