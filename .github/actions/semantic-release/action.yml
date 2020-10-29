@@ -36,10 +36,12 @@ runs:
         NEW_VERSION=""
         NEW_VERSION_NUMBER=""
         if [ "${{ inputs.GET_VERSION }}" == "true" ]; then
+          ROOT_DIR=$(pwd)
+
           cd ${{ inputs.DIR }}
           export GITHUB_TOKEN="${{ inputs.GITHUB_TOKEN }}"
 
-          NEW_VERSION=$(./node_modules/.bin/semantic-release -d | awk '/Release note for version/ { getline; print $2 }')
+          NEW_VERSION=$(${ROOT_DIR}/node_modules/.bin/semantic-release -d | awk '/Release note for version/ { getline; print $2 }')
 
           if [ -n "$NEW_VERSION" ]; then
             NEW_VERSION_PUBLISHED=true
@@ -55,7 +57,8 @@ runs:
       shell: bash
       run: |
         if [ "${{ inputs.SET_VERSION }}" == "true" ]; then
+          ROOT_DIR=$(pwd)
           cd ${{ inputs.DIR }}
           export GITHUB_TOKEN="${{ inputs.GITHUB_TOKEN }}"
-          ./node_modules/.bin/semantic-release --ci
+          ${ROOT_DIR}./node_modules/.bin/semantic-release --ci
         fi
