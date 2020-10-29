@@ -39,4 +39,7 @@ runs:
 
     - name: Push Docker image
       shell: bash
-      run: docker push ${{ inputs.DOCKER_REGISTRY }}/${{ inputs.APP_NAME }}:${{ inputs.DOCKER_TAG }}
+      run: |
+        set -x
+        echo "docker push ${{ inputs.DOCKER_REGISTRY }}/${{ inputs.APP_NAME }}:${{ inputs.DOCKER_TAG }}"
+        docker push ${{ inputs.DOCKER_REGISTRY }}/${{ inputs.APP_NAME }}:${{ inputs.DOCKER_TAG }}

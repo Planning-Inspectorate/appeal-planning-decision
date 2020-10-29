@@ -80,7 +80,7 @@ jobs:
 
       - name: Build Docker versioned image
         uses: ./.github/actions/docker
-        if: ${{ steps.version_number.outputs.new_release_published }} == 'true'
+        if: ${{ steps.version_number.outputs.new_release_published == 'true' }}
         with:
           APP_DIR: ${{ env.APP_DIR }}
           APP_NAME: ${{ env.APP_NAME }}
@@ -92,7 +92,7 @@ jobs:
 
       - name: Set next version number
         uses: ./.github/actions/semantic-release
-        if: ${{ steps.version_number.outputs.new_release_published }} == 'true'
+        if: ${{ steps.version_number.outputs.new_release_published == 'true' }}
         with:
           DIR: ${{ env.APP_DIR }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
