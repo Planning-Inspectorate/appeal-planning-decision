@@ -77,3 +77,12 @@ To stop all services:
 ```
 docker-compose down
 ```
+
+# Releases
+
+Releases are done using the GitOps workflow. Lots can be found about [GitOps
+online](https://www.gitops.tech/), but in summary, we have a release manifest
+(in `/releases`) which describes the [Helm charts](https://helm.sh/) (in 
+`/charts/app`). The release manifest has a few variables, but the important
+ones are the image and the tag to track, the URL of the Docker registry and any
+variables which we want to apply (in this instance, just the URL).
