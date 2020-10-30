@@ -1,0 +1,38 @@
+name: Terraform Validation
+
+on:
+  push:
+    paths:
+      - infrastructure/common/**/*
+      - infrastructure/environments/**/*
+      - infrastructure/modules/**/*
+
+defaults:
+  run:
+    working-directory: infrastructure
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+      matrix:
+        path:
+          - common
+          - environments
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.13.4
+          terraform_wrapper: false
+
+      - name: Validate
+        run: |
+          cd ${{ matrix.path }}
+          terraform init -backend=false
+          terraform validate
