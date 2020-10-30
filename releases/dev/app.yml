@@ -11,14 +11,16 @@ spec:
   releaseName: app
   chart:
     git: git@github.com:foundry4/appeal-planning-decision.git
+    ref: master
     path: charts/app
   rollback:
     enable: true
   values:
     formsWebApp:
+      replicaCount: 2
       image:
         repository: pinscommonukscontainersdefault.azurecr.io/forms-web-app
-        tag: feature-ucd-746-eligibility-appeal-in-time
+        tag: 1.0.0
 
     ingress:
       host: dev.thesausage.blog
