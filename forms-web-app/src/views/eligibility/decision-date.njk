@@ -6,31 +6,34 @@
   <div class="govuk-grid-column-two-thirds">
 
     <span class="govuk-caption-l">Before you start</span>
+      <form acton="/decision-date">
+      {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 
-    {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
-
-    {{ govukDateInput({
-      id: "decision-date",
-      namePrefix: "decision-date",
-      fieldset: {
-        legend: {
-          text: "What's the decision date on the letter from the local planning department?",
-          isPageHeading: true,
-          classes: "govuk-fieldset__legend--l"
+      {{ govukDateInput({
+        id: "decision-date",
+        namePrefix: "decision-date",
+        fieldset: {
+          legend: {
+            text: "What's the decision date on the letter from the local planning department?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        hint: {
+          text: "For example, 20 04 2020"
         }
-      },
-      hint: {
-        text: "For example, 20 04 2020"
-      }
+      }) }}
+
+    <p class="govuk-body govuk-!-margin-bottom-7"><a class="govuk-link" href="/eligibility/no-decision">I have not received a decision from the local planning department​</a></p>
+
+    {% from "govuk/components/button/macro.njk" import govukButton %}
+
+    {{ govukButton({
+      text: "Continue",
+      type: "submit"
     }) }}
 
-  <p class="govuk-body govuk-!-margin-bottom-7"><a class="govuk-link" href="/eligibility/no-decision">I have not received a decision from the local planning department​</a></p>
-
-  {% from "govuk/components/button/macro.njk" import govukButton %}
-
-  {{ govukButton({
-    text: "Continue"
-  }) }}
+    </form>
   </div>
 </div>
 
