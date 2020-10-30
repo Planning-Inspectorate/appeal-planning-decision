@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 formsWebApp:
-  replicaCount: 2
+  replicaCount: 1
   service:
     port: 9000
   image:
