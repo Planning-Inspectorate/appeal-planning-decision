@@ -16,10 +16,10 @@ app.use(lusca.xssProtection(true));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/public', express.static(path.join(__dirname, '/public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(
   '/assets',
-  express.static(path.join(__dirname, '../node_modules/govuk-frontend/govuk/assets'))
+  express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'assets'))
 );
 
 // Routes
@@ -39,8 +39,8 @@ const nunjucksConfig = {
 };
 
 const viewPaths = [
-  path.join(__dirname, '../node_modules/govuk-frontend'),
-  path.join(__dirname, '/views'),
+  path.join(__dirname, '..', 'node_modules', 'govuk-frontend'),
+  path.join(__dirname, 'views'),
 ];
 
 nunjucks.configure(viewPaths, nunjucksConfig);
