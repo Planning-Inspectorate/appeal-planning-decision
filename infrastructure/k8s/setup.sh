@@ -87,6 +87,7 @@ install_gitops() {
     --set git.path="releases/${CLUSTER}" \
     --set git.branch="${DEFAULT_BRANCH}" \
     --set git.label="${CLUSTER}-flux-sync" \
+    --set git.readonly="true" \
     --set git.ciSkip="true" \
     --namespace flux \
     flux \
