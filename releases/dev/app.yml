@@ -18,7 +18,7 @@ spec:
     formsWebApp:
       image:
         repository: pinscommonukscontainersdefault.azurecr.io/forms-web-app
-        tag: 1.0.0
+        tag: feature-ucd-746-eligibility-appeal-in-time
 
     ingress:
       host: dev.thesausage.blog
