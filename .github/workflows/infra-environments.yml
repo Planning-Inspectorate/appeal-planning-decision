@@ -29,6 +29,7 @@ env:
 jobs:
   provision:
     runs-on: ubuntu-latest
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     strategy:
       max-parallel: 5
       matrix:
