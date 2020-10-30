@@ -1,0 +1,30 @@
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">Before you start</span>
+    <form action="">
+      {% from "govuk/components/input/macro.njk" import govukInput %}
+        {{ govukInput({
+          label: {
+            text: "What is the name of the local planning department?",
+            classes: "govuk-label--l",
+            isPageHeading: true
+          },
+          id: "local-planning-department",
+          name: "local-planning-department"
+        }) }}
+
+        {% from "govuk/components/button/macro.njk" import govukButton %}
+
+        {{ govukButton({
+          text: "Continue",
+          type: "Submit"
+        }) }}
+      </form>
+  </div>
+</div>
+
+{% endblock %}

@@ -43,3 +43,7 @@ exports.postDecisionDate = (req, res) => {
 exports.getDecisionDateExpired = (req, res) => {
   res.render('eligibility/decision-date-expired');
 };
+
+exports.getPlanningDepartment = (req, res) => {
+  res.render('eligibility/planning-department');
+};
