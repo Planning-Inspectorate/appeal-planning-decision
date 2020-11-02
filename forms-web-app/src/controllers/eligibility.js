@@ -10,7 +10,7 @@ exports.getDecisionDate = (req, res) => {
 
 exports.postDecisionDate = (req, res) => {
   const { body } = req;
-  const { errors } = body;
+  const { errors = [] } = body;
 
   // TO DO: Move this validation out to a service and try to
   // build a custom validator in express-validator
