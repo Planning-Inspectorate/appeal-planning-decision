@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "commit": "cz",
-    "commitlint": "commitlint --from 38b2eaa --to HEAD",
+    "commitlint": "commitlint --from 60c94b6 --to HEAD",
     "format": "prettier --write \"*.js\" \"data/*.js\"",
     "semantic-release": "semantic-release",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -37,7 +37,8 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "cd ./forms-web-app && lint-staged"
+      "pre-commit": "cd ./forms-web-app && lint-staged",
+      "pre-push": "npm run commitlint"
     }
   }
 }
