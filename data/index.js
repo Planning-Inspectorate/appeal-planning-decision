@@ -43,7 +43,8 @@ for (let attempt = 1; attempt <= maxTries; attempt += 1) {
   });
 }
 
-tasks.reduce((thenable, task) => thenable.then(() => task()), Promise.resolve())
+tasks
+  .reduce((thenable, task) => thenable.then(() => task()), Promise.resolve())
   .catch(() => {
     process.exit(1);
   });
