@@ -1,0 +1,23 @@
+name: Flux
+description: Manage interaction with Flux
+inputs:
+  FLUX_TAG:
+    description: Flux tag
+    default: "-flux-sync"
+    required: false
+runs:
+  using: composite
+  steps:
+    - name: Remove local Flux tag
+      shell: bash
+      run: |
+        git fetch -tp -f --all
+
+        for tag in $(git tag)
+        do
+          if [[ "$tag" =~ ^.*${{ inputs.FLUX_TAG }} ]]
+          then
+            echo "Deleting tag: ${tag}"
+            git tag -d "$tag" || true
+          fi
+        done
