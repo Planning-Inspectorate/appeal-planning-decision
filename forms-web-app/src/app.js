@@ -4,6 +4,7 @@ const lusca = require('lusca');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const nunjucks = require('nunjucks');
+const dateFilter = require('nunjucks-date-filter');
 
 const indexRouter = require('./routes/index');
 const eligibilityRouter = require('./routes/eligibility');
@@ -43,6 +44,7 @@ const viewPaths = [
   path.join(__dirname, 'views'),
 ];
 
-nunjucks.configure(viewPaths, nunjucksConfig);
+const env = nunjucks.configure(viewPaths, nunjucksConfig);
+env.addFilter('date', dateFilter);
 
 module.exports = app;
