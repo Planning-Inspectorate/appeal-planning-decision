@@ -16,7 +16,7 @@
       <div class="govuk-error-summary__body">
         <ul class="govuk-list govuk-error-summary__list">
           <li>
-            <a href="#date-error">You need to provide a valid date</a>
+            <a href="#date-error">You need to provide a date</a>
           </li>
         </ul>
       </div>
@@ -28,20 +28,53 @@
     <form action="/eligibility/decision-date" method="POST">
 
       <div class="govuk-form-group {% if errors %} govuk-form-group--error {% endif %}">
-      {{ govukDateInput({
-        id: "decision-date",
-        namePrefix: "decision-date",
-        fieldset: {
-          legend: {
-            text: "What's the decision date on the letter from the local planning department?",
-            isPageHeading: true,
-            classes: "govuk-fieldset__legend--l"
+      {% if errors %}
+        {% set dateInputParams = {
+          id: "decision-date",
+          namePrefix: "decision-date",
+          fieldset: {
+            legend: {
+              text: "What's the decision date on the letter from the local planning department?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: "For example, 20 04 2020"
+          },
+          errorMessage: {
+            text: "You need to provide a date"
+          },
+          items: [
+              {
+                classes: "govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error"
+              },
+              {
+                classes: "govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error"
+              },
+              {
+                classes: "govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error"
+              }
+          ]
+        } %}
+      {% else %}
+        {% set dateInputParams = {
+          id: "decision-date",
+          namePrefix: "decision-date",
+          fieldset: {
+            legend: {
+              text: "What's the decision date on the letter from the local planning department?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: "For example, 20 04 2020"
           }
-        },
-        hint: {
-          text: "For example, 20 04 2020"
-        }
-      }) }}
+        } %}
+      {% endif %}
+
+      {{ govukDateInput(dateInputParams) }}
 
       <p class="govuk-body govuk-!-margin-bottom-7">
         <a class="govuk-link" href="/eligibility/no-decision">I have not received a decision from the local planning department​</a>
