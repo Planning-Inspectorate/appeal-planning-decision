@@ -31,8 +31,12 @@ Infrastructure which the applications are deployed toInfrastructure which is com
 | k8s\_vm\_size | VM size | `string` | `"Standard_DS2_v2"` | no |
 | key\_vault\_id | Key Vault ID | `string` | n/a | yes |
 | location | Default location for resources | `string` | `"uksouth"` | no |
+| mongodb\_consistency\_max\_interval\_in\_seconds | Represents the amount of staleness that is tolerated (in seconds) - min 5 mins for global replication | `number` | `300` | no |
+| mongodb\_consistency\_policy | Cosmos consistency policy | `string` | `"BoundedStaleness"` | no |
+| mongodb\_databases | List of databases and collections to provision | <pre>list(object({<br>    name = string<br>    collections = list(object({<br>      name = string<br>      default_ttl_seconds = number<br>      indexes = list(object({<br>        keys = set(string)<br>        unique = bool<br>      }))<br>    }))<br>  }))</pre> | n/a | yes |
 | mongodb\_failover\_read\_locations | Locations where read failover replicas are created for MongoDB | `list(string)` | `[]` | no |
-| mongodb\_max\_throughput | Max throughput of the MongoDB database - set in increments of 1,000 between 4,000 and 1,000,000 | `number` | `4000` | no |
+| mongodb\_max\_staleness\_prefix | Represents the number of state requests that are tolerated - min 100,000 for global replication | `number` | `100000` | no |
+| mongodb\_max\_throughput | Max throughput of the MongoDB database - set in increments of 100 between 400 and 100,000 | `number` | `400` | no |
 | prefix | Resource prefix | `string` | `"pins"` | no |
 
 ## Outputs
@@ -46,3 +50,4 @@ Infrastructure which the applications are deployed toInfrastructure which is com
 | kube\_load\_balancer\_ip | The IP of the load balancer for the Kubernetes cluster |
 | kube\_load\_balancer\_rg | The rosource group the load balancer IP exists in |
 | kubeconfig | The Kubernetes config file |
+| mongodb\_connection\_strings | MongoDB connection strings for each database |
