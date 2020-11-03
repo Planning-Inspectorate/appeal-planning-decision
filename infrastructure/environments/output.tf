@@ -46,3 +46,15 @@ output "kube_load_balancer_rg" {
   description = "The rosource group the load balancer IP exists in"
   value = try(azurerm_resource_group.k8s.name, null)
 }
+
+/*
+  MongoDB
+ */
+
+output "mongodb_connection_strings" {
+  description = "MongoDB connection strings for each database"
+  sensitive = true
+  value = try({ for id, db in var.mongodb_databases :
+  db.name => replace("${azurerm_cosmosdb_account.mongodb.connection_strings[0]}&retrywrites=false", "/?", "/${db.name}?")
+  }, {})
+}

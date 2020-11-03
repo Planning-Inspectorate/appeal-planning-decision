@@ -83,14 +83,57 @@ variable "k8s_vm_size" {
   These are used as base settings
  */
 
+variable "mongodb_consistency_policy" {
+  description = "Cosmos consistency policy"
+  type = string
+  default = "BoundedStaleness"
+  validation {
+    condition = contains([
+      "BoundedStaleness",
+      "Eventual",
+      "Session",
+      "Strong",
+      "ConsistentPrefix",
+    ], var.mongodb_consistency_policy)
+    error_message = "Invalid consistency policy."
+  }
+}
+
+variable "mongodb_consistency_max_interval_in_seconds" {
+  description = "Represents the amount of staleness that is tolerated (in seconds) - min 5 mins for global replication"
+  type = number
+  default = 300
+}
+
+variable "mongodb_databases" {
+  description = "List of databases and collections to provision"
+  type = list(object({
+    name = string
+    collections = list(object({
+      name = string
+      default_ttl_seconds = number
+      indexes = list(object({
+        keys = set(string)
+        unique = bool
+      }))
+    }))
+  }))
+}
+
 variable "mongodb_failover_read_locations" {
   description = "Locations where read failover replicas are created for MongoDB"
   type = list(string)
   default = []
 }
 
-variable "mongodb_max_throughput" {
-  description = "Max throughput of the MongoDB database - set in increments of 1,000 between 4,000 and 1,000,000"
+variable "mongodb_max_staleness_prefix" {
+  description = "Represents the number of state requests that are tolerated - min 100,000 for global replication"
   type = number
-  default = 4000
+  default = 100000
+}
+
+variable "mongodb_max_throughput" {
+  description = "Max throughput of the MongoDB database - set in increments of 100 between 400 and 100,000"
+  type = number
+  default = 400
 }
