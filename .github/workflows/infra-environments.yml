@@ -10,6 +10,7 @@ on:
       - infrastructure/k8s/**/*
       - infrastructure/modules/**/*
       - environments/**/*
+      - releases/**/*
 
 defaults:
   run:
