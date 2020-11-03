@@ -21,6 +21,7 @@ jobs:
         path:
           - common
           - environments
+          - modules
     steps:
       - uses: actions/checkout@v2
         with:
