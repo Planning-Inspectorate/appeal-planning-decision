@@ -21,14 +21,15 @@ exports.postDecisionDate = (req, res) => {
 
   const date = moment(`${year}-${month}-${day}`, 'Y-M-D', true);
 
-  if (!date.isValid()) {
+  const currentDate = moment();
+
+  if (!date.isValid() || date.isAfter(currentDate)) {
     errors.push({ 'decision-date': 'Invalid date' });
   }
 
-  if (errors) {
+  if (Array.isArray(errors) && errors.length) {
     res.render('eligibility/decision-date', { errors });
   } else {
-    const currentDate = moment();
     const deadlineDate = date.add(12, 'weeks');
 
     if (deadlineDate.isBefore(currentDate, 'days')) {
