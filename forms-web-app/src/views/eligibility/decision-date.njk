@@ -27,7 +27,6 @@
 
     <form action="/eligibility/decision-date" method="POST" novalidate>
 
-      <div class="govuk-form-group {% if errors %} govuk-form-group--error {% endif %}">
       {% if errors %}
         {% set dateInputParams = {
           id: "decision-date",
@@ -55,7 +54,7 @@
                 name: "month"
               },
               {
-                classes: "govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error",
+                classes: "govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error",
                 name: "year"
               }
           ]
@@ -79,7 +78,7 @@
 
       {{ govukDateInput(dateInputParams) }}
 
-      <p class="govuk-body govuk-!-margin-bottom-7">
+      <p class="govuk-form-group govuk-!-padding-bottom-2">
         <a class="govuk-link" href="/eligibility/no-decision">I have not received a decision from the local planning department​</a>
       </p>
 
