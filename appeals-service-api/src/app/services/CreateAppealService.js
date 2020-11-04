@@ -8,9 +8,9 @@ class CreateAppealService {
    * @param {String} appealParams.text
    * @returns {Promise}
    */
-  async run(data) {
+  static async run(data) {
     const appeal = await Appeal.create(data);
-    return GetAppealService.run(appeal._id);
+    return GetAppealService.run(appeal.id);
   }
 }
 

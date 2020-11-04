@@ -1,7 +1,7 @@
 import Appeal from '../schemas/AppealSchema';
 
 class ListAppealService {
-  run(filter) {
+  static run(filter) {
     return Appeal.find(filter);
   }
 }
