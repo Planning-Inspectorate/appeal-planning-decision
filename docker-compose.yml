@@ -9,8 +9,9 @@ services:
     image: node:14-alpine
     environment:
       MONGODB_URL: mongodb://mongodb:27017/appeals-service-api
+      SERVER_SHOW_ERRORS: "true"
     ports:
-      - 3000:4000
+      - 3000:3000
     working_dir: /opt/app
     links:
       - mongodb
