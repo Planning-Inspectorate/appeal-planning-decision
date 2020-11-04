@@ -8,7 +8,7 @@ class DeleteAppealService {
    * @param {ObjectId} _id
    * @returns {Promise}
    */
-  static async run(_id) {
+  async run(_id) {
     const appeal = await GetAppealService.run(_id);
 
     await appeal.remove();
