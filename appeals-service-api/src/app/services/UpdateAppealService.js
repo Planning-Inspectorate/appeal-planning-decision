@@ -11,7 +11,7 @@ class UpdateAppealService {
    * @param {Appeal} data
    * @returns {Document}
    */
-  async run(_id, { _id: _, ...data }) {
+  static async run(_id, { _id: _, ...data }) {
     await Appeal.findByIdAndUpdate(_id, data);
 
     const appeal = await GetAppealService.run(_id);

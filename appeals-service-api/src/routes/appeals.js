@@ -6,10 +6,7 @@ import AppealController from '../app/controllers/AppealController';
 
 const routes = new Router();
 
-routes
-  .route('/')
-  .post([StoreValidator], AppealController.store)
-  .get(AppealController.index);
+routes.route('/').post([StoreValidator], AppealController.store).get(AppealController.index);
 
 routes
   .route('/:_id')
