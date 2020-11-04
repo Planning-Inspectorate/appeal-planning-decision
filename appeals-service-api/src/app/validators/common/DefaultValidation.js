@@ -17,5 +17,7 @@ export function validate(schema, object) {
  * @returns {Promise}
  */
 export async function defaultResponse(res, error) {
-  return res.status(400).json({ error: 'Validation fails', messages: error.inner });
+  return res
+    .status(400)
+    .json({ error: 'Validation fails', messages: error.inner });
 }

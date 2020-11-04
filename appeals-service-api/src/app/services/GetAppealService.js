@@ -2,7 +2,6 @@
 /** @typedef {import('mongoose').Document} Document */
 
 import Appeal from '../schemas/AppealSchema';
-import ValidationError from '../validators/ValidationError';
 
 class GetAppealService {
   /**
@@ -12,7 +11,7 @@ class GetAppealService {
    * @param {ObjectId} _id
    * @returns {Document}
    */
-  static async run(_id) {
+  async run(_id) {
     const appeal = await Appeal.findById(_id);
     if (!appeal) throw new ValidationError('appeal task not found', 404);
     return appeal;

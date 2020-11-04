@@ -1,5 +1,3 @@
-import ValidationError from '../validators/ValidationError';
-
 class ControllerUtils {
   constructor() {
     this.defaultHandler = this.defaultHandler.bind(this);
@@ -13,7 +11,7 @@ class ControllerUtils {
    * @param {Response} res
    * @param {Promise} promise promise started
    */
-  static async defaultHandler(res, promise) {
+  async defaultHandler(res, promise) {
     try {
       const data = await promise;
       if (data) return res.status(200).json(data);
