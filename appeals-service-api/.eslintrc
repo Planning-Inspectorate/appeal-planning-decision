@@ -1,18 +1,17 @@
 {
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 6,
+    "project": "tsconfig.json",
     "sourceType": "module"
   },
-  "extends": ["airbnb-base", "prettier"],
-  "plugins": ["jest", "prettier"],
+  "plugins": ["@typescript-eslint", "jest", "prettier"],
+  "extends": ["airbnb-typescript/base", "prettier", "prettier/@typescript-eslint"],
   "root": true,
-  "ignorePatterns": ["node_modules/**","src/public/javascript/**"],
+  "ignorePatterns": ["node_modules/**", "dist/**"],
   "rules": {
     "prettier/prettier": "error"
   },
   "env": {
-    "es2021": true,
-    "node": true,
-    "jest": true
+    "jest/globals": true
   }
 }
