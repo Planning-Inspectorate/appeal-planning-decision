@@ -55,6 +55,6 @@ services:
 
   # Third-party services
   mongodb:
-    image: mongo:3.4.4
+    image: mongo:3.6.0
     ports:
       - 27017:27017
