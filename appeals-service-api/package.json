@@ -8,7 +8,8 @@
     "debug": "node --inspect-brk -r sucrase/register src/server.js",
     "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/ --ignore-pattern dist/",
     "lint:fix": "eslint \"**/*.js\" --ignore-pattern node_modules/ --ignore-pattern dist/ --fix",
-    "build": "sucrase ./src -d ./dist --transforms imports"
+    "build": "sucrase ./src -d ./dist --transforms imports",
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -29,6 +30,7 @@
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.6.3",
     "nodemon": "^2.0.2",
     "prettier": "2.1.2"
   }
