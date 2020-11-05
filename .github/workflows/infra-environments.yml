@@ -118,8 +118,12 @@ jobs:
           "$(terraform workspace show)"
           "$(terraform output app-name)"
 
-      - name: Get Kubeconfig
-        run: terraform output kubeconfig > ../../$KUBECONFIG
+      - name: Get Terraform Output
+        id: tf_output
+        run: |
+          terraform output kubeconfig > ../../$KUBECONFIG
+
+          echo "::set-output name=mongodb_connection_strings::$(terraform output -json mongodb_connection_strings)"
 
       - name: Configure Kubernetes instance
         uses: ./.github/actions/kubectl-helm
@@ -132,6 +136,7 @@ jobs:
           DOCKER_SERVER: ${{ steps.tf_common.outputs.containers_server }}
           DOCKER_USERNAME: ${{ steps.tf_common.outputs.containers_username }}
           EMAIL_ADDRESS: ${{ secrets.DEVOPS_EMAIL_ADDRESS }}
+          MONGODB_CONNECTION_STRINGS: ${{ steps.tf_output.outputs.mongodb_connection_strings }}
           REPO_API_URL: https://api.github.com
           REPO_DOMAIN: github.com
           REPO_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
