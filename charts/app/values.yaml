@@ -2,6 +2,20 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+appealsServiceApi:
+  replicaCount: 1
+  service:
+    port: 3000
+  image:
+    repository: pinscommonukscontainersdefault.azurecr.io/appeals-service-api
+    pullPolicy: Always
+    tag: latest
+  config:
+    port: 3000
+  secrets:
+    mongodb:
+      appeals: appeals-mongodb-credentials
+
 formsWebApp:
   replicaCount: 1
   service:
@@ -10,6 +24,8 @@ formsWebApp:
     repository: pinscommonukscontainersdefault.azurecr.io/forms-web-app
     pullPolicy: Always
     tag: latest
+  config:
+    port: 3000
 
 imagePullSecrets:
   - name: azure-docker-registry

@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "app.fullname" . }}-form-web-app
+  name: {{ include "app.fullname" . }}-appeals-service-api
   labels:
     {{- include "app.labels" . | nindent 4 }}
 spec:
 {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.formsWebApp.replicaCount }}
+  replicas: {{ .Values.appealsServiceApi.replicaCount }}
 {{- end }}
   selector:
     matchLabels:
@@ -31,25 +31,20 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.formsWebApp.image.repository }}:{{ .Values.formsWebApp.image.tag }}"
-          imagePullPolicy: {{ .Values.formsWebApp.image.pullPolicy }}
+          image: "{{ .Values.appealsServiceApi.image.repository }}:{{ .Values.appealsServiceApi.image.tag }}"
+          imagePullPolicy: {{ .Values.appealsServiceApi.image.pullPolicy }}
           ports:
-            - name: forms-web-app
-              containerPort: {{ .Values.formsWebApp.config.port }}
+            - name: appeals-srv-api
+              containerPort: {{ .Values.appealsServiceApi.config.port }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: forms-web-app
-          readinessProbe:
-            httpGet:
-              path: /
-              port: forms-web-app
           env:
-            - name: APPEALS_SERVICE_API_URL
-              value: "http://{{ include "app.fullname" . }}:{{ .Values.appealsServiceApi.service.port }}"
-            - name: PORT
-              value: {{ .Values.formsWebApp.config.port | quote }}
+            - name: MONGODB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: url
+                  name: {{ .Values.appealsServiceApi.secrets.mongodb.appeals }}
+            - name: SERVER_PORT
+              value: {{ .Values.appealsServiceApi.config.port | quote }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
