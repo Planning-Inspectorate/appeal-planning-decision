@@ -25,7 +25,7 @@ services:
   forms-web-app:
     image: node:14-alpine
     environment:
-      APPEALS_SERVICE_API_URL: http://appeals-service-api:4000
+      APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
     ports:
       - 9000:3000
     working_dir: /opt/app
