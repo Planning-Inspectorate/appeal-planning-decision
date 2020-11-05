@@ -6,7 +6,7 @@ WORKDIR /opt/app
 ENV APP_NAME="${APP_NAME}"
 ENV BUILD_ID="${BUILD_ID}"
 ENV VERSION="${VERSION}"
-ENV PORT=3000
+ENV SERVER_PORT=3000
 # Do not rely on NODE_ENV - exists for performance reasons only
 ENV NODE_ENV=production
 ADD . .
