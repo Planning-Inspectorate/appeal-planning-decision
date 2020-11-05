@@ -6,6 +6,25 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 kubectl create namespace "${DEPLOY_NAMESPACE}" || true
 
+add_mongodb_secrets() {
+  echo "Adding mongodb secrets to ${DEPLOY_NAMESPACE}"
+
+  for key in $(echo "${MONGODB_CONNECTION_STRINGS}" | jq -r 'keys[]')
+  do
+    echo "Adding ${key}"
+
+    value=$(echo "${MONGODB_CONNECTION_STRINGS}" | jq -r \
+      --arg KEY_NAME "${key}" '.[$KEY_NAME]')
+
+    kubectl create secret generic "${key}-mongodb-credentials" \
+      -n "${DEPLOY_NAMESPACE}" \
+      --from-literal url="${value}" \
+      -o yaml \
+      --dry-run=client | \
+      kubectl replace -n "${DEPLOY_NAMESPACE}" --force -f -
+  done
+}
+
 add_registry_secret() {
   echo "Adding registry secret to ${DEPLOY_NAMESPACE}"
 
@@ -137,6 +156,7 @@ install_gitops() {
     "${REPO_API_URL}/repos/${REPO_URL}/keys"
 }
 
+add_mongodb_secrets
 add_registry_secret
 install_nginx_ingress
 install_cert_manager
