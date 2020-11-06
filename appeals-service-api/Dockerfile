@@ -9,7 +9,9 @@ ENV VERSION="${VERSION}"
 ENV SERVER_PORT=3000
 # Do not rely on NODE_ENV - exists for performance reasons only
 ENV NODE_ENV=production
-ADD . .
+# This must be built locally from the common package
+COPY --from=common:latest /opt/app ../common
+ADD src src
 ADD node_modules node_modules
 ADD package.json package.json
 ADD package-lock.json package-lock.json

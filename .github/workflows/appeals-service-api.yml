@@ -70,6 +70,9 @@ jobs:
 
       - run: npm run test:cov
 
+      - name: Build common Docker image
+        run: docker build -t common ../common
+
       - name: Build Docker tagged image
         uses: ./.github/actions/docker
         with:

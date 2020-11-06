@@ -18,6 +18,7 @@
     "./**/*.{js, json}": "npm run format"
   },
   "dependencies": {
+    "@pins/common": "file:../common",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
