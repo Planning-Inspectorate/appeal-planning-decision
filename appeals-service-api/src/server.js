@@ -10,11 +10,16 @@ const uuid = require('uuid');
 require('express-async-errors');
 
 const config = require('./lib/config');
+const healthChecks = require('./lib/healthchecks');
 const logger = require('./lib/logger');
 const routes = require('./routes');
 
 module.exports = () => {
   const app = express();
+
+  const server = http.createServer(app);
+
+  healthChecks(server);
 
   app
     .use(
@@ -42,8 +47,9 @@ module.exports = () => {
       });
 
       next();
-    })
-    .listen(config.server.port, () => {
-      logger.info({ config }, 'Listening');
     });
+
+  server.listen(config.server.port, () => {
+    logger.info({ config }, 'Listening');
+  });
 };
