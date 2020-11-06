@@ -1,0 +1,46 @@
+{
+  "name": "@pins/common",
+  "version": "0.0.0",
+  "description": "Common modules to use between services",
+  "private": true,
+  "main": "src/index.js",
+  "scripts": {
+    "format": "prettier --write './**/*.js'",
+    "lint": "eslint ./",
+    "test": "jest",
+    "test:cov": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "author": "",
+  "dependencies": {
+    "@godaddy/terminus": "^4.4.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.12.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.6.3",
+    "prettier": "^2.1.2"
+  },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    },
+    "moduleFileExtensions": [
+      "js",
+      "json"
+    ],
+    "rootDir": "src",
+    "testRegex": ".spec.js$",
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  }
+}
