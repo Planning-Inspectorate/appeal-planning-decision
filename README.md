@@ -78,6 +78,22 @@ To stop all services:
 docker-compose down
 ```
 
+## The Common Module
+
+The [Common](/common) contains a series of common functions that are used across 
+microservices. The applications use this as an external dependency (`@pins/common`)
+but is included as a local file in the `package.json`.
+
+In Docker Compose, this is included as a mounted volume to `/opt/common`. 
+
+In the Dockerfile, this pulls the files from a Docker image called "common" - this
+is actually built separately in the CI/CD pipelines. If you need to build the Docker
+image separately, you must build the common image separately:
+
+```
+docker build -t common ./common
+```
+
 # Releases
 
 Releases are done using the GitOps workflow. Lots can be found about [GitOps

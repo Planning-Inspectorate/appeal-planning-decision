@@ -19,6 +19,7 @@ services:
       - appeals-service-api-data
       - mongodb
     volumes:
+      - ./common:/opt/app/node_modules/@pins/common # Replace the module to avoid symlink errors
       - ./appeals-service-api:/opt/app
     command: npm run start:dev
 
