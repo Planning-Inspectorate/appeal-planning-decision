@@ -37,6 +37,14 @@ spec:
             - name: appeals-srv-api
               containerPort: {{ .Values.appealsServiceApi.config.port }}
               protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: appeals-srv-api
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: appeals-srv-api
           env:
             - name: MONGODB_URL
               valueFrom:
@@ -45,6 +53,8 @@ spec:
                   name: {{ .Values.appealsServiceApi.secrets.mongodb.appeals }}
             - name: SERVER_PORT
               value: {{ .Values.appealsServiceApi.config.port | quote }}
+            - name: SERVER_TERMINATION_GRACE_PERIOD_SECONDS
+              value: {{ 10 | quote }} # Same as "periodSeconds" for readinessProbe
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
