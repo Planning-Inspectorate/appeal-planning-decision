@@ -1,7 +1,13 @@
 const express = require('express');
 
+const appealStatementController = require('../controllers/appeal-statement');
 const eligibilityController = require('../controllers/eligibility');
+const listedBuildingController = require('../controllers/listed-building');
 const { decisionDateValidationRules, validator } = require('./validators/validator');
+const {
+  rules: listedBuildingValidationRules,
+  validator: listedBuildingValidator,
+} = require('./validators/listed-building');
 
 const router = express.Router();
 
@@ -23,5 +29,16 @@ router.get('/decision-date-expired', eligibilityController.getDecisionDateExpire
 
 /* GET eligibility planning department page. */
 router.get('/planning-department', eligibilityController.getPlanningDepartment);
+
+router.get('/listed-out', listedBuildingController.getServiceNotAvailableForListedBuildings);
+router.get('/listed-building', listedBuildingController.getListedBuilding);
+router.post(
+  '/listed-building',
+  listedBuildingValidationRules(),
+  listedBuildingValidator,
+  listedBuildingController.postListedBuilding
+);
+
+router.get('/appeal-statement', appealStatementController.getAppealStatement);
 
 module.exports = router;

@@ -1,0 +1,49 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errorSummary %}
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: errorSummary
+      }) }}
+    {% endif %}
+
+    <form action="" method="POST" novalidate>
+
+      <span class="govuk-caption-l">Before you start</span>
+
+      {{ govukRadios({
+        idPrefix: FORM_FIELD['is-your-appeal-about-a-listed-building'].id,
+        name: FORM_FIELD['is-your-appeal-about-a-listed-building'].id,
+        fieldset: {
+          legend: {
+            text: "Is your appeal about a listed building?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        items: FORM_FIELD['is-your-appeal-about-a-listed-building'].items,
+        errorMessage: errors['is-your-appeal-about-a-listed-building'] and {
+          text: errors['is-your-appeal-about-a-listed-building'].msg
+        }
+      }) }}
+
+      {{ govukButton({
+        text: "Continue",
+        type: "submit"
+      }) }}
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}
