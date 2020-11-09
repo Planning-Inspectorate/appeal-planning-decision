@@ -1,3 +1,9 @@
+/**
+ * # Common Infrastructure
+ *
+ * Infrastructure which is common to the subscription, regardless of which environment
+ */
+
 terraform {
   backend "azurerm" {
     resource_group_name = "pins-uk-terraform-rg"

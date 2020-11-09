@@ -1,4 +1,5 @@
 APPS = data appeals-service-api forms-web-app
+STACKS = common environments
 
 down:
 	docker-compose down
@@ -15,6 +16,17 @@ install:
 serve:
 	docker-compose up
 .PHONY: serve
+
+tf-doc:
+	# Requires Terraform Docs
+	# @link https://github.com/terraform-docs/terraform-docs
+	for dir in ${STACKS}; do \
+  		terraform-docs \
+  			-c ../.terraform-docs.yml \
+  			./infrastructure/$${dir} \
+  			> ./infrastructure/$${dir}/README.md; \
+  	done
+.PHONY: tf-doc
 
 uninstall:
 	rm -Rf node_modules
