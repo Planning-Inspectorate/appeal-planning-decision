@@ -1,3 +1,9 @@
+/**
+ * # Environments
+ *
+ * Infrastructure which the applications are deployed to
+ */
+
 terraform {
   backend "azurerm" {
     resource_group_name = "pins-uk-terraform-rg"

@@ -1,6 +1,6 @@
 # Environments
 
-Infrastructure which the applications are deployed toInfrastructure which is common to the su
+Infrastructure which the applications are deployed to
 
 ## Requirements
 
@@ -51,3 +51,4 @@ Infrastructure which the applications are deployed toInfrastructure which is com
 | kube\_load\_balancer\_rg | The rosource group the load balancer IP exists in |
 | kubeconfig | The Kubernetes config file |
 | mongodb\_connection\_strings | MongoDB connection strings for each database |
+

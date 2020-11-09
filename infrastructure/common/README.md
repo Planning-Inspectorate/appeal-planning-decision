@@ -39,3 +39,4 @@ Infrastructure which is common to the subscription, regardless of which environm
 | containers\_server | Server URL for the container registry |
 | containers\_username | Username for the container registry |
 | key\_vault\_id | ID of the key vault |
+
