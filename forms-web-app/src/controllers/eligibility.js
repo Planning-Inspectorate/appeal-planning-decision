@@ -19,7 +19,7 @@ exports.postDecisionDate = (req, res) => {
   const month = req.body['decision-date-month'];
   const year = req.body['decision-date-year'];
 
-  const date = moment(`${year}-${month}-${day}`, 'Y-M-D', true);
+  const date = moment(`${year}-${month}-${day}`, 'YYYY-M-D', true);
 
   const currentDate = moment();
 
@@ -30,7 +30,7 @@ exports.postDecisionDate = (req, res) => {
   if (Array.isArray(errors) && errors.length) {
     res.render('eligibility/decision-date', { errors });
   } else {
-    const deadlineDate = date.add(12, 'weeks');
+    const deadlineDate = date.clone().add(12, 'weeks');
 
     if (deadlineDate.isBefore(currentDate, 'days')) {
       res.render('eligibility/decision-date-expired', { deadlineDate });
