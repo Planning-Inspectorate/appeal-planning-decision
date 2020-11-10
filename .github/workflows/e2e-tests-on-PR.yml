@@ -1,4 +1,4 @@
-name: PR->master
+name: Cypress
 
 on:
   push:
@@ -40,7 +40,7 @@ jobs:
 
     - name: publish Cypress results
       if: ${{ always() }}
-      uses: actions/upload-artifact@main
+      uses: deblockt/cucumber-report-annotations-action@v1.7
       with:
-        name: results
-        path: './e2e-tests/cypress/cucumber-report'
+        access-token: ${{ secrets.GITHUB_TOKEN }}
+        path: "e2e-tests/cypress/cucumber-json/*cucumber.json"
