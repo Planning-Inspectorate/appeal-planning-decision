@@ -8,6 +8,7 @@ const dateFilter = require('nunjucks-date-filter');
 
 const indexRouter = require('./routes/index');
 const eligibilityRouter = require('./routes/eligibility');
+const taskListRouter = require('./routes/task-list');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(
 // Routes
 app.use('/', indexRouter);
 app.use('/eligibility', eligibilityRouter);
+app.use('/task-list', taskListRouter);
 
 // View Engine
 app.set('view engine', 'njk');
