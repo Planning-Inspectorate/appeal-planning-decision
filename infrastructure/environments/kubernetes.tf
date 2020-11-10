@@ -108,3 +108,13 @@ resource "azurerm_public_ip" "k8s" {
   sku = "Standard"
   domain_name_label = "${var.prefix}-${terraform.workspace}"
 }
+
+resource "azurerm_role_assignment" "k8s" {
+  for_each = toset([
+    "Reader",
+    "Network Contributor"
+  ])
+  principal_id = azurerm_kubernetes_cluster.k8s.identity.0.principal_id
+  scope = azurerm_resource_group.k8s.id
+  role_definition_name = each.value
+}

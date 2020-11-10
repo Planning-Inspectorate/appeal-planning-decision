@@ -47,8 +47,6 @@ install_nginx_ingress() {
   kubectl create namespace nginx-ingress || true
   helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
   helm repo update
-#    --set "controller.service.annotations.service\.beta\.kubernetes\.io\/azure-load-balancer-resource-group=$(get_tf_output "kube_load_balancer_rg")" \
-#    --set "controller.service.loadBalancerIP=$(get_tf_output "kube_load_balancer_ip")" \
   helm upgrade \
     --reset-values \
     --install \
@@ -56,6 +54,9 @@ install_nginx_ingress() {
     --atomic \
     --cleanup-on-fail \
     --namespace nginx-ingress \
+    --set controller.service.loadBalancerIP="${CLUSTER_LB_IP_ADDRESS}" \
+    --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-resource-group"="${CLUSTER_LB_IP_RG}" \
+    --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-dns-label-name"="${CLUSTER_LB_IP_NAME}" \
     --values "${DIR}/nginx-ingress/common.yaml" \
     --values "${DIR}/nginx-ingress/${CLUSTER}.yaml" \
     nginx-ingress \

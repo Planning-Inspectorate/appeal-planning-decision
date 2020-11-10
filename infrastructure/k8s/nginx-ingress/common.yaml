@@ -8,5 +8,7 @@ controller:
     http-redirect-code: "301"
 defaultBackend:
   enabled: false
+  nodeSelector:
+    kubernetes.io/os: linux
 rbac:
   create: true
