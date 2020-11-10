@@ -40,5 +40,6 @@ router.post(
 );
 
 router.get('/appeal-statement', appealStatementController.getAppealStatement);
+router.post('/appeal-statement', appealStatementController.postAppealStatement);
 
 module.exports = router;
