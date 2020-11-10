@@ -16,7 +16,7 @@ jobs:
       run: make install && docker-compose up -d
 
     - name: run the tests
-      run: cd ./e2e-tests && npm install && npx cypress run
+      run: cd ./e2e-tests && npm install && npm test
 
     - name: Save Cypress videos
       if: ${{ failure() }}
@@ -31,3 +31,14 @@ jobs:
       with:
         name: screenshots
         path: './e2e-tests/cypress/screenshots'
+
+    - name: post-process Cypress results
+      if: ${{ always() }}
+      run: cd ./e2e-tests && node ./reporter.js
+
+    - name: publish Cypress results
+      if: ${{ always() }}
+      uses: actions/upload-artifact@main
+      with:
+        name: results
+        path: './e2e-tests/cypress/cucumber-report'
