@@ -20,4 +20,4 @@ jobs:
       uses: actions/upload-artifact@main
       with:
         name: videos
-        path: './cypress/videos'
+        path: './e2e-tests/cypress/videos'
