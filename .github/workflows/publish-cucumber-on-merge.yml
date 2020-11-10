@@ -1,0 +1,38 @@
+name: Cypress Report
+
+env:
+  CYPRESS_REPORTS: ./e2e-tests/cypress/cucumber-report
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  cypress-report:
+    name: "Cypress Report"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: install the world
+      run: make install
+
+    - name: start the world
+      run: docker-compose up -d
+
+    - name: run the tests
+      run: npm run test:e2e
+
+    - name: post-process results
+      if: ${{ always() }}
+      run: npm run test:e2e:postprocess
+
+    - name: Deploy Cypress report to github pages
+      if: ${{ always() }}
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ${{ env.CYPRESS_REPORTS }}
+        user_name: 'Karuna[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'

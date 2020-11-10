@@ -1,0 +1,6 @@
+{
+  "baseUrl": "http://localhost:9000",
+  "testFiles": "**/*.feature",
+  "chromeWebSecurity": false,
+  "projectId": "i4z1d2"
+}
