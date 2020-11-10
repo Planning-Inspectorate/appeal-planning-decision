@@ -13,6 +13,14 @@ install:
   	done
 .PHONY: install
 
+run:
+	docker-compose run \
+		--rm \
+		--service-ports \
+		${SERVICE} \
+		${CMD}
+.PHONY: run
+
 serve:
 	docker-compose up
 .PHONY: serve
