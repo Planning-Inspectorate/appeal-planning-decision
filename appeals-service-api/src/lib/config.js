@@ -7,6 +7,12 @@
  */
 
 module.exports = {
+  data: {
+    lpa: {
+      listPath: process.env.LPA_DATA_PATH,
+      trialistPath: process.env.LPA_TRIALIST_DATA_PATH,
+    },
+  },
   db: {
     mongodb: {
       url: process.env.MONGODB_URL,
