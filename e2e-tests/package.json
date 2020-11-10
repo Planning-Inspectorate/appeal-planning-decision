@@ -20,9 +20,7 @@
     "nonGlobalStepDefinitions": true,
     "cucumberJson": {
       "generate": true,
-      "outputFolder": "./cypress/cucumber-json",
-      "filePrefix": "",
-      "fileSuffix": ".cucumber"
+      "outputFolder": "./cypress/cucumber-json"
     }
   }
 }
