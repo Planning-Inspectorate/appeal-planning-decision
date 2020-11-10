@@ -44,10 +44,11 @@ databases.
 To run the whole stack:
 
 ```
-docker-compose up
+make serve
 ```
 
-Then go to [localhost:3000](http://localhost:3000)
+Then go to [localhost:9000](http://localhost:9000) (forms-web-app) or 
+[localhost:3000](http://localhost:3000) (appeals-service-api) 
 
 > As a convention, public facing web service will use the port range `9000-9999`
 > and API services will use the port range `3000-3999`
@@ -55,10 +56,10 @@ Then go to [localhost:3000](http://localhost:3000)
 To run a single service (and it's dependencies):
 
 ```
-docker-compose run --rm --service-ports appeals-service-api-data
+make run SERVICE=appeals-service-api
 ```
 
-This will run just the `appeals-service-api-data` app. Change the name for
+This will run just the `appeals-service-api` app. Change the `SERVICE` for
 different services.
 
 ---
@@ -67,7 +68,7 @@ If you wish to use the shell of the container (useful if you want to install
 new npm dependencies):
 
 ```
-docker-compose run --rm --service-ports appeals-service-api-data sh
+make run SERVICE=appeals-service-api CMD=sh
 ```
 
 ---
@@ -75,7 +76,7 @@ docker-compose run --rm --service-ports appeals-service-api-data sh
 To stop all services:
 
 ```
-docker-compose down
+make down
 ```
 
 ## The Common Module
