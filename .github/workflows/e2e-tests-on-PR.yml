@@ -1,0 +1,17 @@
+name: PR->master
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  cypress:
+    name: "run cypress tests against local instance"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: launch the world
+      run: make install && make serve
+    - name: run the tests
+      run: cd ./e2e-tests && npx cypress run

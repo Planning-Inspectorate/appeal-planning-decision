@@ -1,0 +1,5 @@
+{
+  "testFiles": "**/*.feature",
+  "chromeWebSecurity": false,
+  "projectId": "i4z1d2"
+}
