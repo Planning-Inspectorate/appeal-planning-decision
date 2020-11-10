@@ -31,7 +31,7 @@ Feature: Navigate to the Eligibility Decision page and verify the content
             | Day | Month | Year |
             |     |       |      |
             | aa  | 10    | 2020 |
-            
+
 
     Scenario: Verify the link 'I have not received a decision from the local planning department​' is present
         Then I can see the link is displayed

@@ -15,3 +15,9 @@ jobs:
       run: make install && docker-compose up -d
     - name: run the tests
       run: cd ./e2e-tests && npm install && npx cypress run
+    - name: Save Cypress videos
+      if: ${{ failure() }}
+      uses: actions/upload-artifact@main
+      with:
+        name: videos
+        path: './cypress/videos'
