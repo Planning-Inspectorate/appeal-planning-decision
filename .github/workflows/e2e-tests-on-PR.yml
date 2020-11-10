@@ -12,6 +12,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: launch the world
-      run: make install && docker-compose up
+      run: make install && docker-compose up -d
     - name: run the tests
       run: cd ./e2e-tests && npx cypress run
