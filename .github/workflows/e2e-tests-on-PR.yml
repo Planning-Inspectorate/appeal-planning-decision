@@ -36,7 +36,14 @@ jobs:
 
     - name: post-process Cypress results
       if: ${{ always() }}
-      run: cd ./e2e-tests && node ./reporter.js
+      run: cd ./e2e-tests && npm run niceReports
+
+    - name: Save Cypress results
+      if: ${{ always() }}
+      uses: actions/upload-artifact@main
+      with:
+        name: results
+        path: './e2e-tests/cypress/cucumber-report'
 
     - name: publish Cypress results
       if: ${{ always() }}
