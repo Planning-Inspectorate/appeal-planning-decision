@@ -123,6 +123,9 @@ jobs:
         run: |
           terraform output kubeconfig > ../../$KUBECONFIG
 
+          echo "::set-output name=cluster_lb_ip_address::$(terraform output kube_load_balancer_ip)"
+          echo "::set-output name=cluster_lb_ip_name::$(terraform output kube_load_balancer_domain_label)"
+          echo "::set-output name=cluster_lb_ip_rg::$(terraform output kube_load_balancer_rg)"
           echo "::set-output name=mongodb_connection_strings::$(terraform output -json mongodb_connection_strings)"
 
       - name: Configure Kubernetes instance
@@ -130,6 +133,9 @@ jobs:
         env:
           CERT_MANAGER_VERSION: 1.0.3
           CLUSTER: ${{ matrix.environment }}
+          CLUSTER_LB_IP_ADDRESS: ${{ steps.tf_output.outputs.cluster_lb_ip_address }}
+          CLUSTER_LB_IP_NAME: ${{ steps.tf_output.outputs.cluster_lb_ip_name }}
+          CLUSTER_LB_IP_RG: ${{ steps.tf_output.outputs.cluster_lb_ip_rg }}
           DEFAULT_BRANCH: master
           DEPLOY_NAMESPACE: app-${{ matrix.environment }}
           DOCKER_PASSWORD: ${{ steps.tf_common.outputs.containers_password }}

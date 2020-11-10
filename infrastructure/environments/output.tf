@@ -37,6 +37,11 @@ output "kubeconfig" {
   value = try(azurerm_kubernetes_cluster.k8s.kube_config_raw, null)
 }
 
+output "kube_load_balancer_domain_label" {
+  description = "The DNS label of the load balancer for the Kubernetes cluster"
+  value = try(azurerm_public_ip.k8s.domain_name_label, null)
+}
+
 output "kube_load_balancer_ip" {
   description = "The IP of the load balancer for the Kubernetes cluster"
   value = try(azurerm_public_ip.k8s.ip_address, null)
