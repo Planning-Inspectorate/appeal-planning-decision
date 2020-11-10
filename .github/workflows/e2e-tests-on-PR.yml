@@ -11,13 +11,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+
     - name: launch the world
       run: make install && docker-compose up -d
+
     - name: run the tests
       run: cd ./e2e-tests && npm install && npx cypress run
+
     - name: Save Cypress videos
       if: ${{ failure() }}
       uses: actions/upload-artifact@main
       with:
         name: videos
         path: './e2e-tests/cypress/videos'
+
+    - name: Save Cypress screenshots
+      if: ${{ failure() }}
+      uses: actions/upload-artifact@main
+      with:
+        name: screenshots
+        path: './e2e-tests/cypress/screenshots'
