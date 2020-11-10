@@ -7,11 +7,11 @@ on:
 jobs:
 
   cypress:
-    name: "run cypress tests against local instance"
+    name: "Cypress"
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: launch the world
       run: make install && docker-compose up -d
     - name: run the tests
-      run: cd ./e2e-tests && npx cypress run
+      run: cd ./e2e-tests && npm install && npx cypress run
