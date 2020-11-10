@@ -1,6 +1,8 @@
 name: PR->master
 
 on:
+  push:
+    branches: [master]
   pull_request:
     branches: [ master ]
 
@@ -16,7 +18,7 @@ jobs:
       run: make install && docker-compose up -d
 
     - name: run the tests
-      run: cd ./e2e-tests && npm install && npm test
+      run: cd ./e2e-tests && npm install && npm run test:e2e
 
     - name: Save Cypress videos
       if: ${{ failure() }}
