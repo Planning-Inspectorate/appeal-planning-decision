@@ -1,0 +1,381 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% block pageTitle %}
+  Check answers
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <span class="govuk-caption-xl"><span class="govuk-visually-hidden">Section. </span>Submit your appeal</span>
+      <h1 class="govuk-heading-xl">
+        Check your answers
+      </h1>
+      <p>Before you submit your appeal, take a moment to make sure you're happy with the answers you've provided.</p>
+
+      <h2 class="govuk-heading-m">Before you start</h2>
+
+      {{ govukSummaryList({
+        classes: "govuk-summary-list govuk-!-margin-bottom-9",
+        rows: [
+          {
+            key: {
+              text: "What are you appealing against?"
+            },
+            value: {
+              text: "I'm appealing a decision I received"
+            },
+            actions: {
+              items: [
+                {
+                  href: "/eligibility/applicant",
+                  text: "Change",
+                  visuallyHiddenText: "what I'm appealing"
+                }
+              ]
+            }
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">About you</h2>
+
+      {{ govukSummaryList({
+        classes: "govuk-summary-list govuk-!-margin-bottom-9",
+        rows: [
+          {
+            key: {
+              text: "Your name"
+            },
+            value: {
+              text: appeal.appellantName
+            },
+            actions: {
+              items: [
+                {
+                  href: "/your-details",
+                  text: "Change",
+                  visuallyHiddenText: "your name"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Your email"
+            },
+            value: {
+              text: appeal.appellantEmail
+            },
+            actions: {
+              items: [
+                {
+                  href: "/your-details",
+                  text: "Change",
+                  visuallyHiddenText: "your email"
+                }
+              ]
+            }
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">About the relevant Local Planning Authority</h2>
+
+      {{ govukSummaryList({
+        classes: "govuk-summary-list govuk-!-margin-bottom-9",
+        rows: [
+          {
+            key: {
+              text: "Local Planning Authority"
+            },
+            value: {
+              text: ""
+            },
+            actions: {
+              items: [
+                {
+                  href: "/lpa-details",
+                  text: "Change",
+                  visuallyHiddenText: "Local Planning Authority"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Planning application number"
+            },
+            value: {
+              text: ""
+            },
+            actions: {
+              items: [
+                {
+                  href: "/application-number",
+                  text: "Change",
+                  visuallyHiddenText: "Planning application number"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Decision letter"
+            },
+            value: {
+              text: ""
+            },
+            actions: {
+              items: [
+                {
+                  href: "/upload-decision",
+                  text: "Change",
+                  visuallyHiddenText: "Decision letter "
+                }
+              ]
+            }
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">About the original planning application</h2>
+
+      {{ govukSummaryList({
+        classes: "govuk-summary-list govuk-!-margin-bottom-9",
+        rows: [
+          {
+            key: {
+              text: "Name on original planning application"
+            },
+            value: {
+              text: ""
+            },
+            actions: {
+              items: [
+                {
+                  href: "/application-name",
+                  text: "Change",
+                  visuallyHiddenText: "Name on original planning application"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Date you applied for planning permission"
+            },
+            value: {
+              text: ""
+            },
+            actions: {
+              items: [
+                {
+                  href: "/application-date",
+                  text: "Change",
+                  visuallyHiddenText: "Date you applied for planning permission"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Planning application form"
+            },
+            value: {
+              text: ""
+            },
+            actions: {
+              items: [
+                {
+                  href: "/upload-application",
+                  text: "Change",
+                  visuallyHiddenText: "Planning application form"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Changes to the description of the development"
+            },
+            value: {
+              text: ""
+            },
+            actions: {
+              items: [
+                {
+                  href: "/upload-application-changes",
+                  text: "Change",
+                  visuallyHiddenText: "The description of the development"
+                }
+              ]
+            }
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">About the site</h2>
+
+      {{ govukSummaryList({
+        classes: "govuk-summary-list govuk-!-margin-bottom-9",
+        rows: [
+          {
+            key: {
+              text: "Address of the appeal site"
+            },
+            value: {
+              text: ""
+            },
+            actions: {
+              items: [
+                {
+                  href: "/site-location",
+                  text: "Change",
+                  visuallyHiddenText: "Address of the appeal site"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Is the site in a Green Belt?"
+            },
+            value: {
+              text: ""
+            },
+            actions: {
+              items: [
+                {
+                  href: "/site-location-green-belt",
+                  text: "Change",
+                  visuallyHiddenText: "Is the site in a Green Belt?"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Can the Inspector see the whole of the appeal site from a public road?"
+            },
+            value: {
+              text: ""
+            },
+            actions: {
+              items: [
+                {
+                  href: "/site-access",
+                  text: "Change",
+                  visuallyHiddenText: "Can the Inspector see the whole of the appeal site from a public road"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Any health and safety issues?"
+            },
+            value: {
+              text: ""
+            },
+            actions: {
+              items: [
+                {
+                  href: "/site-access-safety",
+                  text: "Change",
+                  visuallyHiddenText: "Any health and safety issues?"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Do you own the whole appeal site?"
+            },
+            value: {
+              text: ""
+            },
+            actions: {
+              items: [
+                {
+                  href: "/site-ownership",
+                  text: "Change",
+                  visuallyHiddenText: "Do you own the whole appeal site?"
+                }
+              ]
+            }
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">Your appeal</h2>
+
+      {{ govukSummaryList({
+        classes: "govuk-summary-list govuk-!-margin-bottom-9",
+        rows: [
+          {
+            key: {
+              text: "Your appeal statement"
+            },
+            value: {
+              text: ""
+            },
+            actions: {
+              items: [
+                {
+                  href: "/grounds-of-appeal",
+                  text: "Change",
+                  visuallyHiddenText: "Your appeal statement"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Documents to support your appeal"
+            },
+            value: {
+              text: ""
+            },
+            actions: {
+              items: [
+                {
+                  href: "/supporting-documents",
+                  text: "Change",
+                  visuallyHiddenText: "Documents to support your appeal"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Other relevant appeals"
+            },
+            value: {
+              text: ""
+            },
+            actions: {
+              items: [
+                {
+                  href: "/other-appeals",
+                  text: "Change",
+                  visuallyHiddenText: "Other relevant appeals"
+                }
+              ]
+            }
+          }
+        ]
+      }) }}
+
+      <form action="submission" method="post" novalidate>
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

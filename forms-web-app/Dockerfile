@@ -9,6 +9,7 @@ ENV VERSION="${VERSION}"
 ENV PORT=3000
 # Do not rely on NODE_ENV - exists for performance reasons only
 ENV NODE_ENV=production
+RUN npm run sass
 ADD . .
 ADD node_modules node_modules
 ADD package.json package.json

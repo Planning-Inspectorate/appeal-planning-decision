@@ -1,7 +1,6 @@
-const mockReq = () => {
-  const req = {};
-  return req;
-};
+const mockReq = () => ({
+  session: {},
+});
 
 const mockRes = () => {
   const res = {};

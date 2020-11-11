@@ -1,9 +1,12 @@
 const moment = require('moment');
-
 const {
   decisionDateCombiner,
   deadlineDateValidator,
-} = require('../../../../src/routes/validators/validator');
+} = require('../../../../src/routes/validators/decision-date');
+
+describe('routes/validators/decision-date', () => {
+  describe('rules', () => {});
+});
 
 describe('Test decisionDateCombiner', () => {
   it('Test that day, month, year combines correctly', () => {

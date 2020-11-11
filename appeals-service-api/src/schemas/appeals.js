@@ -11,9 +11,16 @@ const AppealSchema = new Schema(
         unique: true,
       },
     },
-    text: {
+    appellantName: {
       type: String,
       required: true,
+    },
+    appellantEmail: {
+      type: String,
+      required: true,
+    },
+    planningApplicationNumber: {
+      type: Number,
     },
   },
   {
