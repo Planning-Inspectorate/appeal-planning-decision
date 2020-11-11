@@ -14,7 +14,7 @@ Given('I navigate to not received a decision page', () => {
 Then('I can see the logo gov uk text', () => {
     {
     eligPage.validateHeaderLogo()
-    
+
     }
  })
 
