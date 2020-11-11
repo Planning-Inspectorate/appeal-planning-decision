@@ -1,5 +1,8 @@
 name: Cypress Report
 
+env:
+  CYPRESS_REPORTS: ./e2e-tests/cypress/cucumber-report
+
 on:
   push:
     branches: [ master ]
@@ -27,6 +30,6 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./e2e-tests/cypress/cucumber-report
-        user_name: 'github-actions[bot]'
+        publish_dir: ${{ env.CYPRESS_REPORTS }}
+        user_name: 'Karuna[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'

@@ -1,5 +1,10 @@
 name: Cypress
 
+env:
+  CYPRESS_VIDEOS: ./e2e-tests/cypress/videos
+  CYPRESS_SCREENSHOTS: ./e2e-tests/cypress/screenshots
+  CYPRESS_REPORTS: ./e2e-tests/cypress/cucumber-report
+
 on:
   pull_request:
     branches: [ master ]
@@ -23,14 +28,14 @@ jobs:
       uses: actions/upload-artifact@main
       with:
         name: videos
-        path: './e2e-tests/cypress/videos'
+        path: ${{ env.CYPRESS_VIDEOS }}
 
     - name: Archive screenshots
       if: ${{ failure() }}
       uses: actions/upload-artifact@main
       with:
         name: screenshots
-        path: './e2e-tests/cypress/screenshots'
+        path: ${{ env.CYPRESS_SCREENSHOTS }}
 
     - name: post-process results
       if: ${{ always() }}
@@ -41,4 +46,4 @@ jobs:
       uses: actions/upload-artifact@main
       with:
         name: results
-        path: './e2e-tests/cypress/cucumber-report'
+        path: ${{ env.CYPRESS_REPORTS }}
