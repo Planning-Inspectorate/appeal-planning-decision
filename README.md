@@ -122,7 +122,7 @@ as a commit hook.
 
 Either:
 
-    npm install -g commitzen
+    npm install -g commitizen
 
 And then:
 
