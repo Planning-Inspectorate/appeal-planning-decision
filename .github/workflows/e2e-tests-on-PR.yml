@@ -46,6 +46,7 @@ jobs:
         path: './e2e-tests/cypress/cucumber-report'
 
     - name: Deploy report page
+      if: ${{ always() }}
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
