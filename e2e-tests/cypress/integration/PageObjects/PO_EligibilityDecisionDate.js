@@ -1,11 +1,10 @@
 class PO_EligibilityDecisionDate {
-    
+
     navigatetoEligDatePageURL() {
         cy.visit("https://appeals-dev.planninginspectorate.gov.uk/eligibility/decision-date")
     }
 
     validatePageTitle() {
-        //cy.title().should('eq', 'Local Planning authority details') -> Actual, delete the below line
         cy.title().should('eq', 'GOV.UK - The best place to find government services and information')
     }
 
@@ -15,7 +14,6 @@ class PO_EligibilityDecisionDate {
     }
 
     pageHeaderlink() {
-        //const headerLink = cy.get('a[href="Appeal a householder planning decision"]')
         const headerLink = cy.get('.govuk-header__content > .govuk-header__link')
         assert.exists(headerLink, 'Appeal a householder planning decision exists')
     }
@@ -29,13 +27,10 @@ class PO_EligibilityDecisionDate {
 
     validateText() {
         const captionTextStart = cy.get('.govuk-caption-l')
-        // assert.equal(captionTextStart, 'Before you start', 'actual and expected text match')
         assert.exists(captionTextStart, 'Before you start')
-        //const captionText = cy.get('.govuk-fieldset__heading')
 
         const descisionDateText = cy.get('.govuk-fieldset__heading')
         assert.exists(descisionDateText, "What's is the decision text exists")
-        // .should('eq', "What's the decision date on the letter from the local planning department?​")
         const dateText = cy.get('#decision-date-hint')
         assert.exists(dateText, 'For example hint exists')
 
@@ -102,9 +97,7 @@ class PO_EligibilityDecisionDate {
         Day.type(day)
           cy.debug()
         cy.get('#decision-date-month').type(Month)
-        //Month.type(month)
         cy.get('#decision-date-year').type(Year)
-        //Year.type(year)
     }
 
     continueBtn() {
