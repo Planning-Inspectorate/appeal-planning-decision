@@ -2,7 +2,7 @@ name: Cypress
 
 on:
   push:
-    branches: [master]
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -46,7 +46,7 @@ jobs:
         path: './e2e-tests/cypress/cucumber-report'
 
     - name: Deploy report page
-      if: ${{ always() }}
+      if: ${{ always() && contains(github.ref, "wire-cypress-into-CI") }}
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
