@@ -2,7 +2,7 @@ name: Cypress Report
 
 on:
   push:
-    branches: [ wire-cypress-into-CI ]
+    branches: [ master ]
 
 jobs:
 
