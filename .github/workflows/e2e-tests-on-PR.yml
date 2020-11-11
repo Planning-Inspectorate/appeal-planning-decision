@@ -45,9 +45,10 @@ jobs:
         name: results
         path: './e2e-tests/cypress/cucumber-report'
 
-    - name: publish Cypress results
-      if: ${{ always() }}
-      uses: deblockt/cucumber-report-annotations-action@v1.7
+    - name: Deploy report page
+      uses: peaceiris/actions-gh-pages@v3
       with:
-        access-token: ${{ secrets.GITHUB_TOKEN }}
-        path: "e2e-tests/cypress/cucumber-json/*cucumber.json"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./e2e-tests/cypress/cucumber-report
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
