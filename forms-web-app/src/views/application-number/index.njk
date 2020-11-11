@@ -1,0 +1,38 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% block content %}
+
+  <div class="govuk-grid-row" id="form-html">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="post" novalidate id="planing-number-submit">
+
+        <div class="govuk-form-group">
+          <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="postcode">
+              What is your original planning application number?
+            </label>
+          </h1>
+          <div id="application-number-hint" class="govuk-hint">
+            You can find this on the decision letter from your local planning department
+          </div>
+
+          {{ govukInput({
+            id: "caseref",
+            name: "caseref",
+            classes: "govuk-input govuk-input--width-10"
+          }) }}
+        </div>
+
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+      </form>
+    </div>
+
+    {% include "includes/save.njk" %}
+  </div>
+
+{% endblock %}

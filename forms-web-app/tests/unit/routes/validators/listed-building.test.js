@@ -69,14 +69,13 @@ describe('routes/validators/listed-building', () => {
         },
       },
     ].forEach(({ title, given, expected }) => {
-      it(`should return the expected validation outcome - ${title}`, () => {
+      it(`should return the expected validation outcome - ${title}`, async () => {
         const mockReq = given();
         const mockRes = jest.fn();
 
-        testExpressValidatorMiddleware(mockReq, mockRes, rules()).then(() => {
-          const result = validationResult(mockReq);
-          expected(result);
-        });
+        await testExpressValidatorMiddleware(mockReq, mockRes, rules());
+        const result = validationResult(mockReq);
+        expected(result);
       });
     });
   });

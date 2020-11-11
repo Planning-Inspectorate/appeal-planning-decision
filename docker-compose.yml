@@ -29,6 +29,7 @@ services:
     image: node:14-alpine
     environment:
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
+      SESSION_KEY: some_secure_key_goes_here
     ports:
       - 9000:3000
     working_dir: /opt/app

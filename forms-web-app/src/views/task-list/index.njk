@@ -1,12 +1,29 @@
 {% extends "layouts/main.njk" %}
 
+{%- from "moj/components/task-list/macro.njk" import mojTaskList -%}
+
+{% block pageTitle %}
+  Appeal a householder planning decision
+{% endblock %}
+
 {% block content %}
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l">Task List Placeholder</h1>
-      <p class="govuk-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris commodo dui ut purus pulvinar sodales sit amet ut nisi. Aenean luctus et dui quis sollicitudin.</p>
-    </div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      Appeal a householder planning decision
+    </h1>
+    <p>A householder appeal must be received by the Planning Inspectorate within 12 weeks of the decision date.</p>
+    <p>If you do not submit it in time, you will lose your right to appeal.</p>
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">{{ applicationStatus }}</h2>
+    <p class="govuk-body govuk-!-margin-bottom-7">You have completed {{ sectionsCompleted }} of 4 sections.</p>
+
+    {{ mojTaskList({
+      sections: sections
+    }) }}
+
   </div>
 
+  {% include "includes/save.njk" %}
+</div>
 {% endblock %}
