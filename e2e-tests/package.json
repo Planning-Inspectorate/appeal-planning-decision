@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test:e2e": "cypress run",
-    "niceReports": "node ./reporter.js"
+    "test:e2e:postprocess": "node ./reporter.js"
   },
   "author": "",
   "license": "ISC",

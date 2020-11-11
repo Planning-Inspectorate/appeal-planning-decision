@@ -15,15 +15,18 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: launch the world
-      run: make install && docker-compose up -d
+    - name: install the world
+      run: make install
+
+    - name: start the world
+      run: docker-compose up -d
 
     - name: run the tests
-      run: cd ./e2e-tests && npm install && npm run test:e2e
+      run: npm run test:e2e
 
     - name: post-process results
       if: ${{ always() }}
-      run: cd ./e2e-tests && npm run niceReports
+      run: npm run test:e2e:postprocess
 
     - name: Deploy Cypress report to github pages
       if: ${{ always() }}

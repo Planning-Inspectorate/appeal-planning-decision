@@ -17,29 +17,18 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: launch the world
-      run: make install && docker-compose up -d
+    - name: install the world
+      run: make install
+
+    - name: start the world
+      run: docker-compose up -d
 
     - name: run the tests
-      run: cd ./e2e-tests && npm install && npm run test:e2e
-
-    - name: Archive videos
-      if: ${{ failure() }}
-      uses: actions/upload-artifact@main
-      with:
-        name: videos
-        path: ${{ env.CYPRESS_VIDEOS }}
-
-    - name: Archive screenshots
-      if: ${{ failure() }}
-      uses: actions/upload-artifact@main
-      with:
-        name: screenshots
-        path: ${{ env.CYPRESS_SCREENSHOTS }}
+      run: npm run test:e2e
 
     - name: post-process results
       if: ${{ always() }}
-      run: cd ./e2e-tests && npm run niceReports
+      run: npm run test:e2e:postprocess
 
     - name: Archive results
       if: ${{ always() }}
@@ -47,3 +36,17 @@ jobs:
       with:
         name: results
         path: ${{ env.CYPRESS_REPORTS }}
+
+    - name: Archive videos (on failure)
+      if: ${{ failure() }}
+      uses: actions/upload-artifact@main
+      with:
+        name: videos
+        path: ${{ env.CYPRESS_VIDEOS }}
+
+    - name: Archive screenshots (on failure)
+      if: ${{ failure() }}
+      uses: actions/upload-artifact@main
+      with:
+        name: screenshots
+        path: ${{ env.CYPRESS_SCREENSHOTS }}
