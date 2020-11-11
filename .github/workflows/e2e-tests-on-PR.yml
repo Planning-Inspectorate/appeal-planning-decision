@@ -1,8 +1,6 @@
 name: Cypress
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -20,36 +18,27 @@ jobs:
     - name: run the tests
       run: cd ./e2e-tests && npm install && npm run test:e2e
 
-    - name: Save Cypress videos
+    - name: Archive videos
       if: ${{ failure() }}
       uses: actions/upload-artifact@main
       with:
         name: videos
         path: './e2e-tests/cypress/videos'
 
-    - name: Save Cypress screenshots
+    - name: Archive screenshots
       if: ${{ failure() }}
       uses: actions/upload-artifact@main
       with:
         name: screenshots
         path: './e2e-tests/cypress/screenshots'
 
-    - name: post-process Cypress results
+    - name: post-process results
       if: ${{ always() }}
       run: cd ./e2e-tests && npm run niceReports
 
-    - name: Save Cypress results
+    - name: Archive results
       if: ${{ always() }}
       uses: actions/upload-artifact@main
       with:
         name: results
         path: './e2e-tests/cypress/cucumber-report'
-
-    - name: Deploy report page
-      if: ${{ always() && contains(github.ref, "wire-cypress-into-CI") }}
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./e2e-tests/cypress/cucumber-report
-        user_name: 'github-actions[bot]'
-        user_email: 'github-actions[bot]@users.noreply.github.com'
