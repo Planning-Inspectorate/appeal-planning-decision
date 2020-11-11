@@ -1,7 +1,4 @@
-const { body, validationResult } = require('express-validator');
-const {
-  expressValidationErrorsToGovUkErrorList,
-} = require('../../lib/express-validation-errors-to-govuk-error-list');
+const { body } = require('express-validator');
 const { FORM_FIELD } = require('../../controllers/listed-building');
 
 const rules = () => {
@@ -20,22 +17,6 @@ const rules = () => {
   ];
 };
 
-const validator = (req, res, next) => {
-  const errors = validationResult(req);
-
-  if (errors.isEmpty()) {
-    return next();
-  }
-
-  const mappedErrors = errors.mapped();
-
-  req.body.errors = mappedErrors;
-  req.body.errorSummary = expressValidationErrorsToGovUkErrorList(mappedErrors);
-
-  return next();
-};
-
 module.exports = {
   rules,
-  validator,
 };

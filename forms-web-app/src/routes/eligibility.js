@@ -3,11 +3,9 @@ const express = require('express');
 const appealStatementController = require('../controllers/appeal-statement');
 const eligibilityController = require('../controllers/eligibility');
 const listedBuildingController = require('../controllers/listed-building');
-const { decisionDateValidationRules, validator } = require('./validators/validator');
-const {
-  rules: listedBuildingValidationRules,
-  validator: listedBuildingValidator,
-} = require('./validators/listed-building');
+const { validator } = require('./validators/validator');
+const { rules: decisionDateValidationRules } = require('./validators/decision-date');
+const { rules: listedBuildingValidationRules } = require('./validators/listed-building');
 
 const router = express.Router();
 
@@ -35,7 +33,7 @@ router.get('/listed-building', listedBuildingController.getListedBuilding);
 router.post(
   '/listed-building',
   listedBuildingValidationRules(),
-  listedBuildingValidator,
+  validator,
   listedBuildingController.postListedBuilding
 );
 
