@@ -68,6 +68,8 @@ jobs:
 
       - run: npm test
 
+      - run: npm run build
+
       - name: Build Docker tagged image
         uses: ./.github/actions/docker
         with:

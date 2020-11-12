@@ -11,11 +11,11 @@ const AppealSchema = new Schema(
         unique: true,
       },
     },
-    appellantName: {
+    'appellant-name': {
       type: String,
       required: true,
     },
-    appellantEmail: {
+    'appellant-email': {
       type: String,
       required: true,
     },

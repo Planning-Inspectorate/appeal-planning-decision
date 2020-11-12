@@ -1,8 +1,8 @@
 const fetch = require('node-fetch');
-const { appealsApi } = require('../../../src/lib/appeals-api-wrapper');
+const { createOrUpdateAppeal } = require('../../../src/lib/appeals-api-wrapper');
 const config = require('../../../src/config');
 
-config.APPEALS_SERVICE_API_URL = 'http://fake.url';
+config.appeals.url = 'http://fake.url';
 
 describe('lib/appeals-api-wrapper', () => {
   [
@@ -12,14 +12,12 @@ describe('lib/appeals-api-wrapper', () => {
         fetch.mockResponseOnce(JSON.stringify({ good: 'data' }));
 
         return {
-          body: {
-            a: 'b',
-          },
+          a: 'b',
           uuid: undefined,
         };
       },
       expected: (appealsApiResponse) => {
-        expect(fetch).toHaveBeenCalledWith(`${config.APPEALS_SERVICE_API_URL}/appeals`, {
+        expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/appeals`, {
           body: '{"a":"b"}',
           headers: { 'Content-Type': 'application/json' },
           method: 'POST',
@@ -33,15 +31,13 @@ describe('lib/appeals-api-wrapper', () => {
         fetch.mockResponseOnce(JSON.stringify({ shouldBe: 'valid' }));
 
         return {
-          body: {
-            c: 'd',
-          },
+          c: 'd',
           uuid: '123-abc',
         };
       },
       expected: (appealsApiResponse) => {
-        expect(fetch).toHaveBeenCalledWith(`${config.APPEALS_SERVICE_API_URL}/appeals/123-abc`, {
-          body: '{"c":"d"}',
+        expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/appeals/123-abc`, {
+          body: '{"c":"d","uuid":"123-abc"}',
           headers: { 'Content-Type': 'application/json' },
           method: 'PUT',
         });
@@ -50,8 +46,7 @@ describe('lib/appeals-api-wrapper', () => {
     },
   ].forEach(({ title, given, expected }) => {
     it(`should ${title}`, async () => {
-      const { body, uuid } = given();
-      const appealsApiResponse = await appealsApi(body, uuid);
+      const appealsApiResponse = await createOrUpdateAppeal(given());
       expected(appealsApiResponse);
     });
   });

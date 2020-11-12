@@ -7,6 +7,8 @@ const nunjucks = require('nunjucks');
 const dateFilter = require('nunjucks-date-filter');
 const session = require('express-session');
 
+const config = require('./config');
+
 const applicationNameRouter = require('./routes/application-name');
 const applicationNumberRouter = require('./routes/application-number');
 const checkAnswersRouter = require('./routes/check-answers');
@@ -18,13 +20,13 @@ const yourDetailsRouter = require('./routes/your-details');
 const app = express();
 
 const sessionConfig = {
-  secret: process.env.SESSION_KEY,
+  secret: config.server.sessionSecret,
   resave: false,
   saveUninitialized: true,
   cookie: {},
 };
 
-if (app.get('env') === 'production') {
+if (config.server.useSecureSessionCookie) {
   app.set('trust proxy', 1); // trust first proxy
   sessionConfig.cookie.secure = true; // serve secure cookies
 }
