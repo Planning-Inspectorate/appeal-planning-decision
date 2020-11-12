@@ -33,7 +33,10 @@
 
       {{ govukBackLink({
         text: "Back",
-        href: "javascript:history.back()"
+        href: "javascript:history.back()",
+        attributes: {
+          'data-cy': 'back'
+        }
       }) }}
       <div class="govuk-main-wrapper {{ mainClasses }}">
         {% block content %}{% endblock %}
