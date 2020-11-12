@@ -9,18 +9,18 @@ const config = require('../config');
  * @param uuid
  * @returns {Promise<*>}
  */
-exports.appealsApi = (body, uuid) => {
-  let appealsServiceApiUrl = `${config.APPEALS_SERVICE_API_URL}/appeals`;
+exports.createOrUpdateAppeal = (appeal) => {
+  let appealsServiceApiUrl = `${config.appeals.url}/appeals`;
   let method = 'POST';
 
-  if (uuid) {
-    appealsServiceApiUrl = `${appealsServiceApiUrl}/${uuid}`;
+  if (appeal.uuid && appeal.uuid !== '') {
+    appealsServiceApiUrl = `${appealsServiceApiUrl}/${appeal.uuid}`;
     method = 'PUT';
   }
 
   return fetch(appealsServiceApiUrl, {
     method,
-    body: JSON.stringify(body),
+    body: JSON.stringify(appeal),
     headers: { 'Content-Type': 'application/json' },
   }).then((apiResponse) => apiResponse.json());
 };

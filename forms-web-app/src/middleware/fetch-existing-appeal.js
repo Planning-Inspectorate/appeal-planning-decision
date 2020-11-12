@@ -16,9 +16,7 @@ module.exports = async (req, res, next) => {
   }
 
   try {
-    const apiResponse = await fetch(
-      `${config.APPEALS_SERVICE_API_URL}/appeals/${req.session.uuid}`
-    );
+    const apiResponse = await fetch(`${config.appeals.url}/appeals/${req.session.uuid}`);
     req.session.appeal = await apiResponse.json();
   } catch (e) {
     req.session.appeal = {};

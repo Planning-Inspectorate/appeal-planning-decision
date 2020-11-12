@@ -3,7 +3,7 @@ const { mockReq, mockRes } = require('../mocks');
 const fetchExistingAppealMiddleware = require('../../../src/middleware/fetch-existing-appeal');
 const config = require('../../../src/config');
 
-config.APPEALS_SERVICE_API_URL = 'http://fake.url';
+config.appeals.url = 'http://fake.url';
 
 describe('middleware/fetch-existing-appeal', () => {
   beforeEach(() => {
@@ -44,7 +44,7 @@ describe('middleware/fetch-existing-appeal', () => {
         };
       },
       expected: (req, res, next) => {
-        expect(fetch).toHaveBeenCalledWith(`${config.APPEALS_SERVICE_API_URL}/appeals/123-abc`);
+        expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/appeals/123-abc`);
         expect(next).toHaveBeenCalled();
         expect(req.session.appeal).toEqual({});
       },
@@ -63,7 +63,7 @@ describe('middleware/fetch-existing-appeal', () => {
         };
       },
       expected: (req, res, next) => {
-        expect(fetch).toHaveBeenCalledWith(`${config.APPEALS_SERVICE_API_URL}/appeals/123-abc`);
+        expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/appeals/123-abc`);
         expect(next).toHaveBeenCalled();
         expect(req.session.appeal).toEqual({ good: 'data' });
       },
