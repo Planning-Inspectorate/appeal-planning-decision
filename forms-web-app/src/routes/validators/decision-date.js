@@ -25,7 +25,6 @@ const rules = () => {
     body('decision-date-day').notEmpty(),
     body('decision-date-month').notEmpty(),
     body('decision-date-year').notEmpty(),
-    // body('decision-date-year').custom(decisionDateCombiner).isDate().custom(deadlineDateValidator),
   ];
 };
 

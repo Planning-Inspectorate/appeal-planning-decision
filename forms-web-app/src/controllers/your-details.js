@@ -1,4 +1,5 @@
-const { appealsApi } = require('../lib/appeals-api-wrapper');
+const { createOrUpdateAppeal } = require('../lib/appeals-api-wrapper');
+const logger = require('../lib/logger');
 
 const VIEW = {
   YOUR_DETAILS: 'your-details/index',
@@ -11,20 +12,36 @@ exports.getYourDetails = (req, res) => {
 };
 
 exports.postYourDetails = async (req, res) => {
-  const body = {
-    appellantName: req.body['appellant-name'],
-    appellantEmail: req.body['appellant-email'],
+  const { body } = req;
+  const { errors = {}, errorSummary = {} } = body;
+
+  const appeal = {
+    ...req.session.appeal,
+    'appellant-name': req.body['appellant-name'],
+    'appellant-email': req.body['appellant-email'],
   };
 
-  try {
-    const uuid = (req.session && req.session.uuid) || '';
-    const appealJson = await appealsApi(body, uuid);
+  if (Object.keys(errors).length > 0) {
+    res.render(VIEW.YOUR_DETAILS, {
+      appeal,
+      errors,
+      errorSummary,
+    });
+    return;
+  }
 
-    req.session.uuid = uuid;
-    req.session.appeal = appealJson;
+  try {
+    req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e);
+    logger.error(e);
+    res.render(VIEW.YOUR_DETAILS, {
+      appeal,
+      errors,
+      errorSummary: {
+        a: 'b',
+      },
+    });
+    return;
   }
 
   res.redirect('/application-number');
