@@ -1,5 +1,6 @@
 class PO_EligibilityNoDecision {
 
+
     navigateToNoDecisionPage() {
         const eligDateURL = cy.visit("/eligibility/no-decision")
     }
@@ -24,12 +25,17 @@ class PO_EligibilityNoDecision {
     }
     appealsCaseworkPortalPage() {
         cy.visit("https://acp.planninginspectorate.gov.uk/")
+        // cy.pause()
+
     }
     appealsCaseworkPortalPageLogiIn() {
         const logInRegTxt = cy.get('#cphMainContent_LoginUser_LoginLegend')
         cy.wait(2000)
         assert.exists(logInRegTxt, 'Log in or Register page displayed')
     }
+
+
 }
+
 
 export default PO_EligibilityNoDecision
