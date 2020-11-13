@@ -44,5 +44,5 @@ exports.postYourDetails = async (req, res) => {
     return;
   }
 
-  res.redirect('/application-number');
+  res.redirect('/task-list');
 };
