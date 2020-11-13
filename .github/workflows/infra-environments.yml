@@ -136,13 +136,13 @@ jobs:
           CLUSTER_LB_IP_ADDRESS: ${{ steps.tf_output.outputs.cluster_lb_ip_address }}
           CLUSTER_LB_IP_NAME: ${{ steps.tf_output.outputs.cluster_lb_ip_name }}
           CLUSTER_LB_IP_RG: ${{ steps.tf_output.outputs.cluster_lb_ip_rg }}
-          DEFAULT_BRANCH: master
           DEPLOY_NAMESPACE: app-${{ matrix.environment }}
           DOCKER_PASSWORD: ${{ steps.tf_common.outputs.containers_password }}
           DOCKER_SERVER: ${{ steps.tf_common.outputs.containers_server }}
           DOCKER_USERNAME: ${{ steps.tf_common.outputs.containers_username }}
           EMAIL_ADDRESS: ${{ secrets.DEVOPS_EMAIL_ADDRESS }}
           MONGODB_CONNECTION_STRINGS: ${{ steps.tf_output.outputs.mongodb_connection_strings }}
+          RELEASE_BRANCH: release
           REPO_API_URL: https://api.github.com
           REPO_DOMAIN: github.com
           REPO_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
