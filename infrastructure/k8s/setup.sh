@@ -104,8 +104,8 @@ install_gitops() {
     --atomic \
     --cleanup-on-fail \
     --set git.url="git@${REPO_DOMAIN}:${REPO_URL}.git" \
-    --set git.path="releases/${CLUSTER}" \
-    --set git.branch="${DEFAULT_BRANCH}" \
+    --set git.path="clusters/${CLUSTER}" \
+    --set git.branch="${RELEASE_BRANCH}" \
     --set git.label="${CLUSTER}-flux-sync" \
     --set git.ciSkip="true" \
     --namespace flux \
