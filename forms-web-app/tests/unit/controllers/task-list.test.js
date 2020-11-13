@@ -40,15 +40,15 @@ describe('controller/task-list', () => {
               },
               {
                 text: 'Date you applied for planning permission',
-                href: 'https://has-appeal-alpha.herokuapp.com/v5/application-date',
+                href: 'application-date',
               },
               {
                 text: 'Upload the planning application form',
-                href: 'https://has-appeal-alpha.herokuapp.com/v5/upload-application',
+                href: 'upload-application',
               },
               {
                 text: 'Changes to the description of the development',
-                href: 'https://has-appeal-alpha.herokuapp.com/v5/upload-application-changes',
+                href: 'upload-application-changes',
               },
             ],
           },

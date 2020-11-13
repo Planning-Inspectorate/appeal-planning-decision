@@ -1,10 +1,10 @@
 const { validationResult } = require('express-validator');
-const { validator } = require('../../../../src/routes/validators/validator');
-const { mockReq, mockRes } = require('../../mocks');
+const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
+const { mockReq, mockRes } = require('../mocks');
 
 jest.mock('express-validator');
 
-describe('routes/validators/validator', () => {
+describe('routes/validators/validation-error-handler', () => {
   [
     {
       description: 'no errors',
@@ -48,7 +48,7 @@ describe('routes/validators/validator', () => {
     it(`should validate - ${description}`, () => {
       const next = jest.fn();
       const req = given();
-      validator(req, mockRes, next);
+      validationErrorHandler(req, mockRes, next);
       expected(req, mockRes, next);
     });
   });

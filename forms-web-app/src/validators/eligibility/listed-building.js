@@ -1,5 +1,5 @@
 const { body } = require('express-validator');
-const { FORM_FIELD } = require('../../controllers/listed-building');
+const { FORM_FIELD } = require('../../controllers/eligibility/listed-building');
 
 const rules = () => {
   const isYourAppealAListedBuildingId = 'is-your-appeal-about-a-listed-building';

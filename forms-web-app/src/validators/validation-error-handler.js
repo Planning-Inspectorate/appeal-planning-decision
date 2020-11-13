@@ -1,9 +1,9 @@
 const { validationResult } = require('express-validator');
 const {
   expressValidationErrorsToGovUkErrorList,
-} = require('../../lib/express-validation-errors-to-govuk-error-list');
+} = require('../lib/express-validation-errors-to-govuk-error-list');
 
-const validator = (req, res, next) => {
+const validationErrorHandler = (req, res, next) => {
   const errors = validationResult(req);
 
   if (errors.isEmpty()) {
@@ -19,5 +19,5 @@ const validator = (req, res, next) => {
 };
 
 module.exports = {
-  validator,
+  validationErrorHandler,
 };

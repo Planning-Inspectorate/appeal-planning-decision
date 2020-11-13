@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const { testExpressValidatorMiddleware } = require('./validation-middleware-helper');
-const { rules } = require('../../../../src/routes/validators/your-details');
+const { rules } = require('../../../src/validators/your-details');
 
 describe('routes/validators/your-details', () => {
   describe('rules', () => {

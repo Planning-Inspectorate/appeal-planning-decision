@@ -1,10 +1,10 @@
-const listedBuildingController = require('../../../src/controllers/listed-building');
-const { mockReq, mockRes } = require('../mocks');
+const listedBuildingController = require('../../../../src/controllers/eligibility/listed-building');
+const { mockReq, mockRes } = require('../../mocks');
 
 const req = mockReq();
 const res = mockRes();
 
-describe('controllers/listed-building', () => {
+describe('controllers/eligibility/listed-building', () => {
   describe('getServiceNotAvailableForListedBuildings', () => {
     it('calls the correct template', () => {
       listedBuildingController.getServiceNotAvailableForListedBuildings(req, res);

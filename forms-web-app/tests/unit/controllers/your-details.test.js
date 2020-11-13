@@ -60,7 +60,7 @@ describe('controller/your-details', () => {
 
       await yourDetailsController.postYourDetails(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith('/application-number');
+      expect(res.redirect).toHaveBeenCalledWith('/task-list');
     });
   });
 });
