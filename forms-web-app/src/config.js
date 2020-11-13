@@ -6,6 +6,21 @@ module.exports = {
     level: process.env.LOGGER_LEVEL || 'info',
     redact: [],
   },
+  redis: () => {
+    const redisConfig = {
+      host: process.env.REDIS_HOST,
+      password: process.env.REDIS_PASS,
+      port: Number(process.env.REDIS_PORT || 6379),
+    };
+
+    if (process.env.REDIS_USE_TLS === 'true') {
+      redisConfig.tls = {
+        servername: process.env.REDIS_HOST,
+      };
+    }
+
+    return redisConfig;
+  },
   server: {
     port: Number(process.env.PORT || 3000),
     sessionSecret: process.env.SESSION_KEY,
