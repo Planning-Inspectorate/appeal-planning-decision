@@ -29,6 +29,8 @@ services:
     image: node:14-alpine
     environment:
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
       SESSION_KEY: some_secure_key_goes_here
       USE_SECURE_SESSION_COOKIES: "false"
     ports:
@@ -36,8 +38,10 @@ services:
     working_dir: /opt/app
     links:
       - appeals-service-api
+      - redis
     depends_on:
       - appeals-service-api
+      - redis
     volumes:
       - ./forms-web-app:/opt/app
     command: npm run start:dev
@@ -63,3 +67,8 @@ services:
     image: mongo:3.6.0
     ports:
       - 27017:27017
+
+  redis:
+    image: redis:4.0.14-alpine
+    ports:
+      - 6379:6379

@@ -6,6 +6,8 @@ const cookieParser = require('cookie-parser');
 const nunjucks = require('nunjucks');
 const dateFilter = require('nunjucks-date-filter');
 const session = require('express-session');
+const redis = require('redis');
+const connectRedis = require('connect-redis');
 
 const config = require('./config');
 
@@ -19,8 +21,19 @@ const yourDetailsRouter = require('./routes/your-details');
 
 const app = express();
 
+const RedisStore = connectRedis(session);
+
+const { sessionSecret } = config.server;
+
+if (!sessionSecret) {
+  throw new Error('Session secret must be set');
+}
+
 const sessionConfig = {
-  secret: config.server.sessionSecret,
+  store: new RedisStore({
+    client: redis.createClient(config.redis()),
+  }),
+  secret: sessionSecret,
   resave: false,
   saveUninitialized: true,
   cookie: {},
