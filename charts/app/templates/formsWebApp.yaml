@@ -50,6 +50,33 @@ spec:
               value: "http://{{ include "app.fullname" . }}:{{ .Values.appealsServiceApi.service.port }}"
             - name: PORT
               value: {{ .Values.formsWebApp.config.port | quote }}
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: {{ .Values.formsWebApp.secrets.redis }}
+            - name: REDIS_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: pass
+                  name: {{ .Values.formsWebApp.secrets.redis }}
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: {{ .Values.formsWebApp.secrets.redis }}
+            - name: REDIS_USE_TLS
+              valueFrom:
+                secretKeyRef:
+                  key: use_tls
+                  name: {{ .Values.formsWebApp.secrets.redis }}
+            - name: SESSION_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: session_key
+                  name: {{ .Values.formsWebApp.secrets.app }}
+            - name: USE_SECURE_SESSION_COOKIES
+              value: "true"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

@@ -52,6 +52,16 @@ output "kube_load_balancer_rg" {
   value = try(azurerm_resource_group.k8s.name, null)
 }
 
+output "kube_secrets" {
+  description = "Secrets to be injected into the Kubernetes instance"
+  value = {
+    form-web-app = {
+      session_key = random_string.k8s-fwa-session-key.result
+    }
+  }
+  sensitive = true
+}
+
 /*
   MongoDB
  */
@@ -60,6 +70,25 @@ output "mongodb_connection_strings" {
   description = "MongoDB connection strings for each database"
   sensitive = true
   value = try({ for id, db in var.mongodb_databases :
-  db.name => replace("${azurerm_cosmosdb_account.mongodb.connection_strings[0]}&retrywrites=false", "/?", "/${db.name}?")
+  db.name => {
+    url = replace("${azurerm_cosmosdb_account.mongodb.connection_strings[0]}&retrywrites=false", "/?", "/${db.name}?")
+  }
   }, {})
+}
+
+/*
+  Redis
+ */
+
+output "redis_connection_strings" {
+  description = "Redis connection strings for each cluster"
+  sensitive = true
+  value = {
+    form-web-app-sessions = try({
+      host = azurerm_redis_cache.redis.hostname
+      pass = azurerm_redis_cache.redis.primary_access_key
+      port = azurerm_redis_cache.redis.ssl_port
+      use_tls = true
+    }, {})
+  }
 }

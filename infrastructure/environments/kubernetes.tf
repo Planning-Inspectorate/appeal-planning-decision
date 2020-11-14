@@ -118,3 +118,12 @@ resource "azurerm_role_assignment" "k8s" {
   scope = azurerm_resource_group.k8s.id
   role_definition_name = each.value
 }
+
+// @todo work out a way for this to be done in helm/k8s
+resource "random_string" "k8s-fwa-session-key" {
+  length = 32
+  special = false
+  upper = true
+  lower = true
+  number = true
+}
