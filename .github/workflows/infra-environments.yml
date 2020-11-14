@@ -126,7 +126,9 @@ jobs:
           echo "::set-output name=cluster_lb_ip_address::$(terraform output kube_load_balancer_ip)"
           echo "::set-output name=cluster_lb_ip_name::$(terraform output kube_load_balancer_domain_label)"
           echo "::set-output name=cluster_lb_ip_rg::$(terraform output kube_load_balancer_rg)"
+          echo "::set-output name=kube_secrets::$(terraform output -json kube_secrets)"
           echo "::set-output name=mongodb_connection_strings::$(terraform output -json mongodb_connection_strings)"
+          echo "::set-output name=redis_connection_strings::$(terraform output -json redis_connection_strings)"
 
       - name: Configure Kubernetes instance
         uses: ./.github/actions/kubectl-helm
@@ -141,7 +143,9 @@ jobs:
           DOCKER_SERVER: ${{ steps.tf_common.outputs.containers_server }}
           DOCKER_USERNAME: ${{ steps.tf_common.outputs.containers_username }}
           EMAIL_ADDRESS: ${{ secrets.DEVOPS_EMAIL_ADDRESS }}
+          KUBE_SECRETS: ${{ steps.tf_output.outputs.kube_secrets }}
           MONGODB_CONNECTION_STRINGS: ${{ steps.tf_output.outputs.mongodb_connection_strings }}
+          REDIS_CONNECTION_STRINGS: ${{ steps.tf_output.outputs.redis_connection_strings }}
           RELEASE_BRANCH: release
           REPO_API_URL: https://api.github.com
           REPO_DOMAIN: github.com

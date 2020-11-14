@@ -8,3 +8,6 @@ mongodb_databases = [{
     indexes = []
   }]
 }]
+redis_capacity = 2
+redis_family = "C"
+redis_sku = "Basic"

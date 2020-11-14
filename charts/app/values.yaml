@@ -26,6 +26,9 @@ formsWebApp:
     tag: latest
   config:
     port: 3000
+  secrets:
+    app: form-web-app-generic
+    redis: form-web-app-sessions-redis-credentials
 
 imagePullSecrets:
   - name: azure-docker-registry

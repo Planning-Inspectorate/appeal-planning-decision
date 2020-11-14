@@ -6,22 +6,38 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 kubectl create namespace "${DEPLOY_NAMESPACE}" || true
 
-add_mongodb_secrets() {
-  echo "Adding mongodb secrets to ${DEPLOY_NAMESPACE}"
+add_secrets() {
+  key_name="${1}"
+  input="${2}"
 
-  for key in $(echo "${MONGODB_CONNECTION_STRINGS}" | jq -r 'keys[]')
+  echo "Adding ${key_name} secrets to ${DEPLOY_NAMESPACE}"
+
+  for key in $(echo "${input}" | jq -r 'keys[]')
   do
     echo "Adding ${key}"
 
-    value=$(echo "${MONGODB_CONNECTION_STRINGS}" | jq -r \
+    value=$(echo "${input}" | jq -r \
       --arg KEY_NAME "${key}" '.[$KEY_NAME]')
 
-    kubectl create secret generic "${key}-mongodb-credentials" \
+    envFile="${DIR}/${key}-${key_name}.env"
+    rm -f "${envFile}"
+    touch "${envFile}"
+
+    items=$(echo "${value}" | jq -r 'to_entries | map("\(.key)=\(.value|tostring)") | .[]')
+
+    for item in ${items}
+    do
+      echo "${item}" >> "${envFile}"
+    done
+
+    kubectl create secret generic "${key}-${key_name}" \
       -n "${DEPLOY_NAMESPACE}" \
-      --from-literal url="${value}" \
+      --from-env-file "${envFile}" \
       -o yaml \
       --dry-run=client | \
       kubectl replace -n "${DEPLOY_NAMESPACE}" --force -f -
+
+    rm -f "${envFile}"
   done
 }
 
@@ -157,7 +173,9 @@ install_gitops() {
     "${REPO_API_URL}/repos/${REPO_URL}/keys"
 }
 
-add_mongodb_secrets
+add_secrets "mongodb-credentials" "${MONGODB_CONNECTION_STRINGS}"
+add_secrets "redis-credentials" "${REDIS_CONNECTION_STRINGS}"
+add_secrets "generic" "${KUBE_SECRETS}"
 add_registry_secret
 install_nginx_ingress
 install_cert_manager
