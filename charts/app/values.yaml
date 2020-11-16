@@ -16,6 +16,21 @@ appealsServiceApi:
     mongodb:
       appeals: appeals-mongodb-credentials
 
+documentServiceApi:
+  replicaCount: 1
+  service:
+    name: docs-srv-api
+    port: 3001
+  image:
+    repository: pinscommonukscontainersdefault.azurecr.io/document-service-api
+    pullPolicy: Always
+    tag: latest
+  config:
+    port: 3000
+  secrets:
+    mongodb:
+      documents: documents-mongodb-credentials
+
 formsWebApp:
   replicaCount: 1
   service:
