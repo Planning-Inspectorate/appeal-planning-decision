@@ -34,17 +34,17 @@ spec:
           image: "{{ .Values.formsWebApp.image.repository }}:{{ .Values.formsWebApp.image.tag }}"
           imagePullPolicy: {{ .Values.formsWebApp.image.pullPolicy }}
           ports:
-            - name: forms-web-app
+            - name: {{.Values.formsWebApp.service.name }}
               containerPort: {{ .Values.formsWebApp.config.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /
-              port: forms-web-app
+              port: {{.Values.formsWebApp.service.name }}
           readinessProbe:
             httpGet:
               path: /
-              port: forms-web-app
+              port: {{.Values.formsWebApp.service.name }}
           env:
             - name: APPEALS_SERVICE_API_URL
               value: "http://{{ include "app.fullname" . }}:{{ .Values.appealsServiceApi.service.port }}"

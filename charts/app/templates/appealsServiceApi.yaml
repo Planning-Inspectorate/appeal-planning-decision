@@ -34,17 +34,17 @@ spec:
           image: "{{ .Values.appealsServiceApi.image.repository }}:{{ .Values.appealsServiceApi.image.tag }}"
           imagePullPolicy: {{ .Values.appealsServiceApi.image.pullPolicy }}
           ports:
-            - name: appeals-srv-api
+            - name: {{.Values.appealsServiceApi.service.name }}
               containerPort: {{ .Values.appealsServiceApi.config.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /health
-              port: appeals-srv-api
+              port: {{.Values.appealsServiceApi.service.name }}
           readinessProbe:
             httpGet:
               path: /health
-              port: appeals-srv-api
+              port: {{.Values.appealsServiceApi.service.name }}
           env:
             - name: MONGODB_URL
               valueFrom:
