@@ -11,7 +11,7 @@ describe('routes/validators/eligibility/listed-building', () => {
       expect(rule.locations).toEqual(['body']);
       expect(rule.optional).toBeFalsy();
       expect(rule.stack).toHaveLength(3);
-      expect(rule.stack[0].message).toEqual('You need to select a response');
+      expect(rule.stack[0].message).toEqual('Select yes if your appeal is about a listed building');
       expect(rule.stack[2].options).toEqual([['yes', 'no']]);
     });
   });
@@ -26,7 +26,9 @@ describe('routes/validators/eligibility/listed-building', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
-          expect(result.errors[0].msg).toEqual('You need to select a response');
+          expect(result.errors[0].msg).toEqual(
+            'Select yes if your appeal is about a listed building'
+          );
           expect(result.errors[0].param).toEqual('is-your-appeal-about-a-listed-building');
           expect(result.errors[0].value).toEqual(undefined);
         },

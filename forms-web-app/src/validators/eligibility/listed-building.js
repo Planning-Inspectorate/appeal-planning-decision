@@ -11,7 +11,7 @@ const rules = () => {
   return [
     body(isYourAppealAListedBuildingId)
       .notEmpty()
-      .withMessage('You need to select a response')
+      .withMessage('Select yes if your appeal is about a listed building')
       .bail()
       .isIn(isYourAppealAListedBuildingPossibleValues),
   ];
