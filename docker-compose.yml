@@ -12,6 +12,7 @@ services:
   appeals-service-api:
     image: node:14-alpine
     environment:
+      DOCUMENT_SERVICE_API_URL: http://document-service-api:3000
       LPA_DATA_PATH: /opt/app/data/lpa-list.csv
       LPA_TRIALIST_DATA_PATH: /opt/app/data/lpa-trialists.json
       MONGODB_URL: mongodb://mongodb:27017/appeals-service-api
@@ -20,10 +21,12 @@ services:
       - 3000:3000
     working_dir: /opt/app
     links:
+      - document-service-api
       - mock-notify
       - mongodb
     depends_on:
       - appeals-service-api-data
+      - document-service-api
       - mock-notify
       - mongodb
     volumes:
@@ -31,10 +34,28 @@ services:
       - ./appeals-service-api:/opt/app
     command: npm run start:dev
 
+  document-service-api:
+    image: node:14-alpine
+    environment:
+      MONGODB_URL: mongodb://mongodb:27017/document-service-api
+      SERVER_SHOW_ERRORS: "true"
+    ports:
+      - 3001:3000
+    working_dir: /opt/app
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+    volumes:
+      - ./common:/opt/app/node_modules/@pins/common
+      - ./document-service-api:/opt/app
+    command: npm run start:dev
+
   forms-web-app:
     image: node:14-alpine
     environment:
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
+      DOCUMENT_SERVICE_API_URL: http://document-service-api:3000
       REDIS_HOST: redis
       REDIS_PORT: 6379
       SESSION_KEY: some_secure_key_goes_here
@@ -44,9 +65,11 @@ services:
     working_dir: /opt/app
     links:
       - appeals-service-api
+      - document-service-api
       - redis
     depends_on:
       - appeals-service-api
+      - document-service-api
       - redis
     volumes:
       - ./forms-web-app:/opt/app
