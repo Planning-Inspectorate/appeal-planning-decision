@@ -27,7 +27,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainersdefault.azurecr.io/forms-web-app
-        tag: 1.4.0
+        tag: 1.4.1
 
     ingress:
       host: appeals-dev.planninginspectorate.gov.uk
