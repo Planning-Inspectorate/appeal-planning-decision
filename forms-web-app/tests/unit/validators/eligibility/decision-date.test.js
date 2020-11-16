@@ -109,7 +109,7 @@ describe('routes/validators/eligibility/decision-date', () => {
       );
     });
 
-    xit('should throw if decision date is too far in the past', () => {
+    it('should throw if decision date is too far in the past', () => {
       const req = {
         body: {
           'decision-date-day': 5,
@@ -119,7 +119,7 @@ describe('routes/validators/eligibility/decision-date', () => {
       };
       expect(() => combinedDecisionDateFieldValidator(req)).toThrowError(
         new Error(
-          JSON.stringify({ msg: 'Decision date expired', deadlineDate: '1920-08-28T22:59:59.999Z' })
+          JSON.stringify({ msg: 'Decision date expired', deadlineDate: '1920-08-28T23:59:59.999Z' })
         )
       );
     });
