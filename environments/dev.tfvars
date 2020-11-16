@@ -7,6 +7,13 @@ mongodb_databases = [{
     default_ttl_seconds = 0
     indexes = []
   }]
+}, {
+  name = "documents"
+  collections = [{
+    name = "documents"
+    default_ttl_seconds = 0
+    indexes = []
+  }]
 }]
 redis_capacity = 2
 redis_family = "C"
