@@ -1,0 +1,143 @@
+openapi: 3.0.0
+info:
+  title: Horizon Rest API
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+paths:
+  /adddocuments:
+    post:
+      summary: Add documents to an existing case in Horizon
+      operationId: AddDocument
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HorizonAPIDocument"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HorizonAPIDocument"
+
+  /createcase:
+    post:
+      summary: Create a case in Horizon
+      operationId: CreateCase
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewCase"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NewCase"
+components:
+  schemas:
+    Attributes:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+            - Case:Case Type
+            - Case:Procedure
+            - Case:Processing State
+            - Case:Linked Status
+            - Case:Case Publish Flag
+            - Case:LPA Code
+            - Case:LPA Name
+            - Case:Jurisdiction
+            - Case:Decision Branch
+            - Case:Appointed By
+            - Case:Development/Allegation Description
+            - Case:Development Type
+            - Case:Casework Reason
+            - Case:Level
+            - Case:Specialism
+            - Case:Portal URL
+            - Case:Appellant Form Type Submitted
+            - Case:Procedure (Appellant)
+            - Case:England/Wales Indicator
+            - Case:Decision
+            - Case:Important Information
+            - Case:File Location
+            - Case Dates:Receipt Date
+            - Case Dates:Start Date
+            - Case Dates:Appeal Valid Date
+            - Case Dates:Target Date
+            - Case Dates:Planning Guarantee Date
+            - Case Dates:Case Decision Date
+            - Case Dates:Case Closed Date
+            - Case Document Dates:Questionnaire Due Date
+            - Case Document Dates:Questionnaire Received
+            - Case Document Dates:Statement Due Date
+            - Case Document Dates:Date Notification Letter Sent
+            - Case Document Dates:Interested Party Reps Due Date
+            - Case Document Dates:Final Comments Due Date
+            - Case Document Dates:Appellant Comments Submitted
+            - Case Document Dates:Appellant Comments Forwarded
+            - Case Document Dates:LPA Comments Submitted
+            - Case Document Dates:LPA Comments Forwarded
+            - Case Involvement:Case Involvement
+            - Case Site:Site Address Line 1
+            - Case Site:Site Address Line 2
+            - Case Site:Site Address Town
+            - Case Site:Site Address Postcode
+            - Case Site:Site Grid Reference Easting
+            - Case Site:Site Grid Reference Northing
+            - Case Site:Site Viewable From Road
+            - Case Site:Inspector Need To Enter Site
+            - Case Site:Number Of Residences
+    HorizonAPIDocument:
+      type: object
+      properties:
+        Content:
+          type: string
+        DocumentType:
+          type: string
+        Filename:
+          type: string
+        IsPublished:
+          type: boolean
+        NodeId:
+          type: integer
+          format: int32
+        Metadata:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+    NewCase:
+      type: object
+      properties:
+        caseType:
+          type: string
+        LPACode:
+          type: string
+        dateOfReceipt:
+          type: string
+          format: date-time
+        location:
+          type: string
+          enum:
+            - England
+            - Wales
+        category:
+          type: string
+        attributes:
+          $ref: "#/components/schemas/Attributes"
+        documents:
+          $ref: "#/components/schemas/HorizonAPIDocument"
