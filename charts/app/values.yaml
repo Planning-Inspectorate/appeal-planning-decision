@@ -5,6 +5,7 @@
 appealsServiceApi:
   replicaCount: 1
   service:
+    name: appeals-srv-api
     port: 3000
   image:
     repository: pinscommonukscontainersdefault.azurecr.io/appeals-service-api
@@ -34,6 +35,7 @@ documentServiceApi:
 formsWebApp:
   replicaCount: 1
   service:
+    name: forms-web-app
     port: 9000
   image:
     repository: pinscommonukscontainersdefault.azurecr.io/forms-web-app
