@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "app.fullname" . }}-document-service-api
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.documentServiceApi.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "app.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "app.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.documentServiceApi.image.repository }}:{{ .Values.documentServiceApi.image.tag }}"
+          imagePullPolicy: {{ .Values.documentServiceApi.image.pullPolicy }}
+          ports:
+            - name: {{ .Values.documentServiceApi.service.name }}
+              containerPort: {{ .Values.documentServiceApi.config.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.documentServiceApi.service.name }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.documentServiceApi.service.name }}
+          env:
+            - name: MONGODB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: url
+                  name: {{ .Values.documentServiceApi.secrets.mongodb.documents }}
+            - name: SERVER_PORT
+              value: {{ .Values.documentServiceApi.config.port | quote }}
+            - name: SERVER_TERMINATION_GRACE_PERIOD_SECONDS
+              value: {{ 10 | quote }} # Same as "periodSeconds" for readinessProbe
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
