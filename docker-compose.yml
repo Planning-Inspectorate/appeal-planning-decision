@@ -1,5 +1,9 @@
-# Convention is that API backends are exposed in the 3000-3999 port range
-# and website are exposed in the 9000-9999 port range
+# Port ranges (by convention):
+#  - API: 3000-3999
+#  - Services: 4000-4999
+#  - Mocks: 5000-5999
+#  - Documentation: 7000-7999
+#  - Websites: 9000-9999
 #
 # Please run `make install` to get the dependencies install
 
@@ -65,6 +69,14 @@ services:
     command: npm start
 
   # Mocked services
+  mock-horizon:
+    # @todo generate from Swagger Docs
+    build:
+      context: ./mocked-services/horizon
+      dockerfile: ../Dockerfile
+    ports:
+      - 5000:3000
+
   mock-notify:
     build:
       context: ./mocked-services/notify
@@ -72,13 +84,24 @@ services:
     ports:
       - 5001:3000
 
+  docs-horizon:
+    image: swaggerapi/swagger-ui
+    environment:
+      SWAGGER_JSON: /app/swagger.yaml
+    depends_on:
+      - mock-horizon
+    volumes:
+      - ./docs/swagger/horizon/create_case_openapi.yaml:/app/swagger.yaml
+    ports:
+      - 7000:8080
+
   # Third-party services
   mongodb:
     image: mongo:3.6.0
     ports:
-      - 27017:27017
+      - 4000:27017
 
   redis:
     image: redis:4.0.14-alpine
     ports:
-      - 6379:6379
+      - 4001:6379
