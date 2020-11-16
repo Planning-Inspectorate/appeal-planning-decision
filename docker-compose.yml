@@ -16,9 +16,11 @@ services:
       - 3000:3000
     working_dir: /opt/app
     links:
+      - mock-notify
       - mongodb
     depends_on:
       - appeals-service-api-data
+      - mock-notify
       - mongodb
     volumes:
       - ./common:/opt/app/node_modules/@pins/common # Replace the module to avoid symlink errors
@@ -61,6 +63,14 @@ services:
       MONGODB_URL: mongodb://mongodb:27017/appeals-service-api
     restart: on-failure
     command: npm start
+
+  # Mocked services
+  mock-notify:
+    build:
+      context: ./mocked-services/notify
+      dockerfile: ../Dockerfile
+    ports:
+      - 5001:3000
 
   # Third-party services
   mongodb:
