@@ -95,7 +95,7 @@ describe('controller/task-list', () => {
             items: [
               {
                 text: 'Your appeal statement',
-                href: 'grounds-of-appeal',
+                href: '/submit-appeal/grounds-of-appeal',
               },
               {
                 text: 'Any other documents to support your appeal',

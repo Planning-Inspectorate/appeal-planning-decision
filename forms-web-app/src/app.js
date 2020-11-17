@@ -15,6 +15,7 @@ const applicationNameRouter = require('./routes/application-name');
 const applicationNumberRouter = require('./routes/application-number');
 const checkAnswersRouter = require('./routes/check-answers');
 const eligibilityRouter = require('./routes/eligibility');
+const submitAppealRouter = require('./routes/submit-appeal');
 const indexRouter = require('./routes/index');
 const taskListRouter = require('./routes/task-list');
 const yourDetailsRouter = require('./routes/your-details');
@@ -63,6 +64,7 @@ app.use('/application-name', applicationNameRouter);
 app.use('/application-number', applicationNumberRouter);
 app.use('/check-answers', checkAnswersRouter);
 app.use('/eligibility', eligibilityRouter);
+app.use('/submit-appeal', submitAppealRouter);
 app.use('/task-list', taskListRouter);
 app.use('/your-details', yourDetailsRouter);
 
