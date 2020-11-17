@@ -8,8 +8,10 @@ const dateFilter = require('nunjucks-date-filter');
 const session = require('express-session');
 const redis = require('redis');
 const connectRedis = require('connect-redis');
+require('express-async-errors');
 
 const config = require('./config');
+const logger = require('./lib/logger');
 
 const applicationNameRouter = require('./routes/application-name');
 const applicationNumberRouter = require('./routes/application-number');
@@ -68,6 +70,19 @@ app.use('/your-details', yourDetailsRouter);
 
 // View Engine
 app.set('view engine', 'njk');
+
+// Error handling
+app
+  .use((req, res, next) => {
+    res.status(404).render('error/not-found');
+    next();
+  })
+  .use((err, req, res, next) => {
+    logger.error({ err }, 'Unhandled exception');
+
+    res.status(500).render('error/unhandled-exception');
+    next();
+  });
 
 const isDev = app.get('env') === 'development';
 
