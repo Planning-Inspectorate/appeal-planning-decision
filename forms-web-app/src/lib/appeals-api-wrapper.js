@@ -66,6 +66,10 @@ exports.createOrUpdateAppeal = (appeal) => {
   });
 };
 
+exports.getExistingAppeal = async (sessionId) => {
+  return handler(`/appeals/${sessionId}`);
+};
+
 exports.getLPAList = async () => {
   return handler('/local-planning-authorities');
 };
