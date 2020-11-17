@@ -24,3 +24,12 @@ exports.createOrUpdateAppeal = (appeal) => {
     headers: { 'Content-Type': 'application/json' },
   }).then((apiResponse) => apiResponse.json());
 };
+
+exports.getLPAList = async () => {
+  const apiResponse = await fetch(`${config.appeals.url}/local-planning-authorities`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  return apiResponse.json();
+};
