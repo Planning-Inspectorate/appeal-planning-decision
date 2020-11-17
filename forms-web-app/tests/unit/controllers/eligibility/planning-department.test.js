@@ -66,7 +66,7 @@ describe('controller/eligibility/planning-department', () => {
       expect(res.render).toHaveBeenCalledWith('eligibility/planning-department', {
         data,
         errors: [1],
-        errorSummary: {},
+        errorSummary: [],
       });
     });
   });

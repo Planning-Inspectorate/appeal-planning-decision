@@ -41,7 +41,7 @@ exports.getPlanningDepartment = async (req, res) => {
 
 exports.postPlanningDepartment = async (req, res) => {
   const { body } = req;
-  const { errors = {}, errorSummary = {} } = body;
+  const { errors = {}, errorSummary = [] } = body;
 
   const data = await getDepartmentList();
 

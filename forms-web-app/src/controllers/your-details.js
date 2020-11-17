@@ -13,7 +13,7 @@ exports.getYourDetails = (req, res) => {
 
 exports.postYourDetails = async (req, res) => {
   const { body } = req;
-  const { errors = {}, errorSummary = {} } = body;
+  const { errors = {}, errorSummary = [] } = body;
 
   const appeal = {
     ...req.session.appeal,

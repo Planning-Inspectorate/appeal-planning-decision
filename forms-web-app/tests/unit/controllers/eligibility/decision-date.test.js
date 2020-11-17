@@ -39,7 +39,7 @@ describe('controller/eligibility/decision-date', () => {
       decisionDateController.postDecisionDate(badReq, res);
 
       expect(res.render).toHaveBeenCalledWith('eligibility/decision-date-expired', {
-        errorSummary: {},
+        errorSummary: [],
         errors: {
           'decision-date': {
             msg: '{"deadlineDate":"A deadline date here"}',
@@ -64,7 +64,7 @@ describe('controller/eligibility/decision-date', () => {
       decisionDateController.postDecisionDate(badReq, res);
 
       expect(res.render).toHaveBeenCalledWith('eligibility/decision-date', {
-        errorSummary: {},
+        errorSummary: [],
         errors: {
           'decision-date-year': {
             msg: 'Invalid date',
@@ -78,7 +78,7 @@ describe('controller/eligibility/decision-date', () => {
         ...req,
         body: {
           errors: {},
-          errorSummary: {},
+          errorSummary: [],
         },
       };
       decisionDateController.postDecisionDate(happyReq, res);

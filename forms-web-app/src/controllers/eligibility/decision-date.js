@@ -14,7 +14,7 @@ exports.getDecisionDate = (req, res) => {
 
 exports.postDecisionDate = (req, res) => {
   const { body } = req;
-  const { errors = {}, errorSummary = {} } = body;
+  const { errors = {}, errorSummary = [] } = body;
 
   if (Object.keys(errors).length === 1 && errors['decision-date'] && errors['decision-date'].msg) {
     const parsed = JSON.parse(errors['decision-date'].msg);
