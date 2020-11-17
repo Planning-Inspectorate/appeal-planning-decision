@@ -13,6 +13,7 @@
     "cypress": "^5.6.0",
     "cypress-cucumber-preprocessor": "^4.0.0",
     "cypress-ntlm-auth": "^3.1.1",
+    "cypress-file-upload": "^4.1.1",
     "datatables.net": "^1.10.22",
     "moment": "^2.29.1",
     "multiple-cucumber-html-reporter": "^1.18.0"
