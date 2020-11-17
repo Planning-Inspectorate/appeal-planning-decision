@@ -25,7 +25,7 @@ module.exports = () => {
     .use(
       pinoExpress({
         logger,
-        genReqId: () => uuid.v4(),
+        genReqId: (req) => req.headers['x-correlation-id'] || uuid.v4(),
       })
     )
     .use(bodyParser.json())
