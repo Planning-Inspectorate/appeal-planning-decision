@@ -55,6 +55,9 @@ output "kube_load_balancer_rg" {
 output "kube_secrets" {
   description = "Secrets to be injected into the Kubernetes instance"
   value = {
+    documents-service-api = {
+      blob_storage = azurerm_storage_account.documents.primary_connection_string
+    }
     form-web-app = {
       session_key = random_string.k8s-fwa-session-key.result
     }

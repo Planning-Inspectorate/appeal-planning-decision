@@ -159,3 +159,13 @@ variable "redis_sku" {
   type = string
   default = "Basic"
 }
+
+/*
+  Storage
+ */
+
+variable "documents_soft_delete_retention" {
+  description = "Number of days to allow for data recovery"
+  type = number
+  default = 30
+}
