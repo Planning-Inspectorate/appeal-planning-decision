@@ -1,30 +1,31 @@
 {% extends "layouts/main.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %},
 
 {% block content %}
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <span class="govuk-caption-l">Before you start</span>
-    <form action="">
-      {% from "govuk/components/input/macro.njk" import govukInput %}
-        {{ govukInput({
-          label: {
-            text: "What is the name of the local planning department?",
-            classes: "govuk-label--l",
-            isPageHeading: true
-          },
-          id: "local-planning-department",
-          name: "local-planning-department"
-        }) }}
-
-        {% from "govuk/components/button/macro.njk" import govukButton %}
-
-        {{ govukButton({
-          text: "Continue",
-          type: "Submit"
-        }) }}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="">
+        <div class="govuk-form-group">
+          <span class="govuk-caption-l">Before you start</span>
+          <label id="planning-department-label" class="govuk-label govuk-label--l" for="planning-department">What is the name of the local planning department?</label>
+          <div id="planning-department"></div>
+        </div>
+        <div class="govuk-form-group">
+          {{ govukButton({
+            text: "Continue",
+            type: "Submit"
+          }) }}
+        </div>
       </form>
+    </div>
   </div>
-</div>
+
+  <script>
+    accessibleAutocomplete({
+      element: document.querySelector('#planning-department'), id: 'planning-department-label', // To match it to the existing <label>.
+      source: {{ data|safe }}
+    });
+  </script>
 
 {% endblock %}
