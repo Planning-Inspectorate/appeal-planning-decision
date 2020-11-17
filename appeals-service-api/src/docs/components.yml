@@ -1,0 +1,54 @@
+components:
+  schemas:
+    Appeal:
+      type: object
+      properties:
+        uuid:
+          type: string
+        test:
+          type: string
+      example:
+        uuid: ed283807-866b-4089-bcec-56b2137a845b
+        test: Lorem ipsum dolor sit amet
+
+    LPA:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        inTrial:
+          type: boolean
+        england:
+          type: boolean
+        wales:
+          type: boolean
+      example:
+        id: E60000281
+        name: Adur LPA
+        inTrial: true
+        england: true
+        wales: false
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+
+  responses:
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 404
+            message: Not found
+
+
+

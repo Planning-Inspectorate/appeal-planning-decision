@@ -71,10 +71,10 @@ describe('LPAs controller test', () => {
 
       expect(res.send).toBeCalledWith({
         data,
-        count: data.length,
-        total: data.length,
         page: 1,
-        pageCount: 1,
+        limit: data.length,
+        totalPages: 1,
+        totalResult: data.length,
       });
     });
 
@@ -92,10 +92,10 @@ describe('LPAs controller test', () => {
 
       expect(res.send).toBeCalledWith({
         data,
-        count: data.length,
-        total: data.length,
         page: 1,
-        pageCount: 1,
+        limit: data.length,
+        totalPages: 1,
+        totalResult: data.length,
       });
     });
   });
