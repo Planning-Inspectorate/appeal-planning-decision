@@ -75,6 +75,7 @@ services:
       - document-service-api
       - redis
     volumes:
+      - ./common:/opt/app/node_modules/@pins/common
       - ./forms-web-app:/opt/app
     command: npm run start:dev
 

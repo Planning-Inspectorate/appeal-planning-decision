@@ -1,4 +1,7 @@
+jest.mock('uuid');
+
 const fetch = require('node-fetch');
+const uuid = require('uuid');
 const { createOrUpdateAppeal } = require('../../../src/lib/appeals-api-wrapper');
 const config = require('../../../src/config');
 
@@ -19,7 +22,10 @@ describe('lib/appeals-api-wrapper', () => {
       expected: (appealsApiResponse) => {
         expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/appeals`, {
           body: '{"a":"b"}',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': uuid.v4(),
+          },
           method: 'POST',
         });
         expect(appealsApiResponse).toEqual({ good: 'data' });
@@ -38,7 +44,10 @@ describe('lib/appeals-api-wrapper', () => {
       expected: (appealsApiResponse) => {
         expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/appeals/123-abc`, {
           body: '{"c":"d","uuid":"123-abc"}',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': uuid.v4(),
+          },
           method: 'PUT',
         });
         expect(appealsApiResponse).toEqual({ shouldBe: 'valid' });
