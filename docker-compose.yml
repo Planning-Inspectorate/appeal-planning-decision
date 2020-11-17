@@ -37,14 +37,17 @@ services:
   document-service-api:
     image: node:14-alpine
     environment:
+      BLOB_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blob-storage:10000/devstoreaccount1;QueueEndpoint=http://blob-storage:10001/devstoreaccount1;
       MONGODB_URL: mongodb://mongodb:27017/document-service-api
       SERVER_SHOW_ERRORS: "true"
     ports:
       - 3001:3000
     working_dir: /opt/app
     links:
+      - blob-storage
       - mongodb
     depends_on:
+      - blob-storage
       - mongodb
     volumes:
       - ./common:/opt/app/node_modules/@pins/common
@@ -119,6 +122,14 @@ services:
       - 7000:8080
 
   # Third-party services
+  blob-storage:
+    image: mcr.microsoft.com/azure-storage/azurite
+    ports:
+      - 4002:10000
+      - 4003:10001
+    volumes:
+      - ./tmp/blob-storage:/data
+
   mongodb:
     image: mongo:3.6.0
     ports:
