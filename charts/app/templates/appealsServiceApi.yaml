@@ -46,6 +46,10 @@ spec:
               path: /health
               port: {{.Values.appealsServiceApi.service.name }}
           env:
+            - name: LPA_DATA_PATH
+              value: /data/lpa/lpa-list.csv
+            - name: LPA_TRIALIST_DATA_PATH
+              value: /data/lpa-trialists/lpa-trialists.json
             - name: MONGODB_URL
               valueFrom:
                 secretKeyRef:
@@ -55,6 +59,13 @@ spec:
               value: {{ .Values.appealsServiceApi.config.port | quote }}
             - name: SERVER_TERMINATION_GRACE_PERIOD_SECONDS
               value: {{ 10 | quote }} # Same as "periodSeconds" for readinessProbe
+          volumeMounts:
+            - name: lpa-data-volume
+              mountPath: /data/lpa
+              readOnly: true
+            - name: lpa-trialists-volume
+              mountPath: /data/lpa-trialists
+              readOnly: true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -69,3 +80,10 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: lpa-data-volume
+          configMap:
+            name: lpa-data
+        - name: lpa-trialists-volume
+          configMap:
+            name: lpa-trialists
