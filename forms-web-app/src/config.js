@@ -5,7 +5,7 @@ module.exports = {
   },
   logger: {
     level: process.env.LOGGER_LEVEL || 'info',
-    redact: ['opts.body'],
+    redact: ['opts.body', 'config.server.sessionSecret'],
   },
   redis: () => {
     const redisConfig = {
