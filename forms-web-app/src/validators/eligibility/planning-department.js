@@ -4,7 +4,7 @@ const rules = () => {
   return [
     body('local-planning-department')
       .notEmpty()
-      .withMessage('You need to provide the local planning department'),
+      .withMessage('Select the local planning department from the list'),
   ];
 };
 
