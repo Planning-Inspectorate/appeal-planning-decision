@@ -1,0 +1,37 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+
+{% block pageTitle %}
+  Confirmation | Appeal a householder planning decision
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {{ govukPanel({
+        titleText: "Appeal submitted",
+        html: [ "We've sent a confirmation email to: ", appellantEmail ] | join
+      }) }}
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <p class="govuk-body">
+        Your appeal has been submitted to the Planning Inspectorate, and a copy sent to Maidstone Borough Council.
+      </p>
+      <h2 class="govuk-heading-m">What happens next</h2>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>Your local planning department will submit their evidence. This usually takes around 3 weeks after you submit your appeal.</li>
+        <li>An Inspector may need to make a site visit.</li>
+        <li>The Inspector will then consider all the evidence to make their decision.</li>
+      </ul>
+
+      <p class="govuk-body">
+        <a href="#" class="govuk-link">What did you think of this service?</a> (takes 30 seconds)
+      </p>
+    </div>
+  </div>
+
+{% endblock %}

@@ -63,7 +63,7 @@ describe('controllers/eligibility/listed-building', () => {
 
       expect(res.render).toHaveBeenCalledWith('eligibility/listed-building', {
         FORM_FIELD: listedBuildingController.FORM_FIELD,
-        errorSummary: {},
+        errorSummary: [],
         errors: [1, 2, 3],
       });
     });
