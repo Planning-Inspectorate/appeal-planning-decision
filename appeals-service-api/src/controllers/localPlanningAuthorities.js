@@ -42,10 +42,10 @@ module.exports = {
     /* Use a paginated output in case we wish to put data into database in future */
     const output = {
       data,
-      count: data.length, // total per page
-      total: data.length, // overall total
       page: 1,
-      pageCount: 1,
+      limit: data.length, // total per page
+      totalPages: 1,
+      totalResult: data.length, // overall total
     };
 
     res.send(output);

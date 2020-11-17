@@ -5,6 +5,7 @@
 const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
+const compression = require('compression');
 const pinoExpress = require('express-pino-logger');
 const uuid = require('uuid');
 require('express-async-errors');
@@ -29,6 +30,7 @@ module.exports = () => {
       })
     )
     .use(bodyParser.json())
+    .use(compression()) /* gzip compression */
     .use('/', routes)
     .use((req, res) => {
       /* Handle 404 error */
