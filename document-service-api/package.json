@@ -18,6 +18,7 @@
     "./**/*.{js, json}": "npm run format"
   },
   "dependencies": {
+    "@azure/storage-blob": "^12.3.0",
     "@pins/common": "file:../common",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
