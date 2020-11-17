@@ -22,6 +22,7 @@ Infrastructure which the applications are deployed to
 |------|-------------|------|---------|:--------:|
 | container\_registry\_name | Name of the container registry | `string` | n/a | yes |
 | container\_registry\_rg\_name | Name of the registry's resource group | `string` | n/a | yes |
+| documents\_soft\_delete\_retention | Number of days to allow for data recovery | `number` | `30` | no |
 | k8s\_availability\_zones | Zones to run the node pools in | `list(string)` | `null` | no |
 | k8s\_max\_nodes | Maximum number of nodes per pool | `number` | `3` | no |
 | k8s\_min\_nodes | Minimum number of nodes per pool | `number` | `1` | no |

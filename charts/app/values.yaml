@@ -29,6 +29,7 @@ documentServiceApi:
   config:
     port: 3000
   secrets:
+    app: documents-service-api-generic
     mongodb:
       documents: documents-mongodb-credentials
 
