@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@ministryofjustice/frontend": "0.0.21",
+    "@pins/common": "file:../common",
     "accessible-autocomplete": "^2.0.3",
     "compression": "^1.7.4",
     "connect-redis": "^5.0.0",
@@ -38,7 +39,8 @@
     "nunjucks-date-filter": "^0.1.1",
     "pino": "^6.7.0",
     "pino-http": "^5.3.0",
-    "redis": "^3.0.2"
+    "redis": "^3.0.2",
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "eslint": "^7.11.0",

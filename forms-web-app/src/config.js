@@ -1,10 +1,11 @@
 module.exports = {
   appeals: {
+    timeout: Number(process.env.APPEALS_SERVICE_API_TIMEOUT || 10000),
     url: process.env.APPEALS_SERVICE_API_URL,
   },
   logger: {
     level: process.env.LOGGER_LEVEL || 'info',
-    redact: [],
+    redact: ['opts.body'],
   },
   redis: () => {
     const redisConfig = {
