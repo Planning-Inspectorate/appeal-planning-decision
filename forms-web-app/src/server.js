@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 const http = require('http');
-const logger = require('pino')();
 const config = require('./config.js');
 const app = require('./app.js');
+const logger = require('./lib/logger');
 
 /**
  * Get port from environment and store in Express.
@@ -27,16 +27,14 @@ function onError(error) {
     throw error;
   }
 
-  const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
-
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      logger.error(`${bind} requires elevated privileges`);
+      logger.error({ port }, `App requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      logger.error(`${bind} is already in use`);
+      logger.error({ port }, `Port already in use`);
       process.exit(1);
       break;
     default:
@@ -48,9 +46,7 @@ function onError(error) {
  * Event listener for HTTP server "listening" event.
  */
 function onListening() {
-  const addr = server.address();
-  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
-  logger.info(`Listening on ${bind}`);
+  logger.info({ config }, 'Listening');
 }
 
 /**
