@@ -38,6 +38,12 @@
     </div>
   </div>
 
+{% endblock %}
+
+
+{% block footer %}
+  {{ super() }}
+  <script src="/assets/accessible-autocomplete.min.js"></script>
   <script>
     accessibleAutocomplete({
       name: 'local-planning-department',
@@ -47,5 +53,4 @@
       source: {{ data | dump | safe }}
     });
   </script>
-
 {% endblock %}
