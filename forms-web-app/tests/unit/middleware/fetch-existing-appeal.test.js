@@ -1,21 +1,19 @@
-const fetch = require('node-fetch');
+jest.mock('../../../src/lib/appeals-api-wrapper');
+
 const { mockReq, mockRes } = require('../mocks');
 const fetchExistingAppealMiddleware = require('../../../src/middleware/fetch-existing-appeal');
+const { getExistingAppeal } = require('../../../src/lib/appeals-api-wrapper');
 const config = require('../../../src/config');
 
 config.appeals.url = 'http://fake.url';
 
 describe('middleware/fetch-existing-appeal', () => {
-  beforeEach(() => {
-    fetch.resetMocks();
-  });
-
   [
     {
       title: 'call next immediately if no session',
       given: () => mockReq,
       expected: (req, res, next) => {
-        expect(fetch).not.toHaveBeenCalled();
+        expect(getExistingAppeal).not.toHaveBeenCalled();
         expect(next).toHaveBeenCalled();
       },
     },
@@ -26,15 +24,14 @@ describe('middleware/fetch-existing-appeal', () => {
         session: {},
       }),
       expected: (req, res, next) => {
-        expect(fetch).not.toHaveBeenCalled();
+        expect(getExistingAppeal).not.toHaveBeenCalled();
         expect(next).toHaveBeenCalled();
       },
     },
     {
       title: 'call next if api lookup fails',
       given: () => {
-        // eslint-disable-next-line prefer-promise-reject-errors
-        fetch.mockReject(() => Promise.reject('API is down'));
+        getExistingAppeal.mockRejectedValue('API is down');
 
         return {
           ...mockReq(),
@@ -44,7 +41,7 @@ describe('middleware/fetch-existing-appeal', () => {
         };
       },
       expected: (req, res, next) => {
-        expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/appeals/123-abc`);
+        expect(getExistingAppeal).toHaveBeenCalledWith('123-abc');
         expect(next).toHaveBeenCalled();
         expect(req.session.appeal).toEqual({});
       },
@@ -52,8 +49,7 @@ describe('middleware/fetch-existing-appeal', () => {
     {
       title: 'set session.appeal and call next if api call succeeds',
       given: () => {
-        // eslint-disable-next-line prefer-promise-reject-errors
-        fetch.mockResponseOnce(JSON.stringify({ good: 'data' }));
+        getExistingAppeal.mockResolvedValue({ good: 'data' });
 
         return {
           ...mockReq(),
@@ -63,7 +59,7 @@ describe('middleware/fetch-existing-appeal', () => {
         };
       },
       expected: (req, res, next) => {
-        expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/appeals/123-abc`);
+        expect(getExistingAppeal).toHaveBeenCalledWith('123-abc');
         expect(next).toHaveBeenCalled();
         expect(req.session.appeal).toEqual({ good: 'data' });
       },
