@@ -16,8 +16,7 @@ const VIEW = {
   PLANNING_DEPARTMENT: 'eligibility/planning-department',
   PLANNING_DEPARTMENT_OUT: 'eligibility/planning-department-out',
   ELIGIBILITY_APPEAL_STATEMENT: 'eligibility/appeal-statement',
-
-  GROUNDS_OF_APPEAL: 'appellant-submission/grounds-appeal',
+  APPELLANT_SUBMISSION_APPEAL_STATEMENT: 'appellant-submission/appeal-statement',
   SUPPORTING_DOCUMENTS: 'appellant-submission/supporting-documents',
 };
 

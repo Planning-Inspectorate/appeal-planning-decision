@@ -89,7 +89,7 @@ exports.getTaskList = (req, res) => {
         items: [
           {
             text: 'Your appeal statement',
-            href: 'grounds-of-appeal',
+            href: '/appellant-submission/appeal-statement',
           },
           {
             text: 'Any other documents to support your appeal',
