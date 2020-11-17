@@ -24,7 +24,7 @@
   <script>
     accessibleAutocomplete({
       element: document.querySelector('#planning-department'), id: 'planning-department-label', // To match it to the existing <label>.
-      source: {{ data|safe }}
+      source: {{ data | dump | safe }}
     });
   </script>
 
