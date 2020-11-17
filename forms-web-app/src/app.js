@@ -65,6 +65,7 @@ app.use(session(sessionConfig));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(
   '/assets',
+  express.static(path.join(__dirname, '..', 'node_modules', 'accessible-autocomplete', 'dist')),
   express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'assets'))
 );
 
