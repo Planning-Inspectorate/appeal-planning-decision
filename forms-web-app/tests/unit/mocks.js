@@ -1,4 +1,9 @@
+jest.mock('../../src/lib/logger');
+
+const logger = require('../../src/lib/logger');
+
 const mockReq = () => ({
+  log: logger,
   session: {},
 });
 

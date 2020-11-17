@@ -8,6 +8,8 @@ const dateFilter = require('nunjucks-date-filter');
 const session = require('express-session');
 const redis = require('redis');
 const connectRedis = require('connect-redis');
+const pinoExpress = require('express-pino-logger');
+const uuid = require('uuid');
 require('express-async-errors');
 
 const config = require('./config');
@@ -30,6 +32,13 @@ const { sessionSecret } = config.server;
 if (!sessionSecret) {
   throw new Error('Session secret must be set');
 }
+
+app.use(
+  pinoExpress({
+    logger,
+    genReqId: () => uuid.v4(),
+  })
+);
 
 const sessionConfig = {
   store: new RedisStore({
