@@ -115,7 +115,9 @@ class PO_EligibilityDecisionDate {
     }
 
     continueBtn() {
+        cy.wait(Cypress.env('demoDelay'))
         const continueBtn = cy.get('.govuk-button').click()
+        cy.wait(Cypress.env('demoDelay'))
     }
 
 

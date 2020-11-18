@@ -2,5 +2,9 @@
   "baseUrl": "http://localhost:9000",
   "testFiles": "**/*.feature",
   "chromeWebSecurity": false,
-  "projectId": "i4z1d2"
+  "viewportWidth": 1000,
+  "viewportHeight":1280,
+  "env": {
+    "demoDelay": 0
+  }
 }
