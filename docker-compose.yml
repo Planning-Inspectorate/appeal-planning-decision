@@ -17,17 +17,24 @@ services:
       LPA_TRIALIST_DATA_PATH: /opt/app/data/lpa-trialists.json
       MONGODB_URL: mongodb://mongodb:27017/appeals-service-api
       SERVER_SHOW_ERRORS: "true"
+      SRV_HORIZON_URL: http://mock-horizon:3000
+      SRV_NOTIFY_URL: http://mock-notify:3000
+      SRV_OS_PLACES_URL: http://mock-os-places:3000
     ports:
       - 3000:3000
     working_dir: /opt/app
     links:
       - document-service-api
+      - mock-horizon
       - mock-notify
+      - mock-os-places
       - mongodb
     depends_on:
       - appeals-service-api-data
       - document-service-api
+      - mock-horizon
       - mock-notify
+      - mock-os-places
       - mongodb
     volumes:
       - ./common:/opt/app/node_modules/@pins/common # Replace the module to avoid symlink errors
@@ -110,6 +117,13 @@ services:
       dockerfile: ../Dockerfile
     ports:
       - 5001:3000
+
+  mock-os-places:
+    build:
+      context: ./mocked-services/os-places
+      dockerfile: ../Dockerfile
+    ports:
+      - 5002:3000
 
   docs-horizon:
     image: swaggerapi/swagger-ui

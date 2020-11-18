@@ -34,4 +34,17 @@ module.exports = {
       (process.env.SERVER_TERMINATION_GRACE_PERIOD_SECONDS || 0) * 1000
     ),
   },
+  services: {
+    horizon: {
+      url: process.env.SRV_HORIZON_URL,
+    },
+    notify: {
+      key: process.env.SRV_NOTIFY_KEY,
+      url: process.env.SRV_NOTIFY_URL,
+    },
+    osPlaces: {
+      key: process.env.SRV_OS_PLACES_KEY,
+      url: process.env.SRV_OS_PLACES_URL,
+    },
+  },
 };
