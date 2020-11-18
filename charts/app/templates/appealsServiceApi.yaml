@@ -83,7 +83,7 @@ spec:
       volumes:
         - name: lpa-data-volume
           configMap:
-            name: lpa-data
+            name: {{ include "app.fullname" . }}-lpa-data
         - name: lpa-trialists-volume
           configMap:
-            name: lpa-trialists
+            name: {{ include "app.fullname" . }}-lpa-trialists
