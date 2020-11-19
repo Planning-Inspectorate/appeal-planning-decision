@@ -1,7 +1,4 @@
-const VIEW = {
-  LISTED_BUILDING: 'eligibility/listed-building',
-  LISTED_OUT: 'eligibility/listed-out',
-};
+const { VIEW } = require('../../lib/views');
 
 const FORM_FIELD = {
   'is-your-appeal-about-a-listed-building': {
@@ -44,9 +41,9 @@ exports.postListedBuilding = (req, res) => {
   }
 
   if (body['is-your-appeal-about-a-listed-building'] === 'yes') {
-    res.redirect('/eligibility/listed-out');
+    res.redirect(`/${VIEW.LISTED_OUT}`);
     return;
   }
 
-  res.redirect('/eligibility/appeal-statement');
+  res.redirect(`/${VIEW.ELIGIBILITY_APPEAL_STATEMENT}`);
 };

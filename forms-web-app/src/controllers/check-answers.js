@@ -1,5 +1,7 @@
+const { VIEW } = require('../lib/views');
+
 exports.getCheckAnswers = (req, res) => {
-  res.render('check-answers/index', {
+  res.render(VIEW.CHECK_ANSWERS, {
     appeal: req.session.appeal,
   });
 };

@@ -1,9 +1,6 @@
 const { createOrUpdateAppeal } = require('../lib/appeals-api-wrapper');
 const logger = require('../lib/logger');
-
-const VIEW = {
-  YOUR_DETAILS: 'your-details/index',
-};
+const { VIEW } = require('../lib/views');
 
 exports.getYourDetails = (req, res) => {
   res.render(VIEW.YOUR_DETAILS, {
@@ -44,5 +41,5 @@ exports.postYourDetails = async (req, res) => {
     return;
   }
 
-  res.redirect('/task-list');
+  res.redirect(`/${VIEW.TASK_LIST}`);
 };

@@ -1,8 +1,4 @@
-const VIEW = {
-  DECISION_DATE: 'eligibility/decision-date',
-  DECISION_DATE_EXPIRED: 'eligibility/decision-date-expired',
-  NO_DECISION: 'eligibility/no-decision',
-};
+const { VIEW } = require('../../lib/views');
 
 exports.getNoDecision = (req, res) => {
   res.render(VIEW.NO_DECISION);

@@ -1,5 +1,6 @@
 const submissionController = require('../../../src/controllers/submission');
 const { mockReq, mockRes } = require('../mocks');
+const { VIEW } = require('../../../src/lib/views');
 
 const req = mockReq();
 const res = mockRes();
@@ -9,7 +10,7 @@ describe('controller/submission', () => {
     it('should call the correct template', () => {
       submissionController.getSubmission(req, res);
 
-      expect(res.render).toHaveBeenCalledWith('submission/index');
+      expect(res.render).toHaveBeenCalledWith(VIEW.SUBMISSION);
     });
   });
 

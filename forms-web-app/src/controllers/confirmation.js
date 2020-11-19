@@ -1,6 +1,4 @@
-const VIEW = {
-  CONFIRMATION: 'confirmation/index',
-};
+const { VIEW } = require('../lib/views');
 
 exports.getConfirmation = (req, res) => {
   const appellantEmail = req.session && req.session.appeal && req.session.appeal['appellant-email'];

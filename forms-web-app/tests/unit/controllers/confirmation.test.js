@@ -1,5 +1,6 @@
 const confirmationController = require('../../../src/controllers/confirmation');
 const { mockReq, mockRes } = require('../mocks');
+const { VIEW } = require('../../../src/lib/views');
 
 const req = mockReq();
 const res = mockRes();
@@ -19,7 +20,7 @@ describe('controller/confirmation', () => {
       };
       confirmationController.getConfirmation(r, res);
 
-      expect(res.render).toHaveBeenCalledWith('confirmation/index', { appellantEmail });
+      expect(res.render).toHaveBeenCalledWith(VIEW.CONFIRMATION, { appellantEmail });
     });
   });
 });
