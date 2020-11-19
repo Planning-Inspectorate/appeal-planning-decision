@@ -2,8 +2,10 @@ const express = require('express');
 
 const router = express.Router();
 
-const groundsOfAppealStatementRouter = require('./appeal-statement');
+const appealStatementRouter = require('./appeal-statement');
+const supportingDocumentsRouter = require('./supporting-documents');
 
-router.use(groundsOfAppealStatementRouter);
+router.use(appealStatementRouter);
+router.use(supportingDocumentsRouter);
 
 module.exports = router;

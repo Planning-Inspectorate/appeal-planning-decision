@@ -22,7 +22,7 @@ When('I provide an appeal statement with a bad format', () => {
 When('I provide a valid appeal statement with no sensitive data', () => {
   cy.goToAppealSubmissionPage();
   cy.uploadFile('appeal-good-format.pdf');
-  cy.checkPrivacySafety();
+  cy.checkNoSensitiveInformationIncludedInAppealStatement();
 });
 
 Then('I can proceed with the provided appeal statement', () => {
@@ -34,9 +34,11 @@ Then('I am informed that I have to upload the appeal statement', () => {
 });
 
 Then('I am informed that the appeal statement has a wrong format', () => {
-  cy.confirmUploadWasRejected('The selected file must be a PDF, Microsoft Word, TIF, JPEG or PNG');
+  cy.confirmUploadWasRejected(
+    'Doc is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG',
+  );
 });
 
 Then('I am informed that I have to confirm the privacy safety', () => {
-  cy.confirmUploadWasRejected('You cannot provide a statement that includes sensitive information');
+  cy.confirmUploadWasRejected('Confirm that your statement does not include sensitive information');
 });
