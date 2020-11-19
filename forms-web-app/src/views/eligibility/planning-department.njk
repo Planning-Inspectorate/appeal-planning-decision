@@ -50,7 +50,7 @@
       showAllValues: true,
       defaultValue: '',
       element: document.querySelector('#planning-department'), id: 'planning-department-label', // To match it to the existing <label>.
-      source: {{ data | dump | safe }}
+      source: {{ departments | dump | safe }}
     });
   </script>
 {% endblock %}

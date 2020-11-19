@@ -1,6 +1,4 @@
-const VIEW = {
-  SUBMISSION: 'submission/index',
-};
+const { VIEW } = require('../lib/views');
 
 exports.getSubmission = (req, res) => {
   res.render(VIEW.SUBMISSION);

@@ -1,6 +1,7 @@
 const { createOrUpdateAppeal } = require('../../../src/lib/appeals-api-wrapper');
 const yourDetailsController = require('../../../src/controllers/your-details');
 const { mockReq, mockRes } = require('../mocks');
+const { VIEW } = require('../../../src/lib/views');
 const logger = require('../../../src/lib/logger');
 
 jest.mock('../../../src/lib/appeals-api-wrapper');
@@ -14,7 +15,7 @@ describe('controller/your-details', () => {
     it('should call the correct template', () => {
       yourDetailsController.getYourDetails(req, res);
 
-      expect(res.render).toHaveBeenCalledWith('your-details/index', { appeal: undefined });
+      expect(res.render).toHaveBeenCalledWith(VIEW.YOUR_DETAILS, { appeal: undefined });
     });
   });
 
@@ -30,7 +31,7 @@ describe('controller/your-details', () => {
       await yourDetailsController.postYourDetails(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith('your-details/index', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.YOUR_DETAILS, {
         appeal: { 'appellant-email': undefined, 'appellant-name': undefined },
         errorSummary: { a: { msg: 'There were errors here' } },
         errors: { a: 'b' },
@@ -60,7 +61,7 @@ describe('controller/your-details', () => {
 
       await yourDetailsController.postYourDetails(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith('/task-list');
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.TASK_LIST}`);
     });
   });
 });
