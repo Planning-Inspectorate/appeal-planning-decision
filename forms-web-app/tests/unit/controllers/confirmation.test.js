@@ -7,9 +7,19 @@ const res = mockRes();
 describe('controller/confirmation', () => {
   describe('getConfirmation', () => {
     it('should call the correct template', () => {
-      confirmationController.getConfirmation(req, res);
+      const appellantEmail = 'hello@example.com';
+      const r = {
+        ...req,
+        session: {
+          ...req.session,
+          appeal: {
+            'appellant-email': appellantEmail,
+          },
+        },
+      };
+      confirmationController.getConfirmation(r, res);
 
-      expect(res.render).toHaveBeenCalledWith('confirmation/index', { appellantEmail: undefined });
+      expect(res.render).toHaveBeenCalledWith('confirmation/index', { appellantEmail });
     });
   });
 });

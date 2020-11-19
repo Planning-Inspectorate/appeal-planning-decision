@@ -14,16 +14,7 @@ require('express-async-errors');
 
 const config = require('./config');
 const logger = require('./lib/logger');
-
-const applicationNameRouter = require('./routes/application-name');
-const applicationNumberRouter = require('./routes/application-number');
-const checkAnswersRouter = require('./routes/check-answers');
-const confirmationRouter = require('./routes/confirmation');
-const eligibilityRouter = require('./routes/eligibility');
-const indexRouter = require('./routes/index');
-const submissionRouter = require('./routes/submission');
-const taskListRouter = require('./routes/task-list');
-const yourDetailsRouter = require('./routes/your-details');
+const routes = require('./routes');
 
 const app = express();
 
@@ -72,15 +63,7 @@ app.use(
 );
 
 // Routes
-app.use('/', indexRouter);
-app.use('/application-name', applicationNameRouter);
-app.use('/application-number', applicationNumberRouter);
-app.use('/check-answers', checkAnswersRouter);
-app.use('/confirmation', confirmationRouter);
-app.use('/eligibility', eligibilityRouter);
-app.use('/submission', submissionRouter);
-app.use('/task-list', taskListRouter);
-app.use('/your-details', yourDetailsRouter);
+app.use('/', routes);
 
 // View Engine
 app.set('view engine', 'njk');

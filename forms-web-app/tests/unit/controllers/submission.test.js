@@ -31,8 +31,28 @@ describe('controller/submission', () => {
       });
     });
 
-    xit('should log an error if the api call fails, and remain on the same page', async () => {});
+    it('should redirect back to /submission if validation passes but `i-agree` not given', async () => {
+      const mockRequest = {
+        ...req,
+        body: {
+          'appellant-confirmation': 'anything here - not valid',
+        },
+      };
+      submissionController.postSubmission(mockRequest, res);
 
-    xit('should redirect if valid', async () => {});
+      expect(res.redirect).toHaveBeenCalledWith('/submission');
+    });
+
+    it('should redirect if valid', async () => {
+      const mockRequest = {
+        ...req,
+        body: {
+          'appellant-confirmation': 'i-agree',
+        },
+      };
+      await submissionController.postSubmission(mockRequest, res);
+
+      expect(res.redirect).toHaveBeenCalledWith('/confirmation');
+    });
   });
 });
