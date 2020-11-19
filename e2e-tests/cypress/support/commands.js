@@ -24,8 +24,8 @@ Cypress.Commands.add(
 Cypress.Commands.add('uploadFile', require('./appellant-submission-appeal-statement/uploadFile'));
 
 Cypress.Commands.add(
-  'checkPrivacySafety',
-  require('./appellant-submission-appeal-statement/checkPrivacySafety'),
+  'checkNoSensitiveInformationIncludedInAppealStatement',
+  require('./appellant-submission-appeal-statement/checkNoSensitiveInformationIncludedInAppealStatement'),
 );
 
 Cypress.Commands.add(

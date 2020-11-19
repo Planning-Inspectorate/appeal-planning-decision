@@ -1,9 +1,10 @@
 const { get, post } = require('../router-mock');
-const groundsAppealController = require('../../../../src/controllers/appellant-submission/appeal-statement');
+const appealStatementController = require('../../../../src/controllers/appellant-submission/appeal-statement');
 const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const {
-  rules: groundsAppealValidationRules,
+  rules: appealStatementValidationRules,
 } = require('../../../../src/validators/appellant-submission/appeal-statement');
+const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 
 jest.mock('../../../../src/validators/appellant-submission/appeal-statement');
 
@@ -20,15 +21,14 @@ describe('routes/appellant-submission/appeal-statement', () => {
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
       '/appeal-statement',
-      groundsAppealController.getGroundsOfAppeal
+      [fetchExistingAppealMiddleware],
+      appealStatementController.getAppealStatement
     );
-    expect(get.mock.calls.length).toBe(1);
     expect(post).toHaveBeenCalledWith(
       '/appeal-statement',
-      groundsAppealValidationRules(),
+      appealStatementValidationRules(),
       validationErrorHandler,
-      groundsAppealController.postSaveAppeal
+      appealStatementController.postAppealStatement
     );
-    expect(post.mock.calls.length).toBe(1);
   });
 });

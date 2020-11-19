@@ -10,13 +10,13 @@ const { getExistingAppeal } = require('../lib/appeals-api-wrapper');
  * @returns {Promise<*>}
  */
 module.exports = async (req, res, next) => {
-  if (!req.session || !req.session.uuid) {
+  if (!req.session || !req.session.appeal || !req.session.appeal.uuid) {
     return next();
   }
 
   try {
-    req.log.debug({ uuid: req.session.uuid }, 'Get existing appeal');
-    req.session.appeal = await getExistingAppeal(req.session.uuid);
+    req.log.debug({ uuid: req.session.appeal.uuid }, 'Get existing appeal');
+    req.session.appeal = await getExistingAppeal(req.session.appeal.uuid);
   } catch (err) {
     req.log.debug({ err }, 'Error retrieving appeal');
     req.session.appeal = {};
