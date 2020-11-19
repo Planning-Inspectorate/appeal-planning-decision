@@ -66,6 +66,11 @@ services:
     environment:
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       DOCUMENT_SERVICE_API_URL: http://document-service-api:3000
+      FILE_UPLOAD_ABORT_ON_HITTING_FILE_SIZE_LIMIT: "true"
+      FILE_UPLOAD_DEBUG: "false"
+      FILE_UPLOAD_MAX_FILE_SIZE_BYTES: 1262485504
+      FILE_UPLOAD_USE_TEMP_FILES: "true"
+      FILE_UPLOAD_TMP_PATH: "/tmp"
       REDIS_HOST: redis
       REDIS_PORT: 6379
       SESSION_KEY: some_secure_key_goes_here

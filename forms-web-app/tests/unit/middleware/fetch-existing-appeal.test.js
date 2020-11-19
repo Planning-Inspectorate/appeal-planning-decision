@@ -36,7 +36,9 @@ describe('middleware/fetch-existing-appeal', () => {
         return {
           ...mockReq(),
           session: {
-            uuid: '123-abc',
+            appeal: {
+              uuid: '123-abc',
+            },
           },
         };
       },
@@ -54,7 +56,9 @@ describe('middleware/fetch-existing-appeal', () => {
         return {
           ...mockReq(),
           session: {
-            uuid: '123-abc',
+            appeal: {
+              uuid: '123-abc',
+            },
           },
         };
       },

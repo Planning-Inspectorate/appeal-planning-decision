@@ -48,6 +48,16 @@ spec:
           env:
             - name: APPEALS_SERVICE_API_URL
               value: "http://{{ include "app.fullname" . }}:{{ .Values.appealsServiceApi.service.port }}"
+            - name: FILE_UPLOAD_ABORT_ON_HITTING_FILE_SIZE_LIMIT
+              value: {{ .Values.formsWebApp.config.upload.abortOnExceedSizeLimit | quote }}
+            - name: FILE_UPLOAD_DEBUG
+              value: {{ .Values.formsWebApp.config.upload.debug | quote }}
+            - name: FILE_UPLOAD_MAX_FILE_SIZE_BYTES
+              value: {{ .Values.documentServiceApi.config.upload.maxSize | quote }}
+            - name: FILE_UPLOAD_TMP_PATH
+              value: {{ .Values.formsWebApp.config.upload.uploadDir | quote }}
+            - name: FILE_UPLOAD_USE_TEMP_FILES
+              value: {{ .Values.formsWebApp.config.upload.useTmpFiles | quote }}
             - name: PORT
               value: {{ .Values.formsWebApp.config.port | quote }}
             - name: REDIS_HOST
@@ -77,6 +87,9 @@ spec:
                   name: akv-fwa-session-key
             - name: USE_SECURE_SESSION_COOKIES
               value: "true"
+          volumeMounts:
+            - mountPath: {{ .Values.formsWebApp.config.upload.uploadDir | quote }}
+              name: upload-cache
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -91,3 +104,6 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: upload-cache
+          emptyDir: {}

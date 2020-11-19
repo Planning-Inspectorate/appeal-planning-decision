@@ -3,8 +3,7 @@ I need to confirm that there is no sensitive data in order to save and continue.
 
   Scenario: Appeal statement not provided and privacy safety not confirmed
     When I don't provide an appeal statement
-    Then I am informed that I have to upload the appeal statement
-    And I am informed that I have to confirm the privacy safety
+    Then I am informed that I have to confirm the privacy safety
 
   Scenario: Appeal statement provided with bad format and privacy safety not confirmed
     When I provide an appeal statement with a bad format
