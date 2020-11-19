@@ -70,6 +70,22 @@ exports.getExistingAppeal = async (sessionId) => {
   return handler(`/appeals/${sessionId}`);
 };
 
-exports.getLPAList = async () => {
+const getLPAList = async () => {
   return handler('/local-planning-authorities');
+};
+
+// If the final department list takes too long,
+// it will be better to keep lists in memory and update it regularly
+exports.getDepartmentData = async () => {
+  const { data: lpaList } = await getLPAList();
+
+  const eligibleDepartments = [];
+  const departments = lpaList.map((department) => {
+    if (department.inTrial) {
+      eligibleDepartments.push(department.name);
+    }
+    return department.name;
+  });
+
+  return { departments, eligibleDepartments };
 };

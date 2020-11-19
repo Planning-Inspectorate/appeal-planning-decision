@@ -1,5 +1,6 @@
 const applicationNumberController = require('../../../src/controllers/application-number');
 const { mockReq, mockRes } = require('../mocks');
+const { VIEW } = require('../../../src/lib/views');
 
 const req = mockReq();
 const res = mockRes();
@@ -9,7 +10,7 @@ describe('controller/application-number', () => {
     it('should call the correct template', () => {
       applicationNumberController.getApplicationNumber(req, res);
 
-      expect(res.render).toHaveBeenCalledWith('application-number/index');
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPLICATION_NUMBER);
     });
   });
 
@@ -17,7 +18,7 @@ describe('controller/application-number', () => {
     it('should redirect ', () => {
       applicationNumberController.postApplicationNumber(req, res);
 
-      expect(res.redirect).toHaveBeenCalledWith('/task-list');
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.TASK_LIST}`);
     });
   });
 });

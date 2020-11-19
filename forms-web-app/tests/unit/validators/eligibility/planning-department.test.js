@@ -1,6 +1,15 @@
+jest.mock('../../../../src/lib/appeals-api-wrapper');
 const { validationResult } = require('express-validator');
+const { getDepartmentData } = require('../../../../src/lib/appeals-api-wrapper');
 const { rules } = require('../../../../src/validators/eligibility/planning-department');
 const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
+
+const departmentsData = {
+  departments: ['lpa1', 'lpa2'],
+  eligibleDepartments: ['lpa1'],
+};
+
+getDepartmentData.mockResolvedValue(departmentsData);
 
 describe('routes/validators/planning-department', () => {
   describe('rules', () => {
@@ -11,7 +20,7 @@ describe('routes/validators/planning-department', () => {
       expect(rule.fields).toEqual(['local-planning-department']);
       expect(rule.locations).toEqual(['body']);
       expect(rule.optional).toBeFalsy();
-      expect(rule.stack).toHaveLength(1);
+      expect(rule.stack).toHaveLength(3);
       expect(rule.stack[0].message).toEqual('Select the local planning department from the list');
     });
   });
@@ -25,7 +34,8 @@ describe('routes/validators/planning-department', () => {
           },
         }),
         expected: (result) => {
-          expect(result.errors).toHaveLength(0);
+          expect(result.errors).toHaveLength(1);
+          expect(result.errors[0].msg).toEqual('Ineligible Department');
         },
       },
       {

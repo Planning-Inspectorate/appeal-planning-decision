@@ -1,6 +1,4 @@
-const VIEW = {
-  SUBMISSION: 'submission/index',
-};
+const { VIEW } = require('../lib/views');
 
 exports.getSubmission = (req, res) => {
   res.render(VIEW.SUBMISSION);
@@ -19,9 +17,9 @@ exports.postSubmission = async (req, res) => {
   }
 
   if (body['appellant-confirmation'] === 'i-agree') {
-    res.redirect('/confirmation');
+    res.redirect(`/${VIEW.CONFIRMATION}`);
     return;
   }
 
-  res.redirect('/submission');
+  res.redirect(`/${VIEW.SUBMISSION}`);
 };

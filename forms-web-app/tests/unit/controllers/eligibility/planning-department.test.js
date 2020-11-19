@@ -1,35 +1,28 @@
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 
 const planningDepartmentController = require('../../../../src/controllers/eligibility/planning-department');
+const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
-const { getLPAList } = require('../../../../src/lib/appeals-api-wrapper');
+const { getDepartmentData } = require('../../../../src/lib/appeals-api-wrapper');
 
 const req = mockReq();
 const res = mockRes();
 
-const sampleLpa = [
-  {
-    name: 'lpa1',
-    inTrial: true,
-  },
-  {
-    name: 'lpa2',
-    inTrial: false,
-  },
-];
+const departmentsData = {
+  departments: ['lpa1', 'lpa2'],
+  eligibleDepartments: ['lpa1'],
+};
 
-getLPAList.mockResolvedValue({
-  data: sampleLpa,
-});
+getDepartmentData.mockResolvedValue(departmentsData);
 
 describe('controller/eligibility/planning-department', () => {
   describe('Planning Department Controller Tests', () => {
     it('should call the correct template', async () => {
       await planningDepartmentController.getPlanningDepartment(req, res);
 
-      const data = sampleLpa.map(({ name }) => name);
+      const { departments } = departmentsData;
 
-      expect(res.render).toBeCalledWith('eligibility/planning-department', { data });
+      expect(res.render).toBeCalledWith('eligibility/planning-department', { departments });
     });
 
     it('Test the getPlanningDepartmentOut method calls the correct template', () => {
@@ -48,24 +41,27 @@ describe('controller/eligibility/planning-department', () => {
       expect(res.redirect).toBeCalledWith('/eligibility/listed-building');
     });
 
-    it('Test the getPlanningDepartment method call with unhandled department', async () => {
+    it('Test the getPlanningDepartment method call with ineligible department', async () => {
       const mockRequest = {
-        body: { 'local-planning-department': 'lpa3' },
+        body: { errors: { 'local-planning-department': { msg: 'Ineligible Department' } } },
       };
+      const { eligibleDepartments } = departmentsData;
 
       await planningDepartmentController.postPlanningDepartment(mockRequest, res);
-      expect(res.render).toBeCalledWith('eligibility/planning-department-out');
+      expect(res.render).toBeCalledWith(VIEW.PLANNING_DEPARTMENT_OUT, eligibleDepartments);
     });
 
     it('Test the postPlanningDepartment method call on error', async () => {
-      const mockRequest = { body: { errors: [1] } };
+      const mockRequest = {
+        body: { errors: { 'local-planning-department': { msg: 'Invalid Value' } } },
+      };
 
-      const data = sampleLpa.map(({ name }) => name);
+      const { departments } = departmentsData;
       await planningDepartmentController.postPlanningDepartment(mockRequest, res);
 
-      expect(res.render).toHaveBeenCalledWith('eligibility/planning-department', {
-        data,
-        errors: [1],
+      expect(res.render).toHaveBeenCalledWith(VIEW.PLANNING_DEPARTMENT, {
+        departments,
+        errors: { 'local-planning-department': { msg: 'Invalid Value' } },
         errorSummary: [],
       });
     });

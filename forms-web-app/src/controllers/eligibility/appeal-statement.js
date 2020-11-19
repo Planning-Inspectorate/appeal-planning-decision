@@ -1,11 +1,9 @@
-const VIEW = {
-  APPEAL_STATEMENT: 'eligibility/appeal-statement',
-};
+const { VIEW } = require('../../lib/views');
 
 exports.getAppealStatement = (req, res) => {
-  res.render(VIEW.APPEAL_STATEMENT);
+  res.render(VIEW.ELIGIBILITY_APPEAL_STATEMENT);
 };
 
 exports.postAppealStatement = (req, res) => {
-  res.redirect('/task-list');
+  res.redirect(`/${VIEW.TASK_LIST}`);
 };

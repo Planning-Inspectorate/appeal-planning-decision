@@ -1,4 +1,6 @@
 const applicationNameController = require('../../../src/controllers/application-name');
+const { VIEW } = require('../../../src/lib/views');
+
 const { mockReq, mockRes } = require('../mocks');
 
 const req = mockReq();
@@ -9,7 +11,7 @@ describe('controller/application-name', () => {
     it('should call the correct template', () => {
       applicationNameController.getApplicationName(req, res);
 
-      expect(res.render).toHaveBeenCalledWith('application-name/index');
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPLICATION_NAME);
     });
   });
 
@@ -17,7 +19,7 @@ describe('controller/application-name', () => {
     it('should redirect ', () => {
       applicationNameController.postApplicationName(req, res);
 
-      expect(res.redirect).toHaveBeenCalledWith('/task-list');
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.TASK_LIST}`);
     });
   });
 });
