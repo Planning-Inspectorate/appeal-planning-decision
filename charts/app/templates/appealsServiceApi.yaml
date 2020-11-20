@@ -40,7 +40,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /health
-              port: {{.Values.appealsServiceApi.service.name }}
+              port: {{ .Values.appealsServiceApi.service.name }}
           readinessProbe:
             httpGet:
               path: /health
@@ -54,7 +54,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: url
-                  name: {{ .Values.appealsServiceApi.secrets.mongodb.appeals }}
+                  name: akv-mongodb-appeals-store
             - name: SERVER_PORT
               value: {{ .Values.appealsServiceApi.config.port | quote }}
             - name: SERVER_TERMINATION_GRACE_PERIOD_SECONDS

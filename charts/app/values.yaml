@@ -13,9 +13,6 @@ appealsServiceApi:
     tag: latest
   config:
     port: 3000
-  secrets:
-    mongodb:
-      appeals: appeals-mongodb-credentials
 
 documentServiceApi:
   replicaCount: 1
@@ -28,10 +25,6 @@ documentServiceApi:
     tag: latest
   config:
     port: 3000
-  secrets:
-    app: documents-service-api-generic
-    mongodb:
-      documents: documents-mongodb-credentials
 
 formsWebApp:
   replicaCount: 1
@@ -44,9 +37,6 @@ formsWebApp:
     tag: latest
   config:
     port: 3000
-  secrets:
-    app: form-web-app-generic
-    redis: form-web-app-sessions-redis-credentials
 
 imagePullSecrets:
   - name: azure-docker-registry
@@ -114,5 +104,10 @@ affinity: {}
 
 keyVault:
   name: key-vault-name
-  secrets: []
-  multiValueSecrets: []
+  secrets:
+    - docs-blob-storage-connection-string
+    - fwa-session-key
+  multiValueSecrets:
+    - mongodb-appeals-store
+    - mongodb-documents-store
+    - redis-fwa-session-store
