@@ -1,8 +1,8 @@
 import moment from "moment";
 
 import { Given, When, Then } from "cypress-cucumber-preprocessor/steps"
-import PO_EligibilityDecisionDate from '../PageObjects/PO_EligibilityDecisionDate'
-import PO_EligibilityNoDecision from "../PageObjects/PO_EligibilityNoDecision"
+import PO_EligibilityDecisionDate from './PageObjects/PO_EligibilityDecisionDate'
+import PO_EligibilityNoDecision from "./PageObjects/PO_EligibilityNoDecision"
 const eligPage = new PO_EligibilityDecisionDate()
 const eligNoDecPage = new PO_EligibilityNoDecision()
 
