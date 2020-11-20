@@ -2,8 +2,8 @@
   "baseUrl": "http://localhost:9000",
   "testFiles": "**/*.feature",
   "chromeWebSecurity": false,
-  "viewportWidth": 1000,
-  "viewportHeight":1280,
+  "viewportWidth": 1024,
+  "viewportHeight":1600,
   "env": {
     "demoDelay": 0
   }

@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:e2e": "cypress run",
-    "test:e2e:postprocess": "node ./reporter.js"
+    "test:e2e": "cypress run -e TAGS='not @wip'",
+    "test:e2e:postprocess": "node ./reporter.js",
+    "test:e2e:files": "./create-large-test-files.sh"
   },
   "author": "",
   "license": "ISC",
