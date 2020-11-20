@@ -154,3 +154,12 @@ services:
     image: redis:4.0.14-alpine
     ports:
       - 4001:6379
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - 4004:8081
