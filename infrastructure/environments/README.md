@@ -30,7 +30,6 @@ Infrastructure which the applications are deployed to
 | k8s\_rbac\_enabled | Enable RBAC on cluster | `bool` | `true` | no |
 | k8s\_version\_prefix | Version prefix to use - ensure you end with dot (.) | `string` | `"1.18."` | no |
 | k8s\_vm\_size | VM size | `string` | `"Standard_DS2_v2"` | no |
-| key\_vault\_id | Key Vault ID | `string` | n/a | yes |
 | location | Default location for resources | `string` | `"uksouth"` | no |
 | mongodb\_consistency\_max\_interval\_in\_seconds | Represents the amount of staleness that is tolerated (in seconds) - min 5 mins for global replication | `number` | `300` | no |
 | mongodb\_consistency\_policy | Cosmos consistency policy | `string` | `"BoundedStaleness"` | no |

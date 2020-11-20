@@ -41,12 +41,3 @@ output "containers_username" {
   description = "Username for the container registry"
   value = azurerm_container_registry.containers.admin_username
 }
-
-/*
-  Key Vault
- */
-
-output "key_vault_id" {
-  description = "ID of the key vault"
-  value = azurerm_key_vault.key_vault.id
-}
