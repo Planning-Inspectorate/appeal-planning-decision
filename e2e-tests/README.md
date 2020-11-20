@@ -16,5 +16,7 @@ named `demoDelay` is provided in the `cypress.json` file. The variable can be us
 like `cy.wait(Cypress.env('demoDelay'))` to control wait times i.e. the value is the required delay in milliseconds.
 From the `e2e-tests` folder, the tests can be run locally setting the delay period with commands like:
 ```
-node_modules/cypress/bin/cypress run --headed -b chrome --env demoDelay=1000
+node_modules/cypress/bin/cypress run --headed -b chrome --env demoDelay=1000 -e TAGS="@wip"
 ```
+
+Note: In the example above only tests tagged with `@wip` will be selected to run.
