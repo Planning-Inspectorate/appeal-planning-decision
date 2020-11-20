@@ -2,3 +2,5 @@ videos/
 screenshots/
 cucumber-json/
 cucumber-report/
+cypress/fixtures/appeal-statement-invalid-too-big.png
+cypress/fixtures/appeal-statement-valid-max-size.png
