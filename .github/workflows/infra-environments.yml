@@ -6,11 +6,10 @@ on:
       - main
       - master
     paths:
+      - infrastructure/clusters/**/*
       - infrastructure/environments/**/*
       - infrastructure/k8s/**/*
       - infrastructure/modules/**/*
-      - environments/**/*
-      - releases/**/*
 
 defaults:
   run:
@@ -83,7 +82,7 @@ jobs:
       - name: Get Terraform variables
         id: vars
         run: |
-          VARS_FILE="../../environments/${{ matrix.environment }}.tfvars"
+          VARS_FILE="../clusters/${{ matrix.environment }}.tfvars"
 
           # Don't fail if file doesn't exist
           touch ${VARS_FILE}

@@ -16,7 +16,7 @@ crash.log
 # to change depending on the environment.
 #
 *.tfvars
-!/environments/*.tfvars
+!/infrastructure/clusters/*.tfvars
 
 # Ignore override files as they are usually used to override resources locally and so
 # are not checked in
