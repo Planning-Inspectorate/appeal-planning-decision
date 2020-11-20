@@ -7,6 +7,7 @@ Infrastructure which the applications are deployed to
 | Name | Version |
 |------|---------|
 | azurerm | ~> 2.31.1 |
+| http | ~> 2.0.0 |
 | random | ~> 3.0.0 |
 
 ## Providers
@@ -14,6 +15,7 @@ Infrastructure which the applications are deployed to
 | Name | Version |
 |------|---------|
 | azurerm | ~> 2.31.1 |
+| http | ~> 2.0.0 |
 | random | ~> 3.0.0 |
 
 ## Inputs
@@ -53,8 +55,5 @@ Infrastructure which the applications are deployed to
 | kube\_load\_balancer\_domain\_label | The DNS label of the load balancer for the Kubernetes cluster |
 | kube\_load\_balancer\_ip | The IP of the load balancer for the Kubernetes cluster |
 | kube\_load\_balancer\_rg | The rosource group the load balancer IP exists in |
-| kube\_secrets | Secrets to be injected into the Kubernetes instance |
 | kubeconfig | The Kubernetes config file |
-| mongodb\_connection\_strings | MongoDB connection strings for each database |
-| redis\_connection\_strings | Redis connection strings for each cluster |
 
