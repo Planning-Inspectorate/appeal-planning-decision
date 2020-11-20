@@ -64,14 +64,3 @@ module "mongodb-databases" {
   name = var.mongodb_databases[count.index].name
   collections = var.mongodb_databases[count.index].collections
 }
-
-resource "azurerm_key_vault_secret" "mongodb" {
-  for_each = toset([ for id, db in var.mongodb_databases :
-    db.name
-  ])
-  key_vault_id = azurerm_key_vault.key_vault.id
-  name = "mongodb-${each.value}-store"
-  value = jsonencode({
-    url = replace("${azurerm_cosmosdb_account.mongodb.connection_strings[0]}&retrywrites=false", "/?", "/${each.value}?")
-  })
-}

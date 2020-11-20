@@ -52,8 +52,12 @@ Infrastructure which the applications are deployed to
 | containers\_password | Password for the container registry |
 | containers\_server | Server URL for the container registry |
 | containers\_username | Username for the container registry |
+| key\_vault\_name | Key vault name |
+| key\_vault\_secrets | Secrets JSON key/value pairs to be ingested into Key Vault - done externally to avoid Terraform refresh permissions errors. Values must be strings. |
 | kube\_load\_balancer\_domain\_label | The DNS label of the load balancer for the Kubernetes cluster |
 | kube\_load\_balancer\_ip | The IP of the load balancer for the Kubernetes cluster |
 | kube\_load\_balancer\_rg | The rosource group the load balancer IP exists in |
 | kubeconfig | The Kubernetes config file |
+| mongodb\_connection\_strings | MongoDB connection strings for each database |
+| redis\_connection\_strings | Redis connection strings for each cluster |
 
