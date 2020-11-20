@@ -133,3 +133,8 @@ Or:
 
     git add .
     npm run commit
+
+## Local Dev Tools
+
+For convenience, [Redis Commander](https://github.com/joeferner/redis-commander) is included in our 
+`docker-compose.yml` file so you can visit `http://localhost:4004` to see inside the `redis` store.
