@@ -49,13 +49,13 @@ spec:
             - name: BLOB_STORAGE_CONNECTION_STRING
               valueFrom:
                 secretKeyRef:
-                  key: blob_storage
-                  name: {{ .Values.documentServiceApi.secrets.app }}
+                  key: value
+                  name: akv-docs-blob-storage-connection-string
             - name: MONGODB_URL
               valueFrom:
                 secretKeyRef:
                   key: url
-                  name: {{ .Values.documentServiceApi.secrets.mongodb.documents }}
+                  name: akv-mongodb-documents-store
             - name: SERVER_PORT
               value: {{ .Values.documentServiceApi.config.port | quote }}
             - name: SERVER_TERMINATION_GRACE_PERIOD_SECONDS

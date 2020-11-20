@@ -4,8 +4,7 @@
 apiVersion: spv.no/v1
 kind: AzureKeyVaultSecret
 metadata:
-  name: secret-{{ . }}
-  namespace: app-simon
+  name: akv-{{ . }}
 spec:
   vault:
     name: {{ $keyVaultName }}
@@ -14,6 +13,24 @@ spec:
       type: secret
   output:
     secret:
-      name: secret-{{ . }}
+      name: akv-{{ . }}
       dataKey: value
+{{- end }}
+
+{{- range .Values.keyVault.multiValueSecrets }}
+---
+apiVersion: spv.no/v1
+kind: AzureKeyVaultSecret
+metadata:
+  name: akv-{{ . }}
+spec:
+  vault:
+    name: {{ $keyVaultName }}
+    object:
+      contentType: application/x-json
+      name: {{ . }}
+      type: multi-key-value-secret
+  output:
+    secret:
+      name: akv-{{ . }}
 {{- end }}

@@ -54,27 +54,27 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: host
-                  name: {{ .Values.formsWebApp.secrets.redis }}
+                  name: akv-redis-fwa-session-store
             - name: REDIS_PASS
               valueFrom:
                 secretKeyRef:
                   key: pass
-                  name: {{ .Values.formsWebApp.secrets.redis }}
+                  name: akv-redis-fwa-session-store
             - name: REDIS_PORT
               valueFrom:
                 secretKeyRef:
                   key: port
-                  name: {{ .Values.formsWebApp.secrets.redis }}
+                  name: akv-redis-fwa-session-store
             - name: REDIS_USE_TLS
               valueFrom:
                 secretKeyRef:
                   key: use_tls
-                  name: {{ .Values.formsWebApp.secrets.redis }}
+                  name: akv-redis-fwa-session-store
             - name: SESSION_KEY
               valueFrom:
                 secretKeyRef:
-                  key: session_key
-                  name: {{ .Values.formsWebApp.secrets.app }}
+                  key: value
+                  name: akv-fwa-session-key
             - name: USE_SECURE_SESSION_COOKIES
               value: "true"
           resources:
