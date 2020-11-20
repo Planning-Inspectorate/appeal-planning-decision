@@ -6,41 +6,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 kubectl create namespace "${DEPLOY_NAMESPACE}" || true
 
-add_secrets() {
-  key_name="${1}"
-  input="${2}"
-
-  echo "Adding ${key_name} secrets to ${DEPLOY_NAMESPACE}"
-
-  for key in $(echo "${input}" | jq -r 'keys[]')
-  do
-    echo "Adding ${key}"
-
-    value=$(echo "${input}" | jq -r \
-      --arg KEY_NAME "${key}" '.[$KEY_NAME]')
-
-    envFile="${DIR}/${key}-${key_name}.env"
-    rm -f "${envFile}"
-    touch "${envFile}"
-
-    items=$(echo "${value}" | jq -r 'to_entries | map("\(.key)=\(.value|tostring)") | .[]')
-
-    for item in ${items}
-    do
-      echo "${item}" >> "${envFile}"
-    done
-
-    kubectl create secret generic "${key}-${key_name}" \
-      -n "${DEPLOY_NAMESPACE}" \
-      --from-env-file "${envFile}" \
-      -o yaml \
-      --dry-run=client | \
-      kubectl replace -n "${DEPLOY_NAMESPACE}" --force -f -
-
-    rm -f "${envFile}"
-  done
-}
-
 add_registry_secret() {
   echo "Adding registry secret to ${DEPLOY_NAMESPACE}"
 
@@ -53,6 +18,31 @@ add_registry_secret() {
     --docker-email="${EMAIL_ADDRESS}" \
     -o yaml --dry-run=client | \
     kubectl replace -n "${DEPLOY_NAMESPACE}" --force -f -
+}
+
+install_azure_key_vault() {
+  echo "Install Azure Key Vault (akv2k8s)"
+
+  kubectl apply -f https://raw.githubusercontent.com/sparebankenvest/azure-key-vault-to-kubernetes/master/crds/AzureKeyVaultSecret.yaml
+  kubectl create namespace akv2k8s || true
+
+  kubectl label namespaces \
+    "${DEPLOY_NAMESPACE}" \
+    --overwrite \
+    azure-key-vault-env-injection=enabled
+
+  helm repo add spv-charts http://charts.spvapi.no
+  helm repo update
+
+  helm upgrade \
+    --reset-values \
+    --install \
+    --wait \
+    --atomic \
+    --cleanup-on-fail \
+    --namespace akv2k8s \
+    akv2k8s \
+    spv-charts/akv2k8s
 }
 
 install_nginx_ingress() {
@@ -173,10 +163,8 @@ install_gitops() {
     "${REPO_API_URL}/repos/${REPO_URL}/keys"
 }
 
-add_secrets "mongodb-credentials" "${MONGODB_CONNECTION_STRINGS}"
-add_secrets "redis-credentials" "${REDIS_CONNECTION_STRINGS}"
-add_secrets "generic" "${KUBE_SECRETS}"
 add_registry_secret
+install_azure_key_vault
 install_nginx_ingress
 install_cert_manager
 install_gitops

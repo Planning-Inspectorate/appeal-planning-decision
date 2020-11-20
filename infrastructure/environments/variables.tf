@@ -14,11 +14,6 @@ variable "prefix" {
   type = string
 }
 
-variable "key_vault_id" {
-  description = "Key Vault ID"
-  type = string
-}
-
 /*
   Container Registry
  */

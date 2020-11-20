@@ -41,7 +41,7 @@ data "azurerm_kubernetes_service_versions" "k8s" {
 }
 
 resource "azurerm_kubernetes_cluster" "k8s" {
-  name = format(local.name_format, "k8s")
+  name = format(local.name_format, "k8s-${random_integer.k8s.result}")
   location = azurerm_resource_group.k8s.location
   resource_group_name = azurerm_resource_group.k8s.name
   dns_prefix = "${var.prefix}-${terraform.workspace}"
@@ -58,6 +58,8 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     max_count = var.k8s_max_nodes
     orchestrator_version = data.azurerm_kubernetes_service_versions.k8s.latest_version
     type = "VirtualMachineScaleSets"
+
+    vnet_subnet_id = azurerm_subnet.network.id
   }
 
   role_based_access_control {
@@ -91,8 +93,8 @@ resource "azurerm_kubernetes_cluster" "k8s" {
 }
 
 resource "azurerm_key_vault_access_policy" "k8s" {
-  key_vault_id = var.key_vault_id
-  object_id = azurerm_kubernetes_cluster.k8s.identity.0.principal_id
+  key_vault_id = azurerm_key_vault.key_vault.id
+  object_id = azurerm_kubernetes_cluster.k8s.kubelet_identity.0.object_id
   tenant_id = azurerm_kubernetes_cluster.k8s.identity.0.tenant_id
 
   secret_permissions = [
@@ -117,13 +119,4 @@ resource "azurerm_role_assignment" "k8s" {
   principal_id = azurerm_kubernetes_cluster.k8s.identity.0.principal_id
   scope = azurerm_resource_group.k8s.id
   role_definition_name = each.value
-}
-
-// @todo work out a way for this to be done in helm/k8s
-resource "random_string" "k8s-fwa-session-key" {
-  length = 32
-  special = false
-  upper = true
-  lower = true
-  number = true
 }

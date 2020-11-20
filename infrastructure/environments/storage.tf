@@ -29,3 +29,9 @@ resource "azurerm_storage_account" "documents" {
     }
   }
 }
+
+resource "azurerm_key_vault_secret" "docs-blob-storage-connection-string" {
+  key_vault_id = azurerm_key_vault.key_vault.id
+  name = "docs-blob-storage-connection-string"
+  value = azurerm_storage_account.documents.primary_connection_string
+}
