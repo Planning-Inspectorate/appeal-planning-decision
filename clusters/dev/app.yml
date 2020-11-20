@@ -36,5 +36,8 @@ spec:
         repository: pinscommonukscontainersdefault.azurecr.io/forms-web-app
         tag: 1.7.0
 
+    keyVault:
+      name: pins-uks-vault-7324-dev
+
     ingress:
       host: appeals-dev.planninginspectorate.gov.uk
