@@ -163,7 +163,36 @@ install_gitops() {
     "${REPO_API_URL}/repos/${REPO_URL}/keys"
 }
 
+update_key_vault_secrets() {
+  echo "Updating Key Vault secrets"
+
+  for key in $(echo "${KEY_VAULT_SECRETS}" | jq -r 'keys[]')
+  do
+    echo "Adding ${key}"
+
+    value=$(echo "${KEY_VAULT_SECRETS}" | jq -r --arg key "${key}" '.[$key]')
+
+    # Recover the secret - allowed the fail
+    echo "Attempting to recover secret"
+    (az keyvault secret recover \
+      --output none \
+      --vault-name="${KEY_VAULT_NAME}" \
+      --name="${key}" \
+      && echo "Pausing whilst recovery takes place" \
+      && sleep 5) || true
+
+    # Create/update the secret
+    echo "Setting the new secret value"
+    az keyvault secret set \
+      --output none \
+      --vault-name="${KEY_VAULT_NAME}" \
+      --name="${key}" \
+      --value="${value}"
+  done
+}
+
 add_registry_secret
+update_key_vault_secrets
 install_azure_key_vault
 install_nginx_ingress
 install_cert_manager

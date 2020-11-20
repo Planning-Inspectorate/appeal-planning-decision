@@ -23,14 +23,3 @@ resource "azurerm_redis_cache" "redis" {
   sku_name = var.redis_sku
   minimum_tls_version = "1.2"
 }
-
-resource "azurerm_key_vault_secret" "fwa-session-redis" {
-  key_vault_id = azurerm_key_vault.key_vault.id
-  name = "redis-fwa-session-store"
-  value = jsonencode({
-    host = tostring(azurerm_redis_cache.redis.hostname)
-    pass = tostring(azurerm_redis_cache.redis.primary_access_key)
-    port = tostring(azurerm_redis_cache.redis.ssl_port)
-    use_tls = "true"
-  })
-}

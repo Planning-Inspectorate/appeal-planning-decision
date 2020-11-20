@@ -12,9 +12,3 @@ resource "random_string" "fwa-session-key" {
   lower = true
   number = true
 }
-
-resource "azurerm_key_vault_secret" "fwa-session-key" {
-  key_vault_id = azurerm_key_vault.key_vault.id
-  name = "fwa-session-key"
-  value = random_string.fwa-session-key.result
-}
