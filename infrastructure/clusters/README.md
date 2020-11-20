@@ -1,15 +1,15 @@
-# Environments
+# Clusters
 
-These describe the environments that exist in the Azure infrastructure
+These describe the clusters that exist in the Azure infrastructure
 
 ## Terraform Variable Files
 
-> New environments will need to be added to the `jobs.provision.strategy.matrix` 
+> New clusters will need to be added to the `jobs.provision.strategy.matrix` 
 > in the `.github/workflows/infra-environments.yml` file.
 
 These are Terraform variable files (`<environment>.tfvars`) that work with the
 environment infrastructure in `/infrastructure/environments`. These are designed
-to represent one environment per file - nominally, we're expecting to have 
+to represent one cluster per file - nominally, we're expecting to have 
 `dev.tfvars`, `staging.tfvars` and `prod.tfvars` but there are no constraints on 
 naming convention.
 
