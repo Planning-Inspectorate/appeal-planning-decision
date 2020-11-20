@@ -1,0 +1,19 @@
+{{- $keyVaultName := .Values.keyVault.name -}}
+{{- range .Values.keyVault.secrets }}
+---
+apiVersion: spv.no/v1
+kind: AzureKeyVaultSecret
+metadata:
+  name: secret-{{ . }}
+  namespace: app-simon
+spec:
+  vault:
+    name: {{ $keyVaultName }}
+    object:
+      name: {{ . }}
+      type: secret
+  output:
+    secret:
+      name: secret-{{ . }}
+      dataKey: value
+{{- end }}

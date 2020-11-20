@@ -111,3 +111,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+keyVault:
+  name: key-vault-name
+  secrets: []
+  multiValueSecrets: []
