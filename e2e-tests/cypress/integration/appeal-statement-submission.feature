@@ -6,9 +6,8 @@ Feature: Appeal statement file submission
   The latest uploaded appeal statement file replaces any previously uploaded files.
   Appeal statements files that contain sensitive information are not permitted.
   Valid appeal statement files must:
-  * be one of the white-listed types i.e. doc, docx, pdf, tif, tiff, jpg, jpeg and png,
-  * not exceed a size limit and
-  * not be password-protected if doc, docx or pdf.
+  * be one of the white-listed types (doc, docx, pdf, tif, tiff, jpg, jpeg and png) and
+  * not exceed a size limit.
 
   Scenario Outline: Valid appeal statement file without sensitive information
     Given I have an appeal statement file <filename> "without" sensitive information
@@ -62,9 +61,6 @@ Feature: Appeal statement file submission
       | filename                                            |
       | "appeal-statement-invalid-wrong-type.csv"           |
       | "appeal-statement-invalid-exceeds-maximum-size.pdf" |
-      | "appeal-statement-invalid-password-protected.doc"   |
-      | "appeal-statement-invalid-password-protected.docx"  |
-      | "appeal-statement-invalid-password-protected.pdf"   |
 
   Scenario Outline: Invalid appeal statement file with sensitive information
     Given I have an appeal statement file <filename> "with" sensitive information
