@@ -29,7 +29,7 @@ resource "azurerm_key_vault" "key_vault" {
     default_action = "Deny"
     bypass = "AzureServices"
     ip_rules = [
-      "${chomp(data.http.myip.body)}/32"
+      "${local.current_ip}/32"
     ]
     virtual_network_subnet_ids = [
       azurerm_subnet.network.id
