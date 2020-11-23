@@ -69,7 +69,13 @@ module.exports = {
 
   async update(req, res) {
     const uuid = req.param('uuid');
-
+    /*if (req.body.firstName) {
+      if (typeof req.body.firstName != 'string') {
+        res.status(400).send({msg: Invalid input for first name})
+      } else {
+        req.body.firstName = trim(req.body.firstName).toLowerCase() etc..
+      }
+    }*/
     const appeal = await AppealsSchema.updateOne(
       {
         uuid,
