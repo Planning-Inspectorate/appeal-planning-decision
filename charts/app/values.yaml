@@ -24,6 +24,8 @@ documentServiceApi:
     pullPolicy: Always
     tag: latest
   config:
+    upload:
+      maxSize: 100000000 # 100mb
     port: 3000
 
 formsWebApp:
@@ -37,6 +39,11 @@ formsWebApp:
     tag: latest
   config:
     port: 3000
+    upload:
+      abortOnExceedSizeLimit: true
+      debug: false
+      uploadDir: /upload-dir
+      useTmpFiles: true
 
 imagePullSecrets:
   - name: azure-docker-registry
