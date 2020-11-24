@@ -62,7 +62,10 @@ describe('routes/validators/appellant-submission/appeal-statement-schema', () =>
         req: { files: { a: { mimetype: MIME_TYPE_PDF, size: 12345 } } },
         path: 'a',
       });
-      expect(validateFileSize).toHaveBeenCalledWith(12345, config.fileUpload.maxFileSizeBytes);
+      expect(validateFileSize).toHaveBeenCalledWith(
+        12345,
+        config.fileUpload.pins.appealStatementMaxFileSize
+      );
     });
   });
 });

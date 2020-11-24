@@ -4,11 +4,11 @@ module.exports = {
     url: process.env.APPEALS_SERVICE_API_URL,
   },
   fileUpload: {
-    abortOnLimit: process.env.FILE_UPLOAD_ABORT_ON_HITTING_FILE_SIZE_LIMIT === 'true',
     debug: process.env.FILE_UPLOAD_DEBUG === 'true',
-    limits: {
-      // default: 1024 * 1024 * 1024 = 1gb
-      fileSize: Number(process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || 1024 * 1024 * 1024),
+    pins: {
+      appealStatementMaxFileSize: Number(
+        process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || 1024 * 1024 * 1024
+      ),
     },
     tempFileDir: process.env.FILE_UPLOAD_TMP_PATH,
     useTempFiles: process.env.FILE_UPLOAD_USE_TEMP_FILES === 'true',

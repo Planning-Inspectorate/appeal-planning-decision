@@ -34,7 +34,7 @@ module.exports = {
           'Doc is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
         );
 
-        validateFileSize(size, config.fileUpload.maxFileSizeBytes);
+        validateFileSize(size, config.fileUpload.pins.appealStatementMaxFileSize);
 
         return true;
       },
