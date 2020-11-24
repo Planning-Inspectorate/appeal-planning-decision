@@ -22,6 +22,11 @@ resource "azurerm_cosmosdb_account" "mongodb" {
   kind = "MongoDB"
   enable_automatic_failover = length(var.mongodb_failover_read_locations) > 0
 
+  is_virtual_network_filter_enabled = true
+  virtual_network_rule {
+    id = azurerm_subnet.network.id
+  }
+
   dynamic "capabilities" {
     for_each = [
       "EnableMongo",

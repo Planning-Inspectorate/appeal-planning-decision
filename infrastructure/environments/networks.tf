@@ -23,6 +23,7 @@ resource "azurerm_subnet" "network" {
   address_prefixes = ["10.30.1.0/24"]
 
   service_endpoints = [
+    "Microsoft.AzureCosmosDB",
     "Microsoft.KeyVault",
     "Microsoft.Storage"
   ]
