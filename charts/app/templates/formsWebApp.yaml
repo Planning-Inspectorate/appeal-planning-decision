@@ -48,8 +48,6 @@ spec:
           env:
             - name: APPEALS_SERVICE_API_URL
               value: "http://{{ include "app.fullname" . }}:{{ .Values.appealsServiceApi.service.port }}"
-            - name: FILE_UPLOAD_ABORT_ON_HITTING_FILE_SIZE_LIMIT
-              value: {{ .Values.formsWebApp.config.upload.abortOnExceedSizeLimit | quote }}
             - name: FILE_UPLOAD_DEBUG
               value: {{ .Values.formsWebApp.config.upload.debug | quote }}
             - name: FILE_UPLOAD_MAX_FILE_SIZE_BYTES

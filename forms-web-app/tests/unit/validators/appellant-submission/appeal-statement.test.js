@@ -135,7 +135,7 @@ describe('routes/validators/appellant-submission/appeal-statement', () => {
           files: {
             'appeal-statement': {
               mimetype: MIME_TYPE_JPEG,
-              size: config.fileUpload.maxFileSizeBytes + 1,
+              size: config.fileUpload.pins.appealStatementMaxFileSize + 1,
             },
           },
         }),

@@ -40,7 +40,6 @@ formsWebApp:
   config:
     port: 3000
     upload:
-      abortOnExceedSizeLimit: true
       debug: true
       uploadDir: /upload-dir
       useTmpFiles: true
