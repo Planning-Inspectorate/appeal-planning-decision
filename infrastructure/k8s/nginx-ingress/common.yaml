@@ -6,6 +6,8 @@ controller:
     externalTrafficPolicy: Local
   config:
     http-redirect-code: "301"
+    add-headers: nginx-ingress/custom-response-headers
+    hide-headers: x-powered-by
 defaultBackend:
   enabled: false
   nodeSelector:
