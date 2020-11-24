@@ -1,4 +1,4 @@
-Feature: A prospective appellant supplies states whether or not their appeal covers a listed building
+Feature: A prospective appellant states whether or not their appeal covers a listed building
     I need to provide the listed status of the building?
     so that I don't accidentally submit an appeal against a decision made about a listed building?
 
