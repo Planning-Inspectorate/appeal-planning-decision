@@ -4,7 +4,7 @@ const { mockReq, mockRes } = require('../mocks');
 
 jest.mock('express-validator');
 
-describe('routes/validators/validation-error-handler', () => {
+describe('validators/validation-error-handler', () => {
   [
     {
       description: 'no errors',

@@ -20,6 +20,8 @@ const VIEW = {
   APPEAL_STATEMENT: 'appellant-submission/appeal-statement',
   GROUNDS_OF_APPEAL: 'appellant-submission/grounds-appeal',
   SUPPORTING_DOCUMENTS: 'appellant-submission/supporting-documents',
+  UPLOAD_APPLICATION: 'appellant-submission/upload-application',
+  UPLOAD_DECISION: 'appellant-submission/upload-decision',
 };
 
 module.exports = {

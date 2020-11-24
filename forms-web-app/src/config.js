@@ -1,3 +1,5 @@
+const oneGigabyte = 1024 * 1024 * 1024;
+
 module.exports = {
   appeals: {
     timeout: Number(process.env.APPEALS_SERVICE_API_TIMEOUT || 10000),
@@ -7,7 +9,10 @@ module.exports = {
     debug: process.env.FILE_UPLOAD_DEBUG === 'true',
     pins: {
       appealStatementMaxFileSize: Number(
-        process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || 1024 * 1024 * 1024
+        process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || oneGigabyte
+      ),
+      uploadApplicationMaxFileSize: Number(
+        process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || oneGigabyte
       ),
     },
     tempFileDir: process.env.FILE_UPLOAD_TMP_PATH,
