@@ -52,6 +52,7 @@ install_nginx_ingress() {
 
   kubectl create namespace nginx-ingress || true
   helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+  kubectl apply -n nginx-ingress -f "${DIR}/nginx-ingress/configMaps/response-headers.yaml"
   helm repo update
   helm upgrade \
     --reset-values \
