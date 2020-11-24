@@ -2,7 +2,7 @@ const { validationResult } = require('express-validator');
 const { testExpressValidatorMiddleware } = require('./validation-middleware-helper');
 const { rules } = require('../../../src/validators/submission');
 
-describe('routes/validators/submission', () => {
+describe('validators/submission', () => {
   describe('rules', () => {
     it('is configured with the expected rules', () => {
       const rule = rules()[0].builder.build();

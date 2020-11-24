@@ -1,6 +1,6 @@
 const validateFileSize = require('../../../../src/validators/custom/file-size');
 
-describe('routes/validators/custom/file-size', () => {
+describe('validators/custom/file-size', () => {
   it('should be valid when given a smaller file size than the configured maximum', () => {
     expect(validateFileSize(1024, 2048)).toBeTruthy();
   });

@@ -4,8 +4,8 @@ const { rules } = require('../../../../src/validators/appellant-submission/appea
 const { MIME_TYPE_JPEG } = require('../../../../src/lib/mime-types');
 const config = require('../../../../src/config');
 
-describe('routes/validators/appellant-submission/appeal-statement', () => {
-  xdescribe('rules', () => {
+describe('validators/appellant-submission/appeal-statement', () => {
+  describe('rules', () => {
     it('has a rule for `does-not-include-sensitive-information`', () => {
       const rule = rules()[0].builder.build();
 

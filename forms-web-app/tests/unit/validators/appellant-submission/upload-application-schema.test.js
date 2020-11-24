@@ -1,4 +1,4 @@
-const schema = require('../../../../src/validators/appellant-submission/appeal-statement-schema');
+const schema = require('../../../../src/validators/appellant-submission/upload-application-schema');
 const validateFileSize = require('../../../../src/validators/custom/file-size');
 const validMimeType = require('../../../../src/validators/custom/mime-type');
 const {
@@ -15,36 +15,38 @@ jest.mock('../../../../src/validators/custom/file-size');
 jest.mock('../../../../src/validators/custom/mime-type');
 jest.mock('../../../../src/config');
 
-describe('validators/appellant-submission/appeal-statement-schema', () => {
+describe('validators/appellant-submission/upload-application-schema', () => {
   it('has a defined custom schema object', () => {
-    expect(schema['appeal-statement'].custom.options).toBeDefined();
+    expect(schema['upload-application'].custom.options).toBeDefined();
   });
 
-  describe(`schema['appeal-statement'].custom.options`, () => {
+  describe(`schema['upload-application'].custom.options`, () => {
     let fn;
 
     beforeEach(() => {
-      fn = schema['appeal-statement'].custom.options;
+      fn = schema['upload-application'].custom.options;
     });
 
-    it('should return true if `req.files` is undefined', () => {
-      expect(fn('some value', { req: {} })).toBeTruthy();
+    it('should throw if `req.files` is undefined', () => {
+      expect(() => fn('some value', { req: {} })).toThrow('Upload the planning application form');
     });
 
-    it('should return true if `req.files` is empty', () => {
-      expect(fn('some value', { req: { files: {} } })).toBeTruthy();
+    it('should throw if `req.files` is an empty object', () => {
+      expect(() => fn('some value', { req: { files: {} } })).toThrow(
+        'Upload the planning application form'
+      );
     });
 
-    it('should return true if `req.files[path]` is not matched', () => {
-      expect(
+    it('should throw if `req.files[path]` is not matched', () => {
+      expect(() =>
         fn('some value', { req: { files: { a: { mimetype: MIME_TYPE_PDF } } }, path: 'x' })
-      ).toBeTruthy();
+      ).toThrow('Upload the planning application form');
     });
 
     it('should call the validMimeType validator', () => {
-      fn('some value', { req: { files: { a: { mimetype: MIME_TYPE_PDF } } }, path: 'a' });
+      fn('some value', { req: { files: { a: { mimetype: MIME_TYPE_PNG } } }, path: 'a' });
       expect(validMimeType).toHaveBeenCalledWith(
-        MIME_TYPE_PDF,
+        MIME_TYPE_PNG,
         [
           MIME_TYPE_DOC,
           MIME_TYPE_DOCX,
@@ -59,12 +61,12 @@ describe('validators/appellant-submission/appeal-statement-schema', () => {
 
     it('should call the validateFileSize validator', () => {
       fn('some value', {
-        req: { files: { a: { mimetype: MIME_TYPE_PDF, size: 12345 } } },
+        req: { files: { a: { mimetype: MIME_TYPE_JPEG, size: 12345 } } },
         path: 'a',
       });
       expect(validateFileSize).toHaveBeenCalledWith(
         12345,
-        config.fileUpload.pins.appealStatementMaxFileSize
+        config.fileUpload.pins.uploadApplicationMaxFileSize
       );
     });
   });
