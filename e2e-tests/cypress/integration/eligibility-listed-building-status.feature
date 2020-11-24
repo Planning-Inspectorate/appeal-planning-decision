@@ -1,6 +1,5 @@
 Feature: A prospective appellant states whether or not their appeal covers a listed building
-    I need to provide the listed status of the building?
-    so that I don't accidentally submit an appeal against a decision made about a listed building?
+    Our service doesn't cover listed buildings.
 
   Scenario: Listed Building statement is required
     When the user does not provide a Listed Building statement

@@ -1,7 +1,5 @@
 Feature: A prospective appellant supplies a Local Planning Department for the case they wish to appeal
-
-    I need to provide the name of the local planning department that rejected my case?
-    so that ?.
+    Not every LPA is taking part in this iteration of the service.
 
   Scenario: Local Planning Department is required
     When the user does not provide a Local Planning Department
