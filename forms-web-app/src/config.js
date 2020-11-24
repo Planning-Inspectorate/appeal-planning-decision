@@ -8,7 +8,7 @@ module.exports = {
     debug: process.env.FILE_UPLOAD_DEBUG === 'true',
     // default: 1024 * 1024 * 1024 = 1gb
     maxFileSizeBytes: Number(process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || 1024 * 1024 * 1024),
-    tmpDir: process.env.FILE_UPLOAD_TMP_PATH,
+    tempFileDir: process.env.FILE_UPLOAD_TMP_PATH,
     useTempFiles: process.env.FILE_UPLOAD_USE_TEMP_FILES === 'true',
   },
   logger: {
