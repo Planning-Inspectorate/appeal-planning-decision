@@ -6,8 +6,10 @@ module.exports = {
   fileUpload: {
     abortOnLimit: process.env.FILE_UPLOAD_ABORT_ON_HITTING_FILE_SIZE_LIMIT === 'true',
     debug: process.env.FILE_UPLOAD_DEBUG === 'true',
-    // default: 1024 * 1024 * 1024 = 1gb
-    maxFileSizeBytes: Number(process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || 1024 * 1024 * 1024),
+    limits: {
+      // default: 1024 * 1024 * 1024 = 1gb
+      fileSize: Number(process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || 1024 * 1024 * 1024),
+    },
     tempFileDir: process.env.FILE_UPLOAD_TMP_PATH,
     useTempFiles: process.env.FILE_UPLOAD_USE_TEMP_FILES === 'true',
   },
