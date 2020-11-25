@@ -20,6 +20,19 @@ add_registry_secret() {
     kubectl replace -n "${DEPLOY_NAMESPACE}" --force -f -
 }
 
+configure_rbac() {
+  echo "Configuring RBAC"
+
+  roles="user"
+
+  for role in $roles
+  do
+    echo "Applying role: ${role^}"
+
+    envsubst < "${DIR}/../k8s/rbac/${role}.yaml" | kubectl apply -f -
+  done
+}
+
 install_azure_key_vault() {
   echo "Install Azure Key Vault (akv2k8s)"
 
@@ -165,6 +178,7 @@ install_gitops() {
 }
 
 add_registry_secret
+configure_rbac
 install_azure_key_vault
 install_nginx_ingress
 install_cert_manager

@@ -9,7 +9,12 @@ locals {
     var.prefix,
     local.location,
     "%s", # name
-    replace(terraform.workspace, "/[\\W\\-]/", "") # alphanumeric workspace name
+    local.workspace_name
+  ])
+  name_format_global = join("-", [ # Same as name_format but with no location
+    var.prefix,
+    "%s", # name
+    local.workspace_name
   ])
   web_app_subdomain = terraform.workspace == "prod" ? "app" : "${terraform.workspace}-app"
   web_app_url_format = join("-", [
@@ -17,4 +22,5 @@ locals {
     "%s", # name
     local.web_app_subdomain
   ])
+  workspace_name = replace(terraform.workspace, "/[\\W\\-]/", "") # alphanumeric workspace name
 }

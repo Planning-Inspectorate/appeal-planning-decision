@@ -38,12 +38,6 @@ variable "k8s_availability_zones" {
   default = null
 }
 
-variable "k8s_rbac_admin_groups" {
-  description = "List of AAD groups that have admin rights on the cluster"
-  type = set(string)
-  default = []
-}
-
 variable "k8s_rbac_enabled" {
   description = "Enable RBAC on cluster"
   type = bool
