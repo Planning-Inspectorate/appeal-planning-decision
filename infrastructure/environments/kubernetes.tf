@@ -64,11 +64,13 @@ resource "azurerm_kubernetes_cluster" "k8s" {
 
   role_based_access_control {
     enabled = var.k8s_rbac_enabled
-//    azure_active_directory {
-//      tenant_id = data.azurerm_client_config.current.tenant_id
-//      managed = true
-//      admin_group_object_ids = var.k8s_rbac_admin_groups
-//    }
+    azure_active_directory {
+      tenant_id = data.azurerm_client_config.current.tenant_id
+      managed = true
+      admin_group_object_ids = [
+        azuread_group.admin.id
+      ]
+    }
   }
 
   network_profile {
@@ -119,4 +121,16 @@ resource "azurerm_role_assignment" "k8s" {
   principal_id = azurerm_kubernetes_cluster.k8s.identity.0.principal_id
   scope = azurerm_resource_group.k8s.id
   role_definition_name = each.value
+}
+
+resource "azurerm_role_assignment" "admin" {
+  principal_id = azuread_group.admin.id
+  scope = azurerm_resource_group.k8s.id
+  role_definition_name = "Azure Kubernetes Service Cluster Admin Role"
+}
+
+resource "azurerm_role_assignment" "user" {
+  principal_id = azuread_group.user.id
+  scope = azurerm_resource_group.k8s.id
+  role_definition_name = "Azure Kubernetes Service Cluster User Role"
 }

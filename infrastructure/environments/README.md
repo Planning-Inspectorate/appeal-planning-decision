@@ -6,6 +6,7 @@ Infrastructure which the applications are deployed to
 
 | Name | Version |
 |------|---------|
+| azuread | ~> 1.0.0 |
 | azurerm | ~> 2.31.1 |
 | http | ~> 2.0.0 |
 | random | ~> 3.0.0 |
@@ -14,6 +15,7 @@ Infrastructure which the applications are deployed to
 
 | Name | Version |
 |------|---------|
+| azuread | ~> 1.0.0 |
 | azurerm | ~> 2.31.1 |
 | http | ~> 2.0.0 |
 | random | ~> 3.0.0 |
@@ -28,7 +30,6 @@ Infrastructure which the applications are deployed to
 | k8s\_availability\_zones | Zones to run the node pools in | `list(string)` | `null` | no |
 | k8s\_max\_nodes | Maximum number of nodes per pool | `number` | `3` | no |
 | k8s\_min\_nodes | Minimum number of nodes per pool | `number` | `1` | no |
-| k8s\_rbac\_admin\_groups | List of AAD groups that have admin rights on the cluster | `set(string)` | `[]` | no |
 | k8s\_rbac\_enabled | Enable RBAC on cluster | `bool` | `true` | no |
 | k8s\_version\_prefix | Version prefix to use - ensure you end with dot (.) | `string` | `"1.18."` | no |
 | k8s\_vm\_size | VM size | `string` | `"Standard_DS2_v2"` | no |
@@ -52,6 +53,8 @@ Infrastructure which the applications are deployed to
 | containers\_password | Password for the container registry |
 | containers\_server | Server URL for the container registry |
 | containers\_username | Username for the container registry |
+| group\_admin\_id | ID of the Admin AAD group |
+| group\_user\_id | ID of the User AAD group |
 | key\_vault\_name | Key vault name |
 | key\_vault\_secrets | Secrets JSON key/value pairs to be ingested into Key Vault - done externally to avoid Terraform refresh permissions errors. Values must be strings. |
 | kube\_load\_balancer\_domain\_label | The DNS label of the load balancer for the Kubernetes cluster |

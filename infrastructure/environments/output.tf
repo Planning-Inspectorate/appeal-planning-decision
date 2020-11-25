@@ -28,6 +28,20 @@ output "containers_username" {
 }
 
 /*
+  Groups
+ */
+
+output "group_admin_id" {
+  description = "ID of the Admin AAD group"
+  value = azuread_group.admin.object_id
+}
+
+output "group_user_id" {
+  description = "ID of the User AAD group"
+  value = azuread_group.user.object_id
+}
+
+/*
   Key Vault
  */
 
@@ -62,7 +76,7 @@ output "key_vault_secrets" {
 output "kubeconfig" {
   description = "The Kubernetes config file"
   sensitive = true
-  value = try(azurerm_kubernetes_cluster.k8s.kube_config_raw, null)
+  value = try(var.k8s_rbac_enabled ? azurerm_kubernetes_cluster.k8s.kube_admin_config_raw : azurerm_kubernetes_cluster.k8s.kube_config_raw, null)
 }
 
 output "kube_load_balancer_domain_label" {
