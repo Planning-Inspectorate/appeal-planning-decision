@@ -14,6 +14,7 @@ module.exports = {
       uploadApplicationMaxFileSize: Number(
         process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || oneGigabyte
       ),
+      uploadDecisionMaxFileSize: Number(process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || oneGigabyte),
     },
     tempFileDir: process.env.FILE_UPLOAD_TMP_PATH,
     useTempFiles: process.env.FILE_UPLOAD_USE_TEMP_FILES === 'true',

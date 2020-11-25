@@ -46,9 +46,7 @@ describe('controller/appellant-submission/upload-application', () => {
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
       const mockRequest = {
         ...req,
-        body: {
-          'does-not-include-sensitive-information': 'i-confirm',
-        },
+        body: {},
         files: {},
       };
       await uploadApplicationController.postUploadApplication(mockRequest, res);
@@ -62,9 +60,7 @@ describe('controller/appellant-submission/upload-application', () => {
 
       const mockRequest = {
         ...req,
-        body: {
-          'does-not-include-sensitive-information': 'i-confirm',
-        },
+        body: {},
         files: {
           'upload-application': {
             name: 'some name.jpg',

@@ -6,7 +6,7 @@ exports.getSubmission = (req, res) => {
 
 exports.postSubmission = async (req, res) => {
   const { body } = req;
-  const { errors = {}, errorSummary = {} } = body;
+  const { errors = {}, errorSummary = [] } = body;
 
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.SUBMISSION, {
