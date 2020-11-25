@@ -1,25 +1,24 @@
-const { createOrUpdateAppeal } = require('../lib/appeals-api-wrapper');
-const logger = require('../lib/logger');
-const { VIEW } = require('../lib/views');
+const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
+const { VIEW } = require('../../lib/views');
+const logger = require('../../lib/logger');
 
-exports.getYourDetails = (req, res) => {
-  res.render(VIEW.YOUR_DETAILS, {
+exports.getApplicantName = (req, res) => {
+  res.render(VIEW.APPLICANT_NAME, {
     appeal: req.session.appeal,
   });
 };
 
-exports.postYourDetails = async (req, res) => {
+exports.postApplicantName = async (req, res) => {
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
 
   const appeal = {
     ...req.session.appeal,
-    'appellant-name': req.body['appellant-name'],
-    'appellant-email': req.body['appellant-email'],
+    'behalf-appellant-name': req.body['behalf-appellant-name'],
   };
 
   if (Object.keys(errors).length > 0) {
-    res.render(VIEW.YOUR_DETAILS, {
+    res.render(VIEW.APPLICANT_NAME, {
       appeal,
       errors,
       errorSummary,

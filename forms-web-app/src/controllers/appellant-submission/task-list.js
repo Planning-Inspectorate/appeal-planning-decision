@@ -1,9 +1,11 @@
+const { VIEW } = require('../../lib/views');
+
 exports.getTaskList = (req, res) => {
   // TODO: derive these values from the current session data
   const applicationStatus = 'Application incomplete';
   const sectionsCompleted = 3;
 
-  res.render('task-list/index', {
+  res.render(VIEW.TASK_LIST, {
     applicationStatus,
     sectionsCompleted,
     sections: [
@@ -14,7 +16,7 @@ exports.getTaskList = (req, res) => {
         items: [
           {
             text: 'Your details',
-            href: 'your-details',
+            href: '/appellant-submission/who-are-you',
             complete: true,
           },
         ],
