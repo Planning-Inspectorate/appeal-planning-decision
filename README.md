@@ -138,3 +138,66 @@ Or:
 
 For convenience, [Redis Commander](https://github.com/joeferner/redis-commander) is included in our 
 `docker-compose.yml` file so you can visit `http://localhost:4004` to see inside the `redis` store.
+
+# Kubernetes
+
+The application is deployed to an Azure-managed Kubernetes cluster. The cluster is configured with [Role-Based Access Control (RBAC)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
+with two levels: `admin` (can do everything) and `user` (can read everything in the deployment namespace, except secrets).
+The connection methods are the same for users in both ActiveDirectory groups - anyone not in these groups will have no
+access to the cluster.
+
+## Adding a user to a group
+
+> This is an administrative task, to be performed in Azure ActiveDirectory.
+
+The deployment creates two user groups with the name in the format `${prefix}-${name}-${environment}`, eg `pins-user-prod`.
+Group membership can be managed by following the [Azure docs](https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/active-directory-groups-members-azure-portal).
+
+## Connecting to Kubernetes
+
+### Prerequisites
+
+ - [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
+ - [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl)
+
+### Login to Azure
+
+This only needs to be done once
+ 
+```shell script
+az login
+```
+
+### Get Resource Group and Name of Cluster
+
+```shell script
+az aks list -o tsv --query '[].resourceGroup'
+
+# pins-uks-k8s-dev
+# pins-uks-k8s-prod
+```
+
+```shell script
+az aks list -o tsv --query '[].name'
+
+# pins-uks-k8s-1234-dev
+# pins-uks-k8s-1234-prod
+```
+
+You the name format will include the environment you're after at the end of the name.
+
+### Get the Kubeconfig file
+
+```shell script
+az aks get-credentials \
+  -g pins-uks-k8s-prod \
+  -n pins-uks-k8s-1234-prod \
+  --overwrite-existing
+```
+
+This will save the config file to `~/.kube/config`. Now you have this file, you will be able to connect to the
+Kubernetes cluster.
+
+```shell script
+kubectl logs -f -n app-prod app-form-web-app-1111111111-aaaaa
+```
