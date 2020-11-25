@@ -23,8 +23,7 @@ Cypress.Commands.add(
   require('./appellant-submission-appeal-statement/goToAppealSubmissionPage'),
 );
 
-Cypress.Commands.add('uploadFile',
-  require('./appellant-submission-appeal-statement/uploadFile'));
+Cypress.Commands.add('uploadFile', require('./appellant-submission-appeal-statement/uploadFile'));
 
 Cypress.Commands.add(
   'checkNoSensitiveInformationIncludedInAppealStatement',
@@ -132,10 +131,7 @@ Cypress.Commands.add(
   require('./appeal-statement-submission/goToAppealStatementSubmission'),
 );
 
-Cypress.Commands.add(
-  'saveAndContinue',
-  require('./appeal-statement-submission/saveAndContinue'),
-);
+Cypress.Commands.add('saveAndContinue', require('./appeal-statement-submission/saveAndContinue'));
 
 Cypress.Commands.add(
   'uncheckNoSensitiveInformation',
@@ -145,4 +141,71 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'uploadAppealStatementFile',
   require('./appeal-statement-submission/uploadAppealStatementFile'),
+);
+
+Cypress.Commands.add(
+  'goToWhoAreYouPage',
+  require('./appellant-submission-who-are-you/goToWhoAreYouPage'),
+);
+
+Cypress.Commands.add(
+  'answerYesOriginalAppellant',
+  require('./appellant-submission-who-are-you/answerYes'),
+);
+Cypress.Commands.add(
+  'answerNoOriginalAppellant',
+  require('./appellant-submission-who-are-you/answerNo'),
+);
+
+Cypress.Commands.add(
+  'confirmOriginalAppellantAsked',
+  require('./appellant-submission-who-are-you/confirmOriginalAppellantAsked'),
+);
+
+Cypress.Commands.add(
+  'confirmOriginalAppellantNotAsked',
+  require('./appellant-submission-who-are-you/confirmOriginalAppellantNotAsked'),
+);
+
+Cypress.Commands.add(
+  'clickSaveAndContinue',
+  require('./appellant-submission-who-are-you/clickSaveAndContinue'),
+);
+
+Cypress.Commands.add(
+  'goToDetailsPage',
+  require('./appellant-submission-your-details/goToDetailsPage'),
+);
+Cypress.Commands.add(
+  'provideDetailsName',
+  require('./appellant-submission-your-details/provideDetailsName'),
+);
+Cypress.Commands.add(
+  'provideDetailsEmail',
+  require('./appellant-submission-your-details/provideDetailsEmail'),
+);
+Cypress.Commands.add(
+  'confirmDetailsWasAccepted',
+  require('./appellant-submission-your-details/confirmDetailsWasAccepted'),
+);
+Cypress.Commands.add(
+  'confirmDetailsWasRejected',
+  require('./appellant-submission-your-details/confirmDetailsWasRejected'),
+);
+
+Cypress.Commands.add(
+  'goToApplicantNamePage',
+  require('./appellant-submission-applicant-name/goToApplicantNamePage'),
+);
+Cypress.Commands.add(
+  'confirmApplicantNameWasAccepted',
+  require('./appellant-submission-applicant-name/confirmApplicantNameWasAccepted'),
+);
+Cypress.Commands.add(
+  'confirmApplicantNameWasRejected',
+  require('./appellant-submission-applicant-name/confirmApplicantNameWasRejected'),
+);
+Cypress.Commands.add(
+  'provideApplicantName',
+  require('./appellant-submission-applicant-name/provideApplicantName'),
 );

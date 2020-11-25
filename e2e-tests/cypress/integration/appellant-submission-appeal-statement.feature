@@ -17,4 +17,3 @@ I need to confirm that there is no sensitive data in order to save and continue.
   Scenario: Appeal statement provided with good format and privacy safety is confirmed
     When I provide a valid appeal statement with no sensitive data
     Then I can proceed with the provided appeal statement
-
