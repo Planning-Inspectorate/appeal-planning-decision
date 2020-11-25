@@ -1,9 +1,6 @@
 const VIEW = {
-  APPLICATION_NAME: 'application-name/index',
   APPLICATION_NUMBER: 'application-number/index',
 
-  TASK_LIST: 'task-list',
-  YOUR_DETAILS: 'your-details/index',
   SUBMISSION: 'submission/index',
   CONFIRMATION: 'confirmation/index',
   CHECK_ANSWERS: 'check-answers/index',
@@ -17,9 +14,12 @@ const VIEW = {
   PLANNING_DEPARTMENT_OUT: 'eligibility/planning-department-out',
   ELIGIBILITY_APPEAL_STATEMENT: 'eligibility/appeal-statement',
 
+  TASK_LIST: 'appellant-submission/task-list',
   APPEAL_STATEMENT: 'appellant-submission/appeal-statement',
-  GROUNDS_OF_APPEAL: 'appellant-submission/grounds-appeal',
   SUPPORTING_DOCUMENTS: 'appellant-submission/supporting-documents',
+  YOUR_DETAILS: 'appellant-submission/your-details',
+  WHO_ARE_YOU: 'appellant-submission/who-are-you',
+  APPLICANT_NAME: 'appellant-submission/applicant-name',
   UPLOAD_APPLICATION: 'appellant-submission/upload-application',
   UPLOAD_DECISION: 'appellant-submission/upload-decision',
 };

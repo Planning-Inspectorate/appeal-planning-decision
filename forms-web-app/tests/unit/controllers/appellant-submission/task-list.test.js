@@ -1,15 +1,16 @@
-const taskListController = require('../../../src/controllers/task-list');
-const { mockReq, mockRes } = require('../mocks');
+const taskListController = require('../../../../src/controllers/appellant-submission/task-list');
+const { VIEW } = require('../../../../src/lib/views');
+const { mockReq, mockRes } = require('../../mocks');
 
 const req = mockReq();
 const res = mockRes();
 
-describe('controller/task-list', () => {
+describe('controller/appellant-submission/task-list', () => {
   describe('getTaskList', () => {
     it('should call the correct template', () => {
       taskListController.getTaskList(req, res);
 
-      expect(res.render).toHaveBeenCalledWith('task-list/index', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.TASK_LIST, {
         applicationStatus: 'Application incomplete',
         sectionsCompleted: 3,
         sections: [
@@ -20,7 +21,7 @@ describe('controller/task-list', () => {
             items: [
               {
                 text: 'Your details',
-                href: 'your-details',
+                href: '/appellant-submission/who-are-you',
                 complete: true,
               },
             ],

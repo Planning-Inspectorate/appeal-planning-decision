@@ -2,16 +2,25 @@
 
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
   Your details | Appeal a householder planning decision
 {% endblock %}
 
 {% block content %}
+
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary
+    }) }}
+  {% endif %}
+
   <div class="govuk-grid-row">
 
     <div class="govuk-grid-column-two-thirds">
-      <form action="" method="post" novalidate>
+      <form action="" method="POST" novalidate>
         <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>About you</span>
         <h1 class="govuk-heading-l">
           Your details
