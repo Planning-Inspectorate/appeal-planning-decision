@@ -11,13 +11,17 @@ const AppealSchema = new Schema(
         unique: true,
       },
     },
+    'original-appellant': {
+      type: Boolean,
+    },
     'appellant-name': {
       type: String,
-      required: true,
     },
     'appellant-email': {
       type: String,
-      required: true,
+    },
+    'behalf-appellant-name': {
+      type: String,
     },
     planningApplicationNumber: {
       type: Number,
