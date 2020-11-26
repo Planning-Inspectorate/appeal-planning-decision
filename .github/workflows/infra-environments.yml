@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - feature/infrastructure-hardening
     paths:
       - infrastructure/clusters/**/*
       - infrastructure/environments/**/*
@@ -35,7 +36,7 @@ jobs:
       max-parallel: 5
       matrix:
         environment:
-          - dev
+          - simon
     steps:
       - uses: actions/checkout@v2
         with:
