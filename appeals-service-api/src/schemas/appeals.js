@@ -23,8 +23,68 @@ const AppealSchema = new Schema(
     'behalf-appellant-name': {
       type: String,
     },
-    planningApplicationNumber: {
-      type: Number,
+    'application-number': {
+      type: String,
+    },
+    'application-upload': {
+      type: String,
+    },
+    'decision-upload': {
+      type: String,
+    },
+    'appeal-upload': {
+      type: String,
+    },
+    'appeal-non-sensitive': {
+      type: Boolean,
+    },
+    'appeal-other-uploads': {
+      type: String,
+    },
+    'active-appeal': {
+      type: Boolean,
+    },
+    'active-appeal-numbers': {
+      type: String,
+    },
+    'site-address-line-one': {
+      type: String,
+    },
+    'site-address-line-two': {
+      type: String,
+    },
+    'site-town-city': {
+      type: String,
+    },
+    'site-county': {
+      type: String,
+    },
+    'site-postcode': {
+      type: String,
+    },
+    'site-ownership': {
+      type: Boolean,
+    },
+    'inform-owners': {
+      type: Boolean,
+    },
+    'site-view': {
+      type: Boolean,
+    },
+    'site-restrictions': {
+      type: String,
+    },
+    'safety-concerns': {
+      type: Boolean,
+    },
+    'safety-information': {
+      type: String,
+    },
+    'local-planning-authority': {
+      type: String,
+    },
+    'description-development': {
+      type: String,
     },
   },
   {
