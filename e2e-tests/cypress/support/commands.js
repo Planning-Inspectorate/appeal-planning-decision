@@ -209,3 +209,43 @@ Cypress.Commands.add(
   'provideApplicantName',
   require('./appellant-submission-applicant-name/provideApplicantName'),
 );
+
+Cypress.Commands.add(
+  'confirmPlanningApplicationAccepted',
+  require('./appellant-submission-upload-application/confirmPlanningApplicationAccepted'),
+);
+
+Cypress.Commands.add(
+  'confirmPlanningApplicationRejectedBecause',
+  require('./appellant-submission-upload-application/confirmPlanningApplicationRejectedBecause'),
+);
+
+Cypress.Commands.add(
+  'goToPlanningApplicationSubmission',
+  require('./appellant-submission-upload-application/goToPlanningApplicationSubmission'),
+);
+
+Cypress.Commands.add(
+  'uploadPlanningApplicationFile',
+  require('./appellant-submission-upload-application/uploadPlanningApplicationFile'),
+);
+
+Cypress.Commands.add(
+  'confirmUploadDecisionRejectedBecause',
+  require('./appellant-submission-upload-decision/confirmUploadDecisionRejectedBecause'),
+);
+
+Cypress.Commands.add(
+  'confirmUploadDecisionAccepted',
+  require('./appellant-submission-upload-decision/confirmUploadDecisionAccepted'),
+);
+
+Cypress.Commands.add(
+  'goToUploadDecisionSubmission',
+  require('./appellant-submission-upload-decision/goToUploadDecisionSubmission'),
+);
+
+Cypress.Commands.add(
+  'uploadUploadDecisionFile',
+  require('./appellant-submission-upload-decision/uploadUploadDecisionFile'),
+);
