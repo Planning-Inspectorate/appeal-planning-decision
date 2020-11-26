@@ -27,7 +27,7 @@ module.exports = routes;
  *            type: integer
  *            minimum: 1
  *          default: 10
- *          description: Maximum number of lpas
+ *          description: Maximum number of appeals
  *        - in: query
  *          name: page
  *          schema:
@@ -148,11 +148,59 @@ module.exports = routes;
  *              properties:
  *                uuid:
  *                  type: string
- *                text:
+ *                original-appellant:
+ *                  type: boolean
+ *                appellant-name:
+ *                  type: string
+ *                appellant-email:
+ *                  type: string
+ *                behalf-appellant-name:
+ *                  type: string
+ *                application-number:
+ *                  type: string
+ *                application-upload:
+ *                  type: string
+ *                decision-upload:
+ *                  type: string
+ *                appeal-upload:
+ *                  type: string
+ *                appeal-non-sensitive:
+ *                  type: boolean
+ *                appeal-other-uploads:
+ *                  type: string
+ *                active-appeal:
+ *                  type: boolean
+ *                active-appeal-numbers:
+ *                  type: string
+ *                site-address-line-one:
+ *                  type: string
+ *                site-address-line-two:
+ *                  type: string
+ *                site-town-city:
+ *                  type: string
+ *                site-county:
+ *                  type: string
+ *                site-postcode:
+ *                  type: string
+ *                site-ownership:
+ *                  type: boolean
+ *                inform-owners:
+ *                  type: boolean
+ *                site-view:
+ *                  type: boolean
+ *                site-restrictions:
+ *                  type: string
+ *                safety-concerns:
+ *                  type: boolean
+ *                safety-information:
+ *                  type: string
+ *                local-planning-authority:
+ *                  type: string
+ *                description-development:
  *                  type: string
  *              example:
  *                uuid: ed283807-866b-4089-bcec-56b2137a845b
- *                text: Lorem
+ *                appellant-name: Fred Smith
  *      responses:
  *        "200":
  *          description: OK

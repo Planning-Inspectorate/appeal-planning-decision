@@ -1,5 +1,7 @@
 {
   "baseUrl": "http://localhost:9000",
+  "horizon-api-swagger": "http://localhost:7000/",
+  "appeals-api-swagger": "http://localhost:3000/api-docs/",
   "testFiles": "**/*.feature",
   "chromeWebSecurity": false,
   "viewportWidth": 1024,
