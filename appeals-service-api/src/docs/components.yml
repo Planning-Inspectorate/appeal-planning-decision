@@ -5,11 +5,83 @@ components:
       properties:
         uuid:
           type: string
-        test:
+        original-appellant:
+          type: boolean
+        appellant-name:
+          type: string
+        appellant-email:
+          type: string
+        behalf-appellant-name:
+          type: string
+        application-number:
+          type: string
+        application-upload:
+          type: string
+        decision-upload:
+          type: string
+        appeal-upload:
+          type: string
+        appeal-non-sensitive:
+          type: boolean
+        appeal-other-uploads:
+          type: string
+        active-appeal:
+          type: boolean
+        active-appeal-numbers:
+          type: string
+        site-address-line-one:
+          type: string
+        site-address-line-two:
+          type: string
+        site-town-city:
+          type: string
+        site-county:
+          type: string
+        site-postcode:
+          type: string
+        site-ownership:
+          type: boolean
+        inform-owners: 
+          type: boolean
+        site-view: 
+          type: boolean
+        site-restrictions:
+          type: string
+        safety-concerns:
+          type: boolean
+        safety-information:
+          type: string
+        local-planning-authority:
+          type: string
+        description-development:
           type: string
       example:
         uuid: ed283807-866b-4089-bcec-56b2137a845b
-        test: Lorem ipsum dolor sit amet
+        original-appellant: true
+        appellant-name: Keith Moon
+        appellant-email: keith.moon@who.co.uk
+        behalf-appellant-name: null
+        application-number: S/35552
+        application-upload: null
+        decision-upload: null
+        appeal-upload: null
+        appeal-non-sensitive: false
+        appeal-other-uploads: null
+        active-appeal: true
+        active-appeal-numbers: S/35812,S/39941
+        site-address-line-one: Dedwyddfa, 51 Aberllwchwr
+        site-address-line-two: Llangennech
+        site-town-city: Llanelli
+        site-county: Carmarthenshire
+        site-postcode: SA14 8AH
+        site-ownership: true
+        inform-owners: false
+        site-view: false
+        site-restrictions: There is an enormous tree on the front of the property.
+        safety-concerns: false
+        safety-information: null
+        local-planning-authority: W43000012 
+        description-development: null
 
     LPA:
       type: object
