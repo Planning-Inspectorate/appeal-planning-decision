@@ -46,3 +46,37 @@ resource "azurerm_storage_account_network_rules" "documents" {
     azurerm_subnet.network.id
   ]
 }
+
+locals {
+  storage_endpoints = toset([
+    "blob",
+    "dfs",
+    "file",
+    "queue",
+    "table",
+    "web"
+  ])
+}
+
+resource "azurerm_private_dns_zone" "storage" {
+  for_each = local.storage_endpoints
+
+  name = azurerm_storage_account.documents["primary_${each.value}_host"]
+  resource_group_name = azurerm_resource_group.network.name
+}
+
+resource "azurerm_private_endpoint" "storage" {
+  for_each = local.storage_endpoints
+
+  name = format(local.name_format, "storage-${each.value}")
+  location = azurerm_resource_group.storage.location
+  resource_group_name = azurerm_resource_group.network.name
+  subnet_id = azurerm_subnet.private_endpoints.id
+
+  private_service_connection {
+    is_manual_connection = false
+    subresource_names = [each.value]
+    name = azurerm_storage_account.documents.name
+    private_connection_resource_id = azurerm_storage_account.documents.id
+  }
+}

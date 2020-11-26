@@ -69,3 +69,22 @@ module "mongodb-databases" {
   name = var.mongodb_databases[count.index].name
   collections = var.mongodb_databases[count.index].collections
 }
+
+resource "azurerm_private_dns_zone" "mongodb" {
+  name = "${azurerm_cosmosdb_account.mongodb.name}.mongo.cosmos.azure.com"
+  resource_group_name = azurerm_resource_group.network.name
+}
+
+resource "azurerm_private_endpoint" "mongodb" {
+  name = format(local.name_format, "mongodb")
+  location = azurerm_resource_group.mongodb.location
+  resource_group_name = azurerm_resource_group.network.name
+  subnet_id = azurerm_subnet.private_endpoints.id
+
+  private_service_connection {
+    is_manual_connection = false
+    subresource_names = ["MongoDB"]
+    name = azurerm_cosmosdb_account.mongodb.name
+    private_connection_resource_id = azurerm_cosmosdb_account.mongodb.id
+  }
+}
