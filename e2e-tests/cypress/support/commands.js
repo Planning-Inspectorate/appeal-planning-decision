@@ -23,7 +23,9 @@ Cypress.Commands.add(
   require('./appellant-submission-appeal-statement/goToAppealSubmissionPage'),
 );
 
-Cypress.Commands.add('uploadFile', require('./appellant-submission-appeal-statement/uploadFile'));
+Cypress.Commands.add(
+  'uploadFile',
+  require('./appellant-submission-appeal-statement/uploadFile'));
 
 Cypress.Commands.add(
   'checkNoSensitiveInformationIncludedInAppealStatement',
@@ -94,8 +96,6 @@ Cypress.Commands.add(
   require('./eligibility-listed-building-status/confirmUserCanProceedWithNonListedBuilding'),
 );
 
-// Commands for appeal statement submission
-
 Cypress.Commands.add(
   'checkNoSensitiveInformation',
   require('./appeal-statement-submission/checkNoSensitiveInformation'),
@@ -131,7 +131,8 @@ Cypress.Commands.add(
   require('./appeal-statement-submission/goToAppealStatementSubmission'),
 );
 
-Cypress.Commands.add('saveAndContinue', require('./appeal-statement-submission/saveAndContinue'));
+Cypress.Commands.add('saveAndContinue',
+  require('./appeal-statement-submission/saveAndContinue'));
 
 Cypress.Commands.add(
   'uncheckNoSensitiveInformation',
@@ -176,18 +177,22 @@ Cypress.Commands.add(
   'goToDetailsPage',
   require('./appellant-submission-your-details/goToDetailsPage'),
 );
+
 Cypress.Commands.add(
   'provideDetailsName',
   require('./appellant-submission-your-details/provideDetailsName'),
 );
+
 Cypress.Commands.add(
   'provideDetailsEmail',
   require('./appellant-submission-your-details/provideDetailsEmail'),
 );
+
 Cypress.Commands.add(
   'confirmDetailsWasAccepted',
   require('./appellant-submission-your-details/confirmDetailsWasAccepted'),
 );
+
 Cypress.Commands.add(
   'confirmDetailsWasRejected',
   require('./appellant-submission-your-details/confirmDetailsWasRejected'),
@@ -197,14 +202,17 @@ Cypress.Commands.add(
   'goToApplicantNamePage',
   require('./appellant-submission-applicant-name/goToApplicantNamePage'),
 );
+
 Cypress.Commands.add(
   'confirmApplicantNameWasAccepted',
   require('./appellant-submission-applicant-name/confirmApplicantNameWasAccepted'),
 );
+
 Cypress.Commands.add(
   'confirmApplicantNameWasRejected',
   require('./appellant-submission-applicant-name/confirmApplicantNameWasRejected'),
 );
+
 Cypress.Commands.add(
   'provideApplicantName',
   require('./appellant-submission-applicant-name/provideApplicantName'),
@@ -248,4 +256,24 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'uploadUploadDecisionFile',
   require('./appellant-submission-upload-decision/uploadUploadDecisionFile'),
+);
+
+Cypress.Commands.add(
+  'goToAppellantSubmissionDecisionLetter',
+  require('./appellant-submission-decision-letter/goToAppellantSubmissionDecisionLetter'),
+);
+
+Cypress.Commands.add(
+  'uploadDecisionLetterFile',
+  require('./appellant-submission-decision-letter/uploadDecisionLetterFile'),
+);
+
+Cypress.Commands.add(
+  'confirmDecisionLetterFileIsUploaded',
+  require('./appellant-submission-decision-letter/confirmDecisionLetterFileIsUploaded'),
+);
+
+Cypress.Commands.add(
+  'confirmDecisionLetterFileIsNotUploaded',
+  require('./appellant-submission-decision-letter/confirmDecisionLetterFileIsNotUploaded'),
 );
