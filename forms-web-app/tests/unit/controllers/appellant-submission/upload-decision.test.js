@@ -55,7 +55,7 @@ describe('controller/appellant-submission/upload-decision', () => {
       expect(logger.error).toHaveBeenCalledWith(error);
     });
 
-    it('should redirect to `/task-list` if valid', async () => {
+    it('should redirect to `/appellant-submission/task-list` if valid', async () => {
       createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
 
       const mockRequest = {
@@ -69,7 +69,7 @@ describe('controller/appellant-submission/upload-decision', () => {
       };
       await uploadDecisionController.postUploadDecision(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith('/task-list');
+      expect(res.redirect).toHaveBeenCalledWith('/appellant-submission/task-list');
     });
   });
 });
