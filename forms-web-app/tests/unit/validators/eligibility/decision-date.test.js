@@ -5,7 +5,7 @@ const {
   rules,
 } = require('../../../../src/validators/eligibility/decision-date');
 
-describe('routes/validators/eligibility/decision-date', () => {
+describe('validators/eligibility/decision-date', () => {
   describe('rules', () => {
     it(`has a rule for the decision date day`, () => {
       const rule = rules()[0].builder.build();

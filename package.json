@@ -11,6 +11,7 @@
     "semantic-release": "semantic-release",
     "test:e2e": "cd ./e2e-tests && npm run test:e2e",
     "test:e2e:postprocess": "cd ./e2e-tests && npm run test:e2e:postprocess",
+    "test:e2e:files": "cd ./e2e-tests && ./create-large-test-files.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -1,6 +1,6 @@
 const validateMimeType = require('../../../../src/validators/custom/mime-type');
 
-describe('routes/validators/custom/mime-type', () => {
+describe('validators/custom/mime-type', () => {
   it('should be valid', () => {
     const mimes = ['a', 'b', 'c'];
 

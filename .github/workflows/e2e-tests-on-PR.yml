@@ -23,6 +23,9 @@ jobs:
     - name: start the world
       run: docker-compose up -d
 
+    - name: create large test files
+      run: npm run test:e2e:files
+
     - name: run the tests
       run: npm run test:e2e
 

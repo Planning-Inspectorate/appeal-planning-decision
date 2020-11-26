@@ -16,5 +16,18 @@ named `demoDelay` is provided in the `cypress.json` file. The variable can be us
 like `cy.wait(Cypress.env('demoDelay'))` to control wait times i.e. the value is the required delay in milliseconds.
 From the `e2e-tests` folder, the tests can be run locally setting the delay period with commands like:
 ```
-node_modules/cypress/bin/cypress run --headed -b chrome --env demoDelay=1000
+node_modules/cypress/bin/cypress run --headed -b chrome --env demoDelay=1000 -e TAGS="@wip"
 ```
+
+Note: In the example above only tests tagged with `@wip` will be selected to run.
+
+#### Test data
+
+The maximum permitted file size for uploading is configurable with a default value of 100MB. 
+A script `create-large-test-files.sh` is available to create files to support testing. 
+The files named `appeal-statement-invalid-too-big.png` and `appeal-statement-valid-max-size.png` will be placed in 
+the `cypress/fixtures` folder. This script runs as part of the CI sequence to ensure that the files are available 
+for e2e tests in the pipelines. To create the required files locally run this command once from the `e2e-tests` folder:
+````
+./create-large-test-files.sh
+````

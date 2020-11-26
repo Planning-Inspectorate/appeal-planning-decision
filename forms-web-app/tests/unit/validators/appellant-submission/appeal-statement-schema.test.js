@@ -15,7 +15,7 @@ jest.mock('../../../../src/validators/custom/file-size');
 jest.mock('../../../../src/validators/custom/mime-type');
 jest.mock('../../../../src/config');
 
-describe('routes/validators/appellant-submission/appeal-statement-schema', () => {
+describe('validators/appellant-submission/appeal-statement-schema', () => {
   it('has a defined custom schema object', () => {
     expect(schema['appeal-statement'].custom.options).toBeDefined();
   });

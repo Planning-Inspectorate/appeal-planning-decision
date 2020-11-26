@@ -11,7 +11,7 @@ const departmentsData = {
 
 getDepartmentData.mockResolvedValue(departmentsData);
 
-describe('routes/validators/planning-department', () => {
+describe('validators/planning-department', () => {
   describe('rules', () => {
     it('is configured with the expected rules', () => {
       const rule = rules()[0].builder.build();

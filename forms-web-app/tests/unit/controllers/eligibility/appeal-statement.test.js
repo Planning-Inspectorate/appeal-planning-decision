@@ -1,4 +1,5 @@
 const appealStatementController = require('../../../../src/controllers/eligibility/appeal-statement');
+const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
 const req = mockReq();
@@ -9,7 +10,7 @@ describe('controller/eligibility/appeal-statement', () => {
     it('should call the correct template', () => {
       appealStatementController.getAppealStatement(req, res);
 
-      expect(res.render).toHaveBeenCalledWith('eligibility/appeal-statement');
+      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY_APPEAL_STATEMENT);
     });
   });
 
@@ -17,7 +18,7 @@ describe('controller/eligibility/appeal-statement', () => {
     it('should redirect ', () => {
       appealStatementController.postAppealStatement(req, res);
 
-      expect(res.redirect).toHaveBeenCalledWith('/task-list');
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.TASK_LIST}`);
     });
   });
 });

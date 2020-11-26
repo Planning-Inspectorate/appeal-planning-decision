@@ -1,0 +1,79 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
+{% block pageTitle %}
+  Original planning application | Appeal a householder planning decision
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary
+        }) }}
+      {% endif %}
+
+      <form action="" method="post" novalidate enctype="multipart/form-data">
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Required documents</span>
+        <h1 class="govuk-heading-l">
+          Upload the planning application form
+        </h1>
+        <p>If you do not have your original planning application form, you can find it by searching for your planning application on your local planning department's website.</p>
+
+        {{ govukInsetText({
+          text: "File size should be no more than 1.21GB"
+        }) }}
+
+        {% if appeal['upload-application'] %}
+          <h3 class="govuk-heading-m">File added:</h3>
+          <ul class="govuk-list">
+            <li id="upload-application-file-name">{{ appeal['upload-application'].name }}</li>
+          </ul>
+        {% endif %}
+
+        <div class="govuk-form-group">
+          <label class="govuk-heading-m" for="upload-application">
+            Upload a file
+          </label>
+          {% if errors['upload-application'] %}
+            <span id="upload-application-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> {{ errors['upload-application'].msg }}
+          </span>
+          {% endif %}
+          <input class="govuk-file-upload" id="upload-application" name="upload-application" type="file">
+        </div>
+
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              Help with file formats
+            </span>
+          </summary>
+          <div class="govuk-details__text">
+            Please upload your statement in one of the following formats:
+            <ul class="govuk-list--bullets">
+              <li>PDF &ndash; <strong>.pdf</strong></li>
+              <li>Microsoft Word &ndash; <strong>.doc</strong> or <strong>.docx</strong></li>
+              <li>TIF &ndash; <strong>.tif</strong> or <strong>.tiff</strong></li>
+              <li>JPEG &ndash; <strong>.jpg</strong> or <strong>.jpeg</strong></li>
+              <li>PNG &ndash; <strong>.png</strong></li>
+            </ul>
+          </div>
+        </details>
+
+        {{ govukButton({
+          text: "Save and continue",
+          type: "submit"
+        }) }}
+      </form>
+
+    </div>
+  </div>
+{% endblock %}
