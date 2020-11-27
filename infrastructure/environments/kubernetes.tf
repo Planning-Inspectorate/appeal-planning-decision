@@ -60,6 +60,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     type = "VirtualMachineScaleSets"
 
     vnet_subnet_id = azurerm_subnet.network.id
+//    vnet_subnet_id = azurerm_subnet.private_endpoints.id
   }
 
   role_based_access_control {
@@ -76,6 +77,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   network_profile {
     network_plugin = "kubenet"
     load_balancer_sku = "Standard"
+//    dns_service_ip = "168.63.129.16"
   }
 
   addon_profile {

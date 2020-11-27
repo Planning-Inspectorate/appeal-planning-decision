@@ -70,21 +70,37 @@ module "mongodb-databases" {
   collections = var.mongodb_databases[count.index].collections
 }
 
-resource "azurerm_private_dns_zone" "mongodb" {
-  name = "${azurerm_cosmosdb_account.mongodb.name}.mongo.cosmos.azure.com"
-  resource_group_name = azurerm_resource_group.network.name
-}
-
-resource "azurerm_private_endpoint" "mongodb" {
-  name = format(local.name_format, "mongodb")
-  location = azurerm_resource_group.mongodb.location
-  resource_group_name = azurerm_resource_group.network.name
-  subnet_id = azurerm_subnet.private_endpoints.id
-
-  private_service_connection {
-    is_manual_connection = false
-    subresource_names = ["MongoDB"]
-    name = azurerm_cosmosdb_account.mongodb.name
-    private_connection_resource_id = azurerm_cosmosdb_account.mongodb.id
-  }
-}
+//resource "azurerm_private_endpoint" "mongodb" {
+//  name = format(local.name_format, "mongodb")
+//  location = azurerm_resource_group.mongodb.location
+//  resource_group_name = azurerm_resource_group.network.name
+//  subnet_id = azurerm_subnet.private_endpoints.id
+//
+//  private_service_connection {
+//    is_manual_connection = false
+//    subresource_names = ["MongoDB"]
+//    name = azurerm_cosmosdb_account.mongodb.name
+//    private_connection_resource_id = azurerm_cosmosdb_account.mongodb.id
+//  }
+//}
+//
+//resource "azurerm_private_dns_zone" "mongodb" {
+//  name = "${azurerm_cosmosdb_account.mongodb.name}.mongo.cosmos.azure.com"
+//  resource_group_name = azurerm_resource_group.network.name
+//}
+//
+//resource "azurerm_private_dns_zone_virtual_network_link" "mongodb" {
+//  name = format(local.name_format, "mongodb")
+//  private_dns_zone_name = azurerm_private_dns_zone.mongodb.name
+//  resource_group_name = azurerm_resource_group.network.name
+//  virtual_network_id = azurerm_virtual_network.network.id
+//  registration_enabled = false
+//}
+//
+//resource "azurerm_private_dns_a_record" "mongodb" {
+//  name = format(local.name_format, "mongodb")
+//  records = flatten(azurerm_private_endpoint.mongodb.custom_dns_configs[*].ip_addresses)
+//  resource_group_name = azurerm_resource_group.network.name
+//  ttl = 0
+//  zone_name = azurerm_private_dns_zone.mongodb.name
+//}
