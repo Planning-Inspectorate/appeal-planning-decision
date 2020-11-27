@@ -116,4 +116,4 @@ keyVault:
   multiValueSecrets:
     - mongodb-appeals-store
     - mongodb-documents-store
-    - redis-fwa-session-store
+    - mongodb-sessions-store

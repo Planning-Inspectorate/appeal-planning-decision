@@ -5,6 +5,16 @@ module.exports = {
     timeout: Number(process.env.APPEALS_SERVICE_API_TIMEOUT || 10000),
     url: process.env.APPEALS_SERVICE_API_URL,
   },
+  db: {
+    session: {
+      uri: process.env.SESSION_MONGODB_URL,
+      collection: process.env.SESSION_MONGODB_COLLECTION || 'sessions',
+      connectionOptions: {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      },
+    },
+  },
   fileUpload: {
     debug: process.env.FILE_UPLOAD_DEBUG === 'true',
     pins: {
@@ -21,22 +31,7 @@ module.exports = {
   },
   logger: {
     level: process.env.LOGGER_LEVEL || 'info',
-    redact: ['opts.body', 'config.server.sessionSecret'],
-  },
-  redis: () => {
-    const redisConfig = {
-      host: process.env.REDIS_HOST,
-      password: process.env.REDIS_PASS,
-      port: Number(process.env.REDIS_PORT || 6379),
-    };
-
-    if (process.env.REDIS_USE_TLS === 'true') {
-      redisConfig.tls = {
-        servername: process.env.REDIS_HOST,
-      };
-    }
-
-    return redisConfig;
+    redact: ['opts.body', 'config.db.session.uri', 'config.server.sessionSecret'],
   },
   server: {
     port: Number(process.env.PORT || 3000),

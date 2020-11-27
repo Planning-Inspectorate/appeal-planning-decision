@@ -58,26 +58,11 @@ spec:
               value: {{ .Values.formsWebApp.config.upload.useTmpFiles | quote }}
             - name: PORT
               value: {{ .Values.formsWebApp.config.port | quote }}
-            - name: REDIS_HOST
+            - name: SESSION_MONGODB_URL
               valueFrom:
                 secretKeyRef:
-                  key: host
-                  name: akv-redis-fwa-session-store
-            - name: REDIS_PASS
-              valueFrom:
-                secretKeyRef:
-                  key: pass
-                  name: akv-redis-fwa-session-store
-            - name: REDIS_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: akv-redis-fwa-session-store
-            - name: REDIS_USE_TLS
-              valueFrom:
-                secretKeyRef:
-                  key: use_tls
-                  name: akv-redis-fwa-session-store
+                  key: url
+                  name: akv-mongodb-sessions-store
             - name: SESSION_KEY
               valueFrom:
                 secretKeyRef:

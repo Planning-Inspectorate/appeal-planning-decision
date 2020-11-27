@@ -134,11 +134,6 @@ Or:
     git add .
     npm run commit
 
-## Local Dev Tools
-
-For convenience, [Redis Commander](https://github.com/joeferner/redis-commander) is included in our 
-`docker-compose.yml` file so you can visit `http://localhost:4004` to see inside the `redis` store.
-
 # Kubernetes
 
 The application is deployed to an Azure-managed Kubernetes cluster. The cluster is configured with [Role-Based Access Control (RBAC)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)

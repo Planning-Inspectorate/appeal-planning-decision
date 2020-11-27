@@ -13,8 +13,11 @@ mongodb_databases = [{
     name = "documents"
     default_ttl_seconds = 0
     indexes = []
+  }],
+  name = "sessions"
+  collections = [{
+    name = "sessions"
+    default_ttl_seconds = 0
+    indexes = []
   }]
 }]
-redis_capacity = 2
-redis_family = "C"
-redis_sku = "Basic"

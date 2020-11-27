@@ -128,28 +128,6 @@ variable "mongodb_max_throughput" {
 }
 
 /*
-  Redis defaults
- */
-
-variable "redis_capacity" {
-  description = "Capacity of the Redis cluster"
-  type = number
-  default = 0
-}
-
-variable "redis_family" {
-  description = "Family - C (Basic/Standard) or P (Premium)"
-  type = string
-  default = "C"
-}
-
-variable "redis_sku" {
-  description = "SKU - Basic, Standard or Premium"
-  type = string
-  default = "Basic"
-}
-
-/*
   Storage
  */
 
