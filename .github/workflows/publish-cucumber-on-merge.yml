@@ -2,6 +2,7 @@ name: Cypress Report
 
 env:
   CYPRESS_REPORTS: ./e2e-tests/cypress/cucumber-report
+  CYPRESS_VIDEOS: ./e2e-tests/cypress/videos
 
 on:
   push:
@@ -24,8 +25,8 @@ jobs:
     - name: create large test file
       run: npm run test:e2e:files
 
-    - name: run the tests
-      run: npm run test:e2e
+    - name: run the tests in demo-mode
+      run: npm run test:e2e:demo
 
     - name: post-process results
       if: ${{ always() }}
@@ -39,3 +40,10 @@ jobs:
         publish_dir: ${{ env.CYPRESS_REPORTS }}
         user_name: 'Karuna[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
+
+    - name: archive cypress videos as evidence
+      if: ${{ always() }}
+      uses: actions/upload-artifact@main
+      with:
+        name: videos
+        path: ${{ env.CYPRESS_VIDEOS }}
