@@ -17,7 +17,7 @@ resource "azurerm_virtual_network" "network" {
 }
 
 resource "azurerm_subnet" "network" {
-  name = format(local.name_format, "subnet")
+  name = format(local.name_format, "network")
   resource_group_name = azurerm_resource_group.network.name
   virtual_network_name = azurerm_virtual_network.network.name
   address_prefixes = ["10.30.1.0/24"]
