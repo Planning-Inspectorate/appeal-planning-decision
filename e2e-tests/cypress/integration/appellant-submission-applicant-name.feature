@@ -1,3 +1,4 @@
+@smoketest
 Feature: The user gives the original appellant name
   The users needs to give the original appellant name to save and continue.
 

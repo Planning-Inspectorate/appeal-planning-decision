@@ -1,3 +1,4 @@
+@smoketest
 Feature: A user provides their details
   The user is required to provide a valid name and email to complete an appeal.
 
