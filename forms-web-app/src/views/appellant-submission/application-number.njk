@@ -1,0 +1,45 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% block pageTitle %}
+  Planning application details
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="post" novalidate>
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>About the original planning application</span>
+
+        {{ govukInput({
+          label: {
+            text: "What is your original planning application number?",
+            classes: "govuk-label govuk-label--l",
+            isPageHeading: false
+          },
+          id: "application-number",
+          name: "application-number",
+          classes: "govuk-!-width-one-half",
+          spellcheck: false,
+          hint: {
+            text: "You can find this on the decision letter from your local planning department"
+          },
+          value: appeal["application-number"],
+          errorMessage: errors['application-number'] and {
+            text: errors['application-number'].msg
+          }
+        }) }}
+
+        {{ govukButton({
+          text: "Save and continue",
+          type: "submit"
+        }) }}
+
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

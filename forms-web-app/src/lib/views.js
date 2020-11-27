@@ -19,6 +19,7 @@ const VIEW = {
   APPELLANT_SUBMISSION: {
     TASK_LIST: 'appellant-submission/task-list',
     APPEAL_STATEMENT: 'appellant-submission/appeal-statement',
+    APPLICATION_NUMBER: 'appellant-submission/application-number',
     SUPPORTING_DOCUMENTS: 'appellant-submission/supporting-documents',
     YOUR_DETAILS: 'appellant-submission/your-details',
     WHO_ARE_YOU: 'appellant-submission/who-are-you',
