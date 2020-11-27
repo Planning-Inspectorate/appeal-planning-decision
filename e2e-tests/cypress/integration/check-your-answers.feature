@@ -1,26 +1,21 @@
 @wip
 Feature: A prospective appellant confirms the information sent is accurate and the appeal can be fully considered
 
-  Scenario: Prospective appellant verify details in about you before submitting the appeal
-    Given the user has submitted username and email
-    When the user is checking the answers before submitting the appeal
-    Then the user can see the submitted values
-    And the user can proceed to verify terms and conditions
+  Scenario Outline: Prospective appellant can review their data
+    Given the user has provided your details <sample-data>
+    When the user views the check your answers page
+    Then they should see the provided data, and <your-details-status>
+    And the user <can-proceed> proceed
 
-  Scenario: Prospective appellant update details in about you before submitting the appeal
-    When the user is checking the answers before submitting the appeal
-    And the user wishes to change their username and email
-    Then the user can see the updated values
-    And the user can proceed to verify terms and conditions
+    Examples:
+      | sample-data           | your-details-status | can-proceed |
+      | /about-you-valid.json | completed           | cannot      |
 
-  Scenario: Prospective appellant update username before submitting the appeal
-    When the user is checking the answers before submitting the appeal
-    And the user wishes to change the username
-    Then the user can see the updated value
-    And the user can proceed to verify terms and conditions
+  Scenario Outline: Prospective appellant can modify previously submitted information of a draft appeal
+    Given the user has submitted enough information to reach the Check Your Answers page
+    When a user chooses to review <section>
+    Then the user is presented with the current values and is able to modify them subject to validation rules
 
-  Scenario: Prospective appellant update email before submitting the appeal
-    When the user is checking the answers before submitting the appeal
-    And the user wishes to change the email
-    Then the user can see the updated value
-    And the user can proceed to verify terms and conditions
+    Examples:
+      | section    |
+      | About You  |
