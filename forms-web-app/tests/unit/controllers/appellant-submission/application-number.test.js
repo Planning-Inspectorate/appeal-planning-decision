@@ -52,7 +52,7 @@ describe('controller/appellant-submission/application-number', () => {
       expect(logger.error).toHaveBeenCalledWith(error);
     });
 
-    it('should redirect to `/appellant-submission/supporting-documents` if valid', async () => {
+    it('should redirect to `/appellant-submission/upload-application` if valid', async () => {
       createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
 
       const mockRequest = {
