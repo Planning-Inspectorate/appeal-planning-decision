@@ -1,3 +1,4 @@
+@smoketest
 Feature: A user provides his details
   The user needs to give his name and his email address in order to save and continue.
 

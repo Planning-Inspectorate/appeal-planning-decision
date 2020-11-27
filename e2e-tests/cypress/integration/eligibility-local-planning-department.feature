@@ -1,3 +1,4 @@
+@smoketest
 Feature: A prospective appellant supplies a Local Planning Department for the case they wish to appeal
     Not every LPA is taking part in this iteration of the service.
 
