@@ -1,5 +1,5 @@
 const { VIEW } = require('../../lib/views');
 
 exports.getSupportingDocuments = (req, res) => {
-  res.render(VIEW.SUPPORTING_DOCUMENTS);
+  res.render(VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS);
 };

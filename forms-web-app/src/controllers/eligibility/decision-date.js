@@ -1,11 +1,11 @@
 const { VIEW } = require('../../lib/views');
 
 exports.getNoDecision = (req, res) => {
-  res.render(VIEW.NO_DECISION);
+  res.render(VIEW.ELIGIBILITY.NO_DECISION);
 };
 
 exports.getDecisionDate = (req, res) => {
-  res.render(VIEW.DECISION_DATE);
+  res.render(VIEW.ELIGIBILITY.DECISION_DATE);
 };
 
 exports.postDecisionDate = (req, res) => {
@@ -16,7 +16,7 @@ exports.postDecisionDate = (req, res) => {
     const parsed = JSON.parse(errors['decision-date'].msg);
 
     if (parsed.deadlineDate) {
-      res.render(VIEW.DECISION_DATE_EXPIRED, {
+      res.render(VIEW.ELIGIBILITY.DECISION_DATE_EXPIRED, {
         errors,
         errorSummary,
         deadlineDate: parsed.deadlineDate,
@@ -26,16 +26,16 @@ exports.postDecisionDate = (req, res) => {
   }
 
   if (Object.keys(errors).length > 0) {
-    res.render(VIEW.DECISION_DATE, {
+    res.render(VIEW.ELIGIBILITY.DECISION_DATE, {
       errors,
       errorSummary,
     });
     return;
   }
 
-  res.redirect('/eligibility/planning-department');
+  res.redirect(`/${VIEW.ELIGIBILITY.PLANNING_DEPARTMENT}`);
 };
 
 exports.getDecisionDateExpired = (req, res) => {
-  res.render(VIEW.DECISION_DATE_EXPIRED);
+  res.render(VIEW.ELIGIBILITY.DECISION_DATE_EXPIRED);
 };

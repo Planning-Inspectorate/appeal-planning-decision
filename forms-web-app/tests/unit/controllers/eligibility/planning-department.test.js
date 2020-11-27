@@ -22,13 +22,13 @@ describe('controller/eligibility/planning-department', () => {
 
       const { departments } = departmentsData;
 
-      expect(res.render).toBeCalledWith('eligibility/planning-department', { departments });
+      expect(res.render).toBeCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, { departments });
     });
 
     it('Test the getPlanningDepartmentOut method calls the correct template', () => {
       planningDepartmentController.getPlanningDepartmentOut(req, res);
 
-      expect(res.render).toHaveBeenCalledWith('eligibility/planning-department-out');
+      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT);
     });
 
     it('Test the postPlanningDepartment method call with handled department', async () => {
@@ -38,7 +38,7 @@ describe('controller/eligibility/planning-department', () => {
 
       await planningDepartmentController.postPlanningDepartment(mockRequest, res);
 
-      expect(res.redirect).toBeCalledWith('/eligibility/listed-building');
+      expect(res.redirect).toBeCalledWith(`/${VIEW.ELIGIBILITY.LISTED_BUILDING}`);
     });
 
     it('Test the getPlanningDepartment method call with ineligible department', async () => {
@@ -48,7 +48,10 @@ describe('controller/eligibility/planning-department', () => {
       const { eligibleDepartments } = departmentsData;
 
       await planningDepartmentController.postPlanningDepartment(mockRequest, res);
-      expect(res.render).toBeCalledWith(VIEW.PLANNING_DEPARTMENT_OUT, eligibleDepartments);
+      expect(res.render).toBeCalledWith(
+        VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT,
+        eligibleDepartments
+      );
     });
 
     it('Test the postPlanningDepartment method call on error', async () => {
@@ -59,7 +62,7 @@ describe('controller/eligibility/planning-department', () => {
       const { departments } = departmentsData;
       await planningDepartmentController.postPlanningDepartment(mockRequest, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.PLANNING_DEPARTMENT, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
         departments,
         errors: { 'local-planning-department': { msg: 'Invalid Value' } },
         errorSummary: [],

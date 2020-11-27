@@ -5,5 +5,5 @@ exports.getApplicationNumber = (req, res) => {
 };
 
 exports.postApplicationNumber = (req, res) => {
-  res.redirect(`/${VIEW.TASK_LIST}`);
+  res.redirect(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
 };

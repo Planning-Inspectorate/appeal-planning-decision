@@ -10,7 +10,7 @@ describe('controller/eligibility/appeal-statement', () => {
     it('should call the correct template', () => {
       appealStatementController.getAppealStatement(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY_APPEAL_STATEMENT);
+      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.APPEAL_STATEMENT);
     });
   });
 
@@ -18,7 +18,7 @@ describe('controller/eligibility/appeal-statement', () => {
     it('should redirect ', () => {
       appealStatementController.postAppealStatement(req, res);
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
     });
   });
 });

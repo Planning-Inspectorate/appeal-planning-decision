@@ -5,7 +5,7 @@ exports.getTaskList = (req, res) => {
   const applicationStatus = 'Application incomplete';
   const sectionsCompleted = 3;
 
-  res.render(VIEW.TASK_LIST, {
+  res.render(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
     applicationStatus,
     sectionsCompleted,
     sections: [

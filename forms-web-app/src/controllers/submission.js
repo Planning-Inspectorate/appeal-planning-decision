@@ -21,5 +21,5 @@ exports.postSubmission = async (req, res) => {
     return;
   }
 
-  res.redirect('/submission');
+  res.redirect(`/submission`);
 };

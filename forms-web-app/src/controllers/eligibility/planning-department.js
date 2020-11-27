@@ -4,7 +4,7 @@ const { VIEW } = require('../../lib/views');
 exports.getPlanningDepartment = async (req, res) => {
   const { departments } = await getDepartmentData();
 
-  res.render(VIEW.PLANNING_DEPARTMENT, {
+  res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
     departments,
   });
 };
@@ -18,16 +18,16 @@ exports.postPlanningDepartment = async (req, res) => {
     const { departments, eligibleDepartments } = await getDepartmentData();
 
     if (errorMessage === 'Ineligible Department') {
-      res.render(VIEW.PLANNING_DEPARTMENT_OUT, eligibleDepartments);
+      res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT, eligibleDepartments);
     } else {
-      res.render(VIEW.PLANNING_DEPARTMENT, { departments, errors, errorSummary });
+      res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, { departments, errors, errorSummary });
     }
     return;
   }
 
-  res.redirect('/eligibility/listed-building');
+  res.redirect(`/${VIEW.ELIGIBILITY.LISTED_BUILDING}`);
 };
 
 exports.getPlanningDepartmentOut = (req, res) => {
-  res.render(VIEW.PLANNING_DEPARTMENT_OUT);
+  res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT);
 };

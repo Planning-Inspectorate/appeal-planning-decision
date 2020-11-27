@@ -26,7 +26,7 @@ describe('controller/submission', () => {
       await submissionController.postSubmission(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith('submission/index', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.SUBMISSION, {
         errorSummary: { a: { msg: 'There were errors here' } },
         errors: { a: 'b' },
       });
@@ -41,7 +41,7 @@ describe('controller/submission', () => {
       };
       submissionController.postSubmission(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith('/submission');
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.SUBMISSION}`);
     });
 
     it('should redirect if valid', async () => {
@@ -53,7 +53,7 @@ describe('controller/submission', () => {
       };
       await submissionController.postSubmission(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith('/confirmation');
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.CONFIRMATION}`);
     });
   });
 });

@@ -18,7 +18,7 @@ describe('controller/application-number', () => {
     it('should redirect ', () => {
       applicationNumberController.postApplicationNumber(req, res);
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
     });
   });
 });

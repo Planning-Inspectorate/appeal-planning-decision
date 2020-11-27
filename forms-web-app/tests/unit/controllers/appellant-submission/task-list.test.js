@@ -10,7 +10,7 @@ describe('controller/appellant-submission/task-list', () => {
     it('should call the correct template', () => {
       taskListController.getTaskList(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.TASK_LIST, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
         applicationStatus: 'Application incomplete',
         sectionsCompleted: 3,
         sections: [

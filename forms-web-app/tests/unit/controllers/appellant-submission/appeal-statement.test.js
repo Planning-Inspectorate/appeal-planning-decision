@@ -2,6 +2,7 @@ const appealStatementController = require('../../../../src/controllers/appellant
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
+const { VIEW } = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
@@ -14,7 +15,7 @@ describe('controller/appellant-submission/appeal-statement', () => {
     it('should call the correct template', () => {
       appealStatementController.getAppealStatement(req, res);
 
-      expect(res.render).toHaveBeenCalledWith('appellant-submission/appeal-statement', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
         appeal: undefined,
       });
     });
@@ -35,7 +36,7 @@ describe('controller/appellant-submission/appeal-statement', () => {
       await appealStatementController.postAppealStatement(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith('appellant-submission/appeal-statement', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
         errorSummary: { a: { msg: 'There were errors here' } },
         errors: { a: 'b' },
       });

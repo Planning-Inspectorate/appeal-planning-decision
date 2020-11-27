@@ -15,7 +15,7 @@ describe('controller/appellant-submission/applicant-name', () => {
     it('should call the correct template', () => {
       applicantNameController.getApplicantName(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.APPLICANT_NAME, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME, {
         appeal: undefined,
       });
     });
@@ -34,7 +34,7 @@ describe('controller/appellant-submission/applicant-name', () => {
       await applicantNameController.postApplicantName(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith(VIEW.APPLICANT_NAME, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME, {
         appeal: {
           'behalf-appellant-name': 'Jim Jacobson',
         },
@@ -66,7 +66,7 @@ describe('controller/appellant-submission/applicant-name', () => {
       };
       await applicantNameController.postApplicantName(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
     });
   });
 });

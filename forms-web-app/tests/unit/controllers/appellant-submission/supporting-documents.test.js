@@ -1,5 +1,6 @@
 const supportingDocumentsController = require('../../../../src/controllers/appellant-submission/supporting-documents');
 const { mockReq, mockRes } = require('../../mocks');
+const { VIEW } = require('../../../../src/lib/views');
 
 const req = mockReq();
 const res = mockRes();
@@ -9,7 +10,7 @@ describe('controller/appellant-submission/supporting-documents', () => {
     it('should call the correct template', () => {
       supportingDocumentsController.getSupportingDocuments(req, res);
 
-      expect(res.render).toHaveBeenCalledWith('appellant-submission/supporting-documents');
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS);
     });
   });
 });
