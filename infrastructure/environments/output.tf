@@ -56,12 +56,6 @@ output "key_vault_secrets" {
   value = jsonencode(merge({
     fwa-session-key = random_string.fwa-session-key.result
     docs-blob-storage-connection-string = azurerm_storage_account.documents.primary_connection_string
-    redis-fwa-session-store = {
-      host = tostring(azurerm_redis_cache.redis.hostname)
-      pass = tostring(azurerm_redis_cache.redis.primary_access_key)
-      port = tostring(azurerm_redis_cache.redis.ssl_port)
-      use_tls = "true"
-    }
   }, { for id, db in var.mongodb_databases :
     "mongodb-${db.name}-store" => {
       url = replace("${azurerm_cosmosdb_account.mongodb.connection_strings[0]}&retrywrites=false", "/?", "/${db.name}?")
@@ -106,21 +100,4 @@ output "mongodb_connection_strings" {
     url = replace("${azurerm_cosmosdb_account.mongodb.connection_strings[0]}&retrywrites=false", "/?", "/${db.name}?")
   }
   }, {})
-}
-
-/*
-  Redis
- */
-
-output "redis_connection_strings" {
-  description = "Redis connection strings for each cluster"
-  sensitive = true
-  value = {
-    form-web-app-sessions = try({
-      host = azurerm_redis_cache.redis.hostname
-      pass = azurerm_redis_cache.redis.primary_access_key
-      port = azurerm_redis_cache.redis.ssl_port
-      use_tls = true
-    }, {})
-  }
 }

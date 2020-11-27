@@ -41,9 +41,6 @@ Infrastructure which the applications are deployed to
 | mongodb\_max\_staleness\_prefix | Represents the number of state requests that are tolerated - min 100,000 for global replication | `number` | `100000` | no |
 | mongodb\_max\_throughput | Max throughput of the MongoDB database - set in increments of 100 between 400 and 100,000 | `number` | `400` | no |
 | prefix | Resource prefix | `string` | `"pins"` | no |
-| redis\_capacity | Capacity of the Redis cluster | `number` | `0` | no |
-| redis\_family | Family - C (Basic/Standard) or P (Premium) | `string` | `"C"` | no |
-| redis\_sku | SKU - Basic, Standard or Premium | `string` | `"Basic"` | no |
 
 ## Outputs
 
@@ -62,5 +59,4 @@ Infrastructure which the applications are deployed to
 | kube\_load\_balancer\_rg | The rosource group the load balancer IP exists in |
 | kubeconfig | The Kubernetes config file |
 | mongodb\_connection\_strings | MongoDB connection strings for each database |
-| redis\_connection\_strings | Redis connection strings for each cluster |
 

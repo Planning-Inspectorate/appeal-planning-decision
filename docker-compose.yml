@@ -70,8 +70,7 @@ services:
       FILE_UPLOAD_MAX_FILE_SIZE_BYTES: 104857600
       FILE_UPLOAD_USE_TEMP_FILES: "true"
       FILE_UPLOAD_TMP_PATH: "/tmp"
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
+      SESSION_MONGODB_URL: mongodb://mongodb:27017/fwa-sessions
       SESSION_KEY: some_secure_key_goes_here
       USE_SECURE_SESSION_COOKIES: "false"
     ports:
@@ -80,11 +79,11 @@ services:
     links:
       - appeals-service-api
       - document-service-api
-      - redis
+      - mongodb
     depends_on:
       - appeals-service-api
       - document-service-api
-      - redis
+      - mongodb
     volumes:
       - ./common:/opt/app/node_modules/@pins/common
       - ./forms-web-app:/opt/app
@@ -153,17 +152,3 @@ services:
     image: mongo:3.6.0
     ports:
       - 4000:27017
-
-  redis:
-    image: redis:4.0.14-alpine
-    ports:
-      - 4001:6379
-
-  redis-commander:
-    image: rediscommander/redis-commander:latest
-    depends_on:
-      - redis
-    environment:
-      - REDIS_HOSTS=local:redis:6379
-    ports:
-      - 4004:8081
