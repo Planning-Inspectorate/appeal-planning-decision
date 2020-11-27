@@ -21,7 +21,7 @@ const FORM_FIELD = {
 exports.FORM_FIELD = FORM_FIELD;
 
 exports.getWhoAreYou = (req, res) => {
-  res.render(VIEW.WHO_ARE_YOU, {
+  res.render(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
     FORM_FIELD,
     appeal: req.session.appeal,
   });
@@ -40,7 +40,7 @@ exports.postWhoAreYou = async (req, res) => {
   };
 
   if (Object.keys(errors).length > 0) {
-    res.render(VIEW.WHO_ARE_YOU, {
+    res.render(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
       appeal,
       errors,
       errorSummary,
@@ -54,7 +54,7 @@ exports.postWhoAreYou = async (req, res) => {
   } catch (e) {
     logger.error(e);
 
-    res.render(VIEW.WHO_ARE_YOU, {
+    res.render(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
       appeal,
       errors,
       errorSummary: {
@@ -64,5 +64,5 @@ exports.postWhoAreYou = async (req, res) => {
     return;
   }
 
-  res.redirect(`/${VIEW.YOUR_DETAILS}`);
+  res.redirect(`/${VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS}`);
 };

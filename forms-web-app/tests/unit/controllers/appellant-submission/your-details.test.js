@@ -15,7 +15,9 @@ describe('controller/appellant-submission/your-details', () => {
     it('should call the correct template', () => {
       yourDetailsController.getYourDetails(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.YOUR_DETAILS, { appeal: undefined });
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
+        appeal: undefined,
+      });
     });
   });
 
@@ -31,7 +33,7 @@ describe('controller/appellant-submission/your-details', () => {
       await yourDetailsController.postYourDetails(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith(VIEW.YOUR_DETAILS, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
         appeal: { 'appellant-email': undefined, 'appellant-name': undefined },
         errorSummary: { a: { msg: 'There were errors here' } },
         errors: { a: 'b' },
@@ -72,7 +74,7 @@ describe('controller/appellant-submission/your-details', () => {
         'appellant-email': undefined,
         'appellant-name': undefined,
       });
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
     });
 
     it('should redirect to the applicant name page if valid and not the original appellant', async () => {
@@ -98,7 +100,7 @@ describe('controller/appellant-submission/your-details', () => {
         'appellant-email': 'jim@joe.com',
         'appellant-name': 'Jim Joe',
       });
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPLICANT_NAME}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME}`);
     });
   });
 });

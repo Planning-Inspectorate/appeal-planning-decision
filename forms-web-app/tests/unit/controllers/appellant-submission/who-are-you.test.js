@@ -16,7 +16,10 @@ describe('controller/appellant-submission/who-are-you', () => {
     it('should call the correct template', () => {
       whoAreYouController.getWhoAreYou(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.WHO_ARE_YOU, { FORM_FIELD, appeal: undefined });
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
+        FORM_FIELD,
+        appeal: undefined,
+      });
     });
   });
 
@@ -37,7 +40,7 @@ describe('controller/appellant-submission/who-are-you', () => {
         'original-appellant': true,
       });
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.YOUR_DETAILS}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS}`);
     });
     it('should redirect with original-appellant set to false', async () => {
       const mockRequest = {
@@ -55,7 +58,7 @@ describe('controller/appellant-submission/who-are-you', () => {
         'original-appellant': false,
       });
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.YOUR_DETAILS}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS}`);
     });
 
     it('should re-render the template with errors if there is any validator error', async () => {
@@ -70,7 +73,7 @@ describe('controller/appellant-submission/who-are-you', () => {
       await whoAreYouController.postWhoAreYou(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith(VIEW.WHO_ARE_YOU, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
         FORM_FIELD,
         appeal: {
           'original-appellant': false,

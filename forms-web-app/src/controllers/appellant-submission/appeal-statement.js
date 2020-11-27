@@ -3,7 +3,7 @@ const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 
 exports.getAppealStatement = (req, res) => {
-  res.render(VIEW.APPEAL_STATEMENT, {
+  res.render(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
     appeal: req.session.appeal,
   });
 };
@@ -18,7 +18,7 @@ exports.postAppealStatement = async (req, res) => {
   };
 
   if (Object.keys(errors).length > 0) {
-    res.render(VIEW.APPEAL_STATEMENT, {
+    res.render(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
       errors,
       errorSummary,
     });
@@ -30,7 +30,7 @@ exports.postAppealStatement = async (req, res) => {
       req.session.appeal = await createOrUpdateAppeal(appeal);
     } catch (e) {
       logger.error(e);
-      res.render(VIEW.APPEAL_STATEMENT, {
+      res.render(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
         appeal,
         errors,
         errorSummary: {
@@ -40,9 +40,9 @@ exports.postAppealStatement = async (req, res) => {
       return;
     }
 
-    res.redirect(`/${VIEW.SUPPORTING_DOCUMENTS}`);
+    res.redirect(`/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`);
     return;
   }
 
-  res.redirect(`/${VIEW.APPEAL_STATEMENT}`);
+  res.redirect(`/${VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT}`);
 };

@@ -3,7 +3,7 @@ const logger = require('../../lib/logger');
 const { VIEW } = require('../../lib/views');
 
 exports.getYourDetails = (req, res) => {
-  res.render(VIEW.YOUR_DETAILS, {
+  res.render(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
     appeal: req.session.appeal,
   });
 };
@@ -19,7 +19,7 @@ exports.postYourDetails = async (req, res) => {
   };
 
   if (Object.keys(errors).length > 0) {
-    res.render(VIEW.YOUR_DETAILS, {
+    res.render(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
       appeal,
       errors,
       errorSummary,
@@ -35,7 +35,7 @@ exports.postYourDetails = async (req, res) => {
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);
-    res.render(VIEW.YOUR_DETAILS, {
+    res.render(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
       appeal,
       errors,
       errorSummary: {
@@ -46,8 +46,8 @@ exports.postYourDetails = async (req, res) => {
   }
 
   if (!appeal['original-appellant']) {
-    res.redirect(`/${VIEW.APPLICANT_NAME}`);
+    res.redirect(`/${VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME}`);
     return;
   }
-  res.redirect(`/${VIEW.TASK_LIST}`);
+  res.redirect(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
 };

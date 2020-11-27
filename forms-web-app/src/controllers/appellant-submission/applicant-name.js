@@ -3,7 +3,7 @@ const { VIEW } = require('../../lib/views');
 const logger = require('../../lib/logger');
 
 exports.getApplicantName = (req, res) => {
-  res.render(VIEW.APPLICANT_NAME, {
+  res.render(VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME, {
     appeal: req.session.appeal,
   });
 };
@@ -18,7 +18,7 @@ exports.postApplicantName = async (req, res) => {
   };
 
   if (Object.keys(errors).length > 0) {
-    res.render(VIEW.APPLICANT_NAME, {
+    res.render(VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME, {
       appeal,
       errors,
       errorSummary,
@@ -30,7 +30,7 @@ exports.postApplicantName = async (req, res) => {
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);
-    res.render(VIEW.YOUR_DETAILS, {
+    res.render(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
       appeal,
       errors,
       errorSummary: {
@@ -40,5 +40,5 @@ exports.postApplicantName = async (req, res) => {
     return;
   }
 
-  res.redirect(`/${VIEW.TASK_LIST}`);
+  res.redirect(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
 };

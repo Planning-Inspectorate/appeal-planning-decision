@@ -19,11 +19,11 @@ const FORM_FIELD = {
 exports.FORM_FIELD = FORM_FIELD;
 
 exports.getServiceNotAvailableForListedBuildings = (req, res) => {
-  res.render(VIEW.LISTED_OUT);
+  res.render(VIEW.ELIGIBILITY.LISTED_OUT);
 };
 
 exports.getListedBuilding = (req, res) => {
-  res.render(VIEW.LISTED_BUILDING, { FORM_FIELD });
+  res.render(VIEW.ELIGIBILITY.LISTED_BUILDING, { FORM_FIELD });
 };
 
 exports.postListedBuilding = (req, res) => {
@@ -32,7 +32,7 @@ exports.postListedBuilding = (req, res) => {
   const { errors = {}, errorSummary = [] } = body;
 
   if (Object.keys(errors).length > 0) {
-    res.render(VIEW.LISTED_BUILDING, {
+    res.render(VIEW.ELIGIBILITY.LISTED_BUILDING, {
       errors,
       errorSummary,
       FORM_FIELD,
@@ -41,9 +41,9 @@ exports.postListedBuilding = (req, res) => {
   }
 
   if (body['is-your-appeal-about-a-listed-building'] === 'yes') {
-    res.redirect(`/${VIEW.LISTED_OUT}`);
+    res.redirect(`/${VIEW.ELIGIBILITY.LISTED_OUT}`);
     return;
   }
 
-  res.redirect(`/${VIEW.ELIGIBILITY_APPEAL_STATEMENT}`);
+  res.redirect(`/${VIEW.ELIGIBILITY.APPEAL_STATEMENT}`);
 };
