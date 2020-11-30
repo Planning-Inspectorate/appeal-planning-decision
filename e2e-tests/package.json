@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:e2e": "cypress run --record --key 2583b699-90a6-490b-b988-1a54260f59d5 --parallel -e TAGS='not @wip'",
+    "test:e2e": "cypress run -e TAGS='not @wip'",
     "test:e2e:demo": "cypress run --headed -b chrome --env demoDelay=1000 -e TAGS='not @wip'",
     "test:e2e:postprocess": "node ./reporter.js",
     "test:e2e:files": "./create-large-test-files.sh"
