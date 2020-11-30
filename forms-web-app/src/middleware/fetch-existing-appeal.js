@@ -17,6 +17,10 @@ module.exports = async (req, res, next) => {
   try {
     req.log.debug({ uuid: req.session.appeal.uuid }, 'Get existing appeal');
     req.session.appeal = await getExistingAppeal(req.session.appeal.uuid);
+
+    req.session.appeal['appeal-upload'] =
+      (req.session.appeal['appeal-upload'] && JSON.parse(req.session.appeal['appeal-upload'])) ||
+      {};
   } catch (err) {
     req.log.debug({ err }, 'Error retrieving appeal');
     req.session.appeal = {};

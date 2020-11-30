@@ -14,7 +14,12 @@ exports.postAppealStatement = async (req, res) => {
 
   const appeal = {
     ...req.session.appeal,
-    'appeal-statement': req.files && req.files['appeal-statement'],
+    'appeal-upload':
+      req.files &&
+      req.files['appeal-upload'] &&
+      JSON.stringify({
+        name: req.files['appeal-upload'].name,
+      }),
   };
 
   if (Object.keys(errors).length > 0) {

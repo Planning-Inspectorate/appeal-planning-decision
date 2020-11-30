@@ -20,10 +20,10 @@ describe('validators/appellant-submission/appeal-statement', () => {
       expect(rule.stack[2].options).toEqual(['i-confirm']);
     });
 
-    it('has a rule for `appeal-statement`', () => {
+    it('has a rule for `appeal-upload`', () => {
       const rule = rules()[1][0].builder.build();
 
-      expect(rule.fields).toEqual(['appeal-statement']);
+      expect(rule.fields).toEqual(['appeal-upload']);
       expect(rule.optional).toBeFalsy();
       expect(rule.stack).toHaveLength(1);
       expect(rule.stack[0].validator.name).toEqual('options');
@@ -84,7 +84,7 @@ describe('validators/appellant-submission/appeal-statement', () => {
         given: () => ({
           body: {
             'does-not-include-sensitive-information': 'i-confirm',
-            'appeal-statement': 'a',
+            'appeal-upload': 'a',
           },
           files: {},
         }),
@@ -98,7 +98,7 @@ describe('validators/appellant-submission/appeal-statement', () => {
         given: () => ({
           body: {
             'does-not-include-sensitive-information': 'i-confirm',
-            'appeal-statement': 'a',
+            'appeal-upload': 'a',
           },
           files: { x: {} },
         }),
@@ -112,10 +112,10 @@ describe('validators/appellant-submission/appeal-statement', () => {
         given: () => ({
           body: {
             'does-not-include-sensitive-information': 'i-confirm',
-            'appeal-statement': 'x',
+            'appeal-upload': 'x',
           },
           files: {
-            'appeal-statement': {
+            'appeal-upload': {
               mimetype: 'bad',
             },
           },
@@ -130,10 +130,10 @@ describe('validators/appellant-submission/appeal-statement', () => {
         given: () => ({
           body: {
             'does-not-include-sensitive-information': 'i-confirm',
-            'appeal-statement': 'x',
+            'appeal-upload': 'x',
           },
           files: {
-            'appeal-statement': {
+            'appeal-upload': {
               mimetype: MIME_TYPE_JPEG,
               size: config.fileUpload.pins.appealStatementMaxFileSize + 1,
             },
@@ -148,10 +148,10 @@ describe('validators/appellant-submission/appeal-statement', () => {
         given: () => ({
           body: {
             'does-not-include-sensitive-information': 'i-confirm',
-            'appeal-statement': 'x',
+            'appeal-upload': 'x',
           },
           files: {
-            'appeal-statement': {
+            'appeal-upload': {
               mimetype: MIME_TYPE_JPEG,
               size: config.fileUpload.maxFileSizeBytes - 1,
             },

@@ -105,23 +105,23 @@
           text: "File size should be no more than " + fileSizeLimits.appealStatementMaxFileSize | formatBytes
         }) }}
 
-        {% if appeal['appeal-statement'] %}
-        <h3 class="govuk-heading-m">File added:</h3>
-        <ul class="govuk-list">
-          <li id="appeal-statement-file-name">{{ appeal['appeal-statement'].name }}</li>
-        </ul>
+        {% if appeal['appeal-upload'] %}
+          <h3 class="govuk-heading-m">File added:</h3>
+          <ul class="govuk-list">
+            <li id="appeal-upload-file-name">{{ appeal['appeal-upload'].name }}</li>
+          </ul>
         {% endif %}
 
         <div class="govuk-form-group">
-          <label class="govuk-heading-m" for="appeal-statement">
+          <label class="govuk-heading-m" for="appeal-upload">
             Upload a file
           </label>
-          {% if errors['appeal-statement'] %}
-          <span id="appeal-statement-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> {{ errors['appeal-statement'].msg }}
+          {% if errors['appeal-upload'] %}
+          <span id="appeal-upload-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> {{ errors['appeal-upload'].msg }}
           </span>
           {% endif %}
-          <input class="govuk-file-upload" id="appeal-statement" name="appeal-statement" type="file">
+          <input class="govuk-file-upload" id="appeal-upload" name="appeal-upload" type="file">
         </div>
 
         <details class="govuk-details" data-module="govuk-details">

@@ -30,7 +30,7 @@ describe('controller/appellant-submission/appeal-statement', () => {
           errorSummary: { a: { msg: 'There were errors here' } },
         },
         files: {
-          'appeal-statement': {},
+          'appeal-upload': {},
         },
       };
       await appealStatementController.postAppealStatement(mockRequest, res);
@@ -52,7 +52,7 @@ describe('controller/appellant-submission/appeal-statement', () => {
           'does-not-include-sensitive-information': 'anything here - not valid',
         },
         files: {
-          'appeal-statement': {},
+          'appeal-upload': {},
         },
       };
       appealStatementController.postAppealStatement(mockRequest, res);
@@ -85,7 +85,7 @@ describe('controller/appellant-submission/appeal-statement', () => {
           'does-not-include-sensitive-information': 'i-confirm',
         },
         files: {
-          'appeal-statement': {
+          'appeal-upload': {
             name: 'some name.jpg',
           },
         },

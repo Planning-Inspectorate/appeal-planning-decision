@@ -65,7 +65,7 @@ describe('middleware/fetch-existing-appeal', () => {
       expected: (req, res, next) => {
         expect(getExistingAppeal).toHaveBeenCalledWith('123-abc');
         expect(next).toHaveBeenCalled();
-        expect(req.session.appeal).toEqual({ good: 'data' });
+        expect(req.session.appeal).toEqual({ good: 'data', 'appeal-upload': {} });
       },
     },
   ].forEach(({ title, given, expected }) => {
