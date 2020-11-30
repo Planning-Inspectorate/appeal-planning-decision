@@ -12,19 +12,22 @@ exports.postUploadDecision = async (req, res) => {
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
 
-  const appeal = {
-    ...req.session.appeal,
-    'upload-decision': req.files && req.files['upload-decision'],
-  };
-
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
-      appeal,
+      appeal: req.session.appeal || {},
       errors,
       errorSummary,
     });
     return;
   }
+
+  const appeal = {
+    ...req.session.appeal,
+    'decision-upload': req.files &&
+      req.files['decision-upload'] && {
+        fileName: req.files['decision-upload'].name,
+      },
+  };
 
   try {
     req.session.appeal = await createOrUpdateAppeal(appeal);

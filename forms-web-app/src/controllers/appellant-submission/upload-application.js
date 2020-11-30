@@ -12,19 +12,22 @@ exports.postUploadApplication = async (req, res) => {
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
 
-  const appeal = {
-    ...req.session.appeal,
-    'upload-application': req.files && req.files['upload-application'],
-  };
-
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION, {
-      appeal,
+      appeal: req.session.appeal || {},
       errors,
       errorSummary,
     });
     return;
   }
+
+  const appeal = {
+    ...req.session.appeal,
+    'application-upload': req.files &&
+      req.files['application-upload'] && {
+        fileName: req.files['application-upload'].name,
+      },
+  };
 
   try {
     req.session.appeal = await createOrUpdateAppeal(appeal);

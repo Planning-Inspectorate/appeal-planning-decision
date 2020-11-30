@@ -30,6 +30,11 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
           ...opts,
         });
 
+        if (!apiResponse.ok) {
+          logger.debug(apiResponse, 'API Response not OK');
+          throw new Error(apiResponse.statusText);
+        }
+
         logger.debug('Successfully called');
 
         const data = await apiResponse.json();

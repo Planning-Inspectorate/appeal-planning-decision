@@ -42,6 +42,7 @@ describe('controller/appellant-submission/applicant-name', () => {
         errors: { a: 'b' },
       });
     });
+
     it('should re-render the template with errors if there is any api call error', async () => {
       const mockRequest = {
         ...req,
@@ -56,6 +57,7 @@ describe('controller/appellant-submission/applicant-name', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(logger.error).toHaveBeenCalledWith(error);
     });
+
     it('should redirect to the task list', async () => {
       createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
       const mockRequest = {
@@ -67,6 +69,10 @@ describe('controller/appellant-submission/applicant-name', () => {
       await applicantNameController.postApplicantName(mockRequest, res);
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        'behalf-appellant-name': 'Jim Jacobson',
+      });
     });
   });
 });

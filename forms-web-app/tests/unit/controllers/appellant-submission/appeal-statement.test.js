@@ -30,16 +30,14 @@ describe('controller/appellant-submission/appeal-statement', () => {
           errorSummary: { a: { msg: 'There were errors here' } },
         },
         files: {
-          'appeal-statement': {},
+          'appeal-upload': {},
         },
       };
       await appealStatementController.postAppealStatement(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
-        appeal: {
-          'appeal-statement': {},
-        },
+        appeal: {},
         errorSummary: { a: { msg: 'There were errors here' } },
         errors: { a: 'b' },
       });
@@ -52,7 +50,7 @@ describe('controller/appellant-submission/appeal-statement', () => {
           'does-not-include-sensitive-information': 'anything here - not valid',
         },
         files: {
-          'appeal-statement': {},
+          'appeal-upload': {},
         },
       };
       appealStatementController.postAppealStatement(mockRequest, res);
@@ -85,7 +83,7 @@ describe('controller/appellant-submission/appeal-statement', () => {
           'does-not-include-sensitive-information': 'i-confirm',
         },
         files: {
-          'appeal-statement': {
+          'appeal-upload': {
             name: 'some name.jpg',
           },
         },
@@ -93,6 +91,10 @@ describe('controller/appellant-submission/appeal-statement', () => {
       await appealStatementController.postAppealStatement(mockRequest, res);
 
       expect(res.redirect).toHaveBeenCalledWith('/appellant-submission/supporting-documents');
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        'appeal-upload': { fileName: 'some name.jpg' },
+      });
     });
   });
 });
