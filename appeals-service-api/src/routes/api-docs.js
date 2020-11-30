@@ -11,11 +11,15 @@ const specs = swaggerJsdoc({
 });
 
 router.use('/', swaggerUi.serve);
-router.get(
-  '/',
-  swaggerUi.setup(specs, {
-    explorer: true,
-  })
-);
+router
+  .get(
+    '/',
+    swaggerUi.setup(specs, {
+      explorer: true,
+    })
+  )
+  .get('/swagger.json', (req, res) => {
+    res.send(specs);
+  });
 
 module.exports = router;
