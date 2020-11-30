@@ -102,7 +102,7 @@
         </details>
 
         {{ govukInsetText({
-          text: "File size should be no more than 50MB"
+          text: "File size should be no more than " + fileSizeLimits.appealStatementMaxFileSize | formatBytes
         }) }}
 
         {% if appeal['appeal-statement'] %}
