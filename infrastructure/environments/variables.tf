@@ -113,6 +113,7 @@ variable "mongodb_databases" {
       }))
     }))
   }))
+  default = []
 }
 
 variable "mongodb_failover_locations" {
