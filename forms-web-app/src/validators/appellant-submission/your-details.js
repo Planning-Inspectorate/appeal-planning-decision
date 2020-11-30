@@ -16,7 +16,7 @@ function validateEmail(email) {
 
   const result = pattern.exec(email);
 
-  if (result && result.length > 1 && result[1].length > 3) {
+  if (result && result.length > 1 && result[1].length > 2) {
     return email;
   }
 
@@ -29,6 +29,9 @@ const ruleYourEmail = () =>
     .withMessage('Enter your email address')
     .bail()
     .isEmail()
+    .withMessage('Email should be a valid email address')
+    .bail()
+    .matches(/^(?=[\w\s])\s*[-+.'\w]*['\w]+@[-.\w]+\.[-.\w]+\s*$/)
     .withMessage('Email should be a valid email address')
     .bail()
     .custom((email) => validateEmail(email));

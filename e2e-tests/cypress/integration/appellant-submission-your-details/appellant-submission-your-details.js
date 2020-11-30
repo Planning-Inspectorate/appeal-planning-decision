@@ -1,39 +1,45 @@
 import { When, Then } from 'cypress-cucumber-preprocessor/steps';
 
-When('the user provides his name and his email', () => {
+When('the user provides their valid {string} and {string}', (name, email) => {
   cy.goToDetailsPage();
-  cy.provideDetailsName('Good Name');
+  cy.provideDetailsName(name);
+  cy.provideDetailsEmail(email);
+});
+
+When('the user provides the name {string}', (name) => {
+  cy.goToDetailsPage();
+  cy.provideDetailsName(name);
   cy.provideDetailsEmail('good@email.com');
 });
 
-When('the user provides his name and his email with a bad format', () => {
+When('the user provides the email {string}', (email) => {
   cy.goToDetailsPage();
-  cy.provideDetailsName('b@d n@me');
-  cy.provideDetailsEmail('bad@email.fr');
+  cy.provideDetailsName('Good Name');
+  cy.provideDetailsEmail(email);
+});
+
+When('the user provides only a name', () => {
+  cy.goToDetailsPage();
+  cy.provideDetailsName('Good Name');
+});
+
+When('the user provides only an email', () => {
+  cy.goToDetailsPage();
+  cy.provideDetailsEmail('good@email.com');
+});
+
+Then('the appeal\'s Your Details section is completed with {string} and {string}', (name, email) => {
+  cy.confirmDetailsWasAccepted(name, email);
+});
+
+Then('the user is informed that the provided name is invalid', () => {
   cy.confirmDetailsWasRejected(
     'Name must only include letters a to z, hyphens, spaces and apostrophes',
   );
 });
 
-When('the user provides only his name', () => {
-  cy.goToDetailsPage();
-  cy.provideDetailsName('Good Name');
-});
-
-When('the user provides only his email', () => {
-  cy.goToDetailsPage();
-  cy.provideDetailsEmail('good@email.com');
-});
-
-Then('the user can proceed with the provided details', () => {
-  cy.confirmDetailsWasAccepted();
-});
-
-Then('the user is informed that provided details have a bad format', () => {
-  cy.confirmDetailsWasRejected([
-    'Email should be a valid email address',
-    'Name must only include letters a to z, hyphens, spaces and apostrophes',
-  ]);
+Then('the user is informed that the provided email is invalid', () => {
+  cy.confirmDetailsWasRejected('Email should be a valid email address');
 });
 
 Then('the user is informed that the name is missing', () => {

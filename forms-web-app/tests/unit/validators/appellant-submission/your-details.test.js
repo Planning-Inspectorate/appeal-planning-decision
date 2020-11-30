@@ -27,7 +27,7 @@ describe('validators/your-details', () => {
       expect(rule.fields).toEqual(['appellant-email']);
       expect(rule.locations).toEqual(['body']);
       expect(rule.optional).toBeFalsy();
-      expect(rule.stack).toHaveLength(5);
+      expect(rule.stack).toHaveLength(7);
       expect(rule.stack[0].message).toEqual('Enter your email address');
       expect(rule.stack[2].validator.name).toEqual('isEmail');
     });
@@ -86,7 +86,7 @@ describe('validators/your-details', () => {
         given: () => ({
           body: {
             'appellant-name': "timmy o'tester-jones",
-            'appellant-email': 'thomas@example.fr',
+            'appellant-email': 'thomas@example.c',
           },
         }),
         expected: (result) => {
@@ -94,7 +94,7 @@ describe('validators/your-details', () => {
           expect(result.errors[0].location).toEqual('body');
           expect(result.errors[0].msg).toEqual('Email should be a valid email address');
           expect(result.errors[0].param).toEqual('appellant-email');
-          expect(result.errors[0].value).toEqual('thomas@example.fr');
+          expect(result.errors[0].value).toEqual('thomas@example.c');
         },
       },
       {
