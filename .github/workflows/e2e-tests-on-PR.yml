@@ -16,6 +16,9 @@ jobs:
   cypress:
     name: "Cypress"
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        machines: [ 1, 2, 3, 4, 5, 6 ]
     steps:
     - uses: actions/checkout@v2
 
@@ -28,8 +31,16 @@ jobs:
     - name: create large test files
       run: npm run test:e2e:files
 
-    - name: run the tests
-      run: npm run test:e2e
+    - name: run the tests in parallel
+      uses: cypress-io/github-action@v2
+      env:
+        CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        record: true
+        parallel: true
+        project: ./e2e-tests
+        command: npm run test:e2e:parallel
 
     - name: post-process results
       if: ${{ always() }}
