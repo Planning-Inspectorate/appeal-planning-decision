@@ -10,6 +10,7 @@ const pinoExpress = require('express-pino-logger');
 const uuid = require('uuid');
 const fileUpload = require('express-fileupload');
 const sessionConfig = require('./lib/session');
+const fileSizeDisplayHelper = require('./lib/file-size-display-helper');
 require('express-async-errors');
 
 const config = require('./config');
@@ -80,5 +81,7 @@ const viewPaths = [
 
 const env = nunjucks.configure(viewPaths, nunjucksConfig);
 env.addFilter('date', dateFilter);
+env.addFilter('formatBytes', fileSizeDisplayHelper);
+env.addGlobal('fileSizeLimits', config.fileUpload.pins);
 
 module.exports = app;
