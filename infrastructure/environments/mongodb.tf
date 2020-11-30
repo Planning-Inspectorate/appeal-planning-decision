@@ -20,7 +20,8 @@ resource "azurerm_cosmosdb_account" "mongodb" {
   resource_group_name = azurerm_resource_group.mongodb.name
   offer_type = "Standard"
   kind = "MongoDB"
-  enable_automatic_failover = length(var.mongodb_failover_read_locations) > 0
+  enable_automatic_failover = var.mongodb_auto_failover
+  enable_multiple_write_locations = var.mongodb_multi_write_locations
 
   is_virtual_network_filter_enabled = true
   virtual_network_rule {
@@ -46,13 +47,15 @@ resource "azurerm_cosmosdb_account" "mongodb" {
   geo_location {
     failover_priority = 0
     location = azurerm_resource_group.mongodb.location
+    zone_redundant = var.mongodb_primary_zone_redundancy
   }
 
   dynamic "geo_location" {
-    for_each = var.mongodb_failover_read_locations
+    for_each = var.mongodb_failover_locations
     content {
-      location = geo_location.value
+      location = geo_location.value.location
       failover_priority = geo_location.key + 1
+      zone_redundant = geo_location.value.redundancy
     }
   }
 }

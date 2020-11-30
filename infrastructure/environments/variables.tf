@@ -72,6 +72,12 @@ variable "k8s_vm_size" {
   These are used as base settings
  */
 
+variable "mongodb_auto_failover" {
+  description = "Enable auto failover between regions"
+  type = bool
+  default = false
+}
+
 variable "mongodb_consistency_policy" {
   description = "Cosmos consistency policy"
   type = string
@@ -109,9 +115,12 @@ variable "mongodb_databases" {
   }))
 }
 
-variable "mongodb_failover_read_locations" {
-  description = "Locations where read failover replicas are created for MongoDB"
-  type = list(string)
+variable "mongodb_failover_locations" {
+  description = "Locations where failover replicas are created for MongoDB"
+  type = list(object({
+    location = string
+    redundancy = bool
+  }))
   default = []
 }
 
@@ -125,6 +134,18 @@ variable "mongodb_max_throughput" {
   description = "Max throughput of the MongoDB database - set in increments of 100 between 400 and 100,000"
   type = number
   default = 400
+}
+
+variable "mongodb_multi_write_locations" {
+  description = "Enable multiple write locations"
+  type = bool
+  default = false
+}
+
+variable "mongodb_primary_zone_redundancy" {
+  description = "Enable redundancy in the primary zone"
+  type = bool
+  default = false
 }
 
 /*

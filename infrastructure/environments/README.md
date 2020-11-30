@@ -34,12 +34,15 @@ Infrastructure which the applications are deployed to
 | k8s\_version\_prefix | Version prefix to use - ensure you end with dot (.) | `string` | `"1.18."` | no |
 | k8s\_vm\_size | VM size | `string` | `"Standard_DS2_v2"` | no |
 | location | Default location for resources | `string` | `"uksouth"` | no |
+| mongodb\_auto\_failover | Enable auto failover between regions | `bool` | `false` | no |
 | mongodb\_consistency\_max\_interval\_in\_seconds | Represents the amount of staleness that is tolerated (in seconds) - min 5 mins for global replication | `number` | `300` | no |
 | mongodb\_consistency\_policy | Cosmos consistency policy | `string` | `"BoundedStaleness"` | no |
 | mongodb\_databases | List of databases and collections to provision | <pre>list(object({<br>    name = string<br>    collections = list(object({<br>      name = string<br>      default_ttl_seconds = number<br>      indexes = list(object({<br>        keys = set(string)<br>        unique = bool<br>      }))<br>    }))<br>  }))</pre> | n/a | yes |
-| mongodb\_failover\_read\_locations | Locations where read failover replicas are created for MongoDB | `list(string)` | `[]` | no |
+| mongodb\_failover\_locations | Locations where failover replicas are created for MongoDB | <pre>list(object({<br>    location = string<br>    redundancy = bool<br>  }))</pre> | `[]` | no |
 | mongodb\_max\_staleness\_prefix | Represents the number of state requests that are tolerated - min 100,000 for global replication | `number` | `100000` | no |
 | mongodb\_max\_throughput | Max throughput of the MongoDB database - set in increments of 100 between 400 and 100,000 | `number` | `400` | no |
+| mongodb\_multi\_write\_locations | Enable multiple write locations | `bool` | `false` | no |
+| mongodb\_primary\_zone\_redundancy | Enable redundancy in the primary zone | `bool` | `false` | no |
 | prefix | Resource prefix | `string` | `"pins"` | no |
 
 ## Outputs

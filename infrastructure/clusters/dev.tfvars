@@ -1,5 +1,7 @@
 k8s_min_nodes = 3
 k8s_max_nodes = 5
+
+mongodb_auto_failover = false
 mongodb_databases = [{
   name = "appeals"
   collections = [{
@@ -21,3 +23,6 @@ mongodb_databases = [{
     indexes = []
   }]
 }]
+mongodb_failover_locations = []
+mongodb_multi_write_locations = false
+mongodb_zone_redundancy = false
