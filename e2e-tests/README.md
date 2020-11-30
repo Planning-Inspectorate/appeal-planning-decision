@@ -23,8 +23,9 @@ Note: In the example above only tests tagged with `@wip` will be selected to run
 
 #### Test data
 
-The maximum permitted file size for uploading is configurable with a default value of 100MB. 
-A script `create-large-test-files.sh` is available to create files to support testing. 
+The maximum permitted file size for uploading is configurable with a default value of 50MB. 
+A script `create-large-test-files.sh` is available to create files to support testing. This will look for an env var 
+`FILE_UPLOAD_MAX_FILE_SIZE_BYTES` and will use the value there if present instead of the default.
 The files named `appeal-statement-invalid-too-big.png` and `appeal-statement-valid-max-size.png` will be placed in 
 the `cypress/fixtures` folder. This script runs as part of the CI sequence to ensure that the files are available 
 for e2e tests in the pipelines. To create the required files locally run this command once from the `e2e-tests` folder:
