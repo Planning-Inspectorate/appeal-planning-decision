@@ -11,7 +11,7 @@ const {
 } = require('../../lib/mime-types');
 
 module.exports = {
-  'upload-application': {
+  'application-upload': {
     custom: {
       options: (value, { req, path }) => {
         if (!req.files || Object.keys(req.files).length === 0 || !req.files[path]) {

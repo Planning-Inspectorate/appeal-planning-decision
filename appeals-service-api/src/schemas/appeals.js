@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const AppealsMethods = require('./appealsMethods');
+const FileUpload = require('./fileUpload');
 
 const AppealSchema = new Schema(
   {
@@ -27,19 +28,20 @@ const AppealSchema = new Schema(
       type: String,
     },
     'application-upload': {
-      type: String,
+      type: FileUpload.schema,
     },
     'decision-upload': {
-      type: String,
+      type: FileUpload.schema,
     },
     'appeal-upload': {
-      type: String,
+      type: FileUpload.schema,
     },
     'appeal-non-sensitive': {
       type: Boolean,
     },
     'appeal-other-uploads': {
-      type: String,
+      type: [FileUpload.schema],
+      default: [],
     },
     'active-appeal': {
       type: Boolean,

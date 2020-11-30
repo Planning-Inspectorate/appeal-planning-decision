@@ -7,11 +7,32 @@ const {
   getExistingAppeal,
   getLPAList,
 } = require('../../../src/lib/appeals-api-wrapper');
+
 const config = require('../../../src/config');
+
+const mockLogger = jest.fn();
+
+jest.mock('../../../src/lib/logger', () => ({
+  child: () => ({
+    debug: mockLogger,
+    error: mockLogger,
+    warn: mockLogger,
+  }),
+}));
 
 config.appeals.url = 'http://fake.url';
 
 describe('lib/appeals-api-wrapper', () => {
+  beforeEach(() => {
+    fetch.resetMocks();
+    fetch.doMock();
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   describe('createOrUpdateAppeal', () => {
     [
       {
@@ -63,6 +84,22 @@ describe('lib/appeals-api-wrapper', () => {
         const appealsApiResponse = await createOrUpdateAppeal(given());
         expected(appealsApiResponse);
       });
+    });
+
+    it('should gracefully handle a fetch failure', async () => {
+      fetch.mockResponseOnce(JSON.stringify({ something: 'went wrong' }), { status: 400 });
+
+      /**
+       * Non-standard way to handle functions that throw in Jest.
+       * I believe this is because of `utils.promiseTimout`.
+       */
+      try {
+        await createOrUpdateAppeal({
+          a: 'b',
+        });
+      } catch (e) {
+        expect(e.toString()).toEqual('Error: Bad Request');
+      }
     });
   });
 

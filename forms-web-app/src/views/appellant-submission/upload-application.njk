@@ -31,23 +31,23 @@
           text: "File size should be no more than " + fileSizeLimits.uploadApplicationMaxFileSize | formatBytes
         }) }}
 
-        {% if appeal['upload-application'] %}
+        {% if appeal['application-upload'] %}
           <h3 class="govuk-heading-m">File added:</h3>
           <ul class="govuk-list">
-            <li id="upload-application-file-name">{{ appeal['upload-application'].name }}</li>
+            <li id="application-upload-file-name">{{ appeal['application-upload'].fileName }}</li>
           </ul>
         {% endif %}
 
-        <div class="govuk-form-group">
-          <label class="govuk-heading-m" for="upload-application">
+        <div class="govuk-form-group {% if errors['application-upload'] %}govuk-form-group--error{% endif %}">
+          <label class="govuk-heading-m" for="application-upload">
             Upload a file
           </label>
-          {% if errors['upload-application'] %}
-            <span id="upload-application-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> {{ errors['upload-application'].msg }}
+          {% if errors['application-upload'] %}
+            <span id="application-upload-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> {{ errors['application-upload'].msg }}
           </span>
           {% endif %}
-          <input class="govuk-file-upload" id="upload-application" name="upload-application" type="file">
+          <input class="govuk-file-upload" id="application-upload" name="application-upload" type="file">
         </div>
 
         <details class="govuk-details" data-module="govuk-details">

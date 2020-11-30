@@ -42,6 +42,7 @@ describe('controller/appellant-submission/who-are-you', () => {
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS}`);
     });
+
     it('should redirect with original-appellant set to false', async () => {
       const mockRequest = {
         ...req,
@@ -82,6 +83,7 @@ describe('controller/appellant-submission/who-are-you', () => {
         errors: { a: 'b' },
       });
     });
+
     it('should re-render the template with errors if there is any api call error', async () => {
       const mockRequest = {
         ...req,

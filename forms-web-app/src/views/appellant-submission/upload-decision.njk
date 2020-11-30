@@ -31,23 +31,23 @@
           text: "File size should be no more than " + fileSizeLimits.uploadDecisionMaxFileSize | formatBytes
         }) }}
 
-        {% if appeal['upload-decision'] %}
+        {% if appeal['decision-upload'] %}
           <h3 class="govuk-heading-m">File added:</h3>
           <ul class="govuk-list">
-            <li id="upload-decision-file-name">{{ appeal['upload-decision'].name }}</li>
+            <li id="decision-upload-file-name">{{ appeal['decision-upload'].fileName }}</li>
           </ul>
         {% endif %}
 
-        <div class="govuk-form-group">
-          <label class="govuk-heading-m" for="upload-decision">
+        <div class="govuk-form-group {% if errors['decision-upload'] %}govuk-form-group--error{% endif %}">
+          <label class="govuk-heading-m" for="decision-upload">
             Upload a file
           </label>
-          {% if errors['upload-decision'] %}
-            <span id="upload-decision-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> {{ errors['upload-decision'].msg }}
+          {% if errors['decision-upload'] %}
+            <span id="decision-upload-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> {{ errors['decision-upload'].msg }}
           </span>
           {% endif %}
-          <input class="govuk-file-upload" id="upload-decision" name="upload-decision" type="file">
+          <input class="govuk-file-upload" id="decision-upload" name="decision-upload" type="file">
         </div>
 
         <details class="govuk-details" data-module="govuk-details">

@@ -58,11 +58,17 @@ describe('controller/appellant-submission/application-number', () => {
 
       const mockRequest = {
         ...req,
-        body: {},
+        body: {
+          'application-number': 'some valid application number',
+        },
       };
       await applicationNumberController.postApplicationNumber(mockRequest, res);
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`);
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        'application-number': 'some valid application number',
+      });
     });
   });
 });

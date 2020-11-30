@@ -1,6 +1,6 @@
 import 'cypress-file-upload';
 
 module.exports = (path) => {
-  cy.get('#upload-decision').attachFile(path);
+  cy.get('#decision-upload').attachFile(path);
   cy.wait(Cypress.env('demoDelay'));
 };

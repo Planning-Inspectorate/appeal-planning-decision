@@ -6,10 +6,10 @@ const config = require('../../../../src/config');
 
 describe('validators/appellant-submission/upload-decision', () => {
   describe('rules', () => {
-    it('has a rule for `upload-decision`', () => {
+    it('has a rule for `decision-upload`', () => {
       const rule = rules()[0][0].builder.build();
 
-      expect(rule.fields).toEqual(['upload-decision']);
+      expect(rule.fields).toEqual(['decision-upload']);
       expect(rule.optional).toBeFalsy();
       expect(rule.stack).toHaveLength(1);
       expect(rule.stack[0].validator.name).toEqual('options');
@@ -32,7 +32,7 @@ describe('validators/appellant-submission/upload-decision', () => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
           expect(result.errors[0].msg).toEqual('Upload the decision letter');
-          expect(result.errors[0].param).toEqual('upload-decision');
+          expect(result.errors[0].param).toEqual('decision-upload');
           expect(result.errors[0].value).toEqual(undefined);
         },
       },
@@ -49,7 +49,7 @@ describe('validators/appellant-submission/upload-decision', () => {
         title: 'files path is not matched - fail',
         given: () => ({
           body: {
-            'upload-decision': 'a',
+            'decision-upload': 'a',
           },
           files: { x: {} },
         }),
@@ -61,10 +61,10 @@ describe('validators/appellant-submission/upload-decision', () => {
         title: 'files path is matched but mime type is wrong - fail',
         given: () => ({
           body: {
-            'upload-decision': 'x',
+            'decision-upload': 'x',
           },
           files: {
-            'upload-decision': {
+            'decision-upload': {
               mimetype: 'bad',
             },
           },
@@ -77,10 +77,10 @@ describe('validators/appellant-submission/upload-decision', () => {
         title: 'files path is matched but file size is too big - fail',
         given: () => ({
           body: {
-            'upload-decision': 'x',
+            'decision-upload': 'x',
           },
           files: {
-            'upload-decision': {
+            'decision-upload': {
               mimetype: MIME_TYPE_JPEG,
               size: config.fileUpload.pins.uploadDecisionMaxFileSize + 1,
             },
@@ -94,10 +94,10 @@ describe('validators/appellant-submission/upload-decision', () => {
         title: 'valid file - pass',
         given: () => ({
           body: {
-            'upload-decision': 'x',
+            'decision-upload': 'x',
           },
           files: {
-            'upload-decision': {
+            'decision-upload': {
               mimetype: MIME_TYPE_JPEG,
               size: config.fileUpload.pins.uploadDecisionMaxFileSize - 1,
             },

@@ -29,16 +29,14 @@ describe('controller/appellant-submission/upload-application', () => {
           errorSummary: { a: { msg: 'There were errors here' } },
         },
         files: {
-          'upload-application': {},
+          'application-upload': {},
         },
       };
       await uploadApplicationController.postUploadApplication(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith('appellant-submission/upload-application', {
-        appeal: {
-          'upload-application': {},
-        },
+        appeal: {},
         errorSummary: { a: { msg: 'There were errors here' } },
         errors: { a: 'b' },
       });
@@ -65,7 +63,7 @@ describe('controller/appellant-submission/upload-application', () => {
         ...req,
         body: {},
         files: {
-          'upload-application': {
+          'application-upload': {
             name: 'some name.jpg',
           },
         },
@@ -73,6 +71,10 @@ describe('controller/appellant-submission/upload-application', () => {
       await uploadApplicationController.postUploadApplication(mockRequest, res);
 
       expect(res.redirect).toHaveBeenCalledWith('/appellant-submission/upload-decision');
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        'application-upload': { fileName: 'some name.jpg' },
+      });
     });
   });
 });

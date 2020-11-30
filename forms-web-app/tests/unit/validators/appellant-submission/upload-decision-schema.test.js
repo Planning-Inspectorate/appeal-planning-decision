@@ -17,14 +17,14 @@ jest.mock('../../../../src/config');
 
 describe('validators/appellant-submission/upload-decision-schema', () => {
   it('has a defined custom schema object', () => {
-    expect(schema['upload-decision'].custom.options).toBeDefined();
+    expect(schema['decision-upload'].custom.options).toBeDefined();
   });
 
-  describe(`schema['upload-decision'].custom.options`, () => {
+  describe(`schema['decision-upload'].custom.options`, () => {
     let fn;
 
     beforeEach(() => {
-      fn = schema['upload-decision'].custom.options;
+      fn = schema['decision-upload'].custom.options;
     });
 
     it('should throw if `req.files` is undefined', () => {

@@ -11,7 +11,7 @@ const {
 } = require('../../lib/mime-types');
 
 module.exports = {
-  'appeal-statement': {
+  'appeal-upload': {
     custom: {
       options: (value, { req, path }) => {
         // file is optional, so valid if no file is given.
