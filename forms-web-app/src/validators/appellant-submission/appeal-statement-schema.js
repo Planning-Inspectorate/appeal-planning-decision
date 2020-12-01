@@ -14,10 +14,13 @@ module.exports = {
   'appeal-upload': {
     custom: {
       options: (value, { req, path }) => {
+        console.log(`is this being called?`);
         // file is optional, so valid if no file is given.
         if (!req.files || !req.files[path]) {
+          console.log(`return true?`);
           return true;
         }
+        console.log(`continue?`);
 
         const { mimetype, size } = req.files[path];
 
