@@ -11,6 +11,14 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary
+        }) }}
+      {% endif %}
+
       <form action="" method="post" novalidate>
         <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>About the original planning application</span>
 

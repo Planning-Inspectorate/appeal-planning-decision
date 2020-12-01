@@ -36,6 +36,9 @@ describe('controller/appellant-submission/upload-decision', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith('appellant-submission/upload-decision', {
+        appeal: {
+          'upload-decision': {},
+        },
         errorSummary: { a: { msg: 'There were errors here' } },
         errors: { a: 'b' },
       });

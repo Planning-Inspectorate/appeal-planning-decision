@@ -19,6 +19,7 @@ exports.postApplicationNumber = async (req, res) => {
 
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER, {
+      appeal,
       errors,
       errorSummary,
     });
