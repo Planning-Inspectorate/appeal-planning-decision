@@ -19,6 +19,7 @@ exports.postAppealStatement = async (req, res) => {
 
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
+      appeal,
       errors,
       errorSummary,
     });

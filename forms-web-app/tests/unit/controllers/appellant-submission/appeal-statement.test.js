@@ -37,6 +37,9 @@ describe('controller/appellant-submission/appeal-statement', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
+        appeal: {
+          'appeal-statement': {},
+        },
         errorSummary: { a: { msg: 'There were errors here' } },
         errors: { a: 'b' },
       });

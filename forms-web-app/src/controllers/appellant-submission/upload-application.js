@@ -19,6 +19,7 @@ exports.postUploadApplication = async (req, res) => {
 
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION, {
+      appeal,
       errors,
       errorSummary,
     });

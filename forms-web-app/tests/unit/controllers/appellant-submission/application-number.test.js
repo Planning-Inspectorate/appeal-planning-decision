@@ -34,6 +34,7 @@ describe('controller/appellant-submission/application-number', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER, {
+        appeal: {},
         errorSummary: { a: { msg: 'There were errors here' } },
         errors: { a: 'b' },
       });

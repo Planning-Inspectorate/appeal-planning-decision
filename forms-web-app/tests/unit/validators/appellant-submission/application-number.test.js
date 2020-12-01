@@ -13,6 +13,9 @@ describe('validators/appellant-submission/application-number', () => {
       expect(rule.locations).toEqual(['body']);
       expect(rule.optional).toBeFalsy();
       expect(rule.stack).toHaveLength(1);
+
+      expect(rule.stack[0].negated).toBeTruthy();
+      expect(rule.stack[0].validator.name).toEqual('isEmpty');
       expect(rule.stack[0].message).toEqual('Enter your planning application number');
     });
   });
