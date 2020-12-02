@@ -1,7 +1,8 @@
 openapi: 3.0.3
 info:
   title: Appeals Service API Documentation
-  description: API to create, retrieve and modify planning appeals.
+  description:
+    API to <ul><li>create, retrieve and modify planning appeals and </li><li>retrieve local planning authorities.</li></ul>
   version: 1.0.0
   license:
     name: MIT
@@ -21,10 +22,10 @@ paths:
           application/json:
             schema:
               properties:
-                lpdCode:
+                lpaCode:
                   type: string
-                  example: 'W43000012'
-                  description: local planning department code
+                  example: 'E60000281'
+                  description: local planning authority code
                 decisionDate:
                   type: string
                   format: date
@@ -107,6 +108,44 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Error'
+        '404':
+          description: The appeal could not be found
+  '/api/v1/local-planning-authorities':
+    get:
+      summary: Returns all local planning authorties
+      description: The collection of local planning authorities includes name and unique identification code for each authority.
+      tags:
+        - Local Planning Authorities
+      responses:
+        '200':
+          description: Returns all local planning authorities
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocalPlanningAuthority'
+  '/api/v1/local-planning-authorities{id}':
+    get:
+      summary: Returns a local planning authoritiy
+      description: The local planning authority includes name and unique identification code.
+      tags:
+        - Local Planning Authorities
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: 'E60000281'
+          description: Local planning authority unique identification code
+      responses:
+        '200':
+          description: Returns a local planning authority
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocalPlanningAuthority'
+        '404':
+          description: The local authority could not be found
 components:
   schemas:
     AboutYouSection:
@@ -121,9 +160,9 @@ components:
         id:
           type: string
           format: uuid
-        lpdCode:
+        lpaCode:
           type: string
-          example: 'W43000012'
+          example: 'E60000281'
         decisionDate:
           type: string
           format: date
@@ -189,6 +228,22 @@ components:
         healthAndAsfetyIssues:
           type: string
           example: 'There is a big dog in the field'
+    LocalPlanningAuthority:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 'E60000281'
+        name:
+          type: string
+          example: 'Adur LPA'
+        inTrial:
+          type: boolean
+        england:
+          type: boolean
+        wales:
+          type: boolean
+          example: false
     OtherAppeals:
       type: object
       properties:
