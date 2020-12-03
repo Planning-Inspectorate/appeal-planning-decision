@@ -7,27 +7,14 @@
 terraform {
   backend "azurerm" {
     resource_group_name = "pins-uk-terraform-rg"
-    storage_account_name = "pinsf4terraform"
+    storage_account_name = "pinsodtterraform"
     container_name = "tfstate"
     key = "environments.tfstate"
   }
 }
 
-provider "azuread" {
-  version = "~> 1.0.0"
-}
-
 provider "azurerm" {
-  version = "~> 2.31.1"
   features {}
-}
-
-provider "http" {
-  version = "~> 2.0.0"
-}
-
-provider "random" {
-  version = "~> 3.0.0"
 }
 
 data "azurerm_client_config" "current" {}
