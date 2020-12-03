@@ -4,17 +4,14 @@ Infrastructure which is common to the subscription, regardless of which environm
 
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| azurerm | ~> 2.31.1 |
-| github | ~> 2.9 |
+No requirements.
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| azurerm | ~> 2.31.1 |
-| github | ~> 2.9 |
+| azurerm | n/a |
+| random | n/a |
 
 ## Inputs
 

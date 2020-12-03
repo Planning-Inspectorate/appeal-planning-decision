@@ -31,6 +31,7 @@ variable "container_sku_type" {
 variable "github_token" {
   description = "Token to access the GitHub API"
   type = string
+  sensitive = true
 }
 
 variable "github_org_name" {
