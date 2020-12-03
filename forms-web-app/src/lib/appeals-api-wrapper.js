@@ -15,7 +15,7 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
   });
 
   try {
-    logger.warn({ url, method, opts, headers }, 'New call');
+    logger.debug({ url, method, opts, headers }, 'New call');
 
     return await utils.promiseTimeout(
       config.appeals.timeout,
