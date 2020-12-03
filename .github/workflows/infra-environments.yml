@@ -65,11 +65,11 @@ jobs:
           terraform init
           terraform workspace select "$TERRAFORM_COMMON_WORKSPACE"
 
-          echo "::set-output name=container_registry_name::$(terraform output containers_name)"
-          echo "::set-output name=containers_server::$(terraform output containers_server)"
-          echo "::set-output name=container_registry_rg_name::$(terraform output containers_rg_name)"
-          echo "::set-output name=containers_username::$(terraform output containers_username)"
-          echo "::set-output name=containers_password::$(terraform output containers_password)"
+          echo "::set-output name=container_registry_name::$(terraform output -json containers_name | jq -r .)"
+          echo "::set-output name=containers_server::$(terraform output -json containers_server | jq -r .)"
+          echo "::set-output name=container_registry_rg_name::$(terraform output -json containers_rg_name | jq -r .)"
+          echo "::set-output name=containers_username::$(terraform output -json containers_username | jq -r .)"
+          echo "::set-output name=containers_password::$(terraform output -json containers_password | jq -r .)"
 
       - name: "Terraform environment: ${{ matrix.environment }}"
         run: echo ${{ matrix.environment }}
@@ -104,7 +104,7 @@ jobs:
         run: bash ../scripts/lockResourceGroups.sh
           unlock
           "$(terraform workspace show)"
-          "$(terraform output app-name)"
+          "$(terraform output -json app-name | jq -r .)"
 
       - name: Terraform Apply
         run: terraform apply tfplan
@@ -114,24 +114,24 @@ jobs:
         run: bash ../scripts/lockResourceGroups.sh
           lock
           "$(terraform workspace show)"
-          "$(terraform output app-name)"
+          "$(terraform output -json app-name | jq -r .)"
 
-      - name: Get Terraform Output
+      - name: Get terraform output
         id: tf_output
         run: |
-          terraform output kubeconfig > ../../$KUBECONFIG
+          terraform output -json kubeconfig | jq -r . > "../../$KUBECONFIG"
 
-          echo "::set-output name=cluster_lb_ip_address::$(terraform output kube_load_balancer_ip)"
-          echo "::set-output name=cluster_lb_ip_name::$(terraform output kube_load_balancer_domain_label)"
-          echo "::set-output name=cluster_lb_ip_rg::$(terraform output kube_load_balancer_rg)"
-          echo "::set-output name=key_vault_name::$(terraform output key_vault_name)"
+          echo "::set-output name=cluster_lb_ip_address::$(terraform output -json kube_load_balancer_ip | jq -r .)"
+          echo "::set-output name=cluster_lb_ip_name::$(terraform output -json kube_load_balancer_domain_label | jq -r .)"
+          echo "::set-output name=cluster_lb_ip_rg::$(terraform output -json kube_load_balancer_rg | jq -r .)"
+          echo "::set-output name=key_vault_name::$(terraform output -json key_vault_name | jq -r .)"
 
-          echo "::set-output name=group_admin_id::$(terraform output group_admin_id)"
-          echo "::set-output name=group_user_id::$(terraform output group_user_id)"
+          echo "::set-output name=group_admin_id::$(terraform output -json group_admin_id | jq -r .)"
+          echo "::set-output name=group_user_id::$(terraform output -json group_user_id | jq -r .)"
 
-          key_vault_secrets=$(terraform output -json key_vault_secrets)
+          key_vault_secrets=$(terraform output -json key_vault_secrets | jq -r .)
           echo "::add-mask::$key_vault_secrets"
-          echo "::set-output name=key_vault_secrets::$(terraform output key_vault_secrets | base64 -w 0)"
+          echo "::set-output name=key_vault_secrets::$(terraform output -json key_vault_secrets | jq -r . | base64 -w 0)"
 
       - name: Update Key Vault secrets
         uses: azure/CLI@v1

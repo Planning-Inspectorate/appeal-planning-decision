@@ -48,7 +48,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 0.13.4
+          terraform_version: 0.14.0
           terraform_wrapper: false
 
       - name: Terraform Init
@@ -63,7 +63,7 @@ jobs:
         run: bash ../scripts/lockResourceGroups.sh
           unlock
           "$(terraform workspace show)"
-          "$(terraform output app-name)"
+          "$(terraform output -json app-name | jq -r .)"
 
       - run: terraform apply tfplan
 
@@ -72,4 +72,4 @@ jobs:
         run: bash ../scripts/lockResourceGroups.sh
           lock
           "$(terraform workspace show)"
-          "$(terraform output app-name)"
+          "$(terraform output -json app-name | jq -r .)"
