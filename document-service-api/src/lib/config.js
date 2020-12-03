@@ -7,6 +7,10 @@
  */
 
 module.exports = {
+  AZURE_BLOB_STORAGE_CONNECTION_STRING: process.env.AZURE_BLOB_STORAGE_CONNECTION_STRING,
+  documentStorage: {
+    directory: process.env.DOCUMENT_STORAGE_DIR
+  },
   db: {
     mongodb: {
       url: process.env.MONGODB_URL,
