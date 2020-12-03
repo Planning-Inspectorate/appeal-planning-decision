@@ -12,7 +12,7 @@ const apidocs = require('./api-docs');
 const routes = Router();
 
 routes.use('/appeals', appeals);
-routes.use('/local-planning-authorities', lpas);
+routes.use('/api/v1/local-planning-authorities', lpas);
 routes.use('/api-docs', apidocs);
 
 module.exports = routes;

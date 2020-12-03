@@ -76,5 +76,5 @@ exports.getExistingAppeal = async (sessionId) => {
 };
 
 exports.getLPAList = async () => {
-  return handler('/local-planning-authorities');
+  return handler('/api/v1/local-planning-authorities');
 };

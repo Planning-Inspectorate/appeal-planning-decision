@@ -115,7 +115,7 @@ describe('lib/appeals-api-wrapper', () => {
     it(`should call the expected URL`, async () => {
       fetch.mockResponseOnce(JSON.stringify({ shouldBe: 'valid' }));
       await getLPAList();
-      expect(fetch.mock.calls[0][0]).toEqual('http://fake.url/local-planning-authorities');
+      expect(fetch.mock.calls[0][0]).toEqual('http://fake.url/api/v1/local-planning-authorities');
     });
   });
 });
