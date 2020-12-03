@@ -5,26 +5,6 @@
 const AppealsSchema = require('../schemas/appeals');
 
 module.exports = {
-  async uploadFile(req, res) {
-    console.log(req)
-    // 1. validate MIME type, size, format. Reject if request fails at least one of the checks
-    // Question @Dan: validate filename check. What does it need to do again?
-    // 2. handle uploading planning application form
-    if (req.body.planningApplication) {
-      // 3. POST to Azure Blob Storage
-      // 4. get back URL from Azure Blob Storage for uploaded image
-      // 5. find Appeal model based on ID and add URL of uploaded document from Azure Blob Storage
-      // 6. upload to Horizons Document Service
-    }
-    // 2. handle uploading appeal statement form
-    if (req.body.appealStatement) {
-      // 3. POST to Azure Blob Storage
-      // 4. get back URL from Azure Blob Storage for uploaded image
-      // 5. find Appeal model based on ID and add URL of uploaded document from Azure Blob Storage
-      // 6. upload to Horizons Document Service
-    }
-    // 2. what was the 3rd type of document again ??
-  },
   async create(req, res) {
     const appeal = new AppealsSchema(req.body);
 
