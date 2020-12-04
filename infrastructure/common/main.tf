@@ -17,4 +17,9 @@ provider "azurerm" {
   features {}
 }
 
+provider "github" {
+  organization = var.github_org_name
+  token = var.github_token
+}
+
 data "azurerm_client_config" "current" {}
