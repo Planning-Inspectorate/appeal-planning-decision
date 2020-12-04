@@ -11,12 +11,17 @@ describe('validators/your-details', () => {
       expect(rule.locations).toEqual(['body']);
       expect(rule.optional).toBeFalsy();
       expect(rule.stack).toHaveLength(5);
+
       expect(rule.stack[0].validator.name).toEqual('isEmpty');
+      expect(rule.stack[0].negated).toBeTruthy();
+      expect(rule.stack[0].message).toEqual('Enter your name');
+
       expect(rule.stack[2].validator.name).toEqual('matches');
       expect(rule.stack[2].options[0]).toEqual(/^[a-z\-' ]+$/i);
       expect(rule.stack[2].message).toEqual(
         'Name must only include letters a to z, hyphens, spaces and apostrophes'
       );
+
       expect(rule.stack[4].validator.name).toEqual('isLength');
       expect(rule.stack[4].options).toEqual([{ min: 2, max: 255 }]);
     });

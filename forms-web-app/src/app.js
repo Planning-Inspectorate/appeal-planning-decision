@@ -10,6 +10,7 @@ const pinoExpress = require('express-pino-logger');
 const uuid = require('uuid');
 const fileUpload = require('express-fileupload');
 const sessionConfig = require('./lib/session');
+const appealSiteAddressToArray = require('./lib/appeal-site-address-to-array');
 const fileSizeDisplayHelper = require('./lib/file-size-display-helper');
 require('express-async-errors');
 
@@ -80,6 +81,7 @@ const viewPaths = [
 ];
 
 const env = nunjucks.configure(viewPaths, nunjucksConfig);
+env.addFilter('appealSiteAddressToArray', appealSiteAddressToArray);
 env.addFilter('date', dateFilter);
 env.addFilter('formatBytes', fileSizeDisplayHelper);
 env.addGlobal('fileSizeLimits', config.fileUpload.pins);

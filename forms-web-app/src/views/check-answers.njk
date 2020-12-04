@@ -229,7 +229,7 @@
               text: "Address of the appeal site"
             },
             value: {
-              text: ""
+              text: appeal | appealSiteAddressToArray | join("\n") | nl2br | safe
             },
             actions: {
               items: [

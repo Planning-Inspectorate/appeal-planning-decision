@@ -1,0 +1,121 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+
+{% block pageTitle %}
+  Site address | Appeal a householder planning decision
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary
+        }) }}
+      {% endif %}
+
+      <form action="" method="post" novalidate>
+
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Visiting the appeal site</span>
+
+        {% call govukFieldset({
+          legend: {
+            text: "What is the address of the appeal site?",
+            classes: "govuk-fieldset__legend--l",
+            isPageHeading: true
+          }
+        }) %}
+
+          <p>The appeal site is the area of property or land that your original planning application relates to.</p>
+
+          {{ govukInput({
+            label: {
+              html: 'Building and street <span class="govuk-visually-hidden">line 1 of 2</span>'
+            },
+            id: "site-address-line-one",
+            value: appeal["site-address-line-one"],
+            name: "site-address-line-one",
+            autocomplete: "address-line1",
+            errorMessage: errors['site-address-line-one'] and {
+              text: errors['site-address-line-one'].msg
+            }
+          }) }}
+
+          {{ govukInput({
+            label: {
+              html: '<span class="govuk-visually-hidden">Building and street line 2 of 2</span>'
+            },
+            id: "site-address-line-two",
+            value: appeal["site-address-line-two"],
+            name: "site-address-line-two",
+            autocomplete: "address-line2",
+            errorMessage: errors['site-address-line-two'] and {
+              text: errors['site-address-line-two'].msg
+            }
+          }) }}
+
+          {{ govukInput({
+            label: {
+              text: "Town or city"
+            },
+            classes: "govuk-!-width-two-thirds",
+            id: "site-town-city",
+            value: appeal["site-town-city"],
+            name: "site-town-city",
+            autocomplete: "address-level2",
+            errorMessage: errors['site-town-city'] and {
+              text: errors['site-town-city'].msg
+            }
+          }) }}
+
+          {{ govukInput({
+            label: {
+              text: "County"
+            },
+            classes: "govuk-!-width-two-thirds",
+            id: "site-county",
+            value: appeal["site-county"],
+            name: "site-county",
+            errorMessage: errors['site-county'] and {
+              text: errors['site-county'].msg
+            }
+          }) }}
+
+          {{ govukInput({
+            label: {
+              text: "Postcode"
+            },
+            classes: "govuk-input--width-10",
+            id: "site-postcode",
+            value: appeal["site-postcode"],
+            name: "site-postcode",
+            autocomplete: "postal-code",
+            errorMessage: errors['site-postcode'] and {
+              text: errors['site-postcode'].msg
+            }
+          }) }}
+
+        {% endcall %}
+
+        {{ govukButton({
+          text: "Save and continue",
+          type: "submit"
+        }) }}
+
+      </form>
+    </div>
+
+  </div>
+
+
+
+{% endblock %}
