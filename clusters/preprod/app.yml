@@ -1,0 +1,43 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: app
+  namespace: app-preprod
+  annotations:
+    fluxcd.io/automated: "true"
+    filter.fluxcd.io/appealsServiceApi: semver:^1.0
+    filter.fluxcd.io/documentServiceApi: semver:^1.0
+    filter.fluxcd.io/formsWebApp: semver:^1.0
+spec:
+  releaseName: app
+  chart:
+    git: git@github.com:foundry4/appeal-planning-decision.git
+    ref: master
+    path: charts/app
+  rollback:
+    enable: true
+  values:
+    appealsServiceApi:
+      replicaCount: 2
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/appeals-service-api
+        tag: latest
+
+    documentServiceApi:
+      replicaCount: 2
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/document-service-api
+        tag: latest
+
+    formsWebApp:
+      replicaCount: 2
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
+        tag: latest
+
+    keyVault:
+      name: pins-uks-vault-5989-prep
+
+    ingress:
+      host: appeals-preprod.planninginspectorate.gov.uk
