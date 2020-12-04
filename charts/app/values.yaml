@@ -8,7 +8,7 @@ appealsServiceApi:
     name: appeals-srv-api
     port: 3000
   image:
-    repository: pinscommonukscontainersdefault.azurecr.io/appeals-service-api
+    repository: pinscommonukscontainers3887default.azurecr.io/appeals-service-api
     pullPolicy: Always
     tag: latest
   config:
@@ -20,7 +20,7 @@ documentServiceApi:
     name: docs-srv-api
     port: 3001
   image:
-    repository: pinscommonukscontainersdefault.azurecr.io/document-service-api
+    repository: pinscommonukscontainers3887default.azurecr.io/document-service-api
     pullPolicy: Always
     tag: latest
   config:
@@ -34,7 +34,7 @@ formsWebApp:
     name: forms-web-app
     port: 9000
   image:
-    repository: pinscommonukscontainersdefault.azurecr.io/forms-web-app
+    repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
     pullPolicy: Always
     tag: latest
   config:
