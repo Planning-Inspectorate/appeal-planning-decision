@@ -10,6 +10,7 @@ const rules = () => {
 
   return [
     body(areYouTheOriginalAppellant)
+      .escape()
       .notEmpty()
       .withMessage('Select yes if you are the original appellant')
       .bail()
