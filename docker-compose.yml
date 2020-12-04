@@ -15,6 +15,7 @@ services:
       DOCUMENT_SERVICE_API_URL: http://document-service-api:3000
       LPA_DATA_PATH: /opt/app/data/lpa-list.csv
       LPA_TRIALIST_DATA_PATH: /opt/app/data/lpa-trialists.json
+      MONGODB_AUTO_INDEX: "true"
       MONGODB_URL: mongodb://mongodb:27017/appeals-service-api
       SERVER_SHOW_ERRORS: "true"
       SRV_HORIZON_URL: http://mock-horizon:3000
@@ -45,6 +46,7 @@ services:
     image: node:14-alpine
     environment:
       BLOB_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blob-storage:10000/devstoreaccount1;QueueEndpoint=http://blob-storage:10001/devstoreaccount1;
+      MONGODB_AUTO_INDEX: "true"
       MONGODB_URL: mongodb://mongodb:27017/document-service-api
       SERVER_SHOW_ERRORS: "true"
     ports:
