@@ -58,11 +58,15 @@ spec:
               value: {{ .Values.formsWebApp.config.upload.useTmpFiles | quote }}
             - name: PORT
               value: {{ .Values.formsWebApp.config.port | quote }}
+            - name: SESSION_MONGODB_DB_NAME
+              value: forms-web-app
+            - name: SESSION_MONGODB_COLLECTION
+              value: sessions
             - name: SESSION_MONGODB_URL
               valueFrom:
                 secretKeyRef:
-                  key: url
-                  name: akv-mongodb-sessions-store
+                  key: value
+                  name: akv-mongodb-connection-url
             - name: SESSION_KEY
               valueFrom:
                 secretKeyRef:

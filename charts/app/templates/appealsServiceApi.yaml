@@ -50,11 +50,13 @@ spec:
               value: /data/lpa/lpa-list.csv
             - name: LPA_TRIALIST_DATA_PATH
               value: /data/lpa-trialists/lpa-trialists.json
+            - name: MONGODB_DB_NAME
+              value: appeals-service-api
             - name: MONGODB_URL
               valueFrom:
                 secretKeyRef:
-                  key: url
-                  name: akv-mongodb-appeals-store
+                  key: value
+                  name: akv-mongodb-connection-url
             - name: SERVER_PORT
               value: {{ .Values.appealsServiceApi.config.port | quote }}
             - name: SERVER_TERMINATION_GRACE_PERIOD_SECONDS

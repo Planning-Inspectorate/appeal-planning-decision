@@ -113,7 +113,5 @@ keyVault:
   secrets:
     - docs-blob-storage-connection-string
     - fwa-session-key
-  multiValueSecrets:
-    - mongodb-appeals-store
-    - mongodb-documents-store
-    - mongodb-sessions-store
+    - mongodb-connection-url
+  multiValueSecrets: []
