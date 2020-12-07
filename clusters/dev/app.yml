@@ -21,23 +21,23 @@ spec:
     appealsServiceApi:
       replicaCount: 2
       image:
-        repository: pinscommonukscontainersdefault.azurecr.io/appeals-service-api
-        tag: 1.8.1
+        repository: pinscommonukscontainers3887default.azurecr.io/appeals-service-api
+        tag: latest
 
     documentServiceApi:
       replicaCount: 2
       image:
-        repository: pinscommonukscontainersdefault.azurecr.io/document-service-api
-        tag: 1.0.2
+        repository: pinscommonukscontainers3887default.azurecr.io/document-service-api
+        tag: latest
 
     formsWebApp:
       replicaCount: 2
       image:
-        repository: pinscommonukscontainersdefault.azurecr.io/forms-web-app
-        tag: 1.14.1
+        repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
+        tag: latest
 
     keyVault:
-      name: pins-uks-vault-7324-dev
+      name: pins-uks-vault-7579-dev
 
     ingress:
       host: appeals-dev.planninginspectorate.gov.uk
