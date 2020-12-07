@@ -8,7 +8,7 @@
     "test:e2e:demo": "cypress run --headed -b chrome --env demoDelay=1000 -e TAGS='not @wip'",
     "test:e2e:postprocess": "node ./reporter.js",
     "test:e2e:files": "./create-large-test-files.sh",
-    "test:smoke": "cypress run -e TAGS='@smoketest' TAGS='not @wip' --config video=false,baseUrl=$BASEURL"
+    "test:e2e:smoke": "cypress run -e TAGS='not @wip and @smoketest' --config video=false,baseUrl=$BASEURL"
   },
   "author": "",
   "license": "ISC",
