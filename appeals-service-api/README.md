@@ -13,14 +13,12 @@ All these are to be run with `npm run <command>`.
 - `test`: runs the unit test suite
 - `test:cov`: runs the unit test suite and tests coverage
 - `test:watch`: runs the unit test suite and watches for changes
+- `test:tdd`: runs the unit tests and watches all files for changes
 
 ## Endpoints
 
-- GET:/appeals - get all appeals (@todo - apply pagination/filtering)
-- POST:/appeals - create a new appeal
-- DELETE:/appeals/:uuid - delete an appeal
-- GET:/appeals/:uuid - get a specific appeal
-- PUT:/appeals/:uuid - update a specific appeal
+The API spec doc is available at `/api/openapi.yaml`.
+The app will serve this at the `/api-docs` endpoint.
 
 ## Project Structure
 
@@ -31,7 +29,6 @@ It exists to allow the Forms Web App to interact with the database
  - `/src/controllers` - the application controllers.
  - `/src/lib` - any common "library" files.
  - `/src/routes` - the HTTP endpoints to be created.
- - `/src/schema` - the Mongoose models. Business logic should be in here.
  
 ### Config
 

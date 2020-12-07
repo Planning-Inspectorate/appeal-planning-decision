@@ -1,4 +1,5 @@
 @smoketest
+@wip
 Feature: A user is asked if he or she's the original appellant
   If the user is not the original appellant, his name should be asked
 

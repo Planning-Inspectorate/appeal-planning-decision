@@ -166,3 +166,6 @@ Thumbs.db
 tmp
 .kubeconfig
 known_hosts
+
+
+appeals-service-api/globalConfig.json

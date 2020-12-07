@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
 const { healthcheck } = require('@pins/common');
 const config = require('./config');
 const logger = require('./logger');
+const mongodb = require('../db/db');
 
 const tasks = [
   {
     name: 'mongodb',
     test: async () => {
-      const { ok } = await mongoose.connection.db.admin().ping();
+      const { ok } = await mongodb.get().ping();
 
       return ok === 1;
     },
@@ -21,7 +21,7 @@ module.exports = (server) =>
     logger,
     async onTerminate() {
       logger.info('Closing MongoDB connection');
-      await mongoose.connection.close();
+      await mongodb.close();
     },
     terminationGrace: config.server.terminationGracePeriod,
   });

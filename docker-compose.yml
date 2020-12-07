@@ -21,6 +21,7 @@ services:
       SRV_HORIZON_URL: http://mock-horizon:3000
       SRV_NOTIFY_URL: http://mock-notify:3000
       SRV_OS_PLACES_URL: http://mock-os-places:3000
+      LOGGER_LEVEL: "debug"
     ports:
       - 3000:3000
     working_dir: /opt/app
