@@ -8,7 +8,7 @@ const {
 
 jest.mock('../../../../src/validators/appellant-submission/applicant-name');
 
-describe('routes/appellant-submission/application-name', () => {
+describe('routes/appellant-submission/applicant-name', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
     require('../../../../src/routes/appellant-submission/applicant-name');
