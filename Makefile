@@ -10,9 +10,6 @@ install:
 
 	for dir in ${APPS}; do \
 		(cd $${dir} && npm ci); \
-		if [ $${dir} == 'e2e-tests' ]; then \
-			(cd $${dir} && ./create-large-test-files.sh); \
-		fi \
   	done
 .PHONY: install
 

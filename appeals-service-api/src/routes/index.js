@@ -11,7 +11,7 @@ const apidocs = require('./api-docs');
 
 const routes = Router();
 
-routes.use('/appeals', appeals);
+routes.use('/api/v1/appeals', appeals);
 routes.use('/api/v1/local-planning-authorities', lpas);
 routes.use('/api-docs', apidocs);
 

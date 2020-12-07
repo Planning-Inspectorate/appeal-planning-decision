@@ -1,25 +1,23 @@
 const express = require('express');
-const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDefinition = require('../docs/swaggerDef');
+
+const fs = require('fs');
+const yaml = require('js-yaml');
+const logger = require('../lib/logger');
 
 const router = express.Router();
 
-const specs = swaggerJsdoc({
-  swaggerDefinition,
-  apis: ['api/openapi.yaml'],
-});
+let spec;
+
+try {
+  const fileContents = fs.readFileSync('/opt/app/api/openapi.yaml', 'utf8');
+  spec = yaml.safeLoad(fileContents);
+  logger.debug(`Loaded api spec doc`);
+} catch (err) {
+  logger.error(`problem loading api spec doc\n${err}`);
+}
 
 router.use('/', swaggerUi.serve);
-router
-  .get(
-    '/',
-    swaggerUi.setup(specs, {
-      explorer: true,
-    })
-  )
-  .get('/swagger.json', (req, res) => {
-    res.send(specs);
-  });
+router.get('/', swaggerUi.setup(spec));
 
 module.exports = router;

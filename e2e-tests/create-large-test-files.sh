@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 if [[ -z "${FILE_UPLOAD_MAX_FILE_SIZE_BYTES}" ]]; then
   MAX_SIZE=52428800
 else
