@@ -35,6 +35,7 @@ jobs:
       max-parallel: 5
       matrix:
         environment:
+          - dev
           - preprod
     steps:
       - uses: actions/checkout@v2
