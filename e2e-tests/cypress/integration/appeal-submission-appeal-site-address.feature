@@ -1,38 +1,95 @@
 @wip
 Feature: Appellant provides the Appeal Site Address
-I need to provide the appeal site address, so that all parties know which site the appeal is against.
+    I need to provide the appeal site address, so that all parties know which site the appeal is against.
 
-    Scenario Outline: Prospective Appellant submits valid appeal site address
-        When the user provides their appeal site address as <Adress Line 1> and <Adress Line 2> and <Town or City> and <County> and <Postcode>
-        Then the user should see the appeal site address "is" submitted
-
+    Scenario Outline: Prospective Appellant submits a valid appeal site address
+        Given the user is prompted for the site address
+        When the user provides their appeal site address as <Address Line 1> and <Address Line 2> and <Town or City> and <County> and <Postcode>
+        Then the user is able to continue with the provided address
+        #And the user can see that their appeal has been updated with the provided address
         Examples:
-            | Adress Line 1   | Adress Line 2 | Town or City | County       | Postcode  |
-            | "1 Taylor Road" | "Clifton"     | "Bristol"    | "South Glos" | "BS8 1TG" |
-            | "2 Taylor Road" | ""            | ""           | "South Glos" | "BS8 1TG" |
-            | "4 Taylor Road" | ""            | "Bristol"    | "South Glos" | "BS8 1TG" |
-            | "5 Taylor Road" | "Clifton"     | ""           | "South Glos" | "BS8 1TG" |
+            | Address Line 1  | Address Line 2 | Town or City | County       | Postcode  |
+            | "1 Taylor Road" | "Clifton"      | "Bristol"    | "South Glos" | "BS8 1TG" |
+            | "2 Taylor Road" | ""             | ""           | "South Glos" | "BS8 1TG" |
+            | "4 Taylor Road" | ""             | "Bristol"    | "South Glos" | "BS8 1TG" |
+            | "5 Taylor Road" | "Clifton"      | ""           | "South Glos" | "BS8 1TG" |
 
-
-    Scenario Outline: Prospective Appellant submits invalid appeal site address
-        When the user provides their appeal site address as <Adress Line 1> and <Adress Line 2> and <Town or City> and <County> and <Postcode>
-        Then user is informed that the address is not submitted because <reason>
-        And the user should see the appeal site address "is not" submitted
-
+    Scenario Outline: Prospective Appellant submits an appeal site address without mandatory information
+        Given the user is prompted for the site address
+        When the user provides their appeal site address as <Address Line 1> and <Address Line 2> and <Town or City> and <County> and <Postcode>
+        Then the user is informed that they cannot continue with the provided address because <reason>
+        #And the user can see that their appeal has NOT been updated with the provided address
         Examples:
-            | Adress Line 1                                                   | Adress Line 2                                                   | Town or City                                                    | County                                                          | Postcode                                                        | reason                                                             |
-            | ""                                                              | ""                                                              | ""                                                              | ""                                                              | ""                                                              | "Enter a building and/or street, Enter a county, Enter a postcode" |
-            | ""                                                              | "Clifton"                                                       | "Bristol"                                                       | "South Glos"                                                    | "BS8 1TG"                                                       | "Enter a building and/or street"                                   |
-            | ""                                                              | "Clifton"                                                       | "Bristol"                                                       | ""                                                              | "BS8 1TG"                                                       | "Enter a building and/or street, Enter a county"                   |
-            | ""                                                              | "Clifton"                                                       | "Bristol"                                                       | "South Glos"                                                    | ""                                                              | "Enter a building and/or street, Enter a postcode"                 |
-            | "6 Taylor Road"                                                 | "Clifton"                                                       | "Bristol"                                                       | ""                                                              | "BS8 1TG"                                                       | "Enter a county"                                                   |
-            | "7 Taylor Road"                                                 | "Clifton"                                                       | "Bristol"                                                       | "South Glos"                                                    | ""                                                              | "Enter a postcode"                                                 |
-            | "8 Taylor Road"                                                 | "Clifton"                                                       | "Bristol"                                                       | ""                                                              | ""                                                              | "Enter a county, Enter a postcode"                                 |
-            | "1 Taylor Road"                                                 | "Clifton"                                                       | "Bristol"                                                       | "South Glos"                                                    | "ZXAS SS"                                                       | "Enter a valid postcode"                                           |
-            | "1 Taylor Road is an invalid scenario for more than 60 charlen" | "Clifton"                                                       | "Bristol"                                                       | "South Glos"                                                    | "BS8 1TG"                                                       | "Building and/or street must be 60 characters or fewer"            |
-            | "1 Taylor Road"                                                 | "Clifton this is an invalid scenario for more than 60 char len" | "Bristol"                                                       | "South Glos"                                                    | "BS8 1TG"                                                       | "Building and/or street must be 60 characters or fewer"            |
-            | "1 Taylor Road"                                                 | "Clifton"                                                       | "Bristol this is an invalid scenario for more than 60 char len" | "South Glos"                                                    | "BS8 1TG"                                                       | "Town or city must be 60 characters or fewer"                      |
-            | "1 Taylor Road"                                                 | "Clifton"                                                       | "Bristol"                                                       | "South Glos is an invalid scenario for more than 60 char lengt" | "BS8 1TG"                                                       | "County must be 60 characters or fewer"                            |
-            | "1 Taylor Road"                                                 | "Clifton"                                                       | "Bristol"                                                       | "South Glos"                                                    | "BS8 1TG BS8 1TG BS8 1TG BS8 1TG BS8 1TG BS8 1TG BS8 1TG BS8 1" | "Postcode must be 8 characters or fewer"                           |
+            | Address Line 1 | Address Line 2 | Town or City | County       | Postcode  | reason                       |
+            | ""             | ""             | ""           | "South Glos" | "BS8 1TG" | "Address Line 1 is required" |
+            | "aaa"          | ""             | ""           | ""           | "BS8 1TG" | "County is required"         |
+            | "aaa"          | ""             | ""           | "South Glos" | ""        | "Postcode is required"       |
 
+
+    Scenario: Prospective appellant fails to provide any address information
+        Given the user is prompted for the site address
+        When the user provides their appeal site address as "" and "" and "" and "" and ""
+        Then the user is informed that "Address Line 1 is required"
+        And the user is informed that "County is required"
+        And the user is informed that "Postcode is required"
+
+    Scenario: Prospective appellant fails to provide first address line and county
+        Given the user is prompted for the site address
+        When the user provides their appeal site address as "" and "" and "" and "" and "BS8 1TG"
+        Then the user is informed that "Address Line 1 is required"
+        And the user is informed that "County is required"
+
+    Scenario: Prospective appellant fails to provide first address line and Postcode
+        Given the user is prompted for the site address
+        When the user provides their appeal site address as "" and "" and "" and "South Glos" and ""
+        Then the user is informed that "Address Line 1 is required"
+        And the user is informed that "Postcode is required"
+
+    Scenario: Prospective appellant fails to provide County and Postcode
+        Given the user is prompted for the site address
+        When the user provides their appeal site address as "1 Taylor Road" and "" and "" and "" and ""
+        Then the user is informed that "County is required"
+        And the user is informed that "Postcode is required"
+
+    Scenario Outline: Prospective appellant provides address data that exceeds the maximum length constraint for each field
+        Given the user is prompted for the site address
+        When the user provides a value which is too long (<component>: <count>)
+        Then the user is informed that they cannot continue with the provided address because <reason>
+        #And the user can see that their appeal has NOT been updated with the provided address
+        Examples:
+            | component        | count | reason                                        |
+            | "Address Line 1" | 61    | "Address Line 1 has a limit of 60 characters" |
+            | "Address Line 2" | 61    | "Address Line 2 has a limit of 60 characters" |
+            | "Town or City"   | 61    | "Town or City has a limit of 60 characters"   |
+            | "County"         | 61    | "County has a limit of 60 characters"         |
+            | "Postcode"       | 9     | "Postcode has a limit of 8 characters"        |
+
+    Scenario: Prospective appellant provides address data that exceeds the maximum length constraint for multiple fields
+        Given the user is prompted for the site address
+        When the user provides values that are too long for Address Line 1, Address Line 2, Town or City, County and Postcode
+        Then the user is informed that "Address Line 1 has a limit of 60 characters"
+        And the user is informed that "Address Line 2 has a limit of 60 characters"
+        And the user is informed that "Town or City has a limit of 60 characters"
+        And the user is informed that "County has a limit of 60 characters"
+        And the user is informed that "Postcode has a limit of 8 characters"
+        #And the user can see that their appeal has NOT been updated with the provided address
+
+    Scenario: Prospective appellant provides invalid address data with some missing fields and others that exceed the maximum length constraint
+        Given the user is prompted for the site address
+        When the user provides values that are too long for Address Line 2 and Town or City and provides no other data
+        Then the user is informed that "Address Line 1 is required"
+        And the user is informed that "Address Line 2 has a limit of 60 characters"
+        And the user is informed that "Town or City has a limit of 60 characters"
+        And the user is informed that "County is required"
+        And the user is informed that "Postcode is required"
+        #And the user can see that their appeal has NOT been updated with the provided address
+
+    Scenario Outline: Prospective appellant provides address data with invalid Postcode
+        Given the user is prompted for the site address
+        When the user provides their appeal site address with postcode as <Postcode>
+        Then the user is informed that they cannot continue with the provided address because <reason>
+        Examples:
+            | Postcode  | reason                                 |
+            | "ZXAS SS" | "postcodes can't be all letters"       |
+            | "1RG 4AX" | "postcodes should begin with a letter" |
 
