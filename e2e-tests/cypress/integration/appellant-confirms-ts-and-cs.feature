@@ -1,4 +1,4 @@
-@wip
+@UI-ONLY
 Feature: Terms and Conditions must be accepted before a submission can be made
 
   Scenario: Prospective appelant does not accept the Terms and Conditions
