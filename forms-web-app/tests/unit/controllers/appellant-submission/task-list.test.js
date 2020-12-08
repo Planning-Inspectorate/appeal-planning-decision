@@ -41,7 +41,7 @@ describe('controller/appellant-submission/task-list', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
         applicationStatus: 'Application incomplete',
-        sectionInfo: { nbTasks: 11, nbCompleted: 3 },
+        sectionInfo: { nbTasks: 12, nbCompleted: 3 },
         sections: [
           {
             heading: {
@@ -111,12 +111,17 @@ describe('controller/appellant-submission/task-list', () => {
               },
               {
                 text: 'Access to the appeal site',
-                href: 'site-access',
+                href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
                 status: 'TODO',
               },
               {
                 text: 'Ownership of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
+                status: 'TODO',
+              },
+              {
+                text: 'Any health and safety issues',
+                href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
                 status: 'TODO',
               },
             ],
@@ -174,7 +179,7 @@ describe('controller/appellant-submission/task-list', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
         applicationStatus: 'Application incomplete',
-        sectionInfo: { nbTasks: 11, nbCompleted: 6 },
+        sectionInfo: { nbTasks: 12, nbCompleted: 6 },
         sections: [
           {
             heading: {
@@ -244,12 +249,17 @@ describe('controller/appellant-submission/task-list', () => {
               },
               {
                 text: 'Access to the appeal site',
-                href: 'site-access',
+                href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
                 status: 'TODO',
               },
               {
                 text: 'Ownership of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
+                status: 'TODO',
+              },
+              {
+                text: 'Any health and safety issues',
+                href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
                 status: 'TODO',
               },
             ],

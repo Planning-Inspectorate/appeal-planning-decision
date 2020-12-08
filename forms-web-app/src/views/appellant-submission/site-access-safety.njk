@@ -1,0 +1,111 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+
+{% set tellUsAboutAnyHealthAndSafetyConcerns %}
+  {{ govukTextarea({
+    id: "site-access-safety-concerns",
+    name: "site-access-safety-concerns",
+    type: "textarea",
+    rows: 5,
+    label: {
+      text: "Tell us about any health and safety concerns"
+    },
+    errorMessage: errors['site-access-more-detail'] and {
+      text: errors['site-access-more-detail'].msg
+    }
+  }) }}
+{% endset -%}
+
+{% block pageTitle %}
+  Health and safety | Appeal a householder planning decision
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary
+        }) }}
+      {% endif %}
+
+      <form action="" method="post" novalidate>
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Visiting the appeal site</span>
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+              <h1 class="govuk-heading-l">Are there any health and safety issues on the appeal site?</h1>
+            </legend>
+
+            {{ govukDetails({
+              summaryText: "List of health and safety concerns",
+              html: "
+                <ul>
+                  <li>There are animals (for example pets or livestock) at the site</li>
+                  <li>The site is in an area likely to have poor mobile phone signal</li>
+                  <li>The site isn't accessible for people with limited mobility</li>
+                  <li>There is overgrown vegetation that could restrict access to the site</li>
+                  <li>The Inspector will need to wear personal protective equipment (PPE)</li>
+                  <li>There are building works or other operations taking place on the site</li>
+                  <li>There are site-specific safety arrangements in place</li>
+                  <li>There are areas on the site that require specialist equipment or training for access, for example heights or confined spaces</li>
+                  <li>It will be necessary to view the site from a height, for example a roof or balcony</li>
+                  <li>There is risk of exposure to chemicals, asbestos or radiation</li>
+                  <li>There are unmarked changes in level or missing fittings</li>
+                </ul>"
+            }) }}
+
+            {{ govukRadios({
+              idPrefix: "site-access-safety",
+              name: "site-access-safety",
+              errorMessage: errors['site-access-safety'] and {
+                text: errors['site-access-safety'].msg
+              },
+              items: [
+                {
+                  value: "yes",
+                  text: "Yes",
+                  checked: appeal['site-access-safety'] === "yes",
+                  conditional: {
+                    html: tellUsAboutAnyHealthAndSafetyConcerns
+                  }
+                },
+                {
+                  value: "no",
+                  text: "No",
+                  checked: appeal['site-access-safety'] === "no"
+                }
+              ]
+            }) }}
+
+          </fieldset>
+        </div>
+
+        {{ govukButton({
+          text: "Save and continue",
+          type: "submit"
+        }) }}
+
+      </form>
+    </div>
+
+  </div>
+
+{% endblock %}
+
+{% block footer %}
+  {{ super() }}
+  <script src="/assets/govuk/all.js"></script>
+  <script>
+    window.GOVUKFrontend.initAll()
+  </script>
+{% endblock %}
