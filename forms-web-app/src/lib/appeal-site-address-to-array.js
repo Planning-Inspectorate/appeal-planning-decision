@@ -1,4 +1,8 @@
 module.exports = (appeal) => {
+  if (!appeal) {
+    return [];
+  }
+
   const address = [
     appeal['site-address-line-one'],
     appeal['site-address-line-two'],

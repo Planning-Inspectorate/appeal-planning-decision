@@ -42,6 +42,16 @@ describe('lib/appeal-site-address-to-array', () => {
       },
       expected: ['1 Taylor Road', 'Clifton', 'South Glos', 'BS8 1TG'],
     },
+    {
+      title: 'undefined returns empty array',
+      given: undefined,
+      expected: [],
+    },
+    {
+      title: 'empty object returns empty array',
+      given: {},
+      expected: [],
+    },
   ].forEach(({ title, given, expected }) => {
     it(`should format the address as expected - ${title}`, () => {
       expect(formatAppealSiteAddress(given)).toEqual(expected);
