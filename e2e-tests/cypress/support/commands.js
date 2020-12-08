@@ -277,3 +277,28 @@ Cypress.Commands.add(
   'confirmDecisionLetterFileIsNotUploaded',
   require('./appellant-submission-decision-letter/confirmDecisionLetterFileIsNotUploaded'),
 );
+
+Cypress.Commands.add(
+  'acceptTermsAndConditions',
+  require('./appellant-confirms-ts-and-cs/acceptTermsAndConditions'),
+);
+
+Cypress.Commands.add(
+  'doNotAcceptTermsAndConditions',
+  require('./appellant-confirms-ts-and-cs/doNotAcceptTermsAndConditions'),
+);
+
+Cypress.Commands.add(
+  'confirmTermsAndConditionsAreRequired',
+  require('./appellant-confirms-ts-and-cs/confirmTermsAndConditionsAreRequired'),
+);
+
+Cypress.Commands.add(
+  'confirmAppealSubmitted',
+  require('./appellant-confirms-ts-and-cs/confirmAppealSubmitted'),
+);
+
+Cypress.Commands.add(
+  'confirmAppealNotSubmitted',
+  require('./appellant-confirms-ts-and-cs/confirmAppealNotSubmitted'),
+);
