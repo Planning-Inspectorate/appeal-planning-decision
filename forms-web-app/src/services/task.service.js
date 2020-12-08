@@ -56,6 +56,13 @@ function statusAppealSiteAddress(appeal) {
   return task.addressLine1 ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
 }
 
+function statusSiteAccess(appeal) {
+  const task = appeal.appealSiteSection.siteAccess;
+  return task.canInspectorSeeWholeSiteFromPublicRoad
+    ? TASK_STATUS.COMPLETED
+    : TASK_STATUS.NOT_STARTED;
+}
+
 function statusCheckYourAnswer(appeal) {
   if (appeal.state === 'SUBMITTED') {
     return TASK_STATUS.COMPLETED;
@@ -118,8 +125,9 @@ const SECTIONS = {
       href: `/${VIEW.APPELLANT_SUBMISSION.SITE_LOCATION}`,
       rule: statusAppealSiteAddress,
     },
-    siteAccess: { href: 'site-access' },
+    siteAccess: { href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`, rule: statusSiteAccess },
     siteOwnership: { href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}` },
+    healthAndSafety: { href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}` },
   },
   submitYourAppealSection: {
     checkYourAnswers: { href: `/${VIEW.CHECK_ANSWERS}`, rule: statusCheckYourAnswer },

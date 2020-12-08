@@ -87,7 +87,9 @@ describe('lib/appeals-api-wrapper', () => {
     });
 
     it('should gracefully handle a fetch failure', async () => {
-      fetch.mockResponseOnce(JSON.stringify({ something: 'went wrong' }), { status: 400 });
+      fetch.mockResponseOnce(JSON.stringify({ errors: ['something went wrong'] }), {
+        status: 400,
+      });
 
       /**
        * Non-standard way to handle functions that throw in Jest.
@@ -98,7 +100,7 @@ describe('lib/appeals-api-wrapper', () => {
           a: 'b',
         });
       } catch (e) {
-        expect(e.toString()).toEqual('Error: Bad Request');
+        expect(e.toString()).toEqual('Error: something went wrong');
       }
     });
   });

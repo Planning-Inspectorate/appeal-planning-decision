@@ -32,7 +32,16 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
 
         if (!apiResponse.ok) {
           logger.debug(apiResponse, 'API Response not OK');
-          throw new Error(apiResponse.statusText);
+          try {
+            const errorResponse = await apiResponse.json();
+            if (errorResponse.errors.length) {
+              throw new Error(errorResponse.errors.join('\n'));
+            }
+
+            throw new Error(apiResponse.statusText);
+          } catch (e) {
+            throw new Error(e.message);
+          }
         }
 
         logger.debug('Successfully called');

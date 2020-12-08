@@ -44,6 +44,10 @@ app.use(
   express.static(path.join(__dirname, '..', 'node_modules', 'accessible-autocomplete', 'dist')),
   express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'assets'))
 );
+app.use(
+  '/assets/govuk/all.js',
+  express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'all.js'))
+);
 app.use(fileUpload(config.fileUpload));
 
 // Routes
