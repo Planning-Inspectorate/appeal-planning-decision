@@ -225,7 +225,7 @@ components:
       properties:
         hasIssues:
           type: boolean
-        healthAndAsfetyIssues:
+        healthAndSafetyIssues:
           type: string
           example: 'There is a big dog in the field'
     LocalPlanningAuthority:
@@ -305,7 +305,7 @@ components:
               $ref: '#/components/schemas/SectionState'
         appealSiteSection:
           properties:
-            siteAcces:
+            siteAccess:
               $ref: '#/components/schemas/SectionState'
             siteOwnership:
               $ref: '#/components/schemas/SectionState'
