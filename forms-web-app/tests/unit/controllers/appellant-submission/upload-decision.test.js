@@ -2,6 +2,7 @@ const uploadDecisionController = require('../../../../src/controllers/appellant-
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
+const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
@@ -9,13 +10,16 @@ jest.mock('../../../../src/lib/logger');
 const req = mockReq();
 const res = mockRes();
 
+const sectionName = 'requiredDocumentsSection';
+const taskName = 'decisionLetter';
+
 describe('controller/appellant-submission/upload-decision', () => {
   describe('getUploadDecision', () => {
     it('should call the correct template', () => {
       uploadDecisionController.getUploadDecision(req, res);
 
       expect(res.render).toHaveBeenCalledWith('appellant-submission/upload-decision', {
-        appeal: undefined,
+        appeal: req.session.appeal,
       });
     });
   });
@@ -36,7 +40,7 @@ describe('controller/appellant-submission/upload-decision', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith('appellant-submission/upload-decision', {
-        appeal: {},
+        appeal: req.session.appeal,
         errorSummary: { a: { msg: 'There were errors here' } },
         errors: { a: 'b' },
       });
@@ -70,11 +74,13 @@ describe('controller/appellant-submission/upload-decision', () => {
       };
       await uploadDecisionController.postUploadDecision(mockRequest, res);
 
+      const goodAppeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      goodAppeal[sectionName][taskName].uploadedFile = { name: 'some name.jpg' };
+      goodAppeal.sectionStates[sectionName][taskName] = 'COMPLETED';
+
       expect(res.redirect).toHaveBeenCalledWith('/appellant-submission/task-list');
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        'decision-upload': { fileName: 'some name.jpg' },
-      });
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(goodAppeal);
     });
   });
 });

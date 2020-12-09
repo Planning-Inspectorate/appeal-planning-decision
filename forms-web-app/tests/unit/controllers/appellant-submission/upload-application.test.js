@@ -2,6 +2,7 @@ const uploadApplicationController = require('../../../../src/controllers/appella
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
+const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
@@ -9,13 +10,16 @@ jest.mock('../../../../src/lib/logger');
 const req = mockReq();
 const res = mockRes();
 
+const sectionName = 'requiredDocumentsSection';
+const taskName = 'originalApplication';
+
 describe('controller/appellant-submission/upload-application', () => {
   describe('getUploadApplication', () => {
     it('should call the correct template', () => {
       uploadApplicationController.getUploadApplication(req, res);
 
       expect(res.render).toHaveBeenCalledWith('appellant-submission/upload-application', {
-        appeal: undefined,
+        appeal: req.session.appeal,
       });
     });
   });
@@ -36,7 +40,7 @@ describe('controller/appellant-submission/upload-application', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith('appellant-submission/upload-application', {
-        appeal: {},
+        appeal: req.session.appeal,
         errorSummary: { a: { msg: 'There were errors here' } },
         errors: { a: 'b' },
       });
@@ -70,11 +74,13 @@ describe('controller/appellant-submission/upload-application', () => {
       };
       await uploadApplicationController.postUploadApplication(mockRequest, res);
 
+      const goodAppeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      goodAppeal[sectionName][taskName].uploadedFile = { name: 'some name.jpg' };
+      goodAppeal.sectionStates[sectionName][taskName] = 'COMPLETED';
+
       expect(res.redirect).toHaveBeenCalledWith('/appellant-submission/upload-decision');
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        'application-upload': { fileName: 'some name.jpg' },
-      });
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(goodAppeal);
     });
   });
 });

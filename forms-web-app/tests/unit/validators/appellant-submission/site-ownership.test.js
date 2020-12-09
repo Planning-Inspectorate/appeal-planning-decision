@@ -1,4 +1,4 @@
-jest.mock('../../../../src/services/service');
+jest.mock('../../../../src/services/department.service');
 const { rules } = require('../../../../src/validators/appellant-submission/site-ownership');
 
 describe('validators/appellant-submission/site-ownership', () => {

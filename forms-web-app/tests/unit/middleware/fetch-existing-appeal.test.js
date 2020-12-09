@@ -4,6 +4,7 @@ const { mockReq, mockRes } = require('../mocks');
 const fetchExistingAppealMiddleware = require('../../../src/middleware/fetch-existing-appeal');
 const { getExistingAppeal } = require('../../../src/lib/appeals-api-wrapper');
 const config = require('../../../src/config');
+const { EMPTY_APPEAL } = require('../../../src/lib/appeals-api-wrapper');
 
 config.appeals.url = 'http://fake.url';
 
@@ -18,10 +19,19 @@ describe('middleware/fetch-existing-appeal', () => {
       },
     },
     {
-      title: 'call next immediately if no uuid set',
+      title: 'set empty appeal and call next immediately if no appeal exists',
+      given: () => ({
+        ...mockReq(null),
+      }),
+      expected: (req, res, next) => {
+        expect(getExistingAppeal).not.toHaveBeenCalled();
+        expect(next).toHaveBeenCalled();
+      },
+    },
+    {
+      title: 'set empty appeal and call next immediately if no id set',
       given: () => ({
         ...mockReq(),
-        session: {},
       }),
       expected: (req, res, next) => {
         expect(getExistingAppeal).not.toHaveBeenCalled();
@@ -32,12 +42,11 @@ describe('middleware/fetch-existing-appeal', () => {
       title: 'call next if api lookup fails',
       given: () => {
         getExistingAppeal.mockRejectedValue('API is down');
-
         return {
           ...mockReq(),
           session: {
             appeal: {
-              uuid: '123-abc',
+              id: '123-abc',
             },
           },
         };
@@ -45,7 +54,7 @@ describe('middleware/fetch-existing-appeal', () => {
       expected: (req, res, next) => {
         expect(getExistingAppeal).toHaveBeenCalledWith('123-abc');
         expect(next).toHaveBeenCalled();
-        expect(req.session.appeal).toEqual({});
+        expect(req.session.appeal).toEqual(JSON.parse(JSON.stringify(EMPTY_APPEAL)));
       },
     },
     {
@@ -57,7 +66,7 @@ describe('middleware/fetch-existing-appeal', () => {
           ...mockReq(),
           session: {
             appeal: {
-              uuid: '123-abc',
+              id: '123-abc',
             },
           },
         };

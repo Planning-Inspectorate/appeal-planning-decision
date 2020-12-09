@@ -36,17 +36,17 @@ describe('lib/appeals-api-wrapper', () => {
   describe('createOrUpdateAppeal', () => {
     [
       {
-        title: 'POST when a uuid is missing',
+        title: 'POST when a id is missing',
         given: () => {
           fetch.mockResponseOnce(JSON.stringify({ good: 'data' }));
 
           return {
             a: 'b',
-            uuid: undefined,
+            id: undefined,
           };
         },
         expected: (appealsApiResponse) => {
-          expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/appeals`, {
+          expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/api/v1/appeals`, {
             body: '{"a":"b"}',
             headers: {
               'Content-Type': 'application/json',
@@ -58,18 +58,18 @@ describe('lib/appeals-api-wrapper', () => {
         },
       },
       {
-        title: 'PUT when a uuid is provided',
+        title: 'PUT when a id is provided',
         given: () => {
           fetch.mockResponseOnce(JSON.stringify({ shouldBe: 'valid' }));
 
           return {
             c: 'd',
-            uuid: '123-abc',
+            id: '123-abc',
           };
         },
         expected: (appealsApiResponse) => {
-          expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/appeals/123-abc`, {
-            body: '{"c":"d","uuid":"123-abc"}',
+          expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/api/v1/appeals/123-abc`, {
+            body: '{"c":"d","id":"123-abc"}',
             headers: {
               'Content-Type': 'application/json',
               'X-Correlation-ID': uuid.v4(),
@@ -107,7 +107,7 @@ describe('lib/appeals-api-wrapper', () => {
     it(`should call the expected URL`, async () => {
       fetch.mockResponseOnce(JSON.stringify({ shouldBe: 'valid' }));
       await getExistingAppeal('123');
-      expect(fetch.mock.calls[0][0]).toEqual('http://fake.url/appeals/123');
+      expect(fetch.mock.calls[0][0]).toEqual('http://fake.url/api/v1/appeals/123');
     });
   });
 

@@ -14,7 +14,7 @@ describe('controller/appellant-submission/site-ownership', () => {
       siteOwnershipController.getSiteOwnership(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP, {
-        appeal: undefined,
+        appeal: req.session.appeal,
       });
     });
   });

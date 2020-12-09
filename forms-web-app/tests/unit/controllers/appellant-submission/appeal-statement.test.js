@@ -2,6 +2,7 @@ const appealStatementController = require('../../../../src/controllers/appellant
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
+const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -10,13 +11,16 @@ jest.mock('../../../../src/lib/logger');
 const req = mockReq();
 const res = mockRes();
 
+const sectionName = 'yourAppealSection';
+const taskName = 'appealStatement';
+
 describe('controller/appellant-submission/appeal-statement', () => {
   describe('getAppealStatement', () => {
     it('should call the correct template', () => {
       appealStatementController.getAppealStatement(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
-        appeal: undefined,
+        appeal: req.session.appeal,
       });
     });
   });
@@ -37,7 +41,7 @@ describe('controller/appellant-submission/appeal-statement', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
-        appeal: {},
+        appeal: req.session.appeal,
         errorSummary: { a: { msg: 'There were errors here' } },
         errors: { a: 'b' },
       });
@@ -90,11 +94,14 @@ describe('controller/appellant-submission/appeal-statement', () => {
       };
       await appealStatementController.postAppealStatement(mockRequest, res);
 
+      const goodAppeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      goodAppeal[sectionName][taskName].uploadedFile = { name: 'some name.jpg' };
+      goodAppeal[sectionName][taskName].hasSensitiveInformation = false;
+      goodAppeal.sectionStates[sectionName][taskName] = 'COMPLETED';
+
       expect(res.redirect).toHaveBeenCalledWith('/appellant-submission/supporting-documents');
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        'appeal-upload': { fileName: 'some name.jpg' },
-      });
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(goodAppeal);
     });
   });
 });

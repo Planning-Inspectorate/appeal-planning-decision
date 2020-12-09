@@ -1,6 +1,10 @@
 const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
+const { getTaskStatus } = require('../../services/task.service');
+
+const sectionName = 'yourAppealSection';
+const taskName = 'appealStatement';
 
 exports.getAppealStatement = (req, res) => {
   res.render(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
@@ -21,16 +25,18 @@ exports.postAppealStatement = async (req, res) => {
     return;
   }
 
-  const appeal = {
-    ...req.session.appeal,
-    'appeal-upload': req.files &&
-      req.files['appeal-upload'] && {
-        fileName: req.files['appeal-upload'].name,
-      },
-  };
+  const { appeal } = req.session;
+  const task = appeal[sectionName][taskName];
+
+  task.uploadedFile = req.files &&
+    req.files['appeal-upload'] && {
+      name: req.files['appeal-upload'].name,
+    };
 
   if (body['does-not-include-sensitive-information'] === 'i-confirm') {
     try {
+      task.hasSensitiveInformation = false;
+      appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
       req.session.appeal = await createOrUpdateAppeal(appeal);
     } catch (e) {
       logger.error(e);

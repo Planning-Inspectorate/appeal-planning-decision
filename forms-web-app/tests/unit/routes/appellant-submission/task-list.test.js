@@ -1,5 +1,6 @@
 const { get } = require('../router-mock');
 const taskListController = require('../../../../src/controllers/appellant-submission/task-list');
+const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 
 describe('routes/task-list', () => {
   beforeEach(() => {
@@ -12,6 +13,10 @@ describe('routes/task-list', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith('/task-list', taskListController.getTaskList);
+    expect(get).toHaveBeenCalledWith(
+      '/task-list',
+      [fetchExistingAppealMiddleware],
+      taskListController.getTaskList
+    );
   });
 });

@@ -1,6 +1,6 @@
-jest.mock('../../../../src/services/service');
+jest.mock('../../../../src/services/department.service');
 const { validationResult } = require('express-validator');
-const { getDepartmentData } = require('../../../../src/services/service');
+const { getDepartmentData } = require('../../../../src/services/department.service');
 const { rules } = require('../../../../src/validators/eligibility/planning-department');
 const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
 
