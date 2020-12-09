@@ -4,21 +4,16 @@ Infrastructure which the applications are deployed to
 
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| azuread | ~> 1.0.0 |
-| azurerm | ~> 2.31.1 |
-| http | ~> 2.0.0 |
-| random | ~> 3.0.0 |
+No requirements.
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| azuread | ~> 1.0.0 |
-| azurerm | ~> 2.31.1 |
-| http | ~> 2.0.0 |
-| random | ~> 3.0.0 |
+| azuread | n/a |
+| azurerm | n/a |
+| http | n/a |
+| random | n/a |
 
 ## Inputs
 
@@ -27,6 +22,11 @@ Infrastructure which the applications are deployed to
 | container\_registry\_name | Name of the container registry | `string` | n/a | yes |
 | container\_registry\_rg\_name | Name of the registry's resource group | `string` | n/a | yes |
 | documents\_soft\_delete\_retention | Number of days to allow for data recovery | `number` | `30` | no |
+| horizon\_enabled | Enable the connection to the Horizon instance over a virtual network gateway | `bool` | `false` | no |
+| horizon\_gateway\_ip\_secret | Public IP address of the Horizon VPN gateway | `string` | `"horizon-gateway-ip"` | no |
+| horizon\_gateway\_sku | SKU of the Horizon gateway | `string` | `"VpnGw1"` | no |
+| horizon\_gateway\_subnets\_secret | CSV of subnets to use for the Horizon VPN gateway | `string` | `null` | no |
+| horizon\_shared\_key\_secret | Name of the Horizon shared key in the PINS key vault | `string` | `null` | no |
 | k8s\_availability\_zones | Zones to run the node pools in | `list(string)` | `null` | no |
 | k8s\_max\_nodes | Maximum number of nodes per pool | `number` | `3` | no |
 | k8s\_min\_nodes | Minimum number of nodes per pool | `number` | `1` | no |
@@ -43,6 +43,7 @@ Infrastructure which the applications are deployed to
 | mongodb\_max\_throughput | Max throughput of the MongoDB database - set in increments of 100 between 400 and 100,000 | `number` | `400` | no |
 | mongodb\_multi\_write\_locations | Enable multiple write locations | `bool` | `false` | no |
 | mongodb\_primary\_zone\_redundancy | Enable redundancy in the primary zone | `bool` | `false` | no |
+| pins\_key\_vault | ID of the PINS Key Vault - used to securely share secrets with this infrastructure | `string` | `null` | no |
 | prefix | Resource prefix | `string` | `"pins"` | no |
 
 ## Outputs
