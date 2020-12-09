@@ -12,7 +12,6 @@ No requirements.
 |------|---------|
 | azuread | n/a |
 | azurerm | n/a |
-| azurerm.pins-main | n/a |
 | http | n/a |
 | random | n/a |
 
@@ -45,7 +44,6 @@ No requirements.
 | mongodb\_multi\_write\_locations | Enable multiple write locations | `bool` | `false` | no |
 | mongodb\_primary\_zone\_redundancy | Enable redundancy in the primary zone | `bool` | `false` | no |
 | pins\_key\_vault | ID of the PINS Key Vault - used to securely share secrets with this infrastructure | `string` | `null` | no |
-| pins\_key\_vault\_subscription\_id | Subscription ID for the Key Vault | `string` | `null` | no |
 | prefix | Resource prefix | `string` | `"pins"` | no |
 
 ## Outputs
