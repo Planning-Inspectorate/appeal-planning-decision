@@ -17,30 +17,6 @@ Cypress.Commands.add(
   'confirmProvidedDecisionDateWasInvalid',
   require('./eligibility-decision-date/confirmProvidedDecisionDateWasInvalid'),
 );
-
-Cypress.Commands.add(
-  'goToAppealSubmissionPage',
-  require('./appellant-submission-appeal-statement/goToAppealSubmissionPage'),
-);
-
-Cypress.Commands.add(
-  'uploadFile',
-  require('./appellant-submission-appeal-statement/uploadFile'));
-
-Cypress.Commands.add(
-  'checkNoSensitiveInformationIncludedInAppealStatement',
-  require('./appellant-submission-appeal-statement/checkNoSensitiveInformationIncludedInAppealStatement'),
-);
-
-Cypress.Commands.add(
-  'confirmUploadWasAccepted',
-  require('./appellant-submission-appeal-statement/confirmUploadWasAccepted'),
-);
-Cypress.Commands.add(
-  'confirmUploadWasRejected',
-  require('./appellant-submission-appeal-statement/confirmUploadWasRejected'),
-);
-
 Cypress.Commands.add(
   'provideLocalPlanningDepartment',
   require('./eligibility-local-planning-department/provideLocalPlanningDepartment'),
@@ -131,8 +107,7 @@ Cypress.Commands.add(
   require('./appeal-statement-submission/goToAppealStatementSubmission'),
 );
 
-Cypress.Commands.add('saveAndContinue',
-  require('./appeal-statement-submission/saveAndContinue'));
+Cypress.Commands.add('saveAndContinue', require('./appeal-statement-submission/saveAndContinue'));
 
 Cypress.Commands.add(
   'uncheckNoSensitiveInformation',

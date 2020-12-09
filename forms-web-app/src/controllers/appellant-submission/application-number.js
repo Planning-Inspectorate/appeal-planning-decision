@@ -1,6 +1,11 @@
 const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
+const { getNextUncompletedTask } = require('../../services/task.service');
+const { getTaskStatus } = require('../../services/task.service');
+
+const sectionName = 'requiredDocumentsSection';
+const taskName = 'applicationNumber';
 
 exports.getApplicationNumber = (req, res) => {
   res.render(VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER, {
@@ -12,10 +17,10 @@ exports.postApplicationNumber = async (req, res) => {
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
 
-  const appeal = {
-    ...req.session.appeal,
-    'application-number': body['application-number'],
-  };
+  const { appeal } = req.session;
+  const task = appeal[sectionName];
+
+  task.applicationNumber = body['application-number'];
 
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER, {
@@ -27,6 +32,7 @@ exports.postApplicationNumber = async (req, res) => {
   }
 
   try {
+    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);
@@ -40,5 +46,5 @@ exports.postApplicationNumber = async (req, res) => {
     return;
   }
 
-  res.redirect(`/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`);
+  res.redirect(getNextUncompletedTask(appeal.sectionStates, { sectionName, taskName }).href);
 };

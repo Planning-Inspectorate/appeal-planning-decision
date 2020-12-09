@@ -64,11 +64,11 @@ describe('validators/your-details', () => {
         },
       },
       {
-        title: 'invalid values - fail',
+        title: 'invalid values 1 - fail',
         given: () => ({
           body: {
             'appellant-name': '12 abc',
-            'appellant-email': 13,
+            'appellant-email': '@.com',
           },
         }),
         expected: (result) => {
@@ -83,11 +83,49 @@ describe('validators/your-details', () => {
           expect(result.errors[1].location).toEqual('body');
           expect(result.errors[1].msg).toEqual('Email should be a valid email address');
           expect(result.errors[1].param).toEqual('appellant-email');
-          expect(result.errors[1].value).toEqual(13);
+          expect(result.errors[1].value).toEqual('@.com');
         },
       },
       {
-        title: 'invalid email - fail',
+        title: 'invalid values 2 - fail',
+        given: () => ({
+          body: {
+            'appellant-name': 'a',
+            'appellant-email': 13,
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(2);
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual('Name must be between 2 and 255 characters');
+          expect(result.errors[0].param).toEqual('appellant-name');
+          expect(result.errors[0].value).toEqual('a');
+
+          expect(result.errors[1].location).toEqual('body');
+          expect(result.errors[1].msg).toEqual('Email should be a valid email address');
+          expect(result.errors[1].param).toEqual('appellant-email');
+          expect(result.errors[1].value).toEqual(13);
+        },
+      },
+
+      {
+        title: 'invalid email - fail 1',
+        given: () => ({
+          body: {
+            'appellant-name': "timmy o'tester-jones",
+            'appellant-email': 'thomas-@example.com',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(1);
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual('Email should be a valid email address');
+          expect(result.errors[0].param).toEqual('appellant-email');
+          expect(result.errors[0].value).toEqual('thomas-@example.com');
+        },
+      },
+      {
+        title: 'invalid email - fail 2',
         given: () => ({
           body: {
             'appellant-name': "timmy o'tester-jones",

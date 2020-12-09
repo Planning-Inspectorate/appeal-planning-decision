@@ -2,6 +2,7 @@ const applicationNumberController = require('../../../../src/controllers/appella
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
+const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -10,13 +11,15 @@ jest.mock('../../../../src/lib/logger');
 const req = mockReq();
 const res = mockRes();
 
+const sectionName = 'requiredDocumentsSection';
+const taskName = 'applicationNumber';
+
 describe('controller/appellant-submission/application-number', () => {
   describe('getApplicationNumber', () => {
     it('should call the correct template', () => {
       applicationNumberController.getApplicationNumber(req, res);
-
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER, {
-        appeal: undefined,
+        appeal: req.session.appeal,
       });
     });
   });
@@ -34,7 +37,7 @@ describe('controller/appellant-submission/application-number', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER, {
-        appeal: {},
+        appeal: req.session.appeal,
         errorSummary: { a: { msg: 'There were errors here' } },
         errors: { a: 'b' },
       });
@@ -42,13 +45,13 @@ describe('controller/appellant-submission/application-number', () => {
 
     it('should log an error if the api call fails, and remain on the same page', async () => {
       const error = new Error('API is down');
+
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
       const mockRequest = {
         ...req,
         body: {},
       };
       await applicationNumberController.postApplicationNumber(mockRequest, res);
-
       expect(res.redirect).not.toHaveBeenCalled();
       expect(logger.error).toHaveBeenCalledWith(error);
     });
@@ -62,13 +65,16 @@ describe('controller/appellant-submission/application-number', () => {
           'application-number': 'some valid application number',
         },
       };
+
       await applicationNumberController.postApplicationNumber(mockRequest, res);
+
+      const goodAppeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      goodAppeal[sectionName][taskName] = 'some valid application number';
+      goodAppeal.sectionStates[sectionName][taskName] = 'COMPLETED';
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        'application-number': 'some valid application number',
-      });
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(goodAppeal);
     });
   });
 });

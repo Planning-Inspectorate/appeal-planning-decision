@@ -3,6 +3,7 @@ const yourDetailsController = require('../../../../src/controllers/appellant-sub
 const { mockReq, mockRes } = require('../../mocks');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
+const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
@@ -10,13 +11,16 @@ jest.mock('../../../../src/lib/logger');
 const req = mockReq();
 const res = mockRes();
 
+const sectionName = 'aboutYouSection';
+const taskName = 'yourDetails';
+
 describe('controller/appellant-submission/your-details', () => {
   describe('getYourDetails', () => {
     it('should call the correct template', () => {
       yourDetailsController.getYourDetails(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
-        appeal: undefined,
+        appeal: req.session.appeal,
       });
     });
   });
@@ -34,7 +38,7 @@ describe('controller/appellant-submission/your-details', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
-        appeal: { 'appellant-email': undefined, 'appellant-name': undefined },
+        appeal: req.session.appeal,
         errorSummary: { a: { msg: 'There were errors here' } },
         errors: { a: 'b' },
       });
@@ -61,45 +65,50 @@ describe('controller/appellant-submission/your-details', () => {
         body: {},
       };
 
-      mockRequest.session.appeal = {
-        'original-appellant': true,
-        'behalf-appellant-name': 'Impostor',
-      };
+      const task = mockRequest.session.appeal[sectionName][taskName];
+      task.isOriginalApplicant = true;
+      task.appealingOnBehalfOf = 'Impostor';
 
       await yourDetailsController.postYourDetails(mockRequest, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        'original-appellant': true,
-        'behalf-appellant-name': null,
-        'appellant-email': undefined,
-        'appellant-name': undefined,
-      });
+      const appeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      appeal[sectionName][taskName].isOriginalApplicant = true;
+      appeal[sectionName][taskName].appealingOnBehalfOf = null;
+      appeal[sectionName][taskName].email = undefined;
+      appeal[sectionName][taskName].name = undefined;
+      appeal.sectionStates[sectionName][taskName] = 'IN PROGRESS';
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
     });
 
     it('should redirect to the applicant name page if valid and not the original appellant', async () => {
       createOrUpdateAppeal.mockResolvedValue({});
 
-      req.session.appeal = {
-        'original-appellant': false,
-        'behalf-appellant-name': 'Impostor',
-      };
       const mockRequest = {
-        ...req,
+        ...mockReq(),
         body: {
           'appellant-email': 'jim@joe.com',
           'appellant-name': 'Jim Joe',
         },
       };
 
+      const task = mockRequest.session.appeal[sectionName][taskName];
+      task.isOriginalApplicant = false;
+      task.appealingOnBehalfOf = 'Impostor';
+
       await yourDetailsController.postYourDetails(mockRequest, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        'original-appellant': false,
-        'behalf-appellant-name': 'Impostor',
-        'appellant-email': 'jim@joe.com',
-        'appellant-name': 'Jim Joe',
-      });
+      const appeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      appeal[sectionName][taskName].isOriginalApplicant = false;
+      appeal[sectionName][taskName].appealingOnBehalfOf = 'Impostor';
+      appeal[sectionName][taskName].email = 'jim@joe.com';
+      appeal[sectionName][taskName].name = 'Jim Joe';
+      appeal.sectionStates[sectionName][taskName] = 'COMPLETED';
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME}`);
     });
   });

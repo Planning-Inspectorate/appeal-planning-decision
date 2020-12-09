@@ -1,7 +1,7 @@
-jest.mock('../../../../src/services/service');
+jest.mock('../../../../src/services/department.service');
 
 const planningDepartmentController = require('../../../../src/controllers/eligibility/planning-department');
-const { getDepartmentData } = require('../../../../src/services/service');
+const { getDepartmentData } = require('../../../../src/services/department.service');
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 

@@ -2,6 +2,7 @@ const siteLocationController = require('../../../../src/controllers/appellant-su
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
+const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -10,13 +11,16 @@ jest.mock('../../../../src/lib/logger');
 const req = mockReq();
 const res = mockRes();
 
+const sectionName = 'appealSiteSection';
+const taskName = 'siteAddress';
+
 describe('controller/appellant-submission/site-location', () => {
   describe('getSiteLocation', () => {
     it('should call the correct template', () => {
       siteLocationController.getSiteLocation(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_LOCATION, {
-        appeal: undefined,
+        appeal: req.session.appeal,
       });
     });
   });
@@ -34,7 +38,7 @@ describe('controller/appellant-submission/site-location', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_LOCATION, {
-        appeal: {},
+        appeal: req.session.appeal,
         errorSummary: { a: { msg: 'There were errors here' } },
         errors: { a: 'b' },
       });
@@ -68,15 +72,17 @@ describe('controller/appellant-submission/site-location', () => {
       };
       await siteLocationController.postSiteLocation(mockRequest, res);
 
+      const goodAppeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      goodAppeal[sectionName][taskName].addressLine1 = '1 Taylor Road';
+      goodAppeal[sectionName][taskName].addressLine2 = 'Clifton';
+      goodAppeal[sectionName][taskName].town = 'Bristol';
+      goodAppeal[sectionName][taskName].county = 'South Glos';
+      goodAppeal[sectionName][taskName].postcode = 'BS8 1TG';
+      goodAppeal.sectionStates[sectionName][taskName] = 'COMPLETED';
+
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        'site-address-line-one': '1 Taylor Road',
-        'site-address-line-two': 'Clifton',
-        'site-town-city': 'Bristol',
-        'site-county': 'South Glos',
-        'site-postcode': 'BS8 1TG',
-      });
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(goodAppeal);
     });
   });
 });

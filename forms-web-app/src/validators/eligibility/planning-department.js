@@ -1,5 +1,5 @@
 const { body } = require('express-validator');
-const { getDepartmentData } = require('../../services/service');
+const { getDepartmentData } = require('../../services/department.service');
 
 const validateEligibility = async (department) => {
   const { eligibleDepartments } = await getDepartmentData();

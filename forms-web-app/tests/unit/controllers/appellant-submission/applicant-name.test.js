@@ -2,6 +2,7 @@ const applicantNameController = require('../../../../src/controllers/appellant-s
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
+const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
 const { mockReq, mockRes } = require('../../mocks');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -10,13 +11,16 @@ jest.mock('../../../../src/lib/logger');
 const req = mockReq();
 const res = mockRes();
 
+const sectionName = 'aboutYouSection';
+const taskName = 'yourDetails';
+
 describe('controller/appellant-submission/applicant-name', () => {
   describe('getApplicantName', () => {
     it('should call the correct template', () => {
       applicantNameController.getApplicantName(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME, {
-        appeal: undefined,
+        appeal: req.session.appeal,
       });
     });
   });
@@ -33,11 +37,12 @@ describe('controller/appellant-submission/applicant-name', () => {
       };
       await applicantNameController.postApplicantName(mockRequest, res);
 
+      const appeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      appeal[sectionName][taskName].appealingOnBehalfOf = 'Jim Jacobson';
+
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME, {
-        appeal: {
-          'behalf-appellant-name': 'Jim Jacobson',
-        },
+        appeal,
         errorSummary: { a: { msg: 'There were errors here' } },
         errors: { a: 'b' },
       });
@@ -66,13 +71,25 @@ describe('controller/appellant-submission/applicant-name', () => {
           'behalf-appellant-name': 'Jim Jacobson',
         },
       };
+
+      const task = mockRequest.session.appeal[sectionName][taskName];
+      task.isOriginalApplicant = false;
+      task.name = 'Impostor';
+      task.email = 'Impostor@gmail.com';
+      task.appealingOnBehalfOf = 'Jim Jacobson';
+
       await applicantNameController.postApplicantName(mockRequest, res);
+
+      const appeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      appeal[sectionName][taskName].isOriginalApplicant = false;
+      appeal[sectionName][taskName].name = 'Impostor';
+      appeal[sectionName][taskName].email = 'Impostor@gmail.com';
+      appeal[sectionName][taskName].appealingOnBehalfOf = 'Jim Jacobson';
+      appeal.sectionStates[sectionName][taskName] = 'COMPLETED';
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        'behalf-appellant-name': 'Jim Jacobson',
-      });
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
     });
   });
 });

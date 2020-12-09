@@ -10,7 +10,9 @@ describe('controller/check-answers', () => {
     it('should call the correct template', () => {
       checkAnswersController.getCheckAnswers(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.CHECK_ANSWERS, { appeal: undefined });
+      expect(res.render).toHaveBeenCalledWith(VIEW.CHECK_ANSWERS, {
+        appeal: req.session.appeal,
+      });
     });
   });
 });

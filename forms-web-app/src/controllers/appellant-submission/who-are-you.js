@@ -1,6 +1,10 @@
 const logger = require('../../lib/logger');
+const { getTaskStatus } = require('../../services/task.service');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../lib/views');
+
+const sectionName = 'aboutYouSection';
+const taskName = 'yourDetails';
 
 const FORM_FIELD = {
   'are-you-the-original-appellant': {
@@ -32,12 +36,10 @@ exports.postWhoAreYou = async (req, res) => {
 
   const { errors = {}, errorSummary = [] } = body;
 
-  const isOriginalAppellant = body['are-you-the-original-appellant'] === 'yes';
+  const { appeal } = req.session;
+  const task = appeal[sectionName][taskName];
 
-  const appeal = {
-    ...req.session.appeal,
-    'original-appellant': isOriginalAppellant,
-  };
+  task.isOriginalApplicant = body['are-you-the-original-appellant'] === 'yes';
 
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
@@ -50,6 +52,7 @@ exports.postWhoAreYou = async (req, res) => {
   }
 
   try {
+    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);

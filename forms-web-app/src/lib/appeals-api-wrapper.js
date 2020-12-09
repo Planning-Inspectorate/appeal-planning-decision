@@ -58,11 +58,11 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
  * @returns {Promise<*>}
  */
 exports.createOrUpdateAppeal = (appeal) => {
-  let appealsServiceApiUrl = '/appeals';
+  let appealsServiceApiUrl = '/api/v1/appeals';
   let method = 'POST';
 
-  if (appeal.uuid && appeal.uuid !== '') {
-    appealsServiceApiUrl += `/${appeal.uuid}`;
+  if (appeal.id && appeal.id !== '') {
+    appealsServiceApiUrl += `/${appeal.id}`;
     method = 'PUT';
   }
 
@@ -72,9 +72,92 @@ exports.createOrUpdateAppeal = (appeal) => {
 };
 
 exports.getExistingAppeal = async (sessionId) => {
-  return handler(`/appeals/${sessionId}`);
+  return handler(`/api/v1/appeals/${sessionId}`);
 };
 
 exports.getLPAList = async () => {
   return handler('/api/v1/local-planning-authorities');
+};
+
+exports.EMPTY_APPEAL = {
+  lpaCode: null,
+  decisionDate: null,
+  state: 'DRAFT',
+  aboutYouSection: {
+    yourDetails: {
+      isOriginalApplicant: null,
+      name: null,
+      email: null,
+      appealingOnBehalfOf: '',
+    },
+  },
+  requiredDocumentsSection: {
+    applicationNumber: '',
+    originalApplication: {
+      uploadedFile: {
+        name: '',
+        id: null,
+      },
+    },
+    decisionLetter: {
+      uploadedFile: {
+        name: '',
+        id: null,
+      },
+    },
+  },
+  yourAppealSection: {
+    appealStatement: {
+      uploadedFile: {
+        name: '',
+        id: null,
+      },
+      hasSensitiveInformation: null,
+    },
+    otherDocuments: {
+      documents: [],
+    },
+    otherAppeals: {},
+  },
+  appealSiteSection: {
+    siteAddress: {
+      addressLine1: null,
+      addressLine2: null,
+      town: null,
+      county: null,
+      postcode: null,
+    },
+    siteOwnership: {
+      ownsWholeSite: null,
+      haveOtherOwnersBeenTold: null,
+    },
+    siteAccess: {
+      canInspectorSeeWholeSiteFromPublicRoad: null,
+      howIsSiteAccessRestricted: null,
+    },
+    healthAndSafety: {
+      hasIssues: null,
+      healthAndSafetyIssues: null,
+    },
+  },
+  sectionStates: {
+    aboutYouSection: {
+      yourDetails: 'NOT STARTED',
+    },
+    requiredDocumentsSection: {
+      applicationNumber: 'NOT STARTED',
+      originalApplication: 'NOT STARTED',
+      decisionLetter: 'NOT STARTED',
+    },
+    yourAppealSection: {
+      appealStatement: 'NOT STARTED',
+      otherDocuments: 'NOT STARTED',
+      otherAppeals: 'NOT STARTED',
+    },
+    appealSiteSection: {
+      siteAccess: 'NOT STARTED',
+      siteOwnership: 'NOT STARTED',
+      healthAndSafety: 'NOT STARTED',
+    },
+  },
 };

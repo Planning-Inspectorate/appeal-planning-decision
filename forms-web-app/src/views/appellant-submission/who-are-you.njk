@@ -40,12 +40,12 @@
             {
               value: 'yes',
               text: 'Yes',
-              checked: appeal['original-appellant']
+              checked: appeal['aboutYouSection']['yourDetails']['isOriginalApplicant']
             },
             {
               value: 'no',
               text: 'No',
-              checked: appeal['original-appellant'] === false
+              checked: appeal['aboutYouSection']['yourDetails']['isOriginalApplicant'] === false
             }
           ],
           errorMessage: errors['are-you-the-original-appellant'] and {

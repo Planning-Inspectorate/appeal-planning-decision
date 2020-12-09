@@ -1,4 +1,3 @@
-@wip
 Feature: Planning Application file submission
 
   Scenario Outline: Prospective appellant submits valid planning application file

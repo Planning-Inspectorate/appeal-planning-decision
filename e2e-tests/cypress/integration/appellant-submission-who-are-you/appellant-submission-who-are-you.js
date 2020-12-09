@@ -12,7 +12,7 @@ When("the user answers that he's not original appellant", () => {
   cy.clickSaveAndContinue();
 });
 
-When('the user will not be asked who he or she is representing', () => {
+Then('the user will not be asked who he or she is representing', () => {
   cy.provideDetailsName('Good Name');
   cy.provideDetailsEmail('good@email.com');
   cy.clickSaveAndContinue();
@@ -20,7 +20,6 @@ When('the user will not be asked who he or she is representing', () => {
 });
 
 Then('the user will be asked who he or she is representing', () => {
-  cy.clickSaveAndContinue();
   cy.provideDetailsName('Good Name');
   cy.provideDetailsEmail('good@email.com');
   cy.clickSaveAndContinue();

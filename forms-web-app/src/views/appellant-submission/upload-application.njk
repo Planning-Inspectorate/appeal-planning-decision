@@ -34,7 +34,7 @@
         {% if appeal['application-upload'] %}
           <h3 class="govuk-heading-m">File added:</h3>
           <ul class="govuk-list">
-            <li id="application-upload-file-name">{{ appeal['application-upload'].fileName }}</li>
+            <li id="application-upload-file-name">{{ appeal['requiredDocumentsSection']['originalApplication']['uploadedFile'].name }}</li>
           </ul>
         {% endif %}
 

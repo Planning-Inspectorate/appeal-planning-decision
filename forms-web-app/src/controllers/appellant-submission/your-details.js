@@ -1,6 +1,11 @@
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
+const { getNextUncompletedTask } = require('../../services/task.service');
+const { getTaskStatus } = require('../../services/task.service');
 const { VIEW } = require('../../lib/views');
+
+const sectionName = 'aboutYouSection';
+const taskName = 'yourDetails';
 
 exports.getYourDetails = (req, res) => {
   res.render(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
@@ -12,11 +17,11 @@ exports.postYourDetails = async (req, res) => {
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
 
-  const appeal = {
-    ...req.session.appeal,
-    'appellant-name': req.body['appellant-name'],
-    'appellant-email': req.body['appellant-email'],
-  };
+  const { appeal } = req.session;
+  const task = appeal[sectionName][taskName];
+
+  task.name = req.body['appellant-name'];
+  task.email = req.body['appellant-email'];
 
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
@@ -28,10 +33,11 @@ exports.postYourDetails = async (req, res) => {
   }
 
   try {
-    if (appeal['original-appellant']) {
-      appeal['behalf-appellant-name'] = null;
+    if (task.isOriginalApplicant) {
+      task.appealingOnBehalfOf = null;
     }
 
+    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);
@@ -45,9 +51,9 @@ exports.postYourDetails = async (req, res) => {
     return;
   }
 
-  if (!appeal['original-appellant']) {
+  if (!task.isOriginalApplicant) {
     res.redirect(`/${VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME}`);
     return;
   }
-  res.redirect(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
+  res.redirect(getNextUncompletedTask(appeal.sectionStates, { sectionName, taskName }).href);
 };

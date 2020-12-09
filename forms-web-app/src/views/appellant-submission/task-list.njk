@@ -1,6 +1,6 @@
 {% extends "layouts/main.njk" %}
 
-{%- from "moj/components/task-list/macro.njk" import mojTaskList -%}
+{%- from "components/task-list/macro.njk" import mojTaskList -%}
 
 {% block pageTitle %}
   Appeal a householder planning decision
@@ -16,7 +16,7 @@
     <p>A householder appeal must be received by the Planning Inspectorate within 12 weeks of the decision date.</p>
     <p>If you do not submit it in time, you will lose your right to appeal.</p>
     <h2 class="govuk-heading-s govuk-!-margin-bottom-2">{{ applicationStatus }}</h2>
-    <p class="govuk-body govuk-!-margin-bottom-7">You have completed {{ sectionsCompleted }} of 4 sections.</p>
+    <p class="govuk-body govuk-!-margin-bottom-7">You have completed {{ sectionInfo.nbCompleted }} of {{sectionInfo.nbTasks}} sections.</p>
 
     {{ mojTaskList({
       sections: sections

@@ -1,4 +1,4 @@
-const { getDepartmentData } = require('../../services/service');
+const { getDepartmentData } = require('../../services/department.service');
 const { VIEW } = require('../../lib/views');
 
 exports.getPlanningDepartment = async (req, res) => {

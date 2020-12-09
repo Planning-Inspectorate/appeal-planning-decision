@@ -1,4 +1,4 @@
-const { getDepartmentData } = require('../../../src/services/service');
+const { getDepartmentData } = require('../../../src/services/department.service');
 const { getLPAList } = require('../../../src/lib/appeals-api-wrapper');
 
 jest.mock('../../../src/lib/appeals-api-wrapper');

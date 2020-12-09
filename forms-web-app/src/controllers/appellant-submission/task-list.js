@@ -1,119 +1,80 @@
+const { getTaskStatus } = require('../../services/task.service');
+const { SECTIONS } = require('../../services/task.service');
 const { VIEW } = require('../../lib/views');
 
+function countTasks(sections) {
+  let nbTasks = 0;
+  let nbCompleted = 0;
+
+  sections.forEach((section) => {
+    nbTasks += section.items.length;
+    nbCompleted += section.items.filter((subSection) => subSection.status === 'COMPLETED').length;
+  });
+
+  return { nbTasks, nbCompleted };
+}
+
+const HEADERS = {
+  aboutYouSection: 'About you',
+  yourDetails: 'Your details',
+  requiredDocumentsSection: 'About the original planning application',
+  applicationNumber: 'Planning application number',
+  originalApplication: 'Upload the original planning application form',
+  decisionLetter: 'Upload the decision letter',
+  dateApplied: 'Date you applied for planning permission',
+  yourAppealSection: 'Your appeal',
+  appealStatement: 'Your appeal statement',
+  otherDocuments: 'Any other documents to support your appeal',
+  otherAppeals: 'Other relevant appeals',
+  appealSiteSection: 'About the appeal site',
+  siteAddress: 'Address of the appeal site',
+  siteAccess: 'Access to the appeal site',
+  siteOwnership: 'Ownership of the appeal site',
+  healthAndSafety: 'Any health and safety issues',
+  submitYourAppealSection: 'Submit your appeal',
+  checkYourAnswers: 'Check your answers',
+};
+
+function buildTaskLists(appeal) {
+  const taskList = [];
+  const sections = SECTIONS;
+  Object.keys(sections).forEach((sectionName) => {
+    const section = sections[sectionName];
+
+    const task = {
+      heading: {
+        text: HEADERS[sectionName],
+      },
+      items: [],
+    };
+
+    Object.keys(section).forEach((subSectionName) => {
+      const subSection = section[subSectionName];
+
+      const status = getTaskStatus(appeal, sectionName, subSectionName);
+      task.items.push({
+        text: HEADERS[subSectionName],
+        href: subSection.href,
+        // attributes: { status }, e2e-tests
+        status,
+      });
+    });
+    taskList.push(task);
+  });
+  return taskList;
+}
+
 exports.getTaskList = (req, res) => {
-  // TODO: derive these values from the current session data
+  const { appeal } = req.session;
+  const sections = buildTaskLists(appeal);
+
   const applicationStatus = 'Application incomplete';
-  const sectionsCompleted = 3;
+
+  const sectionInfo = countTasks(sections);
 
   res.render(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
     applicationStatus,
-    sectionsCompleted,
-    sections: [
-      {
-        heading: {
-          text: 'About you',
-        },
-        items: [
-          {
-            text: 'Your details',
-            href: '/appellant-submission/who-are-you',
-            complete: true,
-          },
-        ],
-      },
-      {
-        heading: {
-          text: 'About the original planning application',
-        },
-        items: [
-          {
-            text: 'Planning application number',
-            href: 'application-number',
-          },
-          {
-            text: 'Name on original planning application',
-            href: 'application-name',
-          },
-          {
-            text: 'Date you applied for planning permission',
-            href: 'application-date',
-          },
-          {
-            text: 'Upload the planning application form',
-            href: 'upload-application',
-          },
-          {
-            text: 'Changes to the description of the development',
-            href: 'upload-application-changes',
-          },
-        ],
-      },
-      {
-        heading: {
-          text: 'About the local planning department',
-        },
-        items: [
-          {
-            text: 'Your local planning department',
-            href: 'lpa-details',
-            complete: true,
-          },
-          {
-            text: 'Upload the decision letter',
-            href: 'upload-decision',
-            complete: true,
-          },
-        ],
-      },
-      {
-        heading: {
-          text: ' About the appeal site',
-        },
-        items: [
-          {
-            text: 'Address of the appeal site',
-            href: 'site-location',
-          },
-          {
-            text: 'Access to the appeal site',
-            href: 'site-access',
-          },
-          {
-            text: 'Ownership of the appeal site',
-            href: 'site-ownership',
-          },
-        ],
-      },
-      {
-        heading: {
-          text: 'Your appeal',
-        },
-        items: [
-          {
-            text: 'Your appeal statement',
-            href: '/appellant-submission/appeal-statement',
-          },
-          {
-            text: 'Any other documents to support your appeal',
-            href: 'supporting-documents',
-          },
-          {
-            text: 'Other relevant appeals',
-            href: 'other-appeals',
-          },
-        ],
-      },
-      {
-        heading: {
-          text: 'Submit your appeal',
-        },
-        items: [
-          {
-            text: 'Check your answers',
-            href: 'check-answers',
-          },
-        ],
-      },
-    ],
+    sectionInfo,
+    sections,
   });
 };
