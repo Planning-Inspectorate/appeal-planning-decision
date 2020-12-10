@@ -1,6 +1,7 @@
 const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
+const { getNextUncompletedTask } = require('../../services/task.service');
 const { getTaskStatus } = require('../../services/task.service');
 
 const sectionName = 'appealSiteSection';
@@ -47,5 +48,5 @@ exports.postSiteLocation = async (req, res) => {
     return;
   }
 
-  res.redirect(`/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`);
+  res.redirect(getNextUncompletedTask(appeal, { sectionName, taskName }).href);
 };

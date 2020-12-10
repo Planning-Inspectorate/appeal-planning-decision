@@ -1,18 +1,7 @@
 const { getTaskStatus } = require('../../services/task.service');
 const { SECTIONS } = require('../../services/task.service');
 const { VIEW } = require('../../lib/views');
-
-function countTasks(sections) {
-  let nbTasks = 0;
-  let nbCompleted = 0;
-
-  sections.forEach((section) => {
-    nbTasks += section.items.length;
-    nbCompleted += section.items.filter((subSection) => subSection.status === 'COMPLETED').length;
-  });
-
-  return { nbTasks, nbCompleted };
-}
+const countTasks = require('../../lib/count-task');
 
 const HEADERS = {
   aboutYouSection: 'About you',
@@ -52,6 +41,7 @@ function buildTaskLists(appeal) {
       const subSection = section[subSectionName];
 
       const status = getTaskStatus(appeal, sectionName, subSectionName);
+
       task.items.push({
         text: HEADERS[subSectionName],
         href: subSection.href,

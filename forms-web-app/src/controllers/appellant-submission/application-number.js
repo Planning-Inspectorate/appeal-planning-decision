@@ -44,5 +44,5 @@ exports.postApplicationNumber = async (req, res) => {
     return;
   }
 
-  res.redirect(getNextUncompletedTask(appeal.sectionStates, { sectionName, taskName }).href);
+  res.redirect(getNextUncompletedTask(appeal, { sectionName, taskName }).href);
 };

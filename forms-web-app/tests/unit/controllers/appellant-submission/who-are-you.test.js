@@ -2,7 +2,7 @@ const whoAreYouController = require('../../../../src/controllers/appellant-submi
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { FORM_FIELD } = require('../../../../src/controllers/appellant-submission/who-are-you');
 const logger = require('../../../../src/lib/logger');
-const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
+const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
@@ -41,7 +41,7 @@ describe('controller/appellant-submission/who-are-you', () => {
 
       await whoAreYouController.postWhoAreYou(mockRequest, res);
 
-      const appeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      const { empty: appeal } = APPEAL_DOCUMENT;
       appeal[sectionName][taskName].isOriginalApplicant = true;
       appeal.sectionStates[sectionName][taskName] = 'IN PROGRESS';
 
@@ -62,7 +62,7 @@ describe('controller/appellant-submission/who-are-you', () => {
 
       await whoAreYouController.postWhoAreYou(mockRequest, res);
 
-      const appeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      const { empty: appeal } = APPEAL_DOCUMENT;
       appeal[sectionName][taskName].isOriginalApplicant = false;
       appeal.sectionStates[sectionName][taskName] = 'IN PROGRESS';
 
@@ -82,7 +82,7 @@ describe('controller/appellant-submission/who-are-you', () => {
       };
       await whoAreYouController.postWhoAreYou(mockRequest, res);
 
-      const appeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      const { empty: appeal } = APPEAL_DOCUMENT;
       appeal[sectionName][taskName].isOriginalApplicant = false;
       appeal.sectionStates[sectionName][taskName] = 'IN PROGRESS';
 

@@ -2,10 +2,12 @@ const siteAccessSafetyController = require('../../../../src/controllers/appellan
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
+const { getNextUncompletedTask } = require('../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../mocks');
-const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
+const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/services/task.service');
 jest.mock('../../../../src/lib/logger');
 
 const req = mockReq();
@@ -67,6 +69,9 @@ describe('controller/appellant-submission/site-access-safety', () => {
 
     it('should redirect to the task list', async () => {
       createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
+      getNextUncompletedTask.mockReturnValue({
+        href: `/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`,
+      });
       const mockRequest = {
         ...req,
         body: {
@@ -78,7 +83,7 @@ describe('controller/appellant-submission/site-access-safety', () => {
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
 
-      const appeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      const { empty: appeal } = APPEAL_DOCUMENT;
       appeal[sectionName][taskName].hasIssues = 'yes';
       appeal[sectionName][taskName].healthAndSafetyIssues = 'some concerns noted here';
       appeal.sectionStates[sectionName][taskName] = 'TODO';

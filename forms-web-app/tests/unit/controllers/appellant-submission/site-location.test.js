@@ -2,10 +2,12 @@ const siteLocationController = require('../../../../src/controllers/appellant-su
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
-const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
+const { getNextUncompletedTask } = require('../../../../src/services/task.service');
+const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { VIEW } = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/services/task.service');
 jest.mock('../../../../src/lib/logger');
 
 const req = mockReq();
@@ -64,7 +66,9 @@ describe('controller/appellant-submission/site-location', () => {
 
     it('should redirect to `/appellant-submission/site-ownership` if valid', async () => {
       createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
-
+      getNextUncompletedTask.mockReturnValue({
+        href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
+      });
       const mockRequest = {
         ...req,
         body: {
@@ -77,7 +81,7 @@ describe('controller/appellant-submission/site-location', () => {
       };
       await siteLocationController.postSiteLocation(mockRequest, res);
 
-      const goodAppeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      const { empty: goodAppeal } = APPEAL_DOCUMENT;
       goodAppeal[sectionName][taskName].addressLine1 = '1 Taylor Road';
       goodAppeal[sectionName][taskName].addressLine2 = 'Clifton';
       goodAppeal[sectionName][taskName].town = 'Bristol';

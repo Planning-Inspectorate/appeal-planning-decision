@@ -1,9 +1,9 @@
 jest.mock('../../src/lib/logger');
 
 const logger = require('../../src/lib/logger');
-const { EMPTY_APPEAL } = require('../../src/lib/appeals-api-wrapper');
+const { APPEAL_DOCUMENT } = require('../../src/lib/empty-appeal');
 
-const emptyAppeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+const { empty: emptyAppeal } = APPEAL_DOCUMENT;
 
 const mockReq = (appeal = emptyAppeal) => ({
   log: logger,

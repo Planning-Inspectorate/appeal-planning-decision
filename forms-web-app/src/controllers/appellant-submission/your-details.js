@@ -53,5 +53,5 @@ exports.postYourDetails = async (req, res) => {
     res.redirect(`/${VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME}`);
     return;
   }
-  res.redirect(getNextUncompletedTask(appeal.sectionStates, { sectionName, taskName }).href);
+  res.redirect(getNextUncompletedTask(appeal, { sectionName, taskName }).href);
 };

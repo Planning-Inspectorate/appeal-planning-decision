@@ -1,6 +1,7 @@
 const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
+const { getNextUncompletedTask } = require('../../services/task.service');
 const { getTaskStatus } = require('../../services/task.service');
 
 const sectionName = 'yourAppealSection';
@@ -48,7 +49,7 @@ exports.postAppealStatement = async (req, res) => {
       return;
     }
 
-    res.redirect(`/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`);
+    res.redirect(getNextUncompletedTask(appeal, { sectionName, taskName }).href);
     return;
   }
 
