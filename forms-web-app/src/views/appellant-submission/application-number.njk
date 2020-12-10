@@ -30,6 +30,7 @@
           },
           id: "application-number",
           name: "application-number",
+          attributes: {"data-cy": "application-number"},
           classes: "govuk-!-width-one-half",
           spellcheck: false,
           hint: {
@@ -43,7 +44,8 @@
 
         {{ govukButton({
           text: "Save and continue",
-          type: "submit"
+          type: "submit",
+          attributes: {"data-cy": "save-and-continue"}
         }) }}
 
       </form>

@@ -277,3 +277,28 @@ Cypress.Commands.add(
   'confirmAppealNotSubmitted',
   require('./appellant-confirms-ts-and-cs/confirmAppealNotSubmitted'),
 );
+
+Cypress.Commands.add(
+  'promptUserToProvidePlanningApplicationNumber',
+  require('./appellant-submission-planning-application-number/promptUserToProvidePlanningApplicationNumber'),
+);
+
+Cypress.Commands.add(
+  'providePlanningApplicationNumber',
+  require('./appellant-submission-planning-application-number/providePlanningApplicationNumber'),
+);
+
+Cypress.Commands.add(
+  'confirmPlanningApplicationNumberHasUpdated',
+  require('./appellant-submission-planning-application-number/confirmPlanningApplicationNumberHasUpdated'),
+);
+
+Cypress.Commands.add(
+  'confirmPlanningApplicationNumberHasNotUpdated',
+  require('./appellant-submission-planning-application-number/confirmPlanningApplicationNumberHasNotUpdated'),
+);
+
+Cypress.Commands.add(
+  'confirmPlanningApplicationNumberRejectedBecause',
+  require('./appellant-submission-planning-application-number/confirmPlanningApplicationNumberRejectedBecause'),
+);
