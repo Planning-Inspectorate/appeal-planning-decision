@@ -2,7 +2,8 @@ const appealStatementController = require('../../../../src/controllers/appellant
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
-const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
+const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
+
 const { VIEW } = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -99,7 +100,7 @@ describe('controller/appellant-submission/appeal-statement', () => {
       };
       await appealStatementController.postAppealStatement(mockRequest, res);
 
-      const goodAppeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      const { empty: goodAppeal } = APPEAL_DOCUMENT;
       goodAppeal[sectionName][taskName].uploadedFile = { name: 'some name.jpg' };
       goodAppeal[sectionName][taskName].hasSensitiveInformation = false;
       goodAppeal.sectionStates[sectionName][taskName] = 'COMPLETED';

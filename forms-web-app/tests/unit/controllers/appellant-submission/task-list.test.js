@@ -12,6 +12,8 @@ describe('controller/appellant-submission/task-list', () => {
         appealSiteSection: {
           siteAddress: {
             addressLine1: '1',
+            county: 'PACA',
+            postcode: '06300',
           },
         },
         requiredDocumentsSection: {
@@ -145,6 +147,8 @@ describe('controller/appellant-submission/task-list', () => {
         appealSiteSection: {
           siteAddress: {
             addressLine1: '1',
+            county: 'PACA',
+            postcode: '06300',
           },
         },
         requiredDocumentsSection: {

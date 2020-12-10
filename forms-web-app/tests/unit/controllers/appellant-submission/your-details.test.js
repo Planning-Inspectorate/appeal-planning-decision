@@ -3,9 +3,10 @@ const yourDetailsController = require('../../../../src/controllers/appellant-sub
 const { mockReq, mockRes } = require('../../mocks');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
-const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
+const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/lib/empty-appeal');
 jest.mock('../../../../src/lib/logger');
 
 const req = mockReq();
@@ -76,7 +77,7 @@ describe('controller/appellant-submission/your-details', () => {
 
       await yourDetailsController.postYourDetails(mockRequest, res);
 
-      const appeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      const { empty: appeal } = APPEAL_DOCUMENT;
       appeal[sectionName][taskName].isOriginalApplicant = true;
       appeal[sectionName][taskName].appealingOnBehalfOf = null;
       appeal[sectionName][taskName].email = undefined;
@@ -105,7 +106,7 @@ describe('controller/appellant-submission/your-details', () => {
 
       await yourDetailsController.postYourDetails(mockRequest, res);
 
-      const appeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      const { empty: appeal } = APPEAL_DOCUMENT;
       appeal[sectionName][taskName].isOriginalApplicant = false;
       appeal[sectionName][taskName].appealingOnBehalfOf = 'Impostor';
       appeal[sectionName][taskName].email = 'jim@joe.com';

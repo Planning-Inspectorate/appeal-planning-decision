@@ -9,26 +9,22 @@ const TASK_STATUS = {
 };
 
 function statusWhoAreYou(appeal) {
-  let status = TASK_STATUS.NOT_STARTED;
+  const {
+    isOriginalApplicant,
+    name,
+    email,
+    appealingOnBehalfOf,
+  } = appeal.aboutYouSection.yourDetails;
 
-  const task = appeal.aboutYouSection.yourDetails;
+  const isStarted = isOriginalApplicant !== null || name || email || appealingOnBehalfOf;
 
-  const isStarted = task.isOriginalApplicant;
-
-  if (isStarted !== null) {
-    status = TASK_STATUS.IN_PROGRESS;
-  } else {
-    return status;
+  if (!isStarted) {
+    return TASK_STATUS.NOT_STARTED;
   }
 
-  let isComplete = task.isOriginalApplicant && task.name;
-
-  isComplete = isComplete || (!task.isOriginalApplicant && task.appealingOnBehalfOf);
-
-  if (isComplete) {
-    status = TASK_STATUS.COMPLETED;
-  }
-  return status;
+  return (isOriginalApplicant || appealingOnBehalfOf) && name
+    ? TASK_STATUS.COMPLETED
+    : TASK_STATUS.IN_PROGRESS;
 }
 
 function statusAppealStatement(appeal) {
@@ -52,8 +48,8 @@ function statusApplicationNumber(appeal) {
 }
 
 function statusAppealSiteAddress(appeal) {
-  const task = appeal.appealSiteSection.siteAddress;
-  return task.addressLine1 ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
+  const { addressLine1, county, postcode } = appeal.appealSiteSection.siteAddress;
+  return addressLine1 && county && postcode ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
 }
 
 function statusCheckYourAnswer(appeal) {

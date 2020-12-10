@@ -2,7 +2,7 @@ const applicantNameController = require('../../../../src/controllers/appellant-s
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
-const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
+const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { mockReq, mockRes } = require('../../mocks');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -37,7 +37,7 @@ describe('controller/appellant-submission/applicant-name', () => {
       };
       await applicantNameController.postApplicantName(mockRequest, res);
 
-      const appeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      const { empty: appeal } = APPEAL_DOCUMENT;
       appeal[sectionName][taskName].appealingOnBehalfOf = 'Jim Jacobson';
 
       expect(res.redirect).not.toHaveBeenCalled();
@@ -85,7 +85,7 @@ describe('controller/appellant-submission/applicant-name', () => {
 
       await applicantNameController.postApplicantName(mockRequest, res);
 
-      const appeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      const { empty: appeal } = APPEAL_DOCUMENT;
       appeal[sectionName][taskName].isOriginalApplicant = false;
       appeal[sectionName][taskName].name = 'Impostor';
       appeal[sectionName][taskName].email = 'Impostor@gmail.com';

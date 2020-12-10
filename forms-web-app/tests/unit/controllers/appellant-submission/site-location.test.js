@@ -2,7 +2,7 @@ const siteLocationController = require('../../../../src/controllers/appellant-su
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
-const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
+const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { VIEW } = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -77,7 +77,7 @@ describe('controller/appellant-submission/site-location', () => {
       };
       await siteLocationController.postSiteLocation(mockRequest, res);
 
-      const goodAppeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      const { empty: goodAppeal } = APPEAL_DOCUMENT;
       goodAppeal[sectionName][taskName].addressLine1 = '1 Taylor Road';
       goodAppeal[sectionName][taskName].addressLine2 = 'Clifton';
       goodAppeal[sectionName][taskName].town = 'Bristol';
