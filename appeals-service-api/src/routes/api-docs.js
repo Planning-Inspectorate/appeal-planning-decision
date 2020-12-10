@@ -2,15 +2,17 @@ const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 
 const fs = require('fs');
+const path = require('path');
 const yaml = require('js-yaml');
 const logger = require('../lib/logger');
+const config = require('../lib/config');
 
 const router = express.Router();
 
 let spec;
 
 try {
-  const fileContents = fs.readFileSync('/opt/app/api/openapi.yaml', 'utf8');
+  const fileContents = fs.readFileSync(path.join(config.docs.api.path, 'openapi.yaml'), 'utf8');
   spec = yaml.safeLoad(fileContents);
   logger.debug(`Loaded api spec doc`);
 } catch (err) {
