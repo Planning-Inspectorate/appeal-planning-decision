@@ -17,7 +17,8 @@ services:
       LPA_DATA_PATH: /opt/app/data/lpa-list.csv
       LPA_TRIALIST_DATA_PATH: /opt/app/data/lpa-trialists.json
       MONGODB_AUTO_INDEX: "true"
-      MONGODB_URL: mongodb://mongodb:27017/appeals-service-api
+      MONGODB_DB_NAME: appeals-service-api
+      MONGODB_URL: mongodb://mongodb:27017
       SERVER_SHOW_ERRORS: "true"
       SRV_HORIZON_URL: http://mock-horizon:3000
       SRV_NOTIFY_URL: http://mock-notify:3000

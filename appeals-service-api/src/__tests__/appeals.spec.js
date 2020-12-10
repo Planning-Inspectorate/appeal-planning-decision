@@ -10,11 +10,7 @@ jest.mock('../db/db');
 async function createAppeal() {
   const appeal = appealDocument;
   appeal.id = uuid.v4();
-  await mongodb
-    .get()
-    .db('appeals-service-api')
-    .collection('appeals')
-    .insertOne({ _id: appeal.id, uuid: appeal.id, appeal });
+  await mongodb.get().collection('appeals').insertOne({ _id: appeal.id, uuid: appeal.id, appeal });
   return appeal;
 }
 

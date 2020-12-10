@@ -7,7 +7,7 @@ const tasks = [
   {
     name: 'mongodb',
     test: async () => {
-      const { ok } = await mongodb.get().ping();
+      const { ok } = await mongodb.get().admin().ping();
 
       return ok === 1;
     },
