@@ -25,7 +25,7 @@ describe('Appeals API', () => {
     });
     db = await connection.db();
 
-    mongodb.get.mockReturnValue(connection);
+    mongodb.get.mockReturnValue(db);
   });
 
   afterAll(async () => {
