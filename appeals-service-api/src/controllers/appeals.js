@@ -13,13 +13,11 @@ module.exports = {
     try {
       await mongodb
         .get()
-        .db('appeals-service-api')
         .collection('appeals')
         .insertOne({ _id: appeal.id, uuid: appeal.id, appeal })
         .then(() => {
           mongodb
             .get()
-            .db('appeals-service-api')
             .collection('appeals')
             .findOne({ _id: appeal.id })
             .then((doc) => {
@@ -39,7 +37,6 @@ module.exports = {
     try {
       await mongodb
         .get()
-        .db('appeals-service-api')
         .collection('appeals')
         .findOne({ _id: idParam })
         .then((doc) => {
@@ -64,7 +61,6 @@ module.exports = {
     try {
       await mongodb
         .get()
-        .db('appeals-service-api')
         .collection('appeals')
         .findOne({ _id: idParam })
         .then(async (originalDoc) => {
@@ -85,7 +81,6 @@ module.exports = {
           } else {
             await mongodb
               .get()
-              .db('appeals-service-api')
               .collection('appeals')
               .updateOne({ _id: idParam }, { $set: { uuid: idParam, appeal: validatedAppealDto } })
               .then(() => {

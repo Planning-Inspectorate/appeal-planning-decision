@@ -18,12 +18,10 @@ module.exports = {
   db: {
     mongodb: {
       url: process.env.MONGODB_URL,
+      dbName: process.env.MONGODB_DB_NAME,
       opts: {
-        autoIndex: process.env.MONGODB_AUTO_INDEX === 'true',
-        dbName: process.env.MONGODB_DB_NAME,
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        useCreateIndex: true,
       },
     },
   },

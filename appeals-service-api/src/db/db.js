@@ -19,7 +19,7 @@ function connect(callback) {
 }
 
 function get() {
-  return mongodb;
+  return mongodb.db(config.db.mongodb.dbName);
 }
 
 function close() {
