@@ -42,9 +42,7 @@ exports.postSiteLocation = async (req, res) => {
     res.render(VIEW.APPELLANT_SUBMISSION.SITE_LOCATION, {
       appeal,
       errors,
-      errorSummary: {
-        a: 'b',
-      },
+      errorSummary: [{ text: e.toString(), href: '#' }],
     });
     return;
   }

@@ -77,7 +77,7 @@ describe('controller/appellant-submission/who-are-you', () => {
         body: {
           'are-you-the-original-appellant': true,
           errors: { a: 'b' },
-          errorSummary: { a: { msg: 'There were errors here' } },
+          errorSummary: [{ text: 'There were errors here', href: '#' }],
         },
       };
       await whoAreYouController.postWhoAreYou(mockRequest, res);
@@ -90,7 +90,7 @@ describe('controller/appellant-submission/who-are-you', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
         FORM_FIELD,
         appeal,
-        errorSummary: { a: { msg: 'There were errors here' } },
+        errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });
     });
@@ -108,6 +108,12 @@ describe('controller/appellant-submission/who-are-you', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(logger.error).toHaveBeenCalledWith(error);
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
+        FORM_FIELD,
+        appeal: mockRequest.session.appeal,
+        errorSummary: [{ text: error.toString(), href: '#' }],
+        errors: {},
+      });
     });
   });
 });

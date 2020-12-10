@@ -30,7 +30,7 @@ describe('controller/appellant-submission/application-number', () => {
         ...req,
         body: {
           errors: { a: 'b' },
-          errorSummary: { a: { msg: 'There were errors here' } },
+          errorSummary: [{ text: 'There were errors here', href: '#' }],
         },
       };
       await applicationNumberController.postApplicationNumber(mockRequest, res);
@@ -38,7 +38,7 @@ describe('controller/appellant-submission/application-number', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER, {
         appeal: req.session.appeal,
-        errorSummary: { a: { msg: 'There were errors here' } },
+        errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });
     });
@@ -54,6 +54,11 @@ describe('controller/appellant-submission/application-number', () => {
       await applicationNumberController.postApplicationNumber(mockRequest, res);
       expect(res.redirect).not.toHaveBeenCalled();
       expect(logger.error).toHaveBeenCalledWith(error);
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER, {
+        appeal: req.session.appeal,
+        errors: {},
+        errorSummary: [{ text: error.toString(), href: '#' }],
+      });
     });
 
     it('should redirect to `/appellant-submission/upload-application` if valid', async () => {

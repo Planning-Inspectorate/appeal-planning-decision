@@ -3,6 +3,7 @@ const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
 const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
+const { VIEW } = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
@@ -18,7 +19,7 @@ describe('controller/appellant-submission/upload-decision', () => {
     it('should call the correct template', () => {
       uploadDecisionController.getUploadDecision(req, res);
 
-      expect(res.render).toHaveBeenCalledWith('appellant-submission/upload-decision', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
         appeal: req.session.appeal,
       });
     });
@@ -30,7 +31,7 @@ describe('controller/appellant-submission/upload-decision', () => {
         ...req,
         body: {
           errors: { a: 'b' },
-          errorSummary: { a: { msg: 'There were errors here' } },
+          errorSummary: [{ text: 'There were errors here', href: '#' }],
         },
         files: {
           'decision-upload': {},
@@ -39,9 +40,9 @@ describe('controller/appellant-submission/upload-decision', () => {
       await uploadDecisionController.postUploadDecision(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith('appellant-submission/upload-decision', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
         appeal: req.session.appeal,
-        errorSummary: { a: { msg: 'There were errors here' } },
+        errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });
     });
@@ -58,6 +59,11 @@ describe('controller/appellant-submission/upload-decision', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(logger.error).toHaveBeenCalledWith(error);
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
+        appeal: req.session.appeal,
+        errors: {},
+        errorSummary: [{ text: error.toString(), href: '#' }],
+      });
     });
 
     it('should redirect to `/appellant-submission/task-list` if valid', async () => {
@@ -78,7 +84,7 @@ describe('controller/appellant-submission/upload-decision', () => {
       goodAppeal[sectionName][taskName].uploadedFile = { name: 'some name.jpg' };
       goodAppeal.sectionStates[sectionName][taskName] = 'COMPLETED';
 
-      expect(res.redirect).toHaveBeenCalledWith('/appellant-submission/task-list');
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(goodAppeal);
     });

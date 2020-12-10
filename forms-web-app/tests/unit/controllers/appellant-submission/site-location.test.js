@@ -31,7 +31,7 @@ describe('controller/appellant-submission/site-location', () => {
         ...req,
         body: {
           errors: { a: 'b' },
-          errorSummary: { a: { msg: 'There were errors here' } },
+          errorSummary: [{ text: 'There were errors here', href: '#' }],
         },
       };
       await siteLocationController.postSiteLocation(mockRequest, res);
@@ -39,7 +39,7 @@ describe('controller/appellant-submission/site-location', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_LOCATION, {
         appeal: req.session.appeal,
-        errorSummary: { a: { msg: 'There were errors here' } },
+        errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });
     });
@@ -55,6 +55,11 @@ describe('controller/appellant-submission/site-location', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(logger.error).toHaveBeenCalledWith(error);
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_LOCATION, {
+        appeal: req.session.appeal,
+        errors: {},
+        errorSummary: [{ text: error.toString(), href: '#' }],
+      });
     });
 
     it('should redirect to `/appellant-submission/site-ownership` if valid', async () => {

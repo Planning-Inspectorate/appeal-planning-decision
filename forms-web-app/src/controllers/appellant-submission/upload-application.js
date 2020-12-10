@@ -41,9 +41,7 @@ exports.postUploadApplication = async (req, res) => {
     res.render(VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION, {
       appeal,
       errors,
-      errorSummary: {
-        a: 'b',
-      },
+      errorSummary: [{ text: e.toString(), href: '#' }],
     });
     return;
   }

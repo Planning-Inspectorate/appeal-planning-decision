@@ -36,12 +36,10 @@ exports.postApplicantName = async (req, res) => {
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);
-    res.render(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
+    res.render(VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME, {
       appeal,
       errors,
-      errorSummary: {
-        a: 'b',
-      },
+      errorSummary: [{ text: e.toString(), href: '#' }],
     });
     return;
   }
