@@ -14,7 +14,7 @@ Feature: Appellant provides the Appeal Site Address
             | "4 Taylor Road" | ""             | "Bristol"    | "South Glos" | "BS8 1TG" |
             | "5 Taylor Road" | "Clifton"      | ""           | "South Glos" | "BS8 1TG" |
 
-    Scenario Outline: Prospective Appellant submits a site address without a mandatory field
+    Scenario Outline: Prospective Appellant submits an appeal site address without mandatory information
         Given the user is prompted for the site address
         When the user provides their appeal site address as <Address Line 1> and <Address Line 2> and <Town or City> and <County> and <Postcode>
         Then the user is informed that they cannot continue with the provided address because <reason>
@@ -25,32 +25,33 @@ Feature: Appellant provides the Appeal Site Address
             | "aaa"          | ""             | ""           | ""           | "BS8 1TG" | "County is required"         |
             | "aaa"          | ""             | ""           | "South Glos" | ""        | "Postcode is required"       |
 
-    Scenario: We can handle multiple required-field failures at once
+
+    Scenario: Prospective appellant fails to provide any address information
         Given the user is prompted for the site address
         When the user provides their appeal site address as "" and "" and "" and "" and ""
         Then the user is informed that "Address Line 1 is required"
         And the user is informed that "County is required"
         And the user is informed that "Postcode is required"
 
-    Scenario: We can handle multiple required-field failures for Address Line 1 and County
+    Scenario: Prospective appellant fails to provide first address line and county
         Given the user is prompted for the site address
         When the user provides their appeal site address as "" and "" and "" and "" and "BS8 1TG"
         Then the user is informed that "Address Line 1 is required"
         And the user is informed that "County is required"
 
-    Scenario: We can handle multiple required-field failures for Address Line 1 and Postcode
+    Scenario: Prospective appellant fails to provide first address line and Postcode
         Given the user is prompted for the site address
         When the user provides their appeal site address as "" and "" and "" and "South Glos" and ""
         Then the user is informed that "Address Line 1 is required"
         And the user is informed that "Postcode is required"
 
-    Scenario: We can handle multiple required-field failures for County and Postcode
+    Scenario: Prospective appellant fails to provide County and Postcode
         Given the user is prompted for the site address
         When the user provides their appeal site address as "1 Taylor Road" and "" and "" and "" and ""
         Then the user is informed that "County is required"
         And the user is informed that "Postcode is required"
 
-    Scenario Outline: Prospective Appellant provides data that is longer than we accept
+    Scenario Outline: Prospective appellant provides address data that exceeds the maximum length constraint for each field
         Given the user is prompted for the site address
         When the user provides a value which is too long (<component>: <count>)
         Then the user is informed that they cannot continue with the provided address because <reason>
@@ -63,7 +64,7 @@ Feature: Appellant provides the Appeal Site Address
             | "County"         | 61    | "County has a limit of 60 characters"         |
             | "Postcode"       | 9     | "Postcode has a limit of 8 characters"        |
 
-    Scenario: We can handle multiple character-limit failures at once
+    Scenario: Prospective appellant provides address data that exceeds the maximum length constraint for multiple fields
         Given the user is prompted for the site address
         When the user provides values that are too long for Address Line 1, Address Line 2, Town or City, County and Postcode
         Then the user is informed that "Address Line 1 has a limit of 60 characters"
@@ -71,9 +72,9 @@ Feature: Appellant provides the Appeal Site Address
         And the user is informed that "Town or City has a limit of 60 characters"
         And the user is informed that "County has a limit of 60 characters"
         And the user is informed that "Postcode has a limit of 8 characters"
-    #And the user can see that their appeal has NOT been updated with the provided address
+        #And the user can see that their appeal has NOT been updated with the provided address
 
-    Scenario: We can handle a mixture of mandatory / character limit errors
+    Scenario: Prospective appellant provides invalid address data with some missing fields and others that exceed the maximum length constraint
         Given the user is prompted for the site address
         When the user provides values that are too long for Address Line 2 and Town or City and provides no other data
         Then the user is informed that "Address Line 1 is required"
@@ -81,13 +82,13 @@ Feature: Appellant provides the Appeal Site Address
         And the user is informed that "Town or City has a limit of 60 characters"
         And the user is informed that "County is required"
         And the user is informed that "Postcode is required"
-    #And the user can see that their appeal has NOT been updated with the provided address
+        #And the user can see that their appeal has NOT been updated with the provided address
 
-    Scenario Outline: Postcodes are validated
+    Scenario Outline: Prospective appellant provides address data with invalid Postcode
         Given the user is prompted for the site address
-        When the user provides their appeal site address as <Address Line 1> and <Address Line 2> and <Town or City> and <County> and <Postcode>
+        When the user provides their appeal site address with postcode as <Postcode>
         Then the user is informed that they cannot continue with the provided address because <reason>
         Examples:
-            | Address Line 1  | Address Line 2 | Town or City | County       | Postcode  | reason                                 |
-            | "1 Taylor Road" | "Clifton"      | "Bristol"    | "South Glos" | "ZXAS SS" | "postcodes can't be all letters"       |
-            | "1 Taylor Road" | "Clifton"      | "Bristol"    | "South Glos" | "1RG 4AX" | "postcodes should begin with a letter" |
+            | Postcode  | reason                                 |
+            | "ZXAS SS" | "postcodes can't be all letters"       |
+            | "1RG 4AX" | "postcodes should begin with a letter" |
