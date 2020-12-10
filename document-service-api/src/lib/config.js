@@ -5,11 +5,16 @@
  * config should be driven by environment variables where different
  * values are required
  */
+const ONE_MEGABYTE = 1024 * 1024;
 
 module.exports = {
-  AZURE_BLOB_STORAGE_CONNECTION_STRING: process.env.AZURE_BLOB_STORAGE_CONNECTION_STRING,
+  azure: {
+    BLOB_STORAGE_CONNECTION_STRING: process.env.AZURE_BLOB_STORAGE_CONNECTION_STRING,
+    BLOB_STORAGE_CONTAINER_NAME: 'documentservice'
+  },
   documentStorage: {
-    directory: process.env.DOCUMENT_STORAGE_DIR
+    directory: process.env.DOCUMENT_STORAGE_DIR,
+    maxFileSizeInBytes: 50 * ONE_MEGABYTE
   },
   db: {
     mongodb: {

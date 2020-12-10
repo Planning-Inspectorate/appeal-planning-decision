@@ -5,42 +5,14 @@
  */
 
 const {
-    documentStorage: {
-        documentStorage: {
-            directory
-        }
-    }
-} = require('../lib/config');
-const { 
     DocumentWriter, 
     DocumentReader 
-} = require('../controllers')
+} = require('../controllers');
 const { 
     Router 
 } = require('express');
-const uuid = require('uuid');
-const multer = require('multer');
-const mime = require('mime-types')
-
+const multerStrategy = require('../lib/multerStrategy')
 const routes = Router();
-const strategy = multer.diskStorage({
-    destination: (
-        req,
-        file,
-        next
-    ) => next(
-        null,
-        directory
-    ),
-    filename: (
-        req,
-        file,
-        next
-    ) => next(
-        null,
-        `${uuid.v4()}.${mime.extension(file.mimetype)}`
-    )
-});
 
 // TO-DO: document in Swagger
 // TO-DO: security (use .array instead of .any) 
@@ -48,7 +20,7 @@ const strategy = multer.diskStorage({
 routes
     .post(
         '/',
-        strategy.any(),
+        multerStrategy.any(),
         DocumentWriter
     );
 

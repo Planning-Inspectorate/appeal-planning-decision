@@ -1,7 +1,7 @@
-const DocumentReader = require('./documentWriter');
 const DocumentReader = require('./documentReader');
+const DocumentWriter = require('./documentWriter');
 
 module.exports = {
-    DocumentReader,
+    DocumentWriter,
     DocumentReader
 };
