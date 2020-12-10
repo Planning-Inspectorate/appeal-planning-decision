@@ -2,10 +2,12 @@ const siteAccessController = require('../../../../src/controllers/appellant-subm
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
-const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
+const { getNextUncompletedTask } = require('../../../../src/services/task.service');
+const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { mockReq, mockRes } = require('../../mocks');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/services/task.service');
 jest.mock('../../../../src/lib/logger');
 
 const req = mockReq();
@@ -67,6 +69,9 @@ describe('controller/appellant-submission/site-access', () => {
 
     it('should redirect to `/appellant-submission/site-access-safety` if valid', async () => {
       createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
+      getNextUncompletedTask.mockReturnValue({
+        href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
+      });
       const mockRequest = {
         ...req,
         body: {
@@ -77,7 +82,7 @@ describe('controller/appellant-submission/site-access', () => {
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`);
 
-      const goodAppeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      const { empty: goodAppeal } = APPEAL_DOCUMENT;
       goodAppeal[sectionName][taskName].canInspectorSeeWholeSiteFromPublicRoad = true;
       goodAppeal[sectionName][taskName].howIsSiteAccessRestricted = undefined;
       goodAppeal.sectionStates[sectionName][taskName] = 'COMPLETED';

@@ -1,3 +1,7 @@
+const { APPEAL_DOCUMENT } = require('../lib/empty-appeal');
+
+const { getExistingAppeal } = require('../lib/appeals-api-wrapper');
+
 /**
  * Middleware to ensure any route that needs the appeal form data can have it pre-populated when the
  * controller action is invoked.
@@ -7,16 +11,13 @@
  * @param next
  * @returns {Promise<*>}
  */
-const { EMPTY_APPEAL } = require('../lib/appeals-api-wrapper');
-const { getExistingAppeal } = require('../lib/appeals-api-wrapper');
-
 module.exports = async (req, res, next) => {
   if (!req.session) {
     return next();
   }
 
   if (!req.session.appeal || !req.session.appeal.id) {
-    req.session.appeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+    req.session.appeal = APPEAL_DOCUMENT.empty;
     return next();
   }
 
@@ -25,7 +26,7 @@ module.exports = async (req, res, next) => {
     req.session.appeal = await getExistingAppeal(req.session.appeal.id);
   } catch (err) {
     req.log.debug({ err }, 'Error retrieving appeal');
-    req.session.appeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+    req.session.appeal = APPEAL_DOCUMENT.empty;
   }
   return next();
 };

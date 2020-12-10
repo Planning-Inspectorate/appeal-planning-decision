@@ -4,7 +4,7 @@ const { mockReq, mockRes } = require('../mocks');
 const fetchExistingAppealMiddleware = require('../../../src/middleware/fetch-existing-appeal');
 const { getExistingAppeal } = require('../../../src/lib/appeals-api-wrapper');
 const config = require('../../../src/config');
-const { EMPTY_APPEAL } = require('../../../src/lib/appeals-api-wrapper');
+const { APPEAL_DOCUMENT } = require('../../../src/lib/empty-appeal');
 
 config.appeals.url = 'http://fake.url';
 
@@ -54,7 +54,7 @@ describe('middleware/fetch-existing-appeal', () => {
       expected: (req, res, next) => {
         expect(getExistingAppeal).toHaveBeenCalledWith('123-abc');
         expect(next).toHaveBeenCalled();
-        expect(req.session.appeal).toEqual(JSON.parse(JSON.stringify(EMPTY_APPEAL)));
+        expect(req.session.appeal).toEqual(APPEAL_DOCUMENT.empty);
       },
     },
     {

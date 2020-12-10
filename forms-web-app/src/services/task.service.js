@@ -8,32 +8,38 @@ const TASK_STATUS = {
   TODO: 'TODO',
 };
 
-function statusWhoAreYou(appeal) {
-  let status = TASK_STATUS.NOT_STARTED;
+function statusYourDetails(appeal) {
+  const {
+    isOriginalApplicant,
+    name,
+    email,
+    appealingOnBehalfOf,
+  } = appeal.aboutYouSection.yourDetails;
 
-  const task = appeal.aboutYouSection.yourDetails;
+  const isStarted = isOriginalApplicant !== null || name || email || appealingOnBehalfOf;
 
-  const isStarted = task.isOriginalApplicant;
-
-  if (isStarted !== null) {
-    status = TASK_STATUS.IN_PROGRESS;
-  } else {
-    return status;
+  if (!isStarted) {
+    return TASK_STATUS.NOT_STARTED;
   }
 
-  let isComplete = task.isOriginalApplicant && task.name;
-
-  isComplete = isComplete || (!task.isOriginalApplicant && task.appealingOnBehalfOf);
-
-  if (isComplete) {
-    status = TASK_STATUS.COMPLETED;
-  }
-  return status;
+  return (isOriginalApplicant || appealingOnBehalfOf) && name
+    ? TASK_STATUS.COMPLETED
+    : TASK_STATUS.IN_PROGRESS;
 }
 
 function statusAppealStatement(appeal) {
   const task = appeal.yourAppealSection.appealStatement;
   return task.uploadedFile.name ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
+}
+
+// eslint-disable-next-line no-unused-vars
+function statusOtherDocuments(appeal) {
+  return TASK_STATUS.TODO;
+}
+
+// eslint-disable-next-line no-unused-vars
+function statusOtherAppeals(appeal) {
+  return TASK_STATUS.TODO;
 }
 
 function statusOriginalApplication(appeal) {
@@ -52,8 +58,18 @@ function statusApplicationNumber(appeal) {
 }
 
 function statusAppealSiteAddress(appeal) {
-  const task = appeal.appealSiteSection.siteAddress;
-  return task.addressLine1 ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
+  const { addressLine1, county, postcode } = appeal.appealSiteSection.siteAddress;
+  return addressLine1 && county && postcode ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
+}
+
+// eslint-disable-next-line no-unused-vars
+function healthAndSafety(appeal) {
+  return TASK_STATUS.TODO;
+}
+
+// eslint-disable-next-line no-unused-vars
+function statusSiteOwnership(appeal) {
+  return TASK_STATUS.TODO;
 }
 
 function statusSiteAccess(appeal) {
@@ -69,12 +85,13 @@ function statusCheckYourAnswer(appeal) {
   }
 
   const tasksRules = [
-    statusWhoAreYou,
+    statusYourDetails,
     statusApplicationNumber,
     statusOriginalApplication,
     statusDecisionLetter,
     statusAppealStatement,
     statusAppealSiteAddress,
+    statusSiteAccess,
   ];
 
   for (let i = 0; i < tasksRules.length; i += 1) {
@@ -93,7 +110,7 @@ const SECTIONS = {
   aboutYouSection: {
     yourDetails: {
       href: `/${VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU}`,
-      rule: statusWhoAreYou,
+      rule: statusYourDetails,
     },
   },
   requiredDocumentsSection: {
@@ -117,8 +134,9 @@ const SECTIONS = {
     },
     otherDocuments: {
       href: `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
+      rule: statusOtherDocuments,
     },
-    otherAppeals: { href: 'other-appeals' },
+    otherAppeals: { href: 'other-appeals', rule: statusOtherAppeals },
   },
   appealSiteSection: {
     siteAddress: {
@@ -126,19 +144,34 @@ const SECTIONS = {
       rule: statusAppealSiteAddress,
     },
     siteAccess: { href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`, rule: statusSiteAccess },
-    siteOwnership: { href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}` },
-    healthAndSafety: { href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}` },
+    siteOwnership: {
+      href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
+      rule: statusSiteOwnership,
+    },
+    healthAndSafety: {
+      href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
+      rule: healthAndSafety,
+    },
   },
   submitYourAppealSection: {
     checkYourAnswers: { href: `/${VIEW.CHECK_ANSWERS}`, rule: statusCheckYourAnswer },
   },
 };
 
+const getTaskStatus = (appeal, sectionName, taskName, sections = SECTIONS) => {
+  try {
+    const { rule } = sections[sectionName][taskName];
+    return rule(appeal);
+  } catch (e) {
+    return null;
+  }
+};
+
 // Get next section task
-const getNextUncompletedTask = (sectionStates, currentTask, sections = SECTIONS) => {
+const getNextUncompletedTask = (appeal, currentTask, sections = SECTIONS) => {
   const { sectionName, taskName } = currentTask;
 
-  const section = sectionStates[sectionName];
+  const section = appeal.sectionStates[sectionName];
 
   const tasksNames = Object.keys(section);
   const tasks = Object.entries(section);
@@ -148,27 +181,24 @@ const getNextUncompletedTask = (sectionStates, currentTask, sections = SECTIONS)
   for (let i = taskIndex + 1; i < tasks.length; i += 1) {
     const nextTaskName = tasks[i][0];
 
+    // TODO fix when aligned and no TODO task displayed
+    let status = getTaskStatus(appeal, sectionName, nextTaskName);
+    if (!status && status !== TASK_STATUS.TODO) {
+      // eslint-disable-next-line prefer-destructuring
+      status = tasks[i][1];
+    }
+
     const nextTask = {
       taskName: nextTaskName,
-      status: tasks[i][1],
+      status,
       href: sections[sectionName][nextTaskName].href,
-      // TODO fix when aligned
     };
-    if (nextTask.status !== TASK_STATUS.COMPLETED) {
+    if (![TASK_STATUS.COMPLETED, TASK_STATUS.TODO].includes(nextTask.status)) {
       return nextTask;
     }
   }
 
   return { href: `/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}` };
-};
-
-const getTaskStatus = (appeal, sectionName, taskName) => {
-  try {
-    const { rule } = SECTIONS[sectionName][taskName];
-    return rule(appeal);
-  } catch (e) {
-    return TASK_STATUS.TODO;
-  }
 };
 
 module.exports = {

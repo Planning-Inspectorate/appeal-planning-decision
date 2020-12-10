@@ -2,8 +2,8 @@ const uploadDecisionController = require('../../../../src/controllers/appellant-
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
-const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
+const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
@@ -80,7 +80,7 @@ describe('controller/appellant-submission/upload-decision', () => {
       };
       await uploadDecisionController.postUploadDecision(mockRequest, res);
 
-      const goodAppeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      const { empty: goodAppeal } = APPEAL_DOCUMENT;
       goodAppeal[sectionName][taskName].uploadedFile = { name: 'some name.jpg' };
       goodAppeal.sectionStates[sectionName][taskName] = 'COMPLETED';
 

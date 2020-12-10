@@ -1,11 +1,14 @@
 const appealStatementController = require('../../../../src/controllers/appellant-submission/appeal-statement');
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
+const { getNextUncompletedTask } = require('../../../../src/services/task.service');
 const logger = require('../../../../src/lib/logger');
-const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
+const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
+
 const { VIEW } = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/services/task.service');
 jest.mock('../../../../src/lib/logger');
 
 const req = mockReq();
@@ -85,6 +88,9 @@ describe('controller/appellant-submission/appeal-statement', () => {
 
     it('should redirect to `/appellant-submission/supporting-documents` if valid', async () => {
       createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
+      getNextUncompletedTask.mockReturnValue({
+        href: `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
+      });
 
       const mockRequest = {
         ...req,
@@ -99,7 +105,7 @@ describe('controller/appellant-submission/appeal-statement', () => {
       };
       await appealStatementController.postAppealStatement(mockRequest, res);
 
-      const goodAppeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      const { empty: goodAppeal } = APPEAL_DOCUMENT;
       goodAppeal[sectionName][taskName].uploadedFile = { name: 'some name.jpg' };
       goodAppeal[sectionName][taskName].hasSensitiveInformation = false;
       goodAppeal.sectionStates[sectionName][taskName] = 'COMPLETED';

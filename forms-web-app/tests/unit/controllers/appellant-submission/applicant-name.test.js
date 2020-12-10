@@ -2,10 +2,12 @@ const applicantNameController = require('../../../../src/controllers/appellant-s
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
-const { EMPTY_APPEAL } = require('../../../../src/lib/appeals-api-wrapper');
+const { getNextUncompletedTask } = require('../../../../src/services/task.service');
+const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { mockReq, mockRes } = require('../../mocks');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/services/task.service');
 jest.mock('../../../../src/lib/logger');
 
 const req = mockReq();
@@ -37,7 +39,7 @@ describe('controller/appellant-submission/applicant-name', () => {
       };
       await applicantNameController.postApplicantName(mockRequest, res);
 
-      const appeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      const { empty: appeal } = APPEAL_DOCUMENT;
       appeal[sectionName][taskName].appealingOnBehalfOf = 'Jim Jacobson';
 
       expect(res.redirect).not.toHaveBeenCalled();
@@ -70,6 +72,9 @@ describe('controller/appellant-submission/applicant-name', () => {
 
     it('should redirect to the task list', async () => {
       createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
+      getNextUncompletedTask.mockReturnValue({
+        href: `/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`,
+      });
       const mockRequest = {
         ...req,
         body: {
@@ -85,7 +90,7 @@ describe('controller/appellant-submission/applicant-name', () => {
 
       await applicantNameController.postApplicantName(mockRequest, res);
 
-      const appeal = JSON.parse(JSON.stringify(EMPTY_APPEAL));
+      const { empty: appeal } = APPEAL_DOCUMENT;
       appeal[sectionName][taskName].isOriginalApplicant = false;
       appeal[sectionName][taskName].name = 'Impostor';
       appeal[sectionName][taskName].email = 'Impostor@gmail.com';
