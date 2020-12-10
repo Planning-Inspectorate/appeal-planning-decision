@@ -32,7 +32,7 @@ describe('controller/appellant-submission/applicant-name', () => {
         body: {
           'behalf-appellant-name': 'Jim Jacobson',
           errors: { a: 'b' },
-          errorSummary: { a: { msg: 'There were errors here' } },
+          errorSummary: [{ text: 'There were errors here', href: '#' }],
         },
       };
       await applicantNameController.postApplicantName(mockRequest, res);
@@ -43,7 +43,7 @@ describe('controller/appellant-submission/applicant-name', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME, {
         appeal,
-        errorSummary: { a: { msg: 'There were errors here' } },
+        errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });
     });
@@ -61,6 +61,11 @@ describe('controller/appellant-submission/applicant-name', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(logger.error).toHaveBeenCalledWith(error);
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME, {
+        appeal: req.session.appeal,
+        errors: {},
+        errorSummary: [{ text: error.toString(), href: '#' }],
+      });
     });
 
     it('should redirect to the task list', async () => {

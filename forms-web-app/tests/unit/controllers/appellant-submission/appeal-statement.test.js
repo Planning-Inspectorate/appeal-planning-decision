@@ -31,7 +31,7 @@ describe('controller/appellant-submission/appeal-statement', () => {
         ...req,
         body: {
           errors: { a: 'b' },
-          errorSummary: { a: { msg: 'There were errors here' } },
+          errorSummary: [{ text: 'There were errors here', href: '#' }],
         },
         files: {
           'appeal-upload': {},
@@ -42,8 +42,8 @@ describe('controller/appellant-submission/appeal-statement', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
         appeal: req.session.appeal,
-        errorSummary: { a: { msg: 'There were errors here' } },
         errors: { a: 'b' },
+        errorSummary: [{ text: 'There were errors here', href: '#' }],
       });
     });
 
@@ -76,6 +76,11 @@ describe('controller/appellant-submission/appeal-statement', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(logger.error).toHaveBeenCalledWith(error);
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
+        appeal: req.session.appeal,
+        errors: {},
+        errorSummary: [{ text: error.toString(), href: '#' }],
+      });
     });
 
     it('should redirect to `/appellant-submission/supporting-documents` if valid', async () => {
@@ -99,7 +104,9 @@ describe('controller/appellant-submission/appeal-statement', () => {
       goodAppeal[sectionName][taskName].hasSensitiveInformation = false;
       goodAppeal.sectionStates[sectionName][taskName] = 'COMPLETED';
 
-      expect(res.redirect).toHaveBeenCalledWith('/appellant-submission/supporting-documents');
+      expect(res.redirect).toHaveBeenCalledWith(
+        `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`
+      );
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(goodAppeal);
     });

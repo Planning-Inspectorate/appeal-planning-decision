@@ -39,9 +39,7 @@ exports.postApplicationNumber = async (req, res) => {
     res.render(VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER, {
       appeal,
       errors,
-      errorSummary: {
-        a: 'b',
-      },
+      errorSummary: [{ text: e.toString(), href: '#' }],
     });
     return;
   }

@@ -60,9 +60,8 @@ exports.postWhoAreYou = async (req, res) => {
     res.render(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
       appeal,
       errors,
-      errorSummary: {
-        a: 'b',
-      },
+      errorSummary: [{ text: e.toString(), href: '#' }],
+      FORM_FIELD,
     });
     return;
   }

@@ -43,9 +43,7 @@ exports.postAppealStatement = async (req, res) => {
       res.render(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
         appeal,
         errors,
-        errorSummary: {
-          a: 'b',
-        },
+        errorSummary: [{ text: e.toString(), href: '#' }],
       });
       return;
     }
