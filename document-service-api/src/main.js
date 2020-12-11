@@ -5,21 +5,13 @@
  * configures
  */
 
-const mongoose = require('mongoose');
-
+const main = require('./lib/mongooseBootstrap');
 const logger = require('./lib/logger');
-const config = require('./lib/config');
 const server = require('./server');
 
-async function main() {
-  /* Mongoose is a singleton internally, so connect before accepting connections */
-  logger.info('Attempting to create Mongoose connection');
-  await mongoose.connect(config.db.mongodb.url, config.db.mongodb.opts);
-  logger.info('Connected to Mongoose');
-
-  server();
-}
-
-main().catch((err) => {
-  logger.fatal({ err }, 'Unable to start application');
-});
+main()
+  .then(() => server())
+  .catch((err) => {
+    logger.fatal({ err }, 'Unable to start application');
+    process.exit(1);
+  });
