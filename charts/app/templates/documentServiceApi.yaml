@@ -51,6 +51,10 @@ spec:
                 secretKeyRef:
                   key: value
                   name: akv-docs-blob-storage-connection-string
+            - name: FILE_MAX_SIZE_IN_BYTES
+              value: {{ .Values.documentServiceApi.config.upload.maxSize | quote }}
+            - name: FILE_UPLOAD_PATH
+              value: {{ .Values.documentServiceApi.config.upload.uploadDir | quote }}
             - name: MONGODB_DB_NAME
               value: document-service-api
             - name: MONGODB_URL
@@ -62,6 +66,9 @@ spec:
               value: {{ .Values.documentServiceApi.config.port | quote }}
             - name: SERVER_TERMINATION_GRACE_PERIOD_SECONDS
               value: {{ 10 | quote }} # Same as "periodSeconds" for readinessProbe
+          volumeMounts:
+            - mountPath: {{ .Values.documentServiceApi.config.upload.uploadDir | quote }}
+              name: upload-cache
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -76,3 +83,6 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: upload-cache
+          emptyDir: {}

@@ -25,7 +25,8 @@ documentServiceApi:
     tag: latest
   config:
     upload:
-      maxSize: 100000000 # 100mb
+      maxSize: 50000000 # 50mb
+      uploadDir: /upload-dir
     port: 3000
 
 formsWebApp:
