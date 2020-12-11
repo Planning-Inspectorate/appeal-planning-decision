@@ -8,8 +8,6 @@ const sectionName = 'yourAppealSection';
 const taskName = 'appealStatement';
 
 exports.getAppealStatement = (req, res) => {
-  console.log(JSON.stringify(req.session.appeal, null, 2), 'req.session.appeal getAppealStatement')
-
   res.render(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
     appeal: req.session.appeal,
   });
@@ -29,7 +27,8 @@ exports.postAppealStatement = async (req, res) => {
   }
 
   if (body['does-not-include-sensitive-information'] !== 'i-confirm') {
-    return res.redirect(`/${VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT}`);
+    res.redirect(`/${VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT}`);
+    return;
   }
 
   const { appeal } = req.session;
@@ -47,27 +46,23 @@ exports.postAppealStatement = async (req, res) => {
     });
     return;
   }
-  //
-  // console.log(JSON.stringify(ap, null, 2));
-  // exit();
 
   const task = {
     ...ap[sectionName][taskName],
     uploadedFile: req.files &&
-    req.files['appeal-upload'] && {
-      name: req.files['appeal-upload'].name,
-    },
-    hasSensitiveInformation: false
+      req.files['appeal-upload'] && {
+        name: req.files['appeal-upload'].name,
+      },
+    hasSensitiveInformation: false,
   };
 
   const document = await createDocument(ap, req.files['appeal-upload']);
 
   try {
-    task.uploadedFile = {
+    ap[sectionName][taskName].uploadedFile = {
       ...task.uploadedFile,
-      ...document
-    }
-    ap[sectionName][taskName] = task;
+      ...document,
+    };
 
     req.session.appeal = await createOrUpdateAppeal(ap);
   } catch (e) {
