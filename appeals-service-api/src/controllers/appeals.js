@@ -7,7 +7,7 @@ const { validateAppeal } = require('../middleware/validateAppeal');
 
 module.exports = {
   async create(req, res) {
-    const appeal = appealDocument;
+    const appeal = JSON.parse(JSON.stringify(appealDocument));
     appeal.id = uuid.v4();
     logger.debug(`Creating appeal ${appeal.id} ...`);
     try {
