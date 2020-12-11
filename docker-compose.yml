@@ -13,7 +13,7 @@ services:
     image: node:14-alpine
     environment:
       DOCS_API_PATH: /opt/app/api
-      DOCUMENT_SERVICE_API_URL: http://document-service-api:3000
+      DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       LPA_DATA_PATH: /opt/app/data/lpa-list.csv
       LPA_TRIALIST_DATA_PATH: /opt/app/data/lpa-trialists.json
       MONGODB_AUTO_INDEX: "true"
@@ -70,7 +70,8 @@ services:
     image: node:14-alpine
     environment:
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
-      DOCUMENT_SERVICE_API_URL: http://document-service-api:3000
+#      DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
+      DOCUMENTS_SERVICE_API_URL: https://virtserver.swaggerhub.com/riggerthegeek/docs-service-api/1.0.0
       FILE_UPLOAD_DEBUG: "false"
       FILE_UPLOAD_MAX_FILE_SIZE_BYTES: 52428800
       FILE_UPLOAD_USE_TEMP_FILES: "true"

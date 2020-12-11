@@ -1,5 +1,6 @@
 const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
+const { createDocument } = require('../../lib/documents-api-wrapper');
 const logger = require('../../lib/logger');
 const { getTaskStatus } = require('../../services/task.service');
 
@@ -7,6 +8,8 @@ const sectionName = 'yourAppealSection';
 const taskName = 'appealStatement';
 
 exports.getAppealStatement = (req, res) => {
+  console.log(JSON.stringify(req.session.appeal, null, 2), 'req.session.appeal getAppealStatement')
+
   res.render(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
     appeal: req.session.appeal,
   });
@@ -25,32 +28,57 @@ exports.postAppealStatement = async (req, res) => {
     return;
   }
 
-  const { appeal } = req.session;
-  const task = appeal[sectionName][taskName];
+  if (body['does-not-include-sensitive-information'] !== 'i-confirm') {
+    return res.redirect(`/${VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT}`);
+  }
 
-  task.uploadedFile = req.files &&
+  const { appeal } = req.session;
+  let ap;
+
+  try {
+    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+    ap = await createOrUpdateAppeal(appeal);
+  } catch (e) {
+    logger.error(e);
+    res.render(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
+      appeal,
+      errors,
+      errorSummary: [{ text: e.toString(), href: '#' }],
+    });
+    return;
+  }
+  //
+  // console.log(JSON.stringify(ap, null, 2));
+  // exit();
+
+  const task = {
+    ...ap[sectionName][taskName],
+    uploadedFile: req.files &&
     req.files['appeal-upload'] && {
       name: req.files['appeal-upload'].name,
-    };
+    },
+    hasSensitiveInformation: false
+  };
 
-  if (body['does-not-include-sensitive-information'] === 'i-confirm') {
-    try {
-      task.hasSensitiveInformation = false;
-      appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
-      req.session.appeal = await createOrUpdateAppeal(appeal);
-    } catch (e) {
-      logger.error(e);
-      res.render(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
-        appeal,
-        errors,
-        errorSummary: [{ text: e.toString(), href: '#' }],
-      });
-      return;
+  const document = await createDocument(ap, req.files['appeal-upload']);
+
+  try {
+    task.uploadedFile = {
+      ...task.uploadedFile,
+      ...document
     }
+    ap[sectionName][taskName] = task;
 
-    res.redirect(`/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`);
+    req.session.appeal = await createOrUpdateAppeal(ap);
+  } catch (e) {
+    logger.error(e);
+    res.render(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
+      appeal: req.session.appeal,
+      errors,
+      errorSummary: [{ text: e.toString(), href: '#' }],
+    });
     return;
   }
 
-  res.redirect(`/${VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT}`);
+  res.redirect(`/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`);
 };

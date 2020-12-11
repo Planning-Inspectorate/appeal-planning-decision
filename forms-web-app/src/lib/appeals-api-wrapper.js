@@ -14,6 +14,12 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
     service: 'Appeals Service API',
   });
 
+  console.log(`handler`, {
+    path,
+    method,
+    opts
+  });
+
   try {
     logger.debug({ url, method, opts, headers }, 'New call');
 
@@ -31,10 +37,11 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
         });
 
         if (!apiResponse.ok) {
-          logger.debug(apiResponse, 'API Response not OK');
+          logger.debug(apiResponse, 'Appeals API Response not OK');
+
           try {
             const errorResponse = await apiResponse.json();
-            if (errorResponse.errors.length) {
+            if (errorResponse.errors && errorResponse.errors.length) {
               throw new Error(errorResponse.errors.join('\n'));
             }
 
