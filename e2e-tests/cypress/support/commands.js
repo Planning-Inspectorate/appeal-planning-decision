@@ -254,6 +254,16 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'goToCheckYourAnswersPage',
+  require('./appellant-submission-check-your-answers/goToCheckYourAnswersPage'),
+);
+
+Cypress.Commands.add(
+  'confirmSubmissionPage',
+  require('./appellant-submission-check-your-answers/confirmSubmissionPage'),
+);
+
+Cypress.Commands.add(
   'acceptTermsAndConditions',
   require('./appellant-confirms-ts-and-cs/acceptTermsAndConditions'),
 );
