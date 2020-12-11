@@ -6,9 +6,11 @@
 
 const { Router } = require('express');
 const apidocs = require('./api-docs');
+const application = require('./application');
 
 const routes = Router();
 
 routes.use('/api-docs', apidocs);
+routes.use('/api/v1/:applicationId', application);
 
 module.exports = routes;
