@@ -26,6 +26,18 @@ module.exports = {
       path: process.env.DOCS_API_PATH || path.join(__dirname, '..', 'api'),
     },
   },
+  fileUpload: {
+    maxSizeInBytes: Number(process.env.FILE_MAX_SIZE_IN_BYTES || 1000),
+    mimeTypes: [
+      'application/pdf', // pdf
+      'application/msword', // doc
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // docx
+      'image/tiff', // tiff
+      'image/jpeg', // jpeg
+      'image/png', // png
+    ],
+    path: process.env.FILE_UPLOAD_PATH,
+  },
   logger: {
     level: process.env.LOGGER_LEVEL || 'info',
     redact: ['config.db.mongodb'],
@@ -33,5 +45,9 @@ module.exports = {
   server: {
     port: Number(process.env.SERVER_PORT || 3000),
     showErrors: process.env.SERVER_SHOW_ERRORS === 'true',
+  },
+  storage: {
+    container: process.env.STORAGE_CONTAINER_NAME,
+    connectionString: process.env.BLOB_STORAGE_CONNECTION_STRING,
   },
 };
