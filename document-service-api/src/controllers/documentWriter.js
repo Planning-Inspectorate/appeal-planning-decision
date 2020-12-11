@@ -38,7 +38,7 @@ const DocumentWriter = (req, res) => {
                 })
         )
     };
-    const uploadedFiles = req
+    let uploadedFiles = req
         .files
         .map(file => ({
             path: file.path,
@@ -60,6 +60,10 @@ const DocumentWriter = (req, res) => {
     }
     uploadToAzureBlobStorage(uploadedFiles);
     deleteFromDisk(uploadedFiles);
+    uploadedFiles = uploadedFiles.map(file => ({
+        originalName: file.originalname,
+        id: file.filename
+    }))
     res.send({
         uploadedFiles
     });
