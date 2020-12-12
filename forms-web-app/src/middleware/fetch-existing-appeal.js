@@ -1,6 +1,4 @@
-const { APPEAL_DOCUMENT } = require('../lib/empty-appeal');
-
-const { getExistingAppeal } = require('../lib/appeals-api-wrapper');
+const { createOrUpdateAppeal, getExistingAppeal } = require('../lib/appeals-api-wrapper');
 
 /**
  * Middleware to ensure any route that needs the appeal form data can have it pre-populated when the
@@ -17,7 +15,7 @@ module.exports = async (req, res, next) => {
   }
 
   if (!req.session.appeal || !req.session.appeal.id) {
-    req.session.appeal = APPEAL_DOCUMENT.empty;
+    req.session.appeal = await createOrUpdateAppeal({});
     return next();
   }
 
@@ -26,7 +24,7 @@ module.exports = async (req, res, next) => {
     req.session.appeal = await getExistingAppeal(req.session.appeal.id);
   } catch (err) {
     req.log.debug({ err }, 'Error retrieving appeal');
-    req.session.appeal = APPEAL_DOCUMENT.empty;
+    req.session.appeal = await createOrUpdateAppeal({});
   }
   return next();
 };

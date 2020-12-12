@@ -1,6 +1,6 @@
 const { VIEW } = require('../../../src/lib/views');
 
-const { getNextUncompletedTask } = require('../../../src/services/task.service');
+const { getNextUncompletedTask, SECTIONS } = require('../../../src/services/task.service');
 
 describe('services/task', () => {
   describe('getNextTask', () => {
@@ -49,6 +49,13 @@ describe('services/task', () => {
       );
 
       expect(task.href).toEqual(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
+    });
+  });
+  describe('SECTIONS', () => {
+    it('should return early from statusCheckYourAnswer if the appeal is already submitted ', () => {
+      expect(
+        SECTIONS.submitYourAppealSection.checkYourAnswers.rule({ state: 'SUBMITTED' })
+      ).toEqual('COMPLETED');
     });
   });
 });
