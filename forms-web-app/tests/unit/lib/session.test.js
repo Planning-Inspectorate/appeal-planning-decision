@@ -47,6 +47,7 @@ describe('lib/session', () => {
     expect(configuredSession.saveUninitialized).toEqual(true);
     expect(configuredSession.secret).toEqual(config.server.sessionSecret);
     expect(configuredSession.store.on).toBeDefined();
+    expect(configuredSession.store.on).toHaveBeenCalledWith('error', expect.any(Function));
 
     expect(connectMongodb).toHaveBeenCalledWith(expressSession);
     expect(mockOn.mock.calls[0][0]).toEqual('error');

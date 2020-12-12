@@ -2,9 +2,8 @@ jest.mock('../../../src/lib/appeals-api-wrapper');
 
 const { mockReq, mockRes } = require('../mocks');
 const fetchExistingAppealMiddleware = require('../../../src/middleware/fetch-existing-appeal');
-const { getExistingAppeal } = require('../../../src/lib/appeals-api-wrapper');
+const { createOrUpdateAppeal, getExistingAppeal } = require('../../../src/lib/appeals-api-wrapper');
 const config = require('../../../src/config');
-const { APPEAL_DOCUMENT } = require('../../../src/lib/empty-appeal');
 
 config.appeals.url = 'http://fake.url';
 
@@ -25,6 +24,7 @@ describe('middleware/fetch-existing-appeal', () => {
       }),
       expected: (req, res, next) => {
         expect(getExistingAppeal).not.toHaveBeenCalled();
+        expect(createOrUpdateAppeal).toHaveBeenCalledWith({});
         expect(next).toHaveBeenCalled();
       },
     },
@@ -42,6 +42,7 @@ describe('middleware/fetch-existing-appeal', () => {
       title: 'call next if api lookup fails',
       given: () => {
         getExistingAppeal.mockRejectedValue('API is down');
+        createOrUpdateAppeal.mockReturnValue({ fake: 'appeal data' });
         return {
           ...mockReq(),
           session: {
@@ -53,8 +54,9 @@ describe('middleware/fetch-existing-appeal', () => {
       },
       expected: (req, res, next) => {
         expect(getExistingAppeal).toHaveBeenCalledWith('123-abc');
+        expect(createOrUpdateAppeal).toHaveBeenCalledWith({});
+        expect(req.session.appeal).toEqual({ fake: 'appeal data' });
         expect(next).toHaveBeenCalled();
-        expect(req.session.appeal).toEqual(APPEAL_DOCUMENT.empty);
       },
     },
     {

@@ -12,13 +12,11 @@ describe('validators/appellant-submission/application-number', () => {
       expect(rule.fields).toEqual(['application-number']);
       expect(rule.locations).toEqual(['body']);
       expect(rule.optional).toBeFalsy();
-      expect(rule.stack).toHaveLength(2);
+      expect(rule.stack).toHaveLength(1);
 
-      expect(rule.stack[0].sanitizer.name).toEqual('escape');
-
-      expect(rule.stack[1].negated).toBeTruthy();
-      expect(rule.stack[1].validator.name).toEqual('isEmpty');
-      expect(rule.stack[1].message).toEqual('Enter your planning application number');
+      expect(rule.stack[0].negated).toBeTruthy();
+      expect(rule.stack[0].validator.name).toEqual('isEmpty');
+      expect(rule.stack[0].message).toEqual('Enter your planning application number');
     });
   });
   describe('validator', () => {

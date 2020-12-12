@@ -29,7 +29,7 @@ function statusYourDetails(appeal) {
 
 function statusAppealStatement(appeal) {
   const task = appeal.yourAppealSection.appealStatement;
-  return task.uploadedFile.name ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
+  return task.hasSensitiveInformation === false ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
 }
 
 // eslint-disable-next-line no-unused-vars
