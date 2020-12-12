@@ -179,9 +179,7 @@ describe('controller/appellant-submission/task-list', () => {
         },
         yourAppealSection: {
           appealStatement: {
-            uploadedFile: {
-              name: 'appeal.pdf',
-            },
+            hasSensitiveInformation: false,
           },
         },
       });
@@ -359,9 +357,7 @@ describe('controller/appellant-submission/task-list', () => {
         },
         yourAppealSection: {
           appealStatement: {
-            uploadedFile: {
-              name: 'appeal.pdf',
-            },
+            hasSensitiveInformation: false,
           },
         },
       });

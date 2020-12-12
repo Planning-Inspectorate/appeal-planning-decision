@@ -1,9 +1,15 @@
-import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import {Given, When, Then} from 'cypress-cucumber-preprocessor/steps';
 
 Given('user has previously submitted an appeal statement file {string}', (filename) => {
   cy.goToAppealStatementSubmission();
   cy.checkNoSensitiveInformation();
   cy.uploadAppealStatementFile(filename);
+  cy.saveAndContinue();
+});
+
+When('user confirms that there is no sensitive information without selecting an appeal statement file to upload', () => {
+  cy.goToAppealStatementSubmission();
+  cy.checkNoSensitiveInformation();
   cy.saveAndContinue();
 });
 
@@ -17,6 +23,10 @@ When('user submits an appeal statement file {string} confirming that it {string}
   cy.uploadAppealStatementFile(filename);
   cy.saveAndContinue();
 });
+
+Then('user can see that no appeal statement file is submitted', () => {
+  cy.confirmAppealStatementFileIsNotUploaded();
+})
 
 Then('user can see that the appeal statement file {string} {string} submitted', (filename, submitted) => {
   if (submitted === 'is') {
