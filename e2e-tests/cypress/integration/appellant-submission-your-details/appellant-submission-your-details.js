@@ -28,7 +28,7 @@ When('the user provides only an email', () => {
   cy.provideDetailsEmail('good@email.com');
 });
 
-Then('the appeal\'s Your Details section is completed with {string} and {string}', (name, email) => {
+Then("the appeal's Your Details task is completed with {string} and {string}", (name, email) => {
   cy.confirmDetailsWasAccepted(name, email);
 });
 
