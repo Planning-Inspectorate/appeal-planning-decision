@@ -1,11 +1,10 @@
 @smoketest
-@wip
 Feature: A user provides their details
   The user is required to provide a valid name and email to complete an appeal.
 
   Scenario Outline: Valid name and email provided
     When the user provides their valid <name> and <email>
-    Then the appeal's Your Details section is completed with <name> and <email>
+    Then the appeal's Your Details task is completed with <name> and <email>
     Examples:
       | name         | email                 |
       | "Good"       | "abc@mail.com"        |

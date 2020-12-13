@@ -45,7 +45,7 @@ function buildTaskLists(appeal) {
       task.items.push({
         text: HEADERS[subSectionName],
         href: subSection.href,
-        // attributes: { status }, e2e-tests
+        attributes: { [`${subSectionName}-status`]: status },
         status,
       });
     });
