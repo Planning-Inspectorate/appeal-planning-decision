@@ -1,4 +1,4 @@
-function validateAppeal(appealId, appeal) {
+function validateAppeal(appeal) {
   const errors = [];
 
   // Start of Task List Validation
@@ -67,9 +67,6 @@ function validateAppeal(appealId, appeal) {
     );
   }
 
-  if (appealId !== appeal.id) {
-    errors.push('The provided id in path must be the same as the appeal id in the request body');
-  }
   if (
     appeal.state === 'SUBMITTED' &&
     (appeal.sectionStates.aboutYouSection.yourDetails !== 'COMPLETED' ||

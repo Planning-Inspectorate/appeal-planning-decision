@@ -7,6 +7,88 @@ const { appealDocument } = require('../models/appeal');
 
 jest.mock('../db/db');
 
+/* eslint no-param-reassign: ["error", { "props": false }] */
+function valueAppeal(appeal) {
+  appeal.lpaCode = 'E60000281/new';
+  appeal.decisionDate = '2020-10-29';
+  appeal.state = 'DRAFT';
+  appeal.aboutYouSection.yourDetails = {
+    isOriginalApplicant: false,
+    name: 'Ms Alison Khan',
+    email: 'akhan123@email.com',
+    appealingOnBehalfOf: 'Mr Josh Evans',
+  };
+  appeal.requiredDocumentsSection.applicationNumber = 'S/35552';
+  appeal.requiredDocumentsSection.originalApplication.uploadedFile = {
+    name: 'my_uploaded_file_original_application.pdf',
+    id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+  };
+  appeal.requiredDocumentsSection.decisionLetter.uploadedFile = {
+    name: 'my_uploaded_file_decision_letter.pdf',
+    id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+  };
+  appeal.yourAppealSection.appealStatement.uploadedFile = {
+    name: 'my_uploaded_file_appeal_statement.pdf',
+    id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+  };
+  appeal.yourAppealSection.appealStatement.hasSensitiveInformation = false;
+  appeal.yourAppealSection.otherDocuments.documents = [
+    {
+      uploadedFile: {
+        name: 'my_uploaded_file_other_documents_one.pdf',
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      },
+    },
+    {
+      uploadedFile: {
+        name: 'my_uploaded_fileother_documents_two.pdf',
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      },
+    },
+  ];
+  appeal.yourAppealSection.otherAppeals = {
+    hasOtherAppeal: true,
+    otherAppealRefNumber: 'E60000281/one,E60000281/two,E60000281/three',
+  };
+  appeal.appealSiteSection.siteAddress = {
+    addressLine1: 'The Grand House',
+    addressLine2: 'High Street',
+    town: 'Swansea',
+    county: 'Dinas a Sir Abertawe',
+    postcode: 'SA21 5TY',
+  };
+  appeal.appealSiteSection.siteOwnership = {
+    ownsWholeSite: false,
+    haveOtherOwnersBeenTold: true,
+  };
+  appeal.appealSiteSection.siteAccess = {
+    canInspectorSeeWholeSiteFromPublicRoad: false,
+    howIsSiteAccessRestricted: 'There is a moat',
+  };
+  appeal.appealSiteSection.healthAndSafety = {
+    hasIssues: true,
+    healthAndSafetyIssues: 'Site was a munitions dump!',
+  };
+  appeal.sectionStates.aboutYouSection = {
+    yourDetails: 'NOT STARTED',
+  };
+  appeal.sectionStates.requiredDocumentsSection = {
+    applicationNumber: 'IN PROGRESS',
+    originalApplication: 'COMPLETED',
+    decisionLetter: 'NOT STARTED',
+  };
+  appeal.sectionStates.yourAppealSection = {
+    appealStatement: 'IN PROGRESS',
+    otherDocuments: 'COMPLETED',
+    otherAppeals: 'NOT STARTED',
+  };
+  appeal.sectionStates.appealSiteSection = {
+    siteAccess: 'IN PROGRESS',
+    siteOwnership: 'COMPLETED',
+    healthAndSafety: 'NOT STARTED',
+  };
+}
+
 async function createAppeal() {
   const appeal = JSON.parse(JSON.stringify(appealDocument));
   appeal.id = uuid.v4();
@@ -33,9 +115,9 @@ describe('Appeals API', () => {
     await db.close();
   });
 
-  test('POST /api/v1/appeals - It responds with a newly created appeal', async () => {
+  test('GET /api/v1/appeals - It responds with a newly created appeal', async () => {
     const appeal = JSON.parse(JSON.stringify(appealDocument));
-    const response = await request(app).post('/api/v1/appeals').send({});
+    const response = await request(app).get('/api/v1/appeals').send({});
     appeal.id = response.body.id;
     expect(response.body).toEqual(appeal);
     expect(response.statusCode).toBe(201);
@@ -54,89 +136,26 @@ describe('Appeals API', () => {
     expect(response.statusCode).toBe(404);
   });
 
-  test('PUT /api/v1/appeals/{id} - It responds with an updated appeal', async () => {
-    const appeal = await createAppeal();
-    appeal.lpaCode = 'E60000281/new';
-    appeal.decisionDate = '2020-10-29';
-    appeal.state = 'DRAFT';
-    appeal.aboutYouSection.yourDetails = {
-      isOriginalApplicant: false,
-      name: 'Ms Alison Khan',
-      email: 'akhan123@email.com',
-      appealingOnBehalfOf: 'Mr Josh Evans',
-    };
-    appeal.requiredDocumentsSection.applicationNumber = 'S/35552';
-    appeal.requiredDocumentsSection.originalApplication.uploadedFile = {
-      name: 'my_uploaded_file_original_application.pdf',
-      id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-    };
-    appeal.requiredDocumentsSection.decisionLetter.uploadedFile = {
-      name: 'my_uploaded_file_decision_letter.pdf',
-      id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-    };
-    appeal.yourAppealSection.appealStatement.uploadedFile = {
-      name: 'my_uploaded_file_appeal_statement.pdf',
-      id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-    };
-    appeal.yourAppealSection.appealStatement.hasSensitiveInformation = false;
-    appeal.yourAppealSection.otherDocuments.documents = [
-      {
-        uploadedFile: {
-          name: 'my_uploaded_file_other_documents_one.pdf',
-          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        },
-      },
-      {
-        uploadedFile: {
-          name: 'my_uploaded_fileother_documents_two.pdf',
-          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        },
-      },
-    ];
-    appeal.yourAppealSection.otherAppeals = {
-      hasOtherAppeal: true,
-      otherAppealRefNumber: 'E60000281/one,E60000281/two,E60000281/three',
-    };
-    appeal.appealSiteSection.siteAddress = {
-      addressLine1: 'The Grand House',
-      addressLine2: 'High Street',
-      town: 'Swansea',
-      county: 'Dinas a Sir Abertawe',
-      postcode: 'SA21 5TY',
-    };
-    appeal.appealSiteSection.siteOwnership = {
-      ownsWholeSite: false,
-      haveOtherOwnersBeenTold: true,
-    };
-    appeal.appealSiteSection.siteAccess = {
-      canInspectorSeeWholeSiteFromPublicRoad: false,
-      howIsSiteAccessRestricted: 'There is a moat',
-    };
-    appeal.appealSiteSection.healthAndSafety = {
-      hasIssues: true,
-      healthAndSafetyIssues: 'Site was a munitions dump!',
-    };
-    appeal.sectionStates.aboutYouSection = {
-      yourDetails: 'NOT STARTED',
-    };
-    appeal.sectionStates.requiredDocumentsSection = {
-      applicationNumber: 'IN PROGRESS',
-      originalApplication: 'COMPLETED',
-      decisionLetter: 'NOT STARTED',
-    };
-    appeal.sectionStates.yourAppealSection = {
-      appealStatement: 'IN PROGRESS',
-      otherDocuments: 'COMPLETED',
-      otherAppeals: 'NOT STARTED',
-    };
-    appeal.sectionStates.appealSiteSection = {
-      siteAccess: 'IN PROGRESS',
-      siteOwnership: 'COMPLETED',
-      healthAndSafety: 'NOT STARTED',
-    };
-    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+  test('POST /api/v1/appeals - It responds with an inserted appeal', async () => {
+    const appeal = JSON.parse(JSON.stringify(appealDocument));
+    valueAppeal(appeal);
+
+    const response = await request(app).post(`/api/v1/appeals`).send(appeal);
+    expect(response.body).not.toEqual(appeal);
+    appeal.id = response.body.id;
     expect(response.body).toEqual(appeal);
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(202);
+  });
+
+  test('POST /api/v1/appeals - It responds with an error - the appeal should have an empty id field', async () => {
+    const appeal = await createAppeal();
+    valueAppeal(appeal);
+
+    const response = await request(app).post(`/api/v1/appeals`).send(appeal);
+    expect(response.statusCode).toBe(400);
+    expect(response.body.errors).toContain(
+      `The expected id field should be empty but instead received ${appeal.id}`
+    );
   });
 
   test('PUT /api/v1/appeals/{id} - It responds with an error - Not Found', async () => {

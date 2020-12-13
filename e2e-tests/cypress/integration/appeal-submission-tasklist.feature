@@ -1,4 +1,3 @@
-@wip
 Feature: Your Details task status
 
   Scenario: The status of the Your Details section is accurate

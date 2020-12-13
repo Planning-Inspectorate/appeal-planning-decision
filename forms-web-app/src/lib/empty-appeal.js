@@ -1,5 +1,6 @@
 module.exports.APPEAL_DOCUMENT = {
   empty: {
+    id: null,
     lpaCode: null,
     decisionDate: null,
     state: 'DRAFT',
@@ -37,15 +38,18 @@ module.exports.APPEAL_DOCUMENT = {
       otherDocuments: {
         documents: [],
       },
-      otherAppeals: {},
+      otherAppeals: {
+        hasOtherAppeal: null,
+        otherAppealRefNumber: '',
+      },
     },
     appealSiteSection: {
       siteAddress: {
-        addressLine1: null,
-        addressLine2: null,
-        town: null,
-        county: null,
-        postcode: null,
+        addressLine1: '',
+        addressLine2: '',
+        town: '',
+        county: '',
+        postcode: '',
       },
       siteOwnership: {
         ownsWholeSite: null,
@@ -53,11 +57,11 @@ module.exports.APPEAL_DOCUMENT = {
       },
       siteAccess: {
         canInspectorSeeWholeSiteFromPublicRoad: null,
-        howIsSiteAccessRestricted: null,
+        howIsSiteAccessRestricted: '',
       },
       healthAndSafety: {
         hasIssues: null,
-        healthAndSafetyIssues: null,
+        healthAndSafetyIssues: '',
       },
     },
     sectionStates: {
