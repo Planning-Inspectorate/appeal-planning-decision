@@ -119,6 +119,13 @@ Cypress.Commands.add(
   require('./appeal-statement-submission/uploadAppealStatementFile'),
 );
 
+Cypress.Commands.add('goToTaskListPage', require('./appeal-submission-tasklist/goToTaskListPage'));
+
+Cypress.Commands.add(
+  'checkStatusForTask',
+  require('./appeal-submission-tasklist/checkStatusForTask'),
+);
+
 Cypress.Commands.add(
   'goToWhoAreYouPage',
   require('./appellant-submission-who-are-you/goToWhoAreYouPage'),

@@ -1,27 +1,23 @@
 import { When, Then } from 'cypress-cucumber-preprocessor/steps';
 
-When("the user answers that he's the original appellant", () => {
+When('the user has stated that they {string} the original appellant', (original) => {
   cy.goToWhoAreYouPage();
-  cy.answerYesOriginalAppellant();
+  if (original === 'are') {
+    cy.answerYesOriginalAppellant();
+  } else {
+    cy.answerNoOriginalAppellant();
+  }
   cy.clickSaveAndContinue();
 });
 
-When("the user answers that he's not original appellant", () => {
-  cy.goToWhoAreYouPage();
-  cy.answerNoOriginalAppellant();
-  cy.clickSaveAndContinue();
-});
-
-Then('the user will not be asked who he or she is representing', () => {
+Then('the user will {string} asked who they are representing', (asked) => {
   cy.provideDetailsName('Good Name');
   cy.provideDetailsEmail('good@email.com');
   cy.clickSaveAndContinue();
-  cy.confirmOriginalAppellantNotAsked();
-});
 
-Then('the user will be asked who he or she is representing', () => {
-  cy.provideDetailsName('Good Name');
-  cy.provideDetailsEmail('good@email.com');
-  cy.clickSaveAndContinue();
-  cy.confirmOriginalAppellantAsked();
+  if (asked === 'be') {
+    cy.confirmOriginalAppellantAsked();
+  } else {
+    cy.confirmOriginalAppellantNotAsked();
+  }
 });
