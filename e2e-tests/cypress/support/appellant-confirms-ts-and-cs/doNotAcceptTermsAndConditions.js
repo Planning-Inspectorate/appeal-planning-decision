@@ -5,4 +5,5 @@ module.exports = () => {
 
   cy.wait(Cypress.env('demoDelay'));
   cy.get('[data-cy="accept-and-send"]').click();
+  cy.wait(Cypress.env('demoDelay'));
 };
