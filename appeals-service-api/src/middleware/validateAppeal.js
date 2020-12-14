@@ -1,6 +1,26 @@
 function validateAppeal(appealId, appeal) {
   const errors = [];
 
+  // Start of Task List Validation
+  // Planning Application File Upload
+  if (
+    appeal.requiredDocumentsSection.originalApplication.uploadedFile.id !== null &&
+    appeal.requiredDocumentsSection.originalApplication.uploadedFile.name === ''
+  ) {
+    errors.push(
+      'The planning application uploaded file must have a name for the file when it has an id'
+    );
+  }
+  if (
+    appeal.requiredDocumentsSection.originalApplication.uploadedFile.id === null &&
+    appeal.requiredDocumentsSection.originalApplication.uploadedFile.name !== ''
+  ) {
+    errors.push(
+      'The planning application uploaded file must have an id for the file when it has a name'
+    );
+  }
+
+  // Appeal Statement File Upload
   if (
     appeal.yourAppealSection.appealStatement.uploadedFile.id !== null &&
     appeal.yourAppealSection.appealStatement.uploadedFile.name === ''
@@ -26,6 +46,9 @@ function validateAppeal(appealId, appeal) {
       'The appeal statement uploaded file cannot be accepted unless it is confirmed to have no sensitive information'
     );
   }
+
+  // End of Task List Validation
+
   if (appealId !== appeal.id) {
     errors.push('The provided id in path must be the same as the appeal id in the request body');
   }
