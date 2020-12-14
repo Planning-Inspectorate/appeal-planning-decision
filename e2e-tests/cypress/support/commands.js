@@ -127,6 +127,16 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'selectToUploadAppealSubmissionDocument',
+  require('./appeal-submission-tasklist/selectToUploadAppealSubmissionDocument'),
+);
+
+Cypress.Commands.add(
+  'confirmUserPresentedWithUploadAppealSubmissionDocument',
+  require('./appeal-submission-tasklist/confirmUserPresentedWithUploadAppealSubmissionDocument'),
+);
+
+Cypress.Commands.add(
   'goToWhoAreYouPage',
   require('./appellant-submission-who-are-you/goToWhoAreYouPage'),
 );
