@@ -266,4 +266,30 @@ describe('Appeals API', () => {
     );
     expect(response1.statusCode).toBe(400);
   });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - original planning application upload file cannot have name without id', async () => {
+    const appeal = await createAppeal();
+    appeal.requiredDocumentsSection.originalApplication.uploadedFile.name =
+      'my_uploaded_file_planning_application.pdf';
+    appeal.requiredDocumentsSection.originalApplication.uploadedFile.id = null;
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'The planning application uploaded file must have an id for the file when it has a name'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - original planning application upload file cannot have id without name', async () => {
+    const appeal = await createAppeal();
+    appeal.requiredDocumentsSection.originalApplication.uploadedFile.name = '';
+    appeal.requiredDocumentsSection.originalApplication.uploadedFile.id =
+      '3fa85f64-5717-4562-b3fc-2c963f66afa7';
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'The planning application uploaded file must have a name for the file when it has an id'
+    );
+    expect(response.statusCode).toBe(400);
+  });
 });
