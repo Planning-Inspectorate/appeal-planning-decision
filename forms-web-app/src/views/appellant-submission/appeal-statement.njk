@@ -105,7 +105,7 @@
           text: "File size should be no more than " + fileSizeLimits.appealStatementMaxFileSize | formatBytes
         }) }}
 
-        {% if appeal.yourAppealSection.appealStatement.uploadedFile.name %}
+        {% if appeal.yourAppealSection.appealStatement.uploadedFile.id %}
           <h3 class="govuk-heading-m">File added:</h3>
           <ul class="govuk-list">
             <li id="appeal-upload-file-name">{{ appeal.yourAppealSection.appealStatement.uploadedFile.name }}</li>

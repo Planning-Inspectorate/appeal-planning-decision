@@ -1,6 +1,7 @@
 const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
+const { createDocument } = require('../../lib/documents-api-wrapper');
 const { getNextUncompletedTask } = require('../../services/task.service');
 const { getTaskStatus } = require('../../services/task.service');
 
@@ -27,15 +28,20 @@ exports.postUploadApplication = async (req, res) => {
   }
 
   const { appeal } = req.session;
-  const task = appeal[sectionName][taskName];
-
-  task.uploadedFile = req.files &&
-    req.files['application-upload'] && {
-      name: req.files['application-upload'].name,
-    };
 
   try {
     appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+    if ('files' in req && req.files !== null) {
+      if ('application-upload' in req.files) {
+        const document = await createDocument(appeal, req.files['application-upload']);
+
+        appeal[sectionName][taskName].uploadedFile = {
+          ...document,
+          name: req.files['application-upload'].name,
+        };
+      }
+    }
+
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);

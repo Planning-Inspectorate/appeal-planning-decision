@@ -2,10 +2,14 @@ const uploadApplicationController = require('../../../../src/controllers/appella
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
+const { createDocument } = require('../../../../src/lib/documents-api-wrapper');
+const { getNextUncompletedTask } = require('../../../../src/services/task.service');
 const { VIEW } = require('../../../../src/lib/views');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/lib/documents-api-wrapper');
+jest.mock('../../../../src/services/task.service');
 jest.mock('../../../../src/lib/logger');
 
 const req = mockReq();
@@ -65,10 +69,34 @@ describe('controller/appellant-submission/upload-application', () => {
         errorSummary: [{ text: error.toString(), href: '#' }],
       });
     });
+    it('should not require req.files to be valid', async () => {
+      const req = mockReq();
+      createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
+      getNextUncompletedTask.mockReturnValue({
+        href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION}`,
+      });
+
+      const mockRequest = {
+        ...req,
+        body: {},
+      };
+      await uploadApplicationController.postUploadApplication(mockRequest, res);
+
+      const { empty: goodAppeal } = APPEAL_DOCUMENT;
+      goodAppeal[sectionName][taskName].uploadedFile = { name: 'some name.jpg' };
+      goodAppeal.sectionStates[sectionName][taskName] = 'COMPLETED';
+
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION}`);
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(goodAppeal);
+      expect(createDocument).not.toHaveBeenCalled();
+    });
 
     it('should redirect to `/appellant-submission/supporting-documents` if valid', async () => {
       createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
-
+      getNextUncompletedTask.mockReturnValue({
+        href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION}`,
+      });
       const mockRequest = {
         ...req,
         body: {},
@@ -87,6 +115,7 @@ describe('controller/appellant-submission/upload-application', () => {
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION}`);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(goodAppeal);
+      expect(createDocument).toHaveBeenCalledWith(goodAppeal, { name: 'some name.jpg' });
     });
   });
 });
