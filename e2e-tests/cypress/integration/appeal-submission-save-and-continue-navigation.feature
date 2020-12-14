@@ -1,4 +1,5 @@
 @wip
+@UI-ONLY
 Feature: Appeal Submission Save and Continue Navigation
     As a prospective appellant, I want to be taken through the submission process efficiently so that I do not get confused
 
@@ -23,7 +24,7 @@ Feature: Appeal Submission Save and Continue Navigation
         Examples:
             | section           | sub-section                                 |
             | About your appeal | Your appeal statement                       |
-            | About your appeal | Any other documents to support your appeal​  |
+            | About your appeal | Any other documents to support your appeal​ |
 
     Scenario Outline: A prospective appellant is on visiting the appeal site sub-section that is not the last part of a section
         Given a prospective appellant is on the sub section <sub-section> of <section>
@@ -43,5 +44,5 @@ Feature: Appeal Submission Save and Continue Navigation
             | section                                 | sub-section                  |
             | About you                               | About you                    |
             | About the original planning application | Upload the decision letter   |
-            | About your appeal                       | other-appeals                |
+            | About your appeal                       | Other relevant appeals       |
             | Visiting the appeal site                | Any health and safety issues |
