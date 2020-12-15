@@ -24,7 +24,7 @@ Feature: Appeal Submission Save and Continue Navigation
         Examples:
             | section           | sub-section                                 |
             | About your appeal | Your appeal statement                       |
-            | About your appeal | Any other documents to support your appeal​ |
+            | About your appeal | Any other documents to support your appeal |
 
     Scenario Outline: A prospective appellant is on visiting the appeal site sub-section that is not the last part of a section
         Given a prospective appellant is on the sub section <sub-section> of <section>
