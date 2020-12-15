@@ -8,8 +8,9 @@ UCD-
 ## Checklist
 <!-- Put an `x` in all the boxes that apply: -->
 - [ ] Requires infrastructure changes
+- [ ] If adding or remove environment variables (e.g. in `docker-compose.yaml`) then I have updated the appropriate helm chart
 - [ ] I have updated the documentation accordingly
-- [ ] I have merged commits to avoid fixing things in this PR
+- [ ] My commit history in this PR is linear
 - [ ] New features have tests
 - [ ] Breaking change (team conversation required)
 
