@@ -52,6 +52,16 @@ Feature: Appeal statement file submission
       | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    |
       | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
 
+  Scenario Outline: Prospective appellant submits invalid appeal statement file without sensitive information does not replace previous file
+    Given user has previously submitted an appeal statement file "appeal-statement-valid.pdf"
+    When user submits an appeal statement file <filename> confirming that it "does not" contain sensitive information
+    Then user is informed that the file is not submitted because <reason>
+    And user can see that the appeal statement file "appeal-statement-valid.pdf" "is" submitted
+    Examples:
+      | filename                                  | reason                    |
+      | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    |
+      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
+
   Scenario Outline: Prospective appellant submits invalid appeal statement file with sensitive information
     When user submits an appeal statement file <filename> confirming that it "does" contain sensitive information
     Then user is informed that the file is not submitted because "file contains sensitive information"
