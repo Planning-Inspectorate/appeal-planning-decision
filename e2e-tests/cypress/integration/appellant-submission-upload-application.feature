@@ -1,8 +1,7 @@
-@wip
 Feature: Planning Application file submission
 
   Scenario: Prospective applicant do not upload a planning application file
-    When user does not submits a planning application file
+    When user does not submit a planning application file
     Then user can see that no planning application file is submitted
 
   Scenario Outline: Prospective appellant submits valid planning application file

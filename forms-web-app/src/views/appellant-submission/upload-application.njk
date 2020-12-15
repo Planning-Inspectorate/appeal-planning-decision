@@ -31,10 +31,10 @@
           text: "File size should be no more than " + fileSizeLimits.uploadApplicationMaxFileSize | formatBytes
         }) }}
 
-        {% if appeal['application-upload'] %}
+        {% if appeal.requiredDocumentsSection.originalApplication.uploadedFile.id %}
           <h3 class="govuk-heading-m">File added:</h3>
           <ul class="govuk-list">
-            <li id="application-upload-file-name">{{ appeal['requiredDocumentsSection']['originalApplication']['uploadedFile'].name }}</li>
+            <li id="application-upload-file-name">{{ appeal.requiredDocumentsSection.originalApplication.uploadedFile.name }}</li>
           </ul>
         {% endif %}
 
@@ -73,7 +73,6 @@
           type: "submit"
         }) }}
       </form>
-
     </div>
   </div>
 {% endblock %}

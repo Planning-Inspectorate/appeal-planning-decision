@@ -9,7 +9,7 @@ describe('services/task', () => {
         sectionStates: {
           Section1: {
             Task1: 'IN PROGRESS',
-            Task2: 'TODO',
+            Task2: 'CANNOT START YET',
             Task3: 'COMPLETED',
             Task4: 'IN PROGRESS',
           },

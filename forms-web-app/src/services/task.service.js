@@ -5,7 +5,6 @@ const TASK_STATUS = {
   NOT_STARTED: 'NOT STARTED',
   IN_PROGRESS: 'IN PROGRESS',
   COMPLETED: 'COMPLETED',
-  TODO: 'TODO',
 };
 
 function statusYourDetails(appeal) {
@@ -34,12 +33,12 @@ function statusAppealStatement(appeal) {
 
 // eslint-disable-next-line no-unused-vars
 function statusOtherDocuments(appeal) {
-  return TASK_STATUS.TODO;
+  return TASK_STATUS.CANNOT_START_YET;
 }
 
 // eslint-disable-next-line no-unused-vars
 function statusOtherAppeals(appeal) {
-  return TASK_STATUS.TODO;
+  return TASK_STATUS.CANNOT_START_YET;
 }
 
 function statusOriginalApplication(appeal) {
@@ -64,12 +63,12 @@ function statusAppealSiteAddress(appeal) {
 
 // eslint-disable-next-line no-unused-vars
 function healthAndSafety(appeal) {
-  return TASK_STATUS.TODO;
+  return TASK_STATUS.CANNOT_START_YET;
 }
 
 // eslint-disable-next-line no-unused-vars
 function statusSiteOwnership(appeal) {
-  return TASK_STATUS.TODO;
+  return TASK_STATUS.CANNOT_START_YET;
 }
 
 function statusSiteAccess(appeal) {
@@ -181,9 +180,8 @@ const getNextUncompletedTask = (appeal, currentTask, sections = SECTIONS) => {
   for (let i = taskIndex + 1; i < tasks.length; i += 1) {
     const nextTaskName = tasks[i][0];
 
-    // TODO fix when aligned and no TODO task displayed
     let status = getTaskStatus(appeal, sectionName, nextTaskName);
-    if (!status && status !== TASK_STATUS.TODO) {
+    if (!status && status !== TASK_STATUS.CANNOT_START_YET) {
       // eslint-disable-next-line prefer-destructuring
       status = tasks[i][1];
     }
@@ -193,7 +191,7 @@ const getNextUncompletedTask = (appeal, currentTask, sections = SECTIONS) => {
       status,
       href: sections[sectionName][nextTaskName].href,
     };
-    if (![TASK_STATUS.COMPLETED, TASK_STATUS.TODO].includes(nextTask.status)) {
+    if (![TASK_STATUS.COMPLETED, TASK_STATUS.CANNOT_START_YET].includes(nextTask.status)) {
       return nextTask;
     }
   }
