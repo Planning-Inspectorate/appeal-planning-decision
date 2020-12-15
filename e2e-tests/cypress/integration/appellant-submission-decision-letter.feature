@@ -29,8 +29,17 @@ Feature: Appellant submission - decision letter
   Scenario: Prospective appellant submits valid decision letter file replaces previous file
     Given user has previously submitted a decision letter file "appeal-statement-valid.pdf"
     When user submits a decision letter file "appeal-statement-valid.doc"
-    Then user can see that the decision letter file "appeal-statement-valid.doc" "is" submitted
+    Then user can see that the decision letter file "appeal-statement-valid.doc" is submitted
 
+  Scenario Outline: Prospective appellant submits invalid planning application file do not replace previous file
+    Given user has previously submitted a decision letter file "appeal-statement-valid.pdf"
+    When user submits a decision letter file <filename>
+    Then user is informed that the decision letter file is not submitted because <reason>
+    And user can see that the decision letter file "appeal-statement-valid.pdf" is submitted
+    Examples:
+      | filename                                  | reason                    |
+      | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    |
+      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
 
   Scenario Outline: Prospective appellant submits invalid decision letter file
     When user submits a decision letter file <filename>
