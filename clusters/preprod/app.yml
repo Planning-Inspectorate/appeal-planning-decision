@@ -6,9 +6,9 @@ metadata:
   namespace: app-preprod
   annotations:
     fluxcd.io/automated: "true"
-    filter.fluxcd.io/appealsServiceApi: semver:~1.8
-    filter.fluxcd.io/documentServiceApi: semver:~1.0
-    filter.fluxcd.io/formsWebApp: semver:~1.14
+    filter.fluxcd.io/appealsServiceApi: semver:~2.2
+    filter.fluxcd.io/documentServiceApi: semver:~1.1
+    filter.fluxcd.io/formsWebApp: semver:~1.20
 spec:
   releaseName: app
   chart:
