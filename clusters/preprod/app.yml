@@ -22,19 +22,19 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/appeals-service-api
-        tag: latest
+        tag: 2.2.0
 
     documentServiceApi:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/document-service-api
-        tag: latest
+        tag: 1.1.0
 
     formsWebApp:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
-        tag: 1.14.2
+        tag: 1.20.0
 
     keyVault:
       name: pins-uks-vault-5989-prep
