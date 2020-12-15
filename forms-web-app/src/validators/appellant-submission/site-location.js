@@ -1,5 +1,14 @@
 const { body } = require('express-validator');
 
+function validatePostcode(postcode) {
+  const pattern = /([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/;
+  const result = pattern.exec(postcode);
+  if (!result) {
+    throw new Error('Enter a valid postcode');
+  }
+  return postcode;
+}
+
 const ruleAddressLine1 = () =>
   body('site-address-line-one')
     .escape()
@@ -42,7 +51,9 @@ const ruleAddressPostCode = () =>
     .bail()
     .isLength({ min: 1, max: 8 })
     .bail()
-    .withMessage('Postcode must be 8 characters or fewer');
+    .withMessage('Postcode must be 8 characters or fewer')
+    .bail()
+    .custom((email) => validatePostcode(email));
 
 const rules = () => {
   return [
