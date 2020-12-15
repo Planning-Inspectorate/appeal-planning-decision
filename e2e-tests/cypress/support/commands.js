@@ -125,6 +125,56 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmSiteAddressWasAccepted',
+  require('./appeal-submission-appeal-site-address/confirmSiteAddressWasAccepted'),
+);
+
+Cypress.Commands.add(
+  'confirmSiteAddressValue',
+  require('./appeal-submission-appeal-site-address/confirmSiteAddressValue'),
+);
+
+Cypress.Commands.add(
+  'confirmSiteAddressWasRejectedBecause',
+  require('./appeal-submission-appeal-site-address/confirmSiteAddressWasRejectedBecause'),
+);
+
+Cypress.Commands.add(
+  'goToSiteAddressPage',
+  require('./appeal-submission-appeal-site-address/goToSiteAddressPage'),
+);
+
+Cypress.Commands.add(
+  'provideAddressLine1',
+  require('./appeal-submission-appeal-site-address/provideAddressLine1'),
+);
+
+Cypress.Commands.add(
+  'provideAddressLine2',
+  require('./appeal-submission-appeal-site-address/provideAddressLine2'),
+);
+
+Cypress.Commands.add(
+  'confirmSiteAddressWasAccepted',
+  require('./appeal-submission-appeal-site-address/confirmSiteAddressWasAccepted'),
+);
+
+Cypress.Commands.add(
+  'provideCounty',
+  require('./appeal-submission-appeal-site-address/provideCounty'),
+);
+
+Cypress.Commands.add(
+  'providePostcode',
+  require('./appeal-submission-appeal-site-address/providePostcode'),
+);
+
+Cypress.Commands.add(
+  'provideTownOrCity',
+  require('./appeal-submission-appeal-site-address/provideTownOrCity'),
+);
+
+Cypress.Commands.add(
   'goToAccessSitePage',
   require('./appeal-submission-access-to-appeal-site/goToAccessSitePage'),
 );

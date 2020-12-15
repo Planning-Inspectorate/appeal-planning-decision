@@ -1,4 +1,3 @@
-@wip
 Feature: Appellant provides the Appeal Site Address
     I need to provide the appeal site address, so that all parties know which site the appeal is against.
 
@@ -6,25 +5,24 @@ Feature: Appellant provides the Appeal Site Address
         Given the user is prompted for the site address
         When the user provides their appeal site address as <Address Line 1> and <Address Line 2> and <Town or City> and <County> and <Postcode>
         Then the user is able to continue with the provided address
-        #And the user can see that their appeal has been updated with the provided address
+        And the user can see that their appeal has been updated with the provided site address as <Address Line 1> and <Address Line 2> and <Town or City> and <County> and <Postcode>
         Examples:
             | Address Line 1  | Address Line 2 | Town or City | County       | Postcode  |
             | "1 Taylor Road" | "Clifton"      | "Bristol"    | "South Glos" | "BS8 1TG" |
-            | "2 Taylor Road" | ""             | ""           | "South Glos" | "BS8 1TG" |
-            | "4 Taylor Road" | ""             | "Bristol"    | "South Glos" | "BS8 1TG" |
-            | "5 Taylor Road" | "Clifton"      | ""           | "South Glos" | "BS8 1TG" |
+            | "2 Taylor Road" | ""             | ""           | "South Glos" | "M1 1AA" |
+            | "4 Taylor Road" | ""             | "Bristol"    | "South Glos" | "M60 1NW" |
+            | "5 Taylor Road" | "Clifton"      | ""           | "South Glos" | "DN55 1PT" |
 
     Scenario Outline: Prospective Appellant submits an appeal site address without mandatory information
         Given the user is prompted for the site address
         When the user provides their appeal site address as <Address Line 1> and <Address Line 2> and <Town or City> and <County> and <Postcode>
         Then the user is informed that they cannot continue with the provided address because <reason>
-        #And the user can see that their appeal has NOT been updated with the provided address
+        And the user can see that their appeal has not been updated with the provided address
         Examples:
             | Address Line 1 | Address Line 2 | Town or City | County       | Postcode  | reason                       |
-            | ""             | ""             | ""           | "South Glos" | "BS8 1TG" | "Address Line 1 is required" |
-            | "aaa"          | ""             | ""           | ""           | "BS8 1TG" | "County is required"         |
+            | ""             | ""             | ""           | "South Glos" | "W1A 1HQ" | "Address Line 1 is required" |
+            | "aaa"          | ""             | ""           | ""           | "EC1A 1BB" | "County is required"         |
             | "aaa"          | ""             | ""           | "South Glos" | ""        | "Postcode is required"       |
-
 
     Scenario: Prospective appellant fails to provide any address information
         Given the user is prompted for the site address
@@ -53,9 +51,9 @@ Feature: Appellant provides the Appeal Site Address
 
     Scenario Outline: Prospective appellant provides address data that exceeds the maximum length constraint for each field
         Given the user is prompted for the site address
-        When the user provides a value which is too long (<component>: <count>)
+        When the user provides a value which is too long - <component> : <count>
         Then the user is informed that they cannot continue with the provided address because <reason>
-        #And the user can see that their appeal has NOT been updated with the provided address
+        And the user can see that their appeal has not been updated with the provided address
         Examples:
             | component        | count | reason                                        |
             | "Address Line 1" | 61    | "Address Line 1 has a limit of 60 characters" |
@@ -69,10 +67,10 @@ Feature: Appellant provides the Appeal Site Address
         When the user provides values that are too long for Address Line 1, Address Line 2, Town or City, County and Postcode
         Then the user is informed that "Address Line 1 has a limit of 60 characters"
         And the user is informed that "Address Line 2 has a limit of 60 characters"
-        And the user is informed that "Town or City has a limit of 60 characters"
+          And the user is informed that "Town or City has a limit of 60 characters"
         And the user is informed that "County has a limit of 60 characters"
         And the user is informed that "Postcode has a limit of 8 characters"
-        #And the user can see that their appeal has NOT been updated with the provided address
+        And the user can see that their appeal has not been updated with the provided address
 
     Scenario: Prospective appellant provides invalid address data with some missing fields and others that exceed the maximum length constraint
         Given the user is prompted for the site address
@@ -82,7 +80,7 @@ Feature: Appellant provides the Appeal Site Address
         And the user is informed that "Town or City has a limit of 60 characters"
         And the user is informed that "County is required"
         And the user is informed that "Postcode is required"
-        #And the user can see that their appeal has NOT been updated with the provided address
+        And the user can see that their appeal has not been updated with the provided address
 
     Scenario Outline: Prospective appellant provides address data with invalid Postcode
         Given the user is prompted for the site address
@@ -90,6 +88,5 @@ Feature: Appellant provides the Appeal Site Address
         Then the user is informed that they cannot continue with the provided address because <reason>
         Examples:
             | Postcode  | reason                                 |
-            | "ZXAS SS" | "postcodes can't be all letters"       |
-            | "1RG 4AX" | "postcodes should begin with a letter" |
-
+            | "ZXAS SS" | "Postcodes can't be all letters"       |
+            | "1RG 4AX" | "Postcodes should begin with a letter" |
