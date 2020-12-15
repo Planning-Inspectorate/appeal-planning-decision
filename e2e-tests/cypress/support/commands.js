@@ -231,28 +231,8 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'confirmUploadDecisionRejectedBecause',
-  require('./appellant-submission-upload-decision/confirmUploadDecisionRejectedBecause'),
-);
-
-Cypress.Commands.add(
-  'confirmUploadDecisionAccepted',
-  require('./appellant-submission-upload-decision/confirmUploadDecisionAccepted'),
-);
-
-Cypress.Commands.add(
-  'goToUploadDecisionSubmission',
-  require('./appellant-submission-upload-decision/goToUploadDecisionSubmission'),
-);
-
-Cypress.Commands.add(
-  'uploadUploadDecisionFile',
-  require('./appellant-submission-upload-decision/uploadUploadDecisionFile'),
-);
-
-Cypress.Commands.add(
-  'goToAppellantSubmissionDecisionLetter',
-  require('./appellant-submission-decision-letter/goToAppellantSubmissionDecisionLetter'),
+  'goToDecisionLetterPage',
+  require('./appellant-submission-decision-letter/goToDecisionLetterPage'),
 );
 
 Cypress.Commands.add(
@@ -261,13 +241,13 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'confirmDecisionLetterFileIsUploaded',
-  require('./appellant-submission-decision-letter/confirmDecisionLetterFileIsUploaded'),
+  'confirmDecisionLetterAccepted',
+  require('./appellant-submission-decision-letter/confirmDecisionLetterAccepted'),
 );
 
 Cypress.Commands.add(
-  'confirmDecisionLetterFileIsNotUploaded',
-  require('./appellant-submission-decision-letter/confirmDecisionLetterFileIsNotUploaded'),
+  'confirmDecisionLetterRejectedBecause',
+  require('./appellant-submission-decision-letter/confirmDecisionLetterRejectedBecause'),
 );
 
 Cypress.Commands.add(

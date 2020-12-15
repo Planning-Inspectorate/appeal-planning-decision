@@ -1,6 +1,6 @@
 module.exports = (filename) => {
-  cy.goToAppealStatementSubmission();
-  cy.get('#upload-decision-file-name')
+  cy.goToDecisionLetterPage();
+  cy.get('#decision-upload-file-name')
     .invoke('text')
     .then((text) => {
       expect(text).to.eq(filename);
