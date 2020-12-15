@@ -47,6 +47,8 @@ function validateAppeal(appealId, appeal) {
     );
   }
 
+  // End of Task List Validation
+
   // Validate decision letter
   if (
     appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id !== null &&
