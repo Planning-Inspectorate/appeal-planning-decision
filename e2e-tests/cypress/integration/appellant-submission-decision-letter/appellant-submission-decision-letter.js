@@ -25,7 +25,12 @@ Then('user can see that no decision letter file is submitted', (reason) => {
   cy.confirmDecisionLetterRejectedBecause('Upload the decision letter');
 });
 
-Then('user can see that the decision letter file {string} "is" submitted', (filename) => {
+Then('user can see that the decision letter file {string} is submitted', (filename) => {
+  cy.saveAndContinue();
+  cy.confirmDecisionLetterAccepted(filename);
+});
+
+Then('user can see that the decision letter file {string} is not submitted', (filename) => {
   cy.saveAndContinue();
   cy.confirmDecisionLetterAccepted(filename);
 });

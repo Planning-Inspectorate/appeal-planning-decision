@@ -25,7 +25,7 @@ Then('user can see that no planning application file is submitted', (reason) => 
   cy.confirmPlanningApplicationRejectedBecause('Upload the planning application form');
 });
 
-Then('user can see that the planning application file {string} "is" submitted', (filename) => {
+Then('user can see that the planning application file {string} is submitted', (filename) => {
   cy.saveAndContinue();
   cy.confirmPlanningApplicationAccepted(filename);
 });

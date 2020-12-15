@@ -23,7 +23,17 @@ Feature: Planning Application file submission
   Scenario: Prospective appellant submits valid planning application file replaces previous file
     Given user has previously submitted a planning application file "appeal-statement-valid.pdf"
     When user submits a planning application file "appeal-statement-valid.doc"
-    Then user can see that the planning application file "appeal-statement-valid.doc" "is" submitted
+    Then user can see that the planning application file "appeal-statement-valid.doc" is submitted
+
+  Scenario Outline: Prospective appellant submits invalid planning application file do not replace previous file
+    Given user has previously submitted a planning application file "appeal-statement-valid.pdf"
+    When user submits a planning application file <filename>
+    Then user is informed that the planning application file is not submitted because <reason>
+    And user can see that the planning application file "appeal-statement-valid.pdf" is submitted
+    Examples:
+      | filename                                  | reason                    |
+      | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    |
+      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
 
 
   Scenario Outline: Prospective appellant submits invalid planning application file
