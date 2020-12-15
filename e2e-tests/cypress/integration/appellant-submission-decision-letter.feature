@@ -1,4 +1,3 @@
-@wip
 Feature: Appellant submission - decision letter
 
   An appeal must include an uploaded decision letter file.
@@ -8,7 +7,7 @@ Feature: Appellant submission - decision letter
   The latest successfully uploaded decision letter file replaces any previously uploaded file.
 
   Scenario: Prospective applicant do not upload a decision letter file
-    When user does not submits a decision letter file
+    When user does not submit a decision letter file
     Then user can see that no decision letter file is submitted
 
   Scenario Outline: Prospective appellant submits valid decision letter file

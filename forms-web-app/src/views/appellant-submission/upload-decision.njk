@@ -31,10 +31,10 @@
           text: "File size should be no more than " + fileSizeLimits.uploadDecisionMaxFileSize | formatBytes
         }) }}
 
-        {% if appeal['requiredDocumentsSection']['decisionLetter']['uploadedFile'] %}
+        {% if appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id %}
           <h3 class="govuk-heading-m">File added:</h3>
           <ul class="govuk-list">
-            <li id="decision-upload-file-name">{{ appeal['requiredDocumentsSection']['decisionLetter']['uploadedFile'].name }}</li>
+            <li id="decision-upload-file-name">{{ appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name }}</li>
           </ul>
         {% endif %}
 

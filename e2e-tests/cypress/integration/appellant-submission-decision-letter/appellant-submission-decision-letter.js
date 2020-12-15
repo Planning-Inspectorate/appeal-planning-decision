@@ -5,7 +5,7 @@ Given('user submits a decision letter file {string}', (filename) => {
   cy.uploadDecisionLetterFile(filename);
 });
 
-Given('user does not submits a decision letter file', () => {
+Given('user does not submit a decision letter file', () => {
   cy.goToDecisionLetterPage();
 });
 

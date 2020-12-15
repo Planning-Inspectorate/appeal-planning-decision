@@ -76,17 +76,17 @@ describe('controller/appellant-submission/task-list', () => {
               {
                 text: 'Any other documents to support your appeal',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
-                status: 'TODO',
+                status: 'CANNOT START YET',
                 attributes: {
-                  'otherDocuments-status': 'TODO',
+                  'otherDocuments-status': 'CANNOT START YET',
                 },
               },
               {
                 text: 'Other relevant appeals',
                 href: 'other-appeals',
-                status: 'TODO',
+                status: 'CANNOT START YET',
                 attributes: {
-                  'otherAppeals-status': 'TODO',
+                  'otherAppeals-status': 'CANNOT START YET',
                 },
               },
             ],
@@ -115,17 +115,17 @@ describe('controller/appellant-submission/task-list', () => {
               {
                 text: 'Ownership of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
-                status: 'TODO',
+                status: 'CANNOT START YET',
                 attributes: {
-                  'siteOwnership-status': 'TODO',
+                  'siteOwnership-status': 'CANNOT START YET',
                 },
               },
               {
                 text: 'Any health and safety issues',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
-                status: 'TODO',
+                status: 'CANNOT START YET',
                 attributes: {
-                  'healthAndSafety-status': 'TODO',
+                  'healthAndSafety-status': 'CANNOT START YET',
                 },
               },
             ],
@@ -253,17 +253,17 @@ describe('controller/appellant-submission/task-list', () => {
               {
                 text: 'Any other documents to support your appeal',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
-                status: 'TODO',
+                status: 'CANNOT START YET',
                 attributes: {
-                  'otherDocuments-status': 'TODO',
+                  'otherDocuments-status': 'CANNOT START YET',
                 },
               },
               {
                 text: 'Other relevant appeals',
                 href: 'other-appeals',
-                status: 'TODO',
+                status: 'CANNOT START YET',
                 attributes: {
-                  'otherAppeals-status': 'TODO',
+                  'otherAppeals-status': 'CANNOT START YET',
                 },
               },
             ],
@@ -292,17 +292,17 @@ describe('controller/appellant-submission/task-list', () => {
               {
                 text: 'Ownership of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
-                status: 'TODO',
+                status: 'CANNOT START YET',
                 attributes: {
-                  'siteOwnership-status': 'TODO',
+                  'siteOwnership-status': 'CANNOT START YET',
                 },
               },
               {
                 text: 'Any health and safety issues',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
-                status: 'TODO',
+                status: 'CANNOT START YET',
                 attributes: {
-                  'healthAndSafety-status': 'TODO',
+                  'healthAndSafety-status': 'CANNOT START YET',
                 },
               },
             ],
@@ -431,17 +431,17 @@ describe('controller/appellant-submission/task-list', () => {
               {
                 text: 'Any other documents to support your appeal',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
-                status: 'TODO',
+                status: 'CANNOT START YET',
                 attributes: {
-                  'otherDocuments-status': 'TODO',
+                  'otherDocuments-status': 'CANNOT START YET',
                 },
               },
               {
                 text: 'Other relevant appeals',
                 href: 'other-appeals',
-                status: 'TODO',
+                status: 'CANNOT START YET',
                 attributes: {
-                  'otherAppeals-status': 'TODO',
+                  'otherAppeals-status': 'CANNOT START YET',
                 },
               },
             ],
@@ -470,17 +470,17 @@ describe('controller/appellant-submission/task-list', () => {
               {
                 text: 'Ownership of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
-                status: 'TODO',
+                status: 'CANNOT START YET',
                 attributes: {
-                  'siteOwnership-status': 'TODO',
+                  'siteOwnership-status': 'CANNOT START YET',
                 },
               },
               {
                 text: 'Any health and safety issues',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
-                status: 'TODO',
+                status: 'CANNOT START YET',
                 attributes: {
-                  'healthAndSafety-status': 'TODO',
+                  'healthAndSafety-status': 'CANNOT START YET',
                 },
               },
             ],

@@ -5,7 +5,7 @@ Given('user submits a planning application file {string}', (filename) => {
   cy.uploadPlanningApplicationFile(filename);
 });
 
-Given('user does not submits a planning application file', () => {
+Given('user does not submit a planning application file', () => {
   cy.goToPlanningApplicationSubmission();
 });
 
