@@ -14,13 +14,13 @@ services:
     environment:
       DOCS_API_PATH: /opt/app/api
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
+      HORIZON_QUEUE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blob-storage:10000/devstoreaccount1;QueueEndpoint=http://blob-storage:10001/devstoreaccount1;
       LPA_DATA_PATH: /opt/app/data/lpa-list.csv
       LPA_TRIALIST_DATA_PATH: /opt/app/data/lpa-trialists.json
       MONGODB_AUTO_INDEX: "true"
       MONGODB_DB_NAME: appeals-service-api
       MONGODB_URL: mongodb://mongodb:27017
       SERVER_SHOW_ERRORS: "true"
-      SRV_HORIZON_URL: http://mock-horizon:3000
       SRV_NOTIFY_URL: http://mock-notify:3000
       SRV_OS_PLACES_URL: http://mock-os-places:3000
       LOGGER_LEVEL: "debug"
@@ -28,6 +28,7 @@ services:
       - 3000:3000
     working_dir: /opt/app
     links:
+      - blob-storage
       - document-service-api
       - mock-horizon
       - mock-notify
@@ -35,6 +36,7 @@ services:
       - mongodb
     depends_on:
       - appeals-service-api-data
+      - blob-storage
       - document-service-api
       - mock-horizon
       - mock-notify
@@ -105,6 +107,19 @@ services:
     volumes:
       - ./common:/opt/app/node_modules/@pins/common
       - ./forms-web-app:/opt/app
+    command: npm run start:dev
+
+  horizon-publisher:
+    image: node:14-alpine
+    environment:
+      HORIZON_QUEUE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blob-storage:10000/devstoreaccount1;QueueEndpoint=http://blob-storage:10001/devstoreaccount1;
+      LOGGER_LEVEL: "debug"
+    working_dir: /opt/app
+    links:
+      - blob-storage
+      - mock-horizon
+    volumes:
+      - ./horizon-publisher:/opt/app
     command: npm run start:dev
 
   # Populate the database with data - one instance per service
