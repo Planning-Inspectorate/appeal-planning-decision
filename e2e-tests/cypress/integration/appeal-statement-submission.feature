@@ -72,3 +72,21 @@ Feature: Appeal statement file submission
       | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    |
       | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
 
+  Scenario Outline: Prospective appellant successfully submits valid appeal statement file followed by invalid file that is rejected before successfully submitting another valid file
+    Given user has previously submitted a valid appeal statement file <first-valid-file> followed by an invalid file <invalid-file> that was rejected because <reason>
+    When user submits an appeal statement file <second-valid-file> confirming that it "does not" contain sensitive information
+    Then user can see that the appeal statement file <second-valid-file> "is" submitted
+    Examples:
+      | first-valid-file             | invalid-file                              | reason                    | second-valid-file            |
+      | "appeal-statement-valid.pdf" | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    | "appeal-statement-valid.doc" |
+      | "appeal-statement-valid.pdf" | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" | "appeal-statement-valid.doc" |
+
+  Scenario Outline: Prospective appellant successfully submits valid appeal statement file followed by invalid file that is rejected before proceeding without selecting a new file
+    Given user has previously submitted a valid appeal statement file <valid-file> followed by an invalid file <invalid-file> that was rejected because <reason>
+    When user confirms that there is no sensitive information without selecting an appeal statement file to upload
+    Then user can see that the appeal statement file <valid-file> "is" submitted
+    Examples:
+      | invalid-file                              | reason                    | valid-file                   |
+      | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    | "appeal-statement-valid.doc" |
+      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" | "appeal-statement-valid.doc" |
+
