@@ -27,18 +27,16 @@ describe('validators/appellant-submission/upload-decision-schema', () => {
       fn = schema['decision-upload'].custom.options;
     });
 
-    it('should throw if `req.files` is undefined', () => {
-      expect(() => fn('some value', { req: {} })).toThrow('Upload the decision letter');
+    it('should return true if `req.files` is undefined', () => {
+      expect(fn('some value', { req: {} })).toBeTruthy();
     });
 
-    it('should throw if `req.files` is an empty object', () => {
-      expect(() => fn('some value', { req: { files: {} } })).toThrow('Upload the decision letter');
+    it('should return true if `req.files` is empty', () => {
+      expect(fn('some value', { req: {} })).toBeTruthy();
     });
 
-    it('should throw if `req.files[path]` is not matched', () => {
-      expect(() =>
-        fn('some value', { req: { files: { a: { mimetype: MIME_TYPE_PDF } } }, path: 'x' })
-      ).toThrow('Upload the decision letter');
+    it('should return true if `req.files[path]` is not matched', () => {
+      expect(fn('some value', { req: {} })).toBeTruthy();
     });
 
     it('should call the validMimeType validator', () => {

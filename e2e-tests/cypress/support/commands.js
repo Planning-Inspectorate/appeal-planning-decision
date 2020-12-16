@@ -78,6 +78,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmThatNoErrorTriggered',
+  require('./appeal-statement-submission/confirmThatNoErrorTriggered'),
+);
+
+Cypress.Commands.add(
   'confirmAppealStatementFileIsNotUploaded',
   require('./appeal-statement-submission/confirmAppealStatementFileIsNotUploaded'),
 );
@@ -216,6 +221,16 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmPlanningApplicationFileIsUploaded',
+  require('./appellant-submission-upload-application/confirmPlanningApplicationFileIsUploaded'),
+);
+
+Cypress.Commands.add(
+  'confirmPlanningApplicationIsNotUploaded',
+  require('./appellant-submission-upload-application/confirmPlanningApplicationIsNotUploaded'),
+);
+
+Cypress.Commands.add(
   'confirmPlanningApplicationRejectedBecause',
   require('./appellant-submission-upload-application/confirmPlanningApplicationRejectedBecause'),
 );
@@ -243,6 +258,16 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmDecisionLetterAccepted',
   require('./appellant-submission-decision-letter/confirmDecisionLetterAccepted'),
+);
+
+Cypress.Commands.add(
+  'confirmDecisionLetterFileIsUploaded',
+  require('./appellant-submission-decision-letter/confirmDecisionLetterFileIsUploaded'),
+);
+
+Cypress.Commands.add(
+  'confirmDecisionLetterIsNotUploaded',
+  require('./appellant-submission-decision-letter/confirmDecisionLetterIsNotUploaded'),
 );
 
 Cypress.Commands.add(
