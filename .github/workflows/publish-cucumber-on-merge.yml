@@ -6,7 +6,8 @@ env:
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - develop
 
 jobs:
 
