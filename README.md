@@ -95,6 +95,13 @@ image separately, you must build the common image separately:
 docker build -t common ./common
 ```
 
+# Branching
+
+The default branch is the `develop` branch which generates release candidates
+of the software with releases generated from the `master` branch. This uses
+[Conventional Commit Format](#commit-message-format) and Semantic Release to
+generate the release numbers.
+
 # Releases
 
 Releases are done using the GitOps workflow. Lots can be found about [GitOps
@@ -108,7 +115,7 @@ variables which we want to apply (in this instance, just the URL).
 
 This repo uses [Semantic Release](https://semantic-release.gitbook.io) to
 generate release version numbers so it is imperative that all commits to the
-`master` branch are done using the [correct
+`master` and `develop` branch are done using the [correct
 format](https://semantic-release.gitbook.io/semantic-release/#commit-message-format).
 
 ## Commitizen
