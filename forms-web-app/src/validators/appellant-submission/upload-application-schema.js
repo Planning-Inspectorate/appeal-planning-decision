@@ -14,8 +14,9 @@ module.exports = {
   'application-upload': {
     custom: {
       options: (value, { req, path }) => {
-        if (!req.files || Object.keys(req.files).length === 0 || !req.files[path]) {
-          throw new Error('Upload the planning application form');
+        // file is optional, so valid if no file is given.
+        if (!req.files || !req.files[path]) {
+          return true;
         }
 
         const { mimetype, size } = req.files[path];

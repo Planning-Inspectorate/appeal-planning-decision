@@ -27,20 +27,16 @@ describe('validators/appellant-submission/upload-application-schema', () => {
       fn = schema['application-upload'].custom.options;
     });
 
-    it('should throw if `req.files` is undefined', () => {
-      expect(() => fn('some value', { req: {} })).toThrow('Upload the planning application form');
+    it('should return true if `req.files` is undefined', () => {
+      expect(fn('some value', { req: {} })).toBeTruthy();
     });
 
-    it('should throw if `req.files` is an empty object', () => {
-      expect(() => fn('some value', { req: { files: {} } })).toThrow(
-        'Upload the planning application form'
-      );
+    it('should return true if `req.files` is empty', () => {
+      expect(fn('some value', { req: {} })).toBeTruthy();
     });
 
-    it('should throw if `req.files[path]` is not matched', () => {
-      expect(() =>
-        fn('some value', { req: { files: { a: { mimetype: MIME_TYPE_PDF } } }, path: 'x' })
-      ).toThrow('Upload the planning application form');
+    it('should return true if `req.files[path]` is not matched', () => {
+      expect(fn('some value', { req: {} })).toBeTruthy();
     });
 
     it('should call the validMimeType validator', () => {
