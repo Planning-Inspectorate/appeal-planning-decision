@@ -47,6 +47,29 @@ describe('lib/documents-api-wrapper', () => {
       expect(createDocument(mockAppeal, formData)).rejects.toThrow('No Content');
     });
 
+    it('should throw if the document response is missing an `id`', async () => {
+      fetch.mockResponse(
+        JSON.stringify({
+          name: 'tmp-2-1607684291243',
+        }),
+        { status: 202 }
+      );
+      expect(createDocument(mockAppeal, formData)).rejects.toThrow('Document had no ID');
+    });
+
+    [null, undefined].forEach((given) => {
+      it(`should throw if the document response 'id' is ${given}`, async () => {
+        fetch.mockResponse(
+          JSON.stringify({
+            id: given,
+            name: 'tmp-2-1607684291243',
+          }),
+          { status: 202 }
+        );
+        expect(createDocument(mockAppeal, formData)).rejects.toThrow('Document had no ID');
+      });
+    });
+
     it('should return the expected response if the fetch status is 202', async () => {
       fetch.mockResponse(
         JSON.stringify({

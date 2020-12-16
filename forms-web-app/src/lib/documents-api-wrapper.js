@@ -44,5 +44,13 @@ exports.createDocument = async (appeal, formData) => {
     throw new Error(apiResponse.statusText);
   }
 
-  return apiResponse.json();
+  const response = await apiResponse.json();
+
+  if (!response.id) {
+    const msg = 'Document had no ID';
+    logger.warn({ response }, msg);
+    throw new Error(msg);
+  }
+
+  return response;
 };
