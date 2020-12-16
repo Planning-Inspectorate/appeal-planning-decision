@@ -50,3 +50,23 @@ Then('user is informed that the file is not submitted because {string}', (reason
   }
 });
 
+Given('user has previously submitted a valid appeal statement file {string} followed by an invalid file {string} that was rejected because {string}', (validFile, invalidFile, reason
+  ) => {
+    cy.goToAppealStatementSubmission();
+    cy.checkNoSensitiveInformation();
+    cy.uploadAppealStatementFile(validFile);
+    cy.saveAndContinue();
+    cy.goToAppealStatementSubmission();
+    cy.checkNoSensitiveInformation();
+    cy.uploadAppealStatementFile(invalidFile);
+    cy.saveAndContinue();
+    switch (reason) {
+      case 'file type is invalid':
+        cy.confirmFileInvalidBecauseWrongFileType();
+        break;
+      case 'file size exceeds limit':
+        cy.confirmFileInvalidBecauseExceedsSizeLimit();
+        break;
+    }
+  }
+);
