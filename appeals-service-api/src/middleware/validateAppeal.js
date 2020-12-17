@@ -2,6 +2,28 @@ function validateAppeal(appealId, appeal) {
   const errors = [];
 
   // Start of Task List Validation
+
+  // Appealing on Behalf of Applicant
+
+  if (
+    appeal.aboutYouSection.yourDetails.isOriginalApplicant === true &&
+    (appeal.aboutYouSection.yourDetails.appealingOnBehalfOf !== '' ||
+      appeal.aboutYouSection.yourDetails.appealingOnBehalfOf !== null)
+  ) {
+    errors.push(
+      'Appeal has been entered by original applicant and must not have an Appealing on Behalf of Applicant Name'
+    );
+  }
+
+  if (
+    appeal.aboutYouSection.yourDetails.isOriginalApplicant !== true &&
+    appeal.aboutYouSection.yourDetails.appealingOnBehalfOf === ''
+  ) {
+    errors.push(
+      'Appeal has been entered by agent acting on behalf of applicant and must have an Appealing on Behalf Applicant Name'
+    );
+  }
+
   // Planning Application File Upload
   if (
     appeal.requiredDocumentsSection.originalApplication.uploadedFile.id !== null &&
