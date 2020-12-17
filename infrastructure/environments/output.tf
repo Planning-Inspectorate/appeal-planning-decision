@@ -42,6 +42,18 @@ output "group_user_id" {
 }
 
 /*
+  Horizon
+ */
+
+//output "horizon_queue_url" {
+//  description = "URL for the Horizon message queue"
+//  value = azurerm_storage_account.horizon.primary_connection_string
+//}
+output "horizon_queue_connection_string" {
+  value = azurerm_servicebus_namespace.horizon.default_primary_connection_string
+}
+
+/*
   Key Vault
  */
 

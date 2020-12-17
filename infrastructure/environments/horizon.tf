@@ -104,3 +104,54 @@ resource "azurerm_local_network_gateway" "horizon" {
   gateway_address = data.azurerm_key_vault_secret.horizon_gateway_ip[count.index].value
   address_space = local.horizon_subnets
 }
+
+# Infrastructure for Horizon Publishing
+#
+# Our cluster needs infrastructure to facilitate pushing
+# data to Horizon, over the VPN connection configured
+# above
+resource "azurerm_resource_group" "horizon" {
+  location = var.location
+  name = format(local.name_format, "horizon")
+
+  tags = {
+    app = local.app_name
+    env = terraform.workspace
+    lock = local.lock_delete
+  }
+}
+
+resource "random_integer" "horizon" {
+  max = 9999
+  min = 1000
+}
+
+//resource "azurerm_storage_account" "horizon" {
+//  name = substr(replace(format(local.name_format, "horizon${random_integer.horizon.result}"), "-", ""), 0, 24)
+//  account_replication_type = "LRS"
+//  account_tier = "Standard"
+//  access_tier = "Hot"
+//  account_kind = "StorageV2"
+//  location = azurerm_resource_group.horizon.location
+//  resource_group_name = azurerm_resource_group.horizon.name
+//}
+//
+////resource "azurerm_storage_queue" "horizon" {
+////  name = format(local.name_format, "horizon-queue")
+////  storage_account_name = azurerm_storage_account.horizon.name
+////}
+
+resource "azurerm_servicebus_namespace" "horizon" {
+  name = "tfex-servicebus-namespace"
+  location = azurerm_resource_group.horizon.location
+  resource_group_name = azurerm_resource_group.horizon.name
+  sku = "Standard"
+}
+
+resource "azurerm_servicebus_queue" "horizon" {
+  name = "horizon"
+  resource_group_name = azurerm_resource_group.horizon.name
+  namespace_name = azurerm_servicebus_namespace.horizon.name
+
+  enable_partitioning = true
+}

@@ -17,7 +17,10 @@
     "./**/*.js": "npm run lint -- --fix",
     "./**/*.{js, json}": "npm run format"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@azure/service-bus": "^7.0.0",
+    "pino": "^6.8.0"
+  },
   "devDependencies": {
     "eslint": "^7.12.1",
     "eslint-config-airbnb-base": "^14.2.0",
