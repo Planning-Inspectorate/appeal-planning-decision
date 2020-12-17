@@ -1,6 +1,5 @@
 module.exports = () => {
-  //TODO validate this on the check-your-answers page once this is implemented
-  cy.url().should('include','/appellant-submission/application-number');
-
+  cy.visit('/appellant-submission/application-number');
+  cy.get('[data-cy="application-number"].value').should('not.exist');
   cy.wait(Cypress.env('demoDelay'));
 };
