@@ -354,3 +354,13 @@ Cypress.Commands.add(
   'confirmPlanningApplicationNumberRejectedBecause',
   require('./appellant-submission-planning-application-number/confirmPlanningApplicationNumberRejectedBecause'),
 );
+
+Cypress.Commands.add(
+  'selectToProvidePlanningApplicationNumber',
+  require('./appeal-submission-tasklist/selectToProvidePlanningApplicationNumber'),
+);
+
+Cypress.Commands.add(
+  'confirmUserPresentedWithProvidePlanningApplicationNumber',
+  require('./appeal-submission-tasklist/confirmUserPresentedWithProvidePlanningApplicationNumber'),
+);
