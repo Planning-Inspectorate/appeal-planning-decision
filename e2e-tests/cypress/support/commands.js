@@ -216,6 +216,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmApplicantNameValue',
+  require('./appellant-submission-applicant-name/confirmApplicantNameValue'),
+);
+
+Cypress.Commands.add(
   'confirmPlanningApplicationAccepted',
   require('./appellant-submission-upload-application/confirmPlanningApplicationAccepted'),
 );
