@@ -8,8 +8,8 @@ When('the user provides a planning application number {string}', (valid_number) 
   cy.providePlanningApplicationNumber(valid_number);
 });
 
-Then('the appeal is updated with the provided planning application number', () => {
-  cy.confirmPlanningApplicationNumberHasUpdated();
+Then('the appeal is updated with the {string}', (applicationNumber) => {
+  cy.confirmPlanningApplicationNumberHasUpdated(applicationNumber);
 });
 
 Then('the user is informed that the application number is not valid because {string}', (reason) => {
