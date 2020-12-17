@@ -191,6 +191,16 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmNameValue',
+  require('./appellant-submission-your-details/confirmNameValue'),
+);
+
+Cypress.Commands.add(
+  'confirmEmailValue',
+  require('./appellant-submission-your-details/confirmEmailValue'),
+);
+
+Cypress.Commands.add(
   'confirmDetailsWasAccepted',
   require('./appellant-submission-your-details/confirmDetailsWasAccepted'),
 );

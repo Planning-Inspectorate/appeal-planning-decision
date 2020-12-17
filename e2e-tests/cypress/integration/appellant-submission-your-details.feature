@@ -5,6 +5,8 @@ Feature: A user provides their details
   Scenario Outline: Valid name and email provided
     When the user provides their valid <name> and <email>
     Then the appeal's Your Details task is completed with <name> and <email>
+    And the user can see that their appeal has been updated with <name> and <email>
+
     Examples:
       | name         | email                 |
       | "Good"       | "abc@mail.com"        |
@@ -15,6 +17,8 @@ Feature: A user provides their details
   Scenario Outline: Invalid email provided
     When the user provides the email <invalid email>
     Then the user is informed that the provided email is invalid
+    And the user can see that their appeal has not been updated with "email"
+
     Examples:
        | invalid email                |
        | "abc-@mail.com"              |
@@ -31,6 +35,7 @@ Feature: A user provides their details
   Scenario Outline: Invalid name provided
     When the user provides the name <invalid name>
     Then the user is informed that the provided name is invalid
+    And the user can see that their appeal has not been updated with "name"
     Examples:
       | invalid name          |
       | "(Bad Name"           |
@@ -41,7 +46,10 @@ Feature: A user provides their details
   Scenario: Email detail is missing
     When the user provides only a name
     Then the user is informed that the email is missing
+    And the user can see that their appeal has not been updated with "name and email"
 
   Scenario: Name detail is missing
     When the user provides only an email
     Then the user is informed that the name is missing
+    And the user can see that their appeal has not been updated with "name and email"
+

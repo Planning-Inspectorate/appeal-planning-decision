@@ -49,3 +49,21 @@ Then('the user is informed that the name is missing', () => {
 Then('the user is informed that the email is missing', () => {
   cy.confirmDetailsWasRejected('Enter your email address');
 });
+
+Then(
+  'the user can see that their appeal has been updated with {string} and {string}',
+  (name, email) => {
+    cy.confirmNameValue(name);
+    cy.confirmEmailValue(email);
+  },
+);
+
+Then('the user can see that their appeal has not been updated with {string}', (notUpdated) => {
+  if (notUpdated.includes('name')) {
+    cy.confirmNameValue('');
+  }
+
+  if (notUpdated.includes('email')) {
+    cy.confirmEmailValue('');
+  }
+});
