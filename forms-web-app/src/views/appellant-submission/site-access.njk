@@ -16,7 +16,8 @@
     },
     errorMessage: errors['site-access-more-detail'] and {
       text: errors['site-access-more-detail'].msg
-    }
+    },
+    value: appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted
   }) }}
 {% endset -%}
 
@@ -59,7 +60,7 @@
             {
               value: "yes",
               text: "Yes, they can see the appeal site",
-              checked: appeal['site-access'] === "yes"
+              checked: appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad == true
             },
             {
               value: "no",
@@ -67,7 +68,7 @@
               conditional: {
                 html: cannotSeeAppealSiteHtml
               },
-              checked: appeal['site-access'] === "no"
+              checked: appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad == false
             }
           ]
         }) }}
