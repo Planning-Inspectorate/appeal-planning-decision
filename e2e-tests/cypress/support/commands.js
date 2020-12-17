@@ -124,6 +124,41 @@ Cypress.Commands.add(
   require('./appeal-statement-submission/uploadAppealStatementFile'),
 );
 
+Cypress.Commands.add(
+  'goToAccessSitePage',
+  require('./appeal-submission-access-to-appeal-site/goToAccessSitePage'),
+);
+
+Cypress.Commands.add(
+  'answerCannotSeeTheWholeAppeal',
+  require('./appeal-submission-access-to-appeal-site/answerCannotSeeTheWholeAppeal'),
+);
+
+Cypress.Commands.add(
+  'answerCanSeeTheWholeAppeal',
+  require('./appeal-submission-access-to-appeal-site/answerCanSeeTheWholeAppeal'),
+);
+
+Cypress.Commands.add(
+  'confirmAccessSiteWasRejectedBecause',
+  require('./appeal-submission-access-to-appeal-site/confirmAccessSiteWasRejectedBecause'),
+);
+
+Cypress.Commands.add(
+  'confirmAccessSiteAnswered',
+  require('./appeal-submission-access-to-appeal-site/confirmAccessSiteAnswered'),
+);
+
+Cypress.Commands.add(
+  'confirmAccessSiteNotSubmitted',
+  require('./appeal-submission-access-to-appeal-site/confirmAccessSiteNotSubmitted'),
+);
+
+Cypress.Commands.add(
+  'provideMoreDetails',
+  require('./appeal-submission-access-to-appeal-site/provideMoreDetails'),
+);
+
 Cypress.Commands.add('goToTaskListPage', require('./appeal-submission-tasklist/goToTaskListPage'));
 
 Cypress.Commands.add(
