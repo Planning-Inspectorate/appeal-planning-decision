@@ -317,4 +317,44 @@ describe('Appeals API', () => {
     );
     expect(response.statusCode).toBe(400);
   });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - Appeal original applicant is null and must not have an Appealing on Behalf of Applicant Name', async () => {
+    const appeal = await createAppeal();
+
+    appeal.aboutYouSection.yourDetails.appealingOnBehalfOf = 'Kelly Clarkson';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'Appeal original applicant is null and must not have an Appealing on Behalf of Applicant Name'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - Appeal has been entered by original applicant and must not have an Appealing on Behalf of Applicant Name', async () => {
+    const appeal = await createAppeal();
+
+    appeal.aboutYouSection.yourDetails.isOriginalApplicant = true;
+    appeal.aboutYouSection.yourDetails.appealingOnBehalfOf = 'Beth Carlisle';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'Appeal has been entered by original applicant and must not have an Appealing on Behalf of Applicant Name'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - Appeal has been entered by agent acting on behalf of applicant and must have an Appealing on Behalf Applicant Name', async () => {
+    const appeal = await createAppeal();
+
+    appeal.aboutYouSection.yourDetails.isOriginalApplicant = false;
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'Appeal has been entered by agent acting on behalf of applicant and must have an Appealing on Behalf Applicant Name'
+    );
+    expect(response.statusCode).toBe(400);
+  });
 });
