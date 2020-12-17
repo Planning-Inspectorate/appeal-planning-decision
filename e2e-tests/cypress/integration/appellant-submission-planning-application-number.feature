@@ -4,7 +4,7 @@ Feature: Appellant submits a planning application reference number so that the p
   Scenario Outline: Prospective appellant provides a valid planning application number
     Given the user is prompted to provide a planning application number
     When the user provides a planning application number <valid application number>
-    Then the appeal is updated with the provided planning application number
+    Then the appeal is updated with the <valid application number>
 
       Examples:
           | valid application number |
