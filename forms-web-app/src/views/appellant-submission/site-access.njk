@@ -11,6 +11,7 @@
     name: "site-access-more-detail",
     type: "textarea",
     rows: 5,
+    value: appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted,
     label: {
       text: "Tell us how access is restricted."
     },
@@ -60,11 +61,13 @@
             {
               value: "yes",
               text: "Yes, they can see the appeal site",
+              attributes: { "data-cy":"answer-yes"},
               checked: appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad == true
             },
             {
               value: "no",
               text: "No, I would need to give them access",
+              attributes: { "data-cy":"answer-no"},
               conditional: {
                 html: cannotSeeAppealSiteHtml
               },
