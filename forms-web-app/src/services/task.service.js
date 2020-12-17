@@ -63,7 +63,10 @@ function statusAppealSiteAddress(appeal) {
 
 // eslint-disable-next-line no-unused-vars
 function healthAndSafety(appeal) {
-  return TASK_STATUS.CANNOT_START_YET;
+  return appeal.appealSiteSection.healthAndSafety &&
+    appeal.appealSiteSection.healthAndSafety.hasIssues !== null
+    ? TASK_STATUS.COMPLETED
+    : TASK_STATUS.NOT_STARTED;
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -142,11 +145,11 @@ const SECTIONS = {
       href: `/${VIEW.APPELLANT_SUBMISSION.SITE_LOCATION}`,
       rule: statusAppealSiteAddress,
     },
-    siteAccess: { href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`, rule: statusSiteAccess },
     siteOwnership: {
       href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
       rule: statusSiteOwnership,
     },
+    siteAccess: { href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`, rule: statusSiteAccess },
     healthAndSafety: {
       href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
       rule: healthAndSafety,
