@@ -112,14 +112,6 @@ describe('controller/appellant-submission/task-list', () => {
                 },
               },
               {
-                text: 'Access to the appeal site',
-                href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
-                status: 'NOT STARTED',
-                attributes: {
-                  'siteAccess-status': 'NOT STARTED',
-                },
-              },
-              {
                 text: 'Ownership of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
                 status: 'CANNOT START YET',
@@ -128,11 +120,19 @@ describe('controller/appellant-submission/task-list', () => {
                 },
               },
               {
+                text: 'Access to the appeal site',
+                href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
+                status: 'NOT STARTED',
+                attributes: {
+                  'siteAccess-status': 'NOT STARTED',
+                },
+              },
+              {
                 text: 'Any health and safety issues',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
-                status: 'CANNOT START YET',
+                status: 'NOT STARTED',
                 attributes: {
-                  'healthAndSafety-status': 'CANNOT START YET',
+                  'healthAndSafety-status': 'NOT STARTED',
                 },
               },
             ],
@@ -156,6 +156,7 @@ describe('controller/appellant-submission/task-list', () => {
         ],
       });
     });
+
     it('Some tasks still in progress and check your answer cannot be started', () => {
       const req = mockReq({
         aboutYouSection: {
@@ -296,14 +297,6 @@ describe('controller/appellant-submission/task-list', () => {
                 },
               },
               {
-                text: 'Access to the appeal site',
-                href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
-                status: 'COMPLETED',
-                attributes: {
-                  'siteAccess-status': 'COMPLETED',
-                },
-              },
-              {
                 text: 'Ownership of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
                 status: 'CANNOT START YET',
@@ -312,11 +305,19 @@ describe('controller/appellant-submission/task-list', () => {
                 },
               },
               {
+                text: 'Access to the appeal site',
+                href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
+                status: 'COMPLETED',
+                attributes: {
+                  'siteAccess-status': 'COMPLETED',
+                },
+              },
+              {
                 text: 'Any health and safety issues',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
-                status: 'CANNOT START YET',
+                status: 'NOT STARTED',
                 attributes: {
-                  'healthAndSafety-status': 'CANNOT START YET',
+                  'healthAndSafety-status': 'NOT STARTED',
                 },
               },
             ],
@@ -355,6 +356,9 @@ describe('controller/appellant-submission/task-list', () => {
           siteAccess: {
             canInspectorSeeWholeSiteFromPublicRoad: true,
           },
+          healthAndSafety: {
+            hasIssues: false,
+          },
         },
         requiredDocumentsSection: {
           applicationNumber: '123',
@@ -383,7 +387,7 @@ describe('controller/appellant-submission/task-list', () => {
         applicationStatus: 'Application incomplete',
         sectionInfo: {
           nbTasks: 12,
-          nbCompleted: 7,
+          nbCompleted: 8,
           sections: {
             count: 5,
             completed: 2,
@@ -481,14 +485,6 @@ describe('controller/appellant-submission/task-list', () => {
                 },
               },
               {
-                text: 'Access to the appeal site',
-                href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
-                status: 'COMPLETED',
-                attributes: {
-                  'siteAccess-status': 'COMPLETED',
-                },
-              },
-              {
                 text: 'Ownership of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
                 status: 'CANNOT START YET',
@@ -497,11 +493,19 @@ describe('controller/appellant-submission/task-list', () => {
                 },
               },
               {
+                text: 'Access to the appeal site',
+                href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
+                status: 'COMPLETED',
+                attributes: {
+                  'siteAccess-status': 'COMPLETED',
+                },
+              },
+              {
                 text: 'Any health and safety issues',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
-                status: 'CANNOT START YET',
+                status: 'COMPLETED',
                 attributes: {
-                  'healthAndSafety-status': 'CANNOT START YET',
+                  'healthAndSafety-status': 'COMPLETED',
                 },
               },
             ],

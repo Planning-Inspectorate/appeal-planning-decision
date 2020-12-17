@@ -21,7 +21,7 @@ exports.postSiteAccessSafety = async (req, res) => {
   const { appeal } = req.session;
   const task = appeal[sectionName][taskName];
 
-  task.hasIssues = req.body['site-access-safety'];
+  task.hasIssues = req.body['site-access-safety'] === 'no';
   task.healthAndSafetyIssues = req.body['site-access-safety-concerns'];
 
   if (Object.keys(errors).length > 0) {
