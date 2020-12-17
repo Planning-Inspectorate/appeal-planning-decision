@@ -156,6 +156,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmAnswered',
+  require('./appellant-submission-who-are-you/confirmAnswered'),
+);
+
+Cypress.Commands.add(
   'confirmOriginalAppellantAsked',
   require('./appellant-submission-who-are-you/confirmOriginalAppellantAsked'),
 );
