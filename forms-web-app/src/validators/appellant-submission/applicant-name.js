@@ -4,7 +4,6 @@ const rules = () => {
   return [
     body('behalf-appellant-name')
       .notEmpty()
-      .escape()
       .withMessage('Enter the name your appealing for')
       .bail()
       .matches(/^[a-z\-' ]+$/i)
