@@ -12,11 +12,17 @@ describe('validators/appellant-submission/application-number', () => {
       expect(rule.fields).toEqual(['application-number']);
       expect(rule.locations).toEqual(['body']);
       expect(rule.optional).toBeFalsy();
-      expect(rule.stack).toHaveLength(1);
+      expect(rule.stack).toHaveLength(3);
 
       expect(rule.stack[0].negated).toBeTruthy();
       expect(rule.stack[0].validator.name).toEqual('isEmpty');
       expect(rule.stack[0].message).toEqual('Enter your planning application number');
+
+      expect(rule.stack[2].validator.name).toEqual('isLength');
+      expect(rule.stack[2].options).toEqual([{ min: 1, max: 30 }]);
+      expect(rule.stack[2].message).toEqual(
+        'Planning application number must be 30 characters or fewer'
+      );
     });
   });
   describe('validator', () => {
@@ -52,6 +58,20 @@ describe('validators/appellant-submission/application-number', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].msg).toEqual('Enter your planning application number');
+        },
+      },
+      {
+        title: 'planning application number provided but exceeds 30 characters',
+        given: () => ({
+          body: {
+            'application-number': '1234567890123456789012345678901',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(1);
+          expect(result.errors[0].msg).toEqual(
+            'Planning application number must be 30 characters or fewer'
+          );
         },
       },
     ].forEach(({ title, given, expected }) => {
