@@ -21,3 +21,7 @@ Then('the user will {string} asked who they are representing', (asked) => {
     cy.confirmOriginalAppellantNotAsked();
   }
 });
+
+Then('the user can see that their appeal has been updated with the {string} answer', (answer) => {
+  cy.confirmAnswered(answer);
+});
