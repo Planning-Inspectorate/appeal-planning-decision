@@ -7,5 +7,21 @@ module.exports = (sections) => {
     nbCompleted += section.items.filter((subSection) => subSection.status === 'COMPLETED').length;
   });
 
-  return { nbTasks, nbCompleted };
+  const completedSections = sections.reduce(
+    (acc, section) =>
+      section.items.filter((subSection) => subSection.status === 'COMPLETED').length ===
+      section.items.length
+        ? acc + 1
+        : acc,
+    0
+  );
+
+  return {
+    nbTasks,
+    nbCompleted,
+    sections: {
+      count: sections.length,
+      completed: completedSections,
+    },
+  };
 };

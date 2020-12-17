@@ -12,7 +12,14 @@ describe('controller/appellant-submission/task-list', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
         applicationStatus: 'Application incomplete',
-        sectionInfo: { nbTasks: 12, nbCompleted: 0 },
+        sectionInfo: {
+          nbTasks: 12,
+          nbCompleted: 0,
+          sections: {
+            count: 5,
+            completed: 0,
+          },
+        },
         sections: [
           {
             heading: {
@@ -189,7 +196,14 @@ describe('controller/appellant-submission/task-list', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
         applicationStatus: 'Application incomplete',
-        sectionInfo: { nbTasks: 12, nbCompleted: 6 },
+        sectionInfo: {
+          nbTasks: 12,
+          nbCompleted: 6,
+          sections: {
+            count: 5,
+            completed: 1,
+          },
+        },
         sections: [
           {
             heading: {
@@ -367,7 +381,14 @@ describe('controller/appellant-submission/task-list', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
         applicationStatus: 'Application incomplete',
-        sectionInfo: { nbTasks: 12, nbCompleted: 7 },
+        sectionInfo: {
+          nbTasks: 12,
+          nbCompleted: 7,
+          sections: {
+            count: 5,
+            completed: 2,
+          },
+        },
         sections: [
           {
             heading: {
