@@ -16,7 +16,7 @@ Then('the user can proceed', () => {
 });
 
 When('the user is informed that the name is missing', () => {
-  cy.confirmApplicantNameWasRejected('Enter the name your appealing for');
+  cy.confirmApplicantNameWasRejected('Enter the name you are appealing for');
 });
 
 Then('the user is informed that the provided name has a bad format', () => {
