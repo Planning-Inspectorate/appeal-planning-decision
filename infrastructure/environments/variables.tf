@@ -8,12 +8,6 @@ variable "location" {
   type = string
 }
 
-variable "pins_key_vault_subscription_id" {
-  description = "Subscription ID for the Key Vault"
-  type = string
-  default = null
-}
-
 variable "pins_key_vault" {
   description = "ID of the PINS Key Vault - used to securely share secrets with this infrastructure"
   type = string
