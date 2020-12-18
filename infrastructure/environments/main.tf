@@ -17,6 +17,13 @@ provider "azurerm" {
   features {}
 }
 
+# Controls access to the main PINS subscription - "read" access is required
+provider "azurerm" {
+  alias = "pins-main"
+  subscription_id = var.pins_key_vault_subscription_id
+  features {}
+}
+
 data "azurerm_client_config" "current" {}
 
 data "azurerm_container_registry" "pins" {
