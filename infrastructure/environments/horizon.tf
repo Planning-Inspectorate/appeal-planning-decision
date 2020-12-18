@@ -55,7 +55,6 @@ data "azurerm_key_vault_secret" "horizon_gateway_shared_key" {
 
   key_vault_id = var.pins_key_vault
   name = var.horizon_shared_key_secret
-  provider = azurerm.pins-main
 }
 
 data "azurerm_key_vault_secret" "horizon_gateway_ip" {
@@ -63,7 +62,6 @@ data "azurerm_key_vault_secret" "horizon_gateway_ip" {
 
   key_vault_id = var.pins_key_vault
   name = var.horizon_gateway_ip_secret
-  provider = azurerm.pins-main
 }
 
 data "azurerm_key_vault_secret" "horizon_gateway_subnets" {
@@ -71,7 +69,6 @@ data "azurerm_key_vault_secret" "horizon_gateway_subnets" {
 
   key_vault_id = var.pins_key_vault
   name = var.horizon_gateway_subnets_secret
-  provider = azurerm.pins-main
 }
 
 locals {
