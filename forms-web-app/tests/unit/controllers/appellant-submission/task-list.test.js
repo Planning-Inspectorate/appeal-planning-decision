@@ -176,17 +176,23 @@ describe('controller/appellant-submission/task-list', () => {
           applicationNumber: '123',
           originalApplication: {
             uploadedFile: {
+              id: '123',
               name: 'original.pdf',
             },
           },
           decisionLetter: {
             uploadedFile: {
+              id: '456',
               name: 'decision.pdf',
             },
           },
         },
         yourAppealSection: {
           appealStatement: {
+            uploadedFile: {
+              id: '789',
+              name: 'appeal.pdf',
+            },
             hasSensitiveInformation: false,
           },
         },
@@ -364,17 +370,23 @@ describe('controller/appellant-submission/task-list', () => {
           applicationNumber: '123',
           originalApplication: {
             uploadedFile: {
+              id: '123',
               name: 'original.pdf',
             },
           },
           decisionLetter: {
             uploadedFile: {
+              id: '456',
               name: 'decision.pdf',
             },
           },
         },
         yourAppealSection: {
           appealStatement: {
+            uploadedFile: {
+              id: '789',
+              name: 'appeal.pdf',
+            },
             hasSensitiveInformation: false,
           },
         },
