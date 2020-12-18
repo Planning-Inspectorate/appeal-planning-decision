@@ -266,8 +266,28 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'goToDetailsPage',
-  require('./appellant-submission-your-details/goToDetailsPage'),
+  'goToYourDetailsPage',
+  require('./appellant-submission-your-details/goToYourDetailsPage'),
+);
+
+Cypress.Commands.add(
+  'goToWhoAreYouPage',
+  require('./appellant-submission-your-details/goToWhoAreYouPage'),
+);
+
+Cypress.Commands.add(
+  'goToApplicantNamePage',
+  require('./appellant-submission-your-details/goToApplicantNamePage'),
+);
+
+Cypress.Commands.add(
+  'goToTaskListPage',
+  require('./appellant-submission-your-details/goToTaskListPage'),
+);
+
+Cypress.Commands.add(
+  'provideAreYouOriginalApplicant',
+  require('./appellant-submission-your-details/provideAreYouOriginalApplicant'),
 );
 
 Cypress.Commands.add(
@@ -281,6 +301,21 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'provideNameOfOriginalApplicant',
+  require('./appellant-submission-your-details/provideNameOfOriginalApplicant'),
+);
+
+Cypress.Commands.add(
+  'confirmOriginalApplicantWasRejected',
+  require('./appellant-submission-your-details/confirmOriginalApplicantWasRejected'),
+);
+
+Cypress.Commands.add(
+  'confirmOriginalApplicantName',
+  require('./appellant-submission-your-details/confirmOriginalApplicantName'),
+);
+
+Cypress.Commands.add(
   'confirmNameValue',
   require('./appellant-submission-your-details/confirmNameValue'),
 );
@@ -291,6 +326,16 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmNameValueNotSet',
+  require('./appellant-submission-your-details/confirmNameValueNotSet'),
+);
+
+Cypress.Commands.add(
+  'confirmEmailValueNotSet',
+  require('./appellant-submission-your-details/confirmEmailValueNotSet'),
+);
+
+Cypress.Commands.add(
   'confirmDetailsWasAccepted',
   require('./appellant-submission-your-details/confirmDetailsWasAccepted'),
 );
@@ -298,6 +343,11 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmDetailsWasRejected',
   require('./appellant-submission-your-details/confirmDetailsWasRejected'),
+);
+
+Cypress.Commands.add(
+  'confirmYourDetailsStatus',
+  require('./appellant-submission-your-details/confirmYourDetailsStatus'),
 );
 
 Cypress.Commands.add(
