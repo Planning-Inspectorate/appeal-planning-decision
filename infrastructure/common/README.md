@@ -11,7 +11,6 @@ No requirements.
 | Name | Version |
 |------|---------|
 | azurerm | n/a |
-| github | n/a |
 | random | n/a |
 
 ## Inputs
