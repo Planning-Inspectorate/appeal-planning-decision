@@ -2,6 +2,41 @@ function validateAppeal(appealId, appeal) {
   const errors = [];
 
   // Start of Task List Validation
+
+  // Access Appeal Site
+  // if canInspectorSeeWholeSiteFromPublicRoad is true then howIsSiteAccessRestricted must be null or empty
+  if (
+    appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad === true &&
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted !== null &&
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted !== ''
+  ) {
+    errors.push(
+      'If appeal site is visible from the public road then site access restrictions is not requried'
+    );
+  }
+
+  // if canInspectorSeeWholeSiteFromPublicRoad is false thenhowIsSiteAccessRestricted must not be null or empty
+  if (
+    appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad === false &&
+    (appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted === null ||
+      appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted === '')
+  ) {
+    errors.push(
+      'If appeal site is not visible from the public road then site access restricions is required'
+    );
+  }
+
+  // if canInspectorSeeWholeSiteFromPublicRoad is empty then howIsSiteAccessRestricted must be null or empty
+  if (
+    appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad === null &&
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted !== null &&
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted !== ''
+  ) {
+    errors.push(
+      'If appeal site from public road is null then site access restrictions must be null or empty'
+    );
+  }
+
   // Planning Application File Upload
   if (
     appeal.requiredDocumentsSection.originalApplication.uploadedFile.id !== null &&

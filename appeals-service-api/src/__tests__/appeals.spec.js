@@ -317,4 +317,44 @@ describe('Appeals API', () => {
     );
     expect(response.statusCode).toBe(400);
   });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - If appeal site is visible from the public road then site access restrictions is not requried', async () => {
+    const appeal = await createAppeal();
+
+    appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad = true;
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted = 'Big gaping hole';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If appeal site is visible from the public road then site access restrictions is not requried'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - If appeal site is not visible from the public road then site access restricions is required', async () => {
+    const appeal = await createAppeal();
+
+    appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad = false;
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If appeal site is not visible from the public road then site access restricions is required'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - If appeal site from public road is null then site access restrictions must be null or empty', async () => {
+    const appeal = await createAppeal();
+
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted = 'Big gaping hole';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If appeal site from public road is null then site access restrictions must be null or empty'
+    );
+    expect(response.statusCode).toBe(400);
+  });
 });
