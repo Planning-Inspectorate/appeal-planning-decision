@@ -211,6 +211,34 @@ describe('Appeals API', () => {
     expect(response.statusCode).toBe(400);
   });
 
+  test('PUT /api/v1/appeals/{id} - It responds with an error - Appeal appellant name must be valued if email is.', async () => {
+    const appeal = await createAppeal();
+
+    appeal.aboutYouSection.yourDetails.email = 'jim@john.com';
+    appeal.aboutYouSection.yourDetails.name = '';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'The appeal appellant details must have email and name valued.The name is missing.'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - Appeal appellant email must be valued if name is.', async () => {
+    const appeal = await createAppeal();
+
+    appeal.aboutYouSection.yourDetails.email = '';
+    appeal.aboutYouSection.yourDetails.name = 'Jim John';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'The appeal appellant details must have email and name valued.The email is missing.'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
   test('PUT /api/v1/appeals/{id} - It responds with an error - appeal statement upload file cannot have name without id', async () => {
     const appeal = await createAppeal();
     appeal.yourAppealSection.appealStatement.uploadedFile.name =
@@ -318,7 +346,7 @@ describe('Appeals API', () => {
     expect(response.statusCode).toBe(400);
   });
 
-  test('PUT /api/v1/appeals/{id} - It responds with an error - If appeal site is visible from the public road then site access restrictions is not requried', async () => {
+  test('PUT /api/v1/appeals/{id} - It responds with an error - If appeal site is visible from the public road then site access restrictions is not required', async () => {
     const appeal = await createAppeal();
 
     appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad = true;
@@ -327,12 +355,12 @@ describe('Appeals API', () => {
     const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
     expect(response.body.code).toEqual(400);
     expect(response.body.errors).toContain(
-      'If appeal site is visible from the public road then site access restrictions is not requried'
+      'If appeal site is visible from the public road then site access restrictions is not required'
     );
     expect(response.statusCode).toBe(400);
   });
 
-  test('PUT /api/v1/appeals/{id} - It responds with an error - If appeal site is not visible from the public road then site access restricions is required', async () => {
+  test('PUT /api/v1/appeals/{id} - It responds with an error - If appeal site is not visible from the public road then site access restrictions is required', async () => {
     const appeal = await createAppeal();
 
     appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad = false;
@@ -340,7 +368,7 @@ describe('Appeals API', () => {
     const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
     expect(response.body.code).toEqual(400);
     expect(response.body.errors).toContain(
-      'If appeal site is not visible from the public road then site access restricions is required'
+      'If appeal site is not visible from the public road then site access restrictions is required'
     );
     expect(response.statusCode).toBe(400);
   });

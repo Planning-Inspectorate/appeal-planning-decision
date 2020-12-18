@@ -3,6 +3,22 @@ function validateAppeal(appealId, appeal) {
 
   // Start of Task List Validation
 
+  // About You Section
+
+  // Your Details
+  // Only accepted states are name and email both empty or both valued
+  if (
+    (!appeal.aboutYouSection.yourDetails.name && appeal.aboutYouSection.yourDetails.email) ||
+    (appeal.aboutYouSection.yourDetails.name && !appeal.aboutYouSection.yourDetails.email)
+  ) {
+    let yourDetailsErrorMessage = 'The appeal appellant details must have email and name valued.';
+    yourDetailsErrorMessage += appeal.aboutYouSection.yourDetails.name
+      ? 'The email is missing.'
+      : 'The name is missing.';
+
+    errors.push(yourDetailsErrorMessage);
+  }
+
   // Access Appeal Site
   // if canInspectorSeeWholeSiteFromPublicRoad is true then howIsSiteAccessRestricted must be null or empty
   if (
@@ -11,7 +27,7 @@ function validateAppeal(appealId, appeal) {
     appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted !== ''
   ) {
     errors.push(
-      'If appeal site is visible from the public road then site access restrictions is not requried'
+      'If appeal site is visible from the public road then site access restrictions is not required'
     );
   }
 
@@ -22,7 +38,7 @@ function validateAppeal(appealId, appeal) {
       appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted === '')
   ) {
     errors.push(
-      'If appeal site is not visible from the public road then site access restricions is required'
+      'If appeal site is not visible from the public road then site access restrictions is required'
     );
   }
 
