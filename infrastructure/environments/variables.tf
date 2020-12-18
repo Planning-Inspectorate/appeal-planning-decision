@@ -8,12 +8,6 @@ variable "location" {
   type = string
 }
 
-variable "pins_key_vault" {
-  description = "ID of the PINS Key Vault - used to securely share secrets with this infrastructure"
-  type = string
-  default = null
-}
-
 variable "prefix" {
   description = "Resource prefix"
   default = "pins"
@@ -32,40 +26,6 @@ variable "container_registry_name" {
 variable "container_registry_rg_name" {
   description = "Name of the registry's resource group"
   type = string
-}
-
-/*
-  Horizon
- */
-
-variable "horizon_enabled" {
-  description = "Enable the connection to the Horizon instance over a virtual network gateway"
-  type = bool
-  default = false
-}
-
-variable "horizon_gateway_sku" {
-  description = "SKU of the Horizon gateway"
-  type = string
-  default = "VpnGw1"
-}
-
-variable "horizon_gateway_ip_secret" {
-  description = "Public IP address of the Horizon VPN gateway"
-  type = string
-  default = "horizon-gateway-ip"
-}
-
-variable "horizon_gateway_subnets_secret" {
-  description = "CSV of subnets to use for the Horizon VPN gateway"
-  type = string
-  default = null
-}
-
-variable "horizon_shared_key_secret" {
-  description = "Name of the Horizon shared key in the PINS key vault"
-  type = string
-  default = null
 }
 
 /*
