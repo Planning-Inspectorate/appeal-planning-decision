@@ -256,6 +256,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmWhoAreYouPageRejectedBecause',
+  require('./appellant-submission-who-are-you/confirmWhoAreYouPageRejectedBecause'),
+);
+
+Cypress.Commands.add(
   'clickSaveAndContinue',
   require('./appellant-submission-who-are-you/clickSaveAndContinue'),
 );
