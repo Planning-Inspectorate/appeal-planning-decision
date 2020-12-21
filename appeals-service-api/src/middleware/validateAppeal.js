@@ -132,7 +132,7 @@ function validateAppeal(appealId, appeal) {
     );
   }
 
-  // Validation for On Behalf of Applicant
+  // Validation for On Behalf of Applicant, name and email address
   // NOTE - Cross screen validation - so only check when the Your Details Section State is COMPLETED
   // if isOriginalApplicant is false or empty then appealingOnBehalfOf must not be null or empty
   if (appeal.sectionStates.aboutYouSection.yourDetails === 'COMPLETED') {
@@ -143,6 +143,22 @@ function validateAppeal(appealId, appeal) {
     ) {
       errors.push(
         'Appeal has been entered by agent acting on behalf of applicant and must have an Appealing on Behalf Applicant Name'
+      );
+    }
+    if (
+      appeal.aboutYouSection.yourDetails.name === null ||
+      appeal.aboutYouSection.yourDetails.name === ''
+    ) {
+      errors.push(
+        'If your details section is completed then appellant name cannot be null or empty and it must be specified'
+      );
+    }
+    if (
+      appeal.aboutYouSection.yourDetails.email === null ||
+      appeal.aboutYouSection.yourDetails.email === ''
+    ) {
+      errors.push(
+        'If your details section is completed then appellant email address cannot be null or empty and it must be specified'
       );
     }
   }
