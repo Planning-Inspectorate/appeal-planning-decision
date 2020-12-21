@@ -53,6 +53,21 @@ function validateAppeal(appealId, appeal) {
     );
   }
 
+  // Site Ownership
+  if (
+    appeal.appealSiteSection.siteOwnership.ownsWholeSite &&
+    appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold !== null
+  ) {
+    errors.push('If the appellant owns the whole appeal site there can be no other owners');
+  }
+
+  if (
+    appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold &&
+    appeal.appealSiteSection.siteOwnership.ownsWholeSite === null
+  ) {
+    errors.push('We should know if there is another owners before knowing if they were told');
+  }
+
   // Planning Application File Upload
   if (
     appeal.requiredDocumentsSection.originalApplication.uploadedFile.id !== null &&
@@ -154,4 +169,5 @@ function validateAppeal(appealId, appeal) {
   }
   return errors;
 }
+
 module.exports = { validateAppeal };
