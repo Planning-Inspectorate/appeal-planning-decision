@@ -38,7 +38,8 @@
           value: appeal['aboutYouSection']['yourDetails']['name'],
           errorMessage: errors['appellant-name'] and {
             text: errors['appellant-name'].msg
-          }
+          },
+          attributes: {"data-cy": "appellant-name"}
         }) }}
 
         {{ govukInput({
@@ -53,7 +54,8 @@
           value: appeal['aboutYouSection']['yourDetails']['email'],
           errorMessage: errors['appellant-email'] and {
             text: errors['appellant-email'].msg
-          }
+          },
+          attributes: {"data-cy": "appellant-email"}
         }) }}
 
         {{ govukButton({

@@ -1,4 +1,13 @@
-import { When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+
+Given('user has previously provided a name {string} and email {string}', (name, email) => {
+  cy.goToDetailsPage();
+  cy.provideDetailsName(name);
+  cy.provideDetailsEmail(email);
+  cy.confirmDetailsWasAccepted();
+  cy.confirmNameValue(name);
+  cy.confirmEmailValue(email);
+});
 
 When('the user provides their valid {string} and {string}', (name, email) => {
   cy.goToDetailsPage();
@@ -28,9 +37,29 @@ When('the user provides only an email', () => {
   cy.provideDetailsEmail('good@email.com');
 });
 
+When('the user provides an updated name {string}', (name) => {
+  cy.goToDetailsPage();
+  cy.provideDetailsName(name);
+  cy.confirmDetailsWasAccepted();
+});
+
+When('the user provides an updated email {string}', (email) => {
+  cy.goToDetailsPage();
+  cy.provideDetailsEmail(email);
+  cy.confirmDetailsWasAccepted();
+});
+
 Then("the appeal's Your Details task is completed with {string} and {string}", (name, email) => {
   cy.confirmDetailsWasAccepted(name, email);
 });
+
+Then(
+  "the appeal's Your Details task remains completed with name {string} and email {string}",
+  (name, email) => {
+    cy.confirmNameValue(name);
+    cy.confirmEmailValue(email);
+  },
+);
 
 Then('the user is informed that the provided name is invalid', () => {
   cy.confirmDetailsWasRejected(

@@ -53,3 +53,24 @@ Feature: A user provides their details
     Then the user is informed that the name is missing
     And the user can see that their appeal has not been updated with "name and email"
 
+  Scenario: Prospective appellant provides a valid name that replaces previous value
+    Given user has previously provided a name "Timmy Tester" and email "timmy@example.com"
+    When the user provides an updated name "Jonny Tester"
+    Then the appeal's Your Details task remains completed with name "Jonny Tester" and email "timmy@example.com"
+
+  Scenario: Prospective appellant provides an invalid name that does not replace previous value
+    Given user has previously provided a name "Timmy Testfield" and email "t.testfield@example.com"
+    When the user provides the name "Bad Name 2"
+    Then the user is informed that the provided name is invalid
+    And the appeal's Your Details task remains completed with name "Timmy Testfield" and email "t.testfield@example.com"
+
+  Scenario: Prospective appellant provides a valid email that replaces previous value
+    Given user has previously provided a name "Timmy Testfield" and email "timmy@example.com"
+    When the user provides an updated email "t.testfield@example.com"
+    Then the appeal's Your Details task remains completed with name "Timmy Testfield" and email "t.testfield@example.com"
+
+  Scenario: Prospective appellant provides an invalid email that does not replace previous value
+    Given user has previously provided a name "Timmy Testfield" and email "timmy@example.com"
+    When the user provides the email "abc#def@mail..com"
+    Then the user is informed that the provided email is invalid
+    And the appeal's Your Details task remains completed with name "Timmy Testfield" and email "timmy@example.com"
