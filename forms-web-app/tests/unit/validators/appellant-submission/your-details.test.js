@@ -23,7 +23,7 @@ describe('validators/your-details', () => {
       );
 
       expect(rule.stack[4].validator.name).toEqual('isLength');
-      expect(rule.stack[4].options).toEqual([{ min: 2, max: 255 }]);
+      expect(rule.stack[4].options).toEqual([{ min: 2, max: 80 }]);
     });
 
     it(`has a rule for the appellant's email`, () => {
@@ -87,7 +87,7 @@ describe('validators/your-details', () => {
         },
       },
       {
-        title: 'invalid values 2 - fail',
+        title: 'invalid values 2 - fail - name too short and invalid email',
         given: () => ({
           body: {
             'appellant-name': 'a',
@@ -97,7 +97,7 @@ describe('validators/your-details', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(2);
           expect(result.errors[0].location).toEqual('body');
-          expect(result.errors[0].msg).toEqual('Name must be between 2 and 255 characters');
+          expect(result.errors[0].msg).toEqual('Name must be between 2 and 80 characters');
           expect(result.errors[0].param).toEqual('appellant-name');
           expect(result.errors[0].value).toEqual('a');
 
@@ -107,7 +107,30 @@ describe('validators/your-details', () => {
           expect(result.errors[1].value).toEqual(13);
         },
       },
+      {
+        title: 'invalid values 2 - fail - name too long and invalid email',
+        given: () => ({
+          body: {
+            'appellant-name':
+              'Invalid name because it is eighty-one characters long--abcdefghijklmnopqrstuvwxyz',
+            'appellant-email': 13,
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(2);
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual('Name must be between 2 and 80 characters');
+          expect(result.errors[0].param).toEqual('appellant-name');
+          expect(result.errors[0].value).toEqual(
+            'Invalid name because it is eighty-one characters long--abcdefghijklmnopqrstuvwxyz'
+          );
 
+          expect(result.errors[1].location).toEqual('body');
+          expect(result.errors[1].msg).toEqual('Email should be a valid email address');
+          expect(result.errors[1].param).toEqual('appellant-email');
+          expect(result.errors[1].value).toEqual(13);
+        },
+      },
       {
         title: 'invalid email - fail 1',
         given: () => ({

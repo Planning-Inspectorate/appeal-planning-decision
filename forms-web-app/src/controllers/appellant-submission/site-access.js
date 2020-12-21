@@ -21,8 +21,12 @@ exports.postSiteAccess = async (req, res) => {
   const { appeal } = req.session;
   const task = appeal[sectionName][taskName];
 
-  task.canInspectorSeeWholeSiteFromPublicRoad = req.body['site-access'] === 'yes';
-  task.howIsSiteAccessRestricted = req.body['site-access-more-detail'];
+  const canInspectorSeeWholeSiteFromPublicRoad = req.body['site-access'] === 'yes';
+
+  task.canInspectorSeeWholeSiteFromPublicRoad = canInspectorSeeWholeSiteFromPublicRoad;
+  task.howIsSiteAccessRestricted = canInspectorSeeWholeSiteFromPublicRoad
+    ? ''
+    : req.body['site-access-more-detail'];
 
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS, {

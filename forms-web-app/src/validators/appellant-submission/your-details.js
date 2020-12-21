@@ -8,8 +8,8 @@ const ruleYourName = () =>
     .matches(/^[a-z\-' ]+$/i)
     .withMessage('Name must only include letters a to z, hyphens, spaces and apostrophes')
     .bail()
-    .isLength({ min: 2, max: 255 })
-    .withMessage('Name must be between 2 and 255 characters');
+    .isLength({ min: 2, max: 80 })
+    .withMessage('Name must be between 2 and 80 characters');
 
 function validateEmail(email) {
   const pattern = /.+@[^.]*(.*)/;

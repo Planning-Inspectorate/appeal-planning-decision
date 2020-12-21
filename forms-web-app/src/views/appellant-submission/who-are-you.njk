@@ -40,12 +40,14 @@
             {
               value: 'yes',
               text: 'Yes',
-              checked: appeal['aboutYouSection']['yourDetails']['isOriginalApplicant']
+              attributes: { "data-cy":"answer-yes"},
+              checked: appeal.aboutYouSection.yourDetails.isOriginalApplicant
             },
             {
               value: 'no',
               text: 'No',
-              checked: appeal['aboutYouSection']['yourDetails']['isOriginalApplicant'] === false
+              attributes: { 'data-cy':'answer-no'},
+              checked: appeal.aboutYouSection.yourDetails.isOriginalApplicant === false
             }
           ],
           errorMessage: errors['are-you-the-original-appellant'] and {

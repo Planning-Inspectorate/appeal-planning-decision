@@ -15,6 +15,54 @@ function validateAppeal(appealId, appeal) {
         'Appeal has been entered by agent acting on behalf of applicant and must have an Appealing on Behalf Applicant Name'
       );
     }
+  // About You Section
+
+  // Your Details
+  // Only accepted states are name and email both empty or both valued
+  if (
+    (!appeal.aboutYouSection.yourDetails.name && appeal.aboutYouSection.yourDetails.email) ||
+    (appeal.aboutYouSection.yourDetails.name && !appeal.aboutYouSection.yourDetails.email)
+  ) {
+    let yourDetailsErrorMessage = 'The appeal appellant details must have email and name valued.';
+    yourDetailsErrorMessage += appeal.aboutYouSection.yourDetails.name
+      ? 'The email is missing.'
+      : 'The name is missing.';
+
+    errors.push(yourDetailsErrorMessage);
+  }
+
+  // Access Appeal Site
+  // if canInspectorSeeWholeSiteFromPublicRoad is true then howIsSiteAccessRestricted must be null or empty
+  if (
+    appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad === true &&
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted !== null &&
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted !== ''
+  ) {
+    errors.push(
+      'If appeal site is visible from the public road then site access restrictions is not required'
+    );
+  }
+
+  // if canInspectorSeeWholeSiteFromPublicRoad is false thenhowIsSiteAccessRestricted must not be null or empty
+  if (
+    appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad === false &&
+    (appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted === null ||
+      appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted === '')
+  ) {
+    errors.push(
+      'If appeal site is not visible from the public road then site access restrictions is required'
+    );
+  }
+
+  // if canInspectorSeeWholeSiteFromPublicRoad is empty then howIsSiteAccessRestricted must be null or empty
+  if (
+    appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad === null &&
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted !== null &&
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted !== ''
+  ) {
+    errors.push(
+      'If appeal site from public road is null then site access restrictions must be null or empty'
+    );
   }
 
   // Planning Application File Upload

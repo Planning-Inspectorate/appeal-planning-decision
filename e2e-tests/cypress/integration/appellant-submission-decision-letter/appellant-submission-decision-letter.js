@@ -1,45 +1,68 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 
-Given('user submits a decision letter file {string}', (filename) => {
-  cy.goToDecisionLetterPage();
-  cy.uploadDecisionLetterFile(filename);
-});
-
-Given('user does not submit a decision letter file', () => {
-  cy.goToDecisionLetterPage();
-});
-
 Given('user has previously submitted a decision letter file {string}', (filename) => {
   cy.goToDecisionLetterPage();
   cy.uploadDecisionLetterFile(filename);
   cy.saveAndContinue();
 });
 
-When('The application file {string} is submitted and user can proceed', (filename) => {
+Given(
+  'user has previously submitted a valid decision letter file {string} followed by an invalid file {string} that was rejected because {string}',
+  (validFile, invalidFile, reason) => {
+    cy.goToDecisionLetterPage();
+    cy.uploadDecisionLetterFile(validFile);
+    cy.saveAndContinue();
+    cy.goToDecisionLetterPage();
+    cy.uploadDecisionLetterFile(invalidFile);
+    cy.saveAndContinue();
+
+    switch (reason) {
+      case 'file type is invalid':
+        cy.confirmDecisionLetterRejectedBecause('Doc is the wrong file type');
+        break;
+      case 'file size exceeds limit':
+        cy.confirmDecisionLetterRejectedBecause('The file must be smaller than');
+        break;
+    }
+  },
+);
+
+When('user submits a decision letter file {string}', (filename) => {
+  cy.goToDecisionLetterPage();
+  cy.uploadDecisionLetterFile(filename);
   cy.saveAndContinue();
+});
+
+When('user does not submit a decision letter file', () => {
+  cy.goToDecisionLetterPage();
+  cy.saveAndContinue();
+});
+
+Then('The application file {string} is submitted and user can proceed', (filename) => {
   cy.confirmDecisionLetterAccepted(filename);
 });
 
 Then('user can see that no decision letter file is submitted', (reason) => {
-  cy.saveAndContinue();
-  cy.confirmDecisionLetterRejectedBecause('Upload the decision letter');
+  cy.confirmDecisionLetterIsNotUploaded();
 });
 
-Then('user can see that the decision letter file {string} is submitted', (filename) => {
-  cy.saveAndContinue();
-  cy.confirmDecisionLetterAccepted(filename);
-});
+Then(
+  'user can see that the decision letter file {string} {string} submitted',
+  (filename, submitted) => {
+    cy.goToDecisionLetterPage();
 
-Then('user can see that the decision letter file {string} is not submitted', (filename) => {
-  cy.saveAndContinue();
-  cy.confirmDecisionLetterAccepted(filename);
-});
+    if (submitted === 'is') {
+      cy.confirmDecisionLetterFileIsUploaded(filename);
+      cy.confirmThatNoErrorTriggered();
+    } else {
+      cy.confirmDecisionLetterIsNotUploaded();
+    }
+  },
+);
 
 Then(
   'user is informed that the decision letter file is not submitted because {string}',
   (reason) => {
-    cy.saveAndContinue();
-
     switch (reason) {
       case 'file type is invalid':
         cy.confirmDecisionLetterRejectedBecause('Doc is the wrong file type');

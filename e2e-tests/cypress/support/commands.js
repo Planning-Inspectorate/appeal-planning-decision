@@ -78,6 +78,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmThatNoErrorTriggered',
+  require('./appeal-statement-submission/confirmThatNoErrorTriggered'),
+);
+
+Cypress.Commands.add(
   'confirmAppealStatementFileIsNotUploaded',
   require('./appeal-statement-submission/confirmAppealStatementFileIsNotUploaded'),
 );
@@ -119,6 +124,91 @@ Cypress.Commands.add(
   require('./appeal-statement-submission/uploadAppealStatementFile'),
 );
 
+Cypress.Commands.add(
+  'confirmSiteAddressWasAccepted',
+  require('./appeal-submission-appeal-site-address/confirmSiteAddressWasAccepted'),
+);
+
+Cypress.Commands.add(
+  'confirmSiteAddressValue',
+  require('./appeal-submission-appeal-site-address/confirmSiteAddressValue'),
+);
+
+Cypress.Commands.add(
+  'confirmSiteAddressWasRejectedBecause',
+  require('./appeal-submission-appeal-site-address/confirmSiteAddressWasRejectedBecause'),
+);
+
+Cypress.Commands.add(
+  'goToSiteAddressPage',
+  require('./appeal-submission-appeal-site-address/goToSiteAddressPage'),
+);
+
+Cypress.Commands.add(
+  'provideAddressLine1',
+  require('./appeal-submission-appeal-site-address/provideAddressLine1'),
+);
+
+Cypress.Commands.add(
+  'provideAddressLine2',
+  require('./appeal-submission-appeal-site-address/provideAddressLine2'),
+);
+
+Cypress.Commands.add(
+  'confirmSiteAddressWasAccepted',
+  require('./appeal-submission-appeal-site-address/confirmSiteAddressWasAccepted'),
+);
+
+Cypress.Commands.add(
+  'provideCounty',
+  require('./appeal-submission-appeal-site-address/provideCounty'),
+);
+
+Cypress.Commands.add(
+  'providePostcode',
+  require('./appeal-submission-appeal-site-address/providePostcode'),
+);
+
+Cypress.Commands.add(
+  'provideTownOrCity',
+  require('./appeal-submission-appeal-site-address/provideTownOrCity'),
+);
+
+Cypress.Commands.add(
+  'goToAccessSitePage',
+  require('./appeal-submission-access-to-appeal-site/goToAccessSitePage'),
+);
+
+Cypress.Commands.add(
+  'answerCannotSeeTheWholeAppeal',
+  require('./appeal-submission-access-to-appeal-site/answerCannotSeeTheWholeAppeal'),
+);
+
+Cypress.Commands.add(
+  'answerCanSeeTheWholeAppeal',
+  require('./appeal-submission-access-to-appeal-site/answerCanSeeTheWholeAppeal'),
+);
+
+Cypress.Commands.add(
+  'confirmAccessSiteWasRejectedBecause',
+  require('./appeal-submission-access-to-appeal-site/confirmAccessSiteWasRejectedBecause'),
+);
+
+Cypress.Commands.add(
+  'confirmAccessSiteAnswered',
+  require('./appeal-submission-access-to-appeal-site/confirmAccessSiteAnswered'),
+);
+
+Cypress.Commands.add(
+  'confirmAccessSiteNotSubmitted',
+  require('./appeal-submission-access-to-appeal-site/confirmAccessSiteNotSubmitted'),
+);
+
+Cypress.Commands.add(
+  'provideMoreDetails',
+  require('./appeal-submission-access-to-appeal-site/provideMoreDetails'),
+);
+
 Cypress.Commands.add('goToTaskListPage', require('./appeal-submission-tasklist/goToTaskListPage'));
 
 Cypress.Commands.add(
@@ -151,6 +241,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmAnswered',
+  require('./appellant-submission-who-are-you/confirmAnswered'),
+);
+
+Cypress.Commands.add(
   'confirmOriginalAppellantAsked',
   require('./appellant-submission-who-are-you/confirmOriginalAppellantAsked'),
 );
@@ -158,6 +253,11 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmOriginalAppellantNotAsked',
   require('./appellant-submission-who-are-you/confirmOriginalAppellantNotAsked'),
+);
+
+Cypress.Commands.add(
+  'confirmWhoAreYouPageRejectedBecause',
+  require('./appellant-submission-who-are-you/confirmWhoAreYouPageRejectedBecause'),
 );
 
 Cypress.Commands.add(
@@ -178,6 +278,16 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'provideDetailsEmail',
   require('./appellant-submission-your-details/provideDetailsEmail'),
+);
+
+Cypress.Commands.add(
+  'confirmNameValue',
+  require('./appellant-submission-your-details/confirmNameValue'),
+);
+
+Cypress.Commands.add(
+  'confirmEmailValue',
+  require('./appellant-submission-your-details/confirmEmailValue'),
 );
 
 Cypress.Commands.add(
@@ -211,8 +321,23 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmApplicantNameValue',
+  require('./appellant-submission-applicant-name/confirmApplicantNameValue'),
+);
+
+Cypress.Commands.add(
   'confirmPlanningApplicationAccepted',
   require('./appellant-submission-upload-application/confirmPlanningApplicationAccepted'),
+);
+
+Cypress.Commands.add(
+  'confirmPlanningApplicationFileIsUploaded',
+  require('./appellant-submission-upload-application/confirmPlanningApplicationFileIsUploaded'),
+);
+
+Cypress.Commands.add(
+  'confirmPlanningApplicationIsNotUploaded',
+  require('./appellant-submission-upload-application/confirmPlanningApplicationIsNotUploaded'),
 );
 
 Cypress.Commands.add(
@@ -243,6 +368,16 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmDecisionLetterAccepted',
   require('./appellant-submission-decision-letter/confirmDecisionLetterAccepted'),
+);
+
+Cypress.Commands.add(
+  'confirmDecisionLetterFileIsUploaded',
+  require('./appellant-submission-decision-letter/confirmDecisionLetterFileIsUploaded'),
+);
+
+Cypress.Commands.add(
+  'confirmDecisionLetterIsNotUploaded',
+  require('./appellant-submission-decision-letter/confirmDecisionLetterIsNotUploaded'),
 );
 
 Cypress.Commands.add(
@@ -308,4 +443,14 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmPlanningApplicationNumberRejectedBecause',
   require('./appellant-submission-planning-application-number/confirmPlanningApplicationNumberRejectedBecause'),
+);
+
+Cypress.Commands.add(
+  'selectToProvidePlanningApplicationNumber',
+  require('./appeal-submission-tasklist/selectToProvidePlanningApplicationNumber'),
+);
+
+Cypress.Commands.add(
+  'confirmUserPresentedWithProvidePlanningApplicationNumber',
+  require('./appeal-submission-tasklist/confirmUserPresentedWithProvidePlanningApplicationNumber'),
 );

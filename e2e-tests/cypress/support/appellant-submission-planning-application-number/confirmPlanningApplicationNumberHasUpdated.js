@@ -1,6 +1,5 @@
-module.exports = () => {
-  //TODO validate this on the check-your-answers page once this is implemented
-  cy.url().should('include','/appellant-submission/upload-application');
-
+module.exports = (applicationNumber) => {
+  cy.visit('/appellant-submission/application-number');
+  cy.get('[data-cy="application-number"]').should('have.value', applicationNumber);
   cy.wait(Cypress.env('demoDelay'));
 };
