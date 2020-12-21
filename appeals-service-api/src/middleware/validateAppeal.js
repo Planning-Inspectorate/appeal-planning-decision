@@ -133,8 +133,22 @@ function validateAppeal(appealId, appeal) {
   }
 
   // Original appellant
-  if (appeal.aboutYouSection.yourDetails.isOriginalApplicant == null) {
-    errors.push('Identity of original appellant must be specified');
+  if (
+    appeal.aboutYouSection.yourDetails.isOriginalApplicant &&
+    appeal.aboutYouSection.yourDetails.appealingOnBehalfOf
+  ) {
+    errors.push(
+      'If applicant is original applicant then applicant must not be applying on behalf of someone else'
+    );
+  }
+
+  if (
+    !appeal.aboutYouSection.yourDetails.isOriginalApplicant &&
+    appeal.aboutYouSection.yourDetails.appealingOnBehalfOf === ''
+  ) {
+    errors.push(
+      'If applicant is not original applicant then applicant must be applying on behalf of someone else'
+    );
   }
 
   // End of Task List Validation

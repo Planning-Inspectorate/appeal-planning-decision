@@ -412,14 +412,31 @@ describe('Appeals API', () => {
     expect(response.statusCode).toBe(400);
   });
 
-  test('PUT /api/v1/appeals/{id} - It responds with an error - original appellant cannot be unspecified', async () => {
+  test('PUT /api/v1/appeals/{id} - It responds with an error - if applicant is original applicant then applicant must not be applying on behalf of someone else', async () => {
     const appeal = await createAppeal();
 
-    appeal.aboutYouSection.yourDetails.isOriginalApplicant = null;
+    appeal.aboutYouSection.yourDetails.isOriginalApplicant = true;
+    appeal.aboutYouSection.yourDetails.appealingOnBehalfOf = 'John Doe';
 
     const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
     expect(response.body.code).toEqual(400);
-    expect(response.body.errors).toContain('Identity of original appellant must be specified');
+    expect(response.body.errors).toContain(
+      'If applicant is original applicant then applicant must not be applying on behalf of someone else'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - if applicant is not original applicant then applicant must be applying on behalf of someone else', async () => {
+    const appeal = await createAppeal();
+
+    appeal.aboutYouSection.yourDetails.isOriginalApplicant = false;
+    appeal.aboutYouSection.yourDetails.appealingOnBehalfOf = '';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If applicant is not original applicant then applicant must be applying on behalf of someone else'
+    );
     expect(response.statusCode).toBe(400);
   });
 });
