@@ -97,9 +97,6 @@ function validateAppeal(appealId, appeal) {
       'The appeal statement uploaded file cannot be accepted unless it is confirmed to have no sensitive information'
     );
   }
-
-  // End of Task List Validation
-
   // Validate decision letter
   if (
     appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id !== null &&
@@ -117,6 +114,25 @@ function validateAppeal(appealId, appeal) {
       'The decision letter uploaded file must have an id for the file when it has a name'
     );
   }
+
+  // Health and Safety
+  if (
+    appeal.appealSiteSection.healthAndSafety.hasIssues &&
+    appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues === ''
+  ) {
+    errors.push('If the health and safety task has issues, they need to be valued');
+  }
+
+  if (
+    !appeal.appealSiteSection.healthAndSafety.hasIssues &&
+    appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues
+  ) {
+    errors.push(
+      'The appeal does not states that there is health and safety issues but the field is valued'
+    );
+  }
+
+  // End of Task List Validation
 
   if (appealId !== appeal.id) {
     errors.push('The provided id in path must be the same as the appeal id in the request body');
