@@ -1,5 +1,4 @@
 module.exports = () => {
-  // try to save and continue
-  cy.get('.govuk-button').click();
+  cy.get('#are-you-the-original-appellant-2').click();
   cy.wait(Cypress.env('demoDelay'));
 };

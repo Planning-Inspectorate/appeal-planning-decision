@@ -1,5 +1,4 @@
 module.exports = () => {
-  cy.get('#are-you-the-original-appellant-2').click();
-
+  cy.url().should('include', '/appellant-submission/task-list');
   cy.wait(Cypress.env('demoDelay'));
 };
