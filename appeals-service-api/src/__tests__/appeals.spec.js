@@ -425,4 +425,32 @@ describe('Appeals API', () => {
     );
     expect(response.statusCode).toBe(400);
   });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - Appellant name cannot be empty and must be specified', async () => {
+    const appeal = await createAppeal();
+
+    appeal.sectionStates.aboutYouSection.yourDetails = 'COMPLETED';
+    appeal.sectionStates.aboutYouSection.name = '';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If your details section is completed then appellant name cannot be null or empty and it must be specified'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - Appellant email address cannot be empty and must be specified', async () => {
+    const appeal = await createAppeal();
+
+    appeal.sectionStates.aboutYouSection.yourDetails = 'COMPLETED';
+    appeal.sectionStates.aboutYouSection.email = '';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If your details section is completed then appellant email address cannot be null or empty and it must be specified'
+    );
+    expect(response.statusCode).toBe(400);
+  });
 });
