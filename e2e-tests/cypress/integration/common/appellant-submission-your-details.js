@@ -1,19 +1,55 @@
-import {When, Then} from 'cypress-cucumber-preprocessor/steps';
+import {When, Then, Given} from 'cypress-cucumber-preprocessor/steps';
+
+When('the user provides the name {string}', (name) => {
+  cy.goToApplicantNamePage();
+  cy.provideApplicantName(name);
+  cy.clickSaveAndContinue();
+});
+
+When('the user does not provides the name', () => {
+  cy.goToApplicantNamePage();
+  cy.clickSaveAndContinue();
+});
+
+Then('the user can proceed', () => {
+  cy.confirmApplicantNameWasAccepted();
+});
+
+When('the user is informed that the name is missing', () => {
+  cy.confirmApplicantNameWasRejected('Enter the name you are appealing for');
+});
+
+Then('the user is informed that the provided name has a bad format', () => {
+  cy.confirmApplicantNameWasRejected(
+    'Name must only include letters a to z, hyphens, spaces and apostrophes',
+  );
+});
+
+Then(
+  'the user can see that their appeal has {string} updated with the provided name {string}',
+  (updated, name) => {
+    if (updated === 'been') {
+      cy.confirmApplicantNameValue(name);
+    } else {
+      cy.confirmApplicantNameValue('');
+    }
+  },
+);
 
 Given('the user has provided valid name and email after indicating that they are are applying on behalf of another applicant', () => {
   cy.goToWhoAreYouPage()
   cy.provideAreYouOriginalApplicant('are not');
-  cy.saveAndContinue();
+  cy.clickSaveAndContinue();
   cy.goToYourDetailsPage();
   cy.provideDetailsName('Valid Name');
   cy.provideDetailsEmail('valid@email.com');
-  cy.saveAndContinue();
+  cy.clickSaveAndContinue();
 })
 
 Given('the user has confirmed that they {string} the original applicant', (areOrAreNot) => {
   cy.goToWhoAreYouPage()
   cy.provideAreYouOriginalApplicant(areOrAreNot);
-  cy.saveAndContinue();
+  cy.clickSaveAndContinue();
 })
 
 And('the Your Details section is {string}', (status) => {
@@ -33,48 +69,50 @@ And('the user can see that their appeal {string} been updated to show that they 
 When('the user provides the name of the original applicant {string}', (originalApplicant) => {
   cy.goToApplicantNamePage();
   cy.provideNameOfOriginalApplicant(originalApplicant);
-  cy.saveAndContinue();
+  cy.clickSaveAndContinue();
 })
 
 Given('the user {string} previously provided their name or email', (hasOrHasNot) => {
+  cy.goToYourDetailsPage();
   if (hasOrHasNot === 'has') {
     cy.provideDetailsName('Valid Name');
     cy.provideDetailsEmail('valid@email.com');
-    cy.saveAndContinue();
+    cy.clickSaveAndContinue();
   }
   cy.goToYourDetailsPage();
 });
 
 When('the user provides their {string} and {string}', (name, email) => {
+  cy.goToYourDetailsPage();
   cy.provideDetailsName(name);
   cy.provideDetailsEmail(email);
-  cy.saveAndContinue();
+  cy.clickSaveAndContinue();
 });
 
 When('the user provides the name {string}', (name) => {
   cy.goToYourDetailsPage();
   cy.provideDetailsName(name);
   cy.provideDetailsEmail('good@email.com');
-  cy.saveAndContinue();
+  cy.clickSaveAndContinue();
 });
 
 When('the user provides the email {string}', (email) => {
   cy.goToYourDetailsPage();
   cy.provideDetailsName('Good Name');
   cy.provideDetailsEmail(email);
-  cy.saveAndContinue();
+  cy.clickSaveAndContinue();
 });
 
 When('the user provides only a name', () => {
   cy.goToYourDetailsPage();
   cy.provideDetailsName('Good Name');
-  cy.saveAndContinue();
+  cy.clickSaveAndContinue();
 });
 
 When('the user provides only an email', () => {
   cy.goToYourDetailsPage();
   cy.provideDetailsEmail('good@email.com');
-  cy.saveAndContinue();
+  cy.clickSaveAndContinue();
 });
 
 Then("the appeal's Your Details task is completed with {string} and {string}", (name, email) => {
@@ -172,4 +210,58 @@ Then('the user can see that their appeal has not been updated with new values', 
   cy.goToYourDetailsPage();
   cy.confirmNameValue('Valid Name');
   cy.confirmEmailValue('valid@email.com');
+});
+
+Given('the user {string} previously stated {string} the original appellant', (alreadySubmitted, originalAppellant) => {
+  cy.goToWhoAreYouPage();
+  if (alreadySubmitted === 'had') {
+    if (originalAppellant === 'being') {
+      cy.answerYesOriginalAppellant();
+    } else {
+      cy.answerNoOriginalAppellant();
+    }
+    cy.clickSaveAndContinue();
+    cy.confirmNavigationYourDetailsPage();
+  }
+  cy.goToWhoAreYouPage();
+
+});
+
+When('the user does not state being or not the original appellant', () => {
+  cy.clickSaveAndContinue();
+});
+
+
+When('the user states that they {string} the original appellant', (original) => {
+  if (original === 'are') {
+    cy.answerYesOriginalAppellant();
+  } else {
+    cy.answerNoOriginalAppellant();
+  }
+  cy.clickSaveAndContinue();
+});
+
+Then('the user will {string} asked who they are representing', (asked) => {
+  cy.provideDetailsName('Good Name');
+  cy.provideDetailsEmail('good@email.com');
+  cy.clickSaveAndContinue();
+
+  if (asked === 'be') {
+    cy.confirmOriginalAppellantAsked();
+  } else {
+    cy.confirmOriginalAppellantNotAsked();
+  }
+});
+
+Then('the user can see that their appeal has been updated with the {string} answer', (answer) => {
+  cy.goToWhoAreYouPage();
+  cy.confirmAnswered(answer);
+});
+
+Then('the user is informed that he must answer', (answer) => {
+  cy.confirmAnswered(answer);
+});
+
+Then('the user is told {string}', (message) => {
+  cy.confirmWhoAreYouPageRejectedBecause(message);
 });
