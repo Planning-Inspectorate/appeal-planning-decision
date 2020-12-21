@@ -407,12 +407,11 @@ describe('Appeals API', () => {
     const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
     expect(response.body.code).toEqual(400);
     expect(response.body.errors).toContain(
-
       'If appeal site from public road is null then site access restrictions must be null or empty'
     );
     expect(response.statusCode).toBe(400);
   });
-  
+
   test('PUT /api/v1/appeals/{id} - It responds with an error - Appeal has been entered by agent acting on behalf of applicant and must have an Appealing on Behalf Applicant Name', async () => {
     const appeal = await createAppeal();
 
