@@ -346,6 +346,32 @@ describe('Appeals API', () => {
     expect(response.statusCode).toBe(400);
   });
 
+  test('PUT /api/v1/appeals/{id} - It responds with an error - the health and safety has issues and they should be provided', async () => {
+    const appeal = await createAppeal();
+    appeal.appealSiteSection.healthAndSafety.hasIssues = true;
+    appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues = '';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If the health and safety task has issues, they need to be valued'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - the health and safety has no issues and they should not be provided', async () => {
+    const appeal = await createAppeal();
+    appeal.appealSiteSection.healthAndSafety.hasIssues = false;
+    appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues = 'Some issues';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'The appeal does not states that there is health and safety issues but the field is valued'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
   test('PUT /api/v1/appeals/{id} - It responds with an error - If appeal site is visible from the public road then site access restrictions is not required', async () => {
     const appeal = await createAppeal();
 
