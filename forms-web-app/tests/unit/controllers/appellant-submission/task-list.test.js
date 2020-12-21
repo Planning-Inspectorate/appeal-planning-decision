@@ -114,9 +114,9 @@ describe('controller/appellant-submission/task-list', () => {
               {
                 text: 'Ownership of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
-                status: 'CANNOT START YET',
+                status: 'NOT STARTED',
                 attributes: {
-                  'siteOwnership-status': 'CANNOT START YET',
+                  'siteOwnership-status': 'NOT STARTED',
                 },
               },
               {
@@ -171,6 +171,9 @@ describe('controller/appellant-submission/task-list', () => {
           siteAccess: {
             canInspectorSeeWholeSiteFromPublicRoad: true,
           },
+          siteOwnership: {
+            ownsWholeSite: false,
+          },
         },
         requiredDocumentsSection: {
           applicationNumber: '123',
@@ -205,7 +208,7 @@ describe('controller/appellant-submission/task-list', () => {
         applicationStatus: 'Application incomplete',
         sectionInfo: {
           nbTasks: 12,
-          nbCompleted: 6,
+          nbCompleted: 7,
           sections: {
             count: 5,
             completed: 1,
@@ -305,9 +308,9 @@ describe('controller/appellant-submission/task-list', () => {
               {
                 text: 'Ownership of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
-                status: 'CANNOT START YET',
+                status: 'COMPLETED',
                 attributes: {
-                  'siteOwnership-status': 'CANNOT START YET',
+                  'siteOwnership-status': 'COMPLETED',
                 },
               },
               {
@@ -359,6 +362,10 @@ describe('controller/appellant-submission/task-list', () => {
             county: 'PACA',
             postcode: '06300',
           },
+          siteOwnership: {
+            ownsWholeSite: false,
+            haveOtherOwnersBeenTold: true,
+          },
           siteAccess: {
             canInspectorSeeWholeSiteFromPublicRoad: true,
           },
@@ -399,10 +406,10 @@ describe('controller/appellant-submission/task-list', () => {
         applicationStatus: 'Application incomplete',
         sectionInfo: {
           nbTasks: 12,
-          nbCompleted: 8,
+          nbCompleted: 9,
           sections: {
             count: 5,
-            completed: 2,
+            completed: 3,
           },
         },
         sections: [
@@ -499,9 +506,9 @@ describe('controller/appellant-submission/task-list', () => {
               {
                 text: 'Ownership of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
-                status: 'CANNOT START YET',
+                status: 'COMPLETED',
                 attributes: {
-                  'siteOwnership-status': 'CANNOT START YET',
+                  'siteOwnership-status': 'COMPLETED',
                 },
               },
               {
