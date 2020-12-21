@@ -1,7 +1,68 @@
 {% extends "layouts/main.njk" %}
 
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% block pageTitle %}
+  Site ownership | Appeal a householder planning decision
+{% endblock %}
+
 {% block content %}
 
-  <p>Lorum ipsum</p>
+  <div class="govuk-grid-row">
 
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary
+        }) }}
+      {% endif %}
+
+      <form action="" method="post" novalidate>
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Visiting the appeal site</span>
+
+        {{ govukRadios({
+          classes: "",
+          idPrefix: "site-ownership",
+          name: "site-ownership",
+          fieldset: {
+            legend: {
+              text: "Do you own the whole appeal site?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: 'yes',
+              text: 'Yes',
+              attributes: { "data-cy":"answer-yes"},
+              checked: appeal.appealSiteSection.siteOwnership.ownsWholeSite
+            },
+            {
+              value: 'no',
+              text: 'No',
+              attributes: { 'data-cy':'answer-no'},
+              checked: appeal.appealSiteSection.siteOwnership.ownsWholeSite === false
+            }
+          ],
+          errorMessage: errors['site-ownership'] and {
+            text: errors['site-ownership'].msg
+          }
+        }) }}
+
+
+        {{ govukButton({
+          text: "Save and continue",
+          type: "submit"
+        }) }}
+      </form>
+    </div>
+
+  </div>
 {% endblock %}
+
+

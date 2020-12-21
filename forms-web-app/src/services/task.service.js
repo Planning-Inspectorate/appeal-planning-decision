@@ -1,11 +1,7 @@
 const { VIEW } = require('../lib/views');
 
-const TASK_STATUS = {
-  CANNOT_START_YET: 'CANNOT START YET',
-  NOT_STARTED: 'NOT STARTED',
-  IN_PROGRESS: 'IN PROGRESS',
-  COMPLETED: 'COMPLETED',
-};
+const TASK_STATUS = require('./task-status/task-statuses');
+const { statusSiteOwnership } = require('./task-status/status-site-ownership');
 
 function statusYourDetails(appeal) {
   const {
@@ -61,17 +57,11 @@ function statusAppealSiteAddress(appeal) {
   return addressLine1 && county && postcode ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
 }
 
-// eslint-disable-next-line no-unused-vars
 function statusHealthAndSafety(appeal) {
   return appeal.appealSiteSection.healthAndSafety &&
     appeal.appealSiteSection.healthAndSafety.hasIssues !== null
     ? TASK_STATUS.COMPLETED
     : TASK_STATUS.NOT_STARTED;
-}
-
-// eslint-disable-next-line no-unused-vars
-function statusSiteOwnership(appeal) {
-  return TASK_STATUS.CANNOT_START_YET;
 }
 
 function statusSiteAccess(appeal) {
@@ -174,7 +164,7 @@ const getTaskStatus = (appeal, sectionName, taskName, sections = SECTIONS) => {
 const getNextUncompletedTask = (appeal, currentTask, sections = SECTIONS) => {
   const { sectionName, taskName } = currentTask;
 
-  const section = appeal.sectionStates[sectionName];
+  const section = sections[sectionName];
 
   const tasksNames = Object.keys(section);
   const tasks = Object.entries(section);
