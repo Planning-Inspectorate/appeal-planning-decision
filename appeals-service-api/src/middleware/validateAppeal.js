@@ -135,7 +135,7 @@ function validateAppeal(appealId, appeal) {
   // Validation for On Behalf of Applicant
   // NOTE - Cross screen validation - so only check when the Your Details Section State is COMPLETED
   // if isOriginalApplicant is false or empty then appealingOnBehalfOf must not be null or empty
-  if (appeal.sectionStates.aboutYouSection.yourDetails === 'COMPLETED') 
+  if (appeal.sectionStates.aboutYouSection.yourDetails === 'COMPLETED')
   {
     if (
       appeal.aboutYouSection.yourDetails.isOriginalApplicant === false &&
