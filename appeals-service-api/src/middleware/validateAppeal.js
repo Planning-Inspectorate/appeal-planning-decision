@@ -132,6 +132,11 @@ function validateAppeal(appealId, appeal) {
     );
   }
 
+  // Original appellant
+  if (appeal.sectionStates.aboutYouSection.isOriginalApplicant == null) {
+    errors.push('Identity of original appellant must be specified');
+  }
+
   // End of Task List Validation
 
   if (appealId !== appeal.id) {
