@@ -346,6 +346,32 @@ describe('Appeals API', () => {
     expect(response.statusCode).toBe(400);
   });
 
+  test('PUT /api/v1/appeals/{id} - It responds with an error - the appellant owning the whole site but still told other owners should fail', async () => {
+    const appeal = await createAppeal();
+    appeal.appealSiteSection.siteOwnership.ownsWholeSite = true;
+    appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold = true;
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If the appellant owns the whole appeal site there can be no other owners'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - other owner told without knowing if there is any should fail', async () => {
+    const appeal = await createAppeal();
+    appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold = true;
+    appeal.appealSiteSection.siteOwnership.ownsWholeSite = null;
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'We should know if there is another owners before knowing if they were told'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
   test('PUT /api/v1/appeals/{id} - It responds with an error - the health and safety has issues and they should be provided', async () => {
     const appeal = await createAppeal();
     appeal.appealSiteSection.healthAndSafety.hasIssues = true;
