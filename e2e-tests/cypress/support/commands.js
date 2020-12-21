@@ -227,42 +227,37 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'goToWhoAreYouPage',
-  require('./appellant-submission-who-are-you/goToWhoAreYouPage'),
-);
-
-Cypress.Commands.add(
   'answerYesOriginalAppellant',
-  require('./appellant-submission-who-are-you/answerYes'),
+  require('./appellant-submission-your-details/provideAnswerYes'),
 );
 Cypress.Commands.add(
   'answerNoOriginalAppellant',
-  require('./appellant-submission-who-are-you/answerNo'),
+  require('./appellant-submission-your-details/provideAnswerNo'),
 );
 
 Cypress.Commands.add(
   'confirmAnswered',
-  require('./appellant-submission-who-are-you/confirmAnswered'),
+  require('./appellant-submission-your-details/confirmAnswered'),
 );
 
 Cypress.Commands.add(
   'confirmOriginalAppellantAsked',
-  require('./appellant-submission-who-are-you/confirmOriginalAppellantAsked'),
+  require('./appellant-submission-your-details/confirmOriginalAppellantAsked'),
 );
 
 Cypress.Commands.add(
   'confirmOriginalAppellantNotAsked',
-  require('./appellant-submission-who-are-you/confirmOriginalAppellantNotAsked'),
+  require('./appellant-submission-your-details/confirmOriginalAppellantNotAsked'),
 );
 
 Cypress.Commands.add(
   'confirmWhoAreYouPageRejectedBecause',
-  require('./appellant-submission-who-are-you/confirmWhoAreYouPageRejectedBecause'),
+  require('./appellant-submission-your-details/confirmWhoAreYouPageRejectedBecause'),
 );
 
 Cypress.Commands.add(
   'clickSaveAndContinue',
-  require('./appellant-submission-who-are-you/clickSaveAndContinue'),
+  require('./appellant-submission-your-details/clickSaveAndContinue'),
 );
 
 Cypress.Commands.add(
@@ -271,8 +266,18 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmNavigationYourDetailsPage',
+  require('./appellant-submission-your-details/confirmNavigationYourDetailsPage'),
+);
+
+Cypress.Commands.add(
   'goToWhoAreYouPage',
   require('./appellant-submission-your-details/goToWhoAreYouPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationWhoAreYouPage',
+  require('./appellant-submission-your-details/confirmNavigationWhoAreYouPage'),
 );
 
 Cypress.Commands.add(
@@ -281,8 +286,18 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmNavigationApplicantNamePage',
+  require('./appellant-submission-your-details/confirmNavigationApplicantNamePage'),
+);
+
+Cypress.Commands.add(
   'goToTaskListPage',
   require('./appellant-submission-your-details/goToTaskListPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationTaskListPage',
+  require('./appellant-submission-your-details/confirmNavigationTaskListPage'),
 );
 
 Cypress.Commands.add(
@@ -351,28 +366,23 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'goToApplicantNamePage',
-  require('./appellant-submission-applicant-name/goToApplicantNamePage'),
-);
-
-Cypress.Commands.add(
   'confirmApplicantNameWasAccepted',
-  require('./appellant-submission-applicant-name/confirmApplicantNameWasAccepted'),
+  require('./appellant-submission-your-details/confirmApplicantNameWasAccepted'),
 );
 
 Cypress.Commands.add(
   'confirmApplicantNameWasRejected',
-  require('./appellant-submission-applicant-name/confirmApplicantNameWasRejected'),
+  require('./appellant-submission-your-details/confirmApplicantNameWasRejected'),
 );
 
 Cypress.Commands.add(
   'provideApplicantName',
-  require('./appellant-submission-applicant-name/provideApplicantName'),
+  require('./appellant-submission-your-details/provideApplicantName'),
 );
 
 Cypress.Commands.add(
   'confirmApplicantNameValue',
-  require('./appellant-submission-applicant-name/confirmApplicantNameValue'),
+  require('./appellant-submission-your-details/confirmApplicantNameValue'),
 );
 
 Cypress.Commands.add(

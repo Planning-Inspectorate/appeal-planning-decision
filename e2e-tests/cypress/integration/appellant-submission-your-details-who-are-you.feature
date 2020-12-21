@@ -2,7 +2,6 @@
 Feature: A user is asked if they are the original appellant
   If the user is not the original appellant, his name should be asked
 
-
   Scenario: The user never answered and try proceed without answering
     Given the user "had not" previously stated "being or not" the original appellant
     When the user does not state being or not the original appellant
