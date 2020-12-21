@@ -415,7 +415,7 @@ describe('Appeals API', () => {
   test('PUT /api/v1/appeals/{id} - It responds with an error - original appellant cannot be unspecified', async () => {
     const appeal = await createAppeal();
 
-    appeal.sectionStates.aboutYouSection.isOriginalApplicant = null;
+    appeal.aboutYouSection.yourDetails.isOriginalApplicant = null;
 
     const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
     expect(response.body.code).toEqual(400);

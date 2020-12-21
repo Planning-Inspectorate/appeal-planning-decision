@@ -133,7 +133,7 @@ function validateAppeal(appealId, appeal) {
   }
 
   // Original appellant
-  if (appeal.sectionStates.aboutYouSection.isOriginalApplicant == null) {
+  if (appeal.aboutYouSection.yourDetails.isOriginalApplicant == null) {
     errors.push('Identity of original appellant must be specified');
   }
 
