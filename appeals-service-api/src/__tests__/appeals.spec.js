@@ -414,8 +414,8 @@ describe('Appeals API', () => {
 
   test('PUT /api/v1/appeals/{id} - It responds with an error - Appeal has been entered by agent acting on behalf of applicant and must have an Appealing on Behalf Applicant Name', async () => {
     const appeal = await createAppeal();
-    
-    appeal.sectionStates.aboutYouSection.yourDetails = "COMPLETED";
+
+    appeal.sectionStates.aboutYouSection.yourDetails = 'COMPLETED';
     appeal.aboutYouSection.yourDetails.isOriginalApplicant = false;
 
     const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
@@ -425,5 +425,4 @@ describe('Appeals API', () => {
     );
     expect(response.statusCode).toBe(400);
   });
-
 });
