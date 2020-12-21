@@ -6,13 +6,13 @@ const { VIEW } = require('../../lib/views');
 const sectionName = 'appealSiteSection';
 const taskName = 'siteOwnership';
 
-exports.getSiteOwnership = (req, res) => {
-  res.render(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP, {
+exports.getSiteOwnershipCertB = (req, res) => {
+  res.render(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB, {
     appeal: req.session.appeal,
   });
 };
 
-exports.postSiteOwnership = async (req, res) => {
+exports.postSiteOwnershipCertB = async (req, res) => {
   const { body } = req;
 
   const { errors = {}, errorSummary = [] } = body;
@@ -20,13 +20,10 @@ exports.postSiteOwnership = async (req, res) => {
   const { appeal } = req.session;
   const task = appeal[sectionName][taskName];
 
-  const ownsWholeSite = req.body['site-ownership'] === 'yes';
-  task.ownsWholeSite = ownsWholeSite;
-  // if ownsWholeSite is true then haveOtherOwnersBeenTold needs to be null
-  task.haveOtherOwnersBeenTold = ownsWholeSite ? null : task.haveOtherOwnersBeenTold;
+  task.haveOtherOwnersBeenTold = req.body['have-other-owners-been-told'] === 'yes';
 
   if (Object.keys(errors).length > 0) {
-    res.render(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP, {
+    res.render(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB, {
       appeal,
       errors,
       errorSummary,
@@ -40,16 +37,11 @@ exports.postSiteOwnership = async (req, res) => {
   } catch (e) {
     logger.error(e);
 
-    res.render(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP, {
+    res.render(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB, {
       appeal,
       errors,
       errorSummary: [{ text: e.toString(), href: '#' }],
     });
-    return;
-  }
-
-  if (!task.ownsWholeSite) {
-    res.redirect(`/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB}`);
     return;
   }
 

@@ -26,6 +26,7 @@ describe('lib/views', () => {
         APPLICATION_NUMBER: 'appellant-submission/application-number',
         SITE_LOCATION: 'appellant-submission/site-location',
         SITE_OWNERSHIP: 'appellant-submission/site-ownership',
+        SITE_OWNERSHIP_CERTB: 'appellant-submission/site-ownership-certb',
         SUPPORTING_DOCUMENTS: 'appellant-submission/supporting-documents',
         SITE_ACCESS: 'appellant-submission/site-access',
         SITE_ACCESS_SAFETY: 'appellant-submission/site-access-safety',
