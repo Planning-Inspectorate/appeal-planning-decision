@@ -74,7 +74,7 @@
                 {
                   value: "yes",
                   text: "Yes",
-                  checked: appeal['site-access-safety'] === "yes",
+                  checked: appeal.appealSiteSection.healthAndSafety.hasIssues == true
                   conditional: {
                     html: tellUsAboutAnyHealthAndSafetyConcerns
                   }
@@ -82,7 +82,7 @@
                 {
                   value: "no",
                   text: "No",
-                  checked: appeal['site-access-safety'] === "no"
+                  checked: appeal.appealSiteSection.healthAndSafety.hasIssues == false
                 }
               ]
             }) }}

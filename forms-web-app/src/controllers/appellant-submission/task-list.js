@@ -1,5 +1,4 @@
-const { getTaskStatus } = require('../../services/task.service');
-const { SECTIONS } = require('../../services/task.service');
+const { getTaskStatus, SECTIONS } = require('../../services/task.service');
 const { VIEW } = require('../../lib/views');
 const countTasks = require('../../lib/count-task');
 

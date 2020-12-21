@@ -28,7 +28,7 @@ function statusYourDetails(appeal) {
 
 function statusAppealStatement(appeal) {
   const task = appeal.yourAppealSection.appealStatement;
-  return task.hasSensitiveInformation === false ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
+  return task.uploadedFile.id ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -43,12 +43,12 @@ function statusOtherAppeals(appeal) {
 
 function statusOriginalApplication(appeal) {
   const task = appeal.requiredDocumentsSection.originalApplication;
-  return task.uploadedFile.name ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
+  return task.uploadedFile.id ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
 }
 
 function statusDecisionLetter(appeal) {
   const task = appeal.requiredDocumentsSection.decisionLetter;
-  return task.uploadedFile.name ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
+  return task.uploadedFile.id ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
 }
 
 function statusApplicationNumber(appeal) {
@@ -62,8 +62,11 @@ function statusAppealSiteAddress(appeal) {
 }
 
 // eslint-disable-next-line no-unused-vars
-function healthAndSafety(appeal) {
-  return TASK_STATUS.CANNOT_START_YET;
+function statusHealthAndSafety(appeal) {
+  return appeal.appealSiteSection.healthAndSafety &&
+    appeal.appealSiteSection.healthAndSafety.hasIssues !== null
+    ? TASK_STATUS.COMPLETED
+    : TASK_STATUS.NOT_STARTED;
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -91,6 +94,7 @@ function statusCheckYourAnswer(appeal) {
     statusAppealStatement,
     statusAppealSiteAddress,
     statusSiteAccess,
+    statusHealthAndSafety,
   ];
 
   for (let i = 0; i < tasksRules.length; i += 1) {
@@ -142,14 +146,14 @@ const SECTIONS = {
       href: `/${VIEW.APPELLANT_SUBMISSION.SITE_LOCATION}`,
       rule: statusAppealSiteAddress,
     },
-    siteAccess: { href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`, rule: statusSiteAccess },
     siteOwnership: {
       href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
       rule: statusSiteOwnership,
     },
+    siteAccess: { href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`, rule: statusSiteAccess },
     healthAndSafety: {
       href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
-      rule: healthAndSafety,
+      rule: statusHealthAndSafety,
     },
   },
   submitYourAppealSection: {

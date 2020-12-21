@@ -211,6 +211,34 @@ describe('Appeals API', () => {
     expect(response.statusCode).toBe(400);
   });
 
+  test('PUT /api/v1/appeals/{id} - It responds with an error - Appeal appellant name must be valued if email is.', async () => {
+    const appeal = await createAppeal();
+
+    appeal.aboutYouSection.yourDetails.email = 'jim@john.com';
+    appeal.aboutYouSection.yourDetails.name = '';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'The appeal appellant details must have email and name valued.The name is missing.'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - Appeal appellant email must be valued if name is.', async () => {
+    const appeal = await createAppeal();
+
+    appeal.aboutYouSection.yourDetails.email = '';
+    appeal.aboutYouSection.yourDetails.name = 'Jim John';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'The appeal appellant details must have email and name valued.The email is missing.'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
   test('PUT /api/v1/appeals/{id} - It responds with an error - appeal statement upload file cannot have name without id', async () => {
     const appeal = await createAppeal();
     appeal.yourAppealSection.appealStatement.uploadedFile.name =
@@ -318,6 +346,73 @@ describe('Appeals API', () => {
     expect(response.statusCode).toBe(400);
   });
 
+  test('PUT /api/v1/appeals/{id} - It responds with an error - the health and safety has issues and they should be provided', async () => {
+    const appeal = await createAppeal();
+    appeal.appealSiteSection.healthAndSafety.hasIssues = true;
+    appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues = '';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If the health and safety task has issues, they need to be valued'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - the health and safety has no issues and they should not be provided', async () => {
+    const appeal = await createAppeal();
+    appeal.appealSiteSection.healthAndSafety.hasIssues = false;
+    appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues = 'Some issues';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'The appeal does not states that there is health and safety issues but the field is valued'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - If appeal site is visible from the public road then site access restrictions is not required', async () => {
+    const appeal = await createAppeal();
+
+    appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad = true;
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted = 'Big gaping hole';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If appeal site is visible from the public road then site access restrictions is not required'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - If appeal site is not visible from the public road then site access restrictions is required', async () => {
+    const appeal = await createAppeal();
+
+    appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad = false;
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If appeal site is not visible from the public road then site access restrictions is required'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - If appeal site from public road is null then site access restrictions must be null or empty', async () => {
+    const appeal = await createAppeal();
+
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted = 'Big gaping hole';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+
+      'If appeal site from public road is null then site access restrictions must be null or empty'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+  
   test('PUT /api/v1/appeals/{id} - It responds with an error - Appeal has been entered by agent acting on behalf of applicant and must have an Appealing on Behalf Applicant Name', async () => {
     const appeal = await createAppeal();
 

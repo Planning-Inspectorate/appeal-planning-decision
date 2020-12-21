@@ -2,6 +2,57 @@ function validateAppeal(appealId, appeal) {
   const errors = [];
 
   // Start of Task List Validation
+
+  // About You Section
+
+  // Your Details
+  // Only accepted states are name and email both empty or both valued
+  if (
+    (!appeal.aboutYouSection.yourDetails.name && appeal.aboutYouSection.yourDetails.email) ||
+    (appeal.aboutYouSection.yourDetails.name && !appeal.aboutYouSection.yourDetails.email)
+  ) {
+    let yourDetailsErrorMessage = 'The appeal appellant details must have email and name valued.';
+    yourDetailsErrorMessage += appeal.aboutYouSection.yourDetails.name
+      ? 'The email is missing.'
+      : 'The name is missing.';
+
+    errors.push(yourDetailsErrorMessage);
+  }
+
+  // Access Appeal Site
+  // if canInspectorSeeWholeSiteFromPublicRoad is true then howIsSiteAccessRestricted must be null or empty
+  if (
+    appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad === true &&
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted !== null &&
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted !== ''
+  ) {
+    errors.push(
+      'If appeal site is visible from the public road then site access restrictions is not required'
+    );
+  }
+
+  // if canInspectorSeeWholeSiteFromPublicRoad is false thenhowIsSiteAccessRestricted must not be null or empty
+  if (
+    appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad === false &&
+    (appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted === null ||
+      appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted === '')
+  ) {
+    errors.push(
+      'If appeal site is not visible from the public road then site access restrictions is required'
+    );
+  }
+
+  // if canInspectorSeeWholeSiteFromPublicRoad is empty then howIsSiteAccessRestricted must be null or empty
+  if (
+    appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad === null &&
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted !== null &&
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted !== ''
+  ) {
+    errors.push(
+      'If appeal site from public road is null then site access restrictions must be null or empty'
+    );
+  }
+
   // Planning Application File Upload
   if (
     appeal.requiredDocumentsSection.originalApplication.uploadedFile.id !== null &&
@@ -46,9 +97,6 @@ function validateAppeal(appealId, appeal) {
       'The appeal statement uploaded file cannot be accepted unless it is confirmed to have no sensitive information'
     );
   }
-
-  // End of Task List Validation
-
   // Validate decision letter
   if (
     appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id !== null &&
@@ -81,6 +129,25 @@ function validateAppeal(appealId, appeal) {
       );
     }
   }
+
+  // Health and Safety
+  if (
+    appeal.appealSiteSection.healthAndSafety.hasIssues &&
+    appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues === ''
+  ) {
+    errors.push('If the health and safety task has issues, they need to be valued');
+  }
+
+  if (
+    !appeal.appealSiteSection.healthAndSafety.hasIssues &&
+    appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues
+  ) {
+    errors.push(
+      'The appeal does not states that there is health and safety issues but the field is valued'
+    );
+  }
+
+  // End of Task List Validation
 
   if (appealId !== appeal.id) {
     errors.push('The provided id in path must be the same as the appeal id in the request body');

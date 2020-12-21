@@ -108,7 +108,7 @@ describe('validators/appellant-submission/site-location', () => {
         expect(rule.fields).toEqual(['site-postcode']);
         expect(rule.locations).toEqual(['body']);
         expect(rule.optional).toBeFalsy();
-        expect(rule.stack).toHaveLength(5);
+        expect(rule.stack).toHaveLength(7);
 
         expect(rule.stack[0].sanitizer.name).toEqual('escape');
 
@@ -366,6 +366,38 @@ describe('validators/appellant-submission/site-location', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].msg).toEqual('Postcode must be 8 characters or fewer');
+        },
+      },
+      {
+        title: 'invalid - site-postcode should begin with a letter',
+        given: () => ({
+          body: {
+            'site-address-line-one': '1 Taylor Road',
+            'site-address-line-two': 'Clifton',
+            'site-town-city': 'Bristol',
+            'site-county': 'South Glos',
+            'site-postcode': '111aaa',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(1);
+          expect(result.errors[0].msg).toEqual('Enter a valid postcode');
+        },
+      },
+      {
+        title: "invalid - site-postcode can't be only letters",
+        given: () => ({
+          body: {
+            'site-address-line-one': '1 Taylor Road',
+            'site-address-line-two': 'Clifton',
+            'site-town-city': 'Bristol',
+            'site-county': 'South Glos',
+            'site-postcode': 'aaaaaaa',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(1);
+          expect(result.errors[0].msg).toEqual('Enter a valid postcode');
         },
       },
     ].forEach(({ title, given, expected }) => {

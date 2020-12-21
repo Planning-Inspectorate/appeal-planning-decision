@@ -1,17 +1,14 @@
 import { When, Then } from 'cypress-cucumber-preprocessor/steps';
 
-When('the user provides the name', () => {
+When('the user provides the name {string}', (name) => {
   cy.goToApplicantNamePage();
-  cy.provideApplicantName('Good Name');
-});
-
-When('the user provides the name with a bad format', () => {
-  cy.goToApplicantNamePage();
-  cy.provideApplicantName('B@d Name');
+  cy.provideApplicantName(name);
+  cy.clickSaveAndContinue();
 });
 
 When('the user does not provides the name', () => {
   cy.goToApplicantNamePage();
+  cy.clickSaveAndContinue();
 });
 
 Then('the user can proceed', () => {
@@ -19,7 +16,7 @@ Then('the user can proceed', () => {
 });
 
 When('the user is informed that the name is missing', () => {
-  cy.confirmApplicantNameWasRejected('Enter the name your appealing for');
+  cy.confirmApplicantNameWasRejected('Enter the name you are appealing for');
 });
 
 Then('the user is informed that the provided name has a bad format', () => {
@@ -27,3 +24,14 @@ Then('the user is informed that the provided name has a bad format', () => {
     'Name must only include letters a to z, hyphens, spaces and apostrophes',
   );
 });
+
+Then(
+  'the user can see that their appeal has {string} updated with the provided name {string}',
+  (updated, name) => {
+    if (updated === 'been') {
+      cy.confirmApplicantNameValue(name);
+    } else {
+      cy.confirmApplicantNameValue('');
+    }
+  },
+);
