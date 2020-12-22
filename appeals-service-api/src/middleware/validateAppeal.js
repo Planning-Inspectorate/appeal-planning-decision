@@ -19,6 +19,28 @@ function validateAppeal(appealId, appeal) {
     errors.push(yourDetailsErrorMessage);
   }
 
+  // Appeal Site Section
+
+  // Site Address
+  // All mandatory fields are valued or none of them are the only accepted states.
+  if (
+    (appeal.appealSiteSection.siteAddress.addressLine1 ||
+      appeal.appealSiteSection.siteAddress.county ||
+      appeal.appealSiteSection.siteAddress.postcode) &&
+    !(
+      appeal.appealSiteSection.siteAddress.postcode &&
+      appeal.appealSiteSection.siteAddress.county &&
+      appeal.appealSiteSection.siteAddress.addressLine1
+    )
+  ) {
+    const siteAddressErrorMessage = `The appeal appellant site address must have addressLine1, county and postcode valued.
+    addressLine1=${appeal.appealSiteSection.siteAddress.addressLine1}
+    county=${appeal.appealSiteSection.siteAddress.county}
+    postcode=${appeal.appealSiteSection.siteAddress.postcode}`;
+
+    errors.push(siteAddressErrorMessage);
+  }
+
   // Access Appeal Site
   // if canInspectorSeeWholeSiteFromPublicRoad is true then howIsSiteAccessRestricted must be null or empty
   if (
