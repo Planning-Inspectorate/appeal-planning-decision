@@ -241,6 +241,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmAreYouOriginalApplicant',
+  require('./appellant-submission-your-details/confirmAreYouOriginalApplicant'),
+);
+
+Cypress.Commands.add(
   'confirmOriginalAppellantAsked',
   require('./appellant-submission-your-details/confirmOriginalAppellantAsked'),
 );
@@ -251,8 +256,8 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'confirmWhoAreYouPageRejectedBecause',
-  require('./appellant-submission-your-details/confirmWhoAreYouPageRejectedBecause'),
+  'confirmWhoAreYouRejectedBecause',
+  require('./appellant-submission-your-details/confirmWhoAreYouRejectedBecause'),
 );
 
 Cypress.Commands.add(
