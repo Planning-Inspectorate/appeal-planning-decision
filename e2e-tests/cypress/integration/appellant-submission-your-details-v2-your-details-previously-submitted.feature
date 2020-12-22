@@ -1,11 +1,11 @@
 @smoketest
-Feature: Prospective appellant provides their name and email for the first time
+Feature: Name and email provided after being previously provided
 
-  Scenario Outline: Not previously submitted Your Details - Valid name and email provided
-    Given the user "has not" previously provided their name or email
-    When the user provides their <name> and <email>
-    Then the user can see that their appeal has been updated with <name> and <email>
-
+  Scenario Outline: Valid name and email - original applicant
+    Given name and email are requested where appellant is the original applicant
+    When <name> and <email> are submitted
+    Then appeal tasks are presented
+    And appeal is updated with <name> and <email>
     Examples:
       | name                                                                               | email               |
       | "Good"                                                                             | "abc@mail.com"      |
@@ -14,12 +14,19 @@ Feature: Prospective appellant provides their name and email for the first time
       | "Also' Good"                                                                       | "abc.def2@mail.com" |
       | "Valid name because it is eighty characters long ----- abcdefghijklmnopqrstuvwxyz" | "abc.def2@mail.com" |
 
-  Scenario Outline: Not previously submitted Your Details - Invalid name and valid email provided
-    Given the user "has not" previously provided their name or email
-    When the user provides their <name> and <email>
-    Then the user is informed that the provided value <name> is invalid because <reason>
-    And the user can see that their appeal has not been updated
+  Scenario: Valid name and email - not original applicant
+    Given name and email are requested again where appellant is not the original applicant
+    And confirmation provided that appellant is not original applicant
+    When new valid name and email are submitted
+    Then applicant name is presented
+    And appeal is updated with new valid name and email
 
+  Scenario Outline: Invalid name and valid email
+    Given name and email are requested again
+    When <name> and <email> are submitted
+    Then name <name> is invalid because <reason>
+    And name and email are presented
+    And appeal is not updated again
     Examples:
       | name                                                                                | email             | reason                            |
       | ""                                                                                  | "valid@email.com" | "name missing"                    |
@@ -27,12 +34,12 @@ Feature: Prospective appellant provides their name and email for the first time
       | "Invalid name because it is eighty-one characters long  abcdefghijklmnopqrstuvwxyz" | "valid@email.com" | "name outside size constraints"   |
       | "Invalid name with prohibited characters *3(/+"                                     | "valid@email.com" | "name with prohibited characters" |
 
-  Scenario Outline: Not previously submitted Your Details - Valid name and invalid email provided
-    Given the user "has not" previously provided their name or email
-    When the user provides their <name> and <email>
-    Then the user is informed that the provided value <email> is invalid because <reason>
-    And the user can see that their appeal has not been updated
-
+  Scenario Outline: Valid name and invalid email
+    Given name and email are requested again
+    When <name> and <email> are submitted
+    Then email <email> is invalid because <reason>
+    And name and email are presented
+    And appeal is not updated again
     Examples:
       | name         | email                      | reason          |
       | "Valid Name" | ""                         | "email missing" |
@@ -47,15 +54,15 @@ Feature: Prospective appellant provides their name and email for the first time
       | "Valid Name" | "abc#def@mail"             | "email invalid" |
       | "Valid Name" | "abc#def@mail..com"        | "email invalid" |
 
-  Scenario Outline: Not previously submitted Your Details - Invalid name and invalid email provided
-    Given the user "has not" previously provided their name or email
-    When the user provides their <name> and <email>
-    And the user is informed that the provided value <name> is invalid because <name-reason>
-    And the user is informed that the provided value <email> is invalid because <email-reason>
-    And the user can see that their appeal has not been updated
+  Scenario Outline: Invalid name and invalid email
+    Given name and email are requested again
+    When <name> and <email> are submitted
+    Then name <name> is invalid because <name-reason>
+    And email <email> is invalid because <email-reason>
+    And name and email are presented
+    And appeal is not updated again
     Examples:
       | name                                            | email           | name-reason                       | email-reason    |
       | ""                                              | ""              | "name missing"                    | "email missing" |
       | "A"                                             | "invalid email" | "name outside size constraints"   | "email invalid" |
       | "Invalid name with prohibited characters *3(/+" | ""              | "name with prohibited characters" | "email missing" |
-
