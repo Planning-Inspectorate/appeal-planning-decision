@@ -346,6 +346,39 @@ describe('Appeals API', () => {
     expect(response.statusCode).toBe(400);
   });
 
+  [
+    {
+      addressLine1: '',
+      county: 'county',
+      postcode: 'postcode',
+    },
+    {
+      addressLine1: 'addressLine1',
+      county: '',
+      postcode: 'postcode',
+    },
+    {
+      addressLine1: 'addressLine1',
+      county: 'county',
+      postcode: '',
+    },
+  ].forEach((siteAddress) => {
+    test('PUT /api/v1/appeals/{id} - It responds with an error - the site address should see all its mandatory fields valued or none of them, other it should fail', async () => {
+      const appeal = await createAppeal();
+      appeal.appealSiteSection.siteAddress = siteAddress;
+
+      const siteAddressErrorMessage = `The appeal appellant site address must have addressLine1, county and postcode valued.
+    addressLine1=${appeal.appealSiteSection.siteAddress.addressLine1}
+    county=${appeal.appealSiteSection.siteAddress.county}
+    postcode=${appeal.appealSiteSection.siteAddress.postcode}`;
+
+      const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+      expect(response.body.code).toEqual(400);
+      expect(response.body.errors).toContain(siteAddressErrorMessage);
+      expect(response.statusCode).toBe(400);
+    });
+  });
+
   test('PUT /api/v1/appeals/{id} - It responds with an error - the appellant owning the whole site but still told other owners should fail', async () => {
     const appeal = await createAppeal();
     appeal.appealSiteSection.siteOwnership.ownsWholeSite = true;
