@@ -209,6 +209,61 @@ Cypress.Commands.add(
   require('./appeal-submission-access-to-appeal-site/provideMoreDetails'),
 );
 
+Cypress.Commands.add(
+  'answerDidNotToldOtherOwnersAppeal',
+  require('./appeal-submission-appeal-site-ownership/answerDidNotToldOtherOwnersAppeal'),
+);
+
+Cypress.Commands.add(
+  'answerDidToldOtherOwnersAppeal',
+  require('./appeal-submission-appeal-site-ownership/answerDidToldOtherOwnersAppeal'),
+);
+
+Cypress.Commands.add(
+  'answerDoesNotOwnTheWholeAppeal',
+  require('./appeal-submission-appeal-site-ownership/answerDoesNotOwnTheWholeAppeal'),
+);
+
+Cypress.Commands.add(
+  'answerOwnsTheWholeAppeal',
+  require('./appeal-submission-appeal-site-ownership/answerOwnsTheWholeAppeal'),
+);
+
+Cypress.Commands.add(
+  'confirmSiteOwnershipRejectedBecause',
+  require('./appeal-submission-appeal-site-ownership/confirmSiteOwnershipRejectedBecause'),
+);
+
+Cypress.Commands.add(
+  'confirmOtherOwnersAsked',
+  require('./appeal-submission-appeal-site-ownership/confirmOtherOwnersAsked'),
+);
+
+Cypress.Commands.add(
+  'confirmOtherSiteOwnerToldAnswered',
+  require('./appeal-submission-appeal-site-ownership/confirmOtherSiteOwnerToldAnswered'),
+);
+
+Cypress.Commands.add(
+  'confirmSiteOwnershipAccepted',
+  require('./appeal-submission-appeal-site-ownership/confirmSiteOwnershipAccepted'),
+);
+
+Cypress.Commands.add(
+  'confirmWholeSiteOwnerAnswered',
+  require('./appeal-submission-appeal-site-ownership/confirmWholeSiteOwnerAnswered'),
+);
+
+Cypress.Commands.add(
+  'goToOtherSiteOwnerToldPage',
+  require('./appeal-submission-appeal-site-ownership/goToOtherSiteOwnerToldPage'),
+);
+
+Cypress.Commands.add(
+  'goToWholeSiteOwnerPage',
+  require('./appeal-submission-appeal-site-ownership/goToWholeSiteOwnerPage'),
+);
+
 Cypress.Commands.add('goToTaskListPage', require('./appeal-submission-tasklist/goToTaskListPage'));
 
 Cypress.Commands.add(

@@ -1,42 +1,49 @@
-@wip
 Feature: Prospective Appellant provides the Appeal Site Ownership
-  Prospective appellant asked if owner of the whole site and if not asked if other owners have been told about the appeal.
-  
-  Scenario: The user never submitted site ownership and try proceed without answering
-    Given the user "had not" previously stated "being or not" the whole site owner
-    When the user does not state being or not the whole site owner
-    Then the user is told "Select yes if you own the whole appeal site"
+  Prospective appellant asked to notify the owners of the appeal site where necessary
 
-  Scenario: The user is the owner of whole site and never submitted site ownership
-    Given the user "had not" previously stated "being or not" the whole site owner
-    When the user states "being" the whole site owner
-    Then the user "is" asked if other owners have been told
-    And the user can see that their appeal has been updated with "yes" answer
+  Scenario: No confirmation of ownership of the whole site provided
+    Given the site ownership is presented for the first time
+    When no confirmation is provided that the whole site is owned
+    Then confirmation of whole site ownership is requested
 
-  Scenario: The user is not the owner of whole site and never submitted site ownership
-    Given the user "had not" previously stated "being or not" the whole site owner
-    When the user states "not being" the whole site owner
-    Then the user "is not" asked if other owners have been told
-    Then the user can see that the "site ownership" has been updated with "no" answer
+  Scenario: Confirmation that the whole site is owned
+    Given the site ownership is presented for the first time
+    When it is confirmed that the whole site is owned
+    Then a request to confirm access to the site is presented
+    And the site is updated to be wholly owned on the appeal
 
-  Scenario: The user is not the owner and user don't answer if other owners are told
-    Given the user "had" previously stated "being" the whole site owner
-    When the user does not state if other owners have been told
-    Then the user is told "Select yes if you have told the other owners"
+  Scenario: Confirmation that the whole site is not owned
+    Given the site ownership is presented for the first time
+    When it is confirmed that the whole site is not owned
+    Then a request to notify additional owners is presented
+    And the site is updated to not be wholly owned on the appeal
 
-  Scenario: The user is not the owner and other owners are told
-    Given the user "had" previously stated "being" the whole site owner
-    When the user states that other owners have "been" told
-    Then the user can see that the "other owner told" has been updated with "yes" answer
+  Scenario: No confirmation of additional site owners notification
+    Given confirmation of additional site owners notification is requested
+    When no confirmation of notification of additional site owners is provided
+    Then confirmation of notification of additional site owners is requested
 
-  Scenario: The user is not the owner and other owners are not told
-    Given the user "had" previously stated "being" the whole site owner
-    When the user states that other owners have "been" told
-    Then the user can see that the "other owner told" has been updated with "yes" answer
+  Scenario: Confirmation that additional site owners have been notified
+    Given confirmation of additional site owners notification is requested
+    When it is confirmed that additional site owners have been notified
+    Then a request to confirm access to the site is presented
+    And the site is updated so that other owners been notified on the appeal
 
-  Scenario: The user is not the owner of whole site and already submitted site ownership
-    Given the user "had" previously stated "being" the whole site owner
-    When the user states "not being" the whole site owner
-    Then the user "is not" asked if other owners have been told
-    Then the user can see that their appeal site ownership has been updated with "no" answer
-    And  the user can see that the "other owner told" has been updated with "blank" answer
+  Scenario: Confirmation that additional site owners have not been notified
+    Given confirmation of additional site owners notification is requested
+    When it is confirmed that additional site owners have not been notified
+    Then a request to confirm access to the site is presented
+    And the site is updated to not be wholly owned on the appeal
+    And the site is updated so that other owners have not been notified on the appeal
+
+  Scenario: Confirmation that the whole site is owned when previously identified as not owned
+    Given the whole site had previously been confirmed as not owned
+    When it is confirmed that the whole site is owned
+    Then a request to notify additional owners is not presented
+    And the site is updated to be wholly owned on the appeal
+
+  Scenario: Confirmation that the whole site is not owned when previously identified as owned
+    Given the whole site had previously been confirmed as owned
+    When it is confirmed that the whole site is not owned
+    Then a request to notify additional owners is presented
+    And the site is updated to not be wholly owned on the appeal
