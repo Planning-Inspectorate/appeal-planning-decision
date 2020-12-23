@@ -2,7 +2,7 @@
 Feature: Name and email provided after being previously provided
 
   Scenario Outline: Valid name and email - original applicant
-    Given name and email are requested where appellant is the original applicant
+    Given name and email are requested again where appellant is the original applicant
     When <name> and <email> are submitted
     Then appeal tasks are presented
     And appeal is updated with <name> and <email>
