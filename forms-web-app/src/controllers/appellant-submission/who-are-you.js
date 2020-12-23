@@ -39,7 +39,20 @@ exports.postWhoAreYou = async (req, res) => {
   const { appeal } = req.session;
   const task = appeal[sectionName][taskName];
 
-  task.isOriginalApplicant = body['are-you-the-original-appellant'] === 'yes';
+  switch (body['are-you-the-original-appellant']) {
+    case 'yes': {
+      task.isOriginalApplicant = true;
+      break;
+    }
+    case 'no': {
+      task.isOriginalApplicant = false;
+      break;
+    }
+    default: {
+      task.isOriginalApplicant = undefined;
+      break;
+    }
+  }
 
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
