@@ -36,7 +36,7 @@ describe('validators/appellant-submission/site-access-safety', () => {
         expect(rule.fields).toEqual(['site-access-safety-concerns']);
         expect(rule.locations).toEqual(['body']);
         expect(rule.optional).toBeFalsy();
-        expect(rule.stack).toHaveLength(2);
+        expect(rule.stack).toHaveLength(4);
 
         expect(rule.stack[0].chain).toBeDefined();
 
@@ -106,6 +106,25 @@ describe('validators/appellant-submission/site-access-safety', () => {
           expect(result.errors[0].msg).toEqual('Tell us about any health and safety concerns');
           expect(result.errors[0].param).toEqual('site-access-safety-concerns');
           expect(result.errors[0].value).toEqual('');
+        },
+      },
+      {
+        title:
+          'There are health and safety issues on the appeal site, but the concerns message is too long',
+        given: () => ({
+          body: {
+            'site-access-safety': 'yes',
+            'site-access-safety-concerns': 'x'.repeat(256),
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(1);
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual(
+            'The safety concerns should have maximum 255 characters'
+          );
+          expect(result.errors[0].param).toEqual('site-access-safety-concerns');
+          expect(result.errors[0].value).toEqual('x'.repeat(256));
         },
       },
       {

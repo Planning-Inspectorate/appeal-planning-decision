@@ -21,7 +21,7 @@ exports.postSiteAccessSafety = async (req, res) => {
   const { appeal } = req.session;
   const task = appeal[sectionName][taskName];
 
-  task.hasIssues = req.body['site-access-safety'] === 'no';
+  task.hasIssues = req.body['site-access-safety'] === 'yes';
   task.healthAndSafetyIssues = req.body['site-access-safety-concerns'];
 
   if (Object.keys(errors).length > 0) {
@@ -34,6 +34,10 @@ exports.postSiteAccessSafety = async (req, res) => {
   }
 
   try {
+    if (!task.hasIssues) {
+      task.healthAndSafetyIssues = '';
+    }
+
     appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {

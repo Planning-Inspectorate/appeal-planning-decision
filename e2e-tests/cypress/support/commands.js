@@ -264,6 +264,56 @@ Cypress.Commands.add(
   require('./appeal-submission-appeal-site-ownership/goToWholeSiteOwnerPage'),
 );
 
+Cypress.Commands.add(
+  'answerSiteHasIssues',
+  require('./appeal-submission-site-health-and-safety-issues/answerSiteHasIssues'),
+);
+
+Cypress.Commands.add(
+  'answerSiteHasNoIssues',
+  require('./appeal-submission-site-health-and-safety-issues/answerSiteHasNoIssues'),
+);
+
+Cypress.Commands.add(
+  'confirmHealthAndSafetyPage',
+  require('./appeal-submission-site-health-and-safety-issues/confirmHealthAndSafetyPage'),
+);
+
+Cypress.Commands.add(
+  'confirmSiteSafetyRejectedBecause',
+  require('./appeal-submission-site-health-and-safety-issues/confirmSiteSafetyRejectedBecause'),
+);
+
+Cypress.Commands.add(
+  'goToHealthAndSafetyPage',
+  require('./appeal-submission-site-health-and-safety-issues/goToHealthAndSafetyPage'),
+);
+
+Cypress.Commands.add(
+  'isSafetyIssuesInputPresented',
+  require('./appeal-submission-site-health-and-safety-issues/isSafetyIssuesInputPresented'),
+);
+
+Cypress.Commands.add(
+  'provideSafetyIssues',
+  require('./appeal-submission-site-health-and-safety-issues/provideSafetyIssuesConcerns'),
+);
+
+Cypress.Commands.add(
+  'provideSafetyIssuesConcerns',
+  require('./appeal-submission-site-health-and-safety-issues/provideSafetyIssuesConcerns'),
+);
+
+Cypress.Commands.add(
+  'confirmSafetyIssuesConcernsValue',
+  require('./appeal-submission-site-health-and-safety-issues/confirmSafetyIssuesConcernsValue'),
+);
+
+Cypress.Commands.add(
+  'confirmSiteHasIssuesAnswered',
+  require('./appeal-submission-site-health-and-safety-issues/confirmSiteHasIssuesAnswered'),
+);
+
 Cypress.Commands.add('goToTaskListPage', require('./appeal-submission-tasklist/goToTaskListPage'));
 
 Cypress.Commands.add(

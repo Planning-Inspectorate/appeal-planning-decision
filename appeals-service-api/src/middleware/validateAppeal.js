@@ -162,7 +162,7 @@ function validateAppeal(appealId, appeal) {
 
   if (
     !appeal.appealSiteSection.healthAndSafety.hasIssues &&
-    appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues
+    appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues !== ''
   ) {
     errors.push(
       'The appeal does not states that there is health and safety issues but the field is valued'
