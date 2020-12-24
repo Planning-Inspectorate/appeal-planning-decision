@@ -211,6 +211,34 @@ describe('Appeals API', () => {
     expect(response.statusCode).toBe(400);
   });
 
+  test('PUT /api/v1/appeals/{id} - It responds with an error - Appeal appellant name must be valued if email is.', async () => {
+    const appeal = await createAppeal();
+
+    appeal.aboutYouSection.yourDetails.email = 'jim@john.com';
+    appeal.aboutYouSection.yourDetails.name = '';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'The appeal appellant details must have email and name valued.The name is missing.'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - Appeal appellant email must be valued if name is.', async () => {
+    const appeal = await createAppeal();
+
+    appeal.aboutYouSection.yourDetails.email = '';
+    appeal.aboutYouSection.yourDetails.name = 'Jim John';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'The appeal appellant details must have email and name valued.The email is missing.'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
   test('PUT /api/v1/appeals/{id} - It responds with an error - appeal statement upload file cannot have name without id', async () => {
     const appeal = await createAppeal();
     appeal.yourAppealSection.appealStatement.uploadedFile.name =
@@ -314,6 +342,173 @@ describe('Appeals API', () => {
     expect(response.body.code).toEqual(400);
     expect(response.body.errors).toContain(
       'The decision letter uploaded file must have a name for the file when it has an id'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  [
+    {
+      addressLine1: '',
+      county: 'county',
+      postcode: 'postcode',
+    },
+    {
+      addressLine1: 'addressLine1',
+      county: '',
+      postcode: 'postcode',
+    },
+    {
+      addressLine1: 'addressLine1',
+      county: 'county',
+      postcode: '',
+    },
+  ].forEach((siteAddress) => {
+    test('PUT /api/v1/appeals/{id} - It responds with an error - the site address should see all its mandatory fields valued or none of them, other it should fail', async () => {
+      const appeal = await createAppeal();
+      appeal.appealSiteSection.siteAddress = siteAddress;
+
+      const siteAddressErrorMessage = `The appeal appellant site address must have addressLine1, county and postcode valued.
+    addressLine1=${appeal.appealSiteSection.siteAddress.addressLine1}
+    county=${appeal.appealSiteSection.siteAddress.county}
+    postcode=${appeal.appealSiteSection.siteAddress.postcode}`;
+
+      const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+      expect(response.body.code).toEqual(400);
+      expect(response.body.errors).toContain(siteAddressErrorMessage);
+      expect(response.statusCode).toBe(400);
+    });
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - the appellant owning the whole site but still told other owners should fail', async () => {
+    const appeal = await createAppeal();
+    appeal.appealSiteSection.siteOwnership.ownsWholeSite = true;
+    appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold = true;
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If the appellant owns the whole appeal site there can be no other owners'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - other owner told without knowing if there is any should fail', async () => {
+    const appeal = await createAppeal();
+    appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold = true;
+    appeal.appealSiteSection.siteOwnership.ownsWholeSite = null;
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'We should know if there is another owners before knowing if they were told'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - the health and safety has issues and they should be provided', async () => {
+    const appeal = await createAppeal();
+    appeal.appealSiteSection.healthAndSafety.hasIssues = true;
+    appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues = '';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If the health and safety task has issues, they need to be valued'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - the health and safety has no issues and they should not be provided', async () => {
+    const appeal = await createAppeal();
+    appeal.appealSiteSection.healthAndSafety.hasIssues = false;
+    appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues = 'Some issues';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'The appeal does not states that there is health and safety issues but the field is valued'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - If appeal site is visible from the public road then site access restrictions is not required', async () => {
+    const appeal = await createAppeal();
+
+    appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad = true;
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted = 'Big gaping hole';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If appeal site is visible from the public road then site access restrictions is not required'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - If appeal site is not visible from the public road then site access restrictions is required', async () => {
+    const appeal = await createAppeal();
+
+    appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad = false;
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If appeal site is not visible from the public road then site access restrictions is required'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - If appeal site from public road is null then site access restrictions must be null or empty', async () => {
+    const appeal = await createAppeal();
+
+    appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted = 'Big gaping hole';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If appeal site from public road is null then site access restrictions must be null or empty'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - Appeal has been entered by agent acting on behalf of applicant and must have an Appealing on Behalf Applicant Name', async () => {
+    const appeal = await createAppeal();
+
+    appeal.sectionStates.aboutYouSection.yourDetails = 'COMPLETED';
+    appeal.aboutYouSection.yourDetails.isOriginalApplicant = false;
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'Appeal has been entered by agent acting on behalf of applicant and must have an Appealing on Behalf Applicant Name'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - Appellant name cannot be empty and must be specified', async () => {
+    const appeal = await createAppeal();
+
+    appeal.sectionStates.aboutYouSection.yourDetails = 'COMPLETED';
+    appeal.sectionStates.aboutYouSection.name = '';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If your details section is completed then appellant name cannot be null or empty and it must be specified'
+    );
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - Appellant email address cannot be empty and must be specified', async () => {
+    const appeal = await createAppeal();
+
+    appeal.sectionStates.aboutYouSection.yourDetails = 'COMPLETED';
+    appeal.sectionStates.aboutYouSection.email = '';
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'If your details section is completed then appellant email address cannot be null or empty and it must be specified'
     );
     expect(response.statusCode).toBe(400);
   });

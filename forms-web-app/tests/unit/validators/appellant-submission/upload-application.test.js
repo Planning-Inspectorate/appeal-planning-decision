@@ -24,29 +24,25 @@ describe('validators/appellant-submission/upload-application', () => {
   describe('validator', () => {
     [
       {
-        title: 'undefined - empty',
+        title: 'undefined / empty - pass ',
         given: () => ({
           body: {},
         }),
         expected: (result) => {
-          expect(result.errors).toHaveLength(1);
-          expect(result.errors[0].location).toEqual('body');
-          expect(result.errors[0].msg).toEqual('Upload the planning application form');
-          expect(result.errors[0].param).toEqual('application-upload');
-          expect(result.errors[0].value).toEqual(undefined);
+          expect(result.errors).toHaveLength(0);
         },
       },
       {
-        title: 'files key is empty - fail',
+        title: 'files key is empty - pass',
         given: () => ({
           files: {},
         }),
         expected: (result) => {
-          expect(result.errors).toHaveLength(1);
+          expect(result.errors).toHaveLength(0);
         },
       },
       {
-        title: 'files path is not matched - fail',
+        title: 'files path is not matched - pass',
         given: () => ({
           body: {
             'application-upload': 'a',
@@ -54,7 +50,7 @@ describe('validators/appellant-submission/upload-application', () => {
           files: { x: {} },
         }),
         expected: (result) => {
-          expect(result.errors).toHaveLength(1);
+          expect(result.errors).toHaveLength(0);
         },
       },
       {

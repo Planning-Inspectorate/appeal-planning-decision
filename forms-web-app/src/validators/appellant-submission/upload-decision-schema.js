@@ -14,8 +14,8 @@ module.exports = {
   'decision-upload': {
     custom: {
       options: (value, { req, path }) => {
-        if (!req.files || Object.keys(req.files).length === 0 || !req.files[path]) {
-          throw new Error('Upload the decision letter');
+        if (!req.files || !req.files[path]) {
+          return true;
         }
 
         const { mimetype, size } = req.files[path];

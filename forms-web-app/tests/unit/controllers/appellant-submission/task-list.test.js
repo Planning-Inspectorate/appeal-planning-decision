@@ -12,7 +12,14 @@ describe('controller/appellant-submission/task-list', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
         applicationStatus: 'Application incomplete',
-        sectionInfo: { nbTasks: 12, nbCompleted: 0 },
+        sectionInfo: {
+          nbTasks: 12,
+          nbCompleted: 0,
+          sections: {
+            count: 5,
+            completed: 0,
+          },
+        },
         sections: [
           {
             heading: {
@@ -105,6 +112,14 @@ describe('controller/appellant-submission/task-list', () => {
                 },
               },
               {
+                text: 'Ownership of the appeal site',
+                href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
+                status: 'NOT STARTED',
+                attributes: {
+                  'siteOwnership-status': 'NOT STARTED',
+                },
+              },
+              {
                 text: 'Access to the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
                 status: 'NOT STARTED',
@@ -113,19 +128,11 @@ describe('controller/appellant-submission/task-list', () => {
                 },
               },
               {
-                text: 'Ownership of the appeal site',
-                href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
-                status: 'CANNOT START YET',
-                attributes: {
-                  'siteOwnership-status': 'CANNOT START YET',
-                },
-              },
-              {
                 text: 'Any health and safety issues',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
-                status: 'CANNOT START YET',
+                status: 'NOT STARTED',
                 attributes: {
-                  'healthAndSafety-status': 'CANNOT START YET',
+                  'healthAndSafety-status': 'NOT STARTED',
                 },
               },
             ],
@@ -149,6 +156,7 @@ describe('controller/appellant-submission/task-list', () => {
         ],
       });
     });
+
     it('Some tasks still in progress and check your answer cannot be started', () => {
       const req = mockReq({
         aboutYouSection: {
@@ -163,22 +171,31 @@ describe('controller/appellant-submission/task-list', () => {
           siteAccess: {
             canInspectorSeeWholeSiteFromPublicRoad: true,
           },
+          siteOwnership: {
+            ownsWholeSite: false,
+          },
         },
         requiredDocumentsSection: {
           applicationNumber: '123',
           originalApplication: {
             uploadedFile: {
+              id: '123',
               name: 'original.pdf',
             },
           },
           decisionLetter: {
             uploadedFile: {
+              id: '456',
               name: 'decision.pdf',
             },
           },
         },
         yourAppealSection: {
           appealStatement: {
+            uploadedFile: {
+              id: '789',
+              name: 'appeal.pdf',
+            },
             hasSensitiveInformation: false,
           },
         },
@@ -189,7 +206,14 @@ describe('controller/appellant-submission/task-list', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
         applicationStatus: 'Application incomplete',
-        sectionInfo: { nbTasks: 12, nbCompleted: 6 },
+        sectionInfo: {
+          nbTasks: 12,
+          nbCompleted: 7,
+          sections: {
+            count: 5,
+            completed: 1,
+          },
+        },
         sections: [
           {
             heading: {
@@ -282,6 +306,14 @@ describe('controller/appellant-submission/task-list', () => {
                 },
               },
               {
+                text: 'Ownership of the appeal site',
+                href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
+                status: 'COMPLETED',
+                attributes: {
+                  'siteOwnership-status': 'COMPLETED',
+                },
+              },
+              {
                 text: 'Access to the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
                 status: 'COMPLETED',
@@ -290,19 +322,11 @@ describe('controller/appellant-submission/task-list', () => {
                 },
               },
               {
-                text: 'Ownership of the appeal site',
-                href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
-                status: 'CANNOT START YET',
-                attributes: {
-                  'siteOwnership-status': 'CANNOT START YET',
-                },
-              },
-              {
                 text: 'Any health and safety issues',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
-                status: 'CANNOT START YET',
+                status: 'NOT STARTED',
                 attributes: {
-                  'healthAndSafety-status': 'CANNOT START YET',
+                  'healthAndSafety-status': 'NOT STARTED',
                 },
               },
             ],
@@ -338,25 +362,38 @@ describe('controller/appellant-submission/task-list', () => {
             county: 'PACA',
             postcode: '06300',
           },
+          siteOwnership: {
+            ownsWholeSite: false,
+            haveOtherOwnersBeenTold: true,
+          },
           siteAccess: {
             canInspectorSeeWholeSiteFromPublicRoad: true,
+          },
+          healthAndSafety: {
+            hasIssues: false,
           },
         },
         requiredDocumentsSection: {
           applicationNumber: '123',
           originalApplication: {
             uploadedFile: {
+              id: '123',
               name: 'original.pdf',
             },
           },
           decisionLetter: {
             uploadedFile: {
+              id: '456',
               name: 'decision.pdf',
             },
           },
         },
         yourAppealSection: {
           appealStatement: {
+            uploadedFile: {
+              id: '789',
+              name: 'appeal.pdf',
+            },
             hasSensitiveInformation: false,
           },
         },
@@ -367,7 +404,14 @@ describe('controller/appellant-submission/task-list', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
         applicationStatus: 'Application incomplete',
-        sectionInfo: { nbTasks: 12, nbCompleted: 7 },
+        sectionInfo: {
+          nbTasks: 12,
+          nbCompleted: 9,
+          sections: {
+            count: 5,
+            completed: 3,
+          },
+        },
         sections: [
           {
             heading: {
@@ -460,6 +504,14 @@ describe('controller/appellant-submission/task-list', () => {
                 },
               },
               {
+                text: 'Ownership of the appeal site',
+                href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
+                status: 'COMPLETED',
+                attributes: {
+                  'siteOwnership-status': 'COMPLETED',
+                },
+              },
+              {
                 text: 'Access to the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
                 status: 'COMPLETED',
@@ -468,19 +520,11 @@ describe('controller/appellant-submission/task-list', () => {
                 },
               },
               {
-                text: 'Ownership of the appeal site',
-                href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
-                status: 'CANNOT START YET',
-                attributes: {
-                  'siteOwnership-status': 'CANNOT START YET',
-                },
-              },
-              {
                 text: 'Any health and safety issues',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
-                status: 'CANNOT START YET',
+                status: 'COMPLETED',
                 attributes: {
-                  'healthAndSafety-status': 'CANNOT START YET',
+                  'healthAndSafety-status': 'COMPLETED',
                 },
               },
             ],

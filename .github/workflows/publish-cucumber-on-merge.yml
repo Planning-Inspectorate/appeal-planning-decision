@@ -6,7 +6,8 @@ env:
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - develop
 
 jobs:
 
@@ -25,8 +26,8 @@ jobs:
     - name: create large test file
       run: npm run test:e2e:files
 
-    - name: run the tests in demo-mode
-      run: npm run test:e2e:demo
+    - name: run the tests
+      run: npm run test:e2e
 
     - name: post-process results
       if: ${{ always() }}
