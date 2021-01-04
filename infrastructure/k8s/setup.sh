@@ -177,9 +177,29 @@ install_gitops() {
     "${REPO_API_URL}/repos/${REPO_URL}/keys"
 }
 
+install_prometheus() {
+  echo "Installing Prometheus for monitoring"
+
+  kubectl create namespace prometheus || true
+  helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+  helm repo add stable https://charts.helm.sh/stable
+  helm repo update
+
+  helm upgrade \
+    --reset-values \
+    --install \
+    --wait \
+    --atomic \
+    --cleanup-on-fail \
+    --namespace prometheus \
+    prometheus \
+    prometheus-community/prometheus
+}
+
 add_registry_secret
 configure_rbac
 install_azure_key_vault
 install_nginx_ingress
 install_cert_manager
 install_gitops
+install_prometheus

@@ -6,6 +6,7 @@ const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
 const pinoExpress = require('express-pino-logger');
+const { prometheus } = require('@pins/common');
 const uuid = require('uuid');
 require('express-async-errors');
 
@@ -16,6 +17,8 @@ const routes = require('./routes');
 
 module.exports = () => {
   const app = express();
+
+  prometheus.init(app);
 
   const server = http.createServer(app);
 
