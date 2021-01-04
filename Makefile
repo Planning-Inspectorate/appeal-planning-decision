@@ -1,4 +1,4 @@
-APPS = common data appeals-service-api document-service-api forms-web-app e2e-tests
+APPS = data e2e-tests packages/*
 STACKS = common environments
 
 down:

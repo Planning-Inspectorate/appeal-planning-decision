@@ -1,4 +1,4 @@
-const indexController = require('../../../src/controllers/index');
+const indexController = require('../../../src/controllers');
 const { mockReq, mockRes } = require('../mocks');
 
 const req = mockReq();

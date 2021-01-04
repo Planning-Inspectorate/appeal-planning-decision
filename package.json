@@ -41,7 +41,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "(cd ./appeals-service-api && lint-staged) && (cd ./forms-web-app && lint-staged)",
+      "pre-commit": "bash .husky/pre-commit.sh \"packages\"",
       "pre-push": "npm run commitlint"
     }
   }

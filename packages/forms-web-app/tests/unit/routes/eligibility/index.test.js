@@ -7,7 +7,7 @@ const planningDepartmentRouter = require('../../../../src/routes/eligibility/pla
 describe('routes/eligibility/index', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
-    require('../../../../src/routes/eligibility/index');
+    require('../../../../src/routes/eligibility');
   });
 
   afterEach(() => {
