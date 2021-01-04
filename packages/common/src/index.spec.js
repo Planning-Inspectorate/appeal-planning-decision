@@ -1,6 +1,7 @@
 const index = require('./index');
 const functional = require('./functional');
 const healthcheck = require('./health');
+const prometheus = require('./prometheus');
 const utils = require('./utils');
 
 describe('index', () => {
@@ -9,6 +10,7 @@ describe('index', () => {
       utils,
       functional,
       healthcheck,
+      prometheus,
     });
   });
 });
