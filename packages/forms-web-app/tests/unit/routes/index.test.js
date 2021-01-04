@@ -1,5 +1,5 @@
 const { use } = require('./router-mock');
-const appellantSubmissionRouter = require('../../../src/routes/appellant-submission/index');
+const appellantSubmissionRouter = require('../../../src/routes/appellant-submission');
 const applicationNumberRouter = require('../../../src/routes/application-number');
 const checkAnswersRouter = require('../../../src/routes/check-answers');
 const confirmationRouter = require('../../../src/routes/confirmation');
@@ -10,7 +10,7 @@ const submissionRouter = require('../../../src/routes/submission');
 describe('routes/index', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
-    require('../../../src/routes/index');
+    require('../../../src/routes');
   });
 
   afterEach(() => {

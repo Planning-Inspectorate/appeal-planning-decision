@@ -81,7 +81,7 @@ make down
 
 ## The Common Module
 
-The [Common](/common) contains a series of common functions that are used across
+The [Common](/packages/common) contains a series of common functions that are used across
 microservices. The applications use this as an external dependency (`@pins/common`)
 but is included as a local file in the `package.json`.
 

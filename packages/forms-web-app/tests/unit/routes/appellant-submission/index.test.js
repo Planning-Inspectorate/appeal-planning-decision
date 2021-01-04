@@ -5,7 +5,7 @@ describe('routes/appellant-submission/index', () => {
     jest.resetModules();
 
     // eslint-disable-next-line global-require
-    require('../../../../src/routes/appellant-submission/index');
+    require('../../../../src/routes/appellant-submission');
   });
 
   afterEach(() => {

@@ -168,4 +168,4 @@ tmp
 known_hosts
 
 
-appeals-service-api/globalConfig.json
+packages/appeals-service-api/globalConfig.json

@@ -1,5 +1,5 @@
 const { get } = require('./router-mock');
-const indexController = require('../../../src/controllers/index');
+const indexController = require('../../../src/controllers');
 
 describe('routes/index', () => {
   beforeEach(() => {
