@@ -5,7 +5,7 @@ const { mockReq, mockRes } = require('../../mocks');
 const req = mockReq();
 const res = mockRes();
 
-describe('controller/eligibility/appeal-statement', () => {
+describe('controllers/eligibility/appeal-statement', () => {
   describe('getNoDecision', () => {
     it('should call the correct template', () => {
       appealStatementController.getAppealStatement(req, res);

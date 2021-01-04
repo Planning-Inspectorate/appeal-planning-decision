@@ -16,7 +16,7 @@ const res = mockRes();
 const sectionName = 'appealSiteSection';
 const taskName = 'healthAndSafety';
 
-describe('controller/appellant-submission/site-access-safety', () => {
+describe('controllers/appellant-submission/site-access-safety', () => {
   describe('getSiteAccessSafety', () => {
     it('should call the correct template', () => {
       siteAccessSafetyController.getSiteAccessSafety(req, res);
@@ -41,7 +41,16 @@ describe('controller/appellant-submission/site-access-safety', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY, {
-        appeal: req.session.appeal,
+        appeal: {
+          ...req.session.appeal,
+          appealSiteSection: {
+            ...req.session.appeal.appealSiteSection,
+            healthAndSafety: {
+              hasIssues: null,
+              healthAndSafetyIssues: null,
+            },
+          },
+        },
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });

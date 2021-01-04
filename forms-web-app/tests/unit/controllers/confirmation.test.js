@@ -5,7 +5,7 @@ const { VIEW } = require('../../../src/lib/views');
 const req = mockReq();
 const res = mockRes();
 
-describe('controller/confirmation', () => {
+describe('controllers/confirmation', () => {
   describe('getConfirmation', () => {
     it('should call the correct template', () => {
       const appellantEmail = 'hello@example.com';

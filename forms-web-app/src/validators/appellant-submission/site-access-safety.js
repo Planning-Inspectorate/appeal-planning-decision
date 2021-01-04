@@ -1,11 +1,13 @@
 const { body } = require('express-validator');
 
+const validSiteAccessSafetyOptions = ['yes', 'no'];
+
 const ruleSiteAccessSafety = () =>
   body('site-access-safety')
     .notEmpty()
     .withMessage('Select No if there are no health and safety issues on the appeal site')
     .bail()
-    .isIn(['yes', 'no']);
+    .isIn(validSiteAccessSafetyOptions);
 
 const ruleSiteAccessSafetyConcerns = () =>
   body('site-access-safety-concerns')
@@ -20,4 +22,5 @@ const rules = () => [ruleSiteAccessSafety(), ruleSiteAccessSafetyConcerns()];
 
 module.exports = {
   rules,
+  validSiteAccessSafetyOptions,
 };

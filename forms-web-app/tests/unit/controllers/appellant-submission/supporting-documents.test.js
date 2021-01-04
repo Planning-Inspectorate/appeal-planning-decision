@@ -5,7 +5,7 @@ const { VIEW } = require('../../../../src/lib/views');
 const req = mockReq();
 const res = mockRes();
 
-describe('controller/appellant-submission/supporting-documents', () => {
+describe('controllers/appellant-submission/supporting-documents', () => {
   describe('getSupportingDocuments', () => {
     it('should call the correct template', () => {
       supportingDocumentsController.getSupportingDocuments(req, res);

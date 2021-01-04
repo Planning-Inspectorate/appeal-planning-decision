@@ -2,6 +2,9 @@ const logger = require('../../lib/logger');
 const { getNextUncompletedTask, getTaskStatus } = require('../../services/task.service');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../lib/views');
+const {
+  validSiteOwnershipCertBOptions,
+} = require('../../validators/appellant-submission/site-ownership-certb');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'siteOwnership';
@@ -20,7 +23,11 @@ exports.postSiteOwnershipCertB = async (req, res) => {
   const { appeal } = req.session;
   const task = appeal[sectionName][taskName];
 
-  task.haveOtherOwnersBeenTold = req.body['have-other-owners-been-told'] === 'yes';
+  let haveOtherOwnersBeenTold = null;
+  if (validSiteOwnershipCertBOptions.includes(req.body['have-other-owners-been-told'])) {
+    haveOtherOwnersBeenTold = req.body['have-other-owners-been-told'] === 'yes';
+  }
+  task.haveOtherOwnersBeenTold = haveOtherOwnersBeenTold;
 
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB, {

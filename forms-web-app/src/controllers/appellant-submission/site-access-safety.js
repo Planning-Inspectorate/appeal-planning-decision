@@ -3,6 +3,9 @@ const { getNextUncompletedTask } = require('../../services/task.service');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../lib/views');
 const { getTaskStatus } = require('../../services/task.service');
+const {
+  validSiteAccessSafetyOptions,
+} = require('../../validators/appellant-submission/site-access-safety');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'healthAndSafety';
@@ -21,8 +24,16 @@ exports.postSiteAccessSafety = async (req, res) => {
   const { appeal } = req.session;
   const task = appeal[sectionName][taskName];
 
-  task.hasIssues = req.body['site-access-safety'] === 'yes';
-  task.healthAndSafetyIssues = req.body['site-access-safety-concerns'];
+  let hasIssues = null;
+  if (validSiteAccessSafetyOptions.includes(req.body['site-access-safety'])) {
+    hasIssues = req.body['site-access-safety'] === 'yes';
+  }
+  task.hasIssues = hasIssues;
+
+  task.healthAndSafetyIssues =
+    typeof req.body['site-access-safety-concerns'] !== 'undefined'
+      ? req.body['site-access-safety-concerns']
+      : null;
 
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY, {

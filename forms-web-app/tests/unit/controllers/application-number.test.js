@@ -5,7 +5,7 @@ const { VIEW } = require('../../../src/lib/views');
 const req = mockReq();
 const res = mockRes();
 
-describe('controller/application-number', () => {
+describe('controllers/application-number', () => {
   describe('getApplicationNumber', () => {
     it('should call the correct template', () => {
       applicationNumberController.getApplicationNumber(req, res);

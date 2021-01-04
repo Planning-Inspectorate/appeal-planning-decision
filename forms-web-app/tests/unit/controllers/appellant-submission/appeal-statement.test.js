@@ -19,7 +19,7 @@ const res = mockRes();
 const sectionName = 'yourAppealSection';
 const taskName = 'appealStatement';
 
-describe('controller/appellant-submission/appeal-statement', () => {
+describe('controllers/appellant-submission/appeal-statement', () => {
   describe('getAppealStatement', () => {
     it('should call the correct template', async () => {
       const req = mockReq();

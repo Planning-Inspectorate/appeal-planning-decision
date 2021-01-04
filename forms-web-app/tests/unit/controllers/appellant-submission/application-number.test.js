@@ -14,7 +14,7 @@ const res = mockRes();
 const sectionName = 'requiredDocumentsSection';
 const taskName = 'applicationNumber';
 
-describe('controller/appellant-submission/application-number', () => {
+describe('controllers/appellant-submission/application-number', () => {
   describe('getApplicationNumber', () => {
     it('should call the correct template', () => {
       applicationNumberController.getApplicationNumber(req, res);

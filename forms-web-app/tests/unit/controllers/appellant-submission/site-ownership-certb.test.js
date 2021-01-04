@@ -16,7 +16,7 @@ const res = mockRes();
 const sectionName = 'appealSiteSection';
 const taskName = 'siteOwnership';
 
-describe('controller/appellant-submission/site-ownership-certb', () => {
+describe('controllers/appellant-submission/site-ownership-certb', () => {
   describe('getSiteOwnershipCertB', () => {
     it('should call the correct template', () => {
       siteOwnershipCertBController.getSiteOwnershipCertB(req, res);
@@ -41,7 +41,16 @@ describe('controller/appellant-submission/site-ownership-certb', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB, {
-        appeal: req.session.appeal,
+        appeal: {
+          ...req.session.appeal,
+          appealSiteSection: {
+            ...req.session.appeal.appealSiteSection,
+            siteOwnership: {
+              ownsWholeSite: null,
+              haveOtherOwnersBeenTold: null,
+            },
+          },
+        },
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });
