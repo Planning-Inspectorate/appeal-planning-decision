@@ -104,3 +104,9 @@ resource "azurerm_local_network_gateway" "horizon" {
   gateway_address = data.azurerm_key_vault_secret.horizon_gateway_ip[count.index].value
   address_space = local.horizon_subnets
 }
+
+resource "azurerm_servicebus_queue" "horizon_has_publisher" {
+  name = "horizon-householder-appeal-publish"
+  namespace_name = azurerm_servicebus_namespace.message_queue.name
+  resource_group_name = azurerm_resource_group.message_queue.name
+}

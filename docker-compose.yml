@@ -33,6 +33,7 @@ services:
       - mock-notify
       - mock-os-places
       - mongodb
+      - rabbitmq
     depends_on:
       - appeals-service-api-data
       - document-service-api
@@ -40,6 +41,7 @@ services:
       - mock-notify
       - mock-os-places
       - mongodb
+      - rabbitmq
     volumes:
       - ./packages/common:/opt/app/node_modules/@pins/common:ro # Replace the module to avoid symlink errors
       - ./packages/appeals-service-api:/opt/app:ro
@@ -200,3 +202,15 @@ services:
     image: mongo:3.6.21
     ports:
       - 4000:27017
+
+  # In prod we use Azure Service Bus which uses AMQP1.0
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    ports:
+      - 4004:5672
+      - 4005:15672
+    volumes:
+      - .rabbitmq_plugins:/etc/rabbitmq/enabled_plugins
