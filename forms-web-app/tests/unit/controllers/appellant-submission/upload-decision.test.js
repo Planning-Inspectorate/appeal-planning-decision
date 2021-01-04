@@ -17,7 +17,7 @@ const res = mockRes();
 const sectionName = 'requiredDocumentsSection';
 const taskName = 'decisionLetter';
 
-describe('controller/appellant-submission/upload-decision', () => {
+describe('controllers/appellant-submission/upload-decision', () => {
   describe('getUploadDecision', () => {
     it('should call the correct template', () => {
       const req = mockReq();

@@ -4,7 +4,7 @@ const { mockReq, mockRes } = require('../../mocks');
 const req = mockReq();
 const res = mockRes();
 
-describe('controller/eligibility/decision-date', () => {
+describe('controllers/eligibility/decision-date', () => {
   describe('getNoDecision', () => {
     it('should call the correct template', () => {
       decisionDateController.getNoDecision(req, res);

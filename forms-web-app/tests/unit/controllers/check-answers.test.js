@@ -5,7 +5,7 @@ const { VIEW } = require('../../../src/lib/views');
 const req = mockReq();
 const res = mockRes();
 
-describe('controller/check-answers', () => {
+describe('controllers/check-answers', () => {
   describe('getCheckAnswers', () => {
     it('should call the correct template', () => {
       checkAnswersController.getCheckAnswers(req, res);

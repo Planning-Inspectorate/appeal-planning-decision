@@ -3,6 +3,7 @@ const { getNextUncompletedTask } = require('../../services/task.service');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../lib/views');
 const { getTaskStatus } = require('../../services/task.service');
+const { validSiteAccessOptions } = require('../../validators/appellant-submission/site-access');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'siteAccess';
@@ -21,12 +22,17 @@ exports.postSiteAccess = async (req, res) => {
   const { appeal } = req.session;
   const task = appeal[sectionName][taskName];
 
-  const canInspectorSeeWholeSiteFromPublicRoad = req.body['site-access'] === 'yes';
-
+  let canInspectorSeeWholeSiteFromPublicRoad = null;
+  if (validSiteAccessOptions.includes(req.body['site-access'])) {
+    canInspectorSeeWholeSiteFromPublicRoad = req.body['site-access'] === 'yes';
+  }
   task.canInspectorSeeWholeSiteFromPublicRoad = canInspectorSeeWholeSiteFromPublicRoad;
-  task.howIsSiteAccessRestricted = canInspectorSeeWholeSiteFromPublicRoad
-    ? ''
-    : req.body['site-access-more-detail'];
+
+  let howIsSiteAccessRestricted = null;
+  if (canInspectorSeeWholeSiteFromPublicRoad === false) {
+    howIsSiteAccessRestricted = req.body['site-access-more-detail'];
+  }
+  task.howIsSiteAccessRestricted = howIsSiteAccessRestricted;
 
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS, {

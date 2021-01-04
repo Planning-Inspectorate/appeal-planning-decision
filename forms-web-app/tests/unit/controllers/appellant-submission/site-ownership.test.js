@@ -13,7 +13,7 @@ jest.mock('../../../../src/lib/logger');
 const sectionName = 'appealSiteSection';
 const taskName = 'siteOwnership';
 
-describe('controller/appellant-submission/site-ownership', () => {
+describe('controllers/appellant-submission/site-ownership', () => {
   let req;
   let res;
 
@@ -48,7 +48,16 @@ describe('controller/appellant-submission/site-ownership', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP, {
-        appeal: req.session.appeal,
+        appeal: {
+          ...req.session.appeal,
+          appealSiteSection: {
+            ...req.session.appeal.appealSiteSection,
+            siteOwnership: {
+              ownsWholeSite: null,
+              haveOtherOwnersBeenTold: null,
+            },
+          },
+        },
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });

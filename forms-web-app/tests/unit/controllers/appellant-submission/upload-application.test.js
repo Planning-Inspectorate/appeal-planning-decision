@@ -17,7 +17,7 @@ const res = mockRes();
 const sectionName = 'requiredDocumentsSection';
 const taskName = 'originalApplication';
 
-describe('controller/appellant-submission/upload-application', () => {
+describe('controllers/appellant-submission/upload-application', () => {
   describe('getUploadApplication', () => {
     it('should call the correct template', () => {
       const req = mockReq();

@@ -1,5 +1,8 @@
 const { validationResult } = require('express-validator');
-const { rules } = require('../../../../src/validators/appellant-submission/site-access-safety');
+const {
+  rules,
+  validSiteAccessSafetyOptions,
+} = require('../../../../src/validators/appellant-submission/site-access-safety');
 const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
 
 describe('validators/appellant-submission/site-access-safety', () => {
@@ -149,6 +152,12 @@ describe('validators/appellant-submission/site-access-safety', () => {
         const result = validationResult(mockReq);
         expected(result);
       });
+    });
+  });
+
+  describe('validSiteAccessSafetyOptions', () => {
+    it('should define the expected valid site access safety options', () => {
+      expect(validSiteAccessSafetyOptions).toEqual(['yes', 'no']);
     });
   });
 });
