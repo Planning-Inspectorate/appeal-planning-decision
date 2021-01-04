@@ -2,6 +2,9 @@ const logger = require('../../lib/logger');
 const { getNextUncompletedTask, getTaskStatus } = require('../../services/task.service');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../lib/views');
+const {
+  validSiteOwnershipOptions,
+} = require('../../validators/appellant-submission/site-ownership');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'siteOwnership';
@@ -20,7 +23,10 @@ exports.postSiteOwnership = async (req, res) => {
   const { appeal } = req.session;
   const task = appeal[sectionName][taskName];
 
-  const ownsWholeSite = req.body['site-ownership'] === 'yes';
+  let ownsWholeSite = null;
+  if (validSiteOwnershipOptions.includes(req.body['site-ownership'])) {
+    ownsWholeSite = req.body['site-ownership'] === 'yes';
+  }
   task.ownsWholeSite = ownsWholeSite;
   // if ownsWholeSite is true then haveOtherOwnersBeenTold needs to be null
   task.haveOtherOwnersBeenTold = ownsWholeSite ? null : task.haveOtherOwnersBeenTold;

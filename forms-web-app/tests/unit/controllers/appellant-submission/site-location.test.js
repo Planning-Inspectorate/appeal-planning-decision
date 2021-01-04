@@ -16,7 +16,7 @@ const res = mockRes();
 const sectionName = 'appealSiteSection';
 const taskName = 'siteAddress';
 
-describe('controller/appellant-submission/site-location', () => {
+describe('controllers/appellant-submission/site-location', () => {
   describe('getSiteLocation', () => {
     it('should call the correct template', () => {
       siteLocationController.getSiteLocation(req, res);

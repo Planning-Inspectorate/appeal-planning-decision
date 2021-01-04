@@ -5,7 +5,7 @@ const { VIEW } = require('../../../src/lib/views');
 const req = mockReq();
 const res = mockRes();
 
-describe('controller/submission', () => {
+describe('controllers/submission', () => {
   describe('getSubmission', () => {
     it('should call the correct template', () => {
       submissionController.getSubmission(req, res);

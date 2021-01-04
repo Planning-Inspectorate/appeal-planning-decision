@@ -15,7 +15,7 @@ const departmentsData = {
 
 getDepartmentData.mockResolvedValue(departmentsData);
 
-describe('controller/eligibility/planning-department', () => {
+describe('controllers/eligibility/planning-department', () => {
   describe('Planning Department Controller Tests', () => {
     it('should call the correct template', async () => {
       await planningDepartmentController.getPlanningDepartment(req, res);

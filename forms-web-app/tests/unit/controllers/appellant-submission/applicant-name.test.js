@@ -16,7 +16,7 @@ const res = mockRes();
 const sectionName = 'aboutYouSection';
 const taskName = 'yourDetails';
 
-describe('controller/appellant-submission/applicant-name', () => {
+describe('controllers/appellant-submission/applicant-name', () => {
   describe('getApplicantName', () => {
     it('should call the correct template', () => {
       applicantNameController.getApplicantName(req, res);
