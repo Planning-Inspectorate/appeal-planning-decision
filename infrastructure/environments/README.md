@@ -35,6 +35,9 @@ No requirements.
 | k8s\_version\_prefix | Version prefix to use - ensure you end with dot (.) | `string` | `"1.18."` | no |
 | k8s\_vm\_size | VM size | `string` | `"Standard_DS2_v2"` | no |
 | location | Default location for resources | `string` | `"uksouth"` | no |
+| message\_queue\_capacity | Message queue capacity - SKU must be premium if non-0 | `number` | `0` | no |
+| message\_queue\_sku | SKU for the message queue | `string` | `"Basic"` | no |
+| message\_queue\_zone\_redundancy\_enabled | Enable message queue redundancy - SKU must be premium if true | `bool` | `false` | no |
 | mongodb\_auto\_failover | Enable auto failover between regions | `bool` | `false` | no |
 | mongodb\_consistency\_max\_interval\_in\_seconds | Represents the amount of staleness that is tolerated (in seconds) - min 5 mins for global replication | `number` | `300` | no |
 | mongodb\_consistency\_policy | Cosmos consistency policy | `string` | `"BoundedStaleness"` | no |
@@ -64,5 +67,6 @@ No requirements.
 | kube\_load\_balancer\_ip | The IP of the load balancer for the Kubernetes cluster |
 | kube\_load\_balancer\_rg | The rosource group the load balancer IP exists in |
 | kubeconfig | The Kubernetes config file |
+| message\_queue\_host | n/a |
 | mongodb\_connection\_strings | MongoDB connection strings for each database |
 
