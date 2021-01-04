@@ -23,7 +23,7 @@ describe('validators/appellant-submission/site-access-safety', () => {
         expect(rule.stack[0].negated).toBeTruthy();
         expect(rule.stack[0].validator.name).toEqual('isEmpty');
         expect(rule.stack[0].message).toEqual(
-          'Select No if there are no health and safety issues on the appeal site'
+          'Select yes if there are any health and safety issues'
         );
 
         expect(rule.stack[2].negated).toBeFalsy();
@@ -45,7 +45,7 @@ describe('validators/appellant-submission/site-access-safety', () => {
 
         expect(rule.stack[1].negated).toBeTruthy();
         expect(rule.stack[1].validator.name).toEqual('isEmpty');
-        expect(rule.stack[1].message).toEqual('Tell us about any health and safety concerns');
+        expect(rule.stack[1].message).toEqual('Enter details of the health and safety concerns');
       });
     });
   });
@@ -61,7 +61,7 @@ describe('validators/appellant-submission/site-access-safety', () => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
           expect(result.errors[0].msg).toEqual(
-            'Select No if there are no health and safety issues on the appeal site'
+            'Select yes if there are any health and safety issues'
           );
           expect(result.errors[0].param).toEqual('site-access-safety');
           expect(result.errors[0].value).toEqual(undefined);
@@ -89,7 +89,7 @@ describe('validators/appellant-submission/site-access-safety', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
-          expect(result.errors[0].msg).toEqual('Tell us about any health and safety concerns');
+          expect(result.errors[0].msg).toEqual('Enter details of the health and safety concerns');
           expect(result.errors[0].param).toEqual('site-access-safety-concerns');
           expect(result.errors[0].value).toEqual(undefined);
         },
@@ -106,7 +106,7 @@ describe('validators/appellant-submission/site-access-safety', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
-          expect(result.errors[0].msg).toEqual('Tell us about any health and safety concerns');
+          expect(result.errors[0].msg).toEqual('Enter details of the health and safety concerns');
           expect(result.errors[0].param).toEqual('site-access-safety-concerns');
           expect(result.errors[0].value).toEqual('');
         },

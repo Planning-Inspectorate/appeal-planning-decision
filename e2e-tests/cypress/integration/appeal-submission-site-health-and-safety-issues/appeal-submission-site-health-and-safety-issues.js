@@ -151,12 +151,12 @@ Then('health and safety issues along with concerns are presented', () => {
 
 Then('appeal is not updated because confirmation of health and safety issues is required', () => {
   cy.confirmSiteSafetyRejectedBecause(
-    'Select No if there are no health and safety issues on the appeal site',
+    'Select yes if there are any health and safety issues',
   );
   cy.confirmSiteHasIssuesAnswered('blank');
 });
 
 Then('appeal is not updated because health and safety concerns are required', () => {
-  cy.confirmSiteSafetyRejectedBecause('Tell us about any health and safety concerns');
+  cy.confirmSiteSafetyRejectedBecause('Enter details of the health and safety concerns');
   cy.confirmSiteHasIssuesAnswered('blank');
 });
