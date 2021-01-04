@@ -41,8 +41,8 @@ services:
       - mock-os-places
       - mongodb
     volumes:
-      - ./common:/opt/app/node_modules/@pins/common # Replace the module to avoid symlink errors
-      - ./appeals-service-api:/opt/app
+      - ./packages/common:/opt/app/node_modules/@pins/common # Replace the module to avoid symlink errors
+      - ./packages/appeals-service-api:/opt/app
     command: npm run start:dev
 
   document-service-api: &document-service
@@ -63,8 +63,8 @@ services:
     depends_on:
       - mongodb
     volumes:
-      - ./common:/opt/app/node_modules/@pins/common
-      - ./document-service-api:/opt/app
+      - ./packages/common:/opt/app/node_modules/@pins/common
+      - ./packages/document-service-api:/opt/app
       - ./tmp/documents-upload:/tmp/upload
     command: npm run start:dev
 
@@ -103,8 +103,8 @@ services:
       - document-service-api
       - mongodb
     volumes:
-      - ./common:/opt/app/node_modules/@pins/common
-      - ./forms-web-app:/opt/app
+      - ./packages/common:/opt/app/node_modules/@pins/common
+      - ./packages/forms-web-app:/opt/app
     command: npm run start:dev
 
   # Populate the database with data - one instance per service
