@@ -113,6 +113,27 @@ variable "k8s_vm_size" {
 }
 
 /*
+  Message Queue
+ */
+
+variable "message_queue_sku" {
+  description = "SKU for the message queue"
+  default = "Basic"
+}
+
+variable "message_queue_capacity" {
+  description = "Message queue capacity - SKU must be premium if non-0"
+  type = number
+  default = 0
+}
+
+variable "message_queue_zone_redundancy_enabled" {
+  description = "Enable message queue redundancy - SKY must be premium if true"
+  type = bool
+  default = false
+}
+
+/*
   MongoDB defaults
 
   These are used as base settings
