@@ -62,6 +62,12 @@ module.exports = ({
           throw new HealthCheckError('failed', results);
         }
 
+        results.push({
+          appName: process.env.APP_NAME,
+          buildId: process.env.BUILD_ID,
+          version: process.env.VERSION,
+        });
+
         return results;
       },
     },

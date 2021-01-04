@@ -12,6 +12,9 @@ services:
   appeals-service-api:
     image: node:14-alpine
     environment:
+      APP_NAME: appeals-service-api
+      BUILD_ID: dev
+      VERSION: dev
       DOCS_API_PATH: /opt/app/api
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       LPA_DATA_PATH: /opt/app/data/lpa-list.csv
@@ -48,6 +51,9 @@ services:
   document-service-api: &document-service
     image: node:14-alpine
     environment:
+      APP_NAME: document-service-api
+      BUILD_ID: dev
+      VERSION: dev
       BLOB_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blob-storage:10000/devstoreaccount1;QueueEndpoint=http://blob-storage:10001/devstoreaccount1;
       STORAGE_CONTAINER_NAME: document-service-uploads
       FILE_MAX_SIZE_IN_BYTES: 50000000
@@ -82,6 +88,9 @@ services:
   forms-web-app:
     image: node:14-alpine
     environment:
+      APP_NAME: forms-web-app
+      BUILD_ID: dev
+      VERSION: dev
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FILE_UPLOAD_DEBUG: "false"
