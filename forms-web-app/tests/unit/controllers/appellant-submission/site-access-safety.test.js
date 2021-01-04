@@ -5,18 +5,29 @@ const logger = require('../../../../src/lib/logger');
 const { getNextUncompletedTask } = require('../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../mocks');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
+const { getTaskStatus } = require('../../../../src/services/task.service');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/services/task.service');
 jest.mock('../../../../src/lib/logger');
 
-const req = mockReq();
-const res = mockRes();
-
 const sectionName = 'appealSiteSection';
 const taskName = 'healthAndSafety';
 
 describe('controllers/appellant-submission/site-access-safety', () => {
+  let req;
+  let res;
+  let appeal;
+
+  beforeEach(() => {
+    req = mockReq();
+    res = mockRes();
+
+    ({ empty: appeal } = APPEAL_DOCUMENT);
+
+    jest.resetAllMocks();
+  });
+
   describe('getSiteAccessSafety', () => {
     it('should call the correct template', () => {
       siteAccessSafetyController.getSiteAccessSafety(req, res);
@@ -43,9 +54,9 @@ describe('controllers/appellant-submission/site-access-safety', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY, {
         appeal: {
           ...req.session.appeal,
-          appealSiteSection: {
-            ...req.session.appeal.appealSiteSection,
-            healthAndSafety: {
+          [sectionName]: {
+            ...req.session.appeal[sectionName],
+            [taskName]: {
               hasIssues: null,
               healthAndSafetyIssues: null,
             },
@@ -77,7 +88,9 @@ describe('controllers/appellant-submission/site-access-safety', () => {
     });
 
     it('issues with concern - should redirect to the task list', async () => {
-      createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
+      const fakeTaskStatus = 'FAKE_STATUS';
+      getTaskStatus.mockImplementation(() => fakeTaskStatus);
+
       getNextUncompletedTask.mockReturnValue({
         href: `/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`,
       });
@@ -92,35 +105,79 @@ describe('controllers/appellant-submission/site-access-safety', () => {
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
 
-      const { empty: appeal } = APPEAL_DOCUMENT;
-      appeal[sectionName][taskName].hasIssues = true;
-      appeal[sectionName][taskName].healthAndSafetyIssues = 'some concerns noted here';
-      appeal.sectionStates[sectionName][taskName] = 'TODO';
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-    });
-    it('no issues with concerns - should redirect to the task list', async () => {
-      createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
-      getNextUncompletedTask.mockReturnValue({
-        href: `/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`,
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...appeal,
+        [sectionName]: {
+          ...appeal[sectionName],
+          [taskName]: {
+            hasIssues: true,
+            healthAndSafetyIssues: 'some concerns noted here',
+          },
+        },
+        sectionStates: {
+          ...appeal.sectionStates,
+          [sectionName]: {
+            ...appeal.sectionStates[sectionName],
+            [taskName]: fakeTaskStatus,
+          },
+        },
       });
-      const mockRequest = {
-        ...mockReq(),
+    });
+
+    [
+      {
+        description: 'basic expected payload',
+        body: {
+          'site-access-safety': 'no',
+          'site-access-safety-concerns': '',
+        },
+      },
+      {
+        description:
+          'acceptable submission, though safety concerns will be ignored when creating or updating the appeal',
         body: {
           'site-access-safety': 'no',
           'site-access-safety-concerns': 'some concerns noted here',
         },
-      };
-      await siteAccessSafetyController.postSiteAccessSafety(mockRequest, res);
+      },
+    ].forEach(({ description, body }) => {
+      it(`no issues with concerns - should redirect to the task list - ${description}`, async () => {
+        const fakeTaskStatus = 'ANOTHER_FAKE_STATUS';
+        getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
+        getNextUncompletedTask.mockReturnValue({
+          href: `/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`,
+        });
+        const mockRequest = {
+          ...mockReq(),
+          body,
+        };
+        await siteAccessSafetyController.postSiteAccessSafety(mockRequest, res);
 
-      const { empty: appeal } = APPEAL_DOCUMENT;
-      appeal[sectionName][taskName].hasIssues = false;
-      appeal[sectionName][taskName].healthAndSafetyIssues = '';
-      appeal.sectionStates[sectionName][taskName] = 'TODO';
+        expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+        expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+
+        expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+          ...appeal,
+          [sectionName]: {
+            ...appeal[sectionName],
+            [taskName]: {
+              hasIssues: false,
+              healthAndSafetyIssues: '',
+            },
+          },
+          sectionStates: {
+            ...appeal.sectionStates,
+            [sectionName]: {
+              ...appeal.sectionStates[sectionName],
+              [taskName]: fakeTaskStatus,
+            },
+          },
+        });
+      });
     });
   });
 });
