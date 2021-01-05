@@ -145,6 +145,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmFeedbackLinkIsDisplayedInPageBody',
+  require('./appeal-submission/confirmFeedbackLinkIsDisplayedInPageBody'),
+);
+
+Cypress.Commands.add(
   'confirmPrivacyLinkDisplayed',
   require('./appeal-header-footer-links/confirmPrivacyLinkDisplayed'),
 );
