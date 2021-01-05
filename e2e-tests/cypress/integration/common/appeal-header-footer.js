@@ -91,3 +91,7 @@ Then('the required links are displayed', () => {
   cy.confirmTermsAndConditionsLinkDisplayed();
   cy.confirmPrivacyLinkDisplayed();
 });
+
+Then('the required header link is displayed', () => {
+  cy.confirmFeedbackLinkIsDisplayed();
+});
