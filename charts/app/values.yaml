@@ -91,6 +91,9 @@ ingress:
   host: chart.example.com
   secretName: ingress-tls-secret
   clusterIssuer: letsencrypt
+  redirects: []
+#    - path: /path
+#      target: /target
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

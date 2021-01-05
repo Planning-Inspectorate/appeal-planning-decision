@@ -1,5 +1,6 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "app.fullname" . -}}
+{{- $labels := include "app.labels" .  -}}
 {{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1beta1
 {{- else -}}
@@ -9,7 +10,7 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{ $labels | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -30,4 +31,40 @@ spec:
             backend:
               serviceName: {{ $fullName }}
               servicePort: {{ .Values.formsWebApp.service.port }}
+
+{{- range $key, $redirect := .Values.ingress.redirects }}
+---
+{{- if semverCompare ">=1.14-0" $.Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- else -}}
+apiVersion: extensions/v1beta1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-redirect-{{ $key }}
+  labels:
+    {{ $labels | nindent 4 }}
+  {{- with $.Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+    nginx.ingress.kubernetes.io/rewrite-target: {{ $redirect.target }}
+  {{- if $.Values.ingress.clusterIssuer }}
+    cert-manager.io/cluster-issuer: {{ $.Values.ingress.clusterIssuer | quote }}
+  {{- end }}
+spec:
+  tls:
+    - hosts:
+        - {{ $.Values.ingress.host }}
+      secretName: {{ $.Values.ingress.secretName }}
+  rules:
+    - host: {{ $.Values.ingress.host }}
+      http:
+        paths:
+          - path: {{ $redirect.path }}
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: {{ $.Values.formsWebApp.service.port }}
+{{- end }}
+
 {{- end }}
