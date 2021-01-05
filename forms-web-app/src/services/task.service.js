@@ -83,6 +83,7 @@ function statusCheckYourAnswer(appeal) {
     statusDecisionLetter,
     statusAppealStatement,
     statusAppealSiteAddress,
+    statusSiteOwnership,
     statusSiteAccess,
     statusHealthAndSafety,
   ];
