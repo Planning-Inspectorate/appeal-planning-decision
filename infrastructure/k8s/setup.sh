@@ -196,10 +196,58 @@ install_prometheus() {
     prometheus-community/prometheus
 }
 
+install_openfaas() {
+  echo "Installing OpenFaaS"
+
+  kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
+  helm repo add simonemms https://helm.simonemms.com
+  helm repo add openfaas https://openfaas.github.io/faas-netes/
+  helm repo update
+  helm upgrade \
+    --reset-values \
+    --install \
+    --wait \
+    --atomic \
+    --cleanup-on-fail \
+    --namespace openfaas \
+    --set functionNamespace=openfaas-fn \
+    --set gateway.replicas=2 \
+    --set generateBasicAuth=true \
+    --set queueWorker.replicas=2 \
+    openfaas \
+    openfaas/openfaas
+
+  kubectl -n openfaas get deployments -l "release=openfaas, app=openfaas"
+
+  echo "Install AMQP Connector"
+
+  # @todo This basically works, but need to move usernames/passwords to secrets
+  helm upgrade \
+    --atomic \
+    --cleanup-on-fail \
+    --reset-values \
+    --install \
+    --wait \
+    --namespace openfaas \
+    --set amqp.connection.host=sje-test.servicebus.windows.net \
+    --set amqp.connection.hostname=sje-test.servicebus.windows.net \
+    --set amqp.connection.transport=tls \
+    --set amqp.connection.password=RiryY1zwMp9uaakp98+MhbQuwxndj98NSGnXxzKjXwY= \
+    --set amqp.connection.port=5671 \
+    --set amqp.connection.username=RootManageSharedAccessKey \
+    --set amqp.receiver.source=nodeinfo \
+    --set amqp.response.replyQueue=nodeinfo_reply \
+    --set openfaas.function=nodeinfo \
+    --set openfaas.gateway=http://gateway:8080 \
+    amqp-connector \
+    simonemms/openfaas-amqp1-0-connector
+}
+
 add_registry_secret
 configure_rbac
 install_azure_key_vault
 install_nginx_ingress
 install_cert_manager
-install_gitops
 install_prometheus
+install_openfaas
+install_gitops
