@@ -136,12 +136,17 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   'confirmTermsAndConditionsLinkDisplayed',
-  require('./appellant-submission-footer-links/confirmTermsAndConditionsLinkDisplayed'),
+  require('./appeal-header-footer-links/confirmTermsAndConditionsLinkDisplayed'),
+);
+
+Cypress.Commands.add(
+  'confirmFeedbackLinkIsDisplayed',
+  require('./appeal-header-footer-links/confirmFeedbackLinkIsDisplayed'),
 );
 
 Cypress.Commands.add(
   'confirmPrivacyLinkDisplayed',
-  require('./appellant-submission-footer-links/confirmPrivacyLinkDisplayed'),
+  require('./appeal-header-footer-links/confirmPrivacyLinkDisplayed'),
 );
 
 Cypress.Commands.add(

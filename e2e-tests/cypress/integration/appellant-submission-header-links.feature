@@ -7,7 +7,6 @@ Feature: Common link in header section
     Then the required header link is displayed
     Examples:
       | page                                                                   |
-#     | "Eligibility - Start appeal"                                           |
       | "Eligibility - Decision date"                                          |
       | "Eligibility - Decision date expired"                                  |
       | "Eligibility - No decision date"                                       |
@@ -24,8 +23,6 @@ Feature: Common link in header section
       | "Appellant submission - Planning application - Upload application"     |
       | "Appellant submission - Planning application - Upload decision letter" |
       | "Appellant submission - Your appeal - Appeal statement"                |
-#      | "Appellant submission - Your appeal - Supporting documents"            |
-#      | "Appellant submission - Your appeal - Other appeals"                   |
       | "Appellant submission - Appeal site - Site location"                   |
       | "Appellant submission - Appeal site - Site ownership"                  |
       | "Appellant submission - Appeal site - Site access"                     |
