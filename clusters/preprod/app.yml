@@ -41,3 +41,6 @@ spec:
 
     ingress:
       host: appeals-preprod.planninginspectorate.gov.uk
+      redirects:
+        - path: /path
+          target: /target
