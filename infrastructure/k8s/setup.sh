@@ -2,6 +2,8 @@
 
 set -e
 
+OPENFAAS_NAMESPACES="openfaas openfaas-fn"
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 kubectl create namespace "${DEPLOY_NAMESPACE}" || true
@@ -9,15 +11,18 @@ kubectl create namespace "${DEPLOY_NAMESPACE}" || true
 add_registry_secret() {
   echo "Adding registry secret to ${DEPLOY_NAMESPACE}"
 
-  kubectl create secret docker-registry \
-    -n "${DEPLOY_NAMESPACE}" \
-    azure-docker-registry \
-    --docker-server="${DOCKER_SERVER}" \
-    --docker-username="${DOCKER_USERNAME}" \
-    --docker-password="${DOCKER_PASSWORD}" \
-    --docker-email="${EMAIL_ADDRESS}" \
-    -o yaml --dry-run=client | \
-    kubectl replace -n "${DEPLOY_NAMESPACE}" --force -f -
+  for namespace in ${DEPLOY_NAMESPACE} ${OPENFAAS_NAMESPACES}
+  do
+    kubectl create secret docker-registry \
+      -n "${namespace}" \
+      azure-docker-registry \
+      --docker-server="${DOCKER_SERVER}" \
+      --docker-username="${DOCKER_USERNAME}" \
+      --docker-password="${DOCKER_PASSWORD}" \
+      --docker-email="${EMAIL_ADDRESS}" \
+      -o yaml --dry-run=client | \
+      kubectl replace -n "${namespace}" --force -f -
+  done
 }
 
 configure_rbac() {
@@ -31,6 +36,12 @@ configure_rbac() {
 
     envsubst < "${DIR}/../k8s/rbac/${role}.yaml" | kubectl apply -f -
   done
+}
+
+create_namespaces() {
+  echo "Create namespaces"
+
+  kubectl apply -f "${DIR}/openfaas/namespaces.yml"
 }
 
 install_azure_key_vault() {
@@ -196,6 +207,7 @@ install_prometheus() {
     prometheus-community/prometheus
 }
 
+create_namespaces
 add_registry_secret
 configure_rbac
 install_azure_key_vault

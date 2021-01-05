@@ -169,7 +169,32 @@ keyVault:
     - fwa-session-key
     - lpa-questionnaire-session-key
     - mongodb-connection-url
-  multiValueSecrets: []
+  multiValueSecrets:
+    - message-queue
   envSpecific:
     secrets: []
     multiValueSecrets: []
+
+# This connects this infrastructure with the OpenFaaS service, which is
+# in a separate namespace. This is for ease of maintenance and to keep
+# this logically separated as part of "this" application.
+horizon:
+  amqp:
+    connection:
+      existingPasswordSecret: akv-message-queue
+      existingUsernameSecret: akv-message-queue
+      host: ""
+      hostname: ""
+      port: 5671
+      transport: tls
+    receiver:
+      source: horizon-householder-appeal-publish
+    receiverFlow:
+      manual: true
+      concurrentItems: 1
+      postProcessPause: 10000
+    response:
+      sendReply: false
+  openfaas:
+    function: horizon-householder-appeal-publish
+    gateway: http://gateway.openfaas.svc.cluster.local:8080
