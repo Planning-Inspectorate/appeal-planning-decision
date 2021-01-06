@@ -90,6 +90,13 @@ ingress:
     kubernetes.io/tls-acme: "true"
   host: chart.example.com
   secretName: ingress-tls-secret
+  # The secret must be in the format for the nginx-ingress manual. If using
+  # Azure Key Vault, store the secret in the vault as JSON
+  # @link https://kubernetes.github.io/ingress-nginx/examples/auth/basic/
+  httpBasic:
+    enabled: false
+    message: "Authentication Required"
+    secret: ""
   clusterIssuer: letsencrypt
 
 resources: {}
