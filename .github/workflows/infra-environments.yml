@@ -37,6 +37,7 @@ jobs:
         environment:
           - dev
           - preprod
+          - prod
     steps:
       - uses: actions/checkout@v2
         with:
