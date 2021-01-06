@@ -1,4 +1,10 @@
 // NAVIGATION
+
+Cypress.Commands.add(
+  'goToPageNotFoundPage',
+  require('./integration-with-acp/goToPageNotFoundPage'),
+);
+
 Cypress.Commands.add(
   'goToStartAppealPage',
   require('./appeal-navigation/eligibility/goToStartAppealPage'),
@@ -497,6 +503,31 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'clickSaveAndContinue',
   require('./appellant-submission-your-details/clickSaveAndContinue'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationAcpPage',
+  require('./integration-with-acp/confirmNavigationAcpPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationPageNotFoundPage',
+  require('./integration-with-acp/confirmNavigationPageNotFoundPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationDecisionDatePage',
+  require('./appeal-navigation-confirmation/eligibility/confirmNavigationDecisionDatePage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationNoDecisionDatePage',
+  require('./appeal-navigation-confirmation/eligibility/confirmNavigationNoDecisionDatePage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationDecisionDateExpiredPage',
+  require('./appeal-navigation-confirmation/eligibility/confirmNavigationDecisionDateExpiredPage'),
 );
 
 Cypress.Commands.add(
