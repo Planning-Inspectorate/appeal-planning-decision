@@ -1,5 +1,15 @@
 {{- $keyVaultName := .Values.keyVault.name -}}
-{{- range .Values.keyVault.secrets }}
+{{- $secrets := .Values.keyVault.secrets }}
+{{- range $item := .Values.keyVault.envSpecific.secrets }}
+{{- $secrets = append $secrets $item }}
+{{- end }}
+
+{{- $multiValueSecrets := .Values.keyVault.multiValueSecrets }}
+{{- range $item := .Values.keyVault.envSpecific.multiValueSecrets }}
+{{- $multiValueSecrets = append $multiValueSecrets $item }}
+{{- end }}
+
+{{- range $secrets }}
 ---
 apiVersion: spv.no/v1
 kind: AzureKeyVaultSecret
@@ -17,7 +27,7 @@ spec:
       dataKey: value
 {{- end }}
 
-{{- range .Values.keyVault.multiValueSecrets }}
+{{- range $multiValueSecrets }}
 ---
 apiVersion: spv.no/v1
 kind: AzureKeyVaultSecret

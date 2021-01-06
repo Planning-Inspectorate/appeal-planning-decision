@@ -127,3 +127,6 @@ keyVault:
     - fwa-session-key
     - mongodb-connection-url
   multiValueSecrets: []
+  envSpecific:
+    secrets: []
+    multiValueSecrets: []
