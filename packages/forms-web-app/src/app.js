@@ -89,5 +89,6 @@ env.addFilter('appealSiteAddressToArray', appealSiteAddressToArray);
 env.addFilter('date', dateFilter);
 env.addFilter('formatBytes', fileSizeDisplayHelper);
 env.addGlobal('fileSizeLimits', config.fileUpload.pins);
+env.addGlobal('googleAnalyticsId', config.server.googleAnalyticsId);
 
 module.exports = app;

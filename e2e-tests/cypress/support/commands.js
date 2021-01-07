@@ -155,6 +155,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmGoogleAnalyticsLinkIsPresent',
+  require('./appeal-header-footer-links/confirmGoogleAnalyticsLinkIsPresent'),
+);
+
+Cypress.Commands.add(
   'provideDecisionDate',
   require('./eligibility-decision-date/provideDecisionDate'),
 );
