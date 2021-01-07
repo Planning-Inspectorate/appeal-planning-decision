@@ -5,20 +5,31 @@ const logger = require('../../../../src/lib/logger');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
+const { getTaskStatus } = require('../../../../src/services/task.service');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/services/task.service');
 jest.mock('../../../../src/lib/logger');
-
-const res = mockRes();
 
 const sectionName = 'aboutYouSection';
 const taskName = 'yourDetails';
 
 describe('controllers/appellant-submission/who-are-you', () => {
+  let req;
+  let res;
+  let appeal;
+
+  beforeEach(() => {
+    req = mockReq();
+    res = mockRes();
+
+    ({ empty: appeal } = APPEAL_DOCUMENT);
+
+    jest.resetAllMocks();
+  });
+
   describe('getWhoAreYou', () => {
     it('should call the correct template', () => {
-      const req = mockReq();
-
       whoAreYouController.getWhoAreYou(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
@@ -30,6 +41,10 @@ describe('controllers/appellant-submission/who-are-you', () => {
 
   describe('postWhoAreYou', () => {
     it('should redirect with original-appellant set to true', async () => {
+      const fakeTaskStatus = 'FAKE_STATUS';
+
+      getTaskStatus.mockImplementation(() => fakeTaskStatus);
+
       const mockRequest = {
         ...mockReq(),
         body: {
@@ -41,11 +56,27 @@ describe('controllers/appellant-submission/who-are-you', () => {
 
       await whoAreYouController.postWhoAreYou(mockRequest, res);
 
-      const { empty: appeal } = APPEAL_DOCUMENT;
-      appeal[sectionName][taskName].isOriginalApplicant = true;
-      appeal.sectionStates[sectionName][taskName] = 'IN PROGRESS';
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...appeal,
+        [sectionName]: {
+          ...appeal[sectionName],
+          [taskName]: {
+            appealingOnBehalfOf: '',
+            email: null,
+            isOriginalApplicant: true,
+            name: null,
+          },
+        },
+        sectionStates: {
+          ...appeal.sectionStates,
+          [sectionName]: {
+            ...appeal.sectionStates[sectionName],
+            [taskName]: fakeTaskStatus,
+          },
+        },
+      });
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(res.render).not.toHaveBeenCalled();
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS}`);
     });
@@ -61,10 +92,6 @@ describe('controllers/appellant-submission/who-are-you', () => {
       };
 
       await whoAreYouController.postWhoAreYou(mockRequest, res);
-
-      const { empty: appeal } = APPEAL_DOCUMENT;
-      appeal[sectionName][taskName].isOriginalApplicant = false;
-      appeal.sectionStates[sectionName][taskName] = 'IN PROGRESS';
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 
@@ -82,9 +109,7 @@ describe('controllers/appellant-submission/who-are-you', () => {
       };
       await whoAreYouController.postWhoAreYou(mockRequest, res);
 
-      const { empty: appeal } = APPEAL_DOCUMENT;
-      appeal[sectionName][taskName].isOriginalApplicant = false;
-      appeal.sectionStates[sectionName][taskName] = 'IN PROGRESS';
+      expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
@@ -96,6 +121,10 @@ describe('controllers/appellant-submission/who-are-you', () => {
     });
 
     it('should re-render the template with errors if there is any api call error', async () => {
+      const fakeTaskStatus = 'FAKE_STATUS';
+
+      getTaskStatus.mockImplementation(() => fakeTaskStatus);
+
       const mockRequest = {
         ...mockReq(),
         body: {},
@@ -107,7 +136,29 @@ describe('controllers/appellant-submission/who-are-you', () => {
       await whoAreYouController.postWhoAreYou(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
+
       expect(logger.error).toHaveBeenCalledWith(error);
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...appeal,
+        [sectionName]: {
+          ...appeal[sectionName],
+          [taskName]: {
+            appealingOnBehalfOf: '',
+            email: null,
+            isOriginalApplicant: undefined,
+            name: null,
+          },
+        },
+        sectionStates: {
+          ...appeal.sectionStates,
+          [sectionName]: {
+            ...appeal.sectionStates[sectionName],
+            [taskName]: fakeTaskStatus,
+          },
+        },
+      });
+
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
         FORM_FIELD,
         appeal: mockRequest.session.appeal,

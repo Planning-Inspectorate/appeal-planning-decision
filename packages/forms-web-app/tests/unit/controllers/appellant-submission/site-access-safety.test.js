@@ -103,8 +103,6 @@ describe('controllers/appellant-submission/site-access-safety', () => {
       };
       await siteAccessSafetyController.postSiteAccessSafety(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
-
       expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
@@ -124,6 +122,8 @@ describe('controllers/appellant-submission/site-access-safety', () => {
           },
         },
       });
+
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
     });
 
     [
@@ -156,8 +156,6 @@ describe('controllers/appellant-submission/site-access-safety', () => {
         };
         await siteAccessSafetyController.postSiteAccessSafety(mockRequest, res);
 
-        expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
-
         expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
         expect(createOrUpdateAppeal).toHaveBeenCalledWith({
@@ -177,6 +175,8 @@ describe('controllers/appellant-submission/site-access-safety', () => {
             },
           },
         });
+
+        expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
       });
     });
   });

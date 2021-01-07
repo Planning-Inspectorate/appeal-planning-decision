@@ -4,18 +4,30 @@ const { mockReq, mockRes } = require('../../mocks');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
+const { getTaskStatus, getNextUncompletedTask } = require('../../../../src/services/task.service');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/services/task.service');
 jest.mock('../../../../src/lib/empty-appeal');
 jest.mock('../../../../src/lib/logger');
-
-const req = mockReq();
-const res = mockRes();
 
 const sectionName = 'aboutYouSection';
 const taskName = 'yourDetails';
 
 describe('controllers/appellant-submission/your-details', () => {
+  let req;
+  let res;
+  let appeal;
+
+  beforeEach(() => {
+    req = mockReq();
+    res = mockRes();
+
+    ({ empty: appeal } = APPEAL_DOCUMENT);
+
+    jest.resetAllMocks();
+  });
+
   describe('getYourDetails', () => {
     it('should call the correct template', () => {
       yourDetailsController.getYourDetails(req, res);
@@ -39,23 +51,42 @@ describe('controllers/appellant-submission/your-details', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
-        appeal: req.session.appeal,
+        appeal: {
+          ...req.session.appeal,
+          [sectionName]: {
+            ...req.session.appeal[sectionName],
+            [taskName]: {
+              appealingOnBehalfOf: '',
+              email: undefined,
+              isOriginalApplicant: null,
+              name: undefined,
+            },
+          },
+        },
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });
+
+      expect(getTaskStatus).not.toHaveBeenCalled();
     });
 
     it('should log an error if the api call fails, and remain on the same page', async () => {
       const error = new Error('API is down');
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
+
       const mockRequest = {
         ...req,
         body: {},
       };
+
       await yourDetailsController.postYourDetails(mockRequest, res);
 
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+
       expect(res.redirect).not.toHaveBeenCalled();
+
       expect(logger.error).toHaveBeenCalledWith(error);
+
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
         appeal: req.session.appeal,
         errorSummary: [{ text: error.toString(), href: '#' }],
@@ -64,58 +95,106 @@ describe('controllers/appellant-submission/your-details', () => {
     });
 
     it('should redirect to task list if valid and original appellant', async () => {
-      createOrUpdateAppeal.mockResolvedValue({});
+      const fakeTaskStatus = 'FAKE_STATUS';
+      const fakeNextUrl = `/fake/url/goes/here`;
+
+      getTaskStatus.mockImplementation(() => fakeTaskStatus);
+
+      getNextUncompletedTask.mockReturnValue({
+        href: fakeNextUrl,
+      });
 
       const mockRequest = {
         ...req,
         body: {},
+        session: {
+          appeal: {
+            ...appeal,
+            [sectionName]: {
+              ...appeal[sectionName],
+              [taskName]: {
+                appealingOnBehalfOf: 'Someone else',
+                email: undefined,
+                isOriginalApplicant: true,
+                name: undefined,
+              },
+            },
+            sectionStates: {
+              ...appeal.sectionStates,
+              [sectionName]: {
+                ...appeal.sectionStates[sectionName],
+                [taskName]: fakeTaskStatus,
+              },
+            },
+          },
+        },
       };
-
-      const task = mockRequest.session.appeal[sectionName][taskName];
-      task.isOriginalApplicant = true;
-      task.appealingOnBehalfOf = 'Impostor';
 
       await yourDetailsController.postYourDetails(mockRequest, res);
 
-      const { empty: appeal } = APPEAL_DOCUMENT;
-      appeal[sectionName][taskName].isOriginalApplicant = true;
-      appeal[sectionName][taskName].appealingOnBehalfOf = null;
-      appeal[sectionName][taskName].email = undefined;
-      appeal[sectionName][taskName].name = undefined;
-      appeal.sectionStates[sectionName][taskName] = 'IN PROGRESS';
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...appeal,
+        [sectionName]: {
+          ...appeal[sectionName],
+          [taskName]: {
+            appealingOnBehalfOf: null,
+            email: undefined,
+            isOriginalApplicant: true,
+            name: undefined,
+          },
+        },
+        sectionStates: {
+          ...appeal.sectionStates,
+          [sectionName]: {
+            ...appeal.sectionStates[sectionName],
+            [taskName]: fakeTaskStatus,
+          },
+        },
+      });
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(fakeNextUrl);
     });
 
     it('should redirect to the applicant name page if valid and not the original appellant', async () => {
-      createOrUpdateAppeal.mockResolvedValue({});
+      const fakeEmail = 'jim@joe.com';
+      const fakeName = 'Jim Joe';
+      const fakeTaskStatus = 'FAKE_STATUS';
+
+      getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
       const mockRequest = {
         ...mockReq(),
         body: {
-          'appellant-email': 'jim@joe.com',
-          'appellant-name': 'Jim Joe',
+          'appellant-email': fakeEmail,
+          'appellant-name': fakeName,
         },
       };
 
-      const task = mockRequest.session.appeal[sectionName][taskName];
-      task.isOriginalApplicant = false;
-      task.appealingOnBehalfOf = 'Impostor';
-
       await yourDetailsController.postYourDetails(mockRequest, res);
 
-      const { empty: appeal } = APPEAL_DOCUMENT;
-      appeal[sectionName][taskName].isOriginalApplicant = false;
-      appeal[sectionName][taskName].appealingOnBehalfOf = 'Impostor';
-      appeal[sectionName][taskName].email = 'jim@joe.com';
-      appeal[sectionName][taskName].name = 'Jim Joe';
-      appeal.sectionStates[sectionName][taskName] = 'COMPLETED';
-
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...appeal,
+        [sectionName]: {
+          ...appeal[sectionName],
+          [taskName]: {
+            appealingOnBehalfOf: '',
+            email: fakeEmail,
+            isOriginalApplicant: null,
+            name: fakeName,
+          },
+        },
+        sectionStates: {
+          ...appeal.sectionStates,
+          [sectionName]: {
+            ...appeal.sectionStates[sectionName],
+            [taskName]: fakeTaskStatus,
+          },
+        },
+      });
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME}`);
+
+      expect(getNextUncompletedTask).not.toHaveBeenCalled();
     });
   });
 });

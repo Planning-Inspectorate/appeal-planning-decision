@@ -2,7 +2,7 @@ const siteAccessController = require('../../../../src/controllers/appellant-subm
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
-const { getNextUncompletedTask } = require('../../../../src/services/task.service');
+const { getNextUncompletedTask, getTaskStatus } = require('../../../../src/services/task.service');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { mockReq, mockRes } = require('../../mocks');
 
@@ -16,10 +16,15 @@ const taskName = 'siteAccess';
 describe('controllers/appellant-submission/site-access', () => {
   let req;
   let res;
+  let appeal;
 
   beforeEach(() => {
     req = mockReq();
     res = mockRes();
+
+    ({ empty: appeal } = APPEAL_DOCUMENT);
+
+    jest.resetAllMocks();
   });
 
   describe('getSiteAccess', () => {
@@ -72,8 +77,12 @@ describe('controllers/appellant-submission/site-access', () => {
 
       await siteAccessController.postSiteAccess(mockRequest, res);
 
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+
       expect(res.redirect).not.toHaveBeenCalled();
+
       expect(logger.error).toHaveBeenCalledWith(error);
+
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS, {
         appeal: req.session.appeal,
         errors: {},
@@ -105,7 +114,12 @@ describe('controllers/appellant-submission/site-access', () => {
     });
 
     it('should redirect to `/appellant-submission/site-access-safety` if `site-access` is `no`', async () => {
-      createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
+      const fakeCanInspectorSeeWholeSiteFromPublicRoad = false;
+      const fakeHowIsSiteAccessRestricted = 'more detail';
+      const fakeTaskStatus = 'FAKE_STATUS';
+
+      getTaskStatus.mockImplementation(() => fakeTaskStatus);
+
       getNextUncompletedTask.mockReturnValue({
         href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
       });
@@ -113,19 +127,32 @@ describe('controllers/appellant-submission/site-access', () => {
         ...req,
         body: {
           'site-access': 'no',
-          'site-access-more-detail': 'some more detail',
+          'site-access-more-detail': fakeHowIsSiteAccessRestricted,
         },
       };
       await siteAccessController.postSiteAccess(mockRequest, res);
 
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...appeal,
+        [sectionName]: {
+          ...appeal[sectionName],
+          [taskName]: {
+            canInspectorSeeWholeSiteFromPublicRoad: fakeCanInspectorSeeWholeSiteFromPublicRoad,
+            howIsSiteAccessRestricted: fakeHowIsSiteAccessRestricted,
+          },
+        },
+        sectionStates: {
+          ...appeal.sectionStates,
+          [sectionName]: {
+            ...appeal.sectionStates[sectionName],
+            [taskName]: fakeTaskStatus,
+          },
+        },
+      });
+
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`);
-
-      const { empty: goodAppeal } = APPEAL_DOCUMENT;
-      goodAppeal[sectionName][taskName].canInspectorSeeWholeSiteFromPublicRoad = false;
-      goodAppeal[sectionName][taskName].howIsSiteAccessRestricted = 'more detail';
-      goodAppeal.sectionStates[sectionName][taskName] = 'COMPLETED';
-
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(goodAppeal);
     });
   });
 });
