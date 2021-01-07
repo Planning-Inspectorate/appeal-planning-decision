@@ -4,7 +4,7 @@ const rules = () => {
   return [
     body('appellant-confirmation')
       .notEmpty()
-      .withMessage('Confirm that you agree with the terms and conditions')
+      .withMessage('You need to agree to the declaration')
       .bail()
       .equals('i-agree'),
   ];

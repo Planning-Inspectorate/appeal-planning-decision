@@ -11,7 +11,7 @@ describe('validators/submission', () => {
       expect(rule.locations).toEqual(['body']);
       expect(rule.optional).toBeFalsy();
       expect(rule.stack).toHaveLength(3);
-      expect(rule.stack[0].message).toEqual('Confirm that you agree with the terms and conditions');
+      expect(rule.stack[0].message).toEqual('You need to agree to the declaration');
       expect(rule.stack[2].validator.name).toEqual('equals');
       expect(rule.stack[2].options).toEqual(['i-agree']);
     });
@@ -31,9 +31,7 @@ describe('validators/submission', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
-          expect(result.errors[0].msg).toEqual(
-            'Confirm that you agree with the terms and conditions'
-          );
+          expect(result.errors[0].msg).toEqual('You need to agree to the declaration');
           expect(result.errors[0].param).toEqual('appellant-confirmation');
           expect(result.errors[0].value).toEqual(undefined);
         },
