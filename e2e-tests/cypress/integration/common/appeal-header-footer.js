@@ -95,3 +95,7 @@ Then('the required links are displayed', () => {
 Then('the required header link is displayed', () => {
   cy.confirmFeedbackLinkIsDisplayed();
 });
+
+Then('the required GA script is present', () => {
+  cy.confirmGoogleAnalyticsLinkIsPresent();
+});
