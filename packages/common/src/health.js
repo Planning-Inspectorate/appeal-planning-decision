@@ -7,17 +7,33 @@
 
 const { createTerminus, HealthCheckError } = require('@godaddy/terminus');
 
+const prometheus = require('./prometheus');
 const { promiseTimeout } = require('./utils');
 
 module.exports = ({
   server,
-  tasks,
+  tasks = [],
   logger,
   timeout = 1000,
   onTerminate = null,
   terminationGrace = 0,
-}) =>
-  createTerminus(server, {
+}) => {
+  /* Add a prometheus gauge to the health check */
+  const promHelp = 'Health status - 1 healthy, 0 unhealthy';
+  const healthGauge = new prometheus.promClient.Gauge({
+    name: 'application_health',
+    help: promHelp,
+  });
+
+  const checks = tasks.map((task) => ({
+    ...task,
+    gauge: new prometheus.promClient.Gauge({
+      name: `${task.name}_health`,
+      help: promHelp,
+    }),
+  }));
+
+  return createTerminus(server, {
     signal: 'SIGINT',
     async beforeShutdown() {
       if (terminationGrace > 0) {
@@ -32,7 +48,7 @@ module.exports = ({
 
         const results = (
           await Promise.allSettled(
-            tasks.map(async (task) => {
+            checks.map(async (task) => {
               let isHealthy = false;
 
               try {
@@ -40,6 +56,8 @@ module.exports = ({
               } catch (err) {
                 logger.debug({ err, task }, 'Health check failed');
               }
+
+              task.gauge.set(isHealthy ? 1 : 0);
 
               return {
                 ...task,
@@ -59,8 +77,11 @@ module.exports = ({
         logger.debug({ isHealthy, elapsedTime: Date.now() - startTime }, 'Health check completed');
 
         if (!isHealthy) {
+          healthGauge.set(0);
           throw new HealthCheckError('failed', results);
         }
+
+        healthGauge.set(1);
 
         return results;
       },
@@ -76,3 +97,4 @@ module.exports = ({
       logger.fatal('Server going down');
     },
   });
+};
