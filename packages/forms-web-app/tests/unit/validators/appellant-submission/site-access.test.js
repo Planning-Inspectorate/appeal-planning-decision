@@ -39,7 +39,7 @@ describe('validators/appellant-submission/site-access', () => {
         expect(rule.fields).toEqual(['site-access-more-detail']);
         expect(rule.locations).toEqual(['body']);
         expect(rule.optional).toBeFalsy();
-        expect(rule.stack).toHaveLength(2);
+        expect(rule.stack).toHaveLength(4);
 
         expect(rule.stack[0].chain).toBeDefined();
 
@@ -121,6 +121,38 @@ describe('validators/appellant-submission/site-access', () => {
           expect(result.errors[0].msg).toEqual('Tell us how access is restricted');
           expect(result.errors[0].param).toEqual('site-access-more-detail');
           expect(result.errors[0].value).toEqual('');
+        },
+      },
+      {
+        title:
+          'Site cannot be viewed from public highway, information provided is max length - valid',
+        given: () => ({
+          body: {
+            'site-access': 'no',
+            'site-access-more-detail': 'x'.repeat(255),
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(0);
+        },
+      },
+      {
+        title:
+          'Site cannot be viewed from public highway, information provided exceeds max length - invalid',
+        given: () => ({
+          body: {
+            'site-access': 'no',
+            'site-access-more-detail': 'x'.repeat(256),
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(1);
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual(
+            'How access is restricted must be 255 characters or less'
+          );
+          expect(result.errors[0].param).toEqual('site-access-more-detail');
+          expect(result.errors[0].value).toEqual('x'.repeat(256));
         },
       },
     ].forEach(({ title, given, expected }) => {

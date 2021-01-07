@@ -13,7 +13,10 @@ const ruleSiteAccessMoreDetail = () =>
   body('site-access-more-detail')
     .if(body('site-access').matches('no'))
     .notEmpty()
-    .withMessage('Tell us how access is restricted');
+    .withMessage('Tell us how access is restricted')
+    .bail()
+    .isLength({ min: 1, max: 255 })
+    .withMessage('How access is restricted must be 255 characters or less');
 
 const rules = () => [ruleSiteAccess(), ruleSiteAccessMoreDetail()];
 
