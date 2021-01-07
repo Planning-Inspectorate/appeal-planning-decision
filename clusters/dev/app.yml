@@ -29,13 +29,13 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/document-service-api
-        tag: 1.0.0-rc.2
+        tag: 1.0.0-rc.3
 
     formsWebApp:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
-        tag: 1.0.0-rc.5
+        tag: 1.0.0-rc.6
 
     keyVault:
       name: pins-uks-vault-7579-dev
