@@ -1,4 +1,5 @@
 const { VIEW } = require('../../../src/lib/views');
+const { APPEAL_DOCUMENT } = require('../../../src/lib/empty-appeal');
 
 const { SECTIONS, getNextUncompletedTask } = require('../../../src/services/task.service');
 
@@ -128,6 +129,42 @@ describe('services/task.service', () => {
     ].forEach(({ appeal, currentTask, expected }) => {
       it('should return the expected next uncompleted task', () => {
         expect(getNextUncompletedTask(appeal, currentTask, appeal.sectionStates)).toEqual(expected);
+      });
+    });
+
+    it('should fall through to default even when allowing `sections` to be an optional parameter', () => {
+      const appeal = {};
+      const currentTask = {
+        sectionName: 'aboutYouSection',
+        taskName: 'yourDetails',
+      };
+      expect(getNextUncompletedTask(appeal, currentTask)).toEqual({
+        href: '/appellant-submission/task-list',
+      });
+    });
+
+    it('should allow `sections` to be an optional parameter', () => {
+      const appeal = {
+        ...APPEAL_DOCUMENT.empty,
+        sectionStates: {
+          aboutYouSection: {
+            yourDetails: 'IN PROGRESS',
+          },
+          requiredDocumentsSection: {
+            applicationNumber: 'NOT STARTED',
+            originalApplication: 'NOT STARTED',
+            decisionLetter: 'NOT STARTED',
+          },
+        },
+      };
+      const currentTask = {
+        sectionName: 'requiredDocumentsSection',
+        taskName: 'applicationNumber',
+      };
+      expect(getNextUncompletedTask(appeal, currentTask)).toEqual({
+        href: '/appellant-submission/upload-application',
+        status: 'NOT STARTED',
+        taskName: 'originalApplication',
       });
     });
   });
