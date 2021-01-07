@@ -15,6 +15,13 @@ When('the user selects {string} to provide access', (answer) => {
   }
 });
 
+When(
+  'the user does provide additional information with character length exceeding the limit',
+  () => {
+    cy.provideMoreDetails('word'.repeat(64));
+  },
+);
+
 When('the user {string} provide additional information', (provided) => {
   if (provided === 'does') {
     cy.provideMoreDetails('More information');
@@ -46,6 +53,6 @@ Then('the user is informed that {string}', (reason) => {
   }
 });
 
-Then('the user is told to {string}', (reason) => {
+Then('the user is told {string}', (reason) => {
   cy.confirmAccessSiteWasRejectedBecause(reason);
 });
