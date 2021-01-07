@@ -10,13 +10,23 @@ jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/services/task.service');
 jest.mock('../../../../src/lib/logger');
 
-const req = mockReq();
-const res = mockRes();
-
 const sectionName = 'appealSiteSection';
 const taskName = 'siteOwnership';
 
 describe('controllers/appellant-submission/site-ownership-certb', () => {
+  let req;
+  let res;
+  let appeal;
+
+  beforeEach(() => {
+    req = mockReq();
+    res = mockRes();
+
+    ({ empty: appeal } = APPEAL_DOCUMENT);
+
+    jest.resetAllMocks();
+  });
+
   describe('getSiteOwnershipCertB', () => {
     it('should call the correct template', () => {
       siteOwnershipCertBController.getSiteOwnershipCertB(req, res);
@@ -43,9 +53,9 @@ describe('controllers/appellant-submission/site-ownership-certb', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB, {
         appeal: {
           ...req.session.appeal,
-          appealSiteSection: {
-            ...req.session.appeal.appealSiteSection,
-            siteOwnership: {
+          [sectionName]: {
+            ...req.session.appeal[sectionName],
+            [taskName]: {
               ownsWholeSite: null,
               haveOtherOwnersBeenTold: null,
             },
@@ -67,8 +77,12 @@ describe('controllers/appellant-submission/site-ownership-certb', () => {
 
       await siteOwnershipCertBController.postSiteOwnershipCertB(mockRequest, res);
 
-      expect(res.redirect).not.toHaveBeenCalled();
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+
       expect(logger.error).toHaveBeenCalledWith(error);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB, {
         appeal: req.session.appeal,
         errors: {},
@@ -77,10 +91,15 @@ describe('controllers/appellant-submission/site-ownership-certb', () => {
     });
 
     it('should redirect to the next valid url if valid', async () => {
-      createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
+      const fakeNextUrl = `/next/valid/url`;
+      const fakeTaskStatus = 'FAKE_STATUS';
+
+      getTaskStatus.mockImplementation(() => fakeTaskStatus);
+
       getNextUncompletedTask.mockReturnValue({
-        href: `/next/valid/url`,
+        href: fakeNextUrl,
       });
+
       const mockRequest = {
         ...req,
         body: {
@@ -88,34 +107,30 @@ describe('controllers/appellant-submission/site-ownership-certb', () => {
         },
       };
 
-      getTaskStatus.mockReturnValue('TEST_STATUS');
-
       await siteOwnershipCertBController.postSiteOwnershipCertB(mockRequest, res);
 
-      const { empty: goodAppeal } = APPEAL_DOCUMENT;
-
-      expect(getTaskStatus).toHaveBeenCalledWith(goodAppeal, sectionName, taskName);
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        ...goodAppeal,
-        appealSiteSection: {
-          ...goodAppeal.appealSiteSection,
-          siteOwnership: {
-            ...goodAppeal.appealSiteSection.siteOwnership,
+        ...appeal,
+        [sectionName]: {
+          ...appeal[sectionName],
+          [taskName]: {
+            ownsWholeSite: null,
             haveOtherOwnersBeenTold: false,
           },
         },
         sectionStates: {
-          ...goodAppeal.sectionStates,
-          appealSiteSection: {
-            ...goodAppeal.sectionStates.appealSiteSection,
-            siteOwnership: 'TEST_STATUS',
+          ...appeal.sectionStates,
+          [sectionName]: {
+            ...appeal.sectionStates[sectionName],
+            [taskName]: fakeTaskStatus,
           },
         },
       });
 
       expect(logger.error).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/next/valid/url`);
+      expect(res.redirect).toHaveBeenCalledWith(fakeNextUrl);
     });
   });
 });

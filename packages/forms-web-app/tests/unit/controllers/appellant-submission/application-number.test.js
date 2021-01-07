@@ -4,17 +4,29 @@ const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrappe
 const logger = require('../../../../src/lib/logger');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { VIEW } = require('../../../../src/lib/views');
+const { getNextUncompletedTask, getTaskStatus } = require('../../../../src/services/task.service');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/services/task.service');
 jest.mock('../../../../src/lib/logger');
-
-const req = mockReq();
-const res = mockRes();
 
 const sectionName = 'requiredDocumentsSection';
 const taskName = 'applicationNumber';
 
 describe('controllers/appellant-submission/application-number', () => {
+  let req;
+  let res;
+  let appeal;
+
+  beforeEach(() => {
+    req = mockReq();
+    res = mockRes();
+
+    ({ empty: appeal } = APPEAL_DOCUMENT);
+
+    jest.resetAllMocks();
+  });
+
   describe('getApplicationNumber', () => {
     it('should call the correct template', () => {
       applicationNumberController.getApplicationNumber(req, res);
@@ -35,9 +47,17 @@ describe('controllers/appellant-submission/application-number', () => {
       };
       await applicationNumberController.postApplicationNumber(mockRequest, res);
 
+      expect(getTaskStatus).not.toHaveBeenCalled();
+
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER, {
-        appeal: req.session.appeal,
+        appeal: {
+          ...req.session.appeal,
+          [sectionName]: {
+            ...req.session.appeal[sectionName],
+            [taskName]: undefined,
+          },
+        },
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });
@@ -52,8 +72,13 @@ describe('controllers/appellant-submission/application-number', () => {
         body: {},
       };
       await applicationNumberController.postApplicationNumber(mockRequest, res);
-      expect(res.redirect).not.toHaveBeenCalled();
+
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+
       expect(logger.error).toHaveBeenCalledWith(error);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER, {
         appeal: req.session.appeal,
         errors: {},
@@ -62,24 +87,42 @@ describe('controllers/appellant-submission/application-number', () => {
     });
 
     it('should redirect to `/appellant-submission/upload-application` if valid', async () => {
-      createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
+      const fakeApplicationNumber = 'some valid application number';
+      const fakeTaskStatus = 'FAKE_STATUS';
+
+      getTaskStatus.mockImplementation(() => fakeTaskStatus);
+
+      getNextUncompletedTask.mockReturnValue({
+        href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`,
+      });
 
       const mockRequest = {
         ...req,
         body: {
-          'application-number': 'some valid application number',
+          'application-number': fakeApplicationNumber,
         },
       };
 
       await applicationNumberController.postApplicationNumber(mockRequest, res);
 
-      const { empty: goodAppeal } = APPEAL_DOCUMENT;
-      goodAppeal[sectionName][taskName] = 'some valid application number';
-      goodAppeal.sectionStates[sectionName][taskName] = 'COMPLETED';
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...appeal,
+        [sectionName]: {
+          ...appeal[sectionName],
+          [taskName]: fakeApplicationNumber,
+        },
+        sectionStates: {
+          ...appeal.sectionStates,
+          [sectionName]: {
+            ...appeal.sectionStates[sectionName],
+            [taskName]: fakeTaskStatus,
+          },
+        },
+      });
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`);
-
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(goodAppeal);
     });
   });
 });

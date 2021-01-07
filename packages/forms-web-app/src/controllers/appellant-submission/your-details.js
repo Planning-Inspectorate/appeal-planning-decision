@@ -1,7 +1,6 @@
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
-const { getNextUncompletedTask } = require('../../services/task.service');
-const { getTaskStatus } = require('../../services/task.service');
+const { getTaskStatus, getNextUncompletedTask } = require('../../services/task.service');
 const { VIEW } = require('../../lib/views');
 
 const sectionName = 'aboutYouSection';

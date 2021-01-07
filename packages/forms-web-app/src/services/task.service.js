@@ -2,25 +2,7 @@ const { VIEW } = require('../lib/views');
 
 const TASK_STATUS = require('./task-status/task-statuses');
 const { statusSiteOwnership } = require('./task-status/status-site-ownership');
-
-function statusYourDetails(appeal) {
-  const {
-    isOriginalApplicant,
-    name,
-    email,
-    appealingOnBehalfOf,
-  } = appeal.aboutYouSection.yourDetails;
-
-  const isStarted = isOriginalApplicant !== null || name || email || appealingOnBehalfOf;
-
-  if (!isStarted) {
-    return TASK_STATUS.NOT_STARTED;
-  }
-
-  return (isOriginalApplicant || appealingOnBehalfOf) && name
-    ? TASK_STATUS.COMPLETED
-    : TASK_STATUS.IN_PROGRESS;
-}
+const { statusYourDetails } = require('./task-status/status-your-details');
 
 function statusAppealStatement(appeal) {
   const task = appeal.yourAppealSection.appealStatement;

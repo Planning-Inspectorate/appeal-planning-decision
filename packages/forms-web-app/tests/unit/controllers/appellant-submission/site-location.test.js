@@ -2,7 +2,7 @@ const siteLocationController = require('../../../../src/controllers/appellant-su
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
-const { getNextUncompletedTask } = require('../../../../src/services/task.service');
+const { getNextUncompletedTask, getTaskStatus } = require('../../../../src/services/task.service');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { VIEW } = require('../../../../src/lib/views');
 
@@ -10,13 +10,23 @@ jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/services/task.service');
 jest.mock('../../../../src/lib/logger');
 
-const req = mockReq();
-const res = mockRes();
-
 const sectionName = 'appealSiteSection';
 const taskName = 'siteAddress';
 
 describe('controllers/appellant-submission/site-location', () => {
+  let req;
+  let res;
+  let appeal;
+
+  beforeEach(() => {
+    req = mockReq();
+    res = mockRes();
+
+    ({ empty: appeal } = APPEAL_DOCUMENT);
+
+    jest.resetAllMocks();
+  });
+
   describe('getSiteLocation', () => {
     it('should call the correct template', () => {
       siteLocationController.getSiteLocation(req, res);
@@ -40,7 +50,19 @@ describe('controllers/appellant-submission/site-location', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_LOCATION, {
-        appeal: req.session.appeal,
+        appeal: {
+          ...req.session.appeal,
+          [sectionName]: {
+            ...req.session.appeal[sectionName],
+            [taskName]: {
+              addressLine1: undefined,
+              addressLine2: undefined,
+              county: undefined,
+              postcode: undefined,
+              town: undefined,
+            },
+          },
+        },
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });
@@ -55,8 +77,12 @@ describe('controllers/appellant-submission/site-location', () => {
       };
       await siteLocationController.postSiteLocation(mockRequest, res);
 
-      expect(res.redirect).not.toHaveBeenCalled();
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+
       expect(logger.error).toHaveBeenCalledWith(error);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_LOCATION, {
         appeal: req.session.appeal,
         errors: {},
@@ -65,33 +91,54 @@ describe('controllers/appellant-submission/site-location', () => {
     });
 
     it('should redirect to `/appellant-submission/site-ownership` if valid', async () => {
-      createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
+      const fakeLine1 = '1 Taylor Road';
+      const fakeLine2 = 'Clifton';
+      const fakeTownCity = 'Bristol';
+      const fakeCounty = 'South Glos';
+      const fakePostcode = 'BS8 1TG';
+      const fakeTaskStatus = 'FAKE_STATUS';
+
+      getTaskStatus.mockImplementation(() => fakeTaskStatus);
+
       getNextUncompletedTask.mockReturnValue({
         href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
       });
       const mockRequest = {
         ...req,
         body: {
-          'site-address-line-one': '1 Taylor Road',
-          'site-address-line-two': 'Clifton',
-          'site-town-city': 'Bristol',
-          'site-county': 'South Glos',
-          'site-postcode': 'BS8 1TG',
+          'site-address-line-one': fakeLine1,
+          'site-address-line-two': fakeLine2,
+          'site-town-city': fakeTownCity,
+          'site-county': fakeCounty,
+          'site-postcode': fakePostcode,
         },
       };
       await siteLocationController.postSiteLocation(mockRequest, res);
 
-      const { empty: goodAppeal } = APPEAL_DOCUMENT;
-      goodAppeal[sectionName][taskName].addressLine1 = '1 Taylor Road';
-      goodAppeal[sectionName][taskName].addressLine2 = 'Clifton';
-      goodAppeal[sectionName][taskName].town = 'Bristol';
-      goodAppeal[sectionName][taskName].county = 'South Glos';
-      goodAppeal[sectionName][taskName].postcode = 'BS8 1TG';
-      goodAppeal.sectionStates[sectionName][taskName] = 'COMPLETED';
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...appeal,
+        [sectionName]: {
+          ...appeal[sectionName],
+          [taskName]: {
+            addressLine1: fakeLine1,
+            addressLine2: fakeLine2,
+            county: fakeCounty,
+            postcode: fakePostcode,
+            town: fakeTownCity,
+          },
+        },
+        sectionStates: {
+          ...appeal.sectionStates,
+          [sectionName]: {
+            ...appeal.sectionStates[sectionName],
+            [taskName]: fakeTaskStatus,
+          },
+        },
+      });
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`);
-
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(goodAppeal);
     });
   });
 });

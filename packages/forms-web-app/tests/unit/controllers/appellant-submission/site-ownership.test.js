@@ -16,12 +16,15 @@ const taskName = 'siteOwnership';
 describe('controllers/appellant-submission/site-ownership', () => {
   let req;
   let res;
+  let appeal;
 
   beforeEach(() => {
-    jest.resetAllMocks();
-
     req = mockReq();
     res = mockRes();
+
+    ({ empty: appeal } = APPEAL_DOCUMENT);
+
+    jest.resetAllMocks();
   });
 
   describe('getSiteOwnership', () => {
@@ -50,9 +53,9 @@ describe('controllers/appellant-submission/site-ownership', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP, {
         appeal: {
           ...req.session.appeal,
-          appealSiteSection: {
+          [sectionName]: {
             ...req.session.appeal.appealSiteSection,
-            siteOwnership: {
+            [taskName]: {
               ownsWholeSite: null,
               haveOtherOwnersBeenTold: null,
             },
@@ -74,8 +77,12 @@ describe('controllers/appellant-submission/site-ownership', () => {
 
       await siteOwnershipController.postSiteOwnership(mockRequest, res);
 
-      expect(res.redirect).not.toHaveBeenCalled();
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+
       expect(logger.error).toHaveBeenCalledWith(error);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP, {
         appeal: req.session.appeal,
         errors: {},
@@ -84,10 +91,13 @@ describe('controllers/appellant-submission/site-ownership', () => {
     });
 
     it('should redirect to the next valid url if ownsWholeSite', async () => {
-      createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
+      const fakeTaskStatus = 'FAKE_STATUS';
+      const fakeNextUrl = `/next/valid/url`;
+
       getNextUncompletedTask.mockReturnValue({
-        href: `/next/valid/url`,
+        href: fakeNextUrl,
       });
+
       const mockRequest = {
         ...req,
         body: {
@@ -95,38 +105,36 @@ describe('controllers/appellant-submission/site-ownership', () => {
         },
       };
 
-      getTaskStatus.mockReturnValue('TEST_STATUS');
+      getTaskStatus.mockReturnValue(fakeTaskStatus);
 
       await siteOwnershipController.postSiteOwnership(mockRequest, res);
 
-      const { empty: goodAppeal } = APPEAL_DOCUMENT;
-
-      expect(getTaskStatus).toHaveBeenCalledWith(goodAppeal, sectionName, taskName);
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        ...goodAppeal,
-        appealSiteSection: {
-          ...goodAppeal.appealSiteSection,
-          siteOwnership: {
-            ...goodAppeal.appealSiteSection.siteOwnership,
+        ...appeal,
+        [sectionName]: {
+          ...appeal.appealSiteSection,
+          [taskName]: {
+            ...appeal.appealSiteSection.siteOwnership,
             ownsWholeSite: true,
           },
         },
         sectionStates: {
-          ...goodAppeal.sectionStates,
-          appealSiteSection: {
-            ...goodAppeal.sectionStates.appealSiteSection,
-            siteOwnership: 'TEST_STATUS',
+          ...appeal.sectionStates,
+          [sectionName]: {
+            ...appeal.sectionStates.appealSiteSection,
+            [taskName]: fakeTaskStatus,
           },
         },
       });
 
       expect(logger.error).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/next/valid/url`);
+      expect(res.redirect).toHaveBeenCalledWith(fakeNextUrl);
     });
 
     it(`should redirect to /${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB} if does not ownsWholeSite`, async () => {
-      createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
+      const fakeTaskStatus = 'FAKE_STATUS';
 
       const mockRequest = {
         ...req,
@@ -135,27 +143,25 @@ describe('controllers/appellant-submission/site-ownership', () => {
         },
       };
 
-      getTaskStatus.mockReturnValue('TEST_STATUS');
+      getTaskStatus.mockReturnValue(fakeTaskStatus);
 
       await siteOwnershipController.postSiteOwnership(mockRequest, res);
 
-      const { empty: goodAppeal } = APPEAL_DOCUMENT;
-
-      expect(getTaskStatus).toHaveBeenCalledWith(goodAppeal, sectionName, taskName);
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        ...goodAppeal,
-        appealSiteSection: {
-          ...goodAppeal.appealSiteSection,
-          siteOwnership: {
-            ...goodAppeal.appealSiteSection.siteOwnership,
+        ...appeal,
+        [sectionName]: {
+          ...appeal.appealSiteSection,
+          [taskName]: {
+            ...appeal.appealSiteSection.siteOwnership,
           },
         },
         sectionStates: {
-          ...goodAppeal.sectionStates,
-          appealSiteSection: {
-            ...goodAppeal.sectionStates.appealSiteSection,
-            siteOwnership: 'TEST_STATUS',
+          ...appeal.sectionStates,
+          [sectionName]: {
+            ...appeal.sectionStates.appealSiteSection,
+            [taskName]: fakeTaskStatus,
           },
         },
       });
@@ -171,8 +177,10 @@ describe('controllers/appellant-submission/site-ownership', () => {
 
   [true, false, null].forEach((haveOtherOwnersBeenTold) => {
     it('should null the contents of haveOtherOwnersBeenTold if site-ownership is set to yes', async () => {
+      const fakeTaskStatus = 'FAKE_STATUS';
+
       getNextUncompletedTask.mockReturnValue({ href: '/some/path' });
-      getTaskStatus.mockReturnValue('TEST_STATUS');
+      getTaskStatus.mockReturnValue(fakeTaskStatus);
 
       const mockRequest = {
         ...req,
@@ -185,22 +193,22 @@ describe('controllers/appellant-submission/site-ownership', () => {
 
       await siteOwnershipController.postSiteOwnership(mockRequest, res);
 
-      const { empty: goodAppeal } = APPEAL_DOCUMENT;
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        ...goodAppeal,
+        ...appeal,
         appealSiteSection: {
-          ...goodAppeal.appealSiteSection,
-          siteOwnership: {
+          ...appeal.appealSiteSection,
+          [taskName]: {
             ownsWholeSite: true,
             haveOtherOwnersBeenTold: null,
           },
         },
         sectionStates: {
-          ...goodAppeal.sectionStates,
-          appealSiteSection: {
-            ...goodAppeal.sectionStates.appealSiteSection,
-            siteOwnership: 'TEST_STATUS',
+          ...appeal.sectionStates,
+          [sectionName]: {
+            ...appeal.sectionStates.appealSiteSection,
+            [taskName]: fakeTaskStatus,
           },
         },
       });
@@ -209,8 +217,10 @@ describe('controllers/appellant-submission/site-ownership', () => {
 
   [true, false, null].forEach((haveOtherOwnersBeenTold) => {
     it('should retain the contents of haveOtherOwnersBeenTold if site-ownership is set to no', async () => {
+      const fakeTaskStatus = 'FAKE_STATUS';
+
       getNextUncompletedTask.mockReturnValue({ href: '/some/path' });
-      getTaskStatus.mockReturnValue('TEST_STATUS');
+      getTaskStatus.mockReturnValue(fakeTaskStatus);
 
       const mockRequest = {
         ...req,
@@ -223,22 +233,22 @@ describe('controllers/appellant-submission/site-ownership', () => {
 
       await siteOwnershipController.postSiteOwnership(mockRequest, res);
 
-      const { empty: goodAppeal } = APPEAL_DOCUMENT;
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        ...goodAppeal,
+        ...appeal,
         appealSiteSection: {
-          ...goodAppeal.appealSiteSection,
-          siteOwnership: {
+          ...appeal.appealSiteSection,
+          [taskName]: {
             ownsWholeSite: false,
             haveOtherOwnersBeenTold,
           },
         },
         sectionStates: {
-          ...goodAppeal.sectionStates,
-          appealSiteSection: {
-            ...goodAppeal.sectionStates.appealSiteSection,
-            siteOwnership: 'TEST_STATUS',
+          ...appeal.sectionStates,
+          [sectionName]: {
+            ...appeal.sectionStates.appealSiteSection,
+            [taskName]: fakeTaskStatus,
           },
         },
       });
