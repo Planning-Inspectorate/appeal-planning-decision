@@ -20,7 +20,7 @@ on:
       - 'feature/**'
       - 'fix/**'
     paths:
-      - common/**/*
+      - packages/common/**/*
 
 jobs:
   build:
