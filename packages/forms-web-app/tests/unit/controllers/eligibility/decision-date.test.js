@@ -1,5 +1,17 @@
+jest.mock('../../../../src/config', () => ({
+  logger: {
+    level: 'info',
+  },
+  server: {
+    limitedRouting: {
+      serviceUrl: 'example-url',
+    },
+  },
+}));
+
 const decisionDateController = require('../../../../src/controllers/eligibility/decision-date');
 const { mockReq, mockRes } = require('../../mocks');
+const config = require('../../../../src/config');
 
 const req = mockReq();
 const res = mockRes();
@@ -84,6 +96,21 @@ describe('controllers/eligibility/decision-date', () => {
       decisionDateController.postDecisionDate(happyReq, res);
 
       expect(res.redirect).toHaveBeenCalledWith('/eligibility/planning-department');
+    });
+
+    it('should redirect to external service on success if limitedRouted is enabled', () => {
+      config.server.limitedRouting.enabled = true;
+
+      const happyReq = {
+        ...req,
+        body: {
+          errors: {},
+          errorSummary: [],
+        },
+      };
+      decisionDateController.postDecisionDate(happyReq, res);
+
+      expect(res.redirect).toHaveBeenCalledWith(config.server.limitedRouting.serviceUrl);
     });
   });
 

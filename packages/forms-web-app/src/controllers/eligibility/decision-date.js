@@ -1,4 +1,5 @@
 const { VIEW } = require('../../lib/views');
+const config = require('../../config');
 
 exports.getNoDecision = (req, res) => {
   res.render(VIEW.ELIGIBILITY.NO_DECISION);
@@ -35,7 +36,13 @@ exports.postDecisionDate = (req, res) => {
     return;
   }
 
-  res.redirect(`/${VIEW.ELIGIBILITY.PLANNING_DEPARTMENT}`);
+  let redirectTo = `/${VIEW.ELIGIBILITY.PLANNING_DEPARTMENT}`;
+
+  if (config.server.limitedRouting.enabled) {
+    redirectTo = config.server.limitedRouting.serviceUrl;
+  }
+
+  res.redirect(redirectTo);
 };
 
 exports.getDecisionDateExpired = (req, res) => {

@@ -42,6 +42,21 @@ module.exports = {
     redact: ['opts.body', 'config.db.session.uri', 'config.server.sessionSecret'],
   },
   server: {
+    limitedRouting: {
+      enabled: process.env.SERVER_LIMITED_ROUTING_ENABLED === 'true',
+      /* Strings and regex are both allowable */
+      allowedRoutes: [
+        '/',
+        '/eligibility/decision-date',
+        '/eligibility/decision-date-expired',
+        '/eligibility/no-decision',
+        // These must be in to ensure the application runs correctly
+        '/metrics',
+        /^\/assets\//i,
+        /^\/public\//i,
+      ],
+      serviceUrl: 'https://acp.planninginspectorate.gov.uk',
+    },
     port: Number(process.env.PORT || 3000),
     sessionSecret: process.env.SESSION_KEY,
     useSecureSessionCookie: process.env.USE_SECURE_SESSION_COOKIES === 'true',
