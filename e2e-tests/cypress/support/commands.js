@@ -660,28 +660,28 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'acceptTermsAndConditions',
-  require('./appellant-confirms-ts-and-cs/acceptTermsAndConditions'),
+  'agreeToTheDeclaration',
+  require('./appellant-confirms-declaration/agreeToTheDeclaration'),
 );
 
 Cypress.Commands.add(
-  'doNotAcceptTermsAndConditions',
-  require('./appellant-confirms-ts-and-cs/doNotAcceptTermsAndConditions'),
+  'doNotAgreeToTheDeclaration',
+  require('./appellant-confirms-declaration/doNotAgreeToTheDeclaration'),
 );
 
 Cypress.Commands.add(
-  'confirmTermsAndConditionsAreRequired',
-  require('./appellant-confirms-ts-and-cs/confirmTermsAndConditionsAreRequired'),
+  'confirmDeclarationAreRequired',
+  require('./appellant-confirms-declaration/confirmDeclarationAreRequired'),
 );
 
 Cypress.Commands.add(
   'confirmAppealSubmitted',
-  require('./appellant-confirms-ts-and-cs/confirmAppealSubmitted'),
+  require('./appellant-confirms-declaration/confirmAppealSubmitted'),
 );
 
 Cypress.Commands.add(
   'confirmAppealNotSubmitted',
-  require('./appellant-confirms-ts-and-cs/confirmAppealNotSubmitted'),
+  require('./appellant-confirms-declaration/confirmAppealNotSubmitted'),
 );
 
 Cypress.Commands.add(
