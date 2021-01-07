@@ -39,6 +39,12 @@ spec:
 
     keyVault:
       name: pins-uks-vault-7579-dev
+      envSpecific:
+        multiValueSecrets:
+          - http-basic
 
     ingress:
       host: appeals-dev.planninginspectorate.gov.uk
+      httpBasic:
+        enabled: true
+        secret: akv-http-basic
