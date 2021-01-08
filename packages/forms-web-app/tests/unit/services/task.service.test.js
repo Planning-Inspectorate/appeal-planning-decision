@@ -1,5 +1,11 @@
 const { VIEW } = require('../../../src/lib/views');
 const { APPEAL_DOCUMENT } = require('../../../src/lib/empty-appeal');
+const {
+  CANNOT_START_YET,
+  COMPLETED,
+  IN_PROGRESS,
+  NOT_STARTED,
+} = require('../../../src/services/task-status/task-statuses');
 
 const { SECTIONS, getNextUncompletedTask } = require('../../../src/services/task.service');
 
@@ -9,10 +15,10 @@ describe('services/task.service', () => {
       const appeal = {
         sectionStates: {
           Section1: {
-            Task1: 'IN PROGRESS',
-            Task2: 'CANNOT START YET',
-            Task3: 'COMPLETED',
-            Task4: 'IN PROGRESS',
+            Task1: IN_PROGRESS,
+            Task2: CANNOT_START_YET,
+            Task3: COMPLETED,
+            Task4: IN_PROGRESS,
           },
         },
       };
@@ -32,10 +38,10 @@ describe('services/task.service', () => {
       const appeal = {
         sectionStates: {
           Section1: {
-            Task1: 'IN PROGRESS',
-            Task2: 'COMPLETED',
-            Task3: 'COMPLETED',
-            Task4: 'COMPLETED',
+            Task1: IN_PROGRESS,
+            Task2: COMPLETED,
+            Task3: COMPLETED,
+            Task4: COMPLETED,
           },
         },
       };
@@ -57,7 +63,7 @@ describe('services/task.service', () => {
     it('should return early from statusCheckYourAnswer if the appeal is already submitted ', () => {
       expect(
         SECTIONS.submitYourAppealSection.checkYourAnswers.rule({ state: 'SUBMITTED' })
-      ).toEqual('COMPLETED');
+      ).toEqual(COMPLETED);
     });
   });
 
@@ -67,7 +73,7 @@ describe('services/task.service', () => {
         appeal: {
           sectionStates: {
             Section1: {
-              Task1: 'CANNOT_START_YET',
+              Task1: CANNOT_START_YET,
             },
           },
         },
@@ -81,8 +87,8 @@ describe('services/task.service', () => {
         appeal: {
           sectionStates: {
             Section1: {
-              Task1: 'CANNOT_START_YET',
-              Task2: 'CANNOT_START_YET',
+              Task1: CANNOT_START_YET,
+              Task2: CANNOT_START_YET,
             },
           },
         },
@@ -96,10 +102,10 @@ describe('services/task.service', () => {
         appeal: {
           sectionStates: {
             Section1: {
-              Task1: 'IN PROGRESS',
-              Task2: 'COMPLETED',
-              Task3: 'COMPLETED',
-              Task4: 'COMPLETED',
+              Task1: IN_PROGRESS,
+              Task2: COMPLETED,
+              Task3: COMPLETED,
+              Task4: COMPLETED,
             },
           },
         },
@@ -113,10 +119,10 @@ describe('services/task.service', () => {
         appeal: {
           sectionStates: {
             Section1: {
-              Task1: 'IN PROGRESS',
-              Task2: 'IN PROGRESS',
-              Task3: 'IN PROGRESS',
-              Task4: 'IN PROGRESS',
+              Task1: IN_PROGRESS,
+              Task2: IN_PROGRESS,
+              Task3: IN_PROGRESS,
+              Task4: IN_PROGRESS,
             },
           },
         },
@@ -124,7 +130,7 @@ describe('services/task.service', () => {
           sectionName: 'Section1',
           taskName: 'Task1',
         },
-        expected: { href: undefined, status: 'IN PROGRESS', taskName: 'Task2' },
+        expected: { href: undefined, status: IN_PROGRESS, taskName: 'Task2' },
       },
     ].forEach(({ appeal, currentTask, expected }) => {
       it('should return the expected next uncompleted task', () => {
@@ -148,12 +154,12 @@ describe('services/task.service', () => {
         ...APPEAL_DOCUMENT.empty,
         sectionStates: {
           aboutYouSection: {
-            yourDetails: 'IN PROGRESS',
+            yourDetails: IN_PROGRESS,
           },
           requiredDocumentsSection: {
-            applicationNumber: 'NOT STARTED',
-            originalApplication: 'NOT STARTED',
-            decisionLetter: 'NOT STARTED',
+            applicationNumber: NOT_STARTED,
+            originalApplication: NOT_STARTED,
+            decisionLetter: NOT_STARTED,
           },
         },
       };
@@ -163,7 +169,7 @@ describe('services/task.service', () => {
       };
       expect(getNextUncompletedTask(appeal, currentTask)).toEqual({
         href: '/appellant-submission/upload-application',
-        status: 'NOT STARTED',
+        status: NOT_STARTED,
         taskName: 'originalApplication',
       });
     });
