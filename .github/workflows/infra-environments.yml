@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - develop # Only for the dev environment
     paths:
       - infrastructure/clusters/**/*
       - infrastructure/environments/**/*
@@ -29,20 +30,25 @@ env:
 jobs:
   provision:
     runs-on: ubuntu-latest
-    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    if: ${{ !contains(toJSON(github.event.commits.*.message), '[ci skip]') }}
     strategy:
-      max-parallel: 5
+      max-parallel: 1
       matrix:
-        environment:
-          - dev
-          - preprod
-          - prod
+        include:
+          - branch: refs/heads/develop
+            environment: dev
+          - branch: refs/heads/master
+            environment: preprod
+          - branch: refs/heads/master
+            environment: prod
     steps:
       - uses: actions/checkout@v2
+        if: github.ref == matrix.branch
         with:
           persist-credentials: false
 
       - name: Azure Login
+        if: github.ref == matrix.branch
         uses: azure/login@v1
         with:
           creds: |
@@ -54,12 +60,14 @@ jobs:
             }
 
       - name: Setup Terraform
+        if: github.ref == matrix.branch
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 0.14.0
           terraform_wrapper: false
 
       - name: Get Terraform Common config
+        if: github.ref == matrix.branch
         id: tf_common
         working-directory: infrastructure/common
         run: |
@@ -73,15 +81,18 @@ jobs:
           echo "::set-output name=containers_password::$(terraform output -json containers_password | jq -r .)"
 
       - name: "Terraform environment: ${{ matrix.environment }}"
+        if: github.ref == matrix.branch
         run: echo ${{ matrix.environment }}
 
       - name: Terraform Init
+        if: github.ref == matrix.branch
         run: |
           terraform init
           terraform workspace new "${{ matrix.environment }}" || true
           terraform workspace select "${{ matrix.environment }}"
 
       - name: Get Terraform variables
+        if: github.ref == matrix.branch
         id: vars
         run: |
           VARS_FILE="../clusters/${{ matrix.environment }}.tfvars"
@@ -95,6 +106,7 @@ jobs:
           echo "::set-output name=tfvars::$VARS_FILE"
 
       - name: Terraform Plan
+        if: github.ref == matrix.branch
         run: terraform plan
           -var container_registry_name="${{ steps.tf_common.outputs.container_registry_name }}"
           -var container_registry_rg_name="${{ steps.tf_common.outputs.container_registry_rg_name }}"
@@ -102,22 +114,25 @@ jobs:
           -out tfplan
 
       - name: Unlock resources
+        if: github.ref == matrix.branch
         run: bash ../scripts/lockResourceGroups.sh
           unlock
           "$(terraform workspace show)"
           "$(terraform output -json app-name | jq -r .)"
 
       - name: Terraform Apply
+        if: github.ref == matrix.branch
         run: terraform apply tfplan
 
       - name: Lock resources
-        if: ${{ always() }}
+        if: github.ref == matrix.branch && always()
         run: bash ../scripts/lockResourceGroups.sh
           lock
           "$(terraform workspace show)"
           "$(terraform output -json app-name | jq -r .)"
 
       - name: Get terraform output
+        if: github.ref == matrix.branch
         id: tf_output
         run: |
           terraform output -json kubeconfig | jq -r . > "../../$KUBECONFIG"
@@ -135,6 +150,7 @@ jobs:
           echo "::set-output name=key_vault_secrets::$(terraform output -json key_vault_secrets | jq -r . | base64 -w 0)"
 
       - name: Update Key Vault secrets
+        if: github.ref == matrix.branch
         uses: azure/CLI@v1
         env:
           KEY_VAULT_NAME: ${{ steps.tf_output.outputs.key_vault_name }}
@@ -145,6 +161,7 @@ jobs:
             bash $GITHUB_WORKSPACE/infrastructure/scripts/updateKeyVaultSecrets.sh
 
       - name: Configure Kubernetes instance
+        if: github.ref == matrix.branch
         uses: ./.github/actions/kubectl-helm
         env:
           CERT_MANAGER_VERSION: 1.0.3
