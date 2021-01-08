@@ -200,6 +200,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmPlanningDepartmentSelected',
+  require('./eligibility-local-planning-department/confirmPlanningDepartmentSelected'),
+);
+
+Cypress.Commands.add(
   'confirmRedirectToExternalService',
   require('./eligibility-local-planning-department/confirmRedirectToExternalService'),
 );
