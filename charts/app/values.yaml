@@ -48,6 +48,7 @@ formsWebApp:
     tag: latest
   config:
     port: 3000
+    enableLimitedRouting: false
     upload:
       debug: true
       uploadDir: /upload-dir
