@@ -1,3 +1,5 @@
+const { VIEW } = require('../lib/views');
+
 exports.getIndex = (req, res) => {
-  res.render('index');
+  res.redirect(`/${VIEW.ELIGIBILITY.DECISION_DATE}`);
 };

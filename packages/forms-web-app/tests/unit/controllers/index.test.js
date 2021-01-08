@@ -9,7 +9,7 @@ describe('controllers/index', () => {
     it('should call the correct template', () => {
       indexController.getIndex(req, res);
 
-      expect(res.render).toHaveBeenCalledWith('index');
+      expect(res.redirect).toHaveBeenCalledWith('/eligibility/decision-date');
     });
   });
 });
