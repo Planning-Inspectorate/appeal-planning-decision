@@ -10,11 +10,13 @@ exports.getDecisionDate = (req, res) => {
 
 exports.postDecisionDate = (req, res) => {
   const { body } = req;
+  /* istanbul ignore next */
   const { errors = {}, errorSummary = [] } = body;
 
   if (Object.keys(errors).length === 1 && errors['decision-date'] && errors['decision-date'].msg) {
     const parsed = JSON.parse(errors['decision-date'].msg);
 
+    /* istanbul ignore else */
     if (parsed.deadlineDate) {
       res.render(VIEW.ELIGIBILITY.DECISION_DATE_EXPIRED, {
         errors,

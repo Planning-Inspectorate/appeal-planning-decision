@@ -16,10 +16,12 @@ function validateEmail(email) {
 
   const result = pattern.exec(email);
 
+  /* istanbul ignore else */
   if (result && result.length > 1 && result[1].length > 2) {
     return email;
   }
 
+  /* istanbul ignore next */
   throw new Error('Email should be a valid email address');
 }
 
