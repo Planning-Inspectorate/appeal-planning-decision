@@ -35,6 +35,8 @@ spec:
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
         tag: latest
+      config:
+        enableLimitedRouting: true
 
     keyVault:
       name: pins-uks-vault-8439-prod
