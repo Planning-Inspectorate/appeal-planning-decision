@@ -5,8 +5,6 @@ describe('lib/views', () => {
     expect(VIEW).toEqual({
       APPLICATION_NUMBER: 'application-number',
 
-      SUBMISSION: 'submission',
-      CONFIRMATION: 'confirmation',
       CHECK_ANSWERS: 'check-answers',
 
       ELIGIBILITY: {
@@ -35,6 +33,8 @@ describe('lib/views', () => {
         APPLICANT_NAME: 'appellant-submission/applicant-name',
         UPLOAD_APPLICATION: 'appellant-submission/upload-application',
         UPLOAD_DECISION: 'appellant-submission/upload-decision',
+        SUBMISSION: 'appellant-submission/submission',
+        CONFIRMATION: 'appellant-submission/confirmation',
       },
     });
   });
