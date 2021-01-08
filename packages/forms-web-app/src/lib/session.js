@@ -14,6 +14,7 @@ module.exports = () => {
 
   const store = new MongoDBStore(config.db.session);
 
+  /* istanbul ignore next */
   store.on('error', (err) => {
     logger.error({ err }, 'MongoDB session store error');
   });

@@ -46,7 +46,9 @@ const rules = () => {
     body('decision-date-day').notEmpty(),
     body('decision-date-month').notEmpty(),
     body('decision-date-year').notEmpty().isLength({ min: 4, max: 4 }),
-    body('decision-date').custom((_value, { req }) => combinedDecisionDateFieldValidator(req)),
+    body('decision-date').custom(
+      /* istanbul ignore next */ (_value, { req }) => combinedDecisionDateFieldValidator(req)
+    ),
   ];
 };
 

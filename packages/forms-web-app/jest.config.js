@@ -7,12 +7,13 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.js'],
   coverageReporters: ['json', 'html', 'text', 'text-summary'],
+  coveragePathIgnorePatterns: ['node_modules', '<rootDir>/src/app.js', '<rootDir>/src/server.js'],
   coverageThreshold: {
     global: {
-      branches: 95,
-      functions: 94,
-      lines: 93,
-      statements: 93,
+      branches: 100,
+      functions: 100,
+      lines: 100,
+      statements: 100,
     },
   },
 };

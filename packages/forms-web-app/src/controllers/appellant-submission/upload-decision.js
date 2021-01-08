@@ -19,6 +19,7 @@ exports.postUploadDecision = async (req, res) => {
   const { errors = {}, errorSummary = [] } = body;
 
   if (Object.keys(errors).length > 0) {
+    /* istanbul ignore next */
     res.render(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
       appeal: req.session.appeal || {},
       errors,
