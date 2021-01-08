@@ -1,5 +1,5 @@
 module.exports = () => {
-  cy.visit('/submission');
+  cy.visit('/appellant-submission/submission');
 
   cy.get('[data-cy="appellant-confirmation"]').should('not.have.attr', 'checked');
   cy.get('[data-cy="appellant-confirmation"]').click();

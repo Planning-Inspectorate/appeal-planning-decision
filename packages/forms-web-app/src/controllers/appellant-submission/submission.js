@@ -1,7 +1,7 @@
-const { VIEW } = require('../lib/views');
+const { VIEW } = require('../../lib/views');
 
 exports.getSubmission = (req, res) => {
-  res.render(VIEW.SUBMISSION);
+  res.render(VIEW.APPELLANT_SUBMISSION.SUBMISSION);
 };
 
 exports.postSubmission = async (req, res) => {
@@ -9,7 +9,7 @@ exports.postSubmission = async (req, res) => {
   const { errors = {}, errorSummary = [] } = body;
 
   if (Object.keys(errors).length > 0) {
-    res.render(VIEW.SUBMISSION, {
+    res.render(VIEW.APPELLANT_SUBMISSION.SUBMISSION, {
       errors,
       errorSummary,
     });
@@ -17,9 +17,9 @@ exports.postSubmission = async (req, res) => {
   }
 
   if (body['appellant-confirmation'] === 'i-agree') {
-    res.redirect('/confirmation');
+    res.redirect(`/${VIEW.APPELLANT_SUBMISSION.CONFIRMATION}`);
     return;
   }
 
-  res.redirect(`/submission`);
+  res.redirect(`/${VIEW.APPELLANT_SUBMISSION.SUBMISSION}`);
 };

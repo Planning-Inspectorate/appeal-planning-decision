@@ -1,16 +1,16 @@
-const submissionController = require('../../../src/controllers/submission');
-const { mockReq, mockRes } = require('../mocks');
-const { VIEW } = require('../../../src/lib/views');
+const submissionController = require('../../../../src/controllers/appellant-submission/submission');
+const { mockReq, mockRes } = require('../../mocks');
+const { VIEW } = require('../../../../src/lib/views');
 
 const req = mockReq();
 const res = mockRes();
 
-describe('controllers/submission', () => {
+describe('controllers/appellant-submission/submission', () => {
   describe('getSubmission', () => {
     it('should call the correct template', () => {
       submissionController.getSubmission(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.SUBMISSION);
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SUBMISSION);
     });
   });
 
@@ -26,7 +26,7 @@ describe('controllers/submission', () => {
       await submissionController.postSubmission(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith(VIEW.SUBMISSION, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SUBMISSION, {
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });
@@ -41,7 +41,7 @@ describe('controllers/submission', () => {
       };
       submissionController.postSubmission(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.SUBMISSION}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.SUBMISSION}`);
     });
 
     it('should redirect if valid', async () => {
@@ -53,7 +53,7 @@ describe('controllers/submission', () => {
       };
       await submissionController.postSubmission(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.CONFIRMATION}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.CONFIRMATION}`);
     });
   });
 });

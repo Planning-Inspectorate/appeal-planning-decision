@@ -1,8 +1,8 @@
 const { validationResult } = require('express-validator');
-const { testExpressValidatorMiddleware } = require('./validation-middleware-helper');
-const { rules } = require('../../../src/validators/submission');
+const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
+const { rules } = require('../../../../src/validators/appellant-submission/submission');
 
-describe('validators/submission', () => {
+describe('validators/appellant-submission/submission', () => {
   describe('rules', () => {
     it('is configured with the expected rules', () => {
       const rule = rules()[0].builder.build();
