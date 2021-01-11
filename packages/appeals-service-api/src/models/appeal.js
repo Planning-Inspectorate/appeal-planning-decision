@@ -35,7 +35,7 @@ const appealDocument = {
       hasSensitiveInformation: null,
     },
     otherDocuments: {
-      documents: [],
+      uploadedFiles: [],
     },
     otherAppeals: {
       hasOtherAppeal: null,
