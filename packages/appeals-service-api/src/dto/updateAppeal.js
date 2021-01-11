@@ -53,19 +53,17 @@ module.exports = yup.object().shape({
       hasSensitiveInformation: yup.bool().nullable().default(null),
     }),
     otherDocuments: yup.object().shape({
-      documents: yup
+      uploadedFiles: yup
         .array()
         .of(
           yup.object().shape({
-            uploadedFile: yup.object().shape({
-              name: yup.string().max(255).ensure(),
-              id: yup
-                .string()
-                .uuid()
-                .transform((value) => (!value ? null : value))
-                .nullable()
-                .default(null),
-            }),
+            name: yup.string().max(255).ensure(),
+            id: yup
+              .string()
+              .uuid()
+              .transform((value) => (!value ? null : value))
+              .nullable()
+              .default(null),
           })
         )
         .nullable()
