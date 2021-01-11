@@ -1,6 +1,7 @@
 const { get, post } = require('../router-mock');
 const planningDepartmentController = require('../../../../src/controllers/eligibility/planning-department');
 const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
+const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 const {
   rules: planningDepartmentValidationRules,
 } = require('../../../../src/validators/eligibility/planning-department');
@@ -20,10 +21,12 @@ describe('routes/eligibility/planning-department', () => {
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
       '/planning-department',
+      [fetchExistingAppealMiddleware],
       planningDepartmentController.getPlanningDepartment
     );
     expect(get).toHaveBeenCalledWith(
       '/planning-department-out',
+      [fetchExistingAppealMiddleware],
       planningDepartmentController.getPlanningDepartmentOut
     );
     expect(post).toHaveBeenCalledWith(

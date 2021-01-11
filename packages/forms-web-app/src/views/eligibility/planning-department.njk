@@ -46,11 +46,12 @@
   <script src="/assets/accessible-autocomplete.min.js"></script>
   <script>
     accessibleAutocomplete({
+      id: 'planning-department-label',
       name: 'local-planning-department',
       showAllValues: true,
-      defaultValue: '',
-      element: document.querySelector('#planning-department'), id: 'planning-department-label', // To match it to the existing <label>.
-      source: {{ departments | dump | safe }}
+      defaultValue:  {{ appealLPD | dump | safe }},
+      element: document.querySelector('#planning-department'),
+      source: {{ departments | dump | safe }},
     });
   </script>
 {% endblock %}

@@ -63,6 +63,22 @@ describe('validators/planning-department', () => {
           expect(result.errors[0].param).toEqual('local-planning-department');
         },
       },
+      {
+        title: 'unknown local planning department is provided',
+        given: () => ({
+          body: {
+            'local-planning-department': 'lpa23',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(1);
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual(
+            'Select the local planning department from the list'
+          );
+          expect(result.errors[0].param).toEqual('local-planning-department');
+        },
+      },
     ].forEach(({ title, given, expected }) => {
       it(`should return the expected validation outcome - ${title}`, async () => {
         const mockReq = given();

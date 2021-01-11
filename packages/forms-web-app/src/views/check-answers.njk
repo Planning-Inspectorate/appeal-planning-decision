@@ -19,28 +19,39 @@
 
       <h2 class="govuk-heading-m">Before you start</h2>
 
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Local planning department
+          </dt>
+          <dd data-cy="local-planning-department" class="govuk-summary-list__value">
+            {{ appealLPD }}
+          </dd>
+        </div>
+      </dl>
       {{ govukSummaryList({
         classes: "govuk-summary-list govuk-!-margin-bottom-9",
         rows: [
           {
             key: {
-              text: "What are you appealing against?"
-            },
+            text: "What are you appealing against?"
+          },
             value: {
-              text: "I'm appealing a decision I received"
-            },
+            text: "I'm appealing a decision I received"
+          },
             actions: {
-              items: [
-                {
-                  href: "/eligibility/applicant",
-                  text: "Change",
-                  visuallyHiddenText: "what I'm appealing"
-                }
-              ]
-            }
+            items: [
+              {
+                href: "/eligibility/applicant",
+                text: "Change",
+                visuallyHiddenText: "what I'm appealing"
+              }
+            ]
+          }
           }
         ]
       }) }}
+
 
       <h2 class="govuk-heading-m">About you</h2>
 
