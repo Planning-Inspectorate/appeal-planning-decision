@@ -12,7 +12,6 @@ defaults:
 on:
   push:
     branches:
-      - main
       - master
       - develop
       - 'feature/**'
