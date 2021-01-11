@@ -3,7 +3,6 @@ name: Common Infrastructure
 on:
   push:
     branches:
-      - main
       - master
     paths:
       - infrastructure/common/**/*
