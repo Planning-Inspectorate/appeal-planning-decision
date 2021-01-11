@@ -1,4 +1,3 @@
-@wip
 Feature: Check that decision date is valid and eligible to commence an appeal with ACP integration
   Note - This feature is intended to support redirection to ACP service as part of initial MVP
 
