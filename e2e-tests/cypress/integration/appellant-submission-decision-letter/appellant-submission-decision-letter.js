@@ -38,7 +38,7 @@ When('user does not submit a decision letter file', () => {
   cy.saveAndContinue();
 });
 
-Then('The application file {string} is submitted and user can proceed', (filename) => {
+Then('The decision letter file {string} is submitted and user can proceed', (filename) => {
   cy.confirmDecisionLetterAccepted(filename);
 });
 
