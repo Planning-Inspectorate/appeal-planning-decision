@@ -256,3 +256,11 @@ Kubernetes cluster.
 ```shell script
 kubectl logs -f -n app-prod app-form-web-app-1111111111-aaaaa
 ```
+### ACP integration
+
+The current target MVP checks only the decision date eligibility before passing the user to an existing external service 
+Appeals Casework Portal (ACP) for user to submit their appeal.
+In the FWA ui app this behaviour is controlled by setting the environment variable `SERVER_LIMITED_ROUTING_ENABLED`.
+For convenience, a placeholder environment variable is present in the `docker-compose.yml` file.
+With this set to `true` only a limited set of pages are accessible and user will be taken to ACP from decision date eligibility check.
+With this set to `false` all existing pages will be accessible and user will proceed to LPD selection instead of ACP.

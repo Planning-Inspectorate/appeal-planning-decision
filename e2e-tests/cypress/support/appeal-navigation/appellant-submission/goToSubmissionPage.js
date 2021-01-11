@@ -1,4 +1,4 @@
 module.exports = () => {
-  cy.visit('/submission');
+  cy.visit('/submission', {failOnStatusCode: false});
   cy.wait(Cypress.env('demoDelay'));
 };

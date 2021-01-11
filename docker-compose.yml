@@ -82,6 +82,7 @@ services:
   forms-web-app:
     image: node:14-alpine
     environment:
+      SERVER_LIMITED_ROUTING_ENABLED: "false" # false means all pages are accessible while true means only limited pages are accessible for integration with ACP
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FILE_UPLOAD_DEBUG: "false"
