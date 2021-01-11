@@ -108,6 +108,24 @@ function validateAppeal(appealId, appeal) {
     );
   }
 
+  // Validate decision letter
+  if (
+    appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id !== null &&
+    appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name === ''
+  ) {
+    errors.push(
+      'The decision letter uploaded file must have a name for the file when it has an id'
+    );
+  }
+  if (
+    appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name !== '' &&
+    appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id === null
+  ) {
+    errors.push(
+      'The decision letter uploaded file must have an id for the file when it has a name'
+    );
+  }
+
   // Appeal Statement File Upload
   if (
     appeal.yourAppealSection.appealStatement.uploadedFile.id !== null &&
@@ -134,23 +152,20 @@ function validateAppeal(appealId, appeal) {
       'The appeal statement uploaded file cannot be accepted unless it is confirmed to have no sensitive information'
     );
   }
-  // Validate decision letter
-  if (
-    appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id !== null &&
-    appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name === ''
-  ) {
-    errors.push(
-      'The decision letter uploaded file must have a name for the file when it has an id'
-    );
-  }
-  if (
-    appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name !== '' &&
-    appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id === null
-  ) {
-    errors.push(
-      'The decision letter uploaded file must have an id for the file when it has a name'
-    );
-  }
+
+  // Validate supporting documents
+  appeal.yourAppealSection.otherDocuments.uploadedFiles.forEach((supportingDocument) => {
+    const { id, name } = supportingDocument;
+
+    if ((id !== null && name === '') || (id === null && name !== '')) {
+      let supportingDocumentErrorMessage = `The supporting document must have id and name valued.`;
+      supportingDocumentErrorMessage += id
+        ? `The name is missing. id=${id}`
+        : `The id is missing. name=${name}`;
+
+      errors.push(supportingDocumentErrorMessage);
+    }
+  });
 
   // Health and Safety
   if (
