@@ -79,18 +79,14 @@ describe('Appeals API', () => {
       id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
     };
     appeal.yourAppealSection.appealStatement.hasSensitiveInformation = false;
-    appeal.yourAppealSection.otherDocuments.documents = [
+    appeal.yourAppealSection.otherDocuments.uploadedFiles = [
       {
-        uploadedFile: {
-          name: 'my_uploaded_file_other_documents_one.pdf',
-          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        },
+        name: 'my_uploaded_file_other_documents_one.pdf',
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
       },
       {
-        uploadedFile: {
-          name: 'my_uploaded_fileother_documents_two.pdf',
-          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        },
+        name: 'my_uploaded_fileother_documents_two.pdf',
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
       },
     ];
     appeal.yourAppealSection.otherAppeals = {
@@ -293,6 +289,26 @@ describe('Appeals API', () => {
       'The appeal statement uploaded file cannot be accepted unless it is confirmed to have no sensitive information'
     );
     expect(response1.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - supporting document files should have both id and names', async () => {
+    const appeal = await createAppeal();
+
+    appeal.yourAppealSection.otherDocuments.uploadedFiles = [
+      { id: '3fa85f64-5717-4562-b3fc-2c963f66afa6', name: 'filename-1' },
+      { id: null, name: 'filename-2' },
+      { id: '3fa85f64-5717-4562-b3fc-2c963f66afa8', name: '' },
+    ];
+
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(400);
+    expect(response.body.errors).toContain(
+      'The supporting document must have id and name valued.The id is missing. name=filename-2'
+    );
+    expect(response.body.errors).toContain(
+      'The supporting document must have id and name valued.The name is missing. id=3fa85f64-5717-4562-b3fc-2c963f66afa8'
+    );
+    expect(response.statusCode).toBe(400);
   });
 
   test('PUT /api/v1/appeals/{id} - It responds with an error - original planning application upload file cannot have name without id', async () => {
