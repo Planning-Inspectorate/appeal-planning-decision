@@ -46,5 +46,5 @@ spec:
     ingress:
       host: appeals-dev.planninginspectorate.gov.uk
       httpBasic:
-        enabled: false
+        enabled: true
         secret: akv-http-basic
