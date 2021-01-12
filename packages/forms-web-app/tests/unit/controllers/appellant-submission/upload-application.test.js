@@ -3,7 +3,7 @@ const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
 const { createDocument } = require('../../../../src/lib/documents-api-wrapper');
-const { getNextUncompletedTask, getTaskStatus } = require('../../../../src/services/task.service');
+const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
 const { VIEW } = require('../../../../src/lib/views');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 
@@ -102,7 +102,7 @@ describe('controllers/appellant-submission/upload-application', () => {
 
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
-      getNextUncompletedTask.mockReturnValue({
+      getNextTask.mockReturnValue({
         href: fakeNextUrl,
       });
 
@@ -128,7 +128,7 @@ describe('controllers/appellant-submission/upload-application', () => {
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
       createDocument.mockImplementation(() => ({ id: fakeFileId }));
-      getNextUncompletedTask.mockReturnValue({
+      getNextTask.mockReturnValue({
         href: fakeNextUrl,
       });
 

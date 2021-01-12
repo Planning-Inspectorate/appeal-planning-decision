@@ -2,7 +2,7 @@ const applicantNameController = require('../../../../src/controllers/appellant-s
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
-const { getTaskStatus, getNextUncompletedTask } = require('../../../../src/services/task.service');
+const { getTaskStatus, getNextTask } = require('../../../../src/services/task.service');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { mockReq, mockRes } = require('../../mocks');
 
@@ -101,7 +101,7 @@ describe('controllers/appellant-submission/applicant-name', () => {
 
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
-      getNextUncompletedTask.mockReturnValue({
+      getNextTask.mockReturnValue({
         href: `/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`,
       });
       const mockRequest = {

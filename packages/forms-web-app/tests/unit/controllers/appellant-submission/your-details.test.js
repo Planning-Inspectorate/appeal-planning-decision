@@ -4,7 +4,7 @@ const { mockReq, mockRes } = require('../../mocks');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
-const { getTaskStatus, getNextUncompletedTask } = require('../../../../src/services/task.service');
+const { getTaskStatus, getNextTask } = require('../../../../src/services/task.service');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/services/task.service');
@@ -100,7 +100,7 @@ describe('controllers/appellant-submission/your-details', () => {
 
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
-      getNextUncompletedTask.mockReturnValue({
+      getNextTask.mockReturnValue({
         href: fakeNextUrl,
       });
 
@@ -194,7 +194,7 @@ describe('controllers/appellant-submission/your-details', () => {
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME}`);
 
-      expect(getNextUncompletedTask).not.toHaveBeenCalled();
+      expect(getNextTask).not.toHaveBeenCalled();
     });
   });
 });

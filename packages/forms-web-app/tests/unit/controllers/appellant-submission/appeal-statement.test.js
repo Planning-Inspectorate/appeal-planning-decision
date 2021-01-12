@@ -3,7 +3,7 @@ const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrappe
 const { createDocument } = require('../../../../src/lib/documents-api-wrapper');
 const { mockReq, mockRes } = require('../../mocks');
 const logger = require('../../../../src/lib/logger');
-const { getNextUncompletedTask } = require('../../../../src/services/task.service');
+const { getNextTask } = require('../../../../src/services/task.service');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { getTaskStatus } = require('../../../../src/services/task.service');
 const { VIEW } = require('../../../../src/lib/views');
@@ -115,7 +115,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
       const fakeTaskStatus = 'FAKE_STATUS';
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
-      getNextUncompletedTask.mockReturnValue({
+      getNextTask.mockReturnValue({
         href: `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
       });
 
@@ -166,7 +166,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
       createDocument.mockImplementation(() => ({ id: fakeFileId }));
-      getNextUncompletedTask.mockReturnValue({
+      getNextTask.mockReturnValue({
         href: fakeNextUrl,
       });
 

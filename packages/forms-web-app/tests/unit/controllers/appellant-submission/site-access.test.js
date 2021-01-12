@@ -2,7 +2,7 @@ const siteAccessController = require('../../../../src/controllers/appellant-subm
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
-const { getNextUncompletedTask, getTaskStatus } = require('../../../../src/services/task.service');
+const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { mockReq, mockRes } = require('../../mocks');
 
@@ -92,7 +92,7 @@ describe('controllers/appellant-submission/site-access', () => {
 
     it('should redirect to `/appellant-submission/site-access-safety` if `site-access` is `yes`', async () => {
       createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
-      getNextUncompletedTask.mockReturnValue({
+      getNextTask.mockReturnValue({
         href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
       });
       const mockRequest = {
@@ -120,7 +120,7 @@ describe('controllers/appellant-submission/site-access', () => {
 
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
-      getNextUncompletedTask.mockReturnValue({
+      getNextTask.mockReturnValue({
         href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
       });
       const mockRequest = {

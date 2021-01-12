@@ -7,11 +7,11 @@ const {
   NOT_STARTED,
 } = require('../../../src/services/task-status/task-statuses');
 
-const { SECTIONS, getNextUncompletedTask } = require('../../../src/services/task.service');
+const { SECTIONS, getNextTask } = require('../../../src/services/task.service');
 
 describe('services/task.service', () => {
   describe('getNextTask', () => {
-    it('should return next uncompleted task', async () => {
+    it('should return next on going task', async () => {
       const appeal = {
         sectionStates: {
           Section1: {
@@ -23,34 +23,34 @@ describe('services/task.service', () => {
         },
       };
 
-      const task = getNextUncompletedTask(
+      const task = getNextTask(
         appeal,
         {
           sectionName: 'Section1',
-          taskName: 'Task2',
+          taskName: 'Task1',
         },
         appeal.sectionStates
       );
 
-      expect(task.taskName).toEqual('Task4');
+      expect(task.taskName).toEqual('Task3');
     });
-    it('should return task list as all the section tasks are completed', async () => {
+    it('should return task list as all the remaining section tasks cannot be started yet', async () => {
       const appeal = {
         sectionStates: {
           Section1: {
             Task1: IN_PROGRESS,
-            Task2: COMPLETED,
-            Task3: COMPLETED,
-            Task4: COMPLETED,
+            Task2: CANNOT_START_YET,
+            Task3: CANNOT_START_YET,
+            Task4: CANNOT_START_YET,
           },
         },
       };
 
-      const task = getNextUncompletedTask(
+      const task = getNextTask(
         appeal,
         {
           sectionName: 'Section1',
-          taskName: 'Task2',
+          taskName: 'Task1',
         },
         appeal.sectionStates
       );
@@ -67,7 +67,7 @@ describe('services/task.service', () => {
     });
   });
 
-  describe('getNextUncompletedTask', () => {
+  describe('getNextTask', () => {
     [
       {
         appeal: {
@@ -103,9 +103,9 @@ describe('services/task.service', () => {
           sectionStates: {
             Section1: {
               Task1: IN_PROGRESS,
-              Task2: COMPLETED,
-              Task3: COMPLETED,
-              Task4: COMPLETED,
+              Task2: CANNOT_START_YET,
+              Task3: CANNOT_START_YET,
+              Task4: CANNOT_START_YET,
             },
           },
         },
@@ -133,8 +133,8 @@ describe('services/task.service', () => {
         expected: { href: undefined, status: IN_PROGRESS, taskName: 'Task2' },
       },
     ].forEach(({ appeal, currentTask, expected }) => {
-      it('should return the expected next uncompleted task', () => {
-        expect(getNextUncompletedTask(appeal, currentTask, appeal.sectionStates)).toEqual(expected);
+      it('should return the expected next on going task', () => {
+        expect(getNextTask(appeal, currentTask, appeal.sectionStates)).toEqual(expected);
       });
     });
 
@@ -144,7 +144,7 @@ describe('services/task.service', () => {
         sectionName: 'aboutYouSection',
         taskName: 'yourDetails',
       };
-      expect(getNextUncompletedTask(appeal, currentTask)).toEqual({
+      expect(getNextTask(appeal, currentTask)).toEqual({
         href: '/appellant-submission/task-list',
       });
     });
@@ -167,7 +167,7 @@ describe('services/task.service', () => {
         sectionName: 'requiredDocumentsSection',
         taskName: 'applicationNumber',
       };
-      expect(getNextUncompletedTask(appeal, currentTask)).toEqual({
+      expect(getNextTask(appeal, currentTask)).toEqual({
         href: '/appellant-submission/upload-application',
         status: NOT_STARTED,
         taskName: 'originalApplication',

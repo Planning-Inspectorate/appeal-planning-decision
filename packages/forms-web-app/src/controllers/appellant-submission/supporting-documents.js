@@ -2,7 +2,7 @@ const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 const { createDocument } = require('../../lib/documents-api-wrapper');
-const { getNextUncompletedTask } = require('../../services/task.service');
+const { getNextTask } = require('../../services/task.service');
 const { getTaskStatus } = require('../../services/task.service');
 
 const sectionName = 'yourAppealSection';
@@ -41,7 +41,7 @@ exports.postSupportingDocuments = async (req, res) => {
       for await (const file of supportingDocuments) {
         const document = await createDocument(appeal, file);
 
-        appeal[sectionName][taskName].documents.push({
+        appeal[sectionName][taskName].uploadedFiles.push({
           id: document.id,
           name: file.name,
           // needed for MoJ multi-file upload display
@@ -68,5 +68,5 @@ exports.postSupportingDocuments = async (req, res) => {
     return;
   }
 
-  res.redirect(getNextUncompletedTask(appeal, { sectionName, taskName }).href);
+  res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
 };

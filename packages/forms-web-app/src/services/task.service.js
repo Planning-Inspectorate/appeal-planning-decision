@@ -144,7 +144,7 @@ const getTaskStatus = (appeal, sectionName, taskName, sections = SECTIONS) => {
 };
 
 // Get next section task
-const getNextUncompletedTask = (appeal, currentTask, sections = SECTIONS) => {
+const getNextTask = (appeal, currentTask, sections = SECTIONS) => {
   const { sectionName, taskName } = currentTask;
 
   const section = sections[sectionName];
@@ -168,7 +168,7 @@ const getNextUncompletedTask = (appeal, currentTask, sections = SECTIONS) => {
       status,
       href: sections[sectionName][nextTaskName].href,
     };
-    if (![TASK_STATUS.COMPLETED, TASK_STATUS.CANNOT_START_YET].includes(nextTask.status)) {
+    if (TASK_STATUS.CANNOT_START_YET !== nextTask.status) {
       return nextTask;
     }
   }
@@ -179,5 +179,5 @@ const getNextUncompletedTask = (appeal, currentTask, sections = SECTIONS) => {
 module.exports = {
   SECTIONS,
   getTaskStatus,
-  getNextUncompletedTask,
+  getNextTask,
 };
