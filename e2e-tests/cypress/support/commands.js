@@ -749,3 +749,8 @@ Cypress.Commands.add(
   'confirmUserPresentedWithProvidePlanningApplicationNumber',
   require('./appeal-submission-tasklist/confirmUserPresentedWithProvidePlanningApplicationNumber'),
 );
+
+Cypress.Commands.add(
+  'validateIndividualFileUpload',
+  require('./file-upload/validateIndividualFileUpload'),
+);

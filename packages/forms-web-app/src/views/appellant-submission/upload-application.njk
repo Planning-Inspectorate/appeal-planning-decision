@@ -34,7 +34,13 @@
         {% if appeal.requiredDocumentsSection.originalApplication.uploadedFile.id %}
           <h3 class="govuk-heading-m">File added:</h3>
           <ul class="govuk-list">
-            <li id="application-upload-file-name">{{ appeal.requiredDocumentsSection.originalApplication.uploadedFile.name }}</li>
+            <li id="application-upload-file-name"
+                data-cy="application-upload-file-name"
+                data-file-id="{{ appeal.requiredDocumentsSection.originalApplication.uploadedFile.id }}"
+                data-file-location="{{ appeal.requiredDocumentsSection.originalApplication.uploadedFile.location }}"
+                data-file-size="{{ appeal.requiredDocumentsSection.originalApplication.uploadedFile.size }}">
+              {{- appeal.requiredDocumentsSection.originalApplication.uploadedFile.name -}}
+            </li>
           </ul>
         {% endif %}
 

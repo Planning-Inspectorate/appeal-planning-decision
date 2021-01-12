@@ -163,7 +163,7 @@ describe('controllers/appellant-submission/your-details', () => {
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
       const mockRequest = {
-        ...mockReq(),
+        ...mockReq(appeal),
         body: {
           'appellant-email': fakeEmail,
           'appellant-name': fakeName,

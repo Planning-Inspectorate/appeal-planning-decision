@@ -151,7 +151,7 @@ describe('controllers/appellant-submission/site-access-safety', () => {
           href: `/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`,
         });
         const mockRequest = {
-          ...mockReq(),
+          ...mockReq(appeal),
           body,
         };
         await siteAccessSafetyController.postSiteAccessSafety(mockRequest, res);

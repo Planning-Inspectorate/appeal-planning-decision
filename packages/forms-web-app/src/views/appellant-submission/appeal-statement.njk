@@ -108,7 +108,12 @@
         {% if appeal.yourAppealSection.appealStatement.uploadedFile.id %}
           <h3 class="govuk-heading-m">File added:</h3>
           <ul class="govuk-list">
-            <li id="appeal-upload-file-name">{{ appeal.yourAppealSection.appealStatement.uploadedFile.name }}</li>
+            <li id="appeal-upload-file-name"
+                data-file-id="{{ appeal.yourAppealSection.appealStatement.uploadedFile.id }}"
+                data-file-location="{{ appeal.yourAppealSection.appealStatement.uploadedFile.location }}"
+                data-file-size="{{ appeal.yourAppealSection.appealStatement.uploadedFile.size }}">
+              {{- appeal.yourAppealSection.appealStatement.uploadedFile.name -}}
+            </li>
           </ul>
         {% endif %}
 
