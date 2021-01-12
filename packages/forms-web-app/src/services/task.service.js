@@ -48,7 +48,7 @@ function statusHealthAndSafety(appeal) {
 
 function statusSiteAccess(appeal) {
   const task = appeal.appealSiteSection.siteAccess;
-  return task.canInspectorSeeWholeSiteFromPublicRoad
+  return task.canInspectorSeeWholeSiteFromPublicRoad !== null
     ? TASK_STATUS.COMPLETED
     : TASK_STATUS.NOT_STARTED;
 }
