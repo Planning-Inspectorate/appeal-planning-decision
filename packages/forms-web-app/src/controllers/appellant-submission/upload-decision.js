@@ -3,7 +3,7 @@ const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 const { createDocument } = require('../../lib/documents-api-wrapper');
 const { getTaskStatus } = require('../../services/task.service');
-const { getNextUncompletedTask } = require('../../services/task.service');
+const { getNextTask } = require('../../services/task.service');
 
 const sectionName = 'requiredDocumentsSection';
 const taskName = 'decisionLetter';
@@ -56,5 +56,5 @@ exports.postUploadDecision = async (req, res) => {
     return;
   }
 
-  res.redirect(getNextUncompletedTask(appeal, { sectionName, taskName }).href);
+  res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
 };

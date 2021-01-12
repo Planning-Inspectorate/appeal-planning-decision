@@ -35,7 +35,7 @@ module.exports.APPEAL_DOCUMENT = {
         hasSensitiveInformation: null,
       },
       otherDocuments: {
-        documents: [],
+        uploadedFiles: [],
       },
       otherAppeals: {},
     },

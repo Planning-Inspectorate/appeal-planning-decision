@@ -2,7 +2,7 @@ const siteLocationController = require('../../../../src/controllers/appellant-su
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
-const { getNextUncompletedTask, getTaskStatus } = require('../../../../src/services/task.service');
+const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { VIEW } = require('../../../../src/lib/views');
 
@@ -100,7 +100,7 @@ describe('controllers/appellant-submission/site-location', () => {
 
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
-      getNextUncompletedTask.mockReturnValue({
+      getNextTask.mockReturnValue({
         href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
       });
       const mockRequest = {

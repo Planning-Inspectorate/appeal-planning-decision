@@ -2,7 +2,7 @@ const siteOwnershipCertBController = require('../../../../src/controllers/appell
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
-const { getNextUncompletedTask, getTaskStatus } = require('../../../../src/services/task.service');
+const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { mockReq, mockRes } = require('../../mocks');
 
@@ -96,7 +96,7 @@ describe('controllers/appellant-submission/site-ownership-certb', () => {
 
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
-      getNextUncompletedTask.mockReturnValue({
+      getNextTask.mockReturnValue({
         href: fakeNextUrl,
       });
 

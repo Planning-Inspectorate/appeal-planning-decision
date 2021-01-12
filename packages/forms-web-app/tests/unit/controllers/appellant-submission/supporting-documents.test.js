@@ -3,7 +3,7 @@ const { mockReq, mockRes } = require('../../mocks');
 const logger = require('../../../../src/lib/logger');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { createDocument } = require('../../../../src/lib/documents-api-wrapper');
-const { getNextUncompletedTask, getTaskStatus } = require('../../../../src/services/task.service');
+const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
 const { VIEW } = require('../../../../src/lib/views');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 
@@ -60,7 +60,7 @@ describe('controllers/appellant-submission/supporting-documents', () => {
           [sectionName]: {
             ...req.session.appeal[sectionName],
             [taskName]: {
-              documents: [],
+              uploadedFiles: [],
             },
           },
         },
@@ -99,7 +99,7 @@ describe('controllers/appellant-submission/supporting-documents', () => {
 
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
-      getNextUncompletedTask.mockReturnValue({
+      getNextTask.mockReturnValue({
         href: fakeNextUrl,
       });
 
@@ -125,7 +125,7 @@ describe('controllers/appellant-submission/supporting-documents', () => {
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
       createDocument.mockImplementation(() => ({ id: fakeFileId }));
-      getNextUncompletedTask.mockReturnValue({
+      getNextTask.mockReturnValue({
         href: fakeNextUrl,
       });
 
@@ -145,7 +145,7 @@ describe('controllers/appellant-submission/supporting-documents', () => {
         [sectionName]: {
           ...appeal[sectionName],
           [taskName]: {
-            documents: [
+            uploadedFiles: [
               {
                 fileName: fakeFileName,
                 id: fakeFileId,
@@ -190,7 +190,7 @@ describe('controllers/appellant-submission/supporting-documents', () => {
         .mockImplementationOnce(() => ({ id: fakeFile1Id }))
         .mockImplementationOnce(() => ({ id: fakeFile2Id }));
 
-      getNextUncompletedTask.mockReturnValue({
+      getNextTask.mockReturnValue({
         href: fakeNextUrl,
       });
 
@@ -215,7 +215,7 @@ describe('controllers/appellant-submission/supporting-documents', () => {
         [sectionName]: {
           ...appeal[sectionName],
           [taskName]: {
-            documents: [
+            uploadedFiles: [
               {
                 fileName: fakeFile1Name,
                 id: fakeFile1Id,

@@ -2,7 +2,7 @@ const siteOwnershipController = require('../../../../src/controllers/appellant-s
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
-const { getNextUncompletedTask, getTaskStatus } = require('../../../../src/services/task.service');
+const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { mockReq, mockRes } = require('../../mocks');
 
@@ -94,7 +94,7 @@ describe('controllers/appellant-submission/site-ownership', () => {
       const fakeTaskStatus = 'FAKE_STATUS';
       const fakeNextUrl = `/next/valid/url`;
 
-      getNextUncompletedTask.mockReturnValue({
+      getNextTask.mockReturnValue({
         href: fakeNextUrl,
       });
 
@@ -167,7 +167,7 @@ describe('controllers/appellant-submission/site-ownership', () => {
       });
 
       expect(logger.error).not.toHaveBeenCalled();
-      expect(getNextUncompletedTask).not.toHaveBeenCalledWith();
+      expect(getNextTask).not.toHaveBeenCalledWith();
 
       expect(res.redirect).toHaveBeenCalledWith(
         `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB}`
@@ -179,7 +179,7 @@ describe('controllers/appellant-submission/site-ownership', () => {
     it('should null the contents of haveOtherOwnersBeenTold if site-ownership is set to yes', async () => {
       const fakeTaskStatus = 'FAKE_STATUS';
 
-      getNextUncompletedTask.mockReturnValue({ href: '/some/path' });
+      getNextTask.mockReturnValue({ href: '/some/path' });
       getTaskStatus.mockReturnValue(fakeTaskStatus);
 
       const mockRequest = {
@@ -219,7 +219,7 @@ describe('controllers/appellant-submission/site-ownership', () => {
     it('should retain the contents of haveOtherOwnersBeenTold if site-ownership is set to no', async () => {
       const fakeTaskStatus = 'FAKE_STATUS';
 
-      getNextUncompletedTask.mockReturnValue({ href: '/some/path' });
+      getNextTask.mockReturnValue({ href: '/some/path' });
       getTaskStatus.mockReturnValue(fakeTaskStatus);
 
       const mockRequest = {

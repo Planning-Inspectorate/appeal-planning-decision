@@ -1,5 +1,5 @@
 const logger = require('../../lib/logger');
-const { getNextUncompletedTask } = require('../../services/task.service');
+const { getNextTask } = require('../../services/task.service');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../lib/views');
 const { getTaskStatus } = require('../../services/task.service');
@@ -62,5 +62,5 @@ exports.postSiteAccessSafety = async (req, res) => {
     return;
   }
 
-  res.redirect(getNextUncompletedTask(appeal, { sectionName, taskName }).href);
+  res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
 };
