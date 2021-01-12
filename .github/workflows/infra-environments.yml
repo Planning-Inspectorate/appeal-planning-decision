@@ -1,7 +1,7 @@
 name: Environment Infrastructure
 
 on:
-  push:
+  pull_request:
     branches:
       - master
       - develop # Only for the dev environment

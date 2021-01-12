@@ -12,7 +12,7 @@ defaults:
     working-directory: packages/common
 
 on:
-  push:
+  pull_request:
     branches:
       - master
       - develop
