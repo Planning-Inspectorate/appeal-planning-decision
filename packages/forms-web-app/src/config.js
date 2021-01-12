@@ -51,6 +51,7 @@ module.exports = {
         '/eligibility/decision-date-expired',
         '/eligibility/no-decision',
         // These must be in to ensure the application runs correctly
+        '/health',
         '/metrics',
         /^\/assets\//i,
         /^\/public\//i,
