@@ -42,7 +42,7 @@ describe('controllers/appellant-submission/upload-application', () => {
   describe('postUploadApplication', () => {
     it('should re-render the template with errors if submission validation fails', async () => {
       const mockRequest = {
-        ...mockReq(),
+        ...mockReq(appeal),
         body: {
           errors: { a: 'b' },
           errorSummary: [{ text: 'There were errors here', href: '#' }],
@@ -77,7 +77,7 @@ describe('controllers/appellant-submission/upload-application', () => {
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
       const mockRequest = {
-        ...mockReq(),
+        ...mockReq(appeal),
         body: {},
         files: {},
       };
@@ -107,7 +107,7 @@ describe('controllers/appellant-submission/upload-application', () => {
       });
 
       req = {
-        ...mockReq(),
+        ...mockReq(appeal),
         body: {},
       };
       await uploadApplicationController.postUploadApplication(req, res);
@@ -133,7 +133,7 @@ describe('controllers/appellant-submission/upload-application', () => {
       });
 
       req = {
-        ...mockReq(),
+        ...mockReq(appeal),
         body: {},
         files: {
           'application-upload': {

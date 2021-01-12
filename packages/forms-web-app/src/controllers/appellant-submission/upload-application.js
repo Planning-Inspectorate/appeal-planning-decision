@@ -19,9 +19,8 @@ exports.postUploadApplication = async (req, res) => {
   const { errors = {}, errorSummary = [] } = body;
 
   if (Object.keys(errors).length > 0) {
-    /* istanbul ignore next */
     res.render(VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION, {
-      appeal: req.session.appeal || {},
+      appeal: req.session.appeal,
       errors,
       errorSummary,
     });
@@ -39,6 +38,8 @@ exports.postUploadApplication = async (req, res) => {
         appeal[sectionName][taskName].uploadedFile = {
           id: document.id,
           name: req.files['application-upload'].name,
+          location: document.location,
+          size: document.size,
         };
       }
     }

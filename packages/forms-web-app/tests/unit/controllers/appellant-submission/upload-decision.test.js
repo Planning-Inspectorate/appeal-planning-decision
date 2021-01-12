@@ -42,7 +42,7 @@ describe('controllers/appellant-submission/upload-decision', () => {
   describe('postUploadDecision', () => {
     it('should re-render the template with errors if submission validation fails', async () => {
       req = {
-        ...mockReq(),
+        ...mockReq(appeal),
         body: {
           errors: { a: 'b' },
           errorSummary: [{ text: 'There were errors here', href: '#' }],
@@ -77,7 +77,7 @@ describe('controllers/appellant-submission/upload-decision', () => {
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
       req = {
-        ...mockReq(),
+        ...mockReq(appeal),
         body: {},
         files: {},
       };
@@ -108,7 +108,7 @@ describe('controllers/appellant-submission/upload-decision', () => {
       });
 
       req = {
-        ...mockReq(),
+        ...mockReq(appeal),
         body: {},
       };
       await uploadDecisionController.postUploadDecision(req, res);
@@ -153,7 +153,7 @@ describe('controllers/appellant-submission/upload-decision', () => {
       });
 
       req = {
-        ...mockReq(),
+        ...mockReq(appeal),
         body: {},
         files: {
           'decision-upload': {

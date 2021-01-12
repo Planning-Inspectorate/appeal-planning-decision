@@ -27,8 +27,7 @@ describe('lib/documents-api-wrapper', () => {
     beforeEach(() => {
       mockAppeal = { id: 123 };
       formData = {
-        // eslint-disable-next-line new-cap
-        data: new Buffer.from('dummy buffer'),
+        tempFilePath: 'some/fake/file.ext',
       };
     });
 

@@ -1,3 +1,4 @@
+const fs = require('fs');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
 const uuid = require('uuid');
@@ -19,7 +20,7 @@ exports.createDocument = async (appeal, formData) => {
   let apiResponse;
   try {
     const fd = new FormData();
-    fd.append('file', Buffer.from(formData.data), formData.name);
+    fd.append('file', fs.createReadStream(formData.tempFilePath), formData.name);
 
     apiResponse = await fetch(url, {
       method: 'POST',

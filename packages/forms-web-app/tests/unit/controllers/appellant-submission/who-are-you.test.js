@@ -46,7 +46,7 @@ describe('controllers/appellant-submission/who-are-you', () => {
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
       const mockRequest = {
-        ...mockReq(),
+        ...mockReq(appeal),
         body: {
           'are-you-the-original-appellant': 'yes',
           errors: {},
@@ -83,7 +83,7 @@ describe('controllers/appellant-submission/who-are-you', () => {
 
     it('should redirect with original-appellant set to false', async () => {
       const mockRequest = {
-        ...mockReq(),
+        ...mockReq(appeal),
         body: {
           'are-you-the-original-appellant': 'no',
           errors: {},
@@ -100,7 +100,7 @@ describe('controllers/appellant-submission/who-are-you', () => {
 
     it('should re-render the template with errors if there is any validator error', async () => {
       const mockRequest = {
-        ...mockReq(),
+        ...mockReq(appeal),
         body: {
           'are-you-the-original-appellant': true,
           errors: { a: 'b' },
@@ -126,7 +126,7 @@ describe('controllers/appellant-submission/who-are-you', () => {
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
       const mockRequest = {
-        ...mockReq(),
+        ...mockReq(appeal),
         body: {},
       };
 
