@@ -1,7 +1,5 @@
 name: Gource
 
-env:
-
 on:
   pull_request:
     branches:
