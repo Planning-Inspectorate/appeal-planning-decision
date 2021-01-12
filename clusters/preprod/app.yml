@@ -13,7 +13,7 @@ spec:
   releaseName: app
   chart:
     git: git@github.com:foundry4/appeal-planning-decision.git
-    ref: master
+    ref: develop
     path: charts/app
   rollback:
     enable: true
