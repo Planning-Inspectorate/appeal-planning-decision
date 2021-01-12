@@ -97,10 +97,13 @@ docker build -t common ./common
 
 # Branching
 
-The default branch is the `develop` branch which generates release candidates
-of the software with releases generated from the `master` branch. This uses
-[Conventional Commit Format](#commit-message-format) and Semantic Release to
-generate the release numbers.
+Please follow the established [branching strategy](https://pins-ds.atlassian.net/wiki/spaces/AAPDS/pages/425132090/Branching+strategy).
+In the event of divergence from the README, the external document will take
+precedence.
+
+All commit messages must be written in the [Conventional Commit Format](#commit-message-format).
+This uses [Semantic Release](https://semantic-release.gitbook.io/semantic-release/) 
+to generate the release numbers for the artifacts.
 
 # Releases
 
@@ -114,12 +117,12 @@ variables which we want to apply (in this instance, just the URL).
 # Commit Message Format
 
 This repo uses [Semantic Release](https://semantic-release.gitbook.io) to
-generate release version numbers so it is imperative that all commits to the
-`master` and `develop` branch are done using the [correct
-format](https://www.conventionalcommits.org/en/v1.0.0/#specification).
+generate release version numbers, so it is imperative that all commits are 
+done using the [correct format](https://www.conventionalcommits.org/en/v1.0.0/#specification).
 
 Commits to the `develop` branch will create release candidates. These are a release
-of software that may or may not be made public.
+of software that may or may not be made public. Under normal circumstance, releases
+should be made directly to the `master` branch.
 
 ## Commit Message Rules
 
