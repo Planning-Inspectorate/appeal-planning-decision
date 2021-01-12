@@ -115,10 +115,12 @@ Then('a request to confirm access to the site is presented', () => {
 
 Then('confirmation of whole site ownership is requested', () => {
   cy.confirmSiteOwnershipRejectedBecause('Select yes if you own the whole appeal site');
+  cy.confirmWholeSiteOwnerAnswered('blank');
 });
 
 Then('confirmation of notification of additional site owners is requested', () => {
   cy.confirmSiteOwnershipRejectedBecause('Select yes if you have told the other owners');
+  cy.confirmOtherSiteOwnerToldAnswered('blank');
 });
 
 Then('the site is updated to be wholly owned on the appeal', () => {
