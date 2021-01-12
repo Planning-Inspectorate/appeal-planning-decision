@@ -15,7 +15,7 @@ on:
       - master
       - develop
       - 'feature/**'
-      - 'fix/**'
+      - 'subtask/**'
     paths:
       - packages/document-service-api/**/*
 
