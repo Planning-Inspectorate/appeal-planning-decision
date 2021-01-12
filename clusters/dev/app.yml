@@ -38,7 +38,7 @@ spec:
         tag: 1.0.0-rc.9
 
     keyVault:
-      name: pins-uks-vault-7579-dev
+      name: pins-uks-vault-8669-dev
       envSpecific:
         multiValueSecrets:
         - http-basic
