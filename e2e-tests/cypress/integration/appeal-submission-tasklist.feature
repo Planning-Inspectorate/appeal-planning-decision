@@ -1,33 +1,51 @@
-@wip
-Feature: Your Details task status
+Feature: Task lists - Section status
+  As a prospective appellant I want to clearly see which sections of the
+  appeal submission I have completed, so that I do not waste my time checking
 
-  Scenario: The status of the Your Details section is accurate
-    Given the user has not been in "Your Details" section
-    When the user checks the status of their appeal
-    Then the user should see that the "Your Details" task is "NOT STARTED"
+  Initially all the tasks are "NOT STARTED", once the appellant has provided required information they are "COMPLETED"
+  Some tasks could be multi steps and if not all steps are completed, then the task is considered "IN PROGRESS"
 
-  Scenario Outline: The status of the Your Details section is accurate
-    Given the user "is" the original appellant
-    And the user has provided their name: <name> and email: <email>
-    When the user checks the status of their appeal
-    Then the user should see that the "Your Details" task is <status>
-
+  Scenario Outline: All the tasks are in "NOT STARTED" state
+    Given the <task> part of the appeal is not started
+    When the appeal tasks are presented
+    Then the state for <task> is displayed to be "NOT STARTED"
     Examples:
-      | name        | email            | status        |
-      | ""          | ""               | "IN PROGRESS" |
-      | ""          | "good@email.com" | "IN PROGRESS" |
-      | "Good Name" | ""               | "IN PROGRESS" |
-      | "Good Name" | "good@email.com" | "COMPLETED"   |
+      | task                                            |
+      | "About you - Your details"                      |
+      | "Planning application - Application number"     |
+      | "Planning application - Upload application"     |
+      | "Planning application - Upload decision letter" |
+      | "Your appeal - Appeal statement"                |
+      | "Your appeal - Supporting documents"            |
+      | "Appeal site - Site location"                   |
+      | "Appeal site - Site ownership"                  |
+      | "Appeal site - Site access"                     |
+      | "Appeal site - Site safety"                     |
 
-
-  Scenario Outline: The status of the Your Details section is accurate
-    Given the user "is not" the original appellant
-    And the user has provided their name: <name> and email: <email>
-    And the user has provided <on behalf of> as the name of the original appellant
-    When the user checks the status of their appeal
-    Then the user should see that the "Your Details" task is <status>
-
+  Scenario Outline: All the tasks are in "COMPLETED"
+    Given the <task> part of the appeal are completed
+    When the appeal tasks are presented
+    Then the state for <task> is displayed to be "COMPLETED"
     Examples:
-      | name                | email            | on behalf of | status        |
-      | "Another Good Name" | "good@email.com" | ""           | "IN PROGRESS" |
-      | "Another Good Name" | "good@email.com" | "Good Name"  | "COMPLETED"   |
+      | task                                            |
+      | "About you - Your details"                      |
+      | "Planning application - Application number"     |
+      | "Planning application - Upload application"     |
+      | "Planning application - Upload decision letter" |
+      | "Your appeal - Appeal statement"                |
+      | "Your appeal - Supporting documents"            |
+      | "Appeal site - Site location"                   |
+      | "Appeal site - Site ownership"                  |
+      | "Appeal site - Site access"                     |
+      | "Appeal site - Site safety"                     |
+
+
+  Scenario Outline: All the tasks that can be in "IN PROGRESS" state
+    Given the <task> part of the appeal is started but not completed
+    When the appeal tasks are presented
+    Then the state for <task> is displayed to be "IN PROGRESS"
+    Examples:
+      | task                           |
+      | "About you - Your details"     |
+      | "Appeal site - Site ownership" |
+
