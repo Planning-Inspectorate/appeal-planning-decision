@@ -99,11 +99,7 @@ ingress:
     message: "Authentication Required"
     secret: ""
   clusterIssuer: letsencrypt
-  redirects:
-    - path: /health
-      target: /display-404
-    - path: /metrics
-      target: /display-404
+  redirects: []
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
