@@ -10,7 +10,7 @@ defaults:
     working-directory: packages/forms-web-app
 
 on:
-  push:
+  pull_request:
     branches:
       - master
       - develop
