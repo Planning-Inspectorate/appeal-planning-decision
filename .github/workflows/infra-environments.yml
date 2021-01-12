@@ -4,7 +4,6 @@ on:
   pull_request:
     branches:
       - master
-      - develop # Only for the dev environment
     paths:
       - infrastructure/clusters/**/*
       - infrastructure/environments/**/*
@@ -35,7 +34,7 @@ jobs:
       max-parallel: 1
       matrix:
         include:
-          - branch: refs/heads/develop
+          - branch: refs/heads/master
             environment: dev
           - branch: refs/heads/master
             environment: preprod
