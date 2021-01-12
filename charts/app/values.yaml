@@ -100,6 +100,8 @@ ingress:
     secret: ""
   clusterIssuer: letsencrypt
   redirects:
+    - path: /health
+      target: /display-404
     - path: /metrics
       target: /display-404
 

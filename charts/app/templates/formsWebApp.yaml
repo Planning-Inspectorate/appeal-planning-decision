@@ -42,11 +42,11 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /health
               port: {{.Values.formsWebApp.service.name }}
           readinessProbe:
             httpGet:
-              path: /
+              path: /health
               port: {{.Values.formsWebApp.service.name }}
           env:
             - name: APPEALS_SERVICE_API_URL
