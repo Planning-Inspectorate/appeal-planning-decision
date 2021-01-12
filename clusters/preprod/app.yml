@@ -6,14 +6,14 @@ metadata:
   namespace: app-preprod
   annotations:
     fluxcd.io/automated: "true"
-    filter.fluxcd.io/appealsServiceApi: semver:1.0.0-rc.4
-    filter.fluxcd.io/documentServiceApi: semver:1.0.0-rc.3
-    filter.fluxcd.io/formsWebApp: semver:1.0.0-rc.12
+    filter.fluxcd.io/appealsServiceApi: semver:~1.0.0
+    filter.fluxcd.io/documentServiceApi: semver:~1.0.0
+    filter.fluxcd.io/formsWebApp: semver:~1.0.0
 spec:
   releaseName: app
   chart:
     git: git@github.com:foundry4/appeal-planning-decision.git
-    ref: develop
+    ref: master
     path: charts/app
   rollback:
     enable: true
