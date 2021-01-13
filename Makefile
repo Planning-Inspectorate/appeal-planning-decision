@@ -64,3 +64,9 @@ uninstall:
 		(cd $${dir} && rm -Rf node_modules); \
   	done
 .PHONY: uninstall
+
+update-functions:
+	faas-cli remove -f functions.yml
+	faas-cli up -f functions.yml --tag sha \
+		--env APPEALS_SERVICE_URL=http://app.${DEPLOY_NAMESPACE}.svc.cluster.local:3000
+.PHONY: update-functions
