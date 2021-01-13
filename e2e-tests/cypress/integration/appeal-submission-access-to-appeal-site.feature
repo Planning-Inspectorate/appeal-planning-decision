@@ -11,7 +11,7 @@ I want to notify the Planning Inspectorate if access to the appeal site is restr
       When the user selects "No" to provide access
       And the user "does not" provide additional information
       Then the user is informed that "further information is required to gain access to the restricted site"
-      And the user can see the selected option "is not" submitted
+      And the user can see that there is no option submitted
 
     Scenario: Prospective appellant provide additional information on restricted access to the appeal site
       Given the user is prompted to provide access to the inspector visiting the appeal site
@@ -24,12 +24,13 @@ I want to notify the Planning Inspectorate if access to the appeal site is restr
       When the user selects "No" to provide access
       And the user does provide additional information with character length exceeding the limit
       Then the user is told "How access is restricted must be 255 characters or less"
-      And the user can see the selected option "is not" submitted
+      And the user can see that there is no option submitted
 
     Scenario: Prospective appellant does not select any option to provide access to the appeal site
       Given the user is prompted to provide access to the inspector visiting the appeal site
       When the user does not select any option
       Then the user is told "Select Yes if the appeal site can be seen from a public road"
+      And the user can see that there is no option submitted
 
 
 
