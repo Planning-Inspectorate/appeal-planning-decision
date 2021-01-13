@@ -99,3 +99,11 @@ Then('the required header link is displayed', () => {
 Then('the required GA script is present', () => {
   cy.confirmGoogleAnalyticsLinkIsPresent();
 });
+
+Then('the back button is displayed', () => {
+  cy.confirmBackButtonDisplayed();
+});
+
+Then('the back button is not displayed', () => {
+  cy.confirmBackButtonNotDisplayed();
+});
