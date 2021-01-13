@@ -1,0 +1,46 @@
+{{- $keyVaultName := .Values.keyVault.name -}}
+{{- $secrets := .Values.keyVault.secrets }}
+{{- range $item := .Values.keyVault.envSpecific.secrets }}
+{{- $secrets = append $secrets $item }}
+{{- end }}
+
+{{- $multiValueSecrets := .Values.keyVault.multiValueSecrets }}
+{{- range $item := .Values.keyVault.envSpecific.multiValueSecrets }}
+{{- $multiValueSecrets = append $multiValueSecrets $item }}
+{{- end }}
+
+{{- range $secrets }}
+---
+apiVersion: spv.no/v1
+kind: AzureKeyVaultSecret
+metadata:
+  name: akv-{{ . }}
+spec:
+  vault:
+    name: {{ $keyVaultName }}
+    object:
+      name: {{ . }}
+      type: secret
+  output:
+    secret:
+      name: akv-{{ . }}
+      dataKey: value
+{{- end }}
+
+{{- range $multiValueSecrets }}
+---
+apiVersion: spv.no/v1
+kind: AzureKeyVaultSecret
+metadata:
+  name: akv-{{ . }}
+spec:
+  vault:
+    name: {{ $keyVaultName }}
+    object:
+      contentType: application/x-json
+      name: {{ . }}
+      type: multi-key-value-secret
+  output:
+    secret:
+      name: akv-{{ . }}
+{{- end }}

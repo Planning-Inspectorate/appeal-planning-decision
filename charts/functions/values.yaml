@@ -1,0 +1,11 @@
+imagePullSecret: azure-docker-registry
+
+keyVault:
+  name: key-vault-name
+  secrets: []
+  multiValueSecrets: []
+  envSpecific:
+    secrets: []
+    multiValueSecrets: []
+
+functions: {}
