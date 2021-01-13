@@ -1,6 +1,9 @@
 name: Terraform Validation
 
 on:
+  push:
+    branches:
+      - master
   pull_request:
     paths:
       - infrastructure/common/**/*

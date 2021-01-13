@@ -6,6 +6,9 @@ env:
   CYPRESS_REPORTS: ./e2e-tests/cypress/cucumber-report
 
 on:
+  push:
+    branches:
+      - master
   pull_request:
     branches:
       - master

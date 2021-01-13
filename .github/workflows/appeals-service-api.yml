@@ -10,6 +10,9 @@ defaults:
     working-directory: packages/appeals-service-api
 
 on:
+  push:
+    branches:
+      - master
   pull_request:
     branches:
       - master

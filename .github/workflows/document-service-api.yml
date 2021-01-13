@@ -10,6 +10,9 @@ defaults:
     working-directory: packages/document-service-api
 
 on:
+  push:
+    branches:
+      - master
   pull_request:
     branches:
       - master
