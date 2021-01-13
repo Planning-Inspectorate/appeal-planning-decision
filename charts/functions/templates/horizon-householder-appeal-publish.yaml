@@ -1,0 +1,22 @@
+apiVersion: openfaas.com/v1
+kind: Function
+metadata:
+  name: horizon-publisher
+  labels:
+{{ include "functions.labels" . | indent 4 }}
+spec:
+  name: horizon-publisher
+  image: {{ .Values.horizonHouselderAppealPublish.image }}
+  annotations: {}
+  labels:
+    com.openfaas.scale.min: {{ .Values.horizonHouselderAppealPublish.scale.min | quote }}
+    com.openfaas.scale.max: {{ .Values.horizonHouselderAppealPublish.scale.max | quote }}
+  environment:
+    read_timeout: {{ .Values.horizonHouselderAppealPublish.timeout | quote }}
+    APPEALS_SERVICE_URL: {{ .Values.horizonHouselderAppealPublish.appealsServiceUrl }}
+    HORIZON_URL: {{ .Values.horizonHouselderAppealPublish.horizonUrl }}
+  secrets:
+    - {{ .Values.imagePullSecret }}
+    {{- range .Values.horizonHouselderAppealPublish.secrets }}
+    - {{ . }}
+    {{- end }}
