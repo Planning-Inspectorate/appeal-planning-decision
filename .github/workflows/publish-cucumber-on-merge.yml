@@ -10,6 +10,7 @@ env:
 on:
   push:
     branches:
+      - master
       - develop
 
 jobs:
