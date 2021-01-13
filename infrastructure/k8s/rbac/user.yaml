@@ -25,6 +25,14 @@ rules:
       - get
       - list
   - apiGroups:
+      - ""
+    resources:
+      - pods/portforward
+    verbs:
+      - create
+      - get
+      - list
+  - apiGroups:
       - batch
     resources:
       - jobs
