@@ -167,5 +167,6 @@ tmp
 .kubeconfig
 known_hosts
 
-
 packages/appeals-service-api/globalConfig.json
+template
+build

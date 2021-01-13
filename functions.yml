@@ -1,0 +1,17 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  horizon-householder-appeal-publish:
+    lang: node12
+    handler: ./packages/horizon-householder-appeal-publish
+    image: pinscommonukscontainers3887default.azurecr.io/horizon-householder-appeal-publish:latest
+    environment:
+      write_timeout: 60s
+      read_timeout: 60s
+      exec_timeout: 60s
+      APPEALS_SERVICE_URL: http://app.app-ENV.svc.cluster.local:3000
+      HORIZON_URL: http://10.0.7.4:8000
+    secrets:
+      - azure-docker-registry
