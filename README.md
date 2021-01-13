@@ -81,7 +81,7 @@ make down
 
 ## The Common Module
 
-The [Common](/common) contains a series of common functions that are used across
+The [Common](/packages/common) contains a series of common functions that are used across
 microservices. The applications use this as an external dependency (`@pins/common`)
 but is included as a local file in the `package.json`.
 
@@ -97,10 +97,13 @@ docker build -t common ./common
 
 # Branching
 
-The default branch is the `develop` branch which generates release candidates
-of the software with releases generated from the `master` branch. This uses
-[Conventional Commit Format](#commit-message-format) and Semantic Release to
-generate the release numbers.
+Please follow the established [branching strategy](https://pins-ds.atlassian.net/wiki/spaces/AAPDS/pages/425132090/Branching+strategy).
+In the event of divergence from the README, the external document will take
+precedence.
+
+All commit messages must be written in the [Conventional Commit Format](#commit-message-format).
+This uses [Semantic Release](https://semantic-release.gitbook.io/semantic-release/) 
+to generate the release numbers for the artifacts.
 
 # Releases
 
@@ -114,9 +117,62 @@ variables which we want to apply (in this instance, just the URL).
 # Commit Message Format
 
 This repo uses [Semantic Release](https://semantic-release.gitbook.io) to
-generate release version numbers so it is imperative that all commits to the
-`master` and `develop` branch are done using the [correct
-format](https://semantic-release.gitbook.io/semantic-release/#commit-message-format).
+generate release version numbers, so it is imperative that all commits are 
+done using the [correct format](https://www.conventionalcommits.org/en/v1.0.0/#specification).
+
+Commits to the `develop` branch will create release candidates. These are a release
+of software that may or may not be made public. Under normal circumstance, releases
+should be made directly to the `master` branch.
+
+## Commit Message Rules
+
+Commit messages dictate how the software is released. You must ensure that you are
+using the correct commit type. Commit messages starting `feat` or `fix` will trigger
+a new release - other types such as `chore`, `docs` or `test` won't create a new
+release. These should be used appropriately - for instance, if you are refactoring the
+repo structure without changing any of the application, this would be appropriate to
+use `chore`. If you are fixing a bug then `fix` should be used. A new feature should
+use the type `feat`.
+
+You can mix-and-match inside a PR - the CI/CD pipelines will take the highest ranked
+commit type and make a release based on that. For instance, a PR with many `chore`
+and one `feat` will produce a new release bumping the minor semantic version number.
+Without the `feat`, it would create no new release.
+
+## Checking The Correct Release Has Been Deployed
+
+1. Check your PR has passed. If there are any failures, check these to see if the
+reasons for failure give a clue as to what went wrong (and then fix). There is a job
+called `Next version` which will tell you the version number that this should create
+if successful.
+2. Check a [new release was made](https://github.com/foundry4/appeal-planning-decision/releases). 
+Dependent upon whether it was made from  the `develop` or `master` branch, you will be 
+looking for either a pre-release version  or a release. If no release has been made, 
+ensure that your commit message was formatted  correctly  and begins with `feat` or `fix`.
+3. Check the [release branch](https://github.com/foundry4/appeal-planning-decision/tree/release)
+against the cluster you are expecting to see it deployed on. If the `app.yml` file does not 
+contain the tag you are expecting then the deployment may have failed. It takes up to 
+5 minutes for a new release to be detected.
+
+## Ensure Linear Commits
+
+It's very important that PRs have linear commits. There can be multiple commits per PR
+(if appropriate), but they should be linear. An example of a non-linear commit is:
+
+```shell 
+7fa9388 (feature/my-wonderful-feature): feat(some-brilliant-feat): this is a brilliant feature I've worked hard on
+bf2a09e erm, not sure why CI has broken so another go
+067c88e gah, I'm stupid. I can see why CI broke
+```
+
+This is not linear because you're fixing something inside the PR. This should be [rebased](https://github.com/foundry4/appeal-planning-decision/wiki/An-intro-to-Git-Rebase)
+so it's linear:
+
+```shell
+6fd721a (feature/my-wonderful-feature): feat(some-brilliant-feat): this is a brilliant feature I've worked hard on
+```
+
+Linear commits are much easier to find problems when tracing through Git history.
 
 ## Commitizen
 
@@ -203,3 +259,11 @@ Kubernetes cluster.
 ```shell script
 kubectl logs -f -n app-prod app-form-web-app-1111111111-aaaaa
 ```
+### ACP integration
+
+The current target MVP checks only the decision date eligibility before passing the user to an existing external service 
+Appeals Casework Portal (ACP) for user to submit their appeal.
+In the FWA ui app this behaviour is controlled by setting the environment variable `SERVER_LIMITED_ROUTING_ENABLED`.
+For convenience, a placeholder environment variable is present in the `docker-compose.yml` file.
+With this set to `true` only a limited set of pages are accessible and user will be taken to ACP from decision date eligibility check.
+With this set to `false` all existing pages will be accessible and user will proceed to LPD selection instead of ACP.

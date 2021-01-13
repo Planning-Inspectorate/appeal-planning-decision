@@ -13,10 +13,13 @@ spec:
       {{- include "app.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-    {{- with .Values.podAnnotations }}
       annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: {{ .Values.formsWebApp.config.port | quote }}
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
-    {{- end }}
+        {{- end }}
       labels:
         {{- include "app.selectorLabels" . | nindent 8 }}
     spec:
@@ -39,11 +42,11 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /health
               port: {{.Values.formsWebApp.service.name }}
           readinessProbe:
             httpGet:
-              path: /
+              path: /health
               port: {{.Values.formsWebApp.service.name }}
           env:
             - name: APPEALS_SERVICE_API_URL
@@ -60,6 +63,8 @@ spec:
               value: {{ .Values.formsWebApp.config.upload.useTmpFiles | quote }}
             - name: PORT
               value: {{ .Values.formsWebApp.config.port | quote }}
+            - name: SERVER_LIMITED_ROUTING_ENABLED
+              value: {{ .Values.formsWebApp.config.enableLimitedRouting | quote }}
             - name: SESSION_MONGODB_DB_NAME
               value: forms-web-app
             - name: SESSION_MONGODB_COLLECTION

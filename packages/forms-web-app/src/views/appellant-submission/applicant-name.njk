@@ -1,0 +1,50 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% block pageTitle %}
+  Applicant name | Appeal a householder planning decision
+{% endblock %}
+
+{% block content %}
+
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary
+    }) }}
+  {% endif %}
+  <div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST" novalidate>
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>About you</span>
+
+        {{ govukInput({
+          label: {
+            text: "Who are you appealing on behalf of?",
+            classes: "govuk-label--l",
+            isPageHeading: true
+          },
+          id: "behalf-appellant-name",
+          name: "behalf-appellant-name",
+          spellcheck: false,
+          value: appeal.aboutYouSection.yourDetails.appealingOnBehalfOf,
+          errorMessage: errors['behalf-appellant-name'] and {
+            text: errors['behalf-appellant-name'].msg
+          }
+
+        }) }}
+
+        {{ govukButton({
+          text: "Save and continue",
+          type: "submit"
+        }) }}
+
+      </form>
+    </div>
+
+  </div>
+{% endblock %}

@@ -1,7 +1,6 @@
 name: Check commit message
 
 on:
-  - push
   - pull_request
 
 jobs:

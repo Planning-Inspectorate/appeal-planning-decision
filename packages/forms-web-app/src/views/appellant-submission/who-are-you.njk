@@ -1,0 +1,69 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% block pageTitle %}
+  Your details | Appeal a householder planning decision
+{% endblock %}
+
+{% block content %}
+
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary
+    }) }}
+  {% endif %}
+  <div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST" novalidate>
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>About you</span>
+
+        {{ govukRadios({
+          classes: "",
+          idPrefix: FORM_FIELD['are-you-the-original-appellant'].id,
+          name: FORM_FIELD['are-you-the-original-appellant'].id,
+          fieldset: {
+            legend: {
+              text: "Are you the original applicant on the planning application form?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: "If you are not the applicant, you must be have their permission to submit an appeal on their behalf."
+          },
+          items: [
+            {
+              value: 'yes',
+              text: 'Yes',
+              attributes: { "data-cy":"answer-yes"},
+              checked: appeal.aboutYouSection.yourDetails.isOriginalApplicant
+            },
+            {
+              value: 'no',
+              text: 'No',
+              attributes: { 'data-cy':'answer-no'},
+              checked: appeal.aboutYouSection.yourDetails.isOriginalApplicant === false
+            }
+          ],
+          errorMessage: errors['are-you-the-original-appellant'] and {
+            text: errors['are-you-the-original-appellant'].msg
+          }
+        }) }}
+
+
+        {{ govukButton({
+          text: "Save and continue",
+          type: "submit"
+        }) }}
+      </form>
+    </div>
+
+  </div>
+{% endblock %}
+
+

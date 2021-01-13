@@ -1,0 +1,65 @@
+{% extends "layouts/main.njk" %}
+
+{%- from "govuk/components/file-upload/macro.njk" import govukFileUpload -%}
+{%- from "govuk/components/button/macro.njk" import govukButton -%}
+{%- from "govuk/components/error-summary/macro.njk" import govukErrorSummary -%}
+{%- from "components/multi-file-upload/macro.njk" import mojMultiFileUpload -%}
+
+{% set uploadHtml %}
+  {{ govukFileUpload({
+    id: "supporting-documents",
+    name: "supporting-documents",
+    classes: 'moj-multi-file-upload__input',
+    label: {
+      text: "Upload files (optional)",
+      classes: 'govuk-label--m'
+    },
+    attributes: { multiple: '' },
+    errorMessage: errorMessage
+  }) }}
+
+  {{govukButton({
+    text: 'Upload file',
+    classes: 'govuk-button--secondary moj-multi-file-upload__button'
+  })}}
+{% endset %}
+
+{% block pageTitle %}
+  Supporting appeal documents | Appeal a householder planning decision
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary
+        }) }}
+      {% endif %}
+
+      <form action="" method="post" novalidate encType="multipart/form-data">
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Your appeal</span>
+        <h1 class="govuk-heading-l">
+          Any other documents to support your appeal
+        </h1>
+        <p>If you have referred to any documents in your appeal statement, for example photographs, upload them here.</p>
+        <p>You do not need to upload the plans from your original planning application.</p>
+
+        {{ mojMultiFileUpload({
+          uploadedFiles: {
+            heading: { text: 'Files added' },
+            items: appeal.yourAppealSection.otherDocuments.documents
+          },
+          uploadHtml: uploadHtml
+        }) }}
+
+        {{ govukButton({
+          text: "Continue",
+          type: "submit"
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

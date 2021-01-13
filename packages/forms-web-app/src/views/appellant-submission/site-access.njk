@@ -1,0 +1,98 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+
+{% set cannotSeeAppealSiteHtml %}
+  {{ govukTextarea({
+    id: "site-access-more-detail",
+    name: "site-access-more-detail",
+    type: "textarea",
+    rows: 5,
+    value: appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted,
+    label: {
+      text: "Tell us how access is restricted."
+    },
+    errorMessage: errors['site-access-more-detail'] and {
+      text: errors['site-access-more-detail'].msg
+    },
+    value: appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted
+  }) }}
+{% endset -%}
+
+
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary
+        }) }}
+      {% endif %}
+
+      <form action="" method="post" novalidate>
+
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Visiting the appeal site</span>
+
+        {{ govukRadios({
+          idPrefix: "site-access",
+          name: "site-access",
+          fieldset: {
+            legend: {
+              text: "Can the Inspector see the whole of the appeal site from a public road?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l govuk-heading-l"
+            }
+          },
+          errorMessage: errors['site-access'] and {
+            text: errors['site-access'].msg
+          },
+          hint: {
+            text: "The Inspector needs to see the whole of the appeal site. This is the area of property or land that your original planning application relates to."
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes, they can see the appeal site",
+              attributes: { "data-cy":"answer-yes"},
+              checked: appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad == true
+            },
+            {
+              value: "no",
+              text: "No, I would need to give them access",
+              attributes: { "data-cy":"answer-no"},
+              conditional: {
+                html: cannotSeeAppealSiteHtml
+              },
+              checked: appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad == false
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Save and continue",
+          type: "submit"
+        }) }}
+
+      </form>
+    </div>
+
+  </div>
+
+{% endblock %}
+
+
+{% block footer %}
+  {{ super() }}
+  <script src="/assets/govuk/all.js"></script>
+  <script>
+    window.GOVUKFrontend.initAll()
+  </script>
+{% endblock %}

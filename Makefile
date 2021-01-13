@@ -1,4 +1,4 @@
-APPS = common data appeals-service-api document-service-api forms-web-app e2e-tests
+APPS = data e2e-tests packages/*
 STACKS = common environments
 
 down:
@@ -9,11 +9,14 @@ install:
 	npm ci
 
 	for dir in ${APPS}; do \
+		echo "-- Installing $${dir} --"; \
 		(cd $${dir} && npm ci); \
-		if [ $${dir} == 'e2e-tests' ]; then \
-			(cd $${dir} && ./create-large-test-files.sh); \
-		fi \
+		echo "-- Installed for $${dir} --"; \
   	done
+
+	echo "-- Creating large test files for e2e tests --"
+	(cd e2e-tests && ./create-large-test-files.sh)
+	echo "-- Complete --"
 .PHONY: install
 
 run:
