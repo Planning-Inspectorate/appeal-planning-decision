@@ -1,0 +1,38 @@
+{% extends "layouts/main-no-back-button.njk" %}
+
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+
+{% block pageTitle %}
+  Confirmation | Appeal a householder planning decision
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {{ govukPanel({
+        titleText: "Appeal submitted"
+      }) }}
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <p class="govuk-body">Your appeal has been submitted to the Planning Inspectorate.</p>
+      <p class="govuk-body">We’ll send you a confirmation email and we’ll tell your local planning department about the
+        appeal.</p>
+
+      <h2 class="govuk-heading-m">What happens next?</h2>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>Your local planning department will submit their case file from the original planning application.</li>
+        <li>An Inspector may need to make a site visit.</li>
+        <li>The Inspector will then consider all the evidence to make their decision.</li>
+      </ul>
+
+      <p>You can expect a decision on your appeal within 8 weeks.</p>
+
+      <p class="govuk-body">
+        <a data-cy="Feedback-Page-Body" href="https://www.smartsurvey.co.uk/s/7OGXZZ/" class="govuk-link">What did you
+          think of this service?</a> (takes 2 minutes)
+      </p>
+    </div>
+  </div>
+{% endblock %}

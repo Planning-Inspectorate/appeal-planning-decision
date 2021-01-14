@@ -1,3 +1,180 @@
+// NAVIGATION
+
+Cypress.Commands.add(
+  'goToPageNotFoundPage',
+  require('./integration-with-acp/goToPageNotFoundPage'),
+);
+
+Cypress.Commands.add(
+  'goToStartAppealPage',
+  require('./appeal-navigation/eligibility/goToStartAppealPage'),
+);
+
+Cypress.Commands.add(
+  'goToPlanningDepartmentPage',
+  require('./appeal-navigation/eligibility/goToPlanningDepartmentPage'),
+);
+
+Cypress.Commands.add(
+  'goToPlanningDepartmentOutPage',
+  require('./appeal-navigation/eligibility/goToPlanningDepartmentOutPage'),
+);
+
+Cypress.Commands.add(
+  'goToListedBuildingPage',
+  require('./appeal-navigation/eligibility/goToListedBuildingPage'),
+);
+
+Cypress.Commands.add(
+  'goToListedBuildingOutPage',
+  require('./appeal-navigation/eligibility/goToListedBuildingOutPage'),
+);
+
+Cypress.Commands.add(
+  'goToDecisionDatePage',
+  require('./appeal-navigation/eligibility/goToDecisionDatePage'),
+);
+
+Cypress.Commands.add(
+  'goToDecisionDateExpiredPage',
+  require('./appeal-navigation/eligibility/goToDecisionDateExpiredPage'),
+);
+
+Cypress.Commands.add(
+  'goToNoDecisionDatePage',
+  require('./appeal-navigation/eligibility/goToNoDecisionDatePage'),
+);
+
+Cypress.Commands.add(
+  'goToAppealStatementInfoPage',
+  require('./appeal-navigation/eligibility/goToAppealStatementInfoPage'),
+);
+
+Cypress.Commands.add(
+  'goToAppealStatementSubmission',
+  require('./appeal-navigation/appellant-submission/goToAppealStatementSubmission'),
+);
+
+Cypress.Commands.add(
+  'goToSupportingDocumentsPage',
+  require('./appeal-navigation/appellant-submission/goToSupportingDocumentsPage'),
+);
+
+Cypress.Commands.add(
+  'goToOtherAppealsPage',
+  require('./appeal-navigation/appellant-submission/goToOtherAppealsPage'),
+);
+
+Cypress.Commands.add(
+  'goToSiteAddressPage',
+  require('./appeal-navigation/appellant-submission/goToSiteAddressPage'),
+);
+
+Cypress.Commands.add(
+  'goToAccessSitePage',
+  require('./appeal-navigation/appellant-submission/goToAccessSitePage'),
+);
+
+Cypress.Commands.add(
+  'goToOtherSiteOwnerToldPage',
+  require('./appeal-navigation/appellant-submission/goToOtherSiteOwnerToldPage'),
+);
+
+Cypress.Commands.add(
+  'goToWholeSiteOwnerPage',
+  require('./appeal-navigation/appellant-submission/goToWholeSiteOwnerPage'),
+);
+
+Cypress.Commands.add(
+  'goToHealthAndSafetyPage',
+  require('./appeal-navigation/appellant-submission/goToHealthAndSafetyPage'),
+);
+
+Cypress.Commands.add(
+  'goToTaskListPage',
+  require('./appeal-navigation/appellant-submission/goToTaskListPage'),
+);
+
+Cypress.Commands.add(
+  'goToYourDetailsPage',
+  require('./appeal-navigation/appellant-submission/goToYourDetailsPage'),
+);
+
+Cypress.Commands.add(
+  'goToWhoAreYouPage',
+  require('./appeal-navigation/appellant-submission/goToWhoAreYouPage'),
+);
+
+Cypress.Commands.add(
+  'goToApplicantNamePage',
+  require('./appeal-navigation/appellant-submission/goToApplicantNamePage'),
+);
+
+Cypress.Commands.add(
+  'goToTaskListPage',
+  require('./appeal-navigation/appellant-submission/goToTaskListPage'),
+);
+
+Cypress.Commands.add(
+  'goToPlanningApplicationSubmission',
+  require('./appeal-navigation/appellant-submission/goToPlanningApplicationSubmission'),
+);
+
+Cypress.Commands.add(
+  'goToDecisionLetterPage',
+  require('./appeal-navigation/appellant-submission/goToDecisionLetterPage'),
+);
+
+Cypress.Commands.add(
+  'goToCheckYourAnswersPage',
+  require('./appeal-navigation/appellant-submission/goToCheckYourAnswersPage'),
+);
+
+Cypress.Commands.add(
+  'goToSubmissionPage',
+  require('./appeal-navigation/appellant-submission/goToSubmissionPage'),
+);
+
+Cypress.Commands.add(
+  'promptUserToProvidePlanningApplicationNumber',
+  require('./appeal-navigation/appellant-submission/goToPlanningApplicationNumberPage'),
+);
+
+Cypress.Commands.add(
+  'confirmTermsAndConditionsLinkDisplayed',
+  require('./appeal-header-footer/confirmTermsAndConditionsLinkDisplayed'),
+);
+
+Cypress.Commands.add(
+  'confirmFeedbackLinkIsDisplayed',
+  require('./appeal-header-footer/confirmFeedbackLinkIsDisplayed'),
+);
+
+Cypress.Commands.add(
+  'confirmBackButtonDisplayed',
+  require('./appeal-header-footer/confirmBackButtonDisplayed'),
+);
+
+Cypress.Commands.add(
+  'confirmBackButtonNotDisplayed',
+  require('./appeal-header-footer/confirmBackButtonNotDisplayed'),
+);
+
+Cypress.Commands.add(
+  'confirmFeedbackLinkIsDisplayedInPageBody',
+  require('./appeal-submission/confirmFeedbackLinkIsDisplayedInPageBody'),
+);
+
+Cypress.Commands.add(
+  'confirmPrivacyLinkDisplayed',
+  require('./appeal-header-footer/confirmPrivacyLinkDisplayed'),
+);
+
+Cypress.Commands.add(
+  'confirmGoogleAnalyticsLinkIsPresent',
+  require('./appeal-header-footer/confirmGoogleAnalyticsLinkIsPresent'),
+);
+
 Cypress.Commands.add(
   'provideDecisionDate',
   require('./eligibility-decision-date/provideDecisionDate'),
@@ -30,6 +207,11 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmLocalPlanningDepartmentIsNotParticipating',
   require('./eligibility-local-planning-department/confirmLocalPlanningDepartmentIsNotParticipating'),
+);
+
+Cypress.Commands.add(
+  'confirmPlanningDepartmentSelected',
+  require('./eligibility-local-planning-department/confirmPlanningDepartmentSelected'),
 );
 
 Cypress.Commands.add(
@@ -107,11 +289,6 @@ Cypress.Commands.add(
   require('./appeal-statement-submission/confirmFileInvalidBecauseWrongFileType'),
 );
 
-Cypress.Commands.add(
-  'goToAppealStatementSubmission',
-  require('./appeal-statement-submission/goToAppealStatementSubmission'),
-);
-
 Cypress.Commands.add('saveAndContinue', require('./appeal-statement-submission/saveAndContinue'));
 
 Cypress.Commands.add(
@@ -137,11 +314,6 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmSiteAddressWasRejectedBecause',
   require('./appeal-submission-appeal-site-address/confirmSiteAddressWasRejectedBecause'),
-);
-
-Cypress.Commands.add(
-  'goToSiteAddressPage',
-  require('./appeal-submission-appeal-site-address/goToSiteAddressPage'),
 );
 
 Cypress.Commands.add(
@@ -172,11 +344,6 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'provideTownOrCity',
   require('./appeal-submission-appeal-site-address/provideTownOrCity'),
-);
-
-Cypress.Commands.add(
-  'goToAccessSitePage',
-  require('./appeal-submission-access-to-appeal-site/goToAccessSitePage'),
 );
 
 Cypress.Commands.add(
@@ -255,16 +422,49 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'goToOtherSiteOwnerToldPage',
-  require('./appeal-submission-appeal-site-ownership/goToOtherSiteOwnerToldPage'),
+  'answerSiteHasIssues',
+  require('./appeal-submission-site-health-and-safety-issues/answerSiteHasIssues'),
 );
 
 Cypress.Commands.add(
-  'goToWholeSiteOwnerPage',
-  require('./appeal-submission-appeal-site-ownership/goToWholeSiteOwnerPage'),
+  'answerSiteHasNoIssues',
+  require('./appeal-submission-site-health-and-safety-issues/answerSiteHasNoIssues'),
 );
 
-Cypress.Commands.add('goToTaskListPage', require('./appeal-submission-tasklist/goToTaskListPage'));
+Cypress.Commands.add(
+  'confirmHealthAndSafetyPage',
+  require('./appeal-submission-site-health-and-safety-issues/confirmHealthAndSafetyPage'),
+);
+
+Cypress.Commands.add(
+  'confirmSiteSafetyRejectedBecause',
+  require('./appeal-submission-site-health-and-safety-issues/confirmSiteSafetyRejectedBecause'),
+);
+
+Cypress.Commands.add(
+  'isSafetyIssuesInputPresented',
+  require('./appeal-submission-site-health-and-safety-issues/isSafetyIssuesInputPresented'),
+);
+
+Cypress.Commands.add(
+  'provideSafetyIssues',
+  require('./appeal-submission-site-health-and-safety-issues/provideSafetyIssuesConcerns'),
+);
+
+Cypress.Commands.add(
+  'provideSafetyIssuesConcerns',
+  require('./appeal-submission-site-health-and-safety-issues/provideSafetyIssuesConcerns'),
+);
+
+Cypress.Commands.add(
+  'confirmSafetyIssuesConcernsValue',
+  require('./appeal-submission-site-health-and-safety-issues/confirmSafetyIssuesConcernsValue'),
+);
+
+Cypress.Commands.add(
+  'confirmSiteHasIssuesAnswered',
+  require('./appeal-submission-site-health-and-safety-issues/confirmSiteHasIssuesAnswered'),
+);
 
 Cypress.Commands.add(
   'checkStatusForTask',
@@ -321,8 +521,28 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'goToYourDetailsPage',
-  require('./appellant-submission-your-details/goToYourDetailsPage'),
+  'confirmNavigationAcpPage',
+  require('./integration-with-acp/confirmNavigationAcpPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationPageNotFoundPage',
+  require('./integration-with-acp/confirmNavigationPageNotFoundPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationDecisionDatePage',
+  require('./appeal-navigation-confirmation/eligibility/confirmNavigationDecisionDatePage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationNoDecisionDatePage',
+  require('./appeal-navigation-confirmation/eligibility/confirmNavigationNoDecisionDatePage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationDecisionDateExpiredPage',
+  require('./appeal-navigation-confirmation/eligibility/confirmNavigationDecisionDateExpiredPage'),
 );
 
 Cypress.Commands.add(
@@ -331,28 +551,13 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'goToWhoAreYouPage',
-  require('./appellant-submission-your-details/goToWhoAreYouPage'),
-);
-
-Cypress.Commands.add(
   'confirmNavigationWhoAreYouPage',
   require('./appellant-submission-your-details/confirmNavigationWhoAreYouPage'),
 );
 
 Cypress.Commands.add(
-  'goToApplicantNamePage',
-  require('./appellant-submission-your-details/goToApplicantNamePage'),
-);
-
-Cypress.Commands.add(
   'confirmNavigationApplicantNamePage',
   require('./appellant-submission-your-details/confirmNavigationApplicantNamePage'),
-);
-
-Cypress.Commands.add(
-  'goToTaskListPage',
-  require('./appellant-submission-your-details/goToTaskListPage'),
 );
 
 Cypress.Commands.add(
@@ -466,18 +671,8 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'goToPlanningApplicationSubmission',
-  require('./appellant-submission-upload-application/goToPlanningApplicationSubmission'),
-);
-
-Cypress.Commands.add(
   'uploadPlanningApplicationFile',
   require('./appellant-submission-upload-application/uploadPlanningApplicationFile'),
-);
-
-Cypress.Commands.add(
-  'goToDecisionLetterPage',
-  require('./appellant-submission-decision-letter/goToDecisionLetterPage'),
 );
 
 Cypress.Commands.add(
@@ -506,43 +701,33 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'goToCheckYourAnswersPage',
-  require('./appellant-submission-check-your-answers/goToCheckYourAnswersPage'),
-);
-
-Cypress.Commands.add(
   'confirmSubmissionPage',
   require('./appellant-submission-check-your-answers/confirmSubmissionPage'),
 );
 
 Cypress.Commands.add(
-  'acceptTermsAndConditions',
-  require('./appellant-confirms-ts-and-cs/acceptTermsAndConditions'),
+  'agreeToTheDeclaration',
+  require('./appellant-confirms-declaration/agreeToTheDeclaration'),
 );
 
 Cypress.Commands.add(
-  'doNotAcceptTermsAndConditions',
-  require('./appellant-confirms-ts-and-cs/doNotAcceptTermsAndConditions'),
+  'doNotAgreeToTheDeclaration',
+  require('./appellant-confirms-declaration/doNotAgreeToTheDeclaration'),
 );
 
 Cypress.Commands.add(
-  'confirmTermsAndConditionsAreRequired',
-  require('./appellant-confirms-ts-and-cs/confirmTermsAndConditionsAreRequired'),
+  'confirmDeclarationAreRequired',
+  require('./appellant-confirms-declaration/confirmDeclarationAreRequired'),
 );
 
 Cypress.Commands.add(
   'confirmAppealSubmitted',
-  require('./appellant-confirms-ts-and-cs/confirmAppealSubmitted'),
+  require('./appellant-confirms-declaration/confirmAppealSubmitted'),
 );
 
 Cypress.Commands.add(
   'confirmAppealNotSubmitted',
-  require('./appellant-confirms-ts-and-cs/confirmAppealNotSubmitted'),
-);
-
-Cypress.Commands.add(
-  'promptUserToProvidePlanningApplicationNumber',
-  require('./appellant-submission-planning-application-number/promptUserToProvidePlanningApplicationNumber'),
+  require('./appellant-confirms-declaration/confirmAppealNotSubmitted'),
 );
 
 Cypress.Commands.add(
@@ -573,4 +758,9 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmUserPresentedWithProvidePlanningApplicationNumber',
   require('./appeal-submission-tasklist/confirmUserPresentedWithProvidePlanningApplicationNumber'),
+);
+
+Cypress.Commands.add(
+  'validateIndividualFileUpload',
+  require('./file-upload/validateIndividualFileUpload'),
 );

@@ -6,6 +6,9 @@ env:
   CYPRESS_REPORTS: ./e2e-tests/cypress/cucumber-report
 
 on:
+  push:
+    branches:
+      - master
   pull_request:
     branches:
       - master
@@ -13,45 +16,84 @@ on:
 
 jobs:
 
-  cypress:
-    name: "Cypress"
+  cypress-ACP:
+    name: "Cypress- ACP mode"
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: install the world
-      run: make install
+      - name: Install the world
+        run: make install
 
-    - name: start the world
-      run: docker-compose up -d
+      - name: Start the world with ACP integration
+        run: |
+          export SERVER_LIMITED_ROUTING_ENABLED=true
+          docker-compose up -d
+      - name: Run the tests with ACP integration
+        run: npm run test:e2e:acp
 
-    - name: create large test files
-      run: npm run test:e2e:files
+      - name: Post-process results with ACP integration
+        if: ${{ always() }}
+        run: npm run test:e2e:postprocess
 
-    - name: run the tests
-      run: npm run test:e2e
+      - name: Archive results with ACP integration
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: results-acp
+          path: ${{ env.CYPRESS_REPORTS }}
 
-    - name: post-process results
-      if: ${{ always() }}
-      run: npm run test:e2e:postprocess
+      - name: Archive videos (on failure) with ACP integration
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: videos-acp
+          path: ${{ env.CYPRESS_VIDEOS }}
 
-    - name: Archive results
-      if: ${{ always() }}
-      uses: actions/upload-artifact@main
-      with:
-        name: results
-        path: ${{ env.CYPRESS_REPORTS }}
+      - name: Archive screenshots (on failure) with ACP integration
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: screenshots-acp
+          path: ${{ env.CYPRESS_SCREENSHOTS }}
 
-    - name: Archive videos (on failure)
-      if: ${{ failure() }}
-      uses: actions/upload-artifact@main
-      with:
-        name: videos
-        path: ${{ env.CYPRESS_VIDEOS }}
+  cypress-default:
+    name: "Cypress- default"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
 
-    - name: Archive screenshots (on failure)
-      if: ${{ failure() }}
-      uses: actions/upload-artifact@main
-      with:
-        name: screenshots
-        path: ${{ env.CYPRESS_SCREENSHOTS }}
+      - name: Install the world
+        run: make install
+
+      - name: Start the world without ACP integration i.e. PINS
+        run: |
+          export SERVER_LIMITED_ROUTING_ENABLED=false
+          docker-compose up -d
+      - name: Run the tests without ACP integration
+        run: npm run test:e2e
+
+      - name: Post-process results without ACP integration
+        if: ${{ always() }}
+        run: npm run test:e2e:postprocess
+
+      - name: Archive results without ACP integration
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: results-pins
+          path: ${{ env.CYPRESS_REPORTS }}
+
+      - name: Archive videos (on failure) without ACP integration
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: videos-pins
+          path: ${{ env.CYPRESS_VIDEOS }}
+
+      - name: Archive screenshots (on failure) without ACP integration
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: screenshots-pins
+          path: ${{ env.CYPRESS_SCREENSHOTS }}

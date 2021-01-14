@@ -15,6 +15,13 @@ When('the user selects {string} to provide access', (answer) => {
   }
 });
 
+When(
+  'the user does provide additional information with character length exceeding the limit',
+  () => {
+    cy.provideMoreDetails('word'.repeat(64));
+  },
+);
+
 When('the user {string} provide additional information', (provided) => {
   if (provided === 'does') {
     cy.provideMoreDetails('More information');
@@ -23,17 +30,17 @@ When('the user {string} provide additional information', (provided) => {
 });
 
 Then('the user can see the selected option {string} submitted', (submitted) => {
-  if (submitted === 'is not') {
-    cy.confirmAccessSiteNotSubmitted();
+  if (submitted.includes('Yes')) {
+    cy.confirmAccessSiteAnswered('yes');
+  } else if (submitted.includes('No')) {
+    cy.confirmAccessSiteAnswered('no', 'More information');
   } else {
-    if (submitted.includes('Yes')) {
-      cy.confirmAccessSiteAnswered('yes');
-    } else if (submitted.includes('No')) {
-      cy.confirmAccessSiteAnswered('no', 'More information');
-    } else {
-      throw new Error('unknown selected option');
-    }
+    throw new Error('unknown selected option');
   }
+});
+
+Then('the user can see that there is no option submitted', () => {
+  cy.confirmAccessSiteNotSubmitted();
 });
 
 Then('the user is informed that {string}', (reason) => {
@@ -46,6 +53,6 @@ Then('the user is informed that {string}', (reason) => {
   }
 });
 
-Then('the user is told to {string}', (reason) => {
+Then('the user is told {string}', (reason) => {
   cy.confirmAccessSiteWasRejectedBecause(reason);
 });

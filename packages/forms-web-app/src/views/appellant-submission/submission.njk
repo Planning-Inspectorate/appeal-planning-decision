@@ -1,0 +1,69 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+
+{% block pageTitle %}
+  Declaration | Appeal a householder planning decision
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary
+        }) }}
+      {% endif %}
+
+      <form action="" method="post" novalidate>
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Submit your appeal</span>
+        <h1 data-cy="title" class="govuk-heading-l">
+          Declaration
+        </h1>
+        <p>By submitting your appeal, you’re confirming that:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>you understand that this is the only opportunity to submit your appeal</li>
+          <li>you understand that if you do not give us all the correct information, or if we find that you have not fulfilled your statutory obligations, your appeal may be invalid</li>
+          <li>you understand that we will not request any missing documents or information</li>
+          <li>you’ve fully completed all sections, and that the details are correct to the best of your knowledge</li>
+        </ul>
+
+        <div class="govuk-inset-text">
+          The gathering and subsequent processing of the personal data supplied by you in this form is in accordance with the terms of our registration under the Data Protection Act 2018. Further information can be found in our Privacy Notice and Terms and Conditions.
+        </div>
+
+        {{ govukWarningText({
+          text: "Once submitted, you are not able to add to or change any of the information supplied.",
+          iconFallbackText: "Warning"
+        }) }}
+
+        {{ govukCheckboxes({
+          idPrefix: "appellant-confirmation",
+          name: "appellant-confirmation",
+          items: [
+            {
+              value: "i-agree",
+              text: "I agree",
+              attributes: {"data-cy":"appellant-confirmation"}
+            }
+          ],
+          errorMessage: errors['appellant-confirmation'] and {
+            text: errors['appellant-confirmation'].msg
+          }
+        }) }}
+
+        {{ govukButton({
+          text: "Accept and send",
+          attributes: {"data-cy":"accept-and-send"}
+        }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

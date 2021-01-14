@@ -1,0 +1,24 @@
+<div class="moj-multi-file-upload {{- ' ' + params.classes if params.classes}}" {%- for attribute, value in params.attributes -%} {{ attribute }}="{{ value }}"{% endfor %}>
+  <div class="moj-multi-file__uploaded-files {% if params.uploadedFiles.items.length == 0 %}moj-hidden{% endif%}">
+    <h2 class="govuk-heading-m">{{ params.uploadedFiles.heading.html | safe if params.uploadedFiles.heading.html else params.uploadedFiles.heading.text }}</h2>
+    <div class="govuk-summary-list moj-multi-file-upload__list">
+      {% if params.uploadedFiles.items and params.uploadedFiles.items.length > 0 %}
+        {% for item in params.uploadedFiles.items %}
+          <div class="govuk-summary-list__row moj-multi-file-upload__row">
+            <div class="govuk-summary-list__value moj-multi-file-upload__message"
+                 data-file-id="{{ item.id }}"
+                 data-file-location="{{ item.location }}"
+                 data-file-size="{{ item.size }}"
+            >
+              {{- item.message.html | safe if item.message.html else item.message.text -}}
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="moj-multi-file-upload__upload">
+    {{ params.uploadHtml | safe }}
+  </div>
+</div>

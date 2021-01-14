@@ -48,6 +48,7 @@ formsWebApp:
     tag: latest
   config:
     port: 3000
+    enableLimitedRouting: false
     upload:
       debug: true
       uploadDir: /upload-dir
@@ -90,7 +91,19 @@ ingress:
     kubernetes.io/tls-acme: "true"
   host: chart.example.com
   secretName: ingress-tls-secret
+  # The secret must be in the format for the nginx-ingress manual. If using
+  # Azure Key Vault, store the secret in the vault as JSON
+  # @link https://kubernetes.github.io/ingress-nginx/examples/auth/basic/
+  httpBasic:
+    enabled: false
+    message: "Authentication Required"
+    secret: ""
   clusterIssuer: letsencrypt
+  redirects:
+    - path: /health
+      target: /display-404
+    - path: /metrics
+      target: /display-404
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -124,3 +137,6 @@ keyVault:
     - fwa-session-key
     - mongodb-connection-url
   multiValueSecrets: []
+  envSpecific:
+    secrets: []
+    multiValueSecrets: []
