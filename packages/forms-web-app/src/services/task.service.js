@@ -11,7 +11,7 @@ function statusAppealStatement(appeal) {
 
 // eslint-disable-next-line no-unused-vars
 function statusOtherDocuments(appeal) {
-  return TASK_STATUS.CANNOT_START_YET;
+  return TASK_STATUS.NOT_STARTED;
 }
 
 // eslint-disable-next-line no-unused-vars

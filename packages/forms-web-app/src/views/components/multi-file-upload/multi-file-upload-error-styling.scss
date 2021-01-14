@@ -1,0 +1,32 @@
+/**
+ * This has been removed in the version of gov uk components that we use, but is required for meeting the given
+ * design in the ticket.
+ *
+ * Removal PR: https://github.com/alphagov/govuk-frontend/commit/2bde81d1bee2608aff24f4641d4479e2aec365ed
+ * PINS ticket: https://pins-ds.atlassian.net/browse/UCD-829
+ */
+
+.govuk-file-upload--error {
+  $component-padding: govuk-spacing(1);
+
+  // As `upload--error` has border, it needs to have the same padding as
+  // the standard focused element.
+  margin-right: -$component-padding;
+  margin-left: -$component-padding;
+  padding-right: $component-padding;
+  padding-left: $component-padding;
+  border: $govuk-border-width-form-element-error solid $govuk-error-colour;
+
+  &:focus {
+    border-color: $govuk-input-border-colour;
+  }
+
+  // Repeat `:focus` styles to prevent error styles from being applied when
+  // input button is pressed as this moves the focus to "within".
+  // This can't be set together with `:focus` as all versions of IE fail
+  // to recognise `focus-within` and don't set any styles from the block
+  // when it's a selector.
+  &:focus-within {
+    border-color: $govuk-input-border-colour;
+  }
+}
