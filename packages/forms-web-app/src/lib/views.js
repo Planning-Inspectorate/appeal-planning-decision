@@ -1,6 +1,5 @@
 const VIEW = {
   APPLICATION_NUMBER: 'application-number',
-  CHECK_ANSWERS: 'check-answers',
 
   ELIGIBILITY: {
     LISTED_BUILDING: 'eligibility/listed-building',
@@ -28,6 +27,7 @@ const VIEW = {
     APPLICANT_NAME: 'appellant-submission/applicant-name',
     UPLOAD_APPLICATION: 'appellant-submission/upload-application',
     UPLOAD_DECISION: 'appellant-submission/upload-decision',
+    CHECK_ANSWERS: 'appellant-submission/check-answers',
     SUBMISSION: 'appellant-submission/submission',
     CONFIRMATION: 'appellant-submission/confirmation',
   },

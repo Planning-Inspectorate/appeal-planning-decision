@@ -16,6 +16,7 @@ const uploadApplicationRouter = require('./upload-application');
 const uploadDecisionRouter = require('./upload-decision');
 const whoAreYouRouter = require('./who-are-you');
 const yourDetailsRouter = require('./your-details');
+const checkAnswersRouter = require('./check-answers');
 const submissionRouter = require('./submission');
 const confirmationRouter = require('./confirmation');
 
@@ -33,6 +34,7 @@ router.use(uploadApplicationRouter);
 router.use(uploadDecisionRouter);
 router.use(whoAreYouRouter);
 router.use(yourDetailsRouter);
+router.use(checkAnswersRouter);
 router.use(confirmationRouter);
 router.use(submissionRouter);
 
