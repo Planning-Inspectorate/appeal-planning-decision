@@ -15,7 +15,17 @@ on:
       - develop
 
 jobs:
+  gherkin_lint:
+    name: "gherkin_lint"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
 
+      - name: install gherkin_lint
+        run: sudo gem install gherkin_lint
+
+      - name: lint feature files
+        run: gherkin_lint -f 'cypress/integration/**/*.feature' #default is `features/**/*.feature`
   cypress-ACP:
     name: "Cypress- ACP mode"
     runs-on: ubuntu-latest
