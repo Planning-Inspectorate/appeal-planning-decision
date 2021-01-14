@@ -1,5 +1,8 @@
+const { checkSchema } = require('express-validator');
+const supportingDocumentsSchema = require('./supporting-documents-schema');
+
 const rules = () => {
-  return [];
+  return [checkSchema(supportingDocumentsSchema)];
 };
 
 module.exports = {
