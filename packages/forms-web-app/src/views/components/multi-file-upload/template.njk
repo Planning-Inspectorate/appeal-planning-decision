@@ -1,4 +1,5 @@
 <div class="moj-multi-file-upload {{- ' ' + params.classes if params.classes}}" {%- for attribute, value in params.attributes -%} {{ attribute }}="{{ value }}"{% endfor %}>
+  {% if params.uploadedFiles.items and params.uploadedFiles.items.length > 0 %}
   <div class="moj-multi-file__uploaded-files {% if params.uploadedFiles.items.length == 0 %}moj-hidden{% endif%}">
     <h2 class="govuk-heading-m">{{ params.uploadedFiles.heading.html | safe if params.uploadedFiles.heading.html else params.uploadedFiles.heading.text }}</h2>
     <div class="govuk-summary-list moj-multi-file-upload__list">
@@ -17,8 +18,26 @@
       {% endif %}
     </div>
   </div>
+  {% endif %}
 
   <div class="moj-multi-file-upload__upload">
     {{ params.uploadHtml | safe }}
   </div>
+
+  <details class="govuk-details" data-module="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        Accepted file formats
+      </span>
+    </summary>
+    <div class="govuk-details__text">
+      <ul class="govuk-list--bullets">
+        <li>PDF &ndash; <strong>.pdf</strong></li>
+        <li>Microsoft Word &ndash; <strong>.doc</strong> or <strong>.docx</strong></li>
+        <li>TIF &ndash; <strong>.tif</strong> or <strong>.tiff</strong></li>
+        <li>JPEG &ndash; <strong>.jpg</strong> or <strong>.jpeg</strong></li>
+        <li>PNG &ndash; <strong>.png</strong></li>
+      </ul>
+    </div>
+  </details>
 </div>

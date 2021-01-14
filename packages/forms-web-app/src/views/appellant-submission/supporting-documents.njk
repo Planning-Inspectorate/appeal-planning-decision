@@ -3,7 +3,16 @@
 {%- from "govuk/components/file-upload/macro.njk" import govukFileUpload -%}
 {%- from "govuk/components/button/macro.njk" import govukButton -%}
 {%- from "govuk/components/error-summary/macro.njk" import govukErrorSummary -%}
+{%- from "govuk/components/inset-text/macro.njk" import govukInsetText -%}
 {%- from "components/multi-file-upload/macro.njk" import mojMultiFileUpload -%}
+
+{% set supportingDocumentsErrorMessage %}
+  {% if errorSummary %}
+    {%- for error in errorSummary -%}
+      {{- error.text -}}<br>
+    {%- endfor -%}
+  {% endif %}
+{% endset %}
 
 {% set uploadHtml %}
   {{ govukFileUpload({
@@ -15,12 +24,16 @@
       classes: 'govuk-label--m'
     },
     attributes: { multiple: '' },
-    errorMessage: errorMessage
+    errorMessage: errorSummary and {
+      html: supportingDocumentsErrorMessage
+    }
   }) }}
 
   {{govukButton({
     text: 'Upload file',
-    classes: 'govuk-button--secondary moj-multi-file-upload__button'
+    classes: 'govuk-button--secondary moj-multi-file-upload__button',
+    name: 'upload-and-remain-on-page',
+    value: 'upload-and-remain-on-page'
   })}}
 {% endset %}
 
@@ -47,10 +60,14 @@
         <p>If you have referred to any documents in your appeal statement, for example photographs, upload them here.</p>
         <p>You do not need to upload the plans from your original planning application.</p>
 
+        {{ govukInsetText({
+          text: "File size should be no more than " + fileSizeLimits.supportingDocumentsMaxFileSize | formatBytes
+        }) }}
+
         {{ mojMultiFileUpload({
           uploadedFiles: {
             heading: { text: 'Files added' },
-            items: appeal.yourAppealSection.otherDocuments.documents
+            items: appeal.yourAppealSection.otherDocuments.uploadedFiles
           },
           uploadHtml: uploadHtml
         }) }}

@@ -21,7 +21,7 @@
     "./**/*.{js, json}": "npm run format"
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "0.0.21",
+    "@ministryofjustice/frontend": "0.2.0",
     "@pins/common": "file:../common",
     "accessible-autocomplete": "^2.0.3",
     "compression": "^1.7.4",
@@ -36,7 +36,7 @@
     "express-validator": "^6.6.1",
     "file-type": "^16.0.1",
     "form-data": "^3.0.0",
-    "govuk-frontend": "^3.9.1",
+    "govuk-frontend": "^3.10.2",
     "http-errors": "~1.6.3",
     "lusca": "^1.6.1",
     "node-fetch": "^2.6.1",

@@ -5,6 +5,10 @@ const {
   rules: supportingDocumentsValidationRules,
 } = require('../../../../src/validators/appellant-submission/supporting-documents');
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
+const reqFilesToReqBodyFilesMiddleware = require('../../../../src/middleware/req-files-to-req-body-files');
+
+jest.mock('../../../../src/validators/appellant-submission/supporting-documents');
+jest.mock('../../../../src/middleware/req-files-to-req-body-files');
 
 describe('routes/appellant-submission/supporting-documents', () => {
   beforeEach(() => {
@@ -24,7 +28,10 @@ describe('routes/appellant-submission/supporting-documents', () => {
     );
     expect(post).toHaveBeenCalledWith(
       '/supporting-documents',
-      supportingDocumentsValidationRules(),
+      [
+        reqFilesToReqBodyFilesMiddleware('supporting-documents'),
+        supportingDocumentsValidationRules(),
+      ],
       validationErrorHandler,
       supportingDocumentsController.postSupportingDocuments
     );

@@ -1,6 +1,12 @@
 const taskListController = require('../../../../src/controllers/appellant-submission/task-list');
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
+const {
+  CANNOT_START_YET,
+  NOT_STARTED,
+  IN_PROGRESS,
+  COMPLETED,
+} = require('../../../../src/services/task-status/task-statuses');
 
 describe('controllers/appellant-submission/task-list', () => {
   describe('getTaskList', () => {
@@ -29,9 +35,9 @@ describe('controllers/appellant-submission/task-list', () => {
               {
                 href: `/${VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU}`,
                 text: 'Your details',
-                status: 'NOT STARTED',
+                status: NOT_STARTED,
                 attributes: {
-                  'yourDetails-status': 'NOT STARTED',
+                  'yourDetails-status': NOT_STARTED,
                 },
               },
             ],
@@ -44,25 +50,25 @@ describe('controllers/appellant-submission/task-list', () => {
               {
                 text: 'Planning application number',
                 href: `/${VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER}`,
-                status: 'NOT STARTED',
+                status: NOT_STARTED,
                 attributes: {
-                  'applicationNumber-status': 'NOT STARTED',
+                  'applicationNumber-status': NOT_STARTED,
                 },
               },
               {
                 text: 'Upload the original planning application form',
                 href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`,
-                status: 'NOT STARTED',
+                status: NOT_STARTED,
                 attributes: {
-                  'originalApplication-status': 'NOT STARTED',
+                  'originalApplication-status': NOT_STARTED,
                 },
               },
               {
                 text: 'Upload the decision letter',
                 href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION}`,
-                status: 'NOT STARTED',
+                status: NOT_STARTED,
                 attributes: {
-                  'decisionLetter-status': 'NOT STARTED',
+                  'decisionLetter-status': NOT_STARTED,
                 },
               },
             ],
@@ -75,25 +81,25 @@ describe('controllers/appellant-submission/task-list', () => {
               {
                 text: 'Your appeal statement',
                 href: `/${VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT}`,
-                status: 'NOT STARTED',
+                status: NOT_STARTED,
                 attributes: {
-                  'appealStatement-status': 'NOT STARTED',
+                  'appealStatement-status': NOT_STARTED,
                 },
               },
               {
                 text: 'Any other documents to support your appeal',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
-                status: 'CANNOT START YET',
+                status: NOT_STARTED,
                 attributes: {
-                  'otherDocuments-status': 'CANNOT START YET',
+                  'otherDocuments-status': NOT_STARTED,
                 },
               },
               {
                 text: 'Other relevant appeals',
                 href: 'other-appeals',
-                status: 'CANNOT START YET',
+                status: CANNOT_START_YET,
                 attributes: {
-                  'otherAppeals-status': 'CANNOT START YET',
+                  'otherAppeals-status': CANNOT_START_YET,
                 },
               },
             ],
@@ -106,33 +112,33 @@ describe('controllers/appellant-submission/task-list', () => {
               {
                 text: 'Address of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_LOCATION}`,
-                status: 'NOT STARTED',
+                status: NOT_STARTED,
                 attributes: {
-                  'siteAddress-status': 'NOT STARTED',
+                  'siteAddress-status': NOT_STARTED,
                 },
               },
               {
                 text: 'Ownership of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
-                status: 'NOT STARTED',
+                status: NOT_STARTED,
                 attributes: {
-                  'siteOwnership-status': 'NOT STARTED',
+                  'siteOwnership-status': NOT_STARTED,
                 },
               },
               {
                 text: 'Access to the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
-                status: 'NOT STARTED',
+                status: NOT_STARTED,
                 attributes: {
-                  'siteAccess-status': 'NOT STARTED',
+                  'siteAccess-status': NOT_STARTED,
                 },
               },
               {
                 text: 'Any health and safety issues',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
-                status: 'NOT STARTED',
+                status: NOT_STARTED,
                 attributes: {
-                  'healthAndSafety-status': 'NOT STARTED',
+                  'healthAndSafety-status': NOT_STARTED,
                 },
               },
             ],
@@ -146,9 +152,9 @@ describe('controllers/appellant-submission/task-list', () => {
               {
                 text: 'Check your answers',
                 href: `/${VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS}`,
-                status: 'CANNOT START YET',
+                status: CANNOT_START_YET,
                 attributes: {
-                  'checkYourAnswers-status': 'CANNOT START YET',
+                  'checkYourAnswers-status': CANNOT_START_YET,
                 },
               },
             ],
@@ -223,9 +229,9 @@ describe('controllers/appellant-submission/task-list', () => {
               {
                 href: `/${VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU}`,
                 text: 'Your details',
-                status: 'IN PROGRESS',
+                status: IN_PROGRESS,
                 attributes: {
-                  'yourDetails-status': 'IN PROGRESS',
+                  'yourDetails-status': IN_PROGRESS,
                 },
               },
             ],
@@ -238,25 +244,25 @@ describe('controllers/appellant-submission/task-list', () => {
               {
                 text: 'Planning application number',
                 href: `/${VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER}`,
-                status: 'COMPLETED',
+                status: COMPLETED,
                 attributes: {
-                  'applicationNumber-status': 'COMPLETED',
+                  'applicationNumber-status': COMPLETED,
                 },
               },
               {
                 text: 'Upload the original planning application form',
                 href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`,
-                status: 'COMPLETED',
+                status: COMPLETED,
                 attributes: {
-                  'originalApplication-status': 'COMPLETED',
+                  'originalApplication-status': COMPLETED,
                 },
               },
               {
                 text: 'Upload the decision letter',
                 href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION}`,
-                status: 'COMPLETED',
+                status: COMPLETED,
                 attributes: {
-                  'decisionLetter-status': 'COMPLETED',
+                  'decisionLetter-status': COMPLETED,
                 },
               },
             ],
@@ -269,25 +275,25 @@ describe('controllers/appellant-submission/task-list', () => {
               {
                 text: 'Your appeal statement',
                 href: `/${VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT}`,
-                status: 'COMPLETED',
+                status: COMPLETED,
                 attributes: {
-                  'appealStatement-status': 'COMPLETED',
+                  'appealStatement-status': COMPLETED,
                 },
               },
               {
                 text: 'Any other documents to support your appeal',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
-                status: 'CANNOT START YET',
+                status: NOT_STARTED,
                 attributes: {
-                  'otherDocuments-status': 'CANNOT START YET',
+                  'otherDocuments-status': NOT_STARTED,
                 },
               },
               {
                 text: 'Other relevant appeals',
                 href: 'other-appeals',
-                status: 'CANNOT START YET',
+                status: CANNOT_START_YET,
                 attributes: {
-                  'otherAppeals-status': 'CANNOT START YET',
+                  'otherAppeals-status': CANNOT_START_YET,
                 },
               },
             ],
@@ -300,33 +306,33 @@ describe('controllers/appellant-submission/task-list', () => {
               {
                 text: 'Address of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_LOCATION}`,
-                status: 'COMPLETED',
+                status: COMPLETED,
                 attributes: {
-                  'siteAddress-status': 'COMPLETED',
+                  'siteAddress-status': COMPLETED,
                 },
               },
               {
                 text: 'Ownership of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
-                status: 'COMPLETED',
+                status: COMPLETED,
                 attributes: {
-                  'siteOwnership-status': 'COMPLETED',
+                  'siteOwnership-status': COMPLETED,
                 },
               },
               {
                 text: 'Access to the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
-                status: 'COMPLETED',
+                status: COMPLETED,
                 attributes: {
-                  'siteAccess-status': 'COMPLETED',
+                  'siteAccess-status': COMPLETED,
                 },
               },
               {
                 text: 'Any health and safety issues',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
-                status: 'NOT STARTED',
+                status: NOT_STARTED,
                 attributes: {
-                  'healthAndSafety-status': 'NOT STARTED',
+                  'healthAndSafety-status': NOT_STARTED,
                 },
               },
             ],
@@ -340,9 +346,9 @@ describe('controllers/appellant-submission/task-list', () => {
               {
                 text: 'Check your answers',
                 href: `/${VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS}`,
-                status: 'CANNOT START YET',
+                status: CANNOT_START_YET,
                 attributes: {
-                  'checkYourAnswers-status': 'CANNOT START YET',
+                  'checkYourAnswers-status': CANNOT_START_YET,
                 },
               },
             ],
@@ -421,9 +427,9 @@ describe('controllers/appellant-submission/task-list', () => {
               {
                 href: `/${VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU}`,
                 text: 'Your details',
-                status: 'COMPLETED',
+                status: COMPLETED,
                 attributes: {
-                  'yourDetails-status': 'COMPLETED',
+                  'yourDetails-status': COMPLETED,
                 },
               },
             ],
@@ -436,25 +442,25 @@ describe('controllers/appellant-submission/task-list', () => {
               {
                 text: 'Planning application number',
                 href: `/${VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER}`,
-                status: 'COMPLETED',
+                status: COMPLETED,
                 attributes: {
-                  'applicationNumber-status': 'COMPLETED',
+                  'applicationNumber-status': COMPLETED,
                 },
               },
               {
                 text: 'Upload the original planning application form',
                 href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`,
-                status: 'COMPLETED',
+                status: COMPLETED,
                 attributes: {
-                  'originalApplication-status': 'COMPLETED',
+                  'originalApplication-status': COMPLETED,
                 },
               },
               {
                 text: 'Upload the decision letter',
                 href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION}`,
-                status: 'COMPLETED',
+                status: COMPLETED,
                 attributes: {
-                  'decisionLetter-status': 'COMPLETED',
+                  'decisionLetter-status': COMPLETED,
                 },
               },
             ],
@@ -467,25 +473,25 @@ describe('controllers/appellant-submission/task-list', () => {
               {
                 text: 'Your appeal statement',
                 href: `/${VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT}`,
-                status: 'COMPLETED',
+                status: COMPLETED,
                 attributes: {
-                  'appealStatement-status': 'COMPLETED',
+                  'appealStatement-status': COMPLETED,
                 },
               },
               {
                 text: 'Any other documents to support your appeal',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
-                status: 'CANNOT START YET',
+                status: NOT_STARTED,
                 attributes: {
-                  'otherDocuments-status': 'CANNOT START YET',
+                  'otherDocuments-status': NOT_STARTED,
                 },
               },
               {
                 text: 'Other relevant appeals',
                 href: 'other-appeals',
-                status: 'CANNOT START YET',
+                status: CANNOT_START_YET,
                 attributes: {
-                  'otherAppeals-status': 'CANNOT START YET',
+                  'otherAppeals-status': CANNOT_START_YET,
                 },
               },
             ],
@@ -498,33 +504,33 @@ describe('controllers/appellant-submission/task-list', () => {
               {
                 text: 'Address of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_LOCATION}`,
-                status: 'COMPLETED',
+                status: COMPLETED,
                 attributes: {
-                  'siteAddress-status': 'COMPLETED',
+                  'siteAddress-status': COMPLETED,
                 },
               },
               {
                 text: 'Ownership of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
-                status: 'COMPLETED',
+                status: COMPLETED,
                 attributes: {
-                  'siteOwnership-status': 'COMPLETED',
+                  'siteOwnership-status': COMPLETED,
                 },
               },
               {
                 text: 'Access to the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
-                status: 'COMPLETED',
+                status: COMPLETED,
                 attributes: {
-                  'siteAccess-status': 'COMPLETED',
+                  'siteAccess-status': COMPLETED,
                 },
               },
               {
                 text: 'Any health and safety issues',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
-                status: 'COMPLETED',
+                status: COMPLETED,
                 attributes: {
-                  'healthAndSafety-status': 'COMPLETED',
+                  'healthAndSafety-status': COMPLETED,
                 },
               },
             ],
@@ -538,9 +544,9 @@ describe('controllers/appellant-submission/task-list', () => {
               {
                 text: 'Check your answers',
                 href: `/${VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS}`,
-                status: 'NOT STARTED',
+                status: NOT_STARTED,
                 attributes: {
-                  'checkYourAnswers-status': 'NOT STARTED',
+                  'checkYourAnswers-status': NOT_STARTED,
                 },
               },
             ],

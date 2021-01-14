@@ -2,6 +2,7 @@ const express = require('express');
 
 const supportingDocumentsController = require('../../controllers/appellant-submission/supporting-documents');
 const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
+const reqFilesToReqBodyFilesMiddleware = require('../../middleware/req-files-to-req-body-files');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const {
   rules: supportingDocumentsValidationRules,
@@ -16,7 +17,7 @@ router.get(
 );
 router.post(
   '/supporting-documents',
-  supportingDocumentsValidationRules(),
+  [reqFilesToReqBodyFilesMiddleware('supporting-documents'), supportingDocumentsValidationRules()],
   validationErrorHandler,
   supportingDocumentsController.postSupportingDocuments
 );

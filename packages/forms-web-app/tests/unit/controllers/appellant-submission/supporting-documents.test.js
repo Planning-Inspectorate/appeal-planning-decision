@@ -40,32 +40,47 @@ describe('controllers/appellant-submission/supporting-documents', () => {
   });
 
   describe('postSupportingDocuments', () => {
-    it('should re-render the template with errors if submission validation fails', async () => {
-      const mockRequest = {
-        ...mockReq(appeal),
-        body: {
-          errors: { a: 'b' },
-          errorSummary: [{ text: 'There were errors here', href: '#' }],
-        },
-        files: {
-          'supporting-documents': {},
-        },
-      };
-      await supportingDocumentsController.postSupportingDocuments(mockRequest, res);
+    [
+      {
+        errorsIn: { a: 'b' },
+        errorsOut: { a: 'b' },
+      },
+      {
+        errorsIn: { value: 'b' },
+        errorsOut: { value: 'b' },
+      },
+      {
+        errorsIn: [{ value: { tempFilePath: '/tmp/tmp-1-1610701713557' } }],
+        errorsOut: [{ value: { tempFilePath: '/tmp/tmp-1-1610701713557' } }],
+      },
+    ].forEach(({ errorsIn, errorsOut }) => {
+      it('should re-render the template with errors if submission validation fails', async () => {
+        const mockRequest = {
+          ...mockReq(appeal),
+          body: {
+            files: {
+              'supporting-documents': [],
+            },
+            errors: errorsIn,
+            errorSummary: [{ text: 'There were errors here', href: '#' }],
+          },
+        };
+        await supportingDocumentsController.postSupportingDocuments(mockRequest, res);
 
-      expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS, {
-        appeal: {
-          ...req.session.appeal,
-          [sectionName]: {
-            ...req.session.appeal[sectionName],
-            [taskName]: {
-              uploadedFiles: [],
+        expect(res.redirect).not.toHaveBeenCalled();
+        expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS, {
+          appeal: {
+            ...req.session.appeal,
+            [sectionName]: {
+              ...req.session.appeal[sectionName],
+              [taskName]: {
+                uploadedFiles: [],
+              },
             },
           },
-        },
-        errorSummary: [{ text: 'There were errors here', href: '#' }],
-        errors: { a: 'b' },
+          errorSummary: [{ text: 'There were errors here', href: '#supporting-documents-error' }],
+          errors: errorsOut,
+        });
       });
     });
 
@@ -75,8 +90,9 @@ describe('controllers/appellant-submission/supporting-documents', () => {
 
       const mockRequest = {
         ...mockReq(appeal),
-        body: {},
-        files: {},
+        body: {
+          files: [],
+        },
       };
       await supportingDocumentsController.postSupportingDocuments(mockRequest, res);
 
@@ -116,146 +132,207 @@ describe('controllers/appellant-submission/supporting-documents', () => {
       expect(res.redirect).toHaveBeenCalledWith(fakeNextUrl);
     });
 
-    it('should redirect to the task list if valid - single file', async () => {
-      const fakeFileId = '123-abc';
-      const fakeFileName = 'some name.jpg';
-      const fakeTaskStatus = 'FAKE_STATUS';
-      const fakeNextUrl = `/some/fake/path`;
+    describe('conditional redirect', () => {
+      let fakeFile1Id;
+      let fakeFile1Name;
+      let fakeFile2Id;
+      let fakeFile2Name;
+      let fakeTaskStatus;
+      let fakeNextUrl;
 
-      getTaskStatus.mockImplementation(() => fakeTaskStatus);
-
-      createDocument.mockImplementation(() => ({ id: fakeFileId }));
-      getNextTask.mockReturnValue({
-        href: fakeNextUrl,
+      beforeEach(() => {
+        fakeFile1Id = '456-cde';
+        fakeFile1Name = 'another.jpg';
+        fakeFile2Id = '789-xyz';
+        fakeFile2Name = 'my long filename goes here.docx';
+        fakeTaskStatus = 'FAKE_STATUS';
+        fakeNextUrl = `/some/fake/path`;
       });
 
-      req = {
-        ...mockReq(appeal),
-        body: {},
-        files: {
-          'supporting-documents': {
-            name: fakeFileName,
-          },
-        },
-      };
-      await supportingDocumentsController.postSupportingDocuments(req, res);
-
-      const updatedAppeal = {
-        ...appeal,
-        [sectionName]: {
-          ...appeal[sectionName],
-          [taskName]: {
-            uploadedFiles: [
-              {
-                fileName: fakeFileName,
-                id: fakeFileId,
-                location: undefined,
-                message: {
-                  text: fakeFileName,
-                },
-                name: fakeFileName,
-                originalFileName: fakeFileName,
-                size: undefined,
+      [
+        {
+          nextStep: 'upload-and-remain-on-page',
+          request: () => ({
+            ...mockReq(appeal),
+            body: {
+              'upload-and-remain-on-page': 'upload-and-remain-on-page',
+              files: {
+                'supporting-documents': [
+                  {
+                    name: fakeFile1Name,
+                  },
+                ],
               },
-            ],
-          },
+            },
+          }),
+          expectedNextUrl: () => `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
         },
-        sectionStates: {
-          ...appeal.sectionStates,
-          [sectionName]: {
-            ...appeal.sectionStates[sectionName],
-            [taskName]: fakeTaskStatus,
-          },
+        {
+          nextStep: 'task list',
+          request: () => ({
+            ...mockReq(appeal),
+            body: {
+              files: {
+                'supporting-documents': [
+                  {
+                    name: fakeFile1Name,
+                  },
+                ],
+              },
+            },
+          }),
+          expectedNextUrl: () => fakeNextUrl,
         },
-      };
+      ].forEach(({ nextStep, request, expectedNextUrl }) => {
+        it(`should redirect - ${nextStep} - if valid - single file`, async () => {
+          getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(updatedAppeal);
+          createDocument.mockImplementation(() => ({ id: fakeFile1Id }));
+          getNextTask.mockReturnValue({
+            href: fakeNextUrl,
+          });
 
-      expect(createDocument).toHaveBeenCalledWith(updatedAppeal, { name: fakeFileName });
+          await supportingDocumentsController.postSupportingDocuments(request(), res);
 
-      expect(res.redirect).toHaveBeenCalledWith(fakeNextUrl);
-    });
+          const updatedAppeal = {
+            ...appeal,
+            [sectionName]: {
+              ...appeal[sectionName],
+              [taskName]: {
+                uploadedFiles: [
+                  {
+                    fileName: fakeFile1Name,
+                    id: fakeFile1Id,
+                    location: undefined,
+                    message: {
+                      text: fakeFile1Name,
+                    },
+                    name: fakeFile1Name,
+                    originalFileName: fakeFile1Name,
+                    size: undefined,
+                  },
+                ],
+              },
+            },
+            sectionStates: {
+              ...appeal.sectionStates,
+              [sectionName]: {
+                ...appeal.sectionStates[sectionName],
+                [taskName]: fakeTaskStatus,
+              },
+            },
+          };
 
-    it('should redirect to the task list if valid - multiple file', async () => {
-      const fakeFile1Id = '456-cde';
-      const fakeFile1Name = 'another.jpg';
-      const fakeFile2Id = '789-xyz';
-      const fakeFile2Name = 'my long filename goes here.docx';
-      const fakeTaskStatus = 'FAKE_STATUS';
-      const fakeNextUrl = `/some/fake/path`;
+          expect(createOrUpdateAppeal).toHaveBeenCalledWith(updatedAppeal);
 
-      getTaskStatus.mockImplementation(() => fakeTaskStatus);
+          expect(createDocument).toHaveBeenCalledWith(updatedAppeal, { name: fakeFile1Name });
 
-      createDocument
-        .mockImplementationOnce(() => ({ id: fakeFile1Id }))
-        .mockImplementationOnce(() => ({ id: fakeFile2Id }));
-
-      getNextTask.mockReturnValue({
-        href: fakeNextUrl,
+          expect(res.redirect).toHaveBeenCalledWith(expectedNextUrl());
+        });
       });
 
-      req = {
-        ...mockReq(appeal),
-        body: {},
-        files: {
-          'supporting-documents': [
-            {
-              name: fakeFile1Name,
-            },
-            {
-              name: fakeFile2Name,
-            },
-          ],
-        },
-      };
-      await supportingDocumentsController.postSupportingDocuments(req, res);
-
-      const updatedAppeal = {
-        ...appeal,
-        [sectionName]: {
-          ...appeal[sectionName],
-          [taskName]: {
-            uploadedFiles: [
-              {
-                fileName: fakeFile1Name,
-                id: fakeFile1Id,
-                location: undefined,
-                message: {
-                  text: fakeFile1Name,
-                },
-                name: fakeFile1Name,
-                originalFileName: fakeFile1Name,
-                size: undefined,
+      [
+        {
+          nextStep: 'upload-and-remain-on-page',
+          request: () => ({
+            ...mockReq(appeal),
+            body: {
+              'upload-and-remain-on-page': 'upload-and-remain-on-page',
+              files: {
+                'supporting-documents': [
+                  {
+                    name: fakeFile1Name,
+                  },
+                  {
+                    name: fakeFile2Name,
+                  },
+                ],
               },
-              {
-                fileName: fakeFile2Name,
-                id: fakeFile2Id,
-                location: undefined,
-                message: {
-                  text: fakeFile2Name,
-                },
-                name: fakeFile2Name,
-                originalFileName: fakeFile2Name,
-                size: undefined,
+            },
+          }),
+          expectedNextUrl: () => `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
+        },
+        {
+          nextStep: 'task list',
+          request: () => ({
+            ...mockReq(appeal),
+            body: {
+              files: {
+                'supporting-documents': [
+                  {
+                    name: fakeFile1Name,
+                  },
+                  {
+                    name: fakeFile2Name,
+                  },
+                ],
               },
-            ],
-          },
+            },
+          }),
+          expectedNextUrl: () => fakeNextUrl,
         },
-        sectionStates: {
-          ...appeal.sectionStates,
-          [sectionName]: {
-            ...appeal.sectionStates[sectionName],
-            [taskName]: fakeTaskStatus,
-          },
-        },
-      };
+      ].forEach(({ nextStep, request, expectedNextUrl }) => {
+        it(`should redirect - ${nextStep} if valid - multiple file`, async () => {
+          getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(updatedAppeal);
+          createDocument
+            .mockImplementationOnce(() => ({ id: fakeFile1Id }))
+            .mockImplementationOnce(() => ({ id: fakeFile2Id }));
 
-      expect(createDocument.mock.calls[0][0]).toEqual(appeal, { name: fakeFile1Name });
-      expect(createDocument.mock.calls[1][0]).toEqual(appeal, { name: fakeFile2Name });
+          getNextTask.mockReturnValue({
+            href: fakeNextUrl,
+          });
 
-      expect(res.redirect).toHaveBeenCalledWith(fakeNextUrl);
+          await supportingDocumentsController.postSupportingDocuments(request(), res);
+
+          const updatedAppeal = {
+            ...appeal,
+            [sectionName]: {
+              ...appeal[sectionName],
+              [taskName]: {
+                uploadedFiles: [
+                  {
+                    fileName: fakeFile1Name,
+                    id: fakeFile1Id,
+                    location: undefined,
+                    message: {
+                      text: fakeFile1Name,
+                    },
+                    name: fakeFile1Name,
+                    originalFileName: fakeFile1Name,
+                    size: undefined,
+                  },
+                  {
+                    fileName: fakeFile2Name,
+                    id: fakeFile2Id,
+                    location: undefined,
+                    message: {
+                      text: fakeFile2Name,
+                    },
+                    name: fakeFile2Name,
+                    originalFileName: fakeFile2Name,
+                    size: undefined,
+                  },
+                ],
+              },
+            },
+            sectionStates: {
+              ...appeal.sectionStates,
+              [sectionName]: {
+                ...appeal.sectionStates[sectionName],
+                [taskName]: fakeTaskStatus,
+              },
+            },
+          };
+
+          expect(createOrUpdateAppeal).toHaveBeenCalledWith(updatedAppeal);
+
+          expect(createDocument.mock.calls[0][0]).toEqual(appeal, { name: fakeFile1Name });
+          expect(createDocument.mock.calls[1][0]).toEqual(appeal, { name: fakeFile2Name });
+
+          expect(res.redirect).toHaveBeenCalledWith(expectedNextUrl());
+        });
+      });
     });
   });
 });

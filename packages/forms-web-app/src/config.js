@@ -29,6 +29,9 @@ module.exports = {
       appealStatementMaxFileSize: Number(
         process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || oneGigabyte
       ),
+      supportingDocumentsMaxFileSize: Number(
+        process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || oneGigabyte
+      ),
       uploadApplicationMaxFileSize: Number(
         process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || oneGigabyte
       ),
