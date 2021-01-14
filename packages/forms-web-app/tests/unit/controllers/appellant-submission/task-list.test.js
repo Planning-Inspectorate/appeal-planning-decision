@@ -145,7 +145,7 @@ describe('controllers/appellant-submission/task-list', () => {
             items: [
               {
                 text: 'Check your answers',
-                href: `/${VIEW.CHECK_ANSWERS}`,
+                href: `/${VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS}`,
                 status: 'CANNOT START YET',
                 attributes: {
                   'checkYourAnswers-status': 'CANNOT START YET',
@@ -339,7 +339,7 @@ describe('controllers/appellant-submission/task-list', () => {
             items: [
               {
                 text: 'Check your answers',
-                href: `/${VIEW.CHECK_ANSWERS}`,
+                href: `/${VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS}`,
                 status: 'CANNOT START YET',
                 attributes: {
                   'checkYourAnswers-status': 'CANNOT START YET',
@@ -537,7 +537,7 @@ describe('controllers/appellant-submission/task-list', () => {
             items: [
               {
                 text: 'Check your answers',
-                href: `/${VIEW.CHECK_ANSWERS}`,
+                href: `/${VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS}`,
                 status: 'NOT STARTED',
                 attributes: {
                   'checkYourAnswers-status': 'NOT STARTED',
