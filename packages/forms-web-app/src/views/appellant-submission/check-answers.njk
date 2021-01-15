@@ -384,7 +384,8 @@
 
       <form action="/appellant-submission/submission" method="get" novalidate>
         {{ govukButton({
-          text: "Save and continue"
+          text: "Save and continue",
+          attributes: { "data-cy":"button-save-and-continue"}
         }) }}
       </form>
     </div>

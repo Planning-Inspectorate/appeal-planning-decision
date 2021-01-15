@@ -33,7 +33,8 @@
     text: 'Upload file',
     classes: 'govuk-button--secondary moj-multi-file-upload__button',
     name: 'upload-and-remain-on-page',
-    value: 'upload-and-remain-on-page'
+    value: 'upload-and-remain-on-page',
+    attributes: { "data-cy":"button-upload-file"}
   })}}
 {% endset %}
 
@@ -74,7 +75,8 @@
 
         {{ govukButton({
           text: "Continue",
-          type: "submit"
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
         }) }}
       </form>
     </div>

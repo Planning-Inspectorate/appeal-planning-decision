@@ -5,7 +5,7 @@ Given('the user is presented with the answers they had provided', () => {
 });
 
 When('the user confirms that they are happy with their answers', () => {
-  cy.saveAndContinue();
+  cy.clickSaveAndContinue();
 });
 
 When('the user checks their answers', () => {});

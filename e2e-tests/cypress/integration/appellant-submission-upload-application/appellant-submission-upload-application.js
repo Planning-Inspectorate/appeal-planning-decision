@@ -3,7 +3,7 @@ import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 Given('user has previously submitted a planning application file {string}', (filename) => {
   cy.goToPlanningApplicationSubmission();
   cy.uploadPlanningApplicationFile(filename);
-  cy.saveAndContinue();
+  cy.clickSaveAndContinue();
 });
 
 Given(
@@ -11,10 +11,10 @@ Given(
   (validFile, invalidFile, reason) => {
     cy.goToPlanningApplicationSubmission();
     cy.uploadPlanningApplicationFile(validFile);
-    cy.saveAndContinue();
+    cy.clickSaveAndContinue();
     cy.goToPlanningApplicationSubmission();
     cy.uploadPlanningApplicationFile(invalidFile);
-    cy.saveAndContinue();
+    cy.clickSaveAndContinue();
 
     switch (reason) {
       case 'file type is invalid':
@@ -30,12 +30,12 @@ Given(
 When('user submits a planning application file {string}', (filename) => {
   cy.goToPlanningApplicationSubmission();
   cy.uploadPlanningApplicationFile(filename);
-  cy.saveAndContinue();
+  cy.clickSaveAndContinue();
 });
 
 When('user does not submit a planning application file', () => {
   cy.goToPlanningApplicationSubmission();
-  cy.saveAndContinue();
+  cy.clickSaveAndContinue();
 });
 
 Then('The application file {string} is submitted and user can proceed', (filename) => {
