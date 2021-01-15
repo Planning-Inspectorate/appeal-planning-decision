@@ -29,6 +29,20 @@ jobs:
           cd e2e-tests
           npm run gherkin-lint
 
+  gherkin-lint-the-rival:
+    name: "gherkin_lint"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install the world
+        run: make install
+
+      - name: lint feature-files
+        run: |
+          cd e2e-tests/cypress/integration
+          docker run -ti -v $(pwd):/src -w /src gherkin/lint *.feature
+
   cypress-ACP:
     name: "Cypress- ACP mode"
     runs-on: ubuntu-latest
