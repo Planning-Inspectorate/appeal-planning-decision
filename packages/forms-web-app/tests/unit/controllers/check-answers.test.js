@@ -1,4 +1,4 @@
-const checkAnswersController = require('../../../src/controllers/check-answers');
+const checkAnswersController = require('../../../src/controllers/appellant-submission/check-answers');
 const { APPEAL_DOCUMENT } = require('../../../src/lib/empty-appeal');
 const { getDepartmentFromId } = require('../../../src/services/department.service');
 const { mockReq, mockRes } = require('../mocks');
@@ -6,7 +6,7 @@ const { VIEW } = require('../../../src/lib/views');
 
 jest.mock('../../../src/services/department.service');
 
-describe('controllers/check-answers', () => {
+describe('controllers/appellant-submission/check-answers', () => {
   let req;
   let res;
   let appeal;
@@ -23,7 +23,7 @@ describe('controllers/check-answers', () => {
   describe('getCheckAnswers', () => {
     it('should call the correct template with empty local planning department', () => {
       checkAnswersController.getCheckAnswers(req, res);
-      expect(res.render).toHaveBeenCalledWith(VIEW.CHECK_ANSWERS, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS, {
         appealLPD: '',
         appeal,
       });
@@ -34,7 +34,7 @@ describe('controllers/check-answers', () => {
       appeal.lpaCode = 'lpdCode';
       await checkAnswersController.getCheckAnswers(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.CHECK_ANSWERS, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS, {
         appealLPD: '',
         appeal,
       });
@@ -45,7 +45,7 @@ describe('controllers/check-answers', () => {
       appeal.lpaCode = 'lpdCode';
       await checkAnswersController.getCheckAnswers(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.CHECK_ANSWERS, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS, {
         appealLPD: 'lpdName',
         appeal,
       });

@@ -1,4 +1,4 @@
 module.exports = () => {
-  cy.visit('/check-answers', {failOnStatusCode: false});
+  cy.visit('/appellant-submission/check-answers', { failOnStatusCode: false });
   cy.wait(Cypress.env('demoDelay'));
 };

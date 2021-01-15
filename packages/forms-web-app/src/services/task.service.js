@@ -130,7 +130,10 @@ const SECTIONS = {
     },
   },
   submitYourAppealSection: {
-    checkYourAnswers: { href: `/${VIEW.CHECK_ANSWERS}`, rule: statusCheckYourAnswer },
+    checkYourAnswers: {
+      href: `/${VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS}`,
+      rule: statusCheckYourAnswer,
+    },
   },
 };
 

@@ -1,11 +1,11 @@
-const { get } = require('./router-mock');
-const checkAnswersController = require('../../../src/controllers/check-answers');
-const fetchExistingAppealMiddleware = require('../../../src/middleware/fetch-existing-appeal');
+const { get } = require('../router-mock');
+const checkAnswersController = require('../../../../src/controllers/appellant-submission/check-answers');
+const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 
 describe('routes/check-answers', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
-    require('../../../src/routes/check-answers');
+    require('../../../../src/routes/appellant-submission/check-answers');
   });
 
   afterEach(() => {
@@ -14,7 +14,7 @@ describe('routes/check-answers', () => {
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      '/',
+      '/check-answers',
       [fetchExistingAppealMiddleware],
       checkAnswersController.getCheckAnswers
     );
