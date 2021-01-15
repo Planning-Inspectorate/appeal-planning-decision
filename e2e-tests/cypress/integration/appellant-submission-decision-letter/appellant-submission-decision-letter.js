@@ -3,7 +3,7 @@ import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 Given('user has previously submitted a decision letter file {string}', (filename) => {
   cy.goToDecisionLetterPage();
   cy.uploadDecisionLetterFile(filename);
-  cy.saveAndContinue();
+  cy.clickSaveAndContinue();
 });
 
 Given(
@@ -11,10 +11,10 @@ Given(
   (validFile, invalidFile, reason) => {
     cy.goToDecisionLetterPage();
     cy.uploadDecisionLetterFile(validFile);
-    cy.saveAndContinue();
+    cy.clickSaveAndContinue();
     cy.goToDecisionLetterPage();
     cy.uploadDecisionLetterFile(invalidFile);
-    cy.saveAndContinue();
+    cy.clickSaveAndContinue();
 
     switch (reason) {
       case 'file type is invalid':
@@ -30,12 +30,12 @@ Given(
 When('user submits a decision letter file {string}', (filename) => {
   cy.goToDecisionLetterPage();
   cy.uploadDecisionLetterFile(filename);
-  cy.saveAndContinue();
+  cy.clickSaveAndContinue();
 });
 
 When('user does not submit a decision letter file', () => {
   cy.goToDecisionLetterPage();
-  cy.saveAndContinue();
+  cy.clickSaveAndContinue();
 });
 
 Then('The decision letter file {string} is submitted and user can proceed', (filename) => {

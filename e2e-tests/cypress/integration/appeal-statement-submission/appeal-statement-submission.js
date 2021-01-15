@@ -4,7 +4,7 @@ Given('user has previously submitted an appeal statement file {string}', (filena
   cy.goToAppealStatementSubmission();
   cy.checkNoSensitiveInformation();
   cy.uploadAppealStatementFile(filename);
-  cy.saveAndContinue();
+  cy.clickSaveAndContinue();
 });
 
 When(
@@ -12,7 +12,7 @@ When(
   () => {
     cy.goToAppealStatementSubmission();
     cy.checkNoSensitiveInformation();
-    cy.saveAndContinue();
+    cy.clickSaveAndContinue();
   },
 );
 
@@ -26,7 +26,7 @@ When(
       cy.uncheckNoSensitiveInformation();
     }
     cy.uploadAppealStatementFile(filename);
-    cy.saveAndContinue();
+    cy.clickSaveAndContinue();
   },
 );
 
@@ -65,11 +65,11 @@ Given(
     cy.goToAppealStatementSubmission();
     cy.checkNoSensitiveInformation();
     cy.uploadAppealStatementFile(validFile);
-    cy.saveAndContinue();
+    cy.clickSaveAndContinue();
     cy.goToAppealStatementSubmission();
     cy.checkNoSensitiveInformation();
     cy.uploadAppealStatementFile(invalidFile);
-    cy.saveAndContinue();
+    cy.clickSaveAndContinue();
     switch (reason) {
       case 'file type is invalid':
         cy.confirmFileInvalidBecauseWrongFileType();

@@ -1,4 +1,5 @@
 // NAVIGATION
+Cypress.Commands.add('clickSaveAndContinue', require('./appeal-navigation/clickSaveAndContinue'));
 
 Cypress.Commands.add(
   'goToPageNotFoundPage',
@@ -289,8 +290,6 @@ Cypress.Commands.add(
   require('./appeal-statement-submission/confirmFileInvalidBecauseWrongFileType'),
 );
 
-Cypress.Commands.add('saveAndContinue', require('./appeal-statement-submission/saveAndContinue'));
-
 Cypress.Commands.add(
   'uncheckNoSensitiveInformation',
   require('./appeal-statement-submission/uncheckNoSensitiveInformation'),
@@ -299,6 +298,31 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'uploadAppealStatementFile',
   require('./appeal-statement-submission/uploadAppealStatementFile'),
+);
+
+Cypress.Commands.add(
+  'clickUploadFiles',
+  require('./appellant-submission-supporting-documents/clickUploadFiles'),
+);
+
+Cypress.Commands.add(
+  'confirmSupportingDocumentAccepted',
+  require('./appellant-submission-supporting-documents/confirmSupportingDocumentAccepted'),
+);
+
+Cypress.Commands.add(
+  'confirmNumberSupportingDocumentsAccepted',
+  require('./appellant-submission-supporting-documents/confirmNumberSupportingDocumentsAccepted'),
+);
+
+Cypress.Commands.add(
+  'confirmSupportingDocumentRejectedBecause',
+  require('./appellant-submission-supporting-documents/confirmSupportingDocumentRejectedBecause'),
+);
+
+Cypress.Commands.add(
+  'uploadSupportingDocuments',
+  require('./appellant-submission-supporting-documents/uploadSupportingDocuments'),
 );
 
 Cypress.Commands.add(
@@ -513,11 +537,6 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmWhoAreYouRejectedBecause',
   require('./appellant-submission-your-details/confirmWhoAreYouRejectedBecause'),
-);
-
-Cypress.Commands.add(
-  'clickSaveAndContinue',
-  require('./appellant-submission-your-details/clickSaveAndContinue'),
 );
 
 Cypress.Commands.add(
