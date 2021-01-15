@@ -180,6 +180,13 @@ When('new valid name and email are submitted', () => {
   cy.clickSaveAndContinue();
 });
 
+When('new invalid name and email are submitted', () => {
+  cy.goToYourDetailsPage();
+  cy.provideDetailsName('Invalid name with prohibited characters *3(/+');
+  cy.provideDetailsEmail('invalid email');
+  cy.clickSaveAndContinue();
+});
+
 When('the user provides their {string} and {string}', (name, email) => {
   cy.goToYourDetailsPage();
   cy.provideDetailsName(name);
