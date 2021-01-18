@@ -9,9 +9,9 @@ function statusAppealStatement(appeal) {
   return task.uploadedFile.id ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
 }
 
-// eslint-disable-next-line no-unused-vars
-function statusOtherDocuments(appeal) {
-  return TASK_STATUS.NOT_STARTED;
+function statusSupportingDocuments(appeal) {
+  const task = appeal.yourAppealSection.otherDocuments;
+  return task.uploadedFiles.length > 0 ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -110,7 +110,7 @@ const SECTIONS = {
     },
     otherDocuments: {
       href: `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
-      rule: statusOtherDocuments,
+      rule: statusSupportingDocuments,
     },
     otherAppeals: { href: 'other-appeals', rule: statusOtherAppeals },
   },
