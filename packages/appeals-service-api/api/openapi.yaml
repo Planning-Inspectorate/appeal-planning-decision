@@ -219,6 +219,10 @@ components:
         wales:
           type: boolean
           example: false
+        horizonId:
+          type: string
+          nullable: true
+          example: Y3805
     OtherDocuments:
       type: object
       properties:
