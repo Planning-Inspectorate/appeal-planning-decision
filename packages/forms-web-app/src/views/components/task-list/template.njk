@@ -14,11 +14,11 @@
         class="moj-task-list__item" {% for attribute, value in item.attributes %} {{ attribute }}="{{ value }}"{% endfor %}>
 
       {%- if item.status != 'CANNOT START YET' %}
-      <a class="moj-task-list__task-name" href="{{ item.href }}">
+      <a data-cy="{{ item.attributes.name }}" class="moj-task-list__task-name" href="{{ item.href }}">
         {{- item.html | safe if item.html else item.text -}}
       </a>
     {% else %}
-      <span class="app-task-list__task-name"">
+      <span data-cy="{{ item.attributes.name }}" class="app-task-list__task-name"">
         {{- item.html | safe if item.html else item.text -}}
       </span>
       {% endif %}
