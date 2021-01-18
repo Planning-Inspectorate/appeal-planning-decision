@@ -13,7 +13,7 @@ Scenario: Navigation - About the appeal site
 
 Scenario: Navigation - Site ownership with YES selected
   Given the "Site ownership" is presented
-  When the "Site ownership" is submitted with a YES valuegit
+  When the "Site ownership" is submitted with a YES value
   Then the "Site access" is presented
 
 Scenario: Navigation - Site ownership with NO selected
