@@ -137,6 +137,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'goToPlanningApplicationNumberPage',
+  require('./appeal-navigation/appellant-submission/goToPlanningApplicationNumberPage'),
+);
+
+Cypress.Commands.add(
   'promptUserToProvidePlanningApplicationNumber',
   require('./appeal-navigation/appellant-submission/goToPlanningApplicationNumberPage'),
 );
@@ -782,4 +787,11 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'validateIndividualFileUpload',
   require('./file-upload/validateIndividualFileUpload'),
+);
+
+Cypress.Commands.add('userIsNavigatedToPage', require('./appeal-navigation/userIsNavigatedToPage'));
+
+Cypress.Commands.add(
+  'goToSiteSafetyPage',
+  require('./appeal-navigation/appellant-submission/goToSiteSafetyPage'),
 );
