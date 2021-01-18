@@ -29,6 +29,7 @@ describe('LPA schema test', () => {
         const obj = {
           id: 'some-id',
           name: 'some-name',
+          horizonId: 'some-hid',
           inTrial: true,
           england: true,
           wales: true,
@@ -41,6 +42,7 @@ describe('LPA schema test', () => {
         expect(lpa.inTrial).toBe(obj.inTrial);
         expect(lpa.england).toBe(obj.england);
         expect(lpa.wales).toBe(obj.wales);
+        expect(lpa.horizonId).toBe(obj.horizonId);
       });
     });
   });
@@ -249,6 +251,7 @@ describe('LPA schema test', () => {
           {
             id: 'W43000018',
             inTrial: false,
+            horizonId: 'ABC123',
           },
         ];
 
@@ -258,10 +261,11 @@ describe('LPA schema test', () => {
             ({ LPA19CD }) => LPA19CD.startsWith('S') === false && LPA19CD.startsWith('N') === false
           )
           .map(({ LPA19CD: id, LPA19NM: name }) => {
-            const { inTrial = false } =
+            const { inTrial = false, horizonId = null } =
               trialistExample.find(({ id: trialistId }) => trialistId === id) || {};
             return {
               name,
+              horizonId,
               inTrial,
               id: id.toUpperCase(),
               england: id.startsWith('E'),
