@@ -44,7 +44,10 @@ function buildTaskLists(appeal) {
       task.items.push({
         text: HEADERS[subSectionName],
         href: subSection.href,
-        attributes: { [`${subSectionName}-status`]: status },
+        attributes: {
+          name: subSectionName,
+          [`${subSectionName}-status`]: status,
+        },
         status,
       });
     });
