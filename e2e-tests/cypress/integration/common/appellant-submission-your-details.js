@@ -52,17 +52,6 @@ Given('the user has confirmed that they {string} the original applicant', (areOr
   cy.clickSaveAndContinue();
 })
 
-
-And('Your Details section is completed', () => {
-  cy.goToTaskListPage()
-  cy.confirmYourDetailsStatus('COMPLETED');
-})
-
-And('Your Details section is in progress', () => {
-  cy.goToTaskListPage()
-  cy.confirmYourDetailsStatus('IN PROGRESS');
-})
-
 And('Your Details section is {string}', (status) => {
   cy.goToTaskListPage()
   cy.confirmYourDetailsStatus(status.toUpperCase());
