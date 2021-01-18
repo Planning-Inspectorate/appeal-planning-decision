@@ -1,5 +1,7 @@
 APPS = data e2e-tests lpa-submissions-e2e-tests packages/*
 STACKS = common environments
+SSH_KEY ?= ~/.ssh/id_rsa.pub
+PUB_KEY = $(shell cat $(SSH_KEY))
 
 down:
 	docker-compose down
@@ -18,6 +20,18 @@ install:
 	(cd e2e-tests && ./create-large-test-files.sh)
 	echo "-- Complete --"
 .PHONY: install
+
+openfaas:
+	curl -sSL https://raw.githubusercontent.com/openfaas/faasd/master/cloud-config.txt > .faasd.txt
+
+	sed -i -e "s~ssh-rsa.*~${PUB_KEY}~g" .faasd.txt
+
+	multipass launch \
+		--cloud-init .faasd.txt \
+		--name faasd
+
+	rm .faasd.txt
+.PHONY: openfaas
 
 run:
 	docker-compose run \
