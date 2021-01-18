@@ -501,6 +501,16 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmTaskIsAvailableForSelection',
+  require('./appeal-submission-tasklist/confirmTaskIsAvailableForSelection'),
+);
+
+Cypress.Commands.add(
+  'confirmTaskIsNotAvailableForSelection',
+  require('./appeal-submission-tasklist/confirmTaskIsNotAvailableForSelection'),
+);
+
+Cypress.Commands.add(
   'selectToUploadAppealSubmissionDocument',
   require('./appeal-submission-tasklist/selectToUploadAppealSubmissionDocument'),
 );
