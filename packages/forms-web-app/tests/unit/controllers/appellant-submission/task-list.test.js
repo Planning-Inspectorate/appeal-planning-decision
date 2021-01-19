@@ -75,7 +75,7 @@ describe('controllers/appellant-submission/task-list', () => {
           },
           {
             heading: {
-              text: 'Your appeal',
+              text: 'About your appeal',
             },
             items: [
               {
@@ -106,7 +106,7 @@ describe('controllers/appellant-submission/task-list', () => {
           },
           {
             heading: {
-              text: 'About the appeal site',
+              text: 'Visiting the appeal site',
             },
             items: [
               {
@@ -269,7 +269,7 @@ describe('controllers/appellant-submission/task-list', () => {
           },
           {
             heading: {
-              text: 'Your appeal',
+              text: 'About your appeal',
             },
             items: [
               {
@@ -300,7 +300,7 @@ describe('controllers/appellant-submission/task-list', () => {
           },
           {
             heading: {
-              text: 'About the appeal site',
+              text: 'Visiting the appeal site',
             },
             items: [
               {
@@ -467,7 +467,7 @@ describe('controllers/appellant-submission/task-list', () => {
           },
           {
             heading: {
-              text: 'Your appeal',
+              text: 'About your appeal',
             },
             items: [
               {
@@ -498,7 +498,7 @@ describe('controllers/appellant-submission/task-list', () => {
           },
           {
             heading: {
-              text: 'About the appeal site',
+              text: 'Visiting the appeal site',
             },
             items: [
               {
