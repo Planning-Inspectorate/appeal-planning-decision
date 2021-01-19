@@ -61,6 +61,8 @@ No requirements.
 | containers\_username | Username for the container registry |
 | group\_admin\_id | ID of the Admin AAD group |
 | group\_user\_id | ID of the User AAD group |
+| horizon\_address\_spaces | Horizon incoming address spaces |
+| horizon\_public\_ip | IP of the incoming Horizon VPN connection |
 | key\_vault\_name | Key vault name |
 | key\_vault\_secrets | Secrets JSON key/value pairs to be ingested into Key Vault - done externally to avoid Terraform refresh permissions errors. Values must be strings. |
 | kube\_load\_balancer\_domain\_label | The DNS label of the load balancer for the Kubernetes cluster |
