@@ -42,6 +42,20 @@ output "group_user_id" {
 }
 
 /*
+  Horizon
+ */
+
+output "horizon_public_ip" {
+  description = "IP of the incoming Horizon VPN connection"
+  value = try(azurerm_public_ip.horizon.0.ip_address, null)
+}
+
+output "horizon_address_spaces" {
+  description = "Horizon incoming address spaces"
+  value = try(azurerm_subnet.horizon.0.address_prefixes, [])
+}
+
+/*
   Key Vault
  */
 
