@@ -64,6 +64,6 @@ module.exports = {
     port: Number(process.env.PORT || 3000),
     sessionSecret: process.env.SESSION_KEY,
     useSecureSessionCookie: process.env.USE_SECURE_SESSION_COOKIES === 'true',
-    googleAnalyticsId: 'G-FFM8G1FWCZ',
+    googleAnalyticsId: 'G-RTYZW789M0',
   },
 };
