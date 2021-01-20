@@ -75,6 +75,10 @@ describe('lib/file-size-display-helper', () => {
       expected: '1 YB',
     },
     {
+      given: 15000000,
+      expected: '15 MB',
+    },
+    {
       given: 50000000,
       expected: '50 MB',
     },
