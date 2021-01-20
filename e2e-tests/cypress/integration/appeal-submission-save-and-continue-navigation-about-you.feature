@@ -15,7 +15,6 @@ Feature: Appeal Submission Save and Continue Navigation - About You
     When the "Your details" is submitted with valid values
     Then the user is navigated to "Appeal tasks"
 
-  # This scenario should deal with user selecting No(in 'who-are-you' page) and then navigate to your-details page
   Scenario: Navigation - Not the original applicant
     Given the "Your details" is presented for not the original applicant
     When the "Your details" is submitted with valid values

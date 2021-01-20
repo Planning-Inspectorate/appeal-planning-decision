@@ -21,9 +21,7 @@ Scenario: Navigation - Site ownership with NO selected
   Then the user is navigated to "Site ownership certb"
 
 Scenario: Navigation - Site ownership certb with YES selected
-  Given the "Site ownership" is presented
-  When the "Site ownership" is submitted with a NO value
-  Then the user is navigated to "Site ownership certb"
+  Given the "Site ownership" is not wholly owned
   When the "Site ownership certb" is submitted with a YES value
   Then the user is navigated to "Site access"
 

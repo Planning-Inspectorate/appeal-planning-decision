@@ -12,6 +12,15 @@ Given('the "Site ownership certb" is presented', () => {
   cy.goToOtherSiteOwnerToldPage();
 });
 
+Given('the "Site ownership" is not wholly owned', () => {
+  cy.goToWholeSiteOwnerPage();
+
+  cy.answerDoesNotOwnTheWholeAppeal();
+  cy.clickSaveAndContinue();
+
+  cy.userIsNavigatedToPage('/appellant-submission/site-ownership-certb');
+});
+
 Given('the "Site access" is presented', () => {
   cy.goToAccessSitePage();
 });
