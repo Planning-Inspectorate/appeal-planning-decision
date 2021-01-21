@@ -219,14 +219,6 @@ components:
         wales:
           type: boolean
           example: false
-    OtherAppeals:
-      type: object
-      properties:
-        hasOtherAppeal:
-          type: boolean
-        otherAppealRefNumber:
-          type: string
-          maxLength: 255
     OtherDocuments:
       type: object
       properties:
@@ -279,8 +271,6 @@ components:
             appealStatement:
               $ref: '#/components/schemas/SectionState'
             otherDocuments:
-              $ref: '#/components/schemas/SectionState'
-            otherAppeals:
               $ref: '#/components/schemas/SectionState'
         appealSiteSection:
           properties:
@@ -342,8 +332,6 @@ components:
           $ref: '#/components/schemas/AppealStatement'
         otherDocuments:
           $ref: '#/components/schemas/OtherDocuments'
-        otherAppeals:
-          $ref: '#/components/schemas/OtherAppeals'
       description: Section that includes grounds for the appeal, supporting documents and references to any related appeals
     YourDetails:
       type: object

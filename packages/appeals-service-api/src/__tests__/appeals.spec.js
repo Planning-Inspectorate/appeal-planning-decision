@@ -89,10 +89,6 @@ describe('Appeals API', () => {
         id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
       },
     ];
-    appeal.yourAppealSection.otherAppeals = {
-      hasOtherAppeal: true,
-      otherAppealRefNumber: 'E60000281/one,E60000281/two,E60000281/three',
-    };
     appeal.appealSiteSection.siteAddress = {
       addressLine1: 'The Grand House',
       addressLine2: 'High Street',
@@ -123,7 +119,6 @@ describe('Appeals API', () => {
     appeal.sectionStates.yourAppealSection = {
       appealStatement: 'IN PROGRESS',
       otherDocuments: 'COMPLETED',
-      otherAppeals: 'NOT STARTED',
     };
     appeal.sectionStates.appealSiteSection = {
       siteAccess: 'IN PROGRESS',
@@ -167,9 +162,6 @@ describe('Appeals API', () => {
     );
     expect(response.body.errors).toContain(
       'sectionStates.yourAppealSection.otherDocuments is a required field'
-    );
-    expect(response.body.errors).toContain(
-      'sectionStates.yourAppealSection.otherAppeals is a required field'
     );
     expect(response.body.errors).toContain(
       'sectionStates.appealSiteSection.siteAccess is a required field'

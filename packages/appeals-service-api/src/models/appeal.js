@@ -37,10 +37,6 @@ const appealDocument = {
     otherDocuments: {
       uploadedFiles: [],
     },
-    otherAppeals: {
-      hasOtherAppeal: null,
-      otherAppealRefNumber: '',
-    },
   },
   appealSiteSection: {
     siteAddress: {
@@ -75,7 +71,6 @@ const appealDocument = {
     yourAppealSection: {
       appealStatement: 'NOT STARTED',
       otherDocuments: 'NOT STARTED',
-      otherAppeals: 'NOT STARTED',
     },
     appealSiteSection: {
       siteAccess: 'NOT STARTED',

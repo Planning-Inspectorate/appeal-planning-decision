@@ -228,7 +228,6 @@ function validateAppeal(appealId, appeal) {
       appeal.sectionStates.requiredDocumentsSection.decisionLetter !== 'COMPLETED' ||
       appeal.sectionStates.yourAppealSection.appealStatement !== 'COMPLETED' ||
       appeal.sectionStates.yourAppealSection.otherDocuments !== 'COMPLETED' ||
-      appeal.sectionStates.yourAppealSection.otherAppeals !== 'COMPLETED' ||
       appeal.sectionStates.appealSiteSection.siteAccess !== 'COMPLETED' ||
       appeal.sectionStates.appealSiteSection.siteOwnership !== 'COMPLETED' ||
       appeal.sectionStates.appealSiteSection.healthAndSafety !== 'COMPLETED')
