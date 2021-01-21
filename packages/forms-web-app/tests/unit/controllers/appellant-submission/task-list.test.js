@@ -13,7 +13,7 @@ describe('controllers/appellant-submission/task-list', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
         applicationStatus: 'Application incomplete',
         sectionInfo: {
-          nbTasks: 12,
+          nbTasks: 11,
           nbCompleted: 0,
           sections: {
             count: 5,
@@ -92,15 +92,6 @@ describe('controllers/appellant-submission/task-list', () => {
                 attributes: {
                   'otherDocuments-status': 'NOT STARTED',
                   name: 'otherDocuments',
-                },
-              },
-              {
-                text: 'Other relevant appeals',
-                href: 'other-appeals',
-                status: 'CANNOT START YET',
-                attributes: {
-                  'otherAppeals-status': 'CANNOT START YET',
-                  name: 'otherAppeals',
                 },
               },
             ],
@@ -231,11 +222,11 @@ describe('controllers/appellant-submission/task-list', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
         applicationStatus: 'Application incomplete',
         sectionInfo: {
-          nbTasks: 12,
+          nbTasks: 11,
           nbCompleted: 8,
           sections: {
             count: 5,
-            completed: 1,
+            completed: 2,
           },
         },
         sections: [
@@ -310,15 +301,6 @@ describe('controllers/appellant-submission/task-list', () => {
                 attributes: {
                   'otherDocuments-status': 'COMPLETED',
                   name: 'otherDocuments',
-                },
-              },
-              {
-                text: 'Other relevant appeals',
-                href: 'other-appeals',
-                status: 'CANNOT START YET',
-                attributes: {
-                  'otherAppeals-status': 'CANNOT START YET',
-                  name: 'otherAppeals',
                 },
               },
             ],
@@ -444,7 +426,7 @@ describe('controllers/appellant-submission/task-list', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
         applicationStatus: 'Application incomplete',
         sectionInfo: {
-          nbTasks: 12,
+          nbTasks: 11,
           nbCompleted: 9,
           sections: {
             count: 5,
@@ -523,15 +505,6 @@ describe('controllers/appellant-submission/task-list', () => {
                 attributes: {
                   'otherDocuments-status': 'NOT STARTED',
                   name: 'otherDocuments',
-                },
-              },
-              {
-                text: 'Other relevant appeals',
-                href: 'other-appeals',
-                status: 'CANNOT START YET',
-                attributes: {
-                  'otherAppeals-status': 'CANNOT START YET',
-                  name: 'otherAppeals',
                 },
               },
             ],
