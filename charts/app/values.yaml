@@ -49,6 +49,7 @@ formsWebApp:
   config:
     port: 3000
     enableLimitedRouting: false
+    googleAnalyticsId: ""
     upload:
       debug: true
       uploadDir: /upload-dir

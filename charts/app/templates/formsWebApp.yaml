@@ -53,6 +53,8 @@ spec:
               value: "http://{{ include "app.fullname" . }}:{{ .Values.appealsServiceApi.service.port }}"
             - name: DOCUMENTS_SERVICE_API_URL
               value: "http://{{ include "app.fullname" . }}:{{ .Values.documentServiceApi.service.port }}"
+            - name: GOOGLE_ANALYTICS_ID
+              value: {{ .Values.formsWebApp.config.googleAnalyticsId | quote }}
             - name: FILE_UPLOAD_DEBUG
               value: {{ .Values.formsWebApp.config.upload.debug | quote }}
             - name: FILE_UPLOAD_MAX_FILE_SIZE_BYTES
