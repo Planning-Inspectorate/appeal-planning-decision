@@ -69,10 +69,6 @@ module.exports = yup.object().shape({
         .nullable()
         .default([]),
     }),
-    otherAppeals: yup.object().shape({
-      hasOtherAppeal: yup.bool().nullable().default(null),
-      otherAppealRefNumber: yup.string().max(255).ensure(),
-    }),
   }),
   appealSiteSection: yup.object().shape({
     siteAddress: yup.object().shape({
@@ -110,7 +106,6 @@ module.exports = yup.object().shape({
     yourAppealSection: yup.object({
       appealStatement: yup.string().oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED']).required(),
       otherDocuments: yup.string().oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED']).required(),
-      otherAppeals: yup.string().oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED']).required(),
     }),
     appealSiteSection: yup.object({
       siteAccess: yup.string().oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED']).required(),
