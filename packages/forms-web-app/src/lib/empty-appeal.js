@@ -37,7 +37,6 @@ module.exports.APPEAL_DOCUMENT = {
       otherDocuments: {
         uploadedFiles: [],
       },
-      otherAppeals: {},
     },
     appealSiteSection: {
       siteAddress: {
@@ -72,7 +71,6 @@ module.exports.APPEAL_DOCUMENT = {
       yourAppealSection: {
         appealStatement: 'NOT STARTED',
         otherDocuments: 'NOT STARTED',
-        otherAppeals: 'NOT STARTED',
       },
       appealSiteSection: {
         siteAccess: 'NOT STARTED',

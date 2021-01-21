@@ -13,7 +13,6 @@ const HEADERS = {
   yourAppealSection: 'About your appeal',
   appealStatement: 'Your appeal statement',
   otherDocuments: 'Any other documents to support your appeal',
-  otherAppeals: 'Other relevant appeals',
   appealSiteSection: 'Visiting the appeal site',
   siteAddress: 'Address of the appeal site',
   siteAccess: 'Access to the appeal site',
