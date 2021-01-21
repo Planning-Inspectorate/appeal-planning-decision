@@ -41,8 +41,8 @@ services:
       - mock-os-places
       - mongodb
     volumes:
-      - ./packages/common:/opt/app/node_modules/@pins/common # Replace the module to avoid symlink errors
-      - ./packages/appeals-service-api:/opt/app
+      - ./packages/common:/opt/app/node_modules/@pins/common:ro # Replace the module to avoid symlink errors
+      - ./packages/appeals-service-api:/opt/app:ro
     command: npm run start:dev
 
   document-service-api: &document-service
