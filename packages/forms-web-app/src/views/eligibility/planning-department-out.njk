@@ -1,21 +1,22 @@
 {% extends "layouts/main.njk" %}
 
 {% block pageTitle %}
-  Local Planning authority details
+  Local Planning Authority details
 {% endblock %}
 
 {% block content %}
-
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">This service is not available in your area</h1>
       <p class="govuk-body">
-
-        This is a new service and is currently only available in Adur LPA, Telford and Wrekin LPA. </p>
-
-      <p>You can still appeal using our <a data-cy="linkToAlternativeService" class="govuk-link" href="https://acp.planninginspectorate.gov.uk/myportal/default.aspx">appeal a planning decision service</a>.​
+        This is a new service and is currently only available in {{ departments }}.
+      </p>
+      <p>You can still appeal using our
+        <a data-cy="linkToAlternativeService"
+           class="govuk-link"
+           href="https://acp.planninginspectorate.gov.uk/myportal/default.aspx">appeal a planning decision service
+        </a>.​
       </p>
     </div>
   </div>
-
 {% endblock %}

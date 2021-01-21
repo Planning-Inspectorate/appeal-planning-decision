@@ -560,6 +560,21 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmNavigationLocalPlanningDepartmentPage',
+  require('./appeal-navigation-confirmation/eligibility/confirmNavigationLocalPlanningDepartmentPage'),
+);
+
+Cypress.Commands.add(
+  'confirmTextOnPage',
+  require('./appeal-navigation-confirmation/eligibility/confirmTextOnPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationListedBuildingPage',
+  require('./appeal-navigation-confirmation/eligibility/confirmNavigationListedBuildingPage'),
+);
+
+Cypress.Commands.add(
   'confirmNavigationDecisionDatePage',
   require('./appeal-navigation-confirmation/eligibility/confirmNavigationDecisionDatePage'),
 );

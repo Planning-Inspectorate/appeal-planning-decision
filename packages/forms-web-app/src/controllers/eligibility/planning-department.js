@@ -6,7 +6,7 @@ const { getDepartmentData } = require('../../services/department.service');
 const { VIEW } = require('../../lib/views');
 
 exports.getPlanningDepartment = async (req, res) => {
-  const { departments } = await getDepartmentData();
+  const { departments, eligibleDepartments } = await getDepartmentData();
   const { appeal } = req.session;
   let appealLPD = '';
   if (appeal.lpaCode) {
@@ -15,9 +15,12 @@ exports.getPlanningDepartment = async (req, res) => {
       appealLPD = lpd.name;
     }
   }
+  const ineligibleDepartments = departments.filter((x) => !eligibleDepartments.includes(x));
   res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
     appealLPD,
     departments,
+    eligibleDepartments,
+    ineligibleDepartments,
   });
 };
 
@@ -39,7 +42,16 @@ exports.postPlanningDepartment = async (req, res) => {
       });
       return;
     }
-    res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT, eligibleDepartments);
+    let formattedDepartments = eligibleDepartments;
+    if (eligibleDepartments.length > 1) {
+      formattedDepartments = eligibleDepartments.join(', ');
+      const lastDept = eligibleDepartments[eligibleDepartments.length - 1];
+      formattedDepartments = formattedDepartments.replace(`, ${lastDept}`, ` and ${lastDept}`);
+    }
+    const data = {
+      departments: formattedDepartments,
+    };
+    res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT, data);
   }
 
   const lpaName = body['local-planning-department'];
