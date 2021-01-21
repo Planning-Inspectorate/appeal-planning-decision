@@ -41,11 +41,13 @@ describe('controllers/eligibility/planning-department', () => {
       appeal.lpaCode = '';
       await planningDepartmentController.getPlanningDepartment(req, res);
 
-      const { departments } = departmentsData;
+      const { departments, eligibleDepartments, ineligibleDepartments } = departmentsData;
 
       expect(res.render).toBeCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
         appealLPD: '',
         departments,
+        eligibleDepartments,
+        ineligibleDepartments,
       });
     });
 
@@ -56,11 +58,13 @@ describe('controllers/eligibility/planning-department', () => {
       appeal.lpaCode = 'unknown';
       await planningDepartmentController.getPlanningDepartment(req, res);
 
-      const { departments } = departmentsData;
+      const { departments, eligibleDepartments, ineligibleDepartments } = departmentsData;
 
       expect(res.render).toBeCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
         appealLPD: '',
         departments,
+        eligibleDepartments,
+        ineligibleDepartments,
       });
     });
 
@@ -71,11 +75,13 @@ describe('controllers/eligibility/planning-department', () => {
       appeal.lpaCode = 'lpdCode';
       await planningDepartmentController.getPlanningDepartment(req, res);
 
-      const { departments } = departmentsData;
+      const { departments, eligibleDepartments, ineligibleDepartments } = departmentsData;
 
       expect(res.render).toBeCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
         appealLPD: 'lpdName',
         departments,
+        eligibleDepartments,
+        ineligibleDepartments,
       });
     });
 
@@ -112,7 +118,6 @@ describe('controllers/eligibility/planning-department', () => {
         ...req,
         body: { errors: { 'local-planning-department': { msg: 'Ineligible Department' } } },
       };
-      const { eligibleDepartments } = departmentsData;
 
       await planningDepartmentController.postPlanningDepartment(mockRequest, res);
 
@@ -121,10 +126,7 @@ describe('controllers/eligibility/planning-department', () => {
         lpaCode: 'lpaCode1',
       });
 
-      expect(res.render).toBeCalledWith(
-        VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT,
-        eligibleDepartments
-      );
+      expect(res.render).toBeCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT);
     });
     it('Test the postPlanningDepartment method call on error', async () => {
       getDepartmentData.mockResolvedValue(departmentsData);

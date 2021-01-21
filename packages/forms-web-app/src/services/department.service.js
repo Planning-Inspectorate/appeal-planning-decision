@@ -4,17 +4,21 @@ let departmentsById = {};
 let departmentsByName = {};
 let departments = [];
 let eligibleDepartments = [];
+let ineligibleDepartments = [];
 
 async function initLPALists() {
   const lpaList = await getLPAList();
   const { data } = lpaList;
 
   eligibleDepartments = [];
+  ineligibleDepartments = [];
   departments = data.map((department) => {
     departmentsById[department.id] = department;
     departmentsByName[department.name] = department;
     if (department.inTrial) {
       eligibleDepartments.push(department.name);
+    } else {
+      ineligibleDepartments.push(department.name);
     }
     return department.name;
   });
@@ -24,7 +28,7 @@ const getDepartmentData = async () => {
   if (!departments.length) {
     await initLPALists();
   }
-  return { departments, eligibleDepartments };
+  return { departments, eligibleDepartments, ineligibleDepartments };
 };
 
 const getDepartmentFromId = async (id) => {

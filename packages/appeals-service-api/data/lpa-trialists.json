@@ -1,10 +1,6 @@
-[{
-  "id": "E60000281",
-  "inTrial": true
-}, {
-  "id": "E60000019",
-  "inTrial": false
-}, {
-  "id": "E60000116",
-  "inTrial": true
-}]
+[
+  {
+    "id": "E60000068",
+    "inTrial": true
+  }
+]

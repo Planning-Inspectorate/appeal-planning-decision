@@ -52,4 +52,4 @@ Feature: The Decision Date page has the right structure
 
       Examples:
           | Day   | Month   | Year   |
-          | "01"  | "11"    | "2020" |
+          | "24"  | "01"    | "2021" |
