@@ -6,7 +6,7 @@ const { getDepartmentData } = require('../../services/department.service');
 const { VIEW } = require('../../lib/views');
 
 exports.getPlanningDepartment = async (req, res) => {
-  const { departments } = await getDepartmentData();
+  const { departments, eligibleDepartments, ineligibleDepartments } = await getDepartmentData();
   const { appeal } = req.session;
   let appealLPD = '';
   if (appeal.lpaCode) {
@@ -18,6 +18,8 @@ exports.getPlanningDepartment = async (req, res) => {
   res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
     appealLPD,
     departments,
+    eligibleDepartments,
+    ineligibleDepartments,
   });
 };
 
@@ -25,7 +27,7 @@ exports.postPlanningDepartment = async (req, res) => {
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
   const { appeal } = req.session;
-  const { departments, eligibleDepartments } = await getDepartmentData();
+  const { departments } = await getDepartmentData();
 
   if (errors['local-planning-department']) {
     const errorMessage = errors['local-planning-department'].msg;
@@ -39,7 +41,7 @@ exports.postPlanningDepartment = async (req, res) => {
       });
       return;
     }
-    res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT, eligibleDepartments);
+    res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT);
   }
 
   const lpaName = body['local-planning-department'];

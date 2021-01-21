@@ -195,9 +195,30 @@ Cypress.Commands.add(
   'confirmProvidedDecisionDateWasInvalid',
   require('./eligibility-decision-date/confirmProvidedDecisionDateWasInvalid'),
 );
+
 Cypress.Commands.add(
   'provideLocalPlanningDepartment',
   require('./eligibility-local-planning-department/provideLocalPlanningDepartment'),
+);
+
+Cypress.Commands.add(
+  'provideIneligibleLocalPlanningDepartment',
+  require('./eligibility-local-planning-department/provideIneligibleLocalPlanningDepartment'),
+);
+
+Cypress.Commands.add(
+  'provideEligibleLocalPlanningDepartment',
+  require('./eligibility-local-planning-department/provideEligibleLocalPlanningDepartment'),
+);
+
+Cypress.Commands.add(
+  'confirmIneligibleLocalPlanningDepartment',
+  require('./eligibility-local-planning-department/confirmIneligibleLocalPlanningDepartment'),
+);
+
+Cypress.Commands.add(
+  'confirmEligibleLocalPlanningDepartment',
+  require('./eligibility-local-planning-department/confirmEligibleLocalPlanningDepartment'),
 );
 
 Cypress.Commands.add(
@@ -557,6 +578,21 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmNavigationPageNotFoundPage',
   require('./integration-with-acp/confirmNavigationPageNotFoundPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationLocalPlanningDepartmentPage',
+  require('./appeal-navigation-confirmation/eligibility/confirmNavigationLocalPlanningDepartmentPage'),
+);
+
+Cypress.Commands.add(
+  'confirmTextOnPage',
+  require('./appeal-navigation-confirmation/eligibility/confirmTextOnPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationListedBuildingPage',
+  require('./appeal-navigation-confirmation/eligibility/confirmNavigationListedBuildingPage'),
 );
 
 Cypress.Commands.add(
