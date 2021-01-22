@@ -98,9 +98,6 @@ When('an attempt is made to access {string}', (page) => {
     case 'Appellant submission - Your appeal - Supporting documents':
       cy.goToSupportingDocumentsPage();
       break;
-    case 'Appellant submission - Your appeal - Other appeals':
-      cy.goToOtherAppealsPage();
-      break;
     case 'Appellant submission - Appeal site - Site location':
       cy.goToSiteAddressPage();
       break;

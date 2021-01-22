@@ -62,11 +62,6 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'goToOtherAppealsPage',
-  require('./appeal-navigation/appellant-submission/goToOtherAppealsPage'),
-);
-
-Cypress.Commands.add(
   'goToSiteAddressPage',
   require('./appeal-navigation/appellant-submission/goToSiteAddressPage'),
 );
