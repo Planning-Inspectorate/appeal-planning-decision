@@ -14,12 +14,18 @@ terraform {
 }
 
 provider "azurerm" {
+  subscription_id = var.target_subscription_id
+  features {}
+}
+
+provider "azurerm" {
+  alias = "pins-odt"
   features {}
 }
 
 # Controls access to the main PINS subscription - "read" access is required
 provider "azurerm" {
-  alias = "pins-main"
+  alias = "pins-acphzn-prod"
   subscription_id = var.pins_key_vault_subscription_id
   features {}
 }
@@ -29,6 +35,8 @@ data "azurerm_client_config" "current" {}
 data "azurerm_container_registry" "pins" {
   name = var.container_registry_name
   resource_group_name = var.container_registry_rg_name
+
+  provider = azurerm.pins-odt
 }
 
 data "http" "myip" {

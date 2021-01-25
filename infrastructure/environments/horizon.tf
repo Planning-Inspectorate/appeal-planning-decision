@@ -12,13 +12,15 @@
 # The values for the shared key and the resource ID of the
 # Horizon gateway are stored in the PINS Key Vault which this
 # Service Principle **MUST** have GET access for.
+#
+# **IMPORTANT** this cannot be used if not creating our own network
 
 resource "azurerm_public_ip" "horizon" {
   count = local.horizon_count
 
   name = format(local.name_format, "horizon")
-  location = azurerm_resource_group.network.location
-  resource_group_name = azurerm_resource_group.network.name
+  location = azurerm_resource_group.network[count.index].location
+  resource_group_name = azurerm_resource_group.network[count.index].name
   allocation_method = "Static"
   sku = "Standard"
 }
@@ -27,8 +29,8 @@ resource "azurerm_subnet" "horizon" {
   count = local.horizon_count
 
   name = "GatewaySubnet"
-  resource_group_name = azurerm_resource_group.network.name
-  virtual_network_name = azurerm_virtual_network.network.name
+  resource_group_name = azurerm_resource_group.network[count.index].name
+  virtual_network_name = azurerm_virtual_network.network[count.index].name
   address_prefixes = ["10.30.253.0/24"]
 }
 
@@ -36,8 +38,8 @@ resource "azurerm_virtual_network_gateway" "horizon" {
   count = local.horizon_count
 
   name = format(local.name_format, "horizon")
-  location = azurerm_resource_group.network.location
-  resource_group_name = azurerm_resource_group.network.name
+  location = azurerm_resource_group.network[count.index].location
+  resource_group_name = azurerm_resource_group.network[count.index].name
   sku = var.horizon_gateway_sku
   type = "Vpn"
   vpn_type = "RouteBased"
@@ -55,7 +57,7 @@ data "azurerm_key_vault_secret" "horizon_gateway_shared_key" {
 
   key_vault_id = var.pins_key_vault
   name = var.horizon_shared_key_secret
-  provider = azurerm.pins-main
+  provider = azurerm.pins-acphzn-prod
 }
 
 data "azurerm_key_vault_secret" "horizon_gateway_ip" {
@@ -63,7 +65,7 @@ data "azurerm_key_vault_secret" "horizon_gateway_ip" {
 
   key_vault_id = var.pins_key_vault
   name = var.horizon_gateway_ip_secret
-  provider = azurerm.pins-main
+  provider = azurerm.pins-acphzn-prod
 }
 
 data "azurerm_key_vault_secret" "horizon_gateway_subnets" {
@@ -71,7 +73,7 @@ data "azurerm_key_vault_secret" "horizon_gateway_subnets" {
 
   key_vault_id = var.pins_key_vault
   name = var.horizon_gateway_subnets_secret
-  provider = azurerm.pins-main
+  provider = azurerm.pins-acphzn-prod
 }
 
 locals {
@@ -84,8 +86,8 @@ resource "azurerm_virtual_network_gateway_connection" "horizon" {
   count = local.horizon_count
 
   name = format(local.name_format, "horizon")
-  resource_group_name = azurerm_resource_group.network.name
-  location = azurerm_resource_group.network.location
+  resource_group_name = azurerm_resource_group.network[count.index].name
+  location = azurerm_resource_group.network[count.index].location
 
   type = "IPsec"
   virtual_network_gateway_id = azurerm_virtual_network_gateway.horizon[count.index].id
@@ -99,8 +101,8 @@ resource "azurerm_local_network_gateway" "horizon" {
   count = local.horizon_count
 
   name = format(local.name_format, "horizon")
-  resource_group_name = azurerm_resource_group.network.name
-  location = azurerm_resource_group.network.location
+  resource_group_name = azurerm_resource_group.network[count.index].name
+  location = azurerm_resource_group.network[count.index].location
   gateway_address = data.azurerm_key_vault_secret.horizon_gateway_ip[count.index].value
   address_space = local.horizon_subnets
 }

@@ -8,6 +8,12 @@ variable "location" {
   type = string
 }
 
+variable "target_subscription_id" {
+  description = "Subscription ID for the resources - if not set, will use the $ARM_SUBSCRIPTION_ID"
+  type = string
+  default = null
+}
+
 variable "pins_key_vault_subscription_id" {
   description = "Subscription ID for the Key Vault"
   type = string
@@ -193,6 +199,34 @@ variable "mongodb_primary_zone_redundancy" {
   description = "Enable redundancy in the primary zone"
   type = bool
   default = false
+}
+
+/*
+  Network
+ */
+
+variable "network_create_own" {
+  description = "Create our own network resources - this will require a VPN to Horizon if true"
+  type = bool
+  default = true
+}
+
+variable "network_pins_resource_group" {
+  description = "Resource group of the PINS network"
+  type = string
+  default = "PRDHZN"
+}
+
+variable "network_pins_name" {
+  description = "Name of the PINS network"
+  type = string
+  default = "VNPRD-192.168.0.0-16"
+}
+
+variable "network_subnet" {
+  description = "Subnet to use for the primary network"
+  type = list(string)
+  default = ["10.30.1.0/24"]
 }
 
 /*

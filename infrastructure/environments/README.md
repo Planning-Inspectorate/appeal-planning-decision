@@ -12,7 +12,8 @@ No requirements.
 |------|---------|
 | azuread | n/a |
 | azurerm | n/a |
-| azurerm.pins-main | n/a |
+| azurerm.pins-acphzn-prod | n/a |
+| azurerm.pins-odt | n/a |
 | http | n/a |
 | random | n/a |
 
@@ -44,9 +45,14 @@ No requirements.
 | mongodb\_max\_throughput | Max throughput of the MongoDB database - set in increments of 100 between 400 and 100,000 | `number` | `400` | no |
 | mongodb\_multi\_write\_locations | Enable multiple write locations | `bool` | `false` | no |
 | mongodb\_primary\_zone\_redundancy | Enable redundancy in the primary zone | `bool` | `false` | no |
+| network\_create\_own | Create our own network resources - this will require a VPN to Horizon if true | `bool` | `true` | no |
+| network\_pins\_name | Name of the PINS network | `string` | `"VNPRD-192.168.0.0-16"` | no |
+| network\_pins\_resource\_group | Resource group of the PINS network | `string` | `"PRDHZN"` | no |
+| network\_subnet | Subnet to use for the primary network | `list(string)` | <pre>[<br>  "10.30.1.0/24"<br>]</pre> | no |
 | pins\_key\_vault | ID of the PINS Key Vault - used to securely share secrets with this infrastructure | `string` | `null` | no |
 | pins\_key\_vault\_subscription\_id | Subscription ID for the Key Vault | `string` | `null` | no |
 | prefix | Resource prefix | `string` | `"pins"` | no |
+| target\_subscription\_id | Subscription ID for the resources - if not set, will use the $ARM\_SUBSCRIPTION\_ID | `string` | `null` | no |
 
 ## Outputs
 
