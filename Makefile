@@ -1,4 +1,4 @@
-APPS = data e2e-tests packages/*
+APPS = data e2e-tests lpa-submissions-e2e-tests packages/*
 STACKS = common environments
 
 down:
