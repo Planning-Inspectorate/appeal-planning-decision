@@ -1,0 +1,24 @@
+{% extends "layouts/main.njk" %}
+
+{%- from "components/task-list/macro.njk" import mojTaskList -%}
+
+{% block pageTitle %}
+  Householder planning appeal questionnaire
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      Householder planning appeal questionnaire
+    </h1>
+    <p class="govuk-body-l">Use the links below to submit your information. You can complete the sections in any order.</p>
+
+    {{ mojTaskList({
+      sections: sections
+    }) }}
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{
+  "name": "lpa-questionnaire-web-app",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "prebuild": "rm -Rf ./dist",
+    "build": "npm run build:sass && npm run build:app",
+    "build:app": "cp -Rf ./src ./dist",
+    "build:sass": "node-sass src/sass/main.scss src/public/stylesheets/main.css --output-style compressed",
+    "start": "node dist/server.js",
+    "start:dev": "nodemon src/server.js | pino-pretty -tlc",
+    "lint": "eslint ./",
+    "lint:fix": "eslint ./ --fix",
+    "format": "prettier --write './**/*.js'",
+    "postinstall": "patch-package",
+    "test": "jest --coverage ",
+    "test:watch": "jest --watchAll --runInBand --coverage"
+  },
+  "lint-staged": {
+    "./**/*.js": "npm run lint:fix",
+    "./**/*.{js, json}": "npm run format"
+  },
+  "dependencies": {
+    "@ministryofjustice/frontend": "0.2.0",
+    "@pins/common": "file:../common",
+    "compression": "^1.7.4",
+    "connect-mongodb-session": "^2.4.1",
+    "cookie-parser": "~1.4.4",
+    "date-fns": "^2.16.1",
+    "express": "~4.16.1",
+    "express-async-errors": "^3.1.1",
+    "express-fileupload": "^1.2.0",
+    "express-pino-logger": "^5.0.0",
+    "express-session": "^1.17.1",
+    "express-validator": "^6.6.1",
+    "file-type": "^16.0.1",
+    "form-data": "^3.0.0",
+    "govuk-frontend": "^3.10.2",
+    "http-errors": "~1.6.3",
+    "lusca": "^1.6.1",
+    "node-fetch": "^2.6.1",
+    "node-sass": "^4.14.1",
+    "nunjucks": "^3.2.2",
+    "nunjucks-date-filter": "^0.1.1",
+    "pino": "^6.7.0",
+    "pino-http": "^5.3.0",
+    "uuid": "^8.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.14.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.6.1",
+    "jest-fetch-mock": "^3.0.3",
+    "nodemon": "^2.0.6",
+    "patch-package": "^6.2.2",
+    "pino-pretty": "^4.3.0",
+    "prettier": "^2.1.2"
+  }
+}

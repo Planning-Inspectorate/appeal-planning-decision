@@ -108,6 +108,35 @@ services:
       - ./packages/forms-web-app:/opt/app
     command: npm run start:dev
 
+  lpa-questionnaire-web-app:
+    image: node:14-alpine
+    environment:
+      SERVER_LIMITED_ROUTING_ENABLED: ${SERVER_LIMITED_ROUTING_ENABLED}
+      APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
+      DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
+      FILE_UPLOAD_DEBUG: "false"
+      FILE_UPLOAD_MAX_FILE_SIZE_BYTES: 50000000
+      FILE_UPLOAD_USE_TEMP_FILES: "true"
+      FILE_UPLOAD_TMP_PATH: "/tmp"
+      SESSION_MONGODB_URL: mongodb://mongodb:27017/fwa-sessions
+      SESSION_KEY: some_secure_key_goes_here
+      USE_SECURE_SESSION_COOKIES: "false"
+    ports:
+      - 9001:3000
+    working_dir: /opt/app
+    links:
+      - appeals-service-api
+      - document-service-api
+      - mongodb
+    depends_on:
+      - appeals-service-api
+      - document-service-api
+      - mongodb
+    volumes:
+      - ./packages/common:/opt/app/node_modules/@pins/common
+      - ./packages/lpa-questionnaire-web-app:/opt/app
+    command: npm run start:dev
+
   # Populate the database with data - one instance per service
   appeals-service-api-data:
     build:
@@ -168,6 +197,6 @@ services:
       - ./tmp/blob-storage:/data
 
   mongodb:
-    image: mongo:3.6.0
+    image: mongo:3.6.21
     ports:
       - 4000:27017
