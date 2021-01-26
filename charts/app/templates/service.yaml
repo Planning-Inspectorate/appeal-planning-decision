@@ -19,5 +19,9 @@ spec:
       targetPort: {{.Values.formsWebApp.service.name }}
       protocol: TCP
       name: {{.Values.formsWebApp.service.name }}
+    - port: {{ .Values.lpaQuestionnaireWebApp.service.port }}
+      targetPort: {{ .Values.lpaQuestionnaireWebApp.service.name }}
+      protocol: TCP
+      name: {{ .Values.lpaQuestionnaireWebApp.service.name }}
   selector:
     {{- include "app.selectorLabels" . | nindent 4 }}

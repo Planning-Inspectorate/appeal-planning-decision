@@ -18,6 +18,13 @@ metadata:
   {{- if .Values.ingress.clusterIssuer }}
     cert-manager.io/cluster-issuer: {{ .Values.ingress.clusterIssuer | quote }}
   {{- end }}
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location /health {
+        return 302 /;
+      }
+      location /metrics {
+        return 302 /;
+      }
   {{- if .Values.ingress.httpBasic.enabled }}
     nginx.ingress.kubernetes.io/auth-type: basic
     nginx.ingress.kubernetes.io/auth-secret: {{ .Values.ingress.httpBasic.secret }}
@@ -25,51 +32,20 @@ metadata:
   {{- end }}
 spec:
   tls:
+    {{- range .Values.ingress.hosts }}
     - hosts:
-        - {{ .Values.ingress.host }}
-      secretName: {{ .Values.ingress.secretName }}
+        - {{ .host }}
+      secretName: {{ .secretName }}
+    {{- end }}
   rules:
-    - host: {{ .Values.ingress.host }}
+    {{- range .Values.ingress.hosts }}
+    - host: {{ .host }}
       http:
         paths:
-          - path: /
+          - path: {{ .path }}
             backend:
               serviceName: {{ $fullName }}
-              servicePort: {{ .Values.formsWebApp.service.port }}
-
-{{- range $key, $redirect := .Values.ingress.redirects }}
----
-{{- if semverCompare ">=1.14-0" $.Capabilities.KubeVersion.GitVersion -}}
-apiVersion: networking.k8s.io/v1beta1
-{{- else -}}
-apiVersion: extensions/v1beta1
-{{- end }}
-kind: Ingress
-metadata:
-  name: {{ $fullName }}-redirect-{{ $key }}
-  labels:
-    {{ $labels | nindent 4 }}
-  {{- with $.Values.ingress.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-    nginx.ingress.kubernetes.io/rewrite-target: {{ $redirect.target }}
-  {{- if $.Values.ingress.clusterIssuer }}
-    cert-manager.io/cluster-issuer: {{ $.Values.ingress.clusterIssuer | quote }}
-  {{- end }}
-spec:
-  tls:
-    - hosts:
-        - {{ $.Values.ingress.host }}
-      secretName: {{ $.Values.ingress.secretName }}
-  rules:
-    - host: {{ $.Values.ingress.host }}
-      http:
-        paths:
-          - path: {{ $redirect.path }}
-            backend:
-              serviceName: {{ $fullName }}
-              servicePort: {{ $.Values.formsWebApp.service.port }}
-{{- end }}
+              servicePort: {{ .port }}
+    {{- end }}
 
 {{- end }}
