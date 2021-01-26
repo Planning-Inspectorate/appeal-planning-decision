@@ -8,7 +8,7 @@ metadata:
     fluxcd.io/automated: "true"
     filter.fluxcd.io/appealsServiceApi: semver:~1.0.0
     filter.fluxcd.io/documentServiceApi: semver:~1.0.0
-    filter.fluxcd.io/formsWebApp: semver:~1.0.0
+    filter.fluxcd.io/formsWebApp: semver:~1.8.0
 spec:
   releaseName: app
   chart:
