@@ -55,6 +55,23 @@ formsWebApp:
       uploadDir: /upload-dir
       useTmpFiles: true
 
+lpaQuestionnaireWebApp:
+  replicaCount: 1
+  service:
+    name: lpa-questionnaire-web-app
+    port: 9001
+  image:
+    repository: pinscommonukscontainers3887default.azurecr.io/lpa-questionnaire-web-app
+    pullPolicy: Always
+    tag: latest
+  config:
+    port: 3000
+    googleAnalyticsId: ""
+    upload:
+      debug: true
+      uploadDir: /upload-dir
+      useTmpFiles: true
+
 imagePullSecrets:
   - name: azure-docker-registry
 nameOverride: ""
@@ -136,6 +153,7 @@ keyVault:
   secrets:
     - docs-blob-storage-connection-string
     - fwa-session-key
+    - lpa-questionnaire-session-key
     - mongodb-connection-url
   multiValueSecrets: []
   envSpecific:
