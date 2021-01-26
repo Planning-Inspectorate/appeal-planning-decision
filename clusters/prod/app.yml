@@ -9,6 +9,7 @@ metadata:
     filter.fluxcd.io/appealsServiceApi: semver:1.0.0
     filter.fluxcd.io/documentServiceApi: semver:1.0.0
     filter.fluxcd.io/formsWebApp: semver:1.0.0
+    filter.fluxcd.io/lpaQuestionnaireWebApp: semver:1.0.0
 spec:
   releaseName: app
   chart:
@@ -39,6 +40,12 @@ spec:
         enableLimitedRouting: true
         googleAnalyticsId: G-RTYZW789M0
 
+    lpaQuestionnaireWebApp:
+      replicaCount: 2
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/lpa-questionnaire-web-app
+        tag: latest
+
     keyVault:
       name: pins-uks-vault-8439-prod
       envSpecific:
@@ -46,7 +53,10 @@ spec:
         - http-basic
 
     ingress:
-      host: appeal-planning-decision.planninginspectorate.gov.uk
+      fwa:
+        host: appeal-planning-decision.planninginspectorate.gov.uk
+      lpaq:
+        host: lpa-questionnaire.planninginspectorate.gov.uk
       httpBasic:
         enabled: true
         secret: akv-http-basic
