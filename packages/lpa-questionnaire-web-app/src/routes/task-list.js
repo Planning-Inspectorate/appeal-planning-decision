@@ -1,9 +1,8 @@
 const express = require('express');
 const taskListController = require('../controllers/task-list');
-const fetchExistingQuestionnaireMiddleware = require('../middleware/fetch-existing-questionnaire');
 
 const router = express.Router();
 
-router.get('/task-list', [fetchExistingQuestionnaireMiddleware], taskListController.getTaskList);
+router.get('/task-list', taskListController.getTaskList);
 
 module.exports = router;

@@ -4,7 +4,7 @@ const {
   IN_PROGRESS,
 } = require('../../../src/services/task-status/task-statuses');
 
-const { getNextTask } = require('../../../src/services/task.service');
+const { getNextTask, getTaskStatus } = require('../../../src/services/task.service');
 
 describe('services/task.service', () => {
   describe('getNextTask', () => {
@@ -30,6 +30,24 @@ describe('services/task.service', () => {
       );
 
       expect(task.href).toEqual(`/${VIEW.TASK_LIST}`);
+    });
+  });
+  describe('getTaskStatus', () => {
+    it('should return null if task does not exist', () => {
+      const questionnaire = {
+        sectionStates: {
+          Section1: {
+            Task1: IN_PROGRESS,
+            Task2: CANNOT_START_YET,
+            Task3: CANNOT_START_YET,
+            Task4: CANNOT_START_YET,
+          },
+        },
+      };
+
+      const status = getTaskStatus(questionnaire, 'Section2', 'Task1');
+
+      expect(status).toBeNull();
     });
   });
 });
