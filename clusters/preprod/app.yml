@@ -37,6 +37,7 @@ spec:
         tag: 1.0.0
       config:
         enableLimitedRouting: true
+        googleAnalyticsId: G-RTYZW789M0
 
     keyVault:
       name: pins-uks-vault-5989-prep
