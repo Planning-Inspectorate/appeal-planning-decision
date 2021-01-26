@@ -9,7 +9,7 @@
     class="moj-task-list__section-number">{{ loop.index }}. </span> {{- section.heading.html | safe if section.heading.html else section.heading.text -}}
   </h{{ section.heading.headingLevel | default(2) }}>
   <ul class="moj-task-list__items">
-    {%- for item in section.items %}
+    {%- for item in section.tasks %}
       <li
         class="moj-task-list__item" {% for attribute, value in item.attributes %} {{ attribute }}="{{ value }}"{% endfor %}>
 
