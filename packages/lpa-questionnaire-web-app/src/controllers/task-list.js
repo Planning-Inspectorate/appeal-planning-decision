@@ -5,39 +5,51 @@ const countTasks = require('../lib/count-task');
 const HEADERS = {
   aboutAppealSection: 'About the appeal',
   submissionAccuracy: "Review accuracy of the appellant's submission",
+  extraConditions: 'Do you have any extra conditions?',
+  areaAppeals: 'Tell us about any appeals in the immediate area',
+  aboutAppealSiteSection: 'About the appeal site',
+  aboutSite: 'Tell us about the appeal site',
+  requiredDocumentsSection: 'Required documents',
+  plansDecision: 'Upload the plans used to reach the decision',
+  officersReport: "Upload the Planning Officer's report",
+  optionalDocumentsSection: 'Optional supporting documents',
+  interestedPartiesApplication: 'Telling interested parties about the application',
+  representationsInterestedParties: 'Representations from interested parties',
+  interestedPartiesAppeal: 'Notifying interested parties of the appeal',
+  siteNotices: 'Site notices',
+  planningHistory: 'Planning history',
+  statutoryDevelopment: 'Statutory development plan policy',
+  otherPolicies: 'Other relevant policies',
+  supplementaryPlanningDocuments: 'Supplementary planning document extracts',
+  developmentOrNeighbourhood: 'Development Plan Document or Neighbourhood Plan',
+  submitQuestionnaireSection: 'Before you submit',
+  checkYourAnswers: 'Check your answers',
 };
 
 function buildTaskLists(questionnaire) {
-  const taskList = [];
-  const sections = SECTIONS;
-  Object.keys(sections).forEach((sectionName) => {
-    const section = sections[sectionName];
+  return Object.keys(SECTIONS).map((sectionId) => {
+    const section = SECTIONS[sectionId];
 
-    const task = {
+    return {
       heading: {
-        text: HEADERS[sectionName],
+        text: HEADERS[sectionId],
       },
-      items: [],
+      items: Object.keys(section).map((subSectionId) => {
+        const subSection = section[subSectionId];
+        const status = getTaskStatus(questionnaire, sectionId, subSectionId);
+
+        return {
+          text: HEADERS[subSectionId],
+          href: subSection.href,
+          attributes: {
+            name: subSectionId,
+            [`${subSectionId}-status`]: status,
+          },
+          status,
+        };
+      }),
     };
-
-    Object.keys(section).forEach((subSectionName) => {
-      const subSection = section[subSectionName];
-
-      const status = getTaskStatus(questionnaire, sectionName, subSectionName);
-
-      task.items.push({
-        text: HEADERS[subSectionName],
-        href: subSection.href,
-        attributes: {
-          name: subSectionName,
-          [`${subSectionName}-status`]: status,
-        },
-        status,
-      });
-    });
-    taskList.push(task);
   });
-  return taskList;
 }
 
 exports.getTaskList = (req, res) => {
