@@ -3,7 +3,7 @@ const { getDepartmentFromId } = require('../../../../src/services/department.ser
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { getDepartmentFromName } = require('../../../../src/services/department.service');
-const { getDepartmentData } = require('../../../../src/services/department.service');
+const { getRefreshedDepartmentData } = require('../../../../src/services/department.service');
 const logger = require('../../../../src/lib/logger');
 
 const { VIEW } = require('../../../../src/lib/views');
@@ -29,6 +29,7 @@ describe('controllers/eligibility/planning-department', () => {
     departmentsData = {
       departments: ['lpa1', 'lpa2'],
       eligibleDepartments: ['lpa1'],
+      ineligibleDepartments: ['lpa2'],
     };
 
     jest.resetAllMocks();
@@ -36,7 +37,7 @@ describe('controllers/eligibility/planning-department', () => {
 
   describe('Planning Department Controller Tests', () => {
     it('Test the getPlanningDepartment method calls the correct template', async () => {
-      getDepartmentData.mockResolvedValue(departmentsData);
+      getRefreshedDepartmentData.mockResolvedValue(departmentsData);
 
       appeal.lpaCode = '';
       await planningDepartmentController.getPlanningDepartment(req, res);
@@ -52,7 +53,7 @@ describe('controllers/eligibility/planning-department', () => {
     });
 
     it('Test the getPlanningDepartment method calls the correct template', async () => {
-      getDepartmentData.mockResolvedValue(departmentsData);
+      getRefreshedDepartmentData.mockResolvedValue(departmentsData);
       getDepartmentFromId.mockResolvedValue(undefined);
 
       appeal.lpaCode = 'unknown';
@@ -69,7 +70,7 @@ describe('controllers/eligibility/planning-department', () => {
     });
 
     it('Test the getPlanningDepartment method with existing LPD calls the correct template', async () => {
-      getDepartmentData.mockResolvedValue(departmentsData);
+      getRefreshedDepartmentData.mockResolvedValue(departmentsData);
       getDepartmentFromId.mockResolvedValue({ name: 'lpdName' });
 
       appeal.lpaCode = 'lpdCode';
@@ -92,7 +93,7 @@ describe('controllers/eligibility/planning-department', () => {
     });
 
     it('Test the postPlanningDepartment method call with handled department', async () => {
-      getDepartmentData.mockResolvedValue(departmentsData);
+      getRefreshedDepartmentData.mockResolvedValue(departmentsData);
       getDepartmentFromName.mockResolvedValue({ id: 'lpaCode1', name: 'lpa1' });
 
       const mockRequest = {
@@ -111,7 +112,7 @@ describe('controllers/eligibility/planning-department', () => {
     });
 
     it('Test the getPlanningDepartment method call with ineligible department', async () => {
-      getDepartmentData.mockResolvedValue(departmentsData);
+      getRefreshedDepartmentData.mockResolvedValue(departmentsData);
       getDepartmentFromName.mockResolvedValue({ id: 'lpaCode1', name: 'lpa1' });
 
       const mockRequest = {
@@ -129,7 +130,7 @@ describe('controllers/eligibility/planning-department', () => {
       expect(res.render).toBeCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT);
     });
     it('Test the postPlanningDepartment method call on error', async () => {
-      getDepartmentData.mockResolvedValue(departmentsData);
+      getRefreshedDepartmentData.mockResolvedValue(departmentsData);
 
       const mockRequest = {
         ...req,
@@ -150,7 +151,7 @@ describe('controllers/eligibility/planning-department', () => {
     it('should log an error if the api call fails, and remain on the same page', async () => {
       const error = new Error('API is down');
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
-      getDepartmentData.mockResolvedValue(departmentsData);
+      getRefreshedDepartmentData.mockResolvedValue(departmentsData);
       getDepartmentFromName.mockResolvedValue({ id: 'lpaCode1', name: 'lpa1' });
 
       const mockRequest = {

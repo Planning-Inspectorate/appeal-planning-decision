@@ -2,11 +2,15 @@ const logger = require('../../lib/logger');
 const { getDepartmentFromName } = require('../../services/department.service');
 const { getDepartmentFromId } = require('../../services/department.service');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
-const { getDepartmentData } = require('../../services/department.service');
+const { getRefreshedDepartmentData } = require('../../services/department.service');
 const { VIEW } = require('../../lib/views');
 
 exports.getPlanningDepartment = async (req, res) => {
-  const { departments, eligibleDepartments, ineligibleDepartments } = await getDepartmentData();
+  const {
+    departments,
+    eligibleDepartments,
+    ineligibleDepartments,
+  } = await getRefreshedDepartmentData();
   const { appeal } = req.session;
   let appealLPD = '';
   if (appeal.lpaCode) {
@@ -27,7 +31,7 @@ exports.postPlanningDepartment = async (req, res) => {
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
   const { appeal } = req.session;
-  const { departments } = await getDepartmentData();
+  const { departments } = await getRefreshedDepartmentData();
 
   if (errors['local-planning-department']) {
     const errorMessage = errors['local-planning-department'].msg;
