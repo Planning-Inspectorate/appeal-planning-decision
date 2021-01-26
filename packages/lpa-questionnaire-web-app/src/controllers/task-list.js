@@ -1,5 +1,30 @@
 const { HEADERS, SECTIONS } = require('../services/task.service');
 const { VIEW } = require('../lib/views');
+const countTasks = require('../lib/count-task');
+
+const HEADERS = {
+  aboutAppealSection: 'About the appeal',
+  submissionAccuracy: "Review accuracy of the appellant's submission",
+  extraConditions: 'Do you have any extra conditions?',
+  areaAppeals: 'Tell us about any appeals in the immediate area',
+  aboutAppealSiteSection: 'About the appeal site',
+  aboutSite: 'Tell us about the appeal site',
+  requiredDocumentsSection: 'Required documents',
+  plansDecision: 'Upload the plans used to reach the decision',
+  officersReport: "Upload the Planning Officer's report",
+  optionalDocumentsSection: 'Optional supporting documents',
+  interestedPartiesApplication: 'Telling interested parties about the application',
+  representationsInterestedParties: 'Representations from interested parties',
+  interestedPartiesAppeal: 'Notifying interested parties of the appeal',
+  siteNotices: 'Site notices',
+  planningHistory: 'Planning history',
+  statutoryDevelopment: 'Statutory development plan policy',
+  otherPolicies: 'Other relevant policies',
+  supplementaryPlanningDocuments: 'Supplementary planning document extracts',
+  developmentOrNeighbourhood: 'Development Plan Document or Neighbourhood Plan',
+  submitQuestionnaireSection: 'Before you submit',
+  checkYourAnswers: 'Check your answers',
+};
 
 /**
  * @name buildTaskLists
@@ -8,20 +33,23 @@ const { VIEW } = require('../lib/views');
  * @return {array} Array of section objects
  */
 function buildTaskLists(questionnaire) {
-  return SECTIONS.map(({ sectionId, tasks }) => {
+  return Object.keys(SECTIONS).map((sectionId) => {
+    const section = SECTIONS[sectionId];
+
     return {
       heading: {
         text: HEADERS[sectionId],
       },
-      tasks: tasks.map(({ taskId, href, rule }) => {
-        const status = rule(questionnaire);
+      items: Object.keys(section).map((subSectionId) => {
+        const subSection = section[subSectionId];
+        const status = getTaskStatus(questionnaire, sectionId, subSectionId);
 
         return {
-          text: HEADERS[taskId],
-          href,
+          text: HEADERS[subSectionId],
+          href: subSection.href,
           attributes: {
-            name: taskId,
-            [`${taskId}-status`]: status,
+            name: subSectionId,
+            [`${subSectionId}-status`]: status,
           },
           status,
         };

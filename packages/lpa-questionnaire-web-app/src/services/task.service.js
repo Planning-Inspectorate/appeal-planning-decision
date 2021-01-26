@@ -10,6 +10,83 @@ function statusCheckYourAnswer() {
   return TASK_STATUS.CANNOT_START_YET;
 }
 
+const SECTIONS = {
+  aboutAppealSection: {
+    submissionAccuracy: {
+      href: '#',
+      rule: statusTemp,
+    },
+    extraConditions: {
+      href: '#',
+      rule: statusTemp,
+    },
+    areaAppeals: {
+      href: '#',
+      rule: statusTemp,
+    },
+  },
+  aboutAppealSiteSection: {
+    aboutSite: {
+      href: '#',
+      rule: statusTemp,
+    },
+  },
+  requiredDocumentsSection: {
+    plansDecision: {
+      href: '#',
+      rule: statusTemp,
+    },
+    officersReport: {
+      href: '#',
+      rule: statusTemp,
+    },
+  },
+  optionalDocumentsSection: {
+    interestedPartiesApplication: {
+      href: '#',
+      rule: statusTemp,
+    },
+    representationsInterestedParties: {
+      href: '#',
+      rule: statusTemp,
+    },
+    interestedPartiesAppeal: {
+      href: '#',
+      rule: statusTemp,
+    },
+    siteNotices: {
+      href: '#',
+      rule: statusTemp,
+    },
+    planningHistory: {
+      href: '#',
+      rule: statusTemp,
+    },
+    statutoryDevelopment: {
+      href: '#',
+      rule: statusTemp,
+    },
+    otherPolicies: {
+      href: '#',
+      rule: statusTemp,
+    },
+    supplementaryPlanningDocuments: {
+      href: '#',
+      rule: statusTemp,
+    },
+    developmentOrNeighbourhood: {
+      href: '#',
+      rule: statusTemp,
+    },
+    submitQuestionnaireSection: {
+      checkYourAnswers: {
+        href: '#',
+        rule: statusCheckYourAnswer,
+      },
+    },
+  },
+};
+
 const SECTIONS = [
   {
     sectionId: 'aboutAppealSection',
