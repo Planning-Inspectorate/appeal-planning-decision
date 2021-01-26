@@ -6,14 +6,9 @@ metadata:
 data:
   lpa-trialists.json: |
     [{
-      "id": "E60000281",
-      "inTrial": true
-    }, {
-      "id": "E60000019",
-      "inTrial": false
-    }, {
-      "id": "E60000116",
-      "inTrial": true
+      "id": "E60000213",
+      "inTrial": true,
+      "horizonId": "R5510"
     }]
 ---
 # @todo replace this with a cronjob to get the lpa data from the ONS
