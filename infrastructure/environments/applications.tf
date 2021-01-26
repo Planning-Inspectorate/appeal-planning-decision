@@ -12,3 +12,11 @@ resource "random_string" "fwa-session-key" {
   lower = true
   number = true
 }
+
+resource "random_string" "lpa-questionnaire-session-key" {
+  length = 32
+  special = false
+  upper = true
+  lower = true
+  number = true
+}
