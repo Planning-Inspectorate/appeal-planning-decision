@@ -24,6 +24,11 @@ async function initLPALists() {
   });
 }
 
+const getRefreshedDepartmentData = async () => {
+  await initLPALists();
+  return { departments, eligibleDepartments, ineligibleDepartments };
+};
+
 const getDepartmentData = async () => {
   if (!departments.length) {
     await initLPALists();
@@ -48,11 +53,13 @@ const getDepartmentFromName = async (name) => {
 const resetDepartments = () => {
   departments = [];
   eligibleDepartments = [];
+  ineligibleDepartments = [];
   departmentsById = {};
   departmentsByName = {};
 };
 
 module.exports = {
+  getRefreshedDepartmentData,
   getDepartmentData,
   getDepartmentFromId,
   getDepartmentFromName,
