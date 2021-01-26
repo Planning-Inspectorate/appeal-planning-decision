@@ -56,6 +56,7 @@ output "key_vault_secrets" {
   value = jsonencode(merge({
     fwa-session-key = random_string.fwa-session-key.result
     docs-blob-storage-connection-string = azurerm_storage_account.documents.primary_connection_string
+    lpa-questionnaire-session-key = random_string.lpa-questionnaire-session-key.result
     mongodb-connection-url = azurerm_cosmosdb_account.mongodb.connection_strings[0]
   }, { for id, db in var.mongodb_databases :
     "mongodb-${db.name}-store" => {
