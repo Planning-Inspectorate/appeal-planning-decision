@@ -2,6 +2,21 @@
  * # Environments
  *
  * Infrastructure which the applications are deployed to
+ *
+ * ## Service Principal permissions:
+ *
+ * ### Subscription IAM
+ * - Contributor
+ * - User Access Administrator
+ *
+ * ### Active Directory API Permissions
+ * - Delegation:
+ *   - Directory.ReadWrite.All
+ *   - Group.ReadWrite.All
+ * - Application
+ *   - Application.ReadWrite.All
+ *
+ * [Read more](https://simonemms.com/blog/2021/01/10/setting-terraform-service-principal-to-work-with-azure-active-directory)
  */
 
 terraform {
