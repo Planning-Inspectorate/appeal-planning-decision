@@ -45,15 +45,6 @@ describe('controllers/task-list', () => {
             },
             tasks: [
               {
-                href: '/mock-task-1',
-                text: 'Mock Task 1',
-                status: 'NOT STARTED',
-                attributes: {
-                  'mockTask1-status': 'NOT STARTED',
-                  name: 'mockTask1',
-                },
-              },
-              {
                 href: '/mock-task-2',
                 text: 'Mock Task 2',
                 status: 'NOT STARTED',
