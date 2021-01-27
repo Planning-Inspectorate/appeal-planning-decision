@@ -12,20 +12,12 @@ describe('controllers/task-list', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.TASK_LIST, {
         applicationStatus: 'Application incomplete',
-        sectionInfo: {
-          nbTasks: 1,
-          nbCompleted: 0,
-          sections: {
-            count: 1,
-            completed: 0,
-          },
-        },
         sections: [
           {
             heading: {
               text: 'About the appeal',
             },
-            items: [
+            tasks: [
               {
                 href: `#`,
                 text: "Review accuracy of the appellant's submission",
