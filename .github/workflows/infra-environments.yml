@@ -61,6 +61,18 @@ jobs:
               "tenantId": "${{ secrets.ARM_TENANT_ID }}"
             }
 
+      - name: Azure Login to different subscription
+        if: github.ref == matrix.branch
+        env:
+          SUBSCRIPTION_SECRET: ${{ matrix.subscriptionSecret }}
+        run: |
+          if [ "${SUBSCRIPTION_SECRET}" != "" ]; then
+            echo "Changing active subscription"
+            az account set -s ${{ secrets[env.SUBSCRIPTION_SECRET] }}
+          fi
+
+          az account show
+
       - name: Setup Terraform
         if: github.ref == matrix.branch
         uses: hashicorp/setup-terraform@v1
