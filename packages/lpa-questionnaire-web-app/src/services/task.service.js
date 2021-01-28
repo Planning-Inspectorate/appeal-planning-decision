@@ -16,17 +16,17 @@ const SECTIONS = [
     tasks: [
       {
         taskId: 'submissionAccuracy',
-        href: '#',
+        href: '/placeholder',
         rule: statusTemp,
       },
       {
         taskId: 'extraConditions',
-        href: '#',
+        href: '/placeholder',
         rule: statusTemp,
       },
       {
         taskId: 'areaAppeals',
-        href: '#',
+        href: '/placeholder',
         rule: statusTemp,
       },
     ],
@@ -36,7 +36,7 @@ const SECTIONS = [
     tasks: [
       {
         taskId: 'aboutSite',
-        href: '#',
+        href: '/placeholder',
         rule: statusTemp,
       },
     ],
@@ -46,12 +46,12 @@ const SECTIONS = [
     tasks: [
       {
         taskId: 'plansDecision',
-        href: '#',
+        href: '/placeholder',
         rule: statusTemp,
       },
       {
         taskId: 'officersReport',
-        href: '#',
+        href: '/placeholder',
         rule: statusTemp,
       },
     ],
@@ -61,47 +61,47 @@ const SECTIONS = [
     tasks: [
       {
         taskId: 'interestedPartiesApplication',
-        href: '#',
+        href: '/placeholder',
         rule: statusTemp,
       },
       {
         taskId: 'representationsInterestedParties',
-        href: '#',
+        href: '/placeholder',
         rule: statusTemp,
       },
       {
         taskId: 'interestedPartiesAppeal',
-        href: '#',
+        href: '/placeholder',
         rule: statusTemp,
       },
       {
         taskId: 'siteNotices',
-        href: '#',
+        href: '/placeholder',
         rule: statusTemp,
       },
       {
         taskId: 'planningHistory',
-        href: '#',
+        href: '/placeholder',
         rule: statusTemp,
       },
       {
         taskId: 'statutoryDevelopment',
-        href: '#',
+        href: '/placeholder',
         rule: statusTemp,
       },
       {
         taskId: 'otherPolicies',
-        href: '#',
+        href: '/placeholder',
         rule: statusTemp,
       },
       {
         taskId: 'supplementaryPlanningDocuments',
-        href: '#',
+        href: '/placeholder',
         rule: statusTemp,
       },
       {
         taskId: 'developmentOrNeighbourhood',
-        href: '#',
+        href: '/placeholder',
         rule: statusTemp,
       },
     ],
@@ -111,7 +111,7 @@ const SECTIONS = [
     tasks: [
       {
         taskId: 'checkYourAnswers',
-        href: '#',
+        href: '/placeholder',
         rule: statusCheckYourAnswer,
       },
     ],
