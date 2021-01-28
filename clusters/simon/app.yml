@@ -3,7 +3,7 @@ apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
   name: app
-  namespace: app-dev
+  namespace: app-simon
   annotations:
     fluxcd.io/automated: "true"
     # Add hyphen to include pre-releases
