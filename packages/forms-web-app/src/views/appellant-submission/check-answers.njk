@@ -2,56 +2,39 @@
 
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "../macros/bool-to-sentence-case.njk" import boolToSentenceCaseField %}
+{% from "../macros/multifile-upload-to-list.njk" import multifileUploadToList %}
+{% from "../macros/summary-field.njk" import summaryField %}
 
 {% block pageTitle %}
-  Check answers
+  Check answers | Appeal a householder planning decision
 {% endblock %}
 
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
 
-      <span class="govuk-caption-xl"><span class="govuk-visually-hidden">Section. </span>Submit your appeal</span>
-      <h1 class="govuk-heading-xl">
+      <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Submit your appeal</span>
+      <h1 class="govuk-heading-l">
         Check your answers
       </h1>
-      <p>Before you submit your appeal, take a moment to make sure you're happy with the answers you've provided.</p>
+      <p>Before you submit your appeal, check that the information you've provided is correct.</p>
 
       <h2 class="govuk-heading-m">Before you start</h2>
 
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Local planning department
-          </dt>
-          <dd data-cy="local-planning-department" class="govuk-summary-list__value">
-            {{ appealLPD }}
-          </dd>
-        </div>
-      </dl>
       {{ govukSummaryList({
         classes: "govuk-summary-list govuk-!-margin-bottom-9",
         rows: [
           {
             key: {
-            text: "What are you appealing against?"
-          },
+              text: "Local planning department"
+            },
             value: {
-            text: "I'm appealing a decision I received"
-          },
-            actions: {
-            items: [
-              {
-                href: "/eligibility/applicant",
-                text: "Change",
-                visuallyHiddenText: "what I'm appealing"
-              }
-            ]
-          }
+              text: summaryField(appealLPD, { 'data-cy': "local-planning-department" })
+            }
           }
         ]
       }) }}
-
 
       <h2 class="govuk-heading-m">About you</h2>
 
@@ -60,17 +43,54 @@
         rows: [
           {
             key: {
-              text: "Your name"
+              text: "Was the original planning application made in your name?"
             },
             value: {
-              text: appeal['appellant-name']
+              text: boolToSentenceCaseField(appeal.aboutYouSection.yourDetails.isOriginalApplicant, { 'data-cy': "who-are-you" })
             },
             actions: {
               items: [
                 {
-                  href: "/your-details",
+                  href: "/appellant-submission/who-are-you",
                   text: "Change",
-                  visuallyHiddenText: "your name"
+                  visuallyHiddenText: "if the application was made in your name",
+                  attributes: { "data-cy": "whoAreYou" }
+                }
+              ]
+            }
+          },
+          appeal.aboutYouSection.yourDetails.isOriginalApplicant === false and {
+            key: {
+              text: "Applicant name"
+            },
+            value: {
+              text: summaryField(appeal.aboutYouSection.yourDetails.appealingOnBehalfOf, { 'data-cy': "appealing-on-behalf-of" })
+            },
+            actions: {
+              items: [
+                {
+                  href: "/appellant-submission/applicant-name",
+                  text: "Change",
+                  visuallyHiddenText: "if the applicant's name",
+                  attributes: { "data-cy": "appealingOnBehalfOf" }
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Your name"
+            },
+            value: {
+              text: summaryField(appeal.aboutYouSection.yourDetails.name, { 'data-cy': "appellant-name" })
+            },
+            actions: {
+              items: [
+                {
+                  href: "/appellant-submission/your-details",
+                  text: "Change",
+                  visuallyHiddenText: "your name",
+                  attributes: { "data-cy": "yourDetailsName" }
                 }
               ]
             }
@@ -80,73 +100,15 @@
               text: "Your email"
             },
             value: {
-              text: appeal['appellant-email']
+              text: summaryField(appeal.aboutYouSection.yourDetails.email, { 'data-cy': "appellant-email" })
             },
             actions: {
               items: [
                 {
-                  href: "/your-details",
+                  href: "/appellant-submission/your-details",
                   text: "Change",
-                  visuallyHiddenText: "your email"
-                }
-              ]
-            }
-          }
-        ]
-      }) }}
-
-      <h2 class="govuk-heading-m">About the relevant Local Planning Authority</h2>
-
-      {{ govukSummaryList({
-        classes: "govuk-summary-list govuk-!-margin-bottom-9",
-        rows: [
-          {
-            key: {
-              text: "Local Planning Authority"
-            },
-            value: {
-              text: ""
-            },
-            actions: {
-              items: [
-                {
-                  href: "/lpa-details",
-                  text: "Change",
-                  visuallyHiddenText: "Local Planning Authority"
-                }
-              ]
-            }
-          },
-          {
-            key: {
-              text: "Planning application number"
-            },
-            value: {
-              text: appeal['application-number']
-            },
-            actions: {
-              items: [
-                {
-                  href: "/application-number",
-                  text: "Change",
-                  visuallyHiddenText: "Planning application number"
-                }
-              ]
-            }
-          },
-          {
-            key: {
-              text: "Decision letter"
-            },
-            value: {
-              text: appeal['decision-upload'].fileName
-            },
-            actions: {
-              items: [
-                {
-                  href: "/upload-decision",
-                  text: "Change",
-                  visuallyHiddenText: "Decision letter "
+                  visuallyHiddenText: "your email",
+                  attributes: { "data-cy": "yourDetailsEmail" }
                 }
               ]
             }
@@ -161,34 +123,18 @@
         rows: [
           {
             key: {
-              text: "Name on original planning application"
+              text: "Planning application number"
             },
             value: {
-              text: ""
+              text: summaryField(appeal.requiredDocumentsSection.applicationNumber, { 'data-cy': "application-number" })
             },
             actions: {
               items: [
                 {
-                  href: "/application-name",
+                  href: "/appellant-submission/application-number",
                   text: "Change",
-                  visuallyHiddenText: "Name on original planning application"
-                }
-              ]
-            }
-          },
-          {
-            key: {
-              text: "Date you applied for planning permission"
-            },
-            value: {
-              text: ""
-            },
-            actions: {
-              items: [
-                {
-                  href: "/application-date",
-                  text: "Change",
-                  visuallyHiddenText: "Date you applied for planning permission"
+                  visuallyHiddenText: "Planning application number",
+                  attributes: { "data-cy":"applicationNumber"}
                 }
               ]
             }
@@ -198,7 +144,7 @@
               text: "Planning application form"
             },
             value: {
-              text: appeal['application-upload'].fileName
+              text: summaryField(appeal.requiredDocumentsSection.originalApplication.uploadedFile.name, { 'data-cy': "upload-application" })
             },
             actions: {
               items: [
@@ -212,17 +158,18 @@
           },
           {
             key: {
-              text: "Changes to the description of the development"
+              text: "Decision letter"
             },
             value: {
-              text: ""
+              text: summaryField(appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name, { 'data-cy': "upload-decision" })
             },
             actions: {
               items: [
                 {
-                  href: "/upload-application-changes",
+                  href: "/appellant-submission/upload-decision",
                   text: "Change",
-                  visuallyHiddenText: "The description of the development"
+                  visuallyHiddenText: "Decision letter",
+                  attributes: { "data-cy":"decisionLetter"}
                 }
               ]
             }
@@ -230,7 +177,52 @@
         ]
       }) }}
 
-      <h2 class="govuk-heading-m">About the site</h2>
+      <h2 class="govuk-heading-m">About your appeal</h2>
+
+      {{ govukSummaryList({
+        classes: "govuk-summary-list govuk-!-margin-bottom-9",
+        rows: [
+
+          {
+            key: {
+              text: "Your appeal statement"
+            },
+            value: {
+              text: summaryField(appeal.yourAppealSection.appealStatement.uploadedFile.name, { 'data-cy': "appeal-statement" })
+            },
+            actions: {
+              items: [
+                {
+                  href: "/appellant-submission/appeal-statement",
+                  text: "Change",
+                  visuallyHiddenText: "Your appeal statement",
+                  attributes: { "data-cy":"appealStatement"}
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Documents to support your appeal"
+            },
+            value: {
+              text: multifileUploadToList(otherDocuments, { 'data-cy': "supporting-documents" })
+            },
+            actions: {
+              items: [
+                {
+                  href: "/appellant-submission/supporting-documents",
+                  text: "Change",
+                  visuallyHiddenText: "Documents to support your appeal",
+                  attributes: { "data-cy":"otherDocuments"}
+                }
+              ]
+            }
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">Visiting the appeal site</h2>
 
       {{ govukSummaryList({
         classes: "govuk-summary-list govuk-!-margin-bottom-9",
@@ -240,65 +232,15 @@
               text: "Address of the appeal site"
             },
             value: {
-              text: appeal | appealSiteAddressToArray | join("\n") | nl2br | safe
+              text: summaryField(appeal | appealSiteAddressToArray | join("\n") | nl2br | safe, { 'data-cy': "site-location" })
             },
             actions: {
               items: [
                 {
-                  href: "/site-location",
+                  href: "/appellant-submission/site-location",
                   text: "Change",
-                  visuallyHiddenText: "Address of the appeal site"
-                }
-              ]
-            }
-          },
-          {
-            key: {
-              text: "Is the site in a Green Belt?"
-            },
-            value: {
-              text: ""
-            },
-            actions: {
-              items: [
-                {
-                  href: "/site-location-green-belt",
-                  text: "Change",
-                  visuallyHiddenText: "Is the site in a Green Belt?"
-                }
-              ]
-            }
-          },
-          {
-            key: {
-              text: "Can the Inspector see the whole of the appeal site from a public road?"
-            },
-            value: {
-              text: ""
-            },
-            actions: {
-              items: [
-                {
-                  href: "/site-access",
-                  text: "Change",
-                  visuallyHiddenText: "Can the Inspector see the whole of the appeal site from a public road"
-                }
-              ]
-            }
-          },
-          {
-            key: {
-              text: "Any health and safety issues?"
-            },
-            value: {
-              text: ""
-            },
-            actions: {
-              items: [
-                {
-                  href: "/site-access-safety",
-                  text: "Change",
-                  visuallyHiddenText: "Any health and safety issues?"
+                  visuallyHiddenText: "Address of the appeal site",
+                  attributes: { "data-cy":"siteAddress"}
                 }
               ]
             }
@@ -308,7 +250,7 @@
               text: "Do you own the whole appeal site?"
             },
             value: {
-              text: ""
+              text: boolToSentenceCaseField(appeal.appealSiteSection.siteOwnership.ownsWholeSite, { 'data-cy': "site-ownership" })
             },
             actions: {
               items: [
@@ -319,49 +261,48 @@
                 }
               ]
             }
-          }
-        ]
-      }) }}
-
-      <h2 class="govuk-heading-m">Your appeal</h2>
-
-      {{ govukSummaryList({
-        classes: "govuk-summary-list govuk-!-margin-bottom-9",
-        rows: [
+          },
           {
             key: {
-              text: "Your appeal statement"
+              text: "Can the Inspector see the whole of the appeal site from a public road?"
             },
             value: {
-              text: appeal['appeal-upload'].fileName
+              text: boolToSentenceCaseField(appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad, { 'data-cy': "site-access" })
+                if appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad
+                else summaryField(appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted, { 'data-cy': "site-access" })
             },
             actions: {
               items: [
                 {
-                  href: "/grounds-of-appeal",
+                  href: "/appellant-submission/site-access",
                   text: "Change",
-                  visuallyHiddenText: "Your appeal statement"
+                  visuallyHiddenText: "Can the Inspector see the whole of the appeal site from a public road",
+                  attributes: { "data-cy":"siteAccess"}
                 }
               ]
             }
           },
           {
             key: {
-              text: "Documents to support your appeal"
+              text: "Any health and safety issues?"
             },
             value: {
-              text: ""
+              text: summaryField(appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues, { 'data-cy': "site-access-safety" })
+                if appeal.appealSiteSection.healthAndSafety.hasIssues
+                else boolToSentenceCaseField(appeal.appealSiteSection.healthAndSafety.hasIssues, { 'data-cy': "site-access-safety" })
             },
             actions: {
               items: [
                 {
-                  href: "/supporting-documents",
+                  href: "/appellant-submission/site-access-safety",
                   text: "Change",
-                  visuallyHiddenText: "Documents to support your appeal"
+                  visuallyHiddenText: "Any health and safety issues?",
+                  attributes: { "data-cy":"healthAndSafety"}
                 }
               ]
             }
           }
+
         ]
       }) }}
 
