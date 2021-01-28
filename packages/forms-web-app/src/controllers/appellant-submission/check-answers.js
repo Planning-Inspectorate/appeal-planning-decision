@@ -1,5 +1,6 @@
 const { getDepartmentFromId } = require('../../services/department.service');
 const { VIEW } = require('../../lib/views');
+const multifileUploadFileNamesOnly = require('../../lib/multifile-upload-file-names-only');
 
 exports.getCheckAnswers = async (req, res) => {
   const { appeal } = req.session;
@@ -15,5 +16,8 @@ exports.getCheckAnswers = async (req, res) => {
   res.render(VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS, {
     appealLPD,
     appeal,
+    otherDocuments: multifileUploadFileNamesOnly(
+      appeal.yourAppealSection.otherDocuments.uploadedFiles
+    ),
   });
 };

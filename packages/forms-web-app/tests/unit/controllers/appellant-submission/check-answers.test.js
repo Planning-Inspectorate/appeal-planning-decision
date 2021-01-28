@@ -1,10 +1,10 @@
-const checkAnswersController = require('../../../src/controllers/appellant-submission/check-answers');
-const { APPEAL_DOCUMENT } = require('../../../src/lib/empty-appeal');
-const { getDepartmentFromId } = require('../../../src/services/department.service');
-const { mockReq, mockRes } = require('../mocks');
-const { VIEW } = require('../../../src/lib/views');
+const checkAnswersController = require('../../../../src/controllers/appellant-submission/check-answers');
+const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
+const { getDepartmentFromId } = require('../../../../src/services/department.service');
+const { mockReq, mockRes } = require('../../mocks');
+const { VIEW } = require('../../../../src/lib/views');
 
-jest.mock('../../../src/services/department.service');
+jest.mock('../../../../src/services/department.service');
 
 describe('controllers/appellant-submission/check-answers', () => {
   let req;
@@ -26,6 +26,7 @@ describe('controllers/appellant-submission/check-answers', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS, {
         appealLPD: '',
         appeal,
+        otherDocuments: [],
       });
     });
     it('should call the correct template with empty local planning department', async () => {
@@ -37,6 +38,7 @@ describe('controllers/appellant-submission/check-answers', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS, {
         appealLPD: '',
         appeal,
+        otherDocuments: [],
       });
     });
     it('should call the correct template with local planning department name', async () => {
@@ -48,6 +50,7 @@ describe('controllers/appellant-submission/check-answers', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS, {
         appealLPD: 'lpdName',
         appeal,
+        otherDocuments: [],
       });
     });
   });
