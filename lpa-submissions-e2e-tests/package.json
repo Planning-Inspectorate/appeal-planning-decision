@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "npx cypress run -e TAGS='not @wip'",
+    "test:e2e": "npx cypress run -e TAGS='not @wip'",
+    "test:e2e:postprocess": "node ./reporter.js",
     "test:demo": "npx cypress run --headed -b chrome --config baseUrl='https://tim:password@appeals-dev.planninginspectorate.gov.uk' --spec 'cypress/integration/appeal-submission-access-to-appeal-site.feature' --env demoDelay=1000",
     "test:smoke": "npx cypress run -e TAGS='not @wip and @smoketest'"
   },

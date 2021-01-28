@@ -1,9 +1,10 @@
+@wip
 Feature: Task lists
   As a beta LPA I want to clearly see which sections of the
   appeal submission I have completed, so that I do not waste my time checking.
 
   All the tasks should be "NOT STARTED"
-  
+
   The "Check your answer" task state should be "CANNOT START YET"
 
   Scenario Outline: When the tasks are presented, then user should be able to select them
@@ -54,4 +55,4 @@ Feature: Task lists
 
 Scenario: LPA Questionnaire task list page is displayed with static text
     Given the Householder planning appeal questionnaire page is presented
-    Then the "Use the links below to submit your information. You can complete the sections in any order." is displayed  
+    Then the "Use the links below to submit your information. You can complete the sections in any order." is displayed
