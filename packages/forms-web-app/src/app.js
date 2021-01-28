@@ -14,6 +14,8 @@ const { prometheus } = require('@pins/common');
 const sessionConfig = require('./lib/session');
 const appealSiteAddressToArray = require('./lib/appeal-site-address-to-array');
 const fileSizeDisplayHelper = require('./lib/file-size-display-helper');
+const filterByKey = require('./lib/filter-by-key');
+const addKeyValuePair = require('./lib/add-key-value-pair');
 require('express-async-errors');
 
 const config = require('./config');
@@ -118,6 +120,8 @@ const env = nunjucks.configure(viewPaths, nunjucksConfig);
 env.addFilter('appealSiteAddressToArray', appealSiteAddressToArray);
 env.addFilter('date', dateFilter);
 env.addFilter('formatBytes', fileSizeDisplayHelper);
+env.addFilter('filterByKey', filterByKey);
+env.addFilter('addKeyValuePair', addKeyValuePair);
 env.addGlobal('fileSizeLimits', config.fileUpload.pins);
 env.addGlobal('googleAnalyticsId', config.server.googleAnalyticsId);
 
