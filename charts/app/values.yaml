@@ -141,3 +141,8 @@ keyVault:
   envSpecific:
     secrets: []
     multiValueSecrets: []
+
+e2eTests:
+  enabled: false
+  branch: master
+  backoffLimit: 5
