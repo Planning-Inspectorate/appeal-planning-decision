@@ -1,0 +1,17 @@
+name: End-to-End Tests Webhook
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: URL to run tests against
+        required: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - run: echo ${{ github.event.inputs.url }}
