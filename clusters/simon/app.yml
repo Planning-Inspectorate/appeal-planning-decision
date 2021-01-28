@@ -41,4 +41,4 @@ spec:
       name: pins-uks-vault-3203-simo
 
     ingress:
-      host: pings.thesausage.blog
+      host: pins.thesausage.blog
