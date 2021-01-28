@@ -58,6 +58,47 @@ jobs:
           name: screenshots-acp
           path: ${{ env.CYPRESS_SCREENSHOTS }}
 
+  cypress-LPA:
+    name: "Cypress- LPA questionaire"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install the world
+        run: make install
+
+      - name: Start the world
+        run: docker-compose up -d
+
+      - name: Run the tests against LPA questionaire
+        run: npm run test:e2e:lpa
+
+      - name: Post-process results
+        if: ${{ always() }}
+        run: npm run test:e2e:lpa:postprocess
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: results-lpa
+          path: ${{ env.CYPRESS_REPORTS }}
+
+      - name: Archive videos (on failure)
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: videos-lpa
+          path: ${{ env.CYPRESS_VIDEOS }}
+
+      - name: Archive screenshots (on failure)
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: screenshots-lpa
+          path: ${{ env.CYPRESS_SCREENSHOTS }}
+
+
   cypress-default:
     name: "Cypress- default"
     runs-on: ubuntu-latest
