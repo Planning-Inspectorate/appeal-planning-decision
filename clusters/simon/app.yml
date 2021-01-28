@@ -1,0 +1,44 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: app
+  namespace: app-dev
+  annotations:
+    fluxcd.io/automated: "true"
+    # Add hyphen to include pre-releases
+    filter.fluxcd.io/appealsServiceApi: semver:^1.0.0-0
+    filter.fluxcd.io/documentServiceApi: semver:^1.0.0-0
+    filter.fluxcd.io/formsWebApp: semver:^1.0.0-0
+spec:
+  releaseName: app
+  chart:
+    git: git@github.com:foundry4/appeal-planning-decision.git
+    ref: master
+    path: charts/app
+  rollback:
+    enable: true
+  values:
+    appealsServiceApi:
+      replicaCount: 2
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/appeals-service-api
+        tag: 1.2.0
+
+    documentServiceApi:
+      replicaCount: 2
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/document-service-api
+        tag: 1.0.0
+
+    formsWebApp:
+      replicaCount: 2
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
+        tag: 1.9.0
+
+    keyVault:
+      name: pins-uks-vault-3203-simo
+
+    ingress:
+      host: pings.thesausage.blog
