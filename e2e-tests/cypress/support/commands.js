@@ -1,5 +1,8 @@
 // NAVIGATION
-Cypress.Commands.add('clickSaveAndContinue', require('./appeal-navigation/clickSaveAndContinue'));
+Cypress.Commands.add(
+  'clickSaveAndContinue',
+  require('./appeal-navigation/clickSaveAndContinue'),
+);
 
 Cypress.Commands.add(
   'goToPageNotFoundPage',
@@ -242,7 +245,7 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'confirmProviedLocalPlanningDepartmentWasAccepted',
+  'confirmProvidedLocalPlanningDepartmentWasAccepted',
   require('./eligibility-local-planning-department/confirmProviedLocalPlanningDepartmentWasAccepted'),
 );
 
@@ -575,6 +578,10 @@ Cypress.Commands.add(
   require('./integration-with-acp/confirmNavigationAcpPage'),
 );
 
+Cypress.Commands.add('confirmNavigationTermsAndConditionsPage',
+  require('./appeal-navigation-confirmation/appellant-submission/confirmNavigationTermsAndConditionsPage'),
+);
+
 Cypress.Commands.add(
   'confirmNavigationPageNotFoundPage',
   require('./integration-with-acp/confirmNavigationPageNotFoundPage'),
@@ -628,6 +635,11 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmNavigationTaskListPage',
   require('./appellant-submission-your-details/confirmNavigationTaskListPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationPlanningApplicationNumberPage',
+  require('./appeal-navigation-confirmation/appellant-submission/confirmNavigationPlanningApplicationNumberPage'),
 );
 
 Cypress.Commands.add(
@@ -771,6 +783,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmCheckYourAnswersPage',
+  require('./appellant-submission-check-your-answers/confirmCheckYourAnswersPage'),
+);
+
+Cypress.Commands.add(
   'agreeToTheDeclaration',
   require('./appellant-confirms-declaration/agreeToTheDeclaration'),
 );
@@ -835,4 +852,14 @@ Cypress.Commands.add('userIsNavigatedToPage', require('./appeal-navigation/userI
 Cypress.Commands.add(
   'goToSiteSafetyPage',
   require('./appeal-navigation/appellant-submission/goToSiteSafetyPage'),
+);
+
+Cypress.Commands.add(
+  'accessSection',
+  require('./appellant-submission-check-your-answers/accessSection'),
+);
+
+Cypress.Commands.add(
+  'clickCheckYourAnswers',
+  require('./appeal-navigation/clickCheckYourAnswers'),
 );
