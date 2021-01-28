@@ -1,0 +1,10 @@
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Provider
+metadata:
+  name: slack
+  namespace: app-simon
+spec:
+  type: generic
+  address: https://enhgaeldtcjhh7u.m.pipedream.net
+#  secretRef:
+#    name: webhook-url
