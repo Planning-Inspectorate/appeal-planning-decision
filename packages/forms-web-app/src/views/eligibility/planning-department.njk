@@ -14,8 +14,8 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <p style="display: none;" data-cy="eligible-departments">{{ eligibleDepartments }}</p>
-      <p style="display: none;" data-cy="ineligible-departments">{{ ineligibleDepartments }}</p>
+      <p class="govuk-visually-hidden" data-cy="eligible-departments">{{ eligibleDepartments }}</p>
+      <p class="govuk-visually-hidden" data-cy="ineligible-departments">{{ ineligibleDepartments }}</p>
 
       <form action="/eligibility/planning-department" method="POST" novalidate>
         <div class="govuk-form-group {{ 'govuk-form-group--error' if errors }}">
