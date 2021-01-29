@@ -50,7 +50,7 @@ services:
     environment:
       BLOB_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blob-storage:10000/devstoreaccount1;QueueEndpoint=http://blob-storage:10001/devstoreaccount1;
       STORAGE_CONTAINER_NAME: document-service-uploads
-      FILE_MAX_SIZE_IN_BYTES: 50000000
+      FILE_MAX_SIZE_IN_BYTES: 15000000
       FILE_UPLOAD_PATH: /tmp/upload
       MONGODB_AUTO_INDEX: "true"
       MONGODB_URL: mongodb://mongodb:27017/document-service-api
@@ -86,7 +86,7 @@ services:
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FILE_UPLOAD_DEBUG: "false"
-      FILE_UPLOAD_MAX_FILE_SIZE_BYTES: 50000000
+      FILE_UPLOAD_MAX_FILE_SIZE_BYTES: 15000000
       FILE_UPLOAD_USE_TEMP_FILES: "true"
       FILE_UPLOAD_TMP_PATH: "/tmp"
       SESSION_MONGODB_URL: mongodb://mongodb:27017/fwa-sessions
@@ -115,7 +115,7 @@ services:
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FILE_UPLOAD_DEBUG: "false"
-      FILE_UPLOAD_MAX_FILE_SIZE_BYTES: 50000000
+      FILE_UPLOAD_MAX_FILE_SIZE_BYTES: 15000000
       FILE_UPLOAD_USE_TEMP_FILES: "true"
       FILE_UPLOAD_TMP_PATH: "/tmp"
       SESSION_MONGODB_URL: mongodb://mongodb:27017/fwa-sessions
