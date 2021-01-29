@@ -3,7 +3,7 @@ Feature: A user checks their answers and wants to submit their appeal
 
   Scenario: The user has valid data and wants to submit their appeal
     Given the user is presented with the answers they had provided
-    When the user confirms that they are happy with their answers
+    When the user confirms their answers
     Then the user should be presented with the Terms and Conditions of the service
 
   Scenario: AC1 - Accessing check your answers from the task list
@@ -68,3 +68,4 @@ Feature: A user checks their answers and wants to submit their appeal
     Given the appeal has no other documents
     When Check Your Answers is presented
     Then the absence of other document is correctly displayed
+
