@@ -10,6 +10,9 @@ defaults:
     working-directory: packages/lpa-questionnaire-web-app
 
 on:
+  push:
+    branches:
+      - master
   pull_request:
     branches:
       - master
