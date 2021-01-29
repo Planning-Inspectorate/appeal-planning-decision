@@ -30,7 +30,7 @@ documentServiceApi:
       schedule: "*/1 * * * *"
       successfulJobHistoryLimit: 3
     upload:
-      maxSize: 50000000 # 50mb
+      maxSize: 15000000 # 15mb
       maxUploadAttempts: 3
       processQueryLimit: 5
       uploadContainerName: uploads
