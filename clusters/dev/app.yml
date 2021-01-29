@@ -35,7 +35,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
-        tag: 1.9.0
+        tag: 1.10.0
 
     keyVault:
       name: pins-uks-vault-8669-dev
