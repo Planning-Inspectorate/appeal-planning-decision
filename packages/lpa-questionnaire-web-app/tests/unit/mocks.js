@@ -5,10 +5,10 @@ const { QUESTIONNAIRE } = require('../../src/lib/empty-questionnaire');
 
 const { empty: emptyQuestionnaire } = QUESTIONNAIRE;
 
-const mockReq = (appeal = emptyQuestionnaire) => ({
+const mockReq = (questionnaire = emptyQuestionnaire) => ({
   log: logger,
   session: {
-    appeal,
+    questionnaire,
   },
 });
 

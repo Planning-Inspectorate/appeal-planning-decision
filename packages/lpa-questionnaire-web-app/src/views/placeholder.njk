@@ -1,6 +1,7 @@
 {% extends "layouts/main.njk" %}
 
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "components/appeal-details/macro.njk" import appealDetails %}
 
 {% block beforeContent %}
   {{ govukBackLink({
@@ -25,5 +26,13 @@
     </h1>
     <p class="govuk-body-l">Work on this question is not yet complete, this will be replaced when it is completed.</p>
   </div>
+
+  {{
+    appealDetails({
+      appeal: appeal
+    })
+  }}
+
 </div>
+
 {% endblock %}
