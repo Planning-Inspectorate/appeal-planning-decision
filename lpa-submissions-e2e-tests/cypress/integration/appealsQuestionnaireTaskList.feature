@@ -8,8 +8,9 @@ Feature: Task lists
   The "Check your answer" task state should be "CANNOT START YET"
 
   Scenario Outline: When the tasks are presented, then user should be able to select them
-    Given the lpa tasks are presented
-    And the task <task> is available for selection
+    Given the Householder planning appeal questionnaire page is presented
+    Then the task <task> is available for selection
+    And The page title of the page is "Householder planning appeal questionnaire - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK"
     Examples:
       | task                                                                              |
       | "About the appeal - Review accuracy of the appellant's submission"                |
@@ -30,8 +31,7 @@ Feature: Task lists
 
 
   Scenario Outline: When the lpa questionnaire is not started, then the tasks are in "NOT STARTED" state
-    Given the <task> part of the lpa questionnaire is not started
-    When the lpa tasks are presented
+    Given the Householder planning appeal questionnaire page is presented
     Then the state for <task> is displayed to be "NOT STARTED"
     And the state for "Before You submit - Check your answers" is displayed to be "CANNOT START YET"
     Examples:
