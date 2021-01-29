@@ -1,0 +1,56 @@
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+{%- if params.appeal.number %}
+
+  {% set appealNumber %}
+    <strong class="govuk-tag govuk-tag--turquoise">
+      {{ params.appeal.number }}
+    </strong>
+  {% endset %}
+
+  <aside class="govuk-grid-column-one-third">
+    {{ govukTable({
+      caption: "Appeal details",
+      firstCellIsHeader: true,
+      attributes: {
+        'data-cy': 'appealDetails'
+      },
+      rows: [
+        [
+          {
+            text: "Planning application number"
+          },
+          {
+            html: appealNumber,
+            attributes: {
+              'data-cy': 'planningApplicationNumber'
+            }
+          }
+        ],
+        [
+          {
+            text: "Site address"
+          },
+          {
+            text: params.appeal.address,
+            attributes: {
+              'data-cy': 'planningApplicationAddress'
+            }
+          }
+        ],
+        [
+          {
+            text: "Appellant Name"
+          },
+          {
+            text: params.appeal.appellant,
+            attributes: {
+              'data-cy': 'planningApplicationApellant'
+            }
+          }
+        ]
+      ]
+    }) }}
+  </aside>
+
+{% endif -%}
