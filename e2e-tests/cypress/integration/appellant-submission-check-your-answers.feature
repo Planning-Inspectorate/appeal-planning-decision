@@ -43,14 +43,17 @@ Feature: A user checks their answers and wants to submit their appeal
     Given changes are made for About you section
     When Check Your Answers is presented
     Then the updated values for About you section are displayed
+
   Scenario: AC3b - Presenting updated sections on your appeal - About the original planning application
     Given changes are made for About the original planning application section
     When Check Your Answers is presented
     Then the updated values for About the original planning application section are displayed
+
   Scenario: AC3c - Presenting updated sections on your appeal - About your appeal
     Given changes are made for About your appeal section
     When Check Your Answers is presented
     Then the updated values for About your appeal section are displayed
+
   Scenario: AC3d - Presenting updated sections on your appeal - Visiting the appeal site
     Given changes are made for Visiting the appeal site section
     When Check Your Answers is presented
@@ -60,6 +63,7 @@ Feature: A user checks their answers and wants to submit their appeal
     Given the appeal has more than one other documents
     When Check Your Answers is presented
     Then the multiple other documents are correctly displayed
+
   Scenario: AC4b - Multiple document upload section - absence of document is correctly displayed
     Given the appeal has no other documents
     When Check Your Answers is presented
