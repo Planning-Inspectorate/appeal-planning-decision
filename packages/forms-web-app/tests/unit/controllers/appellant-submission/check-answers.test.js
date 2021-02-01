@@ -26,7 +26,6 @@ describe('controllers/appellant-submission/check-answers', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS, {
         appealLPD: '',
         appeal,
-        otherDocuments: [],
       });
     });
     it('should call the correct template with empty local planning department', async () => {
@@ -38,7 +37,6 @@ describe('controllers/appellant-submission/check-answers', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS, {
         appealLPD: '',
         appeal,
-        otherDocuments: [],
       });
     });
     it('should call the correct template with local planning department name', async () => {
@@ -50,7 +48,6 @@ describe('controllers/appellant-submission/check-answers', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS, {
         appealLPD: 'lpdName',
         appeal,
-        otherDocuments: [],
       });
     });
   });
