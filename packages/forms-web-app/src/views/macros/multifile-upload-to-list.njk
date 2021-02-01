@@ -15,8 +15,8 @@
   {% else %}
     <p {%- for attribute, value in attributesWithCyTagRemoved %} {{attribute}}="{{value}}"{% endfor %} data-cy="{{- [cyTag, "uploaded-file-count-heading"] | join("-") -}}">{{ value | length }} file{% if value | length > 1 %}s{% endif%} uploaded</p>
     <ul class="govuk-list">
-      {% for filename in value %}
-        <li>{{ summaryField(filename, attributesWithCyTagRemoved | addKeyValuePair('data-cy', [cyTag, "uploaded-file", loop.index0] | join("-"))) }}</li>
+      {% for file in value %}
+        <li>{{ summaryField(file.originalFileName, attributesWithCyTagRemoved | addKeyValuePair('data-cy', [cyTag, "uploaded-file", loop.index0] | join("-"))) }}</li>
       {% endfor %}
     </ul>
   {% endif %}
