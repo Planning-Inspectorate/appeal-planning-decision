@@ -53,10 +53,11 @@ spec:
         - http-basic
 
     ingress:
-      fwa:
-        host: appeal-planning-decision.planninginspectorate.gov.uk
-      lpaq:
-        host: lpa-questionnaire.planninginspectorate.gov.uk
+      hosts:
+        fwa:
+          host: appeal-planning-decision.planninginspectorate.gov.uk
+        lpaq:
+          host: lpa-questionnaire.planninginspectorate.gov.uk
       httpBasic:
         enabled: true
         secret: akv-http-basic
