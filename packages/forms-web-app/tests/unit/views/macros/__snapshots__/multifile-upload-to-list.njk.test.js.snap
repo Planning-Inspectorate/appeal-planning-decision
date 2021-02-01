@@ -1,0 +1,205 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`views/macros/multifile-upload-to-list No files uploaded nothing provided 1`] = `
+"
+  
+
+  
+
+  
+    
+  <span data-cy=\\"-no-files\\">No files uploaded</span>
+
+  
+"
+`;
+
+exports[`views/macros/multifile-upload-to-list No files uploaded when value has a length of less than one and attributes is empty 1`] = `
+"
+  
+    
+  
+    
+  
+
+  
+
+  
+    
+  <span a=\\"b\\" c=\\"d\\" data-cy=\\"-no-files\\">No files uploaded</span>
+
+  
+"
+`;
+
+exports[`views/macros/multifile-upload-to-list No files uploaded when value is not provided and attributes has data-cy tag 1`] = `
+"
+  
+    
+  
+    
+  
+    
+      
+    
+  
+
+  
+
+  
+    
+  <span a=\\"b\\" c=\\"d\\" data-cy=\\"test-heading-no-files\\">No files uploaded</span>
+
+  
+"
+`;
+
+exports[`views/macros/multifile-upload-to-list multiple files uploaded attributes given with data-cy tag 1`] = `
+"
+  
+    
+  
+    
+  
+    
+      
+    
+  
+
+  
+
+  
+    <p a=\\"b\\" c=\\"d\\" data-cy=\\"test-heading-uploaded-file-count-heading\\">2 files uploaded</p>
+    <ul class=\\"govuk-list\\">
+      
+        <li>
+  <span a=\\"b\\" c=\\"d\\" data-cy=\\"test-heading-uploaded-file-0\\">abc-123.jpg</span>
+</li>
+      
+        <li>
+  <span a=\\"b\\" c=\\"d\\" data-cy=\\"test-heading-uploaded-file-1\\">xyz-789.docx</span>
+</li>
+      
+    </ul>
+  
+"
+`;
+
+exports[`views/macros/multifile-upload-to-list multiple files uploaded attributes given, but no data-cy tag 1`] = `
+"
+  
+    
+  
+    
+  
+
+  
+
+  
+    <p a=\\"b\\" c=\\"d\\" data-cy=\\"-uploaded-file-count-heading\\">2 files uploaded</p>
+    <ul class=\\"govuk-list\\">
+      
+        <li>
+  <span a=\\"b\\" c=\\"d\\" data-cy=\\"-uploaded-file-0\\">abc-123.jpg</span>
+</li>
+      
+        <li>
+  <span a=\\"b\\" c=\\"d\\" data-cy=\\"-uploaded-file-1\\">xyz-789.docx</span>
+</li>
+      
+    </ul>
+  
+"
+`;
+
+exports[`views/macros/multifile-upload-to-list multiple files uploaded no attributes given 1`] = `
+"
+  
+
+  
+
+  
+    <p data-cy=\\"-uploaded-file-count-heading\\">2 files uploaded</p>
+    <ul class=\\"govuk-list\\">
+      
+        <li>
+  <span data-cy=\\"-uploaded-file-0\\">abc-123.jpg</span>
+</li>
+      
+        <li>
+  <span data-cy=\\"-uploaded-file-1\\">xyz-789.docx</span>
+</li>
+      
+    </ul>
+  
+"
+`;
+
+exports[`views/macros/multifile-upload-to-list single file uploaded attributes given with data-cy tag 1`] = `
+"
+  
+    
+  
+    
+  
+    
+      
+    
+  
+
+  
+
+  
+    <p a=\\"b\\" c=\\"d\\" data-cy=\\"test-heading-uploaded-file-count-heading\\">1 file uploaded</p>
+    <ul class=\\"govuk-list\\">
+      
+        <li>
+  <span a=\\"b\\" c=\\"d\\" data-cy=\\"test-heading-uploaded-file-0\\">abc-123.jpg</span>
+</li>
+      
+    </ul>
+  
+"
+`;
+
+exports[`views/macros/multifile-upload-to-list single file uploaded attributes given, but no data-cy tag 1`] = `
+"
+  
+    
+  
+    
+  
+
+  
+
+  
+    <p a=\\"b\\" c=\\"d\\" data-cy=\\"-uploaded-file-count-heading\\">1 file uploaded</p>
+    <ul class=\\"govuk-list\\">
+      
+        <li>
+  <span a=\\"b\\" c=\\"d\\" data-cy=\\"-uploaded-file-0\\">abc-123.jpg</span>
+</li>
+      
+    </ul>
+  
+"
+`;
+
+exports[`views/macros/multifile-upload-to-list single file uploaded no attributes given 1`] = `
+"
+  
+
+  
+
+  
+    <p data-cy=\\"-uploaded-file-count-heading\\">1 file uploaded</p>
+    <ul class=\\"govuk-list\\">
+      
+        <li>
+  <span data-cy=\\"-uploaded-file-0\\">abc-123.jpg</span>
+</li>
+      
+    </ul>
+  
+"
+`;
