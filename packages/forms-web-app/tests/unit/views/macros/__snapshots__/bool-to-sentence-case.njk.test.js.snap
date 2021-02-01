@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`views/macros/bool-to-sentence-case should display 'No' whene value is false 1`] = `
+"
+  
+    
+      
+  <span some=\\"attributes\\" go=\\"here\\">No</span>
+
+    
+  
+"
+`;
+
+exports[`views/macros/bool-to-sentence-case should display 'Yes' whene value is true 1`] = `
+"
+  
+    
+      
+  <span>Yes</span>
+
+    
+  
+"
+`;
+
+exports[`views/macros/bool-to-sentence-case should handle null input 1`] = `
+"
+  
+    
+  <span></span>
+
+  
+"
+`;

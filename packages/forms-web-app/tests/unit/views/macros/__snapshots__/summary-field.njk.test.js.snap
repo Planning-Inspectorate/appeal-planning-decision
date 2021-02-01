@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`views/macros/summary-field should render with a value and attributes 1`] = `
+"
+  <span a=\\"b\\" c=\\"d\\">an example value</span>
+"
+`;
+
+exports[`views/macros/summary-field should render with a value and without attributes 1`] = `
+"
+  <span>an example value</span>
+"
+`;
+
+exports[`views/macros/summary-field should render without a value and with attributes 1`] = `
+"
+  <span a=\\"b\\" c=\\"d\\"></span>
+"
+`;
+
+exports[`views/macros/summary-field should render without a value or attributes 1`] = `
+"
+  <span></span>
+"
+`;
