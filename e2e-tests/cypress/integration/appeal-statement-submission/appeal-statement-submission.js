@@ -59,6 +59,7 @@ Then('user is informed that the file is not submitted because {string}', (reason
       break;
   }
 });
+
 Given(
   'user has previously submitted a valid appeal statement file {string} followed by an invalid file {string} that was rejected because {string}',
   (validFile, invalidFile, reason) => {
