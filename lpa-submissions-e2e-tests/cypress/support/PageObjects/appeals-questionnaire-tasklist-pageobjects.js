@@ -60,9 +60,17 @@ class AppealsQuestionnaireTaskList {
     return cy.get('a[data-cy="developmentOrNeighbourhood"]');
   }
 
-  getCheckYourAnswers(){
-    return cy.get('a[data-cy="checkYourAnswers"]');
+  checkYourAnswers(){
+    return cy.get('span[data-cy="checkYourAnswers"]');
   }
+  checkNotstartedTaskStatus(taskName){
+    return cy.get('li[submissionaccuracy-status="NOT STARTED"]');
+  }
+
+  checkCannotStartStatus(){
+    return cy.get('li[checkyouranswers-status="CANNOT START YET"]');
+  }
+
 }
 
 export default AppealsQuestionnaireTaskList;

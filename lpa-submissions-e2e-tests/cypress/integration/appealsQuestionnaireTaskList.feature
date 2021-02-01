@@ -1,16 +1,21 @@
-@wip
 Feature: Task lists
-  As a beta LPA I want to clearly see which sections of the
+  As an LPA user I want to clearly see which sections of the
   appeal submission I have completed, so that I do not waste my time checking.
 
   All the tasks should be "NOT STARTED"
 
   The "Check your answer" task state should be "CANNOT START YET"
 
+
+  Scenario: LPA Questionnaire task list page is displayed with static text
+    Given The Householder planning appeal questionnaire page is presented
+    Then The "Use the links below to submit your information. You can complete the sections in any order." is displayed
+    And The title of the page is "Householder planning appeal questionnaire"
+
+
   Scenario Outline: When the tasks are presented, then user should be able to select them
-    Given the Householder planning appeal questionnaire page is presented
-    Then the task <task> is available for selection
-    And The page title of the page is "Householder planning appeal questionnaire - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK"
+    Given The Householder planning appeal questionnaire page is presented
+    When The task <task> is available for selection
     Examples:
       | task                                                                              |
       | "About the appeal - Review accuracy of the appellant's submission"                |
@@ -31,9 +36,9 @@ Feature: Task lists
 
 
   Scenario Outline: When the lpa questionnaire is not started, then the tasks are in "NOT STARTED" state
-    Given the Householder planning appeal questionnaire page is presented
-    Then the state for <task> is displayed to be "NOT STARTED"
-    And the state for "Before You submit - Check your answers" is displayed to be "CANNOT START YET"
+    Given The Householder planning appeal questionnaire page is presented
+    Then The state for <task> is displayed to be "NOT STARTED"
+    And The state for "Before You submit - Check your answers" is displayed to be "CANNOT START YET"
     Examples:
       | task                                                                              |
       | "About the appeal - Review accuracy of the appellant's submission"                |
@@ -52,7 +57,3 @@ Feature: Task lists
       | "Optional supporting documents - Supplementary planning document extracts"        |
       | "Optional supporting documents - Development Plan Document or Neighbourhood Plan" |
 
-
-Scenario: LPA Questionnaire task list page is displayed with static text
-    Given the Householder planning appeal questionnaire page is presented
-    Then the "Use the links below to submit your information. You can complete the sections in any order." is displayed

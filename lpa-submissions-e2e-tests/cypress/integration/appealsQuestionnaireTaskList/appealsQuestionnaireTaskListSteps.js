@@ -1,13 +1,12 @@
-/// <reference types="Cypress" />
-
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 
-Given('the Householder planning appeal questionnaire page is presented',()=>{
-    cy.goToAppealsQuestionnaireTaskListPage();
+//Given the Householder planning appeal questionnaire page is presented
+Given("The Householder planning appeal questionnaire page is presented", ()=> {
+    cy.goToAppealsQuestionnaireTasklistPage();
 
 });
 
-Then('And the task {string} is available for selection',(taskname)=>{
+When(`The task {string} is available for selection`,(taskname)=>{
   switch(taskname){
     case 'About the appeal - Review accuracy of the appellant\'s submission' :
       cy.goToReviewAccuracyOfTheAppellantSubmissionPage();
@@ -61,85 +60,90 @@ Then('And the task {string} is available for selection',(taskname)=>{
 
 });
 
-Then('the state for {string} is displayed to be "NOT STARTED"',(taskname)=>{
+Then(`The state for {string} is displayed to be "NOT STARTED"`,(taskname)=>{
+  var name='';
   switch(taskname){
     case 'About the appeal - Review accuracy of the appellant\'s submission' :
-      cy.goToReviewAccuracyOfTheAppellantSubmissionPage();
-      cy.verifyNotStartedStatus();
+      name='submissionAccuracy';
+      cy.verifyNotStartedStatus(name);
       break;
     case 'About the appeal - Do you have any extra conditions?':
-      cy.goToExtraConditionsPage();
-      cy.verifyNotStartedStatus();
+      name='extraConditions';
+      cy.verifyNotStartedStatus(name);
       break;
     case 'About the appeal - Tell us about any appeals in the immediate area' :
-      cy.goToTellUsAboutAppealsInImmediateAreaPage();
-      cy.verifyNotStartedStatus();
+      name='areaAppeals';
+      cy.verifyNotStartedStatus(name);
       break;
     case 'About the appeal site - Tell us about the appeal site' :
-      cy.goToTellUsAboutAppealSitePage();
-      cy.verifyNotStartedStatus();
+      name='aboutSite';
+      cy.verifyNotStartedStatus(name);
       break;
     case 'Required documents - Upload the plans used to reach the decision' :
-      cy.goToUploadThePlansUsedToReachDecisionPage();
-      cy.verifyNotStartedStatus();
+      name='plansDecision';
+      cy.verifyNotStartedStatus(name);
       break;
     case 'Required documents - Upload the Planning Officer\'s report' :
-      cy.goToUploadPlanningOfficersReportPage();
-      cy.verifyNotStartedStatus();
+      name='officersReport';
+      cy.verifyNotStartedStatus(name);
       break;
     case 'Optional supporting documents - Telling interested parties about the application' :
-      cy.goToTellingInterestedPartiesAboutTheApplicationPage();
-      cy.verifyNotStartedStatus();
+      name='interestedPartiesApplication';
+      cy.verifyNotStartedStatus(name);
       break;
     case 'Optional supporting documents - Representations from interested parties' :
-      cy.goToRepresentationsFromInterestedPartiesPage();
-      cy.verifyNotStartedStatus();
+      name='representationsInterestedParties';
+      cy.verifyNotStartedStatus(name);
       break;
     case 'Optional supporting documents - Notifying interested parties of the appeal' :
-      cy.goToNotifyingInterestedPartiesOfTheAppealPage();
-      cy.verifyNotStartedStatus();
+      name='interestedPartiesAppeal';
+      cy.verifyNotStartedStatus(name);
       break;
     case 'Optional supporting documents - Site notices' :
-      cy.goToSiteNoticesPage();
-      cy.verifyNotStartedStatus();
+      name='siteNotices';
+      cy.verifyNotStartedStatus(name);
       break;
     case 'Optional supporting documents - Planning history' :
-      cy.goToPlanningHistoryPage();
-      cy.verifyNotStartedStatus();
+      name='planningHistory';
+      cy.verifyNotStartedStatus(name);
       break;
     case 'Optional supporting documents - Statutory development plan policy' :
-      cy.goToStatutoryDevelopmentPlanPolicyPage();
-      cy.verifyNotStartedStatus();
+      name='statutoryDevelopment';
+      cy.verifyNotStartedStatus(name);
       break;
     case  'Optional supporting documents - Other relevant policies' :
-      cy.goToOtherRelevantPoliciesPage();
-      cy.verifyNotStartedStatus();
+      name='otherPolicies';
+      cy.verifyNotStartedStatus(name);
       break;
     case 'Optional supporting documents - Supplementary planning document extracts' :
-      cy.goToSupplementaryPlanningDocumentsExtractPage();
-      cy.verifyNotStartedStatus();
+      name='supplementaryPlanningDocuments';
+      cy.verifyNotStartedStatus(name);
       break;
     case 'Optional supporting documents - Development Plan Document or Neighbourhood Plan' :
-      cy.goToDevelopmentPlanDocumentOrNeighbourhoodPlanPage();
-      cy.verifyNotStartedStatus();
+      name='developmentOrNeighbourhood';
+      cy.verifyNotStartedStatus(name);
     break;
 
     default:
       throw new Error('Unknown task name = ' + taskname);
     }
 });
-Then('The page title of the page is "Householder planning appeal questionnaire - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK"',()=>{
-  describe('Verify the page title',()=>{
-    it('should be "Householder planning appeal questionnaire - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK"',()=>{
-      cy.title().should('eq','Householder planning appeal questionnaire - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK' )
-    })
-  })
+
+
+Then('The title of the page is "Householder planning appeal questionnaire"',()=>{
+      cy.title().should('eq','Householder planning appeal questionnaire' )
 });
 
-Then('the state for "Before You submit - Check your answers" is displayed to be "CANNOT START YET"',()=>{
-  describe('Verify the status of Check your answers',()=>{
-    it('should be Cannot start yet',()=>{
-      cy.contains('Check your answers').should('have.text','Cannot start yet');
+//The state for "Before You submit - Check your answers" is displayed to be "CANNOT START YET"
+Then('The state for "Before You submit - Check your answers" is displayed to be "CANNOT START YET"',()=>{
+    cy.checkYourAnswers();
+    cy.verifyCannotStartStatus();
+})
+
+
+Then('The "Use the links below to submit your information. You can complete the sections in any order." is displayed',()=>{
+    cy.get('.govuk-body-l').invoke('text')
+    .then(text =>{
+      expect(text).to.contain('Use the links below to submit your information. You can complete the sections in any order.')
     })
-  })
 })

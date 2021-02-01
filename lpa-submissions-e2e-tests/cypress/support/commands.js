@@ -33,8 +33,9 @@ Cypress.Commands.add("checkPageA11y", (path) =>{
     cy.checkA11y(null,null,callback);
 })
 
-Cypress.Commands.add('goToTaskListQuestionnairePage',
-require('./appeals-questionnaire-tasklist/goToAppealsQuestionnaireTasklistPage'));
+Cypress.Commands.add(
+  'goToAppealsQuestionnaireTasklistPage',
+  require('./appeals-questionnaire-tasklist/goToAppealsQuestionnaireTasklistPage'));
 
 Cypress.Commands.add('goToReviewAccuracyOfTheAppellantSubmissionPage',
 require('./appeals-questionnaire-navigation/goToReviewAccuracyOfTheAppellantsSubmissionPage'));
@@ -83,3 +84,9 @@ require('./appeals-questionnaire-navigation/goToUploadThePlansUsedToReachDecisio
 
 Cypress.Commands.add('verifyNotStartedStatus',
 require('./appeals-questionnaire-navigation/verifyNotStartedStatus'));
+
+Cypress.Commands.add('checkYourAnswers',
+require('./appeals-questionnaire-navigation/checkYourAnswers'));
+
+Cypress.Commands.add('verifyCannotStartStatus',
+require('./appeals-questionnaire-navigation/verifyCannotStartStatus'));
