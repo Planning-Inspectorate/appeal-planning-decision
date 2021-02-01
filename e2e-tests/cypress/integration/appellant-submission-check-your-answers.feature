@@ -1,4 +1,3 @@
-@wip
 Feature: A user checks their answers and wants to submit their appeal
 
   Scenario: The user has valid data and wants to submit their appeal
