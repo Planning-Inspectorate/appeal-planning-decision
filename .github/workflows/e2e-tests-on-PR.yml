@@ -44,15 +44,15 @@ jobs:
           name: results-acp
           path: ${{ env.CYPRESS_REPORTS }}
 
-      - name: Archive videos (on failure) with ACP integration
-        if: ${{ failure() }}
+      - name: Archive videos - with ACP integration
+        if: ${{ always() }}
         uses: actions/upload-artifact@main
         with:
           name: videos-acp
           path: ${{ env.CYPRESS_VIDEOS }}
 
-      - name: Archive screenshots (on failure) with ACP integration
-        if: ${{ failure() }}
+      - name: Archive screenshots - with ACP integration
+        if: ${{ always() }}
         uses: actions/upload-artifact@main
         with:
           name: screenshots-acp
@@ -84,15 +84,15 @@ jobs:
           name: results-lpa
           path: ${{ env.CYPRESS_REPORTS }}
 
-      - name: Archive videos (on failure)
-        if: ${{ failure() }}
+      - name: Archive videos
+        if: ${{ always() }}
         uses: actions/upload-artifact@main
         with:
           name: videos-lpa
           path: ${{ env.CYPRESS_VIDEOS }}
 
-      - name: Archive screenshots (on failure)
-        if: ${{ failure() }}
+      - name: Archive screenshots
+        if: ${{ always() }}
         uses: actions/upload-artifact@main
         with:
           name: screenshots-lpa
@@ -126,15 +126,15 @@ jobs:
           name: results-pins
           path: ${{ env.CYPRESS_REPORTS }}
 
-      - name: Archive videos (on failure) without ACP integration
-        if: ${{ failure() }}
+      - name: Archive videos - without ACP integration
+        if: ${{ always() }}
         uses: actions/upload-artifact@main
         with:
           name: videos-pins
           path: ${{ env.CYPRESS_VIDEOS }}
 
-      - name: Archive screenshots (on failure) without ACP integration
-        if: ${{ failure() }}
+      - name: Archive screenshots - without ACP integration
+        if: ${{ always() }}
         uses: actions/upload-artifact@main
         with:
           name: screenshots-pins
