@@ -37,7 +37,7 @@ spec:
         repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
         tag: 1.8.0
       config:
-        enableLimitedRouting: true
+        enableLimitedRouting: false
         googleAnalyticsId: G-W09HJL83FJ
 
     lpaQuestionnaireWebApp:
