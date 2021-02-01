@@ -55,7 +55,7 @@ spec:
         fwa:
           host: appeals-dev.planninginspectorate.gov.uk
         lpaq:
-          host: lpa-questions-dev.planninginspectorate.gov.uk
+          host: lpaq-dev.thesausage.blog
       httpBasic:
         enabled: true
         secret: akv-http-basic
