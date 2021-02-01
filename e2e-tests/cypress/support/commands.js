@@ -860,6 +860,17 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'provideCompleteAppeal',
+  require('./appellant-submission-check-your-answers/provideCompleteAppeal'),
+);
+
+Cypress.Commands.add(
+  'confirmCheckYourAnswersDisplayItem',
+  require('./appellant-submission-check-your-answers/confirmCheckYourAnswersDisplayItem'),
+);
+
+Cypress.Commands.add(
   'clickCheckYourAnswers',
   require('./appeal-navigation/clickCheckYourAnswers'),
 );
+
