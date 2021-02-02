@@ -1,0 +1,92 @@
+ {% extends "layouts/main.njk" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: backLink,
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
+{% block pageTitle %}
+  Appeal a householder planning decision
+{% endblock %}
+
+{% block content %}
+
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST" novalidate>
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>About the appeal</span>
+
+        {% set appealRefHtml %}
+          {{ govukInput({
+            id: 'appeal-reference-numbers',
+            name: 'appeal-reference-numbers',
+            type: 'text',
+            spellcheck: false,
+            value: values['appeal-reference-numbers'],
+            label: {
+              text: 'Enter appeal reference number(s)'
+            },
+            hint: {
+              text: 'You can enter more than one, separated by commas'
+            },
+            errorMessage: errors['appeal-reference-numbers'] and {
+              text: errors['appeal-reference-numbers'].msg
+            }
+          }) }}
+        {% endset %}
+
+        {{ govukRadios({
+          idPrefix: "adjacent-appeals",
+          name: "adjacent-appeals",
+          fieldset: {
+            legend: {
+              text: "Are there any other appeals adjacent or close to the site still being considered?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              checked: "true" if values['adjacent-appeals'] === 'yes',
+              conditional: {
+                html: appealRefHtml
+              }
+            },
+            {
+              value: "no",
+              checked: "true" if values['adjacent-appeals'] === 'no',
+              text: "No"
+            }
+          ],
+          errorMessage: errors['adjacent-appeals'] and {
+            text: errors['adjacent-appeals'].msg
+          }
+        }) }}
+
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}
