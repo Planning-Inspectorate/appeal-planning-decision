@@ -55,7 +55,7 @@ spec:
     ingress:
       hosts:
         fwa:
-          host: appeals.preprod.planninginspectorate.gov.uk
+          host: appeals-preprod.planninginspectorate.gov.uk
         lpaq:
           host: lpa-questions-preprod.planninginspectorate.gov.uk
       httpBasic:
