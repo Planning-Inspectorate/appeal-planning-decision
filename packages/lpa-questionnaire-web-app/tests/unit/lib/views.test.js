@@ -5,6 +5,7 @@ describe('lib/views', () => {
     expect(VIEW).toEqual({
       TASK_LIST: 'task-list',
       PLACEHOLDER: 'placeholder',
+      AREA_APPEALS: 'area-appeals',
     });
   });
 });
