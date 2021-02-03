@@ -6,9 +6,9 @@ metadata:
   namespace: app-prod
   annotations:
     fluxcd.io/automated: "true"
-    filter.fluxcd.io/appealsServiceApi: semver:1.0.0
+    filter.fluxcd.io/appealsServiceApi: semver:1.2.0
     filter.fluxcd.io/documentServiceApi: semver:1.0.0
-    filter.fluxcd.io/formsWebApp: semver:1.0.0
+    filter.fluxcd.io/formsWebApp: semver:1.11.0
     filter.fluxcd.io/lpaQuestionnaireWebApp: semver:1.0.0
 spec:
   releaseName: app
@@ -38,7 +38,6 @@ spec:
         tag: 1.0.0
       config:
         enableLimitedRouting: true
-        googleAnalyticsId: G-RTYZW789M0
 
     lpaQuestionnaireWebApp:
       replicaCount: 2
