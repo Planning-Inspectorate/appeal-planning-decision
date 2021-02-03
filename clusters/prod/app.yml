@@ -48,9 +48,6 @@ spec:
 
     keyVault:
       name: pins-uks-vault-8439-prod
-      envSpecific:
-        multiValueSecrets:
-        - http-basic
 
     ingress:
       hosts:
@@ -58,6 +55,3 @@ spec:
           host: appeal-planning-decision.planninginspectorate.gov.uk
         lpaq:
           host: lpa-questionnaire.planninginspectorate.gov.uk
-      httpBasic:
-        enabled: true
-        secret: akv-http-basic
