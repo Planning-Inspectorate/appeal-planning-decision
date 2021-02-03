@@ -1,5 +1,6 @@
 const { get, post } = require('../router-mock');
 const decisionDateController = require('../../../../src/controllers/eligibility/decision-date');
+const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const {
   rules: decisionDateValidationRules,
@@ -19,16 +20,22 @@ describe('routes/eligibility/decision-date', () => {
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith('/no-decision', decisionDateController.getNoDecision);
-    expect(get).toHaveBeenCalledWith('/decision-date', decisionDateController.getDecisionDate);
+    expect(get).toHaveBeenCalledWith(
+      '/decision-date',
+      [fetchExistingAppealMiddleware],
+      decisionDateController.getDecisionDate
+    );
     expect(post).toHaveBeenCalledWith(
       '/decision-date',
+      [fetchExistingAppealMiddleware],
       decisionDateValidationRules(),
       validationErrorHandler,
       decisionDateController.postDecisionDate
     );
     expect(get).toHaveBeenCalledWith(
-      '/decision-date-expired',
-      decisionDateController.getDecisionDateExpired
+      '/decision-date-passed',
+      [fetchExistingAppealMiddleware],
+      decisionDateController.getDecisionDatePassed
     );
     expect(get.mock.calls.length).toBe(3);
     expect(post.mock.calls.length).toBe(1);

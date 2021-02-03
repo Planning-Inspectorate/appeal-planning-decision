@@ -10,7 +10,7 @@ describe('lib/views', () => {
         LISTED_OUT: 'eligibility/listed-out',
         NO_DECISION: 'eligibility/no-decision',
         DECISION_DATE: 'eligibility/decision-date',
-        DECISION_DATE_EXPIRED: 'eligibility/decision-date-expired',
+        DECISION_DATE_PASSED: 'eligibility/decision-date-passed',
         PLANNING_DEPARTMENT: 'eligibility/planning-department',
         PLANNING_DEPARTMENT_OUT: 'eligibility/planning-department-out',
         APPEAL_STATEMENT: 'eligibility/appeal-statement',
