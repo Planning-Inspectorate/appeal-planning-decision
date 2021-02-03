@@ -51,7 +51,7 @@ module.exports = {
       allowedRoutes: [
         '/',
         '/eligibility/decision-date',
-        '/eligibility/decision-date-expired',
+        '/eligibility/decision-date-passed',
         '/eligibility/no-decision',
         // These must be in to ensure the application runs correctly
         '/health',
