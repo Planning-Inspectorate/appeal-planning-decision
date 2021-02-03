@@ -185,6 +185,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'accessConfirmHavingNoDecisionDate',
+  require('./eligibility-decision-date/accessConfirmHavingNoDecisionDate'),
+);
+
+Cypress.Commands.add(
   'confirmProvidedDecisionDateWasAccepted',
   require('./eligibility-decision-date/confirmProvidedDecisionDateWasAccepted'),
 );
@@ -615,6 +620,11 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmNavigationDecisionDateExpiredPage',
   require('./appeal-navigation-confirmation/eligibility/confirmNavigationDecisionDateExpiredPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationDecisionDateAbsentPage',
+  require('./appeal-navigation-confirmation/eligibility/confirmNavigationDecisionDateAbsentPage'),
 );
 
 Cypress.Commands.add(
