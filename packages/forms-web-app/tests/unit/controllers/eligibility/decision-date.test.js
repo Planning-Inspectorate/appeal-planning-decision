@@ -1,3 +1,7 @@
+const { addWeeks, subWeeks, addDays, subDays, endOfDay, format, parse } = require('date-fns');
+
+jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/lib/logger');
 jest.mock('../../../../src/config', () => ({
   logger: {
     level: 'info',
@@ -11,114 +15,232 @@ jest.mock('../../../../src/config', () => ({
 
 const decisionDateController = require('../../../../src/controllers/eligibility/decision-date');
 const { mockReq, mockRes } = require('../../mocks');
+const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const config = require('../../../../src/config');
-
-const req = mockReq();
-const res = mockRes();
+const { VIEW } = require('../../../../src/lib/views');
+const logger = require('../../../../src/lib/logger');
+const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 
 describe('controllers/eligibility/decision-date', () => {
+  let req;
+  let res;
+  let appeal;
+
+  beforeEach(() => {
+    req = mockReq();
+    res = mockRes();
+
+    ({ empty: appeal } = APPEAL_DOCUMENT);
+
+    jest.resetAllMocks();
+  });
+
   describe('getNoDecision', () => {
     it('should call the correct template', () => {
       decisionDateController.getNoDecision(req, res);
-
       expect(res.render).toHaveBeenCalledWith('eligibility/no-decision');
     });
   });
 
   describe('getDecisionDate', () => {
-    it('should call the correct template', () => {
+    it('should call the correct template decision date unevaluated', () => {
       decisionDateController.getDecisionDate(req, res);
 
-      expect(res.render).toHaveBeenCalledWith('eligibility/decision-date');
+      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
+        decisionDate: null,
+      });
+    });
+    it('should call the correct template with existing decision date', () => {
+      const mockRequest = {
+        ...req,
+      };
+
+      const decisionDate = '2000-01-01';
+
+      mockRequest.session.appeal.decisionDate = decisionDate;
+
+      decisionDateController.getDecisionDate(mockRequest, res);
+
+      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
+        decisionDate: parse(decisionDate, 'yyyy-MM-dd', new Date()),
+      });
     });
   });
 
   describe('postDecisionDate', () => {
-    it('should display the decision date expired template if the decision date is expired', () => {
-      const badReq = {
+    it('should display the decision date passed template if the decision date is passed', async () => {
+      const mockRequest = {
         ...req,
         body: {
-          ...req.body,
-          errors: {
-            'decision-date': {
-              msg: JSON.stringify({
-                deadlineDate: 'A deadline date here',
-              }),
-            },
-          },
+          'decision-date-full': '2019-10-10',
         },
       };
-      decisionDateController.postDecisionDate(badReq, res);
 
-      expect(res.render).toHaveBeenCalledWith('eligibility/decision-date-expired', {
-        errorSummary: [],
-        errors: {
-          'decision-date': {
-            msg: '{"deadlineDate":"A deadline date here"}',
-          },
-        },
-        deadlineDate: 'A deadline date here',
+      await decisionDateController.postDecisionDate(mockRequest, res);
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...appeal,
+        decisionDate: '2019-10-10',
       });
+
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`);
     });
 
-    it('should display the decision date template with errors if any field is invalid', () => {
-      const badReq = {
+    it('should display the decision date template with errors if any field is invalid', async () => {
+      const mockRequest = {
         ...req,
         body: {
           ...req.body,
           errors: {
             'decision-date-year': {
-              msg: 'Invalid date',
+              msg: 'You need to provide a date',
             },
           },
         },
       };
-      decisionDateController.postDecisionDate(badReq, res);
 
-      expect(res.render).toHaveBeenCalledWith('eligibility/decision-date', {
+      await decisionDateController.postDecisionDate(mockRequest, res);
+
+      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
+        decisionDate: parse(appeal.decisionDate, 'yyyy-MM-dd', new Date()),
         errorSummary: [],
         errors: {
           'decision-date-year': {
-            msg: 'Invalid date',
+            msg: 'You need to provide a date',
           },
         },
       });
     });
 
-    it('should redirect on success', () => {
-      const happyReq = {
+    it('should redirect to planning department as deadline date is not passed', async () => {
+      const decisionDate = addDays(subWeeks(endOfDay(new Date()), 12), 1);
+
+      const mockRequest = {
         ...req,
         body: {
+          'decision-date-full': format(decisionDate, 'yyyy-MM-dd'),
           errors: {},
           errorSummary: [],
         },
       };
-      decisionDateController.postDecisionDate(happyReq, res);
 
-      expect(res.redirect).toHaveBeenCalledWith('/eligibility/planning-department');
+      await decisionDateController.postDecisionDate(mockRequest, res);
+
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.PLANNING_DEPARTMENT}`);
+    });
+    it('should redirect to decision drop out as deadline date is passed', async () => {
+      const decisionDate = subDays(subWeeks(endOfDay(new Date()), 12), 1);
+
+      const mockRequest = {
+        ...req,
+        body: {
+          'decision-date-full': format(decisionDate, 'yyyy-MM-dd'),
+          errors: {},
+          errorSummary: [],
+        },
+      };
+      await decisionDateController.postDecisionDate(mockRequest, res);
+
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`);
     });
 
-    it('should redirect to external service on success if limitedRouted is enabled', () => {
+    it('should redirect to decision drop out as deadline date is passed with limited routing', async () => {
+      const decisionDate = subDays(subWeeks(endOfDay(new Date()), 12), 1);
       config.server.limitedRouting.enabled = true;
 
-      const happyReq = {
+      const mockRequest = {
+        ...req,
+        body: {
+          'decision-date-full': format(decisionDate, 'yyyy-MM-dd'),
+          errors: {},
+          errorSummary: [],
+        },
+      };
+      await decisionDateController.postDecisionDate(mockRequest, res);
+
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`);
+    });
+
+    it('should redirect to external service on success if limitedRouted is enabled', async () => {
+      config.server.limitedRouting.enabled = true;
+
+      const mockRequest = {
         ...req,
         body: {
           errors: {},
           errorSummary: [],
         },
       };
-      decisionDateController.postDecisionDate(happyReq, res);
+      await decisionDateController.postDecisionDate(mockRequest, res);
 
       expect(res.redirect).toHaveBeenCalledWith(config.server.limitedRouting.serviceUrl);
     });
   });
 
-  describe('getDecisionDateExpired', () => {
-    it('should call the correct template', () => {
-      decisionDateController.getDecisionDateExpired(req, res);
+  it('should re-render the template with errors if there is any validation error', async () => {
+    const mockRequest = {
+      ...req,
+      body: {
+        'decision-date-full': '1-1-2020',
+        errors: { a: 'b' },
+        errorSummary: [{ text: 'There were errors here', href: '#' }],
+      },
+    };
 
-      expect(res.render).toHaveBeenCalledWith('eligibility/decision-date-expired');
+    mockRequest.session.appeal.decisionDate = '2021-01-01';
+
+    await decisionDateController.postDecisionDate(mockRequest, res);
+
+    expect(res.redirect).not.toHaveBeenCalled();
+    expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
+      decisionDate: parse(appeal.decisionDate, 'yyyy-MM-dd', new Date()),
+      errorSummary: [{ text: 'There were errors here', href: '#' }],
+      errors: { a: 'b' },
+    });
+  });
+
+  it('should re-render the template with errors if there is any api call error', async () => {
+    const mockRequest = {
+      ...req,
+      body: {},
+    };
+
+    const error = new Error('Cheers');
+    createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
+
+    await decisionDateController.postDecisionDate(mockRequest, res);
+
+    expect(logger.error).toHaveBeenCalledWith(error);
+
+    expect(res.redirect).not.toHaveBeenCalled();
+
+    expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
+      appeal: req.session.appeal,
+      errors: {},
+      errorSummary: [{ text: error.toString(), href: '#' }],
+    });
+  });
+
+  describe('getDecisionDatePassed', () => {
+    it('should call the correct template with deadline not valued', async () => {
+      appeal.decisionDate = null;
+
+      decisionDateController.getDecisionDatePassed(req, res);
+
+      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE_PASSED, {
+        deadlineDate: null,
+      });
+    });
+    it('should call the correct template with deadline date being 12 weeks after decision date', () => {
+      appeal.decisionDate = '2020-10-10';
+
+      const date = addWeeks(endOfDay(parse(appeal.decisionDate, 'yyyy-MM-dd', new Date())), 12);
+
+      decisionDateController.getDecisionDatePassed(req, res);
+
+      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE_PASSED, {
+        deadlineDate: date,
+      });
     });
   });
 });

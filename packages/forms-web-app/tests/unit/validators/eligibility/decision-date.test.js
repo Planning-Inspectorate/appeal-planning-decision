@@ -64,22 +64,22 @@ describe('validators/eligibility/decision-date', () => {
 
   describe('decisionDateCombiner', () => {
     it('should combine the date from the given request object', () => {
-      expect(
-        decisionDateCombiner({
-          body: {
-            'decision-date-day': 11,
-            'decision-date-month': 3,
-            'decision-date-year': 2020,
-          },
-        })
-      ).toEqual('2020-3-11');
+      const req = {
+        body: {
+          'decision-date-day': 11,
+          'decision-date-month': 3,
+          'decision-date-year': 2020,
+        },
+      };
+      expect(decisionDateCombiner(req)).toEqual('2020-3-11');
+      expect(req.body['decision-date-full']).toEqual('2020-3-11');
     });
   });
 
   describe('combinedDecisionDateFieldValidator', () => {
     it('should throw if given an invalid date', () => {
       expect(() => combinedDecisionDateFieldValidator({})).toThrowError(
-        new Error(JSON.stringify({ msg: 'Invalid date' }))
+        new Error('You need to provide a date')
       );
     });
 
@@ -92,7 +92,7 @@ describe('validators/eligibility/decision-date', () => {
         },
       };
       expect(() => combinedDecisionDateFieldValidator(req)).toThrowError(
-        new Error(JSON.stringify({ msg: 'Invalid date' }))
+        new Error('You need to provide a date')
       );
     });
 
@@ -105,22 +105,7 @@ describe('validators/eligibility/decision-date', () => {
         },
       };
       expect(() => combinedDecisionDateFieldValidator(req)).toThrowError(
-        new Error(JSON.stringify({ msg: 'Invalid date' }))
-      );
-    });
-
-    it('should throw if decision date is too far in the past', () => {
-      const req = {
-        body: {
-          'decision-date-day': 5,
-          'decision-date-month': 6,
-          'decision-date-year': 1920,
-        },
-      };
-      expect(() => combinedDecisionDateFieldValidator(req)).toThrowError(
-        new Error(
-          JSON.stringify({ msg: 'Decision date expired', deadlineDate: '1920-08-28T23:59:59.999Z' })
-        )
+        new Error('You need to provide a date')
       );
     });
 
