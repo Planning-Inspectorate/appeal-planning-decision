@@ -170,5 +170,7 @@ tmp
 .kubeconfig
 known_hosts
 
-
 packages/**/globalConfig.json
+
+# OpenFaaS
+build
