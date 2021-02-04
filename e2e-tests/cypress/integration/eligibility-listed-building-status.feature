@@ -1,3 +1,4 @@
+@wip
 @smoketest
 Feature: A prospective appellant states whether or not their appeal covers a listed building
     Our service doesn't cover listed buildings.
@@ -13,4 +14,5 @@ Feature: A prospective appellant states whether or not their appeal covers a lis
 
   Scenario: User selects no option in the Is your appeal about a listed building page
     When the user states that their case does not concern a Listed Building
-    Then the user can proceed with a non-Listed Building
+    Then the user can proceed to the claiming Costs eligibility check
+
