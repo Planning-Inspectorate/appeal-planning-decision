@@ -169,3 +169,6 @@ known_hosts
 
 
 packages/appeals-service-api/globalConfig.json
+
+# OpenFaaS
+build
