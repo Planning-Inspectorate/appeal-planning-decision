@@ -12,6 +12,9 @@ Feature: Task lists
     Then The "Use the links below to submit your information. You can complete the sections in any order." is displayed
     And The title of the page is "Householder planning appeal questionnaire - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK"
 
+  Scenario: Optional supporting documents section is displayed with static text
+    Given The Householder planning appeal questionnaire page is presented
+    Then The "Only include documents that were considered when making a decision on the application." is displayed in Optional Supporting Documents
 
   Scenario Outline: When the tasks are presented, then user should be able to select them
     Given The Householder planning appeal questionnaire page is presented

@@ -210,3 +210,10 @@ Then('The "Use the links below to submit your information. You can complete the 
       expect(text).to.contain('Use the links below to submit your information. You can complete the sections in any order.')
     })
 })
+
+Then('The "Only include documents that were considered when making a decision on the application." is displayed in Optional Supporting Documents', () => {
+  cy.get('[data-cy="task-list--optionalDocumentsSection"]').invoke('text')
+  .then(text => {
+    expect(text).to.contain('Only include documents that were considered when making a decision on the application.')
+  })
+})
