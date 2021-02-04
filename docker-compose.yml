@@ -201,3 +201,9 @@ services:
     ports:
       - 4000:27017
 
+  gotenberg:
+    image: thecodingmachine/gotenberg:6
+    environment:
+      DEFAULT_LISTEN_PORT: '4000'
+    ports:
+      - 3500:4000
