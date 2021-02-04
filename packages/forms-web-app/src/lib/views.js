@@ -10,6 +10,8 @@ const VIEW = {
     PLANNING_DEPARTMENT: 'eligibility/planning-department',
     PLANNING_DEPARTMENT_OUT: 'eligibility/planning-department-out',
     APPEAL_STATEMENT: 'eligibility/appeal-statement',
+    ENFORCEMENT_NOTICE: 'eligibility/enforcement-notice',
+    ENFORCEMENT_NOTICE_OUT: 'eligibility/enforcement-notice-out',
   },
 
   APPELLANT_SUBMISSION: {

@@ -160,6 +160,8 @@ components:
           $ref: '#/components/schemas/AppealSiteSection'
         sectionStates:
           $ref: '#/components/schemas/SectionStates'
+        eligibility:
+          $ref: '#/components/schemas/Eligibility'
       description: All of the data and state information for an appeal
     AppealSiteSection:
       type: object
@@ -194,6 +196,11 @@ components:
       properties:
         uploadedFile:
           $ref: '#/components/schemas/UploadedFile'
+    Eligibility:
+      type: object
+      properties:
+        enforcementNotice:
+          type: boolean
     HealthAndSafety:
       type: object
       properties:
