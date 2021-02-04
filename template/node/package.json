@@ -1,0 +1,62 @@
+{
+  "name": "openfaas-node-multiarch",
+  "version": "1.0.0",
+  "description": "Multi-arch OpenFaaS template for NodeJS",
+  "main": "./index",
+  "scripts": {
+    "prebuild": "rm -Rf ./dist",
+    "format": "prettier --write \"**/*.js\"",
+    "lint": "eslint \"**/*.js\"",
+    "serve": "nodemon -w . -x . -e 'ts,js,json,yaml,yml' --exitcrash",
+    "test": "echo \"Error: no tests specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/MrSimonEmms/openfaas-templates.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/MrSimonEmms/openfaas-templates/issues"
+  },
+  "homepage": "https://gitlab.com/MrSimonEmms/openfaas-templates#readme",
+  "keywords": [
+    "openfaas",
+    "serverless",
+    "functions"
+  ],
+  "author": "Simon Emms <simon@simonemms.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "qs": "^6.9.4"
+  },
+  "devDependencies": {
+    "eslint": "^7.12.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.6",
+    "prettier": "^2.1.2"
+  },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    },
+    "moduleFileExtensions": [
+      "js",
+      "json"
+    ],
+    "rootDir": "src",
+    "testRegex": ".spec.js$",
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  }
+}
