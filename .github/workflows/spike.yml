@@ -15,6 +15,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install the world
+        run: make install
+
+      - name: Start the world without ACP integration i.e. PINS
+        run: |
+          export SERVER_LIMITED_ROUTING_ENABLED=false
+          docker-compose up -d
+
       - name: run the spike
         run: cd ./spike && npm install && npm test
 
