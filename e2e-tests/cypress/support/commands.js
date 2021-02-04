@@ -883,3 +883,28 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add('clickCheckYourAnswers', require('./appeal-navigation/clickCheckYourAnswers'));
+
+Cypress.Commands.add(
+  'goToEnforcementNoticePage',
+  require('./appeal-navigation/eligibility/goToEnforcementNoticePage'),
+);
+
+Cypress.Commands.add(
+  'provideEnforcementNoticeAnswer',
+  require('./eligibility-enforcement-notice/provideEnforcementNoticeAnswer'),
+);
+
+Cypress.Commands.add(
+  'confirmThatEnforcementNoticeAnswerIsRequired',
+  require('./eligibility-enforcement-notice/confirmThatEnforcementNoticeAnswerIsRequired'),
+);
+
+Cypress.Commands.add(
+  'confirmProgressHaltedAsServiceIsOnlyForHouseholderPlanningAppeals',
+  require('./eligibility-enforcement-notice/confirmProgressHaltedAsServiceIsOnlyForHouseholderPlanningAppeals'),
+);
+
+Cypress.Commands.add(
+  'confirmProgressIsMadeToListingBuildingEligibilityQuestion',
+  require('./eligibility-enforcement-notice/confirmProgressIsMadeToListingBuildingEligibilityQuestion'),
+);
