@@ -10,6 +10,10 @@ jest.mock('../db/db');
 async function createAppeal() {
   const appeal = JSON.parse(JSON.stringify(appealDocument));
   appeal.id = uuid.v4();
+  const now = new Date(new Date().toISOString());
+  appeal.createdAt = now;
+  appeal.updatedAt = now;
+
   await mongodb.get().collection('appeals').insertOne({ _id: appeal.id, uuid: appeal.id, appeal });
   return appeal;
 }
@@ -37,6 +41,8 @@ describe('Appeals API', () => {
     const appeal = JSON.parse(JSON.stringify(appealDocument));
     const response = await request(app).post('/api/v1/appeals').send({});
     appeal.id = response.body.id;
+    appeal.createdAt = response.body.createdAt;
+    appeal.updatedAt = response.body.updatedAt;
     expect(response.body).toEqual(appeal);
     expect(response.statusCode).toBe(201);
   });
@@ -44,6 +50,8 @@ describe('Appeals API', () => {
   test('GET /api/v1/appeals/{id} - It responds with an existing appeal', async () => {
     const appeal = await createAppeal();
     const response = await request(app).get(`/api/v1/appeals/${appeal.id}`);
+    appeal.createdAt = response.body.createdAt;
+    appeal.updatedAt = response.body.updatedAt;
     expect(response.body).toEqual(appeal);
     expect(response.statusCode).toBe(200);
   });
@@ -57,7 +65,7 @@ describe('Appeals API', () => {
   test('PUT /api/v1/appeals/{id} - It responds with an updated appeal', async () => {
     const appeal = await createAppeal();
     appeal.lpaCode = 'E60000281/new';
-    appeal.decisionDate = '2020-10-29';
+    appeal.decisionDate = '2020-10-29T12:00:00.000Z';
     appeal.state = 'DRAFT';
     appeal.aboutYouSection.yourDetails = {
       isOriginalApplicant: false,
@@ -126,6 +134,8 @@ describe('Appeals API', () => {
       healthAndSafety: 'NOT STARTED',
     };
     const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    appeal.createdAt = response.body.createdAt;
+    appeal.updatedAt = response.body.updatedAt;
     expect(response.body).toEqual(appeal);
     expect(response.statusCode).toBe(200);
   });
