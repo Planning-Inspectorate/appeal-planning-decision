@@ -146,8 +146,18 @@ components:
         decisionDate:
           type: string
           format: date
-          example: '2020-10-29'
-          description: 'The date the original application was decided in YYYY-MM-DD format'
+          example: '2020-10-29T12:00:00.000Z'
+          description: 'The date the original application was decided in ISO format'
+        createdAt:
+          type: string
+          format: date
+          example: '2020-10-29T12:00:00.000Z'
+          description: 'The creation date of the appeal was decided in ISO format'
+        updatedAt:
+          type: string
+          format: date
+          example: '2020-10-30T13:32:58.000Z'
+          description: 'The last appeal update date was decided in ISO format'
         state:
           $ref: '#/components/schemas/AppealState'
         aboutYouSection:
