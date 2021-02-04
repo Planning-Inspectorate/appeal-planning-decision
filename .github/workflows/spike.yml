@@ -1,0 +1,33 @@
+name: Spike
+
+on:
+  pull_request:
+    branches:
+      - master
+      - develop
+      - feature/*
+
+jobs:
+
+  spike-output:
+    name: "Cypress- default"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: run the spike
+        run: cd ./spike && npm install && npm test
+
+      - name: Archive html result
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: from-html
+          path: ./spike/html.pdf
+
+      - name: Archive url result
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: from-url
+          path: ./spike/url.pdf

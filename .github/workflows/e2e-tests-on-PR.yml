@@ -1,6 +1,14 @@
-name: Spike
+name: Cypress
+
+env:
+  CYPRESS_VIDEOS: ./e2e-tests/cypress/videos
+  CYPRESS_SCREENSHOTS: ./e2e-tests/cypress/screenshots
+  CYPRESS_REPORTS: ./e2e-tests/cypress/cucumber-report
 
 on:
+  push:
+    branches:
+      - master
   pull_request:
     branches:
       - master
@@ -9,25 +17,125 @@ on:
 
 jobs:
 
-  spike-output:
+  cypress-ACP:
+    name: "Cypress- ACP mode"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install the world
+        run: make install
+
+      - name: Start the world with ACP integration
+        run: |
+          export SERVER_LIMITED_ROUTING_ENABLED=true
+          docker-compose up -d
+      - name: Run the tests with ACP integration
+        run: npm run test:e2e:acp
+
+      - name: Post-process results with ACP integration
+        if: ${{ always() }}
+        run: npm run test:e2e:postprocess
+
+      - name: Archive results with ACP integration
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: results-acp
+          path: ${{ env.CYPRESS_REPORTS }}
+
+      - name: Archive videos - with ACP integration
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: videos-acp
+          path: ${{ env.CYPRESS_VIDEOS }}
+
+      - name: Archive screenshots - with ACP integration
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: screenshots-acp
+          path: ${{ env.CYPRESS_SCREENSHOTS }}
+
+  cypress-LPA:
+    name: "Cypress- LPA questionaire"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install the world
+        run: make install
+
+      - name: Start the world
+        run: docker-compose up -d
+
+      - name: Run the tests against LPA questionaire
+        run: npm run test:e2e:lpa
+
+      - name: Post-process results
+        if: ${{ always() }}
+        run: npm run test:e2e:lpa:postprocess
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: results-lpa
+          path: ${{ env.CYPRESS_REPORTS }}
+
+      - name: Archive videos
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: videos-lpa
+          path: ${{ env.CYPRESS_VIDEOS }}
+
+      - name: Archive screenshots
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: screenshots-lpa
+          path: ${{ env.CYPRESS_SCREENSHOTS }}
+
+
+  cypress-default:
     name: "Cypress- default"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: run the spike
-        run: cd ./spike && npm install && npm test
+      - name: Install the world
+        run: make install
 
-      - name: Archive html result
+      - name: Start the world without ACP integration i.e. PINS
+        run: |
+          export SERVER_LIMITED_ROUTING_ENABLED=false
+          docker-compose up -d
+      - name: Run the tests without ACP integration
+        run: npm run test:e2e
+
+      - name: Post-process results without ACP integration
+        if: ${{ always() }}
+        run: npm run test:e2e:postprocess
+
+      - name: Archive results without ACP integration
         if: ${{ always() }}
         uses: actions/upload-artifact@main
         with:
-          name: from-html
-          path: ./spike/html.pdf
+          name: results-pins
+          path: ${{ env.CYPRESS_REPORTS }}
 
-      - name: Archive url result
+      - name: Archive videos - without ACP integration
         if: ${{ always() }}
         uses: actions/upload-artifact@main
         with:
-          name: from-url
-          path: ./spike/url.pdf
+          name: videos-pins
+          path: ${{ env.CYPRESS_VIDEOS }}
+
+      - name: Archive screenshots - without ACP integration
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: screenshots-pins
+          path: ${{ env.CYPRESS_SCREENSHOTS }}
