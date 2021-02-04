@@ -26,6 +26,9 @@ jest.mock('../../../src/services/task.service', () => ({
     mockTask1: 'Mock Task 1',
     mockTask2: 'Mock Task 2',
   },
+  DESCRIPTIONS: {
+    mockSection: 'Mock Description',
+  },
 }));
 
 describe('controllers/task-list', () => {
@@ -40,9 +43,13 @@ describe('controllers/task-list', () => {
         applicationStatus: 'Application incomplete',
         sections: [
           {
+            attributes: {
+              'data-cy': 'task-list--mockSection',
+            },
             heading: {
               text: 'Mock Section',
             },
+            description: 'Mock Description',
             tasks: [
               {
                 href: '/mock-task-1',
