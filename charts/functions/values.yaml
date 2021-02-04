@@ -8,4 +8,13 @@ keyVault:
     secrets: []
     multiValueSecrets: []
 
-functions: {}
+functions:
+  horizonCreateContact:
+    image: pinscommonukscontainers3887default.azurecr.io/horizon-create-contact:latest
+    scale:
+      min: 1
+      max: 5
+    timeout: 10s
+    envvars:
+      HORIZON_URL: http://10.0.7.4:8000
+    secrets: []
