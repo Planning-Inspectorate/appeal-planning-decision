@@ -78,3 +78,4 @@ Feature: Task lists
     When the appeal tasks are presented
     Then the state for "Appeal submit - Check your answers" is displayed to be "NOT STARTED"
     And the task "Appeal submit - Check your answers" is available for selection
+    And I can make a pdf of my appeal

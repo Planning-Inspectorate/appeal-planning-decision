@@ -874,3 +874,4 @@ Cypress.Commands.add(
   require('./appeal-navigation/clickCheckYourAnswers'),
 );
 
+require('cypress-downloadfile/lib/downloadFileCommand');
