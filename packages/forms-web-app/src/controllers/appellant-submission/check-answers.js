@@ -5,7 +5,7 @@ const logger = require('../../lib/logger');
 exports.getCheckAnswers = async (req, res) => {
   const { appeal } = req.session;
 
-logger.info( appeal );
+  logger.info(appeal);
 
   let appealLPD = '';
 
