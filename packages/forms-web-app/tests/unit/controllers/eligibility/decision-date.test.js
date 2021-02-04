@@ -1,4 +1,4 @@
-const { addWeeks, subWeeks, addDays, subDays, endOfDay, format, parse } = require('date-fns');
+const { addWeeks, subWeeks, addDays, subDays, endOfDay, format, parseISO } = require('date-fns');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
@@ -55,14 +55,14 @@ describe('controllers/eligibility/decision-date', () => {
         ...req,
       };
 
-      const decisionDate = '2000-01-01';
+      const decisionDate = '2000-01-01T12:00:00.000Z';
 
       mockRequest.session.appeal.decisionDate = decisionDate;
 
       decisionDateController.getDecisionDate(mockRequest, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
-        decisionDate: parse(decisionDate, 'yyyy-MM-dd', new Date()),
+        decisionDate: parseISO(decisionDate),
       });
     });
   });
@@ -80,7 +80,7 @@ describe('controllers/eligibility/decision-date', () => {
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
-        decisionDate: '2019-10-10',
+        decisionDate: '2019-10-10T12:00:00.000Z',
       });
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`);
@@ -99,10 +99,26 @@ describe('controllers/eligibility/decision-date', () => {
         },
       };
 
+      mockRequest.session.appeal.decisionDate = '';
+
       await decisionDateController.postDecisionDate(mockRequest, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
-        decisionDate: parse(appeal.decisionDate, 'yyyy-MM-dd', new Date()),
+        decisionDate: null,
+        errorSummary: [],
+        errors: {
+          'decision-date-year': {
+            msg: 'You need to provide a date',
+          },
+        },
+      });
+
+      mockRequest.session.appeal.decisionDate = '2000-01-01T12:00:00.000Z';
+
+      await decisionDateController.postDecisionDate(mockRequest, res);
+
+      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
+        decisionDate: parseISO(appeal.decisionDate),
         errorSummary: [],
         errors: {
           'decision-date-year': {
@@ -193,7 +209,7 @@ describe('controllers/eligibility/decision-date', () => {
 
     expect(res.redirect).not.toHaveBeenCalled();
     expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
-      decisionDate: parse(appeal.decisionDate, 'yyyy-MM-dd', new Date()),
+      decisionDate: parseISO(appeal.decisionDate),
       errorSummary: [{ text: 'There were errors here', href: '#' }],
       errors: { a: 'b' },
     });
@@ -234,7 +250,7 @@ describe('controllers/eligibility/decision-date', () => {
     it('should call the correct template with deadline date being 12 weeks after decision date', () => {
       appeal.decisionDate = '2020-10-10';
 
-      const date = addWeeks(endOfDay(parse(appeal.decisionDate, 'yyyy-MM-dd', new Date())), 12);
+      const date = addWeeks(endOfDay(parseISO(appeal.decisionDate)), 12);
 
       decisionDateController.getDecisionDatePassed(req, res);
 
