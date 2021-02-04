@@ -12,18 +12,19 @@ const dateForXDaysAgo = (x) => {
   };
 };
 
+const eligibleDate = dateForXDaysAgo(84);
+const ineligibleDate = dateForXDaysAgo(85);
+
 Given('a Decision Date is requested', () => {
   cy.goToDecisionDatePage();
 });
 
 When('an eligible Decision Date is provided', () => {
-  const aGoodDate = dateForXDaysAgo(84);
-  cy.provideDecisionDate(aGoodDate);
+  cy.provideDecisionDate(eligibleDate);
 });
 
 When('an ineligible Decision Date is provided', () => {
-  const aBadDate = dateForXDaysAgo(85);
-  cy.provideDecisionDate(aBadDate);
+  cy.provideDecisionDate(ineligibleDate);
 });
 
 When('absence of Decision Date is confirmed', () => {
@@ -36,16 +37,23 @@ When('an invalid Decision Date of {string}-{string}-{string} is provided', (day,
 
 Then('progress is made to the Local Planning Department eligibility question', () => {
   cy.confirmNavigationLocalPlanningDepartmentPage();
+  cy.confirmDecisionDate(eligibleDate);
 });
 
-Then('progress is halted with a message that the Decision Date is ineligible because it is beyond the deadline for an appeal', () => {
-  cy.confirmNavigationDecisionDateExpiredPage();
-});
+Then(
+  'progress is halted with a message that the Decision Date is ineligible because it is beyond the deadline for an appeal',
+  () => {
+    cy.confirmNavigationDecisionDateExpiredPage();
+    cy.confirmDecisionDate(ineligibleDate);
+  },
+);
 
 Then('progress is halted with a message that a Decision Date is required', () => {
   cy.confirmNavigationDecisionDateAbsentPage();
+  cy.confirmDecisionDate({ day: '', month: '', year: '' });
 });
 
 Then('progress is halted with a message that the provided Decision Date is invalid', () => {
   cy.confirmProvidedDecisionDateWasInvalid();
+  cy.confirmDecisionDate({ day: '', month: '', year: '' });
 });
