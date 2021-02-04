@@ -9,6 +9,11 @@ module.exports = {
   async create(req, res) {
     const appeal = JSON.parse(JSON.stringify(appealDocument));
     appeal.id = uuid.v4();
+
+    const now = new Date(new Date().toISOString());
+    appeal.createdAt = now;
+    appeal.updatedAt = now;
+
     logger.debug(`Creating appeal ${appeal.id} ...`);
     try {
       await mongodb
@@ -66,11 +71,10 @@ module.exports = {
         .then(async (originalDoc) => {
           logger.debug(`Original doc \n${originalDoc.appeal}`);
           const validatedAppealDto = req.body;
-          if (validatedAppealDto.decisionDate !== null) {
-            validatedAppealDto.decisionDate = validatedAppealDto.decisionDate
-              .toISOString()
-              .substring(0, 10);
-          }
+          validatedAppealDto.decisionDate = new Date(validatedAppealDto.decisionDate);
+          validatedAppealDto.createdAt = new Date(validatedAppealDto.createdAt);
+          validatedAppealDto.updatedAt = new Date(new Date().toISOString());
+
           const errors = validateAppeal(idParam, validatedAppealDto);
           if (errors.length > 0) {
             logger.debug(
