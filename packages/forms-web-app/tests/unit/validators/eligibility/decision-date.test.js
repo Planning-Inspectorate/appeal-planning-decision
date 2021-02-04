@@ -71,8 +71,8 @@ describe('validators/eligibility/decision-date', () => {
           'decision-date-year': 2020,
         },
       };
-      expect(decisionDateCombiner(req)).toEqual('2020-3-11');
-      expect(req.body['decision-date-full']).toEqual('2020-3-11');
+      expect(decisionDateCombiner(req)).toEqual('2020-03-11');
+      expect(req.body['decision-date-full']).toEqual('2020-03-11');
     });
   });
 
