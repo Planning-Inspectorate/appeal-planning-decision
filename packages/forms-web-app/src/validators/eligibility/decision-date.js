@@ -4,8 +4,8 @@ const { endOfDay, isAfter, isValid, parse } = require('date-fns');
 const decisionDateExpiredMessage = 'Decision date expired';
 
 const decisionDateCombiner = (req) => {
-  const day = req.body['decision-date-day'];
-  const month = req.body['decision-date-month'];
+  const day = `0${req.body['decision-date-day']}`.slice(-2);
+  const month = `0${req.body['decision-date-month']}`.slice(-2);
   const year = req.body['decision-date-year'];
 
   const decisionDate = `${year}-${month}-${day}`;
