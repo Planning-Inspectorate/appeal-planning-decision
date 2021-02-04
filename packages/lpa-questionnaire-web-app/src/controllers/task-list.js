@@ -1,4 +1,4 @@
-const { HEADERS, SECTIONS } = require('../services/task.service');
+const { HEADERS, SECTIONS, DESCRIPTIONS } = require('../services/task.service');
 const { VIEW } = require('../lib/views');
 
 /**
@@ -12,6 +12,10 @@ function buildTaskLists(questionnaire) {
     return {
       heading: {
         text: HEADERS[sectionId],
+      },
+      description: DESCRIPTIONS[sectionId],
+      attributes: {
+        'data-cy': `task-list--${sectionId}`,
       },
       tasks: tasks.map(({ taskId, href, rule }) => {
         const status = rule(questionnaire);

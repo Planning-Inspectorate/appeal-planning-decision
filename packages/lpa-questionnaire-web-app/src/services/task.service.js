@@ -142,7 +142,13 @@ const HEADERS = {
   checkYourAnswers: 'Check your answers',
 };
 
+const DESCRIPTIONS = {
+  optionalDocumentsSection:
+    'Only include documents that were considered when making a decision on the application.',
+};
+
 module.exports = {
   HEADERS,
+  DESCRIPTIONS,
   SECTIONS,
 };
