@@ -1,8 +1,5 @@
 // NAVIGATION
-Cypress.Commands.add(
-  'clickSaveAndContinue',
-  require('./appeal-navigation/clickSaveAndContinue'),
-);
+Cypress.Commands.add('clickSaveAndContinue', require('./appeal-navigation/clickSaveAndContinue'));
 
 Cypress.Commands.add(
   'goToPageNotFoundPage',
@@ -182,6 +179,11 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'provideDecisionDate',
   require('./eligibility-decision-date/provideDecisionDate'),
+);
+
+Cypress.Commands.add(
+  'confirmDecisionDate',
+  require('./eligibility-decision-date/confirmDecisionDate'),
 );
 
 Cypress.Commands.add(
@@ -583,7 +585,8 @@ Cypress.Commands.add(
   require('./integration-with-acp/confirmNavigationAcpPage'),
 );
 
-Cypress.Commands.add('confirmNavigationTermsAndConditionsPage',
+Cypress.Commands.add(
+  'confirmNavigationTermsAndConditionsPage',
   require('./appeal-navigation-confirmation/appellant-submission/confirmNavigationTermsAndConditionsPage'),
 );
 
@@ -879,8 +882,4 @@ Cypress.Commands.add(
   require('./appellant-submission-check-your-answers/confirmCheckYourAnswersDisplayItem'),
 );
 
-Cypress.Commands.add(
-  'clickCheckYourAnswers',
-  require('./appeal-navigation/clickCheckYourAnswers'),
-);
-
+Cypress.Commands.add('clickCheckYourAnswers', require('./appeal-navigation/clickCheckYourAnswers'));
