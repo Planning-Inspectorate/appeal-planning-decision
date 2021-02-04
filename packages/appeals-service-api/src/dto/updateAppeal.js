@@ -113,4 +113,7 @@ module.exports = yup.object().shape({
       healthAndSafety: yup.string().oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED']).required(),
     }),
   }),
+  eligibility: yup.object().shape({
+    enforcementNotice: yup.bool().nullable().default(null),
+  }),
 });
