@@ -31,6 +31,9 @@ const VIEW = {
     SUBMISSION: 'appellant-submission/submission',
     CONFIRMATION: 'appellant-submission/confirmation',
   },
+  PDF: {
+    SOURCE: 'pdf/source',
+  },
 };
 
 module.exports = {
