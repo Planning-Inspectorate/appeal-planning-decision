@@ -1,8 +1,5 @@
 // NAVIGATION
-Cypress.Commands.add(
-  'clickSaveAndContinue',
-  require('./appeal-navigation/clickSaveAndContinue'),
-);
+Cypress.Commands.add('clickSaveAndContinue', require('./appeal-navigation/clickSaveAndContinue'));
 
 Cypress.Commands.add(
   'goToPageNotFoundPage',
@@ -578,7 +575,8 @@ Cypress.Commands.add(
   require('./integration-with-acp/confirmNavigationAcpPage'),
 );
 
-Cypress.Commands.add('confirmNavigationTermsAndConditionsPage',
+Cypress.Commands.add(
+  'confirmNavigationTermsAndConditionsPage',
   require('./appeal-navigation-confirmation/appellant-submission/confirmNavigationTermsAndConditionsPage'),
 );
 
@@ -869,8 +867,29 @@ Cypress.Commands.add(
   require('./appellant-submission-check-your-answers/confirmCheckYourAnswersDisplayItem'),
 );
 
+Cypress.Commands.add('clickCheckYourAnswers', require('./appeal-navigation/clickCheckYourAnswers'));
+
 Cypress.Commands.add(
-  'clickCheckYourAnswers',
-  require('./appeal-navigation/clickCheckYourAnswers'),
+  'goToEnforcementNoticePage',
+  require('./appeal-navigation/eligibility/goToEnforcementNoticePage'),
 );
 
+Cypress.Commands.add(
+  'provideEnforcementNoticeAnswer',
+  require('./eligibility-enforcement-notice/provideEnforcementNoticeAnswer'),
+);
+
+Cypress.Commands.add(
+  'confirmThatEnforcementNoticeAnswerIsRequired',
+  require('./eligibility-enforcement-notice/confirmThatEnforcementNoticeAnswerIsRequired'),
+);
+
+Cypress.Commands.add(
+  'confirmProgressHaltedAsServiceIsOnlyForHouseholderPlanningAppeals',
+  require('./eligibility-enforcement-notice/confirmProgressHaltedAsServiceIsOnlyForHouseholderPlanningAppeals'),
+);
+
+Cypress.Commands.add(
+  'confirmProgressIsMadeToListingBuildingEligibilityQuestion',
+  require('./eligibility-enforcement-notice/confirmProgressIsMadeToListingBuildingEligibilityQuestion'),
+);
