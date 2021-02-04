@@ -1,8 +1,8 @@
-const { parse, isDate } = require('date-fns');
+const { isDate, parseISO } = require('date-fns');
 
 function parseDateString(value, originalValue) {
   if (originalValue !== null) {
-    return isDate(originalValue) ? originalValue : parse(originalValue, 'yyyy-MM-dd', new Date());
+    return isDate(originalValue) ? originalValue : parseISO(originalValue);
   }
   return null;
 }
