@@ -26,14 +26,9 @@ router.get('/source/:id', async (req, res) => {
 });
 
 router.get('/download/:id', async (req, res) => {
-  // build the request
   const form = new FormData();
-  // -note... because we give this url to gotenberg, we have to give it the url that it can see
-  //         that means we have to use the hostname+port it can see from inside docker-compose-land
-  //         not the url we use from outside (ie. localhost:9000)
   form.append('remoteURL', `http://forms-web-app:3000/pdf/source/${req.params.id}`);
 
-  // make the call
   const response = await axios.post('http://gotenberg:4000/convert/url', form, {
     headers: form.getHeaders(),
     responseType: 'stream',
