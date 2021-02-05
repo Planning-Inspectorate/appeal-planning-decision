@@ -80,6 +80,7 @@ const appealDocument = {
   },
   eligibility: {
     enforcementNotice: null,
+    isClaimingCosts: null,
   },
 };
 

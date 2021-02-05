@@ -201,6 +201,8 @@ components:
       properties:
         enforcementNotice:
           type: boolean
+        isClaimingCosts:
+          type: boolean
     HealthAndSafety:
       type: object
       properties:
