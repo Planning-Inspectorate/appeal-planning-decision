@@ -1,4 +1,5 @@
 const listedBuildingController = require('../../../../src/controllers/eligibility/listed-building');
+const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
 const req = mockReq();
@@ -9,7 +10,7 @@ describe('controllers/eligibility/listed-building', () => {
     it('calls the correct template', () => {
       listedBuildingController.getServiceNotAvailableForListedBuildings(req, res);
 
-      expect(res.render).toHaveBeenCalledWith('eligibility/listed-out');
+      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.LISTED_OUT);
     });
   });
 
@@ -17,7 +18,7 @@ describe('controllers/eligibility/listed-building', () => {
     it('calls the correct template', () => {
       listedBuildingController.getListedBuilding(req, res);
 
-      expect(res.render).toHaveBeenCalledWith('eligibility/listed-building', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.LISTED_BUILDING, {
         FORM_FIELD: listedBuildingController.FORM_FIELD,
       });
     });
@@ -34,7 +35,7 @@ describe('controllers/eligibility/listed-building', () => {
 
       listedBuildingController.postListedBuilding(mockRequest, mockResponse);
 
-      expect(mockResponse.redirect).toHaveBeenCalledWith('/eligibility/appeal-statement');
+      expect(mockResponse.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.COSTS}`);
     });
 
     it('should redirect to listed-out if given a listed building', () => {
@@ -49,7 +50,7 @@ describe('controllers/eligibility/listed-building', () => {
 
       listedBuildingController.postListedBuilding(mockRequest, mockResponse);
 
-      expect(mockResponse.redirect).toHaveBeenCalledWith('/eligibility/listed-out');
+      expect(mockResponse.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.LISTED_OUT}`);
     });
 
     it('calls the correct template on error', () => {
@@ -61,7 +62,7 @@ describe('controllers/eligibility/listed-building', () => {
 
       listedBuildingController.postListedBuilding(mockRequest, res);
 
-      expect(res.render).toHaveBeenCalledWith('eligibility/listed-building', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.LISTED_BUILDING, {
         FORM_FIELD: listedBuildingController.FORM_FIELD,
         errorSummary: [],
         errors: [1, 2, 3],
