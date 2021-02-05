@@ -17,6 +17,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'goToCostsPage',
+  require('./appeal-navigation/eligibility/goToCostsPage'),
+);
+
+Cypress.Commands.add(
   'goToPlanningDepartmentOutPage',
   require('./appeal-navigation/eligibility/goToPlanningDepartmentOutPage'),
 );
@@ -606,6 +611,16 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmNavigationCostsPage',
+  require('./appeal-navigation-confirmation/eligibility/confirmNavigationCostsPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationCostsOutPage',
+  require('./appeal-navigation-confirmation/eligibility/confirmNavigationCostsOutPage'),
+);
+
+Cypress.Commands.add(
   'confirmNavigationListedBuildingPage',
   require('./appeal-navigation-confirmation/eligibility/confirmNavigationListedBuildingPage'),
 );
@@ -618,6 +633,11 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmNavigationNoDecisionDatePage',
   require('./appeal-navigation-confirmation/eligibility/confirmNavigationNoDecisionDatePage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationYourAppealStatementPage',
+  require('./appeal-navigation-confirmation/eligibility/confirmNavigationYourAppealStatementPage'),
 );
 
 Cypress.Commands.add(
@@ -912,4 +932,24 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmProgressIsMadeToListingBuildingEligibilityQuestion',
   require('./eligibility-enforcement-notice/confirmProgressIsMadeToListingBuildingEligibilityQuestion'),
+);
+
+Cypress.Commands.add(
+  'provideCostsAnswerNo',
+  require('./eligibility-costs/provideCostsAnswerNo'),
+);
+
+Cypress.Commands.add(
+  'provideCostsAnswerYes',
+  require('./eligibility-costs/provideCostsAnswerYes'),
+);
+
+Cypress.Commands.add(
+  'confirmAcpLinkDisplayed',
+  require('./eligibility-costs/confirmAcpLinkDisplayed'),
+);
+
+Cypress.Commands.add(
+  'confirmGuidanceLinkDisplayed',
+  require('./eligibility-costs/confirmGuidanceLinkDisplayed'),
 );
