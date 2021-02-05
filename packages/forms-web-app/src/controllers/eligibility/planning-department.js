@@ -66,7 +66,7 @@ exports.postPlanningDepartment = async (req, res) => {
   }
 
   if (!errors['local-planning-department']) {
-    res.redirect(`/${VIEW.ELIGIBILITY.LISTED_BUILDING}`);
+    res.redirect(`/${VIEW.ELIGIBILITY.ENFORCEMENT_NOTICE}`);
   }
 };
 

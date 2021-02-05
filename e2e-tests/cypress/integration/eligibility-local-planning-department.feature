@@ -27,7 +27,7 @@ Feature: A prospective appellant supplies a Local Planning Department for the ca
   Scenario: Eligible Local Planning Department (LPD) provided - eligibility journey continues
     Given LPD is requested
     When an eligible LPD is provided
-    Then the next eligibility question is asked i.e. "Is your appeal about a listed building?"
+    Then the user can proceed to the Enforcement Notice eligibility check
 
   Scenario: Ineligible Local Planning Department (LPD) provided - routed to kick out page
     Given LPD is requested
