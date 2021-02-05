@@ -7,7 +7,7 @@ const { VIEW } = require('../lib/views');
  * @param questionnaire Questionnaire details from request
  * @return {array} Array of section objects
  */
-function buildTaskLists(questionnaire) {
+function buildTaskLists(questionnaire, appealId) {
   return SECTIONS.map(({ sectionId, tasks }) => {
     return {
       heading: {
@@ -22,7 +22,7 @@ function buildTaskLists(questionnaire) {
 
         return {
           text: HEADERS[taskId],
-          href,
+          href: `/${appealId}${href}`,
           attributes: {
             name: taskId,
             [`${taskId}-status`]: status,
@@ -36,7 +36,7 @@ function buildTaskLists(questionnaire) {
 
 exports.getTaskList = (req, res) => {
   const { questionnaire } = req.session;
-  const sections = buildTaskLists(questionnaire);
+  const sections = buildTaskLists(questionnaire, req.params.id);
   const applicationStatus = 'Application incomplete';
 
   res.render(VIEW.TASK_LIST, {
