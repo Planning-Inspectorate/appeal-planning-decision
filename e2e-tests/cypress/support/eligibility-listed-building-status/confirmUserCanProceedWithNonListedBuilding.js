@@ -1,7 +1,9 @@
 module.exports = () => {
-  cy.get("h1").invoke('text').then((text) => {
-    expect(text).to.contain("Your appeal statement");
-  });
+  cy.get('h1')
+    .invoke('text')
+    .then((text) => {
+      expect(text).to.contain('Are you claiming for costs as part of your appeal?');
+    });
 
   cy.wait(Cypress.env('demoDelay'));
 
@@ -12,4 +14,4 @@ module.exports = () => {
   cy.get('#is-your-appeal-about-a-listed-building-2').should('be.checked');
   cy.get('#is-your-appeal-about-a-listed-building').should('not.be.checked');
   cy.wait(Cypress.env('demoDelay'));
-}
+};
