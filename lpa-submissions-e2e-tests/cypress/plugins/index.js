@@ -8,6 +8,9 @@ const cucumber = require('cypress-cucumber-preprocessor').default
 // You can read more here:
 // https://on.cypress.io/plugins-guide
 // ***********************************************************
+/**
+ * @type {Cypress.PluginConfig}
+ */
 
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
@@ -15,5 +18,11 @@ const cucumber = require('cypress-cucumber-preprocessor').default
 module.exports = (on,config) => {
   on('file:preprocessor',cucumber())
 
+  on('task', {
+    log (message) {
+      console.log(message)
 
+      return null
+    }
+  })
 }

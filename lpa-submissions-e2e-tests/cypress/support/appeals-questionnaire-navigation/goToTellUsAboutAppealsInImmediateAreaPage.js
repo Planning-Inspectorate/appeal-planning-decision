@@ -2,7 +2,7 @@
 import defaultPathId from '../../utils/defaultPathId';
 
 module.exports = (id = defaultPathId) => {
-  const path = `/${id}/placeholder`;
+  const path = `/${id}/other-appeals`;
   cy.visit(path, {failOnStatusCode:false});
-  // cy.checkA11y(path);
+  cy.checkPageA11y(path);
 }

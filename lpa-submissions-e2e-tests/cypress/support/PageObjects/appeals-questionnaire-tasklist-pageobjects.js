@@ -1,75 +1,83 @@
 class AppealsQuestionnaireTaskList {
-  getSubmissionAccuracy(){
+  getSubmissionAccuracy() {
     return cy.get('a[data-cy="submissionAccuracy"]');
   }
 
-  getExtraConditions(){
+  getExtraConditions() {
     return cy.get('a[data-cy="extraConditions"]');
   }
 
-  getOtherAppeals(){
+  getOtherAppeals() {
     return cy.get('a[data-cy="otherAppeals"]');
   }
 
-  getAboutSite(){
+  getAboutSite() {
     return cy.get('a[data-cy="aboutSite"]');
   }
 
-  getPlansDecision(){
+  getPlansDecision() {
     return cy.get('a[data-cy="plansDecision"]');
   }
 
-  getOfficersReport(){
+  getOfficersReport() {
     return cy.get('a[data-cy="officersReport"]');
   }
 
-  getInterestedPartiesApplication(){
+  getInterestedPartiesApplication() {
     return cy.get('a[data-cy="interestedPartiesApplication"]');
   }
 
-  getRepresentationsInterestedParties(){
+  getRepresentationsInterestedParties() {
     return cy.get('a[data-cy="representationsInterestedParties"]');
   }
 
-  getInterestedPartiesAppeal(){
+  getInterestedPartiesAppeal() {
     return cy.get('a[data-cy="interestedPartiesAppeal"]');
   }
 
-  getSiteNotices(){
+  getSiteNotices() {
     return cy.get('a[data-cy="siteNotices"]');
   }
 
-  getPlanningHistory(){
+  getPlanningHistory() {
     return cy.get('a[data-cy="planningHistory"]');
   }
 
-  getStatutoryDevelopment(){
+  getStatutoryDevelopment() {
     return cy.get('a[data-cy="statutoryDevelopment"]');
   }
 
-  getOtherPolicies(){
+  getOtherPolicies() {
     return cy.get('a[data-cy="otherPolicies"]');
   }
 
-  getSupplementaryPlanningDocuments(){
+  getSupplementaryPlanningDocuments() {
     return cy.get('a[data-cy="supplementaryPlanningDocuments"]');
   }
 
-  getDevelopmentOrNeighbourhood(){
+  getDevelopmentOrNeighbourhood() {
     return cy.get('a[data-cy="developmentOrNeighbourhood"]');
   }
 
-  checkYourAnswers(){
+  checkYourAnswers() {
     return cy.get('span[data-cy="checkYourAnswers"]');
   }
-  checkNotstartedTaskStatus(taskName){
-    return cy.get('li[submissionaccuracy-status="NOT STARTED"]');
+
+  checkNotstartedTaskStatus(taskName) {
+    return cy.get('li[' + taskName + '-status="NOT STARTED"]');
   }
 
-  checkCannotStartStatus(){
+  checkCompletedTaskStatus(taskName) {
+    return cy.get('li[' + taskName + '-status="COMPLETED"]');
+  }
+
+  checkCannotStartStatus() {
     return cy.get('li[checkyouranswers-status="CANNOT START YET"]');
   }
 
+  getPlaceholderPageTitle() {
+    return cy.get('h1[class="govuk-heading-l"]');
+  }
 }
 
 export default AppealsQuestionnaireTaskList;
