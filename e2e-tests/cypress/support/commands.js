@@ -631,6 +631,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmNavigationEnforcementNoticePage',
+  require('./appeal-navigation-confirmation/eligibility/confirmNavigationEnforcementNoticePage'),
+);
+
+Cypress.Commands.add(
   'confirmNavigationYourDetailsPage',
   require('./appellant-submission-your-details/confirmNavigationYourDetailsPage'),
 );
