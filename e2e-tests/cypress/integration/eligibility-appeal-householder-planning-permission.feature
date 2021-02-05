@@ -24,11 +24,11 @@ Feature: Eligibility - Appeal Householder Planning Permission Question
  Scenario: AC4. Prospective appellant selects no and is taken to kick-out page
    Given the appeals householder planning permission question is requested
    When confirmation is not provided for householder planning permission question
-   Then the user is navigated to the “This service is only for householder planning appeals​​” page
+   Then the user is navigated to the “This service is only for householder planning appeals” page
 
 # The link "Appeal a Planning Decision service" is displayed in the kick-out page
  Scenario: AC4. Prospective appellant is on the kick-out page
-   Given the user is on the “This service is only for householder planning appeals​​” page
+   Given the user is on the “This service is only for householder planning appeals” page
    When user confirms to appeal using the ACP service
    Then access is available to ACP service
 
