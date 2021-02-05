@@ -63,11 +63,19 @@ class AppealsQuestionnaireTaskList {
     return cy.get('span[data-cy="checkYourAnswers"]');
   }
   checkNotstartedTaskStatus(taskName){
-    return cy.get('li[submissionaccuracy-status="NOT STARTED"]');
+    return cy.get('li['+taskName+'-status="NOT STARTED"]');
   }
+
+  checkCompletedTaskStatus(taskName){
+    return cy.get('li['+taskName+'-status="COMPLETED"]');
+  }
+
 
   checkCannotStartStatus(){
     return cy.get('li[checkyouranswers-status="CANNOT START YET"]');
+  }
+  getPlaceholderPageTitle(){
+    return cy.get('h1[class="govuk-heading-l"]');
   }
 
 }
