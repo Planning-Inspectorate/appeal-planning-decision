@@ -1,4 +1,4 @@
-import {Given, When, Then} from 'cypress-cucumber-preprocessor/steps';
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 
 Given('the list of Local Planning Department is presented', () => {
   cy.goToPlanningDepartmentPage();
@@ -14,10 +14,12 @@ When('the user provides a Local Planning Department not in the provided list', (
   cy.clickSaveAndContinue();
 });
 
-When('the user provides a Local Planning Department that is not participating in this service', () => {
+When(
+  'the user provides a Local Planning Department that is not participating in this service',
+  () => {
     cy.provideIneligibleLocalPlanningDepartment();
     cy.clickSaveAndContinue();
-  }
+  },
 );
 
 When('the user provides a Local Planning Department that is participating in this service', () => {
@@ -26,12 +28,15 @@ When('the user provides a Local Planning Department that is participating in thi
 });
 
 Then(
-  'the user is informed that the selected Local Planning Department is not participating in the service', () => {
+  'the user is informed that the selected Local Planning Department is not participating in the service',
+  () => {
     cy.confirmLocalPlanningDepartmentIsNotParticipating();
   },
 );
 
-Then('the user is informed that a Local Planning Department in the provided list is required', () => {
+Then(
+  'the user is informed that a Local Planning Department in the provided list is required',
+  () => {
     cy.confirmLocalPlanningDepartmentIsRequired();
   },
 );
@@ -68,12 +73,12 @@ When('an eligible LPD is provided', () => {
   cy.clickSaveAndContinue();
 });
 
-And('the next eligibility question is asked i.e. "Is your appeal about a listed building?"', () => {
-  cy.confirmNavigationListedBuildingPage()
-  cy.confirmTextOnPage('Is your appeal about a listed building?');
-})
+And('the user can proceed to the Enforcement Notice eligibility check', () => {
+  cy.confirmNavigationEnforcementNoticePage();
+  cy.confirmTextOnPage('Have you received an enforcement notice?');
+});
 
 And('progress is halted with the message “This service is not available in your area”', () => {
-  cy.confirmNavigationLocalPlanningDepartmentPage()
+  cy.confirmNavigationLocalPlanningDepartmentPage();
   cy.confirmTextOnPage('This service is not available in your area');
-})
+});

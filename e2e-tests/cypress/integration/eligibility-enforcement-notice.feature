@@ -1,5 +1,4 @@
 @smoketest
-@wip
 Feature: A prospective appellant states whether or not they have received an Enforcement Notice
     Our service does not cover appellants who have received an Enforcement Notice
 
