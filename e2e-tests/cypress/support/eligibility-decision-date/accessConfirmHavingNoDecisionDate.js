@@ -1,4 +1,4 @@
 module.exports = () => {
-  cy.visit('/eligibility/decision-date-passed');
+  cy.get(`[data-cy="no-decision-received"]`).click();
   cy.wait(Cypress.env('demoDelay'));
 };

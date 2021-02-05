@@ -1,1 +1,14 @@
-{}
+{
+  "baseUrl": "http://localhost:9001",
+  "testFiles": "**/*.feature",
+  "chromeWebSecurity": false,
+  "viewportWidth": 1024,
+  "viewportHeight":1600,
+  "env": {
+    "demoDelay": 0
+  },
+  "retries": {
+    "runMode": 1,
+    "openMode": 0
+  }
+}

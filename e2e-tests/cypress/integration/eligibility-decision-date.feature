@@ -1,18 +1,25 @@
-Feature: A user supplies a Decision Date for the case they wish to appeal
-    I need to provide the date of the decision from the local planning department,
-    so that the system can confirm whether my appeal is in time.
+Feature: Decision Date eligibility check
+  Note: A valid appeal must be submitted within 12 weeks after the original Decision Date.
 
-  Scenario: Eligibility Decision Dates less than 12 weeks old can proceed
-    When I provide a decision date that is less than 12 weeks old
-    Then I can proceed with the provided decision date
+  Scenario: Eligible Decision Date allows progress
+    Given a Decision Date is requested
+    When an eligible Decision Date is provided
+    Then progress is made to the Local Planning Department eligibility question
 
-  Scenario: Eligibility Decision Dates older than 12 weeks cannot proceed
-    When I provide a decision date that is more than 12 weeks old
-    Then I am informed that the provided decision date is beyond the deadline for appeal
+  Scenario: Ineligible Decision Date prevents progress
+    Given a Decision Date is requested
+    When an ineligible Decision Date is provided
+    Then progress is halted with a message that the Decision Date is ineligible because it is beyond the deadline for an appeal
 
-  Scenario Outline: invalid Decision Dates are rejected
-    When I provide a decision date of <day> / <month> / <year>
-    Then I am informed that the provided Decision Date is invalid
+  Scenario: Absence of Decision Date prevents progress
+    Given a Decision Date is requested
+    When absence of Decision Date is confirmed
+    Then progress is halted with a message that a Decision Date is required
+
+  Scenario Outline: Invalid Decision Dates are rejected
+    Given a Decision Date is requested
+    When an invalid Decision Date of <day>-<month>-<year> is provided
+    Then progress is halted with a message that the provided Decision Date is invalid
 
     Examples:
         | day   | month | year   |

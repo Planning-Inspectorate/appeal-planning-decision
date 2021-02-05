@@ -1,5 +1,5 @@
-import moment from "moment";
-import { Given, When, Then } from "cypress-cucumber-preprocessor/steps"
+import moment from 'moment';
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 
 const dateForXDaysAgo = (x) => {
   const now = moment();
@@ -10,30 +10,50 @@ const dateForXDaysAgo = (x) => {
     month: then.format('MM'),
     year: then.format('YYYY'),
   };
-}
+};
 
-When('I provide a decision date that is less than 12 weeks old', () => {
-  const aGoodDate = dateForXDaysAgo(84);
-  cy.provideDecisionDate(aGoodDate);
+const eligibleDate = dateForXDaysAgo(84);
+const ineligibleDate = dateForXDaysAgo(85);
+
+Given('a Decision Date is requested', () => {
+  cy.goToDecisionDatePage();
 });
 
-Then('I can proceed with the provided decision date', () => {
-  cy.confirmProvidedDecisionDateWasAccepted();
+When('an eligible Decision Date is provided', () => {
+  cy.provideDecisionDate(eligibleDate);
 });
 
-When('I provide a decision date that is more than 12 weeks old', () => {
-  const aBadDate = dateForXDaysAgo(85);
-  cy.provideDecisionDate(aBadDate);
+When('an ineligible Decision Date is provided', () => {
+  cy.provideDecisionDate(ineligibleDate);
 });
 
-Then('I am informed that the provided decision date is beyond the deadline for appeal', () => {
-  cy.confirmProvidedDecisionDateWasRejected();
+When('absence of Decision Date is confirmed', () => {
+  cy.accessConfirmHavingNoDecisionDate();
 });
 
-When('I provide a decision date of {string} / {string} / {string}', (day, month, year) => {
- cy.provideDecisionDate({day, month, year});
+When('an invalid Decision Date of {string}-{string}-{string} is provided', (day, month, year) => {
+  cy.provideDecisionDate({ day, month, year });
 });
 
-Then('I am informed that the provided Decision Date is invalid', () => {
+Then('progress is made to the Local Planning Department eligibility question', () => {
+  cy.confirmNavigationLocalPlanningDepartmentPage();
+  cy.confirmDecisionDate(eligibleDate);
+});
+
+Then(
+  'progress is halted with a message that the Decision Date is ineligible because it is beyond the deadline for an appeal',
+  () => {
+    cy.confirmNavigationDecisionDateExpiredPage();
+    cy.confirmDecisionDate(ineligibleDate);
+  },
+);
+
+Then('progress is halted with a message that a Decision Date is required', () => {
+  cy.confirmNavigationDecisionDateAbsentPage();
+  cy.confirmDecisionDate({ day: '', month: '', year: '' });
+});
+
+Then('progress is halted with a message that the provided Decision Date is invalid', () => {
   cy.confirmProvidedDecisionDateWasInvalid();
+  cy.confirmDecisionDate({ day: '', month: '', year: '' });
 });

@@ -4,6 +4,9 @@ env:
   CYPRESS_VIDEOS: ./e2e-tests/cypress/videos
   CYPRESS_SCREENSHOTS: ./e2e-tests/cypress/screenshots
   CYPRESS_REPORTS: ./e2e-tests/cypress/cucumber-report
+  LPA_CYPRESS_VIDEOS: ./lpa-submissions-e2e-tests/cypress/videos
+  LPA_CYPRESS_SCREENSHOTS: ./lpa-submissions-e2e-tests/cypress/screenshots
+  LPA_CYPRESS_REPORTS: ./lpa-submissions-e2e-tests/cypress/cucumber-report
 
 on:
   push:
@@ -68,8 +71,9 @@ jobs:
         run: make install
 
       - name: Start the world
-        run: docker-compose up -d
-
+        run: |
+          export SERVER_LIMITED_ROUTING_ENABLED=false
+          docker-compose up -d
       - name: Run the tests against LPA questionaire
         run: npm run test:e2e:lpa
 
@@ -82,21 +86,21 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           name: results-lpa
-          path: ${{ env.CYPRESS_REPORTS }}
+          path: ${{ env.LPA_CYPRESS_REPORTS }}
 
       - name: Archive videos
         if: ${{ always() }}
         uses: actions/upload-artifact@main
         with:
           name: videos-lpa
-          path: ${{ env.CYPRESS_VIDEOS }}
+          path: ${{ env.LPA_CYPRESS_VIDEOS }}
 
       - name: Archive screenshots
         if: ${{ always() }}
         uses: actions/upload-artifact@main
         with:
           name: screenshots-lpa
-          path: ${{ env.CYPRESS_SCREENSHOTS }}
+          path: ${{ env.LPA_CYPRESS_SCREENSHOTS }}
 
 
   cypress-default:

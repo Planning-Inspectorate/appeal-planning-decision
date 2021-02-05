@@ -1,4 +1,4 @@
 module.exports = () => {
-  cy.visit('/eligibility/decision-date-passed');
+  cy.url().should('include', '/eligibility/no-decision');
   cy.wait(Cypress.env('demoDelay'));
-};
+}

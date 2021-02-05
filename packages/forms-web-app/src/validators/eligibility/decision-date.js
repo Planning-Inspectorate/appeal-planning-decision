@@ -1,5 +1,5 @@
 const { body } = require('express-validator');
-const { addWeeks, endOfDay, isAfter, isBefore, isValid, parse } = require('date-fns');
+const { endOfDay, isAfter, isValid, parse } = require('date-fns');
 
 const decisionDateExpiredMessage = 'Decision date expired';
 
@@ -8,11 +8,11 @@ const decisionDateCombiner = (req) => {
   const month = req.body['decision-date-month'];
   const year = req.body['decision-date-year'];
 
-  return `${year}-${month}-${day}`;
-};
+  const decisionDate = `${year}-${month}-${day}`;
 
-const getDeadlineDate = (decisionDate) => {
-  return addWeeks(endOfDay(decisionDate), 12);
+  req.body['decision-date-full'] = decisionDate;
+
+  return decisionDate;
 };
 
 const combinedDecisionDateFieldValidator = (req) => {
@@ -20,22 +20,17 @@ const combinedDecisionDateFieldValidator = (req) => {
   try {
     decisionDate = parse(decisionDateCombiner(req), 'yyyy-MM-dd', new Date());
   } catch (e) {
-    throw new Error(JSON.stringify({ msg: 'Invalid date' }));
+    throw new Error('You need to provide a date');
   }
 
   if (!decisionDate || !isValid(decisionDate)) {
-    throw new Error(JSON.stringify({ msg: 'Invalid date' }));
+    throw new Error('You need to provide a date');
   }
 
   const today = endOfDay(new Date());
-  const deadlineDate = getDeadlineDate(decisionDate);
 
   if (isAfter(decisionDate, today)) {
-    throw new Error(JSON.stringify({ msg: 'Invalid date' }));
-  }
-
-  if (isBefore(getDeadlineDate(decisionDate), today)) {
-    throw new Error(JSON.stringify({ msg: decisionDateExpiredMessage, deadlineDate }));
+    throw new Error('You need to provide a date');
   }
 
   return Promise.resolve(true);
@@ -56,6 +51,5 @@ module.exports = {
   combinedDecisionDateFieldValidator,
   decisionDateCombiner,
   decisionDateExpiredMessage,
-  getDeadlineDate,
   rules,
 };
