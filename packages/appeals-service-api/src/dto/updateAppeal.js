@@ -115,5 +115,6 @@ module.exports = yup.object().shape({
   }),
   eligibility: yup.object().shape({
     enforcementNotice: yup.bool().nullable().default(null),
+    isClaimingCosts: yup.bool().nullable().default(null),
   }),
 });
