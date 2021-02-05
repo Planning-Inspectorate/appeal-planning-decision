@@ -1,7 +1,5 @@
  /// <reference types = "Cypress"/>
 import defaultPathId from '../../utils/defaultPathId';
-import AppealsQuestionnaireTaskList from '../PageObjects/appeals-questionnaire-tasklist-pageobjects';
-const tasklist = new AppealsQuestionnaireTaskList();
 
 module.exports = (id = defaultPathId) => {
   const path = `/${id}/placeholder`;

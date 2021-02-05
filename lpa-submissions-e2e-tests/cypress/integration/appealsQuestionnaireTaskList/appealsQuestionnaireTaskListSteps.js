@@ -7,53 +7,83 @@ Given("The Householder planning appeal questionnaire page is presented", ()=> {
 });
 
 Given(`The User clicks on {string}`,(taskname)=>{
+  let name ='';
   switch(taskname){
     case 'About the appeal - Review accuracy of the appellant\'s submission' :
+      name='submissionAccuracy';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToReviewAccuracyOfTheAppellantSubmissionPage();
       break;
     case 'About the appeal - Do you have any extra conditions?':
+      name='extraConditions';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToExtraConditionsPage();
       break;
     case 'About the appeal - Tell us about any appeals in the immediate area' :
+      name='areaAppeals';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToTellUsAboutAppealsInImmediateAreaPage();
       break;
     case 'About the appeal site - Tell us about the appeal site' :
+      name='aboutSite';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToTellUsAboutAppealSitePage();
       break;
     case 'Required documents - Upload the plans used to reach the decision' :
+      name='plansDecision';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToUploadThePlansUsedToReachDecisionPage();
       break;
     case 'Required documents - Upload the Planning Officer\'s report' :
+      name='officersReport';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToUploadPlanningOfficersReportPage();
       break;
     case 'Optional supporting documents - Telling interested parties about the application' :
+      name='interestedPartiesApplication';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToTellingInterestedPartiesAboutTheApplicationPage();
       break;
     case 'Optional supporting documents - Representations from interested parties' :
+      name='representationsInterestedParties';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToRepresentationsFromInterestedPartiesPage();
       break;
     case 'Optional supporting documents - Notifying interested parties of the appeal' :
+      name='interestedPartiesAppeal';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToNotifyingInterestedPartiesOfTheAppealPage();
       break;
     case 'Optional supporting documents - Site notices' :
+      name='siteNotices';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToSiteNoticesPage();
       break;
     case 'Optional supporting documents - Planning history' :
+      name='planningHistory';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToPlanningHistoryPage();
       break;
     case 'Optional supporting documents - Statutory development plan policy' :
+      name='statutoryDevelopment';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToStatutoryDevelopmentPlanPolicyPage();
       break;
     case  'Optional supporting documents - Other relevant policies' :
+      name='otherPolicies';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToOtherRelevantPoliciesPage();
       break;
     case 'Optional supporting documents - Supplementary planning document extracts' :
+      name='supplementaryPlanningDocuments';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToSupplementaryPlanningDocumentsExtractPage();
       break;
     case 'Optional supporting documents - Development Plan Document or Neighbourhood Plan' :
+      name='developmentOrNeighbourhood';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToDevelopmentPlanDocumentOrNeighbourhoodPlanPage();
     break;
-
     default:
       throw new Error('Unknown task name = ' + taskname);
     }
@@ -70,51 +100,67 @@ Then(`User is navigated to Householder questionnaire page`,()=>{
 })
 
 Then(`The task {string} is available for selection`,(taskname)=>{
+  let name='';
   switch(taskname){
     case 'About the appeal - Review accuracy of the appellant\'s submission' :
-      cy.goToReviewAccuracyOfTheAppellantSubmissionPage();
+      name='submissionAccuracy';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       break;
     case 'About the appeal - Do you have any extra conditions?':
-      cy.goToExtraConditionsPage();
+      name='extraConditions';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       break;
     case 'About the appeal - Tell us about any appeals in the immediate area' :
-      cy.goToTellUsAboutAppealsInImmediateAreaPage();
+      name='areaAppeals';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       break;
     case 'About the appeal site - Tell us about the appeal site' :
-      cy.goToTellUsAboutAppealSitePage();
+      name='aboutSite';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       break;
     case 'Required documents - Upload the plans used to reach the decision' :
-      cy.goToUploadThePlansUsedToReachDecisionPage();
+      name='plansDecision';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       break;
     case 'Required documents - Upload the Planning Officer\'s report' :
-      cy.goToUploadPlanningOfficersReportPage();
+      name='officersReport';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       break;
     case 'Optional supporting documents - Telling interested parties about the application' :
-      cy.goToTellingInterestedPartiesAboutTheApplicationPage();
+      name='interestedPartiesApplication';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       break;
     case 'Optional supporting documents - Representations from interested parties' :
-      cy.goToRepresentationsFromInterestedPartiesPage();
+      name='representationsInterestedParties';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       break;
     case 'Optional supporting documents - Notifying interested parties of the appeal' :
-      cy.goToNotifyingInterestedPartiesOfTheAppealPage();
+      name='interestedPartiesAppeal';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       break;
     case 'Optional supporting documents - Site notices' :
-      cy.goToSiteNoticesPage();
+      name='siteNotices';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       break;
     case 'Optional supporting documents - Planning history' :
-      cy.goToPlanningHistoryPage();
+      name='planningHistory';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       break;
     case 'Optional supporting documents - Statutory development plan policy' :
-      cy.goToStatutoryDevelopmentPlanPolicyPage();
+      name='statutoryDevelopment';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       break;
-    case  'Optional supporting documents - Other relevant policies' :
-      cy.goToOtherRelevantPoliciesPage();
+    case 'Optional supporting documents - Other relevant policies' :
+      name='otherPolicies';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       break;
     case 'Optional supporting documents - Supplementary planning document extracts' :
-      cy.goToSupplementaryPlanningDocumentsExtractPage();
+      name='supplementaryPlanningDocuments';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       break;
     case 'Optional supporting documents - Development Plan Document or Neighbourhood Plan' :
-      cy.goToDevelopmentPlanDocumentOrNeighbourhoodPlanPage();
+      name='developmentOrNeighbourhood';
+      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
     break;
 
     default:
@@ -124,7 +170,7 @@ Then(`The task {string} is available for selection`,(taskname)=>{
 });
 
 Then(`The state for {string} is displayed to be "NOT STARTED"`,(taskname)=>{
-  var name='';
+  let name='';
   switch(taskname){
     case 'About the appeal - Review accuracy of the appellant\'s submission' :
       name='submissionAccuracy';
@@ -194,7 +240,7 @@ Then(`The state for {string} is displayed to be "NOT STARTED"`,(taskname)=>{
 
 
 Then('The title of the page is "Householder planning appeal questionnaire - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK"',()=>{
-      cy.title().should('eq','Householder planning appeal questionnaire - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK' )
+      cy.verifyTaskListPageTitle();
 });
 
 //The state for "Before You submit - Check your answers" is displayed to be "CANNOT START YET"

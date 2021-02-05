@@ -37,6 +37,10 @@ Cypress.Commands.add(
   'goToAppealsQuestionnaireTasklistPage',
   require('./appeals-questionnaire-tasklist/goToAppealsQuestionnaireTasklistPage'));
 
+  Cypress.Commands.add(
+    'verifyTaskListPageTitle',
+    require('./appeals-questionnaire-tasklist/verifyTaskListPageTitle'));
+
 Cypress.Commands.add('goToReviewAccuracyOfTheAppellantSubmissionPage',
 require('./appeals-questionnaire-navigation/goToReviewAccuracyOfTheAppellantsSubmissionPage'));
 
@@ -54,6 +58,9 @@ require('./appeals-questionnaire-navigation/goToDevelopmentPlanDocumentOrNeighbo
 
 Cypress.Commands.add('goToNotifyingInterestedPartiesOfTheAppealPage',
 require('./appeals-questionnaire-navigation/goToNotifyingInterestedPartiesOfTheAppealPage'));
+
+Cypress.Commands.add('clickOnLinksOnAppealQuestionnaireTaskListPage',
+require('./appeals-questionnaire-tasklist/clickOnLinksOnAppealQuestionnaireTaskListPage'));
 
 Cypress.Commands.add('goToOtherRelevantPoliciesPage',
 require('./appeals-questionnaire-navigation/goToOtherRelevantPoliciesPage'));
@@ -85,6 +92,9 @@ require('./appeals-questionnaire-navigation/goToUploadThePlansUsedToReachDecisio
 Cypress.Commands.add('verifyNotStartedStatus',
 require('./appeals-questionnaire-navigation/verifyNotStartedStatus'));
 
+Cypress.Commands.add('verifyCompletedStatus',
+require('./appeals-questionnaire-tasklist/verifyCompletedStatus'));
+
 Cypress.Commands.add('checkYourAnswers',
 require('./appeals-questionnaire-navigation/checkYourAnswers'));
 
@@ -96,3 +106,32 @@ require('./common/verifyAppealDetailsSidebar'));
 
 Cypress.Commands.add('getAppealDetailsSidebar',
 require('./common/getAppealDetailsSidebar'));
+Cypress.Commands.add('verifyAppealsInImmediateAreaCaption',
+require('./appeals-in-immediate-area/verifyAppealsInImmediateAreaCaption'));
+
+Cypress.Commands.add('validateAppealsPageTitle',
+require('./appeals-in-immediate-area/validateAppealsPageTitle'));
+
+Cypress.Commands.add('validateOtherAppealsAdjacentToSiteQuestionText',
+require('./appeals-in-immediate-area/validateOtherAppealsAdjacentToSiteQuestionText'));
+
+Cypress.Commands.add('inputAppealsReferenceNumber',
+require('./appeals-in-immediate-area/inputAppealsReferenceNumber'));
+
+Cypress.Commands.add('verifyAppealsSelectionYesHelpText',
+require('./appeals-in-immediate-area/verifyAppealsSelectionYesHelpText'));
+
+Cypress.Commands.add('validateErrorMessage',
+require('./appeals-in-immediate-area/validateErrorMessage'));
+
+Cypress.Commands.add('clickSaveAndContinue',
+require('./common/clickSaveAndContinue'));
+
+Cypress.Commands.add('errorMessage',
+require('./common/errorMessage'));
+
+Cypress.Commands.add('appealsAreaRadioButton',
+require('./appeals-in-immediate-area/appealsAreaRadioButton'));
+
+Cypress.Commands.add('verifyRadioButtonSelection',
+require('./appeals-in-immediate-area/verifyRadioButtonSelection'));
