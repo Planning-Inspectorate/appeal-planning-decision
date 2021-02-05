@@ -3,6 +3,10 @@ module.exports.APPEAL_DOCUMENT = {
     lpaCode: null,
     decisionDate: null,
     state: 'DRAFT',
+    eligibility: {
+      enforcementNotice: null,
+      isClaimingCosts: null,
+    },
     aboutYouSection: {
       yourDetails: {
         isOriginalApplicant: null,
