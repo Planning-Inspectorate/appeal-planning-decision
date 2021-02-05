@@ -61,12 +61,9 @@ Then('I can make a pdf of my appeal', () => {
       `${id}.pdf`
     );
 
-    // todo make this work properly somehow
-    // cy.task('getPdfContent', `cypress/fixtures/Download/${id}.pdf`).then(content => {
-    //   expect(content).to.contain('bananas');
-    // })
-
-    cy.wait(5000);
+     cy.task('getPdfContent', `cypress/fixtures/Download/${id}.pdf`).then(content => {
+      expect(content).to.contain('Valid Name');
+     });
   });
 
 })
