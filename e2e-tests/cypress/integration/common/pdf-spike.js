@@ -49,21 +49,17 @@ When('the appeal tasks are presented', () => {
   cy.goToTaskListPage();
 });
 
-
 Then('I can make a pdf of my appeal', () => {
   cy.visit('/appellant-submission/check-answers');
 
-
   cy.get(`[data-cy="appeal.id"]`).invoke('text').then((id) => {
     cy.downloadFile(
-      `${Cypress.config().baseUrl}/pdf/download/${id}`,
-      'cypress/fixtures/Download',
-      `${id}.pdf`
+      `${Cypress.config().baseUrl}/pdf/download/${id}`, 'cypress/fixtures/Download', `${id}.pdf`
     );
 
-     cy.task('getPdfContent', `cypress/fixtures/Download/${id}.pdf`).then(content => {
+    cy.task('getPdfContent', `cypress/fixtures/Download/${id}.pdf`).then(content => {
       expect(content).to.contain('Valid Name');
-     });
+    });
   });
 
 })
