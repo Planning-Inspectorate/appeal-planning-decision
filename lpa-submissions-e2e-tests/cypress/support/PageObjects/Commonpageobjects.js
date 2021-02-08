@@ -10,10 +10,6 @@ class CommonPageObjects{
   saveAndContinueButton(){
     return cy.get('.govuk-button');
   }
-
-  errorMessage(){
-    return cy.get('.govukErrorSummary');
-  }
 }
 
 export default CommonPageObjects;

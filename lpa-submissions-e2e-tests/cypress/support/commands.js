@@ -127,8 +127,6 @@ require('./appeals-in-immediate-area/validateErrorMessage'));
 Cypress.Commands.add('clickSaveAndContinue',
 require('./common/clickSaveAndContinue'));
 
-Cypress.Commands.add('errorMessage',
-require('./common/errorMessage'));
 
 Cypress.Commands.add('appealsAreaRadioButton',
 require('./appeals-in-immediate-area/appealsAreaRadioButton'));
