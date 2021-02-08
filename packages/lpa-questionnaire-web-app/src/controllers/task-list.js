@@ -4,10 +4,10 @@ const { VIEW } = require('../lib/views');
 /**
  * @name buildTaskLists
  * @description Builds array of section objects, each has an array of tasks
- * @param questionnaire Questionnaire details from request
+ * @param appealReply Reply details from request
  * @return {array} Array of section objects
  */
-function buildTaskLists(questionnaire, appealId) {
+function buildTaskLists(appealReply, appealId) {
   return SECTIONS.map(({ sectionId, tasks }) => {
     return {
       heading: {
@@ -18,7 +18,7 @@ function buildTaskLists(questionnaire, appealId) {
         'data-cy': `task-list--${sectionId}`,
       },
       tasks: tasks.map(({ taskId, href, rule }) => {
-        const status = rule(questionnaire);
+        const status = rule(appealReply);
 
         return {
           text: HEADERS[taskId],
@@ -35,8 +35,8 @@ function buildTaskLists(questionnaire, appealId) {
 }
 
 exports.getTaskList = (req, res) => {
-  const { questionnaire } = req.session;
-  const sections = buildTaskLists(questionnaire, req.params.id);
+  const { appealReply } = req.session;
+  const sections = buildTaskLists(appealReply, req.params.id);
   const applicationStatus = 'Application incomplete';
 
   res.render(VIEW.TASK_LIST, {
