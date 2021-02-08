@@ -26,7 +26,7 @@ const SECTIONS = [
       },
       {
         taskId: 'areaAppeals',
-        href: '/area-appeals',
+        href: '/other-appeals',
         rule: statusTemp,
       },
     ],
