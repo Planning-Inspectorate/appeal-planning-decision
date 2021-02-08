@@ -8,23 +8,38 @@ class AppealsInImmediateArea{
   }
 
   appealReferenceNumberTextBox(){
-    return cy.get('#appeal-reference-numbers');
+    return cy.get('[data-cy="appeal-reference-numbers"]');
   }
 
   appealReferenceNumberLabelText(){
-    return cy.get('label[#site-access-conditional-hint]');
+    return cy.get('label[data-cy="appeal-reference-number-label"]');
 
   }
 
   appealReferenceNumberLabelHint(){
-    return cy.get('div[#event-name-hint]');
+    return cy.get('div[data-cy="appeal-reference-numbers-hint"]');
   }
 
   areaAppealsRadioButtonYes(){
-    return cy.get('radio[data-cy=areaAppeals-Yes]');
+    return cy.get('radio[data-cy="adjacent-appeals-yes"]');
   }
-  areaAppealsRadioButtonNo(){
-    return cy.get('radio[data-cy=areaAppeals-No]');
+
+  areaAppealsRadioButtonYes(){
+    return cy.get('radio[data-cy="adjacent-appeals-no"]');
+  }
+
+  areaAppealsAppealNumbersNotEnteredSummaryErrorMessage(){
+    return cy.get('a[href="#appeal-reference-numbers"]');
+  }
+  areaAppealsNoSelectionMadeSummaryErrorMessage(){
+    return cy.get('a[href="#adjacent-appeals"]');
+  }
+  areaAppealsNoSelectionMadeErrorMessage(){
+    return cy.get('data-cy="adjacent-appeals-error"');
+  }
+
+  areaAppealsAppealNumbersNotEnteredErrorMessage(){
+    return cy.get('data-cy="appeal-reference-numbers-error"');
   }
 }
 
