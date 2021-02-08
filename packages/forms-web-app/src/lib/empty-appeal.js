@@ -77,6 +77,7 @@ module.exports.APPEAL_DOCUMENT = {
         otherDocuments: 'NOT STARTED',
       },
       appealSiteSection: {
+        siteAddress: 'NOT STARTED',
         siteAccess: 'NOT STARTED',
         siteOwnership: 'NOT STARTED',
         healthAndSafety: 'NOT STARTED',

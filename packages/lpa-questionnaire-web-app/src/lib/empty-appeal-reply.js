@@ -14,12 +14,14 @@ module.exports = {
     },
   },
   aboutAppealSiteSection: {
-    cannotSeeLand: null,
-    wouldNeedToEnter: null,
-    wouldNeedNeighbourAccess: null,
-    wouldAffectListedBuilding: null,
-    isGreenBelt: null,
-    isConservationArea: null,
+    aboutSite: {
+      cannotSeeLand: null,
+      wouldNeedToEnter: null,
+      wouldNeedNeighbourAccess: null,
+      wouldAffectListedBuilding: null,
+      isGreenBelt: null,
+      isConservationArea: null,
+    },
   },
   requiredDocumentsSection: {
     plansDecision: {
@@ -80,9 +82,6 @@ module.exports = {
       otherPolicies: 'NOT STARTED',
       supplementaryPlanningDocuments: 'NOT STARTED',
       developmentOrNeighbourhood: 'NOT STARTED',
-    },
-    submitQuestionnaireSection: {
-      checkYourAnswers: 'NOT STARTED',
     },
   },
 };
