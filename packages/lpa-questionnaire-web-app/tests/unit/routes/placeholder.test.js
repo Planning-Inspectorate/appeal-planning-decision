@@ -1,5 +1,6 @@
 const { get } = require('./router-mock');
 const placeholderController = require('../../../src/controllers/placeholder');
+const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
 
 describe('routes/placeholder', () => {
   beforeEach(() => {
@@ -12,6 +13,10 @@ describe('routes/placeholder', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith('/placeholder', placeholderController.getPlaceholder);
+    expect(get).toHaveBeenCalledWith(
+      '/:id/placeholder',
+      [fetchAppealMiddleware],
+      placeholderController.getPlaceholder
+    );
   });
 });

@@ -7,7 +7,6 @@ class AppealsQuestionnaireTaskList {
     return cy.get('a[data-cy="extraConditions"]');
   }
 
-
   getAreaAppeals(){
     return cy.get('a[data-cy="areaAppeals"]');
   }

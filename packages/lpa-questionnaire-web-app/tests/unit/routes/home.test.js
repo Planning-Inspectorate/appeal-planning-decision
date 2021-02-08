@@ -12,6 +12,6 @@ describe('routes/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith('/', indexController.getIndex);
+    expect(get).toHaveBeenCalledWith('/:id/', indexController.getIndex);
   });
 });
