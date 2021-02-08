@@ -90,3 +90,9 @@ require('./appeals-questionnaire-navigation/checkYourAnswers'));
 
 Cypress.Commands.add('verifyCannotStartStatus',
 require('./appeals-questionnaire-navigation/verifyCannotStartStatus'));
+
+Cypress.Commands.add('verifyAppealDetailsSidebar',
+require('./common/verifyAppealDetailsSidebar'));
+
+Cypress.Commands.add('getAppealDetailsSidebar',
+require('./common/getAppealDetailsSidebar'));

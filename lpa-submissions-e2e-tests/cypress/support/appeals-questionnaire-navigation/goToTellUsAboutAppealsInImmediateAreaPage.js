@@ -1,9 +1,8 @@
  /// <reference types = "Cypress"/>
- import AppealsQuestionnaireTaskList from '../PageObjects/appeals-questionnaire-tasklist-pageobjects';
- const tasklist = new AppealsQuestionnaireTaskList()
-module.exports = () =>{
-  tasklist.getAreaAppeals().click();
-  let path = 'appeals-questionnaire/placeholder'
-  cy.visit(path, {failOnStatusCode:false})
-//  cy.checkA11y(path)
+import defaultPathId from '../../utils/defaultPathId';
+
+module.exports = (id = defaultPathId) => {
+  const path = `/${id}/placeholder`;
+  cy.visit(path, {failOnStatusCode:false});
+  // cy.checkA11y(path);
 }
