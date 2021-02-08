@@ -1,14 +1,12 @@
 jest.mock('../../src/lib/logger');
 
 const logger = require('../../src/lib/logger');
-const { QUESTIONNAIRE } = require('../../src/lib/empty-questionnaire');
+const emptyAppealReply = require('../../src/lib/empty-appeal-reply');
 
-const { empty: emptyQuestionnaire } = QUESTIONNAIRE;
-
-const mockReq = (questionnaire = emptyQuestionnaire) => ({
+const mockReq = (appealReply = emptyAppealReply) => ({
   log: logger,
   session: {
-    questionnaire,
+    appealReply,
   },
 });
 
