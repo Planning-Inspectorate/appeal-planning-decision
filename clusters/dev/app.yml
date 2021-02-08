@@ -37,6 +37,8 @@ spec:
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
         tag: 1.14.0
+      config:
+        googleAnalyticsId: G-TZBWMVPTHV
 
     lpaQuestionnaireWebApp:
       replicaCount: 2
@@ -48,7 +50,7 @@ spec:
       name: pins-uks-vault-8669-dev
       envSpecific:
         multiValueSecrets:
-        - http-basic
+          - http-basic
 
     ingress:
       hosts:
