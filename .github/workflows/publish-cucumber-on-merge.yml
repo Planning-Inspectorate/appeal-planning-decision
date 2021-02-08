@@ -5,6 +5,9 @@ env:
   CYPRESS_VIDEOS: ./e2e-tests/cypress/videos
   ACP_REPORTS: ./e2e-tests/cypress/reports/acp
   PINS_REPORTS: ./e2e-tests/cypress/reports/pins
+  LPA_CYPRESS_REPORTS: ./lpa-submissions-e2e-tests/cypress/cucumber-report
+  LPA_CYPRESS_VIDEOS: ./lpa-submissions-e2e-tests/cypress/videos
+  LPA_REPORTS: ./lpa-submissions-e2e-tests/cypress/reports/lpa
   COMBINED_REPORTS: ./e2e-tests/cypress/reports
 
 on:
@@ -81,6 +84,35 @@ jobs:
 
       - name: Move PINS test reports to combined reports folder
         run: cp -r ${{ env.CYPRESS_REPORTS }} ${{ env.PINS_REPORTS }}
+
+      - name: Start the world for LPA
+        run: |
+          export SERVER_LIMITED_ROUTING_ENABLED=false
+          docker-compose up -d
+
+      - name: Run the tests for LPA
+        run: npm run test:e2e:lpa
+
+      - name: Post-process results for LPA
+        if: ${{ always() }}
+        run: npm run test:e2e:lpa:postprocess
+
+      - name: Archive results for LPA
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: results-lpa
+          path: ${{ env.LPA_CYPRESS_REPORTS }}
+
+      - name: Archive videos for LPA
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: videos-lpa
+          path: ${{ env.LPA_CYPRESS_VIDEOS }}
+
+      - name: Move LPA test reports to combined reports folder
+        run: cp -r ${{ env.LPA_CYPRESS_REPORTS }} ${{ env.LPA_REPORTS }}
 
       - name: Deploy Cypress test reports to github pages
         if: ${{ always() }}
