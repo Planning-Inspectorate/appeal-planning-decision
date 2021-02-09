@@ -69,7 +69,7 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
  * @returns {Promise<*>}
  */
 exports.createOrUpdateAppealReply = (appealReply) => {
-  let appealReplyServiceApiUrl = '/api/v1/replies';
+  let appealReplyServiceApiUrl = '/api/v1/reply';
   let method = 'POST';
 
   if (appealReply.id && appealReply.id !== '') {
@@ -83,5 +83,5 @@ exports.createOrUpdateAppealReply = (appealReply) => {
 };
 
 exports.getExistingAppealReply = async (id) => {
-  return handler(`/api/v1/replies/${id}`);
+  return handler(`/api/v1/reply/${id}`);
 };

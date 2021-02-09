@@ -8,7 +8,7 @@ module.exports = {
       hasExtraConditions: null,
       extraConditions: '',
     },
-    areaAppeals: {
+    otherAppeals: {
       adjacentAppeals: null,
       appealReferenceNumbers: '',
     },
@@ -63,7 +63,7 @@ module.exports = {
     aboutAppealSection: {
       submissionAccuracy: 'NOT STARTED',
       extraConditions: 'NOT STARTED',
-      areaAppeals: 'NOT STARTED',
+      otherAppeals: 'NOT STARTED',
     },
     aboutAppealSiteSection: {
       aboutSite: 'NOT STARTED',

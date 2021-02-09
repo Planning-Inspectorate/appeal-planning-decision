@@ -26,7 +26,7 @@ const replySchema = new Mongoose.Schema({
       hasExtraConditions: Boolean,
       extraConditions: String,
     },
-    areaAppeals: {
+    otherAppeals: {
       adjacentAppeals: Boolean,
       appealReferenceNumbers: String,
     },
@@ -79,7 +79,7 @@ const replySchema = new Mongoose.Schema({
     aboutAppealSection: {
       submissionAccuracy: String,
       extraConditions: String,
-      areaAppeals: String,
+      otherAppeals: String,
     },
     aboutAppealSiteSection: {
       aboutSite: String,
