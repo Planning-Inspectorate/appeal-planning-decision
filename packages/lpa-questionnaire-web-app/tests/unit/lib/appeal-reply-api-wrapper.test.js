@@ -45,7 +45,7 @@ describe('lib/appeal-reply-api-wrapper', () => {
           };
         },
         expected: (appealReplyApiResponse) => {
-          expect(fetch).toHaveBeenCalledWith(`${config.appealReply.url}/api/v1/replies`, {
+          expect(fetch).toHaveBeenCalledWith(`${config.appealReply.url}/api/v1/reply`, {
             body: '{"a":"b"}',
             headers: {
               'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ describe('lib/appeal-reply-api-wrapper', () => {
           };
         },
         expected: (appealReplyApiResponse) => {
-          expect(fetch).toHaveBeenCalledWith(`${config.appealReply.url}/api/v1/replies/123-abc`, {
+          expect(fetch).toHaveBeenCalledWith(`${config.appealReply.url}/api/v1/reply/123-abc`, {
             body: '{"c":"d","id":"123-abc"}',
             headers: {
               'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ describe('lib/appeal-reply-api-wrapper', () => {
     it(`should call the expected URL`, async () => {
       fetch.mockResponseOnce(JSON.stringify({ shouldBe: 'valid' }));
       await getExistingAppealReply('123');
-      expect(fetch.mock.calls[0][0]).toEqual('http://fake.url/api/v1/replies/123');
+      expect(fetch.mock.calls[0][0]).toEqual('http://fake.url/api/v1/reply/123');
     });
   });
 });
