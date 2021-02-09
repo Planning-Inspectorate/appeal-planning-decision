@@ -135,7 +135,7 @@ Then(`The state for {string} is displayed to be "NOT STARTED"`,(taskname)=>{
       cy.verifyNotStartedStatus(name);
       break;
     case 'About the appeal - Tell us about any appeals in the immediate area' :
-      name='areaAppeals';
+      name='otherAppeals';
       cy.verifyNotStartedStatus(name);
       break;
     case 'About the appeal site - Tell us about the appeal site' :

@@ -12,7 +12,7 @@ const blankModel = new Model({
       hasExtraConditions: null,
       extraConditions: '',
     },
-    areaAppeals: {
+    otherAppeals: {
       adjacentAppeals: null,
       appealReferenceNumbers: '',
     },
@@ -74,7 +74,7 @@ const blankModel = new Model({
     aboutAppealSection: {
       submissionAccuracy: '',
       extraConditions: '',
-      areaAppeals: '',
+      otherAppeals: '',
     },
     aboutAppealSiteSection: {
       aboutSite: '',

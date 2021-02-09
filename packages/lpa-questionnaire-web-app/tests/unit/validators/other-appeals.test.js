@@ -1,8 +1,8 @@
 const { validationResult } = require('express-validator');
 const { testExpressValidatorMiddleware } = require('./validation-middleware-helper');
-const { rules } = require('../../../src/validators/area-appeals');
+const { rules } = require('../../../src/validators/other-appeals');
 
-describe('validators/area-appeals', () => {
+describe('validators/other-appeals', () => {
   describe('rules', () => {
     it('has a rule for the adjacent appeal', () => {
       const rule = rules()[0].builder.build();

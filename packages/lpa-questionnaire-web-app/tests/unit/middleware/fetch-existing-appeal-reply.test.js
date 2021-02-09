@@ -27,7 +27,7 @@ describe('middleware/fetch-existing-appeal-reply', () => {
       }),
       expected: (req, res, next) => {
         expect(getExistingAppealReply).not.toHaveBeenCalled();
-        expect(createOrUpdateAppealReply).toHaveBeenCalledWith({});
+        expect(createOrUpdateAppealReply).toHaveBeenCalledWith({ appealId: 'mock-id' });
         expect(next).toHaveBeenCalled();
       },
     },
@@ -57,7 +57,7 @@ describe('middleware/fetch-existing-appeal-reply', () => {
       },
       expected: (req, res, next) => {
         expect(getExistingAppealReply).toHaveBeenCalledWith('123-abc');
-        expect(createOrUpdateAppealReply).toHaveBeenCalledWith({});
+        expect(createOrUpdateAppealReply).toHaveBeenCalledWith({ appealId: 'mock-id' });
         expect(req.session.appeal).toEqual({ fake: 'appeal data' });
         expect(next).toHaveBeenCalled();
       },
