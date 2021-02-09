@@ -1,22 +1,22 @@
 const express = require('express');
-const areaAppealsController = require('../controllers/area-appeals');
+const otherAppealsController = require('../controllers/other-appeals');
 const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing-appeal-reply');
 const { validationErrorHandler } = require('../validators/validation-error-handler');
-const { rules: applicantNameValidationRules } = require('../validators/area-appeals');
+const { rules: otherAppealsValidationRules } = require('../validators/other-appeals');
 
 const router = express.Router();
 
 router.get(
-  '/other-appeals',
+  '/:id/other-appeals',
   [fetchExistingAppealReplyMiddleware],
-  areaAppealsController.getAreaAppeals
+  otherAppealsController.getOtherAppeals
 );
 
 router.post(
-  '/other-appeals',
-  applicantNameValidationRules(),
+  '/:id/other-appeals',
+  otherAppealsValidationRules(),
   validationErrorHandler,
-  areaAppealsController.postAreaAppeals
+  otherAppealsController.postOtherAppeals
 );
 
 module.exports = router;

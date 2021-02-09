@@ -134,6 +134,7 @@ services:
     environment:
       SERVER_LIMITED_ROUTING_ENABLED: ${SERVER_LIMITED_ROUTING_ENABLED}
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
+      APPEAL_REPLY_SERVICE_API_URL: http://appeal-reply-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FILE_UPLOAD_DEBUG: "false"
       FILE_UPLOAD_MAX_FILE_SIZE_BYTES: 15000000

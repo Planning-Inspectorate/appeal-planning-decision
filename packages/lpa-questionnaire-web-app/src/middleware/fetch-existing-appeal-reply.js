@@ -18,7 +18,7 @@ module.exports = async (req, res, next) => {
   }
 
   if (!req.session.appealReply || !req.session.appealReply.id) {
-    req.session.appealReply = await createOrUpdateAppealReply({});
+    req.session.appealReply = await createOrUpdateAppealReply({ appealId: req.params.id });
     return next();
   }
 
@@ -27,7 +27,7 @@ module.exports = async (req, res, next) => {
     req.session.appealReply = await getExistingAppealReply(req.session.appealReply.id);
   } catch (err) {
     req.log.debug({ err }, 'Error retrieving appeal');
-    req.session.appeal = await createOrUpdateAppealReply({});
+    req.session.appeal = await createOrUpdateAppealReply({ appealId: req.params.id });
   }
   return next();
 };

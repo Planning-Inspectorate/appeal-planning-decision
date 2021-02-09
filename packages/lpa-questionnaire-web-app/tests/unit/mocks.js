@@ -3,8 +3,11 @@ jest.mock('../../src/lib/logger');
 const logger = require('../../src/lib/logger');
 const emptyAppealReply = require('../../src/lib/empty-appeal-reply');
 
-const mockReq = (appealReply = emptyAppealReply) => ({
+const mockReq = (appealReply = emptyAppealReply, id = 'mock-id') => ({
   log: logger,
+  params: {
+    id,
+  },
   session: {
     appealReply,
   },

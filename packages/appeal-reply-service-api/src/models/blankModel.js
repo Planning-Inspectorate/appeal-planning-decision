@@ -8,7 +8,7 @@ const blankModel = {
       hasExtraConditions: null,
       extraConditions: '',
     },
-    areaAppeals: {
+    otherAppeals: {
       adjacentAppeals: null,
       appealReferenceNumbers: '',
     },
@@ -70,7 +70,7 @@ const blankModel = {
     aboutAppealSection: {
       submissionAccuracy: '',
       extraConditions: '',
-      areaAppeals: '',
+      otherAppeals: '',
     },
     aboutAppealSiteSection: {
       aboutSite: '',

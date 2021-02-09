@@ -14,7 +14,10 @@ describe('middleware/fetch-appeal', () => {
   [
     {
       title: 'call next immediately if no session',
-      given: () => mockReq,
+      given: () => ({
+        ...mockReq(),
+        session: null,
+      }),
       expected: (req, res, next) => {
         expect(getAppeal).not.toHaveBeenCalled();
         expect(next).toHaveBeenCalled();
@@ -23,7 +26,7 @@ describe('middleware/fetch-appeal', () => {
     {
       title: 'call next immediately if no id in url',
       given: () => ({
-        ...mockReq(null),
+        ...mockReq(null, null),
       }),
       expected: (req, res, next) => {
         expect(getAppeal).not.toHaveBeenCalled();
