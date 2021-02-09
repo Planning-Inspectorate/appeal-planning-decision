@@ -44,13 +44,13 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/lpa-questionnaire-web-app
-        tag: 1.1.0
+        tag: 1.2.0
 
     keyVault:
       name: pins-uks-vault-8669-dev
       envSpecific:
         multiValueSecrets:
-          - http-basic
+        - http-basic
 
     ingress:
       hosts:
