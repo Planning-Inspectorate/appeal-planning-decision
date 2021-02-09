@@ -1,6 +1,6 @@
-# Appeals Service API
+# Appeal Reply Service API
 
-The microservice API for the appeals service
+The microservice API for the appeal reply service
 
 ## Commands
 
@@ -23,7 +23,7 @@ The app will serve this at the `/api-docs` endpoint.
 ## Project Structure
 
 This application will be deployed as a separate, non-publicly exposed service.
-It exists to allow the Forms Web App to interact with the database
+It exists to allow the LPA Reply Web App to interact with the database
 
  - `/src` - contains the application.
  - `/src/controllers` - the application controllers.

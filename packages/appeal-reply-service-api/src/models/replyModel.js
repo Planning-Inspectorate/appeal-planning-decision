@@ -1,4 +1,8 @@
-const testReply = {
+const Mongoose = require('mongoose');
+const replySchema = require('./replySchema');
+
+const Model = Mongoose.model('Model', replySchema);
+const replyModel = new Model({
   id: '78a0e119-9f4e-4714-9050-f20555504cfd',
   appealId: 'e6d40357-c41a-43df-b2c5-1bcee4030f12',
   state: 'DRAFT',
@@ -104,7 +108,7 @@ const testReply = {
     },
     developmentOrNeighbourhood: {
       hasPlanSubmitted: null,
-      planChanges: '',
+      planChanges: 'This plan change, that plan change',
     },
   },
   sectionStates: {
@@ -135,6 +139,6 @@ const testReply = {
       checkYourAnswers: 'COMPLETED',
     },
   },
-};
+});
 
-module.exports = { testReply };
+module.exports = { replyModel };

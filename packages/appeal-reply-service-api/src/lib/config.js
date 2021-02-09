@@ -9,12 +9,6 @@
 const path = require('path');
 
 module.exports = {
-  data: {
-    lpa: {
-      listPath: process.env.LPA_DATA_PATH,
-      trialistPath: process.env.LPA_TRIALIST_DATA_PATH,
-    },
-  },
   db: {
     mongodb: {
       url: process.env.MONGODB_URL,
@@ -42,9 +36,6 @@ module.exports = {
     ),
   },
   services: {
-    horizon: {
-      url: process.env.SRV_HORIZON_URL,
-    },
     notify: {
       key: process.env.SRV_NOTIFY_KEY,
       url: process.env.SRV_NOTIFY_URL,

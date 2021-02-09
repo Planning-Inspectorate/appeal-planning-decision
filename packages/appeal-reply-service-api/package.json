@@ -1,5 +1,5 @@
 {
-  "name": "appeals-service-api",
+  "name": "appeal-reply-service-api",
   "version": "0.0.0",
   "private": true,
   "main": "src/main.js",
@@ -28,6 +28,7 @@
     "express-pino-logger": "^5.0.0",
     "js-yaml": "^3.14.0",
     "mongodb": "^3.6.3",
+    "mongoose": "^5.11.15",
     "neat-csv": "^5.2.0",
     "pino": "^6.7.0",
     "swagger-ui-express": "^4.1.4",

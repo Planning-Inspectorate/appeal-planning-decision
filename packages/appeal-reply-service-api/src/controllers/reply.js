@@ -1,13 +1,13 @@
 const uuid = require('uuid');
 const logger = require('../lib/logger');
 const mongodb = require('../db/db');
-const { replyDocument } = require('../models/reply');
+const { replyModel } = require('../models/replyModel');
 
 const dbId = 'reply';
 
 module.exports = {
   async create(req, res) {
-    const reply = JSON.parse(JSON.stringify(replyDocument));
+    const reply = JSON.parse(JSON.stringify(replyModel));
     reply.id = uuid.v4();
     logger.debug(`Creating reply ${reply.id} ...`);
     try {
