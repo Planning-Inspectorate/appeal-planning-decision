@@ -12,7 +12,7 @@ const popModel = new Model({
       hasExtraConditions: true,
       extraConditions: 'One extra condition. Another extra condition',
     },
-    areaAppeals: {
+    otherAppeals: {
       adjacentAppeals: true,
       appealReferenceNumbers: '7892347587825037',
     },
@@ -115,7 +115,7 @@ const popModel = new Model({
     aboutAppealSection: {
       submissionAccuracy: 'COMPLETED',
       extraConditions: 'COMPLETED',
-      areaAppeals: 'COMPLETED',
+      otherAppeals: 'COMPLETED',
     },
     aboutAppealSiteSection: {
       aboutSite: 'COMPLETED',

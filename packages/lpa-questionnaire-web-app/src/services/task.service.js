@@ -25,7 +25,7 @@ const SECTIONS = [
         rule: statusTemp,
       },
       {
-        taskId: 'areaAppeals',
+        taskId: 'otherAppeals',
         href: '/other-appeals',
         rule: statusTemp,
       },
@@ -122,7 +122,7 @@ const HEADERS = {
   aboutAppealSection: 'About the appeal',
   submissionAccuracy: "Review accuracy of the appellant's submission",
   extraConditions: 'Do you have any extra conditions?',
-  areaAppeals: 'Tell us about any appeals in the immediate area',
+  otherAppeals: 'Tell us about any appeals in the immediate area',
   aboutAppealSiteSection: 'About the appeal site',
   aboutSite: 'Tell us about the appeal site',
   requiredDocumentsSection: 'Required documents',
@@ -147,8 +147,19 @@ const DESCRIPTIONS = {
     'Only include documents that were considered when making a decision on the application.',
 };
 
+const getTaskStatus = (appealReply, sectionId, taskId) => {
+  try {
+    const section = SECTIONS.find((scn) => scn.sectionId === sectionId);
+    const task = section.tasks.find((tsk) => tsk.taskId === taskId);
+    return task.rule(appealReply);
+  } catch (e) {
+    return null;
+  }
+};
+
 module.exports = {
   HEADERS,
   DESCRIPTIONS,
   SECTIONS,
+  getTaskStatus,
 };

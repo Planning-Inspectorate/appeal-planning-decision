@@ -5,6 +5,7 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "components/appeal-details/macro.njk" import appealDetails %}
 
 {% block beforeContent %}
   {{ govukBackLink({
@@ -67,14 +68,14 @@
             {
               value: "yes",
               text: "Yes",
-              checked: "true" if values['adjacent-appeals'] === 'yes',
+              checked: true if values['adjacent-appeals'] === 'yes',
               conditional: {
                 html: appealRefHtml
               }
             },
             {
               value: "no",
-              checked: "true" if values['adjacent-appeals'] === 'no',
+              checked: true if values['adjacent-appeals'] === 'no',
               text: "No"
             }
           ],
@@ -88,5 +89,11 @@
         }) }}
       </form>
     </div>
+
+    {{
+      appealDetails({
+        appeal: appeal
+      })
+    }}
   </div>
 {% endblock %}
