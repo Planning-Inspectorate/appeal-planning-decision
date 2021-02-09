@@ -63,6 +63,57 @@ module.exports = {
     let body;
     const idParam = req.params.id;
     logger.debug(`Updating appeal ${idParam} ...`);
+
+    try {
+      await mongodb
+        .get()
+        .collection('appeals')
+        .findOne({ _id: idParam })
+        .then(async (originalDoc) => {
+          const validatedAppealDto = Object.assign(originalDoc.appeal, req.body);
+          validatedAppealDto.updatedAt = new Date(new Date().toISOString());
+
+          const errors = validateAppeal(idParam, validatedAppealDto);
+          if (errors.length > 0) {
+            logger.debug(
+              `Validated payload for appeal update generated errors:\n ${validatedAppealDto}\n${errors}`
+            );
+            statusCode = 400;
+            body = { code: 400, errors };
+          } else {
+            await mongodb
+              .get()
+              .collection('appeals')
+              .updateOne(
+                { _id: idParam },
+                { $set: { uuid: idParam, appeal: validatedAppealDto } },
+                { upsert: false }
+              )
+              .then(async () => {
+                logger.debug(`Updated appeal ${idParam}\n`);
+                statusCode = 200;
+                body = validatedAppealDto;
+              });
+          }
+        })
+        .catch((err) => {
+          logger.warn(`Could find appeal ${idParam} to update\n${err}`);
+          statusCode = 404;
+          body = null;
+        });
+
+      res.status(statusCode).send(body);
+    } catch (err) {
+      logger.error(`Problem updating appeal ${idParam}\n${err}`);
+      res.status(500).send(`Problem updating appeal`);
+    }
+  },
+
+  async replace(req, res) {
+    let statusCode;
+    let body;
+    const idParam = req.params.id;
+    logger.debug(`Updating appeal ${idParam} ...`);
     try {
       await mongodb
         .get()
