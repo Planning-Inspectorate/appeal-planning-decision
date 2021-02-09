@@ -13,76 +13,91 @@ Given(`The User clicks on {string}`,(taskname)=>{
       name='submissionAccuracy';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToReviewAccuracyOfTheAppellantSubmissionPage();
+      cy.validatePageHolderPageLoad();
       break;
     case 'About the appeal - Do you have any extra conditions?':
       name='extraConditions';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToExtraConditionsPage();
+      cy.validatePageHolderPageLoad();
       break;
     case 'About the appeal - Tell us about any appeals in the immediate area' :
       name='areaAppeals';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToTellUsAboutAppealsInImmediateAreaPage();
+      cy.validateAppealsPageTitle();
       break;
     case 'About the appeal site - Tell us about the appeal site' :
       name='aboutSite';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToTellUsAboutAppealSitePage();
+      cy.validatePageHolderPageLoad();
       break;
     case 'Required documents - Upload the plans used to reach the decision' :
       name='plansDecision';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToUploadThePlansUsedToReachDecisionPage();
+      cy.validatePageHolderPageLoad();
       break;
     case 'Required documents - Upload the Planning Officer\'s report' :
       name='officersReport';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToUploadPlanningOfficersReportPage();
+      cy.validatePageHolderPageLoad();
       break;
     case 'Optional supporting documents - Telling interested parties about the application' :
       name='interestedPartiesApplication';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToTellingInterestedPartiesAboutTheApplicationPage();
+      cy.validatePageHolderPageLoad();
       break;
     case 'Optional supporting documents - Representations from interested parties' :
       name='representationsInterestedParties';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToRepresentationsFromInterestedPartiesPage();
+      cy.validatePageHolderPageLoad();
       break;
     case 'Optional supporting documents - Notifying interested parties of the appeal' :
       name='interestedPartiesAppeal';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToNotifyingInterestedPartiesOfTheAppealPage();
+      cy.validatePageHolderPageLoad();
       break;
     case 'Optional supporting documents - Site notices' :
       name='siteNotices';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToSiteNoticesPage();
+      cy.validatePageHolderPageLoad();
       break;
     case 'Optional supporting documents - Planning history' :
       name='planningHistory';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToPlanningHistoryPage();
+      cy.validatePageHolderPageLoad();
       break;
     case 'Optional supporting documents - Statutory development plan policy' :
       name='statutoryDevelopment';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToStatutoryDevelopmentPlanPolicyPage();
+      cy.validatePageHolderPageLoad();
       break;
     case  'Optional supporting documents - Other relevant policies' :
       name='otherPolicies';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToOtherRelevantPoliciesPage();
+      cy.validatePageHolderPageLoad();
       break;
     case 'Optional supporting documents - Supplementary planning document extracts' :
       name='supplementaryPlanningDocuments';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToSupplementaryPlanningDocumentsExtractPage();
+      cy.validatePageHolderPageLoad();
       break;
     case 'Optional supporting documents - Development Plan Document or Neighbourhood Plan' :
       name='developmentOrNeighbourhood';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToDevelopmentPlanDocumentOrNeighbourhoodPlanPage();
+      cy.validatePageHolderPageLoad();
     break;
     default:
       throw new Error('Unknown task name = ' + taskname);

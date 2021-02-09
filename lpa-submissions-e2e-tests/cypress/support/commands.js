@@ -27,11 +27,23 @@ function callback(violations){
     });
 }
 
+Cypress.Commands.add('injectAxe', () => {
+  cy.window({ log: false }).then(window => {
+      const axe = require('axe-core/axe.js');
+      const script = window.document.createElement('script');
+      script.innerHTML = axe.source;
+      window.document.head.appendChild(script);
+  })
+})
 Cypress.Commands.add("checkPageA11y", (path) =>{
-    cy.visit(path);
+    //cy.visit(path);
     cy.injectAxe();
     cy.checkA11y(null,null,callback);
 })
+
+
+Cypress.Commands.add('validatePageHolderPageLoad',
+require('./appeals-questionnaire-navigation/validatePageHolderPageLoad'));
 
 Cypress.Commands.add(
   'goToAppealsQuestionnaireTasklistPage',
