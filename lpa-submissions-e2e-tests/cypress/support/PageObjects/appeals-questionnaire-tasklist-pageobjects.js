@@ -74,6 +74,9 @@ class AppealsQuestionnaireTaskList {
   checkCannotStartStatus(){
     return cy.get('li[checkyouranswers-status="CANNOT START YET"]');
   }
+  getPlaceholderPageTitle(){
+    return cy.get('h1[class="govuk-heading-l"]');
+  }
 
 }
 
