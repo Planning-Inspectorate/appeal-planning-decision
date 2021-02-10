@@ -14,7 +14,8 @@
     "format": "prettier --write './**/*.js'",
     "postinstall": "patch-package",
     "test": "jest --coverage ",
-    "test:watch": "jest --watchAll --runInBand --coverage"
+    "test:watch": "jest --watchAll --runInBand --coverage",
+    "documentation": "jest --coverage --reporters jest-html-reporters --coverageReporters html"
   },
   "lint-staged": {
     "./**/*.js": "npm run lint:fix",
@@ -54,6 +55,7 @@
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-prettier": "^3.1.4",
     "jest": "^26.6.1",
+    "jest-html-reporters": "^2.1.2",
     "jest-fetch-mock": "^3.0.3",
     "nodemon": "^2.0.6",
     "patch-package": "^6.2.2",
