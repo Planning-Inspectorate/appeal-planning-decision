@@ -9,6 +9,27 @@
 
 version: "3.7"
 services:
+  appeal-reply-service-api:
+    image: node:14-alpine
+    environment:
+      DOCS_API_PATH: /opt/app/api
+      DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
+      MONGODB_DB_NAME: appeals-reply-service-api
+      MONGODB_URL: mongodb://mongodb:27017
+      SERVER_SHOW_ERRORS: "true"
+      LOGGER_LEVEL: "debug"
+    ports:
+      - 3002:3000
+    working_dir: /opt/app
+    links:
+      - appeals-service-api
+      - document-service-api
+      - mongodb
+    volumes:
+      - ./packages/common:/opt/app/node_modules/@pins/common:ro # Replace the module to avoid symlink errors
+      - ./packages/appeal-reply-service-api:/opt/app:ro
+    command: npm run start:dev
+
   appeals-service-api:
     image: node:14-alpine
     environment:
