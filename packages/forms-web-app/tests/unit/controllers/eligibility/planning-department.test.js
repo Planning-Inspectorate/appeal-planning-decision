@@ -108,7 +108,7 @@ describe('controllers/eligibility/planning-department', () => {
         lpaCode: 'lpaCode1',
       });
 
-      expect(res.redirect).toBeCalledWith(`/${VIEW.ELIGIBILITY.LISTED_BUILDING}`);
+      expect(res.redirect).toBeCalledWith(`/${VIEW.ELIGIBILITY.ENFORCEMENT_NOTICE}`);
     });
 
     it('Test the getPlanningDepartment method call with ineligible department', async () => {

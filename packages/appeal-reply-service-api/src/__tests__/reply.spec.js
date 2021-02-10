@@ -11,6 +11,7 @@ const dbId = 'reply';
 
 async function createReply() {
   const reply = JSON.parse(JSON.stringify(blankModel));
+
   reply.id = uuid.v4();
   await mongodb.get().collection(dbId).insertOne({ _id: reply.id, uuid: reply.id, reply });
   return reply;

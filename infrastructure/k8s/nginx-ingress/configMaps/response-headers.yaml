@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: custom-response-headers
 data:
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline';
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com; img-src 'self' www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com;
   Permissions-Policy: vibrate=(), camera=(), microphone=(), geolocation=(), autoplay=()
   Referrer-Policy: strict-origin
   X-Content-Type-Options: nosniff

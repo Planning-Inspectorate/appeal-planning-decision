@@ -81,6 +81,9 @@ install_nginx_ingress() {
     --values "${DIR}/nginx-ingress/${CLUSTER}.yaml" \
     nginx-ingress \
     ingress-nginx/ingress-nginx
+
+  # ConfigMap changes aren't picked up via Helm
+  kubectl rollout restart -n nginx-ingress deployment nginx-ingress-ingress-nginx-controller
 }
 
 install_cert_manager() {

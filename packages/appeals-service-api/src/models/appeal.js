@@ -78,6 +78,10 @@ const appealDocument = {
       healthAndSafety: 'NOT STARTED',
     },
   },
+  eligibility: {
+    enforcementNotice: null,
+    isClaimingCosts: null,
+  },
 };
 
 module.exports = {

@@ -45,5 +45,5 @@ exports.postListedBuilding = (req, res) => {
     return;
   }
 
-  res.redirect(`/${VIEW.ELIGIBILITY.APPEAL_STATEMENT}`);
+  res.redirect(`/${VIEW.ELIGIBILITY.COSTS}`);
 };
