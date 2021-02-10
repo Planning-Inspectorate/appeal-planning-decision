@@ -1,4 +1,6 @@
+const logger = require('../../lib/logger');
 const { VIEW } = require('../../lib/views');
+const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 
 exports.getSubmission = (req, res) => {
   res.render(VIEW.APPELLANT_SUBMISSION.SUBMISSION);
@@ -17,6 +19,19 @@ exports.postSubmission = async (req, res) => {
   }
 
   if (body['appellant-confirmation'] === 'i-agree') {
+    try {
+      const { appeal } = req.session;
+      appeal.state = 'SUBMITTED';
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+    } catch (e) {
+      logger.error(e);
+      res.render(VIEW.APPELLANT_SUBMISSION.SUBMISSION, {
+        errors,
+        errorSummary: [{ text: e.toString(), href: '#' }],
+      });
+      return;
+    }
+
     res.redirect(`/${VIEW.APPELLANT_SUBMISSION.CONFIRMATION}`);
     return;
   }
