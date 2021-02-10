@@ -1,0 +1,3 @@
+# ignore the output of "npm run documentation"
+jest_html_reporters.html
+./coverage/*

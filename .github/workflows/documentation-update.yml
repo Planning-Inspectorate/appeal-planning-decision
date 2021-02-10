@@ -1,0 +1,251 @@
+name: Documentation
+
+env:
+  CYPRESS_DEFAULT: ./e2e-tests/cypress
+  CYPRESS_LPA_QUESTIONAIRE: ./lpa-submissions-e2e-tests/cypress
+
+  APPEALS_SERVICE_API: ./packages/appeals-service-api
+  COMMON: ./packages/common
+  DOCUMENT_SERVICE_API: ./packages/document-service-api
+  FORMS_WEB_APP: ./packages/forms-web-app
+  LPA_QUESTIONNAIRE_WEB_APP: ./packages/lpa-questionnaire-web-app
+
+  DOCUMENTATION_ROOT: ./e2e-tests/documentation
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  cypress-forms-web-app-default:
+    name: "Documentation: forms-web-app (Cypress, default)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install the world
+        run: make install
+
+      - name: Start the world without ACP integration
+        run: |
+          export SERVER_LIMITED_ROUTING_ENABLED=false
+          docker-compose up -d
+
+      - name: Run the tests without ACP integration
+        run: npm run test:e2e
+
+      - name: Generate html report
+        if: ${{ always() }}
+        run: npm run test:e2e:postprocess
+
+      - name: Archive report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: CYPRESS-FWA-default-results
+          path: ${{ env.CYPRESS_DEFAULT }}/cucumber-report
+
+  cypress-forms-web-app-ACP:
+    name: "Documentation: forms-web-app (Cypress, ACP)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install the world
+        run: make install
+
+      - name: Start the world with ACP integration
+        run: |
+          export SERVER_LIMITED_ROUTING_ENABLED=true
+          docker-compose up -d
+
+      - name: Run the tests with ACP integration
+        run: npm run test:e2e:acp
+
+      - name: Generate html report
+        if: ${{ always() }}
+        run: npm run test:e2e:postprocess
+
+      - name: Archive report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: CYPRESS-FWA-ACP-results
+          path: ${{ env.CYPRESS_DEFAULT }}/cucumber-report
+
+  jest-forms-web-app:
+    name: "Documentation: forms-web-app (Jest)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate html reports
+        run: npm run document:forms-web-app
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_forms-web-app-results
+          path: ${{ env.FORMS_WEB_APP }}/jest_html_reporters.html
+
+      - name: Archive coverage
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_forms-web-app-coverage
+          path: ${{ env.FORMS_WEB_APP }}/coverage
+
+  cypress-lpa-questionnaire-web-app:
+    name: "Documentation: lpa-questionnaire-web-app (Cypress)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install the world
+        run: make install
+
+      - name: Start the world
+        run: |
+          export SERVER_LIMITED_ROUTING_ENABLED=true
+          docker-compose up -d
+
+      - name: Run the tests against LPA questionaire
+        run: npm run test:e2e:lpa
+
+      - name: Generate html report
+        if: ${{ always() }}
+        run: npm run test:e2e:lpa:postprocess
+
+      - name: Archive report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: CYPRESS-LPA-questionaire-results
+          path: ${{ env.CYPRESS_LPA_QUESTIONAIRE }}/cucumber-report
+
+  jest-lpa-questionnaire-web-app:
+    name: "Documentation: lpa-questionnaire-web-app (Jest)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate html reports
+        run: npm run document:lpa-questionnaire-web-app
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_lpa-questionnaire-web-app-results
+          path: ${{ env.LPA_QUESTIONNAIRE_WEB_APP }}/jest_html_reporters.html
+
+      - name: Archive coverage
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_lpa-questionnaire-web-app-coverage
+          path: ${{ env.LPA_QUESTIONNAIRE_WEB_APP }}/coverage
+
+  jest-appeals-service-api:
+    name: "Documentation: appeals-service-api (Jest)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate html reports
+        run: npm run document:appeals-service-api
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_appeals-service-api-results
+          path: ${{ env.APPEALS_SERVICE_API }}/jest_html_reporters.html
+
+      - name: Archive coverage
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_appeals-service-api-coverage
+          path: ${{ env.APPEALS_SERVICE_API }}/coverage
+
+  jest-common:
+    name: "Documentation: common (Jest)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate html reports
+        run: npm run document:common
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_common-results
+          path: ${{ env.COMMON }}/jest_html_reporters.html
+
+      - name: Archive coverage
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_common-coverage
+          path: ${{ env.COMMON }}/coverage
+
+  jest-document-service-api:
+    name: "Documentation: document-service-api (Jest)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate html reports
+        run: npm run document:document-service-api
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_document-service-api-results
+          path: ${{ env.DOCUMENT_SERVICE_API }}/jest_html_reporters.html
+
+      - name: Archive coverage
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_document-service-api-coverage
+          path: ${{ env.DOCUMENT_SERVICE_API }}/coverage
+
+  publish-test-suite-results:
+    name: "Documentation: Publish to Github Pages"
+    needs:
+      - cypress-forms-web-app-default
+      - cypress-forms-web-app-ACP
+      - jest-forms-web-app
+      - cypress-lpa-questionnaire-web-app
+      - jest-lpa-questionnaire-web-app
+      - jest-appeals-service-api
+      - jest-document-service-api
+      - jest-common
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+
+      - name: put all CYPRESS* + JEST* artifacts into our documentation
+        run: |
+          cp -r CYPRESS* ${{ env.DOCUMENTATION_ROOT }}
+          cp -r JEST* ${{ env.DOCUMENTATION_ROOT }}
+
+      - name: Publish the documentation
+        if: ${{ always() }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ env.DOCUMENTATION_ROOT }}
+          user_name: 'Karuna[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
