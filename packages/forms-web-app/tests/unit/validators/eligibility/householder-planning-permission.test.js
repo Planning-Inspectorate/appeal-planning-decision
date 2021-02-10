@@ -1,21 +1,21 @@
 const { validationResult } = require('express-validator');
 const {
   rules,
-  validEnforcementNoticeOptions,
-} = require('../../../../src/validators/eligibility/enforcement-notice');
+  validHouseholderPlanningPermissionOptions,
+} = require('../../../../src/validators/eligibility/householder-planning-permission');
 const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
 
-describe('validators/eligibility/enforcement-notice`', () => {
+describe('validators/eligibility/householder-planning-permission`', () => {
   describe('rules', () => {
     it('is configured with the expected rules', () => {
       expect(rules().length).toEqual(1);
     });
 
-    describe('ruleEnforcementNotice', () => {
+    describe('ruleHouseholderPlanningPermission', () => {
       it('is configured with the expected rules', () => {
         const rule = rules()[0].builder.build();
 
-        expect(rule.fields).toEqual(['enforcement-notice']);
+        expect(rule.fields).toEqual(['householder-planning-permission']);
         expect(rule.locations).toEqual(['body']);
         expect(rule.optional).toBeFalsy();
         expect(rule.stack).toHaveLength(3);
@@ -23,7 +23,7 @@ describe('validators/eligibility/enforcement-notice`', () => {
         expect(rule.stack[0].negated).toBeTruthy();
         expect(rule.stack[0].validator.name).toEqual('isEmpty');
         expect(rule.stack[0].message).toEqual(
-          'Select Yes if you’ve received an enforcement notice'
+          'Select Yes if you applied for householder planning permission'
         );
 
         expect(rule.stack[2].negated).toBeFalsy();
@@ -36,7 +36,7 @@ describe('validators/eligibility/enforcement-notice`', () => {
   describe('validator', () => {
     [
       {
-        title: 'No selection made regarding receipt of an Enforcement Notice',
+        title: 'No selection made on the householder planning permission question',
         given: () => ({
           body: {},
         }),
@@ -44,17 +44,17 @@ describe('validators/eligibility/enforcement-notice`', () => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
           expect(result.errors[0].msg).toEqual(
-            'Select Yes if you’ve received an enforcement notice'
+            'Select Yes if you applied for householder planning permission'
           );
-          expect(result.errors[0].param).toEqual('enforcement-notice');
+          expect(result.errors[0].param).toEqual('householder-planning-permission');
           expect(result.errors[0].value).toEqual(undefined);
         },
       },
       {
-        title: 'User selected `yes` to receiving an Enforcement Notice',
+        title: 'User selected `yes` on the householder planning permission question',
         given: () => ({
           body: {
-            'enforcement-notice': 'yes',
+            'householder-planning-permission': 'yes',
           },
         }),
         expected: (result) => {
@@ -62,10 +62,10 @@ describe('validators/eligibility/enforcement-notice`', () => {
         },
       },
       {
-        title: 'User selected `no` to receiving an Enforcement Notice',
+        title: 'User selected `no` on the householder planning permission question',
         given: () => ({
           body: {
-            'enforcement-notice': 'no',
+            'householder-planning-permission': 'no',
           },
         }),
         expected: (result) => {
@@ -84,9 +84,9 @@ describe('validators/eligibility/enforcement-notice`', () => {
     });
   });
 
-  describe('validEnforcementNoticeOptions', () => {
-    it('should define the expected valid enforcement notice options', () => {
-      expect(validEnforcementNoticeOptions).toEqual(['yes', 'no']);
+  describe('validHouseholderPlanningPermissionOptions', () => {
+    it('should define the expected valid householder planning permission options', () => {
+      expect(validHouseholderPlanningPermissionOptions).toEqual(['yes', 'no']);
     });
   });
 });
