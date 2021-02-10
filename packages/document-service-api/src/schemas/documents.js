@@ -68,6 +68,13 @@ DocumentsSchema.index({
   'upload.processAttempts': 1,
 });
 
+DocumentsSchema.set('toObject', { virtuals: true });
+DocumentsSchema.set('toJSON', { virtuals: true });
+
+DocumentsSchema.virtual('blobStorageLocation').get(function getBlobStorageLocation() {
+  return `${this.get('applicationId')}/${this.get('id')}/${this.get('name')}`;
+});
+
 DocumentsSchema.loadClass(DocumentsMethod);
 
 module.exports = model('Document', DocumentsSchema);
