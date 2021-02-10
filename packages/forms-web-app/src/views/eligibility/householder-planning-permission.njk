@@ -2,11 +2,12 @@
 
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {% block pageTitle %}
-  Have you received an enforcement notice?- Eligibility - Appeal a householder planning decision - GOV.UK
+  Did you apply for householder planning permission? - Eligibility - Appeal a householder planning decision - GOV.UK
 {% endblock %}
 
 {% block content %}
@@ -26,35 +27,48 @@
 
         {{ govukRadios({
           classes: "govuk-radios",
-          idPrefix: "enforcement-notice",
-          name: "enforcement-notice",
-          errorMessage: errors['enforcement-notice'] and {
-            text: errors['enforcement-notice'].msg
+          idPrefix: "householder-planning-permission",
+          name: "householder-planning-permission",
+          errorMessage: errors['householder-planning-permission'] and {
+            text: errors['householder-planning-permission'].msg
           },
           fieldset: {
             legend: {
-              text: "Have you received an enforcement notice?",
+              text: "Did you apply for 'householder planning permission'?",
               isPageHeading: true,
               classes: "govuk-fieldset__legend--l"
             }
           },
           hint: {
-            text: "An enforcement notice is issued if your local planning department thinks you have carried out building work without the correct planning permission."
+            text: "'Householder planning permission' is a specific type of planning permission. You can check what you applied for on your original planning application form."
           },
           items: [
             {
               value: "yes",
               text: "Yes",
               attributes: { "data-cy": "answer-yes" },
-              checked: appeal.eligibility.enforcementNotice == true
+              checked: appeal.eligibility.householderPlanningPermission == true
             },
             {
               value: "no",
               text: "No",
               attributes: { "data-cy": "answer-no" },
-              checked: appeal.eligibility.enforcementNotice == false
+              checked: appeal.eligibility.householderPlanningPermission == false
             }
           ]
+        }) }}
+
+        {{ govukDetails({
+          summaryText: "What is householder planning permission?",
+          html: "<p>'Householder planning permission' covers projects for altering or enlarging a single house. These include:</p>
+          <ul class=\"govuk-list govuk-list--bullet\">
+          <li>conservatories</li>
+          <li>dormer windows</li>
+          <li>extensions</li>
+          <li>garages, car ports and outbuildings</li>
+          <li>loft conversions</li>
+          </ul>",
+          attributes: { "data-cy":"what-is-householder-planning-permission"}
         }) }}
 
         {{ govukButton({

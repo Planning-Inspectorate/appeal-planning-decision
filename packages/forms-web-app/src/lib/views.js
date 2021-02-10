@@ -14,6 +14,8 @@ const VIEW = {
     APPEAL_STATEMENT: 'eligibility/appeal-statement',
     ENFORCEMENT_NOTICE: 'eligibility/enforcement-notice',
     ENFORCEMENT_NOTICE_OUT: 'eligibility/enforcement-notice-out',
+    HOUSEHOLDER_PLANNING_PERMISSION: 'eligibility/householder-planning-permission',
+    HOUSEHOLDER_PLANNING_PERMISSION_OUT: 'eligibility/householder-planning-permission-out',
   },
 
   APPELLANT_SUBMISSION: {
