@@ -12,6 +12,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'goToLandingPage',
+  require('./appeal-navigation/eligibility/goToLandingPage'),
+);
+
+Cypress.Commands.add(
   'goToPlanningDepartmentPage',
   require('./appeal-navigation/eligibility/goToPlanningDepartmentPage'),
 );
@@ -601,6 +606,16 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmNavigationHouseholderQuestionPage',
+  require('./appeal-navigation-confirmation/eligibility/confirmNavigationHouseholderQuestionPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationHouseholderQuestionOutPage',
+  require('./appeal-navigation-confirmation/eligibility/confirmNavigationHouseholderQuestionOutPage'),
+);
+
+Cypress.Commands.add(
   'confirmNavigationLocalPlanningDepartmentPage',
   require('./appeal-navigation-confirmation/eligibility/confirmNavigationLocalPlanningDepartmentPage'),
 );
@@ -915,6 +930,16 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'goToHouseholderQuestionPage',
+  require('./appeal-navigation/eligibility/goToHouseholderQuestionPage'),
+);
+
+Cypress.Commands.add(
+  'goToHouseholderQuestionOutPage',
+  require('./appeal-navigation/eligibility/goToHouseholderQuestionOutPage'),
+);
+
+Cypress.Commands.add(
   'provideEnforcementNoticeAnswer',
   require('./eligibility-enforcement-notice/provideEnforcementNoticeAnswer'),
 );
@@ -953,3 +978,24 @@ Cypress.Commands.add(
   'confirmGuidanceLinkDisplayed',
   require('./eligibility-costs/confirmGuidanceLinkDisplayed'),
 );
+
+Cypress.Commands.add(
+  'provideHouseholderAnswerNo',
+  require('./eligibility-householder/provideHouseholderAnswerNo'),
+);
+
+Cypress.Commands.add(
+  'provideHouseholderAnswerYes',
+  require('./eligibility-householder/provideHouseholderAnswerYes'),
+);
+
+Cypress.Commands.add(
+  'accessDetails',
+  require('./eligibility-householder/accessDetails'),
+);
+
+Cypress.Commands.add(
+  'confirmDetailsDisplayed',
+  require('./eligibility-householder/confirmDetailsDisplayed'),
+);
+
