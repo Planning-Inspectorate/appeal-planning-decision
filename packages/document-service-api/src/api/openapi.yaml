@@ -135,6 +135,7 @@ components:
         name: site0345d-barratt-appeal-document.pdf
         uploadDate: '2020-01-01T05:59:00Z'
         mimeType: application/pdf
+        blobStorageLocation: 1234567890/99c6cbd9-6c3d-4241-8d96-8765a6ecd700/sample-appeal-document.pdf
         location: https://lpatest.blob.core.windows.net/pins-documents/site0345d-barratt-appeal-document.pdf
         size: 2128246
   schemas:
@@ -166,6 +167,10 @@ components:
           type: string
           description: The mime type
           example: application/pdf
+        blobStorageLocation:
+          type: string
+          description: The blob storage location
+          example: 1234567890/99c6cbd9-6c3d-4241-8d96-8765a6ecd700/sample-appeal-document.pdf
         size:
           type: integer
           description: The length of the file in bytes
