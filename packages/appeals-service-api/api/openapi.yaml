@@ -201,6 +201,8 @@ components:
       properties:
         enforcementNotice:
           type: boolean
+        householderPlanningPermission:
+          type: boolean
         isClaimingCosts:
           type: boolean
     HealthAndSafety:
