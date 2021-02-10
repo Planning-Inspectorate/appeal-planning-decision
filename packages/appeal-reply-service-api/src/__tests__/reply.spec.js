@@ -3,14 +3,14 @@ const { MongoClient } = require('mongodb');
 const uuid = require('uuid');
 const mongodb = require('../db/db');
 const app = require('../app');
-const { replyModel } = require('../models/replyModel');
+const { blankModel } = require('../models/blankModel');
 
 jest.mock('../db/db');
 const endpoint = '/api/v1/reply';
 const dbId = 'reply';
 
 async function createReply() {
-  const reply = JSON.parse(JSON.stringify(replyModel));
+  const reply = JSON.parse(JSON.stringify(blankModel));
   reply.id = uuid.v4();
   await mongodb.get().collection(dbId).insertOne({ _id: reply.id, uuid: reply.id, reply });
   return reply;
@@ -36,7 +36,7 @@ describe('Replies API', () => {
   });
 
   test('POST /api/v1/reply - It responds with a newly created reply', async () => {
-    const parsedReplyModel = JSON.parse(JSON.stringify(replyModel));
+    const parsedReplyModel = JSON.parse(JSON.stringify(blankModel));
     const response = await request(app).post(endpoint).send({});
     parsedReplyModel.id = response.body.id;
     expect(response.body).toEqual(parsedReplyModel);

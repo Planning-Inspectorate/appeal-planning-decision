@@ -2,7 +2,7 @@ const Mongoose = require('mongoose');
 const replySchema = require('./replySchema');
 
 const Model = Mongoose.model('Model', replySchema);
-const replyModel = new Model({
+const popModel = new Model({
   id: '78a0e119-9f4e-4714-9050-f20555504cfd',
   appealId: 'e6d40357-c41a-43df-b2c5-1bcee4030f12',
   state: 'DRAFT',
@@ -18,12 +18,12 @@ const replyModel = new Model({
     },
   },
   aboutAppealSiteSection: {
-    cannotSeeLand: null,
-    wouldNeedToEnter: null,
-    wouldNeedNeighbourAccess: null,
-    wouldAffectListedBuilding: null,
-    isGreenBelt: null,
-    isConservationArea: null,
+    cannotSeeLand: true,
+    wouldNeedToEnter: false,
+    wouldNeedNeighbourAccess: true,
+    wouldAffectListedBuilding: false,
+    isGreenBelt: false,
+    isConservationArea: false,
   },
   requiredDocumentsSection: {
     plansDecision: {
@@ -107,7 +107,7 @@ const replyModel = new Model({
       ],
     },
     developmentOrNeighbourhood: {
-      hasPlanSubmitted: null,
+      hasPlanSubmitted: true,
       planChanges: 'This plan change, that plan change',
     },
   },
@@ -141,4 +141,4 @@ const replyModel = new Model({
   },
 });
 
-module.exports = { replyModel };
+module.exports = { popModel };
