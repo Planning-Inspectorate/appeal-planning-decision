@@ -131,7 +131,7 @@ function uploadToBlobStorage(blobStorageClient) {
         const filePath = path.join(config.fileUpload.path, doc.location);
 
         try {
-          const blobName = `${doc.applicationId}/${doc.id}/${doc.name}`;
+          const blobName = doc.blobStorageLocation;
           logger.info({ blobName, doc, filePath }, 'Uploading file to blob storage');
 
           const blockBlobClient = blobStorageClient.getBlockBlobClient(blobName);
