@@ -4,6 +4,10 @@ Feature: Special route handling for ACP integration
   * Eligibility - Decision date expired
   * Eligibility - No decision date
 
+  Scenario: the service root redirects to eligibility: check decision date
+    When a user accesses the root of the service
+    Then the user sees the eligibility: check decision date page
+
   Scenario Outline: (1) Available routes
     Given an appeal is being made
     When an attempt is made to access <page>

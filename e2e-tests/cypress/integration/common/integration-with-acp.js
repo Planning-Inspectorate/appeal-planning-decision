@@ -124,6 +124,14 @@ When('an attempt is made to access {string}', (page) => {
   }
 })
 
+When('a user accesses the root of the service', () => {
+  cy.visit('/');
+});
+
+Then('the user sees the eligibility: check decision date page', () => {
+  cy.confirmNavigationDecisionDatePage();
+});
+
 Then('the {string} is accessed', (page) => {
   switch (page) {
     case 'Eligibility - Decision date':
