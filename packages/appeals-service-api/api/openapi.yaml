@@ -91,7 +91,7 @@ paths:
           description: The appeal could not be found
     patch:
       summary: Modifies an existing appeal
-      description: The provided appeal will replace the existing one if the proposed update complies with all format and business validation rules. Nothing is changed if there are any validation failures and the errors will be listed in the response. The id and sections state fields are required to be passed explicitly in all requests while any omitted fields will have default values substituted so that each field matches their values in a newly created appeal.
+      description: The provided appeal will update the existing one if the proposed update complies with all format and business validation rules. Nothing is changed if there are any validation failures and the errors will be listed in the response. No field is mandatory and no change will be made to the field not present in the request.
       tags:
         - Appeals
       parameters:
