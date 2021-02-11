@@ -170,6 +170,13 @@ jobs:
           name: JEST_appeals-service-api-coverage
           path: ${{ env.APPEALS_SERVICE_API }}/coverage
 
+      - name: Archive complexity
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: PLATO_appeals-service-api-complexity
+          path: ${{ env.APPEALS_SERVICE_API }}/complexity-report
+
   jest-common:
     name: "Documentation: common (Jest)"
     runs-on: ubuntu-latest
@@ -216,6 +223,13 @@ jobs:
           name: JEST_document-service-api-coverage
           path: ${{ env.DOCUMENT_SERVICE_API }}/coverage
 
+      - name: Archive complexity
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: PLATO_document-service-api-complexity
+          path: ${{ env.DOCUMENT_SERVICE_API }}/complexity-report
+
   publish-test-suite-results:
     name: "Documentation: Publish to Github Pages"
     needs:
@@ -233,10 +247,11 @@ jobs:
 
       - uses: actions/download-artifact@v2
 
-      - name: put all CYPRESS* + JEST* artifacts into our documentation
+      - name: put all CYPRESS* + JEST* + PLATO* artifacts into our documentation
         run: |
           cp -r CYPRESS* ${{ env.DOCUMENTATION_ROOT }}
           cp -r JEST* ${{ env.DOCUMENTATION_ROOT }}
+          cp -r PLATO* ${{ env.DOCUMENTATION_ROOT }}
 
       - name: Publish the documentation
         if: ${{ always() }}

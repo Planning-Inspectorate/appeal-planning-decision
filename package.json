@@ -21,9 +21,9 @@
     "test:e2e:demo:acp": "cd ./e2e-tests && npm run test:e2e:demo:acp",
     "test:e2e:smoke:acp": "cd ./e2e-tests && BASEURL=$BASEURL npm run test:e2e:smoke:acp",
 
-    "document:appeals-service-api": "cd ./packages/appeals-service-api && npm install && npm run documentation",
+    "document:appeals-service-api": "cd ./packages/appeals-service-api && npm install && npm run documentation && npm run documentation:complexity",
     "document:common": "cd ./packages/common && npm install && npm run documentation",
-    "document:document-service-api": "cd ./packages/document-service-api && npm install && npm run documentation",
+    "document:document-service-api": "cd ./packages/document-service-api && npm install && npm run documentation && npm run documentation:complexity",
     "document:forms-web-app": "cd ./packages/forms-web-app && npm install && npm run documentation",
     "document:lpa-questionnaire-web-app": "cd ./packages/lpa-questionnaire-web-app && npm install && npm run documentation"
   },

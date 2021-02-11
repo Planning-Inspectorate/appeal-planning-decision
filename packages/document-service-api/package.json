@@ -11,7 +11,8 @@
     "test": "jest",
     "test:cov": "jest --coverage",
     "test:watch": "jest --watch",
-    "documentation": "jest --coverage --reporters jest-html-reporters --coverageReporters html"
+    "documentation": "jest --coverage --reporters jest-html-reporters --coverageReporters html",
+    "documentation:complexity": "es6-plato -r -x spec.js -d ./complexity-report src"
   },
   "author": "Foundry4 <www.foundry4.com>",
   "lint-staged": {
@@ -33,6 +34,7 @@
     "uuid": "^8.3.1"
   },
   "devDependencies": {
+    "es6-plato": "^1.2.3",
     "eslint": "^7.12.1",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.15.0",

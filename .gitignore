@@ -65,6 +65,9 @@ coverage
 # output of jest html reporter
 jest_html_reporters.html
 
+# output of plato complexity report
+complexity-report
+
 # nyc test coverage
 .nyc_output
 
