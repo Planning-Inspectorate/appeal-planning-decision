@@ -1,4 +1,5 @@
 const uuid = require('uuid');
+const { _ } = require('lodash');
 const logger = require('../lib/logger');
 
 const mongodb = require('../db/db');
@@ -70,7 +71,7 @@ module.exports = {
         .collection('appeals')
         .findOne({ _id: idParam })
         .then(async (originalDoc) => {
-          const validatedAppealDto = Object.assign(originalDoc.appeal, req.body);
+          const validatedAppealDto = _.merge(originalDoc.appeal, req.body);
           validatedAppealDto.updatedAt = new Date(new Date().toISOString());
 
           const errors = validateAppeal(idParam, validatedAppealDto);
