@@ -18,10 +18,12 @@ When('no confirmation is provided for householder planning permission question',
 
 When('confirmation is provided for householder planning permission question', () => {
   cy.provideHouseholderAnswerYes();
+  cy.clickSaveAndContinue();
 });
 
 When('confirmation is not provided for householder planning permission question', () => {
   cy.provideHouseholderAnswerNo();
+  cy.clickSaveAndContinue();
 });
 
 When('the \'What is householder planning permission\' additional information is accessed', () => {
@@ -34,7 +36,7 @@ Then('the appeals householder planning permission question is presented', () => 
 
 Then('progress is halted with a message that a householder planning permission is required', () => {
   cy.confirmNavigationHouseholderQuestionPage();
-  cy.confirmTextOnPage('No selection made: Select Yes if you applied for householder planning permission');
+  cy.confirmTextOnPage('Select Yes if you applied for householder planning permission');
 });
 
 Then('progress is made to the eligibility decision date question', () => {
