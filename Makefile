@@ -68,5 +68,6 @@ uninstall:
 update-functions:
 	faas-cli remove -f functions.yml
 	faas-cli up -f functions.yml --tag sha \
-		--env APPEALS_SERVICE_URL=http://app.${DEPLOY_NAMESPACE}.svc.cluster.local:3000
+		--env APPEALS_SERVICE_URL=http://app.${DEPLOY_NAMESPACE}.svc.cluster.local:3000 \
+		--env DOCUMENT_SERVICE_URL=http://app.${DEPLOY_NAMESPACE}.svc.cluster.local:3001
 .PHONY: update-functions
