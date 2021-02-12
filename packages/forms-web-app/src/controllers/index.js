@@ -1,5 +1,5 @@
-const { VIEW } = require('../lib/views');
+const config = require('../config');
 
 exports.getIndex = (req, res) => {
-  res.redirect(`/${VIEW.ELIGIBILITY.DECISION_DATE}`);
+  res.redirect(config.appeals.startingPoint);
 };
