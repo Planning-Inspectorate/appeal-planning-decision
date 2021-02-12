@@ -31,12 +31,15 @@ describe('middleware/fetch-appeal', () => {
       },
     },
     {
-      title: 'if appeal id in session, API is not called',
+      title: 'if appeal id in session and matches path id, API is not called',
       given: () => ({
         session: {
           appeal: {
             id: '123-abc',
           },
+        },
+        params: {
+          id: '123-abc',
         },
       }),
       expected: (req, res, next) => {
@@ -67,6 +70,45 @@ describe('middleware/fetch-appeal', () => {
 
         return {
           ...mockReq(),
+          params: {
+            id: '123-abc',
+          },
+        };
+      },
+      expected: (req, res, next) => {
+        expect(getAppeal).toHaveBeenCalledWith('123-abc');
+        expect(next).toHaveBeenCalled();
+        expect(req.session.appeal).toEqual({ good: 'data' });
+      },
+    },
+    {
+      title: 'get appeal if appeal object exists but it has no id',
+      given: () => {
+        getAppeal.mockResolvedValue({ good: 'data' });
+
+        return {
+          ...mockReq(),
+          params: {
+            id: '123-abc',
+          },
+        };
+      },
+      expected: (req, res, next) => {
+        expect(getAppeal).toHaveBeenCalledWith('123-abc');
+        expect(next).toHaveBeenCalled();
+        expect(req.session.appeal).toEqual({ good: 'data' });
+      },
+    },
+    {
+      title: 'get appeal if appeal id does not match path id',
+      given: () => {
+        getAppeal.mockResolvedValue({ good: 'data' });
+
+        return {
+          ...mockReq(),
+          appeal: {
+            id: '456-def',
+          },
           params: {
             id: '123-abc',
           },
