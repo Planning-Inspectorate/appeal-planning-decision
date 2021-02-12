@@ -2,6 +2,10 @@ const oneGigabyte = 1024 * 1024 * 1024;
 
 module.exports = {
   appeals: {
+    startingPoint:
+      process.env.SERVER_LIMITED_ROUTING_ENABLED === 'true'
+        ? '/eligibility/decision-date'
+        : '/eligibility/householder-planning-permission',
     timeout: Number(process.env.APPEALS_SERVICE_API_TIMEOUT || 10000),
     url: process.env.APPEALS_SERVICE_API_URL,
   },
