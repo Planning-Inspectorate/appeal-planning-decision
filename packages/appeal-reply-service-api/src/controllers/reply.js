@@ -7,8 +7,15 @@ const dbId = 'reply';
 
 module.exports = {
   async create(req, res) {
+    const { appealId } = req.body;
+    if (appealId === '' || appealId === undefined) {
+      logger.error(`Problem creating reply - no appealID`);
+      res.status(400).send(`AppealId must be included`);
+      return;
+    }
     const reply = JSON.parse(JSON.stringify(blankModel));
     reply.id = uuid.v4();
+    reply.appealId = appealId;
     logger.debug(`Creating reply ${reply.id} ...`);
     try {
       await mongodb
@@ -26,7 +33,7 @@ module.exports = {
             });
         });
     } catch (err) {
-      logger.error(`Problem creating an reply ${reply.id}\n${err}`);
+      logger.error(`Problem creating a reply ${reply.id}\n${err}`);
       res.status(500).send(`Problem creating an reply`);
     }
   },
