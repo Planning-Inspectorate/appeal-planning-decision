@@ -2,13 +2,27 @@ imagePullSecret: azure-docker-registry
 
 keyVault:
   name: key-vault-name
-  secrets: []
+  secrets:
+    - docs-blob-storage-connection-string
   multiValueSecrets: []
   envSpecific:
     secrets: []
     multiValueSecrets: []
 
 functions:
+  horizonAddDocument:
+    image: pinscommonukscontainers3887default.azurecr.io/horizon-add-document:latest
+    scale:
+      min: 1
+      max: 5
+    timeout: 10s
+    envvars:
+      STORAGE_CONTAINER_NAME: uploads
+      DOCUMENT_SERVICE_URL: http://app.app-ENV.svc.cluster.local:3001
+      HORIZON_URL: http://10.0.7.4:8000
+    secrets:
+      - akv-docs-blob-storage-connection-string
+
   horizonCreateContact:
     image: pinscommonukscontainers3887default.azurecr.io/horizon-create-contact:latest
     scale:
