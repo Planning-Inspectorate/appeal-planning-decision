@@ -210,6 +210,45 @@ async function getLpaData(code) {
   return data;
 }
 
+/**
+ * Publish Documents
+ *
+ * Publishes the documents to Horizon. This is done asynchronously
+ * as we're not interested in the response
+ *
+ * @param {string[]} documents
+ * @param {string} appealId
+ * @param {string} horizonId
+ * @returns {Promise<void>}
+ */
+async function publishDocuments(documents, appealId, horizonId) {
+  await Promise.all(
+    documents
+      /* Remove any undefined keys */
+      .filter((documentId) => documentId)
+      .map(async (documentId) => {
+        log('Publish document to Horizon', {
+          documentId,
+          horizonId,
+          appealId,
+        });
+
+        await axios.post(
+          '/async-function/horizon-add-document',
+          {
+            documentId,
+            // These are named as-per Horizon keys
+            caseReference: horizonId,
+            applicationId: appealId,
+          },
+          {
+            baseURL: config.openfaas.gatewayUrl,
+          }
+        );
+      })
+  );
+}
+
 module.exports = async (event, context) => {
   try {
     const { body } = event;
@@ -314,6 +353,27 @@ module.exports = async (event, context) => {
         baseURL: config.appealsService.url,
       }
     );
+
+    /*
+      Finally, publish the documents to Horizon
+
+      We treat these as non-mandatory for add documents, even though
+      they are mandatory in the appeal. This is to avoid any unhelpful
+      errors at this point
+    */
+    const documents = [
+      body?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
+      body?.appeal?.requiredDocumentsSection?.originalApplication?.uploadedFile?.id,
+      body?.appeal?.requiredDocumentsSection?.decisionLetter?.uploadedFile?.id,
+    ];
+
+    /* Add optional docs to the list */
+    const optionalFiles = body?.appeal?.yourAppealSection?.otherDocuments?.uploadedFiles;
+    if (Array.isArray(optionalFiles)) {
+      documents.push(...optionalFiles.map(({ id }) => id));
+    }
+
+    await publishDocuments(documents, appealId, horizonCaseId);
 
     log('Successful call to Horizon', { horizonCaseId });
     return {
