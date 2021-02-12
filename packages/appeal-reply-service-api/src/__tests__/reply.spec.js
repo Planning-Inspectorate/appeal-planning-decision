@@ -38,10 +38,21 @@ describe('Replies API', () => {
 
   test('POST /api/v1/reply - It responds with a newly created reply', async () => {
     const parsedReplyModel = JSON.parse(JSON.stringify(blankModel));
-    const response = await request(app).post(endpoint).send({});
+    parsedReplyModel.appealId = '1'; // TODO: UUID Structure. Will fail when properly validated
+    const response = await request(app).post(endpoint).send({ appealId: '1' });
     parsedReplyModel.id = response.body.id;
     expect(response.body).toEqual(parsedReplyModel);
     expect(response.statusCode).toBe(201);
+  });
+
+  test('POST /api/v1/reply - It responds with an error - Blank appealId', async () => {
+    const response = await request(app).post(endpoint).send({ appealId: '' });
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('POST /api/v1/reply - It responds with an error - Undefined appealId', async () => {
+    const response = await request(app).post(endpoint).send({});
+    expect(response.statusCode).toBe(400);
   });
 
   test('GET /api/v1/reply/{id} - It responds with an existing reply', async () => {
