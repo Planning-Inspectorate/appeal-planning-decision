@@ -1,4 +1,5 @@
 const TASK_STATUS = require('./task-status/task-statuses');
+const otherAppealsCompletion = require('./task-status/other-appeals');
 
 function statusTemp() {
   // TODO: these will be replaces when we have checks for status of each step
@@ -27,7 +28,7 @@ const SECTIONS = [
       {
         taskId: 'otherAppeals',
         href: '/other-appeals',
-        rule: statusTemp,
+        rule: otherAppealsCompletion,
       },
     ],
   },
