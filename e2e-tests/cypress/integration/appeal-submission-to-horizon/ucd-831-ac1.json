@@ -1,0 +1,96 @@
+{
+  "eligibility": {
+    "enforcementNotice": false,
+    "householderPlanningPermission": true,
+    "isClaimingCosts": false
+  },
+  "sectionStates": {
+    "aboutYouSection": {
+      "yourDetails": "COMPLETED"
+    },
+    "requiredDocumentsSection": {
+      "applicationNumber": "COMPLETED",
+      "originalApplication": "COMPLETED",
+      "decisionLetter": "COMPLETED"
+    },
+    "yourAppealSection": {
+      "appealStatement": "COMPLETED",
+      "otherDocuments": "NOT STARTED"
+    },
+    "appealSiteSection": {
+      "siteAccess": "COMPLETED",
+      "siteOwnership": "COMPLETED",
+      "healthAndSafety": "COMPLETED",
+      "siteAddress": "COMPLETED"
+    }
+  },
+  "appealSiteSection": {
+    "healthAndSafety": {
+      "hasIssues": false,
+      "healthAndSafetyIssues": ""
+    },
+    "siteAccess": {
+      "howIsSiteAccessRestricted": "",
+      "canInspectorSeeWholeSiteFromPublicRoad": true
+    },
+    "siteOwnership": {
+      "ownsWholeSite": true,
+      "haveOtherOwnersBeenTold": null
+    },
+    "siteAddress": {
+      "addressLine1": "1 Taylor Road",
+      "addressLine2": "Clifton",
+      "town": "Bristol",
+      "county": "South Glos",
+      "postcode": "BS8 1TG"
+    }
+  },
+  "yourAppealSection": {
+    "appealStatement": {
+      "uploadedFile": {
+        "id": "1291bcb1-c452-4e9d-a94d-d9534e4651ab",
+        "name": "appeal-statement-valid.doc",
+        "location": "63e8d5b436301b6abdc9485e272d628b",
+        "size": 22528
+      },
+      "hasSensitiveInformation": false
+    },
+    "otherDocuments": {
+      "uploadedFiles": []
+    }
+  },
+  "requiredDocumentsSection": {
+    "applicationNumber": "ValidNumber/12345",
+    "originalApplication": {
+      "uploadedFile": {
+        "id": "f286d576-4384-48d0-a9b5-8d26d6de948b",
+        "name": "appeal-statement-valid.doc",
+        "location": "dc5a864dd2f9f36f2fe36a33f1f0d19a",
+        "size": 22528
+      }
+    },
+    "decisionLetter": {
+      "uploadedFile": {
+        "id": "d5dfb56e-1f52-4d68-aaa6-ffe68bababea",
+        "name": "appeal-statement-valid.doc",
+        "location": "20cf031936b1e1d802e5e595ebb982c0",
+        "size": 22528
+      }
+    }
+  },
+  "aboutYouSection": {
+    "yourDetails": {
+      "appealingOnBehalfOf": "",
+      "email": "valid@email.com",
+      "name": "Valid Name",
+      "isOriginalApplicant": true
+    }
+  },
+  "state": "SUBMITTED",
+  "decisionDate": 1610884800000,
+  "lpaCode": "E60000068",
+  "horizonId": null,
+  "id": "bb05b2a3-4122-4dad-9905-043d32049a78",
+  "createdAt": 1613477011134,
+  "updatedAt": 1613477025803
+}

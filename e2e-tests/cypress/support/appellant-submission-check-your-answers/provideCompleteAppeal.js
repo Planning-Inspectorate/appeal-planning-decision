@@ -1,6 +1,24 @@
+import { dateForXDaysAgo } from '../../integration/eligibility-decision-date/eligibility-decision-date';
+
 module.exports = () => {
-  cy.goToPlanningDepartmentPage();
+  cy.goToHouseholderQuestionPage();
+  cy.provideHouseholderAnswerYes();
+  cy.clickSaveAndContinue();
+
+  cy.goToDecisionDatePage();
+  cy.provideDecisionDate(dateForXDaysAgo(30));
+
   cy.provideEligibleLocalPlanningDepartment();
+  cy.clickSaveAndContinue();
+
+  cy.goToEnforcementNoticePage();
+  cy.provideEnforcementNoticeAnswer(false);
+  cy.clickSaveAndContinue();
+
+  cy.stateCaseDoesNotInvolveAListedBuilding();
+
+  cy.goToCostsPage();
+  cy.provideCostsAnswerNo();
   cy.clickSaveAndContinue();
 
   cy.goToTaskListPage();
