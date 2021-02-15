@@ -26,10 +26,13 @@ describe('controllers/other-appeals', () => {
 
   describe('getOtherAppeals', () => {
     it('should call the correct template', () => {
+      req.session.backLink = `/mock-id/${VIEW.TASK_LIST}`;
+
       otherAppealsController.getOtherAppeals(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.OTHER_APPEALS, {
         appeal: null,
+        backLink: `/mock-id/${VIEW.TASK_LIST}`,
         values: {
           'adjacent-appeals': null,
           'appeal-reference-numbers': '',
@@ -98,6 +101,7 @@ describe('controllers/other-appeals', () => {
           'adjacent-appeals': 'no',
         },
       };
+      mockRequest.session.backLink = `/mock-id/${VIEW.TASK_LIST}`;
 
       await otherAppealsController.postOtherAppeals(mockRequest, res);
 
@@ -122,6 +126,7 @@ describe('controllers/other-appeals', () => {
           'appeal-reference-numbers': 'some-reference',
         },
       };
+      mockRequest.session.backLink = `/mock-id/${VIEW.TASK_LIST}`;
 
       await otherAppealsController.postOtherAppeals(mockRequest, res);
 
