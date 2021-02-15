@@ -3,11 +3,11 @@ const { _ } = require('lodash');
 const logger = require('../lib/logger');
 
 const mongodb = require('../db/db');
+const { validateAppeal } = require('../services/validation.service');
 const { appealDocument } = require('../models/appeal');
-const { validateAppeal } = require('../middleware/validateAppeal');
 
 module.exports = {
-  async create(req, res) {
+  async createAppeal(req, res) {
     const appeal = JSON.parse(JSON.stringify(appealDocument));
     appeal.id = uuid.v4();
 
@@ -20,24 +20,17 @@ module.exports = {
       await mongodb
         .get()
         .collection('appeals')
-        .insertOne({ _id: appeal.id, uuid: appeal.id, appeal })
-        .then(() => {
-          mongodb
-            .get()
-            .collection('appeals')
-            .findOne({ _id: appeal.id })
-            .then((doc) => {
-              logger.debug(`Appeal ${appeal.id} created`);
-              res.status(201).send(doc.appeal);
-            });
-        });
+        .insertOne({ _id: appeal.id, uuid: appeal.id, appeal });
+
+      logger.debug(`Appeal ${appeal.id} created`);
+      res.status(201).send(appeal);
     } catch (err) {
       logger.error(`Problem creating an appeal ${appeal.id}\n${err}`);
       res.status(500).send(`Problem creating an appeal`);
     }
   },
 
-  async get(req, res) {
+  async getAppeal(req, res) {
     const idParam = req.params.id;
     logger.debug(`Retrieving appeal ${idParam} ...`);
     try {
@@ -59,7 +52,7 @@ module.exports = {
     }
   },
 
-  async update(req, res) {
+  async updateAppeal(req, res) {
     let statusCode;
     let body;
     const idParam = req.params.id;
@@ -74,7 +67,14 @@ module.exports = {
           const validatedAppealDto = _.merge(originalDoc.appeal, req.body);
           validatedAppealDto.updatedAt = new Date(new Date().toISOString());
 
-          const errors = validateAppeal(idParam, validatedAppealDto);
+          const errors = validateAppeal(validatedAppealDto);
+
+          if (idParam !== validatedAppealDto.id) {
+            errors.push(
+              'The provided id in path must be the same as the appeal id in the request body'
+            );
+          }
+
           if (errors.length > 0) {
             logger.debug(
               `Validated payload for appeal update generated errors:\n ${validatedAppealDto}\n${errors}`
@@ -110,7 +110,7 @@ module.exports = {
     }
   },
 
-  async replace(req, res) {
+  async replaceAppeal(req, res) {
     let statusCode;
     let body;
     const idParam = req.params.id;
@@ -123,11 +123,25 @@ module.exports = {
         .then(async (originalDoc) => {
           logger.debug(`Original doc \n${originalDoc.appeal}`);
           const validatedAppealDto = req.body;
-          validatedAppealDto.decisionDate = new Date(validatedAppealDto.decisionDate);
-          validatedAppealDto.createdAt = new Date(validatedAppealDto.createdAt);
+
+          if (
+            validatedAppealDto.decisionDate !== null &&
+            validatedAppealDto.decisionDate !== undefined
+          ) {
+            validatedAppealDto.decisionDate = new Date(validatedAppealDto.decisionDate);
+          }
+
+          validatedAppealDto.createdAt = new Date(originalDoc.appeal.createdAt);
           validatedAppealDto.updatedAt = new Date(new Date().toISOString());
 
-          const errors = validateAppeal(idParam, validatedAppealDto);
+          const errors = validateAppeal(validatedAppealDto);
+
+          if (idParam !== validatedAppealDto.id) {
+            errors.push(
+              'The provided id in path must be the same as the appeal id in the request body'
+            );
+          }
+
           if (errors.length > 0) {
             logger.debug(
               `Validated payload for appeal update generated errors:\n ${validatedAppealDto}\n${errors}`

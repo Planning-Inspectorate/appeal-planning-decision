@@ -1,5 +1,5 @@
 const yup = require('yup');
-const { parseDateString } = require('./helpers/parseDateString');
+const parseDateString = require('../../../lib/parse-date-string');
 
 function document() {
   return yup
@@ -20,7 +20,7 @@ function document() {
     .noUnknown(true);
 }
 
-module.exports = yup
+exports.updateAppeal = yup
   .object()
   .noUnknown(true)
   .shape({
@@ -61,6 +61,12 @@ module.exports = yup
           .shape({
             enforcementNotice: yup.lazy((enforcementNotice) => {
               if (enforcementNotice !== undefined) {
+                return yup.bool().required();
+              }
+              return yup.mixed().notRequired();
+            }),
+            householderPlanningPermission: yup.lazy((householderPlanningPermission) => {
+              if (householderPlanningPermission !== undefined) {
                 return yup.bool().required();
               }
               return yup.mixed().notRequired();
