@@ -20,7 +20,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:e2e:demo:acp": "cd ./e2e-tests && npm run test:e2e:demo:acp",
     "test:e2e:smoke:acp": "cd ./e2e-tests && BASEURL=$BASEURL npm run test:e2e:smoke:acp",
-
     "document:appeals-service-api": "cd ./packages/appeals-service-api && npm install && npm run documentation",
     "document:common": "cd ./packages/common && npm install && npm run documentation",
     "document:document-service-api": "cd ./packages/document-service-api && npm install && npm run documentation",
@@ -46,7 +45,7 @@
     "husky": "^4.3.0",
     "lint-staged": "^10.5.0",
     "prettier": "^2.1.2",
-    "semantic-release": "^17.2.3",
+    "semantic-release": "^17.3.9",
     "semantic-release-monorepo": "^7.0.3"
   },
   "husky": {
