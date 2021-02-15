@@ -5,6 +5,8 @@ const mongodb = require('../db/db');
 const { appealDocument } = require('../models/appeal');
 const { validateAppeal } = require('../middleware/validateAppeal');
 
+const queue = require('../lib/queue');
+
 module.exports = {
   async create(req, res) {
     const appeal = JSON.parse(JSON.stringify(appealDocument));
@@ -70,37 +72,49 @@ module.exports = {
         .findOne({ _id: idParam })
         .then(async (originalDoc) => {
           logger.debug(`Original doc \n${originalDoc.appeal}`);
-          const validatedAppealDto = req.body;
-          validatedAppealDto.decisionDate = new Date(validatedAppealDto.decisionDate);
-          validatedAppealDto.createdAt = new Date(validatedAppealDto.createdAt);
-          validatedAppealDto.updatedAt = new Date(new Date().toISOString());
-
-          const errors = validateAppeal(idParam, validatedAppealDto);
-          if (errors.length > 0) {
-            logger.debug(
-              `Validated payload for appeal update generated errors:\n ${validatedAppealDto}\n${errors}`
-            );
-            statusCode = 400;
-            body = { code: 400, errors };
+          if (originalDoc.appeal.state === 'SUBMITTED') {
+            res
+              .status(409)
+              .send({ code: 409, errors: ['Cannot update appeal that is already SUBMITTED'] });
           } else {
-            await mongodb
-              .get()
-              .collection('appeals')
-              .updateOne({ _id: idParam }, { $set: { uuid: idParam, appeal: validatedAppealDto } })
-              .then(() => {
-                logger.debug(`Updated appeal ${idParam}\n`);
-                statusCode = 200;
-                body = validatedAppealDto;
-              })
-              .catch((err) => {
-                logger.error(`Problem updating appeal ${idParam}\n${err}`);
-                statusCode = 500;
-                body = `Problem updating appeal`;
-              });
+            const validatedAppealDto = req.body;
+            validatedAppealDto.decisionDate = new Date(validatedAppealDto.decisionDate);
+            validatedAppealDto.createdAt = new Date(validatedAppealDto.createdAt);
+            validatedAppealDto.updatedAt = new Date(new Date().toISOString());
+
+            const errors = validateAppeal(idParam, validatedAppealDto);
+            if (errors.length > 0) {
+              logger.debug(
+                `Validated payload for appeal update generated errors:\n ${validatedAppealDto}\n${errors}`
+              );
+              statusCode = 400;
+              body = { code: 400, errors };
+            } else {
+              await mongodb
+                .get()
+                .collection('appeals')
+                .updateOne(
+                  { _id: idParam },
+                  { $set: { uuid: idParam, appeal: validatedAppealDto } }
+                )
+                .then(() => {
+                  logger.debug(`Updated appeal ${idParam}\n`);
+                  statusCode = 200;
+                  body = validatedAppealDto;
+                  if (validatedAppealDto.state === 'SUBMITTED') {
+                    queue.addAppeal(validatedAppealDto);
+                  }
+                })
+                .catch((err) => {
+                  logger.error(`Problem updating appeal ${idParam}\n${err}`);
+                  statusCode = 500;
+                  body = `Problem updating appeal`;
+                });
+            }
           }
         })
         .catch((err) => {
-          logger.warn(`Could find appeal ${idParam} to update\n${err}`);
+          logger.warn(`Could not find appeal ${idParam} to update\n${err}`);
           statusCode = 404;
           body = null;
         });

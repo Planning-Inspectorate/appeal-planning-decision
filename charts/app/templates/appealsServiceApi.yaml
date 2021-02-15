@@ -49,6 +49,22 @@ spec:
               path: /health
               port: {{.Values.appealsServiceApi.service.name }}
           env:
+#            - name: HORIZON_HAS_PUBLISHER_HOST
+#              value: to-be-confirmed
+#            - name: HORIZON_HAS_PUBLISHER_HOSTNAME
+#              value: to-be-confirmed
+#            - name: HORIZON_HAS_PUBLISHER_RECONNECT_LIMIT
+#              value: to-be-confirmed
+#            - name: HORIZON_HAS_PUBLISHER_PASSWORD
+#              value: to-be-confirmed-probably-from-secret-store
+#            - name: HORIZON_HAS_PUBLISHER_PORT
+#              value: to-be-confirmed
+#            - name: HORIZON_HAS_PUBLISHER_ATTEMPT_RECONNECTION
+#              value: to-be-confirmed
+#            - name: HORIZON_HAS_PUBLISHER_TRANSPORT
+#              value: to-be-confirmed
+#            - name: HORIZON_HAS_PUBLISHER_USERNAME
+#              value: to-be-confirmed-probably-from-secret-store
             - name: LPA_DATA_PATH
               value: /data/lpa/lpa-list.csv
             - name: LPA_TRIALIST_DATA_PATH

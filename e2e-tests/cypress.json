@@ -5,6 +5,9 @@
   "viewportWidth": 1024,
   "viewportHeight":1600,
   "env": {
-    "demoDelay": 0
+    "demoDelay": 0,
+    "RMQport": 4004,
+    "RMQuser": "admin",
+    "RMQpass": "admin"
   }
 }

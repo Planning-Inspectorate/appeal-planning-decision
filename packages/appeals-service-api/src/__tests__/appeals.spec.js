@@ -6,6 +6,7 @@ const app = require('../app');
 const { appealDocument } = require('../models/appeal');
 
 jest.mock('../db/db');
+jest.mock('../lib/queue');
 
 async function createAppeal() {
   const appeal = JSON.parse(JSON.stringify(appealDocument));
@@ -204,9 +205,88 @@ describe('Appeals API', () => {
     const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
     expect(response.body.code).toEqual(400);
     expect(response.body.errors).toContain(
-      'The appeal state cannot be SUBMITTED if any sections are not COMPLETED'
+      'The appeal state cannot be SUBMITTED if any sections except Other Documents are not COMPLETED'
     );
     expect(response.statusCode).toBe(400);
+  });
+
+  test('PUT /api/v1/appeals/{id} - It responds with an error - Cannot update appeal that is already SUBMITTED', async () => {
+    const appeal = await createAppeal();
+    appeal.lpaCode = 'E60000281/new';
+    appeal.decisionDate = '2020-10-29T12:00:00.000Z';
+    appeal.state = 'SUBMITTED';
+    appeal.aboutYouSection.yourDetails = {
+      isOriginalApplicant: false,
+      name: 'Ms Alison Khan',
+      email: 'akhan123@email.com',
+      appealingOnBehalfOf: 'Mr Josh Evans',
+    };
+    appeal.requiredDocumentsSection.applicationNumber = 'S/35552';
+    appeal.requiredDocumentsSection.originalApplication.uploadedFile = {
+      name: 'my_uploaded_file_original_application.pdf',
+      id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    };
+    appeal.requiredDocumentsSection.decisionLetter.uploadedFile = {
+      name: 'my_uploaded_file_decision_letter.pdf',
+      id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    };
+    appeal.yourAppealSection.appealStatement.uploadedFile = {
+      name: 'my_uploaded_file_appeal_statement.pdf',
+      id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    };
+    appeal.yourAppealSection.appealStatement.hasSensitiveInformation = false;
+    appeal.yourAppealSection.otherDocuments.uploadedFiles = [
+      {
+        name: 'my_uploaded_file_other_documents_one.pdf',
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      },
+      {
+        name: 'my_uploaded_fileother_documents_two.pdf',
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      },
+    ];
+    appeal.appealSiteSection.siteAddress = {
+      addressLine1: 'The Grand House',
+      addressLine2: 'High Street',
+      town: 'Swansea',
+      county: 'Dinas a Sir Abertawe',
+      postcode: 'SA21 5TY',
+    };
+    appeal.appealSiteSection.siteOwnership = {
+      ownsWholeSite: false,
+      haveOtherOwnersBeenTold: true,
+    };
+    appeal.appealSiteSection.siteAccess = {
+      canInspectorSeeWholeSiteFromPublicRoad: false,
+      howIsSiteAccessRestricted: 'There is a moat',
+    };
+    appeal.appealSiteSection.healthAndSafety = {
+      hasIssues: true,
+      healthAndSafetyIssues: 'Site was a munitions dump!',
+    };
+    appeal.sectionStates.aboutYouSection = {
+      yourDetails: 'COMPLETED',
+    };
+    appeal.sectionStates.requiredDocumentsSection = {
+      applicationNumber: 'COMPLETED',
+      originalApplication: 'COMPLETED',
+      decisionLetter: 'COMPLETED',
+    };
+    appeal.sectionStates.yourAppealSection = {
+      appealStatement: 'COMPLETED',
+      otherDocuments: 'COMPLETED',
+    };
+    appeal.sectionStates.appealSiteSection = {
+      siteAccess: 'COMPLETED',
+      siteOwnership: 'COMPLETED',
+      healthAndSafety: 'COMPLETED',
+    };
+    appeal.state = 'SUBMITTED';
+    await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.code).toEqual(409);
+    expect(response.body.errors).toContain('Cannot update appeal that is already SUBMITTED');
+    expect(response.statusCode).toBe(409);
   });
 
   test('PUT /api/v1/appeals/{id} - It responds with an error - Appeal appellant name must be valued if email is.', async () => {

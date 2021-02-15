@@ -31,6 +31,7 @@
     "mongodb": "^3.6.3",
     "neat-csv": "^5.2.0",
     "pino": "^6.7.0",
+    "rhea": "^1.0.24",
     "swagger-ui-express": "^4.1.4",
     "uuid": "^8.3.1",
     "yup": "^0.31.1"

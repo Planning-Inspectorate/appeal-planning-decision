@@ -22,7 +22,8 @@
     "cypress-ntlm-auth": "^3.1.1",
     "datatables.net": "^1.10.22",
     "moment": "^2.29.1",
-    "multiple-cucumber-html-reporter": "^1.18.0"
+    "multiple-cucumber-html-reporter": "^1.18.0",
+    "rhea": "^1.0.24"
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true,
