@@ -18,7 +18,7 @@
 {% endblock %}
 
 {% block pageTitle %}
-  Appeal a householder planning decision
+  Are there any other appeals adjacent or close to the site still being considered? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK
 {% endblock %}
 
 {% block content %}
@@ -42,14 +42,26 @@
             type: 'text',
             spellcheck: false,
             value: values['appeal-reference-numbers'],
+            attributes: {
+              'data-cy': 'appeal-reference-numbers'
+            },
             label: {
-              text: 'Enter appeal reference number(s)'
+              text: 'Enter appeal reference number(s)',
+              attributes: {
+                'data-cy': 'appeal-reference-numbers-label'
+              }
             },
             hint: {
-              text: 'You can enter more than one, separated by commas'
+              text: 'You can enter more than one, separated by commas',
+              attributes: {
+                'data-cy': 'appeal-reference-numbers-hint'
+              }
             },
             errorMessage: errors['appeal-reference-numbers'] and {
-              text: errors['appeal-reference-numbers'].msg
+              text: errors['appeal-reference-numbers'].msg,
+              attributes: {
+                'data-cy': 'appeal-reference-numbers-error'
+              }
             }
           }) }}
         {% endset %}
@@ -71,16 +83,25 @@
               checked: true if values['adjacent-appeals'] === 'yes',
               conditional: {
                 html: appealRefHtml
+              },
+              attributes: {
+                "data-cy": "adjacent-appeals-yes"
               }
             },
             {
               value: "no",
               checked: true if values['adjacent-appeals'] === 'no',
-              text: "No"
+              text: "No",
+              attributes: {
+                "data-cy": "adjacent-appeals-no"
+              }
             }
           ],
           errorMessage: errors['adjacent-appeals'] and {
-            text: errors['adjacent-appeals'].msg
+            text: errors['adjacent-appeals'].msg,
+            attributes: {
+              'data-cy': 'adjacent-appeals-error'
+            }
           }
         }) }}
 

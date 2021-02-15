@@ -26,10 +26,13 @@ describe('controllers/other-appeals', () => {
 
   describe('getOtherAppeals', () => {
     it('should call the correct template', () => {
+      req.session.backLink = `/mock-id/mock-back-link`;
+
       otherAppealsController.getOtherAppeals(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.OTHER_APPEALS, {
         appeal: null,
+        backLink: `/mock-id/mock-back-link`,
         values: {
           'adjacent-appeals': null,
           'appeal-reference-numbers': '',
@@ -54,6 +57,7 @@ describe('controllers/other-appeals', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.OTHER_APPEALS, {
         appeal: null,
+        backLink: `/mock-id/${VIEW.TASK_LIST}`,
         values: {
           'adjacent-appeals': 'yes',
           'appeal-reference-numbers': 'abc-123',
@@ -77,6 +81,7 @@ describe('controllers/other-appeals', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.OTHER_APPEALS, {
         appeal: null,
+        backLink: `/mock-id/${VIEW.TASK_LIST}`,
         values: {
           'adjacent-appeals': 'no',
           'appeal-reference-numbers': undefined,
@@ -106,6 +111,25 @@ describe('controllers/other-appeals', () => {
       expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
     });
 
+    it('should redirect to the back link specified', async () => {
+      getTaskStatus.mockImplementation(() => mockTaskStatus);
+
+      mockAppealReply.aboutAppealSection.otherAppeals.adjacentAppeals = false;
+      mockAppealReply.sectionStates.aboutAppealSection.otherAppeals = mockTaskStatus;
+
+      const mockRequest = {
+        ...mockReq(),
+        body: {
+          'adjacent-appeals': 'no',
+        },
+      };
+      mockRequest.session.backLink = `/mock-id/mock-back-link`;
+
+      await otherAppealsController.postOtherAppeals(mockRequest, res);
+
+      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/mock-back-link`);
+    });
+
     it('should redirect with adjacent-appeals set to true and appeal-reference-numbers passed', async () => {
       getTaskStatus.mockImplementation(() => mockTaskStatus);
 
@@ -122,6 +146,7 @@ describe('controllers/other-appeals', () => {
           'appeal-reference-numbers': 'some-reference',
         },
       };
+      mockRequest.session.backLink = `/mock-id/${VIEW.TASK_LIST}`;
 
       await otherAppealsController.postOtherAppeals(mockRequest, res);
 
@@ -145,6 +170,7 @@ describe('controllers/other-appeals', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.OTHER_APPEALS, {
         appeal: null,
+        backLink: `/mock-id/${VIEW.TASK_LIST}`,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
         values: {
@@ -174,6 +200,7 @@ describe('controllers/other-appeals', () => {
       expect(logger.error).toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.OTHER_APPEALS, {
         appeal: null,
+        backLink: `/mock-id/${VIEW.TASK_LIST}`,
         errorSummary: [{ text: 'mock api error' }],
         errors: {},
         values: {
