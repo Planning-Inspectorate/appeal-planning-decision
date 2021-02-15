@@ -3,16 +3,16 @@
  *
  * This puts all the endpoints into the application.
  */
+const express = require('express');
 
-const { Router } = require('express');
+const router = express.Router();
+
 const appeals = require('./appeals');
-const lpas = require('./localPlanningAuthorities');
-const apidocs = require('./api-docs');
+const lpas = require('./local-planning-authorities');
+const apiDocs = require('./api-docs');
 
-const routes = Router();
+router.use('/api/v1/appeals', appeals);
+router.use('/api/v1/local-planning-authorities', lpas);
+router.use('/api-docs', apiDocs);
 
-routes.use('/api/v1/appeals', appeals);
-routes.use('/api/v1/local-planning-authorities', lpas);
-routes.use('/api-docs', apidocs);
-
-module.exports = routes;
+module.exports = router;
