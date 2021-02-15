@@ -1,8 +1,14 @@
-const appealDocument = {
+exports.appealDocument = {
   id: null,
+  horizonId: null,
   lpaCode: null,
   decisionDate: null,
   state: 'DRAFT',
+  eligibility: {
+    enforcementNotice: null,
+    householderPlanningPermission: null,
+    isClaimingCosts: null,
+  },
   aboutYouSection: {
     yourDetails: {
       isOriginalApplicant: null,
@@ -78,13 +84,4 @@ const appealDocument = {
       healthAndSafety: 'NOT STARTED',
     },
   },
-  eligibility: {
-    enforcementNotice: null,
-    householderPlanningPermission: null,
-    isClaimingCosts: null,
-  },
-};
-
-module.exports = {
-  appealDocument,
 };

@@ -1,17 +1,18 @@
-const { Router } = require('express');
+const express = require('express');
 const appealsController = require('../controllers/appeals');
-const validateDto = require('../middleware/validateDto');
-const putAppeal = require('../dto/putAppeal');
-const patchAppeal = require('../dto/patchAppeal');
+const {
+  appealInsertValidationRules,
+  appealUpdateValidationRules,
+} = require('../validators/appeals/appeals.validator');
 
-const routes = new Router();
+const router = express.Router();
 
-routes.get('/:id', appealsController.get);
+router.get('/:id', appealsController.getAppeal);
 
-routes.post('/', appealsController.create);
+router.post('/', appealsController.createAppeal);
 
-routes.put('/:id', validateDto(putAppeal), appealsController.replace);
+router.put('/:id', appealInsertValidationRules, appealsController.replaceAppeal);
 
-routes.patch('/:id', validateDto(patchAppeal), appealsController.update);
+router.patch('/:id', appealUpdateValidationRules, appealsController.updateAppeal);
 
-module.exports = routes;
+module.exports = router;

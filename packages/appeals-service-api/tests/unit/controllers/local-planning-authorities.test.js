@@ -1,8 +1,8 @@
-jest.mock('../schemas/lpa');
+jest.mock('../../../src/schemas/lpa');
 
 const { when } = require('jest-when');
-const LPA = require('../schemas/lpa');
-const lpas = require('./localPlanningAuthorities');
+const LPA = require('../../../src/schemas/lpa');
+const lpas = require('../../../src/controllers/local-planning-authorities');
 
 let req;
 let res;
