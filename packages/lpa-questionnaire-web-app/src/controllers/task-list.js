@@ -39,6 +39,9 @@ exports.getTaskList = (req, res) => {
   const sections = buildTaskLists(appealReply, req.params.id);
   const applicationStatus = 'Application incomplete';
 
+  // Set backLink property in session
+  req.session.backLink = `/${req.params.id}/${VIEW.TASK_LIST}`;
+
   res.render(VIEW.TASK_LIST, {
     applicationStatus,
     sections,
