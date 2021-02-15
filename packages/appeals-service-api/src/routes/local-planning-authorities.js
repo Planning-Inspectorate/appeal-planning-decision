@@ -1,13 +1,13 @@
-const { Router } = require('express');
-const lpaController = require('../controllers/localPlanningAuthorities');
+const express = require('express');
+const lpaController = require('../controllers/local-planning-authorities');
 
-const routes = new Router();
+const router = express.Router();
 
-routes.route('/').get(lpaController.list);
+router.get('/', lpaController.list);
 
-routes.route('/:id').get(lpaController.get);
+router.get('/:id', lpaController.get);
 
-module.exports = routes;
+module.exports = router;
 
 /**
  * @swagger
