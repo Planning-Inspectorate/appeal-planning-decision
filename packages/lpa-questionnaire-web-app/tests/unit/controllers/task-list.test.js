@@ -34,12 +34,7 @@ jest.mock('../../../src/services/task.service', () => ({
 describe('controllers/task-list', () => {
   describe('getTaskList', () => {
     it('All the tasks except check answers should be in not started', () => {
-      const req = {
-        ...mockReq(),
-        params: {
-          id: '123-abc',
-        },
-      };
+      const req = mockReq();
       const res = mockRes();
 
       taskListController.getTaskList(req, res);
@@ -57,7 +52,7 @@ describe('controllers/task-list', () => {
             description: 'Mock Description',
             tasks: [
               {
-                href: '/123-abc/mock-task-1',
+                href: '/mock-id/mock-task-1',
                 text: 'Mock Task 1',
                 status: 'NOT STARTED',
                 attributes: {
@@ -66,7 +61,7 @@ describe('controllers/task-list', () => {
                 },
               },
               {
-                href: '/123-abc/mock-task-2',
+                href: '/mock-id/mock-task-2',
                 text: 'Mock Task 2',
                 status: 'NOT STARTED',
                 attributes: {

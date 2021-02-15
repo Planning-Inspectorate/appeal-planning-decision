@@ -9,11 +9,17 @@ describe('controllers/placeholder', () => {
       params: {
         id: '123-abc',
       },
+      session: {
+        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+      },
     };
     const res = mockRes();
 
     placeholderController.getPlaceholder(req, res);
 
-    expect(res.render).toHaveBeenCalledWith(VIEW.PLACEHOLDER, { appeal: null });
+    expect(res.render).toHaveBeenCalledWith(VIEW.PLACEHOLDER, {
+      appeal: null,
+      backLink: `/mock-id/${VIEW.TASK_LIST}`,
+    });
   });
 });

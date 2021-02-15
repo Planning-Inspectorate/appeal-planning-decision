@@ -8,7 +8,7 @@ const rules = () => {
   return [
     body(adjacentAppealsRef)
       .notEmpty()
-      .withMessage('Select yes if there are other appeals still being considered')
+      .withMessage('Select yes if there are other appeals still being considered')
       .bail()
       .isIn(adjacentAppealsValues),
     body(appealNumbersRef)

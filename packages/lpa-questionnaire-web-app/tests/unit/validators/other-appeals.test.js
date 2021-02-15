@@ -15,7 +15,7 @@ describe('validators/other-appeals', () => {
       expect(rule.stack[0].validator.name).toEqual('isEmpty');
       expect(rule.stack[0].negated).toBeTruthy();
       expect(rule.stack[0].message).toEqual(
-        'Select yes if there are other appeals still being considered'
+        'Select yes if there are other appeals still being considered'
       );
 
       expect(rule.stack[2].validator.name).toEqual('isIn');
@@ -51,7 +51,7 @@ describe('validators/other-appeals', () => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
           expect(result.errors[0].msg).toEqual(
-            'Select yes if there are other appeals still being considered'
+            'Select yes if there are other appeals still being considered'
           );
           expect(result.errors[0].param).toEqual('adjacent-appeals');
           expect(result.errors[0].value).toEqual(undefined);
