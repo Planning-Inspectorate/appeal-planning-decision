@@ -1,8 +1,9 @@
 const express = require('express');
+const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing-appeal-reply');
 const taskListController = require('../controllers/task-list');
 
 const router = express.Router();
 
-router.get('/:id/task-list', taskListController.getTaskList);
+router.get('/:id/task-list', [fetchExistingAppealReplyMiddleware], taskListController.getTaskList);
 
 module.exports = router;
