@@ -32,7 +32,14 @@ module.exports = {
   },
   logger: {
     level: process.env.LOGGER_LEVEL || 'info',
-    redact: ['config.db.mongodb'],
+    redact: ['config.db.mongodb', 'config.queue.username', 'config.queue.password'],
+  },
+  queue: {
+    host: process.env.QUEUE_HOST,
+    name: process.env.QUEUE_NAME,
+    password: process.env.QUEUE_PASSWORD,
+    port: process.env.QUEUE_PORT,
+    username: process.env.QUEUE_USERNAME,
   },
   server: {
     port: Number(process.env.SERVER_PORT || 3000),
