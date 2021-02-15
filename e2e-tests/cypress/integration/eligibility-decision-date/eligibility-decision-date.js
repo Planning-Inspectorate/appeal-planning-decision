@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 
-const dateForXDaysAgo = (x) => {
+export const dateForXDaysAgo = (x) => {
   const now = moment();
   const then = now.subtract(x, 'days');
 
