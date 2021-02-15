@@ -1,4 +1,4 @@
-function validateAppeal(appealId, appeal) {
+const validateAppeal = (appeal) => {
   const errors = [];
 
   // Start of Task List Validation
@@ -216,10 +216,6 @@ function validateAppeal(appealId, appeal) {
   }
 
   // End of Task List Validation
-
-  if (appealId !== appeal.id) {
-    errors.push('The provided id in path must be the same as the appeal id in the request body');
-  }
   if (
     appeal.state === 'SUBMITTED' &&
     (appeal.sectionStates.aboutYouSection.yourDetails !== 'COMPLETED' ||
@@ -234,6 +230,7 @@ function validateAppeal(appealId, appeal) {
     errors.push('The appeal state cannot be SUBMITTED if any sections are not COMPLETED');
   }
   return errors;
-}
-
-module.exports = { validateAppeal };
+};
+module.exports = {
+  validateAppeal,
+};

@@ -1,11 +1,12 @@
 const yup = require('yup');
-const { parseDateString } = require('./helpers/parseDateString');
+const parseDateString = require('../../../lib/parse-date-string');
 
-module.exports = yup
+exports.insertAppeal = yup
   .object()
   .noUnknown(true)
   .shape({
     id: yup.string().uuid().required(),
+    horizonId: yup.string().trim().max(20).nullable(),
     lpaCode: yup.string().trim().max(20).nullable().default(null),
     decisionDate: yup.date().transform(parseDateString).nullable().default(null),
     state: yup.string().oneOf(['DRAFT', 'SUBMITTED']).default('DRAFT'),
@@ -121,6 +122,7 @@ module.exports = yup
     }),
     eligibility: yup.object().shape({
       enforcementNotice: yup.bool().nullable().default(null),
+      householderPlanningPermission: yup.bool().nullable().default(null),
       isClaimingCosts: yup.bool().nullable().default(null),
     }),
   });
