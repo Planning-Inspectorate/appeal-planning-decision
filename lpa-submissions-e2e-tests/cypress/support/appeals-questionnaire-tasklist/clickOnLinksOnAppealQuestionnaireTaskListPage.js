@@ -10,8 +10,8 @@ module.exports = (taskname) =>{
     case 'extraConditions':
       tasklist.getExtraConditions().click();
       break;
-    case 'areaAppeals':
-      tasklist.getAreaAppeals().click();
+    case 'otherAppeals':
+      tasklist.getOtherAppeals().click();
       break;
     case 'aboutSite':
       tasklist.getAboutSite().click();

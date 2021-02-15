@@ -118,6 +118,7 @@ require('./common/verifyAppealDetailsSidebar'));
 
 Cypress.Commands.add('getAppealDetailsSidebar',
 require('./common/getAppealDetailsSidebar'));
+
 Cypress.Commands.add('verifyAppealsInImmediateAreaCaption',
 require('./appeals-in-immediate-area/verifyAppealsInImmediateAreaCaption'));
 
