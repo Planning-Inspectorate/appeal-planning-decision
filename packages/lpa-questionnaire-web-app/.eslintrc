@@ -1,6 +1,6 @@
 {
   "parserOptions": {
-    "ecmaVersion": 9,
+    "ecmaVersion": 11,
     "sourceType": "module"
   },
   "extends": ["airbnb-base", "prettier"],
@@ -11,7 +11,7 @@
     "prettier/prettier": "error"
   },
   "env": {
-    "es2021": true,
+    "es2020": true,
     "node": true,
     "jest": true
   }
