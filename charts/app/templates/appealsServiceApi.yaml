@@ -1,3 +1,5 @@
+{{ $queueConfig := index .Values "horizon-householder-appeal-publish" }}
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -49,6 +51,30 @@ spec:
               path: /health
               port: {{.Values.appealsServiceApi.service.name }}
           env:
+            - name: HORIZON_HAS_PUBLISHER_HOST
+              value: {{ $queueConfig.amqp.connection.host | quote }}
+            - name: HORIZON_HAS_PUBLISHER_HOSTNAME
+              value: {{ $queueConfig.amqp.connection.hostname | quote }}
+            - name: HORIZON_HAS_PUBLISHER_RECONNECT_LIMIT
+              value: {{ $queueConfig.amqp.connection.reconnectLimit | quote }}
+            - name: HORIZON_HAS_PUBLISHER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: {{ $queueConfig.amqp.connection.existingPasswordSecret | quote }}
+            - name: HORIZON_HAS_PUBLISHER_PORT
+              value: {{ $queueConfig.amqp.connection.port | quote }}
+            - name: HORIZON_HAS_PUBLISHER_ATTEMPT_RECONNECTION
+              value: {{ $queueConfig.amqp.connection.reconnect | quote }}
+            - name: HORIZON_HAS_PUBLISHER_TRANSPORT
+              value: {{ $queueConfig.amqp.connection.transport | quote }}
+            - name: HORIZON_HAS_PUBLISHER_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: {{ $queueConfig.amqp.connection.existingUsernameSecret | quote }}
+            - name: HORIZON_HAS_PUBLISHER_QUEUE
+              value: {{ $queueConfig.amqp.receiver.source | quote }}
             - name: LPA_DATA_PATH
               value: /data/lpa/lpa-list.csv
             - name: LPA_TRIALIST_DATA_PATH
