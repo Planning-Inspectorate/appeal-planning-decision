@@ -22,7 +22,7 @@ describe('services/validation.service', () => {
       const errors = validateAppeal(appeal);
 
       expect(errors).toContain(
-        'The appeal state cannot be SUBMITTED if any sections are not COMPLETED'
+        'The appeal state cannot be SUBMITTED if any sections except Other Documents are not COMPLETED'
       );
     });
 

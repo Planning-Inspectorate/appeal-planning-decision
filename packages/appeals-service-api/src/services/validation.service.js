@@ -227,7 +227,9 @@ const validateAppeal = (appeal) => {
       appeal.sectionStates.appealSiteSection.siteOwnership !== 'COMPLETED' ||
       appeal.sectionStates.appealSiteSection.healthAndSafety !== 'COMPLETED')
   ) {
-    errors.push('The appeal state cannot be SUBMITTED if any sections are not COMPLETED');
+    errors.push(
+      'The appeal state cannot be SUBMITTED if any sections except Other Documents are not COMPLETED'
+    );
   }
   return errors;
 };

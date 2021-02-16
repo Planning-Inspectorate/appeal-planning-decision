@@ -8,6 +8,7 @@ const { appealDocument } = require('../../src/models/appeal');
 const valueAppeal = require('../unit/value-appeal');
 
 jest.mock('../../src/db/db');
+jest.mock('../../src/lib/queue');
 
 async function createAppeal() {
   const appeal = JSON.parse(JSON.stringify(appealDocument));
@@ -96,6 +97,27 @@ describe('Appeals API', () => {
     expect(response.statusCode).toBe(400);
   });
 
+  test('PUT /api/v1/appeals/{id} - It responds with an error - Cannot update appeal that is already SUBMITTED', async () => {
+    const appeal = await createAppeal();
+    appeal.state = 'SUBMITTED';
+    appeal.aboutYouSection.yourDetails.name = 'Some Name';
+    appeal.aboutYouSection.yourDetails.email = 'something@email.com';
+    appeal.aboutYouSection.yourDetails.isOriginalApplicant = true;
+    appeal.sectionStates.aboutYouSection.yourDetails = 'COMPLETED';
+    appeal.sectionStates.requiredDocumentsSection.applicationNumber = 'COMPLETED';
+    appeal.sectionStates.requiredDocumentsSection.originalApplication = 'COMPLETED';
+    appeal.sectionStates.requiredDocumentsSection.decisionLetter = 'COMPLETED';
+    appeal.sectionStates.yourAppealSection.appealStatement = 'COMPLETED';
+    appeal.sectionStates.appealSiteSection.siteAccess = 'COMPLETED';
+    appeal.sectionStates.appealSiteSection.siteOwnership = 'COMPLETED';
+    appeal.sectionStates.appealSiteSection.healthAndSafety = 'COMPLETED';
+    appeal.sectionStates.appealSiteSection.siteAddress = 'COMPLETED';
+    await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    expect(response.body.errors).toContain('Cannot update appeal that is already SUBMITTED');
+    expect(response.statusCode).toBe(409);
+  });
+
   test('PATCH /api/v1/appeals/{id} - It responds with an updated appeal', async () => {
     const appeal = await createAppeal();
     valueAppeal(appeal);
@@ -128,5 +150,28 @@ describe('Appeals API', () => {
       'The provided id in path must be the same as the appeal id in the request body'
     );
     expect(response.statusCode).toBe(400);
+  });
+
+  test('PATCH /api/v1/appeals/{id} - It responds with an error - Cannot update appeal that is already SUBMITTED', async () => {
+    const appeal = await createAppeal();
+    appeal.state = 'SUBMITTED';
+    appeal.aboutYouSection.yourDetails.name = 'Some Name';
+    appeal.aboutYouSection.yourDetails.email = 'something@email.com';
+    appeal.aboutYouSection.yourDetails.isOriginalApplicant = true;
+    appeal.sectionStates.aboutYouSection.yourDetails = 'COMPLETED';
+    appeal.sectionStates.requiredDocumentsSection.applicationNumber = 'COMPLETED';
+    appeal.sectionStates.requiredDocumentsSection.originalApplication = 'COMPLETED';
+    appeal.sectionStates.requiredDocumentsSection.decisionLetter = 'COMPLETED';
+    appeal.sectionStates.yourAppealSection.appealStatement = 'COMPLETED';
+    appeal.sectionStates.appealSiteSection.siteAccess = 'COMPLETED';
+    appeal.sectionStates.appealSiteSection.siteOwnership = 'COMPLETED';
+    appeal.sectionStates.appealSiteSection.healthAndSafety = 'COMPLETED';
+    appeal.sectionStates.appealSiteSection.siteAddress = 'COMPLETED';
+    await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
+    const response = await request(app)
+      .patch(`/api/v1/appeals/${appeal.id}`)
+      .send({ state: 'SUBMITTED' });
+    expect(response.body.errors).toContain('Cannot update appeal that is already SUBMITTED');
+    expect(response.statusCode).toBe(409);
   });
 });
