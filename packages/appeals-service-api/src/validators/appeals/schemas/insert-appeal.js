@@ -115,6 +115,7 @@ exports.insertAppeal = yup
         otherDocuments: yup.string().oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED']).required(),
       }),
       appealSiteSection: yup.object({
+        siteAddress: yup.string().oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED']).required(),
         siteAccess: yup.string().oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED']).required(),
         siteOwnership: yup.string().oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED']).required(),
         healthAndSafety: yup.string().oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED']).required(),

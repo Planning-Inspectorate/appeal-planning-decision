@@ -20,6 +20,10 @@ function document() {
     .noUnknown(true);
 }
 
+function sectionState() {
+  return yup.string().oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED']).required();
+}
+
 exports.updateAppeal = yup
   .object()
   .noUnknown(true)
@@ -90,25 +94,34 @@ exports.updateAppeal = yup
             yourDetails: yup.object().shape({
               isOriginalApplicant: yup.lazy((isOriginalApplicant) => {
                 if (isOriginalApplicant !== undefined) {
-                  return yup.bool().nullable().required();
+                  return yup.bool().required();
                 }
                 return yup.mixed().notRequired();
               }),
               name: yup.lazy((name) => {
                 if (name !== undefined) {
-                  return yup.string().max(80).ensure().required();
+                  return yup
+                    .string()
+                    .min(2)
+                    .max(80)
+                    .matches(/^[a-z\-' ]+$/i)
+                    .required();
                 }
                 return yup.mixed().notRequired();
               }),
               email: yup.lazy((emailValue) => {
                 if (emailValue !== undefined) {
-                  return yup.string().email().max(255).ensure().required();
+                  return yup.string().email().max(255).required();
                 }
                 return yup.mixed().notRequired();
               }),
               appealingOnBehalfOf: yup.lazy((appealingOnBehalfOf) => {
                 if (appealingOnBehalfOf !== undefined) {
-                  return yup.string().max(80).ensure().nullable();
+                  return yup
+                    .string()
+                    .max(80)
+                    .matches(/^[a-z\-' ]+$/i)
+                    .nullable();
                 }
                 return yup.mixed().notRequired();
               }),
@@ -182,52 +195,107 @@ exports.updateAppeal = yup
     appealSiteSection: yup.lazy((value) => {
       if (value !== undefined) {
         return yup.object().shape({
-          siteAddress: yup.lazy((siteAddressValue) => {
-            if (siteAddressValue !== undefined) {
+          siteAddress: yup.lazy((siteAddress) => {
+            if (siteAddress !== undefined) {
               return yup
                 .object()
                 .shape({
-                  addressLine1: yup.string().max(60).ensure().required(),
-                  addressLine2: yup.string().max(60).ensure(),
-                  town: yup.string().max(60).ensure(),
-                  county: yup.string().max(60).ensure().required(),
-                  postcode: yup.string().max(8).ensure().required(),
+                  addressLine1: yup.lazy((addressLine1) => {
+                    if (addressLine1 !== undefined) {
+                      return yup.string().max(60).ensure().required();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
+                  addressLine2: yup.lazy((addressLine2) => {
+                    if (addressLine2 !== undefined) {
+                      return yup.string().max(60).ensure().required();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
+                  town: yup.lazy((town) => {
+                    if (town !== undefined) {
+                      return yup.string().max(60).ensure().required();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
+                  county: yup.lazy((county) => {
+                    if (county !== undefined) {
+                      return yup.string().max(60).ensure().required();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
+                  postcode: yup.lazy((postcode) => {
+                    if (postcode !== undefined) {
+                      return yup.string().max(8).ensure().required();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
                 })
                 .noUnknown(true);
             }
             return yup.mixed().notRequired();
           }),
-          siteOwnership: yup.lazy((siteOwnershipValue) => {
-            if (siteOwnershipValue !== undefined) {
+          siteOwnership: yup.lazy((siteOwnership) => {
+            if (siteOwnership !== undefined) {
               return yup
                 .object()
                 .shape({
-                  ownsWholeSite: yup.bool().required(),
-                  haveOtherOwnersBeenTold: yup.bool().nullable().default(null),
+                  ownsWholeSite: yup.lazy((ownsWholeSite) => {
+                    if (ownsWholeSite !== undefined) {
+                      return yup.bool().required();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
+                  haveOtherOwnersBeenTold: yup.lazy((haveOtherOwnersBeenTold) => {
+                    if (haveOtherOwnersBeenTold !== undefined) {
+                      return yup.bool().required();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
                 })
                 .noUnknown(true);
             }
             return yup.mixed().notRequired();
           }),
-          siteAccess: yup.lazy((siteAccessValue) => {
-            if (siteAccessValue !== undefined) {
+          siteAccess: yup.lazy((siteAccess) => {
+            if (siteAccess !== undefined) {
               return yup
                 .object()
                 .shape({
-                  canInspectorSeeWholeSiteFromPublicRoad: yup.bool().required(),
-                  howIsSiteAccessRestricted: yup.string().max(255).ensure(),
+                  canInspectorSeeWholeSiteFromPublicRoad: yup.lazy((seeWholeSite) => {
+                    if (seeWholeSite !== undefined) {
+                      return yup.bool().required();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
+                  howIsSiteAccessRestricted: yup.lazy((howIsSiteAccessRestricted) => {
+                    if (howIsSiteAccessRestricted !== undefined) {
+                      return yup.string().max(255).ensure().nullable();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
                 })
                 .noUnknown(true);
             }
             return yup.mixed().notRequired();
           }),
-          healthAndSafety: yup.lazy((healthAndSafetyValue) => {
-            if (healthAndSafetyValue !== undefined) {
+          healthAndSafety: yup.lazy((healthAndSafety) => {
+            if (healthAndSafety !== undefined) {
               return yup
                 .object()
                 .shape({
-                  hasIssues: yup.bool().required(),
-                  healthAndSafetyIssues: yup.string().max(255).ensure(),
+                  hasIssues: yup.lazy((hasIssues) => {
+                    if (hasIssues !== undefined) {
+                      return yup.bool().required();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
+                  healthAndSafetyIssues: yup.lazy((healthAndSafetyIssues) => {
+                    if (healthAndSafetyIssues !== undefined) {
+                      return yup.string().max(255).ensure().nullable();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
                 })
                 .noUnknown(true);
             }
@@ -241,43 +309,108 @@ exports.updateAppeal = yup
     sectionStates: yup.lazy((value) => {
       if (value !== undefined) {
         return yup.object().shape({
-          aboutYouSection: yup.object({
-            yourDetails: yup.string().oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED']).required(),
+          aboutYouSection: yup.lazy((aboutYouSection) => {
+            if (aboutYouSection !== undefined) {
+              return yup
+                .object()
+                .shape({
+                  yourDetails: yup.lazy((yourDetails) => {
+                    if (yourDetails !== undefined) {
+                      return yup
+                        .string()
+                        .oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED'])
+                        .required();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
+                })
+                .noUnknown(true);
+            }
+            return yup.mixed().notRequired();
           }),
-          requiredDocumentsSection: yup.object({
-            applicationNumber: yup
-              .string()
-              .oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED'])
-              .required(),
-            originalApplication: yup
-              .string()
-              .oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED'])
-              .required(),
-            decisionLetter: yup
-              .string()
-              .oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED'])
-              .required(),
+          requiredDocumentsSection: yup.lazy((requiredDocumentsSection) => {
+            if (requiredDocumentsSection !== undefined) {
+              return yup
+                .object()
+                .shape({
+                  applicationNumber: yup.lazy((applicationNumber) => {
+                    if (applicationNumber !== undefined) {
+                      return sectionState();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
+                  originalApplication: yup.lazy((originalApplication) => {
+                    if (originalApplication !== undefined) {
+                      return sectionState();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
+                  decisionLetter: yup.lazy((decisionLetter) => {
+                    if (decisionLetter !== undefined) {
+                      return sectionState();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
+                })
+                .noUnknown(true);
+            }
+            return yup.mixed().notRequired();
           }),
-          yourAppealSection: yup.object({
-            appealStatement: yup
-              .string()
-              .oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED'])
-              .required(),
-            otherDocuments: yup
-              .string()
-              .oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED'])
-              .required(),
+          yourAppealSection: yup.lazy((yourAppealSection) => {
+            if (yourAppealSection !== undefined) {
+              return yup
+                .object()
+                .shape({
+                  appealStatement: yup.lazy((appealStatement) => {
+                    if (appealStatement !== undefined) {
+                      return sectionState();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
+                  otherDocuments: yup.lazy((otherDocuments) => {
+                    if (otherDocuments !== undefined) {
+                      return sectionState();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
+                })
+                .noUnknown(true);
+            }
+            return yup.mixed().notRequired();
           }),
-          appealSiteSection: yup.object({
-            siteAccess: yup.string().oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED']).required(),
-            siteOwnership: yup
-              .string()
-              .oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED'])
-              .required(),
-            healthAndSafety: yup
-              .string()
-              .oneOf(['NOT STARTED', 'IN PROGRESS', 'COMPLETED'])
-              .required(),
+          appealSiteSection: yup.lazy((appealSiteSection) => {
+            if (appealSiteSection !== undefined) {
+              return yup
+                .object()
+                .shape({
+                  siteAddress: yup.lazy((siteAddress) => {
+                    if (siteAddress !== undefined) {
+                      return sectionState();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
+                  siteAccess: yup.lazy((siteAccess) => {
+                    if (siteAccess !== undefined) {
+                      return sectionState();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
+                  siteOwnership: yup.lazy((siteOwnership) => {
+                    if (siteOwnership !== undefined) {
+                      return sectionState();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
+                  healthAndSafety: yup.lazy((healthAndSafety) => {
+                    if (healthAndSafety !== undefined) {
+                      return sectionState();
+                    }
+                    return yup.mixed().notRequired();
+                  }),
+                })
+                .noUnknown(true);
+            }
+            return yup.mixed().notRequired();
           }),
         });
       }

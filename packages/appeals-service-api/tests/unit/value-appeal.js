@@ -71,6 +71,7 @@ module.exports = (appeal) => {
     otherDocuments: 'COMPLETED',
   };
   appeal.sectionStates.appealSiteSection = {
+    siteAddress: 'COMPLETED',
     siteAccess: 'IN PROGRESS',
     siteOwnership: 'COMPLETED',
     healthAndSafety: 'NOT STARTED',
