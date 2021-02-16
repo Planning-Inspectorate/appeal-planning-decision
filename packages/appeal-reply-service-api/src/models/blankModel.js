@@ -1,8 +1,4 @@
-const Mongoose = require('mongoose');
-const replySchema = require('./replySchema');
-
-const Model = Mongoose.model('Model', replySchema);
-const blankModel = new Model({
+const blankModel = {
   id: '',
   appealId: '',
   state: '',
@@ -98,6 +94,6 @@ const blankModel = new Model({
       checkYourAnswers: '',
     },
   },
-});
+};
 
 module.exports = { blankModel };

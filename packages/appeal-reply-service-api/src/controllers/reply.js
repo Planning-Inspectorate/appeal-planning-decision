@@ -13,7 +13,7 @@ module.exports = {
       res.status(400).send(`AppealId must be included`);
       return;
     }
-    const reply = JSON.parse(JSON.stringify(blankModel));
+    const reply = blankModel;
     reply.id = uuid.v4();
     reply.appealId = appealId;
     logger.debug(`Creating reply ${reply.id} ...`);
