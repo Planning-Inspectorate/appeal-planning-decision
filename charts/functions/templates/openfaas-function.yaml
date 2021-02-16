@@ -1,4 +1,3 @@
-{{- $fullName := include "functions.fullname" . -}}
 {{- $labels := include "functions.labels" .  -}}
 
 {{- range $key, $value := .Values.functions }}
@@ -6,11 +5,11 @@
 apiVersion: openfaas.com/v1
 kind: Function
 metadata:
-  name: {{ $fullName }}-{{ $key | lower }}
+  name: {{ $key | lower }}
   labels: {{ $labels | nindent 4 }}
 spec:
   name: {{ $key }}
-  image: {{ $value.image }}
+  image: {{ $value.image }}:{{ $value.tag }}
   {{- with $value.annotations }}
   annotations:
   {{- toYaml . | nindent 4 }}
