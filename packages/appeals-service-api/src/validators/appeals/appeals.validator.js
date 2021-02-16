@@ -7,7 +7,7 @@ const appealUpdateValidationRules = async (req, res, next) => {
     req.body = await updateAppeal.validate(req.body, { abortEarly: false });
     next();
   } catch (err) {
-    next(ApiError.badRequest(err.message));
+    next(ApiError.badRequest(err));
   }
 };
 
@@ -16,7 +16,7 @@ const appealInsertValidationRules = async (req, res, next) => {
     req.body = await insertAppeal.validate(req.body, { abortEarly: false });
     next();
   } catch (err) {
-    next(ApiError.badRequest(err.message));
+    next(ApiError.badRequest(err));
   }
 };
 
