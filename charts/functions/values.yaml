@@ -10,21 +10,24 @@ keyVault:
     multiValueSecrets: []
 
 functions:
-  horizonAddDocument:
-    image: pinscommonukscontainers3887default.azurecr.io/horizon-add-document:latest
+  horizon-add-document:
+    image: pinscommonukscontainers3887default.azurecr.io/horizon-add-document
+    tag: latest
     scale:
       min: 1
       max: 5
     timeout: 10s
     envvars:
       STORAGE_CONTAINER_NAME: uploads
+      STORAGE_CONNECTION_STRING_SECRET: value
       DOCUMENT_SERVICE_URL: http://app.app-ENV.svc.cluster.local:3001
       HORIZON_URL: http://10.0.7.4:8000
     secrets:
       - akv-docs-blob-storage-connection-string
 
-  horizonCreateContact:
-    image: pinscommonukscontainers3887default.azurecr.io/horizon-create-contact:latest
+  horizon-create-contact:
+    image: pinscommonukscontainers3887default.azurecr.io/horizon-create-contact
+    tag: latest
     scale:
       min: 1
       max: 5
@@ -33,8 +36,9 @@ functions:
       HORIZON_URL: http://10.0.7.4:8000
     secrets: []
 
-  horizonHouselderAppealPublish:
-    image: pinscommonukscontainers3887default.azurecr.io/horizon-householder-appeal-publish:latest
+  horizon-householder-appeal-publish:
+    image: pinscommonukscontainers3887default.azurecr.io/horizon-householder-appeal-publish
+    tag: latest
     scale:
       min: 1
       max: 5
