@@ -32,7 +32,7 @@ describe('appeals.validators', () => {
       appealInsertValidationRules(req, res, (result) => {
         expect(insertAppeal.validate).toHaveBeenCalled();
         expect(result.code).toBe(400);
-        expect(result.message).toBe('Validation error');
+        expect(result.message).toBe('[Error: Validation error]');
       });
     });
   });
