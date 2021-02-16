@@ -37,7 +37,7 @@ describe('Replies API', () => {
   });
 
   test('POST /api/v1/reply - It responds with a newly created reply', async () => {
-    const parsedReplyModel = JSON.parse(JSON.stringify(blankModel));
+    const parsedReplyModel = blankModel;
     parsedReplyModel.appealId = '1'; // TODO: UUID Structure. Will fail when properly validated
     const response = await request(app).post(endpoint).send({ appealId: '1' });
     parsedReplyModel.id = response.body.id;
