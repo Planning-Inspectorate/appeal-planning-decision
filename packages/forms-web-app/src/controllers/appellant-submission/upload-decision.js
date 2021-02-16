@@ -31,7 +31,6 @@ exports.postUploadDecision = async (req, res) => {
   const { appeal } = req.session;
 
   try {
-    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     if ('files' in req && req.files !== null) {
       if ('decision-upload' in req.files) {
         const document = await createDocument(appeal, req.files['decision-upload']);
@@ -44,7 +43,7 @@ exports.postUploadDecision = async (req, res) => {
         };
       }
     }
-
+    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);

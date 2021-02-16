@@ -30,7 +30,6 @@ exports.postUploadApplication = async (req, res) => {
   const { appeal } = req.session;
 
   try {
-    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     if ('files' in req && req.files !== null) {
       if ('application-upload' in req.files) {
         const document = await createDocument(appeal, req.files['application-upload']);
@@ -43,7 +42,7 @@ exports.postUploadApplication = async (req, res) => {
         };
       }
     }
-
+    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);

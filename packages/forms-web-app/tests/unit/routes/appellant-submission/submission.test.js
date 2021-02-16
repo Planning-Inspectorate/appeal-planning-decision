@@ -1,4 +1,5 @@
 const { get, post } = require('../router-mock');
+const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 const submissionController = require('../../../../src/controllers/appellant-submission/submission');
 const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const {
@@ -18,7 +19,11 @@ describe('routes/appellant-submission/submission', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith('/submission', submissionController.getSubmission);
+    expect(get).toHaveBeenCalledWith(
+      '/submission',
+      [fetchExistingAppealMiddleware],
+      submissionController.getSubmission
+    );
     expect(post).toHaveBeenCalledWith(
       '/submission',
       submissionValidationRules(),
