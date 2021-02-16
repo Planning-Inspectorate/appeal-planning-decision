@@ -25,7 +25,10 @@
     "document:common": "cd ./packages/common && npm install && npm run documentation",
     "document:document-service-api": "cd ./packages/document-service-api && npm install && npm run documentation",
     "document:forms-web-app": "cd ./packages/forms-web-app && npm install && npm run documentation",
-    "document:lpa-questionnaire-web-app": "cd ./packages/lpa-questionnaire-web-app && npm install && npm run documentation"
+    "document:lpa-questionnaire-web-app": "cd ./packages/lpa-questionnaire-web-app && npm install && npm run documentation",
+    "document:horizon-add-document": "cd ./packages/horizon-add-document && npm install && npm run documentation",
+    "document:horizon-create-contact": "cd ./packages/horizon-create-contact && npm install && npm run documentation",
+    "document:horizon-householder-appeal-publish": "cd ./packages/horizon-householder-appeal-publish && npm install && npm run documentation"
   },
   "repository": {
     "type": "git",
