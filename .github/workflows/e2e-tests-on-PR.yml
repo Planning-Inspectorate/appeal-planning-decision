@@ -143,3 +143,44 @@ jobs:
         with:
           name: screenshots-pins
           path: ${{ env.CYPRESS_SCREENSHOTS }}
+
+  cypress-default-with-accessibility:
+    name: "Cypress- default with accessibility"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install the world
+        run: make install
+
+      - name: Start the world without ACP integration i.e. PINS
+        run: |
+          export SERVER_LIMITED_ROUTING_ENABLED=false
+          docker-compose up -d
+      - name: Run the tests without ACP integration
+        run: npm run test:e2e:accessibility
+
+      - name: Post-process results without ACP integration
+        if: ${{ always() }}
+        run: npm run test:e2e:postprocess
+
+      - name: Archive results without ACP integration
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: results-pins
+          path: ${{ env.CYPRESS_REPORTS }}
+
+      - name: Archive videos - without ACP integration
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: videos-pins
+          path: ${{ env.CYPRESS_VIDEOS }}
+
+      - name: Archive screenshots - without ACP integration
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: screenshots-pins
+          path: ${{ env.CYPRESS_SCREENSHOTS }}
