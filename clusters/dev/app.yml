@@ -36,7 +36,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
-        tag: 1.15.1
+        tag: 1.16.0
       config:
         googleAnalyticsId: G-TZBWMVPTHV
 
