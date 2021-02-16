@@ -35,6 +35,12 @@ services:
     environment:
       DOCS_API_PATH: /opt/app/api
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
+      HORIZON_HAS_PUBLISHER_HOST: rabbitmq
+      HORIZON_HAS_PUBLISHER_PASSWORD: admin
+      HORIZON_HAS_PUBLISHER_PORT: 5672
+      HORIZON_HAS_PUBLISHER_QUEUE: docker_queue
+      HORIZON_HAS_PUBLISHER_USERNAME: admin
+      LOGGER_LEVEL: "debug"
       LPA_DATA_PATH: /opt/app/data/lpa-list.csv
       LPA_TRIALIST_DATA_PATH: /opt/app/data/lpa-trialists.json
       MONGODB_AUTO_INDEX: "true"
@@ -44,7 +50,6 @@ services:
       SRV_HORIZON_URL: http://mock-horizon:3000
       SRV_NOTIFY_URL: http://mock-notify:3000
       SRV_OS_PLACES_URL: http://mock-os-places:3000
-      LOGGER_LEVEL: "debug"
     ports:
       - 3000:3000
     working_dir: /opt/app
