@@ -186,6 +186,8 @@ horizon-householder-appeal-publish:
       host: ""
       hostname: ""
       port: 5671
+      reconnectLimit: 5
+      reconnect: true
       transport: tls
     receiver:
       source: horizon-householder-appeal-publish
