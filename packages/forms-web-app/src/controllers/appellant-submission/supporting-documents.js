@@ -21,8 +21,6 @@ exports.postSupportingDocuments = async (req, res) => {
   const { appeal } = req.session;
 
   try {
-    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
-
     if ('files' in body && 'supporting-documents' in body.files) {
       // This controller action runs after the req has passed through the validation middleware.
       // There can be valid and invalid files in a multi-file upload, and the valid files need
@@ -59,6 +57,7 @@ exports.postSupportingDocuments = async (req, res) => {
       }
     }
 
+    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);
