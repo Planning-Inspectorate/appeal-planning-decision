@@ -5,5 +5,5 @@ module.exports = (errorMessage) => {
     .then((text) => {
       expect(text).to.contain(errorMessage);
     });
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

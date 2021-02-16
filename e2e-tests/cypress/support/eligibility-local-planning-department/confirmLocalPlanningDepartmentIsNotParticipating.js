@@ -1,5 +1,5 @@
 module.exports = (text) => {
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 
   cy.get('h1')
     .invoke('text')
@@ -11,5 +11,5 @@ module.exports = (text) => {
     .should('have.attr', 'href')
     .and('include', 'https://acp.planninginspectorate.gov.uk/myportal/default.aspx');
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

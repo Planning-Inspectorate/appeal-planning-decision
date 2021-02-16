@@ -5,5 +5,5 @@ module.exports = () => {
       expect(text).to.contain('You need to agree to the declaration');
     });
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

@@ -10,5 +10,5 @@ module.exports = (value) => {
       cy.get('[data-cy="answer-yes"]').should('not.be.checked');
       cy.get('[data-cy="answer-no"]').should('not.be.checked');
   }
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

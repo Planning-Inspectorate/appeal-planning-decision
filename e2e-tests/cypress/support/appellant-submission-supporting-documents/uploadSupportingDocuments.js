@@ -9,5 +9,5 @@ module.exports = (paths) => {
 
   paths.forEach((path) => documentUpload.attachFile(path));
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

@@ -11,5 +11,5 @@ module.exports = (errorMessage) => {
       errorMessage.forEach((errorMessage) => expect(text).to.contain(errorMessage));
     });
   // pause long enough to capture a nice video
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

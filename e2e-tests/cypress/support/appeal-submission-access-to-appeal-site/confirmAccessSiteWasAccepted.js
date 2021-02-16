@@ -3,5 +3,5 @@ module.exports = () => {
   cy.url().should('include', '/appellant-submission/task-list');
 
   // pause long enough to capture a nice video
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

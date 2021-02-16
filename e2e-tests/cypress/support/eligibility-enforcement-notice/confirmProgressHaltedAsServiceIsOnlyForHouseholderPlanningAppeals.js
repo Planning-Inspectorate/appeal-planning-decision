@@ -9,5 +9,5 @@ module.exports = () => {
   cy.get('[data-cy="enforcement-notice-out"]').should('exist');
 
   // pause long enough to capture a nice video
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

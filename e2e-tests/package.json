@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test:e2e": "cypress run -e TAGS='not @wip'",
+    "test:e2e:accessibility": "cypress run --headed -b chrome -e TAGS='not @wip',demoDelay=1000,lighthouse=true,pa11y=true",
     "test:e2e:demo": "cypress run --headed -b chrome -e TAGS='not @wip',demoDelay=1000",
     "test:e2e:postprocess": "node ./reporter.js",
     "test:e2e:files": "./create-large-test-files.sh",
@@ -17,9 +18,11 @@
   "license": "ISC",
   "dependencies": {
     "cypress": "^6.2.1",
+    "cypress-audit": "^0.2.2",
     "cypress-cucumber-preprocessor": "^4.0.0",
     "cypress-file-upload": "^4.1.1",
     "cypress-ntlm-auth": "^3.1.1",
+    "cypress-plugin-tab": "^1.0.5",
     "datatables.net": "^1.10.22",
     "moment": "^2.29.1",
     "multiple-cucumber-html-reporter": "^1.18.0"

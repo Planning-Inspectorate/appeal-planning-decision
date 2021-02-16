@@ -3,5 +3,5 @@ module.exports = () => {
     expect(text).to.contain("This service is not available for listed buildings");
   });
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 }

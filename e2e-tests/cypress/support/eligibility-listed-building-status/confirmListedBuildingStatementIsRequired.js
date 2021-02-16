@@ -3,5 +3,5 @@ module.exports = () => {
     expect(text).to.contain("Select yes if your appeal is about a listed building");
   });
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 }

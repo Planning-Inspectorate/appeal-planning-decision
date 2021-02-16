@@ -3,5 +3,5 @@ module.exports = (answer) => {
   cy.get('[data-cy="answer-' + answer + '"]')
     .first()
     .should('be.checked');
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

@@ -5,7 +5,7 @@ module.exports = () => {
       expect(text).to.contain('Are you claiming for costs as part of your appeal?');
     });
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 
   // prove that the entered data is retained during navigation
   // -> use the provided 'back' button
@@ -13,5 +13,5 @@ module.exports = () => {
   // -> confirm the expected state of the radio-buttons
   cy.get('#is-your-appeal-about-a-listed-building-2').should('be.checked');
   cy.get('#is-your-appeal-about-a-listed-building').should('not.be.checked');
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

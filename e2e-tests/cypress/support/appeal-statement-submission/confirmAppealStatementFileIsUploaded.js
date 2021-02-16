@@ -8,5 +8,5 @@ module.exports = (filename) => {
 
   cy.validateIndividualFileUpload('#appeal-upload-file-name');
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

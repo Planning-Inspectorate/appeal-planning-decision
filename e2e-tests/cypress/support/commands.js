@@ -999,3 +999,7 @@ Cypress.Commands.add(
   require('./eligibility-householder/confirmDetailsDisplayed'),
 );
 
+Cypress.Commands.add(
+  'snapshot',
+  require('./snapshot'),
+);

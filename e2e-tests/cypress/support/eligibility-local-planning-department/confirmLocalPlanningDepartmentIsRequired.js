@@ -3,5 +3,5 @@ module.exports = (text) => {
     expect(text).to.contain("Select the local planning department from the list");
   });
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 }

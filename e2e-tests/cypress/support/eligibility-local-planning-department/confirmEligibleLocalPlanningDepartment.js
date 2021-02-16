@@ -9,10 +9,10 @@ module.exports = () => {
 
       cy.goToPlanningDepartmentPage();
       cy.get('input#planning-department-label').should('have.value', firstEligibleLocalPlanningDepartment);
-      cy.wait(Cypress.env('demoDelay'));
+      cy.snapshot();
 
       cy.goToCheckYourAnswersPage();
       cy.get('[data-cy="local-planning-department"]').first().should('contain', firstEligibleLocalPlanningDepartment);
-      cy.wait(Cypress.env('demoDelay'));
+      cy.snapshot();
     })
 }

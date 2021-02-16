@@ -8,5 +8,5 @@ module.exports = (errorMessage) => {
       }
       errorMessage.forEach((errorMessage) => expect(text).to.contain(errorMessage));
     });
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

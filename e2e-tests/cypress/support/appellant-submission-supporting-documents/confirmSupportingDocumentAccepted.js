@@ -10,5 +10,5 @@ module.exports = (filenames) => {
       filenames.forEach((filename) => expect(text).to.contain(filename));
     });
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

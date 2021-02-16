@@ -9,5 +9,5 @@ module.exports = (answer, details) => {
     cy.get('#site-access-more-detail').should('have.value', details);
   }
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

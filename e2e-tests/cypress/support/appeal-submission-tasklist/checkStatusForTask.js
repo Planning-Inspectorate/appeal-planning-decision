@@ -4,5 +4,5 @@ module.exports = (task, status) => {
     1,
   );
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

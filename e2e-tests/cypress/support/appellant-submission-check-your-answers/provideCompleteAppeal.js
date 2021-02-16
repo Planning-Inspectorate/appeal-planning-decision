@@ -49,5 +49,5 @@ module.exports = () => {
   cy.answerSiteHasNoIssues();
   cy.clickSaveAndContinue();
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

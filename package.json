@@ -10,6 +10,7 @@
     "format": "prettier --write \"*.js\" \"data/*.js\"",
     "semantic-release": "semantic-release",
     "test:e2e": "cd ./e2e-tests && npm run test:e2e",
+    "test:e2e:accessibility": "cd ./e2e-tests && npm run test:e2e:accessibility",
     "test:e2e:acp": "cd ./e2e-tests && npm run test:e2e:acp",
     "test:e2e:lpa": "cd ./lpa-submissions-e2e-tests && npm run test:e2e",
     "test:e2e:demo": "cd ./e2e-tests && npm run test:e2e:demo",

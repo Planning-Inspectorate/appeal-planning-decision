@@ -3,5 +3,5 @@ module.exports = (text) => {
     expect(href).to.equal("https://acp.planninginspectorate.gov.uk/myportal/default.aspx");
   });
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 }

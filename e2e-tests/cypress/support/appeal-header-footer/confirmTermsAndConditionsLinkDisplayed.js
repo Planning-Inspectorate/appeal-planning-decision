@@ -3,5 +3,5 @@ module.exports = () => {
     .should('have.attr', 'href')
     .and('include', 'https://www.gov.uk/government/publications/appeals-portal-documents');
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

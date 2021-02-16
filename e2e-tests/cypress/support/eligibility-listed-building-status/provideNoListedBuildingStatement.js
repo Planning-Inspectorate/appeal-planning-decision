@@ -1,7 +1,7 @@
 module.exports = () => {
   cy.visit('/eligibility/listed-building');
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
   const continueBtn = cy.get('.govuk-button').click();
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 }

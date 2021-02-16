@@ -6,9 +6,9 @@ module.exports = (answer) => {
       cy.get('[data-cy="answer-no"]').click();
     }
   }
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 
   cy.get('[data-cy="button-save-and-continue"]').click();
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

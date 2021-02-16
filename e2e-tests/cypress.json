@@ -5,6 +5,11 @@
   "viewportWidth": 1024,
   "viewportHeight":1600,
   "env": {
-    "demoDelay": 0
+    "demoDelay": 0,
+    "lighthouse-performance": 90,
+    "lighthouse-accessibility": 90,
+    "lighthouse-best-practices": 90,
+    "lighthouse-seo": 90,
+    "lighthouse-pwa": 50
   }
 }

@@ -9,5 +9,5 @@ module.exports = (numberAccepted) => {
     cy.get('.moj-multi-file-upload__list').should('not.exist');
   }
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

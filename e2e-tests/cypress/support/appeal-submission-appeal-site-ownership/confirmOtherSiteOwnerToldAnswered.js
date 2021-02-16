@@ -10,5 +10,5 @@ module.exports = (answer) => {
       .should('be.checked');
   }
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

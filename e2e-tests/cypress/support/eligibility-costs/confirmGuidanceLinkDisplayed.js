@@ -3,5 +3,5 @@ module.exports = () => {
     .should('have.attr', 'target', '_blank')
     .should('have.attr', 'href','https://www.gov.uk/guidance/appeals#the-award-of-costs--general');
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

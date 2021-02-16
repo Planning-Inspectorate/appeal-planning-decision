@@ -3,5 +3,5 @@ module.exports = () => {
     .should('have.attr', 'href')
     .and('include', 'https://www.smartsurvey.co.uk/s/7OGXZZ/');
 
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };

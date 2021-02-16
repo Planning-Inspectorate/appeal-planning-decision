@@ -5,5 +5,5 @@ module.exports = (value) => {
   } else {
     cy.get('[data-cy="answer-no"]').check();
   }
-  cy.wait(Cypress.env('demoDelay'));
+  cy.snapshot();
 };
