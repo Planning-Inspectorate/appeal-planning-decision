@@ -19,7 +19,7 @@ describe('appeals.validators.schemas', () => {
       try {
         appeal = await insertAppeal.validate({}, { abortEarly: false });
       } catch (result) {
-        expect(result.errors.length).toEqual(10);
+        expect(result.errors.length).toEqual(11);
         expect(result.errors).toEqual(
           expect.arrayContaining([
             'id is a required field',
@@ -29,6 +29,7 @@ describe('appeals.validators.schemas', () => {
             'sectionStates.requiredDocumentsSection.decisionLetter is a required field',
             'sectionStates.yourAppealSection.appealStatement is a required field',
             'sectionStates.yourAppealSection.otherDocuments is a required field',
+            'sectionStates.appealSiteSection.siteAddress is a required field',
             'sectionStates.appealSiteSection.siteAccess is a required field',
             'sectionStates.appealSiteSection.siteOwnership is a required field',
             'sectionStates.appealSiteSection.healthAndSafety is a required field',
