@@ -35,7 +35,6 @@ exports.postAppealStatement = async (req, res) => {
   const { appeal } = req.session;
 
   try {
-    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     appeal.yourAppealSection.appealStatement.hasSensitiveInformation = false;
     if ('files' in req && req.files !== null) {
       if ('appeal-upload' in req.files) {
@@ -49,7 +48,7 @@ exports.postAppealStatement = async (req, res) => {
         };
       }
     }
-
+    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);
