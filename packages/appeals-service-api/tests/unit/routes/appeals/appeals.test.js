@@ -23,7 +23,7 @@ describe('routes/appeals', () => {
     expect(put).toHaveBeenCalledWith(
       '/:id',
       appealInsertValidationRules,
-      appealsController.replaceAppeal
+      appealsController.updateAppeal
     );
     expect(patch).toHaveBeenCalledWith(
       '/:id',
