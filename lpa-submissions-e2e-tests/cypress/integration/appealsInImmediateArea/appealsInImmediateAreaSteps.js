@@ -21,7 +21,7 @@ When(`the user selects Save and Continue`, () => {
 Then(
   `the user is presented with the page 'Tell us about any appeals in the immediate area'`,
   () => {
-    cy.verifyAppealsInImmediateAreaCaption();
+    cy.verifyAboutAppealCaption();
     cy.validateOtherAppealsAdjacentToSiteQuestionText();
   }
 );

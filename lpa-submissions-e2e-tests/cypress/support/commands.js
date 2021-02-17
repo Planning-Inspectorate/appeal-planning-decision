@@ -57,6 +57,14 @@ Cypress.Commands.add(
   require('./appeals-questionnaire-tasklist/goToAppealsQuestionnaireTasklistPage'),
 );
 
+Cypress.Commands.add('verifyPage', require('./common/verifyPage'));
+
+Cypress.Commands.add('verifyPageTitle', require('./common/verifyPageTitle'));
+
+Cypress.Commands.add('verifySectionName', require('./common/verifySectionName'));
+
+Cypress.Commands.add('verifyQuestionTitle', require('./common/verifyQuestionTitle'));
+
 Cypress.Commands.add(
   'verifyTaskListPageTitle',
   require('./appeals-questionnaire-tasklist/verifyTaskListPageTitle'),
@@ -165,20 +173,6 @@ Cypress.Commands.add(
 Cypress.Commands.add('verifyAppealDetailsSidebar', require('./common/verifyAppealDetailsSidebar'));
 
 Cypress.Commands.add('getAppealDetailsSidebar', require('./common/getAppealDetailsSidebar'));
-Cypress.Commands.add(
-  'verifyAppealsInImmediateAreaCaption',
-  require('./appeals-in-immediate-area/verifyAppealsInImmediateAreaCaption'),
-);
-
-Cypress.Commands.add(
-  'validateAppealsPageTitle',
-  require('./appeals-in-immediate-area/validateAppealsPageTitle'),
-);
-
-Cypress.Commands.add(
-  'validateOtherAppealsAdjacentToSiteQuestionText',
-  require('./appeals-in-immediate-area/validateOtherAppealsAdjacentToSiteQuestionText'),
-);
 
 Cypress.Commands.add(
   'inputAppealsReferenceNumber',
@@ -207,4 +201,19 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'verifyRadioButtonSelection',
   require('./appeals-in-immediate-area/verifyRadioButtonSelection'),
+);
+
+Cypress.Commands.add(
+  'accurateSubmissionRadio',
+  require('./accuracy-appellants-submission/accurateSubmissionRadio'),
+);
+
+Cypress.Commands.add(
+  'inaccuracyReasonInput',
+  require('./accuracy-appellants-submission/inaccuracyReasonInput'),
+);
+
+Cypress.Commands.add(
+  'verifyAccurateSubmissionLabel',
+  require('./accuracy-appellants-submission/verifyAccurateSubmissionLabel'),
 );
