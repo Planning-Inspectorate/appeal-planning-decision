@@ -31,9 +31,11 @@ class AppealsInImmediateArea {
   otherAppealsAppealNumbersNotEnteredSummaryErrorMessage() {
     return cy.get('a[href="#appeal-reference-numbers"]');
   }
+
   otherAppealsNoSelectionMadeSummaryErrorMessage() {
     return cy.get('a[href="#adjacent-appeals"]');
   }
+  
   otherAppealsNoSelectionMadeErrorMessage() {
     return cy.get('[data-cy="adjacent-appeals-error"]');
   }
