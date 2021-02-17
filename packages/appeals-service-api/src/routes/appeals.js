@@ -11,7 +11,7 @@ router.get('/:id', appealsController.getAppeal);
 
 router.post('/', appealsController.createAppeal);
 
-router.put('/:id', appealInsertValidationRules, appealsController.replaceAppeal);
+router.put('/:id', appealInsertValidationRules, appealsController.updateAppeal);
 
 router.patch('/:id', appealUpdateValidationRules, appealsController.updateAppeal);
 
