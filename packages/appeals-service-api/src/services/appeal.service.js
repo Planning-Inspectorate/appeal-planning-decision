@@ -1,9 +1,12 @@
+const mongodb = require('../db/db');
+const queue = require('../lib/queue');
+const logger = require('../lib/logger');
+const ApiError = require('../error/apiError');
+
+const APPEALS = 'appeals';
+
 const validateAppeal = (appeal) => {
   const errors = [];
-
-  // Start of Task List Validation
-
-  // About You Section
 
   // Your Details
   // Only accepted states are name and email both empty or both valued
@@ -233,6 +236,71 @@ const validateAppeal = (appeal) => {
   }
   return errors;
 };
+
+const getAppeal = async (id) => {
+  return mongodb.get().collection(APPEALS).findOne({ _id: id });
+};
+
+const insertAppeal = async (appeal) => {
+  return mongodb.get().collection('appeals').insertOne({ _id: appeal.id, uuid: appeal.id, appeal });
+};
+
+const replaceAppeal = async (appeal) => {
+  return mongodb
+    .get()
+    .collection(APPEALS)
+    .findOneAndUpdate(
+      { _id: appeal.id },
+      { $set: { uuid: appeal.id, appeal } },
+      { returnOriginal: false, upsert: false }
+    );
+};
+
+function isValidAppeal(appeal) {
+  const errors = validateAppeal(appeal);
+
+  if (errors.length > 0) {
+    logger.debug(`Validated payload for appeal update generated errors:\n ${appeal}\n${errors}`);
+    throw ApiError.badRequest({ errors });
+  }
+
+  return errors.length === 0;
+}
+
+const updateAppeal = async (appeal, isFirstSubmission = false) => {
+  if (isValidAppeal(appeal)) {
+    /* eslint no-param-reassign: ["error", { "props": false }] */
+    appeal.updatedAt = new Date(new Date().toISOString());
+
+    const updatedDocument = await replaceAppeal(appeal);
+
+    if (isFirstSubmission) {
+      queue.addAppeal(updatedDocument.value.appeal);
+    }
+
+    logger.debug(`Updated appeal ${appeal.id}\n`);
+
+    return updatedDocument.value;
+  }
+  return null;
+};
+
+const isAppealSubmitted = async (appealId) => {
+  return mongodb
+    .get()
+    .collection(APPEALS)
+    .find({ _id: appealId, 'appeal.state': 'SUBMITTED' })
+    .limit(1)
+    .count()
+    .then((n) => {
+      return n === 1;
+    });
+};
+
 module.exports = {
+  getAppeal,
+  insertAppeal,
+  updateAppeal,
   validateAppeal,
+  isAppealSubmitted,
 };

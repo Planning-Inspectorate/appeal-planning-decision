@@ -15,5 +15,6 @@ module.exports = (value, originalValue) => {
     return parseISO(originalValue);
   }
 
+  // Not throwns as it would break the appeal yup validation
   return new Error('Invalid Date or string not ISO format');
 };
