@@ -227,3 +227,28 @@ Cypress.Commands.add(
   'verifyAccurateSubmissionLabel',
   require('./accuracy-appellants-submission/verifyAccurateSubmissionLabel'),
 );
+
+Cypress.Commands.add(
+  'validateExtraConditionsPageTitle',
+  require('./appeals-extra-conditions/validateExtraConditionsPageTitle'),
+);
+
+Cypress.Commands.add(
+  'validateExtraConditionsPageHeading',
+  require('./appeals-extra-conditions/validateExtraConditionsPageHeading'),
+);
+
+Cypress.Commands.add(
+  'validateExtraConditionsErrorMessage',
+  require('./appeals-extra-conditions/validateExtraConditionsErrorMessage'),
+);
+
+Cypress.Commands.add(
+  'extraConditionsRadioButton',
+  require('./appeals-extra-conditions/extraConditionsRadioButton'),
+);
+
+Cypress.Commands.add(
+  'inputExtraConditionsExtraInformation',
+  require('./appeals-extra-conditions/inputExtraConditionsExtraInformation'),
+);
