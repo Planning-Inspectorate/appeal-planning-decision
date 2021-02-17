@@ -208,3 +208,9 @@ Cypress.Commands.add(
   'verifyRadioButtonSelection',
   require('./appeals-in-immediate-area/verifyRadioButtonSelection'),
 );
+
+Cypress.Commands.add('validateExtraConditionsPageTitle',
+require('./appeals-extra-conditions/validateExtraConditionsPageTitle'));
+
+Cypress.Commands.add('validateExtraConditionsPageHeading',
+require('./appeals-extra-conditions/validateExtraConditionsPageHeading'));
