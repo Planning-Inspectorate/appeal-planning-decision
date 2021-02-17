@@ -3,15 +3,14 @@ const { MongoClient } = require('mongodb');
 const uuid = require('uuid');
 const mongodb = require('../db/db');
 const app = require('../app');
-const { blankModel } = require('../models/blankModel');
+const ReplyModel = require('../models/replySchema');
 
 jest.mock('../db/db');
 const endpoint = '/api/v1/reply';
 const dbId = 'reply';
 
 async function createReply() {
-  const reply = JSON.parse(JSON.stringify(blankModel));
-
+  const reply = new ReplyModel({ id: uuid.v4() });
   reply.id = uuid.v4();
   await mongodb.get().collection(dbId).insertOne({ _id: reply.id, uuid: reply.id, reply });
   return reply;
@@ -37,11 +36,9 @@ describe('Replies API', () => {
   });
 
   test('POST /api/v1/reply - It responds with a newly created reply', async () => {
-    const parsedReplyModel = blankModel;
-    parsedReplyModel.appealId = '1'; // TODO: UUID Structure. Will fail when properly validated
-    const response = await request(app).post(endpoint).send({ appealId: '1' });
-    parsedReplyModel.id = response.body.id;
-    expect(response.body).toEqual(parsedReplyModel);
+    const reply = new ReplyModel({ appealId: 1 });
+    const response = await request(app).post(endpoint).send({ appealId: 1 });
+    expect(response.body.appealId).toBe(reply.appealId);
     expect(response.statusCode).toBe(201);
   });
 
@@ -58,7 +55,8 @@ describe('Replies API', () => {
   test('GET /api/v1/reply/{id} - It responds with an existing reply', async () => {
     const reply = await createReply();
     const response = await request(app).get(`${endpoint}/${reply.id}`);
-    expect(response.body).toEqual(reply);
+    expect(JSON.stringify(response.body)).toBe(JSON.stringify(reply));
+    console.log(response.body);
     expect(response.statusCode).toBe(200);
   });
 
