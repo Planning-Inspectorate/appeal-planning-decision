@@ -1,108 +1,104 @@
 const Mongoose = require('mongoose');
 
-const { Schema } = Mongoose;
-
-const uploadedFilesSchema = new Schema({
-  name: String,
-  id: String,
+const uploadedFilesSchema = new Mongoose.Schema({
+  name: { type: String, default: '' },
+  id: { type: String, default: '' },
 });
 
-const uploadedFilesMetaSchema = new Schema({
-  name: String,
-  id: String,
-  status: String,
-  isSubjectPublicConsultation: String,
-  formalAdoption: String,
-  emergingDocument: String,
+const uploadedFilesMetaSchema = new Mongoose.Schema({
+  name: { type: String, default: '' },
+  id: { type: String, default: '' },
+  status: { type: String, default: '' },
+  isSubjectPublicConsultation: { type: String, default: '' },
+  formalAdoption: { type: String, default: '' },
+  emergingDocument: { type: String, default: '' },
 });
 
 const replySchema = new Mongoose.Schema({
-  id: String,
-  appealId: String,
-  state: String,
+  _id: false,
+  id: { type: String, default: '' },
+  appealId: { type: String, default: '' },
+  state: { type: String, default: '' },
   aboutAppealSection: {
-    submissionAccuracy: Boolean,
+    submissionAccuracy: { type: Boolean, default: null },
     extraConditions: {
-      hasExtraConditions: Boolean,
-      extraConditions: String,
+      hasExtraConditions: { type: Boolean, default: null },
+      extraConditions: { type: String, default: '' },
     },
     otherAppeals: {
-      adjacentAppeals: Boolean,
-      appealReferenceNumbers: String,
+      adjacentAppeals: { type: Boolean, default: null },
+      appealReferenceNumbers: { type: String, default: '' },
     },
   },
   aboutAppealSiteSection: {
-    cannotSeeLand: Boolean,
-    wouldNeedToEnter: Boolean,
-    wouldNeedNeighbourAccess: Boolean,
-    wouldAffectListedBuilding: Boolean,
-    isGreenBelt: Boolean,
-    isConservationArea: Boolean,
+    cannotSeeLand: { type: Boolean, default: null },
+    wouldNeedToEnter: { type: Boolean, default: null },
+    wouldNeedNeighbourAccess: { type: Boolean, default: null },
+    wouldAffectListedBuilding: { type: Boolean, default: null },
+    isGreenBelt: { type: Boolean, default: null },
+    isConservationArea: { type: Boolean, default: null },
   },
   requiredDocumentsSection: {
     plansDecision: {
-      uploadedFiles: [uploadedFilesSchema],
+      uploadedFiles: { type: [uploadedFilesSchema], default: [] },
     },
     officersReport: {
-      uploadedFiles: [uploadedFilesSchema],
+      uploadedFiles: { type: [uploadedFilesSchema], default: [] },
     },
   },
   optionalDocumentsSection: {
     interestedPartiesApplication: {
-      uploadedFiles: [uploadedFilesSchema],
+      uploadedFiles: { type: [uploadedFilesSchema], default: [] },
     },
     representationsInterestedParties: {
-      uploadedFiles: [uploadedFilesSchema],
+      uploadedFiles: { type: [uploadedFilesSchema], default: [] },
     },
     interestedPartiesAppeal: {
-      uploadedFiles: [uploadedFilesSchema],
+      uploadedFiles: { type: [uploadedFilesSchema], default: [] },
     },
-    siteNotices: Boolean,
+    siteNotices: { type: Boolean, default: null },
     planningHistory: {
-      uploadedFiles: [uploadedFilesSchema],
+      uploadedFiles: { type: [uploadedFilesSchema], default: [] },
     },
     statutoryDevelopment: {
-      uploadedFiles: [uploadedFilesSchema],
+      uploadedFiles: { type: [uploadedFilesSchema], default: [] },
     },
     otherPolicies: {
-      uploadedFiles: [uploadedFilesMetaSchema],
+      uploadedFiles: { type: [uploadedFilesMetaSchema], default: [] },
     },
     supplementaryPlanningDocuments: {
-      uploadedFiles: [uploadedFilesSchema],
+      uploadedFiles: { type: [uploadedFilesSchema], default: [] },
     },
     developmentOrNeighbourhood: {
-      hasPlanSubmitted: Boolean,
-      planChanges: String,
+      hasPlanSubmitted: { type: Boolean, default: null },
+      planChanges: { type: String, default: '' },
     },
   },
   sectionStates: {
     aboutAppealSection: {
-      submissionAccuracy: String,
-      extraConditions: String,
-      otherAppeals: String,
+      submissionAccuracy: { type: String, default: 'NOT STARTED' },
+      extraConditions: { type: String, default: 'NOT STARTED' },
+      otherAppeals: { type: String, default: 'NOT STARTED' },
     },
     aboutAppealSiteSection: {
-      aboutSite: String,
+      aboutSite: { type: String, default: 'NOT STARTED' },
     },
     requiredDocumentsSection: {
-      plansDecision: String,
-      officersReport: String,
+      plansDecision: { type: String, default: 'NOT STARTED' },
+      officersReport: { type: String, default: 'NOT STARTED' },
     },
     optionalDocumentsSection: {
-      interestedPartiesApplication: String,
-      representationsInterestedParties: String,
-      interestedPartiesAppeal: String,
-      siteNotices: String,
-      planningHistory: String,
-      statutoryDevelopment: String,
-      otherPolicies: String,
-      supplementaryPlanningDocuments: String,
-      developmentOrNeighbourhood: String,
-    },
-    submitReplySection: {
-      checkYourAnswers: String,
+      interestedPartiesApplication: { type: String, default: 'NOT STARTED' },
+      representationsInterestedParties: { type: String, default: 'NOT STARTED' },
+      interestedPartiesAppeal: { type: String, default: 'NOT STARTED' },
+      siteNotices: { type: String, default: 'NOT STARTED' },
+      planningHistory: { type: String, default: 'NOT STARTED' },
+      statutoryDevelopment: { type: String, default: 'NOT STARTED' },
+      otherPolicies: { type: String, default: 'NOT STARTED' },
+      supplementaryPlanningDocuments: { type: String, default: 'NOT STARTED' },
+      developmentOrNeighbourhood: { type: String, default: 'NOT STARTED' },
     },
   },
 });
 
-module.exports = { replySchema };
+module.exports = Mongoose.model('Reply', replySchema);
