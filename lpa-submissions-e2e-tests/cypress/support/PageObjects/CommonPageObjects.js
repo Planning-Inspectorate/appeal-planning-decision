@@ -1,10 +1,10 @@
 class CommonPageObjects {
-  validatePageCaption() {
-    return cy.get('.govuk-caption-l');
+  questionTitle() {
+    return cy.get('h1');
   }
 
-  validatePageLegendText() {
-    return cy.get('.govuk-fieldset__legend--l');
+  sectionName() {
+    return cy.get('.govuk-caption-l');
   }
 
   saveAndContinueButton() {
