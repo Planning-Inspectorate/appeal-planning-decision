@@ -105,7 +105,11 @@ module.exports = {
                   statusCode = 200;
                   body = validatedAppealDto;
                   if (validatedAppealDto.state === 'SUBMITTED') {
-                    queue.addAppeal(validatedAppealDto);
+                    queue.addAppeal({
+                      _id: idParam,
+                      uuid: idParam,
+                      appeal: validatedAppealDto,
+                    });
                   }
                 });
             }
@@ -183,7 +187,11 @@ module.exports = {
                   statusCode = 200;
                   body = validatedAppealDto;
                   if (validatedAppealDto.state === 'SUBMITTED') {
-                    queue.addAppeal(validatedAppealDto);
+                    queue.addAppeal({
+                      _id: idParam,
+                      uuid: idParam,
+                      appeal: validatedAppealDto,
+                    });
                   }
                 })
                 .catch((err) => {
