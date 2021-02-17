@@ -1,0 +1,1 @@
+{"jobID":"3ccbb6e6-f3f2-41fb-b10b-e1844d88b39c","spec":{"type":"policy","cause":{"Message":"","User":"Simon Emms \u003csimon.emms@foundry4.com\u003e"},"spec":{"app-simon:helmrelease/app":{"add":{},"remove":{"automated":"true"}}}},"result":null}
