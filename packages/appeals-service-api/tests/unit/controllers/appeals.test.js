@@ -1,12 +1,7 @@
 const { MongoClient } = require('mongodb');
 const uuid = require('uuid');
 
-const {
-  createAppeal,
-  getAppeal,
-  updateAppeal,
-  replaceAppeal,
-} = require('../../../src/controllers/appeals');
+const { createAppeal, getAppeal, updateAppeal } = require('../../../src/controllers/appeals');
 const { appealDocument } = require('../../../src/models/appeal');
 const mongodb = require('../../../src/db/db');
 
@@ -72,7 +67,10 @@ describe('appeals.controllers', () => {
       req.params.id = 'non-existent-id';
 
       await getAppeal(req, res);
-      expect(res.send).toHaveBeenCalledWith(null);
+      expect(res.send).toHaveBeenCalledWith({
+        code: 404,
+        errors: ['The appeal non-existent-id was not found'],
+      });
       expect(res.status).toHaveBeenCalledWith(404);
     });
   });
@@ -84,75 +82,17 @@ describe('appeals.controllers', () => {
       expect(res.status).toHaveBeenCalledWith(201);
     });
   });
-  describe('replaceAppeal', () => {
-    it('responds with an updated appeal', async () => {
-      const appeal = await addInDatabase();
-      const appealId = appeal.id;
-      valueAppeal(appeal);
 
-      req.params.id = appealId;
-      req.body = appeal;
-
-      await replaceAppeal(req, res);
-
-      const updatedAppeal = await getFromDatabase(appealId);
-
-      appeal.updatedAt = updatedAppeal.appeal.updatedAt;
-      expect(appeal).toEqual(updatedAppeal.appeal);
-
-      expect(res.send).toHaveBeenCalledWith(appeal);
-      expect(res.status).toHaveBeenCalledWith(200);
-    });
-
-    it('responds with an error - Not Found', async () => {
-      req.params.id = 'non-existent-id';
-
-      await replaceAppeal(req, res);
-      expect(res.send).toHaveBeenCalledWith(null);
-      expect(res.status).toHaveBeenCalledWith(404);
-    });
-
-    it('responds with an error - appeal id in path must be the same as the id in the request body', async () => {
-      const appeal = await addInDatabase();
-      const idInPath = appeal.id;
-
-      req.params.id = idInPath;
-      req.body = appeal;
-
-      appeal.id = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
-
-      await replaceAppeal(req, res);
-      expect(res.send).toHaveBeenCalledWith({
-        code: 400,
-        errors: ['The provided id in path must be the same as the appeal id in the request body'],
-      });
-      expect(res.status).toHaveBeenCalledWith(400);
-    });
-  });
   describe('updateAppeal', () => {
     it('responds with an error - Not Found', async () => {
       req.params.id = 'non-existent-id';
 
       await updateAppeal(req, res);
-      expect(res.send).toHaveBeenCalledWith(null);
-      expect(res.status).toHaveBeenCalledWith(404);
-    });
-
-    it('responds with an error - appeal id in path must be the same as the id in the request body', async () => {
-      const appeal = await addInDatabase();
-      const idInPath = appeal.id;
-
-      req.params.id = idInPath;
-      req.body = appeal;
-
-      appeal.id = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
-
-      await updateAppeal(req, res);
       expect(res.send).toHaveBeenCalledWith({
-        code: 400,
-        errors: ['The provided id in path must be the same as the appeal id in the request body'],
+        code: 404,
+        errors: ['The appeal non-existent-id was not found'],
       });
-      expect(res.status).toHaveBeenCalledWith(400);
+      expect(res.status).toHaveBeenCalledWith(404);
     });
 
     it('responds with an updated appeal', async () => {

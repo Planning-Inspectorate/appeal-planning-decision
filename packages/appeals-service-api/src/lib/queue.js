@@ -8,13 +8,16 @@ function addAppeal(message) {
   container.connect(options).open_sender(config.messageQueue.horizonHASPublisher.queue);
 
   container.once('sendable', (context) => {
-    context.sender.send({ body: message, content_type: 'application/json' });
-    logger.debug({ message }, 'Appeal message placed on queue');
+    context.sender.send({
+      body: container.message.data_section(Buffer.from(JSON.stringify(message), 'utf-8')),
+      content_type: 'application/json',
+    });
+    logger.info({ message }, 'Appeal message placed on queue');
   });
 
   container.on('accepted', (context) => {
     context.connection.close();
-    logger.debug(`Queue closed on message accepted`);
+    logger.info(`Queue closed on message accepted`);
   });
 
   container.on('error', (err) => {
