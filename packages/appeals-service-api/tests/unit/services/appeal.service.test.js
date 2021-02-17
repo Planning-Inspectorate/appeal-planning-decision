@@ -1,5 +1,5 @@
 const { appealDocument } = require('../../../src/models/appeal');
-const { validateAppeal } = require('../../../src/services/validation.service');
+const { validateAppeal } = require('../../../src/services/appeal.service');
 const valueAppeal = require('../value-appeal');
 
 describe('services/validation.service', () => {
