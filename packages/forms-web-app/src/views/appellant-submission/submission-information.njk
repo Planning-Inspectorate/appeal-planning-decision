@@ -1,0 +1,180 @@
+{% extends "../layouts/main.njk" %}
+
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "../macros/bool-to-sentence-case.njk" import boolToSentenceCaseField %}
+{% from "../macros/multifile-upload-to-list.njk" import multifileUploadToList %}
+{% from "../macros/summary-field.njk" import summaryField %}
+
+{% block pageTitle %}
+  Submission information | Appeal a householder planning decision
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <h1 class="govuk-heading-l">
+        Householder planning appeal
+      </h1>
+      <p>Submitted to the Planning Inspectorate on </p>
+
+      <h2 class="govuk-heading-m">Before you start</h2>
+
+      {{ govukSummaryList({
+        classes: "govuk-summary-list govuk-!-margin-bottom-9",
+        rows: [
+          {
+            key: {
+              text: "Local planning department"
+            },
+            value: {
+              text: summaryField(appealLPD, { 'data-cy': "local-planning-department" })
+            }
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">About you</h2>
+
+      {{ govukSummaryList({
+        classes: "govuk-summary-list govuk-!-margin-bottom-9",
+        rows: [
+          {
+            key: {
+              text: "Was the original planning application made in your name?"
+            },
+            value: {
+              text: boolToSentenceCaseField(appeal.aboutYouSection.yourDetails.isOriginalApplicant, { 'data-cy': "who-are-you" })
+            }
+          },
+          appeal.aboutYouSection.yourDetails.isOriginalApplicant === false and {
+            key: {
+              text: "Applicant name"
+            },
+            value: {
+              text: summaryField(appeal.aboutYouSection.yourDetails.appealingOnBehalfOf, { 'data-cy': "appealing-on-behalf-of" })
+            }
+          },
+          {
+            key: {
+              text: "Your name"
+            },
+            value: {
+              text: summaryField(appeal.aboutYouSection.yourDetails.name, { 'data-cy': "appellant-name" })
+            }
+          },
+          {
+            key: {
+              text: "Your email"
+            },
+            value: {
+              text: summaryField(appeal.aboutYouSection.yourDetails.email, { 'data-cy': "appellant-email" })
+            }
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">About the original planning application</h2>
+
+      {{ govukSummaryList({
+        classes: "govuk-summary-list govuk-!-margin-bottom-9",
+        rows: [
+          {
+            key: {
+              text: "Planning application number"
+            },
+            value: {
+              text: summaryField(appeal.requiredDocumentsSection.applicationNumber, { 'data-cy': "application-number" })
+            }
+          },
+          {
+            key: {
+              text: "Planning application form"
+            },
+            value: {
+              text: summaryField(appeal.requiredDocumentsSection.originalApplication.uploadedFile.name, { 'data-cy': "upload-application" })
+            }
+          },
+          {
+            key: {
+              text: "Decision letter"
+            },
+            value: {
+              text: summaryField(appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name, { 'data-cy': "upload-decision" })
+            }
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">About your appeal</h2>
+
+      {{ govukSummaryList({
+        classes: "govuk-summary-list govuk-!-margin-bottom-9",
+        rows: [
+
+          {
+            key: {
+              text: "Your appeal statement"
+            },
+            value: {
+              text: summaryField(appeal.yourAppealSection.appealStatement.uploadedFile.name, { 'data-cy': "appeal-statement" })
+            }
+          },
+          {
+            key: {
+              text: "Documents to support your appeal"
+            },
+            value: {
+              text: multifileUploadToList(appeal.yourAppealSection.otherDocuments.uploadedFiles, { 'data-cy': "supporting-documents" })
+            }
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">Visiting the appeal site</h2>
+
+      {{ govukSummaryList({
+        classes: "govuk-summary-list govuk-!-margin-bottom-9",
+        rows: [
+          {
+            key: {
+              text: "Address of the appeal site"
+            },
+            value: {
+              text: summaryField(appeal | appealSiteAddressToArray | join("\n") | nl2br | safe, { 'data-cy': "site-location" })
+            }
+          },
+          {
+            key: {
+              text: "Do you own the whole appeal site?"
+            },
+            value: {
+              text: boolToSentenceCaseField(appeal.appealSiteSection.siteOwnership.ownsWholeSite, { 'data-cy': "site-ownership" })
+            }
+          },
+          {
+            key: {
+              text: "Can the Inspector see the whole of the appeal site from a public road?"
+            },
+            value: {
+              text: boolToSentenceCaseField(appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad, { 'data-cy': "site-access" })
+                if appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad
+                else summaryField(appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted, { 'data-cy': "site-access" })
+            }
+          },
+          {
+            key: {
+              text: "Any health and safety issues?"
+            },
+            value: {
+              text: summaryField(appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues, { 'data-cy': "site-access-safety" })
+                if appeal.appealSiteSection.healthAndSafety.hasIssues
+                else boolToSentenceCaseField(appeal.appealSiteSection.healthAndSafety.hasIssues, { 'data-cy': "site-access-safety" })
+            }
+          }
+
+        ]
+      }) }}
+    </div>
+  </div>
+{% endblock %}
