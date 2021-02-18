@@ -1,0 +1,51 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: functions
+  namespace: openfaas-fn
+  annotations:
+    fluxcd.io/automated: "true"
+    repository.fluxcd.io/horizon-add-document: functions.horizon-add-document.image
+    filter.fluxcd.io/horizon-add-document: semver:1.0.0
+    tag.fluxcd.io/horizon-add-document: functions.horizon-add-document.tag
+
+    repository.fluxcd.io/horizon-create-contact: functions.horizon-create-contact.image
+    filter.fluxcd.io/horizon-create-contact: semver:1.0.0
+    tag.fluxcd.io/horizon-create-contact: functions.horizon-create-contact.tag
+
+    repository.fluxcd.io/horizon-householder-appeal-publish: functions.horizon-householder-appeal-publish.image
+    filter.fluxcd.io/horizon-householder-appeal-publish: semver:1.0.0
+    tag.fluxcd.io/horizon-householder-appeal-publish: functions.horizon-householder-appeal-publish.tag
+spec:
+  releaseName: functions
+  chart:
+    git: git@github.com:foundry4/appeal-planning-decision.git
+    ref: master
+    path: charts/functions
+  values:
+    keyVault:
+      name: pins-uks-vault-8439-prod
+
+    functions:
+      horizon-add-document:
+        image: pinscommonukscontainers3887default.azurecr.io/horizon-add-document
+        tag: latest
+        envvars:
+          STORAGE_CONTAINER_NAME: uploads
+          STORAGE_CONNECTION_STRING_SECRET: value
+          DOCUMENT_SERVICE_URL: http://app.app-simon.svc.cluster.local:3001
+          HORIZON_URL: http://10.0.7.4:8000
+
+      horizon-create-contact:
+        image: pinscommonukscontainers3887default.azurecr.io/horizon-create-contact
+        tag: latest
+        envvars:
+          HORIZON_URL: http://10.0.7.4:8000
+
+      horizon-householder-appeal-publish:
+        image: pinscommonukscontainers3887default.azurecr.io/horizon-householder-appeal-publish
+        tag: latest
+        envvars:
+          APPEALS_SERVICE_URL: http://app.app-prod.svc.cluster.local:3000
+          GATEWAY_URL: http://gateway.openfaas.svc.cluster.local:8080
+          HORIZON_URL: http://10.0.7.4:8000
