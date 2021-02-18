@@ -68,3 +68,9 @@ spec:
       httpBasic:
         enabled: true
         secret: akv-http-basic
+
+    horizon-householder-appeal-publish:
+      amqp:
+        connection:
+          host: pins-uks-message-queue-preprod.servicebus.windows.net
+          hostname: pins-uks-message-queue-preprod.servicebus.windows.net
