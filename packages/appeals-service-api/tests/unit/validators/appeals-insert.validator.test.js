@@ -1,6 +1,6 @@
-const { insertAppeal } = require('../../../../src/validators/appeals/schemas/insert-appeal');
-const { appealDocument } = require('../../../../src/models/appeal');
-const valueAppeal = require('../../value-appeal');
+const { insertAppeal } = require('../../../src/validators/appeals/schemas/insert-appeal');
+const { appealDocument } = require('../../../src/models/appeal');
+const valueAppeal = require('../value-appeal');
 
 describe('appeals.validators.schemas', () => {
   let appeal;
