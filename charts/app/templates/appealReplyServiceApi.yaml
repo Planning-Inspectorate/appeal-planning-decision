@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "app.fullname" . }}-appeal-reply-service-api
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.appealReplyServiceApi.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: {{ .Values.appealReplyServiceApi.config.port | quote }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "app.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "app.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.appealReplyServiceApi.image.repository }}:{{ .Values.appealReplyServiceApi.image.tag }}"
+          imagePullPolicy: {{ .Values.appealReplyServiceApi.image.pullPolicy }}
+          ports:
+            - name: {{ .Values.appealReplyServiceApi.service.name }}
+              containerPort: {{ .Values.appealReplyServiceApi.config.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.appealReplyServiceApi.service.name }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.appealReplyServiceApi.service.name }}
+          env:
+            - name: LOGGER_LEVEL
+              value: {{ .Values.appealReplyServiceApi.config.logLevel }}
+            - name: MONGODB_DB_NAME
+              value: appeal-reply-service-api
+            - name: MONGODB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: value
+                  name: akv-mongodb-connection-url
+            - name: SERVER_PORT
+              value: {{ .Values.appealReplyServiceApi.config.port | quote }}
+            - name: SERVER_TERMINATION_GRACE_PERIOD_SECONDS
+              value: {{ 10 | quote }} # Same as "periodSeconds" for readinessProbe
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
