@@ -12,12 +12,12 @@ const mockReq = (appeal = emptyAppeal) => ({
   },
 });
 
-const mockRes = () => {
-  const res = {};
-  res.redirect = jest.fn();
-  res.render = jest.fn();
-  return res;
-};
+const mockRes = () => ({
+  redirect: jest.fn(),
+  render: jest.fn(),
+  sendStatus: jest.fn(),
+  status: jest.fn(),
+});
 
 module.exports = {
   mockReq,
