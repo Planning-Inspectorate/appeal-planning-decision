@@ -241,3 +241,12 @@ services:
       - 4005:15672
     volumes:
       - .rabbitmq_plugins:/etc/rabbitmq/enabled_plugins
+
+  gotenberg:
+    image: thecodingmachine/gotenberg:6
+    environment:
+      DEFAULT_LISTEN_PORT: '4000'
+      DISABLE_UNOCONV: '0'
+    ports:
+      - 4006:4000
+
