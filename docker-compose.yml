@@ -216,6 +216,22 @@ services:
     ports:
       - 7000:8080
 
+  pdf-service-api:
+    image: node:14-alpine
+    environment:
+      GOTENBERG_URL: http://gotenberg:4000
+      LOGGER_LEVEL: "debug"
+      SERVER_SHOW_ERRORS: "true"
+    ports:
+      - 3003:3000
+    working_dir: /opt/app
+    links:
+      - gotenberg
+    volumes:
+      - ./packages/common:/opt/app/node_modules/@pins/common:ro # Replace the module to avoid symlink errors
+      - ./packages/pdf-service-api:/opt/app:ro
+    command: npm run start:dev
+
   # Third-party services
   blob-storage:
     image: mcr.microsoft.com/azure-storage/azurite
@@ -249,4 +265,3 @@ services:
       DISABLE_UNOCONV: '1'
     ports:
       - 4006:4000
-
