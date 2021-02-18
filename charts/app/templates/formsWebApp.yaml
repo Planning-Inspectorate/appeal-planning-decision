@@ -63,6 +63,8 @@ spec:
               value: {{ .Values.formsWebApp.config.upload.uploadDir | quote }}
             - name: FILE_UPLOAD_USE_TEMP_FILES
               value: {{ .Values.formsWebApp.config.upload.useTmpFiles | quote }}
+            - name: LOGGER_LEVEL
+              value: {{ .Values.formsWebApp.config.logLevel }}
             - name: PORT
               value: {{ .Values.formsWebApp.config.port | quote }}
             - name: SERVER_LIMITED_ROUTING_ENABLED

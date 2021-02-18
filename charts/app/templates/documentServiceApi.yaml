@@ -60,6 +60,8 @@ spec:
               value: {{ .Values.documentServiceApi.config.upload.maxSize | quote }}
             - name: FILE_UPLOAD_PATH
               value: {{ .Values.documentServiceApi.config.upload.uploadDir | quote }}
+            - name: LOGGER_LEVEL
+              value: {{ .Values.documentServiceApi.config.logLevel }}
             - name: MONGODB_DB_NAME
               value: {{ .Values.documentServiceApi.config.db.name }}
             - name: MONGODB_URL

@@ -26,6 +26,7 @@ appealsServiceApi:
     tag: latest
   config:
     port: 3000
+    logLevel: trace
 
 documentServiceApi:
   replicaCount: 1
@@ -49,6 +50,7 @@ documentServiceApi:
       uploadContainerName: uploads
       uploadDir: /upload-dir
     port: 3000
+    logLevel: trace
 
 formsWebApp:
   replicaCount: 1
@@ -63,6 +65,7 @@ formsWebApp:
     port: 3000
     enableLimitedRouting: false
     googleAnalyticsId: ""
+    logLevel: trace
     upload:
       debug: true
       uploadDir: /upload-dir

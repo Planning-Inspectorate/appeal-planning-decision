@@ -49,6 +49,8 @@ spec:
               path: /health
               port: {{.Values.appealsServiceApi.service.name }}
           env:
+            - name: LOGGER_LEVEL
+              value: {{ .Values.appealsServiceApi.config.logLevel }}
             - name: LPA_DATA_PATH
               value: /data/lpa/lpa-list.csv
             - name: LPA_TRIALIST_DATA_PATH
