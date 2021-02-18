@@ -19,6 +19,7 @@ const yourDetailsRouter = require('./your-details');
 const checkAnswersRouter = require('./check-answers');
 const submissionRouter = require('./submission');
 const confirmationRouter = require('./confirmation');
+const submissionInformationRouter = require('./submission-information');
 
 router.use(appealStatementRouter);
 router.use(applicantNameRouter);
@@ -37,5 +38,6 @@ router.use(yourDetailsRouter);
 router.use(checkAnswersRouter);
 router.use(confirmationRouter);
 router.use(submissionRouter);
+router.use(submissionInformationRouter);
 
 module.exports = router;
