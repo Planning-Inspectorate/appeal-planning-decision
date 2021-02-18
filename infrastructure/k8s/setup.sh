@@ -217,4 +217,3 @@ install_azure_key_vault
 install_nginx_ingress
 install_cert_manager
 install_gitops
-install_prometheus
