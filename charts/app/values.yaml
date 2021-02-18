@@ -2,6 +2,19 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+appealReplyServiceApi:
+  replicaCount: 1
+  service:
+    name: areply-src-api
+    port: 3002
+  image:
+    repository: pinscommonukscontainers3887default.azurecr.io/appeal-reply-service-api
+    pullPolicy: Always
+    tag: latest
+  config:
+    port: 3000
+    logLevel: trace
+
 appealsServiceApi:
   replicaCount: 1
   service:
