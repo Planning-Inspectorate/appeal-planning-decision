@@ -275,7 +275,7 @@ const updateAppeal = async (appeal, isFirstSubmission = false) => {
     const updatedDocument = await replaceAppeal(appeal);
 
     if (isFirstSubmission) {
-      queue.addAppeal(updatedDocument.value.appeal);
+      queue.addAppeal(updatedDocument.value);
     }
 
     logger.debug(`Updated appeal ${appeal.id}\n`);
