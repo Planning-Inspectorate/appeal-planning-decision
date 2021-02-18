@@ -222,3 +222,12 @@ services:
     image: mongo:3.6.21
     ports:
       - 4000:27017
+
+  gotenberg:
+    image: thecodingmachine/gotenberg:6
+    environment:
+      DEFAULT_LISTEN_PORT: '4000'
+      DISABLE_UNOCONV: '0'
+    ports:
+      - 4006:4000
+
