@@ -13,7 +13,7 @@ Given(`The User clicks on {string}`,(taskname)=>{
       name='submissionAccuracy';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToReviewAccuracyOfTheAppellantSubmissionPage();
-      cy.validatePageHolderPageLoad();
+      cy.verifyPage('/accuracy-submission');
       break;
     case 'About the appeal - Do you have any extra conditions?':
       name='extraConditions';
@@ -25,7 +25,7 @@ Given(`The User clicks on {string}`,(taskname)=>{
       name='otherAppeals';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToTellUsAboutAppealsInImmediateAreaPage();
-      cy.validateAppealsPageTitle();
+      cy.verifyPage('/other-appeals');
       break;
     case 'About the appeal site - Tell us about the appeal site' :
       name='aboutSite';
