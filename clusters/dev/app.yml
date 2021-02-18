@@ -7,6 +7,7 @@ metadata:
   annotations:
     fluxcd.io/automated: "true"
     # Add hyphen to include pre-releases
+    filter.fluxcd.io/appealReplyServiceApi: semver:^1.0.0-0
     filter.fluxcd.io/appealsServiceApi: semver:^1.0.0-0
     filter.fluxcd.io/documentServiceApi: semver:^1.0.0-0
     filter.fluxcd.io/formsWebApp: semver:^1.0.0-0
@@ -20,6 +21,12 @@ spec:
   rollback:
     enable: true
   values:
+    appealReplyServiceApi:
+      replicaCount: 2
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/appeal-reply-service-api
+        tag: latest
+
     appealsServiceApi:
       replicaCount: 2
       image:
