@@ -42,6 +42,7 @@ describe('lib/views', () => {
         CHECK_ANSWERS: 'appellant-submission/check-answers',
         SUBMISSION: 'appellant-submission/submission',
         CONFIRMATION: 'appellant-submission/confirmation',
+        SUBMISSION_INFORMATION: 'appellant-submission/submission-information',
       },
     });
   });

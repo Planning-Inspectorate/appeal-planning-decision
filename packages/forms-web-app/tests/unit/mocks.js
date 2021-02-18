@@ -16,6 +16,8 @@ const mockRes = () => ({
   cookie: jest.fn(),
   redirect: jest.fn(),
   render: jest.fn(),
+  sendStatus: jest.fn(),
+  status: jest.fn(),
 });
 
 module.exports = {
