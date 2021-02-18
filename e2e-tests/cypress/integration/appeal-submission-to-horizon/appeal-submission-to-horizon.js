@@ -28,30 +28,35 @@ Then('a case is created for a case officer', () => {
     const expectedNoDynamicFields = {
       ...expected,
     };
-    delete expectedNoDynamicFields.createdAt;
-    delete expectedNoDynamicFields.updatedAt;
-    delete expectedNoDynamicFields.id;
-    delete expectedNoDynamicFields.yourAppealSection.appealStatement.uploadedFile.id;
-    delete expectedNoDynamicFields.yourAppealSection.appealStatement.uploadedFile.location;
-    delete expectedNoDynamicFields.requiredDocumentsSection.originalApplication.uploadedFile.id;
-    delete expectedNoDynamicFields.requiredDocumentsSection.originalApplication.uploadedFile
+    delete expectedNoDynamicFields.appeal.createdAt;
+    delete expectedNoDynamicFields.appeal.updatedAt;
+    delete expectedNoDynamicFields.appeal.id;
+    delete expectedNoDynamicFields.appeal.decisionDate;
+    delete expectedNoDynamicFields.appeal.yourAppealSection.appealStatement.uploadedFile.id;
+    delete expectedNoDynamicFields.appeal.yourAppealSection.appealStatement.uploadedFile.location;
+    delete expectedNoDynamicFields.appeal.requiredDocumentsSection.originalApplication.uploadedFile.id;
+    delete expectedNoDynamicFields.appeal.requiredDocumentsSection.originalApplication.uploadedFile
       .location;
-    delete expectedNoDynamicFields.requiredDocumentsSection.decisionLetter.uploadedFile.id;
-    delete expectedNoDynamicFields.requiredDocumentsSection.decisionLetter.uploadedFile.location;
+    delete expectedNoDynamicFields.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id;
+    delete expectedNoDynamicFields.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.location;
 
     const actualNoDynamicFields = {
       ...actualMessage,
     };
-    delete actualNoDynamicFields.createdAt;
-    delete actualNoDynamicFields.updatedAt;
-    delete actualNoDynamicFields.id;
-    delete actualNoDynamicFields.yourAppealSection.appealStatement.uploadedFile.id;
-    delete actualNoDynamicFields.yourAppealSection.appealStatement.uploadedFile.location;
-    delete actualNoDynamicFields.requiredDocumentsSection.originalApplication.uploadedFile.id;
-    delete actualNoDynamicFields.requiredDocumentsSection.originalApplication.uploadedFile.location;
-    delete actualNoDynamicFields.requiredDocumentsSection.decisionLetter.uploadedFile.id;
-    delete actualNoDynamicFields.requiredDocumentsSection.decisionLetter.uploadedFile.location;
 
-    expect(JSON.stringify(actualNoDynamicFields)).to.be(JSON.stringify(expectedNoDynamicFields));
+    delete actualNoDynamicFields._id;
+    delete actualNoDynamicFields.uuid;
+    delete actualNoDynamicFields.appeal.createdAt;
+    delete actualNoDynamicFields.appeal.updatedAt;
+    delete actualNoDynamicFields.appeal.id;
+    delete actualNoDynamicFields.appeal.decisionDate;
+    delete actualNoDynamicFields.appeal.yourAppealSection.appealStatement.uploadedFile.id;
+    delete actualNoDynamicFields.appeal.yourAppealSection.appealStatement.uploadedFile.location;
+    delete actualNoDynamicFields.appeal.requiredDocumentsSection.originalApplication.uploadedFile.id;
+    delete actualNoDynamicFields.appeal.requiredDocumentsSection.originalApplication.uploadedFile.location;
+    delete actualNoDynamicFields.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id;
+    delete actualNoDynamicFields.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.location;
+
+    expect(JSON.stringify(actualNoDynamicFields)).to.equal(JSON.stringify(expectedNoDynamicFields));
   });
 });
