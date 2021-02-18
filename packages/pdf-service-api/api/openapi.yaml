@@ -16,7 +16,7 @@ paths:
   '/api/v1/pdf':
     post:
       summary: Generates a pdf file from a html file
-      description: The provided html file will be used to generate and retrun a pdf file.
+      description: The provided html file will be used to generate and return a pdf file.
       tags:
         - PDF Service
       requestBody:
