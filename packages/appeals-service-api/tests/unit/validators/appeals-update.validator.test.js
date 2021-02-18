@@ -1,12 +1,22 @@
-const { updateAppeal } = require('../../../../src/validators/appeals/schemas/update-appeal');
-const { appealDocument } = require('../../../../src/models/appeal');
+const { appealDocument } = require('../../../src/models/appeal');
+const { mockReq, mockRes } = require('../mocks');
+const {
+  appealUpdateValidationRules,
+} = require('../../../src/validators/appeals/appeals.validator');
+
+const ApiError = require('../../../src/error/apiError');
 
 describe('appeals.validators.schemas', () => {
+  let req;
+  let res;
   let appeal;
 
   const appealId = 'f40a7073-b1fc-445a-acf5-2035c6b1791e';
 
   beforeEach(() => {
+    req = mockReq();
+    res = mockRes();
+
     appeal = JSON.parse(JSON.stringify(appealDocument));
     appeal.id = appealId;
 
@@ -14,23 +24,13 @@ describe('appeals.validators.schemas', () => {
   });
 
   describe('updateAppeal', () => {
-    test('should accept the appeal - empty', async () => {
-      try {
-        appeal = await updateAppeal.validate({}, { abortEarly: false });
-      } catch (apiError) {
-        throw new Error(apiError.errors);
-      }
-
-      expect(appeal).toEqual({});
-    });
-
     const tests = [
       {
         title: 'accepted - empty',
         given: () => ({}),
         expected: (result) => {
           expect(result.errors.length).toEqual(0);
-          expect(appeal).toEqual({});
+          expect(result.appeal).toEqual({});
         },
       },
 
@@ -43,16 +43,28 @@ describe('appeals.validators.schemas', () => {
         }),
         expected: (result) => {
           expect(result.errors.length).toEqual(0);
-          expect(appeal).toEqual({});
+          expect(result.appeal).toEqual({});
         },
       },
       {
         title: 'accepted - id update - good',
         given: () => ({
-          id: '89aa8504-773c-42be-bb68-029716ad9756',
+          id: appealId,
         }),
         expected: (result) => {
           expect(result.errors.length).toEqual(0);
+        },
+      },
+      {
+        title: 'rejected - id update - not same as request',
+        given: () => ({
+          id: '89aa8504-773c-42be-bb68-029716ad9756',
+        }),
+        expected: (result) => {
+          expect(result.errors.length).toEqual(1);
+          expect(result.errors).toContain(
+            'The provided id in path must be the same as the appeal id in the request body'
+          );
         },
       },
       {
@@ -890,18 +902,19 @@ describe('appeals.validators.schemas', () => {
 
     tests.forEach(({ title, given, expected }) => {
       it(`should return the expected validation outcome - ${title}`, async () => {
-        const appealModification = given();
+        req.body = given();
+        req.params.id = appealId;
+        const result = { appeal, errors: [] };
 
-        const result = { errors: [] };
+        await appealUpdateValidationRules(req, res, function next(e) {
+          if (e instanceof ApiError) {
+            result.errors = e.message.errors;
+          }
+        });
 
-        try {
-          appeal = await updateAppeal.validate(appealModification, { abortEarly: false });
-        } catch (apiError) {
-          result.errors = apiError.errors;
+        if (result.errors.length === 0) {
+          result.appeal = req.body;
         }
-
-        result.appeal = appeal;
-
         expected(result);
       });
     });
