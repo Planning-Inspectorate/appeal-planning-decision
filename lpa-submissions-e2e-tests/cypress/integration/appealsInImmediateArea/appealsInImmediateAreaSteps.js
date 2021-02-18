@@ -1,12 +1,14 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 
+const pageUrl = '/other-appeals'
+
 Given('The Householder planning appeal questionnaire page is presented', () => {
   cy.goToAppealsQuestionnaireTasklistPage();
 });
 
 Given('the user is on the Tell us about any appeals in the immediate area page', () => {
   cy.goToTellUsAboutAppealsInImmediateAreaPage();
-  cy.validateAppealsPageTitle();
+  cy.verifyPage(pageUrl);
 });
 
 When(`the user selects the link Tell us about any appeals in the immediate area`, () => {
@@ -19,17 +21,17 @@ When(`the user selects Save and Continue`, () => {
 });
 
 Then(
-  `the user is presented with the page 'Tell us about any appeals in the immediate area'`,
-  () => {
-    cy.verifyAboutAppealCaption();
-    cy.validateOtherAppealsAdjacentToSiteQuestionText();
-  }
+  'the user is presented with the page {string}',
+  (page) => {
+    cy.verifySectionName('About the appeal');
+    cy.verifyQuestionTitle(page);
+  },
 );
 
 Then(
-  `the page title is 'Are there any other appeals adjacent or close to the site still being considered? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK'`,
-  () => {
-    cy.validateAppealsPageTitle();
+  `the page title is {string}`,
+  (title) => {
+    cy.verifyPageTitle(title);
   }
 );
 
@@ -38,7 +40,7 @@ Then('Then the user is shown the error message {string}', (errorMessage) => {
 });
 
 Then(`the user remains on 'Tell us about any appeals in the immediate area' page`, () => {
-  cy.validateAppealsPageTitle();
+  cy.verifyPage(pageUrl);
 });
 
 When('the user selects the option {string}', (radioButtonValue) => {
@@ -74,7 +76,7 @@ Given('a user has completed the information needed on the appeals in immediate a
   cy.goToAppealsQuestionnaireTasklistPage();
   cy.verifyTaskListPageTitle();
   cy.clickOnLinksOnAppealQuestionnaireTaskListPage('otherAppeals');
-  cy.validateAppealsPageTitle();
+  cy.verifyPage(pageUrl);
   cy.appealsAreaRadioButton('No');
   cy.clickSaveAndContinue();
 });
@@ -84,7 +86,7 @@ When(
   () => {
     cy.verifyTaskListPageTitle();
     cy.clickOnLinksOnAppealQuestionnaireTaskListPage('otherAppeals');
-    cy.validateAppealsPageTitle();
+    cy.verifyPage(pageUrl);
   }
 );
 
@@ -98,6 +100,6 @@ When('the user selects the back link', () => {
 
 Then('any information they have entered will not be saved', () => {
   cy.clickOnLinksOnAppealQuestionnaireTaskListPage('otherAppeals');
-  cy.validateAppealsPageTitle();
+  cy.verifyPage(pageUrl);
   cy.get('input[data-cy=adjacent-appeals-no]').should('not.be.checked');
 });
