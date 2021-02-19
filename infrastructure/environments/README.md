@@ -25,7 +25,7 @@ No requirements.
 | documents\_soft\_delete\_retention | Number of days to allow for data recovery | `number` | `30` | no |
 | horizon\_enabled | Enable the connection to the Horizon instance over a virtual network gateway | `bool` | `false` | no |
 | horizon\_gateway\_ip\_secret | Public IP address of the Horizon VPN gateway | `string` | `"horizon-gateway-ip"` | no |
-| horizon\_gateway\_sku | SKU of the Horizon gateway | `string` | `"VpnGw1"` | no |
+| horizon\_gateway\_sku | SKU of the Horizon gateway | `string` | `"VpnGw1AZ"` | no |
 | horizon\_gateway\_subnets\_secret | CSV of subnets to use for the Horizon VPN gateway | `string` | `null` | no |
 | horizon\_shared\_key\_secret | Name of the Horizon shared key in the PINS key vault | `string` | `null` | no |
 | k8s\_availability\_zones | Zones to run the node pools in | `list(string)` | `null` | no |
