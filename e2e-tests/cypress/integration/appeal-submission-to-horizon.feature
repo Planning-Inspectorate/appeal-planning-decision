@@ -9,3 +9,9 @@ Feature: Appeal submission to Horizon - create case for appellant
     Given a prospective appellant has provided valid appeal information
     When the appeal is submitted
     Then a case is created for a case officer
+
+  @ac-102-ac1
+  Scenario: Appeal information submitted by an Agent 
+    Given an agent has provided appeal information
+    When the appeal is submitted
+    Then a case is created for a case officer
