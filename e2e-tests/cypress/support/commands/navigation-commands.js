@@ -73,6 +73,10 @@ Cypress.Commands.add('goToAccessSitePage', require('../go-to-page/goToAccessSite
 Cypress.Commands.add('goToHealthAndSafetyPage', require('../go-to-page/goToHealthAndSafetyPage'));
 Cypress.Commands.add('goToCheckYourAnswersPage', require('../go-to-page/goToCheckYourAnswersPage'));
 Cypress.Commands.add('goToSubmissionPage', require('../go-to-page/goToSubmissionPage'));
+Cypress.Commands.add(
+  'goToSubmissionInformationPage',
+  require('../go-to-page/goToSubmissionInformationPage'),
+);
 
 // ACP Integration
 
@@ -188,4 +192,9 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmNavigationPlanningApplicationNumberPage',
   require('../appeal-navigation-confirmation/appellant-submission/confirmNavigationPlanningApplicationNumberPage'),
+);
+
+Cypress.Commands.add(
+  'confirmSubmissionInformationDisplayItems',
+  require('../appeal-submission-information/confirmSubmissionInformationDisplayItems'),
 );
