@@ -1,6 +1,4 @@
 module.exports = (information) => {
-  console.log(`information`, information);
-  console.log(`Object.keys(information)`, Object.keys(information));
   Object.keys(information).forEach((cypressTag) => {
     cy.get(`[data-cy="${cypressTag}"]`)
       .invoke('text')
