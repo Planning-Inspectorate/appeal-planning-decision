@@ -1,3 +1,5 @@
+require('./appeal-submission-information/cypress-commands');
+
 // NAVIGATION
 Cypress.Commands.add('clickSaveAndContinue', require('./appeal-navigation/clickSaveAndContinue'));
 
@@ -11,20 +13,14 @@ Cypress.Commands.add(
   require('./appeal-navigation/eligibility/goToStartAppealPage'),
 );
 
-Cypress.Commands.add(
-  'goToLandingPage',
-  require('./appeal-navigation/eligibility/goToLandingPage'),
-);
+Cypress.Commands.add('goToLandingPage', require('./appeal-navigation/eligibility/goToLandingPage'));
 
 Cypress.Commands.add(
   'goToPlanningDepartmentPage',
   require('./appeal-navigation/eligibility/goToPlanningDepartmentPage'),
 );
 
-Cypress.Commands.add(
-  'goToCostsPage',
-  require('./appeal-navigation/eligibility/goToCostsPage'),
-);
+Cypress.Commands.add('goToCostsPage', require('./appeal-navigation/eligibility/goToCostsPage'));
 
 Cypress.Commands.add(
   'goToPlanningDepartmentOutPage',
@@ -959,15 +955,9 @@ Cypress.Commands.add(
   require('./eligibility-enforcement-notice/confirmProgressIsMadeToListingBuildingEligibilityQuestion'),
 );
 
-Cypress.Commands.add(
-  'provideCostsAnswerNo',
-  require('./eligibility-costs/provideCostsAnswerNo'),
-);
+Cypress.Commands.add('provideCostsAnswerNo', require('./eligibility-costs/provideCostsAnswerNo'));
 
-Cypress.Commands.add(
-  'provideCostsAnswerYes',
-  require('./eligibility-costs/provideCostsAnswerYes'),
-);
+Cypress.Commands.add('provideCostsAnswerYes', require('./eligibility-costs/provideCostsAnswerYes'));
 
 Cypress.Commands.add(
   'confirmAcpLinkDisplayed',
@@ -989,13 +979,9 @@ Cypress.Commands.add(
   require('./eligibility-householder/provideHouseholderAnswerYes'),
 );
 
-Cypress.Commands.add(
-  'accessDetails',
-  require('./eligibility-householder/accessDetails'),
-);
+Cypress.Commands.add('accessDetails', require('./eligibility-householder/accessDetails'));
 
 Cypress.Commands.add(
   'confirmDetailsDisplayed',
   require('./eligibility-householder/confirmDetailsDisplayed'),
 );
-
