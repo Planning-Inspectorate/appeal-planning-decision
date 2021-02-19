@@ -53,7 +53,7 @@ variable "horizon_enabled" {
 variable "horizon_gateway_sku" {
   description = "SKU of the Horizon gateway"
   type = string
-  default = "VpnGw1"
+  default = "VpnGw1AZ"
 }
 
 variable "horizon_gateway_ip_secret" {
