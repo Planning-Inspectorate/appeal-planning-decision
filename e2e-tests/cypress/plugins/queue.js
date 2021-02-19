@@ -19,7 +19,6 @@ module.exports = (config) => {
           const messageFromBuffer = context.message.body.content.toString('utf-8');
           const message = JSON.parse(messageFromBuffer);
           received.push(message);
-          context.connection.close();
         });
 
         container.on('error', function (context) {
@@ -29,6 +28,7 @@ module.exports = (config) => {
         var connection = container.connect(opts);
 
         connection.open_receiver(queue);
+
         resolve(null);
       });
     },
@@ -51,9 +51,10 @@ module.exports = (config) => {
     },
 
     getLastFromQueue: ()=> {
+      if (!received || !received.length) {
+        return null; // at least surface the failure in the test..
+      }
       return received[received.length - 1];
     }
-
-
   }
 }

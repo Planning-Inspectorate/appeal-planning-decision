@@ -31,6 +31,7 @@ Then('a case is created for a case officer', () => {
     delete expectedNoDynamicFields.appeal.createdAt;
     delete expectedNoDynamicFields.appeal.updatedAt;
     delete expectedNoDynamicFields.appeal.id;
+    delete expectedNoDynamicFields.appeal.decisionDate;
     delete expectedNoDynamicFields.appeal.yourAppealSection.appealStatement.uploadedFile.id;
     delete expectedNoDynamicFields.appeal.yourAppealSection.appealStatement.uploadedFile.location;
     delete expectedNoDynamicFields.appeal.requiredDocumentsSection.originalApplication.uploadedFile.id;
@@ -48,6 +49,7 @@ Then('a case is created for a case officer', () => {
     delete actualNoDynamicFields.appeal.createdAt;
     delete actualNoDynamicFields.appeal.updatedAt;
     delete actualNoDynamicFields.appeal.id;
+    delete actualNoDynamicFields.appeal.decisionDate;
     delete actualNoDynamicFields.appeal.yourAppealSection.appealStatement.uploadedFile.id;
     delete actualNoDynamicFields.appeal.yourAppealSection.appealStatement.uploadedFile.location;
     delete actualNoDynamicFields.appeal.requiredDocumentsSection.originalApplication.uploadedFile.id;
