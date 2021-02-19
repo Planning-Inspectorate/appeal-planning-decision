@@ -1,9 +1,12 @@
-{% extends "layouts/main-no-back-button.njk" %}
+{% extends "layouts/main.njk" %}
 
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
 
 {% block pageTitle %}
   Confirmation | Appeal a householder planning decision
+{% endblock %}
+
+{% block backButton %}
 {% endblock %}
 
 {% block content %}
@@ -35,4 +38,6 @@
       </p>
     </div>
   </div>
+
+  <input type="hidden" name="appealId" value="{{ appealId }}" data-cy="submission-information-appeal-id" />
 {% endblock %}

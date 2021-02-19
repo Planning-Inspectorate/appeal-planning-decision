@@ -5,8 +5,27 @@
 {% from "../macros/multifile-upload-to-list.njk" import multifileUploadToList %}
 {% from "../macros/summary-field.njk" import summaryField %}
 
+{% block head %}
+  <style>{{ css | safe }}</style>
+{% endblock %}
+
 {% block pageTitle %}
   Submission information | Appeal a householder planning decision
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block bodyEnd %}
+{% endblock %}
+
+{% block phaseBanner %}
+{% endblock %}
+
+{% block backButton %}
 {% endblock %}
 
 {% block content %}

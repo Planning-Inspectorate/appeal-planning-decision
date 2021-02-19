@@ -4,6 +4,6 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'goToSubmissionInformationPage',
-  require('../appeal-navigation/appellant-submission/goToSubmissionInformationPage'),
+  'navigateToSubmissionInformationPage',
+  require('./navigateToSubmissionInformationPage'),
 );
