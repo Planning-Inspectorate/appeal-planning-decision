@@ -1,5 +1,5 @@
 {
-  "name": "openfaas-function",
+  "name": "horizon-create-contact",
   "version": "0.0.0",
   "private": true,
   "description": "OpenFaaS Function",
