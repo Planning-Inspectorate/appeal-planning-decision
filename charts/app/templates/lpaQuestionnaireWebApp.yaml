@@ -49,6 +49,8 @@ spec:
               path: /health
               port: {{.Values.lpaQuestionnaireWebApp.service.name }}
           env:
+            - name: APPEAL_REPLY_SERVICE_API_URL
+              value: "http://{{ include "app.fullname" . }}:{{ .Values.appealReplyServiceApi.service.port }}"
             - name: APPEALS_SERVICE_API_URL
               value: "http://{{ include "app.fullname" . }}:{{ .Values.appealsServiceApi.service.port }}"
             - name: DOCUMENTS_SERVICE_API_URL
@@ -63,6 +65,8 @@ spec:
               value: {{ .Values.lpaQuestionnaireWebApp.config.upload.uploadDir | quote }}
             - name: FILE_UPLOAD_USE_TEMP_FILES
               value: {{ .Values.lpaQuestionnaireWebApp.config.upload.useTmpFiles | quote }}
+            - name: LOGGER_LEVEL
+              value: {{ .Values.lpaQuestionnaireWebApp.config.logLevel }}
             - name: PORT
               value: {{ .Values.lpaQuestionnaireWebApp.config.port | quote }}
             - name: SESSION_MONGODB_DB_NAME
