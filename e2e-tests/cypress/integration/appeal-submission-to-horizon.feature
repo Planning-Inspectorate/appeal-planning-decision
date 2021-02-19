@@ -1,3 +1,4 @@
+@wip
 Feature: Appeal submission to Horizon - create case for appellant
 
   As a Planning Inspectorate case worker
@@ -7,5 +8,11 @@ Feature: Appeal submission to Horizon - create case for appellant
   @ucd-831 @ucd-831-ac1
   Scenario: Appeal information submitted by an Appellant
     Given a prospective appellant has provided valid appeal information
+    When the appeal is submitted
+    Then a case is created for a case officer
+
+  @ac-102-ac1
+  Scenario: Appeal information submitted by an Agent 
+    Given an agent has provided appeal information
     When the appeal is submitted
     Then a case is created for a case officer
