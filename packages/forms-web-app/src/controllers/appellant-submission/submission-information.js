@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const { VIEW } = require('../../lib/views');
 
 exports.getSubmissionInformation = async (req, res) => {
@@ -15,8 +17,11 @@ exports.getSubmissionInformation = async (req, res) => {
     });
   }
 
+  const css = fs.readFileSync(path.resolve(__dirname, '../../public/stylesheets/main.css'), 'utf8');
+
   return res.render(VIEW.APPELLANT_SUBMISSION.SUBMISSION_INFORMATION, {
-    appealLPD,
+    appealLPD: appealLPD.name,
     appeal,
+    css,
   });
 };

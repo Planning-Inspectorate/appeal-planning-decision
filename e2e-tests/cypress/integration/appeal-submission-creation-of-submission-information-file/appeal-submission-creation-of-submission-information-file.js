@@ -19,7 +19,7 @@ Then('a submission information file is created', () => {
   // /appellant-submission/confirmation
   cy.confirmAppealSubmitted();
 
-  cy.goToSubmissionInformationPage();
+  cy.navigateToSubmissionInformationPage();
 
   cy.confirmSubmissionInformationDisplayItems({
     'who-are-you': 'Yes',
@@ -34,9 +34,6 @@ Then('a submission information file is created', () => {
     'site-ownership': 'Yes',
     'site-access': 'Yes',
     'site-access-safety': 'No',
-    'supporting-documents-uploaded-file-count-heading': '3 files uploaded',
-    'supporting-documents-uploaded-file-0': 'appeal-statement-valid.pdf',
-    'supporting-documents-uploaded-file-1': 'appeal-statement-valid.docx',
-    'supporting-documents-uploaded-file-2': 'appeal-statement-valid.doc',
+    'supporting-documents-no-files': 'No files uploaded',
   });
 });
