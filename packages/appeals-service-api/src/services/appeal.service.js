@@ -56,7 +56,7 @@ const validateAppeal = (appeal) => {
     );
   }
 
-  // if canInspectorSeeWholeSiteFromPublicRoad is false thenhowIsSiteAccessRestricted must not be null or empty
+  // if canInspectorSeeWholeSiteFromPublicRoad is false then howIsSiteAccessRestricted must not be null or empty
   if (
     appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad === false &&
     (appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted === null ||
@@ -269,8 +269,14 @@ function isValidAppeal(appeal) {
 
 const updateAppeal = async (appeal, isFirstSubmission = false) => {
   if (isValidAppeal(appeal)) {
+    const now = new Date(new Date().toISOString());
+
     /* eslint no-param-reassign: ["error", { "props": false }] */
-    appeal.updatedAt = new Date(new Date().toISOString());
+    appeal.updatedAt = now;
+
+    if (isFirstSubmission) {
+      appeal.submissionDate = now;
+    }
 
     const updatedDocument = await replaceAppeal(appeal);
 
@@ -282,6 +288,7 @@ const updateAppeal = async (appeal, isFirstSubmission = false) => {
 
     return updatedDocument.value;
   }
+  // impossible to get here as `isValidAppeal` throws if invalid
   return null;
 };
 
