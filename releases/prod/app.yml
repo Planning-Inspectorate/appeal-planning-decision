@@ -6,11 +6,12 @@ metadata:
   namespace: app-prod
   annotations:
     fluxcd.io/automated: "true"
-    filter.fluxcd.io/appealReplyServiceApi: semver:1.0.1
-    filter.fluxcd.io/appealsServiceApi: semver:1.2.0
-    filter.fluxcd.io/documentServiceApi: semver:1.0.0
-    filter.fluxcd.io/formsWebApp: semver:1.11.0
-    filter.fluxcd.io/lpaQuestionnaireWebApp: semver:1.0.0
+    filter.fluxcd.io/appealReplyServiceApi: semver:1.1.1
+    filter.fluxcd.io/appealsServiceApi: semver:1.10.0
+    filter.fluxcd.io/documentServiceApi: semver:1.3.0
+    filter.fluxcd.io/formsWebApp: semver:1.30.6
+    filter.fluxcd.io/lpaQuestionnaireWebApp: semver:1.6.2
+    filter.fluxcd.io/pdfServiceApi: semver:1.0.1
 spec:
   releaseName: app
   chart:
@@ -31,6 +32,9 @@ spec:
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/appeals-service-api
         tag: 1.2.0
+      config:
+        notify:
+          secretName: akv-notify-prod
 
     documentServiceApi:
       replicaCount: 2
@@ -44,7 +48,7 @@ spec:
         repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
         tag: 1.11.0
       config:
-        enableLimitedRouting: true
+        googleAnalyticsId: G-TZBWMVPTHV
 
     lpaQuestionnaireWebApp:
       replicaCount: 2
@@ -52,8 +56,22 @@ spec:
         repository: pinscommonukscontainers3887default.azurecr.io/lpa-questionnaire-web-app
         tag: 1.0.0
 
+    pdfServiceApi:
+      replicaCount: 2
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/pdf-service-api
+        tag: latest
+
+    gotenberg:
+      replicaCount: 2
+
     keyVault:
       name: pins-uks-vault-8439-prod
+
+    pinsKeyVault:
+      envSpecific:
+        secrets:
+        - notify-prod
 
     ingress:
       hosts:
@@ -61,3 +79,9 @@ spec:
           host: appeal-planning-decision.planninginspectorate.gov.uk
         lpaq:
           host: lpa-questionnaire.planninginspectorate.gov.uk
+
+    horizon-householder-appeal-publish:
+      amqp:
+        connection:
+          host: pins-uks-message-queue-prod.servicebus.windows.net
+          hostname: pins-uks-message-queue-prod.servicebus.windows.net
