@@ -12,6 +12,7 @@ metadata:
     filter.fluxcd.io/documentServiceApi: semver:^1.0.0-0
     filter.fluxcd.io/formsWebApp: semver:^1.0.0-0
     filter.fluxcd.io/lpaQuestionnaireWebApp: semver:^1.0.0-0
+    filter.fluxcd.io/pdfServiceApi: semver:^1.0.0-0
 spec:
   releaseName: app
   chart:
@@ -52,6 +53,15 @@ spec:
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/lpa-questionnaire-web-app
         tag: 1.5.1
+
+    pdfServiceApi:
+      replicaCount: 2
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/pdf-service-api
+        tag: latest
+
+    gotenberg:
+      replicaCount: 2
 
     keyVault:
       name: pins-uks-vault-8669-dev
