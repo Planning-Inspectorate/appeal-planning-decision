@@ -178,7 +178,7 @@ jobs:
           EMAIL_ADDRESS: ${{ secrets.DEVOPS_EMAIL_ADDRESS }}
           GROUP_ADMIN_ID: ${{ steps.tf_output.outputs.group_admin_id }}
           GROUP_USER_ID: ${{ steps.tf_output.outputs.group_user_id }}
-          RELEASE_BRANCH: release
+          RELEASE_BRANCH: master
           REPO_API_URL: https://api.github.com
           REPO_DOMAIN: github.com
           REPO_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
