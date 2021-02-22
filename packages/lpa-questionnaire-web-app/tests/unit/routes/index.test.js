@@ -11,6 +11,6 @@ describe('routes/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(4);
+    expect(use.mock.calls.length).toBe(5);
   });
 });
