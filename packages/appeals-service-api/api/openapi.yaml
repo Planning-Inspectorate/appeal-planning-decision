@@ -231,6 +231,11 @@ components:
           format: date
           example: '2020-10-30T13:32:58.000Z'
           description: 'The last appeal update date was decided in ISO format'
+        submissionDate:
+          type: string
+          format: date
+          example: '2020-10-29T12:00:00.000Z'
+          description: 'The date the appeal was submitted from forms-web-app'
         state:
           $ref: '#/components/schemas/AppealState'
         aboutYouSection:
