@@ -3,6 +3,7 @@ exports.appealDocument = {
   horizonId: null,
   lpaCode: null,
   decisionDate: null,
+  submissionDate: null,
   state: 'DRAFT',
   eligibility: {
     enforcementNotice: null,
