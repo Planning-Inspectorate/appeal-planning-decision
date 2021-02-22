@@ -52,6 +52,12 @@ exports.updateAppeal = yup
       }
       return yup.mixed().notRequired();
     }),
+    submissionDate: yup.lazy((submissionDate) => {
+      if (submissionDate !== undefined) {
+        return yup.date().transform(parseDateString).nullable();
+      }
+      return yup.mixed().notRequired();
+    }),
     state: yup.lazy((state) => {
       if (state !== undefined) {
         return yup.string().oneOf(['DRAFT', 'SUBMITTED']);

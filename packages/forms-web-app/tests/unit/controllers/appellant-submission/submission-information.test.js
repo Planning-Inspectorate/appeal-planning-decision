@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const submissionInformationController = require('../../../../src/controllers/appellant-submission/submission-information');
 const { mockReq, mockRes } = require('../../mocks');
 const { VIEW } = require('../../../../src/lib/views');
@@ -50,15 +52,23 @@ describe('controllers/appellant-submission/submission-information', () => {
             some: 'data',
             lpaCode: '123-abc',
           },
-          appealLPD: fakeLpdName,
+          appealLPD: {
+            name: fakeLpdName,
+          },
         },
       };
 
       await submissionInformationController.getSubmissionInformation(req, res);
 
+      const css = fs.readFileSync(
+        path.resolve(__dirname, '../../../../src/public/stylesheets/main.css'),
+        'utf8'
+      );
+
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SUBMISSION_INFORMATION, {
         appealLPD: fakeLpdName,
         appeal: req.session.appeal,
+        css,
       });
     });
   });
