@@ -7,6 +7,7 @@ describe('lib/views', () => {
       PLACEHOLDER: 'placeholder',
       OTHER_APPEALS: 'other-appeals',
       ACCURACY_SUBMISSION: 'accuracy-submission',
+      EXTRA_CONDITIONS: 'extra-conditions',
     });
   });
 });

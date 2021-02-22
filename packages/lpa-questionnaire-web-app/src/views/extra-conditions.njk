@@ -1,0 +1,121 @@
+ {% extends "layouts/main.njk" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "components/appeal-details/macro.njk" import appealDetails %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: backLink,
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
+{% block pageTitle %}
+  Are there any other appeals adjacent or close to the site still being considered? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK
+{% endblock %}
+
+{% block content %}
+
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST" novalidate>
+        <span class="govuk-caption-l">
+          <span class="govuk-visually-hidden">Section. </span>
+          About the appeal
+        </span>
+
+          <h1 class="govuk-heading-l">
+                    Do you have any extra conditions?
+          </h1>
+
+        <p>You do not need to tell us about the standard conditions that will be applied to any successful appeal</p>
+
+      {% set standardConditions %}
+      <ol class="govuk-list">
+        <li>a) The development hereby permitted shall begin not later than three years from the date of this decision.</li>
+        <li>b) The materials to be used in the construction of the external surfaces of the development hereby permitted shall match those used in the existing building.</li>
+        <li>c) The development hereby permitted shall be carried out in accordance with the approved plans.</li>
+      </ol>
+      {% endset %}
+      
+      {% set extraConditionsTextArea %}
+        {{ govukTextarea({
+          hint: {
+            text: "Copy and paste the list of conditions."
+          }
+        }) }}
+      {% endset %}
+
+      {{ govukDetails({
+          summaryText: "Standard Conditions",
+          html: standardConditions
+      }) }}
+
+        {{ govukRadios({
+          idPrefix: "extra-conditions",
+          name: "extra-conditions",
+          fieldset: {
+            legend: {
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              checked: true if values['extra-conditions'] === 'yes',
+              conditional: {
+                html: extraConditionsTextArea
+              },
+              attributes: {
+                "data-cy": "extra-conditions-yes"
+              }
+            },
+            {
+              value: "no",
+              checked: true if values['extra-conditions'] === 'no',
+              text: "No",
+              attributes: {
+                "data-cy": "extra-conditions-no"
+              }
+            }
+          ],
+          errorMessage: errors['extra-conditions'] and {
+            text: errors['extra-conditions'].msg,
+            attributes: {
+              'data-cy': 'extra-conditions-error'
+            }
+          }
+        }) }}
+
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+      </form>
+    </div>
+
+
+    {{
+      appealDetails({
+        appeal: appeal
+      })
+    }}
+  </div>
+{% endblock %}
