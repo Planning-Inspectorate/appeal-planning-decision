@@ -23,7 +23,7 @@ const SECTIONS = [
       },
       {
         taskId: 'extraConditions',
-        href: '/placeholder',
+        href: '/extra-conditions',
         rule: statusTemp,
       },
       {
