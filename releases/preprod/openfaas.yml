@@ -1,0 +1,25 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: openfaas
+  namespace: openfaas
+spec:
+  releaseName: openfaas
+  chart:
+    repository: https://openfaas.github.io/faas-netes/
+    name: openfaas
+    version: 7.1.2
+  values:
+    generateBasicAuth: true
+    operator:
+      create: true
+    gateway:
+      directFunctions: false
+      upstreamTimeout: 2m
+      writeTimeout: 2m
+      readTimeout: 2m
+    faasnetes:
+      writeTimeout: 2m
+      readTimeout: 2m
+    queueWorker:
+      ackWait: 2m
