@@ -9,6 +9,7 @@ exports.insertAppeal = yup
     horizonId: yup.string().trim().max(20).nullable(),
     lpaCode: yup.string().trim().max(20).nullable().default(null),
     decisionDate: yup.date().transform(parseDateString).nullable().default(null),
+    submissionDate: yup.date().transform(parseDateString).nullable().default(null),
     state: yup.string().oneOf(['DRAFT', 'SUBMITTED']).default('DRAFT'),
     aboutYouSection: yup.object().shape({
       yourDetails: yup.object().shape({

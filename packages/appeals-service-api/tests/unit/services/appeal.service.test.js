@@ -1,6 +1,11 @@
 const { appealDocument } = require('../../../src/models/appeal');
-const { validateAppeal } = require('../../../src/services/appeal.service');
+const { updateAppeal, validateAppeal } = require('../../../src/services/appeal.service');
 const valueAppeal = require('../value-appeal');
+const mongodb = require('../../../src/db/db');
+const queue = require('../../../src/lib/queue');
+
+jest.mock('../../../src/db/db');
+jest.mock('../../../src/lib/queue');
 
 describe('services/validation.service', () => {
   let appeal;
@@ -303,6 +308,36 @@ describe('services/validation.service', () => {
       expect(errors).toContain(
         'If your details section is completed then appellant email address cannot be null or empty and it must be specified'
       );
+    });
+  });
+
+  describe('updateAppeal', () => {
+    let updatedAppeal;
+
+    beforeEach(() => {
+      updatedAppeal = JSON.parse(JSON.stringify(appeal));
+
+      mongodb.get = jest.fn(() => ({
+        collection: jest.fn(() => ({
+          findOneAndUpdate: jest.fn().mockResolvedValue({
+            value: updatedAppeal,
+          }),
+        })),
+      }));
+    });
+
+    test('isFirstSubmission is false', async () => {
+      const outcome = await updateAppeal(appeal, false);
+      expect(outcome).toEqual(updatedAppeal);
+      expect(appeal.submissionDate).toBe(null);
+      expect(queue.addAppeal).not.toHaveBeenCalled();
+    });
+
+    test('isFirstSubmission is true', async () => {
+      const outcome = await updateAppeal(appeal, true);
+      expect(outcome).toEqual(updatedAppeal);
+      expect(appeal.submissionDate).not.toBe(null);
+      expect(queue.addAppeal).toHaveBeenCalledWith(updatedAppeal);
     });
   });
 });
