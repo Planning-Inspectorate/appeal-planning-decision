@@ -89,6 +89,19 @@ lpaQuestionnaireWebApp:
       uploadDir: /upload-dir
       useTmpFiles: true
 
+pdfServiceApi:
+  replicaCount: 1
+  service:
+    name: pdf-srv-api
+    port: 3003
+  image:
+    repository: pinscommonukscontainers3887default.azurecr.io/pdf-service-api
+    pullPolicy: Always
+    tag: latest
+  config:
+    port: 3000
+    logLevel: trace
+
 imagePullSecrets:
   - name: azure-docker-registry
 nameOverride: ""
@@ -191,6 +204,20 @@ keyVault:
   envSpecific:
     secrets: []
     multiValueSecrets: []
+
+### Third-party services
+gotenberg:
+  replicaCount: 1
+  service:
+    name: gotenberg
+    port: 4000
+  image:
+    repository: thecodingmachine/gotenberg
+    pullPolicy: Always
+    tag: 6
+  config:
+    disableOfficeTemplates: true
+    port: 4000
 
 # This connects this infrastructure with the OpenFaaS service, which is
 # in a separate namespace. This is for ease of maintenance and to keep
