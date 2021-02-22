@@ -6,6 +6,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "components/appeal-details/macro.njk" import appealDetails %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% block beforeContent %}
   {{ govukBackLink({
@@ -33,10 +34,74 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form action="" method="POST" novalidate>
-        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Extra Conditions</span>
+        <span class="govuk-caption-l">
+          <span class="govuk-visually-hidden">Section. </span>
+          About the appeal
+        </span>
 
+          <h1 class="govuk-heading-l">
+                    Do you have any extra conditions?
+          </h1>
+
+        <p>You do not need to tell us about the standard conditions that will be applied to any successful appeal</p>
+
+      {% set standardConditions %}
+      <ol class="govuk-list">
+        <li>a) The development hereby permitted shall begin not later than three years from the date of this decision.</li>
+        <li>b) The materials to be used in the construction of the external surfaces of the development hereby permitted shall match those used in the existing building.</li>
+        <li>c) The development hereby permitted shall be carried out in accordance with the approved plans.</li>
+      </ol>
+      {% endset %}
+      
+      {{ govukDetails({
+          summaryText: "Standard Conditions",
+          html: standardConditions
+      }) }}
+
+        {{ govukRadios({
+          idPrefix: "extra-conditions",
+          name: "extra-conditions",
+          fieldset: {
+            legend: {
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              checked: true if values['adjacent-appeals'] === 'yes',
+              conditional: {
+                html: appealRefHtml
+              },
+              attributes: {
+                "data-cy": "adjacent-appeals-yes"
+              }
+            },
+            {
+              value: "no",
+              checked: true if values['adjacent-appeals'] === 'no',
+              text: "No",
+              attributes: {
+                "data-cy": "adjacent-appeals-no"
+              }
+            }
+          ],
+          errorMessage: errors['adjacent-appeals'] and {
+            text: errors['adjacent-appeals'].msg,
+            attributes: {
+              'data-cy': 'adjacent-appeals-error'
+            }
+          }
+        }) }}
+
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
       </form>
     </div>
+
 
     {{
       appealDetails({
