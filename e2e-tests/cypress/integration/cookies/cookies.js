@@ -3,18 +3,18 @@ const findCookieObjectByName = (cookies, name) => cookies.find((cookie) => cooki
 const expectCookieIsNotDefined = (cookies, cookieName) => {
   const cookieObject = findCookieObjectByName(cookies, cookieName);
 
-  expect(cookieObject).not.toBeDefined();
+  expect(cookieObject).to.be.undefined;
 };
 
 const expectCookieToHaveValue = (cookies, cookieName, expectedValue) => {
   const cookieObject = findCookieObjectByName(cookies, cookieName);
 
-  expect(cookieObject).toBeDefined();
-  expect(cookieObject.value).toEqual(expectedValue);
+  expect(cookieObject).to.exist;
+  expect(cookieObject.value).to.equal(expectedValue);
 };
 
 const expectExpressSessionCookieIsDefined = (cookies) =>
-  expect(findCookieObjectByName(cookies, 'connect.sid')).toBeDefined();
+  expect(findCookieObjectByName(cookies, 'connect.sid')).to.exist;
 
 const expectCookiePolicy = (cookies, expectedPolicy) =>
   expectCookieToHaveValue(cookies, 'cookie_policy', expectedPolicy);

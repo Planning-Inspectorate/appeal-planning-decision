@@ -22,7 +22,6 @@ Then('not necessary cookies are disabled', () => {
     .then((cookies) => {
       expectExpressSessionCookieIsDefined(cookies);
       expectCookiePolicy(cookies, expectedCookiePolicy);
-
       expectCookieIsNotDefined(cookies, 'cookie_preferences_set');
     });
 });
