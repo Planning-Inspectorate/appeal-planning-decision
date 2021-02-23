@@ -152,9 +152,9 @@ describe('middleware/req-files-to-req-body-files', () => {
       const next = jest.fn();
       const req = given();
 
-      reqFilesToReqBodyFilesMiddleware(filesPropertyPath)(req, mockRes, next);
+      reqFilesToReqBodyFilesMiddleware(filesPropertyPath)(req, mockRes(), next);
 
-      expected(req, mockRes, next);
+      expected(req, mockRes(), next);
     });
   });
 });
