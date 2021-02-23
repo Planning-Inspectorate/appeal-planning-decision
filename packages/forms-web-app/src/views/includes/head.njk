@@ -4,7 +4,7 @@
   <!--[if gt IE 8]><!--><link href="/public/stylesheets/main.css" media="all" rel="stylesheet" type="text/css" /><!--<![endif]-->
 
 
-  {% if googleAnalyticsId %}
+  {% if googleAnalyticsId and cookies.cookie_policy.usage %}
 <!-- Global site tag (gtag.js) - Google Analytics -->
   <script data-cy="Google Analytics" async src="https://www.googletagmanager.com/gtag/js?id={{ googleAnalyticsId | safe }}"></script>
   <script>
