@@ -16,6 +16,7 @@ const appealSiteAddressToArray = require('./lib/appeal-site-address-to-array');
 const fileSizeDisplayHelper = require('./lib/file-size-display-helper');
 const filterByKey = require('./lib/filter-by-key');
 const addKeyValuePair = require('./lib/add-key-value-pair');
+const initialCookiesMiddleware = require('./middleware/initial-cookies');
 require('express-async-errors');
 
 const config = require('./config');
@@ -59,48 +60,6 @@ app
     next();
   });
 
-if (config.server.useSecureSessionCookie) {
-  app.set('trust proxy', 1); // trust first proxy
-}
-
-app.use(compression());
-app.use(lusca.xframe('SAMEORIGIN'));
-app.use(lusca.xssProtection(true));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(session(sessionConfig()));
-app.use('/public', express.static(path.join(__dirname, 'public')));
-app.use(
-  '/assets',
-  express.static(path.join(__dirname, '..', 'node_modules', 'accessible-autocomplete', 'dist')),
-  express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'assets'))
-);
-app.use(
-  '/assets/govuk/all.js',
-  express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'all.js'))
-);
-app.use(fileUpload(config.fileUpload));
-
-// Routes
-app.use('/', routes);
-
-// View Engine
-app.set('view engine', 'njk');
-
-// Error handling
-app
-  .use((req, res, next) => {
-    res.status(404).render('error/not-found');
-    next();
-  })
-  .use((err, req, res, next) => {
-    logger.error({ err }, 'Unhandled exception');
-
-    res.status(500).render('error/unhandled-exception');
-    next();
-  });
-
 const isDev = app.get('env') === 'development';
 
 const nunjucksConfig = {
@@ -124,5 +83,48 @@ env.addFilter('filterByKey', filterByKey);
 env.addFilter('addKeyValuePair', addKeyValuePair);
 env.addGlobal('fileSizeLimits', config.fileUpload.pins);
 env.addGlobal('googleAnalyticsId', config.server.googleAnalyticsId);
+
+if (config.server.useSecureSessionCookie) {
+  app.set('trust proxy', 1); // trust first proxy
+}
+
+app.use(compression());
+app.use(lusca.xframe('SAMEORIGIN'));
+app.use(lusca.xssProtection(true));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(session(sessionConfig()));
+app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use(
+  '/assets',
+  express.static(path.join(__dirname, '..', 'node_modules', 'accessible-autocomplete', 'dist')),
+  express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'assets'))
+);
+app.use(
+  '/assets/govuk/all.js',
+  express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'all.js'))
+);
+app.use(fileUpload(config.fileUpload));
+app.use(initialCookiesMiddleware(env));
+
+// Routes
+app.use('/', routes);
+
+// View Engine
+app.set('view engine', 'njk');
+
+// Error handling
+app
+  .use((req, res, next) => {
+    res.status(404).render('error/not-found');
+    next();
+  })
+  .use((err, req, res, next) => {
+    logger.error({ err }, 'Unhandled exception');
+
+    res.status(500).render('error/unhandled-exception');
+    next();
+  });
 
 module.exports = app;

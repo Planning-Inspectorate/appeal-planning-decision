@@ -84,9 +84,9 @@ describe('middleware/fetch-existing-appeal', () => {
       const next = jest.fn();
       const req = given();
 
-      await fetchExistingAppealMiddleware(req, mockRes, next);
+      await fetchExistingAppealMiddleware(req, mockRes(), next);
 
-      expected(req, mockRes, next);
+      expected(req, mockRes(), next);
     });
   });
 });
