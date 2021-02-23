@@ -246,7 +246,7 @@ services:
     image: thecodingmachine/gotenberg:6
     environment:
       DEFAULT_LISTEN_PORT: '4000'
-      DISABLE_UNOCONV: '0'
+      DISABLE_UNOCONV: '1'
     ports:
       - 4006:4000
 
