@@ -6,7 +6,7 @@ Given('the user is on the Task List page', () => {
   cy.goToAppealsQuestionnaireTasklistPage();
 });
 
-Given(`the user is in the Review the accuracy of the appellant's submission page`, () => {
+Given(`the user is in the Review accuracy of the appellant's submission page`, () => {
   cy.goToReviewAccuracyOfTheAppellantSubmissionPage();
   cy.verifyPage(pageUrl);
 });
@@ -23,7 +23,7 @@ Given(
   },
 );
 
-When(`the user selects the link "Review the accuracy of the appellant's submission"`, () => {
+When(`the user selects the link "Review accuracy of the appellant's submission"`, () => {
   cy.clickOnLinksOnAppealQuestionnaireTaskListPage('submissionAccuracy');
 });
 
