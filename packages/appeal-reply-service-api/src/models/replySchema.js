@@ -20,7 +20,10 @@ const replySchema = new Mongoose.Schema({
   appealId: { type: String, default: '' },
   state: { type: String, default: '' },
   aboutAppealSection: {
-    submissionAccuracy: { type: Boolean, default: null },
+    submissionAccuracy: {
+      accurateSubmission: { type: Boolean, default: null },
+      inaccuracyReason: { type: String, default: '' },
+    },
     extraConditions: {
       hasExtraConditions: { type: Boolean, default: null },
       extraConditions: { type: String, default: '' },
