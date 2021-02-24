@@ -1,0 +1,114 @@
+ {% extends "layouts/main.njk" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "components/appeal-details/macro.njk" import appealDetails %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: backLink,
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
+{% block pageTitle %}
+  Are there any other appeals adjacent or close to the site still being considered? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK
+{% endblock %}
+
+{% block content %}
+
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST" novalidate>
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>About the appeal</span>
+
+        <h1 class="govuk-heading-l">Review accuracy of appellant's submission</h1>
+
+        {% set appealRefHtml %}
+          {{ govukTextarea({
+            id: 'inaccuracy-reason',
+            name: 'inaccuracy-reason',
+            type: 'text',
+            spellcheck: false,
+            value: values['inaccuracy-reason'],
+            attributes: {
+              'data-cy': 'inaccuracy-reason'
+            },
+            label: {
+              text: 'Tell us why not.',
+              attributes: {
+                'data-cy': 'inaccuracy-reason-label'
+              }
+            },
+            errorMessage: errors['inaccuracy-reason'] and {
+              text: errors['inaccuracy-reason'].msg,
+              attributes: {
+                'data-cy': 'inaccuracy-reason-error'
+              }
+            }
+          }) }}
+        {% endset %}
+
+        {{ govukRadios({
+          idPrefix: "accurate-submission",
+          name: "accurate-submission",
+          fieldset: {
+            legend: {
+              html: '<strong>Does the information from the appellant accurately reflect the original planning application?</strong>'
+            }
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              checked: true if values['accurate-submission'] === 'yes',
+              attributes: {
+                "data-cy": "accurate-submission-yes"
+              }
+            },
+            {
+              value: "no",
+              checked: true if values['accurate-submission'] === 'no',
+              conditional: {
+                html: appealRefHtml
+              },
+              text: "No",
+              attributes: {
+                "data-cy": "accurate-submission-no"
+              }
+            }
+          ],
+          errorMessage: errors['accurate-submission'] and {
+            text: errors['accurate-submission'].msg,
+            attributes: {
+              'data-cy': 'accurate-submission-error'
+            }
+          }
+        }) }}
+
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+      </form>
+    </div>
+
+    {{
+      appealDetails({
+        appeal: appeal
+      })
+    }}
+  </div>
+{% endblock %}
