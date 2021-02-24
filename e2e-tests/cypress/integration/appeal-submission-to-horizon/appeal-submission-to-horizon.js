@@ -1,53 +1,36 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-const { APPEAL_DOCUMENT } = require('../../../../packages/forms-web-app/src/lib/empty-appeal');
+import { matchWhatWeCanFrom, STANDARD_APPEAL } from '../common/standard-appeal';
 
-const matchWhatWeCanFrom = (hardCodedExpectations) => {
-  return {
-    ...hardCodedExpectations,
-    _id: expect.any(String),
-    uuid: expect.any(String),
-    appeal: {
-      ...hardCodedExpectations.appeal,
-      createdAt: expect.any(String),
-      updatedAt: expect.any(String),
-      id: expect.any(String),
-      decisionDate: expect.any(String),
-      yourAppealSection: {
-        ...hardCodedExpectations.appeal.yourAppealSection,
-        appealStatement: {
-          ...hardCodedExpectations.appeal.yourAppealSection.appealStatement,
-          uploadedFile: {
-            ...hardCodedExpectations.appeal.yourAppealSection.appealStatement.uploadedFile,
-            id: expect.any(String),
-            location: expect.any(String),
-          }
-        },
+Given('a prospective appellant has provided appeal information', () => {
+  cy.provideCompleteAppeal({
+    ...STANDARD_APPEAL,
+    aboutYouSection: {
+      yourDetails: {
+        isOriginalApplicant: true,
+        name: 'Appellant Name',
+        email: 'valid@email.com',
+        appealingOnBehalfOf: null,
       },
-      requiredDocumentsSection: {
-        ...hardCodedExpectations.appeal.requiredDocumentsSection,
-        originalApplication: {
-          ...hardCodedExpectations.appeal.requiredDocumentsSection.originalApplication,
-          uploadedFile: {
-            ...hardCodedExpectations.appeal.requiredDocumentsSection.originalApplication.uploadedFile,
-            id: expect.any(String),
-            location: expect.any(String),
-          }
-        },
-        decisionLetter: {
-          ...hardCodedExpectations.appeal.requiredDocumentsSection.decisionLetter,
-          uploadedFile: {
-            ...hardCodedExpectations.appeal.requiredDocumentsSection.decisionLetter.uploadedFile,
-            id: expect.any(String),
-            location: expect.any(String),
-          }
-        }
-      }
-    }
-  };
-}
+    },
+  });
+  cy.clickCheckYourAnswers();
 
-Given('a prospective appellant has provided valid appeal information', () => {
-  cy.provideCompleteAppeal();
+  // /appellant-submission/check-answers
+  cy.clickSaveAndContinue();
+});
+
+Given('an agent has provided appeal information', () => {
+  cy.provideCompleteAppeal({
+    ...STANDARD_APPEAL,
+    aboutYouSection: {
+      yourDetails: {
+        isOriginalApplicant: false,
+        name: 'Agent Name',
+        email: 'valid@email.com',
+        appealingOnBehalfOf: 'Appellant Name',
+      },
+    },
+  });
   cy.clickCheckYourAnswers();
 
   // /appellant-submission/check-answers
@@ -63,12 +46,24 @@ When('the appeal is submitted', () => {
   cy.agreeToTheDeclaration();
 });
 
-Then('a case is created for a case officer', () => {
+Then('a case is created for the appellant', () => {
   // /appellant-submission/confirmation
   cy.confirmAppealSubmitted();
 
   cy.task('getLastFromQueue').then((actualMessage) => {
     const hardCodedExpectations = require('./ucd-831-ac1.json');
+    const reasonableExpectation = matchWhatWeCanFrom(hardCodedExpectations);
+
+    expect(actualMessage).toEqual(reasonableExpectation);
+  });
+});
+
+Then('a case is created for the appellant and the agent', () => {
+  // /appellant-submission/confirmation
+  cy.confirmAppealSubmitted();
+
+  cy.task('getLastFromQueue').then((actualMessage) => {
+    const hardCodedExpectations = require('./as-102-ac1.json');
     const reasonableExpectation = matchWhatWeCanFrom(hardCodedExpectations);
 
     expect(actualMessage).toEqual(reasonableExpectation);

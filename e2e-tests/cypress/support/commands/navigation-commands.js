@@ -82,3 +82,110 @@ Cypress.Commands.add('goToPageNotFoundPage', require('../go-to-page/goToPageNotF
 Cypress.Commands.add('clickSaveAndContinue', require('../appeal-navigation/clickSaveAndContinue'));
 Cypress.Commands.add('goToLandingPage', require('../go-to-page/goToLandingPage'));
 Cypress.Commands.add('goToCookiePreferencesPage', require('../go-to-page/goToCookiePreferences'));
+
+// Confirmation
+
+Cypress.Commands.add(
+  'confirmNavigationAcpPage',
+  require('../integration-with-acp/confirmNavigationAcpPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationTermsAndConditionsPage',
+  require('../appeal-navigation-confirmation/appellant-submission/confirmNavigationTermsAndConditionsPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationPageNotFoundPage',
+  require('../integration-with-acp/confirmNavigationPageNotFoundPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationHouseholderQuestionPage',
+  require('../appeal-navigation-confirmation/eligibility/confirmNavigationHouseholderQuestionPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationHouseholderQuestionOutPage',
+  require('../appeal-navigation-confirmation/eligibility/confirmNavigationHouseholderQuestionOutPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationLocalPlanningDepartmentPage',
+  require('../appeal-navigation-confirmation/eligibility/confirmNavigationLocalPlanningDepartmentPage'),
+);
+
+Cypress.Commands.add(
+  'confirmTextOnPage',
+  require('../appeal-navigation-confirmation/eligibility/confirmTextOnPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationCostsPage',
+  require('../appeal-navigation-confirmation/eligibility/confirmNavigationCostsPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationCostsOutPage',
+  require('../appeal-navigation-confirmation/eligibility/confirmNavigationCostsOutPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationListedBuildingPage',
+  require('../appeal-navigation-confirmation/eligibility/confirmNavigationListedBuildingPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationDecisionDatePage',
+  require('../appeal-navigation-confirmation/eligibility/confirmNavigationDecisionDatePage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationNoDecisionDatePage',
+  require('../appeal-navigation-confirmation/eligibility/confirmNavigationNoDecisionDatePage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationYourAppealStatementPage',
+  require('../appeal-navigation-confirmation/eligibility/confirmNavigationYourAppealStatementPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationDecisionDateExpiredPage',
+  require('../appeal-navigation-confirmation/eligibility/confirmNavigationDecisionDateExpiredPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationDecisionDateAbsentPage',
+  require('../appeal-navigation-confirmation/eligibility/confirmNavigationDecisionDateAbsentPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationEnforcementNoticePage',
+  require('../appeal-navigation-confirmation/eligibility/confirmNavigationEnforcementNoticePage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationYourDetailsPage',
+  require('../appellant-submission-your-details/confirmNavigationYourDetailsPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationWhoAreYouPage',
+  require('../appellant-submission-your-details/confirmNavigationWhoAreYouPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationApplicantNamePage',
+  require('../appellant-submission-your-details/confirmNavigationApplicantNamePage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationTaskListPage',
+  require('../appellant-submission-your-details/confirmNavigationTaskListPage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationPlanningApplicationNumberPage',
+  require('../appeal-navigation-confirmation/appellant-submission/confirmNavigationPlanningApplicationNumberPage'),
+);
