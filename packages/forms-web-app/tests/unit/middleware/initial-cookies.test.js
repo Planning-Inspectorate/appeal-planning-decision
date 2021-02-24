@@ -5,31 +5,25 @@ const { DEFAULT_COOKIE_POLICY } = require('../../../src/lib/cookies');
 const cookiePolicyKey = 'cookie_policy';
 
 describe('middleware/initial-cookies', () => {
-  let env;
-
   beforeEach(() => {
-    env = {
-      addGlobal: jest.fn(),
-    };
-
     jest.resetAllMocks();
   });
 
   [
     {
-      title: 'call next immediately req.cookies is not defined',
+      title: 'call next immediately if req.cookies is not defined',
       given: () => ({
         req: mockReq(),
         res: mockRes(),
       }),
       expected: (req, res, next) => {
         expect(res.cookie).not.toHaveBeenCalled();
-        expect(env.addGlobal).toHaveBeenCalledWith('cookies', undefined);
+        expect(res.locals).toBeUndefined();
         expect(next).toHaveBeenCalled();
       },
     },
     {
-      title: 'call next immediately req.cookies.cookie_policy is already defined',
+      title: 'call next immediately if req.cookies.cookie_policy is already defined',
       given: () => ({
         req: {
           ...mockReq(),
@@ -41,9 +35,7 @@ describe('middleware/initial-cookies', () => {
       }),
       expected: (req, res, next) => {
         expect(res.cookie).not.toHaveBeenCalled();
-        expect(env.addGlobal).toHaveBeenCalledWith('cookies', {
-          [cookiePolicyKey]: 'something',
-        });
+        expect(res.locals).toBeUndefined();
         expect(next).toHaveBeenCalled();
       },
     },
@@ -54,7 +46,10 @@ describe('middleware/initial-cookies', () => {
           ...mockReq(),
           cookies: {},
         },
-        res: mockRes(),
+        res: {
+          ...mockRes(),
+          locals: {},
+        },
       }),
       expected: (req, res, next) => {
         expect(res.cookie).toHaveBeenCalledWith(
@@ -62,8 +57,8 @@ describe('middleware/initial-cookies', () => {
           JSON.stringify(DEFAULT_COOKIE_POLICY),
           { encode: String }
         );
-        expect(env.addGlobal).toHaveBeenCalledWith('cookies', {
-          [cookiePolicyKey]: JSON.stringify(DEFAULT_COOKIE_POLICY),
+        expect(res.locals.cookies).toEqual({
+          [cookiePolicyKey]: DEFAULT_COOKIE_POLICY,
         });
         expect(next).toHaveBeenCalled();
       },
@@ -77,7 +72,10 @@ describe('middleware/initial-cookies', () => {
             a: 'b',
           },
         },
-        res: mockRes(),
+        res: {
+          ...mockRes(),
+          locals: {},
+        },
       }),
       expected: (req, res, next) => {
         expect(res.cookie).toHaveBeenCalledWith(
@@ -85,9 +83,9 @@ describe('middleware/initial-cookies', () => {
           JSON.stringify(DEFAULT_COOKIE_POLICY),
           { encode: String }
         );
-        expect(env.addGlobal).toHaveBeenCalledWith('cookies', {
+        expect(res.locals.cookies).toEqual({
           a: 'b',
-          [cookiePolicyKey]: JSON.stringify(DEFAULT_COOKIE_POLICY),
+          [cookiePolicyKey]: DEFAULT_COOKIE_POLICY,
         });
         expect(next).toHaveBeenCalled();
       },
@@ -97,7 +95,7 @@ describe('middleware/initial-cookies', () => {
       const next = jest.fn();
       const { req, res } = given();
 
-      await initialCookiesMiddleware(env)(req, res, next);
+      await initialCookiesMiddleware(req, res, next);
 
       expected(req, res, next);
     });
