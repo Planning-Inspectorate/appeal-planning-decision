@@ -1,4 +1,5 @@
 const TASK_STATUS = require('./task-status/task-statuses');
+const accuracySubmissionCompletion = require('./task-status/accuracy-submission');
 const otherAppealsCompletion = require('./task-status/other-appeals');
 
 function statusTemp() {
@@ -18,7 +19,7 @@ const SECTIONS = [
       {
         taskId: 'submissionAccuracy',
         href: '/accuracy-submission',
-        rule: statusTemp,
+        rule: accuracySubmissionCompletion,
       },
       {
         taskId: 'extraConditions',
