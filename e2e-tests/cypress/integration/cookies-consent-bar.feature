@@ -5,11 +5,23 @@ Feature: Cookie consent bar
   I want users to be able to say Yes to GA cookies
   So that I will receive analytics data for the service
 
-  @as-98 @as-98-1
-  Scenario: Cookie banner available until actioned
+  @as-98 @as-98-1a
+  Scenario: Cookie banner available until actioned - no decision
     Given a user has not previously submitted cookie preferences
-    When the user navigates through the service
-    Then the cookie banner remains until actioned
+    When the user neither accepts nor rejects not necessary cookies
+    Then the cookie banner remains visible
+
+  @as-98 @as-98-1b
+  Scenario: Cookie banner available until actioned - accepted
+    Given a user has not previously submitted cookie preferences
+    When the user accepts not necessary cookies
+    Then the accepted cookie banner becomes visible
+
+  @as-98 @as-98-1c
+  Scenario: Cookie banner available until actioned - rejected
+    Given a user has not previously submitted cookie preferences
+    When the user rejects not necessary cookies
+    Then the rejected cookie banner becomes visible
 
   @as-98 @as-98-2
   Scenario: Accept not necessary cookies
