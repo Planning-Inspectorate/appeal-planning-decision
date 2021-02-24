@@ -3,7 +3,10 @@ module.exports = {
   appealId: null,
   state: 'DRAFT',
   aboutAppealSection: {
-    submissionAccuracy: null,
+    submissionAccuracy: {
+      accurateSubmission: null,
+      inaccuracyReason: '',
+    },
     extraConditions: {
       hasExtraConditions: null,
       extraConditions: '',
