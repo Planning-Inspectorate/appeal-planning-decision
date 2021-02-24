@@ -17,7 +17,7 @@ const SECTIONS = [
     tasks: [
       {
         taskId: 'submissionAccuracy',
-        href: '/placeholder',
+        href: '/accuracy-submission',
         rule: statusTemp,
       },
       {
