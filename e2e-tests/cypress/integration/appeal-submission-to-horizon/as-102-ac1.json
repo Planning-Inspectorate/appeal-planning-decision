@@ -11,10 +11,10 @@
     },
     "aboutYouSection": {
       "yourDetails": {
-        "isOriginalApplicant": true,
-        "name": "Appellant Name",
+        "isOriginalApplicant": false,
+        "name": "Agent Name",
         "email": "valid@email.com",
-        "appealingOnBehalfOf": ""
+        "appealingOnBehalfOf": "Appellant Name"
       }
     },
     "requiredDocumentsSection": {

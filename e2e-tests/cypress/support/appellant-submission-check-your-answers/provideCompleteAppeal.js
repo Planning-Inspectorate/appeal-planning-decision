@@ -1,70 +1,122 @@
-import { dateForXDaysAgo } from '../../integration/eligibility-decision-date/eligibility-decision-date';
-
-module.exports = () => {
+module.exports = (appeal) => {
   cy.goToHouseholderQuestionPage();
   cy.provideHouseholderAnswerYes();
+
+  if (appeal.eligibility.householderPlanningPermission) {
+    cy.provideHouseholderAnswerYes();
+  } else {
+    cy.provideHouseholderAnswerNo();
+  }
   cy.clickSaveAndContinue();
 
   cy.goToDecisionDatePage();
-  cy.provideDecisionDate(dateForXDaysAgo(30));
 
-  cy.provideEligibleLocalPlanningDepartment();
+  cy.provideDecisionDate(appeal.decisionDate);
+
+  if (appeal.eligibility.eligibleLocalPlanningDepartment) {
+    cy.provideEligibleLocalPlanningDepartment();
+  } else {
+    cy.provideIneigibleLocalPlanningDepartment();
+  }
   cy.clickSaveAndContinue();
 
   cy.goToEnforcementNoticePage();
-  cy.provideEnforcementNoticeAnswer(false);
+
+  cy.provideEnforcementNoticeAnswer(appeal.eligibility.enforcementNotice === true);
   cy.clickSaveAndContinue();
 
-  cy.stateCaseDoesNotInvolveAListedBuilding();
+  if (appeal.eligibility.listedBuilding) {
+    cy.stateCaseDoesNotInvolveAListedBuilding();
+  } else {
+    cy.stateCaseInvolvesListedBuilding();
+  }
 
   cy.goToCostsPage();
-  cy.provideCostsAnswerNo();
+  if (appeal.eligibility.isClaimingCosts) {
+    cy.provideCostsAnswerYes();
+  } else {
+    cy.provideCostsAnswerNo();
+  }
   cy.clickSaveAndContinue();
 
   cy.goToTaskListPage();
 
   cy.goToWhoAreYouPage();
-  cy.answerYesOriginalAppellant();
+
+  if (appeal.aboutYouSection.yourDetails.isOriginalApplicant) {
+    cy.answerYesOriginalAppellant();
+  } else {
+    cy.answerNoOriginalAppellant();
+  }
   cy.clickSaveAndContinue();
 
-  cy.provideDetailsName('Valid Name');
-  cy.provideDetailsEmail('valid@email.com');
+  cy.provideDetailsName(appeal.aboutYouSection.yourDetails.name);
+  cy.provideDetailsEmail(appeal.aboutYouSection.yourDetails.email);
   cy.clickSaveAndContinue();
+
+  if (!appeal.aboutYouSection.yourDetails.isOriginalApplicant) {
+    cy.provideNameOfOriginalApplicant(appeal.aboutYouSection.yourDetails.appealingOnBehalfOf);
+    cy.clickSaveAndContinue();
+  }
 
   cy.promptUserToProvidePlanningApplicationNumber();
-  cy.providePlanningApplicationNumber('ValidNumber/12345');
+  cy.providePlanningApplicationNumber(appeal.requiredDocumentsSection.applicationNumber);
 
   cy.goToPlanningApplicationSubmission();
-  cy.uploadPlanningApplicationFile('appeal-statement-valid.doc');
+  cy.uploadPlanningApplicationFile(
+    appeal.requiredDocumentsSection.originalApplication.uploadedFile.name,
+  );
   cy.clickSaveAndContinue();
 
   cy.goToDecisionLetterPage();
-  cy.uploadDecisionLetterFile('appeal-statement-valid.doc');
+  cy.uploadDecisionLetterFile(appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name);
   cy.clickSaveAndContinue();
 
   cy.goToAppealStatementSubmission();
   cy.checkNoSensitiveInformation();
-  cy.uploadAppealStatementFile('appeal-statement-valid.doc');
+  cy.uploadAppealStatementFile(appeal.yourAppealSection.appealStatement.uploadedFile.name);
   cy.clickSaveAndContinue();
 
   cy.goToSiteAddressPage();
-  cy.provideAddressLine1('1 Taylor Road');
-  cy.provideAddressLine2('Clifton');
-  cy.provideTownOrCity('Bristol');
-  cy.provideCounty('South Glos');
-  cy.providePostcode('BS8 1TG');
+  cy.provideAddressLine1(appeal.appealSiteSection.siteAddress.addressLine1);
+  cy.provideAddressLine2(appeal.appealSiteSection.siteAddress.addressLine2);
+  cy.provideTownOrCity(appeal.appealSiteSection.siteAddress.town);
+  cy.provideCounty(appeal.appealSiteSection.siteAddress.county);
+  cy.providePostcode(appeal.appealSiteSection.siteAddress.postcode);
   cy.clickSaveAndContinue();
 
   cy.goToWholeSiteOwnerPage();
-  cy.answerOwnsTheWholeAppeal();
-  cy.clickSaveAndContinue();
+  if (appeal.appealSiteSection.siteOwnership.ownsWholeSite) {
+    cy.answerOwnsTheWholeAppeal();
+    cy.clickSaveAndContinue();
+  } else {
+    cy.answerDoesNotOwnTheWholeAppeal();
+    cy.clickSaveAndContinue();
+
+    if (appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold) {
+      cy.answerDidToldOtherOwnersAppeal();
+    } else {
+      cy.answerDidNotToldOtherOwnersAppeal();
+    }
+    cy.clickSaveAndContinue();
+  }
 
   cy.goToAccessSitePage();
-  cy.answerCanSeeTheWholeAppeal();
+  if (appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad) {
+    cy.answerCanSeeTheWholeAppeal();
+  } else {
+    cy.answerCannotSeeTheWholeAppeal();
+    cy.provideMoreDetails(appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted);
+  }
   cy.clickSaveAndContinue();
 
   cy.goToHealthAndSafetyPage();
-  cy.answerSiteHasNoIssues();
+  if (appeal.appealSiteSection.healthAndSafety.hasIssues) {
+    cy.answerSiteHasIssues();
+    cy.provideSafetyIssuesConcerns(appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues);
+  } else {
+    cy.answerSiteHasNoIssues();
+  }
   cy.clickSaveAndContinue();
 
   cy.wait(Cypress.env('demoDelay'));
