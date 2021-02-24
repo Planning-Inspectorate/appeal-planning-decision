@@ -3,14 +3,15 @@ const {
   CANNOT_START_YET,
 } = require('../../../src/services/task-status/task-statuses');
 const { SECTIONS, getTaskStatus } = require('../../../src/services/task.service');
+const appealReply = require('../../../src/lib/empty-appeal-reply');
 
 describe('services/task.service', () => {
   describe('SECTIONS', () => {
     it('should return not started from statusTemp', () => {
-      expect(SECTIONS[0].tasks[0].rule()).toEqual(NOT_STARTED);
+      expect(SECTIONS[3].tasks[0].rule(appealReply)).toEqual(NOT_STARTED);
     });
     it('should return cannot start yet for statusCheckYourAnswer', () => {
-      expect(SECTIONS[SECTIONS.length - 1].tasks[0].rule()).toEqual(CANNOT_START_YET);
+      expect(SECTIONS[SECTIONS.length - 1].tasks[0].rule(appealReply)).toEqual(CANNOT_START_YET);
     });
   });
   describe('getTaskStatus', () => {
