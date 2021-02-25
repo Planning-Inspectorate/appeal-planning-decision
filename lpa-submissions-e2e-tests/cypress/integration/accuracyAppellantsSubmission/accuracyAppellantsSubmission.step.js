@@ -18,7 +18,7 @@ Given(
     cy.verifyPage('/task-list');
     cy.clickOnLinksOnAppealQuestionnaireTaskListPage('submissionAccuracy');
     cy.verifyPage(pageUrl);
-    cy.accurateSubmissionRadio('No').check();
+    cy.accurateSubmissionRadio('Yes').check();
     cy.clickSaveAndContinue();
   },
 );
@@ -46,6 +46,10 @@ When('the user enters {string}', (inaccuracyReason) => {
 
 When('the user has not provided further information as text regarding their reasons', () => {
   cy.inaccuracyReasonInput().should('have.value', '');
+});
+
+When('the user selects the back link', () => {
+  cy.clickBackButton();
 });
 
 When('the user returns to the submission accuracy page from the Task List', () => {
@@ -76,11 +80,12 @@ Then(
   },
 );
 
-Then('the user is shown the error message {string}', (errorMessage) => {
-  cy.validateErrorMessage(errorMessage);
+Then('the user is shown the error message {string} for {string}', (errorMessage, identifier) => {
+  cy.validateErrorSummary(errorMessage, identifier);
+  cy.validateInputError(errorMessage, identifier);
 });
 
-Then(`the user remains on the Accuracy of the appellant's submission page`, () => {
+Then(`the user remains in the Accuracy of the appellant's submission page`, () => {
   cy.verifyPage(pageUrl);
 });
 
@@ -88,7 +93,7 @@ Then('the user is taken to the task list', () => {
   cy.verifyPage('/task-list');
 });
 
-Then('a Completed status is populated on that page of the task list', () => {
+Then('a Completed status is populated on that sub-section of the task list', () => {
   cy.verifyCompletedStatus('submissionAccuracy');
 });
 
@@ -97,7 +102,7 @@ Then('the user is provided with a free text field to input their reasons', () =>
 });
 
 Then('the user can see the appeal details panel on the right hand side of the page', () => {
-  cy.verifyAppealDetailsSidebar();
+  cy.verifyAppealDetailsSidebar({});
 });
 
 Then('any information they have inputted will not be saved', () => {
@@ -106,6 +111,6 @@ Then('any information they have inputted will not be saved', () => {
   cy.accurateSubmissionRadio('No').should('not.be.checked');
 });
 
-Then('the information they have previously entered is still populated', () => {
-  cy.accurateSubmissionRadio('No').should('be.checked');
+Then('the information they previously entered is still populated', () => {
+  cy.accurateSubmissionRadio('Yes').should('be.checked');
 });

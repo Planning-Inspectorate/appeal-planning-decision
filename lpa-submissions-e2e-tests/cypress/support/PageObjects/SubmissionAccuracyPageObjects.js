@@ -16,7 +16,7 @@ class SubmissionAccuracy {
   }
 
   accurateSubmissionLabel() {
-    return cy.get('[data-cy="accurate-submission-label"]');
+    return cy.get('[data-cy="accurate-submission-label"] legend');
   }
 
   accurateSubmissionRadioYes() {
