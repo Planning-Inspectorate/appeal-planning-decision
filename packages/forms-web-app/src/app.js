@@ -16,9 +16,6 @@ const appealSiteAddressToArray = require('./lib/appeal-site-address-to-array');
 const fileSizeDisplayHelper = require('./lib/file-size-display-helper');
 const filterByKey = require('./lib/filter-by-key');
 const addKeyValuePair = require('./lib/add-key-value-pair');
-const initialCookiesMiddleware = require('./middleware/initial-cookies');
-const resLocalsAsNunjucksGlobalEnvVarMiddleware = require('./middleware/res-locals-as-nunjucks-global-env-var');
-const cookieBannerSubmission = require('./middleware/cookie-banner-submission');
 require('express-async-errors');
 
 const config = require('./config');
@@ -108,9 +105,6 @@ app.use(
   express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'all.js'))
 );
 app.use(fileUpload(config.fileUpload));
-app.use(initialCookiesMiddleware);
-app.use(cookieBannerSubmission);
-app.use(resLocalsAsNunjucksGlobalEnvVarMiddleware(env));
 
 // Routes
 app.use('/', routes);

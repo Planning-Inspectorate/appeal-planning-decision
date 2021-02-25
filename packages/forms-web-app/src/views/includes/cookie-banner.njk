@@ -1,20 +1,3 @@
 {% from "../macros/cookie-banner.njk" import cookieBanner %}
-{% from "../macros/cookie-banner-accepted.njk" import cookieBannerAccepted %}
-{% from "../macros/cookie-banner-rejected.njk" import cookieBannerRejected %}
 
-{% set didNotAcceptOrRejectCookiePolicyOnPreviousRequest = res_locals.acceptedCookiePolicy !== true and res_locals.acceptedCookiePolicy !== false %}
-{% set hasYetToAcceptOrRejectCookiePolicy = cookies.cookies_preferences_set !== 'true' %}
-
-{% set showCookieBanner = didNotAcceptOrRejectCookiePolicyOnPreviousRequest and hasYetToAcceptOrRejectCookiePolicy %}
-
-{% if showCookieBanner %}
-  {{ cookieBanner() }}
-{% endif %}
-
-{% if res_locals.acceptedCookiePolicy %}
-  {{ cookieBannerAccepted() }}
-{% endif %}
-
-{% if res_locals.acceptedCookiePolicy === false %}
-  {{ cookieBannerRejected() }}
-{% endif %}
+{{ cookieBanner() }}

@@ -2,7 +2,7 @@
 
 {% macro cookieBanner(attributes = {}) -%}
   {% set serviceName = attributes.serviceName | default('appeal a householder planning decision service', true) %}
-  {% set cookiePagePath = attributes.cookiePagePath | default('/cookies', true) %}
+  {% set cookiePagePath = attributes.cookiePagePath | default('/help/cookies', true) %}
 
   {% set headingText = 'Cookies on %serviceName%' | replace('%serviceName%', serviceName) %}
 
@@ -13,7 +13,6 @@
     <p>We'd also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
   {% endset %}
 
-  <form action="" method="post" accept-charset="utf-8">
   {{ govukCookieBanner({
     ariaLabel: ariaLabel,
     attributes: { "data-cy": "cookie-banner" },
@@ -27,14 +26,16 @@
             type: "submit",
             name: "cookie_banner",
             value: "accept",
-            attributes: { "data-cy": "cookie-banner-accept-analytics-cookies" }
+            attributes: { "data-cy": "cookie-banner-accept-analytics-cookies" },
+            classes: "govuk-!-display-none"
           },
           {
             text: "Reject analytics cookies",
             type: "submit",
             name: "cookie_banner",
             value: "reject",
-            attributes: { "data-cy": "cookie-banner-reject-analytics-cookies" }
+            attributes: { "data-cy": "cookie-banner-reject-analytics-cookies" },
+            classes: "govuk-!-display-none"
           },
           {
             text: "View cookies",
@@ -45,5 +46,4 @@
       }
     ]
   }) }}
-  </form>
 {%- endmacro %}
