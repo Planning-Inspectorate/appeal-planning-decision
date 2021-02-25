@@ -185,8 +185,13 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'validateErrorMessage',
-  require('./appeals-in-immediate-area/validateErrorMessage'),
+  'validateErrorSummary',
+  require('./common/validateErrorSummary'),
+);
+
+Cypress.Commands.add(
+  'validateInputError',
+  require('./common/validateInputError'),
 );
 
 Cypress.Commands.add('clickSaveAndContinue', require('./common/clickSaveAndContinue'));
@@ -196,6 +201,11 @@ Cypress.Commands.add('clickBackButton', require('./common/clickBackButton'));
 Cypress.Commands.add(
   'appealsAreaRadioButton',
   require('./appeals-in-immediate-area/appealsAreaRadioButton'),
+);
+
+Cypress.Commands.add(
+  'validateErrorMessage',
+  require('./appeals-in-immediate-area/validateApprealsAreaErrorMessage'),
 );
 
 Cypress.Commands.add(

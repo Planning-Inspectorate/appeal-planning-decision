@@ -36,7 +36,7 @@ Then(
 );
 
 Then('Then the user is shown the error message {string}', (errorMessage) => {
-  cy.validateErrorMessage(errorMessage);
+  cy.validateAppealsAreaErrorMessage(errorMessage);
 });
 
 Then(`the user remains on 'Tell us about any appeals in the immediate area' page`, () => {
