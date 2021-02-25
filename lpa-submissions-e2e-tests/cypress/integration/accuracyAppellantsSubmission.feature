@@ -14,7 +14,7 @@ Feature: Accuracy of the Apellants Submission
     Given the user is in the Review accuracy of the appellant's submission page
     When the user does not select an option
     And the user selects Save and Continue
-    Then the user is shown the error message 'Select yes if the information accurately reflects the planning application'
+    Then the user is shown the error message 'Select yes if the information accurately reflects the planning application' for 'accurate-submission'
     And the user remains in the Accuracy of the appellant's submission page
 
   Scenario: AC03 LPA user selects Yes and proceeds to task list
@@ -51,7 +51,7 @@ Feature: Accuracy of the Apellants Submission
     When the user selects 'No'
     And the user has not provided further information as text regarding their reasons
     And the user selects Save and Continue
-    Then the user is shown the error message 'Enter details of why this does not accurately reflect the planning application'
+    Then the user is shown the error message 'Enter details of why this does not accurately reflect the planning application' for 'inaccuracy-reason'
     And the user remains in the Accuracy of the appellant's submission page
 
   Scenario: AC07 Appeal details side panel
