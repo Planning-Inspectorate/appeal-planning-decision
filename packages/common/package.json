@@ -14,7 +14,7 @@
   },
   "author": "",
   "dependencies": {
-    "@godaddy/terminus": "^4.4.1",
+    "@godaddy/terminus": "^4.6.0",
     "prom-client": "^13.0.0"
   },
   "devDependencies": {
