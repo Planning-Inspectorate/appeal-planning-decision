@@ -1,6 +1,5 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { DEFAULT_COOKIE_POLICY } from '../../../../packages/forms-web-app/src/lib/cookies';
-import { expectCookieIsNotDefined, expectCookiePolicy, expectExpressSessionCookieIsDefined } from '../cookies/cookies';
+import { expectCookieIsNotDefined, expectExpressSessionCookieIsDefined } from '../cookies/cookies';
 
 When('the user neither accepts nor rejects not necessary cookies', () => {
   cy.goToTaskListPage();
@@ -57,13 +56,11 @@ When('the user visits the service', () => {
 });
 
 Then('not necessary cookies are disabled', () => {
-  const expectedCookiePolicy = JSON.stringify(DEFAULT_COOKIE_POLICY);
-
   cy.getCookies()
-    .should('have.length', 2)
+    .should('have.length', 1)
     .then((cookies) => {
       expectExpressSessionCookieIsDefined(cookies);
-      expectCookiePolicy(cookies, expectedCookiePolicy);
+      expectCookieIsNotDefined(cookies, 'cookie_policy');
       expectCookieIsNotDefined(cookies, 'cookie_preferences_set');
     });
 });
