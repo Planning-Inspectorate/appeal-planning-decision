@@ -1,6 +1,6 @@
 module.exports = (errorMessage) => {
   // try to save and continue
-  cy.get('.govuk-button').click();
+  cy.clickSaveAndContinue();
   cy.wait(Cypress.env('demoDelay'));
 
   // confirm we are in the right place
