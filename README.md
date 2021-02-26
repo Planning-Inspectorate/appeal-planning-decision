@@ -102,7 +102,7 @@ In the event of divergence from the README, the external document will take
 precedence.
 
 All commit messages must be written in the [Conventional Commit Format](#commit-message-format).
-This uses [Semantic Release](https://semantic-release.gitbook.io/semantic-release/) 
+This uses [Semantic Release](https://semantic-release.gitbook.io/semantic-release/)
 to generate the release numbers for the artifacts.
 
 # Releases
@@ -117,7 +117,7 @@ variables which we want to apply (in this instance, just the URL).
 # Commit Message Format
 
 This repo uses [Semantic Release](https://semantic-release.gitbook.io) to
-generate release version numbers, so it is imperative that all commits are 
+generate release version numbers, so it is imperative that all commits are
 done using the [correct format](https://www.conventionalcommits.org/en/v1.0.0/#specification).
 
 Commits to the `develop` branch will create release candidates. These are a release
@@ -142,24 +142,24 @@ Without the `feat`, it would create no new release.
 ## Checking The Correct Release Has Been Deployed
 
 1. Check your PR has passed. If there are any failures, check these to see if the
-reasons for failure give a clue as to what went wrong (and then fix). There is a job
-called `Next version` which will tell you the version number that this should create
-if successful.
-2. Check a [new release was made](https://github.com/foundry4/appeal-planning-decision/releases). 
-Dependent upon whether it was made from  the `develop` or `master` branch, you will be 
-looking for either a pre-release version  or a release. If no release has been made, 
-ensure that your commit message was formatted  correctly  and begins with `feat` or `fix`.
+   reasons for failure give a clue as to what went wrong (and then fix). There is a job
+   called `Next version` which will tell you the version number that this should create
+   if successful.
+2. Check a [new release was made](https://github.com/foundry4/appeal-planning-decision/releases).
+   Dependent upon whether it was made from the `develop` or `master` branch, you will be
+   looking for either a pre-release version or a release. If no release has been made,
+   ensure that your commit message was formatted correctly and begins with `feat` or `fix`.
 3. Check the [/releases](https://github.com/Planning-Inspectorate/appeal-planning-decision/tree/master/releases)
-folder against the cluster you are expecting to see it deployed on. If the `app.yml` file does
-not contain the tag you are expecting then the deployment may have failed. It takes up to 
-5 minutes for a new release to be detected.
+   folder against the cluster you are expecting to see it deployed on. If the `app.yml` file does
+   not contain the tag you are expecting then the deployment may have failed. It takes up to
+   5 minutes for a new release to be detected.
 
 ## Ensure Linear Commits
 
 It's very important that PRs have linear commits. There can be multiple commits per PR
 (if appropriate), but they should be linear. An example of a non-linear commit is:
 
-```shell 
+```shell
 7fa9388 (feature/my-wonderful-feature): feat(some-brilliant-feat): this is a brilliant feature I've worked hard on
 bf2a09e erm, not sure why CI has broken so another go
 067c88e gah, I'm stupid. I can see why CI broke
@@ -215,13 +215,13 @@ Group membership can be managed by following the [Azure docs](https://docs.micro
 
 ### Prerequisites
 
- - [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
- - [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl)
+- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
+- [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl)
 
 ### Login to Azure
 
 This only needs to be done once
- 
+
 ```shell script
 az login
 ```
@@ -272,6 +272,7 @@ All environments should include the following namespaces:
 openfass
 openfaas-fn
 ```
+
 In addition, environment-specific namespaces exist e.g.
 ```shell script
 app-dev # for dev
@@ -322,9 +323,52 @@ moment, this will need to be done by someone with admin rights to the cluster.
 
 ### ACP integration
 
-The current target MVP checks only the decision date eligibility before passing the user to an existing external service 
+The current target MVP checks only the decision date eligibility before passing the user to an existing external service
 Appeals Casework Portal (ACP) for user to submit their appeal.
 In the FWA ui app this behaviour is controlled by setting the environment variable `SERVER_LIMITED_ROUTING_ENABLED`.
 For convenience, a placeholder environment variable is present in the `docker-compose.yml` file.
 With this set to `true` only a limited set of pages are accessible and user will be taken to ACP from decision date eligibility check.
 With this set to `false` all existing pages will be accessible and user will proceed to LPD selection instead of ACP.
+
+## Logging
+
+> Please see [Confluence](https://pins-ds.atlassian.net/wiki/spaces/AAPDS/pages/edit-v2/554205478) for further information
+
+tl;dr If in controller/middleware, use `req.log`, otherwise `*/src/lib/logger.js`. We use the logger [Pino](http://getpino.io),
+and [express-pino-logger](https://github.com/pinojs/express-pino-logger).
+
+### Logging Levels
+
+This is an overview of the different levels available in Pino, in order of least to most verbose.
+
+| Level | Description                                                                                                                                                                                             |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Fatal | To be used if the application is going down. Typically this won't be used in the application.                                                                                                           |
+| Error | To be used if an error has occurred. This will most likely be a `try/catch` but not exclusively. If an `Error` object is present, always send it to the logger - `log.error({ err }, 'error message')`. |
+| Warn  | To be used when something has happened that is not ideal, but may not result in an error being thrown. Typically, this would be used when a user has failed validation.                                 |
+| Info  | To be used when recording normal information about a process. This is likely to be the most used level.                                                                                                 |
+| Debug | Information to be used when debugging a problem.                                                                                                                                                        |
+| Trace | The most verbose level.                                                                                                                                                                                 |
+
+### try/catch
+
+Always log try / catch statements. Good practice:
+
+```javascript
+try {
+  log.debug('this is something happening');
+} catch (err) {
+  log.error({ err }, 'error message');
+  throw err;
+}
+```
+
+### Child
+
+Sometimes it makes sense to logically group log messages. We can acheive this with a [child logger](https://getpino.io/#/docs/child-loggers).
+Typically you will need to add some identifying detail to associate the logs together, a good example would be using `uuid.v4()`.
+
+```javascript
+const log = logger.child({ someId: uuid.v4() });
+log.info('info_message');
+```
