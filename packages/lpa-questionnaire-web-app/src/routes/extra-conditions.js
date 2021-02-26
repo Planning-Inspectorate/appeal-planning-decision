@@ -15,7 +15,8 @@ router.get(
 
 router.post(
   '/:id/extra-conditions',
-  [validationErrorHandler, extraConditionsValidationRules],
+  extraConditionsValidationRules(),
+  validationErrorHandler,
   extraConditionsController.postExtraConditions
 );
 

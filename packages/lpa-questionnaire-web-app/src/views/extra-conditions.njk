@@ -53,11 +53,20 @@
         <li>c) The development hereby permitted shall be carried out in accordance with the approved plans.</li>
       </ol>
       {% endset %}
-      
+
       {% set extraConditionsTextArea %}
         {{ govukTextarea({
           hint: {
-            text: "Copy and paste the list of conditions."
+            text: "Tell us about the extra conditions"
+          },
+          idPrefix: "extra-conditions-text",
+          name: "extra-conditions-text",
+          value: values['extra-conditions-text'],
+          errorMessage: errors['extra-conditions-text'] and {
+              text: errors['extra-conditions-text'].msg,
+              attributes: {
+                'data-cy': 'extra-conditions-text-error'
+              }
           }
         }) }}
       {% endset %}
@@ -68,8 +77,8 @@
       }) }}
 
         {{ govukRadios({
-          idPrefix: "extra-conditions",
-          name: "extra-conditions",
+          idPrefix: "has-extra-conditions",
+          name: "has-extra-conditions",
           fieldset: {
             legend: {
               isPageHeading: true,
@@ -80,25 +89,25 @@
             {
               value: "yes",
               text: "Yes",
-              checked: true if values['extra-conditions'] === 'yes',
+              checked: true if values['has-extra-conditions'] === 'yes',
               conditional: {
                 html: extraConditionsTextArea
               },
               attributes: {
-                "data-cy": "extra-conditions-yes"
+                "data-cy": "has-extra-conditions-yes"
               }
             },
             {
               value: "no",
-              checked: true if values['extra-conditions'] === 'no',
+              checked: true if values['has-extra-conditions'] === 'no',
               text: "No",
               attributes: {
-                "data-cy": "extra-conditions-no"
+                "data-cy": "has-extra-conditions-no"
               }
             }
           ],
-          errorMessage: errors['extra-conditions'] and {
-            text: errors['extra-conditions'].msg,
+          errorMessage: errors['has-extra-conditions'] and {
+            text: errors['has-extra-conditions'].msg,
             attributes: {
               'data-cy': 'extra-conditions-error'
             }

@@ -7,7 +7,7 @@ describe('validators/extra-conditions', () => {
     it('has a rule for the extra conditions', () => {
       const rule = rules()[0].builder.build();
 
-      expect(rule.fields).toEqual(['extra-conditions']);
+      expect(rule.fields).toEqual(['has-extra-conditions']);
       expect(rule.locations).toEqual(['body']);
       expect(rule.optional).toBeFalsy();
       expect(rule.stack).toHaveLength(3);
@@ -29,7 +29,7 @@ describe('validators/extra-conditions', () => {
       expect(rule.stack).toHaveLength(2);
 
       expect(rule.stack[0].chain).toHaveProperty('if');
-      expect(rule.stack[0].chain.builder.fields).toEqual(['extra-conditions']);
+      expect(rule.stack[0].chain.builder.fields).toEqual(['has-extra-conditions']);
       expect(rule.stack[0].chain.builder.locations).toEqual(['body']);
 
       expect(rule.stack[1].validator.name).toEqual('isEmpty');
@@ -49,7 +49,7 @@ describe('validators/extra-conditions', () => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
           expect(result.errors[0].msg).toEqual('Select yes if there are extra conditions');
-          expect(result.errors[0].param).toEqual('extra-conditions');
+          expect(result.errors[0].param).toEqual('has-extra-conditions');
           expect(result.errors[0].value).toEqual(undefined);
         },
       },
@@ -57,7 +57,7 @@ describe('validators/extra-conditions', () => {
         title: 'invalid (yes selected, no text passed) - fail',
         given: () => ({
           body: {
-            'extra-conditions': 'yes',
+            'has-extra-conditions': 'yes',
           },
         }),
         expected: (result) => {
@@ -72,7 +72,7 @@ describe('validators/extra-conditions', () => {
         title: 'valid (no selected) - pass',
         given: () => ({
           body: {
-            'extra-conditions': 'no',
+            'has-extra-conditions': 'no',
           },
         }),
         expected: (result) => {
@@ -83,7 +83,7 @@ describe('validators/extra-conditions', () => {
         title: 'valid (yes selected and text passed) - pass',
         given: () => ({
           body: {
-            'extra-conditions': 'yes',
+            'has-extra-conditions': 'yes',
             'extra-conditions-text': 'some-ref',
           },
         }),
