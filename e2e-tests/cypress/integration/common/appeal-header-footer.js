@@ -106,3 +106,7 @@ Then('the back button is displayed', () => {
 Then('the back button is not displayed', () => {
   cy.confirmBackButtonNotDisplayed();
 });
+
+Then('the header link is displayed', () => {
+  cy.confirmHomepageLinkIsDisplayed();
+})
