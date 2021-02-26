@@ -18,6 +18,10 @@
   }) }}
 {% endblock %}
 
+{% block bodyStart %}
+  {% include "includes/cookie-banner.njk" %}
+{% endblock %}
+
 {% set mainClasses = mainClasses | default("govuk-main-wrapper--auto-spacing") %}
 
 {% block main %}
