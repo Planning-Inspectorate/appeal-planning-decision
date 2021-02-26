@@ -20,7 +20,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:e2e:demo:acp": "cd ./e2e-tests && npm run test:e2e:demo:acp",
     "test:e2e:smoke:acp": "cd ./e2e-tests && BASEURL=$BASEURL npm run test:e2e:smoke:acp",
-
     "document:appeals-service-api": "cd ./packages/appeals-service-api && npm install && npm run documentation",
     "document:common": "cd ./packages/common && npm install && npm run documentation",
     "document:document-service-api": "cd ./packages/document-service-api && npm install && npm run documentation",
@@ -44,6 +43,7 @@
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
+    "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
     "commitizen": "^4.2.2",
     "husky": "^4.3.0",
