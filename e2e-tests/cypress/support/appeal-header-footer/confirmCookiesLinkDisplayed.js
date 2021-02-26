@@ -1,5 +1,5 @@
 module.exports = () => {
-  cy.get('[data-cy="Privacy"]')
+  cy.get('[data-cy="Cookies"]')
     .should('have.attr', 'href')
     .and('include', 'https://www.gov.uk/guidance/appeals-casework-portal-privacy-cookies');
 

@@ -87,6 +87,8 @@ When('the {string} page is presented', (page) => {
 Then('the required links are displayed', () => {
   cy.confirmTermsAndConditionsLinkDisplayed();
   cy.confirmPrivacyLinkDisplayed();
+  cy.confirmCookiesLinkDisplayed();
+  cy.confirmAccessibilityLinkDisplayed();
 });
 
 Then('the required header link is displayed', () => {
