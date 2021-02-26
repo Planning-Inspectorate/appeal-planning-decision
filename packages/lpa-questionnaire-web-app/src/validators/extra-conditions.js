@@ -1,7 +1,7 @@
 const { body } = require('express-validator');
 
 const rules = () => {
-  const extraConditionsRef = 'extra-conditions';
+  const extraConditionsRef = 'has-extra-conditions';
   const extraConditionsValues = ['yes', 'no'];
   const extraConditionsTextRef = 'extra-conditions-text';
 
