@@ -197,6 +197,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmHomepageLinkIsDisplayed',
+  require('./appeal-header-footer/confirmHomepageLinkIsDisplayed')
+)
+
+Cypress.Commands.add(
   'provideDecisionDate',
   require('./eligibility-decision-date/provideDecisionDate'),
 );
