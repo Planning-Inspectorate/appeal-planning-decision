@@ -3,8 +3,8 @@ import ExtraConditionsPage from '../PageObjects/appeals-extra-conditions-pageobj
 const extraConditionsRadioButtonSelection = new ExtraConditionsPage();
 module.exports = (radioButtonValue) => {
   if (radioButtonValue === 'Yes') {
-    extraConditionsRadioButtonSelection.extraConditionsRadioButtonYes().check();
+    extraConditionsRadioButtonSelection.extraConditionsRadioButtonYes();
   } else {
-    extraConditionsRadioButtonSelection.extraConditionsRadioButtonNo().check();
+    extraConditionsRadioButtonSelection.extraConditionsRadioButtonNo();
   }
 };

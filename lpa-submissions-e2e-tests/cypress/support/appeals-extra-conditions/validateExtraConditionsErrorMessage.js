@@ -1,5 +1,5 @@
 /// <reference types = "Cypress"/>
-import ExtraConditionsPage from '../PageObjects/AppealsExtraConditionsPageObjects';
+import ExtraConditionsPage from '../PageObjects/appeals-extra-conditions-pageobjects';
 const error = new ExtraConditionsPage();
 module.exports = (errorMessage) => {
   if (errorMessage === 'Select yes if you have extra conditions') {
