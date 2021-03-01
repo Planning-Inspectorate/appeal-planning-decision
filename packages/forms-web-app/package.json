@@ -1,6 +1,6 @@
 {
   "name": "forms-web-app",
-  "version": "0.0.0",
+  "version": "1.18.2",
   "private": true,
   "scripts": {
     "prebuild": "rm -Rf ./dist",

@@ -1,3 +1,10 @@
+# [forms-web-app-v1.18.2](https://github.com/Planning-Inspectorate/appeal-planning-decision/compare/forms-web-app-v1.18.1...forms-web-app-v1.18.2) (2021-03-01)
+
+
+### Bug Fixes
+
+* **appeal-service-link:** update service link to application root ([aa714a0](https://github.com/Planning-Inspectorate/appeal-planning-decision/commit/aa714a03665d1d1d88155611b6f78db491b49086))
+
 # forms-web-app-v1.18.1 (2021-02-26)
 
 
