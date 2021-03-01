@@ -2,7 +2,7 @@
 
 {% macro cookieBanner(attributes = {}) -%}
   {% set serviceName = attributes.serviceName | default('appeal a householder planning decision service', true) %}
-  {% set cookiePagePath = attributes.cookiePagePath | default('/help/cookies', true) %}
+  {% set cookiePagePath = attributes.cookiePagePath | default('/cookies', true) %}
 
   {% set headingText = 'Cookies on %serviceName%' | replace('%serviceName%', serviceName) %}
 
@@ -15,7 +15,10 @@
 
   {{ govukCookieBanner({
     ariaLabel: ariaLabel,
-    attributes: { "data-cy": "cookie-banner" },
+    attributes: {
+      "data-cy": "cookie-banner",
+      id: "cookie-banner-consent"
+    },
     messages: [
       {
         headingText: headingText,
@@ -26,8 +29,7 @@
             type: "submit",
             name: "cookie_banner",
             value: "accept",
-            attributes: { "data-cy": "cookie-banner-accept-analytics-cookies" },
-            classes: "govuk-!-display-none"
+            attributes: { "data-cy": "cookie-banner-accept-analytics-cookies" }
           },
           {
             text: "Reject analytics cookies",

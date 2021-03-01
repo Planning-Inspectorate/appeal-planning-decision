@@ -15,5 +15,5 @@ When('the user views the cookie preferences page', () => {
 });
 
 Then('the cookies page is presented', () => {
-  cy.userIsNavigatedToPage('/help/cookies');
+  cy.userIsNavigatedToPage('/cookies');
 });
