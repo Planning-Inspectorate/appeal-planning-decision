@@ -14,7 +14,7 @@ describe('validators/extra-conditions', () => {
 
       expect(rule.stack[0].validator.name).toEqual('isEmpty');
       expect(rule.stack[0].negated).toBeTruthy();
-      expect(rule.stack[0].message).toEqual('Select yes if there are extra conditions');
+      expect(rule.stack[0].message).toEqual('Select yes if you have extra conditions');
 
       expect(rule.stack[2].validator.name).toEqual('isIn');
       expect(rule.stack[2].options[0]).toEqual(['yes', 'no']);
@@ -34,7 +34,7 @@ describe('validators/extra-conditions', () => {
 
       expect(rule.stack[1].validator.name).toEqual('isEmpty');
       expect(rule.stack[1].negated).toBeTruthy();
-      expect(rule.stack[1].message).toEqual('Please enter conditions');
+      expect(rule.stack[1].message).toEqual('What are the extra conditions?');
     });
   });
 
@@ -48,7 +48,7 @@ describe('validators/extra-conditions', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
-          expect(result.errors[0].msg).toEqual('Select yes if there are extra conditions');
+          expect(result.errors[0].msg).toEqual('Select yes if you have extra conditions');
           expect(result.errors[0].param).toEqual('has-extra-conditions');
           expect(result.errors[0].value).toEqual(undefined);
         },
@@ -63,7 +63,7 @@ describe('validators/extra-conditions', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
-          expect(result.errors[0].msg).toEqual('Please enter conditions');
+          expect(result.errors[0].msg).toEqual('What are the extra conditions?');
           expect(result.errors[0].param).toEqual('extra-conditions-text');
           expect(result.errors[0].value).toEqual(undefined);
         },
