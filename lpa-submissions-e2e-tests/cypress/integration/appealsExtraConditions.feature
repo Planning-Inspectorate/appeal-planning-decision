@@ -22,7 +22,7 @@ Scenario: AC03 - User selects no and proceeds to task list
   Then user navigates to the Task List
   And a Completed status is populated for the task
 
-Scenario: AC04 - user selects yes and provides further information in text field and proceeds to task list
+Scenario Outline: AC04 - user selects yes and provides further information in text field and proceeds to task list
   Given user is in the extra conditions page
   And user selects the option 'Yes'
   And user enters '<extra_information>'
@@ -30,15 +30,12 @@ Scenario: AC04 - user selects yes and provides further information in text field
   Then user navigates to the Task List
   And a Completed status is populated for the task
   Examples:
-      | extra_information           |
-      | some extra information      |
-      | some more extra information |
-      |  some extra information with a space at the beginning |
-      | extra information with special characters ,. !" }]* & -+%$£@! |
-      | a very long piece of extra information a very long piece of extra information
-        a very long piece of extra information a very long piece of extra information
-        a very long piece of extra information a very long piece of extra information
-        a very long piece of extra information |
+    | extra_information           |
+    | some extra information      |
+    | some more extra information |
+    |  some extra information with a space at the beginning |
+    | extra information with special characters ,. !" }]* & -+%$£@! |
+    | a very long piece of extra information a very long piece of extra information\na very long piece of extra information a very long piece of extra information\na very long piece of extra information a very long piece of extra information\na very long piece of extra information |
 
 Scenario: AC05 - user does not provides further information in text field and is provided an error
   Given user is in the extra conditions page

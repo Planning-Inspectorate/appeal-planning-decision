@@ -6,7 +6,7 @@ Given(`the householder planning appeal questionnaire task list is presented`, ()
 
 When(`the user selects the link 'Do you have any extra conditions?'`, () => {
   cy.goToExtraConditionsPage();
-  cy.verifyNotStartedStatus('extraConditions');
+  cy.validateExtraConditionsPageTitle();
 });
 
 Then(`the user is presented with the 'Do you have any extra conditions?' page`, () => {
@@ -43,7 +43,7 @@ Then(`the user remains on extra conditions page`, () => {
 });
 
 When(`user selects the option {string}`, (option) => {
-  cy.extraConditionsRadioButton(option);
+  cy.extraConditionsRadioButton(option).check();
 });
 
 Then('user navigates to the Task List', () => {
@@ -85,7 +85,7 @@ Given('a user has completed the information needed on the extra conditions page'
   cy.verifyTaskListPageTitle();
   cy.clickOnLinksOnAppealQuestionnaireTaskListPage('extraConditions');
   cy.validateExtraConditionsPageTitle();
-  cy.extraConditionsRadioButton('No');
+  cy.extraConditionsRadioButton('No').check();
   cy.clickSaveAndContinue();
 });
 
