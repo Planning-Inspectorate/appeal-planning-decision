@@ -23,6 +23,7 @@ on:
 jobs:
   cypress-forms-web-app-default:
     name: "Documentation: forms-web-app (Cypress, default)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -51,6 +52,7 @@ jobs:
 
   cypress-forms-web-app-ACP:
     name: "Documentation: forms-web-app (Cypress, ACP)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -79,6 +81,7 @@ jobs:
 
   jest-forms-web-app:
     name: "Documentation: forms-web-app (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -102,6 +105,7 @@ jobs:
 
   cypress-lpa-questionnaire-web-app:
     name: "Documentation: lpa-questionnaire-web-app (Cypress)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -130,6 +134,7 @@ jobs:
 
   jest-lpa-questionnaire-web-app:
     name: "Documentation: lpa-questionnaire-web-app (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -153,6 +158,7 @@ jobs:
 
   jest-appeals-service-api:
     name: "Documentation: appeals-service-api (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -176,6 +182,7 @@ jobs:
 
   jest-common:
     name: "Documentation: common (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -199,6 +206,7 @@ jobs:
 
   jest-horizon-add-document:
     name: "Documentation: horizon-add-document (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -222,6 +230,7 @@ jobs:
 
   jest-horizon-create-contact:
     name: "Documentation: horizon-create-contact (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -245,6 +254,7 @@ jobs:
 
   jest-horizon-householder-appeal-publish:
     name: "Documentation: horizon-householder-appeal-publish (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -268,6 +278,7 @@ jobs:
 
   jest-document-service-api:
     name: "Documentation: document-service-api (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -291,6 +302,7 @@ jobs:
 
   publish-test-suite-results:
     name: "Documentation: Publish to Github Pages"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     needs:
       - cypress-forms-web-app-default
       - cypress-forms-web-app-ACP
