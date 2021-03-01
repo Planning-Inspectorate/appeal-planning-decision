@@ -6,10 +6,12 @@ When('the user neither accepts nor rejects not necessary cookies', () => {
 });
 
 When('the user accepts not necessary cookies', () => {
+  cy.goToTaskListPage();
   cy.provideAcceptNotNecessaryCookies();
 });
 
 When('the user rejects not necessary cookies', () => {
+  cy.goToTaskListPage();
   cy.provideRejectNotNecessaryCookies();
 });
 
@@ -29,9 +31,9 @@ Then('the GA cookies are enabled', () => {
   cy.goToTaskListPage();
   const expectedCookiePolicy = {
     essential: true,
-    settings: true,
+    settings: false,
     usage: true,
-    campaigns: true,
+    campaigns: false,
   };
   cy.confirmCookiePolicy(expectedCookiePolicy);
 });
@@ -40,9 +42,9 @@ Then('the GA cookies remain disabled', () => {
   cy.goToTaskListPage();
   const expectedCookiePolicy = {
     essential: true,
-    settings: true,
+    settings: false,
     usage: false,
-    campaigns: true,
+    campaigns: false,
   };
   cy.confirmCookiePolicy(expectedCookiePolicy);
 });

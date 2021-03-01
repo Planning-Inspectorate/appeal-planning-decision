@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`lib/client-side/google-analytics initialiseGoogleAnalytics 1`] = `
+<body>
+  <script
+    src="https://www.googletagmanager.com/gtag/js?id=undefined"
+    type="text/javascript"
+  />
+  <script />
+</body>
+`;

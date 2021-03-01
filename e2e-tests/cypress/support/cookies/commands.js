@@ -14,7 +14,7 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'confirmRejectewokieBannerVisible',
+  'confirmRejectedCookieBannerVisible',
   require('./confirmRejectedCookieBannerVisible'),
 );
 
