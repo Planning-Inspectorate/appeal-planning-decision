@@ -22,6 +22,7 @@ jobs:
 
   cypress-ACP:
     name: "Cypress- ACP mode"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -62,7 +63,8 @@ jobs:
           path: ${{ env.CYPRESS_SCREENSHOTS }}
 
   cypress-LPA:
-    name: "Cypress- LPA questionaire"
+    name: "Cypress- LPA questionnaire"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -102,9 +104,9 @@ jobs:
           name: screenshots-lpa
           path: ${{ env.LPA_CYPRESS_SCREENSHOTS }}
 
-
   cypress-default:
     name: "Cypress- default"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
