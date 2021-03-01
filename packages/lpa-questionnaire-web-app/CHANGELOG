@@ -1,3 +1,10 @@
+# [lpa-questionnaire-web-app-v1.4.0](https://github.com/Planning-Inspectorate/appeal-planning-decision/compare/lpa-questionnaire-web-app-v1.3.0...lpa-questionnaire-web-app-v1.4.0) (2021-03-01)
+
+
+### Features
+
+* **questionnaire-accuracy-submission:** create accuracy of submission page ([cf154e7](https://github.com/Planning-Inspectorate/appeal-planning-decision/commit/cf154e7828895cf31619f14f1946e9aeb4191cc2))
+
 # lpa-questionnaire-web-app-v1.3.0 (2021-02-26)
 
 
