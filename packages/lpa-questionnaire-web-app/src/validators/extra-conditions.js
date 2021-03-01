@@ -8,13 +8,13 @@ const rules = () => {
   return [
     body(extraConditionsRef)
       .notEmpty()
-      .withMessage('Select yes if there are extra conditions')
+      .withMessage('Select yes if you have extra conditions')
       .bail()
       .isIn(extraConditionsValues),
     body(extraConditionsTextRef)
       .if(body(extraConditionsRef).equals('yes'))
       .notEmpty()
-      .withMessage('Please enter conditions'),
+      .withMessage('What are the extra conditions?'),
   ];
 };
 
