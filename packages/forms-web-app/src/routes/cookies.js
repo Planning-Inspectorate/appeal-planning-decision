@@ -1,5 +1,4 @@
 const express = require('express');
-const indexController = require('../controllers');
 const cookiePreferencesController = require('../controllers/cookies/cookie-preferences');
 
 const router = express.Router();
