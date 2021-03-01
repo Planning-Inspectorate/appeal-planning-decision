@@ -4,15 +4,15 @@ class ExtraConditionsPage{
   }
 
   extraConditionsNotEnteredSummaryErrorMessage() {
-    return cy.get('a[href="#extra-conditions-information"]');
+    return cy.get('a[href="#extra-conditions-text"]');
   }
 
   extraConditionsNotEnteredErrorMessage() {
-    return cy.get('[data-cy="extra-conditions-information-error"]');
+    return cy.get('[data-cy="extra-conditions-text-error"]');
   }
 
   extraConditionsNoSelectionMadeSummaryErrorMessage() {
-    return cy.get('a[href="#extra-conditions"]');
+    return cy.get('a[href="#has-extra-conditions"]');
   }
 
   extraConditionsNoSelectionMadeErrorMessage() {
@@ -20,15 +20,15 @@ class ExtraConditionsPage{
   }
 
   extraConditionsRadioButtonYes() {
-    return cy.get('input[data-cy="is-accurate-yes"]');
+    return cy.get('input[data-cy="has-extra-conditions-yes"]');
   }
 
   extraConditionsRadioButtonNo() {
-    return cy.get('input[data-cy="is-accurate-no"]');
+    return cy.get('input[data-cy="has-extra-conditions-no"]');
   }
 
   extraConditionsExtraInformationTextBox() {
-    return cy.get('input[data-cy="extra-conditions-extra-information"]');
+    return cy.get('textarea[data-cy="extra-conditions-text"]');
   }
 }
 export default ExtraConditionsPage;
