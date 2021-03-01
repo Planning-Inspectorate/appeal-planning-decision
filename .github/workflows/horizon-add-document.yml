@@ -46,7 +46,7 @@ jobs:
         id: version_number
         with:
           DIR: packages/${{ env.APP_DIR }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
           GET_VERSION: 'true'
 
       - name: Extract variables
@@ -113,5 +113,5 @@ jobs:
         if: ${{ steps.version_number.outputs.new_release_published == 'true' }}
         with:
           DIR: packages/${{ env.APP_DIR }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
           SET_VERSION: 'true'
