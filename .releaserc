@@ -19,14 +19,14 @@
     [
       "@semantic-release/changelog",
       {
-        "changelogFile": "CHANGELOG"
+        "changelogFile": "CHANGELOG.md"
       }
     ],
     "@semantic-release/npm",
     {
       "path": "@semantic-release/git",
       "assets": [
-        "CHANGELOG",
+        "CHANGELOG.md",
         "package.json",
         "package-lock.json"
       ],
