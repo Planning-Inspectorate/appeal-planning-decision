@@ -19,7 +19,7 @@ Given(`The User clicks on {string}`,(taskname)=>{
       name='extraConditions';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToExtraConditionsPage();
-      cy.validatePageHolderPageLoad();
+      cy.validateExtraConditionsPageTitle();
       break;
     case 'About the appeal - Tell us about any appeals in the immediate area' :
       name='otherAppeals';
