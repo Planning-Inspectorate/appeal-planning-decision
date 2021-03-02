@@ -25,7 +25,7 @@ No requirements.
 | documents\_soft\_delete\_retention | Number of days to allow for data recovery | `number` | `30` | no |
 | horizon\_enabled | Enable the connection to the Horizon instance over a virtual network gateway | `bool` | `false` | no |
 | horizon\_gateway\_ip\_secret | Public IP address of the Horizon VPN gateway | `string` | `"horizon-gateway-ip"` | no |
-| horizon\_gateway\_sku | SKU of the Horizon gateway | `string` | `"VpnGw1"` | no |
+| horizon\_gateway\_sku | SKU of the Horizon gateway | `string` | `"VpnGw1AZ"` | no |
 | horizon\_gateway\_subnets\_secret | CSV of subnets to use for the Horizon VPN gateway | `string` | `null` | no |
 | horizon\_shared\_key\_secret | Name of the Horizon shared key in the PINS key vault | `string` | `null` | no |
 | k8s\_availability\_zones | Zones to run the node pools in | `list(string)` | `null` | no |
@@ -35,6 +35,9 @@ No requirements.
 | k8s\_version\_prefix | Version prefix to use - ensure you end with dot (.) | `string` | `"1.18."` | no |
 | k8s\_vm\_size | VM size | `string` | `"Standard_DS2_v2"` | no |
 | location | Default location for resources | `string` | `"uksouth"` | no |
+| message\_queue\_capacity | Message queue capacity - SKU must be premium if non-0 | `number` | `0` | no |
+| message\_queue\_sku | SKU for the message queue | `string` | `"Basic"` | no |
+| message\_queue\_zone\_redundancy\_enabled | Enable message queue redundancy - SKU must be premium if true | `bool` | `false` | no |
 | mongodb\_auto\_failover | Enable auto failover between regions | `bool` | `false` | no |
 | mongodb\_consistency\_max\_interval\_in\_seconds | Represents the amount of staleness that is tolerated (in seconds) - min 5 mins for global replication | `number` | `300` | no |
 | mongodb\_consistency\_policy | Cosmos consistency policy | `string` | `"BoundedStaleness"` | no |
@@ -58,11 +61,14 @@ No requirements.
 | containers\_username | Username for the container registry |
 | group\_admin\_id | ID of the Admin AAD group |
 | group\_user\_id | ID of the User AAD group |
+| horizon\_address\_spaces | Horizon incoming address spaces |
+| horizon\_public\_ip | IP of the incoming Horizon VPN connection |
 | key\_vault\_name | Key vault name |
 | key\_vault\_secrets | Secrets JSON key/value pairs to be ingested into Key Vault - done externally to avoid Terraform refresh permissions errors. Values must be strings. |
 | kube\_load\_balancer\_domain\_label | The DNS label of the load balancer for the Kubernetes cluster |
 | kube\_load\_balancer\_ip | The IP of the load balancer for the Kubernetes cluster |
 | kube\_load\_balancer\_rg | The rosource group the load balancer IP exists in |
 | kubeconfig | The Kubernetes config file |
+| message\_queue\_host | n/a |
 | mongodb\_connection\_strings | MongoDB connection strings for each database |
 

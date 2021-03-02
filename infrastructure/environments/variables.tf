@@ -53,7 +53,7 @@ variable "horizon_enabled" {
 variable "horizon_gateway_sku" {
   description = "SKU of the Horizon gateway"
   type = string
-  default = "VpnGw1"
+  default = "VpnGw1AZ"
 }
 
 variable "horizon_gateway_ip_secret" {
@@ -110,6 +110,27 @@ variable "k8s_version_prefix" {
 variable "k8s_vm_size" {
   description = "VM size"
   default = "Standard_DS2_v2"
+}
+
+/*
+  Message Queue
+ */
+
+variable "message_queue_sku" {
+  description = "SKU for the message queue"
+  default = "Basic"
+}
+
+variable "message_queue_capacity" {
+  description = "Message queue capacity - SKU must be premium if non-0"
+  type = number
+  default = 0
+}
+
+variable "message_queue_zone_redundancy_enabled" {
+  description = "Enable message queue redundancy - SKU must be premium if true"
+  type = bool
+  default = false
 }
 
 /*

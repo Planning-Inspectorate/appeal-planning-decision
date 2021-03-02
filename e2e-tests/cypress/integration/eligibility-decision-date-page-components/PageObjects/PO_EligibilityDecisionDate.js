@@ -18,6 +18,7 @@ class PO_EligibilityDecisionDate {
         //const headerLink = cy.get('a[href="Appeal a householder planning decision"]')
         const headerLink = cy.get('.govuk-header__content > .govuk-header__link')
         assert.exists(headerLink, 'Appeal a householder planning decision exists')
+        headerLink.should('have.attr', 'href').and('eq', '/');
     }
 
     bannerText() {

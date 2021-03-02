@@ -29,7 +29,7 @@ resource "azurerm_subnet" "horizon" {
   name = "GatewaySubnet"
   resource_group_name = azurerm_resource_group.network.name
   virtual_network_name = azurerm_virtual_network.network.name
-  address_prefixes = ["10.30.253.0/24"]
+  address_prefixes = ["10.30.255.0/27"]
 }
 
 resource "azurerm_virtual_network_gateway" "horizon" {
@@ -102,5 +102,16 @@ resource "azurerm_local_network_gateway" "horizon" {
   resource_group_name = azurerm_resource_group.network.name
   location = azurerm_resource_group.network.location
   gateway_address = data.azurerm_key_vault_secret.horizon_gateway_ip[count.index].value
+  # This must be the address space of the whole virtual network, *NOT*
+  # the subnets you want to connect to. For example, for this network
+  # it's configured by azurerm_virtual_network.network.address_space
+  #
+  # This needs to be configured on both sides
   address_space = local.horizon_subnets
+}
+
+resource "azurerm_servicebus_queue" "horizon_has_publisher" {
+  name = "horizon-householder-appeal-publish"
+  namespace_name = azurerm_servicebus_namespace.message_queue.name
+  resource_group_name = azurerm_resource_group.message_queue.name
 }

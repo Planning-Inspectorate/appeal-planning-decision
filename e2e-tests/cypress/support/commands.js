@@ -182,9 +182,24 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmCookiesLinkDisplayed',
+  require('./appeal-header-footer/confirmCookiesLinkDisplayed'),
+);
+
+Cypress.Commands.add(
+  'confirmAccessibilityLinkDisplayed',
+  require('./appeal-header-footer/confirmAccessibilityLinkDisplayed'),
+);
+
+Cypress.Commands.add(
   'confirmGoogleAnalyticsLinkIsPresent',
   require('./appeal-header-footer/confirmGoogleAnalyticsLinkIsPresent'),
 );
+
+Cypress.Commands.add(
+  'confirmHomepageLinkIsDisplayed',
+  require('./appeal-header-footer/confirmHomepageLinkIsDisplayed')
+)
 
 Cypress.Commands.add(
   'provideDecisionDate',

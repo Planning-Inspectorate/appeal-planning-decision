@@ -14,7 +14,7 @@ const config = require('../lib/config');
 const logger = require('../lib/logger');
 
 module.exports = class LPA {
-  constructor({ id, name, inTrial, england, wales }) {
+  constructor({ id, name, inTrial, england, wales, horizonId }) {
     this.id = id;
     this.name = name;
     this.inTrial = inTrial;
@@ -22,6 +22,7 @@ module.exports = class LPA {
     /* Can be in multiple regions */
     this.england = england;
     this.wales = wales;
+    this.horizonId = horizonId;
   }
 
   static async find(filter = {}) {
@@ -81,12 +82,13 @@ module.exports = class LPA {
         /* Use our own data model format */
         const trialist = trialists.find(({ id: trialistId }) => trialistId === id);
 
-        const { inTrial = false } = trialist || {};
+        const { inTrial = false, horizonId = null } = trialist || {};
 
         logger.trace({ inTrial, id }, 'Adding in trialist status');
 
         return new LPA({
           name,
+          horizonId,
           inTrial,
           id: id.toUpperCase(),
           /* A merger may happen of an English and Welsh LPA */
@@ -94,7 +96,6 @@ module.exports = class LPA {
           wales: id.startsWith('W'),
         });
       })
-
       .sort(
         /* istanbul ignore next */ (a, b) => {
           /* Put into order */

@@ -5,7 +5,7 @@ Feature: Appeals in immediate area
   Scenario: Verify The Tell us about any appeals in the immediate area page
     Given The Householder planning appeal questionnaire page is presented
     When the user selects the link Tell us about any appeals in the immediate area
-    Then the user is presented with the page 'Tell us about any appeals in the immediate area'
+    Then the user is presented with the page 'Are there any other appeals adjacent or close to the site still being considered?'
     And the page title is 'Are there any other appeals adjacent or close to the site still being considered? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK'
 
   Scenario: AC01 LPA user makes no selection and is provided an error

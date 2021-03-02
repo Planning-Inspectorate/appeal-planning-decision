@@ -2,6 +2,9 @@
 
 set -e
 
+FLUX_NAMESPACE="flux"
+OPENFAAS_NAMESPACES="openfaas openfaas-fn"
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 kubectl create namespace "${DEPLOY_NAMESPACE}" || true
@@ -9,28 +12,43 @@ kubectl create namespace "${DEPLOY_NAMESPACE}" || true
 add_registry_secret() {
   echo "Adding registry secret to ${DEPLOY_NAMESPACE}"
 
-  kubectl create secret docker-registry \
-    -n "${DEPLOY_NAMESPACE}" \
-    azure-docker-registry \
-    --docker-server="${DOCKER_SERVER}" \
-    --docker-username="${DOCKER_USERNAME}" \
-    --docker-password="${DOCKER_PASSWORD}" \
-    --docker-email="${EMAIL_ADDRESS}" \
-    -o yaml --dry-run=client | \
-    kubectl replace -n "${DEPLOY_NAMESPACE}" --force -f -
+  for namespace in ${DEPLOY_NAMESPACE} ${OPENFAAS_NAMESPACES}
+  do
+    kubectl create secret docker-registry \
+      -n "${namespace}" \
+      azure-docker-registry \
+      --docker-server="${DOCKER_SERVER}" \
+      --docker-username="${DOCKER_USERNAME}" \
+      --docker-password="${DOCKER_PASSWORD}" \
+      --docker-email="${EMAIL_ADDRESS}" \
+      -o yaml --dry-run=client | \
+      kubectl replace -n "${namespace}" --force -f -
+  done
 }
 
 configure_rbac() {
   echo "Configuring RBAC"
 
-  roles="user"
+  echo "${DIR}"/../k8s/rbac/*.yaml
 
-  for role in $roles
+  for namespace in ${DEPLOY_NAMESPACE} ${OPENFAAS_NAMESPACES} flux
   do
-    echo "Applying role: ${role^}"
+    for file in "${DIR}/../k8s/rbac"/*.yaml
+    do
+      echo "Applying file: ${file}"
+      echo "Namespace: ${namespace}"
 
-    envsubst < "${DIR}/../k8s/rbac/${role}.yaml" | kubectl apply -f -
+      export RBAC_NAMESPACE="${namespace}"
+
+      envsubst < "${file}" | kubectl apply -f -
+    done
   done
+}
+
+create_namespaces() {
+  echo "Create namespaces"
+
+  kubectl apply -f "${DIR}/openfaas/namespaces.yml"
 }
 
 install_azure_key_vault() {
@@ -118,7 +136,7 @@ install_gitops() {
 
   helm repo add fluxcd https://charts.fluxcd.io
   kubectl apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml
-  kubectl create namespace flux || true
+  kubectl create namespace "${FLUX_NAMESPACE}" || true
   ssh-keyscan "${REPO_DOMAIN}" > ./known_hosts
   helm upgrade \
     --reset-values \
@@ -127,11 +145,11 @@ install_gitops() {
     --atomic \
     --cleanup-on-fail \
     --set git.url="git@${REPO_DOMAIN}:${REPO_URL}.git" \
-    --set git.path="clusters/${CLUSTER}" \
+    --set git.path="releases/${CLUSTER}" \
     --set git.branch="${RELEASE_BRANCH}" \
     --set git.label="${CLUSTER}-flux-sync" \
     --set git.ciSkip="true" \
-    --namespace flux \
+    --namespace "${FLUX_NAMESPACE}" \
     flux \
     fluxcd/flux
   helm upgrade \
@@ -145,12 +163,12 @@ install_gitops() {
     --set helm.versions=v3 \
     --set syncGarbageCollection.enabled=true \
     --values="${DIR}/helm-dependencies.yaml" \
-    --namespace flux \
+    --namespace "${FLUX_NAMESPACE}" \
     helm-operator \
     fluxcd/helm-operator
 
   # Add Flux public key as GitHub deploy key
-  PUBLIC_KEY=$(kubectl -n flux logs deployment/flux | grep identity.pub | cut -d '"' -f2)
+  PUBLIC_KEY=$(kubectl -n "${FLUX_NAMESPACE}" logs deployment/flux | grep identity.pub | cut -d '"' -f2)
   KEY_NAME="${CLUSTER}_cluster_k8s_gitops"
 
   # Get list of existing keys
@@ -199,10 +217,10 @@ install_prometheus() {
     prometheus-community/prometheus
 }
 
+create_namespaces
 add_registry_secret
-configure_rbac
 install_azure_key_vault
 install_nginx_ingress
 install_cert_manager
 install_gitops
-install_prometheus
+configure_rbac

@@ -149,9 +149,9 @@ if successful.
 Dependent upon whether it was made from  the `develop` or `master` branch, you will be 
 looking for either a pre-release version  or a release. If no release has been made, 
 ensure that your commit message was formatted  correctly  and begins with `feat` or `fix`.
-3. Check the [release branch](https://github.com/foundry4/appeal-planning-decision/tree/release)
-against the cluster you are expecting to see it deployed on. If the `app.yml` file does not 
-contain the tag you are expecting then the deployment may have failed. It takes up to 
+3. Check the [/releases](https://github.com/Planning-Inspectorate/appeal-planning-decision/tree/master/releases)
+folder against the cluster you are expecting to see it deployed on. If the `app.yml` file does
+not contain the tag you are expecting then the deployment may have failed. It takes up to 
 5 minutes for a new release to be detected.
 
 ## Ensure Linear Commits

@@ -1,13 +1,4 @@
 class AppealsInImmediateArea {
-  validateAppealsPageCaption() {
-    return cy
-      .get('.govuk-caption-l')
-      .invoke('text')
-      .then((text) => {
-        expect(text).to.contain('About the appeal');
-      });
-  }
-
   appealReferenceNumberTextBox() {
     return cy.get('[data-cy="appeal-reference-numbers"]');
   }

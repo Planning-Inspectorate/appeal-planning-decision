@@ -11,6 +11,10 @@ spec:
       targetPort: {{.Values.appealsServiceApi.service.name }}
       protocol: TCP
       name: {{.Values.appealsServiceApi.service.name }}
+    - port: {{ .Values.appealReplyServiceApi.service.port }}
+      targetPort: {{.Values.appealReplyServiceApi.service.name }}
+      protocol: TCP
+      name: {{.Values.appealReplyServiceApi.service.name }}
     - port: {{ .Values.documentServiceApi.service.port }}
       targetPort: {{ .Values.documentServiceApi.service.name }}
       protocol: TCP

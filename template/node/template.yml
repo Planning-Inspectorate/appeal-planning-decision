@@ -1,0 +1,17 @@
+language: node-multiarch
+fprocess: node index.js
+welcome_message: |
+  You have created a new function which uses Node.js 12 (TLS) and the OpenFaaS
+  of-watchdog which gives greater control over HTTP responses.
+
+  npm i --save can be used to add third-party packages like request or cheerio
+  npm documentation: https://docs.npmjs.com/
+
+  Unit tests are run at build time via "npm run", edit package.json to specify
+  how you want to execute them.
+
+  TypeScript support is also available out of the both and this can be built for
+  multiple different processor architectures by setting the ARCH build argument.
+  To configure your Docker instance for multiarch emulation, run this command:
+
+    docker run --rm --privileged multiarch/qemu-user-static --reset -p yes

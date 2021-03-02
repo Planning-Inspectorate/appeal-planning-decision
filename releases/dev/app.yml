@@ -1,0 +1,76 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: app
+  namespace: app-dev
+  annotations:
+    fluxcd.io/automated: "true"
+    # Add hyphen to include pre-releases
+    filter.fluxcd.io/appealReplyServiceApi: semver:^1.0.0-0
+    filter.fluxcd.io/appealsServiceApi: semver:^1.0.0-0
+    filter.fluxcd.io/documentServiceApi: semver:^1.0.0-0
+    filter.fluxcd.io/formsWebApp: semver:^1.0.0-0
+    filter.fluxcd.io/lpaQuestionnaireWebApp: semver:^1.0.0-0
+spec:
+  releaseName: app
+  chart:
+    git: git@github.com:foundry4/appeal-planning-decision.git
+    ref: master
+    path: charts/app
+  rollback:
+    enable: true
+  values:
+    appealReplyServiceApi:
+      replicaCount: 2
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/appeal-reply-service-api
+        tag: 1.1.0
+
+    appealsServiceApi:
+      replicaCount: 2
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/appeals-service-api
+        tag: 1.6.0
+
+    documentServiceApi:
+      replicaCount: 2
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/document-service-api
+        tag: 1.1.0
+
+    formsWebApp:
+      replicaCount: 2
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
+        tag: 1.18.2
+      config:
+        googleAnalyticsId: G-TZBWMVPTHV
+
+    lpaQuestionnaireWebApp:
+      replicaCount: 2
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/lpa-questionnaire-web-app
+        tag: 1.4.0
+
+    keyVault:
+      name: pins-uks-vault-8669-dev
+      envSpecific:
+        multiValueSecrets:
+        - http-basic
+
+    ingress:
+      hosts:
+        fwa:
+          host: appeals-dev.planninginspectorate.gov.uk
+        lpaq:
+          host: lpa-questions-dev.planninginspectorate.gov.uk
+      httpBasic:
+        enabled: true
+        secret: akv-http-basic
+
+    horizon-householder-appeal-publish:
+      amqp:
+        connection:
+          host: pins-uks-message-queue-dev.servicebus.windows.net
+          hostname: pins-uks-message-queue-dev.servicebus.windows.net

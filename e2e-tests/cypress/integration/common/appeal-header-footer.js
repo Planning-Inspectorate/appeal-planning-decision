@@ -87,6 +87,8 @@ When('the {string} page is presented', (page) => {
 Then('the required links are displayed', () => {
   cy.confirmTermsAndConditionsLinkDisplayed();
   cy.confirmPrivacyLinkDisplayed();
+  cy.confirmCookiesLinkDisplayed();
+  cy.confirmAccessibilityLinkDisplayed();
 });
 
 Then('the required header link is displayed', () => {
@@ -104,3 +106,7 @@ Then('the back button is displayed', () => {
 Then('the back button is not displayed', () => {
   cy.confirmBackButtonNotDisplayed();
 });
+
+Then('the header link is displayed', () => {
+  cy.confirmHomepageLinkIsDisplayed();
+})

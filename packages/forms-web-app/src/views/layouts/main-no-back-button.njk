@@ -11,9 +11,9 @@
 
 {% block header %}
   {{ govukHeader({
-    homepageUrl: "/",
+    homepageUrl: "https://www.gov.uk/",
     serviceName: 'Appeal a householder planning decision',
-    serviceUrl: "#",
+    serviceUrl: "/",
     containerClasses: "govuk-width-container"
   }) }}
 {% endblock %}
@@ -57,22 +57,27 @@
     {
       title: "Service information",
       items: [
-      {
-        href: "https://www.gov.uk/government/publications/appeals-portal-documents",
-        text: "Terms and conditions",
-        attributes: { "data-cy":"Terms and conditions" }
-
-      },
-      {
-        href: "https://www.gov.uk/government/publications/appeals-portal-documents",
-        text: "Privacy",
-        attributes: { "data-cy":"Privacy" }
-      },
-      {
-        href: "#3",
-        text: "Accessibility"
-      }
-    ]
+        {
+          href: "https://www.gov.uk/guidance/appeals-casework-portal-privacy-cookies",
+          text: "Privacy",
+          attributes: { "data-cy":"Privacy" }
+        },
+        {
+          href: "https://www.gov.uk/guidance/appeals-casework-portal-privacy-cookies",
+          text: "Cookies",
+          attributes: { "data-cy":"Cookies" }
+        },
+        {
+          href: "https://www.gov.uk/guidance/appeals-casework-portal-accessibility",
+          text: "Accessibility",
+          attributes: { "data-cy":"Accessibility" }
+        },
+        {
+          href: "https://www.gov.uk/guidance/appeals-casework-portal-terms-and-conditions",
+          text: "Terms and conditions",
+          attributes: { "data-cy":"Terms and conditions" }
+        }
+      ]
     }
   ]
   }) }}

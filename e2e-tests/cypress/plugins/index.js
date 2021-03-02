@@ -22,6 +22,13 @@ module.exports = (on, config) => {
 
  // cucumber configuration
 const cucumber = require('cypress-cucumber-preprocessor').default
+
 module.exports = (on, config) => {
-  on('file:preprocessor', cucumber())
+  const queue = require('./queue')(config);
+  on('file:preprocessor', cucumber());
+  on('task', {
+    listenToQueue: queue.listenToQueue,
+    putOnQueue: queue.putOnQueue,
+    getLastFromQueue: queue.getLastFromQueue,
+  })
 }

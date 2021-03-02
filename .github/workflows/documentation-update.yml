@@ -4,13 +4,17 @@ env:
   CYPRESS_DEFAULT: ./e2e-tests/cypress
   CYPRESS_LPA_QUESTIONAIRE: ./lpa-submissions-e2e-tests/cypress
 
+  DOCUMENTATION_ROOT: ./e2e-tests/documentation
+
   APPEALS_SERVICE_API: ./packages/appeals-service-api
   COMMON: ./packages/common
   DOCUMENT_SERVICE_API: ./packages/document-service-api
   FORMS_WEB_APP: ./packages/forms-web-app
+  HORIZON_ADD_DOCUMENT_FN: ./packages/horizon-add-document
+  HORIZON_CREATE_CONTACT_FN: ./packages/horizon-create-contact
+  HORIZON_HOUSEHOLDER_APPEAL_PUBLISH_FN: ./packages/horizon-householder-appeal-publish
   LPA_QUESTIONNAIRE_WEB_APP: ./packages/lpa-questionnaire-web-app
 
-  DOCUMENTATION_ROOT: ./e2e-tests/documentation
 on:
   push:
     branches:
@@ -19,6 +23,7 @@ on:
 jobs:
   cypress-forms-web-app-default:
     name: "Documentation: forms-web-app (Cypress, default)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -47,6 +52,7 @@ jobs:
 
   cypress-forms-web-app-ACP:
     name: "Documentation: forms-web-app (Cypress, ACP)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -75,6 +81,7 @@ jobs:
 
   jest-forms-web-app:
     name: "Documentation: forms-web-app (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -98,6 +105,7 @@ jobs:
 
   cypress-lpa-questionnaire-web-app:
     name: "Documentation: lpa-questionnaire-web-app (Cypress)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -126,6 +134,7 @@ jobs:
 
   jest-lpa-questionnaire-web-app:
     name: "Documentation: lpa-questionnaire-web-app (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -149,6 +158,7 @@ jobs:
 
   jest-appeals-service-api:
     name: "Documentation: appeals-service-api (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -172,6 +182,7 @@ jobs:
 
   jest-common:
     name: "Documentation: common (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -193,8 +204,81 @@ jobs:
           name: JEST_common-coverage
           path: ${{ env.COMMON }}/coverage
 
+  jest-horizon-add-document:
+    name: "Documentation: horizon-add-document (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate html reports
+        run: npm run document:horizon-add-document
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_horizon-add-document-results
+          path: ${{ env.HORIZON_ADD_DOCUMENT_FN }}/jest_html_reporters.html
+
+      - name: Archive coverage
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_horizon-add-document-coverage
+          path: ${{ env.HORIZON_ADD_DOCUMENT_FN }}/coverage
+
+  jest-horizon-create-contact:
+    name: "Documentation: horizon-create-contact (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate html reports
+        run: npm run document:horizon-create-contact
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_horizon-create-contact-results
+          path: ${{ env.HORIZON_CREATE_CONTACT_FN }}/jest_html_reporters.html
+
+      - name: Archive coverage
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_horizon-create-contact-coverage
+          path: ${{ env.HORIZON_CREATE_CONTACT_FN }}/coverage
+
+  jest-horizon-householder-appeal-publish:
+    name: "Documentation: horizon-householder-appeal-publish (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate html reports
+        run: npm run document:horizon-householder-appeal-publish
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_horizon-householder-appeal-publish-results
+          path: ${{ env.HORIZON_HOUSEHOLDER_APPEAL_PUBLISH_FN }}/jest_html_reporters.html
+
+      - name: Archive coverage
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_horizon-householder-appeal-publish-coverage
+          path: ${{ env.HORIZON_HOUSEHOLDER_APPEAL_PUBLISH_FN }}/coverage
+
   jest-document-service-api:
     name: "Documentation: document-service-api (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -218,6 +302,7 @@ jobs:
 
   publish-test-suite-results:
     name: "Documentation: Publish to Github Pages"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     needs:
       - cypress-forms-web-app-default
       - cypress-forms-web-app-ACP
@@ -227,6 +312,9 @@ jobs:
       - jest-appeals-service-api
       - jest-document-service-api
       - jest-common
+      - jest-horizon-add-document
+      - jest-horizon-create-contact
+      - jest-horizon-householder-appeal-publish
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
