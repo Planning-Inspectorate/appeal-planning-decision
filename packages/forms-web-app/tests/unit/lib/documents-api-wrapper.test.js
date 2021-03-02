@@ -22,28 +22,38 @@ describe('lib/documents-api-wrapper', () => {
 
   describe('createDocument', () => {
     let mockAppeal;
-    let formData;
+    let data;
 
     beforeEach(() => {
       mockAppeal = { id: 123 };
-      formData = {
+      data = {
         tempFilePath: 'some/fake/file.ext',
       };
     });
 
     it('should throw if fetch fails', async () => {
       fetch.mockReject(new Error('fake error message'));
-      expect(createDocument(mockAppeal, formData)).rejects.toThrow('fake error message');
+      expect(createDocument(mockAppeal, data)).rejects.toThrow('fake error message');
     });
 
-    it('should throw if the remote API response is not ok', () => {
+    it('should throw if the remote API response is not ok', async () => {
       fetch.mockResponse('fake response body', { status: 400 });
-      expect(createDocument(mockAppeal, formData)).rejects.toThrow('Bad Request');
+      try {
+        await createDocument(mockAppeal, data);
+        expect('to be').not.toBe('to be');
+      } catch (e) {
+        expect(e.message).toBe('Bad Request');
+      }
     });
 
     it('should throw if the response code is anything other than a 202', async () => {
       fetch.mockResponse('a response body', { status: 204 });
-      expect(createDocument(mockAppeal, formData)).rejects.toThrow('No Content');
+      try {
+        await createDocument(mockAppeal, data);
+        expect('to be').not.toBe('to be');
+      } catch (e) {
+        expect(e.message).toBe('No Content');
+      }
     });
 
     it('should throw if the document response is missing an `id`', async () => {
@@ -53,7 +63,12 @@ describe('lib/documents-api-wrapper', () => {
         }),
         { status: 202 }
       );
-      expect(createDocument(mockAppeal, formData)).rejects.toThrow('Document had no ID');
+      try {
+        await createDocument(mockAppeal, data);
+        expect('to be').not.toBe('to be');
+      } catch (e) {
+        expect(e.message).toBe('Document had no ID');
+      }
     });
 
     [null, undefined].forEach((given) => {
@@ -65,11 +80,30 @@ describe('lib/documents-api-wrapper', () => {
           }),
           { status: 202 }
         );
-        expect(createDocument(mockAppeal, formData)).rejects.toThrow('Document had no ID');
+
+        try {
+          await createDocument(mockAppeal, data);
+          expect('to be').not.toBe('to be');
+        } catch (e) {
+          expect(e.message).toBe('Document had no ID');
+        }
       });
     });
 
-    it('should return the expected response if the fetch status is 202', async () => {
+    [null, undefined].forEach((given) => {
+      it(`should throw if the document response 'id' is ${given}`, async () => {
+        try {
+          await createDocument(mockAppeal, given);
+          expect('to be').not.toBe('to be');
+        } catch (e) {
+          expect(e.message).toBe(
+            'Error: The type of provided data to create a document with is wrong'
+          );
+        }
+      });
+    });
+
+    it('should return the expected response if the fetch status is 202 with form data input', async () => {
       fetch.mockResponse(
         JSON.stringify({
           applicationId: 123,
@@ -78,7 +112,23 @@ describe('lib/documents-api-wrapper', () => {
         }),
         { status: 202 }
       );
-      expect(await createDocument(mockAppeal, formData)).toEqual({
+      expect(await createDocument(mockAppeal, data)).toEqual({
+        applicationId: 123,
+        id: '123-abc-456-xyz',
+        name: 'tmp-2-1607684291243',
+      });
+    });
+
+    it('should return the expected response if the fetch status is 202 with binary data input', async () => {
+      fetch.mockResponse(
+        JSON.stringify({
+          applicationId: 123,
+          id: '123-abc-456-xyz',
+          name: 'tmp-2-1607684291243',
+        }),
+        { status: 202 }
+      );
+      expect(await createDocument(mockAppeal, 'data')).toEqual({
         applicationId: 123,
         id: '123-abc-456-xyz',
         name: 'tmp-2-1607684291243',

@@ -1,12 +1,13 @@
 const submissionController = require('../../../../src/controllers/appellant-submission/submission');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
+const { storePdfAppeal } = require('../../../../src/services/pdf.service');
+
 const { mockReq, mockRes } = require('../../mocks');
 const { VIEW } = require('../../../../src/lib/views');
-const logger = require('../../../../src/lib/logger');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 
+jest.mock('../../../../src/services/pdf.service');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
-jest.mock('../../../../src/lib/logger');
 
 describe('controllers/appellant-submission/submission', () => {
   let req;
@@ -47,7 +48,7 @@ describe('controllers/appellant-submission/submission', () => {
       });
     });
 
-    it('should re-render the template with errors if there is any api call error', async () => {
+    it('should re-render the template with errors if there is any appeals api call error', async () => {
       const mockRequest = {
         ...req,
         body: {
@@ -60,7 +61,31 @@ describe('controllers/appellant-submission/submission', () => {
 
       await submissionController.postSubmission(mockRequest, res);
 
-      expect(logger.error).toHaveBeenCalledWith(error);
+      expect(res.redirect).not.toHaveBeenCalled();
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...appeal,
+        state: 'SUBMITTED',
+      });
+
+      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SUBMISSION, {
+        errors: {},
+        errorSummary: [{ text: error.toString(), href: '#' }],
+      });
+    });
+
+    it('should re-render the template with errors if there is any pdf api call error', async () => {
+      const mockRequest = {
+        ...req,
+        body: {
+          'appellant-confirmation': 'i-agree',
+        },
+      };
+
+      const error = new Error('Cheers');
+      storePdfAppeal.mockImplementation(() => Promise.reject(error));
+
+      await submissionController.postSubmission(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
 
@@ -88,6 +113,8 @@ describe('controllers/appellant-submission/submission', () => {
     });
 
     it('should redirect if valid', async () => {
+      storePdfAppeal.mockResolvedValue({ data: [] });
+
       const mockRequest = {
         ...req,
         body: {
