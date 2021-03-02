@@ -24,8 +24,13 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'confirmProvidedDecisionDateWasInvalid',
-  require('../eligibility-decision-date/confirmProvidedDecisionDateWasInvalid'),
+  'confirmProvidedDecisionDateError',
+  require('./eligibility-decision-date/confirmProvidedDecisionDateError'),
+);
+
+Cypress.Commands.add(
+  'confirmProvidedDecisionDateErrorHighlight',
+  require('./eligibility-decision-date/confirmProvidedDecisionDateErrorHighlight'),
 );
 
 Cypress.Commands.add(

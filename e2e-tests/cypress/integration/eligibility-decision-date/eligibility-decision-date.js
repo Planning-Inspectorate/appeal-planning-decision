@@ -31,7 +31,7 @@ When('absence of Decision Date is confirmed', () => {
   cy.accessConfirmHavingNoDecisionDate();
 });
 
-When('an invalid Decision Date of {string}-{string}-{string} is provided', (day, month, year) => {
+When('a Decision Date of {string}-{string}-{string} is provided', (day, month, year) => {
   cy.provideDecisionDate({ day, month, year });
 });
 
@@ -53,7 +53,10 @@ Then('progress is halted with a message that a Decision Date is required', () =>
   cy.confirmDecisionDate({ day: '', month: '', year: '' });
 });
 
-Then('progress is halted with a message that the provided Decision Date is invalid', () => {
-  cy.confirmProvidedDecisionDateWasInvalid();
-  cy.confirmDecisionDate({ day: '', month: '', year: '' });
+Then('progress is halted with an error: {string}', (error) => {
+  cy.confirmProvidedDecisionDateError(error);
+});
+
+Then('the correct input {string} is highlighted', (highlights) => {
+  cy.confirmProvidedDecisionDateErrorHighlight(highlights);
 });
