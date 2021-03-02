@@ -29,7 +29,7 @@ resource "azurerm_subnet" "horizon" {
   name = "GatewaySubnet"
   resource_group_name = azurerm_resource_group.network.name
   virtual_network_name = azurerm_virtual_network.network.name
-  address_prefixes = ["10.30.255.0/27"]
+  address_prefixes = [ cidrsubnet(var.network_subnet_range, 11, 2040) ]
 }
 
 resource "azurerm_virtual_network_gateway" "horizon" {

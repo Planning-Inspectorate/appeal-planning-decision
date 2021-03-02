@@ -5,6 +5,7 @@ horizon_enabled = true
 horizon_gateway_subnets_secret = "horizon-gateway-subnets-preprod"
 horizon_gateway_ip_secret = "horizon-gateway-ip-preprod"
 horizon_shared_key_secret = "horizon-gateway-shared-key-preprod"
+network_subnet_range = "10.32.0.0/16"
 
 k8s_min_nodes = 3
 k8s_max_nodes = 5

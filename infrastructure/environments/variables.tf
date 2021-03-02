@@ -217,6 +217,14 @@ variable "mongodb_primary_zone_redundancy" {
 }
 
 /*
+  Network
+ */
+variable "network_subnet_range" {
+  description = "Network subnet range. This must be unique across all clusters and end `/16`"
+  type = string
+}
+
+/*
   Storage
  */
 
