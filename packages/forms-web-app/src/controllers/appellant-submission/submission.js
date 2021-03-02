@@ -1,4 +1,5 @@
-const logger = require('../../lib/logger');
+const { storePdfAppeal } = require('../../services/pdf.service');
+
 const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 
@@ -23,8 +24,9 @@ exports.postSubmission = async (req, res) => {
       const { appeal } = req.session;
       appeal.state = 'SUBMITTED';
       req.session.appeal = await createOrUpdateAppeal(appeal);
+      await storePdfAppeal(appeal);
     } catch (e) {
-      logger.error(e);
+      req.log.error(e);
       res.render(VIEW.APPELLANT_SUBMISSION.SUBMISSION, {
         errors,
         errorSummary: [{ text: e.toString(), href: '#' }],
