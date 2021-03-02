@@ -47,6 +47,7 @@ No requirements.
 | mongodb\_max\_throughput | Max throughput of the MongoDB database - set in increments of 100 between 400 and 100,000 | `number` | `400` | no |
 | mongodb\_multi\_write\_locations | Enable multiple write locations | `bool` | `false` | no |
 | mongodb\_primary\_zone\_redundancy | Enable redundancy in the primary zone | `bool` | `false` | no |
+| network\_subnet\_range | Network subnet range. This must be unique across all clusters and end `/16` | `string` | n/a | yes |
 | pins\_key\_vault | ID of the PINS Key Vault - used to securely share secrets with this infrastructure | `string` | `null` | no |
 | pins\_key\_vault\_subscription\_id | Subscription ID for the Key Vault | `string` | `null` | no |
 | prefix | Resource prefix | `string` | `"pins"` | no |
