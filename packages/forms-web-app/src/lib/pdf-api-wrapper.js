@@ -24,6 +24,7 @@ exports.generatePDF = async (filename, htmlContent) => {
 
     apiResponse = await fetch(url, {
       method: 'POST',
+      responseType: 'application/pdf',
       headers: {
         'X-Correlation-ID': correlationId,
       },
@@ -45,5 +46,5 @@ exports.generatePDF = async (filename, htmlContent) => {
     throw new Error(apiResponse.statusText);
   }
 
-  return apiResponse.text();
+  return apiResponse.buffer();
 };

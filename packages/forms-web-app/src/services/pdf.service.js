@@ -20,8 +20,8 @@ const getHtmlAppeal = async (appeal) => {
 const storePdfAppeal = async (appeal) => {
   try {
     const htmlContent = await getHtmlAppeal(appeal);
-    const pdf = await generatePDF(appeal.id, htmlContent);
-    return await createDocument(appeal, pdf);
+    const pdfBuffer = await generatePDF(appeal.id, htmlContent);
+    return await createDocument(appeal, pdfBuffer);
   } catch (e) {
     throw new Error('Error during the appeal pdf generation');
   }

@@ -119,7 +119,7 @@ describe('lib/documents-api-wrapper', () => {
       });
     });
 
-    it('should return the expected response if the fetch status is 202 with binary data input', async () => {
+    it('should return the expected response if the fetch status is 202 with data buffer input', async () => {
       fetch.mockResponse(
         JSON.stringify({
           applicationId: 123,
@@ -128,7 +128,7 @@ describe('lib/documents-api-wrapper', () => {
         }),
         { status: 202 }
       );
-      expect(await createDocument(mockAppeal, 'data')).toEqual({
+      expect(await createDocument(mockAppeal, Buffer.from('data'))).toEqual({
         applicationId: 123,
         id: '123-abc-456-xyz',
         name: 'tmp-2-1607684291243',
