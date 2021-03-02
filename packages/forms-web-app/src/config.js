@@ -27,6 +27,9 @@ module.exports = {
     timeout: Number(process.env.DOCUMENTS_SERVICE_API_TIMEOUT || 10000),
     url: process.env.DOCUMENTS_SERVICE_API_URL,
   },
+  pdf: {
+    url: process.env.PDF_SERVICE_API_URL,
+  },
   fileUpload: {
     debug: process.env.FILE_UPLOAD_DEBUG === 'true',
     pins: {
