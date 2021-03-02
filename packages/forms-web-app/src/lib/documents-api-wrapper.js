@@ -6,6 +6,14 @@ const uuid = require('uuid');
 const config = require('../config');
 const parentLogger = require('./logger');
 
+function isDataBuffer(data) {
+  return data !== null && data !== undefined && typeof data === 'object';
+}
+
+function isTheFormDataBuffer(data) {
+  return isDataBuffer(data) && data.tempFilePath;
+}
+
 exports.createDocument = async (appeal, data) => {
   const path = `/api/v1/${appeal.id}`;
 
@@ -21,9 +29,9 @@ exports.createDocument = async (appeal, data) => {
   try {
     const fd = new FormData();
 
-    if (data !== null && data !== undefined && typeof data === 'object') {
+    if (isTheFormDataBuffer(data)) {
       fd.append('file', fs.createReadStream(data.tempFilePath), data.name);
-    } else if (typeof data === 'string' || data instanceof String) {
+    } else if (isDataBuffer(data)) {
       fd.append('file', data, `${appeal.id}.pdf`);
     } else {
       throw new Error('The type of provided data to create a document with is wrong');
