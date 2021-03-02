@@ -1,3 +1,18 @@
+# [lpa-questionnaire-web-app-v1.5.0](https://github.com/Planning-Inspectorate/appeal-planning-decision/compare/lpa-questionnaire-web-app-v1.4.0...lpa-questionnaire-web-app-v1.5.0) (2021-03-02)
+
+
+### Bug Fixes
+
+* **lpa-questionnaire:** various fixes from e2e testing ([2f324e6](https://github.com/Planning-Inspectorate/appeal-planning-decision/commit/2f324e6526401f3eef54ff688f118d54fbbe73b6))
+
+
+### Features
+
+* **lpa-questionnaire:** created post, added question to form data ([4ffd502](https://github.com/Planning-Inspectorate/appeal-planning-decision/commit/4ffd5028e494a0cb9ed8d4e270637e2518003838))
+* **lpa-questionnaire:** extra conditions validator added ([af960ce](https://github.com/Planning-Inspectorate/appeal-planning-decision/commit/af960ce7b46fd5619071639dd2891edd8da8a2ba))
+* **lpa-questionnaire:** extra conditions validator added ([313b93e](https://github.com/Planning-Inspectorate/appeal-planning-decision/commit/313b93e908e788ee59ef10b42af4045be86fc158))
+* **lpa-questionnaire-web-app:** as-84 Create view ([3174b52](https://github.com/Planning-Inspectorate/appeal-planning-decision/commit/3174b528dbe54bdffa7c213ec5ae94d661aeede2))
+
 # [lpa-questionnaire-web-app-v1.4.0](https://github.com/Planning-Inspectorate/appeal-planning-decision/compare/lpa-questionnaire-web-app-v1.3.0...lpa-questionnaire-web-app-v1.4.0) (2021-03-01)
 
 
