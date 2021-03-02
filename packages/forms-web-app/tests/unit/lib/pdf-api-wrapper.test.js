@@ -45,8 +45,13 @@ describe('lib/pdf-api-wrapper', () => {
     });
 
     it('should return the expected response if the fetch status is 200', async () => {
-      fetch.mockResponse('%PDF-1.4\n%%EOF', { status: 200 });
-      expect(await generatePDF(mockAppeal.id, htmlContent)).toEqual('%PDF-1.4\n%%EOF');
+      const pdfGenerated = 'pdf generated';
+      fetch.mockResponse(pdfGenerated, { status: 200 });
+      const expectedResult = new TextEncoder().encode(pdfGenerated);
+
+      const result = await generatePDF(mockAppeal.id, htmlContent);
+
+      expect(result).toEqual(Buffer.from(expectedResult));
     });
   });
 });
