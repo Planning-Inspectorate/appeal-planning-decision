@@ -184,15 +184,9 @@ Cypress.Commands.add(
   require('./appeals-in-immediate-area/verifyAppealsSelectionYesHelpText'),
 );
 
-Cypress.Commands.add(
-  'validateErrorSummary',
-  require('./common/validateErrorSummary'),
-);
+Cypress.Commands.add('validateErrorSummary', require('./common/validateErrorSummary'));
 
-Cypress.Commands.add(
-  'validateInputError',
-  require('./common/validateInputError'),
-);
+Cypress.Commands.add('validateInputError', require('./common/validateInputError'));
 
 Cypress.Commands.add('clickSaveAndContinue', require('./common/clickSaveAndContinue'));
 
@@ -251,4 +245,34 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'inputExtraConditionsExtraInformation',
   require('./appeals-extra-conditions/inputExtraConditionsExtraInformation'),
+);
+
+Cypress.Commands.add(
+  'goToDevelopmentPlanPage',
+  require('./appeals-questionnaire-navigation/goToDevelopmentPlanPage'),
+);
+
+Cypress.Commands.add(
+  'validateDevelopmentPlanPageTitle',
+  require('./appeals-development-plan/validateDevelopmentPlanPageTitle'),
+);
+
+Cypress.Commands.add(
+  'validateDevelopmentPlanPageHeading',
+  require('./appeals-development-plan/validateDevelopmentPlanPageHeading'),
+);
+
+Cypress.Commands.add(
+  'validateDevelopmentPlanErrorMessage',
+  require('./appeals-development-plan/validateDevelopmentPlanErrorMessage'),
+);
+
+Cypress.Commands.add(
+  'developmentPlanRadioButton',
+  require('./appeals-development-plan/developmentPlanRadioButton'),
+);
+
+Cypress.Commands.add(
+  'inputDevelopmentPlanDetails',
+  require('./appeals-development-plan/inputDevelopmentPlanDetails'),
 );
