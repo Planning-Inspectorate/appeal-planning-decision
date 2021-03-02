@@ -52,7 +52,8 @@ create_namespaces() {
 }
 
 install_azure_key_vault() {
-  echo "Install Azure Key Vault (akv2k8s)"
+  AKV2K8S_VERSION="${AKV2K8S_VERSION:-^2.0.0}"
+  echo "Install Azure Key Vault (akv2k8s)@${AKV2K8S_VERSION}"
 
   kubectl apply -f https://raw.githubusercontent.com/sparebankenvest/azure-key-vault-to-kubernetes/master/crds/AzureKeyVaultSecret.yaml
   kubectl create namespace akv2k8s || true
@@ -62,7 +63,7 @@ install_azure_key_vault() {
     --overwrite \
     azure-key-vault-env-injection=enabled
 
-  helm repo add spv-charts http://charts.spvapi.no
+  helm repo add spv-charts https://charts.spvapi.no
   helm repo update
 
   helm upgrade \
@@ -72,12 +73,14 @@ install_azure_key_vault() {
     --atomic \
     --cleanup-on-fail \
     --namespace akv2k8s \
+    --version="${AKV2K8S_VERSION}" \
     akv2k8s \
     spv-charts/akv2k8s
 }
 
 install_nginx_ingress() {
-  echo "Adding Nginx Ingress"
+  NGINX_INGRESS_VERSION="${NGINX_INGRESS_VERSION:-^3.0.0}"
+  echo "Adding Nginx Ingress@${NGINX_INGRESS_VERSION}"
 
   touch "${DIR}/nginx-ingress/${CLUSTER}.yaml"
 
@@ -97,6 +100,7 @@ install_nginx_ingress() {
     --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-dns-label-name"="${CLUSTER_LB_IP_NAME}" \
     --values "${DIR}/nginx-ingress/common.yaml" \
     --values "${DIR}/nginx-ingress/${CLUSTER}.yaml" \
+    --version="${NGINX_INGRESS_VERSION}" \
     nginx-ingress \
     ingress-nginx/ingress-nginx
 
@@ -105,7 +109,8 @@ install_nginx_ingress() {
 }
 
 install_cert_manager() {
-  echo "Adding Cert Manager v${CERT_MANAGER_VERSION}"
+  CERT_MANAGER_VERSION="${CERT_MANAGER_VERSION:-^1.0.0}"
+  echo "Adding Cert Manager@${CERT_MANAGER_VERSION}"
 
   kubectl create namespace cert-manager || true
   helm repo add jetstack https://charts.jetstack.io
@@ -117,10 +122,10 @@ install_cert_manager() {
     --atomic \
     --cleanup-on-fail \
     --namespace cert-manager \
-    --version "${CERT_MANAGER_VERSION}" \
     --set installCRDs=true \
     --set ingressShim.defaultIssuerName=letsencrypt-staging \
     --set ingressShim.defaultIssuerKind=ClusterIssuer \
+    --version "${CERT_MANAGER_VERSION}" \
     cert-manager \
     jetstack/cert-manager
    kubectl get pods --namespace cert-manager
@@ -132,7 +137,9 @@ install_cert_manager() {
 }
 
 install_gitops() {
-  echo "Adding GitOps"
+  GITOPS_FLUX_VERSION="${GITOPS_FLUX_VERSION:-^1.0.0}"
+  GITOPS_HELM_VERSION="${GITOPS_HELM_VERSION:-^1.0.0}"
+  echo "Adding GitOps Flux@${GITOPS_FLUX_VERSION}"
 
   helm repo add fluxcd https://charts.fluxcd.io
   kubectl apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml
@@ -150,8 +157,12 @@ install_gitops() {
     --set git.label="${CLUSTER}-flux-sync" \
     --set git.ciSkip="true" \
     --namespace "${FLUX_NAMESPACE}" \
+    --version "${GITOPS_FLUX_VERSION}" \
     flux \
     fluxcd/flux
+
+  echo "Adding GitOps Helm@${GITOPS_HELM_VERSION}"
+
   helm upgrade \
     --reset-values \
     --install \
@@ -164,6 +175,7 @@ install_gitops() {
     --set syncGarbageCollection.enabled=true \
     --values="${DIR}/helm-dependencies.yaml" \
     --namespace "${FLUX_NAMESPACE}" \
+    --version "${GITOPS_HELM_VERSION}" \
     helm-operator \
     fluxcd/helm-operator
 

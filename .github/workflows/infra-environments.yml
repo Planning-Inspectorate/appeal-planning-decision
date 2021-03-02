@@ -166,7 +166,6 @@ jobs:
         if: github.ref == matrix.branch
         uses: ./.github/actions/kubectl-helm
         env:
-          CERT_MANAGER_VERSION: 1.0.3
           CLUSTER: ${{ matrix.environment }}
           CLUSTER_LB_IP_ADDRESS: ${{ steps.tf_output.outputs.cluster_lb_ip_address }}
           CLUSTER_LB_IP_NAME: ${{ steps.tf_output.outputs.cluster_lb_ip_name }}
