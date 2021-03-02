@@ -1,6 +1,10 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 
 Given('an appeal is ready to be submitted', () => {
+  cy.goToPlanningDepartmentPage();
+  cy.provideEligibleLocalPlanningDepartment();
+  cy.clickSaveAndContinue();
+
   cy.goToWhoAreYouPage();
   cy.answerYesOriginalAppellant();
   cy.clickSaveAndContinue();
