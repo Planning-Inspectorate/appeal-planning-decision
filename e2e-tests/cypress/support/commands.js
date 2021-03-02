@@ -1014,3 +1014,7 @@ Cypress.Commands.add(
   require('./eligibility-householder/confirmDetailsDisplayed'),
 );
 
+Cypress.Commands.add(
+  'goToCookiePreferencesPage',
+  require('./cookies/goToCookiePreferences'),
+);
