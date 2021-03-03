@@ -85,7 +85,7 @@ Then('the updated values for About you section are displayed', () => {
 
 Given('changes are made for About the original planning application section', () => {
   cy.provideCompleteAppeal();
-  cy.promptUserToProvidePlanningApplicationNumber();
+  cy.goToPlanningApplicationNumberPage();
   cy.providePlanningApplicationNumber('New ValidNumber/12345');
   cy.goToPlanningApplicationSubmission();
   cy.uploadPlanningApplicationFile('appeal-statement-valid.jpeg');

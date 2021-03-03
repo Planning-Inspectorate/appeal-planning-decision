@@ -9,7 +9,7 @@ Given('an appeal is ready to be submitted', () => {
   cy.provideDetailsEmail('valid@email.com');
   cy.clickSaveAndContinue();
 
-  cy.promptUserToProvidePlanningApplicationNumber();
+  cy.goToPlanningApplicationNumberPage();
   cy.providePlanningApplicationNumber('ValidNumber/12345');
   cy.goToPlanningApplicationSubmission();
   cy.uploadPlanningApplicationFile('appeal-statement-valid.doc');

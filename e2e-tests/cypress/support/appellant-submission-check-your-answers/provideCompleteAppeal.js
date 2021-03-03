@@ -31,7 +31,7 @@ module.exports = () => {
   cy.provideDetailsEmail('valid@email.com');
   cy.clickSaveAndContinue();
 
-  cy.promptUserToProvidePlanningApplicationNumber();
+  cy.goToPlanningApplicationNumberPage();
   cy.providePlanningApplicationNumber('ValidNumber/12345');
 
   cy.goToPlanningApplicationSubmission();
