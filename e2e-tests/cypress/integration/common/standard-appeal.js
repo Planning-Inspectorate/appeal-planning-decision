@@ -10,6 +10,7 @@ const matchWhatWeCanFrom = (hardCodedExpectations) => {
       createdAt: expect.any(String),
       updatedAt: expect.any(String),
       id: expect.any(String),
+      submissionDate: expect.any(String),
       decisionDate: expect.any(String),
       yourAppealSection: {
         ...hardCodedExpectations.appeal.yourAppealSection,
@@ -50,7 +51,7 @@ const STANDARD_APPEAL = {
   decisionDate: dateForXDaysAgo(30),
   eligibility: {
     householderPlanningPermission: true,
-    eligibleLocalPlanningDepartment: true, //
+    eligibleLocalPlanningDepartment: true,
     listedBuilding: true,
     isClaimingCosts: false,
   },

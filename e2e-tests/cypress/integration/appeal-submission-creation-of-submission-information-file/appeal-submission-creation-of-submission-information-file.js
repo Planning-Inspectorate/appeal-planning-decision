@@ -1,7 +1,8 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { STANDARD_APPEAL } from '../common/standard-appeal';
 
 Given('a prospective appellant has provided valid appeal information', () => {
-  cy.provideCompleteAppeal();
+  cy.provideCompleteAppeal(STANDARD_APPEAL);
   cy.clickCheckYourAnswers();
 
   // /appellant-submission/check-answers
@@ -34,6 +35,5 @@ Then('a submission information file is created', () => {
     'site-ownership': 'Yes',
     'site-access': 'Yes',
     'site-access-safety': 'No',
-    'supporting-documents-no-files': 'No files uploaded',
   });
 });
