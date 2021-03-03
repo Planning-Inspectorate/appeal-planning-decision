@@ -41,7 +41,7 @@ exports.postDecisionDate = async (req, res) => {
     return;
   }
 
-  const decisionDate = body['decision-date-full'];
+  const decisionDate = body['decision-date'];
 
   appeal.decisionDate = `${decisionDate}T12:00:00.000Z`;
 
