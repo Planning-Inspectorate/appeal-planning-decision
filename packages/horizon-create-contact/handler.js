@@ -11,7 +11,7 @@ module.exports = async (event, context) => {
 
   const { body } = event;
 
-  /* The order of this appears to be important */
+  /* The order of this appears to be important - first and last name's are required by Horizon */
   const contactData = [
     {
       key: 'a:Email',
@@ -19,11 +19,11 @@ module.exports = async (event, context) => {
     },
     {
       key: 'a:FirstName',
-      value: body?.firstName,
+      value: body?.firstName || '<Not provided>',
     },
     {
       key: 'a:LastName',
-      value: body?.lastName,
+      value: body?.lastName || '<Not provided>',
     },
   ];
 

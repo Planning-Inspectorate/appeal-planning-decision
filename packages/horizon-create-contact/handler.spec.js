@@ -20,6 +20,106 @@ describe('handler', () => {
     process.env = envvars;
   });
 
+  it('should simulate a successful call without a first name', async () => {
+    process.env.HORIZON_URL = 'some-horizon-url';
+
+    const body = {
+      firstName: '',
+      lastName: 'Testington',
+    };
+
+    const horizonId = 'abc12';
+
+    axios.post.mockResolvedValue({
+      data: {
+        Envelope: {
+          Body: {
+            AddContactResponse: {
+              AddContactResult: {
+                value: horizonId,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    expect(await handler({ body }, context)).toEqual({
+      id: horizonId,
+    });
+
+    expect(axios.post).toBeCalledWith(`${process.env.HORIZON_URL}/contacts`, {
+      AddContact: {
+        __soap_op: 'http://tempuri.org/IContacts/AddContact',
+        __xmlns: 'http://tempuri.org/',
+        contact: {
+          '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Contacts.API',
+          '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
+          '__i:type': 'a:HorizonAPIPerson',
+          'a:FirstName': '<Not provided>',
+          'a:LastName': body.lastName,
+          'a:Email': {
+            '__i:nil': 'true',
+          },
+        },
+      },
+    });
+
+    expect(context).toEqual({
+      httpStatus: 200,
+    });
+  });
+
+  it('should simulate a successful call without a last name', async () => {
+    process.env.HORIZON_URL = 'some-horizon-url';
+
+    const body = {
+      firstName: 'Test',
+      lastName: '',
+    };
+
+    const horizonId = 'abc129';
+
+    axios.post.mockResolvedValue({
+      data: {
+        Envelope: {
+          Body: {
+            AddContactResponse: {
+              AddContactResult: {
+                value: horizonId,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    expect(await handler({ body }, context)).toEqual({
+      id: horizonId,
+    });
+
+    expect(axios.post).toBeCalledWith(`${process.env.HORIZON_URL}/contacts`, {
+      AddContact: {
+        __soap_op: 'http://tempuri.org/IContacts/AddContact',
+        __xmlns: 'http://tempuri.org/',
+        contact: {
+          '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Contacts.API',
+          '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
+          '__i:type': 'a:HorizonAPIPerson',
+          'a:FirstName': body.firstName,
+          'a:LastName': '<Not provided>',
+          'a:Email': {
+            '__i:nil': 'true',
+          },
+        },
+      },
+    });
+
+    expect(context).toEqual({
+      httpStatus: 200,
+    });
+  });
+
   it('should simulate a successful call with no optional data', async () => {
     process.env.HORIZON_URL = 'some-horizon-url';
 
