@@ -21,7 +21,7 @@ so that I can book an appropriate site visit with a Planning Inspector and site 
     Given a prospective appellant has provided appeal information where they own the whole site
     When the appeal is submitted
     Then a case is created for a case officer with Certificate A
-    
+
   @as-105 @as-105-ac2.2a
   Scenario: AC2.2a Appellant is not the owner of the whole site - has informed owner
     Given a prospective appellant has provided appeal information where they do not own the whole site while confirming owner has been informed

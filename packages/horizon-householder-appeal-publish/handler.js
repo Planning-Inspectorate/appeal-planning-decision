@@ -31,6 +31,16 @@ function convertToSoapKVPair(key, value) {
     };
   }
 
+  if (value == null) {
+    return {
+      'a:AttributeValue': {
+        '__i:type': 'a:StringAttributeValue',
+        'a:Name': key,
+        'a:Value': null,
+      },
+    };
+  }
+
   if (value.toISOString) {
     /* Value is a date */
     return {
@@ -307,8 +317,16 @@ module.exports = async (event, context) => {
         value: body.appeal.appealSiteSection.siteAddress.postcode,
       },
       {
+        key: 'Case Site:Ownership Certificate',
+        value: body.appeal.appealSiteSection.siteOwnership.ownsWholeSite ? 'Certificate A' : null,
+      },
+      {
         key: 'Case Site:Site Viewable From Road',
         value: body.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
+      },
+      {
+        key: 'Case Site:Inspector Need To Enter Site',
+        value: !body.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
       },
     ];
 
