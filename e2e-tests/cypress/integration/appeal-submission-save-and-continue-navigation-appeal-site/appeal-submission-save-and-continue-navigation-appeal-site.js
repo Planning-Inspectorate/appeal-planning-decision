@@ -26,7 +26,7 @@ Given('the "Site access" is presented', () => {
 });
 
 Given('the "Site safety" is presented', () => {
-  cy.goToSiteSafetyPage();
+  cy.goToHealthAndSafetyPage();
 });
 
 When('the "Site location" is submitted with valid values', () => {

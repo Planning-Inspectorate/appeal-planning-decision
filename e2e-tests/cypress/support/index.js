@@ -15,6 +15,7 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands';
+import './commands-go-to-page';
 import "cypress-ntlm-auth/dist/commands";
 
 // Alternatively you can use CommonJS syntax:

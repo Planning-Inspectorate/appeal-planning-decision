@@ -84,7 +84,7 @@ When('an attempt is made to access {string}', (page) => {
       cy.goToApplicantNamePage();
       break;
     case 'Appellant submission - Planning application - Application number':
-      cy.promptUserToProvidePlanningApplicationNumber();
+      cy.goToPlanningApplicationNumberPage();
       break;
     case 'Appellant submission - Planning application - Upload application':
       cy.goToPlanningApplicationSubmission();

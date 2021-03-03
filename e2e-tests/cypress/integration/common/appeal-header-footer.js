@@ -44,7 +44,7 @@ When('the {string} page is presented', (page) => {
       cy.goToApplicantNamePage();
       break;
     case 'Appellant submission - Planning application - Application number':
-      cy.promptUserToProvidePlanningApplicationNumber();
+      cy.goToPlanningApplicationNumberPage();
       break;
     case 'Appellant submission - Planning application - Upload application':
       cy.goToPlanningApplicationSubmission();
