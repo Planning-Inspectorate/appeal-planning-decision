@@ -72,7 +72,7 @@ describe('controllers/eligibility/decision-date', () => {
       const mockRequest = {
         ...req,
         body: {
-          'decision-date-full': '2019-10-10',
+          'decision-date': '2019-10-10',
         },
       };
 
@@ -134,7 +134,7 @@ describe('controllers/eligibility/decision-date', () => {
       const mockRequest = {
         ...req,
         body: {
-          'decision-date-full': format(decisionDate, 'yyyy-MM-dd'),
+          'decision-date': format(decisionDate, 'yyyy-MM-dd'),
           errors: {},
           errorSummary: [],
         },
@@ -150,7 +150,7 @@ describe('controllers/eligibility/decision-date', () => {
       const mockRequest = {
         ...req,
         body: {
-          'decision-date-full': format(decisionDate, 'yyyy-MM-dd'),
+          'decision-date': format(decisionDate, 'yyyy-MM-dd'),
           errors: {},
           errorSummary: [],
         },
@@ -167,7 +167,7 @@ describe('controllers/eligibility/decision-date', () => {
       const mockRequest = {
         ...req,
         body: {
-          'decision-date-full': format(decisionDate, 'yyyy-MM-dd'),
+          'decision-date': format(decisionDate, 'yyyy-MM-dd'),
           errors: {},
           errorSummary: [],
         },
@@ -197,7 +197,7 @@ describe('controllers/eligibility/decision-date', () => {
     const mockRequest = {
       ...req,
       body: {
-        'decision-date-full': '1-1-2020',
+        'decision-date': '1-1-2020',
         errors: { a: 'b' },
         errorSummary: [{ text: 'There were errors here', href: '#' }],
       },

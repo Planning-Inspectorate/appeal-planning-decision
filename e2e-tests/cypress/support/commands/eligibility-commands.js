@@ -25,12 +25,12 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   'confirmProvidedDecisionDateError',
-  require('./eligibility-decision-date/confirmProvidedDecisionDateError'),
+  require('../eligibility-decision-date/confirmProvidedDecisionDateError'),
 );
 
 Cypress.Commands.add(
   'confirmProvidedDecisionDateErrorHighlight',
-  require('./eligibility-decision-date/confirmProvidedDecisionDateErrorHighlight'),
+  require('../eligibility-decision-date/confirmProvidedDecisionDateErrorHighlight'),
 );
 
 Cypress.Commands.add(

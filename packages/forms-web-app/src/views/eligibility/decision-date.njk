@@ -1,5 +1,6 @@
 {% extends "layouts/main.njk" %}
 
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
@@ -9,19 +10,10 @@
     <div class="govuk-grid-column-two-thirds">
 
       {% if errors %}
-        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
-             data-module="govuk-error-summary">
-          <h2 class="govuk-error-summary__title" id="error-summary-title">
-            There is a problem
-          </h2>
-          <div class="govuk-error-summary__body">
-            <ul class="govuk-list govuk-error-summary__list">
-              <li>
-                <a href="#date-error">You need to provide a date</a>
-              </li>
-            </ul>
-          </div>
-        </div>
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [errorSummary[0]]
+        }) }}
       {% endif %}
 
       <span class="govuk-caption-l">Before you start</span>
@@ -41,23 +33,21 @@
           hint: {
             text: "For example, 20 04 2020"
           },
-          errorMessage: errors['decision-date'] and {
-            text: errors['decision-date'].msg
-          },
+          errorMessage: errors['decision-date'].msg or errors['decision-date-day'].msg or errors['decision-date-month'].msg or errors['decision-date-year'].msg,
           items: [
             {
-              classes: "govuk-input--width-2 govuk-input--error" if errors['decision-date'] else "govuk-input--width-2",
+              classes: "govuk-input--width-2 govuk-input--error" if errors['decision-date'] or errors['decision-date-day'] else "govuk-input--width-2",
               name: "day",
               value: decisionDate and ("0" + decisionDate.getDate()).slice(-2)
             },
             {
-              classes: "govuk-input--width-2 govuk-input--error" if errors['decision-date'] else "govuk-input--width-2",
+              classes: "govuk-input--width-2 govuk-input--error" if errors['decision-date'] or errors['decision-date-month'] else "govuk-input--width-2",
               name: "month",
               value: decisionDate and ("0" + (decisionDate.getMonth() + 1)).slice(-2)
 
             },
             {
-              classes: "govuk-input--width-4 govuk-input--error" if errors['decision-date'] else "govuk-input--width-4",
+              classes: "govuk-input--width-4 govuk-input--error" if errors['decision-date'] or errors['decision-date-year'] else "govuk-input--width-4",
               name: "year",
               value: decisionDate and decisionDate.getFullYear()
             }
