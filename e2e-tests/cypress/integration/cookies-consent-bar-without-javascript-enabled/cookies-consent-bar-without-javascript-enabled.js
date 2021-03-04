@@ -11,7 +11,7 @@ When('the user navigates through the service', () => {
 });
 
 When('the user views the cookie preferences page', () => {
-  cy.goToHelpCookiesPage();
+  cy.viewCookiePageUsingCookieConsentBannerLink();
 });
 
 Then('the cookies page is presented', () => {
