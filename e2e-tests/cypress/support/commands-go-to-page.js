@@ -45,8 +45,6 @@ Cypress.Commands.add('goToLandingPage', require('./go-to-page/goToLandingPage'))
 Cypress.Commands.add('goToCookiePreferencesPage', require('./go-to-page/goToCookiePreferences'));
 
 
+// Guidance Pages
 
-
-
-
-
+Cypress.Commands.add('goToPageBeforeYouAppeal', require('./go-to-page/goToPageBeforeYouAppeal'));
