@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block content %}
+
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">Change your cookie settings</h1>
@@ -47,13 +48,13 @@
                   value: "on",
                   text: "On",
                   attributes: { "data-cy":"usage-cookies-yes"},
-                  checked: cookies.usage == true
+                  checked: cookiePolicy.usage == true
                 },
                 {
                   value: "off",
                   text: "Off",
                   attributes: { "data-cy":"usage-cookies-no"},
-                  checked: cookies.usage == false
+                  checked: cookiePolicy.usage == false
                 }
               ]
             }) }}

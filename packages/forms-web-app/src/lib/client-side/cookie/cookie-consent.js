@@ -6,6 +6,7 @@ const { hideSingleDomElementBySelector } = require('./cookie-dom-helpers');
 const { showCookieConsentAcceptedBanner } = require('./cookie-consent-accepted');
 const { showCookieConsentRejectedBanner } = require('./cookie-consent-rejected');
 const { initialiseOptionalJavaScripts } = require('../javascript-requiring-consent');
+const { VIEW } = require('../../views');
 
 const setCookies = (document, cookiePolicy) => {
   eraseCookie(document, cookieConfig.COOKIE_POLICY_KEY);
@@ -60,6 +61,12 @@ const addRejectCookieConsentListener = (document, rejectCookieConsentButton) => 
 
 const cookieConsentHandler = (document) => {
   if (readCookie(document, cookieConfig.COOKIE_POLICY_KEY) !== null) {
+    hideConsentBanner(document);
+    return;
+  }
+
+  // do not display the cookie banner on the /cookies page
+  if (window.location.pathname === `/${VIEW.COOKIES}`) {
     hideConsentBanner(document);
     return;
   }

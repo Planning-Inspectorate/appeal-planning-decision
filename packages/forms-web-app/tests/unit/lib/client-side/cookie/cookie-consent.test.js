@@ -167,8 +167,33 @@ describe('lib/client-side/cookie/cookie-consent', () => {
   });
 
   describe('cookieConsentHandler', () => {
+    let windowSpy;
+
+    beforeEach(() => {
+      windowSpy = jest.spyOn(window, 'window', 'get');
+    });
+
+    afterEach(() => {
+      windowSpy.mockRestore();
+    });
+
     test('cookie policy has already been set', () => {
       readCookie.mockImplementation(() => true);
+
+      cookieConsentHandler(document);
+
+      expect(consentBanner).toHaveClass(govUkDisplayNoneCssClass);
+      expect(createCookie).not.toHaveBeenCalled();
+    });
+
+    test('do not display the cookie banner if already on the /cookie page', () => {
+      readCookie.mockImplementation(() => null);
+
+      windowSpy.mockImplementation(() => ({
+        location: {
+          pathname: '/cookies',
+        },
+      }));
 
       cookieConsentHandler(document);
 

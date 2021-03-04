@@ -9,6 +9,7 @@ Feature: Cookie Consent - Save Preferences
     Given a user has not previously submitted cookie preferences
     When a user is managing their cookie preference
     Then the not necessary cookies are shown as neither enabled or disabled
+    And the user should not see the cookie banner
 
   @as-1214 @as-1214-2
   Scenario: Manage Cookie preference - Disable

@@ -16,7 +16,7 @@ When('the user rejects not necessary cookies', () => {
 });
 
 Then('the cookie banner remains visible', () => {
-  cy.confirmNoDecisionCookieBannerVisible();
+  cy.confirmCookieConsentBannerIsVisible();
 });
 
 Then('the accepted cookie banner becomes visible', () => {
