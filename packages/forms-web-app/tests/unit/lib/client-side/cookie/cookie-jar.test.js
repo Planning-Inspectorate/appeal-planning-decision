@@ -35,7 +35,7 @@ describe('lib/client-side/cookie/cookie-jar', () => {
       createCookie(document, fakeName, fakeValue);
 
       expect(document.cookie).toEqual(
-        `${fakeName}=${fakeValue}; expires=Thu, 18 Nov 2021 00:00:00 GMT; path=/`
+        `${fakeName}=${fakeValue}; expires=Fri, 25 Oct 2120 00:00:00 GMT; path=/`
       );
     });
 
