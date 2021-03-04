@@ -259,6 +259,40 @@ Kubernetes cluster.
 ```shell script
 kubectl logs -f -n app-prod app-form-web-app-1111111111-aaaaa
 ```
+
+## Using OpenFaaS
+
+[OpenFaaS](https://docs.openfaas.com/) is used as a serverless framework. This is mainly used for the Horizon calls, to
+allow them to be called outside of the main workflow (calls typically take 30+ seconds) and to allow for retries.
+
+To develop a function, you can use the `dev` environment, or your own OpenFaaS instance (eg [faasd](https://docs.openfaas.com/deployment/faasd/).
+You will need to use the `dev` environment for Horizon work as Horizon is behind a VPN and not publicly accessible.
+
+```shell
+# Port forward to the OpenFaaS gateway
+kubectl port-forward -n openfaas svc/gateway 8080:8080
+
+# Get the gateway password
+echo $(kubectl -n openfaas get secret basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode)
+
+# Login with faas-cli
+faas-cli login -p $(echo $(kubectl -n openfaas get secret basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode))
+```
+
+Now you can load up the [OpenFaaS Gateway](http://localhost:8080) using the username `admin` and the password retrieved
+above.
+
+To make a change you will need to update the function image.
+
+> At this stage, developers do not have push access to the PINS Docker registry. In `functions.yml`, change the
+> `image` from `pinscommonukscontainers3887default.azurecr.io` to your own Docker username. This will push images there
+> and the cluster will download from there.
+
+Once you've made a change, enter `make update-functions` and this will build the image and deploy to the cluster.
+
+**NB** When finished, you will need to run `helm un -n openfaas-fn functions` to clean up the updated containers. For the
+moment, this will need to be done by someone with admin rights to the cluster.
+
 ### ACP integration
 
 The current target MVP checks only the decision date eligibility before passing the user to an existing external service 

@@ -8,3 +8,7 @@ Defines RBAC roles for the Kubernetes cluster
 There should be one file per group defined. The `admin` group doesn't need
 one as it's set as the Kubernetes admin user, which gives it full access to
 the cluster. 
+
+Files are loaded per folder. Anything in the `common` folder is applied to
+all clusters. It accepts folder names set to the cluster name to apply
+RBAC rules set just to those clusters only.

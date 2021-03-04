@@ -29,11 +29,18 @@ add_registry_secret() {
 configure_rbac() {
   echo "Configuring RBAC"
 
-  echo "${DIR}"/../k8s/rbac/*.yaml
+  mkdir -p "${DIR}/../k8s/rbac/${CLUSTER}"
 
   for namespace in ${DEPLOY_NAMESPACE} ${OPENFAAS_NAMESPACES} flux
   do
-    for file in "${DIR}/../k8s/rbac"/*.yaml
+    # Handle spaces in path names
+    OIFS="$IFS"
+    IFS=$'\n'
+
+    COMMON_RBAC=$(find "${DIR}/../k8s/rbac/common" -name "*.yaml" -type f -exec ls {} \;)
+    CLUSTER_RBAC=$(find "${DIR}/../k8s/rbac/${CLUSTER}" -name "*.yaml" -type f -exec ls {} \;)
+
+    for file in ${COMMON_RBAC} ${CLUSTER_RBAC}
     do
       echo "Applying file: ${file}"
       echo "Namespace: ${namespace}"
@@ -42,6 +49,8 @@ configure_rbac() {
 
       envsubst < "${file}" | kubectl apply -f -
     done
+
+    IFS="$OIFS"
   done
 }
 
