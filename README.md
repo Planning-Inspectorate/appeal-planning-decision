@@ -232,24 +232,27 @@ az login
 az aks list -o tsv --query '[].resourceGroup'
 
 # pins-uks-k8s-dev
+# pins-uks-k8s-preprod
 # pins-uks-k8s-prod
 ```
 
 ```shell script
 az aks list -o tsv --query '[].name'
 
-# pins-uks-k8s-1234-dev
-# pins-uks-k8s-1234-prod
+# pins-uks-k8s-5883-dev
+# pins-uks-k8s-9624-preprod
+# pins-uks-k8s-6622-prod
 ```
 
 The name format will include the environment you're after at the end of the name.
 
+_* Note: The numbers in the Resource names may change over time. The command above will return the latest values._
 ### Get the Kubeconfig file
 
 ```shell script
 az aks get-credentials \
-  -g pins-uks-k8s-prod \
-  -n pins-uks-k8s-1234-prod \
+  -g pins-uks-k8s-dev \
+  -n pins-uks-k8s-5883-dev \
   --overwrite-existing
 ```
 
@@ -257,7 +260,27 @@ This will save the config file to `~/.kube/config`. Now you have this file, you 
 Kubernetes cluster.
 
 ```shell script
-kubectl logs -f -n app-prod app-form-web-app-1111111111-aaaaa
+kubectl logs -f -n app-dev app-form-web-app-1111111111-aaaaa
+```
+
+The available namespaces can be listed with the command:
+```shell script
+kubectl get namespace
+```
+All environments should include the following namespaces:
+```shell script
+openfass
+openfaas-fn
+```
+In addition, environment-specific namespaces exist e.g.
+```shell script
+app-dev # for dev
+app-preprod # for preprod
+app-prod # for prod
+```
+To list the pods in a namespace use the `kubectl get pods` command with the required namespace:
+```shell script
+kubectl get pods -n openfass
 ```
 ### ACP integration
 
