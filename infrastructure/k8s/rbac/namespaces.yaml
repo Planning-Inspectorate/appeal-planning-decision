@@ -1,0 +1,31 @@
+# Namespaces Role
+#
+# This allows users to list namespaces. This is a ClusterRole
+# and applies this rule to the whole cluster, not just a specific
+# namespace
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: user-namespaces
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    verbs:
+      - get
+      - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: user-namespaces-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: user-namespaces
+subjects:
+  - kind: Group
+    namespace: default
+    name: $GROUP_USER_ID
