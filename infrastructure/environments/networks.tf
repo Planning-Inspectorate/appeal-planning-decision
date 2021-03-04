@@ -9,6 +9,14 @@ resource "azurerm_resource_group" "network" {
   }
 }
 
+module "network_rg_roles" {
+  source = "../modules/resource-group-aad-roles"
+
+  admin_group_id = azuread_group.admin.id
+  resource_group_id = azurerm_resource_group.network.id
+  user_group_id = azuread_group.user.id
+}
+
 resource "azurerm_virtual_network" "network" {
   name = format(local.name_format, "network")
   location = azurerm_resource_group.network.location

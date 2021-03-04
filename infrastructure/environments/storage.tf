@@ -9,6 +9,14 @@ resource "azurerm_resource_group" "storage" {
   }
 }
 
+module "storage_rg_roles" {
+  source = "../modules/resource-group-aad-roles"
+
+  admin_group_id = azuread_group.admin.id
+  resource_group_id = azurerm_resource_group.storage.id
+  user_group_id = azuread_group.user.id
+}
+
 resource "random_integer" "storage" {
   max = 9999
   min = 1000
