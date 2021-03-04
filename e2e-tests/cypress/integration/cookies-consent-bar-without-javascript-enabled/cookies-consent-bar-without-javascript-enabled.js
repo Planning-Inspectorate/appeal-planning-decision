@@ -5,9 +5,8 @@ Given('a user visits the site with JavaScript disabled', () => {
 });
 
 When('the user navigates through the service', () => {
-  cy.provideHouseholderAnswerYes();
-  cy.clickSaveAndContinue();
-  cy.confirmNavigationDecisionDatePage();
+  cy.guidancePageNavigation('next');
+  cy.userIsNavigatedToPage('/when-you-can-appeal');
 });
 
 When('the user views the cookie preferences page', () => {
