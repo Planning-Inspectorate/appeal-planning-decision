@@ -1,9 +1,7 @@
 const VIEW = {
   APPLICATION_NUMBER: 'application-number',
 
-  COOKIES: {
-    COOKIE_PREFERENCES: 'cookies/cookie-preferences',
-  },
+  COOKIES: 'cookies',
 
   ELIGIBILITY: {
     LISTED_BUILDING: 'eligibility/listed-building',

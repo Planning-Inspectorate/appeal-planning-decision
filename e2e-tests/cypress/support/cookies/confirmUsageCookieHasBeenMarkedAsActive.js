@@ -3,6 +3,9 @@ import cookieConfig from '../../../../packages/forms-web-app/src/lib/client-side
 
 module.exports = () => {
   cy.getCookies().then((cookies) => {
-    expect(findCookieObjectByName(cookies, cookieConfig.COOKIE_POLICY_KEY).usage).isTrue();
+    const cookie = JSON.parse(
+      findCookieObjectByName(cookies, cookieConfig.COOKIE_POLICY_KEY).value,
+    );
+    expect(cookie.usage).to.eq(true);
   });
 };

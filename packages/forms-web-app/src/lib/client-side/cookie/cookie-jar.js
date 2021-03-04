@@ -3,6 +3,7 @@
 // https://www.quirksmode.org/js/cookies.html
 
 const createCookie = (document, name, value, days = 36500) => {
+  // @TODO: secure:
   let expires = '';
   if (typeof days === 'number') {
     const date = new Date();
