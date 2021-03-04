@@ -34,7 +34,7 @@ exports[`views/macros/cookie-banner should allow setting a custom cookiePagePath
       <div class=\\"govuk-button-group\\">
         
           
-            <button value=\\"accept\\" type=\\"submit\\" name=\\"cookie_banner\\" class=\\"govuk-button\\" data-module=\\"govuk-button\\" data-cy=\\"cookie-banner-accept-analytics-cookies\\">
+            <button value=\\"accept\\" type=\\"submit\\" name=\\"cookie_banner\\" class=\\"govuk-button govuk-!-display-none\\" data-module=\\"govuk-button\\" data-cy=\\"cookie-banner-accept-analytics-cookies\\">
               Accept analytics cookies
             </button>
           
@@ -93,7 +93,7 @@ exports[`views/macros/cookie-banner should allow setting a custom serviceName 1`
       <div class=\\"govuk-button-group\\">
         
           
-            <button value=\\"accept\\" type=\\"submit\\" name=\\"cookie_banner\\" class=\\"govuk-button\\" data-module=\\"govuk-button\\" data-cy=\\"cookie-banner-accept-analytics-cookies\\">
+            <button value=\\"accept\\" type=\\"submit\\" name=\\"cookie_banner\\" class=\\"govuk-button govuk-!-display-none\\" data-module=\\"govuk-button\\" data-cy=\\"cookie-banner-accept-analytics-cookies\\">
               Accept analytics cookies
             </button>
           
@@ -152,7 +152,7 @@ exports[`views/macros/cookie-banner should allow setting all custom attributes 1
       <div class=\\"govuk-button-group\\">
         
           
-            <button value=\\"accept\\" type=\\"submit\\" name=\\"cookie_banner\\" class=\\"govuk-button\\" data-module=\\"govuk-button\\" data-cy=\\"cookie-banner-accept-analytics-cookies\\">
+            <button value=\\"accept\\" type=\\"submit\\" name=\\"cookie_banner\\" class=\\"govuk-button govuk-!-display-none\\" data-module=\\"govuk-button\\" data-cy=\\"cookie-banner-accept-analytics-cookies\\">
               Accept analytics cookies
             </button>
           
@@ -211,7 +211,7 @@ exports[`views/macros/cookie-banner should have sensible default attributes 1`] 
       <div class=\\"govuk-button-group\\">
         
           
-            <button value=\\"accept\\" type=\\"submit\\" name=\\"cookie_banner\\" class=\\"govuk-button\\" data-module=\\"govuk-button\\" data-cy=\\"cookie-banner-accept-analytics-cookies\\">
+            <button value=\\"accept\\" type=\\"submit\\" name=\\"cookie_banner\\" class=\\"govuk-button govuk-!-display-none\\" data-module=\\"govuk-button\\" data-cy=\\"cookie-banner-accept-analytics-cookies\\">
               Accept analytics cookies
             </button>
           

@@ -24,3 +24,8 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add('confirmCookiePolicy', require('./confirmCookiePolicy'));
+
+Cypress.Commands.add(
+  'viewCookiePageUsingCookieConsentBannerLink',
+  require('./viewCookiePageUsingCookieConsentBannerLink'),
+);

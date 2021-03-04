@@ -1,4 +1,3 @@
-@wip
 Feature: Cookie consent bar - no JS
 
   As a PO on the appeals service
@@ -11,8 +10,8 @@ Feature: Cookie consent bar - no JS
     When the user navigates through the service
     Then the cookie banner remains visible
 
-#  @as-98 @as-98-2
-#  Scenario: Cookie banner links to cookie settings page
-#    Given a user visits the site with JavaScript disabled
-#    When the user views the cookie preferences page
-#    Then the cookies page is presented
+  @as-98 @as-98-2
+  Scenario: Cookie banner links to cookie settings page
+    Given a user visits the site with JavaScript disabled
+    When the user views the cookie preferences page
+    Then the cookies page is presented
