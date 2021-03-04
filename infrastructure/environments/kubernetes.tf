@@ -9,6 +9,14 @@ resource "azurerm_resource_group" "k8s" {
   }
 }
 
+module "k8s_rg_roles" {
+  source = "../modules/resource-group-aad-roles"
+
+  admin_group_id = azuread_group.admin.id
+  resource_group_id = azurerm_resource_group.k8s.id
+  user_group_id = azuread_group.user.id
+}
+
 resource "random_integer" "k8s" {
   max = 9999
   min = 1000
