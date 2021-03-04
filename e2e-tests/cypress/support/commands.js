@@ -838,3 +838,12 @@ Cypress.Commands.add(
   require('./eligibility-householder/confirmDetailsDisplayed'),
 );
 
+Cypress.Commands.add(
+  'guidancePageNavigation',
+  require('./guidance-pages/guidancePageNavigation'),
+);
+
+Cypress.Commands.add(
+  'guidancePageSelectContentList',
+  require('./guidance-pages/guidancePageSelectContentList'),
+);
