@@ -1,5 +1,8 @@
 {% extends "layouts/main.njk" %}
 
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
 {% block pageTitle %}
   Cookie Preferences
 {% endblock %}
@@ -36,25 +39,34 @@
               </span>
             </div>
 
-            <div class="govuk-radios">
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="optional-cookies" name="optional-cookies" type="radio" value="on">
-                  <label class="govuk-label govuk-radios__label" for="optional-cookies">
-                    On
-                  </label>
-              </div>
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="optional-cookies-2" name="optional-cookies" type="radio" value="off">
-                  <label class="govuk-label govuk-radios__label" for="optional-cookies-2">
-                    Off
-                  </label>
-              </div>
-            </div>
+            {{ govukRadios({
+              idPrefix: "usage-cookies",
+              name: "usage-cookies",
+              items: [
+                {
+                  value: "on",
+                  text: "On",
+                  attributes: { "data-cy":"usage-cookies-yes"},
+                  checked: cookies.usage == true
+                },
+                {
+                  value: "off",
+                  text: "Off",
+                  attributes: { "data-cy":"usage-cookies-no"},
+                  checked: cookies.usage == false
+                }
+              ]
+            }) }}
+
           </fieldset>
         </div>
 
-        <input type="hidden" name="cookieBanner" value="off">
-        <button type="submit" class="govuk-button">Save changes</button>
+        {{ govukButton({
+          text: "Save changes",
+          type: "submit",
+          attributes: { "data-cy":"button-save-changes"}
+        }) }}
+
       </form>
     </div>
   </div>
