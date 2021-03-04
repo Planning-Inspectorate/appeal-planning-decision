@@ -3,7 +3,7 @@ const cookiePreferencesController = require('../controllers/cookies/cookie-prefe
 
 const router = express.Router();
 
-/* GET home page. */
 router.get('/', cookiePreferencesController.getCookiePreferences);
+router.post('/', cookiePreferencesController.postCookiePreferences);
 
 module.exports = router;
