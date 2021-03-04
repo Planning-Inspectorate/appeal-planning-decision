@@ -5,3 +5,4 @@ require('./cookies/cookies-commands');
 require('./commands/navigation-commands');
 require('./commands/eligibility-commands');
 require('./commands/submission-commands');
+require('./commands/guidance-page-commands');
