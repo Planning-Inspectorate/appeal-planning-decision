@@ -60,4 +60,3 @@ subjects:
   - kind: Group
     namespace: $RBAC_NAMESPACE
     name: $GROUP_USER_ID
-
