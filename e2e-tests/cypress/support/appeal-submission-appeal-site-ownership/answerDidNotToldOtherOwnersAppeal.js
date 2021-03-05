@@ -1,5 +1,4 @@
 module.exports = () => {
-  cy.get('#have-other-owners-been-told-no').click();
-
+  cy.get('input[data-cy="answer-no"]').check();
   cy.wait(Cypress.env('demoDelay'));
 };

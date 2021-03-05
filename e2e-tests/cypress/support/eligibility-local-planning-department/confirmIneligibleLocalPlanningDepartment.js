@@ -8,7 +8,7 @@ module.exports = () => {
       }
 
       cy.goToPlanningDepartmentPage();
-      cy.get('input#planning-department-label').should('have.value', firstIneligibleLocalPlanningDepartment);
+      cy.get('input#local-planning-department').should('have.value', firstIneligibleLocalPlanningDepartment);
       cy.wait(Cypress.env('demoDelay'));
 
       cy.goToCheckYourAnswersPage();
