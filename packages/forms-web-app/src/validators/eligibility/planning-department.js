@@ -17,7 +17,7 @@ const validateDepartment = async (department) => {
 
 const rules = () => {
   return [
-    body('local-planning-department')
+    body('local-planning-department') // TODO: local-planning-department-label
       .notEmpty()
       .withMessage('Select the local planning department from the list')
       .bail()
