@@ -45,7 +45,7 @@ spec:
 
       horizon-householder-appeal-publish:
         image: pinscommonukscontainers3887default.azurecr.io/horizon-householder-appeal-publish
-        tag: 1.0.0
+        tag: 1.0.1
         envvars:
           APPEALS_SERVICE_URL: http://app.app-preprod.svc.cluster.local:3000
           GATEWAY_URL: http://gateway.openfaas.svc.cluster.local:8080
