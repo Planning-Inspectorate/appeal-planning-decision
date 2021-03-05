@@ -1,6 +1,8 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { matchWhatWeCanFrom, STANDARD_APPEAL } from '../common/standard-appeal';
 
+const queueValidationEnabled = Cypress.env('QUEUE_VALIDATION_ENABLED');
+
 Given('a prospective appellant has provided appeal information', () => {
   cy.provideCompleteAppeal({
     ...STANDARD_APPEAL,
@@ -50,22 +52,27 @@ Then('a case is created for the appellant', () => {
   // /appellant-submission/confirmation
   cy.confirmAppealSubmitted();
 
-  cy.task('getLastFromQueue').then((actualMessage) => {
-    const hardCodedExpectations = require('./ucd-831-ac1.json');
-    const reasonableExpectation = matchWhatWeCanFrom(hardCodedExpectations);
+  if (queueValidationEnabled) {
+    cy.task('getLastFromQueue').then((actualMessage) => {
+      const hardCodedExpectations = require('./ucd-831-ac1.json');
+      const reasonableExpectation = matchWhatWeCanFrom(hardCodedExpectations);
 
-    expect(actualMessage).toEqual(reasonableExpectation);
-  });
+      expect(actualMessage).toEqual(reasonableExpectation);
+    });
+  }
 });
 
 Then('a case is created for the appellant and the agent', () => {
   // /appellant-submission/confirmation
   cy.confirmAppealSubmitted();
 
-  cy.task('getLastFromQueue').then((actualMessage) => {
-    const hardCodedExpectations = require('./as-102-ac1.json');
-    const reasonableExpectation = matchWhatWeCanFrom(hardCodedExpectations);
+  if (queueValidationEnabled) {
+    cy.task('getLastFromQueue').then((actualMessage) => {
+      const hardCodedExpectations = require('./as-102-ac1.json');
+      const reasonableExpectation = matchWhatWeCanFrom(hardCodedExpectations);
 
-    expect(actualMessage).toEqual(reasonableExpectation);
-  });
+      expect(actualMessage).toEqual(reasonableExpectation);
+    });
+  }
+
 });
