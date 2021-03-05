@@ -6,7 +6,7 @@ module.exports = {
     startingPoint:
       process.env.SERVER_LIMITED_ROUTING_ENABLED === 'true'
         ? '/eligibility/decision-date'
-        : '/eligibility/householder-planning-permission',
+        : '/before-you-appeal',
     timeout: Number(process.env.APPEALS_SERVICE_API_TIMEOUT || 10000),
     url: process.env.APPEALS_SERVICE_API_URL,
   },

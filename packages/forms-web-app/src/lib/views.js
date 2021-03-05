@@ -40,6 +40,10 @@ const VIEW = {
     CONFIRMATION: 'appellant-submission/confirmation',
     SUBMISSION_INFORMATION: 'appellant-submission/submission-information',
   },
+
+  GUIDANCE_PAGES: {
+    BEFORE_APPEAL: 'guidance-pages/before-appeal',
+  },
 };
 
 module.exports = {

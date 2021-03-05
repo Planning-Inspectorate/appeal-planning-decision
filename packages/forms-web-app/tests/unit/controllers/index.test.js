@@ -21,7 +21,7 @@ describe('controllers/index', () => {
       const indexController = require('../../../src/controllers');
       indexController.getIndex(req, res);
 
-      expect(res.redirect).toHaveBeenCalledWith('/eligibility/householder-planning-permission');
+      expect(res.redirect).toHaveBeenCalledWith('/before-you-appeal');
     });
 
     it('should redirect to the expected route - when process.env.SERVER_LIMITED_ROUTING_ENABLED is true - ACP mode', () => {
@@ -41,7 +41,7 @@ describe('controllers/index', () => {
       const indexController = require('../../../src/controllers');
       indexController.getIndex(req, res);
 
-      expect(res.redirect).toHaveBeenCalledWith('/eligibility/householder-planning-permission');
+      expect(res.redirect).toHaveBeenCalledWith('/before-you-appeal');
     });
   });
 });
