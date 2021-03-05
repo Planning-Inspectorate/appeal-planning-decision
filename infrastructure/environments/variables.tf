@@ -217,6 +217,42 @@ variable "mongodb_primary_zone_redundancy" {
 }
 
 /*
+  Monitoring
+ */
+variable "monitoring_ping_locations" {
+  description = "A list where to run the tests from - min of 5 location recommended. List available at https://docs.microsoft.com/en-us/azure/azure-monitor/app/monitor-web-app-availability#location-population-tags"
+  type = list(string)
+  default = [
+    "emea-ru-msa-edge", // UK South
+    "emea-se-sto-edge", // UK West
+    "emea-gb-db3-azr", // North Europe
+    "emea-nl-ams-azr", // West Europe
+    "us-va-ash-azr" // US East
+  ]
+}
+
+variable "monitoring_ping_frequency" {
+  description = "Interval in seconds between test runs for this ping test"
+  type = number
+  default = 300
+}
+
+variable "monitoring_ping_urls" {
+  description = "URLs to ping in the monitoring"
+  type = list(object({
+    name = string
+    url = string
+  }))
+  default = []
+}
+
+variable "monitoring_alert_email" {
+  description = "Email to send alerts to"
+  type = string
+  default = null
+}
+
+/*
   Network
  */
 variable "network_subnet_range" {
