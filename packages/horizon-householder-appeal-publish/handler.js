@@ -307,6 +307,10 @@ module.exports = async (event, context) => {
         value: body.appeal.appealSiteSection.siteAddress.postcode,
       },
       {
+        key: 'Case Site:Inspector Need To Enter Site',
+        value: !body.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
+      },
+      {
         key: 'Case Site:Site Viewable From Road',
         value: body.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
       },

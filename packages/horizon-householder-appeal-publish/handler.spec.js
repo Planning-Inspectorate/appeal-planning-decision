@@ -218,6 +218,16 @@ describe('handler', () => {
                 {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
+                    'a:Name': 'Case Site:Inspector Need To Enter Site',
+                    'a:Value': event.body.appeal.appealSiteSection.siteAccess
+                      .canInspectorSeeWholeSiteFromPublicRoad
+                      ? 'No'
+                      : 'Yes',
+                  },
+                },
+                {
+                  'a:AttributeValue': {
+                    '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case Site:Site Viewable From Road',
                     'a:Value': event.body.appeal.appealSiteSection.siteAccess
                       .canInspectorSeeWholeSiteFromPublicRoad
@@ -507,6 +517,16 @@ describe('handler', () => {
                     '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case Site:Site Address Postcode',
                     'a:Value': event.body.appeal.appealSiteSection.siteAddress.postcode,
+                  },
+                },
+                {
+                  'a:AttributeValue': {
+                    '__i:type': 'a:StringAttributeValue',
+                    'a:Name': 'Case Site:Inspector Need To Enter Site',
+                    'a:Value': event.body.appeal.appealSiteSection.siteAccess
+                      .canInspectorSeeWholeSiteFromPublicRoad
+                      ? 'No'
+                      : 'Yes',
                   },
                 },
                 {
@@ -841,6 +861,16 @@ describe('handler', () => {
                 {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
+                    'a:Name': 'Case Site:Inspector Need To Enter Site',
+                    'a:Value': event.body.appeal.appealSiteSection.siteAccess
+                      .canInspectorSeeWholeSiteFromPublicRoad
+                      ? 'No'
+                      : 'Yes',
+                  },
+                },
+                {
+                  'a:AttributeValue': {
+                    '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case Site:Site Viewable From Road',
                     'a:Value': event.body.appeal.appealSiteSection.siteAccess
                       .canInspectorSeeWholeSiteFromPublicRoad
@@ -1130,6 +1160,16 @@ describe('handler', () => {
                     '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case Site:Site Address Postcode',
                     'a:Value': event.body.appeal.appealSiteSection.siteAddress.postcode,
+                  },
+                },
+                {
+                  'a:AttributeValue': {
+                    '__i:type': 'a:StringAttributeValue',
+                    'a:Name': 'Case Site:Inspector Need To Enter Site',
+                    'a:Value': event.body.appeal.appealSiteSection.siteAccess
+                      .canInspectorSeeWholeSiteFromPublicRoad
+                      ? 'No'
+                      : 'Yes',
                   },
                 },
                 {
@@ -1482,6 +1522,16 @@ describe('handler', () => {
                 {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
+                    'a:Name': 'Case Site:Inspector Need To Enter Site',
+                    'a:Value': event.body.appeal.appealSiteSection.siteAccess
+                      .canInspectorSeeWholeSiteFromPublicRoad
+                      ? 'No'
+                      : 'Yes',
+                  },
+                },
+                {
+                  'a:AttributeValue': {
+                    '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case Site:Site Viewable From Road',
                     'a:Value': event.body.appeal.appealSiteSection.siteAccess
                       .canInspectorSeeWholeSiteFromPublicRoad
@@ -1789,6 +1839,16 @@ describe('handler', () => {
                     '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case Site:Site Address Postcode',
                     'a:Value': event.body.appeal.appealSiteSection.siteAddress.postcode,
+                  },
+                },
+                {
+                  'a:AttributeValue': {
+                    '__i:type': 'a:StringAttributeValue',
+                    'a:Name': 'Case Site:Inspector Need To Enter Site',
+                    'a:Value': event.body.appeal.appealSiteSection.siteAccess
+                      .canInspectorSeeWholeSiteFromPublicRoad
+                      ? 'No'
+                      : 'Yes',
                   },
                 },
                 {
@@ -2105,6 +2165,16 @@ describe('handler', () => {
                     '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case Site:Site Address Postcode',
                     'a:Value': event.body.appeal.appealSiteSection.siteAddress.postcode,
+                  },
+                },
+                {
+                  'a:AttributeValue': {
+                    '__i:type': 'a:StringAttributeValue',
+                    'a:Name': 'Case Site:Inspector Need To Enter Site',
+                    'a:Value': event.body.appeal.appealSiteSection.siteAccess
+                      .canInspectorSeeWholeSiteFromPublicRoad
+                      ? 'No'
+                      : 'Yes',
                   },
                 },
                 {
@@ -2534,6 +2604,16 @@ describe('handler', () => {
                     '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case Site:Site Address Postcode',
                     'a:Value': event.body.appeal.appealSiteSection.siteAddress.postcode,
+                  },
+                },
+                {
+                  'a:AttributeValue': {
+                    '__i:type': 'a:StringAttributeValue',
+                    'a:Name': 'Case Site:Inspector Need To Enter Site',
+                    'a:Value': event.body.appeal.appealSiteSection.siteAccess
+                      .canInspectorSeeWholeSiteFromPublicRoad
+                      ? 'No'
+                      : 'Yes',
                   },
                 },
                 {
