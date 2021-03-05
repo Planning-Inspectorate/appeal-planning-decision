@@ -279,8 +279,8 @@ module.exports = async (event, context) => {
         value: new Date(body.appeal.decisionDate),
       },
       {
-        key: 'Case:Procedure',
-        value: 'Hearing',
+        key: 'Case:Procedure (Appellant)',
+        value: 'Written Representations',
       },
       {
         key: 'Planning Application:LPA Application Reference',
