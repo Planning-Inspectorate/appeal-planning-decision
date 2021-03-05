@@ -9,7 +9,7 @@ metadata:
     filter.fluxcd.io/appealReplyServiceApi: semver:~1.1.0
     filter.fluxcd.io/appealsServiceApi: semver:~1.3.0
     filter.fluxcd.io/documentServiceApi: semver:~1.0.0
-    filter.fluxcd.io/formsWebApp: semver:~1.18.0
+    filter.fluxcd.io/formsWebApp: semver:~1.22.0
     filter.fluxcd.io/lpaQuestionnaireWebApp: semver:~1.5.0
 spec:
   releaseName: app
