@@ -169,8 +169,8 @@ describe('handler', () => {
                 {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
-                    'a:Name': 'Case:Procedure',
-                    'a:Value': 'Hearing',
+                    'a:Name': 'Case:Procedure (Appellant)',
+                    'a:Value': 'Written Representations',
                   },
                 },
                 {
@@ -463,8 +463,8 @@ describe('handler', () => {
                 {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
-                    'a:Name': 'Case:Procedure',
-                    'a:Value': 'Hearing',
+                    'a:Name': 'Case:Procedure (Appellant)',
+                    'a:Value': 'Written Representations',
                   },
                 },
                 {
@@ -792,8 +792,8 @@ describe('handler', () => {
                 {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
-                    'a:Name': 'Case:Procedure',
-                    'a:Value': 'Hearing',
+                    'a:Name': 'Case:Procedure (Appellant)',
+                    'a:Value': 'Written Representations',
                   },
                 },
                 {
@@ -1086,8 +1086,8 @@ describe('handler', () => {
                 {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
-                    'a:Name': 'Case:Procedure',
-                    'a:Value': 'Hearing',
+                    'a:Name': 'Case:Procedure (Appellant)',
+                    'a:Value': 'Written Representations',
                   },
                 },
                 {
@@ -1433,8 +1433,8 @@ describe('handler', () => {
                 {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
-                    'a:Name': 'Case:Procedure',
-                    'a:Value': 'Hearing',
+                    'a:Name': 'Case:Procedure (Appellant)',
+                    'a:Value': 'Written Representations',
                   },
                 },
                 {
@@ -1745,8 +1745,8 @@ describe('handler', () => {
                 {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
-                    'a:Name': 'Case:Procedure',
-                    'a:Value': 'Hearing',
+                    'a:Name': 'Case:Procedure (Appellant)',
+                    'a:Value': 'Written Representations',
                   },
                 },
                 {
@@ -2061,8 +2061,8 @@ describe('handler', () => {
                 {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
-                    'a:Name': 'Case:Procedure',
-                    'a:Value': 'Hearing',
+                    'a:Name': 'Case:Procedure (Appellant)',
+                    'a:Value': 'Written Representations',
                   },
                 },
                 {
@@ -2490,8 +2490,8 @@ describe('handler', () => {
                 {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
-                    'a:Name': 'Case:Procedure',
-                    'a:Value': 'Hearing',
+                    'a:Name': 'Case:Procedure (Appellant)',
+                    'a:Value': 'Written Representations',
                   },
                 },
                 {
