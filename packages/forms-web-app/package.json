@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "prebuild": "rm -Rf ./dist",
-    "build": "npm run build:sass && npm run build:app",
+    "build": "webpack && npm run build:sass && npm run build:app",
     "build:app": "cp -Rf ./src ./dist",
     "build:sass": "node-sass src/sass/main.scss src/public/stylesheets/main.css --output-style compressed",
     "start": "node dist/server.js",
