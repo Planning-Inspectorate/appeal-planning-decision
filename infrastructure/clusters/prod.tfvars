@@ -11,3 +11,8 @@ mongodb_auto_failover = true
 mongodb_databases = []
 mongodb_failover_locations = []
 mongodb_multi_write_locations = true
+
+monitoring_ping_urls = [{
+  name = "Forms Web App",
+  url = "http://appeal-planning-decision.planninginspectorate.gov.uk"
+}]
