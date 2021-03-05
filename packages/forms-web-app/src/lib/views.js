@@ -41,6 +41,10 @@ const VIEW = {
     SUBMISSION: 'appellant-submission/submission',
     CONFIRMATION: 'appellant-submission/confirmation',
   },
+
+  GUIDANCE_PAGES: {
+    BEFORE_APPEAL: 'guidance-pages/before-appeal',
+  },
 };
 
 module.exports = {

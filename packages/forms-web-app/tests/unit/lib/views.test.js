@@ -45,6 +45,10 @@ describe('lib/views', () => {
         SUBMISSION: 'appellant-submission/submission',
         CONFIRMATION: 'appellant-submission/confirmation',
       },
+
+      GUIDANCE_PAGES: {
+        BEFORE_APPEAL: 'guidance-pages/before-appeal',
+      },
     });
   });
 });
