@@ -23,5 +23,6 @@ ENV write_timeout="15s"
 ENV read_timeout="15s"
 ENV DEBUG=openfaas
 ENV DEBUG_COLORS=false
+USER node
 HEALTHCHECK --interval=3s CMD [ -e /tmp/.lock ] || exit 1
 CMD ["fwatchdog"]
