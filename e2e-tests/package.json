@@ -11,7 +11,10 @@
     "test:e2e:smoke": "cypress run -e TAGS='not @wip and @smoketest' --config video=false,baseUrl=$BASEURL",
     "test:e2e:acp": "cypress run -e TAGS='not @wip' --config integrationFolder=cypress/integration-with-acp",
     "test:e2e:demo:acp": "cypress run --headed -b chrome -e TAGS='not @wip',demoDelay=1000 --config integrationFolder=cypress/integration-with-acp",
-    "test:e2e:smoke:acp": "cypress run -e TAGS='not @wip and @smoketest' --config video=false,baseUrl=$BASEURL,integrationFolder=cypress/integration-with-acp"
+    "test:e2e:smoke:acp": "cypress run -e TAGS='not @wip and @smoketest' --config video=false,baseUrl=$BASEURL,integrationFolder=cypress/integration-with-acp",
+
+    "test:e2e:horizon:script": "cypress run --headed -b chrome --env QUEUE_VALIDATION_ENABLED=false --spec='**/*horizon*.feature'"
+
   },
   "author": "",
   "license": "ISC",
