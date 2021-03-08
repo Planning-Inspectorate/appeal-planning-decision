@@ -1,0 +1,121 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "components/appeal-details/macro.njk" import appealDetails %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: backLink,
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
+{% block pageTitle %}
+  Development Plan Document or Neighbourhood Plan - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK
+{% endblock %}
+
+{% block content %}
+
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST" novalidate>
+        <span class="govuk-caption-l">
+          <span class="govuk-visually-hidden">Section. </span>
+          Optional supporting documents
+        </span>
+
+        {% set developmentPlanTextArea %}
+          {{ govukTextarea({
+            label: {
+              text: "Tell us about any substantive changes in the progress of the emerging plan, and their relevance to this appeal (if the plan may not be adopted before the Inspector issues their decision)."
+            },
+            idPrefix: "plan-changes-text",
+            name: "plan-changes-text",
+            attributes: {
+              'data-cy': 'plan-changes-text'
+            },
+            value: values['plan-changes-text'],
+            errorMessage: errors['plan-changes-text'] and {
+                text: errors['plan-changes-text'].msg,
+                attributes: {
+                  'data-cy': 'plan-changes-error'
+                }
+            }
+          }) }}
+        {% endset %}
+
+        {{ govukRadios({
+          idPrefix: "has-plan-submitted",
+          name: "has-plan-submitted",
+          fieldset: {
+            legend: {
+              text: "Development Plan Document or Neighbourhood Plan",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+                text: "Has any Development Plan Document or Neighbourhood Plan relevant to this appeal been submitted for examination (or in the case of a Neighbourhood Plan, been examined and is awaiting a referendum)?",
+                attributes: {
+                  'data-cy': 'appeal-reference-numbers-hint'
+                }
+              },
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              checked: true if values['has-plan-submitted'] === 'yes',
+              conditional: {
+                html: developmentPlanTextArea
+              },
+              attributes: {
+                "data-cy": "has-plan-submitted-yes"
+              }
+            },
+            {
+              value: "no",
+              checked: true if values['has-plan-submitted'] === 'no',
+              text: "No",
+              attributes: {
+                "data-cy": "has-plan-submitted-no"
+              }
+            }
+          ],
+          errorMessage: errors['has-plan-submitted'] and {
+            text: errors['has-plan-submitted'].msg,
+            attributes: {
+              'data-cy': 'has-plan-submitted-error'
+            }
+          }
+        }) }}
+
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+      </form>
+    </div>
+
+    {{
+      appealDetails({
+        appeal: appeal
+      })
+    }}
+  </div>
+{% endblock %}
