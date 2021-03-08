@@ -8,7 +8,7 @@ spec:
   chart:
     repository: https://openfaas.github.io/faas-netes/
     name: openfaas
-    version: ^7.1.2
+    version: 7.1.2
   values:
     basic_auth: false
     generateBasicAuth: false
