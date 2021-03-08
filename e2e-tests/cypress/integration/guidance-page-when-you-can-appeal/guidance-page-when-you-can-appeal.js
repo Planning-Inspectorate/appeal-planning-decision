@@ -5,7 +5,7 @@ Given('the appellant is on the when you can appeal page', () => {
 });
 
 Then('information about the stages of an appeal is provided', () => {
-  cy.userIsNavigatedToPage('/stage-of-an-appeal');
+  cy.userIsNavigatedToPage('/stages-of-an-appeal');
 });
 
 Then('information about before you appeal is provided', () => {

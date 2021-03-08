@@ -16,6 +16,6 @@ Feature: Guidance Page - Before you Appeal
     Examples:
       | page | url |
       | "When you can appeal" | "/when-you-can-appeal" |
-      | "The stages of an appeal" | "/stage-of-an-appeal" |
+      | "The stages of an appeal" | "/stages-of-an-appeal" |
       | "After you appeal" | "/after-you-appeal" |
       | "Start your appeal" | "/start-your-appeal" |
