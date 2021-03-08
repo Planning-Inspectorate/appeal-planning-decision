@@ -43,7 +43,7 @@ When(
   },
 );
 
-When(`an answer is not provided'`, () => {
+When(`an answer is not provided`, () => {
   cy.validateDevelopmentPlanPageHeading();
   cy.clickSaveAndContinue();
 });
