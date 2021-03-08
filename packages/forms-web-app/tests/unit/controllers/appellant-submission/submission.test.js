@@ -63,6 +63,8 @@ describe('controllers/appellant-submission/submission', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
 
+      expect(storePdfAppeal).toHaveBeenCalledWith(appeal);
+
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
         state: 'SUBMITTED',
@@ -89,10 +91,9 @@ describe('controllers/appellant-submission/submission', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        ...appeal,
-        state: 'SUBMITTED',
-      });
+      expect(createOrUpdateAppeal).not.toHaveBeenCalled();
+
+      expect(storePdfAppeal).toHaveBeenCalledWith(appeal);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SUBMISSION, {
         errors: {},
