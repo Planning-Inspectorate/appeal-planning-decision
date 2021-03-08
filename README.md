@@ -326,16 +326,12 @@ You will need to use the `dev` environment for Horizon work as Horizon is behind
 ```shell
 # Port forward to the OpenFaaS gateway
 kubectl port-forward -n openfaas svc/gateway 8080:8080
-
-# Get the gateway password
-echo $(kubectl -n openfaas get secret basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode)
-
-# Login with faas-cli
-faas-cli login -p $(echo $(kubectl -n openfaas get secret basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode))
 ```
 
-Now you can load up the [OpenFaaS Gateway](http://localhost:8080) using the username `admin` and the password retrieved
-above.
+Now you can load up the [OpenFaaS Gateway](http://localhost:8080). In the `dev` environment, there is no password on the
+OpenFaaS gateway - in other environments, you will need to retrieve the password from the Kubernetes secret using the
+command `echo $(kubectl -n openfaas get secret basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode)`.
+You may then log in to the gateway using that username `admin` and the password above.
 
 To make a change you will need to update the function image.
 
