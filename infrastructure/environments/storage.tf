@@ -31,6 +31,8 @@ resource "azurerm_storage_account" "documents" {
   location = azurerm_resource_group.storage.location
   resource_group_name = azurerm_resource_group.storage.name
 
+  allow_blob_public_access = var.documents_allow_team_access
+
   blob_properties {
     delete_retention_policy {
       days = var.documents_soft_delete_retention
@@ -42,7 +44,7 @@ resource "azurerm_storage_account_network_rules" "documents" {
   resource_group_name = azurerm_resource_group.storage.name
   storage_account_name = azurerm_storage_account.documents.name
 
-  default_action = "Deny"
+  default_action = var.documents_allow_team_access ? "Allow" : "Deny"
   bypass = [
     "Logging",
     "Metrics"
@@ -53,4 +55,12 @@ resource "azurerm_storage_account_network_rules" "documents" {
   virtual_network_subnet_ids = [
     azurerm_subnet.network.id
   ]
+}
+
+resource "azurerm_role_assignment" "data_reader" {
+  count = var.documents_allow_team_access ? 1 : 0
+
+  principal_id = azuread_group.user.id
+  scope = azurerm_resource_group.storage.id
+  role_definition_name = "Reader and Data Access"
 }
