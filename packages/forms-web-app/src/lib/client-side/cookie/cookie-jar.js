@@ -3,15 +3,20 @@
 // https://www.quirksmode.org/js/cookies.html
 
 const createCookie = (document, name, value, days = 36500) => {
-  // @TODO: secure:
   let expires = '';
   if (typeof days === 'number') {
     const date = new Date();
     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
     expires = `; expires=${date.toUTCString()}`;
   }
+  let secure = '';
+  // eslint-disable-next-line no-unused-vars
+  /* global process.env.NODE_ENV */
+  if (process.env.NODE_ENV === 'production') {
+    secure = '; secure';
+  }
   // eslint-disable-next-line no-param-reassign
-  document.cookie = `${name}=${value}${expires}; path=/`;
+  document.cookie = `${name}=${value}${expires}${secure}; path=/`;
 };
 
 const readCookie = (document, name) => {

@@ -8,6 +8,9 @@ const {
   readCookie,
   eraseCookie,
 } = require('../../../../../src/lib/client-side/cookie/cookie-jar');
+const config = require('../../../../../src/config');
+
+jest.mock('../../../../../src/config');
 
 describe('lib/client-side/cookie/cookie-jar', () => {
   let document;
@@ -15,11 +18,19 @@ describe('lib/client-side/cookie/cookie-jar', () => {
   const FIXED_SYSTEM_TIME = '2020-11-18T00:00:00Z';
   const fakeName = 'some_cookie_name';
   const fakeValue = 'some fake value';
+  const OLD_ENV = process.env;
 
   beforeEach(() => {
+    jest.resetModules();
+    jest.resetAllMocks();
+
     document = {
       cookie: '',
     };
+
+    process.env = { ...OLD_ENV, NODE_ENV: 'test' };
+
+    config.isProduction = false;
 
     // https://github.com/facebook/jest/issues/2234#issuecomment-730037781
     jest.useFakeTimers('modern');
@@ -28,6 +39,7 @@ describe('lib/client-side/cookie/cookie-jar', () => {
 
   afterEach(() => {
     jest.useRealTimers();
+    process.env = OLD_ENV;
   });
 
   describe('createCookie', () => {
@@ -67,6 +79,14 @@ describe('lib/client-side/cookie/cookie-jar', () => {
       createCookie(document, fakeName, '', 'some string?');
 
       expect(document.cookie).toEqual(`${fakeName}=; path=/`);
+    });
+
+    test('secure cookies are implicitly set if in the production environment', () => {
+      process.env = { ...OLD_ENV, NODE_ENV: 'production' };
+
+      createCookie(document, fakeName, '', 'some string?');
+
+      expect(document.cookie).toEqual(`${fakeName}=; secure; path=/`);
     });
   });
 

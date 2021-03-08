@@ -48,6 +48,7 @@ module.exports = {
     tempFileDir: process.env.FILE_UPLOAD_TMP_PATH,
     useTempFiles: process.env.FILE_UPLOAD_USE_TEMP_FILES === 'true',
   },
+  isProduction: process.env.NODE_ENV === 'production',
   logger: {
     level: process.env.LOGGER_LEVEL || 'info',
     redact: ['opts.body', 'config.db.session.uri', 'config.server.sessionSecret'],
