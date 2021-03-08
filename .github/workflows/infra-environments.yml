@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - master
+      - feature/remove-openfaas-secret-access
     paths:
       - infrastructure/clusters/**/*
       - infrastructure/environments/**/*
@@ -37,12 +38,8 @@ jobs:
       max-parallel: 1
       matrix:
         include:
-          - branch: refs/heads/master
-            environment: dev
-          - branch: refs/heads/master
-            environment: preprod
-          - branch: refs/heads/master
-            environment: prod
+          - branch: refs/pull/656/merge
+            environment: simon
     steps:
       - uses: actions/checkout@v2
         if: github.ref == matrix.branch
@@ -127,13 +124,6 @@ jobs:
         if: github.ref == matrix.branch
         run: terraform apply tfplan
 
-      - name: Lock resources
-        if: github.ref == matrix.branch && always()
-        run: bash ../scripts/lockResourceGroups.sh
-          lock
-          "$(terraform workspace show)"
-          "$(terraform output -json app-name | jq -r .)"
-
       - name: Get terraform output
         if: github.ref == matrix.branch
         id: tf_output
@@ -178,7 +168,7 @@ jobs:
           EMAIL_ADDRESS: ${{ secrets.DEVOPS_EMAIL_ADDRESS }}
           GROUP_ADMIN_ID: ${{ steps.tf_output.outputs.group_admin_id }}
           GROUP_USER_ID: ${{ steps.tf_output.outputs.group_user_id }}
-          RELEASE_BRANCH: master
+          RELEASE_BRANCH: feature/remove-openfaas-secret-access
           REPO_API_URL: https://api.github.com
           REPO_DOMAIN: github.com
           REPO_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
