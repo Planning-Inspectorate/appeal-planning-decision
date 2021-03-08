@@ -22,9 +22,10 @@ exports.postSubmission = async (req, res) => {
   if (body['appellant-confirmation'] === 'i-agree') {
     try {
       const { appeal } = req.session;
+      await storePdfAppeal(appeal);
+
       appeal.state = 'SUBMITTED';
       req.session.appeal = await createOrUpdateAppeal(appeal);
-      await storePdfAppeal(appeal);
     } catch (e) {
       req.log.error(e);
       res.render(VIEW.APPELLANT_SUBMISSION.SUBMISSION, {
