@@ -47,6 +47,7 @@ describe('lib/views', () => {
 
       GUIDANCE_PAGES: {
         BEFORE_APPEAL: 'guidance-pages/before-appeal',
+        WHEN_APPEAL: 'guidance-pages/when-appeal',
       },
     });
   });
