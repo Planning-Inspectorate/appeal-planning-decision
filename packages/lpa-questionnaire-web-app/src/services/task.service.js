@@ -104,7 +104,7 @@ const SECTIONS = [
       },
       {
         taskId: 'developmentOrNeighbourhood',
-        href: '/placeholder',
+        href: '/development-plan',
         rule: statusTemp,
       },
     ],
