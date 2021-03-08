@@ -12,7 +12,12 @@
       {% if errors %}
         {{ govukErrorSummary({
           titleText: "There is a problem",
-          errorList: [errorSummary[0]]
+          errorList: errorSummary and [
+            {
+              text: errorSummary[0].text,
+              href: "#decision-date-day" if errorSummary[0].href === "#decision-date" else errorSummary[0].href
+            }
+          ]
         }) }}
       {% endif %}
 
@@ -33,7 +38,9 @@
           hint: {
             text: "For example, 20 04 2020"
           },
-          errorMessage: errors['decision-date'].msg or errors['decision-date-day'].msg or errors['decision-date-month'].msg or errors['decision-date-year'].msg,
+          errorMessage: errors and {
+            text: errors['decision-date'].msg or errors['decision-date-day'].msg or errors['decision-date-month'].msg or errors['decision-date-year'].msg
+          },
           items: [
             {
               classes: "govuk-input--width-2 govuk-input--error" if errors['decision-date'] or errors['decision-date-day'] else "govuk-input--width-2",
