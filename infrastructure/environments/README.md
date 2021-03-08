@@ -22,6 +22,7 @@ No requirements.
 |------|-------------|------|---------|:--------:|
 | container\_registry\_name | Name of the container registry | `string` | n/a | yes |
 | container\_registry\_rg\_name | Name of the registry's resource group | `string` | n/a | yes |
+| documents\_allow\_team\_access | Allow team access to the storage data - this contravenes data protection and should only be enabled in non-production clusters | `bool` | `false` | no |
 | documents\_soft\_delete\_retention | Number of days to allow for data recovery | `number` | `30` | no |
 | horizon\_enabled | Enable the connection to the Horizon instance over a virtual network gateway | `bool` | `false` | no |
 | horizon\_gateway\_ip\_secret | Public IP address of the Horizon VPN gateway | `string` | `"horizon-gateway-ip"` | no |

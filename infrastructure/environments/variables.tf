@@ -263,6 +263,11 @@ variable "network_subnet_range" {
 /*
   Storage
  */
+variable "documents_allow_team_access" {
+  description = "Allow team access to the storage data - this contravenes data protection and should only be enabled in non-production clusters"
+  type = bool
+  default = false
+}
 
 variable "documents_soft_delete_retention" {
   description = "Number of days to allow for data recovery"
