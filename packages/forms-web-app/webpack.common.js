@@ -7,9 +7,4 @@ module.exports = {
     filename: 'main.js',
     path: path.resolve(__dirname, 'src', 'public', 'javascripts'),
   },
-  plugins: [
-    new webpack.EnvironmentPlugin({
-      GOOGLE_ANALYTICS_ID: 'test',
-    }),
-  ],
 };
