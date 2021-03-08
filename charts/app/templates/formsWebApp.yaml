@@ -66,7 +66,7 @@ spec:
             - name: FILE_UPLOAD_USE_TEMP_FILES
               value: {{ .Values.formsWebApp.config.upload.useTmpFiles | quote }}
             - name: HOST_URL
-              value: "http://{{ include "app.fullname" . }}:{{ .Values.formsWebApp.config.port }}"
+              value: "http://{{ include "app.fullname" . }}:{{ .Values.formsWebApp.service.port }}"
             - name: LOGGER_LEVEL
               value: {{ .Values.formsWebApp.config.logLevel }}
             - name: PORT
