@@ -11,6 +11,7 @@ jest.mock('../../../src/lib/logger', () => ({
   child: () => ({
     debug: mockLogger,
     error: mockLogger,
+    info: mockLogger,
     warn: mockLogger,
   }),
 }));
