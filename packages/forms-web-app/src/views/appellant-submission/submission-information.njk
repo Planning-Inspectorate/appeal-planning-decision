@@ -19,6 +19,10 @@
 {% block footer %}
 {% endblock %}
 
+{% block bodyStart %}
+{% endblock %}
+
+
 {% block bodyEnd %}
 {% endblock %}
 
@@ -44,11 +48,11 @@
         rows: [
           {
             key: {
-              text: "Local planning department"
-            },
+            text: "Local planning department"
+          },
             value: {
-              text: summaryField(appealLPD, { 'data-cy': "local-planning-department" })
-            }
+            text: summaryField(appealLPD, { 'data-cy': "local-planning-department" })
+          }
           }
         ]
       }) }}
@@ -60,11 +64,11 @@
         rows: [
           {
             key: {
-              text: "Was the original planning application made in your name?"
-            },
+            text: "Was the original planning application made in your name?"
+          },
             value: {
-              text: boolToSentenceCaseField(appeal.aboutYouSection.yourDetails.isOriginalApplicant, { 'data-cy': "who-are-you" })
-            }
+            text: boolToSentenceCaseField(appeal.aboutYouSection.yourDetails.isOriginalApplicant, { 'data-cy': "who-are-you" })
+          }
           },
           appeal.aboutYouSection.yourDetails.isOriginalApplicant === false and {
             key: {
@@ -76,19 +80,19 @@
           },
           {
             key: {
-              text: "Your name"
-            },
+            text: "Your name"
+          },
             value: {
-              text: summaryField(appeal.aboutYouSection.yourDetails.name, { 'data-cy': "appellant-name" })
-            }
+            text: summaryField(appeal.aboutYouSection.yourDetails.name, { 'data-cy': "appellant-name" })
+          }
           },
           {
             key: {
-              text: "Your email"
-            },
+            text: "Your email"
+          },
             value: {
-              text: summaryField(appeal.aboutYouSection.yourDetails.email, { 'data-cy': "appellant-email" })
-            }
+            text: summaryField(appeal.aboutYouSection.yourDetails.email, { 'data-cy': "appellant-email" })
+          }
           }
         ]
       }) }}
@@ -100,27 +104,27 @@
         rows: [
           {
             key: {
-              text: "Planning application number"
-            },
+            text: "Planning application number"
+          },
             value: {
-              text: summaryField(appeal.requiredDocumentsSection.applicationNumber, { 'data-cy': "application-number" })
-            }
+            text: summaryField(appeal.requiredDocumentsSection.applicationNumber, { 'data-cy': "application-number" })
+          }
           },
           {
             key: {
-              text: "Planning application form"
-            },
+            text: "Planning application form"
+          },
             value: {
-              text: summaryField(appeal.requiredDocumentsSection.originalApplication.uploadedFile.name, { 'data-cy': "upload-application" })
-            }
+            text: summaryField(appeal.requiredDocumentsSection.originalApplication.uploadedFile.name, { 'data-cy': "upload-application" })
+          }
           },
           {
             key: {
-              text: "Decision letter"
-            },
+            text: "Decision letter"
+          },
             value: {
-              text: summaryField(appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name, { 'data-cy': "upload-decision" })
-            }
+            text: summaryField(appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name, { 'data-cy': "upload-decision" })
+          }
           }
         ]
       }) }}
@@ -133,19 +137,19 @@
 
           {
             key: {
-              text: "Your appeal statement"
-            },
+            text: "Your appeal statement"
+          },
             value: {
-              text: summaryField(appeal.yourAppealSection.appealStatement.uploadedFile.name, { 'data-cy': "appeal-statement" })
-            }
+            text: summaryField(appeal.yourAppealSection.appealStatement.uploadedFile.name, { 'data-cy': "appeal-statement" })
+          }
           },
           {
             key: {
-              text: "Documents to support your appeal"
-            },
+            text: "Documents to support your appeal"
+          },
             value: {
-              text: multifileUploadToList(appeal.yourAppealSection.otherDocuments.uploadedFiles, { 'data-cy': "supporting-documents" })
-            }
+            text: multifileUploadToList(appeal.yourAppealSection.otherDocuments.uploadedFiles, { 'data-cy': "supporting-documents" })
+          }
           }
         ]
       }) }}
@@ -157,39 +161,39 @@
         rows: [
           {
             key: {
-              text: "Address of the appeal site"
-            },
+            text: "Address of the appeal site"
+          },
             value: {
-              text: summaryField(appeal | appealSiteAddressToArray | join("\n") | nl2br | safe, { 'data-cy': "site-location" })
-            }
+            text: summaryField(appeal | appealSiteAddressToArray | join("\n") | nl2br | safe, { 'data-cy': "site-location" })
+          }
           },
           {
             key: {
-              text: "Do you own the whole appeal site?"
-            },
+            text: "Do you own the whole appeal site?"
+          },
             value: {
-              text: boolToSentenceCaseField(appeal.appealSiteSection.siteOwnership.ownsWholeSite, { 'data-cy': "site-ownership" })
-            }
+            text: boolToSentenceCaseField(appeal.appealSiteSection.siteOwnership.ownsWholeSite, { 'data-cy': "site-ownership" })
+          }
           },
           {
             key: {
-              text: "Can the Inspector see the whole of the appeal site from a public road?"
-            },
+            text: "Can the Inspector see the whole of the appeal site from a public road?"
+          },
             value: {
-              text: boolToSentenceCaseField(appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad, { 'data-cy': "site-access" })
-                if appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad
-                else summaryField(appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted, { 'data-cy': "site-access" })
-            }
+            text: boolToSentenceCaseField(appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad, { 'data-cy': "site-access" })
+            if appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad
+            else summaryField(appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted, { 'data-cy': "site-access" })
+          }
           },
           {
             key: {
-              text: "Any health and safety issues?"
-            },
+            text: "Any health and safety issues?"
+          },
             value: {
-              text: summaryField(appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues, { 'data-cy': "site-access-safety" })
-                if appeal.appealSiteSection.healthAndSafety.hasIssues
-                else boolToSentenceCaseField(appeal.appealSiteSection.healthAndSafety.hasIssues, { 'data-cy': "site-access-safety" })
-            }
+            text: summaryField(appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues, { 'data-cy': "site-access-safety" })
+            if appeal.appealSiteSection.healthAndSafety.hasIssues
+            else boolToSentenceCaseField(appeal.appealSiteSection.healthAndSafety.hasIssues, { 'data-cy': "site-access-safety" })
+          }
           }
 
         ]
