@@ -1,4 +1,5 @@
 const oneGigabyte = 1024 * 1024 * 1024;
+const httpPort = Number(process.env.PORT || 3000);
 
 module.exports = {
   appeals: {
@@ -68,7 +69,8 @@ module.exports = {
       ],
       serviceUrl: 'https://acp.planninginspectorate.gov.uk',
     },
-    port: Number(process.env.PORT || 3000),
+    host: process.env.HOST_URL || `http://localhost:${httpPort}`, // This is used for the HTML generator
+    port: httpPort,
     sessionSecret: process.env.SESSION_KEY,
     useSecureSessionCookie: process.env.USE_SECURE_SESSION_COOKIES === 'true',
     googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID,
