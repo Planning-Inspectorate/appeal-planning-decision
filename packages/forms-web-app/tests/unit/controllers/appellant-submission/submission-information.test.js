@@ -69,6 +69,7 @@ describe('controllers/appellant-submission/submission-information', () => {
         appealLPD: fakeLpdName,
         appeal: req.session.appeal,
         css,
+        displayCookieBanner: false,
       });
     });
   });
