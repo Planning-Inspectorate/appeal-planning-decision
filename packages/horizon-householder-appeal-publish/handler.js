@@ -278,7 +278,7 @@ module.exports = async (event, context) => {
       },
       {
         key: 'Case:Source Indicator',
-        value: 'Portal',
+        value: 'Other',
       },
       {
         key: 'Case:Case Publish Flag',
