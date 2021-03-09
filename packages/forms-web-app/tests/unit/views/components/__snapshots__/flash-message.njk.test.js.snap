@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`views/components/flash-message should render multiple flash message 1`] = `
-"
+"<div data-cy=\\"flash-message-container\\">
 
 
   
@@ -9,7 +9,7 @@ exports[`views/components/flash-message should render multiple flash message 1`]
 
   <div class=\\"govuk-notification-banner\\" role=\\"region\\"
   aria-labelledby=\\"govuk-notification-banner-title\\"
-  data-module=\\"govuk-notification-banner\\">
+  data-module=\\"govuk-notification-banner\\" data-cy=\\"flash-message-anything-1\\">
   <div class=\\"govuk-notification-banner__header\\">
     <h2 class=\\"govuk-notification-banner__title\\" id=\\"govuk-notification-banner-title\\" >
       Important
@@ -35,7 +35,7 @@ exports[`views/components/flash-message should render multiple flash message 1`]
 
   <div class=\\"govuk-notification-banner govuk-notification-banner--success\\" role=\\"alert\\"
   aria-labelledby=\\"govuk-notification-banner-title\\"
-  data-module=\\"govuk-notification-banner\\">
+  data-module=\\"govuk-notification-banner\\" data-cy=\\"flash-message-success-2\\">
   <div class=\\"govuk-notification-banner__header\\">
     <h2 class=\\"govuk-notification-banner__title\\" id=\\"govuk-notification-banner-title\\" >
       Success
@@ -57,7 +57,7 @@ exports[`views/components/flash-message should render multiple flash message 1`]
 
   <div class=\\"govuk-notification-banner\\" role=\\"region\\"
   aria-labelledby=\\"govuk-notification-banner-title\\"
-  data-module=\\"govuk-notification-banner\\">
+  data-module=\\"govuk-notification-banner\\" data-cy=\\"flash-message-error-3\\">
   <div class=\\"govuk-notification-banner__header\\">
     <h2 class=\\"govuk-notification-banner__title\\" id=\\"govuk-notification-banner-title\\" >
       Important
@@ -71,13 +71,13 @@ exports[`views/components/flash-message should render multiple flash message 1`]
       return obj[val].apply(obj, args);
     }</div>
 </div>
-"
+</div>"
 `;
 
 exports[`views/components/flash-message should render nothing if flashMessages.length <= 0 1`] = `""`;
 
 exports[`views/components/flash-message should render one flash message 1`] = `
-"
+"<div data-cy=\\"flash-message-container\\">
 
 
   
@@ -85,7 +85,7 @@ exports[`views/components/flash-message should render one flash message 1`] = `
 
   <div class=\\"govuk-notification-banner\\" role=\\"region\\"
   aria-labelledby=\\"govuk-notification-banner-title\\"
-  data-module=\\"govuk-notification-banner\\">
+  data-module=\\"govuk-notification-banner\\" data-cy=\\"flash-message-anything-1\\">
   <div class=\\"govuk-notification-banner__header\\">
     <h2 class=\\"govuk-notification-banner__title\\" id=\\"govuk-notification-banner-title\\" >
       Important
@@ -99,5 +99,5 @@ exports[`views/components/flash-message should render one flash message 1`] = `
       return obj[val].apply(obj, args);
     }</div>
 </div>
-"
+</div>"
 `;
