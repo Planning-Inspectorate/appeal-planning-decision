@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`views/components/flash-message should render multiple flash message 1`] = `
+"
+
+
+  
+  
+
+  <div class=\\"govuk-notification-banner\\" role=\\"region\\"
+  aria-labelledby=\\"govuk-notification-banner-title\\"
+  data-module=\\"govuk-notification-banner\\">
+  <div class=\\"govuk-notification-banner__header\\">
+    <h2 class=\\"govuk-notification-banner__title\\" id=\\"govuk-notification-banner-title\\" >
+      Important
+    </h2>
+  </div>
+  <div class=\\"govuk-notification-banner__content\\">function () {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      return obj[val].apply(obj, args);
+    }</div>
+</div>
+
+  
+
+  
+
+
+
+  
+  
+
+  <div class=\\"govuk-notification-banner govuk-notification-banner--success\\" role=\\"alert\\"
+  aria-labelledby=\\"govuk-notification-banner-title\\"
+  data-module=\\"govuk-notification-banner\\">
+  <div class=\\"govuk-notification-banner__header\\">
+    <h2 class=\\"govuk-notification-banner__title\\" id=\\"govuk-notification-banner-title\\" >
+      Success
+    </h2>
+  </div>
+  <div class=\\"govuk-notification-banner__content\\">function () {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      return obj[val].apply(obj, args);
+    }</div>
+</div>
+
+
+
+  
+  
+
+  <div class=\\"govuk-notification-banner\\" role=\\"region\\"
+  aria-labelledby=\\"govuk-notification-banner-title\\"
+  data-module=\\"govuk-notification-banner\\">
+  <div class=\\"govuk-notification-banner__header\\">
+    <h2 class=\\"govuk-notification-banner__title\\" id=\\"govuk-notification-banner-title\\" >
+      Important
+    </h2>
+  </div>
+  <div class=\\"govuk-notification-banner__content\\">function () {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      return obj[val].apply(obj, args);
+    }</div>
+</div>
+"
+`;
+
+exports[`views/components/flash-message should render nothing if flashMessages.length <= 0 1`] = `""`;
+
+exports[`views/components/flash-message should render one flash message 1`] = `
+"
+
+
+  
+  
+
+  <div class=\\"govuk-notification-banner\\" role=\\"region\\"
+  aria-labelledby=\\"govuk-notification-banner-title\\"
+  data-module=\\"govuk-notification-banner\\">
+  <div class=\\"govuk-notification-banner__header\\">
+    <h2 class=\\"govuk-notification-banner__title\\" id=\\"govuk-notification-banner-title\\" >
+      Important
+    </h2>
+  </div>
+  <div class=\\"govuk-notification-banner__content\\">function () {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      return obj[val].apply(obj, args);
+    }</div>
+</div>
+"
+`;

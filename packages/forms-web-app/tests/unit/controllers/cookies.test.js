@@ -3,8 +3,10 @@ const cookieConfig = require('../../../src/lib/client-side/cookie/cookie-config'
 const appConfig = require('../../../src/config');
 const { VIEW } = require('../../../src/lib/views');
 const { mockReq, mockRes } = require('../mocks');
+const { addFlashMessage } = require('../../../src/lib/flash-message');
 
 jest.mock('../../../src/config');
+jest.mock('../../../src/lib/flash-message');
 
 describe('controllers/cookies', () => {
   const FIXED_SYSTEM_TIME = '2020-11-18T00:00:00Z';
@@ -156,6 +158,11 @@ describe('controllers/cookies', () => {
           req = setupReq();
 
           cookiesController.postCookies(req, res);
+
+          expect(addFlashMessage).toHaveBeenCalledWith(req, {
+            type: 'success',
+            template: `${VIEW.MESSAGES.COOKIES_UPDATED_SUCCESSFULLY}.njk`,
+          });
 
           expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.COOKIES}`);
 

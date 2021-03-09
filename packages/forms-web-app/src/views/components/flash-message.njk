@@ -1,0 +1,10 @@
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{%- if flashMessages.length > 0 -%}
+  {%- for flashMessage in flashMessages -%}
+    {{- govukNotificationBanner({
+      type: flashMessage.type,
+      html: flashMessage.template | render
+      }) -}}
+  {%- endfor -%}
+{%- endif -%}

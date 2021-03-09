@@ -16,6 +16,9 @@ const appealSiteAddressToArray = require('./lib/appeal-site-address-to-array');
 const fileSizeDisplayHelper = require('./lib/file-size-display-helper');
 const filterByKey = require('./lib/filter-by-key');
 const addKeyValuePair = require('./lib/add-key-value-pair');
+const renderTemplateFilter = require('./lib/render-template-filter');
+const flashMessageCleanupMiddleware = require('./middleware/flash-message-cleanup');
+const flashMessageToNunjucks = require('./middleware/flash-message-to-nunjucks');
 require('express-async-errors');
 
 const config = require('./config');
@@ -80,6 +83,7 @@ env.addFilter('date', dateFilter);
 env.addFilter('formatBytes', fileSizeDisplayHelper);
 env.addFilter('filterByKey', filterByKey);
 env.addFilter('addKeyValuePair', addKeyValuePair);
+env.addFilter('render', renderTemplateFilter(nunjucks));
 env.addGlobal('fileSizeLimits', config.fileUpload.pins);
 env.addGlobal('googleAnalyticsId', config.server.googleAnalyticsId);
 
@@ -105,6 +109,8 @@ app.use(
   express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'all.js'))
 );
 app.use(fileUpload(config.fileUpload));
+app.use(flashMessageCleanupMiddleware);
+app.use(flashMessageToNunjucks(env));
 
 // Routes
 app.use('/', routes);

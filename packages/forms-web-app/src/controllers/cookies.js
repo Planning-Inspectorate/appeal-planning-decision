@@ -1,6 +1,7 @@
 const { VIEW } = require('../lib/views');
 const appConfig = require('../config');
 const cookieConfig = require('../lib/client-side/cookie/cookie-config');
+const { addFlashMessage } = require('../lib/flash-message');
 
 const getExistingCookiePolicy = (req) => {
   let cookiePolicy = {};
@@ -52,6 +53,11 @@ exports.postCookies = (req, res) => {
     encode: String,
     expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
     secure: appConfig.isProduction,
+  });
+
+  addFlashMessage(req, {
+    type: 'success',
+    template: `${VIEW.MESSAGES.COOKIES_UPDATED_SUCCESSFULLY}.njk`,
   });
 
   res.redirect(`/${VIEW.COOKIES}`);

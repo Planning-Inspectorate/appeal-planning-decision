@@ -14,6 +14,7 @@ const mockReq = (appeal = emptyAppeal) => ({
 
 const mockRes = () => ({
   cookie: jest.fn(),
+  locals: jest.fn(),
   redirect: jest.fn(),
   render: jest.fn(),
   sendStatus: jest.fn(),
