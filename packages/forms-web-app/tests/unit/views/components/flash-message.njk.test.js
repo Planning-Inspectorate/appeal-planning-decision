@@ -7,7 +7,7 @@ describe('views/components/flash-message', () => {
 
   beforeEach(() => {
     flashMessage1 = {
-      type: 'a message type',
+      type: 'anything',
       html: 'a/path/to/a/template.njk',
     };
     flashMessage2 = {

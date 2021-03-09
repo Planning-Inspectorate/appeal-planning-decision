@@ -1,6 +1,7 @@
 const { VIEW } = require('../lib/views');
 const appConfig = require('../config');
 const cookieConfig = require('../lib/client-side/cookie/cookie-config');
+const getPreviousPagePath = require('../lib/get-previous-page-path');
 const { addFlashMessage } = require('../lib/flash-message');
 
 const getExistingCookiePolicy = (req) => {
@@ -22,6 +23,7 @@ exports.getCookies = (req, res) => {
   res.render(VIEW.COOKIES, {
     cookiePolicy: getExistingCookiePolicy(req),
     displayCookieBanner: false,
+    previousPagePath: getPreviousPagePath(req),
   });
 };
 
@@ -57,7 +59,12 @@ exports.postCookies = (req, res) => {
 
   addFlashMessage(req, {
     type: 'success',
-    template: `${VIEW.MESSAGES.COOKIES_UPDATED_SUCCESSFULLY}.njk`,
+    template: {
+      path: `${VIEW.MESSAGES.COOKIES_UPDATED_SUCCESSFULLY}.njk`,
+      vars: {
+        previousPagePath: body.previous_page_path || '/',
+      },
+    },
   });
 
   res.redirect(`/${VIEW.COOKIES}`);
