@@ -26,6 +26,12 @@ add_registry_secret() {
   done
 }
 
+configure_monitoring() {
+  echo "Configuring Monitoring"
+
+  kubectl apply -f "${DIR}/../k8s/monitoring/configMap.yaml"
+}
+
 configure_rbac() {
   echo "Configuring RBAC"
 
@@ -245,3 +251,4 @@ install_nginx_ingress
 install_cert_manager
 install_gitops
 configure_rbac
+configure_monitoring
