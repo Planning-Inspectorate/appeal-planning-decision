@@ -48,7 +48,7 @@ exports.postCookies = (req, res) => {
 
   res.cookie(cookieConfig.COOKIE_POLICY_KEY, JSON.stringify(updatedCookiePolicy), {
     encode: String,
-    expires: new Date(Date.now() + 36500 * 24 * 60 * 60 * 1000),
+    expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
     secure: appConfig.isProduction,
   });
 
