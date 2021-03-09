@@ -152,7 +152,7 @@ describe('handler', () => {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case:Source Indicator',
-                    'a:Value': 'Portal',
+                    'a:Value': 'Other',
                   },
                 },
                 {
@@ -473,7 +473,7 @@ describe('handler', () => {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case:Source Indicator',
-                    'a:Value': 'Portal',
+                    'a:Value': 'Other',
                   },
                 },
                 {
@@ -829,7 +829,7 @@ describe('handler', () => {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case:Source Indicator',
-                    'a:Value': 'Portal',
+                    'a:Value': 'Other',
                   },
                 },
                 {
@@ -1150,7 +1150,7 @@ describe('handler', () => {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case:Source Indicator',
-                    'a:Value': 'Portal',
+                    'a:Value': 'Other',
                   },
                 },
                 {
@@ -1524,7 +1524,7 @@ describe('handler', () => {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case:Source Indicator',
-                    'a:Value': 'Portal',
+                    'a:Value': 'Other',
                   },
                 },
                 {
@@ -1863,7 +1863,7 @@ describe('handler', () => {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case:Source Indicator',
-                    'a:Value': 'Portal',
+                    'a:Value': 'Other',
                   },
                 },
                 {
@@ -2206,7 +2206,7 @@ describe('handler', () => {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case:Source Indicator',
-                    'a:Value': 'Portal',
+                    'a:Value': 'Other',
                   },
                 },
                 {
@@ -2551,7 +2551,7 @@ describe('handler', () => {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case:Source Indicator',
-                    'a:Value': 'Portal',
+                    'a:Value': 'Other',
                   },
                 },
                 {
@@ -2888,7 +2888,7 @@ describe('handler', () => {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case:Source Indicator',
-                    'a:Value': 'Portal',
+                    'a:Value': 'Other',
                   },
                 },
                 {
@@ -3226,7 +3226,7 @@ describe('handler', () => {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case:Source Indicator',
-                    'a:Value': 'Portal',
+                    'a:Value': 'Other',
                   },
                 },
                 {
@@ -3567,7 +3567,7 @@ describe('handler', () => {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case:Source Indicator',
-                    'a:Value': 'Portal',
+                    'a:Value': 'Other',
                   },
                 },
                 {
@@ -4023,7 +4023,7 @@ describe('handler', () => {
                   'a:AttributeValue': {
                     '__i:type': 'a:StringAttributeValue',
                     'a:Name': 'Case:Source Indicator',
-                    'a:Value': 'Portal',
+                    'a:Value': 'Other',
                   },
                 },
                 {
