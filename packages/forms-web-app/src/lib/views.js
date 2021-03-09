@@ -48,6 +48,10 @@ const VIEW = {
     START_APPEAL: 'guidance-pages/start-appeal',
     STAGES_APPEAL: 'guidance-pages/stages-appeal',
   },
+
+  MESSAGES: {
+    COOKIES_UPDATED_SUCCESSFULLY: 'messages/cookies-updated-successfully',
+  },
 };
 
 module.exports = {
