@@ -66,3 +66,7 @@ Then('not necessary cookies are disabled', () => {
       expectCookieIsNotDefined(cookies, 'cookie_preferences_set');
     });
 });
+
+Then('the cookie banner does not exist', () => {
+  cy.confirmCookieConsentBannerDoesNotExist();
+});

@@ -20,6 +20,7 @@ const getExistingCookiePolicy = (req) => {
 exports.getCookies = (req, res) => {
   res.render(VIEW.COOKIES, {
     cookiePolicy: getExistingCookiePolicy(req),
+    displayCookieBanner: false,
   });
 };
 
@@ -30,6 +31,7 @@ exports.postCookies = (req, res) => {
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.COOKIES, {
       cookiePolicy: getExistingCookiePolicy(req),
+      displayCookieBanner: false,
     });
     return;
   }

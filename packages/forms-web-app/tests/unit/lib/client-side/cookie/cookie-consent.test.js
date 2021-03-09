@@ -41,27 +41,33 @@ jest.mock('../../../../../src/lib/client-side/javascript-requiring-consent');
 
 const govUkDisplayNoneCssClass = 'govuk-!-display-none';
 
-const getExampleDom = () => {
+const getExampleDom = ({ withAccept, withReject } = { withAccept: true, withReject: true }) => {
   const div = document.createElement('div');
 
   div.innerHTML = `
 <div id="cookie-banner-consent" data-testid="cookie-banner-consent">
- <button
+ ${
+   withAccept &&
+   `<button
    name="cookie_banner"
    class="${govUkDisplayNoneCssClass}"
    data-testid="cookie-banner-accept"
    type="submit"
    value="accept">
    Accept
- </button>
-  <button
+ </button>`
+ }
+ ${
+   withReject &&
+   `<button
    name="cookie_banner"
    class="${govUkDisplayNoneCssClass}"
    data-testid="cookie-banner-reject"
    type="submit"
    value="reject">
    Reject
- </button>
+ </button>`
+ }
 </div>
     `;
 
@@ -167,33 +173,21 @@ describe('lib/client-side/cookie/cookie-consent', () => {
   });
 
   describe('cookieConsentHandler', () => {
-    let windowSpy;
+    [
+      getExampleDom({ withAccept: false, withReject: true }),
+      getExampleDom({ withAccept: true, withReject: false }),
+    ].forEach((dom) => {
+      test(`return early if required element is undefined`, () => {
+        readCookie.mockImplementation(() => null);
 
-    beforeEach(() => {
-      windowSpy = jest.spyOn(window, 'window', 'get');
-    });
+        cookieConsentHandler(dom);
 
-    afterEach(() => {
-      windowSpy.mockRestore();
+        expect(createCookie).not.toHaveBeenCalled();
+      });
     });
 
     test('cookie policy has already been set', () => {
       readCookie.mockImplementation(() => true);
-
-      cookieConsentHandler(document);
-
-      expect(consentBanner).toHaveClass(govUkDisplayNoneCssClass);
-      expect(createCookie).not.toHaveBeenCalled();
-    });
-
-    test('do not display the cookie banner if already on the /cookie page', () => {
-      readCookie.mockImplementation(() => null);
-
-      windowSpy.mockImplementation(() => ({
-        location: {
-          pathname: '/cookies',
-        },
-      }));
 
       cookieConsentHandler(document);
 
