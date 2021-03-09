@@ -44,6 +44,7 @@ describe('controllers/cookies', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.COOKIES, {
         cookiePolicy: {},
+        displayCookieBanner: false,
       });
     });
 
@@ -52,6 +53,7 @@ describe('controllers/cookies', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.COOKIES, {
         cookiePolicy: undefined,
+        displayCookieBanner: false,
       });
     });
   });
@@ -77,6 +79,7 @@ describe('controllers/cookies', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.COOKIES, {
         cookiePolicy: undefined,
+        displayCookieBanner: false,
       });
 
       expect(res.cookie).not.toHaveBeenCalled();

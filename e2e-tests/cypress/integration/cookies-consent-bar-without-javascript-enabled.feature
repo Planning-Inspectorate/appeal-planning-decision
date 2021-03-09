@@ -15,3 +15,4 @@ Feature: Cookie consent bar - no JS
     Given a user visits the site with JavaScript disabled
     When the user views the cookie preferences page
     Then the cookies page is presented
+    And the cookie banner does not exist

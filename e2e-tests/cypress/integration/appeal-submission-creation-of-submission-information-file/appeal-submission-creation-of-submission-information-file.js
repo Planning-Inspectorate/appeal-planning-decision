@@ -1,5 +1,7 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { STANDARD_APPEAL } from '../common/standard-appeal';
+import { getTask } from '../common/task';
+import '../common/cookies';
 
 Given('a prospective appellant has provided valid appeal information', () => {
   cy.provideCompleteAppeal(STANDARD_APPEAL);

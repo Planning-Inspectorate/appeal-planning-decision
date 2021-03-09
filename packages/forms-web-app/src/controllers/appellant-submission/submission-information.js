@@ -23,5 +23,6 @@ exports.getSubmissionInformation = async (req, res) => {
     appealLPD: appealLPD.name,
     appeal,
     css,
+    displayCookieBanner: false,
   });
 };

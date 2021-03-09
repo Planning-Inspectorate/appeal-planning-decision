@@ -28,6 +28,11 @@ Cypress.Commands.add(
   require('./confirmCookieConsentBannerIsNotVisible'),
 );
 
+Cypress.Commands.add(
+  'confirmCookieConsentBannerDoesNotExist',
+  require('./confirmCookieConsentBannerDoesNotExist'),
+);
+
 Cypress.Commands.add('confirmCookiePolicy', require('./confirmCookiePolicy'));
 
 Cypress.Commands.add(
