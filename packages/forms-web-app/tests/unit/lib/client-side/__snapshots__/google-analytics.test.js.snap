@@ -2,8 +2,13 @@
 
 exports[`lib/client-side/google-analytics initialiseGoogleAnalytics 1`] = `
 <body>
+  <p
+    id="gaId"
+  >
+    some-test-value
+  </p>
   <script
-    src="https://www.googletagmanager.com/gtag/js?id=undefined"
+    src="https://www.googletagmanager.com/gtag/js?id=some-test-value"
     type="text/javascript"
   />
   <script />
