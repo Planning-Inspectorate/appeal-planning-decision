@@ -7,6 +7,10 @@ const { initialiseGoogleAnalytics } = require('../../../../src/lib/client-side/g
 
 describe('lib/client-side/google-analytics', () => {
   beforeEach(() => {
+    const gaIdElement = document.createElement('p');
+    gaIdElement.id = 'gaId';
+    gaIdElement.textContent = 'some-test-value';
+    document.body.append(gaIdElement);
     const script = document.createElement('script');
     document.body.appendChild(script);
   });
