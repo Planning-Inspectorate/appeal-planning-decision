@@ -46,6 +46,7 @@ const VIEW = {
     WHEN_APPEAL: 'guidance-pages/when-appeal',
     AFTER_APPEAL: 'guidance-pages/after-appeal',
     START_APPEAL: 'guidance-pages/start-appeal',
+    STAGES_APPEAL: 'guidance-pages/stages-appeal',
   },
 };
 
