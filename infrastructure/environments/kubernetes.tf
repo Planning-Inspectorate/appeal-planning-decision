@@ -22,26 +22,6 @@ resource "random_integer" "k8s" {
   min = 1000
 }
 
-resource "azurerm_log_analytics_workspace" "k8s" {
-  name = format(local.name_format, "kubernetes-${random_integer.k8s.result}")
-  location = azurerm_resource_group.k8s.location
-  resource_group_name = azurerm_resource_group.k8s.name
-  sku = "PerGB2018"
-}
-
-resource "azurerm_log_analytics_solution" "k8s" {
-  solution_name = "ContainerInsights"
-  location = azurerm_resource_group.k8s.location
-  resource_group_name = azurerm_resource_group.k8s.name
-  workspace_name = azurerm_log_analytics_workspace.k8s.name
-  workspace_resource_id = azurerm_log_analytics_workspace.k8s.id
-
-  plan {
-    publisher = "Microsoft"
-    product = "OMSGallery/ContainerInsights"
-  }
-}
-
 data "azurerm_kubernetes_service_versions" "k8s" {
   location = azurerm_resource_group.k8s.location
   include_preview = false
@@ -97,7 +77,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
 
     oms_agent {
       enabled = true
-      log_analytics_workspace_id = azurerm_log_analytics_workspace.k8s.id
+      log_analytics_workspace_id = azurerm_log_analytics_workspace.monitoring.id
     }
   }
 
