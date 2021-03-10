@@ -1,6 +1,4 @@
 resource "azurerm_resource_group" "monitoring" {
-  count = local.monitoring_ping_tests_count
-
   location = var.location
   name = format(local.name_format, "monitoring")
 
@@ -13,11 +11,30 @@ resource "azurerm_resource_group" "monitoring" {
 
 module "monitoring_rg_roles" {
   source = "../modules/resource-group-aad-roles"
-  count = local.monitoring_ping_tests_count
 
   admin_group_id = azuread_group.admin.id
-  resource_group_id = azurerm_resource_group.monitoring[count.index].id
+  resource_group_id = azurerm_resource_group.monitoring.id
   user_group_id = azuread_group.user.id
+}
+
+resource "azurerm_log_analytics_workspace" "monitoring" {
+  name = format(local.name_format, "monitoring")
+  location = azurerm_resource_group.monitoring.location
+  resource_group_name = azurerm_resource_group.monitoring.name
+  sku = "PerGB2018"
+}
+
+resource "azurerm_log_analytics_solution" "monitoring" {
+  solution_name = "ContainerInsights"
+  location = azurerm_resource_group.monitoring.location
+  resource_group_name = azurerm_resource_group.monitoring.name
+  workspace_name = azurerm_log_analytics_workspace.monitoring.name
+  workspace_resource_id = azurerm_log_analytics_workspace.monitoring.id
+
+  plan {
+    publisher = "Microsoft"
+    product = "OMSGallery/ContainerInsights"
+  }
 }
 
 resource "azurerm_application_insights" "monitoring" {
@@ -25,16 +42,16 @@ resource "azurerm_application_insights" "monitoring" {
 
   name = format(local.name_format, "monitoring")
   application_type = "web"
-  location = azurerm_resource_group.monitoring[count.index].location
-  resource_group_name = azurerm_resource_group.monitoring[count.index].name
+  location = azurerm_resource_group.monitoring.location
+  resource_group_name = azurerm_resource_group.monitoring.name
 }
 
 resource "azurerm_application_insights_web_test" "ping_test" {
   count = local.monitoring_ping_tests_count
 
   name = var.monitoring_ping_urls[count.index].name
-  location = azurerm_resource_group.monitoring[count.index].location
-  resource_group_name = azurerm_resource_group.monitoring[count.index].name
+  location = azurerm_resource_group.monitoring.location
+  resource_group_name = azurerm_resource_group.monitoring.name
   application_insights_id = azurerm_application_insights.monitoring[count.index].id
   description = "Perform a ping test for ${var.monitoring_ping_urls[count.index].url}"
   geo_locations = var.monitoring_ping_locations
@@ -93,7 +110,7 @@ resource "azurerm_monitor_action_group" "monitoring" {
   count = local.monitoring_ping_tests_count == 1 && local.monitoring_alert_email_count == 1 ? 1 : 0
 
   name = "Critical alert"
-  resource_group_name = azurerm_resource_group.monitoring[count.index].name
+  resource_group_name = azurerm_resource_group.monitoring.name
   short_name = "PINS Alert"
   enabled = true
 
@@ -108,7 +125,7 @@ resource "azurerm_monitor_metric_alert" "monitoring" {
   count = local.monitoring_ping_tests_count == 1 && local.monitoring_alert_email_count == 1 ? 1 : 0
 
   name = var.monitoring_ping_urls[count.index].name
-  resource_group_name = azurerm_resource_group.monitoring[count.index].name
+  resource_group_name = azurerm_resource_group.monitoring.name
   scopes = [
     azurerm_application_insights_web_test.ping_test[count.index].id,
     azurerm_application_insights.monitoring[count.index].id
