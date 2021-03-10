@@ -1,0 +1,37 @@
+{
+  "name": "ping",
+  "version": "0.0.0",
+  "description": "Check if an external endpoint is responding",
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier --write './**/*.js'",
+    "lint": "eslint ./",
+    "serve": "nodemon . | pino-pretty -tlc",
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Foundry4 <www.foundry4.com>",
+  "license": "MIT",
+  "lint-staged": {
+    "./**/*.js": "npm run lint -- --fix",
+    "./**/*.{js, json}": "npm run format"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "pino": "^6.11.1",
+    "prom-client": "^13.1.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.21.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "nodemon": "^2.0.7",
+    "pino-pretty": "^4.7.1",
+    "prettier": "^2.2.1"
+  }
+}
