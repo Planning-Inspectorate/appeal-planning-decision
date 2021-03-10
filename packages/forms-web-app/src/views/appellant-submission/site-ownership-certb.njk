@@ -2,6 +2,8 @@
 
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {% set haveOtherOwnersBeenTold = appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold %}
 
@@ -22,36 +24,51 @@
         }) }}
       {% endif %}
 
+      {% set warningTextHtml %}
+        {{ govukWarningText({
+          text: "If the site has more than one owner, you must tell the other owners that you're appealing.",
+          iconFallbackText: "Warning"
+        }) }}
+      {% endset %}
+
       <form action="" method="post" novalidate>
         <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Visiting the appeal site</span>
-        <div class="govuk-form-group">
-          <fieldset class="govuk-fieldset">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-              Have you told the other owners that you’re appealing?
-            </legend>
-            <div class="govuk-warning-text">
-              <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-              <strong class="govuk-warning-text__text">
-                <span class="govuk-warning-text__assistive">Warning</span>
-                If the site has more than one owner, you must tell the other owners that you're appealing.
-              </strong>
-            </div>
-            <div class="govuk-radios govuk-!-padding-bottom-6">
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="have-other-owners-been-told" name="have-other-owners-been-told" type="radio" value="yes" data-cy="answer-yes" {% if haveOtherOwnersBeenTold %}checked{% endif %}>
-                <label class="govuk-label govuk-radios__label" for="have-other-owners-been-told-yes">
-                  Yes, I have already told the other owners
-                </label>
-              </div>
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="have-other-owners-been-told-2" name="have-other-owners-been-told" type="radio" value="no" data-cy="answer-no" {% if haveOtherOwnersBeenTold === false %}checked{% endif %}>
-                <label class="govuk-label govuk-radios__label" for="have-other-owners-been-told-no">
-                  No, but I understand that I have to inform them
-                </label>
-              </div>
-            </div>
-          </fieldset>
-        </div>
+
+        {{ govukRadios({
+          idPrefix: "have-other-owners-been-told",
+          name: "have-other-owners-been-told",
+          fieldset: {
+            legend: {
+              text: "Have you told the other owners that you’re appealing?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            html: warningTextHtml
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes, I have already told the other owners",
+              checked: true if haveOtherOwnersBeenTold,
+              attributes: {
+                "data-cy": "answer-yes"
+              }
+            },
+            {
+              value: "no",
+              text: "No, but I understand that I have to inform them",
+              checked: true if haveOtherOwnersBeenTold === false,
+              attributes: {
+                "data-cy": "answer-no"
+              }
+            }
+          ],
+          errorMessage: errors['have-other-owners-been-told'] and {
+            text: errors['have-other-owners-been-told'].msg
+          }
+        }) }}
 
         {{ govukButton({
           text: "Save and continue",
