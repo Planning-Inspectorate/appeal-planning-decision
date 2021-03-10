@@ -38,8 +38,6 @@ resource "azurerm_log_analytics_solution" "monitoring" {
 }
 
 resource "azurerm_application_insights" "monitoring" {
-  count = local.monitoring_ping_tests_count
-
   name = format(local.name_format, "monitoring")
   application_type = "web"
   location = azurerm_resource_group.monitoring.location
@@ -52,7 +50,7 @@ resource "azurerm_application_insights_web_test" "ping_test" {
   name = var.monitoring_ping_urls[count.index].name
   location = azurerm_resource_group.monitoring.location
   resource_group_name = azurerm_resource_group.monitoring.name
-  application_insights_id = azurerm_application_insights.monitoring[count.index].id
+  application_insights_id = azurerm_application_insights.monitoring.id
   description = "Perform a ping test for ${var.monitoring_ping_urls[count.index].url}"
   geo_locations = var.monitoring_ping_locations
   kind = "ping"
@@ -107,11 +105,11 @@ XML
 }
 
 resource "azurerm_monitor_action_group" "monitoring" {
-  count = local.monitoring_ping_tests_count == 1 && local.monitoring_alert_email_count == 1 ? 1 : 0
+  count = local.monitoring_alert_email_count
 
-  name = "Critical alert"
+  name = format(local.name_format, "monitoring_critical_alert")
   resource_group_name = azurerm_resource_group.monitoring.name
-  short_name = "PINS Alert"
+  short_name = substr("PINS ${local.workspace_name}", 0, 12)
   enabled = true
 
   email_receiver {
@@ -121,24 +119,75 @@ resource "azurerm_monitor_action_group" "monitoring" {
   }
 }
 
-resource "azurerm_monitor_metric_alert" "monitoring" {
-  count = local.monitoring_ping_tests_count == 1 && local.monitoring_alert_email_count == 1 ? 1 : 0
+resource "azurerm_monitor_metric_alert" "web_ping_test" {
+  count = local.monitoring_ping_tests_count
 
   name = var.monitoring_ping_urls[count.index].name
   resource_group_name = azurerm_resource_group.monitoring.name
   scopes = [
     azurerm_application_insights_web_test.ping_test[count.index].id,
-    azurerm_application_insights.monitoring[count.index].id
+    azurerm_application_insights.monitoring.id
   ]
   description = "Alert for errors on ${var.monitoring_ping_urls[count.index].url}"
 
   application_insights_web_test_location_availability_criteria {
     web_test_id = azurerm_application_insights_web_test.ping_test[count.index].id
-    component_id = azurerm_application_insights.monitoring[count.index].id
+    component_id = azurerm_application_insights.monitoring.id
     failed_location_count = 2
   }
 
   action {
     action_group_id = azurerm_monitor_action_group.monitoring[count.index].id
   }
+}
+
+resource "azurerm_monitor_scheduled_query_rules_alert" "horizon_ping_test" {
+  count = local.monitoring_alert_email_count
+
+  name = "horizon-ping-test"
+  location = azurerm_resource_group.monitoring.location
+  resource_group_name = azurerm_resource_group.monitoring.name
+  data_source_id = azurerm_log_analytics_workspace.monitoring.id
+  severity = 1
+  frequency = 5
+  time_window = 5
+  query = <<-EOT
+InsightsMetrics
+| where parse_json(Tags).service == "horizon_ping"
+| where Name == "application_health"
+| where Val == 0
+| summarize AggregatedValue=count(Val) by bin(TimeGenerated, 5m)
+| order by TimeGenerated desc
+EOT
+
+  trigger  {
+    operator = "GreaterThan"
+    threshold = 0
+  }
+
+  description = "Checks logs for Horizon connectivity failure"
+  enabled = true
+
+  action {
+    action_group = [azurerm_monitor_action_group.monitoring[count.index].id]
+    email_subject = "Horizon Ping Test Failed: ${local.workspace_name}"
+  }
+}
+
+# Saved searched
+
+resource "azurerm_log_analytics_saved_search" "horizon_ping" {
+  name = format(local.name_format, "monitoring_horizon_ping")
+  display_name = "Horizon Ping"
+
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.monitoring.id
+  category = "PINS"
+  query = <<EOT
+InsightsMetrics
+| where parse_json(Tags).service == "horizon_ping"
+| where Name == "application_health"
+| summarize AggregatedValue=avg(Val) by bin(TimeGenerated, 1m)
+| order by TimeGenerated desc
+| render scatterchart
+EOT
 }
