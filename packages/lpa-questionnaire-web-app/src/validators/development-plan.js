@@ -14,7 +14,7 @@ const rules = () => {
     body(developmentPlanTextRef)
       .if(body(developmentPlanRef).equals('yes'))
       .notEmpty()
-      .withMessage('Enter the relevant information about the plans and this appeal'),
+      .withMessage('Enter the relevant information about the plan and this appeal'),
   ];
 };
 

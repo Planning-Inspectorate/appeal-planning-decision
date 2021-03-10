@@ -37,7 +37,7 @@ describe('validators/development-plan', () => {
       expect(rule.stack[1].validator.name).toEqual('isEmpty');
       expect(rule.stack[1].negated).toBeTruthy();
       expect(rule.stack[1].message).toEqual(
-        'Enter the relevant information about the plans and this appeal'
+        'Enter the relevant information about the plan and this appeal'
       );
     });
   });
@@ -70,7 +70,7 @@ describe('validators/development-plan', () => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
           expect(result.errors[0].msg).toEqual(
-            'Enter the relevant information about the plans and this appeal'
+            'Enter the relevant information about the plan and this appeal'
           );
           expect(result.errors[0].param).toEqual('plan-changes-text');
           expect(result.errors[0].value).toEqual(undefined);
