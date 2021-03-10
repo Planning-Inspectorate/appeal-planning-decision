@@ -1,6 +1,7 @@
 Cypress.Commands.add('goToPageBeforeYouAppeal', require('../go-to-page/goToPageBeforeYouAppeal'));
 Cypress.Commands.add('goToPageWhenYouCanAppeal', require('../go-to-page/goToPageWhenYouCanAppeal'));
 Cypress.Commands.add('goToPageAfterYouAppeal', require('../go-to-page/goToPageAfterYouAppeal'));
+Cypress.Commands.add('goToPageStartYourAppeal', require('../go-to-page/goToPageStartYourAppeal'));
 
 Cypress.Commands.add(
   'guidancePageNavigation',
