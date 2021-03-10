@@ -156,6 +156,33 @@ const validateAppeal = (appeal) => {
     );
   }
 
+  // Appeal PDF Submission File Upload
+  if (
+    appeal.appealSubmission.appealPDFStatement.uploadedFile.id !== null &&
+    appeal.appealSubmission.appealPDFStatement.uploadedFile.name === ''
+  ) {
+    errors.push(
+      'The appeal statement pdf uploaded file must have a name for the file when it has an id'
+    );
+  }
+  if (
+    appeal.appealSubmission.appealPDFStatement.uploadedFile.name !== '' &&
+    appeal.appealSubmission.appealPDFStatement.uploadedFile.id === null
+  ) {
+    errors.push(
+      'The appeal statement pdf uploaded file must have an id for the file when it has a name'
+    );
+  }
+  if (
+    (appeal.yourAppealSection.appealStatement.uploadedFile.name !== '' ||
+      appeal.yourAppealSection.appealStatement.uploadedFile.id !== null) &&
+    appeal.yourAppealSection.appealStatement.hasSensitiveInformation !== false
+  ) {
+    errors.push(
+      'The appeal statement uploaded file cannot be accepted unless it is confirmed to have no sensitive information'
+    );
+  }
+
   // Validate supporting documents
   appeal.yourAppealSection.otherDocuments.uploadedFiles.forEach((supportingDocument) => {
     const { id, name } = supportingDocument;
