@@ -45,18 +45,18 @@
             {
               classes: "govuk-input--width-2 govuk-input--error" if errors['decision-date'] or errors['decision-date-day'] else "govuk-input--width-2",
               name: "day",
-              value: decisionDate and ("0" + decisionDate.getDate()).slice(-2)
+              value: decisionDate.day
             },
             {
               classes: "govuk-input--width-2 govuk-input--error" if errors['decision-date'] or errors['decision-date-month'] else "govuk-input--width-2",
               name: "month",
-              value: decisionDate and ("0" + (decisionDate.getMonth() + 1)).slice(-2)
+              value: decisionDate.month
 
             },
             {
               classes: "govuk-input--width-4 govuk-input--error" if errors['decision-date'] or errors['decision-date-year'] else "govuk-input--width-4",
               name: "year",
-              value: decisionDate and decisionDate.getFullYear()
+              value: decisionDate.year
             }
           ]
         } ) }}
