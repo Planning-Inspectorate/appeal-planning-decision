@@ -206,6 +206,14 @@ keyVault:
     secrets: []
     multiValueSecrets: []
 
+pinsKeyVault:
+  name: odtkeyvault
+  secrets: []
+  multiValueSecrets: []
+  envSpecific:
+    secrets: []
+    multiValueSecrets: []
+
 ### Third-party services
 gotenberg:
   replicaCount: 1
