@@ -20,12 +20,12 @@ describe('routes/appellant-submission/upload-decision', () => {
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      '/upload-decision',
+      '/upload-decision-letter',
       [fetchExistingAppealMiddleware],
       uploadDecisionController.getUploadDecision
     );
     expect(post).toHaveBeenCalledWith(
-      '/upload-decision',
+      '/upload-decision-letter',
       uploadDecisionValidationRules(),
       validationErrorHandler,
       uploadDecisionController.postUploadDecision

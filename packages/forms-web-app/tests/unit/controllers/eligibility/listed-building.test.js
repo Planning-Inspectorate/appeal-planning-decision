@@ -38,7 +38,7 @@ describe('controllers/eligibility/listed-building', () => {
       expect(mockResponse.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.COSTS}`);
     });
 
-    it('should redirect to listed-out if given a listed building', () => {
+    it('should redirect to listed-building-out if given a listed building', () => {
       const mockRequest = {
         body: {
           'is-your-appeal-about-a-listed-building': 'yes',

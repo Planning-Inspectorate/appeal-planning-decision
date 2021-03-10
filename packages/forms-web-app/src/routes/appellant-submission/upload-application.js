@@ -10,12 +10,12 @@ const {
 const router = express.Router();
 
 router.get(
-  '/upload-application',
+  '/upload-planning-application-form',
   [fetchExistingAppealMiddleware],
   uploadApplicationController.getUploadApplication
 );
 router.post(
-  '/upload-application',
+  '/upload-planning-application-form',
   uploadApplicationValidationRules(),
   validationErrorHandler,
   uploadApplicationController.postUploadApplication

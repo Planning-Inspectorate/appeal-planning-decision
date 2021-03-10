@@ -8,7 +8,10 @@ const {
 
 const router = express.Router();
 
-router.get('/listed-out', listedBuildingController.getServiceNotAvailableForListedBuildings);
+router.get(
+  '/listed-building-out',
+  listedBuildingController.getServiceNotAvailableForListedBuildings
+);
 router.get('/listed-building', listedBuildingController.getListedBuilding);
 router.post(
   '/listed-building',

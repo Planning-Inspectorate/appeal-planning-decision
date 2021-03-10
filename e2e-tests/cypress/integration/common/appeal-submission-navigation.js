@@ -5,11 +5,11 @@ Then('the user is navigated to "Appeal tasks"', () => {
 });
 
 Then('the user is navigated to "Applicant name"', () => {
-  cy.userIsNavigatedToPage('/appellant-submission/applicant-name');
+  cy.userIsNavigatedToPage('/appeal-householder-decision/appealing-on-behalf-of');
 });
 
 Then('the user is navigated to "Supporting documents"', () => {
-  cy.userIsNavigatedToPage('/appellant-submission/supporting-documents');
+  cy.userIsNavigatedToPage('/appeal-householder-decision/any-other-documents');
 });
 
 Then('the user is navigated to "Site access"', () => {
@@ -37,5 +37,5 @@ Then('the user is navigated to "Upload decision letter"', () => {
 });
 
 Then('the user is navigated to "Your details"', () => {
-  cy.userIsNavigatedToPage('/appellant-submission/your-details');
+  cy.userIsNavigatedToPage('/appeal-householder-decision/your-details');
 });

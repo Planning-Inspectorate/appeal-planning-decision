@@ -157,7 +157,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
       );
     });
 
-    it('should redirect to `/appellant-submission/supporting-documents` if valid', async () => {
+    it('should redirect to `/appeal-householder-decision/any-other-documents` if valid', async () => {
       const fakeFileId = '123-abc';
       const fakeFileName = 'some name.jpg';
       const fakeTaskStatus = 'ANOTHER_FAKE_STATUS';

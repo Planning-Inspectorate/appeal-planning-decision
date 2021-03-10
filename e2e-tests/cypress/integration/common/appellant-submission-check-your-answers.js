@@ -12,7 +12,7 @@ When('Check Your Answers is accessed', () => {
 
 Then('the appeal information is presented', () => {
   cy.confirmCheckYourAnswersPage();
-  cy.confirmCheckYourAnswersDisplayItem('[data-cy="who-are-you"]', 'Yes');
+  cy.confirmCheckYourAnswersDisplayItem('[data-cy="original-applicant"]', 'Yes');
   cy.confirmCheckYourAnswersDisplayItem('[data-cy="appellant-name"]', 'Valid Name');
   cy.confirmCheckYourAnswersDisplayItem('[data-cy="appellant-email"]', 'valid@email.com');
   cy.confirmCheckYourAnswersDisplayItem('[data-cy="application-number"]', 'ValidNumber/12345');
@@ -96,7 +96,7 @@ When('Check Your Answers is presented', () => {
 });
 
 Then('the updated values for About you section are displayed', () => {
-  cy.confirmCheckYourAnswersDisplayItem('[data-cy="who-are-you"]', 'No');
+  cy.confirmCheckYourAnswersDisplayItem('[data-cy="original-applicant"]', 'No');
   cy.confirmCheckYourAnswersDisplayItem('[data-cy="appellant-name"]', 'New Valid Name');
   cy.confirmCheckYourAnswersDisplayItem('[data-cy="appellant-email"]', 'new-valid@email.com');
   cy.confirmCheckYourAnswersDisplayItem(

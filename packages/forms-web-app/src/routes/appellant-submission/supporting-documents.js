@@ -11,12 +11,12 @@ const {
 const router = express.Router();
 
 router.get(
-  '/supporting-documents',
+  '/any-other-documents',
   [fetchExistingAppealMiddleware],
   supportingDocumentsController.getSupportingDocuments
 );
 router.post(
-  '/supporting-documents',
+  '/any-other-documents',
   [reqFilesToReqBodyFilesMiddleware('supporting-documents'), supportingDocumentsValidationRules()],
   validationErrorHandler,
   supportingDocumentsController.postSupportingDocuments

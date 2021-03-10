@@ -46,12 +46,12 @@
               text: "Was the original planning application made in your name?"
             },
             value: {
-              text: boolToSentenceCaseField(appeal.aboutYouSection.yourDetails.isOriginalApplicant, { 'data-cy': "who-are-you" })
+              text: boolToSentenceCaseField(appeal.aboutYouSection.yourDetails.isOriginalApplicant, { 'data-cy': "original-applicant" })
             },
             actions: {
               items: [
                 {
-                  href: "/appellant-submission/who-are-you",
+                  href: "/appellant-submission/original-applicant",
                   text: "Change",
                   visuallyHiddenText: "if the application was made in your name",
                   attributes: { "data-cy": "whoAreYou" }
@@ -69,7 +69,7 @@
             actions: {
               items: [
                 {
-                  href: "/appellant-submission/applicant-name",
+                  href: "/appeal-householder-decision/appealing-on-behalf-of",
                   text: "Change",
                   visuallyHiddenText: "if the applicant's name",
                   attributes: { "data-cy": "appealingOnBehalfOf" }
@@ -87,7 +87,7 @@
             actions: {
               items: [
                 {
-                  href: "/appellant-submission/your-details",
+                  href: "/appeal-householder-decision/your-details",
                   text: "Change",
                   visuallyHiddenText: "your name",
                   attributes: { "data-cy": "yourDetailsName" }
@@ -105,7 +105,7 @@
             actions: {
               items: [
                 {
-                  href: "/appellant-submission/your-details",
+                  href: "/appeal-householder-decision/your-details",
                   text: "Change",
                   visuallyHiddenText: "your email",
                   attributes: { "data-cy": "yourDetailsEmail" }
@@ -212,7 +212,7 @@
             actions: {
               items: [
                 {
-                  href: "/appellant-submission/supporting-documents",
+                  href: "/appeal-householder-decision/any-other-documents",
                   text: "Change",
                   visuallyHiddenText: "Documents to support your appeal",
                   attributes: { "data-cy":"otherDocuments"}
@@ -238,7 +238,7 @@
             actions: {
               items: [
                 {
-                  href: "/appellant-submission/site-location",
+                  href: "/appeal-householder-decision/address-appeal-site",
                   text: "Change",
                   visuallyHiddenText: "Address of the appeal site",
                   attributes: { "data-cy":"siteAddress"}

@@ -10,12 +10,12 @@ const {
 const router = express.Router();
 
 router.get(
-  '/application-number',
+  '/planning-application-number',
   [fetchExistingAppealMiddleware],
   applicationNumberController.getApplicationNumber
 );
 router.post(
-  '/application-number',
+  '/planning-application-number',
   applicationNumberValidationRules(),
   validationErrorHandler,
   applicationNumberController.postApplicationNumber

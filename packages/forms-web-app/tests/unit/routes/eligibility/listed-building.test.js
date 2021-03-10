@@ -19,7 +19,7 @@ describe('routes/eligibility/listed-building', () => {
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      '/listed-out',
+      '/listed-building-out',
       listedBuildingController.getServiceNotAvailableForListedBuildings
     );
     expect(get).toHaveBeenCalledWith(

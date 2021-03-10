@@ -15,7 +15,7 @@ jest.mock('../../../../src/validators/custom/file-size');
 jest.mock('../../../../src/validators/custom/mime-type');
 jest.mock('../../../../src/config');
 
-describe('validators/appellant-submission/supporting-documents-schema', () => {
+describe('validators/appeal-householder-decision/any-other-documents-schema', () => {
   it('has a defined custom schema object', () => {
     expect(schema['files.supporting-documents.*'].custom.options).toBeDefined();
   });

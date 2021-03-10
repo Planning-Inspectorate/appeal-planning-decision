@@ -1,6 +1,8 @@
-const whoAreYouController = require('../../../../src/controllers/appellant-submission/who-are-you');
+const whoAreYouController = require('../../../../src/controllers/appellant-submission/original-applicant');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
-const { FORM_FIELD } = require('../../../../src/controllers/appellant-submission/who-are-you');
+const {
+  FORM_FIELD,
+} = require('../../../../src/controllers/appellant-submission/original-applicant');
 const logger = require('../../../../src/lib/logger');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { VIEW } = require('../../../../src/lib/views');
@@ -14,7 +16,7 @@ jest.mock('../../../../src/lib/logger');
 const sectionName = 'aboutYouSection';
 const taskName = 'yourDetails';
 
-describe('controllers/appellant-submission/who-are-you', () => {
+describe('controllers/appellant-submission/original-applicant', () => {
   let req;
   let res;
   let appeal;

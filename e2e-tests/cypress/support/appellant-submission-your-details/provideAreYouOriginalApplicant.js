@@ -1,5 +1,5 @@
 module.exports = (value) => {
-  cy.visit('/appellant-submission/who-are-you');
+  cy.visit('/appellant-submission/original-applicant');
   if (value === 'are') {
     cy.get('[data-cy="answer-yes"]').check();
   } else {

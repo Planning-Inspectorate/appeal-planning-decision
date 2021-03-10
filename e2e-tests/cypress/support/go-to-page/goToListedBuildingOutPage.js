@@ -1,4 +1,4 @@
 module.exports = () => {
-  cy.visit('/eligibility/listed-out', {failOnStatusCode: false});
+  cy.visit('/eligibility/listed-building-out', {failOnStatusCode: false});
   cy.wait(Cypress.env('demoDelay'));
 };

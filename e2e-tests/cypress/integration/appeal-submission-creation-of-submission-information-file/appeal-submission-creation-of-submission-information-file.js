@@ -23,7 +23,7 @@ Then('a submission information file is created', () => {
   cy.navigateToSubmissionInformationPage();
 
   cy.confirmSubmissionInformationDisplayItems({
-    'who-are-you': 'Yes',
+    'original-applicant': 'Yes',
     'appellant-name': 'Valid Name',
     'appellant-email': 'valid@email.com',
     'application-number': 'ValidNumber/12345',

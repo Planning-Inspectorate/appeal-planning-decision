@@ -6,7 +6,7 @@ function getTask(sectionTaskName) {
   switch (sectionTaskName) {
     case 'About you - Your details':
       name = 'yourDetails';
-      url = '/appellant-submission/who-are-you';
+      url = '/appellant-submission/original-applicant';
       break;
     case 'Planning application - Application number':
       name = 'applicationNumber';
@@ -26,11 +26,11 @@ function getTask(sectionTaskName) {
       break;
     case 'Your appeal - Supporting documents':
       name = 'otherDocuments';
-      url = '/appellant-submission/supporting-documents';
+      url = '/appeal-householder-decision/any-other-documents';
       break;
     case 'Appeal site - Site location':
       name = 'siteAddress';
-      url = '/appellant-submission/site-location';
+      url = '/appeal-householder-decision/address-appeal-site';
       break;
     case 'Appeal site - Site ownership':
       name = 'siteOwnership';

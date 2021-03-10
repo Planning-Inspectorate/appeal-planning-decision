@@ -10,12 +10,12 @@ const {
 const router = express.Router();
 
 router.get(
-  '/upload-decision',
+  '/upload-decision-letter',
   [fetchExistingAppealMiddleware],
   uploadDecisionController.getUploadDecision
 );
 router.post(
-  '/upload-decision',
+  '/upload-decision-letter',
   uploadDecisionValidationRules(),
   validationErrorHandler,
   uploadDecisionController.postUploadDecision

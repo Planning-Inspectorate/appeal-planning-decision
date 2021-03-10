@@ -10,12 +10,12 @@ const {
 const router = express.Router();
 
 router.get(
-  '/site-location',
+  '/address-appeal-site',
   [fetchExistingAppealMiddleware],
   siteLocationController.getSiteLocation
 );
 router.post(
-  '/site-location',
+  '/address-appeal-site',
   siteLocationValidationRules(),
   validationErrorHandler,
   siteLocationController.postSiteLocation

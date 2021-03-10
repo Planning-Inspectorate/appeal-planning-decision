@@ -9,7 +9,7 @@ describe('lib/views', () => {
 
       ELIGIBILITY: {
         LISTED_BUILDING: 'eligibility/listed-building',
-        LISTED_OUT: 'eligibility/listed-out',
+        LISTED_OUT: 'eligibility/listed-building-out',
         NO_DECISION: 'eligibility/no-decision',
         DECISION_DATE: 'eligibility/decision-date',
         DECISION_DATE_PASSED: 'eligibility/decision-date-passed',
@@ -35,7 +35,7 @@ describe('lib/views', () => {
         SITE_ACCESS: 'appellant-submission/site-access',
         SITE_ACCESS_SAFETY: 'appellant-submission/site-access-safety',
         YOUR_DETAILS: 'appellant-submission/your-details',
-        WHO_ARE_YOU: 'appellant-submission/who-are-you',
+        WHO_ARE_YOU: 'appellant-submission/original-applicant',
         APPLICANT_NAME: 'appellant-submission/applicant-name',
         UPLOAD_APPLICATION: 'appellant-submission/upload-application',
         UPLOAD_DECISION: 'appellant-submission/upload-decision',

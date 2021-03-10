@@ -4,7 +4,7 @@ const { rules } = require('../../../../src/validators/appellant-submission/suppo
 const { MIME_TYPE_JPEG } = require('../../../../src/lib/mime-types');
 const config = require('../../../../src/config');
 
-describe('validators/appellant-submission/supporting-documents', () => {
+describe('validators/appeal-householder-decision/any-other-documents', () => {
   describe('rules', () => {
     it('has a rule for `files.supporting-documents.*`', () => {
       const rule = rules()[0][0].builder.build();

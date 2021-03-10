@@ -8,9 +8,13 @@ const {
 
 const router = express.Router();
 
-router.get('/who-are-you', [fetchExistingAppealMiddleware], whoAreYouController.getWhoAreYou);
+router.get(
+  '/original-applicant',
+  [fetchExistingAppealMiddleware],
+  whoAreYouController.getWhoAreYou
+);
 router.post(
-  '/who-are-you',
+  '/original-applicant',
   whoAreYouValidationRules(),
   validationErrorHandler,
   whoAreYouController.postWhoAreYou

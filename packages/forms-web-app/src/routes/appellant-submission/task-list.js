@@ -4,6 +4,6 @@ const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-a
 
 const router = express.Router();
 
-router.get('/task-list', [fetchExistingAppealMiddleware], taskListController.getTaskList);
+router.get('/details', [fetchExistingAppealMiddleware], taskListController.getTaskList);
 
 module.exports = router;
