@@ -45,4 +45,23 @@ describe('controllers/appellant-submission/appeal-statement', () => {
       });
     });
   });
+
+  describe('getAfterAppeal', () => {
+    it('should call the correct template', async () => {
+      await guidancePagesController.getAfterAppeal(req, res);
+
+      expect(res.render).toHaveBeenCalledWith(VIEW.GUIDANCE_PAGES.AFTER_APPEAL, {
+        currentUrl: '/after-you-appeal',
+        previousPage: {
+          text: 'The stages of an appeal',
+          url: '/stages-of-an-appeal',
+        },
+        nextPage: {
+          text: 'Start your appeal',
+          url: '/start-your-appeal',
+        },
+        title: 'After you appeal - Appeal a householder planning decision - GOV.UK',
+      });
+    });
+  });
 });
