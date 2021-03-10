@@ -17,6 +17,7 @@ pingHorizon:
     pullPolicy: Always
     tag: latest
   config:
+    serviceName: horizon_ping
     ping:
       method: get
       timeout: 10000

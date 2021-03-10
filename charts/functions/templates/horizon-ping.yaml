@@ -48,6 +48,8 @@ spec:
               path: /ping
               port: ping-hzn-srv
           env:
+            - name: APP_NAME
+              value: {{ .Values.pingHorizon.config.serviceName }}
             - name: PING_METHOD
               value: {{ .Values.pingHorizon.config.ping.method | quote }}
             - name: PING_TIMEOUT
