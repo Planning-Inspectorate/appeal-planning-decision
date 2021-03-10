@@ -14,9 +14,10 @@ describe('lib/render-template-filter', () => {
 
   it('should call render on the given template path', () => {
     const fakeTemplatePath = 'some/path/to/a/template.njk';
+    const fakeTemplateVars = { a: 'b' };
 
-    renderTemplateFilter(nunjucks)(fakeTemplatePath);
+    renderTemplateFilter(nunjucks)(fakeTemplatePath, fakeTemplateVars);
 
-    expect(nunjucks.render).toHaveBeenCalledWith(fakeTemplatePath);
+    expect(nunjucks.render).toHaveBeenCalledWith(fakeTemplatePath, fakeTemplateVars);
   });
 });

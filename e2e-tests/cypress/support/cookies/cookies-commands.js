@@ -59,3 +59,8 @@ Cypress.Commands.add(
   'confirmUsageCookieHasBeenMarkedAsActive',
   require('./confirmUsageCookieHasBeenMarkedAsActive'),
 );
+
+Cypress.Commands.add(
+  'confirmCookieFlashMessageContent',
+  require('./confirmCookieFlashMessageContent'),
+);

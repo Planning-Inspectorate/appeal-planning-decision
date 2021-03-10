@@ -3,6 +3,7 @@
 </h2>
 <div class="govuk-notification-banner__body" data-cy="cookies-updated-body-text">
   <p>Government services may set additional cookies and, if so, will have their own cookie policy and banner.</p>
-  <p><a href="{{ previousPagePath }}">Go back to the page you were looking at</a>.</p>
+  {% if previousPagePath and previousPagePath !== '' and previousPagePath !== "/cookies" %}
+    <p><a href="{{ previousPagePath }}" data-cy="cookies-updated-go-back-link">Go back to the page you were looking at</a>.</p>
+  {% endif %}
 </div>
-

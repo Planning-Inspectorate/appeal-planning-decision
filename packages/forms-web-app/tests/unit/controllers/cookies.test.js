@@ -1,15 +1,18 @@
 const cookiesController = require('../../../src/controllers/cookies');
 const cookieConfig = require('../../../src/lib/client-side/cookie/cookie-config');
 const appConfig = require('../../../src/config');
+const getPreviousPagePath = require('../../../src/lib/get-previous-page-path');
 const { VIEW } = require('../../../src/lib/views');
 const { mockReq, mockRes } = require('../mocks');
 const { addFlashMessage } = require('../../../src/lib/flash-message');
 
 jest.mock('../../../src/config');
 jest.mock('../../../src/lib/flash-message');
+jest.mock('../../../src/lib/get-previous-page-path');
 
 describe('controllers/cookies', () => {
   const FIXED_SYSTEM_TIME = '2020-11-18T00:00:00Z';
+  const fakePreviousPage = '/some/previous/page';
 
   let req;
   let res;
@@ -34,6 +37,10 @@ describe('controllers/cookies', () => {
   });
 
   describe('getCookies', () => {
+    beforeEach(() => {
+      getPreviousPagePath.mockImplementation(() => fakePreviousPage);
+    });
+
     it('should not throw if cannot parse req.cookies value', () => {
       req.cookies[cookieConfig.COOKIE_POLICY_KEY] = 'blurgh';
 
@@ -46,6 +53,7 @@ describe('controllers/cookies', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.COOKIES, {
         cookiePolicy: {},
+        previousPagePath: fakePreviousPage,
         displayCookieBanner: false,
       });
     });
@@ -55,6 +63,7 @@ describe('controllers/cookies', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.COOKIES, {
         cookiePolicy: undefined,
+        previousPagePath: fakePreviousPage,
         displayCookieBanner: false,
       });
     });
@@ -109,8 +118,10 @@ describe('controllers/cookies', () => {
             ...req,
             body: {
               'usage-cookies': 'off',
+              previous_page_path: fakePreviousPage,
             },
           }),
+          expectedPreviousPagePath: fakePreviousPage,
           runExtraAssertions: () => resCookieCallTest(false, false),
         },
         {
@@ -124,6 +135,7 @@ describe('controllers/cookies', () => {
               'usage-cookies': 'on',
             },
           }),
+          expectedPreviousPagePath: '/',
           runExtraAssertions: () => resCookieCallTest(true, false),
         },
         {
@@ -137,6 +149,7 @@ describe('controllers/cookies', () => {
               'usage-cookies': 'off',
             },
           }),
+          expectedPreviousPagePath: '/',
           runExtraAssertions: () => resCookieCallTest(false, true),
         },
         {
@@ -148,27 +161,36 @@ describe('controllers/cookies', () => {
             ...req,
             body: {
               'usage-cookies': 'on',
+              previous_page_path: fakePreviousPage,
             },
           }),
+          expectedPreviousPagePath: fakePreviousPage,
           runExtraAssertions: () => resCookieCallTest(true, true),
         },
-      ].forEach(({ description, before, setupReq, runExtraAssertions }) => {
-        test(`with data submitted - ${description}`, () => {
-          before();
-          req = setupReq();
+      ].forEach(
+        ({ description, before, setupReq, expectedPreviousPagePath, runExtraAssertions }) => {
+          test(`with data submitted - ${description}`, () => {
+            before();
+            req = setupReq();
 
-          cookiesController.postCookies(req, res);
+            cookiesController.postCookies(req, res);
 
-          expect(addFlashMessage).toHaveBeenCalledWith(req, {
-            type: 'success',
-            template: `${VIEW.MESSAGES.COOKIES_UPDATED_SUCCESSFULLY}.njk`,
+            expect(addFlashMessage).toHaveBeenCalledWith(req, {
+              type: 'success',
+              template: {
+                path: `${VIEW.MESSAGES.COOKIES_UPDATED_SUCCESSFULLY}.njk`,
+                vars: {
+                  previousPagePath: expectedPreviousPagePath,
+                },
+              },
+            });
+
+            expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.COOKIES}`);
+
+            runExtraAssertions();
           });
-
-          expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.COOKIES}`);
-
-          runExtraAssertions();
-        });
-      });
+        }
+      );
 
       afterEach(() => {
         appConfig.isProduction = false;
