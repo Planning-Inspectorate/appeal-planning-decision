@@ -18,7 +18,7 @@ metadata:
     tag.fluxcd.io/horizon-create-contact: functions.horizon-create-contact.tag
 
     repository.fluxcd.io/horizon-householder-appeal-publish: functions.horizon-householder-appeal-publish.image
-    filter.fluxcd.io/horizon-householder-appeal-publish: semver:~1.0.0
+    filter.fluxcd.io/horizon-householder-appeal-publish: semver:~1.1.0
     tag.fluxcd.io/horizon-householder-appeal-publish: functions.horizon-householder-appeal-publish.tag
 spec:
   releaseName: functions
