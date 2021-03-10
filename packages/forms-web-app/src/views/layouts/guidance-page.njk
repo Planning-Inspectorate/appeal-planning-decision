@@ -66,6 +66,7 @@
           <div class="govuk-grid-column-two-thirds">
             <h1 class="govuk-heading-xl">Appeal a householder planning decision</h1>
 
+            {% if not hideNavigation %}
             <div class="part-navigation-container" role="complementary">
               <nav class="gem-c-contents-list " aria-label="Pages in this guide" role="navigation">
                 <h2 class="gem-c-contents-list__title">Contents</h2>
@@ -83,6 +84,7 @@
                 </ol>
               </nav>
             </div>
+            {% endif %}
 
             {% block content %}{% endblock %}
 
