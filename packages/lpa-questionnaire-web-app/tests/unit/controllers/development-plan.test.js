@@ -1,4 +1,7 @@
 const developmentPlanController = require('../../../src/controllers/development-plan');
+const { createOrUpdateAppealReply } = require('../../../src/lib/appeal-reply-api-wrapper');
+const { getTaskStatus } = require('../../../src/services/task.service');
+const logger = require('../../../src/lib/logger');
 const appealReply = require('../../../src/lib/empty-appeal-reply');
 const { VIEW } = require('../../../src/lib/views');
 const { mockReq, mockRes } = require('../mocks');
@@ -9,7 +12,7 @@ jest.mock('../../../src/lib/logger');
 
 describe('controllers/development-plan', () => {
   const backLinkUrl = '/mock-id/mock-back-link';
-
+  const mockTaskStatus = 'MOCK_STATUS';
   let req;
   let res;
   let mockAppealReply;
@@ -91,6 +94,125 @@ describe('controllers/development-plan', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.DEVELOPMENT_PLAN, {
         appeal: null,
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        values: {
+          'has-plan-submitted': 'no',
+          'plan-changes-text': undefined,
+        },
+      });
+    });
+  });
+
+  describe('postDevelopmentPlan', () => {
+    it('should redirect with has-plan-submitted set to false', async () => {
+      getTaskStatus.mockImplementation(() => mockTaskStatus);
+
+      mockAppealReply.optionalDocumentsSection.developmentOrNeighbourhood.hasPlanSubmitted = false;
+
+      const mockRequest = {
+        ...mockReq(),
+        body: {
+          'has-plan-submitted': 'no',
+        },
+      };
+
+      await developmentPlanController.postDevelopmentPlan(mockRequest, res);
+
+      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
+      expect(res.render).not.toHaveBeenCalled();
+      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+    });
+
+    it('should redirect to the back link specified', async () => {
+      getTaskStatus.mockImplementation(() => mockTaskStatus);
+
+      mockAppealReply.optionalDocumentsSection.developmentOrNeighbourhood.hasPlanSubmitted = false;
+
+      const mockRequest = {
+        ...mockReq(),
+        body: {
+          'has-plan-submitted': 'no',
+        },
+      };
+      mockRequest.session.backLink = backLinkUrl;
+
+      await developmentPlanController.postDevelopmentPlan(mockRequest, res);
+
+      expect(res.redirect).toHaveBeenCalledWith(backLinkUrl);
+    });
+
+    it('should redirect with has-plan-submitted set to true and plan-changes-text passed', async () => {
+      getTaskStatus.mockImplementation(() => mockTaskStatus);
+
+      mockAppealReply.optionalDocumentsSection.developmentOrNeighbourhood = {
+        hasPlanSubmitted: true,
+        planChanges: 'some-text',
+      };
+      mockAppealReply.optionalDocumentsSection.developmentOrNeighbourhood.planChanges = mockTaskStatus;
+
+      const mockRequest = {
+        ...mockReq(),
+        body: {
+          'has-plan-submitted': 'yes',
+          'plan-changes-text': 'some-text',
+        },
+      };
+      mockRequest.session.backLink = `/mock-id/${VIEW.TASK_LIST}`;
+
+      await developmentPlanController.postDevelopmentPlan(mockRequest, res);
+
+      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
+      expect(res.render).not.toHaveBeenCalled();
+      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+    });
+
+    it('should re-render the template with errors if there is any validator error', async () => {
+      const mockRequest = {
+        ...mockReq(),
+        body: {
+          'has-plan-submitted': 'yes',
+          'plan-changes-text': null,
+          errors: { a: 'b' },
+          errorSummary: [{ text: 'There were errors here', href: '#' }],
+        },
+      };
+      await developmentPlanController.postDevelopmentPlan(mockRequest, res);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledWith(VIEW.DEVELOPMENT_PLAN, {
+        appeal: null,
+        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        errorSummary: [{ text: 'There were errors here', href: '#' }],
+        errors: { a: 'b' },
+        values: {
+          'has-plan-submitted': 'yes',
+          'plan-changes-text': null,
+        },
+      });
+    });
+
+    it('should re-render the template with an error if there is an API error', async () => {
+      mockAppealReply.optionalDocumentsSection.developmentOrNeighbourhood.hasPlanSubmitted = false;
+      mockAppealReply.sectionStates.planChanges = mockTaskStatus;
+
+      const mockRequest = {
+        ...mockReq(),
+        body: {
+          'has-plan-submitted': 'no',
+        },
+      };
+
+      createOrUpdateAppealReply.mockRejectedValue('mock api error');
+
+      await developmentPlanController.postDevelopmentPlan(mockRequest, res);
+
+      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(logger.error).toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledWith(VIEW.DEVELOPMENT_PLAN, {
+        appeal: null,
+        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        errorSummary: [{ text: 'mock api error' }],
+        errors: {},
         values: {
           'has-plan-submitted': 'no',
           'plan-changes-text': undefined,

@@ -31,6 +31,7 @@ Given(
     cy.goToDevelopmentPlanPage();
     cy.validateDevelopmentPlanPageTitle();
     cy.developmentPlanRadioButton('yes').check();
+    cy.inputDevelopmentPlanDetails().type('some_text');
     cy.clickSaveAndContinue();
   },
 );
@@ -109,7 +110,7 @@ Then('any information they have entered will not be saved', () => {
   cy.inputDevelopmentPlanDetails().should('have.value', '');
 });
 
-Then('the appeal details panel is displayed on the right hand side of the page', () => {
+Then('the appeal details panel on the right hand side of the page can be viewed', () => {
   cy.verifyAppealDetailsSidebar({
     applicationNumber: 'ABC/123',
     applicationAddress: '999 Letsby Avenue, Sheffield, South Yorkshire, S9 1XY',
@@ -123,5 +124,5 @@ Then('no is still selected', () => {
 
 Then('yes is still selected, and plan details are still populated', () => {
   cy.developmentPlanRadioButton('yes').should('be.checked');
-  cy.inputDevelopmentPlanDetails().should('have.value', '');
+  cy.inputDevelopmentPlanDetails().should('have.value', 'some_text');
 });
