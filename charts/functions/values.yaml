@@ -9,6 +9,20 @@ keyVault:
     secrets: []
     multiValueSecrets: []
 
+pingHorizon:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: pinscommonukscontainers3887default.azurecr.io/ping
+    pullPolicy: Always
+    tag: latest
+  config:
+    ping:
+      method: get
+      timeout: 10000
+      url: http://horizon.com
+    port: 3000
+
 functions:
   horizon-add-document:
     image: pinscommonukscontainers3887default.azurecr.io/horizon-add-document
