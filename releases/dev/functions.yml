@@ -7,6 +7,8 @@ metadata:
   annotations:
     fluxcd.io/automated: "true"
     # Add hyphen to include pre-releases
+    filter.fluxcd.io/pingHorizon: semver:^1.0.0-0
+
     repository.fluxcd.io/horizon-add-document: functions.horizon-add-document.image
     filter.fluxcd.io/horizon-add-document: semver:^1.0.0-0
     tag.fluxcd.io/horizon-add-document: functions.horizon-add-document.tag
@@ -27,6 +29,15 @@ spec:
   values:
     keyVault:
       name: pins-uks-vault-8669-dev
+
+    pingHorizon:
+      replicaCount: 1
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/ping
+        tag: latest
+      config:
+        ping:
+          url: http://10.0.7.4:8001/status
 
     functions:
       horizon-add-document:
