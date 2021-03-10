@@ -14,5 +14,6 @@ describe('routes/guidance-pages', () => {
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith('/before-you-appeal', guidancePagesController.getBeforeAppeal);
     expect(get).toHaveBeenCalledWith('/when-you-can-appeal', guidancePagesController.getWhenAppeal);
+    expect(get).toHaveBeenCalledWith('/after-you-appeal', guidancePagesController.getAfterAppeal);
   });
 });
