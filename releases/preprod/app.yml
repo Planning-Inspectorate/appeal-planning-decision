@@ -69,6 +69,11 @@ spec:
         multiValueSecrets:
         - http-basic
 
+    pinsKeyVault:
+      envSpecific:
+        secrets:
+          - notify-preprod
+
     ingress:
       hosts:
         fwa:

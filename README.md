@@ -204,6 +204,33 @@ with two levels: `admin` (can do everything) and `user` (can read everything in 
 The connection methods are the same for users in both ActiveDirectory groups - anyone not in these groups will have no
 access to the cluster.
 
+## Secrets
+
+> tl;dr never store sensitive information in the repo. Always store it in an Azure Key Vault. If you wish to manually
+> enter some data, store it in the PINS-managed one.
+
+In Kubernetes, [secrets](https://kubernetes.io/docs/concepts/configuration/secret/) are a way of managing sensitive information.
+There are many ways of storing secrets securely so that they are never divulged - as we are using Azure, the chosen method
+is via [Key Vault](https://docs.microsoft.com/en-us/azure/key-vault/general/basic-concepts) and then using [AKV2K8S](https://akv2k8s.io/)
+to inject these as Kubernetes Secrets.
+
+There are two Key Vaults available to each deployment:
+ - Environment. As part of the infrastructure deployment process, a Key Vault is created for each environment. This should
+only be used to store automatically generated data, such database configuration. There is a job to extract variables from
+the Terraform job and put them into this Key Vault. As this Key Vault is managed by Terraform, it should only have secrets
+stored in here that are automatically generated - anything manually added may get lost.
+ - PINS. In the PINS Azure subscription, there is a manually created Key Vault. The purpose of this is for PINS Staff to
+be able to inject data into this infrastructure without ever having to transmit it insecurely. This is only available to
+PINS staff so there is no loss in the chain of custody of data. Any secrets that you wish to store manually (eg, a 
+token generated for a third-party service, such as Notify) must be stored in here. There is only one of these Key Vaults,
+so this is designed as the global Key Vault.
+
+The access rights to both of these Key Vaults are done a least-privilege basis and should only ever have `GET` access.
+Even `LIST` could produce a vulnerability so should never be granted.
+
+In order to add a secret to Kubernetes, you must declare it in the Helm or Release configuration. This will trigger
+AKV2K8S to download the secret from Key Vault and inject it as a secret.
+
 ## Adding a user to a group
 
 > This is an administrative task, to be performed in Azure ActiveDirectory.
