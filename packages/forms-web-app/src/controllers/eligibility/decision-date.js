@@ -19,7 +19,11 @@ exports.getDecisionDate = (req, res) => {
   const decisionDate = isValid(appealDecisionDate) ? appealDecisionDate : null;
 
   res.render(VIEW.ELIGIBILITY.DECISION_DATE, {
-    decisionDate,
+    decisionDate: decisionDate && {
+      day: `0${decisionDate.getDate()}`.slice(-2),
+      month: `0${decisionDate.getMonth() + 1}`.slice(-2),
+      year: decisionDate.getFullYear(),
+    },
   });
 };
 
@@ -30,11 +34,12 @@ exports.postDecisionDate = async (req, res) => {
   const { errors = {}, errorSummary = [] } = body;
 
   if (Object.keys(errors).length > 0) {
-    const appealDecisionDate = parseISO(appeal.decisionDate);
-    const decisionDate = isValid(appealDecisionDate) ? appealDecisionDate : null;
-
     res.render(VIEW.ELIGIBILITY.DECISION_DATE, {
-      decisionDate,
+      decisionDate: {
+        day: body['decision-date-day'],
+        month: body['decision-date-month'],
+        year: body['decision-date-year'],
+      },
       errors,
       errorSummary,
     });
