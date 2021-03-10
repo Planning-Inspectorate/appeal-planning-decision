@@ -116,6 +116,18 @@ resource "azurerm_key_vault_access_policy" "k8s" {
   ]
 }
 
+resource "azurerm_key_vault_access_policy" "k8s_pins" {
+  key_vault_id = var.pins_key_vault
+  object_id = azurerm_kubernetes_cluster.k8s.kubelet_identity.0.object_id
+  tenant_id = azurerm_kubernetes_cluster.k8s.identity.0.tenant_id
+
+  secret_permissions = [
+    "get"
+  ]
+
+  provider = azurerm.pins-main
+}
+
 resource "azurerm_public_ip" "k8s" {
   name = format(local.name_format, "k8s")
   location = azurerm_resource_group.k8s.location
