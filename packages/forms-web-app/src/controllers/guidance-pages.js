@@ -25,3 +25,18 @@ exports.getWhenAppeal = (_, res) => {
     title: 'When you can appeal - Appeal a householder planning decision - GOV.UK',
   });
 };
+
+exports.getAfterAppeal = (_, res) => {
+  res.render(VIEW.GUIDANCE_PAGES.AFTER_APPEAL, {
+    currentUrl: '/after-you-appeal',
+    previousPage: {
+      text: 'The stages of an appeal',
+      url: '/stages-of-an-appeal',
+    },
+    nextPage: {
+      text: 'Start your appeal',
+      url: '/start-your-appeal',
+    },
+    title: 'After you appeal - Appeal a householder planning decision - GOV.UK',
+  });
+};
