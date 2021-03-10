@@ -23,3 +23,21 @@ Feature: Cookie Consent - Save Preferences
     Given a user is managing their cookie preference
     When the user enables a not necessary cookie
     Then the not necessary cookie is active from that point onwards
+
+  @as-1350 @as-1350-1
+  Scenario: Display a confirmation message when cookie preferences have been saved
+    Given a user is managing their cookie preference
+    When the user saves their preferences
+    Then the user will receive a confirmation message
+
+  @as-1350 @as-1350-2
+  Scenario: The go back link navigates to the previous page
+    Given a user has saved their cookie preferences
+    When they select to go back to their previous page
+    Then their previous page will be displayed
+
+  @as-1350 @as-1350-3
+  Scenario: Confirmation message is not displayed when the page is refreshed
+    Given a user has saved their cookie preferences
+    When the page is refreshed
+    Then the confirmation message is not displayed
