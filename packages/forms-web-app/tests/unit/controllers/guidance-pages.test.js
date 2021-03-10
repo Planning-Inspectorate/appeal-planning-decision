@@ -64,4 +64,15 @@ describe('controllers/appellant-submission/appeal-statement', () => {
       });
     });
   });
+
+  describe('getStartAppeal', () => {
+    it('should call the correct template', async () => {
+      await guidancePagesController.getStartAppeal(req, res);
+
+      expect(res.render).toHaveBeenCalledWith(VIEW.GUIDANCE_PAGES.START_APPEAL, {
+        hideNavigation: true,
+        title: 'Start your appeal - Appeal a householder planning decision - GOV.UK',
+      });
+    });
+  });
 });

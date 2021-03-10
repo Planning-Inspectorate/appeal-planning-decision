@@ -40,3 +40,10 @@ exports.getAfterAppeal = (_, res) => {
     title: 'After you appeal - Appeal a householder planning decision - GOV.UK',
   });
 };
+
+exports.getStartAppeal = (_, res) => {
+  res.render(VIEW.GUIDANCE_PAGES.START_APPEAL, {
+    hideNavigation: true,
+    title: 'Start your appeal - Appeal a householder planning decision - GOV.UK',
+  });
+};
