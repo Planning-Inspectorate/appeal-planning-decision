@@ -31,6 +31,9 @@ spec:
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/appeals-service-api
         tag: 1.2.0
+      config:
+        notify:
+          secretName: akv-notify-prod
 
     documentServiceApi:
       replicaCount: 2
@@ -54,6 +57,11 @@ spec:
 
     keyVault:
       name: pins-uks-vault-8439-prod
+
+    pinsKeyVault:
+      envSpecific:
+        secrets:
+          - notify-prod
 
     ingress:
       hosts:
