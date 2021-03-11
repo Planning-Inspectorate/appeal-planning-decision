@@ -14,10 +14,18 @@ describe('controllers/appellant-submission/submission', () => {
   let res;
   let appeal;
 
+  const appealPdf = {
+    id: 'id',
+    name: 'appeal.pdf',
+    location: 'here',
+    size: '123',
+  };
+
   beforeEach(() => {
     req = mockReq();
     res = mockRes();
     ({ empty: appeal } = APPEAL_DOCUMENT);
+    appeal.yourAppealSection.otherDocuments.uploadedFiles = [];
 
     jest.resetAllMocks();
   });
@@ -56,6 +64,8 @@ describe('controllers/appellant-submission/submission', () => {
         },
       };
 
+      storePdfAppeal.mockResolvedValue(appealPdf);
+
       const error = new Error('Cheers');
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
@@ -67,6 +77,11 @@ describe('controllers/appellant-submission/submission', () => {
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
+        appealSubmission: {
+          appealPDFStatement: {
+            uploadedFile: appealPdf,
+          },
+        },
         state: 'SUBMITTED',
       });
 
@@ -114,7 +129,7 @@ describe('controllers/appellant-submission/submission', () => {
     });
 
     it('should redirect if valid', async () => {
-      storePdfAppeal.mockResolvedValue({ data: [] });
+      storePdfAppeal.mockResolvedValue(appealPdf);
 
       const mockRequest = {
         ...req,
@@ -126,6 +141,11 @@ describe('controllers/appellant-submission/submission', () => {
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
+        appealSubmission: {
+          appealPDFStatement: {
+            uploadedFile: appealPdf,
+          },
+        },
         state: 'SUBMITTED',
       });
 
