@@ -5,8 +5,10 @@ const getPreviousPagePath = require('../../../src/lib/get-previous-page-path');
 const { VIEW } = require('../../../src/lib/views');
 const { mockReq, mockRes } = require('../mocks');
 const { addFlashMessage } = require('../../../src/lib/flash-message');
+const { removeUnwantedCookies } = require('../../../src/lib/remove-unwanted-cookies');
 
 jest.mock('../../../src/config');
+jest.mock('../../../src/lib/remove-unwanted-cookies');
 jest.mock('../../../src/lib/flash-message');
 jest.mock('../../../src/lib/get-previous-page-path');
 
@@ -121,8 +123,11 @@ describe('controllers/cookies', () => {
               previous_page_path: fakePreviousPage,
             },
           }),
+          runExtraAssertions: () => {
+            resCookieCallTest(false, false);
+            expect(removeUnwantedCookies).toHaveBeenCalledWith(req, res);
+          },
           expectedPreviousPagePath: fakePreviousPage,
-          runExtraAssertions: () => resCookieCallTest(false, false),
         },
         {
           description: 'Not in production, enable usage cookies',
@@ -136,7 +141,10 @@ describe('controllers/cookies', () => {
             },
           }),
           expectedPreviousPagePath: '/',
-          runExtraAssertions: () => resCookieCallTest(true, false),
+          runExtraAssertions: () => {
+            resCookieCallTest(true, false);
+            expect(removeUnwantedCookies).not.toHaveBeenCalled();
+          },
         },
         {
           description: 'In production, disable usage cookies',
@@ -150,7 +158,10 @@ describe('controllers/cookies', () => {
             },
           }),
           expectedPreviousPagePath: '/',
-          runExtraAssertions: () => resCookieCallTest(false, true),
+          runExtraAssertions: () => {
+            resCookieCallTest(false, true);
+            expect(removeUnwantedCookies).toHaveBeenCalledWith(req, res);
+          },
         },
         {
           description: 'In production,  enable usage cookies',
@@ -164,8 +175,11 @@ describe('controllers/cookies', () => {
               previous_page_path: fakePreviousPage,
             },
           }),
+          runExtraAssertions: () => {
+            resCookieCallTest(true, true);
+            expect(removeUnwantedCookies).not.toHaveBeenCalled();
+          },
           expectedPreviousPagePath: fakePreviousPage,
-          runExtraAssertions: () => resCookieCallTest(true, true),
         },
       ].forEach(
         ({ description, before, setupReq, expectedPreviousPagePath, runExtraAssertions }) => {
@@ -187,7 +201,7 @@ describe('controllers/cookies', () => {
 
             expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.COOKIES}`);
 
-            runExtraAssertions();
+            runExtraAssertions(req, res);
           });
         }
       );
