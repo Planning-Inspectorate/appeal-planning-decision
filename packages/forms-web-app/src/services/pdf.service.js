@@ -69,7 +69,7 @@ const storePdfAppeal = async (appeal) => {
     const msg = 'Error during the appeal pdf generation';
     log.error({ err }, msg);
 
-    throw new Error('Error during the appeal pdf generation');
+    throw new Error(msg);
   }
 };
 
