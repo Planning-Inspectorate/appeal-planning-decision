@@ -58,6 +58,10 @@ module.exports = (appeal) => {
     hasIssues: true,
     healthAndSafetyIssues: 'Site was a munitions dump!',
   };
+  appeal.appealSubmission.appealPDFStatement.uploadedFile = {
+    name: 'c9ce252a-9843-45d9-ab3c-a80590a38282.pdf',
+    id: 'c9ce252a-9843-45d9-ab3c-a80590a38282',
+  };
   appeal.sectionStates.aboutYouSection = {
     yourDetails: 'NOT STARTED',
   };

@@ -75,6 +75,19 @@ exports.insertAppeal = yup
           .default([]),
       }),
     }),
+    appealSubmission: yup.object().shape({
+      appealPDFStatement: yup.object().shape({
+        uploadedFile: yup.object().shape({
+          name: yup.string().max(255).ensure(),
+          id: yup
+            .string()
+            .uuid()
+            .transform((value) => (!value ? null : value))
+            .nullable()
+            .default(null),
+        }),
+      }),
+    }),
     appealSiteSection: yup.object().shape({
       siteAddress: yup.object().shape({
         addressLine1: yup.string().max(60).ensure(),
