@@ -198,6 +198,16 @@ exports.updateAppeal = yup
       }
       return yup.mixed().notRequired();
     }),
+    appealSubmission: yup.lazy((appealSubmission) => {
+      if (appealSubmission !== undefined) {
+        return yup.object().shape({
+          appealPDFStatement: yup.lazy(() => {
+            return yup.mixed().notRequired();
+          }),
+        });
+      }
+      return yup.mixed().notRequired();
+    }),
     appealSiteSection: yup.lazy((value) => {
       if (value !== undefined) {
         return yup.object().shape({
