@@ -1,7 +1,10 @@
 jest.mock('multer');
 jest.mock('../schemas/documents');
+jest.mock('../services/upload.service');
 
 const multer = require('multer');
+const { uploadDocumentsToBlobStorage } = require('../services/upload.service');
+
 const controller = require('./documents');
 const Documents = require('../schemas/documents');
 const config = require('../lib/config');
@@ -273,6 +276,46 @@ describe('Documents controller', () => {
         expect(res.send).toBeCalledWith(err);
       });
 
+      it('should return error if the upload in the blob storage failed', async () => {
+        const req = {
+          file: {
+            mimetype: 'application/pdf',
+          },
+          params: {},
+          log: {
+            debug: jest.fn(),
+            info: jest.fn(),
+            warn: jest.fn(),
+            error: jest.fn(),
+          },
+        };
+
+        const error = new Error('Some error');
+
+        const doc = {
+          generateId: jest.fn(),
+          get: jest.fn(),
+          save: jest.fn().mockResolvedValue(),
+          toDTO: jest.fn().mockReturnValue({}),
+          validate: jest.fn().mockResolvedValue(),
+          generateLocation: jest.fn(),
+        };
+        doc.generateId.mockReturnValue(doc);
+
+        Documents.mockReturnValue(doc);
+
+        uploadDocumentsToBlobStorage.mockImplementation(() => Promise.reject(error));
+
+        expect(await controller.uploadDocument[1](req, res)).toBe(undefined);
+
+        expect(doc.validate).toBeCalled();
+
+        expect(uploadDocumentsToBlobStorage).toBeCalledWith([doc]);
+
+        expect(res.status).toBeCalledWith(400);
+        expect(res.send).toBeCalledWith(error);
+      });
+
       it('should save document and return a 202 response with DTO', async () => {
         const req = {
           file: {
@@ -291,17 +334,21 @@ describe('Documents controller', () => {
         const doc = {
           generateId: jest.fn(),
           generateLocation: jest.fn(),
+          get: jest.fn(),
           save: jest.fn().mockResolvedValue(),
           toDTO: jest.fn().mockReturnValue(dtoValue),
           validate: jest.fn().mockResolvedValue(),
         };
         doc.generateId.mockReturnValue(doc);
 
+        uploadDocumentsToBlobStorage.mockReturnValue(doc);
+
         Documents.mockReturnValue(doc);
 
         expect(await controller.uploadDocument[1](req, res)).toBe(undefined);
 
         expect(doc.validate).toBeCalled();
+        expect(uploadDocumentsToBlobStorage).toBeCalledWith([doc]);
         expect(doc.save).toBeCalled();
         expect(res.status).toBeCalledWith(202);
         expect(res.send).toBeCalledWith(dtoValue);

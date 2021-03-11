@@ -96,17 +96,6 @@ services:
       - ./tmp/documents-upload:/tmp/upload
     command: npm run start:dev
 
-  document-service-uploader:
-    <<: *document-service
-    ports: []
-    links:
-      - blob-storage
-      - mongodb
-    depends_on:
-      - blob-storage
-      - mongodb
-    command: node ./src/tasks/uploadFilesToBlobStorage
-
   forms-web-app:
     image: node:14-alpine
     environment:
