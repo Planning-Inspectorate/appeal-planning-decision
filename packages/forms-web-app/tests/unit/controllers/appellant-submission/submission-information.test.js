@@ -5,8 +5,16 @@ const { mockReq, mockRes } = require('../../mocks');
 const { VIEW } = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/services/department.service');
-jest.mock('../../../../src/lib/logger');
+const mockLogger = jest.fn();
 
+jest.mock('../../../../src/lib/logger', () => ({
+  child: () => ({
+    debug: mockLogger,
+    error: mockLogger,
+    info: mockLogger,
+    warn: mockLogger,
+  }),
+}));
 describe('controllers/appellant-submission/submission-information', () => {
   let req;
   let res;
@@ -19,7 +27,19 @@ describe('controllers/appellant-submission/submission-information', () => {
   });
 
   describe('getSubmissionInformation', () => {
+    it('should return 400 if appeal id not provided', async () => {
+      req.params.appealId = null;
+
+      await submissionInformationController.getSubmissionInformation(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(400);
+      expect(res.render).toHaveBeenCalledWith('error/400', {
+        message: 'The appealId should be provided in the request param.',
+      });
+    });
     it('should return 404 if appeal not found', async () => {
+      req.params.appealId = 'some-id';
+
       await submissionInformationController.getSubmissionInformation(req, res);
 
       expect(res.status).toHaveBeenCalledWith(404);
@@ -29,6 +49,8 @@ describe('controllers/appellant-submission/submission-information', () => {
     it('should return 400 if the LPD is not found for the given LPA', async () => {
       req = {
         ...req,
+        params: { appealId: 'some-id' },
+
         session: {
           appeal: {},
         },
@@ -42,15 +64,39 @@ describe('controllers/appellant-submission/submission-information', () => {
       });
     });
 
-    it('should call the correct template with the expected data on the happy path', async () => {
+    it('should define default value if appeal submission date is not defined', async () => {
       const fakeLpdName = 'fake lpd name here';
 
       req = {
         ...req,
+        params: { appealId: 'some-id' },
         session: {
           appeal: {
             some: 'data',
             lpaCode: '123-abc',
+          },
+          appealLPD: {
+            name: fakeLpdName,
+          },
+        },
+      };
+
+      await submissionInformationController.getSubmissionInformation(req, res);
+
+      expect(req.session.appeal.submissionDate).not.toBeNull();
+    });
+
+    it('should call the correct template with the expected data on the happy path', async () => {
+      const fakeLpdName = 'fake lpd name here';
+      const submissionDate = new Date();
+      req = {
+        ...req,
+        params: { appealId: 'some-id' },
+        session: {
+          appeal: {
+            some: 'data',
+            lpaCode: '123-abc',
+            submissionDate,
           },
           appealLPD: {
             name: fakeLpdName,
