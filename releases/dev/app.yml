@@ -46,7 +46,7 @@ spec:
         repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
         tag: 1.28.3
       config:
-        googleAnalyticsId: dummy-value-to-test-in-dev
+        googleAnalyticsId: G-TZBWMVPTHV
 
     lpaQuestionnaireWebApp:
       replicaCount: 2
