@@ -5,17 +5,14 @@ function document() {
   return yup
     .object()
     .shape({
-      uploadedFile: yup
-        .object()
-        .shape({
-          name: yup.string().max(255).ensure().required(),
-          id: yup
-            .string()
-            .uuid()
-            .transform((value) => (!value ? null : value))
-            .required(),
-        })
-        .noUnknown(true),
+      uploadedFile: yup.object().shape({
+        name: yup.string().max(255).ensure().required(),
+        id: yup
+          .string()
+          .uuid()
+          .transform((value) => (!value ? null : value))
+          .required(),
+      }),
     })
     .noUnknown(true);
 }
@@ -202,7 +199,7 @@ exports.updateAppeal = yup
       if (appealSubmission !== undefined) {
         return yup.object().shape({
           appealPDFStatement: yup.lazy(() => {
-            return yup.mixed().notRequired();
+            return document();
           }),
         });
       }
