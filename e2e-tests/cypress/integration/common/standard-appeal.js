@@ -43,6 +43,16 @@ const matchWhatWeCanFrom = (hardCodedExpectations) => {
           },
         },
       },
+      appealSubmission: {
+        appealPDFStatement: {
+          uploadedFile: {
+            id: expect.any(String),
+            name: expect.any(String),
+            location: expect.any(String),
+            size: expect.any(Number),
+          },
+        },
+      },
     },
   };
 };
