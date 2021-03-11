@@ -1,6 +1,7 @@
 const multer = require('multer');
 const config = require('../lib/config');
 const Documents = require('../schemas/documents');
+const { uploadDocumentsToBlobStorage } = require('../services/upload.service');
 
 module.exports = {
   async getDocsForApplication(req, res) {
@@ -120,14 +121,27 @@ module.exports = {
       } catch (err) {
         /* Set as "warn" as this is data is generated here */
         req.log.warn({ err }, 'Document not validated');
-
         res.status(400).send(err);
         return;
       }
 
       await doc.save();
 
-      /* Return 202 as file not yet uploaded to blob storage */
+      try {
+        req.log.info(
+          {
+            applicationId,
+            docId: doc.get('id'),
+          },
+          'Uploading document to blob storage'
+        );
+
+        await uploadDocumentsToBlobStorage([doc]);
+      } catch (err) {
+        req.log.error({ err }, 'Document not uploaded to the blob storage');
+        res.status(400).send(err);
+      }
+
       res.status(202).send(doc.toDTO());
     },
   ],
