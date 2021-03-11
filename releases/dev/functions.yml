@@ -60,5 +60,6 @@ spec:
         tag: 1.1.1
         envvars:
           APPEALS_SERVICE_URL: http://app.app-dev.svc.cluster.local:3000
+          DOCUMENT_SERVICE_URL: http://app.app-dev.svc.cluster.local:3001
           GATEWAY_URL: http://gateway.openfaas.svc.cluster.local:8080
           HORIZON_URL: http://10.0.7.4:8000
