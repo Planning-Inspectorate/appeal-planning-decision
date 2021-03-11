@@ -77,6 +77,12 @@ module.exports = (appeal) => {
   cy.uploadAppealStatementFile(appeal.yourAppealSection.appealStatement.uploadedFile.name);
   cy.clickSaveAndContinue();
 
+  if (appeal.yourAppealSection.otherDocuments.uploadedFiles.length>0) {
+    cy.goToSupportingDocumentsPage();
+    cy.uploadSupportingDocuments(appeal.yourAppealSection.otherDocuments.uploadedFiles.map(file=>file.name));
+    cy.clickSaveAndContinue();
+  }
+
   cy.goToSiteAddressPage();
   cy.provideAddressLine1(appeal.appealSiteSection.siteAddress.addressLine1);
   cy.provideAddressLine2(appeal.appealSiteSection.siteAddress.addressLine2);

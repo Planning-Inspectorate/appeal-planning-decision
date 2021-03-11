@@ -111,6 +111,43 @@ Given('a prospective appellant has provided appeal information where they do not
   cy.clickSaveAndContinue();
 });
 
+
+Given('documents have been provided as part of an appeal', () => {
+  cy.provideCompleteAppeal({
+    ...STANDARD_APPEAL,
+    requiredDocumentsSection: {
+      applicationNumber: 'doc-test/321',
+      originalApplication: {
+        uploadedFile: {
+          name: 'mock-planning-application-form.pdf',
+        },
+      },
+      decisionLetter: {
+        uploadedFile: {
+          name: 'mock-decision-letter.pdf',
+        },
+      },
+    },
+    yourAppealSection: {
+      appealStatement: {
+        uploadedFile: {
+          name: 'mock-appeal-statement.pdf',
+        },
+        hasSensitiveInformation: false,
+      },
+      otherDocuments: {
+        uploadedFiles: [
+          {name: 'mock-additional-document-1.pdf'},
+          {name: 'mock-additional-document-2.jpeg'}
+        ],
+      },
+    },
+  });
+  cy.clickCheckYourAnswers();
+  cy.clickSaveAndContinue();
+});
+
+
 When('the appeal is submitted', () => {
   cy.confirmNavigationTermsAndConditionsPage();
   cy.task('listenToQueue');
@@ -193,3 +230,12 @@ Then('a case without Certificate A is created for a case officer while recording
   }
 });
 
+Then('the associated documents will be available for the case worker to review', () => {
+  if (queueValidationEnabled) {
+    cy.task('getLastFromQueue').then((actualMessage) => {
+      const expected = require('../../fixtures/expected-appeal-with-many-documents.json');
+      const reasonableExpectation = matchWhatWeCanFrom(expected);
+      expect(actualMessage).toEqual(reasonableExpectation);
+    });
+  }
+});
