@@ -4,6 +4,7 @@ Feature: Appeal submission to Horizon - create case for appellant
   I want an appeal case published in Horizon
   so that I am able to manage the appeal
 
+  @wip
   @ucd-831 @ucd-831-ac1
   Scenario: Appeal information submitted by an Appellant
     Given a prospective appellant has provided appeal information
