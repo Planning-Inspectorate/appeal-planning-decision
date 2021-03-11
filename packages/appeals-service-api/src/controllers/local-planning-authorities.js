@@ -11,7 +11,7 @@ const LPASchema = require('../schemas/lpa');
 
 module.exports = {
   async get(req, res, next) {
-    const id = req.param('id');
+    const { id } = req.params;
 
     req.log.info({ id }, 'Retrieving LPA');
 
@@ -30,7 +30,7 @@ module.exports = {
   },
 
   async list(req, res) {
-    const name = req.param('name');
+    const { name } = req.query;
 
     const filter = {};
     if (name) {
