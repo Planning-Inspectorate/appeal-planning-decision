@@ -43,6 +43,28 @@ const matchWhatWeCanFrom = (hardCodedExpectations) => {
           },
         },
       },
+      yourAppealSection: {
+        ...hardCodedExpectations.appeal.yourAppealSection,
+        appealStatement: {
+          ...hardCodedExpectations.appeal.yourAppealSection.appealStatement,
+          uploadedFile: {
+            ...hardCodedExpectations.appeal.yourAppealSection.appealStatement.uploadedFile,
+            id: expect.any(String),
+            location: expect.any(String),
+          },
+        },
+        otherDocuments: {
+          ...hardCodedExpectations.appeal.yourAppealSection.otherDocuments,
+          uploadedFiles: [...hardCodedExpectations.appeal.yourAppealSection.otherDocuments.uploadedFiles.map( (hardcodedFile ) => {
+            return {
+              ...hardcodedFile,
+              id: expect.any(String),
+              location: expect.any(String),
+            }
+          })],
+        },
+      },
+
     },
   };
 };
