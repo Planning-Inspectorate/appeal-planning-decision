@@ -1477,6 +1477,13 @@ describe('handler', () => {
                 name: 'Bob Smith',
               },
             },
+            appealSubmission: {
+              appealPDFStatement: {
+                uploadedFile: {
+                  id: 'appeal-pdf-id',
+                },
+              },
+            },
             updatedAt: '2021-02-07T08:15:01Z',
           },
           _id: appealId,
@@ -1702,6 +1709,7 @@ describe('handler', () => {
         event.body.appeal.yourAppealSection.appealStatement.uploadedFile.id,
         event.body.appeal.requiredDocumentsSection.originalApplication.uploadedFile.id,
         event.body.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id,
+        event.body.appeal.appealSubmission.appealPDFStatement.uploadedFile.id,
       ].forEach((documentId) => {
         expect(axios.post).toBeCalledWith(
           '/async-function/horizon-add-document',
@@ -1791,6 +1799,13 @@ describe('handler', () => {
               decisionLetter: {
                 uploadedFile: {
                   id: 'decision-letter-id',
+                },
+              },
+            },
+            appealSubmission: {
+              appealPDFStatement: {
+                uploadedFile: {
+                  id: 'appeal-pdf-id',
                 },
               },
             },
@@ -2042,6 +2057,7 @@ describe('handler', () => {
         event.body.appeal.requiredDocumentsSection.originalApplication.uploadedFile.id,
         event.body.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id,
         event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
+        event.body.appeal.appealSubmission.appealPDFStatement.uploadedFile.id,
       ].forEach((documentId) => {
         expect(axios.post).toBeCalledWith(
           '/async-function/horizon-add-document',
@@ -2134,6 +2150,13 @@ describe('handler', () => {
               decisionLetter: {
                 uploadedFile: {
                   id: 'decision-letter-id',
+                },
+              },
+            },
+            appealSubmission: {
+              appealPDFStatement: {
+                uploadedFile: {
+                  id: 'appeal-pdf-id',
                 },
               },
             },
@@ -2386,6 +2409,7 @@ describe('handler', () => {
         event.body.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id,
         event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
         event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[1].id,
+        event.body.appeal.appealSubmission.appealPDFStatement.uploadedFile.id,
       ].forEach((documentId) => {
         expect(axios.post).toBeCalledWith(
           '/async-function/horizon-add-document',
@@ -2478,6 +2502,13 @@ describe('handler', () => {
               decisionLetter: {
                 uploadedFile: {
                   id: 'decision-letter-id',
+                },
+              },
+            },
+            appealSubmission: {
+              appealPDFStatement: {
+                uploadedFile: {
+                  id: 'appeal-pdf-id',
                 },
               },
             },
@@ -2724,6 +2755,7 @@ describe('handler', () => {
         event.body.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id,
         event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
         event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[1].id,
+        event.body.appeal.appealSubmission.appealPDFStatement.uploadedFile.id,
       ].forEach((documentId) => {
         expect(axios.post).toBeCalledWith(
           '/async-function/horizon-add-document',
@@ -2816,6 +2848,13 @@ describe('handler', () => {
               decisionLetter: {
                 uploadedFile: {
                   id: 'decision-letter-id',
+                },
+              },
+            },
+            appealSubmission: {
+              appealPDFStatement: {
+                uploadedFile: {
+                  id: 'appeal-pdf-id',
                 },
               },
             },
@@ -3062,6 +3101,7 @@ describe('handler', () => {
         event.body.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id,
         event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
         event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[1].id,
+        event.body.appeal.appealSubmission.appealPDFStatement.uploadedFile.id,
       ].forEach((documentId) => {
         expect(axios.post).toBeCalledWith(
           '/async-function/horizon-add-document',
@@ -3154,6 +3194,13 @@ describe('handler', () => {
               decisionLetter: {
                 uploadedFile: {
                   id: 'decision-letter-id',
+                },
+              },
+            },
+            appealSubmission: {
+              appealPDFStatement: {
+                uploadedFile: {
+                  id: 'appeal-pdf-id',
                 },
               },
             },
@@ -3403,6 +3450,7 @@ describe('handler', () => {
         event.body.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id,
         event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
         event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[1].id,
+        event.body.appeal.appealSubmission.appealPDFStatement.uploadedFile.id,
       ].forEach((documentId) => {
         expect(axios.post).toBeCalledWith(
           '/async-function/horizon-add-document',
@@ -3495,6 +3543,13 @@ describe('handler', () => {
               decisionLetter: {
                 uploadedFile: {
                   id: 'decision-letter-id',
+                },
+              },
+            },
+            appealSubmission: {
+              appealPDFStatement: {
+                uploadedFile: {
+                  id: 'appeal-pdf-id',
                 },
               },
             },
@@ -3744,6 +3799,7 @@ describe('handler', () => {
         event.body.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id,
         event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
         event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[1].id,
+        event.body.appeal.appealSubmission.appealPDFStatement.uploadedFile.id,
       ].forEach((documentId) => {
         expect(axios.post).toBeCalledWith(
           '/async-function/horizon-add-document',

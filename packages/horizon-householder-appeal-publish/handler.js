@@ -5,6 +5,9 @@ const config = {
   appealsService: {
     url: process.env.APPEALS_SERVICE_URL,
   },
+  documentService: {
+    url: process.env.DOCUMENT_SERVICE_URL,
+  },
   horizon: {
     url: process.env.HORIZON_URL,
   },
@@ -373,6 +376,7 @@ module.exports = async (event, context) => {
       body?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
       body?.appeal?.requiredDocumentsSection?.originalApplication?.uploadedFile?.id,
       body?.appeal?.requiredDocumentsSection?.decisionLetter?.uploadedFile?.id,
+      body?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id,
     ];
 
     /* Add optional docs to the list */
