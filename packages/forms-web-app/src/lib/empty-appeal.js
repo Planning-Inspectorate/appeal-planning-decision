@@ -63,6 +63,14 @@ module.exports.APPEAL_DOCUMENT = {
         healthAndSafetyIssues: null,
       },
     },
+    appealSubmission: {
+      appealPDFStatement: {
+        uploadedFile: {
+          name: '',
+          id: null,
+        },
+      },
+    },
     sectionStates: {
       aboutYouSection: {
         yourDetails: 'NOT STARTED',
