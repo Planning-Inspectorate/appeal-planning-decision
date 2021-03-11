@@ -61,6 +61,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmHasGoogleAnalyticsCookies',
+  require('./confirmHasGoogleAnalyticsCookies'),
+);
+
+Cypress.Commands.add(
   'confirmCookieFlashMessageContent',
   require('./confirmCookieFlashMessageContent'),
 );

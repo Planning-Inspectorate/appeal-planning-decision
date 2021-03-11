@@ -6,6 +6,7 @@ const { APPEAL_DOCUMENT } = require('../../src/lib/empty-appeal');
 const { empty: emptyAppeal } = APPEAL_DOCUMENT;
 
 const mockReq = (appeal = emptyAppeal) => ({
+  cookies: {},
   log: logger,
   params: {},
   session: {
@@ -14,6 +15,7 @@ const mockReq = (appeal = emptyAppeal) => ({
 });
 
 const mockRes = () => ({
+  clearCookie: jest.fn(),
   cookie: jest.fn(),
   locals: jest.fn(),
   redirect: jest.fn(),

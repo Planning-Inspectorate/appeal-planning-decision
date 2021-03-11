@@ -47,6 +47,7 @@ Then('any existing third party cookies have been deleted', () => {
 
 Then('the not necessary cookie is active from that point onwards', () => {
   cy.confirmUsageCookieHasBeenMarkedAsActive();
+  cy.confirmHasGoogleAnalyticsCookies();
 });
 
 Then('the user should not see the cookie banner', () => {

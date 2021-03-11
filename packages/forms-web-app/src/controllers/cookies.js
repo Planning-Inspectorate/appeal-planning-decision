@@ -3,6 +3,7 @@ const appConfig = require('../config');
 const cookieConfig = require('../lib/client-side/cookie/cookie-config');
 const getPreviousPagePath = require('../lib/get-previous-page-path');
 const { addFlashMessage } = require('../lib/flash-message');
+const { removeUnwantedCookies } = require('../lib/remove-unwanted-cookies');
 
 const getExistingCookiePolicy = (req) => {
   let cookiePolicy = {};
@@ -66,6 +67,10 @@ exports.postCookies = (req, res) => {
       },
     },
   });
+
+  if (body['usage-cookies'] === 'off') {
+    removeUnwantedCookies(req, res);
+  }
 
   res.redirect(`/${VIEW.COOKIES}`);
 };
