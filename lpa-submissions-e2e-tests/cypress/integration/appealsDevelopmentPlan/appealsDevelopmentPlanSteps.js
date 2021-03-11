@@ -56,6 +56,7 @@ When(`there is not a Development plan document or Neighbourhood plan`, () => {
 
 When(`details are provided about the plan {string}`, (plan_details) => {
   cy.inputDevelopmentPlanDetails().type(plan_details);
+  cy.clickSaveAndContinue();
 });
 
 When(`no details are given about the plan`, () => {

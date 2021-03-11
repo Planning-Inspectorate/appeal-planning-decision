@@ -2,6 +2,7 @@ const TASK_STATUS = require('./task-status/task-statuses');
 const accuracySubmissionCompletion = require('./task-status/accuracy-submission');
 const otherAppealsCompletion = require('./task-status/other-appeals');
 const extraConditionsCompletion = require('./task-status/extra-conditions');
+const developmentPlanCompletion = require('./task-status/development-plan');
 
 function statusTemp() {
   // TODO: these will be replaces when we have checks for status of each step
@@ -105,7 +106,7 @@ const SECTIONS = [
       {
         taskId: 'developmentOrNeighbourhood',
         href: '/development-plan',
-        rule: statusTemp,
+        rule: developmentPlanCompletion,
       },
     ],
   },
