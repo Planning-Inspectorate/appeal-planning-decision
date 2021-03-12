@@ -1,4 +1,4 @@
 module.exports = () => {
-  cy.visit('/appellant-submission/submission-information');
+  cy.visit('/appeal-householder-decision/submission-information');
   cy.wait(Cypress.env('demoDelay'));
 };

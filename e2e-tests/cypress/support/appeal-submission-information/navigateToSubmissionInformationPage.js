@@ -3,7 +3,7 @@ module.exports = () => {
     .should('not.be.visible')
     .invoke('val')
     .then((appealId) => {
-      cy.visit(`/appellant-submission/submission-information/${appealId}`, {
+      cy.visit(`/appeal-householder-decision/submission-information/${appealId}`, {
         failOnStatusCode: false,
       });
       cy.wait(Cypress.env('demoDelay'));

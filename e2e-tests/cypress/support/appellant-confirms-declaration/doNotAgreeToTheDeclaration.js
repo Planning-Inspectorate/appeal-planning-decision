@@ -1,5 +1,5 @@
 module.exports = () => {
-  cy.visit('/appellant-submission/submission');
+  cy.visit('/appeal-householder-decision/submission');
 
   cy.get('[data-cy="title"]').should('contain', 'Declaration');
 

@@ -1,4 +1,4 @@
 module.exports = () => {
-  cy.url().should('include', '/appellant-submission/application-number');
+  cy.url().should('include', '/appeal-householder-decision/application-number');
   cy.wait(Cypress.env('demoDelay'));
 }
