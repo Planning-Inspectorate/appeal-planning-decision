@@ -15,6 +15,20 @@ describe('lib/remove-unwanted-cookies', () => {
   describe('removeUnwantedCookies', () => {
     const fakeSessionId = 'abc-xyz-123';
 
+    const expectedRemovalCalls = (req, res, cookieName) => {
+      expect(res.clearCookie).toHaveBeenCalledWith(cookieName);
+      expect(res.clearCookie).toHaveBeenCalledWith(cookieName, {
+        // intentionally hardcoded
+        domain: `.example.com`,
+        secure: true,
+      });
+      expect(res.clearCookie).toHaveBeenCalledWith(cookieName, {
+        // intentionally from the req
+        domain: `.${req.hostname}`,
+        secure: true,
+      });
+    };
+
     [
       {
         title: 'no existing cookies',
@@ -23,7 +37,7 @@ describe('lib/remove-unwanted-cookies', () => {
           res: mockRes(),
           keepTheseCookies: undefined,
         },
-        expected: (res) => {
+        expected: (req, res) => {
           expect(res.clearCookie).not.toHaveBeenCalled();
         },
       },
@@ -39,7 +53,7 @@ describe('lib/remove-unwanted-cookies', () => {
           res: mockRes(),
           keepTheseCookies: undefined,
         },
-        expected: (res) => {
+        expected: (req, res) => {
           expect(res.clearCookie).not.toHaveBeenCalled();
         },
       },
@@ -55,9 +69,9 @@ describe('lib/remove-unwanted-cookies', () => {
           res: mockRes(),
           keepTheseCookies: [],
         },
-        expected: (res) => {
-          expect(res.clearCookie).toHaveBeenCalledTimes(1);
-          expect(res.clearCookie).toHaveBeenCalledWith('connect.sid');
+        expected: (req, res) => {
+          expect(res.clearCookie).toHaveBeenCalledTimes(3);
+          expectedRemovalCalls(req, res, 'connect.sid');
         },
       },
       {
@@ -72,7 +86,7 @@ describe('lib/remove-unwanted-cookies', () => {
           res: mockRes(),
           keepTheseCookies: undefined,
         },
-        expected: (res) => {
+        expected: (req, res) => {
           expect(res.clearCookie).not.toHaveBeenCalled();
         },
       },
@@ -90,9 +104,9 @@ describe('lib/remove-unwanted-cookies', () => {
           res: mockRes(),
           keepTheseCookies: [],
         },
-        expected: (res) => {
-          expect(res.clearCookie).toHaveBeenCalledTimes(1);
-          expect(res.clearCookie).toHaveBeenCalledWith(cookieConfig.COOKIE_POLICY_KEY);
+        expected: (req, res) => {
+          expect(res.clearCookie).toHaveBeenCalledTimes(3);
+          expectedRemovalCalls(req, res, cookieConfig.COOKIE_POLICY_KEY);
         },
       },
       {
@@ -109,9 +123,9 @@ describe('lib/remove-unwanted-cookies', () => {
           res: mockRes(),
           keepTheseCookies: undefined,
         },
-        expected: (res) => {
-          expect(res.clearCookie).toHaveBeenCalledTimes(1);
-          expect(res.clearCookie).toHaveBeenCalledWith('some-unwanted-cookie');
+        expected: (req, res) => {
+          expect(res.clearCookie).toHaveBeenCalledTimes(3);
+          expectedRemovalCalls(req, res, 'some-unwanted-cookie');
         },
       },
       {
@@ -128,10 +142,10 @@ describe('lib/remove-unwanted-cookies', () => {
           res: mockRes(),
           keepTheseCookies: ['some-unwanted-cookie'],
         },
-        expected: (res) => {
-          expect(res.clearCookie).toHaveBeenCalledTimes(2);
-          expect(res.clearCookie).toHaveBeenCalledWith('connect.sid');
-          expect(res.clearCookie).toHaveBeenCalledWith(cookieConfig.COOKIE_POLICY_KEY);
+        expected: (req, res) => {
+          expect(res.clearCookie).toHaveBeenCalledTimes(6);
+          expectedRemovalCalls(req, res, 'connect.sid');
+          expectedRemovalCalls(req, res, cookieConfig.COOKIE_POLICY_KEY);
         },
       },
       {
@@ -155,16 +169,16 @@ describe('lib/remove-unwanted-cookies', () => {
           res: mockRes(),
           keepTheseCookies: undefined,
         },
-        expected: (res) => {
-          expect(res.clearCookie).toHaveBeenCalledTimes(2);
-          expect(res.clearCookie).toHaveBeenCalledWith('_ga_TZBWMVPTHV');
-          expect(res.clearCookie).toHaveBeenCalledWith('_ga');
+        expected: (req, res) => {
+          expect(res.clearCookie).toHaveBeenCalledTimes(6);
+          expectedRemovalCalls(req, res, '_ga_TZBWMVPTHV');
+          expectedRemovalCalls(req, res, '_ga');
         },
       },
     ].forEach(({ title, given: { req, res, keepTheseCookies }, expected }) => {
       it(`should retain the expected cookies - ${title}`, () => {
         removeUnwantedCookies(req, res, keepTheseCookies);
-        expected(res);
+        expected(req, res);
       });
     });
   });
