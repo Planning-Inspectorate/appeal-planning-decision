@@ -6,10 +6,16 @@ const handler = require('./handler');
 describe('handler', () => {
   const envvars = process.env;
   let context;
+  let logMock;
 
   beforeEach(() => {
     jest.resetModules();
     process.env = { ...envvars };
+
+    logMock = {
+      info: jest.fn(),
+      error: jest.fn(),
+    };
 
     context = {
       httpStatus: 200,
@@ -44,7 +50,7 @@ describe('handler', () => {
       },
     });
 
-    expect(await handler({ body }, context)).toEqual({
+    expect(await handler({ body, log: logMock }, context)).toEqual({
       id: horizonId,
     });
 
@@ -94,7 +100,7 @@ describe('handler', () => {
       },
     });
 
-    expect(await handler({ body }, context)).toEqual({
+    expect(await handler({ body, log: logMock }, context)).toEqual({
       id: horizonId,
     });
 
@@ -144,7 +150,7 @@ describe('handler', () => {
       },
     });
 
-    expect(await handler({ body }, context)).toEqual({
+    expect(await handler({ body, log: logMock }, context)).toEqual({
       id: horizonId,
     });
 
@@ -195,7 +201,7 @@ describe('handler', () => {
       },
     });
 
-    expect(await handler({ body }, context)).toEqual({
+    expect(await handler({ body, log: logMock }, context)).toEqual({
       id: horizonId,
     });
 
@@ -250,7 +256,7 @@ describe('handler', () => {
       response,
     });
 
-    expect(await handler({ body }, context)).toEqual({
+    expect(await handler({ body, log: logMock }, context)).toEqual({
       message: 'No response received from Horizon',
     });
 
@@ -276,7 +282,7 @@ describe('handler', () => {
       request,
     });
 
-    expect(await handler({ body }, context)).toEqual({
+    expect(await handler({ body, log: logMock }, context)).toEqual({
       message: 'Error sending to Horizon',
     });
 
@@ -300,7 +306,7 @@ describe('handler', () => {
       message,
     });
 
-    expect(await handler({ body }, context)).toEqual({
+    expect(await handler({ body, log: logMock }, context)).toEqual({
       message: 'General error',
     });
 
