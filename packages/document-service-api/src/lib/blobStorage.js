@@ -37,6 +37,28 @@ const connectToBlobStorage = async () => {
 };
 
 /**
+ * Download From Blob Storage
+ *
+ * Downloads a file from the blob storage. Return data in buffer
+ * format.
+ *
+ * @param blobStorageLocation
+ * @param blobStorageClient
+ * @returns {Promise<Buffer>}
+ */
+const downloadFromBlobStorage = async (blobStorageLocation, blobStorageClient) => {
+  try {
+    logger.info({ blobStorageLocation }, 'Downloading file from blob storage');
+
+    const client = blobStorageClient.containerClient.getBlobClient(blobStorageLocation);
+    return await client.downloadToBuffer();
+  } catch (err) {
+    logger.error({ err }, 'Failed to download file from blob storage');
+    throw err;
+  }
+};
+
+/**
  * Upload To Blob Storage
  *
  * Uploads each of the selected documents to blob storage
@@ -95,5 +117,6 @@ const uploadToBlobStorage = (blobStorageClient) => {
 
 module.exports = {
   connectToBlobStorage,
+  downloadFromBlobStorage,
   uploadToBlobStorage,
 };

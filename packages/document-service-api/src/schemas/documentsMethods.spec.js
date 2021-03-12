@@ -1,9 +1,29 @@
 jest.mock('uuid');
+jest.mock('../lib/blobStorage');
 
 const uuid = require('uuid');
 const DocumentsMethods = require('./documentsMethods');
+const { connectToBlobStorage, downloadFromBlobStorage } = require('../lib/blobStorage');
 
 describe('Documents methods', () => {
+  describe('#downloadFileBuffer', () => {
+    it('should download a file buffer', async () => {
+      const connection = 'some-connection';
+      connectToBlobStorage.mockResolvedValue(connection);
+
+      const fileBuffer = Buffer.from('hello world');
+      downloadFromBlobStorage.mockResolvedValue(fileBuffer);
+
+      const location = 'some-location';
+      const obj = new DocumentsMethods();
+      obj.get = jest.fn().mockReturnValue(location);
+
+      expect(await obj.downloadFileBuffer()).toBe(fileBuffer);
+
+      expect(downloadFromBlobStorage).toBeCalledWith(location, connection);
+    });
+  });
+
   describe('#generateId', () => {
     it('should add a uuid.v4', () => {
       const value = 'some-uuid';
