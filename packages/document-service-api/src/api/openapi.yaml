@@ -103,24 +103,32 @@ paths:
     get:
       tags:
         - Document
-      operationId: getDocument
-      description: Returns the specific document meta-data
+      operationId: downloadDocument
+      description: Downloads the document for display
       parameters:
         - "$ref": "#/components/parameters/applicationId"
         - "$ref": "#/components/parameters/documentId"
+        - in: query
+          name: base64
+          schema:
+            type: boolean
+          required: false
+          description: Display the file in base64
       responses:
         '200':
           description: Successfully retrieved this document
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Document"
-        '400':
-          description: Unable to process this request.
-          content:
-            application/json:
+                "$ref": "#/components/schemas/DocumentDownload"
+            application/pdf:
               schema:
-                "$ref": "#/components/schemas/Error"
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
         '404':
           description: Document could be found for this Id
           content:
@@ -211,6 +219,18 @@ components:
       type: array
       items:
         "$ref": "#/components/schemas/Document"
+    DocumentDownload:
+      allOf:
+        - "$ref": "#/components/schemas/Document"
+        -
+          type: object
+          properties:
+            dataSize:
+              type: integer
+              description: The length of the file in bytes as returned in "data"
+            data:
+              type: string
+              format: byte
     Error:
       type: object
       properties:
