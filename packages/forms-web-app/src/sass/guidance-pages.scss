@@ -50,6 +50,10 @@
   list-style: none;
 }
 
+.gem-c-pagination__item:first-child {
+  margin-bottom: 20px;
+}
+
 .gem-c-pagination__link {
     display: block;
     text-decoration: none;
@@ -78,9 +82,13 @@
     margin-left: 10px;
 }
 
-  .gem-c-pagination__link:hover, .gem-c-pagination__link:active, .gem-c-pagination__link:visited {
-    color: #1d70b8;
-  }
+.gem-c-pagination__link:hover {
+  background-color: #f3f2f1;
+}
+
+.gem-c-pagination__link:hover, .gem-c-pagination__link:active, .gem-c-pagination__link:visited {
+  color: #1d70b8;
+}
 
 .gem-c-pagination__link-label {
     display: block;
