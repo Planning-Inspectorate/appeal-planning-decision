@@ -1,5 +1,4 @@
 const axios = require('axios');
-const debug = require('debug')('openfaas');
 
 const config = {
   documents: {
@@ -10,8 +9,8 @@ const config = {
   },
 };
 
-async function parseFile(documentId, applicationId) {
-  debug('Getting document', { applicationId, documentId });
+async function parseFile(log, documentId, applicationId) {
+  log.info({ applicationId, documentId }, 'Downloading document');
 
   const { data } = await axios.get(`/api/v1/${applicationId}/${documentId}/file`, {
     baseURL: config.documents.url,
@@ -57,9 +56,9 @@ async function parseFile(documentId, applicationId) {
   };
 }
 
-debug({ config });
-
 module.exports = async (event, context) => {
+  event.log.info({ config }, 'Receiving add document request');
+
   try {
     const { body } = event;
     const { caseReference, applicationId, documentId } = body;
@@ -72,12 +71,12 @@ module.exports = async (event, context) => {
         documents: [
           { '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business' },
           { '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance' },
-          await parseFile(documentId, applicationId),
+          await parseFile(event.log, documentId, applicationId),
         ],
       },
     };
 
-    debug('Uploading documents to Horizon');
+    event.log.info('Uploading documents to Horizon');
 
     const { data } = await axios.post('/horizon', input, {
       baseURL: config.horizon.url,
@@ -94,33 +93,33 @@ module.exports = async (event, context) => {
     /* istanbul ignore else */
     if (err.response) {
       message = err.message;
-      debug(
-        message,
-        JSON.stringify({
+      event.log.error(
+        {
           message: err.message,
           data: err.response.data,
           status: err.response.status,
           headers: err.response.headers,
-        })
+        },
+        message
       );
     } else if (err.request) {
       message = err.message;
       httpStatus = 400;
-      debug(
-        message,
-        JSON.stringify({
+      event.log.error(
+        {
           message: err.message,
           request: err.request,
-        })
+        },
+        message
       );
     } else {
       message = 'General error';
-      debug(
-        message,
-        JSON.stringify({
+      event.log.error(
+        {
           message: err?.message,
           stack: err?.stack,
-        })
+        },
+        message
       );
     }
 
