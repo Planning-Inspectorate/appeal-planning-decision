@@ -1,4 +1,4 @@
-ARG WATCHDOG_VERSION="0.7.7"
+ARG WATCHDOG_VERSION="0.8.2"
 ARG NODE_VERSION=14-alpine
 FROM --platform=${TARGETPLATFORM:-linux/amd64} openfaas/of-watchdog:${WATCHDOG_VERSION} as watchdog
 
@@ -21,8 +21,8 @@ ENV upstream_url="http://127.0.0.1:3000"
 ENV exec_timeout="10s"
 ENV write_timeout="15s"
 ENV read_timeout="15s"
-ENV DEBUG=openfaas
-ENV DEBUG_COLORS=false
+ENV prefix_logs="false"
+ENV LOGGER_LEVEL=trace
 USER node
 HEALTHCHECK --interval=3s CMD [ -e /tmp/.lock ] || exit 1
 CMD ["fwatchdog"]

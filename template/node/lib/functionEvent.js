@@ -1,12 +1,15 @@
 const { promises: fs } = require('fs');
+const uuid = require('uuid');
 
 module.exports = class FunctionEvent {
-  constructor(req) {
+  constructor(req, logger) {
     this.body = req.body;
     this.headers = req.headers;
     this.method = req.method;
     this.query = req.query;
     this.path = req.path;
+
+    this.log = logger.child({ requestId: uuid.v4() });
   }
 
   /**
