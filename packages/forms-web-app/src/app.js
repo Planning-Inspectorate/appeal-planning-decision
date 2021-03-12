@@ -120,6 +120,9 @@ app.use('/', routes);
 // View Engine
 app.set('view engine', 'njk');
 
+// For working with req.subdomains, primarily for cookie control.
+app.set('subdomain offset', config.server.subdomainOffset);
+
 // Error handling
 app
   .use((req, res, next) => {

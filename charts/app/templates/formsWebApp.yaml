@@ -87,6 +87,8 @@ spec:
                 secretKeyRef:
                   key: value
                   name: akv-fwa-session-key
+            - name: SUBDOMAIN_OFFSET
+              value: {{ .Values.formsWebApp.config.subdomainOffset | quote }}
             - name: USE_SECURE_SESSION_COOKIES
               value: "true"
           volumeMounts:

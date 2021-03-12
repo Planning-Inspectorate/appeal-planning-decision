@@ -73,6 +73,8 @@ module.exports = {
     host: process.env.HOST_URL || `http://localhost:${httpPort}`, // This is used for the HTML generator
     port: httpPort,
     sessionSecret: process.env.SESSION_KEY,
+    // https://expressjs.com/en/5x/api.html#app.set - to account for .gov.uk
+    subdomainOffset: process.env.SUBDOMAIN_OFFSET || 3,
     useSecureSessionCookie: process.env.USE_SECURE_SESSION_COOKIES === 'true',
     googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID,
   },

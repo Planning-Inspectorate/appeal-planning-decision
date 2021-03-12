@@ -1,4 +1,7 @@
 const cookieConfig = require('./client-side/cookie/cookie-config');
+const {
+  extractRootDomainNameFromHostnameAndSubdomains,
+} = require('./extract-root-domain-name-from-full-domain-name');
 
 const defaultKeepMeCookies = ['connect.sid', cookieConfig.COOKIE_POLICY_KEY];
 
@@ -14,14 +17,17 @@ const defaultKeepMeCookies = ['connect.sid', cookieConfig.COOKIE_POLICY_KEY];
  * @param res
  * @param keepTheseCookies
  */
-const removeUnwantedCookies = (req, res, keepTheseCookies = defaultKeepMeCookies) =>
+const removeUnwantedCookies = (req, res, keepTheseCookies = defaultKeepMeCookies) => {
+  const domain = extractRootDomainNameFromHostnameAndSubdomains(req.hostname, req.subdomains);
+
   Object.keys(req.cookies)
     .filter((cookieName) => keepTheseCookies.includes(cookieName) === false)
     .forEach((cookieName) => {
       res.clearCookie(cookieName);
-      res.clearCookie(cookieName, { domain: `.${req.hostname}`, secure: true });
-      res.clearCookie(cookieName, { domain: `.${req.hostname}`, secure: false });
+      res.clearCookie(cookieName, { domain: `.${domain}`, secure: true });
+      res.clearCookie(cookieName, { domain: `.${domain}`, secure: false });
     });
+};
 
 module.exports = {
   defaultKeepMeCookies,
