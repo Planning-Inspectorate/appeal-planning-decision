@@ -94,6 +94,7 @@ module.exports = {
           destination: config.fileUpload.path,
         }),
       }).single('file')(req, res, (err) => {
+        console.log('single');
         if (err) {
           if (err.code === 'LIMIT_FILE_SIZE') {
             req.log.warn('File too large');
@@ -179,12 +180,12 @@ module.exports = {
         );
 
         await uploadDocumentsToBlobStorage([doc]);
+
+        res.status(202).send(doc.toDTO());
       } catch (err) {
         req.log.error({ err }, 'Document not uploaded to the blob storage');
         res.status(400).send(err);
       }
-
-      res.status(202).send(doc.toDTO());
     },
   ],
 };
