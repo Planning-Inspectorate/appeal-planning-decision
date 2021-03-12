@@ -41,6 +41,50 @@ module.exports = {
     res.send(doc);
   },
 
+  async serveDocumentById(req, res) {
+    const search = {
+      applicationId: req.params.applicationId,
+      id: req.params.documentId,
+    };
+
+    const doc = await Documents.findOne(search);
+
+    if (!doc) {
+      req.log.debug(search, 'Unknown document ID');
+
+      res.status(404).send({
+        message: 'Unknown document ID',
+      });
+      return;
+    }
+
+    req.log.info('Downloading file from blob storage');
+
+    const fileBuffer = await doc.downloadFileBuffer();
+
+    const displayBase64 = req.query.base64 === 'true';
+
+    if (displayBase64) {
+      req.log.info('Converting file to base64');
+      const fileData = fileBuffer.toString('base64');
+
+      res.send({
+        applicationId: doc.get('applicationId'),
+        id: doc.get('id'),
+        diskSize: doc.get('size'),
+        dataSize: fileData.length, // Use length as base64 is different to compressed size
+        data: fileData,
+      });
+    } else {
+      const mimeType = doc.get('mimeType');
+      req.log.info({ mimeType }, 'Displaying file');
+
+      res.set('content-type', mimeType);
+
+      res.send(fileBuffer);
+    }
+  },
+
   uploadDocument: [
     (req, res, next) => {
       /* Upload the file to disk and perform basic validation */
