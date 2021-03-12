@@ -3,6 +3,7 @@ jest.mock('../schemas/documents');
 
 const { when } = require('jest-when');
 const Documents = require('../schemas/documents');
+const { connectToBlobStorage } = require('../lib/blobStorage');
 
 const { uploadToBlobStorage } = require('../lib/blobStorage');
 const { uploadDocumentsToBlobStorage } = require('./upload.service');
@@ -25,6 +26,10 @@ describe('services', () => {
 
   describe('uploadDocumentsToBlobStorage', () => {
     beforeEach(() => {
+      connectToBlobStorage.mockReturnValue({
+        containerClient: {},
+      });
+
       when(Documents.findOneAndUpdate)
         .calledWith(expect.anything(), {
           $inc: {

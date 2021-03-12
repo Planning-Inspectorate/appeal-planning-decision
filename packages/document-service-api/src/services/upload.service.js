@@ -9,8 +9,7 @@ const { functional } = require('@pins/common');
 const Documents = require('../schemas/documents');
 const config = require('../lib/config');
 const logger = require('../lib/logger');
-const { uploadToBlobStorage } = require('../lib/blobStorage');
-const { connectToBlobStorage } = require('../lib/blobStorage');
+const { connectToBlobStorage, uploadToBlobStorage } = require('../lib/blobStorage');
 
 /**
  * Increment Attempts
@@ -84,11 +83,11 @@ async function updateUploadStatus(docs) {
 const uploadDocumentsToBlobStorage = async (docs) => {
   logger.info({ config }, 'Starting upload process');
 
-  const client = await connectToBlobStorage();
+  const { containerClient } = await connectToBlobStorage();
 
   const data = await functional.flow([
     incrementAttempts,
-    uploadToBlobStorage(client),
+    uploadToBlobStorage(containerClient),
     updateUploadStatus,
   ])(docs);
 
