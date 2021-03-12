@@ -74,7 +74,7 @@ module.exports = {
     port: httpPort,
     sessionSecret: process.env.SESSION_KEY,
     // https://expressjs.com/en/5x/api.html#app.set - to account for .gov.uk
-    subdomainOffset: process.env.SUBDOMAIN_OFFSET || 3,
+    subdomainOffset: parseInt(process.env.SUBDOMAIN_OFFSET, 10) || 3,
     useSecureSessionCookie: process.env.USE_SECURE_SESSION_COOKIES === 'true',
     googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID,
   },
