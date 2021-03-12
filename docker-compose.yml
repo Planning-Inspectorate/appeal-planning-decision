@@ -48,7 +48,10 @@ services:
       MONGODB_URL: mongodb://mongodb:27017
       SERVER_SHOW_ERRORS: "true"
       SRV_HORIZON_URL: http://mock-horizon:3000
-      SRV_NOTIFY_URL: http://mock-notify:3000
+      SRV_NOTIFY_BASE_URL: http://mock-notify:3000
+      SRV_NOTIFY_SERVICE_ID: 'dummy-service-id-for-notify'
+      SRV_NOTIFY_API_KEY: 'dummy-api-key-for-notify'
+      SRV_NOTIFY_TEMPLATE_ID: 'dummy-template-id-for-notify'
       SRV_OS_PLACES_URL: http://mock-os-places:3000
     ports:
       - 3000:3000
