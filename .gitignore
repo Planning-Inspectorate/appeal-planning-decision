@@ -171,6 +171,7 @@ tmp
 known_hosts
 
 packages/**/globalConfig.json
+packages/**/src/public/javascripts
 
 # OpenFaaS
 build
