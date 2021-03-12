@@ -15,6 +15,10 @@ describe('handler', () => {
 
     event = {
       body: {},
+      log: {
+        info: jest.fn(),
+        error: jest.fn(),
+      },
     };
 
     context = {

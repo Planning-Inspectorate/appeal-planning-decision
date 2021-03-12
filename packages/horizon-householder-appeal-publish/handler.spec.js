@@ -11,10 +11,17 @@ const handler = require('./handler');
 describe('handler', () => {
   const envvars = process.env;
   let context;
+  let logMock;
 
   beforeEach(() => {
     process.env = { ...envvars };
     advanceTo(new Date(2021, 1, 7, 12, 0, 0));
+
+    logMock = {
+      debug: jest.fn(),
+      error: jest.fn(),
+      info: jest.fn(),
+    };
 
     context = {
       httpStatus: 200,
@@ -76,6 +83,7 @@ describe('handler', () => {
         });
 
       const event = {
+        log: logMock,
         body: {
           appeal: {
             lpaCode,
@@ -395,6 +403,7 @@ describe('handler', () => {
         });
 
       const event = {
+        log: logMock,
         body: {
           _id: appealId,
           appeal: {
@@ -753,6 +762,7 @@ describe('handler', () => {
         });
 
       const event = {
+        log: logMock,
         body: {
           _id: appealId,
           appeal: {
@@ -1072,6 +1082,7 @@ describe('handler', () => {
         });
 
       const event = {
+        log: logMock,
         body: {
           _id: appealId,
           appeal: {
@@ -1431,6 +1442,7 @@ describe('handler', () => {
         });
 
       const event = {
+        log: logMock,
         body: {
           appeal: {
             lpaCode,
@@ -1784,6 +1796,7 @@ describe('handler', () => {
         });
 
       const event = {
+        log: logMock,
         body: {
           appeal: {
             lpaCode,
@@ -2148,6 +2161,7 @@ describe('handler', () => {
         });
 
       const event = {
+        log: logMock,
         body: {
           appeal: {
             lpaCode,
@@ -2519,6 +2533,7 @@ describe('handler', () => {
         });
 
       const event = {
+        log: logMock,
         body: {
           appeal: {
             lpaCode,
@@ -2883,6 +2898,7 @@ describe('handler', () => {
         });
 
       const event = {
+        log: logMock,
         body: {
           appeal: {
             lpaCode,
@@ -3248,6 +3264,7 @@ describe('handler', () => {
         });
 
       const event = {
+        log: logMock,
         body: {
           appeal: {
             lpaCode,
@@ -3616,6 +3633,7 @@ describe('handler', () => {
         });
 
       const event = {
+        log: logMock,
         body: {
           appeal: {
             lpaCode,
@@ -3944,6 +3962,7 @@ describe('handler', () => {
       const lpaCode = 'some-bad-lpa-code';
 
       const event = {
+        log: logMock,
         body: {
           appeal: {
             lpaCode,
@@ -3971,6 +3990,7 @@ describe('handler', () => {
       const lpaCode = 'some-bad-lpa-code';
 
       const event = {
+        log: logMock,
         body: {
           appeal: {
             lpaCode,
@@ -4030,6 +4050,7 @@ describe('handler', () => {
         });
 
       const event = {
+        log: logMock,
         body: {
           appeal: {
             lpaCode,
@@ -4126,6 +4147,7 @@ describe('handler', () => {
       axios.patch.mockRejectedValue(updateErr);
 
       const event = {
+        log: logMock,
         body: {
           appeal: {
             lpaCode,
@@ -4381,6 +4403,7 @@ describe('handler', () => {
       const lpaCode = 'some-lpa-code';
 
       const event = {
+        log: logMock,
         body: {
           appeal: {
             lpaCode,
@@ -4413,6 +4436,7 @@ describe('handler', () => {
       const lpaCode = 'some-lpa-code2';
 
       const event = {
+        log: logMock,
         body: {
           appeal: {
             lpaCode,
