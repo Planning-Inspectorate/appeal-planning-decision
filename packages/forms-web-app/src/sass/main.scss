@@ -5,3 +5,7 @@
 @import "../views/components/multi-file-upload/multi-file-upload-error-styling";
 @import "save-return";
 @import "guidance-pages";
+
+a {
+  @extend .govuk-link;
+}
