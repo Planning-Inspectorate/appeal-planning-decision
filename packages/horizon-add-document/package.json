@@ -16,7 +16,6 @@
   "author": "Foundry4 <www.foundry4.com>",
   "license": "MIT",
   "dependencies": {
-    "@azure/storage-blob": "^12.4.1",
     "axios": "^0.21.1",
     "debug": "^4.3.1"
   },
