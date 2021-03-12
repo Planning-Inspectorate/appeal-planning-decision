@@ -7,7 +7,6 @@ const { empty: emptyAppeal } = APPEAL_DOCUMENT;
 
 const mockReq = (appeal = emptyAppeal) => ({
   cookies: {},
-  hostname: 'example.com',
   log: logger,
   params: {},
   session: {

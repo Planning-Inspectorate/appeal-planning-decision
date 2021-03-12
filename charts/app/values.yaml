@@ -84,6 +84,7 @@ lpaQuestionnaireWebApp:
     port: 3000
     googleAnalyticsId: ""
     logLevel: trace
+    subdomainOffset: ""
     upload:
       debug: true
       uploadDir: /upload-dir
