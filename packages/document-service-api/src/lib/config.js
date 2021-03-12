@@ -40,7 +40,7 @@ module.exports = {
     path: process.env.FILE_UPLOAD_PATH,
   },
   logger: {
-    level: process.env.LOGGER_LEVEL || 'info',
+    level: process.env.LOGGER_LEVEL || /* istanbul ignore next */ 'info',
     redact: ['config.db.mongodb', 'config.storage.connectionString'],
   },
   server: {
