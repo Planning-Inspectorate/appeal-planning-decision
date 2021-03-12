@@ -73,6 +73,12 @@ spec:
               value: {{ .Values.documentServiceApi.config.port | quote }}
             - name: SERVER_TERMINATION_GRACE_PERIOD_SECONDS
               value: {{ 10 | quote }} # Same as "periodSeconds" for readinessProbe
+            - name: STORAGE_CONTAINER_NAME
+              value: {{ .Values.documentServiceApi.config.upload.uploadContainerName }}
+            - name: STORAGE_UPLOAD_MAX_ATTEMPTS
+              value: {{ .Values.documentServiceApi.config.upload.maxUploadAttempts | quote }}
+            - name: STORAGE_UPLOAD_QUERY_LIMIT
+              value: {{ .Values.documentServiceApi.config.upload.processQueryLimit | quote }}
           volumeMounts:
             - mountPath: {{ .Values.documentServiceApi.config.upload.uploadDir | quote }}
               name: upload-dir
