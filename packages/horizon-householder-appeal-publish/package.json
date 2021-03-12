@@ -18,8 +18,7 @@
     "./**/*.{js, json}": "npm run format"
   },
   "dependencies": {
-    "axios": "^0.21.1",
-    "debug": "^4.3.1"
+    "axios": "^0.21.1"
   },
   "devDependencies": {
     "eslint": "^7.12.1",

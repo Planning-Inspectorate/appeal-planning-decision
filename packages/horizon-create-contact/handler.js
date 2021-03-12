@@ -7,7 +7,7 @@ module.exports = async (event, context) => {
     },
   };
 
-  console.log(JSON.stringify(config));
+  event.log.info(config, 'Receiving create contact request');
 
   const { body } = event;
 
@@ -47,12 +47,12 @@ module.exports = async (event, context) => {
     },
   };
 
-  console.log('Adding contact in Horizon', JSON.stringify(input));
+  event.log.info({ input }, 'Adding contact in Horizon');
 
   try {
     const { data } = await axios.post(`${config.horizon.url}/contacts`, input);
 
-    console.log('Contact added to Horizon', JSON.stringify(data));
+    event.log.info({ data }, 'Contact added to Horizon');
 
     return {
       id: data?.Envelope?.Body?.AddContactResponse?.AddContactResult?.value,
@@ -62,33 +62,33 @@ module.exports = async (event, context) => {
     let httpStatus = 500;
     if (err.response) {
       message = 'No response received from Horizon';
-      console.log(
-        message,
-        JSON.stringify({
+      event.log.error(
+        {
           message: err.message,
           data: err.response.data,
           status: err.response.status,
           headers: err.response.headers,
-        })
+        },
+        message
       );
     } else if (err.request) {
       message = 'Error sending to Horizon';
       httpStatus = 400;
-      console.log(
-        message,
-        JSON.stringify({
+      event.log.error(
+        {
           message: err.message,
           request: err.request,
-        })
+        },
+        message
       );
     } else {
       message = 'General error';
-      console.log(
-        message,
-        JSON.stringify({
+      event.log.error(
+        {
           message: err?.message,
           stack: err?.stack,
-        })
+        },
+        message
       );
     }
 

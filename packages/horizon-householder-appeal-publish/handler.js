@@ -1,5 +1,4 @@
 const axios = require('axios');
-const debug = require('debug')('openfaas');
 
 const config = {
   appealsService: {
@@ -16,25 +15,28 @@ const config = {
   },
 };
 
-debug({ config });
-
-function convertToSoapKVPair(key, value) {
-  debug('Parsing soap key/value pair', {
-    key,
-    value,
-  });
+function convertToSoapKVPair(log, key, value) {
+  log.debug(
+    {
+      key,
+      value,
+    },
+    'Parsing soap key/value pair'
+  );
 
   if (Array.isArray(value)) {
+    log.debug('Parsing as array');
     return {
       'a:AttributeValue': {
         '__i:type': 'a:SetAttributeValue',
         'a:Name': key,
-        'a:Values': value.map((item) => convertToSoapKVPair(item.key, item.value)),
+        'a:Values': value.map((item) => convertToSoapKVPair(log, item.key, item.value)),
       },
     };
   }
 
   if (value == null) {
+    log.debug('Parsing as null');
     return {
       'a:AttributeValue': {
         '__i:type': 'a:StringAttributeValue',
@@ -46,6 +48,7 @@ function convertToSoapKVPair(key, value) {
 
   if (value.toISOString) {
     /* Value is a date */
+    log.debug('Parsing as date');
     return {
       'a:AttributeValue': {
         '__i:type': 'a:DateAttributeValue',
@@ -65,6 +68,7 @@ function convertToSoapKVPair(key, value) {
   }
 
   /* Everything else is a string */
+  log.debug('Parsing as string');
   return {
     'a:AttributeValue': {
       '__i:type': 'a:StringAttributeValue',
@@ -80,26 +84,35 @@ function convertToSoapKVPair(key, value) {
  * Calls Horizon and gets the ID of the created
  * case
  *
+ * @param log
  * @param input
  * @returns {Promise<string>}
  */
-async function callHorizon(input) {
-  debug('Calling Horizon', input);
+async function callHorizon(log, input) {
+  log.info(input, 'Calling Horizon');
 
   const { data } = await axios.post('/horizon', input, {
     baseURL: config.horizon.url,
   });
 
-  debug('Horizon response', data);
+  log.info({ data }, 'Horizon response');
 
   // case IDs are in format APP/W4705/D/21/3218521 - we need last 7 digits or numbers after final slash (always the same)
   const horizonFullCaseId = data?.Envelope?.Body?.CreateCaseResponse?.CreateCaseResult?.value;
 
   if (!horizonFullCaseId) {
+    log.error(
+      { input: data?.Envelope?.Body?.CreateCaseResponse?.CreateCaseResult },
+      'Horizon ID malformed'
+    );
     throw new Error('Horizon ID malformed');
   }
 
-  return horizonFullCaseId.split('/').slice(-1).pop();
+  const parsedHorizonId = horizonFullCaseId.split('/').slice(-1).pop();
+
+  log.debug({ parsedHorizonId, horizonFullCaseId }, 'Horizon ID parsed');
+
+  return parsedHorizonId;
 }
 
 /**
@@ -109,10 +122,11 @@ async function callHorizon(input) {
  * contact inside Horizon and returns the data that is in the format
  * that can be used by the CreateCase endpoint.
  *
+ * @param {*} log
  * @param {*} body
  * @returns {Promise}
  */
-async function createContacts(body) {
+async function createContacts(log, body) {
   const contacts = [];
   let logMessage;
 
@@ -141,12 +155,14 @@ async function createContacts(body) {
     );
   }
 
-  debug(logMessage, contacts);
+  log.info(contacts, logMessage);
 
   return Promise.all(
     contacts.map(async ({ name, email, type }) => {
       /* Create the user in Horizon */
       const [firstName, ...lastName] = name.split(' ');
+
+      log.info('Inserting contact into Horizon');
 
       const {
         data: { id: contactId },
@@ -197,16 +213,19 @@ async function createContacts(body) {
  *
  * Returns the LPA data
  *
+ * @param log
  * @param code
  * @returns {Promise<{ id: string, name: string, inTrial: boolean, england: boolean, wales: boolean, horizonId: string }>}
  */
-async function getLpaData(code) {
+async function getLpaData(log, code) {
+  log.info({ code }, 'Getting LPA data from Appeals Service API');
+
   const { data } = await axios.get(`/api/v1/local-planning-authorities/${code}`, {
     baseURL: config.appealsService.url,
   });
 
   if (!data?.horizonId) {
-    debug('LPA not found', { code });
+    log.error({ data }, 'LPA not found');
     throw new Error('Unknown LPA');
   }
 
@@ -219,23 +238,27 @@ async function getLpaData(code) {
  * Publishes the documents to Horizon. This is done asynchronously
  * as we're not interested in the response
  *
+ * @param log
  * @param {{id: string, type: string}[]} documents
  * @param {string} appealId
  * @param {string} horizonId
  * @returns {Promise<void>}
  */
-async function publishDocuments(documents, appealId, horizonId) {
+async function publishDocuments(log, documents, appealId, horizonId) {
   await Promise.all(
     documents
       /* Remove any undefined keys */
       .filter(({ id }) => id)
       .map(async ({ id: documentId, type: documentType }) => {
-        debug('Publish document to Horizon', {
-          documentId,
-          documentType,
-          horizonId,
-          appealId,
-        });
+        log.info(
+          {
+            documentId,
+            documentType,
+            horizonId,
+            appealId,
+          },
+          'Publish document to Horizon'
+        );
 
         await axios.post(
           '/async-function/horizon-add-document',
@@ -250,20 +273,23 @@ async function publishDocuments(documents, appealId, horizonId) {
             baseURL: config.openfaas.gatewayUrl,
           }
         );
+
+        log.debug('Publish document request accepted');
       })
   );
 }
 
 module.exports = async (event, context) => {
+  event.log.info({ config }, 'Received householder appeal publish request');
   try {
     const { body } = event;
 
     const { _id: appealId } = body;
 
     /* Get the LPA associated with this appeal */
-    const lpa = await getLpaData(body.appeal.lpaCode);
+    const lpa = await getLpaData(event.log, body.appeal.lpaCode);
 
-    debug('LPA detail', { lpa });
+    event.log.info({ lpa }, 'LPA detail');
 
     let location;
     /* PINS only supports England and Wales */
@@ -336,7 +362,7 @@ module.exports = async (event, context) => {
     ];
 
     /* Create the contacts and add to attribute data */
-    attributeData.push(...(await createContacts(body)));
+    attributeData.push(...(await createContacts(event.log, body)));
 
     const input = {
       CreateCase: {
@@ -349,14 +375,17 @@ module.exports = async (event, context) => {
         category: {
           '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business',
           '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
-          'a:Attributes': attributeData.map(({ key, value }) => convertToSoapKVPair(key, value)),
+          'a:Attributes': attributeData.map(({ key, value }) =>
+            convertToSoapKVPair(event.log, key, value)
+          ),
         },
       },
     };
 
-    const horizonCaseId = await callHorizon(input);
+    const horizonCaseId = await callHorizon(event.log, input);
 
-    debug('Adding Horizon ID to Appeal', { horizonId: horizonCaseId });
+    event.log.info({ horizonId: horizonCaseId }, 'Adding Horizon ID to Appeal');
+
     await axios.patch(
       `/api/v1/appeals/${appealId}`,
       {
@@ -404,9 +433,9 @@ module.exports = async (event, context) => {
       );
     }
 
-    await publishDocuments(documents, appealId, horizonCaseId);
+    await publishDocuments(event.log, documents, appealId, horizonCaseId);
 
-    debug('Successful call to Horizon', { horizonCaseId });
+    event.log.info({ horizonCaseId }, 'Successful call to Horizon');
     return {
       id: horizonCaseId,
     };
@@ -416,26 +445,35 @@ module.exports = async (event, context) => {
 
     if (err.response) {
       message = 'No response received from Horizon';
-      debug(message, {
-        message: err.message,
-        data: err.response.data,
-        status: err.response.status,
-        headers: err.response.headers,
-      });
+      event.log.error(
+        {
+          message: err.message,
+          data: err.response.data,
+          status: err.response.status,
+          headers: err.response.headers,
+        },
+        message
+      );
     } else if (err.request) {
       message = 'Error sending to Horizon';
       httpStatus = 400;
-      debug(message, {
-        message: err.message,
-        request: err.request,
-      });
+      event.log.error(
+        {
+          message: err.message,
+          request: err.request,
+        },
+        message
+      );
     } else {
       /* istanbul ignore next */
       message = err.message ?? 'General error';
-      debug(message, {
-        message: err.message,
-        stack: err.stack,
-      });
+      event.log.error(
+        {
+          message: err.message,
+          stack: err.stack,
+        },
+        message
+      );
     }
 
     context.httpStatus = httpStatus;
