@@ -32,7 +32,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/appeals-service-api
-        tag: 1.7.1
+        tag: 1.8.0
 
     documentServiceApi:
       replicaCount: 2
