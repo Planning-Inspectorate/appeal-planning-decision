@@ -122,6 +122,7 @@ app.set('view engine', 'njk');
 
 // For working with req.subdomains, primarily for cookie control.
 app.set('subdomain offset', config.server.subdomainOffset);
+logger.info({ subdomainOffset: config.server.subdomainOffset }, `subdomain offset`);
 
 // Error handling
 app

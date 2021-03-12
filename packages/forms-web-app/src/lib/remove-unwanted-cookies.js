@@ -19,6 +19,10 @@ const defaultKeepMeCookies = ['connect.sid', cookieConfig.COOKIE_POLICY_KEY];
  */
 const removeUnwantedCookies = (req, res, keepTheseCookies = defaultKeepMeCookies) => {
   const domain = extractRootDomainNameFromHostnameAndSubdomains(req.hostname, req.subdomains);
+  req.log.info(
+    { cookies: req.cookies, domain, usedDomain: `.${domain}` },
+    'XXX removeUnwantedCookies setup'
+  );
 
   Object.keys(req.cookies)
     .filter((cookieName) => keepTheseCookies.includes(cookieName) === false)
