@@ -88,6 +88,7 @@ services:
     working_dir: /opt/app
     links:
       - mongodb
+      - blob-storage
     depends_on:
       - mongodb
     volumes:
