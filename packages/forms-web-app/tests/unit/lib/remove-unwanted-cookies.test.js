@@ -4,6 +4,11 @@ const {
 } = require('../../../src/lib/remove-unwanted-cookies');
 const { mockReq, mockRes } = require('../mocks');
 const cookieConfig = require('../../../src/lib/client-side/cookie/cookie-config');
+const {
+  extractRootDomainNameFromHostnameAndSubdomains,
+} = require('../../../src/lib/extract-root-domain-name-from-full-domain-name');
+
+jest.mock('../../../src/lib/extract-root-domain-name-from-full-domain-name');
 
 describe('lib/remove-unwanted-cookies', () => {
   describe('defaultKeepMeCookies', () => {
@@ -14,18 +19,27 @@ describe('lib/remove-unwanted-cookies', () => {
 
   describe('removeUnwantedCookies', () => {
     const fakeSessionId = 'abc-xyz-123';
+    const fakeDomain = 'example.com';
+
+    beforeEach(() => {
+      jest.resetAllMocks();
+
+      extractRootDomainNameFromHostnameAndSubdomains.mockImplementation(() => fakeDomain);
+    });
+
+    afterEach(() => {
+      expect(extractRootDomainNameFromHostnameAndSubdomains).toHaveBeenCalledTimes(1);
+    });
 
     const expectedRemovalCalls = (req, res, cookieName) => {
       expect(res.clearCookie).toHaveBeenCalledWith(cookieName);
       expect(res.clearCookie).toHaveBeenCalledWith(cookieName, {
-        // intentionally hardcoded
-        domain: `.example.com`,
+        domain: `.${fakeDomain}`,
         secure: true,
       });
       expect(res.clearCookie).toHaveBeenCalledWith(cookieName, {
-        // intentionally from the req
-        domain: `.${req.hostname}`,
-        secure: true,
+        domain: `.${fakeDomain}`,
+        secure: false,
       });
     };
 
