@@ -309,6 +309,10 @@ To list the pods in a namespace use the `kubectl get pods` command with the requ
 ```shell script
 kubectl get pods -n openfass
 ```
+To see what tag is currently deployed in dev:
+```shell script
+kubectl describe pod -n app-dev app-form-web-app | grep -e "Image:" -e "Started:"
+```
 
 ## Using OpenFaaS
 
