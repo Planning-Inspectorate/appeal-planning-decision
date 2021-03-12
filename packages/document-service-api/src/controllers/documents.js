@@ -69,10 +69,8 @@ module.exports = {
       const fileData = fileBuffer.toString('base64');
 
       res.send({
-        applicationId: doc.get('applicationId'),
-        id: doc.get('id'),
-        diskSize: doc.get('size'),
-        dataSize: fileData.length, // Use length as base64 is different to compressed size
+        ...doc.toDTO(),
+        dataSize: fileData.length, // Use length as base64 is different to stored data size
         data: fileData,
       });
     } else {
