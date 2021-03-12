@@ -3,6 +3,7 @@ jest.mock('../schemas/documents');
 jest.mock('../services/upload.service');
 
 const multer = require('multer');
+const { when } = require('jest-when');
 const { uploadDocumentsToBlobStorage } = require('../services/upload.service');
 
 const controller = require('./documents');
@@ -15,6 +16,7 @@ describe('Documents controller', () => {
     res = {
       status: jest.fn(),
       send: jest.fn(),
+      set: jest.fn(),
     };
 
     res.status.mockReturnValue(res);
@@ -121,6 +123,154 @@ describe('Documents controller', () => {
       });
 
       expect(res.send).toBeCalledWith(doc);
+    });
+  });
+
+  describe('#serveDocumentById', () => {
+    it('should return a 404 error if no document found', async () => {
+      const applicationId = 'some-app-id';
+      const documentId = 'some-doc-id';
+      const req = {
+        log: {
+          debug: jest.fn(),
+        },
+        params: {
+          applicationId,
+          documentId,
+        },
+      };
+
+      Documents.findOne.mockResolvedValue(null);
+
+      expect(await controller.serveDocumentById(req, res)).toBe(undefined);
+
+      expect(Documents.findOne).toBeCalledWith({
+        applicationId,
+        id: documentId,
+      });
+
+      expect(res.status).toBeCalledWith(404);
+      expect(res.send).toBeCalledWith({
+        message: 'Unknown document ID',
+      });
+    });
+
+    it('should return the document in base64 format if found and query string is true', async () => {
+      const applicationId = 'some-app-id2';
+      const documentId = 'some-doc-id2';
+      const buffer = Buffer.from('hello world');
+      const doc = {
+        get: jest.fn(),
+        downloadFileBuffer: jest.fn().mockResolvedValue(buffer),
+      };
+      const diskSize = 1234;
+      const req = {
+        log: {
+          info: jest.fn(),
+        },
+        params: {
+          applicationId,
+          documentId,
+        },
+        query: {
+          base64: 'true',
+        },
+      };
+
+      Documents.findOne.mockResolvedValue(doc);
+
+      when(doc.get).calledWith('applicationId').mockReturnValue(applicationId);
+      when(doc.get).calledWith('id').mockReturnValue(documentId);
+      when(doc.get).calledWith('size').mockReturnValue(diskSize);
+
+      expect(await controller.serveDocumentById(req, res)).toBe(undefined);
+
+      expect(Documents.findOne).toBeCalledWith({
+        applicationId,
+        id: documentId,
+      });
+
+      expect(res.send).toBeCalledWith({
+        applicationId,
+        id: documentId,
+        diskSize,
+        dataSize: buffer.toString('base64').length,
+        data: buffer.toString('base64'),
+      });
+    });
+
+    it('should return the document as file if found and query string is false', async () => {
+      const applicationId = 'some-app-id3';
+      const documentId = 'some-doc-id3';
+      const buffer = Buffer.from('hello world2');
+      const doc = {
+        get: jest.fn(),
+        downloadFileBuffer: jest.fn().mockResolvedValue(buffer),
+      };
+      const mimeType = 'some-mime-type';
+      const req = {
+        log: {
+          info: jest.fn(),
+        },
+        params: {
+          applicationId,
+          documentId,
+        },
+        query: {
+          base64: 'false',
+        },
+      };
+
+      Documents.findOne.mockResolvedValue(doc);
+
+      when(doc.get).calledWith('mimeType').mockReturnValue(mimeType);
+
+      expect(await controller.serveDocumentById(req, res)).toBe(undefined);
+
+      expect(Documents.findOne).toBeCalledWith({
+        applicationId,
+        id: documentId,
+      });
+
+      expect(res.set('content-type', mimeType));
+
+      expect(res.send).toBeCalledWith(buffer);
+    });
+
+    it('should return the document as file if found and query string is not set', async () => {
+      const applicationId = 'some-app-id4';
+      const documentId = 'some-doc-id4';
+      const buffer = Buffer.from('hello world3');
+      const doc = {
+        get: jest.fn(),
+        downloadFileBuffer: jest.fn().mockResolvedValue(buffer),
+      };
+      const mimeType = 'some-mime-type2';
+      const req = {
+        log: {
+          info: jest.fn(),
+        },
+        params: {
+          applicationId,
+          documentId,
+        },
+        query: {},
+      };
+
+      Documents.findOne.mockResolvedValue(doc);
+
+      when(doc.get).calledWith('mimeType').mockReturnValue(mimeType);
+
+      expect(await controller.serveDocumentById(req, res)).toBe(undefined);
+
+      expect(Documents.findOne).toBeCalledWith({
+        applicationId,
+        id: documentId,
+      });
+
+      expect(res.set('content-type', mimeType));
+
+      expect(res.send).toBeCalledWith(buffer);
     });
   });
 

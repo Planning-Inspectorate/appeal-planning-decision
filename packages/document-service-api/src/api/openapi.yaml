@@ -98,6 +98,35 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/Error"
+  "/api/v1/{applicationId}/{documentId}/file":
+    description: Retrieves a specific documents meta-data
+    get:
+      tags:
+        - Document
+      operationId: getDocument
+      description: Returns the specific document meta-data
+      parameters:
+        - "$ref": "#/components/parameters/applicationId"
+        - "$ref": "#/components/parameters/documentId"
+      responses:
+        '200':
+          description: Successfully retrieved this document
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Document"
+        '400':
+          description: Unable to process this request.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+        '404':
+          description: Document could be found for this Id
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
 components:
   parameters:
     applicationId:
