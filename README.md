@@ -357,6 +357,28 @@ For convenience, a placeholder environment variable is present in the `docker-co
 With this set to `true` only a limited set of pages are accessible and user will be taken to ACP from decision date eligibility check.
 With this set to `false` all existing pages will be accessible and user will proceed to LPD selection instead of ACP.
 
+## GOV.UK Notify integration
+
+The following environment variables are required to integrate with the GOV.UK. Notify service:
+
+```shell
+SRV_NOTIFY_API_KEY: 'some-valid-notify-api-key'
+SRV_NOTIFY_TEMPLATE_ID: '15ed37a9-506c-4845-88ea-95502282a863'
+```
+Notes on optional environment variables: 
+* If `SRV_NOTIFY_BASE_URL` is not provided then the correct default value i.e. `https://api.notifications.service.gov.uk` will be assumed by the client automatically.
+* If `SRV_NOTIFY_SERVICE_ID` is not provided then the client will obtain this value from the api key automatically.
+* If `SRV_NOTIFY_SERVICE_ID` is provided then it must be valid to avoid 403 responses.
+
+A mock Notify service is available. The mock service requires the following environment variables:
+
+```shell
+      SRV_NOTIFY_BASE_URL: http://mock-notify:3000
+      SRV_NOTIFY_SERVICE_ID: 'dummy-service-id-for-notify'
+      SRV_NOTIFY_API_KEY: 'dummy-api-key-for-notify'
+      SRV_NOTIFY_TEMPLATE_ID: 'dummy-template-id-for-notify'
+```
+
 ## Logging
 
 > Please see [Confluence](https://pins-ds.atlassian.net/wiki/spaces/AAPDS/pages/edit-v2/554205478) for further information
@@ -392,8 +414,8 @@ try {
 
 ### Child
 
-Sometimes it makes sense to logically group log messages. We can acheive this with a [child logger](https://getpino.io/#/docs/child-loggers).
-Typically you will need to add some identifying detail to associate the logs together, a good example would be using `uuid.v4()`.
+Sometimes it makes sense to logically group log messages. We can achieve this with a [child logger](https://getpino.io/#/docs/child-loggers).
+Typically, you will need to add some identifying detail to associate the logs together, a good example would be using `uuid.v4()`.
 
 ```javascript
 const log = logger.child({ someId: uuid.v4() });

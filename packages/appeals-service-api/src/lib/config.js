@@ -30,9 +30,17 @@ module.exports = {
       path: process.env.DOCS_API_PATH || path.join(__dirname, '..', '..', 'api'),
     },
   },
+  documents: {
+    timeout: parseInt(process.env.DOCUMENTS_SERVICE_API_TIMEOUT, 10) || 10000,
+    url: process.env.DOCUMENTS_SERVICE_API_URL,
+  },
   logger: {
     level: process.env.LOGGER_LEVEL || 'info',
-    redact: ['config.db.mongodb', 'config.messageQueue.horizonHASPublisher.connection.password'],
+    redact: [
+      'config.db.mongodb',
+      'config.messageQueue.horizonHASPublisher.connection.password',
+      'config.services.notify.apiKey',
+    ],
   },
   messageQueue: {
     horizonHASPublisher: {
@@ -61,8 +69,10 @@ module.exports = {
       url: process.env.SRV_HORIZON_URL,
     },
     notify: {
-      key: process.env.SRV_NOTIFY_KEY,
-      url: process.env.SRV_NOTIFY_URL,
+      baseUrl: process.env.SRV_NOTIFY_BASE_URL,
+      serviceId: process.env.SRV_NOTIFY_SERVICE_ID,
+      apiKey: process.env.SRV_NOTIFY_API_KEY,
+      templateId: process.env.SRV_NOTIFY_TEMPLATE_ID,
     },
     osPlaces: {
       key: process.env.SRV_OS_PLACES_KEY,
