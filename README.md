@@ -355,3 +355,26 @@ In the FWA ui app this behaviour is controlled by setting the environment variab
 For convenience, a placeholder environment variable is present in the `docker-compose.yml` file.
 With this set to `true` only a limited set of pages are accessible and user will be taken to ACP from decision date eligibility check.
 With this set to `false` all existing pages will be accessible and user will proceed to LPD selection instead of ACP.
+
+### GOV.UK Notify integration
+
+The following environment variables are required to integrate with the GOV.UK. Notify service:
+
+```shell
+      SRV_NOTIFY_API_KEY: 'some-valid-notify-api-key'
+      SRV_NOTIFY_TEMPLATE_ID: '15ed37a9-506c-4845-88ea-95502282a863'
+```
+Notes on optional environment variables: 
+* If `SRV_NOTIFY_BASE_URL` is not provided then the correct default value i.e. `https://api.notifications.service.gov.uk` will be assumed by the client automatically.
+* If `SRV_NOTIFY_SERVICE_ID` is not provided then the client will obtain this value from the api key automatically.
+* If `SRV_NOTIFY_SERVICE_ID` is provided then it must be valid to avoid 403 responses.
+
+A mock Notify service is available. The mock service requires the following environment variables:
+
+```shell
+      SRV_NOTIFY_BASE_URL: http://mock-notify:3000
+      SRV_NOTIFY_SERVICE_ID: 'dummy-service-id-for-notify'
+      SRV_NOTIFY_API_KEY: 'dummy-api-key-for-notify'
+      SRV_NOTIFY_TEMPLATE_ID: 'dummy-template-id-for-notify'
+```
+

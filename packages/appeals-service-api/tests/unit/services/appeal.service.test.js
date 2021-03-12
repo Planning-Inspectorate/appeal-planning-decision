@@ -3,9 +3,11 @@ const { updateAppeal, validateAppeal } = require('../../../src/services/appeal.s
 const valueAppeal = require('../value-appeal');
 const mongodb = require('../../../src/db/db');
 const queue = require('../../../src/lib/queue');
+const notify = require('../../../src/lib/notify');
 
 jest.mock('../../../src/db/db');
 jest.mock('../../../src/lib/queue');
+jest.mock('../../../src/lib/notify');
 
 describe('services/validation.service', () => {
   let appeal;
@@ -355,6 +357,7 @@ describe('services/validation.service', () => {
       expect(outcome).toEqual(updatedAppeal);
       expect(appeal.submissionDate).toBe(null);
       expect(queue.addAppeal).not.toHaveBeenCalled();
+      expect(notify.sendEmail).not.toHaveBeenCalled();
     });
 
     test('isFirstSubmission is true', async () => {
@@ -362,6 +365,7 @@ describe('services/validation.service', () => {
       expect(outcome).toEqual(updatedAppeal);
       expect(appeal.submissionDate).not.toBe(null);
       expect(queue.addAppeal).toHaveBeenCalledWith(updatedAppeal);
+      expect(notify.sendEmail).toHaveBeenCalledWith(appeal.value);
     });
   });
 });
