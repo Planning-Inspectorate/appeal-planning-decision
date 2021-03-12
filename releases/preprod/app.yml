@@ -37,13 +37,13 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/document-service-api
-        tag: 1.1.0
+        tag: 1.2.0
 
     formsWebApp:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
-        tag: 1.29.2
+        tag: 1.30.2
       config:
         enableLimitedRouting: false
         googleAnalyticsId: G-W09HJL83FJ
