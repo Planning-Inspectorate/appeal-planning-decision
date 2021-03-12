@@ -220,27 +220,17 @@ components:
       items:
         "$ref": "#/components/schemas/Document"
     DocumentDownload:
-      type: object
-      properties:
-        id:
-          type: string
-          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
-          description: The unique ID (uuid) for this document upload
-        applicationId:
-          type: string
-          description: The original application that this appeal document relates
-            to
-          required:
-            - 'true'
-        diskSize:
-          type: integer
-          description: The length of the file in bytes as stored in blob storage
-        dataSize:
-          type: integer
-          description: The length of the file in bytes as returned in "data"
-        data:
-          type: string
-          format: byte
+      allOf:
+        - "$ref": "#/components/schemas/Document"
+        -
+          type: object
+          properties:
+            dataSize:
+              type: integer
+              description: The length of the file in bytes as returned in "data"
+            data:
+              type: string
+              format: byte
     Error:
       type: object
       properties:
