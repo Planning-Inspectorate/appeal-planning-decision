@@ -1,12 +1,7 @@
 const axios = require('axios');
-const { BlobServiceClient } = require('@azure/storage-blob');
 const debug = require('debug')('openfaas');
 
 const config = {
-  blobStorage: {
-    container: process.env.STORAGE_CONTAINER_NAME,
-    connectionStringSecret: process.env.STORAGE_CONNECTION_STRING_SECRET, // This is defined by the key the secret is set to
-  },
   documents: {
     url: process.env.DOCUMENT_SERVICE_URL,
   },
@@ -15,29 +10,20 @@ const config = {
   },
 };
 
-async function parseFile(containerClient, documentId, applicationId, documentType) {
+async function parseFile(documentId, applicationId, documentType) {
   debug('Getting document', { applicationId, documentId });
 
-  const { data } = await axios.get(`/api/v1/${applicationId}/${documentId}`, {
+  const { data } = await axios.get(`/api/v1/${applicationId}/${documentId}/file`, {
     baseURL: config.documents.url,
-  });
-
-  const { blobStorageLocation } = data;
-
-  debug('Downloading blob from storage', { blobStorageLocation });
-
-  const blobClient = containerClient.getBlobClient(blobStorageLocation);
-  const fileBuffer = await blobClient.downloadToBuffer();
-  debug('buffer downloaded');
-  const fileData = fileBuffer.toString('base64');
-  debug('buffer converted to string', {
-    fileSize: fileBuffer.length,
+    params: {
+      base64: true,
+    },
   });
 
   return {
     // The order of this object is important
     'a:HorizonAPIDocument': {
-      'a:Content': fileData,
+      'a:Content': data.data,
       'a:DocumentType': documentType,
       'a:Filename': data.name,
       'a:IsPublished': 'true',
@@ -85,14 +71,6 @@ module.exports = async (event, context) => {
     const { body } = event;
     const { caseReference, applicationId, documentId, documentType } = body;
 
-    debug('Connecting to Blob Storage');
-
-    const blobServiceClient = BlobServiceClient.fromConnectionString(
-      await event.getSecret(config.blobStorage.connectionStringSecret)
-    );
-
-    const containerClient = blobServiceClient.getContainerClient(config.blobStorage.container);
-
     const input = {
       AddDocuments: {
         __soap_op: 'http://tempuri.org/IHorizon/AddDocuments',
@@ -101,7 +79,7 @@ module.exports = async (event, context) => {
         documents: [
           { '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business' },
           { '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance' },
-          await parseFile(containerClient, documentId, applicationId, documentType),
+          await parseFile(documentId, applicationId, documentType),
         ],
       },
     };
@@ -119,6 +97,8 @@ module.exports = async (event, context) => {
   } catch (err) {
     let message;
     let httpStatus = 500;
+
+    /* istanbul ignore else */
     if (err.response) {
       message = err.message;
       debug(
