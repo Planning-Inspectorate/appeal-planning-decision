@@ -162,8 +162,8 @@ describe('Documents controller', () => {
       const doc = {
         get: jest.fn(),
         downloadFileBuffer: jest.fn().mockResolvedValue(buffer),
+        toDTO: jest.fn(),
       };
-      const diskSize = 1234;
       const req = {
         log: {
           info: jest.fn(),
@@ -178,10 +178,11 @@ describe('Documents controller', () => {
       };
 
       Documents.findOne.mockResolvedValue(doc);
+      const dto = {
+        some: 'param',
+      };
 
-      when(doc.get).calledWith('applicationId').mockReturnValue(applicationId);
-      when(doc.get).calledWith('id').mockReturnValue(documentId);
-      when(doc.get).calledWith('size').mockReturnValue(diskSize);
+      doc.toDTO.mockReturnValue(dto);
 
       expect(await controller.serveDocumentById(req, res)).toBe(undefined);
 
@@ -191,9 +192,7 @@ describe('Documents controller', () => {
       });
 
       expect(res.send).toBeCalledWith({
-        applicationId,
-        id: documentId,
-        diskSize,
+        ...dto,
         dataSize: buffer.toString('base64').length,
         data: buffer.toString('base64'),
       });
