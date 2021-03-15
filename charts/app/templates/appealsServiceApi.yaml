@@ -51,6 +51,8 @@ spec:
               path: /health
               port: {{.Values.appealsServiceApi.service.name }}
           env:
+            - name: DOCUMENTS_SERVICE_API_URL
+              value: "http://{{ include "app.fullname" . }}:{{ .Values.documentServiceApi.service.port }}"
             - name: HORIZON_HAS_PUBLISHER_HOST
               value: {{ $queueConfig.amqp.connection.host | quote }}
             - name: HORIZON_HAS_PUBLISHER_HOSTNAME
@@ -92,6 +94,17 @@ spec:
               value: {{ .Values.appealsServiceApi.config.port | quote }}
             - name: SERVER_TERMINATION_GRACE_PERIOD_SECONDS
               value: {{ 10 | quote }} # Same as "periodSeconds" for readinessProbe
+            - name: SRV_NOTIFY_BASE_URL
+              value: {{ .Values.appealsServiceApi.config.notify.baseUrl | quote }}
+            - name: SRV_NOTIFY_SERVICE_ID
+              value: {{ .Values.appealsServiceApi.config.notify.serviceId | quote }}
+            - name: SRV_NOTIFY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: value
+                  name: {{ .Values.appealsServiceApi.config.notify.secretName }}
+            - name: SRV_NOTIFY_TEMPLATE_ID
+              value: {{ .Values.appealsServiceApi.config.notify.templateId | quote }}
           volumeMounts:
             - name: lpa-data-volume
               mountPath: /data/lpa
