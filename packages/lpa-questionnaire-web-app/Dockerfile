@@ -6,9 +6,9 @@ WORKDIR /opt/app
 ENV APP_NAME="${APP_NAME}"
 ENV BUILD_ID="${BUILD_ID}"
 ENV VERSION="${VERSION}"
-ENV PORT=3000
 # Do not rely on NODE_ENV - exists for performance reasons only
 ENV NODE_ENV=production
+ENV PORT=3000
 # This must be built locally from the common package
 COPY --from=common:latest /opt/app ../common
 ADD dist dist

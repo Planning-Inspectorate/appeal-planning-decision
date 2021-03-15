@@ -6,10 +6,10 @@ WORKDIR /opt/app
 ENV APP_NAME="${APP_NAME}"
 ENV BUILD_ID="${BUILD_ID}"
 ENV VERSION="${VERSION}"
-ENV SERVER_PORT=3000
+ENV DOCS_API_PATH=/opt/app/api
 # Do not rely on NODE_ENV - exists for performance reasons only
 ENV NODE_ENV=production
-ENV DOCS_API_PATH=/opt/app/api
+ENV SERVER_PORT=3000
 # This must be built locally from the common package
 COPY --from=common:latest /opt/app ../common
 ADD api api
