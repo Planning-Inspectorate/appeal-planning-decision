@@ -71,7 +71,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
       });
     });
 
-    it('should redirect back to `/appellant-submission/appeal-statement` if validation passes but `i-confirm` not given', async () => {
+    it('should redirect back to `/appeal-householder-decision/appeal-statement` if validation passes but `i-confirm` not given', async () => {
       const mockRequest = {
         ...req,
         body: {
@@ -85,7 +85,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 
       expect(getTaskStatus).not.toHaveBeenCalled();
 
-      expect(res.redirect).toHaveBeenCalledWith('/appellant-submission/appeal-statement');
+      expect(res.redirect).toHaveBeenCalledWith('/appeal-householder-decision/appeal-statement');
     });
 
     it('should log an error if the api call fails, and remain on the same page', async () => {
@@ -157,7 +157,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
       );
     });
 
-    it('should redirect to `/appellant-submission/supporting-documents` if valid', async () => {
+    it('should redirect to `/appeal-householder-decision/supporting-documents` if valid', async () => {
       const fakeFileId = '123-abc';
       const fakeFileName = 'some name.jpg';
       const fakeTaskStatus = 'ANOTHER_FAKE_STATUS';

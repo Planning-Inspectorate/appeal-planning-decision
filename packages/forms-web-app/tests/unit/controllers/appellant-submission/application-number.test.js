@@ -86,7 +86,7 @@ describe('controllers/appellant-submission/application-number', () => {
       });
     });
 
-    it('should redirect to `/appellant-submission/upload-application` if valid', async () => {
+    it('should redirect to `/appeal-householder-decision/upload-application` if valid', async () => {
       const fakeApplicationNumber = 'some valid application number';
       const fakeTaskStatus = 'FAKE_STATUS';
 

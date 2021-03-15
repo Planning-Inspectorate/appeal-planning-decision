@@ -19,7 +19,7 @@ describe('routes/index', () => {
     expect(use).toHaveBeenCalledWith('/', homeRouter);
     expect(use).toHaveBeenCalledWith('/', guidancePagesRouter);
     expect(use).toHaveBeenCalledWith('/cookies', cookieRouter);
-    expect(use).toHaveBeenCalledWith('/appellant-submission', appellantSubmissionRouter);
+    expect(use).toHaveBeenCalledWith('/appeal-householder-decision', appellantSubmissionRouter);
     expect(use).toHaveBeenCalledWith('/eligibility', eligibilityRouter);
     expect(use.mock.calls.length).toBe(5);
   });

@@ -1,5 +1,5 @@
 module.exports = (errorMessage) => {
-  cy.url().should('include', '/appellant-submission/your-details');
+  cy.url().should('include', '/appeal-householder-decision/your-details');
   cy.get('.govuk-error-summary__list')
     .invoke('text')
     .then((text) => {

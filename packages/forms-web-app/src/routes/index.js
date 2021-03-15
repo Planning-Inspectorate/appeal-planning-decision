@@ -11,7 +11,7 @@ const guidancePagesRouter = require('./guidance-pages');
 router.use('/', homeRouter);
 router.use(guidancePagesRouter);
 router.use('/cookies', cookieRouter);
-router.use('/appellant-submission', appellantSubmissionRouter);
+router.use('/appeal-householder-decision', appellantSubmissionRouter);
 router.use('/eligibility', eligibilityRouter);
 
 module.exports = router;

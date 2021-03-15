@@ -90,7 +90,7 @@ describe('controllers/appellant-submission/site-access', () => {
       });
     });
 
-    it('should redirect to `/appellant-submission/site-access-safety` if `site-access` is `yes`', async () => {
+    it('should redirect to `/appeal-householder-decision/site-access-safety` if `site-access` is `yes`', async () => {
       createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
       getNextTask.mockReturnValue({
         href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
@@ -113,7 +113,7 @@ describe('controllers/appellant-submission/site-access', () => {
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(goodAppeal);
     });
 
-    it('should redirect to `/appellant-submission/site-access-safety` if `site-access` is `no`', async () => {
+    it('should redirect to `/appeal-householder-decision/site-access-safety` if `site-access` is `no`', async () => {
       const fakeCanInspectorSeeWholeSiteFromPublicRoad = false;
       const fakeHowIsSiteAccessRestricted = 'more detail';
       const fakeTaskStatus = 'FAKE_STATUS';

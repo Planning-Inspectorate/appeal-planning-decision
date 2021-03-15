@@ -90,7 +90,7 @@ describe('controllers/appellant-submission/site-location', () => {
       });
     });
 
-    it('should redirect to `/appellant-submission/site-ownership` if valid', async () => {
+    it('should redirect to `/appeal-householder-decision/site-ownership` if valid', async () => {
       const fakeLine1 = '1 Taylor Road';
       const fakeLine2 = 'Clifton';
       const fakeTownCity = 'Bristol';

@@ -18,7 +18,7 @@ Given('the "Site ownership" is not wholly owned', () => {
   cy.answerDoesNotOwnTheWholeAppeal();
   cy.clickSaveAndContinue();
 
-  cy.userIsNavigatedToPage('/appellant-submission/site-ownership-certb');
+  cy.userIsNavigatedToPage('/appeal-householder-decision/site-ownership-certb');
 });
 
 Given('the "Site access" is presented', () => {

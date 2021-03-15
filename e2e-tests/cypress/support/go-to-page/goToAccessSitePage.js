@@ -1,4 +1,4 @@
 module.exports = () => {
-  cy.visit('/appellant-submission/site-access', {failOnStatusCode: false});
+  cy.visit('/appeal-householder-decision/site-access', {failOnStatusCode: false});
   cy.wait(Cypress.env('demoDelay'));
 };

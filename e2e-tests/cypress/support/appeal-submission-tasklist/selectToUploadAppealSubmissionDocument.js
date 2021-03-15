@@ -1,4 +1,4 @@
 module.exports = () => {
-  cy.get('a[href*="/appellant-submission/upload-application"]').click();
+  cy.get('a[href*="/appeal-householder-decision/upload-application"]').click();
   cy.wait(Cypress.env('demoDelay'));
 };

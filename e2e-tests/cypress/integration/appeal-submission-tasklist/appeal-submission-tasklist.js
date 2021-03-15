@@ -6,47 +6,47 @@ function getTask(sectionTaskName) {
   switch (sectionTaskName) {
     case 'About you - Your details':
       name = 'yourDetails';
-      url = '/appellant-submission/who-are-you';
+      url = '/appeal-householder-decision/who-are-you';
       break;
     case 'Planning application - Application number':
       name = 'applicationNumber';
-      url = '/appellant-submission/application-number';
+      url = '/appeal-householder-decision/application-number';
       break;
     case 'Planning application - Upload application':
       name = 'originalApplication';
-      url = '/appellant-submission/upload-application';
+      url = '/appeal-householder-decision/upload-application';
       break;
     case 'Planning application - Upload decision letter':
       name = 'decisionLetter';
-      url = '/appellant-submission/upload-decision';
+      url = '/appeal-householder-decision/upload-decision';
       break;
     case 'Your appeal - Appeal statement':
       name = 'appealStatement';
-      url = '/appellant-submission/appeal-statement';
+      url = '/appeal-householder-decision/appeal-statement';
       break;
     case 'Your appeal - Supporting documents':
       name = 'otherDocuments';
-      url = '/appellant-submission/supporting-documents';
+      url = '/appeal-householder-decision/supporting-documents';
       break;
     case 'Appeal site - Site location':
       name = 'siteAddress';
-      url = '/appellant-submission/site-location';
+      url = '/appeal-householder-decision/site-location';
       break;
     case 'Appeal site - Site ownership':
       name = 'siteOwnership';
-      url = '/appellant-submission/site-ownership';
+      url = '/appeal-householder-decision/site-ownership';
       break;
     case 'Appeal site - Site access':
       name = 'siteAccess';
-      url = '/appellant-submission/site-access';
+      url = '/appeal-householder-decision/site-access';
       break;
     case 'Appeal site - Site safety':
       name = 'healthAndSafety';
-      url = '/appellant-submission/site-access-safety';
+      url = '/appeal-householder-decision/site-access-safety';
       break;
     case 'Appeal submit - Check your answers':
       name = 'checkYourAnswers';
-      url = '/appellant-submission/check-answers';
+      url = '/appeal-householder-decision/check-answers';
       break;
 
     default:

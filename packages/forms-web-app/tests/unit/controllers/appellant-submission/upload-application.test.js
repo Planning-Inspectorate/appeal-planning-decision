@@ -119,7 +119,7 @@ describe('controllers/appellant-submission/upload-application', () => {
       expect(res.redirect).toHaveBeenCalledWith(fakeNextUrl);
     });
 
-    it('should redirect to `/appellant-submission/supporting-documents` if valid', async () => {
+    it('should redirect to `/appeal-householder-decision/supporting-documents` if valid', async () => {
       const fakeFileId = '123-abc';
       const fakeFileName = 'some name.jpg';
       const fakeTaskStatus = 'FAKE_STATUS';

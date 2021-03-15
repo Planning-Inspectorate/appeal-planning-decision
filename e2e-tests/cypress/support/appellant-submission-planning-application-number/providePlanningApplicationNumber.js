@@ -1,5 +1,5 @@
 module.exports = (planningApplicationNumber) => {
-  cy.visit('/appellant-submission/application-number');
+  cy.visit('/appeal-householder-decision/application-number');
   cy.get('[data-cy="application-number"]')
     .type(`{selectall}{backspace}${planningApplicationNumber}`);
   cy.wait(Cypress.env('demoDelay'));

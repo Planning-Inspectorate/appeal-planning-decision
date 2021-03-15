@@ -145,7 +145,7 @@ describe('services/task.service', () => {
         taskName: 'yourDetails',
       };
       expect(getNextTask(appeal, currentTask)).toEqual({
-        href: '/appellant-submission/task-list',
+        href: '/appeal-householder-decision/task-list',
       });
     });
 
@@ -168,7 +168,7 @@ describe('services/task.service', () => {
         taskName: 'applicationNumber',
       };
       expect(getNextTask(appeal, currentTask)).toEqual({
-        href: '/appellant-submission/upload-application',
+        href: '/appeal-householder-decision/upload-application',
         status: NOT_STARTED,
         taskName: 'originalApplication',
       });
