@@ -17,6 +17,8 @@ const init = (app, { defaultLabels = {}, collectDefault = true } = {}) => {
   register.setDefaultLabels({
     ...defaultLabels,
     service: process.env.APP_NAME,
+    buildId: process.env.BUILD_ID,
+    version: process.env.VERSION,
   });
 
   if (collectDefault) {
