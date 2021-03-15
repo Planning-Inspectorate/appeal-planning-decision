@@ -1706,15 +1706,28 @@ describe('handler', () => {
       );
 
       [
-        event.body.appeal.yourAppealSection.appealStatement.uploadedFile.id,
-        event.body.appeal.requiredDocumentsSection.originalApplication.uploadedFile.id,
-        event.body.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id,
-        event.body.appeal.appealSubmission.appealPDFStatement.uploadedFile.id,
-      ].forEach((documentId) => {
+        {
+          id: event.body?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
+          type: 'Appellant Grounds of Appeal',
+        },
+        {
+          id: event.body?.appeal?.requiredDocumentsSection?.originalApplication?.uploadedFile?.id,
+          type: 'Appellant Initial Documents',
+        },
+        {
+          id: event.body?.appeal?.requiredDocumentsSection?.decisionLetter?.uploadedFile?.id,
+          type: 'LPA Decision Notice',
+        },
+        {
+          id: event.body?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id,
+          type: 'Appellant Initial Documents',
+        },
+      ].forEach(({ id: documentId, type: documentType }) => {
         expect(axios.post).toBeCalledWith(
           '/async-function/horizon-add-document',
           {
             documentId,
+            documentType,
             caseReference: horizonCaseId,
             applicationId: appealId,
           },
@@ -2053,16 +2066,32 @@ describe('handler', () => {
       );
 
       [
-        event.body.appeal.yourAppealSection.appealStatement.uploadedFile.id,
-        event.body.appeal.requiredDocumentsSection.originalApplication.uploadedFile.id,
-        event.body.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id,
-        event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
-        event.body.appeal.appealSubmission.appealPDFStatement.uploadedFile.id,
-      ].forEach((documentId) => {
+        {
+          id: event.body?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
+          type: 'Appellant Grounds of Appeal',
+        },
+        {
+          id: event.body?.appeal?.requiredDocumentsSection?.originalApplication?.uploadedFile?.id,
+          type: 'Appellant Initial Documents',
+        },
+        {
+          id: event.body?.appeal?.requiredDocumentsSection?.decisionLetter?.uploadedFile?.id,
+          type: 'LPA Decision Notice',
+        },
+        {
+          id: event.body?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id,
+          type: 'Appellant Initial Documents',
+        },
+        {
+          id: event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
+          type: 'Appellant Grounds of Appeal',
+        },
+      ].forEach(({ id: documentId, type: documentType }) => {
         expect(axios.post).toBeCalledWith(
           '/async-function/horizon-add-document',
           {
             documentId,
+            documentType,
             caseReference: horizonCaseId,
             applicationId: appealId,
           },
@@ -2404,17 +2433,36 @@ describe('handler', () => {
       );
 
       [
-        event.body.appeal.yourAppealSection.appealStatement.uploadedFile.id,
-        event.body.appeal.requiredDocumentsSection.originalApplication.uploadedFile.id,
-        event.body.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id,
-        event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
-        event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[1].id,
-        event.body.appeal.appealSubmission.appealPDFStatement.uploadedFile.id,
-      ].forEach((documentId) => {
+        {
+          id: event.body?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
+          type: 'Appellant Grounds of Appeal',
+        },
+        {
+          id: event.body?.appeal?.requiredDocumentsSection?.originalApplication?.uploadedFile?.id,
+          type: 'Appellant Initial Documents',
+        },
+        {
+          id: event.body?.appeal?.requiredDocumentsSection?.decisionLetter?.uploadedFile?.id,
+          type: 'LPA Decision Notice',
+        },
+        {
+          id: event.body?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id,
+          type: 'Appellant Initial Documents',
+        },
+        {
+          id: event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
+          type: 'Appellant Grounds of Appeal',
+        },
+        {
+          id: event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[1].id,
+          type: 'Appellant Grounds of Appeal',
+        },
+      ].forEach(({ id: documentId, type: documentType }) => {
         expect(axios.post).toBeCalledWith(
           '/async-function/horizon-add-document',
           {
             documentId,
+            documentType,
             caseReference: horizonCaseId,
             applicationId: appealId,
           },
@@ -2540,7 +2588,6 @@ describe('handler', () => {
         },
       };
 
-      console.log(event.body.appeal);
       expect(await handler(event, context)).toEqual({
         id: horizonFullCaseId.split('/').slice(-1).pop(),
       });
@@ -2750,17 +2797,36 @@ describe('handler', () => {
       );
 
       [
-        event.body.appeal.yourAppealSection.appealStatement.uploadedFile.id,
-        event.body.appeal.requiredDocumentsSection.originalApplication.uploadedFile.id,
-        event.body.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id,
-        event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
-        event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[1].id,
-        event.body.appeal.appealSubmission.appealPDFStatement.uploadedFile.id,
-      ].forEach((documentId) => {
+        {
+          id: event.body?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
+          type: 'Appellant Grounds of Appeal',
+        },
+        {
+          id: event.body?.appeal?.requiredDocumentsSection?.originalApplication?.uploadedFile?.id,
+          type: 'Appellant Initial Documents',
+        },
+        {
+          id: event.body?.appeal?.requiredDocumentsSection?.decisionLetter?.uploadedFile?.id,
+          type: 'LPA Decision Notice',
+        },
+        {
+          id: event.body?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id,
+          type: 'Appellant Initial Documents',
+        },
+        {
+          id: event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
+          type: 'Appellant Grounds of Appeal',
+        },
+        {
+          id: event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[1].id,
+          type: 'Appellant Grounds of Appeal',
+        },
+      ].forEach(({ id: documentId, type: documentType }) => {
         expect(axios.post).toBeCalledWith(
           '/async-function/horizon-add-document',
           {
             documentId,
+            documentType,
             caseReference: horizonCaseId,
             applicationId: appealId,
           },
@@ -3096,17 +3162,36 @@ describe('handler', () => {
       );
 
       [
-        event.body.appeal.yourAppealSection.appealStatement.uploadedFile.id,
-        event.body.appeal.requiredDocumentsSection.originalApplication.uploadedFile.id,
-        event.body.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id,
-        event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
-        event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[1].id,
-        event.body.appeal.appealSubmission.appealPDFStatement.uploadedFile.id,
-      ].forEach((documentId) => {
+        {
+          id: event.body?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
+          type: 'Appellant Grounds of Appeal',
+        },
+        {
+          id: event.body?.appeal?.requiredDocumentsSection?.originalApplication?.uploadedFile?.id,
+          type: 'Appellant Initial Documents',
+        },
+        {
+          id: event.body?.appeal?.requiredDocumentsSection?.decisionLetter?.uploadedFile?.id,
+          type: 'LPA Decision Notice',
+        },
+        {
+          id: event.body?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id,
+          type: 'Appellant Initial Documents',
+        },
+        {
+          id: event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
+          type: 'Appellant Grounds of Appeal',
+        },
+        {
+          id: event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[1].id,
+          type: 'Appellant Grounds of Appeal',
+        },
+      ].forEach(({ id: documentId, type: documentType }) => {
         expect(axios.post).toBeCalledWith(
           '/async-function/horizon-add-document',
           {
             documentId,
+            documentType,
             caseReference: horizonCaseId,
             applicationId: appealId,
           },
@@ -3445,17 +3530,36 @@ describe('handler', () => {
       );
 
       [
-        event.body.appeal.yourAppealSection.appealStatement.uploadedFile.id,
-        event.body.appeal.requiredDocumentsSection.originalApplication.uploadedFile.id,
-        event.body.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id,
-        event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
-        event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[1].id,
-        event.body.appeal.appealSubmission.appealPDFStatement.uploadedFile.id,
-      ].forEach((documentId) => {
+        {
+          id: event.body?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
+          type: 'Appellant Grounds of Appeal',
+        },
+        {
+          id: event.body?.appeal?.requiredDocumentsSection?.originalApplication?.uploadedFile?.id,
+          type: 'Appellant Initial Documents',
+        },
+        {
+          id: event.body?.appeal?.requiredDocumentsSection?.decisionLetter?.uploadedFile?.id,
+          type: 'LPA Decision Notice',
+        },
+        {
+          id: event.body?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id,
+          type: 'Appellant Initial Documents',
+        },
+        {
+          id: event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
+          type: 'Appellant Grounds of Appeal',
+        },
+        {
+          id: event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[1].id,
+          type: 'Appellant Grounds of Appeal',
+        },
+      ].forEach(({ id: documentId, type: documentType }) => {
         expect(axios.post).toBeCalledWith(
           '/async-function/horizon-add-document',
           {
             documentId,
+            documentType,
             caseReference: horizonCaseId,
             applicationId: appealId,
           },
@@ -3794,17 +3898,36 @@ describe('handler', () => {
       );
 
       [
-        event.body.appeal.yourAppealSection.appealStatement.uploadedFile.id,
-        event.body.appeal.requiredDocumentsSection.originalApplication.uploadedFile.id,
-        event.body.appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id,
-        event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
-        event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[1].id,
-        event.body.appeal.appealSubmission.appealPDFStatement.uploadedFile.id,
-      ].forEach((documentId) => {
+        {
+          id: event.body?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
+          type: 'Appellant Grounds of Appeal',
+        },
+        {
+          id: event.body?.appeal?.requiredDocumentsSection?.originalApplication?.uploadedFile?.id,
+          type: 'Appellant Initial Documents',
+        },
+        {
+          id: event.body?.appeal?.requiredDocumentsSection?.decisionLetter?.uploadedFile?.id,
+          type: 'LPA Decision Notice',
+        },
+        {
+          id: event.body?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id,
+          type: 'Appellant Initial Documents',
+        },
+        {
+          id: event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[0].id,
+          type: 'Appellant Grounds of Appeal',
+        },
+        {
+          id: event.body.appeal.yourAppealSection.otherDocuments.uploadedFiles[1].id,
+          type: 'Appellant Grounds of Appeal',
+        },
+      ].forEach(({ id: documentId, type: documentType }) => {
         expect(axios.post).toBeCalledWith(
           '/async-function/horizon-add-document',
           {
             documentId,
+            documentType,
             caseReference: horizonCaseId,
             applicationId: appealId,
           },

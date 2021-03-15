@@ -15,7 +15,7 @@ const config = {
   },
 };
 
-async function parseFile(containerClient, documentId, applicationId) {
+async function parseFile(containerClient, documentId, applicationId, documentType) {
   debug('Getting document', { applicationId, documentId });
 
   const { data } = await axios.get(`/api/v1/${applicationId}/${documentId}`, {
@@ -38,7 +38,7 @@ async function parseFile(containerClient, documentId, applicationId) {
     // The order of this object is important
     'a:HorizonAPIDocument': {
       'a:Content': fileData,
-      'a:DocumentType': 'Initial Documents',
+      'a:DocumentType': documentType,
       'a:Filename': data.name,
       'a:IsPublished': 'true',
       'a:Metadata': {
@@ -48,6 +48,13 @@ async function parseFile(containerClient, documentId, applicationId) {
               '__i:type': 'a:StringAttributeValue',
               'a:Name': 'Document:Involvement',
               'a:Value': 'Appellant',
+            },
+          },
+          {
+            'a:AttributeValue': {
+              '__i:type': 'a:StringAttributeValue',
+              'a:Name': 'Document:Document Group Type',
+              'a:Value': 'Initial Documents',
             },
           },
           {
@@ -76,7 +83,7 @@ debug({ config });
 module.exports = async (event, context) => {
   try {
     const { body } = event;
-    const { caseReference, applicationId, documentId } = body;
+    const { caseReference, applicationId, documentId, documentType } = body;
 
     debug('Connecting to Blob Storage');
 
@@ -94,7 +101,7 @@ module.exports = async (event, context) => {
         documents: [
           { '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business' },
           { '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance' },
-          await parseFile(containerClient, documentId, applicationId),
+          await parseFile(containerClient, documentId, applicationId, documentType),
         ],
       },
     };
