@@ -1,4 +1,4 @@
-// const oneGigabyte = 1024 * 1024 * 1024;
+const fifteenMegabytes = 1024 * 1024 * 15;
 
 module.exports = {
   appeals: {
@@ -26,9 +26,7 @@ module.exports = {
   fileUpload: {
     debug: process.env.FILE_UPLOAD_DEBUG === 'true',
     pins: {
-      // appealStatementMaxFileSize: Number(
-      //   process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || oneGigabyte
-      // ),
+      maxFileSize: Number(process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || fifteenMegabytes),
     },
     tempFileDir: process.env.FILE_UPLOAD_TMP_PATH,
     useTempFiles: process.env.FILE_UPLOAD_USE_TEMP_FILES === 'true',
