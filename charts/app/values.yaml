@@ -27,6 +27,11 @@ appealsServiceApi:
   config:
     port: 3000
     logLevel: trace
+    notify:
+      baseUrl: "" # Let Notify package resolve this itself
+      secretName: ""
+      serviceId: ""
+      templateId: 15ed37a9-506c-4845-88ea-95502282a863
 
 documentServiceApi:
   replicaCount: 1
