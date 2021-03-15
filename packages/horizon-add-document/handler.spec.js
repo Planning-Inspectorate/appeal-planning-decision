@@ -51,6 +51,7 @@ describe('handler', () => {
     const caseReference = '1234567890';
     const applicationId = 'some-app-id';
     const documentId = 'some-document-id';
+    const documentType = 'some-doc-type';
     const docServiceOutput = {
       blobStorageLocation: 'blob-storage-location',
       name: 'some-file-name',
@@ -65,6 +66,7 @@ describe('handler', () => {
       caseReference,
       applicationId,
       documentId,
+      documentType,
     };
 
     BlobServiceClient.fromConnectionString.mockReturnValue(blobServiceClient);
@@ -101,7 +103,7 @@ describe('handler', () => {
             {
               'a:HorizonAPIDocument': {
                 'a:Content': blobBuffer.toString('base64'),
-                'a:DocumentType': 'Initial Documents',
+                'a:DocumentType': documentType,
                 'a:Filename': docServiceOutput.name,
                 'a:IsPublished': 'true',
                 'a:Metadata': {
@@ -111,6 +113,13 @@ describe('handler', () => {
                         '__i:type': 'a:StringAttributeValue',
                         'a:Name': 'Document:Involvement',
                         'a:Value': 'Appellant',
+                      },
+                    },
+                    {
+                      'a:AttributeValue': {
+                        '__i:type': 'a:StringAttributeValue',
+                        'a:Name': 'Document:Document Group Type',
+                        'a:Value': 'Initial Documents',
                       },
                     },
                     {
