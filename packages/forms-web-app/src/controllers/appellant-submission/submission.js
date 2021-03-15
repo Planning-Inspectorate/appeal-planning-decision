@@ -31,7 +31,18 @@ exports.postSubmission = async (req, res) => {
       const { id, name, location, size } = await storePdfAppeal(appeal);
 
       appeal.state = 'SUBMITTED';
-      appeal.appealSubmission.appealPDFStatement.uploadedFile = { id, name, location, size };
+
+      appeal.appealSubmission = {
+        appealPDFStatement: {
+          uploadedFile: {
+            id,
+            name,
+            location,
+            size,
+          },
+        },
+      };
+
       req.session.appeal = await createOrUpdateAppeal(appeal);
       log.debug('Appeal successfully submitted');
     } catch (e) {
