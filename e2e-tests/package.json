@@ -35,5 +35,8 @@
       "generate": true,
       "outputFolder": "./cypress/cucumber-json"
     }
+  },
+  "devDependencies": {
+    "cypress-wait-until": "^1.7.1"
   }
 }

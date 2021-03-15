@@ -1,3 +1,5 @@
+require('cypress-wait-until');
+
 require('./commands/header-footer-commands');
 require('./visit-without-javascript-enabled');
 require('./common/commands');
