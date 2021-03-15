@@ -46,12 +46,16 @@ describe('prometheus', () => {
     describe('/metrics', () => {
       it('should configure the /metrics endpoint with default settings', async () => {
         process.env.APP_NAME = 'my-app';
+        process.env.BUILD_ID = 'build-id';
+        process.env.VERSION = 'version';
         promClient.register.metrics.mockResolvedValue('data');
 
         expect(prometheus.init(app)).toBe(app);
 
         expect(promClient.register.setDefaultLabels).toBeCalledWith({
           service: 'my-app',
+          buildId: 'build-id',
+          version: 'version',
         });
 
         expect(promClient.collectDefaultMetrics).toBeCalledWith({
