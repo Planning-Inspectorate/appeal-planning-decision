@@ -57,7 +57,7 @@ spec:
 
       horizon-householder-appeal-publish:
         image: pinscommonukscontainers3887default.azurecr.io/horizon-householder-appeal-publish
-        tag: 1.2.0
+        tag: 1.2.1
         envvars:
           APPEALS_SERVICE_URL: http://app.app-preprod.svc.cluster.local:3000
           DOCUMENT_SERVICE_URL: http://app.app-prepod.svc.cluster.local:3001
