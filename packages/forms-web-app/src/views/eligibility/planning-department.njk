@@ -2,6 +2,10 @@
 {% from "govuk/components/button/macro.njk" import govukButton %},
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
+{% block pageTitle %}
+  What is the name of the local planning department? - Eligibility - Appeal a householder planning decision - GOV.UK
+{% endblock %}
+
 {% block content %}
 
   {% if errorSummary %}
@@ -49,7 +53,7 @@
   <script src="/assets/accessible-autocomplete.min.js"></script>
   <script>
     accessibleAutocomplete({
-      id: 'planning-department-label',
+      id: 'local-planning-department',
       name: 'local-planning-department',
       showAllValues: true,
       defaultValue:  {{ appealLPD | dump | safe }},

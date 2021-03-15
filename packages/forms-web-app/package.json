@@ -1,14 +1,17 @@
 {
   "name": "forms-web-app",
-  "version": "1.18.2",
+  "version": "1.19.0",
   "private": true,
   "scripts": {
     "prebuild": "rm -Rf ./dist",
-    "build": "npm run build:sass && npm run build:app",
+    "build": "npm run build:client && npm run build:sass && npm run build:app",
     "build:app": "cp -Rf ./src ./dist",
+    "build:client": "webpack --config webpack.prod.js",
     "build:sass": "node-sass src/sass/main.scss src/public/stylesheets/main.css --output-style compressed",
     "start": "node dist/server.js",
-    "start:dev": "nodemon src/server.js | pino-pretty -tlc",
+    "start:dev": "npm-run-all --parallel start:dev:server start:dev:client",
+    "start:dev:server": "nodemon src/server.js | pino-pretty -tlc",
+    "start:dev:client": "webpack --config webpack.dev.js --watch",
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix",
     "format": "prettier --write './**/*.js'",
@@ -37,7 +40,7 @@
     "express-validator": "^6.6.1",
     "file-type": "^16.0.1",
     "form-data": "^3.0.0",
-    "govuk-frontend": "^3.10.2",
+    "govuk-frontend": "^3.11.0",
     "http-errors": "~1.6.3",
     "lusca": "^1.6.1",
     "node-fetch": "^2.6.1",
@@ -49,6 +52,9 @@
     "uuid": "^8.3.1"
   },
   "devDependencies": {
+    "@testing-library/dom": "^7.29.6",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/user-event": "^12.8.1",
     "eslint": "^7.11.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.14.0",
@@ -59,8 +65,12 @@
     "jest-fetch-mock": "^3.0.3",
     "jest-html-reporters": "^2.1.2",
     "nodemon": "^2.0.6",
+    "npm-run-all": "^4.1.5",
     "patch-package": "^6.2.2",
     "pino-pretty": "^4.3.0",
-    "prettier": "^2.1.2"
+    "prettier": "^2.1.2",
+    "webpack": "^5.24.2",
+    "webpack-cli": "^4.5.0",
+    "webpack-merge": "^5.7.3"
   }
 }

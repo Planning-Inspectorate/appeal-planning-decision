@@ -113,6 +113,7 @@ jobs:
           -var container_registry_name="${{ steps.tf_common.outputs.container_registry_name }}"
           -var container_registry_rg_name="${{ steps.tf_common.outputs.container_registry_rg_name }}"
           -var-file="${{ steps.vars.outputs.tfvars }}"
+          -var="monitoring_alert_email=${{ secrets.DEVOPS_EMAIL_ADDRESS }}"
           -out tfplan
 
       - name: Unlock resources

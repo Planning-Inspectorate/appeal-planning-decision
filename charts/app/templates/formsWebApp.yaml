@@ -53,6 +53,8 @@ spec:
               value: "http://{{ include "app.fullname" . }}:{{ .Values.appealsServiceApi.service.port }}"
             - name: DOCUMENTS_SERVICE_API_URL
               value: "http://{{ include "app.fullname" . }}:{{ .Values.documentServiceApi.service.port }}"
+            - name: PDF_SERVICE_API_URL
+              value: "http://{{ include "app.fullname" . }}:{{ .Values.pdfServiceApi.service.port }}"
             - name: GOOGLE_ANALYTICS_ID
               value: {{ .Values.formsWebApp.config.googleAnalyticsId | quote }}
             - name: FILE_UPLOAD_DEBUG
@@ -63,6 +65,8 @@ spec:
               value: {{ .Values.formsWebApp.config.upload.uploadDir | quote }}
             - name: FILE_UPLOAD_USE_TEMP_FILES
               value: {{ .Values.formsWebApp.config.upload.useTmpFiles | quote }}
+            - name: HOST_URL
+              value: "http://{{ include "app.fullname" . }}:{{ .Values.formsWebApp.service.port }}"
             - name: LOGGER_LEVEL
               value: {{ .Values.formsWebApp.config.logLevel }}
             - name: PORT
@@ -83,6 +87,8 @@ spec:
                 secretKeyRef:
                   key: value
                   name: akv-fwa-session-key
+            - name: SUBDOMAIN_OFFSET
+              value: {{ .Values.formsWebApp.config.subdomainOffset | quote }}
             - name: USE_SECURE_SESSION_COOKIES
               value: "true"
           volumeMounts:

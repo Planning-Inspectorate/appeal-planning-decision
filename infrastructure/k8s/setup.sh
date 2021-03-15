@@ -26,14 +26,27 @@ add_registry_secret() {
   done
 }
 
+configure_monitoring() {
+  echo "Configuring Monitoring"
+
+  kubectl apply -f "${DIR}/../k8s/monitoring/configMap.yaml"
+}
+
 configure_rbac() {
   echo "Configuring RBAC"
 
-  echo "${DIR}"/../k8s/rbac/*.yaml
+  mkdir -p "${DIR}/../k8s/rbac/${CLUSTER}"
 
   for namespace in ${DEPLOY_NAMESPACE} ${OPENFAAS_NAMESPACES} flux
   do
-    for file in "${DIR}/../k8s/rbac"/*.yaml
+    # Handle spaces in path names
+    OIFS="$IFS"
+    IFS=$'\n'
+
+    COMMON_RBAC=$(find "${DIR}/../k8s/rbac/common" -name "*.yaml" -type f -exec ls {} \;)
+    CLUSTER_RBAC=$(find "${DIR}/../k8s/rbac/${CLUSTER}" -name "*.yaml" -type f -exec ls {} \;)
+
+    for file in ${COMMON_RBAC} ${CLUSTER_RBAC}
     do
       echo "Applying file: ${file}"
       echo "Namespace: ${namespace}"
@@ -42,6 +55,8 @@ configure_rbac() {
 
       envsubst < "${file}" | kubectl apply -f -
     done
+
+    IFS="$OIFS"
   done
 }
 
@@ -155,6 +170,7 @@ install_gitops() {
     --set git.path="releases/${CLUSTER}" \
     --set git.branch="${RELEASE_BRANCH}" \
     --set git.label="${CLUSTER}-flux-sync" \
+    --set git.timeout="1m" \
     --set git.ciSkip="true" \
     --namespace "${FLUX_NAMESPACE}" \
     --version "${GITOPS_FLUX_VERSION}" \
@@ -171,6 +187,7 @@ install_gitops() {
     --cleanup-on-fail \
     --set-file ssh.known_hosts=./known_hosts \
     --set git.ssh.secretName=flux-git-deploy \
+    --set git.timeout="1m" \
     --set helm.versions=v3 \
     --set syncGarbageCollection.enabled=true \
     --values="${DIR}/helm-dependencies.yaml" \
@@ -236,3 +253,4 @@ install_nginx_ingress
 install_cert_manager
 install_gitops
 configure_rbac
+configure_monitoring

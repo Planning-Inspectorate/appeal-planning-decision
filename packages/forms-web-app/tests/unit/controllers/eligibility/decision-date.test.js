@@ -62,7 +62,11 @@ describe('controllers/eligibility/decision-date', () => {
       decisionDateController.getDecisionDate(mockRequest, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
-        decisionDate: parseISO(decisionDate),
+        decisionDate: {
+          day: '01',
+          month: '01',
+          year: 2000,
+        },
       });
     });
   });
@@ -72,7 +76,7 @@ describe('controllers/eligibility/decision-date', () => {
       const mockRequest = {
         ...req,
         body: {
-          'decision-date-full': '2019-10-10',
+          'decision-date': '2019-10-10',
         },
       };
 
@@ -99,12 +103,14 @@ describe('controllers/eligibility/decision-date', () => {
         },
       };
 
-      mockRequest.session.appeal.decisionDate = '';
-
       await decisionDateController.postDecisionDate(mockRequest, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
-        decisionDate: null,
+        decisionDate: {
+          day: undefined,
+          month: undefined,
+          year: undefined,
+        },
         errorSummary: [],
         errors: {
           'decision-date-year': {
@@ -113,12 +119,17 @@ describe('controllers/eligibility/decision-date', () => {
         },
       });
 
-      mockRequest.session.appeal.decisionDate = '2000-01-01T12:00:00.000Z';
+      mockRequest.body['decision-date-day'] = '01';
+      mockRequest.body['decision-date-month'] = '01';
 
       await decisionDateController.postDecisionDate(mockRequest, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
-        decisionDate: parseISO(appeal.decisionDate),
+        decisionDate: {
+          day: '01',
+          month: '01',
+          year: undefined,
+        },
         errorSummary: [],
         errors: {
           'decision-date-year': {
@@ -134,7 +145,7 @@ describe('controllers/eligibility/decision-date', () => {
       const mockRequest = {
         ...req,
         body: {
-          'decision-date-full': format(decisionDate, 'yyyy-MM-dd'),
+          'decision-date': format(decisionDate, 'yyyy-MM-dd'),
           errors: {},
           errorSummary: [],
         },
@@ -150,7 +161,7 @@ describe('controllers/eligibility/decision-date', () => {
       const mockRequest = {
         ...req,
         body: {
-          'decision-date-full': format(decisionDate, 'yyyy-MM-dd'),
+          'decision-date': format(decisionDate, 'yyyy-MM-dd'),
           errors: {},
           errorSummary: [],
         },
@@ -167,7 +178,7 @@ describe('controllers/eligibility/decision-date', () => {
       const mockRequest = {
         ...req,
         body: {
-          'decision-date-full': format(decisionDate, 'yyyy-MM-dd'),
+          'decision-date': format(decisionDate, 'yyyy-MM-dd'),
           errors: {},
           errorSummary: [],
         },
@@ -197,7 +208,10 @@ describe('controllers/eligibility/decision-date', () => {
     const mockRequest = {
       ...req,
       body: {
-        'decision-date-full': '1-1-2020',
+        'decision-date': '1-1-2020',
+        'decision-date-day': '1',
+        'decision-date-month': '1',
+        'decision-date-year': '2020',
         errors: { a: 'b' },
         errorSummary: [{ text: 'There were errors here', href: '#' }],
       },
@@ -209,7 +223,11 @@ describe('controllers/eligibility/decision-date', () => {
 
     expect(res.redirect).not.toHaveBeenCalled();
     expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
-      decisionDate: parseISO(appeal.decisionDate),
+      decisionDate: {
+        day: '1',
+        month: '1',
+        year: '2020',
+      },
       errorSummary: [{ text: 'There were errors here', href: '#' }],
       errors: { a: 'b' },
     });

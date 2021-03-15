@@ -7,6 +7,8 @@ metadata:
   annotations:
     fluxcd.io/automated: "true"
     # Add hyphen to include pre-releases
+    filter.fluxcd.io/pingHorizon: semver:^1.0.0-0
+
     repository.fluxcd.io/horizon-add-document: functions.horizon-add-document.image
     filter.fluxcd.io/horizon-add-document: semver:^1.0.0-0
     tag.fluxcd.io/horizon-add-document: functions.horizon-add-document.tag
@@ -28,26 +30,36 @@ spec:
     keyVault:
       name: pins-uks-vault-8669-dev
 
+    pingHorizon:
+      replicaCount: 1
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/ping
+        tag: 1.0.0
+      config:
+        ping:
+          url: http://10.0.7.4:8001/status
+
     functions:
       horizon-add-document:
         image: pinscommonukscontainers3887default.azurecr.io/horizon-add-document
-        tag: 1.0.0
+        tag: 1.0.1
         envvars:
           STORAGE_CONTAINER_NAME: uploads
           STORAGE_CONNECTION_STRING_SECRET: value
-          DOCUMENT_SERVICE_URL: http://app.app-simon.svc.cluster.local:3001
+          DOCUMENT_SERVICE_URL: http://app.app-dev.svc.cluster.local:3001
           HORIZON_URL: http://10.0.7.4:8000
 
       horizon-create-contact:
         image: pinscommonukscontainers3887default.azurecr.io/horizon-create-contact
-        tag: 1.0.0
+        tag: 1.0.1
         envvars:
           HORIZON_URL: http://10.0.7.4:8000
 
       horizon-householder-appeal-publish:
         image: pinscommonukscontainers3887default.azurecr.io/horizon-householder-appeal-publish
-        tag: 1.0.0
+        tag: 1.2.1
         envvars:
           APPEALS_SERVICE_URL: http://app.app-dev.svc.cluster.local:3000
+          DOCUMENT_SERVICE_URL: http://app.app-dev.svc.cluster.local:3001
           GATEWAY_URL: http://gateway.openfaas.svc.cluster.local:8080
           HORIZON_URL: http://10.0.7.4:8000

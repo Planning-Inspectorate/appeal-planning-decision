@@ -38,8 +38,8 @@ When('an invalid decision date {string}-{string}-{string} is provided', (day, mo
   cy.provideDecisionDate({day, month, year});
 })
 
-Then('the decision date is highlighted as invalid', () => {
-  cy.confirmProvidedDecisionDateWasInvalid();
+Then('the decision date is highlighted as with the error: {string}', (error) => {
+  cy.confirmProvidedDecisionDateError(error);
 })
 
 When('an attempt is made to access {string}', (page) => {
@@ -84,7 +84,7 @@ When('an attempt is made to access {string}', (page) => {
       cy.goToApplicantNamePage();
       break;
     case 'Appellant submission - Planning application - Application number':
-      cy.promptUserToProvidePlanningApplicationNumber();
+      cy.goToPlanningApplicationNumberPage();
       break;
     case 'Appellant submission - Planning application - Upload application':
       cy.goToPlanningApplicationSubmission();

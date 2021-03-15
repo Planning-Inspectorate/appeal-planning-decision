@@ -9,6 +9,7 @@ exports.insertAppeal = yup
     horizonId: yup.string().trim().max(20).nullable(),
     lpaCode: yup.string().trim().max(20).nullable().default(null),
     decisionDate: yup.date().transform(parseDateString).nullable().default(null),
+    submissionDate: yup.date().transform(parseDateString).nullable().default(null),
     state: yup.string().oneOf(['DRAFT', 'SUBMITTED']).default('DRAFT'),
     aboutYouSection: yup.object().shape({
       yourDetails: yup.object().shape({
@@ -72,6 +73,19 @@ exports.insertAppeal = yup
           )
           .nullable()
           .default([]),
+      }),
+    }),
+    appealSubmission: yup.object().shape({
+      appealPDFStatement: yup.object().shape({
+        uploadedFile: yup.object().shape({
+          name: yup.string().max(255).ensure(),
+          id: yup
+            .string()
+            .uuid()
+            .transform((value) => (!value ? null : value))
+            .nullable()
+            .default(null),
+        }),
       }),
     }),
     appealSiteSection: yup.object().shape({

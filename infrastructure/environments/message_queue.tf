@@ -9,6 +9,14 @@ resource "azurerm_resource_group" "message_queue" {
   }
 }
 
+module "message_queue_rg_roles" {
+  source = "../modules/resource-group-aad-roles"
+
+  admin_group_id = azuread_group.admin.id
+  resource_group_id = azurerm_resource_group.message_queue.id
+  user_group_id = azuread_group.user.id
+}
+
 resource "azurerm_servicebus_namespace" "message_queue" {
   name = format(local.name_format, "message-queue")
   location = azurerm_resource_group.message_queue.location

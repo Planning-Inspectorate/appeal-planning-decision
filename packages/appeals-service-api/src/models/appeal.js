@@ -3,6 +3,7 @@ exports.appealDocument = {
   horizonId: null,
   lpaCode: null,
   decisionDate: null,
+  submissionDate: null,
   state: 'DRAFT',
   eligibility: {
     enforcementNotice: null,
@@ -63,6 +64,14 @@ exports.appealDocument = {
     healthAndSafety: {
       hasIssues: null,
       healthAndSafetyIssues: '',
+    },
+  },
+  appealSubmission: {
+    appealPDFStatement: {
+      uploadedFile: {
+        name: '',
+        id: null,
+      },
     },
   },
   sectionStates: {

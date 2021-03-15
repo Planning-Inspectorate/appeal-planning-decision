@@ -5,17 +5,14 @@ function document() {
   return yup
     .object()
     .shape({
-      uploadedFile: yup
-        .object()
-        .shape({
-          name: yup.string().max(255).ensure().required(),
-          id: yup
-            .string()
-            .uuid()
-            .transform((value) => (!value ? null : value))
-            .required(),
-        })
-        .noUnknown(true),
+      uploadedFile: yup.object().shape({
+        name: yup.string().max(255).ensure().required(),
+        id: yup
+          .string()
+          .uuid()
+          .transform((value) => (!value ? null : value))
+          .required(),
+      }),
     })
     .noUnknown(true);
 }
@@ -48,6 +45,12 @@ exports.updateAppeal = yup
     }),
     decisionDate: yup.lazy((decisionDate) => {
       if (decisionDate !== undefined) {
+        return yup.date().transform(parseDateString).nullable();
+      }
+      return yup.mixed().notRequired();
+    }),
+    submissionDate: yup.lazy((submissionDate) => {
+      if (submissionDate !== undefined) {
         return yup.date().transform(parseDateString).nullable();
       }
       return yup.mixed().notRequired();
@@ -187,6 +190,16 @@ exports.updateAppeal = yup
               });
             }
             return yup.mixed().notRequired();
+          }),
+        });
+      }
+      return yup.mixed().notRequired();
+    }),
+    appealSubmission: yup.lazy((appealSubmission) => {
+      if (appealSubmission !== undefined) {
+        return yup.object().shape({
+          appealPDFStatement: yup.lazy(() => {
+            return document();
           }),
         });
       }

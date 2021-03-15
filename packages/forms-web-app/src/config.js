@@ -1,11 +1,12 @@
 const oneGigabyte = 1024 * 1024 * 1024;
+const httpPort = Number(process.env.PORT || 3000);
 
 module.exports = {
   appeals: {
     startingPoint:
       process.env.SERVER_LIMITED_ROUTING_ENABLED === 'true'
         ? '/eligibility/decision-date'
-        : '/eligibility/householder-planning-permission',
+        : '/before-you-appeal',
     timeout: Number(process.env.APPEALS_SERVICE_API_TIMEOUT || 10000),
     url: process.env.APPEALS_SERVICE_API_URL,
   },
@@ -27,6 +28,9 @@ module.exports = {
     timeout: Number(process.env.DOCUMENTS_SERVICE_API_TIMEOUT || 10000),
     url: process.env.DOCUMENTS_SERVICE_API_URL,
   },
+  pdf: {
+    url: process.env.PDF_SERVICE_API_URL,
+  },
   fileUpload: {
     debug: process.env.FILE_UPLOAD_DEBUG === 'true',
     pins: {
@@ -44,6 +48,7 @@ module.exports = {
     tempFileDir: process.env.FILE_UPLOAD_TMP_PATH,
     useTempFiles: process.env.FILE_UPLOAD_USE_TEMP_FILES === 'true',
   },
+  isProduction: process.env.NODE_ENV === 'production',
   logger: {
     level: process.env.LOGGER_LEVEL || 'info',
     redact: ['opts.body', 'config.db.session.uri', 'config.server.sessionSecret'],
@@ -65,8 +70,11 @@ module.exports = {
       ],
       serviceUrl: 'https://acp.planninginspectorate.gov.uk',
     },
-    port: Number(process.env.PORT || 3000),
+    host: process.env.HOST_URL || `http://localhost:${httpPort}`, // This is used for the HTML generator
+    port: httpPort,
     sessionSecret: process.env.SESSION_KEY,
+    // https://expressjs.com/en/5x/api.html#app.set - to account for .gov.uk
+    subdomainOffset: parseInt(process.env.SUBDOMAIN_OFFSET, 10) || 3,
     useSecureSessionCookie: process.env.USE_SECURE_SESSION_COOKIES === 'true',
     googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID,
   },

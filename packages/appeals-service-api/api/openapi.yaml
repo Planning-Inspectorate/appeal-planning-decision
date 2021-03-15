@@ -231,6 +231,11 @@ components:
           format: date
           example: '2020-10-30T13:32:58.000Z'
           description: 'The last appeal update date was decided in ISO format'
+        submissionDate:
+          type: string
+          format: date
+          example: '2020-10-29T12:00:00.000Z'
+          description: 'The date the appeal was submitted from forms-web-app'
         state:
           $ref: '#/components/schemas/AppealState'
         aboutYouSection:
@@ -245,6 +250,8 @@ components:
           $ref: '#/components/schemas/SectionStates'
         eligibility:
           $ref: '#/components/schemas/Eligibility'
+        appealSubmission:
+          $ref: '#/components/schemas/AppealSubmission'
       description: All of the data and state information for an appeal
     AppealSiteSection:
       type: object
@@ -270,6 +277,17 @@ components:
           $ref: '#/components/schemas/UploadedFile'
         hasSensitiveInformation:
           type: boolean
+    AppealPDFStatement:
+      type: object
+      properties:
+        uploadedFile:
+          $ref: '#/components/schemas/UploadedFile'
+    AppealSubmission:
+      type: object
+      properties:
+        appealPDFStatement:
+          $ref: '#/components/schemas/AppealPDFStatement'
+      description: Submitted appeal PDF statement to Horizon
     ApplicationNumber:
       type: string
       example: "S/35552"

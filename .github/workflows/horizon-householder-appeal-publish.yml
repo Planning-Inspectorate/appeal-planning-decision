@@ -21,6 +21,7 @@ on:
       - master
       - develop
       - 'feature/**'
+      - 'fix/**'
       - 'subtask/**'
     paths:
       - packages/horizon-householder-appeal-publish/**/*

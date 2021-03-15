@@ -1,7 +1,7 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 
 Given('user has not previously provided a planning application number', () => {
-  cy.promptUserToProvidePlanningApplicationNumber();
+  cy.goToPlanningApplicationNumberPage();
 });
 
 Given('user has previously provided a planning application number {string}', (valid_number) => {
@@ -9,7 +9,7 @@ Given('user has previously provided a planning application number {string}', (va
 });
 
 Given('the user is prompted to provide a planning application number', () => {
-    cy.promptUserToProvidePlanningApplicationNumber();
+    cy.goToPlanningApplicationNumberPage();
 });
 
 When('the user provides a planning application number {string}', (valid_number) => {

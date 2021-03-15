@@ -16,7 +16,10 @@ const appealSiteAddressToArray = require('./lib/appeal-site-address-to-array');
 const fileSizeDisplayHelper = require('./lib/file-size-display-helper');
 const filterByKey = require('./lib/filter-by-key');
 const addKeyValuePair = require('./lib/add-key-value-pair');
-const initialCookiesMiddleware = require('./middleware/initial-cookies');
+const renderTemplateFilter = require('./lib/render-template-filter');
+const flashMessageCleanupMiddleware = require('./middleware/flash-message-cleanup');
+const flashMessageToNunjucks = require('./middleware/flash-message-to-nunjucks');
+const removeUnwantedCookiesMiddelware = require('./middleware/remove-unwanted-cookies');
 require('express-async-errors');
 
 const config = require('./config');
@@ -81,6 +84,7 @@ env.addFilter('date', dateFilter);
 env.addFilter('formatBytes', fileSizeDisplayHelper);
 env.addFilter('filterByKey', filterByKey);
 env.addFilter('addKeyValuePair', addKeyValuePair);
+env.addFilter('render', renderTemplateFilter(nunjucks));
 env.addGlobal('fileSizeLimits', config.fileUpload.pins);
 env.addGlobal('googleAnalyticsId', config.server.googleAnalyticsId);
 
@@ -95,6 +99,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session(sessionConfig()));
+app.use(removeUnwantedCookiesMiddelware);
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(
   '/assets',
@@ -106,13 +111,17 @@ app.use(
   express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'all.js'))
 );
 app.use(fileUpload(config.fileUpload));
-app.use(initialCookiesMiddleware(env));
+app.use(flashMessageCleanupMiddleware);
+app.use(flashMessageToNunjucks(env));
 
 // Routes
 app.use('/', routes);
 
 // View Engine
 app.set('view engine', 'njk');
+
+// For working with req.subdomains, primarily for cookie control.
+app.set('subdomain offset', config.server.subdomainOffset);
 
 // Error handling
 app

@@ -2,6 +2,7 @@ const express = require('express');
 
 const decisionDateController = require('../../controllers/eligibility/decision-date');
 const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
+const combineDateInputsMiddleware = require('../../middleware/combine-date-inputs');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const {
   rules: decisionDateValidationRules,
@@ -21,7 +22,7 @@ router.get(
 
 router.post(
   '/decision-date',
-  [fetchExistingAppealMiddleware],
+  [fetchExistingAppealMiddleware, combineDateInputsMiddleware],
   decisionDateValidationRules(),
   validationErrorHandler,
   decisionDateController.postDecisionDate

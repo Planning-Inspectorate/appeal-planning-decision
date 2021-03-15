@@ -22,7 +22,9 @@
   }) }}
 {% endset -%}
 
-
+{% block pageTitle %}
+  Can the Inspector see the whole of the appeal site from a public road? - Appeal a householder planning decision - GOV.UK
+{% endblock %}
 
 {% block content %}
 
@@ -87,13 +89,4 @@
 
   </div>
 
-{% endblock %}
-
-
-{% block footer %}
-  {{ super() }}
-  <script src="/assets/govuk/all.js"></script>
-  <script>
-    window.GOVUKFrontend.initAll()
-  </script>
 {% endblock %}

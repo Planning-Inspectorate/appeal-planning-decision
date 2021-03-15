@@ -9,29 +9,17 @@ resource "azurerm_resource_group" "k8s" {
   }
 }
 
+module "k8s_rg_roles" {
+  source = "../modules/resource-group-aad-roles"
+
+  admin_group_id = azuread_group.admin.id
+  resource_group_id = azurerm_resource_group.k8s.id
+  user_group_id = azuread_group.user.id
+}
+
 resource "random_integer" "k8s" {
   max = 9999
   min = 1000
-}
-
-resource "azurerm_log_analytics_workspace" "k8s" {
-  name = format(local.name_format, "kubernetes-${random_integer.k8s.result}")
-  location = azurerm_resource_group.k8s.location
-  resource_group_name = azurerm_resource_group.k8s.name
-  sku = "PerGB2018"
-}
-
-resource "azurerm_log_analytics_solution" "k8s" {
-  solution_name = "ContainerInsights"
-  location = azurerm_resource_group.k8s.location
-  resource_group_name = azurerm_resource_group.k8s.name
-  workspace_name = azurerm_log_analytics_workspace.k8s.name
-  workspace_resource_id = azurerm_log_analytics_workspace.k8s.id
-
-  plan {
-    publisher = "Microsoft"
-    product = "OMSGallery/ContainerInsights"
-  }
 }
 
 data "azurerm_kubernetes_service_versions" "k8s" {
@@ -89,7 +77,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
 
     oms_agent {
       enabled = true
-      log_analytics_workspace_id = azurerm_log_analytics_workspace.k8s.id
+      log_analytics_workspace_id = azurerm_log_analytics_workspace.monitoring.id
     }
   }
 

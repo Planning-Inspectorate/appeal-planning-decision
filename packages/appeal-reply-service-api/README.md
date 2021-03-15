@@ -38,17 +38,3 @@ See `/src/lib/config.js`
 This application is built to the [12 Factor App](https://12factor.net/)
 standards. This means that there is a single configuration file and any specific
 variables required are declared as environment variables.
-
-### Logging
-
-See `/src/lib/logger.js`
-
-This application uses [Pino](http://getpino.io). All logs are sent to the
-STDOut so they can be picked up when deployed by the Kubernetes pod(s). It
-is important to use the log levels (trace, debug, info, warn, error, fatal)
-appropriately so that filtering can be done during production. 
-
-Also installed is `express-pino-logger` which add `req.log` to the incoming
-HTTP request. This automatically logs incoming HTTP requests and apply a unique
-correlation ID to make tracing errors through easier. For the most part, this
-should be the instance used for logging.

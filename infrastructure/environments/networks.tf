@@ -9,18 +9,26 @@ resource "azurerm_resource_group" "network" {
   }
 }
 
+module "network_rg_roles" {
+  source = "../modules/resource-group-aad-roles"
+
+  admin_group_id = azuread_group.admin.id
+  resource_group_id = azurerm_resource_group.network.id
+  user_group_id = azuread_group.user.id
+}
+
 resource "azurerm_virtual_network" "network" {
   name = format(local.name_format, "network")
   location = azurerm_resource_group.network.location
   resource_group_name = azurerm_resource_group.network.name
-  address_space = ["10.30.0.0/16"]
+  address_space = [ var.network_subnet_range ]
 }
 
 resource "azurerm_subnet" "network" {
   name = format(local.name_format, "network")
   resource_group_name = azurerm_resource_group.network.name
   virtual_network_name = azurerm_virtual_network.network.name
-  address_prefixes = ["10.30.1.0/24"]
+  address_prefixes = [ cidrsubnet(var.network_subnet_range, 8, 1) ]
 
   service_endpoints = [
     "Microsoft.AzureCosmosDB",

@@ -1,3 +1,10 @@
+# [forms-web-app-v1.19.0](https://github.com/Planning-Inspectorate/appeal-planning-decision/compare/forms-web-app-v1.18.2...forms-web-app-v1.19.0) (2021-03-03)
+
+
+### Features
+
+* **as-100:** view cookie preferences web page ([a3763c8](https://github.com/Planning-Inspectorate/appeal-planning-decision/commit/a3763c88aaa57ce5311ff6d2da9ab6816ac3374c))
+
 # [forms-web-app-v1.18.2](https://github.com/Planning-Inspectorate/appeal-planning-decision/compare/forms-web-app-v1.18.1...forms-web-app-v1.18.2) (2021-03-01)
 
 

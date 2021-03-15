@@ -9,6 +9,14 @@ resource "azurerm_resource_group" "mongodb" {
   }
 }
 
+module "mongodb_rg_roles" {
+  source = "../modules/resource-group-aad-roles"
+
+  admin_group_id = azuread_group.admin.id
+  resource_group_id = azurerm_resource_group.mongodb.id
+  user_group_id = azuread_group.user.id
+}
+
 resource "random_integer" "mongodb" {
   min = 1000
   max = 9999

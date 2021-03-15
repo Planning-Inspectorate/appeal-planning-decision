@@ -1,6 +1,5 @@
 jest.mock('../../../src/schemas/lpa');
 
-const { when } = require('jest-when');
 const LPA = require('../../../src/schemas/lpa');
 const lpas = require('../../../src/controllers/local-planning-authorities');
 
@@ -14,7 +13,8 @@ describe('LPAs controller test', () => {
         debug: jest.fn(),
         trace: jest.fn(),
       },
-      param: jest.fn(),
+      params: {},
+      query: {},
     };
     res = {
       status: jest.fn(),
@@ -27,7 +27,9 @@ describe('LPAs controller test', () => {
   describe('#get', () => {
     it('should trigger next if there is no LPA found', async () => {
       const id = 'someInvalidId';
-      when(req.param).calledWith('id').mockReturnValue(id);
+      req.params = {
+        id,
+      };
 
       LPA.find.mockResolvedValue();
 
@@ -46,7 +48,9 @@ describe('LPAs controller test', () => {
     it('should return the LPA if one found', async () => {
       const id = 'someValidId';
       const target = 'some-data';
-      when(req.param).calledWith('id').mockReturnValue(id);
+      req.params = {
+        id,
+      };
 
       LPA.findOne.mockResolvedValue(target);
 
@@ -80,7 +84,9 @@ describe('LPAs controller test', () => {
 
     it('should return filtered LPAs if filter applied', async () => {
       const filter = 'some-filter';
-      when(req.param).calledWith('name').mockReturnValue(filter);
+      req.query = {
+        name: filter,
+      };
       const data = ['some-filtered-array'];
       LPA.find.mockResolvedValue(data);
 

@@ -6,7 +6,7 @@ module.exports = () => {
       if (eligiblePlanningDepartments.length > 0) {
         firstEligibleLocalPlanningDepartment = eligiblePlanningDepartments[0];
       }
-      cy.get('input#planning-department-label').type(`{selectall}{backspace}${firstEligibleLocalPlanningDepartment}`);
+      cy.get('input#local-planning-department').type(`{selectall}{backspace}${firstEligibleLocalPlanningDepartment}`);
       cy.wait(Cypress.env('demoDelay'));
     })
 }

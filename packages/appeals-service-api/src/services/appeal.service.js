@@ -56,7 +56,7 @@ const validateAppeal = (appeal) => {
     );
   }
 
-  // if canInspectorSeeWholeSiteFromPublicRoad is false thenhowIsSiteAccessRestricted must not be null or empty
+  // if canInspectorSeeWholeSiteFromPublicRoad is false then howIsSiteAccessRestricted must not be null or empty
   if (
     appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad === false &&
     (appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted === null ||
@@ -156,6 +156,23 @@ const validateAppeal = (appeal) => {
     );
   }
 
+  // Appeal PDF Submission File Upload
+  if (
+    appeal.appealSubmission.appealPDFStatement.uploadedFile.id !== null &&
+    appeal.appealSubmission.appealPDFStatement.uploadedFile.name === ''
+  ) {
+    errors.push(
+      'The appeal statement pdf uploaded file must have a name for the file when it has an id'
+    );
+  }
+  if (
+    appeal.appealSubmission.appealPDFStatement.uploadedFile.name !== '' &&
+    appeal.appealSubmission.appealPDFStatement.uploadedFile.id === null
+  ) {
+    errors.push(
+      'The appeal statement pdf uploaded file must have an id for the file when it has a name'
+    );
+  }
   // Validate supporting documents
   appeal.yourAppealSection.otherDocuments.uploadedFiles.forEach((supportingDocument) => {
     const { id, name } = supportingDocument;
@@ -269,8 +286,14 @@ function isValidAppeal(appeal) {
 
 const updateAppeal = async (appeal, isFirstSubmission = false) => {
   if (isValidAppeal(appeal)) {
+    const now = new Date(new Date().toISOString());
+
     /* eslint no-param-reassign: ["error", { "props": false }] */
-    appeal.updatedAt = new Date(new Date().toISOString());
+    appeal.updatedAt = now;
+
+    if (isFirstSubmission) {
+      appeal.submissionDate = now;
+    }
 
     const updatedDocument = await replaceAppeal(appeal);
 
@@ -282,6 +305,7 @@ const updateAppeal = async (appeal, isFirstSubmission = false) => {
 
     return updatedDocument.value;
   }
+  // impossible to get here as `isValidAppeal` throws if invalid
   return null;
 };
 

@@ -96,29 +96,22 @@ services:
       - ./tmp/documents-upload:/tmp/upload
     command: npm run start:dev
 
-  document-service-uploader:
-    <<: *document-service
-    ports: []
-    links:
-      - blob-storage
-      - mongodb
-    depends_on:
-      - blob-storage
-      - mongodb
-    command: node ./src/tasks/uploadFilesToBlobStorage
-
   forms-web-app:
     image: node:14-alpine
     environment:
       SERVER_LIMITED_ROUTING_ENABLED: ${SERVER_LIMITED_ROUTING_ENABLED}
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
+      PDF_SERVICE_API_URL: http://pdf-service-api:3000
       FILE_UPLOAD_DEBUG: "false"
       FILE_UPLOAD_MAX_FILE_SIZE_BYTES: 15000000
       FILE_UPLOAD_USE_TEMP_FILES: "true"
       FILE_UPLOAD_TMP_PATH: "/tmp"
+      GOOGLE_ANALYTICS_ID: G-TZBWMVPTHV
       SESSION_MONGODB_URL: mongodb://mongodb:27017/fwa-sessions
       SESSION_KEY: some_secure_key_goes_here
+      # please override this locally if using not using localhost or ip address to browse the site in dev.
+      SUBDOMAIN_OFFSET: 0
       USE_SECURE_SESSION_COOKIES: "false"
     ports:
       - 9000:3000
@@ -216,6 +209,22 @@ services:
     ports:
       - 7000:8080
 
+  pdf-service-api:
+    image: node:14-alpine
+    environment:
+      GOTENBERG_URL: http://gotenberg:4000
+      LOGGER_LEVEL: "debug"
+      SERVER_SHOW_ERRORS: "true"
+    ports:
+      - 3003:3000
+    working_dir: /opt/app
+    links:
+      - gotenberg
+    volumes:
+      - ./packages/common:/opt/app/node_modules/@pins/common:ro # Replace the module to avoid symlink errors
+      - ./packages/pdf-service-api:/opt/app:ro
+    command: npm run start:dev
+
   # Third-party services
   blob-storage:
     image: mcr.microsoft.com/azure-storage/azurite
@@ -241,3 +250,11 @@ services:
       - 4005:15672
     volumes:
       - .rabbitmq_plugins:/etc/rabbitmq/enabled_plugins
+
+  gotenberg:
+    image: thecodingmachine/gotenberg:6
+    environment:
+      DEFAULT_LISTEN_PORT: '4000'
+      DISABLE_UNOCONV: '1'
+    ports:
+      - 4006:4000

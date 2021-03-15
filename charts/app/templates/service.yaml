@@ -19,6 +19,14 @@ spec:
       targetPort: {{ .Values.documentServiceApi.service.name }}
       protocol: TCP
       name: {{ .Values.documentServiceApi.service.name }}
+    - port: {{ .Values.pdfServiceApi.service.port }}
+      targetPort: {{ .Values.pdfServiceApi.service.name }}
+      protocol: TCP
+      name: {{ .Values.pdfServiceApi.service.name }}
+    - port: {{ .Values.gotenberg.service.port }}
+      targetPort: {{ .Values.gotenberg.service.name }}
+      protocol: TCP
+      name: {{ .Values.gotenberg.service.name }}
     - port: {{ .Values.formsWebApp.service.port }}
       targetPort: {{.Values.formsWebApp.service.name }}
       protocol: TCP

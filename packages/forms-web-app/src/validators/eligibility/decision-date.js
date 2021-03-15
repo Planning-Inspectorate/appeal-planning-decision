@@ -1,55 +1,22 @@
 const { body } = require('express-validator');
-const { endOfDay, isAfter, isValid, parse } = require('date-fns');
-
-const decisionDateExpiredMessage = 'Decision date expired';
-
-const decisionDateCombiner = (req) => {
-  const day = `0${req.body['decision-date-day']}`.slice(-2);
-  const month = `0${req.body['decision-date-month']}`.slice(-2);
-  const year = req.body['decision-date-year'];
-
-  const decisionDate = `${year}-${month}-${day}`;
-
-  req.body['decision-date-full'] = decisionDate;
-
-  return decisionDate;
-};
-
-const combinedDecisionDateFieldValidator = (req) => {
-  let decisionDate;
-  try {
-    decisionDate = parse(decisionDateCombiner(req), 'yyyy-MM-dd', new Date());
-  } catch (e) {
-    throw new Error('You need to provide a date');
-  }
-
-  if (!decisionDate || !isValid(decisionDate)) {
-    throw new Error('You need to provide a date');
-  }
-
-  const today = endOfDay(new Date());
-
-  if (isAfter(decisionDate, today)) {
-    throw new Error('You need to provide a date');
-  }
-
-  return Promise.resolve(true);
-};
+const { isAfter, endOfDay } = require('date-fns');
+const dateInputValidation = require('../custom/date-input');
 
 const rules = () => {
   return [
-    body('decision-date-day').notEmpty(),
-    body('decision-date-month').notEmpty(),
-    body('decision-date-year').notEmpty().isLength({ min: 4, max: 4 }),
-    body('decision-date').custom(
-      /* istanbul ignore next */ (_value, { req }) => combinedDecisionDateFieldValidator(req)
-    ),
+    ...(dateInputValidation('decision-date', 'the Decision Date') || []),
+    body('decision-date').custom((value) => {
+      const today = endOfDay(new Date());
+
+      if (isAfter(new Date(value), today)) {
+        throw new Error('The Decision Date must be in the past');
+      }
+
+      return true;
+    }),
   ];
 };
 
 module.exports = {
-  combinedDecisionDateFieldValidator,
-  decisionDateCombiner,
-  decisionDateExpiredMessage,
   rules,
 };

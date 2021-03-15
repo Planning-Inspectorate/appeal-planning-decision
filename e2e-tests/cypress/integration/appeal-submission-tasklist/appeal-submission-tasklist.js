@@ -67,7 +67,7 @@ Given('mandatory tasks are completed', () => {
   cy.provideDetailsEmail('valid@email.com');
   cy.clickSaveAndContinue();
 
-  cy.promptUserToProvidePlanningApplicationNumber();
+  cy.goToPlanningApplicationNumberPage();
   cy.providePlanningApplicationNumber('ValidNumber/12345');
   cy.goToPlanningApplicationSubmission();
   cy.uploadPlanningApplicationFile('appeal-statement-valid.doc');
@@ -116,7 +116,7 @@ Given('the {string} part of the appeal are completed', (sectionTaskName) => {
       cy.clickSaveAndContinue();
       break;
     case 'Planning application - Application number':
-      cy.promptUserToProvidePlanningApplicationNumber();
+      cy.goToPlanningApplicationNumberPage();
       cy.providePlanningApplicationNumber('ValidNumber/12345');
       break;
     case 'Planning application - Upload application':

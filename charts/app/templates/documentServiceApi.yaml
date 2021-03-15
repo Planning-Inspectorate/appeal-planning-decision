@@ -73,6 +73,12 @@ spec:
               value: {{ .Values.documentServiceApi.config.port | quote }}
             - name: SERVER_TERMINATION_GRACE_PERIOD_SECONDS
               value: {{ 10 | quote }} # Same as "periodSeconds" for readinessProbe
+            - name: STORAGE_CONTAINER_NAME
+              value: {{ .Values.documentServiceApi.config.upload.uploadContainerName }}
+            - name: STORAGE_UPLOAD_MAX_ATTEMPTS
+              value: {{ .Values.documentServiceApi.config.upload.maxUploadAttempts | quote }}
+            - name: STORAGE_UPLOAD_QUERY_LIMIT
+              value: {{ .Values.documentServiceApi.config.upload.processQueryLimit | quote }}
           volumeMounts:
             - mountPath: {{ .Values.documentServiceApi.config.upload.uploadDir | quote }}
               name: upload-dir
@@ -92,97 +98,4 @@ spec:
       {{- end }}
       volumes:
         - name: upload-dir
-          persistentVolumeClaim:
-            claimName: {{ include "app.fullname" . }}-document-service-api
----
-# CronJob - uploads the files from the volume to the final storage destination
-apiVersion: batch/v1beta1
-kind: CronJob
-metadata:
-  name: {{ include "app.fullname" . }}-document-service-uploader
-  labels:
-    {{- include "app.labels" . | nindent 4 }}
-spec:
-  schedule: {{ .Values.documentServiceApi.config.cron.schedule | quote }}
-  successfulJobsHistoryLimit: {{ .Values.documentServiceApi.config.cron.successfulJobHistoryLimit }}
-  jobTemplate:
-    spec:
-      template:
-        spec:
-          {{- with .Values.imagePullSecrets }}
-          imagePullSecrets:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          serviceAccountName: {{ include "app.serviceAccountName" . }}
-          securityContext:
-            {{- toYaml .Values.podSecurityContext | nindent 12 }}
-          containers:
-            - name: {{ .Chart.Name }}
-              securityContext:
-                {{- toYaml .Values.securityContext | nindent 16 }}
-              image: "{{ .Values.documentServiceApi.image.repository }}:{{ .Values.documentServiceApi.image.tag }}"
-              imagePullPolicy: {{ .Values.documentServiceApi.image.pullPolicy }}
-              args:
-                - node
-                - ./src/tasks/uploadFilesToBlobStorage
-              env:
-                - name: BLOB_STORAGE_CONNECTION_STRING
-                  valueFrom:
-                    secretKeyRef:
-                      key: value
-                      name: akv-docs-blob-storage-connection-string
-                - name: FILE_MAX_SIZE_IN_BYTES
-                  value: {{ .Values.documentServiceApi.config.upload.maxSize | quote }}
-                - name: FILE_UPLOAD_PATH
-                  value: {{ .Values.documentServiceApi.config.upload.uploadDir | quote }}
-                - name: MONGODB_DB_NAME
-                  value: {{ .Values.documentServiceApi.config.db.name }}
-                - name: MONGODB_URL
-                  valueFrom:
-                    secretKeyRef:
-                      key: value
-                      name: akv-mongodb-connection-url
-                - name: STORAGE_CONTAINER_NAME
-                  value: {{ .Values.documentServiceApi.config.upload.uploadContainerName }}
-                - name: STORAGE_UPLOAD_MAX_ATTEMPTS
-                  value: {{ .Values.documentServiceApi.config.upload.maxUploadAttempts | quote }}
-                - name: STORAGE_UPLOAD_QUERY_LIMIT
-                  value: {{ .Values.documentServiceApi.config.upload.processQueryLimit | quote }}
-              volumeMounts:
-                - mountPath: {{ .Values.documentServiceApi.config.upload.uploadDir | quote }}
-                  name: upload-dir
-          restartPolicy: Never
-          volumes:
-            - name: upload-dir
-              persistentVolumeClaim:
-                claimName: {{ include "app.fullname" . }}-document-service-api
----
-# StorageClass - define the file share volume
-kind: StorageClass
-apiVersion: storage.k8s.io/v1
-metadata:
-  name: {{ include "app.fullname" . }}-document-service-api
-provisioner: kubernetes.io/azure-file
-mountOptions:
-  - dir_mode=0777
-  - file_mode=0777
-  - uid=0
-  - gid=0
-  - mfsymlinks
-  - cache=strict
-  - actimeo=30
-parameters:
-  skuName: Standard_LRS
----
-# PersistentVolumeClaim - attach the file share as a volume
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ include "app.fullname" . }}-document-service-api
-spec:
-  accessModes:
-    - ReadWriteMany
-  storageClassName: {{ include "app.fullname" . }}-document-service-api
-  resources:
-    requests:
-      storage: 10Gi
+          emptyDir: {}

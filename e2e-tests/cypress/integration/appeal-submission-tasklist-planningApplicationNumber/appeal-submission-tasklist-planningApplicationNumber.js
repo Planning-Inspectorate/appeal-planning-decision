@@ -5,7 +5,7 @@ Given('the user checks the status of their appeal', () => {
 });
 
 When('the user selects to provide their planning application number', () => {
-  cy.promptUserToProvidePlanningApplicationNumber();
+  cy.goToPlanningApplicationNumberPage();
 });
 
 Then('the user should be presented with opportunity to provide their planning application number', () => {

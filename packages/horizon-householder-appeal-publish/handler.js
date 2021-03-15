@@ -5,6 +5,9 @@ const config = {
   appealsService: {
     url: process.env.APPEALS_SERVICE_URL,
   },
+  documentService: {
+    url: process.env.DOCUMENT_SERVICE_URL,
+  },
   horizon: {
     url: process.env.HORIZON_URL,
   },
@@ -27,6 +30,16 @@ function convertToSoapKVPair(key, value) {
         '__i:type': 'a:SetAttributeValue',
         'a:Name': key,
         'a:Values': value.map((item) => convertToSoapKVPair(item.key, item.value)),
+      },
+    };
+  }
+
+  if (value == null) {
+    return {
+      'a:AttributeValue': {
+        '__i:type': 'a:StringAttributeValue',
+        'a:Name': key,
+        'a:Value': null,
       },
     };
   }
@@ -206,7 +219,7 @@ async function getLpaData(code) {
  * Publishes the documents to Horizon. This is done asynchronously
  * as we're not interested in the response
  *
- * @param {string[]} documents
+ * @param {{id: string, type: string}[]} documents
  * @param {string} appealId
  * @param {string} horizonId
  * @returns {Promise<void>}
@@ -215,10 +228,11 @@ async function publishDocuments(documents, appealId, horizonId) {
   await Promise.all(
     documents
       /* Remove any undefined keys */
-      .filter((documentId) => documentId)
-      .map(async (documentId) => {
+      .filter(({ id }) => id)
+      .map(async ({ id: documentId, type: documentType }) => {
         debug('Publish document to Horizon', {
           documentId,
+          documentType,
           horizonId,
           appealId,
         });
@@ -227,6 +241,7 @@ async function publishDocuments(documents, appealId, horizonId) {
           '/async-function/horizon-add-document',
           {
             documentId,
+            documentType,
             // These are named as-per Horizon keys
             caseReference: horizonId,
             applicationId: appealId,
@@ -268,7 +283,7 @@ module.exports = async (event, context) => {
       },
       {
         key: 'Case:Source Indicator',
-        value: 'Portal',
+        value: 'Other',
       },
       {
         key: 'Case:Case Publish Flag',
@@ -279,8 +294,8 @@ module.exports = async (event, context) => {
         value: new Date(body.appeal.decisionDate),
       },
       {
-        key: 'Case:Procedure',
-        value: 'Hearing',
+        key: 'Case:Procedure (Appellant)',
+        value: 'Written Representations',
       },
       {
         key: 'Planning Application:LPA Application Reference',
@@ -307,8 +322,16 @@ module.exports = async (event, context) => {
         value: body.appeal.appealSiteSection.siteAddress.postcode,
       },
       {
+        key: 'Case Site:Ownership Certificate',
+        value: body.appeal.appealSiteSection.siteOwnership.ownsWholeSite ? 'Certificate A' : null,
+      },
+      {
         key: 'Case Site:Site Viewable From Road',
         value: body.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
+      },
+      {
+        key: 'Case Site:Inspector Need To Enter Site',
+        value: !body.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
       },
     ];
 
@@ -352,15 +375,33 @@ module.exports = async (event, context) => {
       errors at this point
     */
     const documents = [
-      body?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
-      body?.appeal?.requiredDocumentsSection?.originalApplication?.uploadedFile?.id,
-      body?.appeal?.requiredDocumentsSection?.decisionLetter?.uploadedFile?.id,
+      {
+        id: body?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
+        type: 'Appellant Grounds of Appeal',
+      },
+      {
+        id: body?.appeal?.requiredDocumentsSection?.originalApplication?.uploadedFile?.id,
+        type: 'Appellant Initial Documents',
+      },
+      {
+        id: body?.appeal?.requiredDocumentsSection?.decisionLetter?.uploadedFile?.id,
+        type: 'LPA Decision Notice',
+      },
+      {
+        id: body?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id,
+        type: 'Appellant Initial Documents',
+      },
     ];
 
     /* Add optional docs to the list */
     const optionalFiles = body?.appeal?.yourAppealSection?.otherDocuments?.uploadedFiles;
     if (Array.isArray(optionalFiles)) {
-      documents.push(...optionalFiles.map(({ id }) => id));
+      documents.push(
+        ...optionalFiles.map(({ id }) => ({
+          id,
+          type: 'Appellant Grounds of Appeal',
+        }))
+      );
     }
 
     await publishDocuments(documents, appealId, horizonCaseId);

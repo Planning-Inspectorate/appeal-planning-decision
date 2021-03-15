@@ -5,6 +5,8 @@ describe('lib/views', () => {
     expect(VIEW).toEqual({
       APPLICATION_NUMBER: 'application-number',
 
+      COOKIES: 'cookies',
+
       ELIGIBILITY: {
         LISTED_BUILDING: 'eligibility/listed-building',
         LISTED_OUT: 'eligibility/listed-out',
@@ -40,6 +42,19 @@ describe('lib/views', () => {
         CHECK_ANSWERS: 'appellant-submission/check-answers',
         SUBMISSION: 'appellant-submission/submission',
         CONFIRMATION: 'appellant-submission/confirmation',
+        SUBMISSION_INFORMATION: 'appellant-submission/submission-information',
+      },
+
+      GUIDANCE_PAGES: {
+        BEFORE_APPEAL: 'guidance-pages/before-appeal',
+        WHEN_APPEAL: 'guidance-pages/when-appeal',
+        AFTER_APPEAL: 'guidance-pages/after-appeal',
+        START_APPEAL: 'guidance-pages/start-appeal',
+        STAGES_APPEAL: 'guidance-pages/stages-appeal',
+      },
+
+      MESSAGES: {
+        COOKIES_UPDATED_SUCCESSFULLY: 'messages/cookies-updated-successfully',
       },
     });
   });

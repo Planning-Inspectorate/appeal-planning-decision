@@ -7,8 +7,11 @@ exports[`views/includes/head Google Analytics section should not render if googl
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
+  <p hidden id=\\"gaId\\"></p>
 
   
+
+  <script src=\\"/public/javascripts/main.js\\" defer></script>
 
 
 
@@ -22,8 +25,11 @@ exports[`views/includes/head Google Analytics section should not render if googl
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
+  <p hidden id=\\"gaId\\"></p>
 
   
+
+  <script src=\\"/public/javascripts/main.js\\" defer></script>
 
 
 
@@ -37,8 +43,11 @@ exports[`views/includes/head Google Analytics section should not render if googl
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
+  <p hidden id=\\"gaId\\">123</p>
 
   
+
+  <script src=\\"/public/javascripts/main.js\\" defer></script>
 
 
 
@@ -52,10 +61,11 @@ exports[`views/includes/head Google Analytics section should render if googleAna
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
+  <p hidden id=\\"gaId\\">123</p>
 
   
 <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script data-cy=\\"Google Analytics\\" async src=\\"https://www.googletagmanager.com/gtag/js?id=123\\"></script>
+
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -64,6 +74,8 @@ exports[`views/includes/head Google Analytics section should render if googleAna
     gtag('config', '123');
   </script>
   
+
+  <script src=\\"/public/javascripts/main.js\\" defer></script>
 
 
 

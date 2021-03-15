@@ -34,6 +34,7 @@ functions:
       read_timeout: 90s
       exec_timeout: 90s
       APPEALS_SERVICE_URL: http://app.app-ENV.svc.cluster.local:3000
+      DOCUMENT_SERVICE_URL: http://app.app-ENV.svc.cluster.local:3001
       GATEWAY_URL: http://gateway.openfaas.svc.cluster.local:8080
       HORIZON_URL: http://10.0.7.4:8000
     secrets:
