@@ -26,7 +26,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/appeal-reply-service-api
-        tag: 1.1.0
+        tag: 1.1.1
 
     appealsServiceApi:
       replicaCount: 2
