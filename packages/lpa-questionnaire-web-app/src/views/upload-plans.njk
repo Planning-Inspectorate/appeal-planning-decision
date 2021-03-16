@@ -42,13 +42,14 @@
 
         {% set uploadHtml %}
           {{ govukFileUpload({
-            id: 'plans',
-            name: 'plans',
+            id: 'documents',
+            name: 'documents',
             classes: 'moj-multi-file-upload__input',
             label: {
               text: 'Upload a file',
               classes: 'govuk-label--m'
             },
+            attributes: { multiple: '' },
             errorMessage: errorMessage
           }) }}
 
