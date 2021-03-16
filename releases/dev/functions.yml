@@ -42,7 +42,7 @@ spec:
     functions:
       horizon-add-document:
         image: pinscommonukscontainers3887default.azurecr.io/horizon-add-document
-        tag: 1.0.1
+        tag: 1.1.0
         envvars:
           STORAGE_CONTAINER_NAME: uploads
           STORAGE_CONNECTION_STRING_SECRET: value
