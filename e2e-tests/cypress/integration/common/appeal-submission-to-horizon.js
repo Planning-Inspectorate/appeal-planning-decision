@@ -2,6 +2,8 @@ import {Given, When, Then} from 'cypress-cucumber-preprocessor/steps';
 import {matchWhatWeCanFrom, STANDARD_APPEAL} from './standard-appeal';
 
 const queueValidationEnabled = Cypress.env('QUEUE_VALIDATION_ENABLED');
+const notifyValidationEnabled = Cypress.env('NOTIFY_VALIDATION_ENABLED');
+const notifyValidationBaseUrl = Cypress.env('NOTIFY_VALIDATION_PROTOCOL')+'://'+Cypress.env('NOTIFY_VALIDATION_HOST')+':'+Cypress.env('NOTIFY_VALIDATION_PORT')+'/';
 
 Given('a prospective appellant has provided appeal information', () => {
   cy.provideCompleteAppeal({
@@ -236,6 +238,16 @@ Then('the associated documents will be available for the case worker to review',
       const expected = require('../../fixtures/expected-appeal-with-many-documents.json');
       const reasonableExpectation = matchWhatWeCanFrom(expected);
       expect(actualMessage).toEqual(reasonableExpectation);
+    });
+  }
+});
+
+And('an email notification is sent', () => {
+  if (queueValidationEnabled && notifyValidationEnabled) {
+    cy.task('getLastFromQueue').then((actualMessage) => {
+      cy.request(notifyValidationBaseUrl + 'notifications?reference=' + actualMessage.appeal.id + '&email_address=' + actualMessage.appeal.aboutYouSection.yourDetails.email)
+        .its('body')
+        .should('have.length', 1)
     });
   }
 });
