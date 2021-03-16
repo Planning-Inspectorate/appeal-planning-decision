@@ -8,3 +8,4 @@ Feature: Appeal submission to Horizon - providing all documentation
     Given documents have been provided as part of an appeal
     When the appeal is submitted
     Then the associated documents will be available for the case worker to review
+    And an email notification is sent
