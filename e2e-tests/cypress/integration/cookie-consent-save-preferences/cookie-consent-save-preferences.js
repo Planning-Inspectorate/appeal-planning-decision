@@ -65,7 +65,7 @@ Then('the user will receive a confirmation message', () => {
 });
 
 Then('their previous page will be displayed', () => {
-  cy.url().should('eq', Cypress.config().baseUrl + '/before-you-appeal');
+  cy.url().should('match', /\/before-you-appeal$/);
 });
 
 Then('the confirmation message is not displayed', () => {
