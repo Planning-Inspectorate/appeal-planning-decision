@@ -52,7 +52,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/lpa-questionnaire-web-app
-        tag: 1.6.0
+        tag: 1.6.1
 
     pdfServiceApi:
       replicaCount: 2
