@@ -1,4 +1,4 @@
-module.exports = (appeal) => {
+module.exports = (appeal, overrides = {}) => {
   cy.goToHouseholderQuestionPage();
   cy.provideHouseholderAnswerYes();
 
@@ -14,7 +14,7 @@ module.exports = (appeal) => {
   cy.provideDecisionDate(appeal.decisionDate);
 
   if (appeal.eligibility.eligibleLocalPlanningDepartment) {
-    cy.provideEligibleLocalPlanningDepartment();
+    cy.provideEligibleLocalPlanningDepartment(overrides);
   } else {
     cy.provideIneigibleLocalPlanningDepartment();
   }
@@ -77,9 +77,11 @@ module.exports = (appeal) => {
   cy.uploadAppealStatementFile(appeal.yourAppealSection.appealStatement.uploadedFile.name);
   cy.clickSaveAndContinue();
 
-  if (appeal.yourAppealSection.otherDocuments.uploadedFiles.length>0) {
+  if (appeal.yourAppealSection.otherDocuments.uploadedFiles.length > 0) {
     cy.goToSupportingDocumentsPage();
-    cy.uploadSupportingDocuments(appeal.yourAppealSection.otherDocuments.uploadedFiles.map(file=>file.name));
+    cy.uploadSupportingDocuments(
+      appeal.yourAppealSection.otherDocuments.uploadedFiles.map((file) => file.name),
+    );
     cy.clickSaveAndContinue();
   }
 
