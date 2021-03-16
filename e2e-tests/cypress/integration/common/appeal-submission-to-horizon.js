@@ -149,6 +149,92 @@ Given('documents have been provided as part of an appeal', () => {
   cy.clickSaveAndContinue();
 });
 
+Given('an appellant has prepared an appeal', () => {
+  cy.provideCompleteAppeal({
+    ...STANDARD_APPEAL,
+    aboutYouSection: {
+      yourDetails: {
+        isOriginalApplicant: true,
+        name: 'Valid Appellant Name',
+        email: 'valid@email.com',
+        appealingOnBehalfOf: null,
+      },
+    },
+    requiredDocumentsSection: {
+      applicationNumber: 'doc-test/321',
+      originalApplication: {
+        uploadedFile: {
+          name: 'mock-planning-application-form.pdf',
+        },
+      },
+      decisionLetter: {
+        uploadedFile: {
+          name: 'mock-decision-letter.pdf',
+        },
+      },
+    },
+    yourAppealSection: {
+      appealStatement: {
+        uploadedFile: {
+          name: 'mock-appeal-statement.pdf',
+        },
+        hasSensitiveInformation: false,
+      },
+      otherDocuments: {
+        uploadedFiles: [
+          {name: 'mock-additional-document-1.pdf'},
+          {name: 'mock-additional-document-2.jpeg'}
+        ],
+      },
+    },
+  });
+  cy.clickCheckYourAnswers();
+  cy.clickSaveAndContinue();
+});
+
+Given('an agent has prepared an appeal', () => {
+  cy.provideCompleteAppeal({
+    ...STANDARD_APPEAL,
+    aboutYouSection: {
+      yourDetails: {
+        isOriginalApplicant: false,
+        name: 'Valid Agent Name',
+        email: 'valid@email.com',
+        appealingOnBehalfOf: "Original Applicant",
+      },
+    },
+    requiredDocumentsSection: {
+      applicationNumber: 'doc-test/321',
+      originalApplication: {
+        uploadedFile: {
+          name: 'mock-planning-application-form.pdf',
+        },
+      },
+      decisionLetter: {
+        uploadedFile: {
+          name: 'mock-decision-letter.pdf',
+        },
+      },
+    },
+    yourAppealSection: {
+      appealStatement: {
+        uploadedFile: {
+          name: 'mock-appeal-statement.pdf',
+        },
+        hasSensitiveInformation: false,
+      },
+      otherDocuments: {
+        uploadedFiles: [
+          {name: 'mock-additional-document-1.pdf'},
+          {name: 'mock-additional-document-2.jpeg'}
+        ],
+      },
+    },
+  });
+  cy.clickCheckYourAnswers();
+  cy.clickSaveAndContinue();
+});
+
 
 When('the appeal is submitted', () => {
   cy.confirmNavigationTermsAndConditionsPage();
@@ -243,6 +329,27 @@ Then('the associated documents will be available for the case worker to review',
 });
 
 And('an email notification is sent', () => {
+  if (queueValidationEnabled && notifyValidationEnabled) {
+    cy.task('getLastFromQueue').then((actualMessage) => {
+      cy.request(notifyValidationBaseUrl + 'notifications?reference=' + actualMessage.appeal.id + '&email_address=' + actualMessage.appeal.aboutYouSection.yourDetails.email)
+        .its('body')
+        .should('have.length', 1)
+    });
+  }
+});
+
+
+And('a confirmation email containing a link to the appeal pdf is sent to the appellant', () => {
+  if (queueValidationEnabled && notifyValidationEnabled) {
+    cy.task('getLastFromQueue').then((actualMessage) => {
+      cy.request(notifyValidationBaseUrl + 'notifications?reference=' + actualMessage.appeal.id + '&email_address=' + actualMessage.appeal.aboutYouSection.yourDetails.email)
+        .its('body')
+        .should('have.length', 1)
+    });
+  }
+});
+
+And('a confirmation email containing a link to the appeal pdf is sent to the agent', () => {
   if (queueValidationEnabled && notifyValidationEnabled) {
     cy.task('getLastFromQueue').then((actualMessage) => {
       cy.request(notifyValidationBaseUrl + 'notifications?reference=' + actualMessage.appeal.id + '&email_address=' + actualMessage.appeal.aboutYouSection.yourDetails.email)
