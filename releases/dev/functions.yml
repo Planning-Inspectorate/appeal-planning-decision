@@ -51,7 +51,7 @@ spec:
 
       horizon-create-contact:
         image: pinscommonukscontainers3887default.azurecr.io/horizon-create-contact
-        tag: 1.0.1
+        tag: 1.1.0
         envvars:
           HORIZON_URL: http://10.0.7.4:8000
 
