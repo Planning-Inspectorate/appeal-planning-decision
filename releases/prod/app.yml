@@ -45,6 +45,7 @@ spec:
         tag: 1.11.0
       config:
         enableLimitedRouting: true
+        googleAnalyticsId: UA-187490521-3
 
     lpaQuestionnaireWebApp:
       replicaCount: 2
