@@ -1,6 +1,7 @@
 const fs = require('fs');
 const uuid = require('uuid');
 const path = require('path');
+const { format } = require('date-fns');
 const { VIEW } = require('../../lib/views');
 const logger = require('../../lib/logger');
 
@@ -42,7 +43,7 @@ exports.getSubmissionInformation = async (req, res) => {
 
   if (!appeal.submissionDate) {
     log.debug(`The submission date default value is set`);
-    appeal.submissionDate = new Date(new Date().toISOString());
+    appeal.submissionDate = format(new Date(), 'd MMMM yyyy');
   }
 
   return res.render(VIEW.APPELLANT_SUBMISSION.SUBMISSION_INFORMATION, {
