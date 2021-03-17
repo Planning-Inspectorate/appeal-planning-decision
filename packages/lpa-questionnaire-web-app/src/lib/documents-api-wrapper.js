@@ -6,8 +6,8 @@ const uuid = require('uuid');
 const config = require('../config');
 const parentLogger = require('./logger');
 
-exports.createDocument = async (appeal, formData) => {
-  const path = `/api/v1/${appeal.id}`;
+exports.createDocument = async (parentId, formData) => {
+  const path = `/api/v1/${parentId}`;
 
   const correlationId = uuid.v4();
   const url = `${config.documents.url}${path}`;
@@ -52,6 +52,46 @@ exports.createDocument = async (appeal, formData) => {
     logger.warn({ response }, msg);
     throw new Error(msg);
   }
+
+  return response;
+};
+
+exports.deleteDocument = async (id) => {
+  const path = `/api/v1/${id}`;
+
+  const correlationId = uuid.v4();
+  const url = `${config.documents.url}${path}`;
+
+  const logger = parentLogger.child({
+    correlationId,
+    service: 'Document Service API',
+  });
+
+  let apiResponse;
+  try {
+    apiResponse = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'X-Correlation-ID': correlationId,
+      },
+    });
+  } catch (e) {
+    logger.error(e);
+    throw new Error(e.toString());
+  }
+
+  if (!apiResponse.ok) {
+    logger.debug(apiResponse, 'Documents API Response not OK');
+    throw new Error(apiResponse.statusText);
+  }
+
+  const ok = (await apiResponse.status) === 202;
+
+  if (!ok) {
+    throw new Error(apiResponse.statusText);
+  }
+
+  const response = await apiResponse.json();
 
   return response;
 };

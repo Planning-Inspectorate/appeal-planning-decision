@@ -11,7 +11,7 @@ const uuid = require('uuid');
 const fileUpload = require('express-fileupload');
 const { prometheus } = require('@pins/common');
 const sessionConfig = require('./lib/session');
-const fileSizeDisplayHelper = require('./lib/file-size-display-helper');
+const { fileSizeDisplayHelper } = require('./lib/file-upload-helpers');
 require('express-async-errors');
 
 const config = require('./config');
