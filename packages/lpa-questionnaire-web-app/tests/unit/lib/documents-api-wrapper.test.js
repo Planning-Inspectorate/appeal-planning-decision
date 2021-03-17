@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const { createDocument } = require('../../../src/lib/documents-api-wrapper');
+const { createDocument, deleteDocument } = require('../../../src/lib/documents-api-wrapper');
 
 const mockLogger = jest.fn();
 
@@ -82,6 +82,41 @@ describe('lib/documents-api-wrapper', () => {
         applicationId: 123,
         id: '123-abc-456-xyz',
         name: 'tmp-2-1607684291243',
+      });
+    });
+  });
+
+  describe('createDocument', () => {
+    let mockDocument;
+
+    beforeEach(() => {
+      mockDocument = { id: 123 };
+    });
+
+    it('should throw if fetch fails', async () => {
+      fetch.mockReject(new Error('fake error message'));
+      expect(deleteDocument(mockDocument)).rejects.toThrow('fake error message');
+    });
+
+    it('should throw if the remote API response is not ok', () => {
+      fetch.mockResponse('fake response body', { status: 400 });
+      expect(deleteDocument(mockDocument)).rejects.toThrow('Bad Request');
+    });
+
+    it('should throw if the response code is anything other than a 202', async () => {
+      fetch.mockResponse('a response body', { status: 204 });
+      expect(deleteDocument(mockDocument)).rejects.toThrow('No Content');
+    });
+
+    it('should return the expected response if the fetch status is 202', async () => {
+      fetch.mockResponse(
+        JSON.stringify({
+          deletedId: 123,
+        }),
+        { status: 202 }
+      );
+      expect(await deleteDocument(mockDocument)).toEqual({
+        deletedId: 123,
       });
     });
   });
