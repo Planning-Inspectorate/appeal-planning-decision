@@ -129,6 +129,7 @@ resource "azurerm_monitor_metric_alert" "web_ping_test" {
     azurerm_application_insights.monitoring.id
   ]
   description = "Alert for errors on ${var.monitoring_ping_urls[count.index].url}"
+  severity = 0
 
   application_insights_web_test_location_availability_criteria {
     web_test_id = azurerm_application_insights_web_test.ping_test[count.index].id
