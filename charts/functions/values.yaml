@@ -32,8 +32,6 @@ functions:
       max: 5
     timeout: 10s
     envvars:
-      STORAGE_CONTAINER_NAME: uploads
-      STORAGE_CONNECTION_STRING_SECRET: value
       DOCUMENT_SERVICE_URL: http://app.app-ENV.svc.cluster.local:3001
       HORIZON_URL: http://10.0.7.4:8000
     secrets: []
