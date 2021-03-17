@@ -7,7 +7,7 @@ module.exports = (paths) => {
     paths = [paths];
   }
 
-  paths.forEach((path) => documentUpload.attachFile(path));
+  paths.forEach((path) => documentUpload.attachFile({ filePath: path, encoding: 'binary' }));
 
   cy.wait(Cypress.env('demoDelay'));
 };
