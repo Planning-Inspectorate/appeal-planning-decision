@@ -1,9 +1,9 @@
-import {Given, When, Then} from 'cypress-cucumber-preprocessor/steps';
-import {matchWhatWeCanFrom, STANDARD_APPEAL} from './standard-appeal';
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { matchWhatWeCanFrom, STANDARD_APPEAL } from './standard-appeal';
 
 const queueValidationEnabled = Cypress.env('QUEUE_VALIDATION_ENABLED');
 const notifyValidationEnabled = Cypress.env('NOTIFY_VALIDATION_ENABLED');
-const notifyValidationBaseUrl = Cypress.env('NOTIFY_VALIDATION_PROTOCOL')+'://'+Cypress.env('NOTIFY_VALIDATION_HOST')+':'+Cypress.env('NOTIFY_VALIDATION_PORT')+'/';
+const notifyValidationBaseUrl = Cypress.env('NOTIFY_VALIDATION_PROTOCOL') + '://' + Cypress.env('NOTIFY_VALIDATION_HOST') + ':' + Cypress.env('NOTIFY_VALIDATION_PORT') + '/';
 
 Given('a prospective appellant has provided appeal information', () => {
   cy.provideCompleteAppeal({
@@ -44,7 +44,7 @@ Given('a prospective appellant has provided appeal information where the whole s
     appealSiteSection: {
       ...STANDARD_APPEAL.appealSiteSection,
       siteAccess: {
-        howIsSiteAccessRestricted: "",
+        howIsSiteAccessRestricted: '',
         canInspectorSeeWholeSiteFromPublicRoad: true,
       },
     },
@@ -139,8 +139,8 @@ Given('documents have been provided as part of an appeal', () => {
       },
       otherDocuments: {
         uploadedFiles: [
-          {name: 'mock-additional-document-1.pdf'},
-          {name: 'mock-additional-document-2.jpeg'}
+          { name: 'mock-additional-document-1.pdf' },
+          { name: 'mock-additional-document-2.jpeg' },
         ],
       },
     },
@@ -182,8 +182,8 @@ Given('an appellant has prepared an appeal', () => {
       },
       otherDocuments: {
         uploadedFiles: [
-          {name: 'mock-additional-document-1.pdf'},
-          {name: 'mock-additional-document-2.jpeg'}
+          { name: 'mock-additional-document-1.pdf' },
+          { name: 'mock-additional-document-2.jpeg' },
         ],
       },
     },
@@ -200,7 +200,7 @@ Given('an agent has prepared an appeal', () => {
         isOriginalApplicant: false,
         name: 'Valid Agent Name',
         email: 'valid@email.com',
-        appealingOnBehalfOf: "Original Applicant",
+        appealingOnBehalfOf: 'Original Applicant',
       },
     },
     requiredDocumentsSection: {
@@ -225,8 +225,8 @@ Given('an agent has prepared an appeal', () => {
       },
       otherDocuments: {
         uploadedFiles: [
-          {name: 'mock-additional-document-1.pdf'},
-          {name: 'mock-additional-document-2.jpeg'}
+          { name: 'mock-additional-document-1.pdf' },
+          { name: 'mock-additional-document-2.jpeg' },
         ],
       },
     },
@@ -323,6 +323,8 @@ Then('the associated documents will be available for the case worker to review',
     cy.task('getLastFromQueue').then((actualMessage) => {
       const expected = require('../../fixtures/expected-appeal-with-many-documents.json');
       const reasonableExpectation = matchWhatWeCanFrom(expected);
+      cy.log(`actualMessage = \n${JSON.stringify(actualMessage, null, 2)}`);
+      cy.log(`reasonableExpectation = \n${JSON.stringify(reasonableExpectation, null, 2)}`);
       expect(actualMessage).toEqual(reasonableExpectation);
     });
   }
@@ -333,7 +335,7 @@ And('an email notification is sent', () => {
     cy.task('getLastFromQueue').then((actualMessage) => {
       cy.request(notifyValidationBaseUrl + 'notifications?reference=' + actualMessage.appeal.id + '&email_address=' + actualMessage.appeal.aboutYouSection.yourDetails.email)
         .its('body')
-        .should('have.length', 1)
+        .should('have.length', 1);
     });
   }
 });
@@ -344,7 +346,7 @@ And('a confirmation email containing a link to the appeal pdf is sent to the app
     cy.task('getLastFromQueue').then((actualMessage) => {
       cy.request(notifyValidationBaseUrl + 'notifications?reference=' + actualMessage.appeal.id + '&email_address=' + actualMessage.appeal.aboutYouSection.yourDetails.email)
         .its('body')
-        .should('have.length', 1)
+        .should('have.length', 1);
     });
   }
 });
@@ -354,7 +356,7 @@ And('a confirmation email containing a link to the appeal pdf is sent to the age
     cy.task('getLastFromQueue').then((actualMessage) => {
       cy.request(notifyValidationBaseUrl + 'notifications?reference=' + actualMessage.appeal.id + '&email_address=' + actualMessage.appeal.aboutYouSection.yourDetails.email)
         .its('body')
-        .should('have.length', 1)
+        .should('have.length', 1);
     });
   }
 });
