@@ -10,15 +10,15 @@ metadata:
     filter.fluxcd.io/pingHorizon: semver:~1.0.0
 
     repository.fluxcd.io/horizon-add-document: functions.horizon-add-document.image
-    filter.fluxcd.io/horizon-add-document: semver:~1.0.0
+    filter.fluxcd.io/horizon-add-document: semver:~1.1.0
     tag.fluxcd.io/horizon-add-document: functions.horizon-add-document.tag
 
     repository.fluxcd.io/horizon-create-contact: functions.horizon-create-contact.image
-    filter.fluxcd.io/horizon-create-contact: semver:~1.0.0
+    filter.fluxcd.io/horizon-create-contact: semver:~1.1.0
     tag.fluxcd.io/horizon-create-contact: functions.horizon-create-contact.tag
 
     repository.fluxcd.io/horizon-householder-appeal-publish: functions.horizon-householder-appeal-publish.image
-    filter.fluxcd.io/horizon-householder-appeal-publish: semver:~1.2.0
+    filter.fluxcd.io/horizon-householder-appeal-publish: semver:~1.3.0
     tag.fluxcd.io/horizon-householder-appeal-publish: functions.horizon-householder-appeal-publish.tag
 spec:
   releaseName: functions
@@ -44,8 +44,6 @@ spec:
         image: pinscommonukscontainers3887default.azurecr.io/horizon-add-document
         tag: 1.0.1
         envvars:
-          STORAGE_CONTAINER_NAME: uploads
-          STORAGE_CONNECTION_STRING_SECRET: value
           DOCUMENT_SERVICE_URL: http://app.app-prepod.svc.cluster.local:3001
           HORIZON_URL: http://10.0.7.4:8000
 
