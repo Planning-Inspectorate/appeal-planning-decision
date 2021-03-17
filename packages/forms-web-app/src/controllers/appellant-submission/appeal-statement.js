@@ -1,7 +1,6 @@
 const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const { createDocument } = require('../../lib/documents-api-wrapper');
-const logger = require('../../lib/logger');
 const { getNextTask } = require('../../services/task.service');
 const { getTaskStatus } = require('../../services/task.service');
 
@@ -51,7 +50,7 @@ exports.postAppealStatement = async (req, res) => {
     appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
-    logger.error(e);
+    req.log.error(e, 'Error uploading appellant submission appeal statement file.');
     res.render(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
       appeal,
       errors,
