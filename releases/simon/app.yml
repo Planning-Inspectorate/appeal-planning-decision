@@ -26,25 +26,25 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/appeal-reply-service-api
-        tag: 1.1.0
+        tag: 1.1.1
 
     appealsServiceApi:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/appeals-service-api
-        tag: 1.7.0
+        tag: 1.10.0
 
     documentServiceApi:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/document-service-api
-        tag: 1.1.0
+        tag: 1.3.0
 
     formsWebApp:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
-        tag: 1.22.0
+        tag: 1.30.6
       config:
         googleAnalyticsId: G-TZBWMVPTHV
 
@@ -52,13 +52,13 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/lpa-questionnaire-web-app
-        tag: 1.5.1
+        tag: 1.6.2
 
     pdfServiceApi:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/pdf-service-api
-        tag: 1.0.0
+        tag: 1.0.1
 
     gotenberg:
       replicaCount: 2
