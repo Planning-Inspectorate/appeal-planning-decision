@@ -1,4 +1,4 @@
-Feature: Cookie Consent - View Preferences
+Feature: Cookie Consent - View Preferences with JavaScript enabled
 
   As a PO for the appeals service
   I want the service users to be able to view their cookie preferences

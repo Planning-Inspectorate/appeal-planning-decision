@@ -12,10 +12,8 @@ Cypress.Commands.overwrite('visit', (orig, url, options = {}) => {
         "When you disable script you also have to set 'chromeWebSecurity' in your config to 'false'",
       );
     }
-    iframe.sandbox = 'allow-scripts allow-forms';
-  } else {
-    // In case it was added by a visit before, the attribute has to be removed from the iframe
-    iframe.removeAttribute('sandbox');
+    iframe.sandbox = 'allow-forms';
   }
+
   return orig(url, options);
 });
