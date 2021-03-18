@@ -31,9 +31,16 @@ resource "azurerm_cosmosdb_account" "mongodb" {
   enable_automatic_failover = var.mongodb_auto_failover
   enable_multiple_write_locations = var.mongodb_multi_write_locations
 
-  is_virtual_network_filter_enabled = true
-  virtual_network_rule {
-    id = azurerm_subnet.network.id
+  is_virtual_network_filter_enabled = !var.mongodb_allow_team_data_access
+
+  dynamic "virtual_network_rule" {
+    for_each = var.mongodb_allow_team_data_access ? [] : [
+      azurerm_subnet.network.id
+    ]
+
+    content {
+      id = virtual_network_rule.value
+    }
   }
 
   dynamic "capabilities" {
@@ -79,4 +86,20 @@ module "mongodb-databases" {
 
   name = var.mongodb_databases[count.index].name
   collections = var.mongodb_databases[count.index].collections
+}
+
+resource "azurerm_role_assignment" "mongodb_admin" {
+  count = var.mongodb_allow_team_data_access ? 1 : 0
+
+  principal_id = azuread_group.admin.id
+  scope = azurerm_resource_group.mongodb.id
+  role_definition_name = "Cosmos DB Account Reader Role"
+}
+
+resource "azurerm_role_assignment" "mongodb_user" {
+  count = var.mongodb_allow_team_data_access ? 1 : 0
+
+  principal_id = azuread_group.user.id
+  scope = azurerm_resource_group.mongodb.id
+  role_definition_name = "Cosmos DB Account Reader Role"
 }
