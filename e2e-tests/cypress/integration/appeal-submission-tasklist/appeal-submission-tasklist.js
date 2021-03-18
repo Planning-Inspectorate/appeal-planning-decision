@@ -195,6 +195,7 @@ Given('the {string} part of the appeal is started but not completed', (sectionTa
 
 When('the appeal tasks are presented', () => {
   cy.goToTaskListPage();
+  cy.confirmBackButtonNotDisplayed();
 });
 
 Then('the state for {string} is displayed to be {string}', (sectionTaskName, status) => {
