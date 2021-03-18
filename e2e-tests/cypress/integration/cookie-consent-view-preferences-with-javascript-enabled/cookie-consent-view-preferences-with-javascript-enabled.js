@@ -10,4 +10,8 @@ When('the user views the Cookie Preferences service', () => {
 
 Then('the user is provided information of what task each cookie is performing', () => {
   cy.userIsNavigatedToPage('cookie');
+
+  cy.confirmGenericPageContentExists();
+  cy.confirmPageHeadingWithJavaScriptEnabled();
+  cy.confirmBodyContentWithJavaScriptEnabled();
 });

@@ -14,5 +14,6 @@ Cypress.Commands.overwrite('visit', (orig, url, options = {}) => {
     }
     iframe.sandbox = 'allow-forms';
   }
+
   return orig(url, options);
 });

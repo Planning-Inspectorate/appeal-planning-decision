@@ -9,4 +9,5 @@ require('./commands/eligibility-commands');
 require('./commands/submission-commands');
 require('./commands/guidance-page-commands');
 require('./appeal-submission-information/submission-information-commands');
+require('./cookie-consent-view-preferences/commands');
 require('./flash-message/flash-message-commands');
