@@ -45,7 +45,6 @@ Feature: Common link in header section
       | "Eligibility - Listed building"                                        |
       | "Eligibility - Listed building out"                                    |
       | "Eligibility - Appeal statement info"                                  |
-      | "Appellant submission - Appeal tasks"                                  |
       | "Appellant submission - Your details - Who are you"                    |
       | "Appellant submission - Your details - Your details"                   |
       | "Appellant submission - Your details - Applicant name"                 |
