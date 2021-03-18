@@ -139,6 +139,12 @@ variable "message_queue_zone_redundancy_enabled" {
   These are used as base settings
  */
 
+variable "mongodb_allow_team_data_access" {
+  description = "Enable public access to the data - this should only be enabled in development spaces"
+  type = bool
+  default = false
+}
+
 variable "mongodb_auto_failover" {
   description = "Enable auto failover between regions"
   type = bool

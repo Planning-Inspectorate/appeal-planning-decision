@@ -421,3 +421,29 @@ Typically, you will need to add some identifying detail to associate the logs to
 const log = logger.child({ someId: uuid.v4() });
 log.info('info_message');
 ```
+
+## Data Access
+
+Developers are granted access to the data stores in the Dev and PreProd environments. No sensitive data is stored in 
+these environments making is appropriate for developer access.
+
+To access the data, please use the [Azure Portal](https://portal.azure.com).
+
+### CosmosDB (MongoDB)
+
+> [Azure Docs](https://docs.microsoft.com/en-us/azure/data-explorer/)
+
+- Login to portal.azure.com
+- Search for "Azure Cosmos DB"
+- Select the instance you wish to view (Dev or PreProd)
+- Select "Data Explorer"
+
+### Blob Storage
+
+> [Azure Docs](https://azure.microsoft.com/en-gb/updates/storage-explorer-preview-now-available-in-azure-portal/)
+
+- Login to portal.azure.com
+- Search for "Storage accounts"
+- Select the instance you wish to view (Dev or PreProd)
+- Select "Storage Explorer (preview)"
+- Select "BLOB CONTAINERS"

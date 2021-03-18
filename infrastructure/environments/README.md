@@ -39,6 +39,7 @@ No requirements.
 | message\_queue\_capacity | Message queue capacity - SKU must be premium if non-0 | `number` | `0` | no |
 | message\_queue\_sku | SKU for the message queue | `string` | `"Basic"` | no |
 | message\_queue\_zone\_redundancy\_enabled | Enable message queue redundancy - SKU must be premium if true | `bool` | `false` | no |
+| mongodb\_allow\_team\_data\_access | Enable public access to the data - this should only be enabled in development spaces | `bool` | `false` | no |
 | mongodb\_auto\_failover | Enable auto failover between regions | `bool` | `false` | no |
 | mongodb\_consistency\_max\_interval\_in\_seconds | Represents the amount of staleness that is tolerated (in seconds) - min 5 mins for global replication | `number` | `300` | no |
 | mongodb\_consistency\_policy | Cosmos consistency policy | `string` | `"BoundedStaleness"` | no |
