@@ -87,6 +87,8 @@ module.exports = async (event, context) => {
 
     const { data } = await axios.post('/horizon', input, {
       baseURL: config.horizon.url,
+      /* Needs to be infinity as Horizon doesn't support multipart uploads */
+      maxBodyLength: Infinity,
     });
 
     return {

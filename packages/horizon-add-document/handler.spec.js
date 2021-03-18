@@ -121,6 +121,7 @@ describe('handler', () => {
       },
       {
         baseURL: process.env.HORIZON_URL,
+        maxBodyLength: Infinity,
       }
     );
 
