@@ -35,6 +35,7 @@ spec:
       config:
         notify:
           secretName: akv-notify-prod
+          templateId: 83c02ec6-c2ec-4551-86b3-807d4f203e19
 
     documentServiceApi:
       replicaCount: 2
