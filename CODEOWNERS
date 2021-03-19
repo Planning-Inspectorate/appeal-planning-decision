@@ -15,10 +15,16 @@
 *     @Planning-Inspectorate/householder-appeals-beta
 
 # Infrastructure
-/infrastructure/**    @MrSimonEmms
+/infrastructure/**    @Planning-Inspectorate/admin
+
+# Helm configuration
+/charts/**            @Planning-Inspectorate/admin
 
 # PreProd Releases
 /releases/preprod     @Planning-Inspectorate/admin @Planning-Inspectorate/testers
 
 # Prod Releases
 /releases/prod        @Planning-Inspectorate/admin
+
+# Codeowners file
+/CODEOWNERS           @Planning-Inspectorate/admin
