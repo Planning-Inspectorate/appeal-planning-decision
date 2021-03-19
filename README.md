@@ -350,6 +350,8 @@ moment, this will need to be done by someone with admin rights to the cluster.
 
 ### ACP integration
 
+> Deprecated with release of MVP - 2021-03-19
+
 The current target MVP checks only the decision date eligibility before passing the user to an existing external service
 Appeals Casework Portal (ACP) for user to submit their appeal.
 In the FWA ui app this behaviour is controlled by setting the environment variable `SERVER_LIMITED_ROUTING_ENABLED`.
