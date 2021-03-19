@@ -78,7 +78,28 @@ async function sendEmail(appeal) {
     logger.debug({ options }, 'options');
     await notifyClient.sendEmail(templateId, destinationEmail, options);
   } catch (err) {
-    logger.error({ err }, 'Problem sending email');
+    const message = 'Problem sending email';
+    if (err.response) {
+      logger.error(
+        {
+          message: err.message,
+          data: err.response.data,
+          status: err.response.status,
+          headers: err.response.headers,
+        },
+        `${message} - response`
+      );
+    } else if (err.request) {
+      logger.error(
+        {
+          message: err.message,
+          request: err.request,
+        },
+        `${message} - request`
+      );
+    } else {
+      logger.error({ err }, message);
+    }
   }
 }
 
