@@ -80,7 +80,10 @@ const viewPaths = [
 
 const env = nunjucks.configure(viewPaths, nunjucksConfig);
 env.addFilter('appealSiteAddressToArray', appealSiteAddressToArray);
+
+dateFilter.setDefaultFormat(config.application.defaultDisplayDateFormat);
 env.addFilter('date', dateFilter);
+
 env.addFilter('formatBytes', fileSizeDisplayHelper);
 env.addFilter('filterByKey', filterByKey);
 env.addFilter('addKeyValuePair', addKeyValuePair);

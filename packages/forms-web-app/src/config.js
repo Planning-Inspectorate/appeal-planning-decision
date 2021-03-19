@@ -2,6 +2,9 @@ const oneGigabyte = 1024 * 1024 * 1024;
 const httpPort = Number(process.env.PORT || 3000);
 
 module.exports = {
+  application: {
+    defaultDisplayDateFormat: 'DD MMMM YYYY',
+  },
   appeals: {
     startingPoint:
       process.env.SERVER_LIMITED_ROUTING_ENABLED === 'true'
