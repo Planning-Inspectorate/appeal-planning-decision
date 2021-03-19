@@ -1,4 +1,5 @@
 const { addWeeks, subWeeks, addDays, subDays, endOfDay, format, parseISO } = require('date-fns');
+const dateFilter = require('nunjucks-date-filter');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
@@ -55,9 +56,7 @@ describe('controllers/eligibility/decision-date', () => {
         ...req,
       };
 
-      const decisionDate = '2000-01-01T12:00:00.000Z';
-
-      mockRequest.session.appeal.decisionDate = decisionDate;
+      mockRequest.session.appeal.decisionDate = '2000-01-01T12:00:00.000Z';
 
       decisionDateController.getDecisionDate(mockRequest, res);
 
@@ -269,6 +268,7 @@ describe('controllers/eligibility/decision-date', () => {
       appeal.decisionDate = '2020-10-10';
 
       const date = addWeeks(endOfDay(parseISO(appeal.decisionDate)), 12);
+      expect(dateFilter(date, 'DD MMMM YYYY')).toBe('02 January 2021');
 
       decisionDateController.getDecisionDatePassed(req, res);
 
