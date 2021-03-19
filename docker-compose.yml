@@ -163,6 +163,24 @@ services:
       - ./packages/lpa-questionnaire-web-app:/opt/app
     command: npm run start:dev
 
+  # This does not work locally with RabbitMQ
+  queue-retry:
+    image: library/node:14-alpine
+    environment:
+      HORIZON_HAS_PUBLISHER_HOST: rabbitmq
+      HORIZON_HAS_PUBLISHER_PASSWORD: admin
+      HORIZON_HAS_PUBLISHER_QUEUES: docker_queue
+      HORIZON_HAS_PUBLISHER_USERNAME: admin
+    ports:
+      - 9002:3000
+    working_dir: /opt/app
+    links:
+      - rabbitmq
+    volumes:
+      - ./packages/common:/opt/app/node_modules/@pins/common
+      - ./packages/queue-retry:/opt/app
+    command: npm run start:dev
+
   # Populate the database with data - one instance per service
   appeals-service-api-data:
     build:

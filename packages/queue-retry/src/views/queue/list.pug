@@ -1,0 +1,47 @@
+extends ../layouts/default
+
+block content
+  if alert
+    form.my-2(
+      action=alert.url
+      method=alert.method
+    )
+      button.btn.btn-primary.btn-block(
+        type="submit"
+       ) #{ alert.button }
+
+  table.table
+    thead
+      tr
+        each col in columns
+          th( scope="col" ) #{ col.name }
+
+        if link
+          th
+
+    tbody
+      if data.length > 0
+        each row in data
+          tr
+            each col in columns
+              td( scope="row" )
+
+                if col.factory
+                  // Allow unescaped interpolation for factories
+                  | !{ col.factory(row[col.key]) }
+                else
+                  | #{ row[col.key] }
+
+            if link
+              td
+                - var url = link(row, col)
+
+                a.btn.btn-primary.btn-sm(
+                  role="button"
+                  href=url
+                ) View
+      else
+        tr
+          td.text-center(
+            colspan=columns.length
+          ) No data found
