@@ -21,15 +21,16 @@
 
 {% block content %}
 
-  {{ govukErrorSummary({
-    titleText: 'There is a problem',
-    classes: not errors and 'moj-hidden',
-    errorList: errorSummary
-  }) }}
+  {% if errorSummary and errorSummary.length %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary
+    }) }}
+  {% endif %}
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <form action="" method="POST" novalidate>
+      <form action="" method="POST" novalidate encType="multipart/form-data">
         <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>{% block sectionName %}{% endblock %}</span>
         <h1 class="govuk-heading-l">{% block pageHeading %}{% endblock %}</h1>
         {{ govukInsetText({
@@ -46,12 +47,16 @@
               classes: 'govuk-label--m'
             },
             attributes: { multiple: '' },
-            errorMessage: errorMessage
+            errorMessage: errorMessage and {
+              text: errorMessage
+            }
           }) }}
 
           {{govukButton({
             text: 'Upload file',
-            classes: 'govuk-button--secondary moj-multi-file-upload__button'
+            classes: 'govuk-button--secondary moj-multi-file-upload__button',
+            name: 'upload',
+            value: 'upload'
           })}}
         {% endset %}
 
@@ -79,7 +84,9 @@
         }) }}
 
         {{ govukButton({
-          text: 'Save and continue'
+          text: 'Save and continue',
+          name: 'submit',
+          value: 'save'
         }) }}
       </form>
     </div>
