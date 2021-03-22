@@ -2,7 +2,7 @@ const { deleteDocument } = require('../lib/documents-api-wrapper');
 
 exports.uploadFile = async (req, res) => {
   const { body } = req;
-  const { errors = {}, errorSummary = [], files = {} } = body;
+  const { errors = {}, files = {} } = body;
 
   if (!files.documents || !files.documents.length) {
     res.status(500);
@@ -10,37 +10,30 @@ exports.uploadFile = async (req, res) => {
   }
 
   // even though multi file upload handles multiple files, it uploads files one at a time.
-  const { name: fileName } = files.documents[0];
+  const documentWithErrors = {
+    ...files.documents[0],
+    error: errors?.[`files.documents[0]`]?.msg,
+  };
 
-  if (Object.keys(errors).length > 0) {
-    res.json({
-      error: {
-        message: errors?.['files.documents[0]']?.msg,
-        summary: errorSummary.map((error) => ({
-          ...error,
-          url: '#documents',
-        })),
-      },
-      file: {
-        filename: fileName,
-        originalname: fileName,
-      },
-    });
-    return;
-  }
+  // push all files to uploaded files to keep errors after post
+  req.session.uploadedFiles = [...(req.session.uploadedFiles || []), documentWithErrors];
 
-  // only push valid files to uploadedFiles
-  if (!req.session.uploadedFiles) {
-    req.session.uploadedFiles = [files.documents[0]];
-  } else {
-    req.session.uploadedFiles.push(files.documents[0]);
-  }
+  const { name: fileName, error } = documentWithErrors;
+
+  const response = error
+    ? {
+        error: {
+          message: error,
+        },
+      }
+    : {
+        success: {
+          messageText: fileName,
+        },
+      };
 
   res.status(200).json({
-    success: {
-      messageText: fileName,
-      messageHtml: fileName,
-    },
+    ...response,
     file: {
       filename: fileName,
       originalname: fileName,
