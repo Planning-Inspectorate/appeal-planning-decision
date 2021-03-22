@@ -34,6 +34,18 @@
             </span>
           {% endif %}
           <div id="planning-department"></div>
+
+          <noscript>
+            <div>
+              <select class="govuk-select" id="local-planning-department" name="local-planning-department">
+                <option value=""></option>
+                {% for dept in departments %}
+                  <option value="{{ dept }}" {% if appealLPD === dept %}selected{% endif %}>{{ dept }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </noscript>
+
         </div>
         {{ govukButton({
           text: "Continue",
