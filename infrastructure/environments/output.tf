@@ -125,3 +125,9 @@ output "mongodb_connection_strings" {
   }
   }, {})
 }
+
+output "mongodb_id" {
+  description = "ID of the MongoDB instance"
+  sensitive = true
+  value = azurerm_cosmosdb_account.mongodb.id
+}

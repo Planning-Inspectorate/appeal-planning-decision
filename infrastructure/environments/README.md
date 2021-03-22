@@ -78,4 +78,5 @@ No requirements.
 | kubeconfig | The Kubernetes config file |
 | message\_queue\_host | n/a |
 | mongodb\_connection\_strings | MongoDB connection strings for each database |
+| mongodb\_id | ID of the MongoDB instance |
 
