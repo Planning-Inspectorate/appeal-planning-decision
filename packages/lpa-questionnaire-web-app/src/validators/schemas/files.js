@@ -8,7 +8,7 @@ const {
   MIME_TYPE_JPEG,
   MIME_TYPE_TIF,
   MIME_TYPE_PNG,
-} = require('../../lib/mime-types');
+} = require('../../lib/file-upload-helpers');
 
 module.exports = {
   'files.documents.*': {

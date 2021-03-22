@@ -8,7 +8,7 @@ const {
   MIME_TYPE_JPEG,
   MIME_TYPE_TIF,
   MIME_TYPE_PNG,
-} = require('../../../../src/lib/mime-types');
+} = require('../../../../src/lib/file-upload-helpers');
 const config = require('../../../../src/config');
 
 jest.mock('../../../../src/validators/custom/file-size');
