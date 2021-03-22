@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
 const { testExpressValidatorMiddleware } = require('./validation-middleware-helper');
 const rules = require('../../../src/validators/files');
-const { MIME_TYPE_JPEG } = require('../../../src/lib/mime-types');
+const { MIME_TYPE_JPEG } = require('../../../src/lib/file-upload-helpers');
 const config = require('../../../src/config');
 
 describe('validators/files', () => {
