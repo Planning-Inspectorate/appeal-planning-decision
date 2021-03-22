@@ -47,24 +47,12 @@ describe('controllers/files', () => {
                 msg: 'some error',
               },
             },
-            errorSummary: [
-              {
-                text: 'some error',
-                url: '#mock-url',
-              },
-            ],
           },
         }),
         expected: (_, res) => {
           expect(res.json).toHaveBeenCalledWith({
             error: {
               message: 'some error',
-              summary: [
-                {
-                  text: 'some error',
-                  url: '#documents',
-                },
-              ],
             },
             file: {
               filename: 'mock-file',
@@ -93,7 +81,6 @@ describe('controllers/files', () => {
           expect(res.json).toHaveBeenCalledWith({
             success: {
               messageText: 'mock-file',
-              messageHtml: 'mock-file',
             },
             file: {
               filename: 'mock-file',
@@ -124,7 +111,6 @@ describe('controllers/files', () => {
           expect(res.json).toHaveBeenCalledWith({
             success: {
               messageText: 'mock-file',
-              messageHtml: 'mock-file',
             },
             file: {
               filename: 'mock-file',
