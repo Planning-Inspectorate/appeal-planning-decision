@@ -39,10 +39,16 @@ jobs:
         include:
           - branch: refs/heads/master
             environment: dev
+            mongodb_backup_interval: 240
+            mongodb_backup_retention: 8
           - branch: refs/heads/master
             environment: preprod
+            mongodb_backup_interval: 240
+            mongodb_backup_retention: 8
           - branch: refs/heads/master
             environment: prod
+            mongodb_backup_interval: 120
+            mongodb_backup_retention: 720
     steps:
       - uses: actions/checkout@v2
         if: github.ref == matrix.branch
@@ -152,6 +158,8 @@ jobs:
           echo "::add-mask::$key_vault_secrets"
           echo "::set-output name=key_vault_secrets::$(terraform output -json key_vault_secrets | jq -r . | base64 -w 0)"
 
+          echo "::set-output name=mongodb_id::$(terraform output -json mongodb_id | jq -r .)"
+
       - name: Update Key Vault secrets
         if: github.ref == matrix.branch
         uses: azure/CLI@v1
@@ -162,6 +170,20 @@ jobs:
           inlineScript: |
             az account show
             bash $GITHUB_WORKSPACE/infrastructure/scripts/updateKeyVaultSecrets.sh
+
+      - name: Set MongoDB Backup Policy
+        if: github.ref == matrix.branch
+        uses: azure/CLI@v1
+        env:
+          KEY_VAULT_NAME: ${{ steps.tf_output.outputs.key_vault_name }}
+          KEY_VAULT_SECRETS: ${{ steps.tf_output.outputs.key_vault_secrets }}
+        with:
+          inlineScript: |
+            az account show
+            az cosmosdb update \
+              --id ${{ steps.tf_output.outputs.mongodb_id }} \
+              --backup-interval ${{ matrix.mongodb_backup_interval }} \
+              --backup-retention ${{ matrix.mongodb_backup_retention }}
 
       - name: Configure Kubernetes instance
         if: github.ref == matrix.branch
