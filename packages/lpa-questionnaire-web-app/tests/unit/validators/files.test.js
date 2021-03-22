@@ -95,15 +95,15 @@ describe('validators/files', () => {
         title: 'valid file - pass',
         given: () => ({
           body: {
-            documents: 'x',
-          },
-          files: {
-            documents: [
-              {
-                mimetype: MIME_TYPE_JPEG,
-                size: config.fileUpload.pins.maxFileSize - 1,
-              },
-            ],
+            files: {
+              documents: [
+                {
+                  mimetype: MIME_TYPE_JPEG,
+                  name: 'mock-file',
+                  size: config.fileUpload.pins.maxFileSize - 1,
+                },
+              ],
+            },
           },
         }),
         expected: (result) => {
