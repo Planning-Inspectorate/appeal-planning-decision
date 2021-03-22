@@ -37,7 +37,7 @@
 
           <noscript>
             <div>
-              <select class="govuk-select" id="local-planning-department" name="local-planning-department">
+              <select class="govuk-select" id="local-planning-department" name="local-planning-department" data-cy="local-planning-department">
                 <option value=""></option>
                 {% for dept in departments %}
                   <option value="{{ dept }}" {% if appealLPD === dept %}selected{% endif %}>{{ dept }}</option>
