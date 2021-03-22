@@ -39,8 +39,23 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'selectLocalPlanningDepartmentWithoutJs',
+  require('../eligibility-local-planning-department/selectLocalPlanningDepartmentWithoutJs'),
+);
+
+Cypress.Commands.add(
   'provideIneligibleLocalPlanningDepartment',
   require('../eligibility-local-planning-department/provideIneligibleLocalPlanningDepartment'),
+);
+
+Cypress.Commands.add(
+  'selectIneligibleLocalPlanningDepartmentWithoutJs',
+  require('../eligibility-local-planning-department/selectIneligibleLocalPlanningDepartmentWithoutJs'),
+);
+
+Cypress.Commands.add(
+  'selectEligibleLocalPlanningDepartmentWithoutJs',
+  require('../eligibility-local-planning-department/selectEligibleLocalPlanningDepartmentWithoutJs'),
 );
 
 Cypress.Commands.add(
@@ -59,6 +74,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'confirmEligibleLocalPlanningDepartmentWithoutJs',
+  require('../eligibility-local-planning-department/confirmEligibleLocalPlanningDepartmentWithoutJs'),
+);
+
+Cypress.Commands.add(
   'confirmLocalPlanningDepartmentIsRequired',
   require('../eligibility-local-planning-department/confirmLocalPlanningDepartmentIsRequired'),
 );
@@ -71,6 +91,11 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmPlanningDepartmentSelected',
   require('../eligibility-local-planning-department/confirmPlanningDepartmentSelected'),
+);
+
+Cypress.Commands.add(
+  'confirmPlanningDepartmentSelectedWithoutJs',
+  require('../eligibility-local-planning-department/confirmPlanningDepartmentSelectedWithoutJs'),
 );
 
 Cypress.Commands.add(

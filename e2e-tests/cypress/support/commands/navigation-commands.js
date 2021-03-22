@@ -22,6 +22,10 @@ Cypress.Commands.add(
   require('../go-to-page/goToPlanningDepartmentPage'),
 );
 Cypress.Commands.add(
+  'goToPlanningDepartmentPageWithoutJs',
+  require('../go-to-page/goToPlanningDepartmentPageWithoutJs'),
+);
+Cypress.Commands.add(
   'goToPlanningDepartmentOutPage',
   require('../go-to-page/goToPlanningDepartmentOutPage'),
 );
