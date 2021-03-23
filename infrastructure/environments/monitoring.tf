@@ -105,22 +105,25 @@ XML
 }
 
 resource "azurerm_monitor_action_group" "monitoring" {
-  count = local.monitoring_alert_email_count
+  count = local.monitoring_alert_email_enabled_count
 
   name = format(local.name_format, "monitoring_critical_alert")
   resource_group_name = azurerm_resource_group.monitoring.name
   short_name = substr("PINS ${local.workspace_name}", 0, 12)
   enabled = true
 
-  email_receiver {
-    email_address = var.monitoring_alert_email
-    name = "PINS DevOps"
-    use_common_alert_schema = true
+  dynamic "email_receiver" {
+    for_each = var.monitoring_alert_emails
+    content {
+      email_address = email_receiver.value
+      name = "Alerts for ${email_receiver.value}"
+      use_common_alert_schema = true
+    }
   }
 }
 
 resource "azurerm_monitor_metric_alert" "web_ping_test" {
-  count = local.monitoring_ping_tests_count
+  count = local.monitoring_ping_tests_count == 1 && local.monitoring_alert_email_enabled_count == 1 ? 1 : 0
 
   name = var.monitoring_ping_urls[count.index].name
   resource_group_name = azurerm_resource_group.monitoring.name
@@ -143,7 +146,7 @@ resource "azurerm_monitor_metric_alert" "web_ping_test" {
 }
 
 resource "azurerm_monitor_scheduled_query_rules_alert" "horizon_ping_test" {
-  count = local.monitoring_alert_email_count
+  count = local.monitoring_alert_email_enabled_count
 
   name = "horizon-ping-test"
   location = azurerm_resource_group.monitoring.location

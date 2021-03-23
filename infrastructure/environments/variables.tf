@@ -252,10 +252,10 @@ variable "monitoring_ping_urls" {
   default = []
 }
 
-variable "monitoring_alert_email" {
-  description = "Email to send alerts to"
-  type = string
-  default = null
+variable "monitoring_alert_emails" {
+  description = "Emails to send alerts to"
+  type = list(string)
+  default = []
 }
 
 /*
