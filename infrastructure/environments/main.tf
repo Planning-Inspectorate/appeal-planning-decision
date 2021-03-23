@@ -5,6 +5,8 @@
  */
 
 terraform {
+  required_version = "0.14.0"
+
   backend "azurerm" {
     resource_group_name = "pins-uk-terraform-rg"
     storage_account_name = "pinsodtterraform"
