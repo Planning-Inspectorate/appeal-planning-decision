@@ -197,6 +197,75 @@ Or:
     git add .
     npm run commit
 
+# Terraform
+
+[Terraform](https://www.terraform.io/) is used to provision the infrastructure in Azure. The state is stored in Azure 
+Blob Storage.
+
+> **Important** - this application is built using [Terraform v0.14.0](https://releases.hashicorp.com/terraform/0.14.0/). Please
+> only use that version. If you use a more recent version, this will update the state file (stored in Azure) and mean that
+> the CI/CD pipeline will need upgrading to that version too.
+
+There are two pieces of infrastructure that are configured that do different things:
+
+## Common
+
+[Source](/infrastructure/common)
+
+These are things common to all environments, such as the container registry. There is only a [single workspace](https://www.terraform.io/docs/language/state/workspaces.html)
+here (`default`). It is unlikely that this will need to be changed. If development is to be attempted in here, please
+understand all the implications of making a change - as there is only a single workspace, this may affect all users and
+deployed instances.
+
+## Environments
+
+[Source](/infrastructure/environments)
+
+This is the individual environments, currently `dev`, `preprod` and `prod` (plus any environments for individual developers).
+Each of these are allocated to a different workspace (eg, `dev`).
+
+## Terraform Commands
+
+It is a good idea to use [direnv](https://github.com/Planning-Inspectorate/appeal-planning-decision/wiki/Using-direnv-for-local-development)
+for managing local environment variables.
+
+In the PINS active directory, you will need to create a [Service Principal](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals).
+The one used by CI/CD is called "Terraform" and additional secrets can be generated to grant access, if you have the credentials
+to do so.
+
+**IMPORTANT** all these commands should be used with caution.
+
+```bash
+cd infrastructure/environments # Also /infrastructure/common
+
+terraform init # Will only need applying once
+terraform plan # This will show the changes that are to be made
+terraform apply # This will show the changes and, if approved, apply them
+terraform destroy # This will destroy all resources
+```
+
+## Service Principal Permissions
+
+### IAM Roles
+
+- PINS ODTDEV subscription
+  - `Owner`
+- PINS ACPHZN Prod subscription
+  - `Contributor`
+  - `User Access Administrator`
+
+### ActiveDirectory API Permissions
+
+> [See more](https://simonemms.com/blog/2021/01/10/setting-terraform-service-principal-to-work-with-azure-active-directory)
+
+- Azure Active Directory Graph
+  - `Application.ReadWrite.All` (with Admin grant)
+  - `Directory.ReadWrite.All` (with Admin grant)
+  - `Group.ReadWrite.All` (with Admin grant)
+- Microsoft Graph
+  - `User.Read` (with Admin grant)
+
+
 # Kubernetes
 
 The application is deployed to an Azure-managed Kubernetes cluster. The cluster is configured with [Role-Based Access Control (RBAC)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
