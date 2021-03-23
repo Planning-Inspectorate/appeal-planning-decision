@@ -155,7 +155,7 @@ jobs:
 
         # restore the build id
       - name: 'Cache .build-id'
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ github.workspace }}/.build-id
           key: ${{ runner.os }}-build-id-${{ github.head_ref }}-${{ github.sha }}
