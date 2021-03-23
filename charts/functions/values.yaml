@@ -19,7 +19,7 @@ pingHorizon:
     serviceName: horizon_ping
     ping:
       method: get
-      timeout: 10000
+      timeout: 60000
       url: http://horizon.com
     port: 3000
 
