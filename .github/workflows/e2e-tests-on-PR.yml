@@ -19,8 +19,10 @@ on:
       - feature/*
 
 jobs:
-  build:
+  build-id:
     runs-on: ubuntu-latest
+    outputs:
+      build_number: ${{ steps.buildnumber.outputs.build_number }}
     steps:
       - name: Generate build number
         id: buildnumber
@@ -116,6 +118,7 @@ jobs:
           path: ${{ env.LPA_CYPRESS_SCREENSHOTS }}
 
   cypress-default:
+    needs: build-id
     name: "Cypress- default"
     if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
