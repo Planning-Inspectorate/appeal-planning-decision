@@ -27,7 +27,7 @@ resource "azurerm_servicebus_namespace" "message_queue" {
 }
 
 resource "azurerm_monitor_metric_alert" "abandoned_message_alert" {
-  count = local.monitoring_alert_email_count
+  count = local.monitoring_alert_email_enabled_count
 
   name = azurerm_servicebus_namespace.message_queue.name
   resource_group_name = azurerm_resource_group.message_queue.name
