@@ -1,11 +1,31 @@
 {% extends "layouts/main.njk" %}
 
+{% block pageTitle %}
+  Page not found- Appeal a householder planning decision - GOV.UK
+{% endblock %}
+
 {% block content %}
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1>Page not found</h1>
+      <h1 class="govuk-heading-l">Page not found</h1>
+      <p class="govuk-body">
+        If you typed the web address, check it is correct.
+      </p>
+      <p class="govuk-body">
+        If you pasted the web address, check you copied the entire address.
+      </p>
+      <p class="govuk-body">
+        If the web address is correct or you selected a link or button, contact The Planning Inspectorate Customer Support:
+      </p>
+
+      <h2 class="govuk-heading-s">Telephone</h2>
+      <ul class="govuk-list">
+        <li>Telephone: 0303 444 5000</li>
+        <li>Monday to Friday, 9am to midday (except public holidays)</li>
+      </ul>
+      <h2 class="govuk-heading-s">Email</h2>
+      <p><a data-cy="Enquiries" href="mailto:enquiries@planninginspectorate.gov.uk">enquiries@planninginspectorate.gov.uk</a></p>
     </div>
   </div>
-
 {% endblock %}
