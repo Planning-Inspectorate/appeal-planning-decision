@@ -126,9 +126,6 @@ jobs:
       - name: Display build id 1
         run: echo "The selected build is ${{ needs.build-id.outputs.build_number }}"
 
-      - name: Output build id 1
-        run: echo "The selected build 1 is ${{ steps.build-id.outputs.build_number }}"
-
   cypress-default:
     needs: build-id
     name: "Cypress- default"
@@ -166,6 +163,7 @@ jobs:
         with:
           record: true
           parallel: true
+          ci-build-id: '${{ needs.build-id.outputs.build_number }}'
           project: ./e2e-tests
           command: npm run test:e2e:parallel
 
