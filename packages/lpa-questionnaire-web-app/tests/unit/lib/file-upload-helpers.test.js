@@ -1,3 +1,5 @@
+const { createDocument } = require('../../../src/lib/documents-api-wrapper');
+
 const {
   MIME_TYPE_DOC,
   MIME_TYPE_DOCX,
@@ -10,7 +12,10 @@ const {
   addFilesToSession,
   fileErrorSummary,
   fileUploadNunjucksVariables,
+  uploadFiles,
 } = require('../../../src/lib/file-upload-helpers');
+
+jest.mock('../../../src/lib/documents-api-wrapper');
 
 describe('lib/file-upload-helpers', () => {
   describe('file-size-display-helper', () => {
@@ -151,62 +156,22 @@ describe('lib/file-upload-helpers', () => {
     });
   });
 
-  describe('addFilesToSession', () => {
-    let req;
-
-    beforeEach(() => {
-      req = {
-        body: {},
-        session: {
-          uploadedFiles: [],
-        },
-      };
-    });
-
-    it('should return immediately if no file provided', () => {
-      expect(() => addFilesToSession()).not.toThrowError();
-    });
-
-    it('should add a file to the uploadedFiles session', () => {
-      addFilesToSession([{ file: 'mock-file' }, { file: 'another-file' }], req);
-
-      expect(req.session.uploadedFiles).toEqual([{ file: 'mock-file' }, { file: 'another-file' }]);
-    });
-
-    it('should add errors for file from errors in request', () => {
-      req.session.uploadedFiles.push({ file: 'existing-file' });
-      req.body.errors = { 'files.documents[0]': { msg: 'mock error' } };
-
-      addFilesToSession([{ file: 'mock-file' }, { file: 'another-file' }], req);
-
-      expect(req.session.uploadedFiles).toEqual([
-        { file: 'existing-file' },
-        { file: 'mock-file', error: 'mock error' },
-        { file: 'another-file' },
-      ]);
-    });
-  });
-
   describe('errorFileSummary', () => {
-    let req;
-
-    beforeEach(() => {
-      req = {
-        session: {
-          uploadedFiles: [{ name: 'mock-file', error: 'some error' }],
-        },
-      };
+    it('outputs an empty array if no error and invalid files are passed', () => {
+      expect(fileErrorSummary(undefined, undefined)).toEqual([]);
     });
 
     it('outputs the expected file summary', () => {
-      expect(fileErrorSummary(undefined, req)).toEqual([
+      const files = [{ name: 'mock-file', error: 'some error' }];
+
+      expect(fileErrorSummary(undefined, files)).toEqual([
         {
           href: '#mock-file',
           text: 'some error',
         },
       ]);
 
-      expect(fileErrorSummary('mock-input-error', req)).toEqual([
+      expect(fileErrorSummary('mock-input-error', files)).toEqual([
         {
           href: '#documents',
           text: 'mock-input-error',
@@ -221,16 +186,10 @@ describe('lib/file-upload-helpers', () => {
 
   describe('fileUploadNunjucksVariables', () => {
     it('outputs the expected variables', () => {
-      const req = {
-        session: {
-          uploadedFiles: [{ name: 'mock-file', error: 'some error' }, { name: 'another-file' }],
-        },
-      };
+      const files = [{ name: 'mock-file', error: 'some error' }, { name: 'another-file' }];
 
-      const errorSummary = fileErrorSummary('mock-input-error', req);
-      expect(
-        fileUploadNunjucksVariables('mock-input-error', errorSummary, req.session.uploadedFiles)
-      ).toEqual({
+      const errorSummary = fileErrorSummary('mock-input-error', files);
+      expect(fileUploadNunjucksVariables('mock-input-error', errorSummary, files)).toEqual({
         errorMessage: 'mock-input-error',
         errorSummary: [
           {
@@ -275,6 +234,57 @@ describe('lib/file-upload-helpers', () => {
           },
         ],
       });
+    });
+  });
+
+  describe('uploadFiles', () => {
+    it('should return an array of uploaded files', async () => {
+      createDocument
+        .mockImplementationOnce(() => ({ id: 'mock-id-1' }))
+        .mockImplementationOnce(() => ({ id: 'mock-id-2' }));
+
+      const uploadedFiles = [{ name: 'mock-file' }, { name: 'another-file' }];
+
+      const result = await uploadFiles(uploadedFiles);
+
+      expect(result).toEqual([
+        {
+          fileName: 'mock-file',
+          id: 'mock-id-1',
+          location: undefined,
+          message: {
+            text: 'mock-file',
+          },
+          name: 'mock-file',
+          originalFileName: 'mock-file',
+          size: undefined,
+        },
+        {
+          fileName: 'another-file',
+          id: 'mock-id-2',
+          location: undefined,
+          message: {
+            text: 'another-file',
+          },
+          name: 'another-file',
+          originalFileName: 'another-file',
+          size: undefined,
+        },
+      ]);
+    });
+
+    it('should throw an error if there is a problem with the document service', async () => {
+      createDocument
+        .mockImplementationOnce(() => ({ id: 'mock-id-1' }))
+        .mockRejectedValueOnce('API is down');
+
+      const uploadedFiles = [{ name: 'mock-file' }, { name: 'another-file' }];
+
+      try {
+        await uploadFiles(uploadedFiles);
+      } catch (err) {
+        expect(err).toEqual('API is down');
+      }
     });
   });
 });

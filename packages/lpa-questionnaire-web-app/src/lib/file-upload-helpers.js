@@ -1,3 +1,5 @@
+const { createDocument } = require('./documents-api-wrapper');
+
 // https://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable-string/10420404
 const suffixes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
@@ -32,41 +34,16 @@ exports.deleteFile = (name, req) => {
 };
 
 /**
- * Adds an array of docs to uploadedFiles session array
- * Includes errors
- *
- * @param {Array} files documents array from express-fileupload
- * @param {Object} req request sent
- * @param {String} input name of input used (defaults to 'documents')
- * @returns nothing
- */
-
-exports.addFilesToSession = (files, req, input = 'documents') => {
-  if (!files || !files.length || !req) return;
-
-  const { errors = {} } = req.body;
-
-  req.session.uploadedFiles = [
-    ...(req.session?.uploadedFiles || []),
-    ...files.map((doc, index) => ({
-      ...doc,
-      // current validation will return errors in this format
-      error: errors[`files.${input}[${index}]`]?.msg,
-    })),
-  ];
-};
-
-/**
  * Constructs errorSummary for page with MOJ multi file upload
  * due to the way express validator handles errors, and the fact that file errors persist after a post
  * we need to build a custom summary rather than use standard output from validator
  *
  * @param {String} inputError error message for input
- * @param {Object} req request sent
+ * @param {Object} files list of files to check for errors
  * @param {String} inputName name of file input (defaults to 'documents')
  * @returns errorSummary array
  */
-exports.fileErrorSummary = (inputError, req, inputName = 'documents') => {
+exports.fileErrorSummary = (inputError, files, inputName = 'documents') => {
   return [
     ...(inputError
       ? [
@@ -76,8 +53,8 @@ exports.fileErrorSummary = (inputError, req, inputName = 'documents') => {
           },
         ]
       : []),
-    ...(req.session.uploadedFiles
-      ? req.session.uploadedFiles.reduce((errorsOutput, file) => {
+    ...(Array.isArray(files) && files.length
+      ? files.reduce((errorsOutput, file) => {
           if (file.error)
             errorsOutput.push({
               href: `#${file.name}`,
@@ -121,3 +98,37 @@ exports.fileUploadNunjucksVariables = (errorMessage, errorSummary, files) => ({
     },
   })),
 });
+
+/**
+ * Uploads files to document service and returns list of documents with ID's for upload to DB
+ * If error, returns error
+ * @param {Array} files array of files from system
+ * @returns {Promise} array of files with IDs and data for DB
+ */
+exports.uploadFiles = (files) => {
+  return new Promise((resolve, reject) => {
+    const uploadedFiles = [];
+    files.forEach(async (file) => {
+      try {
+        const document = await createDocument(file);
+
+        uploadedFiles.push({
+          id: document.id,
+          name: file.name,
+          message: {
+            text: file.name,
+          },
+          fileName: file.name,
+          originalFileName: file.name,
+          // needed for Cypress testing
+          location: document.location,
+          size: document.size,
+        });
+      } catch (err) {
+        reject(err);
+      }
+    });
+
+    resolve(uploadedFiles);
+  });
+};
