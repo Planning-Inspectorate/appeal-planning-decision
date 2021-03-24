@@ -163,7 +163,7 @@ jobs:
         with:
           record: true
           parallel: true
-          ci-build-id: '${{ needs.build-id.outputs.build_number }}'
+          ci-build-id: '${{ github.sha }}-${{ github.workflow }}-${{ github.event_name }}'
           project: ./e2e-tests
           command: npm run test:e2e:parallel
 
