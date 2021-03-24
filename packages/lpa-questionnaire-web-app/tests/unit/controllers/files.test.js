@@ -80,7 +80,7 @@ describe('controllers/files', () => {
           expect(res.status).toHaveBeenCalledWith(200);
           expect(res.json).toHaveBeenCalledWith({
             success: {
-              messageText: 'mock-file',
+              messageHtml: 'mock-file',
             },
             file: {
               filename: 'mock-file',
@@ -110,7 +110,7 @@ describe('controllers/files', () => {
           expect(res.status).toHaveBeenCalledWith(200);
           expect(res.json).toHaveBeenCalledWith({
             success: {
-              messageText: 'mock-file',
+              messageHtml: 'mock-file',
             },
             file: {
               filename: 'mock-file',
