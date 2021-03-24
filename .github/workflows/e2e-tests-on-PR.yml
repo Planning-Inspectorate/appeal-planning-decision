@@ -132,12 +132,6 @@ jobs:
           export SERVER_LIMITED_ROUTING_ENABLED=false
           docker-compose up -d
 
-          - name: Generate build number
-            id: buildnumber
-            uses: einaregilsson/build-number@v3
-            with:
-              token: ${{secrets.github_token}}
-
       - name: Run the tests without ACP integration in parallel
         uses: cypress-io/github-action@v2
         env:
