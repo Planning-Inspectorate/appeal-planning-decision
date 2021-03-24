@@ -120,6 +120,7 @@ jobs:
           path: ${{ env.LPA_CYPRESS_SCREENSHOTS }}
 
   cypress-default:
+    uses: job1
     name: "Cypress- default"
     if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
@@ -156,7 +157,7 @@ jobs:
           record: true
           parallel: true
 
-          ci-build-id: ${{ github.sha }}-${{ github.workflow }}-${{ github.event_name }}
+          ci-build-id: ${{ github.sha }}-${{ github.workflow }}-${{ github.event_name }}-${{ needs.job1.outputs.build_number }}
           project: ./e2e-tests
           command: npm run test:e2e:parallel
 
