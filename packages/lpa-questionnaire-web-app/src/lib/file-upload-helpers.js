@@ -103,16 +103,16 @@ exports.fileUploadNunjucksVariables = (errorMessage, errorSummary, files) => ({
  * Uploads files to document service and returns list of documents with ID's for upload to DB
  * If error, returns error
  * @param {Array} files array of files from system
+ * @param {String} appealReplyId UUID string for appeal reply
  * @returns {Promise} array of files with IDs and data for DB
  */
-exports.uploadFiles = (files) => {
-  return new Promise((resolve, reject) => {
-    const uploadedFiles = [];
-    files.forEach(async (file) => {
-      try {
-        const document = await createDocument(file);
+exports.uploadFiles = async (files, appealReplyId) => {
+  try {
+    return await Promise.all(
+      files.map(async (file) => {
+        const document = await createDocument(appealReplyId, file);
 
-        uploadedFiles.push({
+        return {
           id: document.id,
           name: file.name,
           message: {
@@ -123,12 +123,10 @@ exports.uploadFiles = (files) => {
           // needed for Cypress testing
           location: document.location,
           size: document.size,
-        });
-      } catch (err) {
-        reject(err);
-      }
-    });
-
-    resolve(uploadedFiles);
-  });
+        };
+      })
+    );
+  } catch (err) {
+    return err;
+  }
 };

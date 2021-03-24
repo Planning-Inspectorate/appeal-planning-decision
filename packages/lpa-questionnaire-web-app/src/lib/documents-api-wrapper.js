@@ -6,8 +6,8 @@ const uuid = require('uuid');
 const config = require('../config');
 const parentLogger = require('./logger');
 
-exports.createDocument = async (appealReply, formData) => {
-  const path = `/api/v1/${appealReply.id}`;
+exports.createDocument = async (parentId, formData) => {
+  const path = `/api/v1/${parentId}`;
 
   const correlationId = uuid.v4();
   const url = `${config.documents.url}${path}`;

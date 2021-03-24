@@ -238,6 +238,8 @@ describe('lib/file-upload-helpers', () => {
   });
 
   describe('uploadFiles', () => {
+    const mockId = 'abc-123';
+
     it('should return an array of uploaded files', async () => {
       createDocument
         .mockImplementationOnce(() => ({ id: 'mock-id-1' }))
@@ -245,7 +247,7 @@ describe('lib/file-upload-helpers', () => {
 
       const uploadedFiles = [{ name: 'mock-file' }, { name: 'another-file' }];
 
-      const result = await uploadFiles(uploadedFiles);
+      const result = await uploadFiles(uploadedFiles, mockId);
 
       expect(result).toEqual([
         {
@@ -281,7 +283,7 @@ describe('lib/file-upload-helpers', () => {
       const uploadedFiles = [{ name: 'mock-file' }, { name: 'another-file' }];
 
       try {
-        await uploadFiles(uploadedFiles);
+        await uploadFiles(uploadedFiles, mockId);
       } catch (err) {
         expect(err).toEqual('API is down');
       }
