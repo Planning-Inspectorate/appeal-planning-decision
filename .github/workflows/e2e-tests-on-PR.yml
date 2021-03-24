@@ -19,16 +19,26 @@ on:
       - feature/*
 
 jobs:
-  build-id:
-    runs-on: ubuntu-latest
-    outputs:
-      build_number: ${{ steps.buildnumber.outputs.build_number }}
+  build_id:
     steps:
-      - name: Generate build number
-        id: buildnumber
-        uses: einaregilsson/build-number@v3
+      - name: 'Set build id'
+        id: build_id
+        # add a step output `steps.build_id.outputs.id` as the unique id
+        run: echo "::set-output name=id::$(date +%s)"
+      - name: 'Cache .build-id'
+        uses: actions/cache@v1
         with:
-          token: ${{secrets.github_token}}
+          # store the build id to github cache
+          path: ${{ github.workspace }}/.build-id
+          # use the build id to generate a completly unique cache
+          key: ${{ runner.os }}-build-id-${{ github.head_ref }}-${{ github.sha }}-${{ steps.build_id.outputs.id }}
+      - name: 'Save build id'
+        # store the build id to a folder that we can later cache.
+        run: |
+          mkdir -p .build-id
+          echo $BUILD_ID > .build-id/id
+        env:
+          BUILD_ID: ${{ steps.build_id.outputs.id }}
 
   cypress-ACP:
     name: "Cypress- ACP mode"
@@ -117,17 +127,8 @@ jobs:
           name: screenshots-lpa
           path: ${{ env.LPA_CYPRESS_SCREENSHOTS }}
 
-  output-build-id:
-    needs: build-id
-    name: "output build id"
-    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Display build id 1
-        run: echo "The selected build is ${{ needs.build-id.outputs.build_number }}"
-
   cypress-default:
-    needs: build-id
+    needs: build_id
     name: "Cypress- default"
     if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
@@ -143,6 +144,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      # restore the build id
+      - name: 'Cache .build-id'
+        uses: actions/cache@v1
+        with:
+          path: ${{ github.workspace }}/.build-id
+          key: ${{ runner.os }}-build-id-${{ github.head_ref }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-build-id-${{ github.head_ref }}-${{ github.sha }}
+      # set the build id from the restored cache
+      - name: 'Set build id'
+        id: build_id
+        run: echo "::set-output name=id::$(cat .build-id/id)"
+
+
+
+
 
       - name: Install the world
         run: make install
