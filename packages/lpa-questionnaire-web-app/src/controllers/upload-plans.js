@@ -1,5 +1,10 @@
 const { VIEW } = require('../lib/views');
-const { getErrorHtml, getSuccessHtml } = require('../lib/file-upload-helpers');
+const {
+  addFilesToSession,
+  fileErrorSummary,
+  fileUploadNunjucksVariables,
+  deleteFile,
+} = require('../lib/file-upload-helpers');
 const getAppealSideBarDetails = require('../lib/appeal-sidebar-details');
 
 exports.getUploadPlans = (req, res) => {
@@ -13,71 +18,36 @@ exports.getUploadPlans = (req, res) => {
 exports.postUploadPlans = async (req, res) => {
   const documents = req.body?.files?.documents || [];
 
-  const { delete: deleteFile = '', errors = {}, submit = '' } = req.body;
+  const { delete: deleteId = '', errors = {}, submit = '' } = req.body;
 
   // Chance for delete to be triggered due to non-JS solution. delete will be set to value of filename if button clicked
-  if (deleteFile) {
-    // TODO: add handling for deletion from DB and doc store as part of AS-1538
-    const file = req.session.uploadedFiles?.find((upload) => upload.name === deleteFile);
-
-    if (file) {
-      req.session.uploadedFiles = req.session.uploadedFiles.filter(
-        (upload) => upload.name !== deleteFile
-      );
+  if (deleteId) {
+    req.log.debug({ deleteId }, 'Delete ID');
+    try {
+      await deleteFile(deleteId, req);
+    } catch (err) {
+      req.log.error({ err }, 'Error deleting file from Upload Plans');
     }
   } else if (documents.length) {
     // Chance for files to be attached due to non-JS solution, these need passing into session uploaded files (with appropriate errors);
-    req.session.uploadedFiles = [
-      ...(req.session.uploadedFiles || []),
-      ...documents.map((doc, index) => ({
-        ...doc,
-        error: errors[`files.documents[${index}]`]?.msg,
-      })),
-    ];
+    addFilesToSession(documents, req);
   }
 
   const errorMessage = errors.documents && errors.documents.msg;
 
-  // due to the way express validator handles errors, and the fact that file errors persist after a post we need to build a custom summary here
-  const constructedErrorSummary = [
-    ...(errorMessage
-      ? [
-          {
-            href: '#documents',
-            text: errorMessage,
-          },
-        ]
-      : []),
-    ...(req.session.uploadedFiles
-      ? req.session.uploadedFiles.reduce((errorsOutput, file) => {
-          if (file.error)
-            errorsOutput.push({
-              href: `#${file.name}`,
-              text: file.error,
-            });
-          return errorsOutput;
-        }, [])
-      : []),
-  ];
+  const constructedErrorSummary = fileErrorSummary(errorMessage, req);
 
   // TODO: add handling of document upload and redirect
 
   if (!submit || constructedErrorSummary.length) {
     res.render(VIEW.UPLOAD_PLANS, {
+      ...fileUploadNunjucksVariables(
+        errorMessage,
+        constructedErrorSummary,
+        req.session?.uploadedFiles
+      ),
       appeal: getAppealSideBarDetails(req.session.appeal),
       backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
-      errorMessage,
-      errorSummary: constructedErrorSummary,
-      uploadedFiles: req.session.uploadedFiles?.map((doc) => ({
-        deleteButton: {
-          text: 'Delete',
-        },
-        fileName: doc.name,
-        originalFileName: doc.name,
-        message: {
-          html: doc.error ? getErrorHtml(doc.error) : getSuccessHtml(doc.name),
-        },
-      })),
     });
 
     return;
