@@ -13,6 +13,13 @@ Cypress.Commands.add(
   require('../appeal-statement-submission/confirmThatNoErrorTriggered'),
 );
 
+
+Cypress.Commands.add(
+  'confirmFileUploadIsRequested',
+  require('../appeal-statement-submission/confirmFileUploadIsRequested'),
+);
+
+
 Cypress.Commands.add(
   'confirmAppealStatementFileIsNotUploaded',
   require('../appeal-statement-submission/confirmAppealStatementFileIsNotUploaded'),

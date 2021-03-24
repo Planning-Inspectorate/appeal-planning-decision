@@ -1,5 +1,9 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 
+
+Given('user did not previously submitted an appeal statement file', () => {});
+
+
 Given('user has previously submitted an appeal statement file {string}', (filename) => {
   cy.goToAppealStatementSubmission();
   cy.checkNoSensitiveInformation();
@@ -15,6 +19,12 @@ When(
     cy.clickSaveAndContinue();
   },
 );
+
+
+When('user does not confirm that there is no sensitive information nor upload a statement',() => {
+  cy.goToAppealStatementSubmission();
+  cy.clickSaveAndContinue();
+})
 
 When(
   'user submits an appeal statement file {string} confirming that it {string} contain sensitive information',
@@ -59,6 +69,18 @@ Then('user is informed that the file is not submitted because {string}', (reason
       break;
   }
 });
+
+
+Then('user is informed that he needs to upload the appeal statement',() => {
+  cy.confirmFileUploadIsRequested();
+});
+
+
+Then('user is informed that he needs to upload the appeal statement and confirms that it does not contain sensitive information',() =>{
+  cy.confirmFileUploadIsRequested();
+  cy.confirmFileContainsSensitiveInformation();
+})
+
 
 Given(
   'user has previously submitted a valid appeal statement file {string} followed by an invalid file {string} that was rejected because {string}',
