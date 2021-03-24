@@ -1,5 +1,8 @@
 const uploadPlansController = require('../../../src/controllers/upload-plans');
-const { getSuccessHtml, getErrorHtml } = require('../../../src/lib/file-upload-helpers');
+const {
+  fileErrorSummary,
+  fileUploadNunjucksVariables,
+} = require('../../../src/lib/file-upload-helpers');
 const { VIEW } = require('../../../src/lib/views');
 const { mockReq, mockRes } = require('../mocks');
 
@@ -61,19 +64,7 @@ describe('controllers/upload-plans', () => {
           expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
             appeal: null,
             backLink: '/mock-id/task-list',
-            errorSummary: [],
-            uploadedFiles: [
-              {
-                deleteButton: {
-                  text: 'Delete',
-                },
-                fileName: 'another-file',
-                originalFileName: 'another-file',
-                message: {
-                  html: getSuccessHtml('another-file'),
-                },
-              },
-            ],
+            ...fileUploadNunjucksVariables(undefined, [], req.session?.uploadedFiles),
           });
         },
       },
@@ -96,29 +87,7 @@ describe('controllers/upload-plans', () => {
           expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
             appeal: null,
             backLink: '/mock-id/task-list',
-            errorSummary: [],
-            uploadedFiles: [
-              {
-                deleteButton: {
-                  text: 'Delete',
-                },
-                fileName: 'some-file',
-                originalFileName: 'some-file',
-                message: {
-                  html: getSuccessHtml('some-file'),
-                },
-              },
-              {
-                deleteButton: {
-                  text: 'Delete',
-                },
-                fileName: 'another-file',
-                originalFileName: 'another-file',
-                message: {
-                  html: getSuccessHtml('another-file'),
-                },
-              },
-            ],
+            ...fileUploadNunjucksVariables(undefined, [], req.session?.uploadedFiles),
           });
         },
       },
@@ -146,19 +115,11 @@ describe('controllers/upload-plans', () => {
           expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
             appeal: null,
             backLink: '/mock-id/task-list',
-            errorSummary: [{ href: '#some-file', text: 'some error' }],
-            uploadedFiles: [
-              {
-                deleteButton: {
-                  text: 'Delete',
-                },
-                fileName: 'some-file',
-                originalFileName: 'some-file',
-                message: {
-                  html: getErrorHtml('some error'),
-                },
-              },
-            ],
+            ...fileUploadNunjucksVariables(
+              undefined,
+              fileErrorSummary(undefined, req),
+              req.session?.uploadedFiles
+            ),
           });
         },
       },
@@ -182,19 +143,7 @@ describe('controllers/upload-plans', () => {
           expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
             appeal: null,
             backLink: '/mock-id/task-list',
-            errorSummary: [],
-            uploadedFiles: [
-              {
-                deleteButton: {
-                  text: 'Delete',
-                },
-                fileName: 'some-file',
-                originalFileName: 'some-file',
-                message: {
-                  html: getSuccessHtml('some-file'),
-                },
-              },
-            ],
+            ...fileUploadNunjucksVariables(undefined, [], req.session?.uploadedFiles),
           });
         },
       },
@@ -209,12 +158,11 @@ describe('controllers/upload-plans', () => {
             submit: 'save',
           },
         }),
-        expected: (_, res) => {
+        expected: (req, res) => {
           expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
             appeal: null,
             backLink: '/mock-id/task-list',
-            errorMessage: 'some error',
-            errorSummary: [{ href: '#documents', text: 'some error' }],
+            ...fileUploadNunjucksVariables('some error', fileErrorSummary('some error', req)),
           });
         },
       },
@@ -229,33 +177,15 @@ describe('controllers/upload-plans', () => {
             uploadedFiles: [{ name: 'some-file', error: 'some error' }, { name: 'another-file' }],
           },
         }),
-        expected: (_, res) => {
+        expected: (req, res) => {
           expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
             appeal: null,
             backLink: '/mock-id/task-list',
-            errorSummary: [{ href: '#some-file', text: 'some error' }],
-            uploadedFiles: [
-              {
-                deleteButton: {
-                  text: 'Delete',
-                },
-                fileName: 'some-file',
-                originalFileName: 'some-file',
-                message: {
-                  html: getErrorHtml('some error'),
-                },
-              },
-              {
-                deleteButton: {
-                  text: 'Delete',
-                },
-                fileName: 'another-file',
-                originalFileName: 'another-file',
-                message: {
-                  html: getSuccessHtml('another-file'),
-                },
-              },
-            ],
+            ...fileUploadNunjucksVariables(
+              undefined,
+              fileErrorSummary(undefined, req),
+              req.session?.uploadedFiles
+            ),
           });
         },
       },

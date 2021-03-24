@@ -6,8 +6,10 @@ const {
   MIME_TYPE_TIF,
   MIME_TYPE_PNG,
   fileSizeDisplayHelper,
-  getErrorHtml,
-  getSuccessHtml,
+  deleteFile,
+  addFilesToSession,
+  fileErrorSummary,
+  fileUploadNunjucksVariables,
 } = require('../../../src/lib/file-upload-helpers');
 
 describe('lib/file-upload-helpers', () => {
@@ -113,29 +115,166 @@ describe('lib/file-upload-helpers', () => {
     });
   });
 
-  describe('errorHtml', () => {
-    it('should return the correct html', () => {
-      expect(getErrorHtml('mock error')).toBe(
-        `<span class="moj-multi-file-upload__error">
-    <svg class="moj-banner__icon" fill="currentColor" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" height="25" width="25">
-      <path d="M13.6,15.4h-2.3v-4.5h2.3V15.4z M13.6,19.8h-2.3v-2.2h2.3V19.8z M0,23.2h25L12.5,2L0,23.2z"/>
-    </svg>
-    mock error
-  </span>`
-      );
+  describe('deleteFile', () => {
+    let req;
+
+    beforeEach(() => {
+      req = {
+        session: {
+          uploadedFiles: [{ name: 'mock-file' }],
+        },
+      };
+    });
+
+    it('should return if no name', () => {
+      deleteFile(undefined, req);
+
+      expect(req).toEqual({
+        session: {
+          uploadedFiles: [{ name: 'mock-file' }],
+        },
+      });
+    });
+
+    it('should throw an error if file not found', () => {
+      expect(() => deleteFile('another-file', req)).toThrowError();
+    });
+
+    it('should delete a file if found', () => {
+      deleteFile('mock-file', req);
+
+      expect(req).toEqual({
+        session: {
+          uploadedFiles: [],
+        },
+      });
     });
   });
 
-  describe('successHtml', () => {
-    it('should return the correct html', () => {
-      expect(getSuccessHtml('mock success')).toBe(
-        `<span class="moj-multi-file-upload__success">
+  describe('addFilesToSession', () => {
+    let req;
+
+    beforeEach(() => {
+      req = {
+        body: {},
+        session: {
+          uploadedFiles: [],
+        },
+      };
+    });
+
+    it('should return immediately if no file provided', () => {
+      expect(() => addFilesToSession()).not.toThrowError();
+    });
+
+    it('should add a file to the uploadedFiles session', () => {
+      addFilesToSession([{ file: 'mock-file' }, { file: 'another-file' }], req);
+
+      expect(req.session.uploadedFiles).toEqual([{ file: 'mock-file' }, { file: 'another-file' }]);
+    });
+
+    it('should add errors for file from errors in request', () => {
+      req.session.uploadedFiles.push({ file: 'existing-file' });
+      req.body.errors = { 'files.documents[0]': { msg: 'mock error' } };
+
+      addFilesToSession([{ file: 'mock-file' }, { file: 'another-file' }], req);
+
+      expect(req.session.uploadedFiles).toEqual([
+        { file: 'existing-file' },
+        { file: 'mock-file', error: 'mock error' },
+        { file: 'another-file' },
+      ]);
+    });
+  });
+
+  describe('errorFileSummary', () => {
+    let req;
+
+    beforeEach(() => {
+      req = {
+        session: {
+          uploadedFiles: [{ name: 'mock-file', error: 'some error' }],
+        },
+      };
+    });
+
+    it('outputs the expected file summary', () => {
+      expect(fileErrorSummary(undefined, req)).toEqual([
+        {
+          href: '#mock-file',
+          text: 'some error',
+        },
+      ]);
+
+      expect(fileErrorSummary('mock-input-error', req)).toEqual([
+        {
+          href: '#documents',
+          text: 'mock-input-error',
+        },
+        {
+          href: '#mock-file',
+          text: 'some error',
+        },
+      ]);
+    });
+  });
+
+  describe('fileUploadNunjucksVariables', () => {
+    it('outputs the expected variables', () => {
+      const req = {
+        session: {
+          uploadedFiles: [{ name: 'mock-file', error: 'some error' }, { name: 'another-file' }],
+        },
+      };
+
+      const errorSummary = fileErrorSummary('mock-input-error', req);
+      expect(
+        fileUploadNunjucksVariables('mock-input-error', errorSummary, req.session.uploadedFiles)
+      ).toEqual({
+        errorMessage: 'mock-input-error',
+        errorSummary: [
+          {
+            href: '#documents',
+            text: 'mock-input-error',
+          },
+          {
+            href: '#mock-file',
+            text: 'some error',
+          },
+        ],
+        uploadedFiles: [
+          {
+            deleteButton: {
+              text: 'Delete',
+            },
+            fileName: 'mock-file',
+            originalFileName: 'mock-file',
+            message: {
+              html: `<span class="moj-multi-file-upload__error">
+      <svg class="moj-banner__icon" fill="currentColor" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" height="25" width="25">
+        <path d="M13.6,15.4h-2.3v-4.5h2.3V15.4z M13.6,19.8h-2.3v-2.2h2.3V19.8z M0,23.2h25L12.5,2L0,23.2z"/>
+      </svg>
+      some error
+    </span>`,
+            },
+          },
+          {
+            deleteButton: {
+              text: 'Delete',
+            },
+            fileName: 'another-file',
+            originalFileName: 'another-file',
+            message: {
+              html: `<span class="moj-multi-file-upload__success">
       <svg class="moj-banner__icon" fill="currentColor" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" height="25" width="25">
         <path d="M25,6.2L8.7,23.2L0,14.1l4-4.2l4.7,4.9L21,2L25,6.2z"/>
       </svg>
-      mock success
-    </span>`
-      );
+      another-file
+    </span>`,
+            },
+          },
+        ],
+      });
     });
   });
 });
