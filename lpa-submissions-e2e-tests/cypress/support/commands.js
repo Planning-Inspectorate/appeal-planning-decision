@@ -141,11 +141,6 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'goToUploadPlanningOfficersReportPage',
-  require('./appeals-questionnaire-navigation/goToUploadPlanningOfficersReportPage'),
-);
-
-Cypress.Commands.add(
   'goToUploadThePlansUsedToReachDecisionPage',
   require('./appeals-questionnaire-navigation/goToUploadThePlansUsedToReachDecisionPage'),
 );
@@ -275,4 +270,25 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'inputDevelopmentPlanDetails',
   require('./appeals-development-plan/inputDevelopmentPlanDetails'),
+);
+
+Cypress.Commands.add('clickChooseFile', require('./common/clickChooseFile'));
+
+Cypress.Commands.add('clickUploadFile', require('./common/clickUploadFile'));
+
+Cypress.Commands.add('deleteUploadedFile', require('./common/deleteUploadedFile'));
+
+Cypress.Commands.add('fileDragAndDrop', require('./common/fileDragAndDrop'));
+
+Cypress.Commands.add('uploadDocuments', require('./common/uploadDocuments'));
+
+Cypress.Commands.add('uploadMultipleFiles', require('./common/uploadMultipleFiles'));
+
+Cypress.Commands.add('validateFileDeleted', require('./common/validateFileDeleted'));
+
+Cypress.Commands.add('validateFileUpload', require('./common/validateFileUpload'));
+
+Cypress.Commands.add(
+  'validateFileUploadErrorMessage',
+  require('./common/validateFileUploadErrorMessage'),
 );
