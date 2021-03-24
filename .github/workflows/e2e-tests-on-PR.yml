@@ -20,8 +20,6 @@ on:
 
 jobs:
   job1:
-    name: "Job 1"
-    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     outputs:
       build_number: ${{ steps.buildnumber.outputs.build_number }}
@@ -120,7 +118,6 @@ jobs:
           path: ${{ env.LPA_CYPRESS_SCREENSHOTS }}
 
   cypress-default:
-    uses: job1
     name: "Cypress- default"
     if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
