@@ -19,17 +19,6 @@ on:
       - feature/*
 
 jobs:
-  job1:
-    runs-on: ubuntu-latest
-    outputs:
-      build_number: ${{ steps.buildnumber.outputs.build_number }}
-    steps:
-      - name: Generate build number
-        id: buildnumber
-        uses: einaregilsson/build-number@v3
-        with:
-          token: ${{secrets.github_token}}
-
   cypress-ACP:
     name: "Cypress- ACP mode"
     if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
