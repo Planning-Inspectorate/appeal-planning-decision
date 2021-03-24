@@ -5,6 +5,14 @@ const { MIME_TYPE_JPEG } = require('../../../../src/lib/mime-types');
 const config = require('../../../../src/config');
 
 describe('validators/appellant-submission/appeal-statement', () => {
+  const sessionWithAppealSubmitted = {
+    appeal: { yourAppealSection: { appealStatement: { uploadedFile: { id: 'appeal.pdf' } } } },
+  };
+
+  const sessionWithNoAppealSubmitted = {
+    appeal: { yourAppealSection: { appealStatement: { uploadedFile: { id: null } } } },
+  };
+
   describe('rules', () => {
     it('has a rule for `does-not-include-sensitive-information`', () => {
       const rule = rules()[0].builder.build();
@@ -40,6 +48,7 @@ describe('validators/appellant-submission/appeal-statement', () => {
       {
         title: 'undefined - empty',
         given: () => ({
+          session: sessionWithAppealSubmitted,
           body: {},
         }),
         expected: (result) => {
@@ -55,6 +64,7 @@ describe('validators/appellant-submission/appeal-statement', () => {
       {
         title: 'invalid value for `does-not-include-sensitive-information` - fail',
         given: () => ({
+          session: sessionWithAppealSubmitted,
           body: {
             'does-not-include-sensitive-information': 12,
           },
@@ -70,6 +80,7 @@ describe('validators/appellant-submission/appeal-statement', () => {
       {
         title: 'valid value for `does-not-include-sensitive-information` - "i-confirm" - pass',
         given: () => ({
+          session: sessionWithAppealSubmitted,
           body: {
             'does-not-include-sensitive-information': 'i-confirm',
           },
@@ -82,6 +93,7 @@ describe('validators/appellant-submission/appeal-statement', () => {
         title:
           'valid value for `does-not-include-sensitive-information`, files key is empty - pass',
         given: () => ({
+          session: sessionWithAppealSubmitted,
           body: {
             'does-not-include-sensitive-information': 'i-confirm',
             'appeal-upload': 'a',
@@ -96,6 +108,7 @@ describe('validators/appellant-submission/appeal-statement', () => {
         title:
           'valid value for `does-not-include-sensitive-information`, files path is not matched - pass',
         given: () => ({
+          session: sessionWithAppealSubmitted,
           body: {
             'does-not-include-sensitive-information': 'i-confirm',
             'appeal-upload': 'a',
@@ -144,8 +157,25 @@ describe('validators/appellant-submission/appeal-statement', () => {
         },
       },
       {
+        title:
+          'valid value for `does-not-include-sensitive-information`, no file, never submitted - fail',
+        given: () => ({
+          session: sessionWithNoAppealSubmitted,
+          body: {
+            'does-not-include-sensitive-information': 'i-confirm',
+            'appeal-upload': 'x',
+          },
+          files: {},
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(1);
+          expect(result.errors[0].msg).toEqual('Upload the appeal statement');
+        },
+      },
+      {
         title: 'valid value for `does-not-include-sensitive-information`, valid file - pass',
         given: () => ({
+          session: sessionWithAppealSubmitted,
           body: {
             'does-not-include-sensitive-information': 'i-confirm',
             'appeal-upload': 'x',

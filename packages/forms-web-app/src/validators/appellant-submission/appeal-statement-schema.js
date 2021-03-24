@@ -14,8 +14,19 @@ module.exports = {
   'appeal-upload': {
     custom: {
       options: (value, { req, path }) => {
-        // file is optional, so valid if no file is given.
-        if (!req.files || !req.files[path]) {
+        const { appeal } = req.session;
+
+        const noFilePreviouslyUploaded =
+          !appeal || !appeal.yourAppealSection.appealStatement.uploadedFile.id;
+
+        const noNewFileUploaded =
+          !req.files || Object.keys(req.files).length === 0 || !req.files[path];
+
+        if (noFilePreviouslyUploaded) {
+          if (noNewFileUploaded) {
+            throw new Error('Upload the appeal statement');
+          }
+        } else if (noNewFileUploaded) {
           return true;
         }
 
