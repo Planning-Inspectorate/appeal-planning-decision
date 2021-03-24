@@ -20,6 +20,9 @@ on:
 
 jobs:
   build_id:
+    name: "build id"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
     steps:
       - name: 'Set build id'
         id: build_id
