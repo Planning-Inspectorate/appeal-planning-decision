@@ -153,13 +153,13 @@ jobs:
           # Pass the Github token lets this action correctly
           # determine the unique run id necessary to re-run the checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run test:e2e:parallel
         with:
           record: true
           parallel: true
 
           ci-build-id: ${{ github.sha }}-${{ github.workflow }}-${{ github.event_name }}-${{ needs.job1.outputs.build_number }}
-          project: ./e2e-tests
-          command: npm run test:e2e:parallel
+
 
       - name: Post-process results without ACP integration
         if: ${{ always() }}
