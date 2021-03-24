@@ -28,7 +28,7 @@ exports.uploadFile = async (req, res) => {
       }
     : {
         success: {
-          messageText: fileName,
+          messageHtml: fileName,
         },
       };
 
