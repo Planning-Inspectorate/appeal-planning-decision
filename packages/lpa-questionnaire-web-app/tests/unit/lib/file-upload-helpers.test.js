@@ -9,7 +9,6 @@ const {
   MIME_TYPE_PNG,
   fileSizeDisplayHelper,
   deleteFile,
-  addFilesToSession,
   fileErrorSummary,
   fileUploadNunjucksVariables,
   uploadFiles,

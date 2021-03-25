@@ -1,11 +1,13 @@
 const { VIEW } = require('../lib/views');
 const {
-  addFilesToSession,
   fileErrorSummary,
   fileUploadNunjucksVariables,
   deleteFile,
+  uploadFiles,
 } = require('../lib/file-upload-helpers');
 const getAppealSideBarDetails = require('../lib/appeal-sidebar-details');
+const { getTaskStatus } = require('../services/task.service');
+const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
 
 exports.getUploadPlans = (req, res) => {
   res.render(VIEW.UPLOAD_PLANS, {
@@ -26,20 +28,25 @@ exports.postUploadPlans = async (req, res) => {
     try {
       await deleteFile(deleteId, req);
     } catch (err) {
-      req.log.error({ err }, 'Error deleting file from Upload Plans');
+      req.log.error({ err }, `Error deleting ${deleteId} from Upload Plans`);
     }
   } else if (documents.length) {
     // Chance for files to be attached due to non-JS solution, these need passing into session uploaded files (with appropriate errors);
-    addFilesToSession(documents, req);
+    req.session.uploadedFiles = [
+      ...(req.session?.uploadedFiles || []),
+      ...documents.map((doc, index) => ({
+        ...doc,
+        // current validation will return errors in this format
+        error: errors[`files.documents[${index}]`]?.msg,
+      })),
+    ];
   }
 
   const errorMessage = errors.documents && errors.documents.msg;
 
-  const constructedErrorSummary = fileErrorSummary(errorMessage, req);
+  const constructedErrorSummary = fileErrorSummary(errorMessage, req.session?.uploadedFiles);
 
-  // TODO: add handling of document upload and redirect
-
-  if (!submit || constructedErrorSummary.length) {
+  if (!submit || constructedErrorSummary?.length) {
     res.render(VIEW.UPLOAD_PLANS, {
       ...fileUploadNunjucksVariables(
         errorMessage,
@@ -53,6 +60,32 @@ exports.postUploadPlans = async (req, res) => {
     return;
   }
 
-  // If it gets this far there are no errors and files must exist
-  res.redirect(req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`);
+  try {
+    const { appealReply } = req.session;
+    const sectionName = 'requiredDocumentsSection';
+    const taskName = 'plansDecision';
+
+    const uploadedFiles = await uploadFiles(req.session?.uploadedFiles, appealReply.id);
+
+    appealReply[sectionName][taskName].uploadedFiles = uploadedFiles;
+
+    appealReply.sectionStates[sectionName][taskName] = getTaskStatus(
+      appealReply,
+      sectionName,
+      taskName
+    );
+
+    req.session.appealReply = await createOrUpdateAppealReply(appealReply);
+
+    // If it gets this far there are no errors and files must exist
+    res.redirect(req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`);
+  } catch (err) {
+    req.log.error({ err }, 'Error adding files to Upload Plans question');
+
+    res.render(VIEW.UPLOAD_PLANS, {
+      ...fileUploadNunjucksVariables(err, fileErrorSummary(err, req), req.session?.uploadedFiles),
+      appeal: getAppealSideBarDetails(req.session.appeal),
+      backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
+    });
+  }
 };
