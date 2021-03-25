@@ -35,6 +35,7 @@ Then('the appeals householder planning permission question is presented', () => 
 });
 
 Then('progress is halted with a message that a householder planning permission is required', () => {
+  cy.title().should('include', 'Error: ')
   cy.confirmNavigationHouseholderQuestionPage();
   cy.confirmTextOnPage('Select Yes if you applied for householder planning permission');
 });
