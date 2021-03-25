@@ -19,6 +19,17 @@ on:
       - feature/*
 
 jobs:
+  build:
+    name: "Build Id"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate build number
+        id: buildnumber
+        uses: einaregilsson/build-number@v3
+        with:
+          token: ${{secrets.github_token}}
+
   cypress-ACP:
     name: "Cypress- ACP mode"
     if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
@@ -124,11 +135,7 @@ jobs:
       - name: Install the world
         run: make install
 
-      # just so we learn about available environment variables GitHub provides
-      - name: Print CI env variables
-        run: |
-          npm i -g @bahmutov/print-env@2
-          print-env GITHUB BUILD ACTIONS || true
+
 
       - name: Start the world without ACP integration i.e. PINS
         run: |
