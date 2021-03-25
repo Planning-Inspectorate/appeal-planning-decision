@@ -6,8 +6,13 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
+{% set title = "Did you apply for householder planning permission? - Eligibility - Appeal a householder planning decision - GOV.UK" %}
+
 {% block pageTitle %}
-  Did you apply for householder planning permission? - Eligibility - Appeal a householder planning decision - GOV.UK
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
 {% endblock %}
 
 {% block content %}
