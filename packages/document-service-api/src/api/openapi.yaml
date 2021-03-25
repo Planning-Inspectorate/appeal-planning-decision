@@ -135,6 +135,30 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/Error"
+  "/api/v1/{applicationId}/{documentId}":
+    description: Retrieves a specific documents meta-data
+    delete:
+      tags:
+        - Document
+      operationId: deleteDocument
+      description: Delete's a document by ID
+      parameters:
+        - "$ref": "#/components/parameters/applicationId"
+        - "$ref": "#/components/parameters/documentId"
+      responses:
+        '204':
+          description: Successfully deleted this document
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/DocumentDownload"
+        '404':
+          description: Document could be found for this Id
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+
 components:
   parameters:
     applicationId:
