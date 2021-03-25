@@ -51,5 +51,4 @@ Feature: Decision Date eligibility check
       | "aa" | "10"  | "2020" | "The Decision Date must be a real date"           | "day"            |
       | "aa" | "bb"  | "2020" | "The Decision Date must be a real date"           | "day,month"      |
       | "31" | "zz"  | "2020" | "The Decision Date must be a real date"           | "month"          |
-      | "31" | "10"  | "aaaa" | "The Decision Date must be a real date"           | "year"           |
       | "19" | "10"  | "20"   | "The Decision Date must be a real date"           | "year"           |
