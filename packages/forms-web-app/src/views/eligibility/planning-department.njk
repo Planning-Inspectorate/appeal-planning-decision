@@ -1,6 +1,7 @@
 {% extends "layouts/main.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %},
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
 
 {% block pageTitle %}
   What is the name of the local planning department? - Eligibility - Appeal a householder planning decision - GOV.UK
@@ -21,32 +22,27 @@
       <p class="govuk-visually-hidden" data-cy="eligible-departments">{{ eligibleDepartments }}</p>
       <p class="govuk-visually-hidden" data-cy="ineligible-departments">{{ ineligibleDepartments }}</p>
 
-      <form action="/eligibility/planning-department" method="POST" novalidate>
+      <form action="" method="POST" novalidate>
         <div class="govuk-form-group {{ 'govuk-form-group--error' if errors }}">
           <span class="govuk-caption-l">Before you start</span>
-          <label id="planning-department-label" class="govuk-label govuk-label--l" for="planning-department">
-            What is the name of the local planning department?</label>
 
-
-          {% if errors %}
-            <span id="planning-department-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> Select the local planning department from the list
-            </span>
-          {% endif %}
-          <div id="planning-department"></div>
-
-          <noscript>
-            <div>
-              <select class="govuk-select" id="local-planning-department" name="local-planning-department" data-cy="local-planning-department">
-                <option value=""></option>
-                {% for dept in departments %}
-                  <option value="{{ dept }}" {% if appealLPD === dept %}selected{% endif %}>{{ dept }}</option>
-                {% endfor %}
-              </select>
-            </div>
-          </noscript>
+          {{ govukSelect({
+            id: "local-planning-department",
+            name: "local-planning-department",
+            attributes: {"data-cy": "local-planning-department"},
+            label: {
+              text: "What is the name of the local planning department?",
+              classes: "govuk-label--l",
+              isPageHeading: true
+            },
+            errorMessage: errors['local-planning-department'] and {
+              text: errors['local-planning-department'].msg
+            },
+            items: departments
+          }) }}
 
         </div>
+
         {{ govukButton({
           text: "Continue",
           type: "Submit",
@@ -64,13 +60,9 @@
   {{ super() }}
   <script src="/assets/accessible-autocomplete.min.js"></script>
   <script>
-    accessibleAutocomplete({
-      id: 'local-planning-department',
-      name: 'local-planning-department',
-      showAllValues: true,
-      defaultValue:  {{ appealLPD | dump | safe }},
-      element: document.querySelector('#planning-department'),
-      source: {{ departments | dump | safe }},
-    });
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: document.querySelector('#local-planning-department'),
+      defaultValue: '',
+    })
   </script>
 {% endblock %}

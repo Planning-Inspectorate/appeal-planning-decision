@@ -2,6 +2,9 @@ const logger = require('../../lib/logger');
 const { getDepartmentFromName } = require('../../services/department.service');
 const { getDepartmentFromId } = require('../../services/department.service');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
+const {
+  departmentsToNunjucksItems,
+} = require('../../lib/planning-departments-to-nunjucks-list-items');
 const { getRefreshedDepartmentData } = require('../../services/department.service');
 const { VIEW } = require('../../lib/views');
 
@@ -19,9 +22,10 @@ exports.getPlanningDepartment = async (req, res) => {
       appealLPD = lpd.name;
     }
   }
+
   res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
     appealLPD,
-    departments,
+    departments: departmentsToNunjucksItems(departments, appealLPD),
     eligibleDepartments,
     ineligibleDepartments,
   });
@@ -39,7 +43,7 @@ exports.postPlanningDepartment = async (req, res) => {
     if (errorMessage !== 'Ineligible Department') {
       res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
         appealLPD: '',
-        departments,
+        departments: departmentsToNunjucksItems(departments),
         errors,
         errorSummary,
       });
@@ -59,6 +63,7 @@ exports.postPlanningDepartment = async (req, res) => {
 
     res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
       appeal,
+      departments: departmentsToNunjucksItems(departments, lpaName),
       errors,
       errorSummary: [{ text: e.toString(), href: '#' }],
     });
