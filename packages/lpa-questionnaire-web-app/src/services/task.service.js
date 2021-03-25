@@ -1,7 +1,10 @@
 const TASK_STATUS = require('./task-status/task-statuses');
-const accuracySubmissionCompletion = require('./task-status/accuracy-submission');
-const otherAppealsCompletion = require('./task-status/other-appeals');
-const extraConditionsCompletion = require('./task-status/extra-conditions');
+const {
+  accuracySubmissionCompletion,
+  otherAppealsCompletion,
+  extraConditionsCompletion,
+  uploadPlansCompletion,
+} = require('./task-status');
 
 function statusTemp() {
   // TODO: these will be replaces when we have checks for status of each step
@@ -49,8 +52,8 @@ const SECTIONS = [
     tasks: [
       {
         taskId: 'plansDecision',
-        href: '/placeholder',
-        rule: statusTemp,
+        href: '/plans',
+        rule: uploadPlansCompletion,
       },
       {
         taskId: 'officersReport',
