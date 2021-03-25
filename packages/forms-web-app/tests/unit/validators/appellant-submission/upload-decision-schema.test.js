@@ -16,6 +16,18 @@ jest.mock('../../../../src/validators/custom/mime-type');
 jest.mock('../../../../src/config');
 
 describe('validators/appellant-submission/upload-decision-schema', () => {
+  const appealWithFile = {
+    appeal: {
+      requiredDocumentsSection: { decisionLetter: { uploadedFile: { id: 'decision.pdf' } } },
+    },
+  };
+
+  const appealWithoutFile = {
+    appeal: {
+      requiredDocumentsSection: { decisionLetter: { uploadedFile: { id: null } } },
+    },
+  };
+
   it('has a defined custom schema object', () => {
     expect(schema['decision-upload'].custom.options).toBeDefined();
   });
@@ -27,20 +39,57 @@ describe('validators/appellant-submission/upload-decision-schema', () => {
       fn = schema['decision-upload'].custom.options;
     });
 
-    it('should return true if `req.files` is undefined', () => {
-      expect(fn('some value', { req: {} })).toBeTruthy();
+    it('should throw an error if `req.files` is undefined and no planning application was submitted', () => {
+      expect(() => fn('some value', { req: { session: appealWithoutFile } })).toThrow(
+        'Select a decision letter'
+      );
     });
 
-    it('should return true if `req.files` is empty', () => {
-      expect(fn('some value', { req: {} })).toBeTruthy();
+    it('should throw an error if `req.files` is empty and no planning application was submitted', () => {
+      expect(() =>
+        fn('some value', {
+          req: {
+            session: appealWithoutFile,
+            files: {},
+          },
+        })
+      ).toThrow('Select a decision letter');
     });
 
-    it('should return true if `req.files[path]` is not matched', () => {
-      expect(fn('some value', { req: {} })).toBeTruthy();
+    it('should throw an error if `req.files[path]` is not matched and no planning application was submitted', () => {
+      expect(() =>
+        fn('some value', {
+          req: { session: appealWithoutFile, files: { a: { mimetype: MIME_TYPE_PDF } } },
+          path: 'x',
+        })
+      ).toThrow('Select a decision letter');
+    });
+
+    it('should return true if `req.files` is undefined but a decision letter was previously submitted', () => {
+      expect(fn('some value', { req: { session: appealWithFile } })).toBeTruthy();
+    });
+
+    it('should return true if `req.files` is empty but a decision letter  was previously submitted', () => {
+      expect(fn('some value', { req: { session: appealWithFile, files: {} } })).toBeTruthy();
+    });
+
+    it('should return true if `req.files[path]` is not matched but a decision letter  was previously submitted', () => {
+      expect(
+        fn('some value', {
+          req: { session: appealWithFile, files: { a: { mimetype: MIME_TYPE_PDF } } },
+          path: 'x',
+        })
+      ).toBeTruthy();
     });
 
     it('should call the validMimeType validator', () => {
-      fn('some value', { req: { files: { a: { mimetype: MIME_TYPE_DOCX } } }, path: 'a' });
+      fn('some value', {
+        req: {
+          session: appealWithoutFile,
+          files: { a: { mimetype: MIME_TYPE_DOCX } },
+        },
+        path: 'a',
+      });
       expect(validMimeType).toHaveBeenCalledWith(
         MIME_TYPE_DOCX,
         [
@@ -57,7 +106,10 @@ describe('validators/appellant-submission/upload-decision-schema', () => {
 
     it('should call the validateFileSize validator', () => {
       fn('some value', {
-        req: { files: { a: { mimetype: MIME_TYPE_DOC, size: 12345 } } },
+        req: {
+          session: appealWithoutFile,
+          files: { a: { mimetype: MIME_TYPE_DOC, size: 12345 } },
+        },
         path: 'a',
       });
       expect(validateFileSize).toHaveBeenCalledWith(
