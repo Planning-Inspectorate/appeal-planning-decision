@@ -1,5 +1,8 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 
+
+Given('user did not previously submitted a decision letter file',() => {})
+
 Given('user has previously submitted a decision letter file {string}', (filename) => {
   cy.goToDecisionLetterPage();
   cy.uploadDecisionLetterFile(filename);
@@ -38,7 +41,7 @@ When('user does not submit a decision letter file', () => {
   cy.clickSaveAndContinue();
 });
 
-Then('The decision letter file {string} is submitted and user can proceed', (filename) => {
+Then('decision letter file {string} is submitted and user can proceed', (filename) => {
   cy.confirmDecisionLetterAccepted(filename);
 });
 
@@ -59,6 +62,11 @@ Then(
     }
   },
 );
+
+
+Then('user is informed that he needs to upload a decision letter file',() => {
+  cy.confirmDecisionLetterRejectedBecause('Select a decision letter');
+})
 
 Then(
   'user is informed that the decision letter file is not submitted because {string}',

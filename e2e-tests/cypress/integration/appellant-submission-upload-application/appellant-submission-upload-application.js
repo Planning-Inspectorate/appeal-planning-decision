@@ -1,5 +1,8 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 
+
+Given('user did not previously submitted a planning application file',() => {})
+
 Given('user has previously submitted a planning application file {string}', (filename) => {
   cy.goToPlanningApplicationSubmission();
   cy.uploadPlanningApplicationFile(filename);
@@ -38,7 +41,7 @@ When('user does not submit a planning application file', () => {
   cy.clickSaveAndContinue();
 });
 
-Then('The application file {string} is submitted and user can proceed', (filename) => {
+Then('application file {string} is submitted and user can proceed', (filename) => {
   cy.confirmPlanningApplicationAccepted(filename);
 });
 
@@ -59,6 +62,11 @@ Then(
     }
   },
 );
+
+
+Then('user is informed that he needs to upload a planning application file', () => {
+  cy.confirmPlanningApplicationRejectedBecause('Select a planning application form');
+})
 
 Then(
   'user is informed that the planning application file is not submitted because {string}',
