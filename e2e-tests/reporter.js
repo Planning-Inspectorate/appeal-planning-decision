@@ -1,6 +1,9 @@
 //TODO - either replace this with something proper, or fill in the remaining details. or both.
 const report = require('multiple-cucumber-html-reporter');
 
+const fs = require('fs');
+const length = fs.readdirSync('./cypress/cucumber-json').length;
+
 report.generate({
 	jsonDir: './cypress/cucumber-json',
 	reportPath: './cypress/cucumber-report',
