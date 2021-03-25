@@ -1,4 +1,9 @@
+@wip
 Feature: Appellant submission - decision letter
+
+  As an appellant
+  I need to be informed when I need to upload my decision letter
+  So that I complete my appeal correctly
 
   An appeal must include an uploaded decision letter file.
   Valid decision letter files must:
@@ -6,13 +11,22 @@ Feature: Appellant submission - decision letter
   * not exceed a size limit.
   The latest successfully uploaded decision letter file replaces any previously uploaded file.
 
+  @as-119 @ac-1-1
   Scenario: Prospective applicant do not upload a decision letter file
+    Given user did not previously submitted a decision letter file
     When user does not submit a decision letter file
-    Then user can see that no decision letter file is submitted
+    Then user is informed that he needs to upload a decision letter file
 
+  @as-119 @ac-1-2
+  Scenario: Prospective applicant do not upload a planning application file
+    Given user has previously submitted a decision letter file "appeal-statement-valid.pdf"
+    When user does not submit a decision letter file
+    Then decision letter file "appeal-statement-valid.pdf" is submitted and user can proceed
+
+  @as-119 @ac-2
   Scenario Outline: Prospective appellant submits valid decision letter file
     When user submits a decision letter file <filename>
-    Then The decision letter file <filename> is submitted and user can proceed
+    Then decision letter file <filename> is submitted and user can proceed
     Examples:
       | filename                              |
       | "appeal-statement-valid.doc"          |
@@ -48,8 +62,6 @@ Feature: Appellant submission - decision letter
       | filename                                  | reason                    |
       | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    |
       | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
-
-
 
   Scenario Outline: Prospective appellant successfully submits valid decision letter file followed by invalid file that is rejected before successfully submitting another valid file
     Given user has previously submitted a valid decision letter file <first-valid-file> followed by an invalid file <invalid-file> that was rejected because <reason>
