@@ -124,6 +124,12 @@ jobs:
       - name: Install the world
         run: make install
 
+      # just so we learn about available environment variables GitHub provides
+      - name: Print CI env variables
+        run: |
+          npm i -g @bahmutov/print-env@2
+          print-env GITHUB BUILD ACTIONS || true
+
       - name: Start the world without ACP integration i.e. PINS
         run: |
           export SERVER_LIMITED_ROUTING_ENABLED=false
