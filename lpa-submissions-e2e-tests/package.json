@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npx cypress run -e TAGS='not @wip'",
-    "test:e2e": "npx cypress run -e TAGS='not @wip'",
+    "test:e2e": "npx cypress run --spec './cypress/integration/appealDetailsSidebar.feature'",
     "test:e2e:postprocess": "node ./reporter.js",
     "test:smoke": "npx cypress run -e TAGS='not @wip and @smoketest'"
   },
