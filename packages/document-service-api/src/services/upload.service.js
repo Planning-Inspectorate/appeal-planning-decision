@@ -9,7 +9,11 @@ const { functional } = require('@pins/common');
 const Documents = require('../schemas/documents');
 const config = require('../lib/config');
 const logger = require('../lib/logger');
-const { connectToBlobStorage, uploadToBlobStorage } = require('../lib/blobStorage');
+const {
+  connectToBlobStorage,
+  uploadToBlobStorage,
+  deleteFromBlobStorage,
+} = require('../lib/blobStorage');
 
 /**
  * Increment Attempts
@@ -98,6 +102,12 @@ const uploadDocumentsToBlobStorage = async (docs) => {
   return data;
 };
 
+const deleteFromBlobStorageByLocation = async (document) => {
+  logger.info({ config }, `Deleting ${document}`);
+  return deleteFromBlobStorage(document);
+};
+
 module.exports = {
   uploadDocumentsToBlobStorage,
+  deleteFromBlobStorageByLocation,
 };

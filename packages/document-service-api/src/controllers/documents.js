@@ -1,7 +1,10 @@
 const multer = require('multer');
 const config = require('../lib/config');
 const Documents = require('../schemas/documents');
-const { uploadDocumentsToBlobStorage } = require('../services/upload.service');
+const {
+  uploadDocumentsToBlobStorage,
+  deleteFromBlobStorageByLocation,
+} = require('../services/upload.service');
 
 module.exports = {
   async getDocsForApplication(req, res) {
@@ -94,7 +97,6 @@ module.exports = {
           destination: config.fileUpload.path,
         }),
       }).single('file')(req, res, (err) => {
-        console.log('single');
         if (err) {
           if (err.code === 'LIMIT_FILE_SIZE') {
             req.log.warn('File too large');
@@ -188,4 +190,48 @@ module.exports = {
       }
     },
   ],
+  deleteDocument: async (req, res) => {
+    const { documentId } = req.params;
+    const search = {
+      applicationId: req.params.applicationId,
+      id: documentId,
+    };
+
+    const doc = await Documents.findOne(search);
+
+    if (!doc) {
+      req.log.debug(search, 'Unknown document ID');
+
+      res.status(404).send({
+        message: 'Unknown document ID',
+      });
+      return;
+    }
+
+    try {
+      const { deletedCount } = await Documents.deleteOne(search);
+      if (deletedCount === 0) {
+        req.log.debug(search, 'Unknown document ID');
+
+        res.status(404).send({
+          message: 'Unknown document ID',
+        });
+        return;
+      }
+    } catch (err) {
+      req.log.error({ err }, 'Failed to delete document from database.');
+      res.status(500).send(err);
+      return;
+    }
+
+    const success = deleteFromBlobStorageByLocation(doc.blobStorageLocation);
+
+    if (!success) {
+      req.log.error('Failed to delete document from blob storage.');
+      res.status(500).send();
+      return;
+    }
+
+    res.status(204).send();
+  },
 };
