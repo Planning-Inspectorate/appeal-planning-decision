@@ -8,8 +8,6 @@ Given('the list of Local Planning Department is presented', () => {
 
 Given('the user can select from a list of Local Planning Departments', () => {
   cy.goToPlanningDepartmentPageWithoutJs();
-
-  cy.checkPageA11y();
 });
 
 When('the user does not provide a Local Planning Department', () => {

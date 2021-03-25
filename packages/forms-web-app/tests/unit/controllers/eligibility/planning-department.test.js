@@ -19,6 +19,7 @@ describe('controllers/eligibility/planning-department', () => {
   let res;
   let appeal;
   let departmentsData;
+  let departmentList;
 
   beforeEach(() => {
     req = mockReq();
@@ -32,6 +33,24 @@ describe('controllers/eligibility/planning-department', () => {
       ineligibleDepartments: ['lpa2'],
     };
 
+    departmentList = [
+      {
+        selected: false,
+        text: undefined,
+        value: undefined,
+      },
+      {
+        selected: false,
+        text: 'lpa1',
+        value: 'lpa1',
+      },
+      {
+        selected: false,
+        text: 'lpa2',
+        value: 'lpa2',
+      },
+    ];
+
     jest.resetAllMocks();
   });
 
@@ -42,11 +61,11 @@ describe('controllers/eligibility/planning-department', () => {
       appeal.lpaCode = '';
       await planningDepartmentController.getPlanningDepartment(req, res);
 
-      const { departments, eligibleDepartments, ineligibleDepartments } = departmentsData;
+      const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
       expect(res.render).toBeCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
         appealLPD: '',
-        departments,
+        departments: departmentList,
         eligibleDepartments,
         ineligibleDepartments,
       });
@@ -59,11 +78,11 @@ describe('controllers/eligibility/planning-department', () => {
       appeal.lpaCode = 'unknown';
       await planningDepartmentController.getPlanningDepartment(req, res);
 
-      const { departments, eligibleDepartments, ineligibleDepartments } = departmentsData;
+      const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
       expect(res.render).toBeCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
         appealLPD: '',
-        departments,
+        departments: departmentList,
         eligibleDepartments,
         ineligibleDepartments,
       });
@@ -76,11 +95,11 @@ describe('controllers/eligibility/planning-department', () => {
       appeal.lpaCode = 'lpdCode';
       await planningDepartmentController.getPlanningDepartment(req, res);
 
-      const { departments, eligibleDepartments, ineligibleDepartments } = departmentsData;
+      const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
       expect(res.render).toBeCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
         appealLPD: 'lpdName',
-        departments,
+        departments: departmentList,
         eligibleDepartments,
         ineligibleDepartments,
       });
@@ -129,6 +148,7 @@ describe('controllers/eligibility/planning-department', () => {
 
       expect(res.render).toBeCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT);
     });
+
     it('Test the postPlanningDepartment method call on error', async () => {
       getRefreshedDepartmentData.mockResolvedValue(departmentsData);
 
@@ -137,17 +157,17 @@ describe('controllers/eligibility/planning-department', () => {
         body: { errors: { 'local-planning-department': { msg: 'Invalid Value' } } },
       };
 
-      const { departments } = departmentsData;
       await planningDepartmentController.postPlanningDepartment(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
         appealLPD: '',
-        departments,
+        departments: departmentList,
         errors: { 'local-planning-department': { msg: 'Invalid Value' } },
         errorSummary: [],
       });
     });
+
     it('should log an error if the api call fails, and remain on the same page', async () => {
       const error = new Error('API is down');
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
@@ -165,6 +185,14 @@ describe('controllers/eligibility/planning-department', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
         appeal,
+        departments: [
+          departmentList[0],
+          {
+            ...departmentList[1],
+            selected: true,
+          },
+          departmentList[2],
+        ],
         errorSummary: [{ text: error.toString(), href: '#' }],
         errors: {},
       });
