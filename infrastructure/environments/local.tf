@@ -6,7 +6,8 @@ locals {
   lock_delete = "CanNotDelete"
   lock_none = null # Doesn't add tag
   lock_readonly = "ReadOnly"
-  monitoring_alert_email_enabled_count = length(var.monitoring_alert_emails) > 0 ? 1 : 0 # This should be a PINS email group(s)
+  monitoring_alert_emails = compact(split(",", var.monitoring_alert_emails))
+  monitoring_alert_email_enabled_count = length(local.monitoring_alert_emails) > 0 ? 1 : 0 # This should be a PINS email group(s)
   monitoring_ping_tests_count = length(var.monitoring_ping_urls)
   name_format = join("-", [
     var.prefix,

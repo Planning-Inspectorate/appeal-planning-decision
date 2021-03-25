@@ -253,9 +253,9 @@ variable "monitoring_ping_urls" {
 }
 
 variable "monitoring_alert_emails" {
-  description = "Emails to send alerts to"
-  type = list(string)
-  default = []
+  description = "Emails to send alerts to - comma-separated list"
+  type = string
+  default = ""
 }
 
 /*
