@@ -1,12 +1,33 @@
+@wip
 Feature: Planning Application file submission
 
-  Scenario: Prospective applicant do not upload a planning application file
-    When user does not submit a planning application file
-    Then user can see that no planning application file is submitted
+  As an appellant
+  I need to be informed when I need to upload my planning application form
+  So that I complete my appeal correctly
 
+  An appeal must include an uploaded planning application file.
+  Valid planning application files must:
+  * be one of the white-listed types (doc, docx, pdf, tif, tiff, jpg, jpeg and png) and
+  * not exceed a size limit.
+  The latest successfully uploaded planning application file replaces any previously uploaded file.
+
+  @as-118 @ac-1-1
+  Scenario: Prospective applicant do not upload a planning application file
+    Given user did not previously submitted a planning application file
+    When user does not submit a planning application file
+    Then user is informed that he needs to upload a planning application file
+
+  @as-118 @ac-1-2
+  Scenario: Prospective applicant do not upload a planning application file
+    Given user has previously submitted a planning application file "appeal-statement-valid.pdf"
+    When user does not submit a planning application file
+    Then application file "appeal-statement-valid.pdf" is submitted and user can proceed
+
+  @as-118 @ac-2
   Scenario Outline: Prospective appellant submits valid planning application file
+    Given user did not previously submitted a planning application file
     When user submits a planning application file <filename>
-    Then The application file <filename> is submitted and user can proceed
+    Then application file <filename> is submitted and user can proceed
     Examples:
       | filename                              |
       | "appeal-statement-valid.doc"          |
