@@ -5,6 +5,18 @@ const { MIME_TYPE_JPEG } = require('../../../../src/lib/mime-types');
 const config = require('../../../../src/config');
 
 describe('validators/appellant-submission/upload-application', () => {
+  const appealWithFile = {
+    appeal: {
+      requiredDocumentsSection: { originalApplication: { uploadedFile: { id: 'planning.pdf' } } },
+    },
+  };
+
+  const appealWithoutFile = {
+    appeal: {
+      requiredDocumentsSection: { originalApplication: { uploadedFile: { id: null } } },
+    },
+  };
+
   describe('rules', () => {
     it('has a rule for `application-upload`', () => {
       const rule = rules()[0][0].builder.build();
@@ -24,8 +36,9 @@ describe('validators/appellant-submission/upload-application', () => {
   describe('validator', () => {
     [
       {
-        title: 'undefined / empty - pass ',
+        title: 'already submitted / undefined / empty - pass ',
         given: () => ({
+          session: appealWithFile,
           body: {},
         }),
         expected: (result) => {
@@ -33,8 +46,9 @@ describe('validators/appellant-submission/upload-application', () => {
         },
       },
       {
-        title: 'files key is empty - pass',
+        title: 'already submitted / files key is empty - pass',
         given: () => ({
+          session: appealWithFile,
           files: {},
         }),
         expected: (result) => {
@@ -42,8 +56,9 @@ describe('validators/appellant-submission/upload-application', () => {
         },
       },
       {
-        title: 'files path is not matched - pass',
+        title: 'already submitted / files path is not matched - pass',
         given: () => ({
+          session: appealWithFile,
           body: {
             'application-upload': 'a',
           },
@@ -54,8 +69,45 @@ describe('validators/appellant-submission/upload-application', () => {
         },
       },
       {
+        title: 'never submitted / undefined / empty - fail ',
+        given: () => ({
+          session: appealWithoutFile,
+          body: {},
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(1);
+          expect(result.errors[0].msg).toEqual('Select a planning application form');
+        },
+      },
+      {
+        title: 'never submitted / files key is empty - fail',
+        given: () => ({
+          session: appealWithoutFile,
+          files: {},
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(1);
+          expect(result.errors[0].msg).toEqual('Select a planning application form');
+        },
+      },
+      {
+        title: 'never submitted /files path is not matched - fail',
+        given: () => ({
+          session: appealWithoutFile,
+          body: {
+            'application-upload': 'a',
+          },
+          files: { x: {} },
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(1);
+          expect(result.errors[0].msg).toEqual('Select a planning application form');
+        },
+      },
+      {
         title: 'files path is matched but mime type is wrong - fail',
         given: () => ({
+          session: appealWithoutFile,
           body: {
             'application-upload': 'x',
           },
@@ -72,6 +124,7 @@ describe('validators/appellant-submission/upload-application', () => {
       {
         title: 'files path is matched but file size is too big - fail',
         given: () => ({
+          session: appealWithoutFile,
           body: {
             'application-upload': 'x',
           },
@@ -89,6 +142,7 @@ describe('validators/appellant-submission/upload-application', () => {
       {
         title: 'valid file - pass',
         given: () => ({
+          session: appealWithoutFile,
           body: {
             'application-upload': 'x',
           },
