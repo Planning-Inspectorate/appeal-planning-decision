@@ -82,6 +82,11 @@ When('the {string} page is presented', (page) => {
     default:
       throw new Error('This page is unknown = ' + page);
   }
+
+  cy.checkPageA11y({
+    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
+    exclude: ['.govuk-radios__input'],
+  });
 });
 
 Then('the required links are displayed', () => {
@@ -109,4 +114,4 @@ Then('the back button is not displayed', () => {
 
 Then('the header link is displayed', () => {
   cy.confirmHomepageLinkIsDisplayed();
-})
+});

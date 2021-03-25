@@ -2,10 +2,14 @@ import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 
 Given('the list of Local Planning Department is presented', () => {
   cy.goToPlanningDepartmentPage();
+
+  cy.checkPageA11y();
 });
 
 Given('the user can select from a list of Local Planning Departments', () => {
   cy.goToPlanningDepartmentPageWithoutJs();
+
+  cy.checkPageA11y();
 });
 
 When('the user does not provide a Local Planning Department', () => {
@@ -83,10 +87,13 @@ Then('the user can proceed and the appeal is updated with the Local Planning Dep
   cy.confirmEligibleLocalPlanningDepartment();
 });
 
-Then('the user can proceed and the appeal is updated with the selected Local Planning Department', () => {
-  cy.goToPlanningDepartmentPageWithoutJs();
-  cy.confirmEligibleLocalPlanningDepartmentWithoutJs();
-});
+Then(
+  'the user can proceed and the appeal is updated with the selected Local Planning Department',
+  () => {
+    cy.goToPlanningDepartmentPageWithoutJs();
+    cy.confirmEligibleLocalPlanningDepartmentWithoutJs();
+  },
+);
 
 Then('appeal is updated with the ineligible Local Planning Department', () => {
   cy.goToPlanningDepartmentPage();

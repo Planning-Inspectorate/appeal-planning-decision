@@ -10,6 +10,8 @@
 {% endblock %}
 
 {% block header %}
+  {% include "includes/cookie-banner.njk" %}
+
   {{ govukHeader({
     homepageUrl: "https://www.gov.uk/",
     serviceName: 'Appeal a householder planning decision',
@@ -19,7 +21,6 @@
 {% endblock %}
 
 {% block bodyStart %}
-  {% include "includes/cookie-banner.njk" %}
 {% endblock %}
 
 {% set mainClasses = mainClasses | default("govuk-main-wrapper--auto-spacing") %}
