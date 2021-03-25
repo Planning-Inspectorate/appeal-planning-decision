@@ -113,7 +113,7 @@ resource "azurerm_monitor_action_group" "monitoring" {
   enabled = true
 
   dynamic "email_receiver" {
-    for_each = var.monitoring_alert_emails
+    for_each = local.monitoring_alert_emails
     content {
       email_address = email_receiver.value
       name = "Alerts for ${email_receiver.value}"

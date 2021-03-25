@@ -4,7 +4,9 @@ Infrastructure which is common to the subscription, regardless of which environm
 
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| terraform | 0.14.0 |
 
 ## Providers
 

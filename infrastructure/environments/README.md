@@ -4,7 +4,9 @@ Infrastructure which the applications are deployed to
 
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| terraform | 0.14.0 |
 
 ## Providers
 
@@ -49,7 +51,7 @@ No requirements.
 | mongodb\_max\_throughput | Max throughput of the MongoDB database - set in increments of 100 between 400 and 100,000 | `number` | `400` | no |
 | mongodb\_multi\_write\_locations | Enable multiple write locations | `bool` | `false` | no |
 | mongodb\_primary\_zone\_redundancy | Enable redundancy in the primary zone | `bool` | `false` | no |
-| monitoring\_alert\_emails | Emails to send alerts to | `list(string)` | `[]` | no |
+| monitoring\_alert\_emails | Emails to send alerts to - comma-separated list | `string` | `""` | no |
 | monitoring\_ping\_frequency | Interval in seconds between test runs for this ping test | `number` | `300` | no |
 | monitoring\_ping\_locations | A list where to run the tests from - min of 5 location recommended. List available at https://docs.microsoft.com/en-us/azure/azure-monitor/app/monitor-web-app-availability#location-population-tags | `list(string)` | <pre>[<br>  "emea-ru-msa-edge",<br>  "emea-se-sto-edge",<br>  "emea-gb-db3-azr",<br>  "emea-nl-ams-azr",<br>  "us-va-ash-azr"<br>]</pre> | no |
 | monitoring\_ping\_urls | URLs to ping in the monitoring | <pre>list(object({<br>    name = string<br>    url = string<br>  }))</pre> | `[]` | no |
@@ -79,4 +81,5 @@ No requirements.
 | message\_queue\_host | n/a |
 | mongodb\_connection\_strings | MongoDB connection strings for each database |
 | mongodb\_id | ID of the MongoDB instance |
+| sss | n/a |
 
