@@ -1,4 +1,3 @@
-@wip
 Feature: Appellant submission - decision letter
 
   As an appellant

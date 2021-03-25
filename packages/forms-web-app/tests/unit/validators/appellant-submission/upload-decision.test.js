@@ -5,6 +5,17 @@ const { MIME_TYPE_JPEG } = require('../../../../src/lib/mime-types');
 const config = require('../../../../src/config');
 
 describe('validators/appellant-submission/upload-decision', () => {
+  const appealWithFile = {
+    appeal: {
+      requiredDocumentsSection: { decisionLetter: { uploadedFile: { id: 'decision.pdf' } } },
+    },
+  };
+
+  const appealWithoutFile = {
+    appeal: {
+      requiredDocumentsSection: { decisionLetter: { uploadedFile: { id: null } } },
+    },
+  };
   describe('rules', () => {
     it('has a rule for `decision-upload`', () => {
       const rule = rules()[0][0].builder.build();
@@ -24,8 +35,9 @@ describe('validators/appellant-submission/upload-decision', () => {
   describe('validator', () => {
     [
       {
-        title: 'undefined / empty - pass ',
+        title: 'already submitted / undefined / empty - pass ',
         given: () => ({
+          session: appealWithFile,
           body: {},
         }),
         expected: (result) => {
@@ -33,8 +45,9 @@ describe('validators/appellant-submission/upload-decision', () => {
         },
       },
       {
-        title: 'files key is empty - pass',
+        title: 'already submitted / files key is empty - pass',
         given: () => ({
+          session: appealWithFile,
           files: {},
         }),
         expected: (result) => {
@@ -42,10 +55,11 @@ describe('validators/appellant-submission/upload-decision', () => {
         },
       },
       {
-        title: 'files path is not matched - pass',
+        title: 'already submitted / files path is not matched - pass',
         given: () => ({
+          session: appealWithFile,
           body: {
-            'decision-upload': 'a',
+            'application-upload': 'a',
           },
           files: { x: {} },
         }),
@@ -54,8 +68,31 @@ describe('validators/appellant-submission/upload-decision', () => {
         },
       },
       {
+        title: 'never submitted / undefined / empty - fail ',
+        given: () => ({
+          session: appealWithoutFile,
+          body: {},
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(1);
+          expect(result.errors[0].msg).toEqual('Select a decision letter');
+        },
+      },
+      {
+        title: 'never submitted / files key is empty - fail',
+        given: () => ({
+          session: appealWithoutFile,
+          files: {},
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(1);
+          expect(result.errors[0].msg).toEqual('Select a decision letter');
+        },
+      },
+      {
         title: 'files path is matched but mime type is wrong - fail',
         given: () => ({
+          session: appealWithFile,
           body: {
             'decision-upload': 'x',
           },
@@ -72,6 +109,7 @@ describe('validators/appellant-submission/upload-decision', () => {
       {
         title: 'files path is matched but file size is too big - fail',
         given: () => ({
+          session: appealWithFile,
           body: {
             'decision-upload': 'x',
           },
@@ -89,6 +127,7 @@ describe('validators/appellant-submission/upload-decision', () => {
       {
         title: 'valid file - pass',
         given: () => ({
+          session: appealWithFile,
           body: {
             'decision-upload': 'x',
           },

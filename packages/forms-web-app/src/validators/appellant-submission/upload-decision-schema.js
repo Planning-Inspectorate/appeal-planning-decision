@@ -14,7 +14,19 @@ module.exports = {
   'decision-upload': {
     custom: {
       options: (value, { req, path }) => {
-        if (!req.files || !req.files[path]) {
+        const { appeal } = req.session;
+
+        const noFilePreviouslyUploaded =
+          !appeal || !appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id;
+
+        const noNewFileUploaded =
+          !req.files || Object.keys(req.files).length === 0 || !req.files[path];
+
+        if (noFilePreviouslyUploaded) {
+          if (noNewFileUploaded) {
+            throw new Error('Select a decision letter');
+          }
+        } else if (noNewFileUploaded) {
           return true;
         }
 
