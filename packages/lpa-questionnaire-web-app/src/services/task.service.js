@@ -1,14 +1,11 @@
-const accuracySubmissionCompletion = require('./task-status/accuracy-submission');
-const otherAppealsCompletion = require('./task-status/other-appeals');
-const extraConditionsCompletion = require('./task-status/extra-conditions');
-const developmentPlanCompletion = require('./task-status/development-plan');
-const checkYourAnswerCompletion = require('./task-status/check-your-answer');
-const { NOT_STARTED } = require('./task-status/task-statuses');
-
-function statusTemp() {
-  // TODO: these will be replaces when we have checks for status of each step
-  return NOT_STARTED;
-}
+const {
+  accuracySubmissionCompletion,
+  otherAppealsCompletion,
+  extraConditionsCompletion,
+  developmentPlanCompletion,
+  uploadPlansCompletion,
+  checkYourAnswerCompletion,
+} = require('./task-status');
 
 const SECTIONS = [
   {
@@ -37,7 +34,7 @@ const SECTIONS = [
       {
         taskId: 'plansDecision',
         href: '/plans',
-        rule: statusTemp,
+        rule: uploadPlansCompletion,
       },
     ],
   },
