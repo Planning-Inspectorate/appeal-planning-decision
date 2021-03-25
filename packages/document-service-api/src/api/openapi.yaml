@@ -141,7 +141,7 @@ paths:
       tags:
         - Document
       operationId: deleteDocument
-      description: Delete's a document by ID
+      description: Deletes a document by ID
       parameters:
         - "$ref": "#/components/parameters/applicationId"
         - "$ref": "#/components/parameters/documentId"

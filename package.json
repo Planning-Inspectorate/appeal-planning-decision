@@ -39,7 +39,6 @@
     "url": "https://github.com/foundry4/appeal-planning-decision/issues"
   },
   "homepage": "https://github.com/foundry4/appeal-planning-decision#readme",
-  "dependencies": {},
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",

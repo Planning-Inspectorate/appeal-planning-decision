@@ -5,8 +5,11 @@ const { when } = require('jest-when');
 const Documents = require('../schemas/documents');
 const { connectToBlobStorage } = require('../lib/blobStorage');
 
-const { uploadToBlobStorage } = require('../lib/blobStorage');
-const { uploadDocumentsToBlobStorage } = require('./upload.service');
+const { uploadToBlobStorage, deleteFromBlobStorage } = require('../lib/blobStorage');
+const {
+  uploadDocumentsToBlobStorage,
+  deleteFromBlobStorageByLocation,
+} = require('./upload.service');
 
 describe('services', () => {
   const originalDoc = {
@@ -23,6 +26,13 @@ describe('services', () => {
   };
 
   let document;
+
+  describe('deleteFromBlobStorageByLocation', () => {
+    it('should call the appropriate method on the blob storage', async () => {
+      deleteFromBlobStorage.mockReturnValue({ some: 'response' });
+      expect(await deleteFromBlobStorageByLocation([document])).toEqual({ some: 'response' });
+    });
+  });
 
   describe('uploadDocumentsToBlobStorage', () => {
     beforeEach(() => {
