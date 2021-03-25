@@ -7,6 +7,7 @@ routes
   .get('/', documentController.getDocsForApplication)
   .post('/', ...documentController.uploadDocument)
   .get('/:documentId', documentController.getDocumentById)
-  .get('/:documentId/file', documentController.serveDocumentById);
+  .get('/:documentId/file', documentController.serveDocumentById)
+  .delete('/:documentId', documentController.deleteDocument);
 
 module.exports = routes;

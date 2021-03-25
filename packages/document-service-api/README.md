@@ -24,7 +24,7 @@ It exists to allow the Forms Web App to interact with the database
  - `/src/lib` - any common "library" files.
  - `/src/routes` - the HTTP endpoints to be created.
  - `/src/schema` - the Mongoose models. Business logic should be in here.
- 
+
 ### Config
 
 See `/src/lib/config.js`
@@ -35,7 +35,7 @@ variables required are declared as environment variables.
 
 ### Accessing local blob storage.
 
-The document service has a local container that mimics that same functionality the azure blob storage provides, to browse the storage you need to download Azure Storage browser from [here](https://azure.microsoft.com/en-gb/features/storage-explorer/).
+The document service has a local container that mimics the same functionality the Azure blob storage provides, to browse the storage you need to download Azure Storage browser from [here](https://azure.microsoft.com/en-gb/features/storage-explorer/).
 
 You then need to retrieve the BLOB_STORAGE_CONNECTION_STRING from docker-compose.yml at the project root. At the time of writing it is:
 

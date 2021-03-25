@@ -7,9 +7,12 @@
 
 const { functional } = require('@pins/common');
 const Documents = require('../schemas/documents');
-const config = require('../lib/config');
 const logger = require('../lib/logger');
-const { connectToBlobStorage, uploadToBlobStorage } = require('../lib/blobStorage');
+const {
+  connectToBlobStorage,
+  uploadToBlobStorage,
+  deleteFromBlobStorage,
+} = require('../lib/blobStorage');
 
 /**
  * Increment Attempts
@@ -81,7 +84,7 @@ async function updateUploadStatus(docs) {
 }
 
 const uploadDocumentsToBlobStorage = async (docs) => {
-  logger.info({ config }, 'Starting upload process');
+  logger.info('Starting upload process');
 
   const { containerClient } = await connectToBlobStorage();
 
@@ -98,6 +101,12 @@ const uploadDocumentsToBlobStorage = async (docs) => {
   return data;
 };
 
+const deleteFromBlobStorageByLocation = async (document) => {
+  logger.info(`Deleting ${document}`);
+  return deleteFromBlobStorage(document);
+};
+
 module.exports = {
   uploadDocumentsToBlobStorage,
+  deleteFromBlobStorageByLocation,
 };
