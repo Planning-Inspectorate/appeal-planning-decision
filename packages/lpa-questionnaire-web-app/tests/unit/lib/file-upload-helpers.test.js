@@ -130,14 +130,12 @@ describe('lib/file-upload-helpers', () => {
       };
     });
 
-    it('should return if no name', () => {
-      deleteFile(undefined, req);
+    it('should throw error if no name', () => {
+      expect(() => deleteFile(undefined, req)).toThrowError();
+    });
 
-      expect(req).toEqual({
-        session: {
-          uploadedFiles: [{ name: 'mock-file' }],
-        },
-      });
+    it('should throw error if no request', () => {
+      expect(() => deleteFile('mock-file', undefined)).toThrowError();
     });
 
     it('should throw an error if file not found', () => {
@@ -269,6 +267,27 @@ describe('lib/file-upload-helpers', () => {
           },
           name: 'another-file',
           originalFileName: 'another-file',
+          size: undefined,
+        },
+      ]);
+    });
+
+    it('should not upload a file if it has an ID', async () => {
+      const uploadedFiles = [{ name: 'mock-file', id: 'mock-id' }];
+
+      const result = await uploadFiles(uploadedFiles, mockId);
+
+      expect(createDocument).not.toHaveBeenCalled();
+      expect(result).toEqual([
+        {
+          fileName: 'mock-file',
+          id: 'mock-id',
+          location: undefined,
+          message: {
+            text: 'mock-file',
+          },
+          name: 'mock-file',
+          originalFileName: 'mock-file',
           size: undefined,
         },
       ]);
