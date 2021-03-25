@@ -20,16 +20,15 @@
 {% endblock %}
 
 {% block content %}
-
-  {% if errorSummary and errorSummary.length %}
-    {{ govukErrorSummary({
-      titleText: "There is a problem",
-      errorList: errorSummary
-    }) }}
-  {% endif %}
-
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      {% if errorSummary and errorSummary.length %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary
+        }) }}
+      {% endif %}
+
       <form action="" method="POST" novalidate encType="multipart/form-data">
         <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>{% block sectionName %}{% endblock %}</span>
         <h1 class="govuk-heading-l">{% block pageHeading %}{% endblock %}</h1>
