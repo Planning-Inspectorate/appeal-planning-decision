@@ -35,12 +35,12 @@ describe('controllers/upload-plans', () => {
   describe('getUploadPlans', () => {
     it('should call the correct template', () => {
       req.session.backLink = backLinkUrl;
+
       uploadPlansController.getUploadPlans(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
         backLink: backLinkUrl,
-        uploadedFiles: [],
       });
     });
 
@@ -50,7 +50,23 @@ describe('controllers/upload-plans', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
-        uploadedFiles: [],
+      });
+    });
+
+    it('it should show files if they are available', () => {
+      const uploadedFiles = [{ name: 'mock-file' }, { name: 'another-file' }];
+      req.session.appealReply.requiredDocumentsSection.plansDecision = uploadedFiles;
+
+      fileUploadNunjucksVariables.mockReturnValue({
+        uploadedFiles,
+      });
+
+      uploadPlansController.getUploadPlans(req, res);
+
+      expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
+        appeal: null,
+        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        uploadedFiles,
       });
     });
   });
