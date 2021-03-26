@@ -36,7 +36,22 @@ Given('The question \'Upload the plans used to reach the decision\' has been com
   cy.validateFileUpload('upload-file-valid.pdf');
   cy.clickSaveAndContinue();
 });
-When('Upload the plans used to reach the decision question is requested', () => {
+
+When('valid {string} are uploaded', (fileNames) => {
+cy.uploadMultipleFiles(fileNames);
+cy.clickUploadFile().click();
+cy.clickSaveAndContinue();
+});
+
+when('files of {string} have been selected', (fileName) => {
+  cy.clickChooseFile(fileName);
+  cy.clickUploadFile().click();
+  cy.validateFileUpload(fileName);
+  cy.clickSaveAndContinue();
+
+});
+
+When('the plans used to reach the decision question is requested', () => {
   cy.goToUploadThePlansUsedToReachDecisionPage();
 });
 

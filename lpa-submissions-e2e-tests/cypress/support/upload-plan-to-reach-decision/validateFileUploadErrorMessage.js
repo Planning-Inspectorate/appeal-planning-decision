@@ -1,6 +1,6 @@
 /// <reference types = "Cypress"/>
-import UploadFileToReachDecision from '../PageObjects/UploadThePlanToReachDecisionPageObjects'
-const error = new UploadFileToReachDecision();
+import UploadThePlanToReachDecision from '../PageObjects/UploadThePlanToReachDecisionPageObjects'
+const error = new UploadThePlanToReachDecision();
 module.exports = (errorMessage) => {
   if(errorMessage === 'Upload plans used to reach the decision'){
     error.fileNotUploadedSummaryErrorMessage().should('be.visible');
