@@ -148,14 +148,13 @@ jobs:
           # Pass the Github token lets this action correctly
           # determine the unique run id necessary to re-run the checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAGS: 'not @wip'
         with:
           record: true
           parallel: true
           # use our build id
           ci-build-id: '${{ needs.context.outputs.uuid }}'
           working-directory: ./e2e-tests
-          command: cd ./e2e-tests && npx cypress run
+          command: npx cypress-tags run
 
       - name: Post-process results without ACP integration
         if: ${{ always() }}
