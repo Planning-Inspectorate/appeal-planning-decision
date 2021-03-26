@@ -142,12 +142,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAGS: 'not @wip'
         with:
-          start: export SERVER_LIMITED_ROUTING_ENABLED=false && make install serve && cd ./e2e-tests
+          start: export SERVER_LIMITED_ROUTING_ENABLED=false && make install serve
           record: true
           parallel: true
           # use our build id
           ci-build-id: '${{ needs.context.outputs.uuid }}'
           project: ./e2e-tests
+          command: cd ./e2e-tests && npx cypress run
 
       - name: Post-process results without ACP integration
         if: ${{ always() }}
