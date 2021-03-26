@@ -132,6 +132,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install the world
+        run: make install
+
+      - name: Start the world
+        run: |
+          export SERVER_LIMITED_ROUTING_ENABLED=false
+          docker-compose up -d
+
       - name: Run the tests without ACP integration in parallel
         uses: cypress-io/github-action@v2
         env:
@@ -142,13 +150,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAGS: 'not @wip'
         with:
-          start: export SERVER_LIMITED_ROUTING_ENABLED=false && make install serve
           record: true
           parallel: true
           # use our build id
           ci-build-id: '${{ needs.context.outputs.uuid }}'
-          project: ./e2e-tests
-          command: cd ./e2e-tests && npx cypress run
+          working-directory: ./e2e-tests
 
       - name: Post-process results without ACP integration
         if: ${{ always() }}
