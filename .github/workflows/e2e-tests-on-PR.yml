@@ -142,7 +142,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAGS: 'not @wip'
         with:
-          start: export SERVER_LIMITED_ROUTING_ENABLED=false && make install serve
+          start: export SERVER_LIMITED_ROUTING_ENABLED=false && make install serve && cd ./e2e-tests
           record: true
           parallel: true
           # use our build id
