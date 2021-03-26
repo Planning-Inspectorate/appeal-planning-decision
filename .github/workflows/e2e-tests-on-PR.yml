@@ -154,7 +154,6 @@ jobs:
           # use our build id
           ci-build-id: '${{ needs.context.outputs.uuid }}'
           working-directory: ./e2e-tests
-          env: TAGS='not @wip'
 
       - name: Post-process results without ACP integration
         if: ${{ always() }}
