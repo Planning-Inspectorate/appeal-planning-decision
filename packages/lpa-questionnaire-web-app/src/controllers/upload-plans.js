@@ -10,10 +10,17 @@ const { getTaskStatus } = require('../services/task.service');
 const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
 
 exports.getUploadPlans = (req, res) => {
+  const { uploadedFiles = [] } = req.session.appealReply.requiredDocumentsSection.plansDecision;
+
+  // set uploaded files
+  req.session.uploadedFiles = uploadedFiles;
+
+  req.log.debug({ files: req.session.uploadedFiles }, 'Previously saved files');
+
   res.render(VIEW.UPLOAD_PLANS, {
     appeal: getAppealSideBarDetails(req.session.appeal),
     backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
-    uploadedFiles: [],
+    ...fileUploadNunjucksVariables(null, null, uploadedFiles),
   });
 };
 
@@ -24,7 +31,6 @@ exports.postUploadPlans = async (req, res) => {
 
   // Chance for delete to be triggered due to non-JS solution. delete will be set to value of filename if button clicked
   if (deleteId) {
-    req.log.debug({ deleteId }, 'Delete ID');
     try {
       await deleteFile(deleteId, req);
     } catch (err) {
@@ -67,6 +73,8 @@ exports.postUploadPlans = async (req, res) => {
 
     const uploadedFiles = await uploadFiles(req.session?.uploadedFiles, appealReply.id);
 
+    req.log.debug({ uploadedFiles }, 'Files to save');
+
     appealReply[sectionName][taskName].uploadedFiles = uploadedFiles;
 
     appealReply.sectionStates[sectionName][taskName] = getTaskStatus(
@@ -74,6 +82,8 @@ exports.postUploadPlans = async (req, res) => {
       sectionName,
       taskName
     );
+
+    // TODO: need to handle deleting files from document store here
 
     req.session.appealReply = await createOrUpdateAppealReply(appealReply);
 
