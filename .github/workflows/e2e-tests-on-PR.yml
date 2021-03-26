@@ -15,7 +15,6 @@ on:
   pull_request:
     branches:
       - master
-      - develop
       - feature/*
 
 jobs:
@@ -133,14 +132,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install the world
-        run: make install
-
-      - name: Start the world without ACP integration i.e. PINS
-        run: |
-          export SERVER_LIMITED_ROUTING_ENABLED=false
-          docker-compose up -d
-
       - name: Run the tests without ACP integration in parallel
         uses: cypress-io/github-action@v2
         env:
@@ -151,6 +142,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAGS: 'not @wip'
         with:
+          start: export SERVER_LIMITED_ROUTING_ENABLED=false && make install serve
           record: true
           parallel: true
           # use our build id
