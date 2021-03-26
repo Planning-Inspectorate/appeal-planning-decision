@@ -15,7 +15,8 @@
     "NOTIFY_VALIDATION_ENABLED": true,
     "NOTIFY_VALIDATION_PROTOCOL": "http",
     "NOTIFY_VALIDATION_HOST": "localhost",
-    "NOTIFY_VALIDATION_PORT": 5001
+    "NOTIFY_VALIDATION_PORT": 5001,
+    "TAGS": "not @wip"
   },
   "projectId": "ud8v53"
 }
