@@ -15,10 +15,20 @@ on:
   pull_request:
     branches:
       - master
-      - develop
       - feature/*
 
 jobs:
+  context:
+    name: "Build ID"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    outputs:
+      uuid: ${{ steps.uuid.outputs.value }}
+    steps:
+      - name: 'uuid'
+        id: uuid
+        run: echo "::set-output name=value::$GITHUB_SHA-$(date +"%s")"
+
   cypress-ACP:
     name: "Cypress- ACP mode"
     if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
@@ -105,6 +115,7 @@ jobs:
           path: ${{ env.LPA_CYPRESS_SCREENSHOTS }}
 
   cypress-default:
+    needs: ['context']
     name: "Cypress- default"
     if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
@@ -128,6 +139,7 @@ jobs:
         run: |
           export SERVER_LIMITED_ROUTING_ENABLED=false
           docker-compose up -d
+
       - name: Run the tests without ACP integration in parallel
         uses: cypress-io/github-action@v2
         env:
@@ -137,12 +149,8 @@ jobs:
           # determine the unique run id necessary to re-run the checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          record: true
-          parallel: true
-
-          ci-build-id: ${{ github.sha }}-${{ github.workflow }}-${{ github.event_name }}
-          project: ./e2e-tests
-          command: npm run test:e2e:parallel
+          working-directory: ./e2e-tests
+          command: 'npx cypress-tags run --record --parallel --ci-build-id ${{ needs.context.outputs.uuid }}'
 
       - name: Post-process results without ACP integration
         if: ${{ always() }}
