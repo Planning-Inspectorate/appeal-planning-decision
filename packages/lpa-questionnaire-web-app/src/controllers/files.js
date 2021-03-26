@@ -1,4 +1,4 @@
-const { deleteDocument } = require('../lib/documents-api-wrapper');
+const { deleteFile } = require('../lib/file-upload-helpers');
 
 exports.uploadFile = async (req, res) => {
   const { body } = req;
@@ -56,21 +56,11 @@ exports.deleteFile = async (req, res) => {
     return;
   }
 
-  const file = req.session.uploadedFiles?.find((upload) => upload.name === deleteId);
-
-  if (!file) {
-    // try to delete file from doc store. if that fails, doc must be missing
-    try {
-      await deleteDocument(deleteId);
-    } catch (err) {
-      req.log.error({ err }, 'Error from documents service');
-      res.status(404).send('File not found');
-      return;
-    }
-  } else {
-    req.session.uploadedFiles = req.session.uploadedFiles.filter(
-      (upload) => upload.name !== deleteId
-    );
+  try {
+    deleteFile(deleteId, req);
+  } catch (err) {
+    res.status(404).send('Files to delete not found');
+    return;
   }
 
   res.status(200).json({
