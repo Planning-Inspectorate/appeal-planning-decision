@@ -154,7 +154,7 @@ jobs:
           # use our build id
           ci-build-id: '${{ needs.context.outputs.uuid }}'
           working-directory: ./e2e-tests
-          command: npx cypress-tags run
+          command: 'npx cypress-tags run --record --parallel --ci-build-id ${{ needs.context.outputs.uuid }}'
 
       - name: Post-process results without ACP integration
         if: ${{ always() }}
