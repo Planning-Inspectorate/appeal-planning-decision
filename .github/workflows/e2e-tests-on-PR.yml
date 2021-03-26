@@ -140,6 +140,7 @@ jobs:
         run: |
           export SERVER_LIMITED_ROUTING_ENABLED=false
           docker-compose up -d
+
       - name: Run the tests without ACP integration in parallel
         uses: cypress-io/github-action@v2
         env:
@@ -148,13 +149,13 @@ jobs:
           # Pass the Github token lets this action correctly
           # determine the unique run id necessary to re-run the checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAGS: 'not @wip'
         with:
           record: true
           parallel: true
           # use our build id
           ci-build-id: '${{ needs.context.outputs.uuid }}'
           project: ./e2e-tests
-          command: npm run test:e2e:parallel
 
       - name: Post-process results without ACP integration
         if: ${{ always() }}
