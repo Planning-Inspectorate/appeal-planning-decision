@@ -1,6 +1,6 @@
 /// <reference types = "Cypress"/>
-import ClickChooseFileButton from '../PageObjects/UploadThePlanToReachDecisionPageObjects';
-const chooseFile = new ClickChooseFileButton();
+import UploadThePlanToReachDecision from '../PageObjects/UploadThePlanToReachDecisionPageObjects';
+const chooseFile = new UploadThePlanToReachDecision();
 module.exports = (fileName) => {
     chooseFile.clickChooseFileButton().attachFile([fileName]);
 };
