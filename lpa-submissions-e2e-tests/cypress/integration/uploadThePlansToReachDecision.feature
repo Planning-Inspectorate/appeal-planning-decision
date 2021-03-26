@@ -89,7 +89,7 @@ Then the file is removed
 
 Scenario: AC11 LPA Planning Officer returns to the completed Upload the plans used to reach the decision question
 Given The question 'Upload the plans used to reach the decision' has been completed
-When Upload the plans used to reach the decision question is requested
+When the plans used to reach the decision question is requested
 Then the information they previously entered is still populated
 
 Scenario: AC12 Appeal details side panel

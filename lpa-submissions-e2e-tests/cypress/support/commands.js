@@ -279,3 +279,6 @@ require('./upload-plan-to-reach-decision/validateFileUpload'));
 
 Cypress.Commands.add('validateFileDeleted',
 require('./upload-plan-to-reach-decision/validateFileDeleted'));
+
+Cypress.Commands.add('uploadMultipleFiles',
+require('./upload-plan-to-reach-decision/uploadMultipleFiles'));
