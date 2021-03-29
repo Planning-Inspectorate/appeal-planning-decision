@@ -117,7 +117,7 @@ describe('controllers/upload-plans', () => {
       );
     });
 
-    it('should pass uploaded files to session files if submit not clicked and reload page', async () => {
+    it('should upload any files and add to session if submit not clicked and reload page', async () => {
       fileUploadNunjucksVariables.mockReturnValue({
         uploadedFiles: [{ name: 'some-file' }],
       });
@@ -134,6 +134,8 @@ describe('controllers/upload-plans', () => {
           },
         },
       };
+
+      uploadFiles.mockReturnValue([{ name: 'some-file' }]);
 
       await uploadPlansController.postUploadPlans(mockRequest, res);
 
@@ -166,6 +168,8 @@ describe('controllers/upload-plans', () => {
         },
       };
 
+      uploadFiles.mockReturnValue([{ name: 'some-file' }]);
+
       await uploadPlansController.postUploadPlans(mockRequest, res);
 
       expect(mockRequest.session.uploadedFiles).toEqual(
@@ -176,6 +180,31 @@ describe('controllers/upload-plans', () => {
         appeal: null,
         backLink: '/mock-id/task-list',
         uploadedFiles: [{ name: 'original-file' }, { name: 'some-file' }],
+      });
+    });
+
+    it('should reload the page showing errors if there is an error uploading the files', async () => {
+      const mockRequest = {
+        ...req,
+        body: {
+          files: {
+            documents: [
+              {
+                name: 'some-file',
+              },
+            ],
+          },
+        },
+      };
+
+      uploadFiles.mockRejectedValue('api-error');
+
+      await uploadPlansController.postUploadPlans(mockRequest, res);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
+        appeal: null,
+        backLink: '/mock-id/task-list',
       });
     });
 
@@ -198,8 +227,6 @@ describe('controllers/upload-plans', () => {
     });
 
     it('should reload the page if there is an input error (missing files)', async () => {
-      uploadFiles.mockRejectedValue('mock-error');
-
       const mockRequest = {
         ...req,
         body: {
@@ -212,6 +239,8 @@ describe('controllers/upload-plans', () => {
         },
       };
 
+      fileErrorSummary.mockReturnValue([{ href: 'documents', text: 'some-error' }]);
+
       await uploadPlansController.postUploadPlans(mockRequest, res);
 
       expect(fileErrorSummary).toHaveBeenCalledWith('some-error', undefined);
@@ -222,35 +251,18 @@ describe('controllers/upload-plans', () => {
       });
     });
 
-    it('should reload the page showing errors if there is an error uploading files', async () => {
-      uploadFiles.mockRejectedValue('mock-error');
-
+    it('should reload the page showing errors if there is an error updating the appeal', async () => {
       const mockRequest = {
         ...req,
         body: {
           submit: 'save',
         },
+        session: {
+          uploadedFiles: [{ name: 'original-file' }],
+        },
       };
 
-      await uploadPlansController.postUploadPlans(mockRequest, res);
-
-      expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
-        appeal: null,
-        backLink: '/mock-id/task-list',
-      });
-    });
-
-    it('should reload the page showing errors if there is an error uploading files', async () => {
-      uploadFiles.mockReturnValue([{ name: 'mock-file' }]);
       createOrUpdateAppealReply.mockRejectedValue('api-error');
-
-      const mockRequest = {
-        ...req,
-        body: {
-          submit: 'save',
-        },
-      };
 
       await uploadPlansController.postUploadPlans(mockRequest, res);
 
