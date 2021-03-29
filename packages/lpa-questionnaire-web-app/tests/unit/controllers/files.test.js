@@ -1,5 +1,5 @@
 const filesController = require('../../../src/controllers/files');
-const { deleteFile } = require('../../../src/lib/file-upload-helpers');
+const { deleteFile, uploadFiles } = require('../../../src/lib/file-upload-helpers');
 const { mockReq, mockRes } = require('../mocks');
 
 jest.mock('../../../src/lib/file-upload-helpers');
@@ -74,6 +74,7 @@ describe('controllers/files', () => {
             },
           },
         }),
+        uploadResponse: () => [{ name: 'mock-file' }],
         expected: (req, res) => {
           expect(req.session.uploadedFiles).toEqual([{ name: 'mock-file' }]);
           expect(res.status).toHaveBeenCalledWith(200);
@@ -101,6 +102,7 @@ describe('controllers/files', () => {
             uploadedFiles: [{ name: 'another-file' }],
           },
         }),
+        uploadResponse: () => [{ name: 'mock-file' }],
         expected: (req, res) => {
           expect(req.session.uploadedFiles).toEqual([
             { name: 'another-file' },
@@ -118,10 +120,12 @@ describe('controllers/files', () => {
           });
         },
       },
-    ].forEach(({ title, given, expected }) => {
+    ].forEach(({ title, given, expected, uploadResponse = () => {} }) => {
       it(title, async () => {
         const req = given();
         const res = mockRes();
+
+        uploadFiles.mockImplementation(uploadResponse);
 
         await filesController.uploadFile(req, res);
 
