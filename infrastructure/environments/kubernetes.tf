@@ -28,6 +28,7 @@ data "azurerm_kubernetes_service_versions" "k8s" {
   version_prefix = var.k8s_version_prefix
 }
 
+#tfsec:ignore:AZU008
 resource "azurerm_kubernetes_cluster" "k8s" {
   name = format(local.name_format, "k8s-${random_integer.k8s.result}")
   location = azurerm_resource_group.k8s.location
@@ -61,6 +62,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     }
   }
 
+  #tfsec:ignore:AZU006
   network_profile {
     network_plugin = "kubenet"
     load_balancer_sku = "Standard"

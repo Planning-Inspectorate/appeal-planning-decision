@@ -30,6 +30,7 @@ resource "azurerm_storage_account" "documents" {
   account_kind = "StorageV2"
   location = azurerm_resource_group.storage.location
   resource_group_name = azurerm_resource_group.storage.name
+  min_tls_version = "TLS1_2"
 
   allow_blob_public_access = var.documents_allow_team_access
 
@@ -47,7 +48,8 @@ resource "azurerm_storage_account_network_rules" "documents" {
   default_action = var.documents_allow_team_access ? "Allow" : "Deny"
   bypass = [
     "Logging",
-    "Metrics"
+    "Metrics",
+    "AzureServices"
   ]
   ip_rules = [
     local.current_ip
