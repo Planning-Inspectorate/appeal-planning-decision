@@ -11,6 +11,7 @@ metadata:
     filter.fluxcd.io/appealsServiceApi: semver:^1.0.0-0
     filter.fluxcd.io/documentServiceApi: semver:^1.0.0-0
     filter.fluxcd.io/formsWebApp: semver:^1.0.0-0
+    filter.fluxcd.io/horizon-householder-appeal-publish: semver:^1.0.0-0
     filter.fluxcd.io/lpaQuestionnaireWebApp: semver:^1.0.0-0
     filter.fluxcd.io/pdfServiceApi: semver:^1.0.0-0
     filter.fluxcd.io/queueRetryService: semver:^1.0.0-0
@@ -94,6 +95,9 @@ spec:
         secret: akv-http-basic
 
     horizon-householder-appeal-publish:
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/openfaas-amqp1.0-connector
+        tag: latest
       amqp:
         connection:
           host: pins-uks-message-queue-dev.servicebus.windows.net
