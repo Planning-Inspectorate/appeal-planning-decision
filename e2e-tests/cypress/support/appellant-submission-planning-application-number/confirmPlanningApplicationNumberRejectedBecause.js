@@ -4,5 +4,7 @@ module.exports = (errorMessage) => {
     .then((text) => {
       expect(text).to.contain(errorMessage);
     });
+  cy.title().should('match', /^Error: /);
+
   cy.wait(Cypress.env('demoDelay'));
 };
