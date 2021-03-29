@@ -1,4 +1,4 @@
-const { deleteFile } = require('../lib/file-upload-helpers');
+const { uploadFiles, deleteFile } = require('../lib/file-upload-helpers');
 
 exports.uploadFile = async (req, res) => {
   const { body } = req;
@@ -9,16 +9,19 @@ exports.uploadFile = async (req, res) => {
     return;
   }
 
+  const error = errors?.[`files.documents[0]`]?.msg;
+
   // even though multi file upload handles multiple files, it uploads files one at a time.
-  const documentWithErrors = {
-    ...files.documents[0],
-    error: errors?.[`files.documents[0]`]?.msg,
-  };
+  let document = { ...files.documents[0], error };
+
+  if (!error) {
+    [document] = await uploadFiles(files.documents);
+  }
 
   // push all files to uploaded files to keep errors after post
-  req.session.uploadedFiles = [...(req.session.uploadedFiles || []), documentWithErrors];
+  req.session.uploadedFiles = [...(req.session.uploadedFiles || []), document];
 
-  const { name: fileName, error } = documentWithErrors;
+  const { name: fileName } = document;
 
   const response = error
     ? {
