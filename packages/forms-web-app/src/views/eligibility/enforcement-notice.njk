@@ -5,8 +5,13 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
+{% set title="Have you received an enforcement notice?- Eligibility - Appeal a householder planning decision - GOV.UK" %}
+
 {% block pageTitle %}
-  Have you received an enforcement notice?- Eligibility - Appeal a householder planning decision - GOV.UK
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
 {% endblock %}
 
 {% block content %}

@@ -7,5 +7,7 @@ module.exports = () => {
       expect(text).to.contain('Select Yes if you’ve received an enforcement notice');
     });
 
+  cy.title().should('match', /^Error: /);
+
   cy.wait(Cypress.env('demoDelay'));
 };
