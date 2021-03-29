@@ -16,6 +16,7 @@ Feature: Decision Date eligibility check
     When absence of Decision Date is confirmed
     Then progress is halted with a message that a Decision Date is required
 
+  @as-1666
   Scenario Outline: Invalid Decision Date of <day>-<month>-<year> is rejected
     Given a Decision Date is requested
     When a Decision Date of <day>-<month>-<year> is provided
