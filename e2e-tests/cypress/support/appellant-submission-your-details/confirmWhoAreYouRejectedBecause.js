@@ -4,5 +4,10 @@ module.exports = (errorMessage) => {
     .then((text) => {
       expect(text).to.contain(errorMessage);
     });
+
+  cy.url().should('include', '/appellant-submission/who-are-you');
+
+  cy.title().should('match', /^Error: /);
+
   cy.wait(Cypress.env('demoDelay'));
 };
