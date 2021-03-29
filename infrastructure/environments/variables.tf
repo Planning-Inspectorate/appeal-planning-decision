@@ -59,7 +59,7 @@ variable "horizon_gateway_sku" {
 variable "horizon_gateway_ip_secret" {
   description = "Public IP address of the Horizon VPN gateway"
   type = string
-  default = "horizon-gateway-ip"
+  default = "horizon-gateway-ip" #tfsec:ignore:GEN001
 }
 
 variable "horizon_gateway_subnets_secret" {
