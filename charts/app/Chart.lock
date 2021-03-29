@@ -1,6 +1,6 @@
 dependencies:
 - name: openfaas-amqp1-0-connector
-  repository: https://helm.simonemms.com
+  repository: file://../openfaas-amqp1.0-connector
   version: 1.1.1
-digest: sha256:3f99f17f0c9ee031521978b45e5a8f5396125a5c20b090cf14945981562e6868
-generated: "2021-01-18T10:22:38.414063749Z"
+digest: sha256:aee8de7837924b2df2a1ea50fc8473f56696ad324f60243046125001f205a24f
+generated: "2021-03-29T10:46:16.942128064+01:00"

@@ -8,4 +8,4 @@ dependencies:
   - name: openfaas-amqp1-0-connector
     alias: horizon-householder-appeal-publish
     version: ^1.0.0
-    repository: https://helm.simonemms.com
+    repository: file://../openfaas-amqp1.0-connector

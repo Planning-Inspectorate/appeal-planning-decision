@@ -251,6 +251,11 @@ gotenberg:
 # in a separate namespace. This is for ease of maintenance and to keep
 # this logically separated as part of "this" application.
 horizon-householder-appeal-publish:
+  imagePullSecrets:
+    - name: azure-docker-registry
+  image:
+    repository: pinscommonukscontainers3887default.azurecr.io/openfaas-amqp1.0-connector
+    tag: latest
   amqp:
     connection:
       existingPasswordSecret: akv-message-queue
