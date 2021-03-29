@@ -4,8 +4,13 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 
+{% set title="What's the original planning application number? - Appeal a householder planning decision - GOV.UK" %}
+
 {% block pageTitle %}
-  What's the original planning application number? - Appeal a householder planning decision - GOV.UK
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
 {% endblock %}
 
 {% block content %}
