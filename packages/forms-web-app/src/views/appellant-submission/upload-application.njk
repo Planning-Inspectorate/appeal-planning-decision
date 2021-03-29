@@ -5,9 +5,15 @@
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 
+{% set title="Upload the planning application form - Appeal a householder planning decision - GOV.UK" %}
+
 {% block pageTitle %}
-  Upload the planning application form - Appeal a householder planning decision - GOV.UK
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
 {% endblock %}
+
 
 {% block content %}
   <div class="govuk-grid-row">
