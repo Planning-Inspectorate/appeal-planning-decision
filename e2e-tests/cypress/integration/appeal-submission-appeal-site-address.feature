@@ -35,6 +35,7 @@ Feature: Appellant provides the Appeal Site Address
       | "aaa"          | ""             | ""           | ""           | "EC1A 1BB" | "County is required"         |
       | "aaa"          | ""             | ""           | "South Glos" | ""         | "Postcode is required"       |
 
+  @as-1680
   Scenario: Prospective appellant fails to provide any address information
     Given the user is prompted for the site address
     When the user provides their appeal site address as "" and "" and "" and "" and ""
