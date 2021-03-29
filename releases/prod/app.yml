@@ -12,6 +12,7 @@ metadata:
     filter.fluxcd.io/formsWebApp: semver:1.30.6
     filter.fluxcd.io/lpaQuestionnaireWebApp: semver:1.6.2
     filter.fluxcd.io/pdfServiceApi: semver:1.0.1
+    filter.fluxcd.io/queueRetryService: semver:1.0.0
 spec:
   releaseName: app
   chart:
@@ -62,6 +63,11 @@ spec:
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/pdf-service-api
         tag: 1.0.1
+
+    queueRetryService:
+      image:
+        repository: pinscommonukscontainers3887default.azurecr.io/queue-retry
+        tag: latest
 
     gotenberg:
       replicaCount: 2
