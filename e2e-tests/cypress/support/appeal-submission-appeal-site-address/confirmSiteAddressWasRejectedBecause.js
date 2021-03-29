@@ -2,6 +2,8 @@ module.exports = (errorMessage) => {
   // confirm we are in the right place
   cy.url().should('include', '/appellant-submission/site-location');
 
+  cy.title().should('match', /^Error: /);
+
   cy.get('.govuk-error-summary__list')
     .invoke('text')
     .then((text) => {
