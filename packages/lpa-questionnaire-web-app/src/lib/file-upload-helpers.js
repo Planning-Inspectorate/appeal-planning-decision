@@ -25,14 +25,14 @@ exports.deleteFile = (fileRef, req) => {
 
   // TODO: add handling for deletion from DB and doc store as part of AS-1538
   const file = req.session.uploadedFiles?.find(
-    (upload) => upload.name === fileRef || upload.id === fileRef
+    (upload) => upload.id === fileRef || upload.name === fileRef
   );
 
   if (file) {
     // TODO: when available needs a check here if the file has an ID (meaning it has been uploaded before). If it does needs to be marked for delete
 
     req.session.uploadedFiles = req.session.uploadedFiles.filter(
-      (upload) => upload.name !== file.name
+      (upload) => upload.id !== file.id || upload.name !== file.name
     );
   } else {
     throw new Error('Delete file not found');
@@ -119,8 +119,8 @@ exports.uploadFiles = async (files, appealReplyId) => {
   try {
     return await Promise.all(
       files.map(async (file) => {
-        // if file has an ID it must already have been uploaded
-        const document = file.id ? file : await createDocument(appealReplyId, file);
+        // skip file if it has an error (keep it in array though)
+        const document = file.id || file.error ? file : await createDocument(appealReplyId, file);
 
         // eslint-disable-next-line consistent-return
         return {
