@@ -7,6 +7,7 @@ I want to notify the Planning Inspectorate if access to the appeal site is restr
       Then the user can see the selected option "Yes is" submitted
       And Access to the appeal site section is "COMPLETED"
 
+    @as-1683
     Scenario: Prospective appellant does not provide additional information and access to the appeal site
       Given the user is prompted to provide access to the inspector visiting the appeal site
       When the user selects "No" to provide access
@@ -30,6 +31,7 @@ I want to notify the Planning Inspectorate if access to the appeal site is restr
       And the user can see that there is no option submitted
       And Access to the appeal site section is "NOT STARTED"
 
+    @as-1683
     Scenario: Prospective appellant does not select any option to provide access to the appeal site
       Given the user is prompted to provide access to the inspector visiting the appeal site
       When the user does not select any option
