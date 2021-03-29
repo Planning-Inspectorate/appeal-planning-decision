@@ -7,6 +7,8 @@ module.exports = (errorMessage) => {
       }
       errorMessage.forEach((errorMessage) => expect(text).to.contain(errorMessage));
     });
+
+  cy.title().should('match', /^Error: /);
   // pause long enough to capture a nice video
   cy.wait(Cypress.env('demoDelay'));
 };
