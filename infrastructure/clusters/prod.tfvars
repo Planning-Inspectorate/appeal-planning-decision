@@ -10,7 +10,6 @@ network_subnet_range = "10.30.0.0/16"
 k8s_min_nodes = 3
 k8s_max_nodes = 5
 
-mongodb_allowed_networks = "51.68.223.16/29"
 mongodb_auto_failover = true
 mongodb_databases = []
 mongodb_failover_locations = []
