@@ -10,7 +10,7 @@ Feature: Appellant submission - decision letter
   * not exceed a size limit.
   The latest successfully uploaded decision letter file replaces any previously uploaded file.
 
-  @as-119 @ac-1-1
+  @as-119 @ac-1-1 @as-1677
   Scenario: Prospective applicant do not upload a decision letter file
     Given user did not previously submitted a decision letter file
     When user does not submit a decision letter file
