@@ -42,6 +42,7 @@ Feature: Name and email provided after being previously provided
     Then applicant name is presented
     And appeal is updated with new valid name and email
 
+  @as-1673
   Scenario Outline: Invalid name and valid email
     Given name and email are requested again
     When <name> and <email> are submitted
