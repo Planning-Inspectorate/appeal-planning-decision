@@ -14,7 +14,7 @@ This has been tested with the following services, but should work with any messa
 
 ## Kubernetes 
 
-See the [Helm chart](/chart/openfaas-amqp1.0-connector) for details
+See the [Helm chart](../../charts/openfaas-amqp1.0-connector) for details
 
 ## Configuration
 
