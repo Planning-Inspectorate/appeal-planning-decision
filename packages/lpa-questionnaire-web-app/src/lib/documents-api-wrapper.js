@@ -56,8 +56,8 @@ exports.createDocument = async (parentId, formData) => {
   return response;
 };
 
-exports.deleteDocument = async (id) => {
-  const path = `/api/v1/${id}`;
+exports.deleteDocument = async (parentId, id) => {
+  const path = `/api/v1/${parentId}/${id}`;
 
   const correlationId = uuid.v4();
   const url = `${config.documents.url}${path}`;
