@@ -15,7 +15,7 @@ describe('validators/appellant-submission/appeal-statement', () => {
 
   describe('rules', () => {
     it('has a rule for `does-not-include-sensitive-information`', () => {
-      const rule = rules()[0].builder.build();
+      const rule = rules()[1].builder.build();
 
       expect(rule.fields).toEqual(['does-not-include-sensitive-information']);
       expect(rule.locations).toEqual(['body']);
@@ -29,7 +29,7 @@ describe('validators/appellant-submission/appeal-statement', () => {
     });
 
     it('has a rule for `appeal-upload`', () => {
-      const rule = rules()[1][0].builder.build();
+      const rule = rules()[0][0].builder.build();
 
       expect(rule.fields).toEqual(['appeal-upload']);
       expect(rule.optional).toBeFalsy();
