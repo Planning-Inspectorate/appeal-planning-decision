@@ -145,6 +145,12 @@ variable "mongodb_allow_team_data_access" {
   default = false
 }
 
+variable "mongodb_allowed_networks" {
+  description = "IP ranges allowed to access the database data"
+  type = string
+  default = null
+}
+
 variable "mongodb_auto_failover" {
   description = "Enable auto failover between regions"
   type = bool

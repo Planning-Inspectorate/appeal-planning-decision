@@ -42,6 +42,7 @@ Infrastructure which the applications are deployed to
 | message\_queue\_sku | SKU for the message queue | `string` | `"Basic"` | no |
 | message\_queue\_zone\_redundancy\_enabled | Enable message queue redundancy - SKU must be premium if true | `bool` | `false` | no |
 | mongodb\_allow\_team\_data\_access | Enable public access to the data - this should only be enabled in development spaces | `bool` | `false` | no |
+| mongodb\_allowed\_networks | IP ranges allowed to access the database data | `string` | `null` | no |
 | mongodb\_auto\_failover | Enable auto failover between regions | `bool` | `false` | no |
 | mongodb\_consistency\_max\_interval\_in\_seconds | Represents the amount of staleness that is tolerated (in seconds) - min 5 mins for global replication | `number` | `300` | no |
 | mongodb\_consistency\_policy | Cosmos consistency policy | `string` | `"BoundedStaleness"` | no |
@@ -81,5 +82,4 @@ Infrastructure which the applications are deployed to
 | message\_queue\_host | n/a |
 | mongodb\_connection\_strings | MongoDB connection strings for each database |
 | mongodb\_id | ID of the MongoDB instance |
-| sss | n/a |
 

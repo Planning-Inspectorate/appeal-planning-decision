@@ -33,6 +33,8 @@ resource "azurerm_cosmosdb_account" "mongodb" {
 
   is_virtual_network_filter_enabled = !var.mongodb_allow_team_data_access
 
+  ip_range_filter = var.mongodb_allowed_networks
+
   dynamic "virtual_network_rule" {
     for_each = var.mongodb_allow_team_data_access ? [] : [
       azurerm_subnet.network.id
