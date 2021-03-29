@@ -15,8 +15,6 @@ exports.getUploadPlans = (req, res) => {
   // set uploaded files
   req.session.uploadedFiles = uploadedFiles;
 
-  req.log.debug({ files: req.session.uploadedFiles }, 'Previously saved files');
-
   res.render(VIEW.UPLOAD_PLANS, {
     appeal: getAppealSideBarDetails(req.session.appeal),
     backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
@@ -29,6 +27,10 @@ exports.postUploadPlans = async (req, res) => {
 
   const { delete: deleteId = '', errors = {}, submit = '' } = req.body;
 
+  const backLink = req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`;
+
+  let errorMessage;
+
   // Chance for delete to be triggered due to non-JS solution. delete will be set to value of filename if button clicked
   if (deleteId) {
     try {
@@ -37,18 +39,24 @@ exports.postUploadPlans = async (req, res) => {
       req.log.error({ err }, `Error deleting ${deleteId} from Upload Plans`);
     }
   } else if (documents.length) {
-    // Chance for files to be attached due to non-JS solution, these need passing into session uploaded files (with appropriate errors);
-    req.session.uploadedFiles = [
-      ...(req.session?.uploadedFiles || []),
-      ...documents.map((doc, index) => ({
-        ...doc,
-        // current validation will return errors in this format
-        error: errors[`files.documents[${index}]`]?.msg,
-      })),
-    ];
+    // Chance for files to be attached due to non-JS solution, these need to be uploaded (with appropriate errors);
+    try {
+      const uploadedFiles = await uploadFiles(
+        documents.map((doc, index) => ({
+          ...doc,
+          // current validation will return errors in this format
+          error: errors[`files.documents[${index}]`]?.msg,
+        }))
+      );
+
+      req.session.uploadedFiles = [...(req.session?.uploadedFiles || []), ...uploadedFiles];
+    } catch (err) {
+      req.log.error({ err }, 'Error uploading files to ');
+      errorMessage = err;
+    }
   }
 
-  const errorMessage = errors.documents && errors.documents.msg;
+  errorMessage = errorMessage || (errors.documents && errors.documents.msg);
 
   const constructedErrorSummary = fileErrorSummary(errorMessage, req.session?.uploadedFiles);
 
@@ -60,7 +68,7 @@ exports.postUploadPlans = async (req, res) => {
         req.session?.uploadedFiles
       ),
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink,
     });
 
     return;
@@ -71,19 +79,13 @@ exports.postUploadPlans = async (req, res) => {
     const sectionName = 'requiredDocumentsSection';
     const taskName = 'plansDecision';
 
-    const uploadedFiles = await uploadFiles(req.session?.uploadedFiles, appealReply.id);
-
-    req.log.debug({ uploadedFiles }, 'Files to save');
-
-    appealReply[sectionName][taskName].uploadedFiles = uploadedFiles;
+    appealReply[sectionName][taskName].uploadedFiles = req.session.uploadedFiles;
 
     appealReply.sectionStates[sectionName][taskName] = getTaskStatus(
       appealReply,
       sectionName,
       taskName
     );
-
-    // TODO: need to handle deleting files from document store here
 
     req.session.appealReply = await createOrUpdateAppealReply(appealReply);
 
@@ -95,7 +97,7 @@ exports.postUploadPlans = async (req, res) => {
     res.render(VIEW.UPLOAD_PLANS, {
       ...fileUploadNunjucksVariables(err, fileErrorSummary(err, req), req.session?.uploadedFiles),
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink,
     });
   }
 };
