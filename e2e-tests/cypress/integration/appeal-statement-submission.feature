@@ -1,7 +1,6 @@
 Feature: Appeal statement file submission
 
   I want to submit an appeal statement.
-  An appeal may include an optional appeal statement file.
   Valid appeal statement files must:
   * be one of the white-listed types (doc, docx, pdf, tif, tiff, jpg, jpeg and png) and
   * not exceed a size limit.
@@ -39,7 +38,7 @@ Feature: Appeal statement file submission
     Then user can see that the appeal statement file "appeal-statement-valid.doc" "is" submitted
 
   @as-120 @ac-4
-  Scenario: Prospective applicant chooses not to upload an appeal statement file and don't confirm no sensitive information
+  Scenario: Prospective applicant chooses not to upload an appeal statement file and does not confirm no sensitive information
     Given user did not previously submitted an appeal statement file
     When user does not confirm that there is no sensitive information nor upload a statement
     Then user is informed that he needs to upload the appeal statement and confirms that it does not contain sensitive information
