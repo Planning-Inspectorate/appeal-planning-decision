@@ -6,6 +6,8 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 
+{% set title="Are there any health and safety issues on the appeal site? - Appeal a householder planning decision - GOV.UK" %}
+
 {% set tellUsAboutAnyHealthAndSafetyConcerns %}
   {{ govukTextarea({
     id: "site-access-safety-concerns",
@@ -23,7 +25,10 @@
 {% endset -%}
 
 {% block pageTitle %}
-  Are there any health and safety issues on the appeal site? - Appeal a householder planning decision - GOV.UK
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
 {% endblock %}
 
 {% block content %}
