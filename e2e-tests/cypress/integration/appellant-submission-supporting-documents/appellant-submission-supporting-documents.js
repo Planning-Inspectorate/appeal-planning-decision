@@ -92,6 +92,7 @@ Then('document {string} is not submitted because {string}', (fileName, reason) =
       cy.confirmSupportingDocumentRejectedBecause(fileName + ' must be smaller than');
       break;
   }
+  cy.title().should('include', 'Error: ')
 });
 
 Then('all the documents are submitted', () => {
@@ -111,6 +112,7 @@ Then('none of them is submitted', () => {
   INVALID_DOCUMENTS.forEach((fileName) => {
     cy.confirmSupportingDocumentRejectedBecause(fileName + ' is the wrong file type');
   });
+  cy.title().should('include', 'Error: ')
   cy.confirmNumberSupportingDocumentsAccepted(0);
 });
 
