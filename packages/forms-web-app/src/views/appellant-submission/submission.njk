@@ -5,8 +5,13 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
+{% set title="Declaration - Appeal a householder planning decision - GOV.UK" %}
+
 {% block pageTitle %}
-  Declaration - Appeal a householder planning decision - GOV.UK
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
 {% endblock %}
 
 {% block content %}
