@@ -5,9 +5,13 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 
+{% set title="Are you claiming for costs as part of your appeal? - Eligibility - Appeal a householder planning decision - GOV.UK" %}
 
 {% block pageTitle %}
-  Are you claiming for costs as part of your appeal? - Eligibility - Appeal a householder planning decision - GOV.UK
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
 {% endblock %}
 
 {% block content %}
