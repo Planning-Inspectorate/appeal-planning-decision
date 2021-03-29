@@ -2,7 +2,8 @@
 Feature: Confirmation of original applicant
   Note: This feature describes behaviour for a newly created appeal
 
-  Scenario:No confirmation
+  @as-1672
+  Scenario: No confirmation
     Given confirmation of whether appellant is original applicant is requested
     When confirmation about original applicant is not provided
     Then original applicant status is presented
