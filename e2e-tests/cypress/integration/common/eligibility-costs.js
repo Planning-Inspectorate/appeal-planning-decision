@@ -34,6 +34,7 @@ Then('progress is halted with a message that claiming for Costs is not supported
 Then('progress is halted with a message that an answer to the Costs question is required', () => {
   cy.confirmNavigationCostsPage();
   cy.confirmTextOnPage('Select yes if you are claiming for costs as part of your appeal');
+  cy.title().should('match', /^Error: /);
 });
 
 Then('access is available to guidance while an answer to the Costs question is still requested', () => {
