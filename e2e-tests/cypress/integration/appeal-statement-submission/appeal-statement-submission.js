@@ -57,6 +57,7 @@ Then(
 );
 
 Then('user is informed that the file is not submitted because {string}', (reason) => {
+  cy.title().should('match', /^Error: /);
   switch (reason) {
     case 'file contains sensitive information':
       cy.confirmFileContainsSensitiveInformation();
@@ -73,12 +74,14 @@ Then('user is informed that the file is not submitted because {string}', (reason
 
 Then('user is informed that he needs to upload the appeal statement',() => {
   cy.confirmFileUploadIsRequested();
+  cy.title().should('match', /^Error: /);
 });
 
 
 Then('user is informed that he needs to upload the appeal statement and confirms that it does not contain sensitive information',() =>{
   cy.confirmFileUploadIsRequested();
   cy.confirmFileContainsSensitiveInformation();
+  cy.title().should('match', /^Error: /);
 })
 
 
