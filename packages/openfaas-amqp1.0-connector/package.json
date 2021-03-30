@@ -45,10 +45,6 @@
     "ts-node": "^9.1.1",
     "typescript": "^4.0.5"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@gitlab.com/MrSimonEmms/openfaas-amqp1.0-connector.git"
-  },
   "keywords": [
     "openfaas",
     "amqp"
