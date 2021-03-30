@@ -77,8 +77,8 @@ Then('the radio group label is {string}', (label) => {
 
 Then('the user is shown the error message {string}', (errorMessage) => {
   errorMessage === 'Select yes if the information accurately reflects the planning application'
-    ? cy.validateErrorMessage(errorMessage, 'accurate-submission-error', 'accurate-submission')
-    : cy.validateErrorMessage(errorMessage, 'inaccuracy-reason-error', 'inaccuracy-reason');
+    ? cy.validateErrorMessage(errorMessage, '[data-cy="accurate-submission-error"]', 'accurate-submission')
+    : cy.validateErrorMessage(errorMessage, '[data-cy="inaccuracy-reason-error"]', 'inaccuracy-reason');
 });
 
 Then(`the user remains in the Accuracy of the appellant's submission page`, () => {

@@ -3,7 +3,7 @@ exports.sectionName = () => {
 };
 
 exports.saveAndContinueButton = () => {
-  return cy.get('.govuk-button');
+  return cy.get('[data-cy="save"]');
 };
 
 exports.backButton = () => {

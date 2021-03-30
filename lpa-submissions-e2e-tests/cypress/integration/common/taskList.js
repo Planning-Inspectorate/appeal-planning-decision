@@ -1,4 +1,4 @@
-import { Given } from 'cypress-cucumber-preprocessor/steps';
+import { Given, Then } from 'cypress-cucumber-preprocessor/steps';
 
 const url = '/task-list';
 

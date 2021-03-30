@@ -74,10 +74,14 @@ When('user does not provide appeal reference numbers', () => {
 
 Then('the user is shown the error message {string}', (errorMessage) => {
   errorMessage === 'Select yes if there are other appeals still being considered'
-    ? cy.validateErrorMessage(errorMessage, 'adjacent-appeals-error', 'adjacent-appeals')
+    ? cy.validateErrorMessage(
+        errorMessage,
+        '[data-cy="adjacent-appeals-error"]',
+        'adjacent-appeals',
+      )
     : cy.validateErrorMessage(
         errorMessage,
-        'appeal-reference-numbers-error',
+        '[data-cy="appeal-reference-numbers-error"]',
         'appeal-reference-numbers',
       );
 });
