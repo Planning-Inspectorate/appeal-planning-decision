@@ -95,7 +95,6 @@ exports.fileUploadNunjucksVariables = (errorMessage, errorSummary, files) => ({
   errorSummary,
   uploadedFiles:
     files &&
-    files.length &&
     files.map((doc) => ({
       deleteButton: {
         text: 'Delete',
