@@ -101,10 +101,6 @@ Then('the user is provided with a free text field to input their reasons', () =>
   cy.inaccuracyReasonInput().should('be.visible');
 });
 
-Then('the user can see the appeal details panel on the right hand side of the page', () => {
-  cy.verifyAppealDetailsSidebar({});
-});
-
 Then('any information they have inputted will not be saved', () => {
   cy.clickOnLinksOnAppealQuestionnaireTaskListPage('submissionAccuracy');
   cy.verifyPage(pageUrl);

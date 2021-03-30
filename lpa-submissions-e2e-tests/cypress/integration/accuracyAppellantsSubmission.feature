@@ -56,7 +56,7 @@ Feature: Accuracy of the Apellants Submission
 
   Scenario: AC07 Appeal details side panel
     Given the user is in the Review accuracy of the appellant's submission page
-    Then the user can see the appeal details panel on the right hand side of the page
+    Then the appeal details panel is displayed on the right hand side of the page
 
   Scenario: AC08 Selects back
     Given the user is in the Review accuracy of the appellant's submission page
