@@ -27,4 +27,3 @@ Feature: A user checks their answers and wants to submit their appeal
       | "About you - Who are you Section"               |
       | "About you - Your details Section"              |
       | "About you - Appealing of behalf of Section"    |
-
