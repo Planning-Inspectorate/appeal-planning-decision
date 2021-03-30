@@ -1,33 +1,44 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { textArea, input } from '../../support/PageObjects/common-page-objects';
+
+const pageId = 'extra-conditions';
+const pageTitle =
+  'Do you have any extra conditions? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK';
+const pageHeading = 'Do you have any extra conditions?';
+const taskListId = 'extraConditions';
+const textAreaId = 'extra-conditions-text';
+const noButtonId = 'has-extra-conditions-no';
+const yesButtonId = 'has-extra-conditions-yes';
 
 Given(`the householder planning appeal questionnaire task list is presented`, () => {
   cy.goToAppealsQuestionnaireTasklistPage();
 });
 
 When(`the user selects the link 'Do you have any extra conditions?'`, () => {
-  cy.goToExtraConditionsPage();
-  cy.validateExtraConditionsPageTitle();
+  cy.goToPage(pageId);
+  cy.verifyPageTitle(pageTitle);
 });
 
 Then(`the user is presented with the 'Do you have any extra conditions?' page`, () => {
-  cy.validateExtraConditionsPageHeading();
+  cy.verifyPageHeading(pageHeading);
+  cy.checkPageA11y(pageId);
 });
 
 Then(
   `the Page title is 'Do you have any extra conditions? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK'`,
   () => {
-    cy.validateExtraConditionsPageTitle();
+    cy.verifyPageTitle(pageTitle);
   },
 );
 
 Given(`user is in the extra conditions page`, () => {
   cy.goToAppealsQuestionnaireTasklistPage();
-  cy.goToExtraConditionsPage();
-  cy.validateExtraConditionsPageTitle();
+  cy.goToPage(pageId);
+  cy.verifyPageTitle(pageTitle);
 });
 
 When(`user does not select an option`, () => {
-  cy.validateExtraConditionsPageHeading();
+  cy.verifyPageHeading(pageHeading);
 });
 
 When(`user selects Save and Continue`, () => {
@@ -35,15 +46,17 @@ When(`user selects Save and Continue`, () => {
 });
 
 Then(`user is shown an error message {string}`, (errorMessage) => {
-  cy.validateExtraConditionsErrorMessage(errorMessage);
+  errorMessage === 'Select yes if you have extra conditions'
+    ? cy.validateErrorMessage(errorMessage, 'extra-conditions-error', 'has-extra-conditions')
+    : cy.validateErrorMessage(errorMessage, 'extra-conditions-text-error', 'extra-conditions-text');
 });
 
 Then(`the user remains on extra conditions page`, () => {
-  cy.validateExtraConditionsPageTitle();
+  cy.verifyPageTitle(pageTitle);
 });
 
 When(`user selects the option {string}`, (option) => {
-  cy.extraConditionsRadioButton(option).check();
+  option === 'Yes' ? input(yesButtonId).check() : input(noButtonId).check();
 });
 
 Then('user navigates to the Task List', () => {
@@ -51,15 +64,15 @@ Then('user navigates to the Task List', () => {
 });
 
 Then('a Completed status is populated for the task', () => {
-  cy.verifyCompletedStatus('extraConditions');
+  cy.verifyCompletedStatus(taskListId);
 });
 
 When(`user enters {string}`, (extra_information) => {
-  cy.inputExtraConditionsExtraInformation().type(extra_information);
+  textArea(textAreaId).type(extra_information);
 });
 
 Given('user does not provide extra information', () => {
-  cy.inputExtraConditionsExtraInformation().should('have.value', '');
+  textArea(textAreaId).should('have.value', '');
 });
 
 Then('the appeal details panel is displayed on the right hand side of the page', () => {
@@ -75,25 +88,25 @@ When('user selects the back link', () => {
 });
 
 Then('any information they have entered will not be saved', () => {
-  cy.clickOnLinksOnAppealQuestionnaireTaskListPage('extraConditions');
-  cy.validateExtraConditionsPageTitle();
-  cy.extraConditionsRadioButton('No').should('not.be.checked');
+  cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
+  cy.verifyPageTitle(pageTitle);
+  input(noButtonId).should('not.be.checked');
 });
 
 Given('a user has completed the information needed on the extra conditions page', () => {
   cy.goToAppealsQuestionnaireTasklistPage();
   cy.verifyTaskListPageTitle();
-  cy.clickOnLinksOnAppealQuestionnaireTaskListPage('extraConditions');
-  cy.validateExtraConditionsPageTitle();
-  cy.extraConditionsRadioButton('No').check();
+  cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
+  cy.verifyPageTitle(pageTitle);
+  input(noButtonId).check();
   cy.clickSaveAndContinue();
 });
 
 When('the user returns to the extra conditions page from the Task List', () => {
-  cy.clickOnLinksOnAppealQuestionnaireTaskListPage('extraConditions');
-  cy.validateExtraConditionsPageTitle();
+  cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
+  cy.verifyPageTitle(pageTitle);
 });
 
 Then('the information they previously entered is still populated', () => {
-  cy.extraConditionsRadioButton('No').should('be.checked');
+  input(noButtonId).should('be.checked');
 });
