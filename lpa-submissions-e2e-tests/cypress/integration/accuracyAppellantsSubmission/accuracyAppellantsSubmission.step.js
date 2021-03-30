@@ -1,35 +1,45 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { input, labelText, labelLegend } from '../../support/PageObjects/common-page-objects';
 
-const pageUrl = '/accuracy-submission';
+const pageId = 'accuracy-submission';
+const pageTitle =
+  "Review accuracy of appellant's submission - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK";
+const taskListId = 'submissionAccuracy';
+const noButtonId = 'accurate-submission-no';
+const yesButtonId = 'accurate-submission-yes';
+const taskListUrl = '/task-list';
+const inaccuracyReasonInputId = 'inaccuracy-reason';
+const accurateSubmissionLabelId = 'accurate-submission-label';
+const sectionName = 'About the appeal';
 
 Given('the user is on the Task List page', () => {
   cy.goToAppealsQuestionnaireTasklistPage();
 });
 
 Given(`the user is in the Review accuracy of the appellant's submission page`, () => {
-  cy.goToReviewAccuracyOfTheAppellantSubmissionPage();
-  cy.verifyPage(pageUrl);
+  cy.goToPage(pageId);
+  cy.verifyPageTitle(pageTitle);
 });
 
 Given(
   `a user has completed the information needed on the accuracy of the appellant's submission page`,
   () => {
     cy.goToAppealsQuestionnaireTasklistPage();
-    cy.verifyPage('/task-list');
-    cy.clickOnLinksOnAppealQuestionnaireTaskListPage('submissionAccuracy');
-    cy.verifyPage(pageUrl);
-    cy.accurateSubmissionRadio('Yes').check();
+    cy.verifyPage(taskListUrl);
+    cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
+    cy.verifyPageTitle(pageTitle);
+    input(yesButtonId).check();
     cy.clickSaveAndContinue();
   },
 );
 
 When(`the user selects the link "Review accuracy of the appellant's submission"`, () => {
-  cy.clickOnLinksOnAppealQuestionnaireTaskListPage('submissionAccuracy');
+  cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
 });
 
 When('the user does not select an option', () => {
-  cy.accurateSubmissionRadio('Yes').should('not.be.checked');
-  cy.accurateSubmissionRadio('No').should('not.be.checked');
+  input(yesButtonId).should('not.be.checked');
+  input(noButtonId).should('not.be.checked');
 });
 
 When(`the user selects Save and Continue`, () => {
@@ -37,15 +47,15 @@ When(`the user selects Save and Continue`, () => {
 });
 
 When('the user selects {string}', (radioValue) => {
-  cy.accurateSubmissionRadio(radioValue).check();
+  radioValue === 'Yes' ? input(yesButtonId).check() : input(noButtonId).check();
 });
 
 When('the user enters {string}', (inaccuracyReason) => {
-  cy.inaccuracyReasonInput().type(inaccuracyReason);
+  labelText(inaccuracyReasonInputId).type(inaccuracyReason);
 });
 
 When('the user has not provided further information as text regarding their reasons', () => {
-  cy.inaccuracyReasonInput().should('have.value', '');
+  labelText(inaccuracyReasonInputId).should('have.value', '');
 });
 
 When('the user selects the back link', () => {
@@ -53,52 +63,45 @@ When('the user selects the back link', () => {
 });
 
 When('the user returns to the submission accuracy page from the Task List', () => {
-  cy.verifyPage('/task-list');
-  cy.clickOnLinksOnAppealQuestionnaireTaskListPage('submissionAccuracy');
-  cy.verifyPage(pageUrl);
+  cy.verifyPage(taskListUrl);
+  cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
+  cy.verifyPageTitle(pageTitle);
 });
 
-Then(
-  'the user is presented with the page {string}',
-  (page) => {
-    cy.verifySectionName('About the appeal');
-    cy.verifyQuestionTitle(page);
-  },
-);
+Then('the user is presented with the correct page', () => {
+  cy.verifySectionName(sectionName);
+  cy.verifyPageTitle(pageTitle);
+  cy.checkPageA11y(pageId);
+});
 
-Then(
-  'the Page Title is {string}',
-  (title) => {
-    cy.verifyPageTitle(title);
-  },
-);
+Then('the radio group label is {string}', (label) => {
+  labelLegend(accurateSubmissionLabelId)
+    .invoke('text')
+    .then((text) => {
+      expect(text).to.contain(label);
+    });
+});
 
-Then(
-  'the radio group label is {string}',
-  (label) => {
-    cy.verifyAccurateSubmissionLabel(label);
-  },
-);
-
-Then('the user is shown the error message {string} for {string}', (errorMessage, identifier) => {
-  cy.validateErrorSummary(errorMessage, identifier);
-  cy.validateInputError(errorMessage, identifier);
+Then('the user is shown the error message {string}', (errorMessage) => {
+  errorMessage === 'Select yes if the information accurately reflects the planning application'
+    ? cy.validateErrorMessage(errorMessage, 'accurate-submission-error', 'accurate-submission')
+    : cy.validateErrorMessage(errorMessage, 'inaccuracy-reason-error', 'inaccuracy-reason');
 });
 
 Then(`the user remains in the Accuracy of the appellant's submission page`, () => {
-  cy.verifyPage(pageUrl);
+  cy.verifyPageTitle(pageTitle);
 });
 
 Then('the user is taken to the task list', () => {
-  cy.verifyPage('/task-list');
+  cy.verifyPage(taskListUrl);
 });
 
 Then('a Completed status is populated on that sub-section of the task list', () => {
-  cy.verifyCompletedStatus('submissionAccuracy');
+  cy.verifyCompletedStatus(taskListId);
 });
 
 Then('the user is provided with a free text field to input their reasons', () => {
-  cy.inaccuracyReasonInput().should('be.visible');
+  labelText(inaccuracyReasonInputId).should('be.visible');
 });
 
 Then('the user can see the appeal details panel on the right hand side of the page', () => {
@@ -106,11 +109,11 @@ Then('the user can see the appeal details panel on the right hand side of the pa
 });
 
 Then('any information they have inputted will not be saved', () => {
-  cy.clickOnLinksOnAppealQuestionnaireTaskListPage('submissionAccuracy');
-  cy.verifyPage(pageUrl);
-  cy.accurateSubmissionRadio('No').should('not.be.checked');
+  cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
+  cy.verifyPageTitle(pageTitle);
+  input(noButtonId).should('not.be.checked');
 });
 
 Then('the information they previously entered is still populated', () => {
-  cy.accurateSubmissionRadio('Yes').should('be.checked');
+  input(yesButtonId).should('be.checked');
 });

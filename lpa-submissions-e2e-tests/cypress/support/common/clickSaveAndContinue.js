@@ -1,6 +1,6 @@
 /// <reference types = "Cypress"/>
-import CommonPageObjects from '../PageObjects/CommonPageObjects';
-const commonObjects = new CommonPageObjects();
+import { saveAndContinueButton } from '../PageObjects/common-page-objects';
+
 module.exports = () => {
-  commonObjects.saveAndContinueButton().click();
+  saveAndContinueButton().click();
 };

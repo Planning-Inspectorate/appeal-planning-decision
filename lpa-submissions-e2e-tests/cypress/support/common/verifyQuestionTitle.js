@@ -1,11 +1,8 @@
 /// <reference types = "Cypress"/>
-import CommonPageObjects from '../PageObjects/CommonPageObjects';
-
-const commonPageObjects = new CommonPageObjects();
+import questionTitle from '../PageObjects/common-page-objects';
 
 module.exports = (question) => {
-  commonPageObjects
-    .questionTitle()
+  questionTitle()
     .invoke('text')
     .then((text) => {
       expect(text).to.contain(question);
