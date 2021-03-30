@@ -57,7 +57,11 @@ Cypress.Commands.add(
   require('./appeals-questionnaire-tasklist/goToAppealsQuestionnaireTasklistPage'),
 );
 
+Cypress.Commands.add('goToPage', require('./common/goToPage'));
+
 Cypress.Commands.add('verifyPage', require('./common/verifyPage'));
+
+Cypress.Commands.add('verifyPageHeading', require('./common/verifyPageHeading'));
 
 Cypress.Commands.add('verifyPageTitle', require('./common/verifyPageTitle'));
 
@@ -73,11 +77,6 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'goToReviewAccuracyOfTheAppellantSubmissionPage',
   require('./appeals-questionnaire-navigation/goToReviewAccuracyOfTheAppellantsSubmissionPage'),
-);
-
-Cypress.Commands.add(
-  'goToExtraConditionsPage',
-  require('./appeals-questionnaire-navigation/goToExtraConditionsPage'),
 );
 
 Cypress.Commands.add(
@@ -184,10 +183,6 @@ Cypress.Commands.add(
   require('./appeals-in-immediate-area/verifyAppealsSelectionYesHelpText'),
 );
 
-Cypress.Commands.add('validateErrorSummary', require('./common/validateErrorSummary'));
-
-Cypress.Commands.add('validateInputError', require('./common/validateInputError'));
-
 Cypress.Commands.add('clickSaveAndContinue', require('./common/clickSaveAndContinue'));
 
 Cypress.Commands.add('clickBackButton', require('./common/clickBackButton'));
@@ -197,10 +192,13 @@ Cypress.Commands.add(
   require('./appeals-in-immediate-area/appealsAreaRadioButton'),
 );
 
-Cypress.Commands.add(
-  'validateErrorMessage',
-  require('./appeals-in-immediate-area/validateApprealsAreaErrorMessage'),
-);
+// Commented out as not part of this subtask, but prevents generic function below being added to commands
+// Cypress.Commands.add(
+//   'validateErrorMessage',
+//   require('./appeals-in-immediate-area/validateApprealsAreaErrorMessage'),
+// );
+
+Cypress.Commands.add('validateErrorMessage', require('./common/validateErrorMessage'));
 
 Cypress.Commands.add(
   'verifyRadioButtonSelection',
@@ -220,31 +218,6 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'verifyAccurateSubmissionLabel',
   require('./accuracy-appellants-submission/verifyAccurateSubmissionLabel'),
-);
-
-Cypress.Commands.add(
-  'validateExtraConditionsPageTitle',
-  require('./appeals-extra-conditions/validateExtraConditionsPageTitle'),
-);
-
-Cypress.Commands.add(
-  'validateExtraConditionsPageHeading',
-  require('./appeals-extra-conditions/validateExtraConditionsPageHeading'),
-);
-
-Cypress.Commands.add(
-  'validateExtraConditionsErrorMessage',
-  require('./appeals-extra-conditions/validateExtraConditionsErrorMessage'),
-);
-
-Cypress.Commands.add(
-  'extraConditionsRadioButton',
-  require('./appeals-extra-conditions/extraConditionsRadioButton'),
-);
-
-Cypress.Commands.add(
-  'inputExtraConditionsExtraInformation',
-  require('./appeals-extra-conditions/inputExtraConditionsExtraInformation'),
 );
 
 Cypress.Commands.add(

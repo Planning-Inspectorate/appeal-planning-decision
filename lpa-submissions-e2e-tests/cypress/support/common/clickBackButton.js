@@ -1,6 +1,6 @@
 /// <reference types = "Cypress"/>
-import CommonPageObjects from '../PageObjects/CommonPageObjects';
-const commonObjects = new CommonPageObjects();
+import { backButton } from '../PageObjects/common-page-objects';
+
 module.exports = () => {
-  commonObjects.backButton().click();
+  backButton().click();
 };
