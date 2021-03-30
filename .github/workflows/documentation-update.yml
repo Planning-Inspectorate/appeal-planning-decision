@@ -21,25 +21,56 @@ on:
       - master
 
 jobs:
+  context:
+    name: "Build ID"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    outputs:
+      uuid: ${{ steps.uuid.outputs.value }}
+    steps:
+      - name: 'uuid'
+        id: uuid
+        run: echo "::set-output name=value::$GITHUB_SHA-$(date +"%s")"
+
   cypress-forms-web-app-default:
+    needs: ['context']
     name: "Documentation: forms-web-app (Cypress, default)"
     if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
+    strategy:
+      # when one test fails, DO NOT cancel the other
+      # containers, because this will kill Cypress processes
+      # leaving the Dashboard hanging ...
+      # https://github.com/cypress-io/github-action/issues/48
+      fail-fast: false
+      matrix:
+        # run 5 copies of the job in parallel
+        machines: [ 1, 2, 3, 4, 5 ]
+
     steps:
       - uses: actions/checkout@v2
 
       - name: Install the world
         run: make install
 
-      - name: Start the world without ACP integration
+      - name: Start the world without ACP integration i.e. PINS
         run: |
           export SERVER_LIMITED_ROUTING_ENABLED=false
           docker-compose up -d
 
-      - name: Run the tests without ACP integration
-        run: npm run test:e2e
+      - name: Run the tests without ACP integration in parallel
+        uses: cypress-io/github-action@v2
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          # Pass the Github token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          working-directory: ./e2e-tests
+          command: 'npx cypress-tags run --record --parallel --ci-build-id ${{ needs.context.outputs.uuid }}'
 
-      - name: Generate html report
+      - name: Post-process results without ACP integration
         if: ${{ always() }}
         run: npm run test:e2e:postprocess
 
