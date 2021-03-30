@@ -9,9 +9,6 @@ env:
   LPA_CYPRESS_REPORTS: ./lpa-submissions-e2e-tests/cypress/cucumber-report
 
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
@@ -176,4 +173,3 @@ jobs:
         with:
           name: screenshots-pins
           path: ${{ env.CYPRESS_SCREENSHOTS }}
-
