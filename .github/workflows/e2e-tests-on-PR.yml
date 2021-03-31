@@ -43,7 +43,9 @@ jobs:
           path: ~/.npm
           key: acp-${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            acp-${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+            acp-${{ runner.os }}-node-${{ github.ref }}-
+            acp-${{ runner.os }}-node-
+            acp-${{ runner.os }}-
 
       - name: Cache Cypress binary
         uses: actions/cache@v2
@@ -54,7 +56,9 @@ jobs:
           path: ~/.cache/Cypress
           key: acp-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/package.json') }}
           restore-keys: |
-            acp-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/package.json') }}
+            acp-${{ runner.os }}-cypress-${{ github.ref }}-
+            acp-${{ runner.os }}-cypress-
+            acp-${{ runner.os }}-
 
       - name: Cache local node_modules
         uses: actions/cache@v2
@@ -66,6 +70,8 @@ jobs:
           key: acp-${{ runner.os }}-node-modules-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             acp-${{ runner.os }}-node-modules-${{ github.ref }}-
+            acp-${{ runner.os }}-node-modules-
+            acp-${{ runner.os }}-
 
       - name: Install the world
         run: make install
@@ -118,7 +124,9 @@ jobs:
           path: ~/.npm
           key: lpa-${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            lpa-${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+            lpa-${{ runner.os }}-node-${{ github.ref }}-
+            lpa-${{ runner.os }}-node-
+            lpa-${{ runner.os }}-
 
       - name: Cache Cypress binary
         uses: actions/cache@v2
@@ -129,7 +137,9 @@ jobs:
           path: ~/.cache/Cypress
           key: lpa-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/package.json') }}
           restore-keys: |
-            lpa-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/package.json') }}
+            lpa-${{ runner.os }}-cypress-${{ github.ref }}-
+            lpa-${{ runner.os }}-cypress-
+            lpa-${{ runner.os }}-
 
       - name: Cache local node_modules
         uses: actions/cache@v2
@@ -141,6 +151,8 @@ jobs:
           key: lpa-${{ runner.os }}-node-modules-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             lpa-${{ runner.os }}-node-modules-${{ github.ref }}-
+            lpa-${{ runner.os }}-node-modules-
+            lpa-${{ runner.os }}-
 
       - name: Install the world
         run: make install
@@ -204,7 +216,9 @@ jobs:
           path: ~/.npm
           key: cypress-${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            cypress-${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+            cypress-${{ runner.os }}-node-${{ github.ref }}-
+            cypress-${{ runner.os }}-node-
+            cypress-${{ runner.os }}-
 
       - name: Cache Cypress binary
         uses: actions/cache@v2
@@ -215,7 +229,9 @@ jobs:
           path: ~/.cache/Cypress
           key: cypress-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/package.json') }}
           restore-keys: |
-            cypress-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/package.json') }}
+            cypress-${{ runner.os }}-cypress-${{ github.ref }}-
+            cypress-${{ runner.os }}-cypress-
+            cypress-${{ runner.os }}-
 
       - name: Cache local node_modules
         uses: actions/cache@v2
@@ -227,6 +243,8 @@ jobs:
           key: cypress-${{ runner.os }}-node-modules-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             cypress-${{ runner.os }}-node-modules-${{ github.ref }}-
+            cypress-${{ runner.os }}-node-modules-
+            cypress-${{ runner.os }}-
 
       - name: Install the world
         run: make install
