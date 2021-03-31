@@ -1,3 +1,6 @@
+require('cypress-file-upload');
+require('./visit-without-javascript-enabled');
+
 const severityIndicators = {
   minor: '🟢 Minor',
   moderate: '🟡 Moderate',
@@ -252,33 +255,3 @@ Cypress.Commands.add(
   'inputExtraConditionsExtraInformation',
   require('./appeals-extra-conditions/inputExtraConditionsExtraInformation'),
 );
-
-Cypress.Commands.add('uploadDocuments',
-require('./upload-plan-to-reach-decision/uploadDocuments'));
-
-Cypress.Commands.add('clickChooseFile',
-require('./upload-plan-to-reach-decision/clickChooseFile'));
-
-Cypress.Commands.add('clickUploadFile',
-require('./upload-plan-to-reach-decision/clickUploadFile'));
-
-Cypress.Commands.add('fileDragAndDrop',
-require('./upload-plan-to-reach-decision/fileDragAndDrop'));
-
-Cypress.Commands.add('uploadMultipleFiles',
-require('./upload-plan-to-reach-decision/uploadMultipleFiles'));
-
-Cypress.Commands.add('validateFileUploadErrorMessage',
-require('./upload-plan-to-reach-decision/validateFileUploadErrorMessage'));
-
-Cypress.Commands.add('deleteUploadedFile',
-require('./upload-plan-to-reach-decision/deleteUploadedFile'));
-
-Cypress.Commands.add('validateFileUpload',
-require('./upload-plan-to-reach-decision/validateFileUpload'));
-
-Cypress.Commands.add('validateFileDeleted',
-require('./upload-plan-to-reach-decision/validateFileDeleted'));
-
-Cypress.Commands.add('uploadMultipleFiles',
-require('./upload-plan-to-reach-decision/uploadMultipleFiles'));

@@ -16,13 +16,13 @@
     "cypress": "^6.5.0",
     "cypress-axe": "^0.12.0",
     "cypress-cucumber-preprocessor": "^4.0.0",
-    "cypress-file-upload": "5.0.2"
+    "cypress-file-upload": "5.0.2",
+    "multiple-cucumber-html-reporter": "1.18.0"
   },
   "dependencies": {
-    "cypress-ntlm-auth": "^3.1.5",
     "cypress-file-upload": "5.0.0",
-    "datatables.net": "1.10.23",
-    "multiple-cucumber-html-reporter": "1.18.0"
+    "cypress-ntlm-auth": "^3.1.5",
+    "datatables.net": "1.10.23"
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true,

@@ -37,7 +37,7 @@ Given(`The User clicks on {string}`,(taskname)=>{
       name='plansDecision';
       cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
       cy.goToUploadThePlansUsedToReachDecisionPage();
-      cy.validatePageHolderPageLoad();
+      cy.verifyPage('/plans');
       break;
     case 'Required documents - Upload the Planning Officer\'s report' :
       name='officersReport';
