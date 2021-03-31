@@ -119,6 +119,23 @@ describe('lib/documents-api-wrapper', () => {
       });
     });
 
+    it('should return the expected response if the fetch status is 202 with form data input with name overrided', async () => {
+      fetch.mockResponse(
+        JSON.stringify({
+          applicationId: 123,
+          id: '123-abc-456-xyz',
+          name: 'namePreferred.pdf',
+        }),
+        { status: 202 }
+      );
+
+      expect(await createDocument(mockAppeal, data, 'namePreferred.pdf')).toEqual({
+        applicationId: 123,
+        id: '123-abc-456-xyz',
+        name: 'namePreferred.pdf',
+      });
+    });
+
     it('should return the expected response if the fetch status is 202 with data buffer input', async () => {
       fetch.mockResponse(
         JSON.stringify({
