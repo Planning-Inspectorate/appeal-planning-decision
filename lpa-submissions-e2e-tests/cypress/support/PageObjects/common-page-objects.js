@@ -18,8 +18,20 @@ exports.pageHeading = () => {
   return cy.get('.govuk-fieldset__heading');
 };
 
-exports.textArea = (textBoxId) => {
-  return cy.get(`textarea[data-cy="${textBoxId}"]`);
+exports.textArea = (textAreaId) => {
+  return cy.get(`textarea[data-cy="${textAreaId}"]`);
+};
+
+exports.textBox = (textBoxId) => {
+  return cy.get(`[data-cy="${textBoxId}"]`);
+};
+
+exports.labelText = (labelTextId) => {
+  return cy.get(`[data-cy="${labelTextId}"]`);
+};
+
+exports.labelHint = (labelHintId) => {
+  return cy.get(`div[data-cy="${labelHintId}"]`);
 };
 
 exports.input = (inputId) => {

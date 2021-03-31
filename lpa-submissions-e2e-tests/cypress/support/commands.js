@@ -67,8 +67,6 @@ Cypress.Commands.add('verifyPageTitle', require('./common/verifyPageTitle'));
 
 Cypress.Commands.add('verifySectionName', require('./common/verifySectionName'));
 
-Cypress.Commands.add('verifyQuestionTitle', require('./common/verifyQuestionTitle'));
-
 Cypress.Commands.add(
   'verifyTaskListPageTitle',
   require('./appeals-questionnaire-tasklist/verifyTaskListPageTitle'),
@@ -77,11 +75,6 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'goToReviewAccuracyOfTheAppellantSubmissionPage',
   require('./appeals-questionnaire-navigation/goToReviewAccuracyOfTheAppellantsSubmissionPage'),
-);
-
-Cypress.Commands.add(
-  'goToTellUsAboutAppealsInImmediateAreaPage',
-  require('./appeals-questionnaire-navigation/goToTellUsAboutAppealsInImmediateAreaPage'),
 );
 
 Cypress.Commands.add(
@@ -173,37 +166,11 @@ Cypress.Commands.add('verifyAppealDetailsSidebar', require('./common/verifyAppea
 
 Cypress.Commands.add('getAppealDetailsSidebar', require('./common/getAppealDetailsSidebar'));
 
-Cypress.Commands.add(
-  'inputAppealsReferenceNumber',
-  require('./appeals-in-immediate-area/inputAppealsReferenceNumber'),
-);
-
-Cypress.Commands.add(
-  'verifyAppealsSelectionYesHelpText',
-  require('./appeals-in-immediate-area/verifyAppealsSelectionYesHelpText'),
-);
-
 Cypress.Commands.add('clickSaveAndContinue', require('./common/clickSaveAndContinue'));
 
 Cypress.Commands.add('clickBackButton', require('./common/clickBackButton'));
 
-Cypress.Commands.add(
-  'appealsAreaRadioButton',
-  require('./appeals-in-immediate-area/appealsAreaRadioButton'),
-);
-
-// Commented out as not part of this subtask, but prevents generic function below being added to commands
-// Cypress.Commands.add(
-//   'validateErrorMessage',
-//   require('./appeals-in-immediate-area/validateApprealsAreaErrorMessage'),
-// );
-
 Cypress.Commands.add('validateErrorMessage', require('./common/validateErrorMessage'));
-
-Cypress.Commands.add(
-  'verifyRadioButtonSelection',
-  require('./appeals-in-immediate-area/verifyRadioButtonSelection'),
-);
 
 Cypress.Commands.add(
   'accurateSubmissionRadio',
