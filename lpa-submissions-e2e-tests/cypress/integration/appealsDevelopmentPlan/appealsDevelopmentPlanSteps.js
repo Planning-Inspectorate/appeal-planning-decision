@@ -1,26 +1,36 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { textArea, input } from '../../support/PageObjects/common-page-objects';
+
+const pageId = 'development-plan';
+const pageTitle =
+  'Development Plan Document or Neighbourhood Plan - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK';
+const pageHeading = 'Development Plan Document or Neighbourhood Plan';
+const taskListId = 'developmentOrNeighbourhood';
+const textAreaId = 'plan-changes-text';
+const noButtonId = 'has-plan-submitted-no';
+const yesButtonId = 'has-plan-submitted-yes';
 
 Given(`a LPA Planning Officer is reviewing their LPA Questionnaire task list`, () => {
   cy.goToAppealsQuestionnaireTasklistPage();
 });
 
 Given(`the Development Plan Document and Neighbourhood Plan question is requested`, () => {
-  cy.goToDevelopmentPlanPage();
-  cy.validateDevelopmentPlanPageTitle();
+  cy.goToPage(pageId);
+  cy.verifyPageTitle(pageTitle);
 });
 
 Given(`there is a Development Plan Document and Neighbourhood Plan`, () => {
-  cy.goToDevelopmentPlanPage();
-  cy.validateDevelopmentPlanPageTitle();
-  cy.developmentPlanRadioButton('yes').check();
+  cy.goToPage(pageId);
+  cy.verifyPageTitle(pageTitle);
+  input(yesButtonId).check();
 });
 
 Given(
   'the LPA Planning Officer has selected no and completed the Development Plan Document and Neighbourhood Plan question',
   () => {
-    cy.goToDevelopmentPlanPage();
-    cy.validateDevelopmentPlanPageTitle();
-    cy.developmentPlanRadioButton('no').check();
+    cy.goToPage(pageId);
+    cy.verifyPageTitle(pageTitle);
+    input(noButtonId).check();
     cy.clickSaveAndContinue();
   },
 );
@@ -28,10 +38,10 @@ Given(
 Given(
   'the LPA Planning Officer has selected yes, entered plan details, and completed the Development Plan Document and Neighbourhood Plan question',
   () => {
-    cy.goToDevelopmentPlanPage();
-    cy.validateDevelopmentPlanPageTitle();
-    cy.developmentPlanRadioButton('yes').check();
-    cy.inputDevelopmentPlanDetails().type('some_text');
+    cy.goToPage(pageId);
+    cy.verifyPageTitle(pageTitle);
+    input(yesButtonId).check();
+    textArea(textAreaId).type('some_text');
     cy.clickSaveAndContinue();
   },
 );
@@ -39,28 +49,28 @@ Given(
 When(
   'the LPA Planning Officer chooses to provide information regarding the Development Plan and Neighbourhood Plan',
   () => {
-    cy.goToDevelopmentPlanPage();
-    cy.validateDevelopmentPlanPageTitle();
+    cy.goToPage(pageId);
+    cy.verifyPageTitle(pageTitle);
   },
 );
 
 When(`an answer is not provided`, () => {
-  cy.validateDevelopmentPlanPageHeading();
+  cy.verifyPageHeading(pageHeading);
   cy.clickSaveAndContinue();
 });
 
 When(`there is not a Development plan document or Neighbourhood plan`, () => {
-  cy.developmentPlanRadioButton('no').check();
+  input(noButtonId).check();
   cy.clickSaveAndContinue();
 });
 
 When(`details are provided about the plan {string}`, (plan_details) => {
-  cy.inputDevelopmentPlanDetails().type(plan_details);
+  textArea(textAreaId).type(plan_details);
   cy.clickSaveAndContinue();
 });
 
 When(`no details are given about the plan`, () => {
-  cy.inputDevelopmentPlanDetails().should('have.value', '');
+  textArea(textAreaId).should('have.value', '');
   cy.clickSaveAndContinue();
 });
 
@@ -72,23 +82,25 @@ When(
   `the LPA Planning Officer returns to the Development Plan Document and Neighbourhood Plan question from the Task List`,
   () => {
     cy.goToAppealsQuestionnaireTasklistPage();
-    cy.clickOnLinksOnAppealQuestionnaireTaskListPage('developmentOrNeighbourhood');
-    cy.validateDevelopmentPlanPageTitle();
+    cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
+    cy.verifyPageTitle(pageTitle);
   },
 );
 
 Then(`the LPA Planning Officer is presented with the ability to provide information`, () => {
-  cy.validateDevelopmentPlanPageHeading();
-  cy.validateDevelopmentPlanPageTitle();
+  cy.verifyPageHeading(pageHeading);
+  cy.verifyPageTitle(pageTitle);
 });
 
 Then(`progress is halted with an error message {string}`, (errorMessage) => {
-  cy.validateDevelopmentPlanErrorMessage(errorMessage);
+  errorMessage === 'Select yes if there is a relevant Development Plan or Neighbourhood Plan'
+    ? cy.validateErrorMessage(errorMessage, 'has-plan-submitted-error', 'has-plan-submitted')
+    : cy.validateErrorMessage(errorMessage, 'plan-changes-text-error', 'plan-changes-text');
 });
 
 Then(`the LPA Planning Officer remains on the page`, () => {
-  cy.validateDevelopmentPlanPageHeading();
-  cy.validateDevelopmentPlanPageTitle();
+  cy.verifyPageHeading(pageHeading);
+  cy.verifyPageTitle(pageTitle);
 });
 
 Then(`progress is made to the Tasklist`, () => {
@@ -96,7 +108,7 @@ Then(`progress is made to the Tasklist`, () => {
 });
 
 Then(`the Development Plan Document subsection is shown as completed`, () => {
-  cy.verifyCompletedStatus('developmentOrNeighbourhood');
+  cy.verifyCompletedStatus(taskListId);
 });
 
 Then('the LPA Planning Officer is taken to the Task List', () => {
@@ -104,11 +116,11 @@ Then('the LPA Planning Officer is taken to the Task List', () => {
 });
 
 Then('any information they have entered will not be saved', () => {
-  cy.clickOnLinksOnAppealQuestionnaireTaskListPage('developmentOrNeighbourhood');
-  cy.validateDevelopmentPlanPageTitle();
-  cy.developmentPlanRadioButton('yes').should('not.be.checked');
-  cy.developmentPlanRadioButton('no').should('not.be.checked');
-  cy.inputDevelopmentPlanDetails().should('have.value', '');
+  cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
+  cy.verifyPageTitle(pageTitle);
+  input(yesButtonId).should('not.be.checked');
+  input(noButtonId).should('not.be.checked');
+  textArea(textAreaId).should('have.value', '');
 });
 
 Then('the appeal details panel on the right hand side of the page can be viewed', () => {
@@ -120,10 +132,10 @@ Then('the appeal details panel on the right hand side of the page can be viewed'
 });
 
 Then('no is still selected', () => {
-  cy.developmentPlanRadioButton('no').should('be.checked');
+  input(noButtonId).should('be.checked');
 });
 
 Then('yes is still selected, and plan details are still populated', () => {
-  cy.developmentPlanRadioButton('yes').should('be.checked');
-  cy.inputDevelopmentPlanDetails().should('have.value', 'some_text');
+  input(yesButtonId).should('be.checked');
+  textArea(textAreaId).should('have.value', 'some_text');
 });

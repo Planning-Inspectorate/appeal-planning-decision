@@ -219,33 +219,3 @@ Cypress.Commands.add(
   'verifyAccurateSubmissionLabel',
   require('./accuracy-appellants-submission/verifyAccurateSubmissionLabel'),
 );
-
-Cypress.Commands.add(
-  'goToDevelopmentPlanPage',
-  require('./appeals-questionnaire-navigation/goToDevelopmentPlanPage'),
-);
-
-Cypress.Commands.add(
-  'validateDevelopmentPlanPageTitle',
-  require('./appeals-development-plan/validateDevelopmentPlanPageTitle'),
-);
-
-Cypress.Commands.add(
-  'validateDevelopmentPlanPageHeading',
-  require('./appeals-development-plan/validateDevelopmentPlanPageHeading'),
-);
-
-Cypress.Commands.add(
-  'validateDevelopmentPlanErrorMessage',
-  require('./appeals-development-plan/validateDevelopmentPlanErrorMessage'),
-);
-
-Cypress.Commands.add(
-  'developmentPlanRadioButton',
-  require('./appeals-development-plan/developmentPlanRadioButton'),
-);
-
-Cypress.Commands.add(
-  'inputDevelopmentPlanDetails',
-  require('./appeals-development-plan/inputDevelopmentPlanDetails'),
-);
