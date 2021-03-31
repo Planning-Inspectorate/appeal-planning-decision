@@ -25,7 +25,7 @@ Then('the submission confirmation is presented', () => {
       const documents = resp.body;
       let appealPdfDocument = null;
       documents.forEach((doc) => {
-        if (doc.name === applicationId + '.pdf') {
+        if (doc.name === 'Appeal-form.pdf') {
           appealPdfDocument = doc;
         }
       });
