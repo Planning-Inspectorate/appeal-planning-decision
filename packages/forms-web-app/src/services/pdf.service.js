@@ -7,6 +7,8 @@ const { generatePDF } = require('../lib/pdf-api-wrapper');
 const { VIEW } = require('../lib/views');
 const logger = require('../lib/logger');
 
+const FILE_NAME = 'Appeal-form';
+
 const getHtmlAppeal = async (appeal) => {
   const log = logger.child({ appealId: appeal.id, uuid: uuid.v4() });
 
@@ -56,11 +58,11 @@ const storePdfAppeal = async (appeal) => {
 
     log.debug('Generating PDF of appeal');
 
-    const pdfBuffer = await generatePDF(appeal.id, htmlContent);
+    const pdfBuffer = await generatePDF(FILE_NAME, htmlContent);
 
     log.debug('Creating document from PDF buffer');
 
-    const document = await createDocument(appeal, pdfBuffer);
+    const document = await createDocument(appeal, pdfBuffer, `${FILE_NAME}.pdf`);
 
     log.debug('PDF document successfully created');
 

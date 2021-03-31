@@ -14,7 +14,7 @@ function isTheFormDataBuffer(data) {
   return isDataBuffer(data) && data.tempFilePath;
 }
 
-exports.createDocument = async (appeal, data) => {
+exports.createDocument = async (appeal, data, fileName) => {
   const path = `/api/v1/${appeal.id}`;
 
   const correlationId = uuid.v4();
@@ -30,9 +30,10 @@ exports.createDocument = async (appeal, data) => {
     const fd = new FormData();
 
     if (isTheFormDataBuffer(data)) {
-      fd.append('file', fs.createReadStream(data.tempFilePath), data.name);
+      const documentName = fileName || data.name;
+      fd.append('file', fs.createReadStream(data.tempFilePath), documentName);
     } else if (isDataBuffer(data)) {
-      fd.append('file', data, `${appeal.id}.pdf`);
+      fd.append('file', data, fileName);
     } else {
       throw new Error('The type of provided data to create a document with is wrong');
     }

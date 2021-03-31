@@ -57,7 +57,7 @@ const matchWhatWeCanFrom = (hardCodedExpectations) => {
         appealPDFStatement: {
           uploadedFile: {
             id: expect.any(String),
-            name: expect.any(String),
+            name: "Appeal-form.pdf",
             location: expect.any(String),
             size: expect.any(Number),
           },
