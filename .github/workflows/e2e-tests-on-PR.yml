@@ -34,6 +34,39 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Cache central NPM modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-acp-central-npm-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: acp-${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            acp-${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Cache Cypress binary
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-acp-cypress-binary
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.cache/Cypress
+          key: acp-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            acp-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/package.json') }}
+
+      - name: Cache local node_modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-acp-local-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: node_modules
+          key: acp-${{ runner.os }}-node-modules-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            acp-${{ runner.os }}-node-modules-${{ github.ref }}-
+
       - name: Install the world
         run: make install
 
@@ -75,6 +108,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: Cache central NPM modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-lpa-central-npm-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: lpa-${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            lpa-${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Cache Cypress binary
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-lpa-cypress-binary
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.cache/Cypress
+          key: lpa-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            lpa-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/package.json') }}
+
+      - name: Cache local node_modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-lpa-local-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: node_modules
+          key: lpa-${{ runner.os }}-node-modules-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            lpa-${{ runner.os }}-node-modules-${{ github.ref }}-
 
       - name: Install the world
         run: make install
@@ -123,8 +189,8 @@ jobs:
       # https://github.com/cypress-io/github-action/issues/48
       fail-fast: false
       matrix:
-        # run 6 copies of the job in parallel
-        machines: [ 1, 2, 3, 4, 5, 6 ]
+        # run 5 copies of the job in parallel
+        machines: [ 1 ]
 
     steps:
       - uses: actions/checkout@v2
@@ -132,14 +198,13 @@ jobs:
       - name: Cache central NPM modules
         uses: actions/cache@v2
         env:
-          cache-name: cache-central-node-modules
+          cache-name: cache-cypress-central-npm-modules
         with:
           # npm cache files are stored in `~/.npm` on Linux/macOS
           path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: cypress-${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-npm-${{ env.cache-name }}-
-            ${{ runner.os }}-npm-
+            cypress-${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Cache Cypress binary
         uses: actions/cache@v2
@@ -148,22 +213,20 @@ jobs:
         with:
           # npm cache files are stored in `~/.npm` on Linux/macOS
           path: ~/.cache/Cypress
-          key: ${{ runner.os }}-cypress-modules-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: cypress-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/package.json') }}
           restore-keys: |
-            ${{ runner.os }}-cypress-modules-${{ env.cache-name }}-
-            ${{ runner.os }}-cypress-modules-
+            cypress-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/package.json') }}
 
-      - name: Cache local node modules
+      - name: Cache local node_modules
         uses: actions/cache@v2
         env:
-          cache-name: cache-local-node-modules
+          cache-name: cache-cypress-local-node-modules
         with:
           # npm cache files are stored in `~/.npm` on Linux/macOS
           path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: cypress-${{ runner.os }}-node-modules-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-modules-${{ env.cache-name }}-
-            ${{ runner.os }}-node-modules-
+            cypress-${{ runner.os }}-node-modules-${{ github.ref }}-
 
       - name: Install the world
         run: make install
