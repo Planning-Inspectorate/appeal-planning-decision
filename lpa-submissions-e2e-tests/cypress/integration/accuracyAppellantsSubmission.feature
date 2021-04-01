@@ -6,15 +6,14 @@ Feature: Accuracy of the Apellants Submission
   Scenario: AC01 Access Review accuracy of the appellant's submission page
     Given the user is on the Task List page
     When the user selects the link "Review accuracy of the appellant's submission"
-    Then the user is presented with the page "Review accuracy of the appellant's submission"
-    And the Page Title is "Review accuracy of appellant's submission - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK"
+    Then the user is presented with the correct page
     And the radio group label is 'Does the information from the appellant accurately reflect the original planning application?'
 
   Scenario: AC02 LPA User does not select Yes or No
     Given the user is in the Review accuracy of the appellant's submission page
     When the user does not select an option
     And the user selects Save and Continue
-    Then the user is shown the error message 'Select yes if the information accurately reflects the planning application' for 'accurate-submission'
+    Then the user is shown the error message 'Select yes if the information accurately reflects the planning application'
     And the user remains in the Accuracy of the appellant's submission page
 
   Scenario: AC03 LPA user selects Yes and proceeds to task list
@@ -51,7 +50,7 @@ Feature: Accuracy of the Apellants Submission
     When the user selects 'No'
     And the user has not provided further information as text regarding their reasons
     And the user selects Save and Continue
-    Then the user is shown the error message 'Enter details of why this does not accurately reflect the planning application' for 'inaccuracy-reason'
+    Then the user is shown the error message 'Enter details of why this does not accurately reflect the planning application'
     And the user remains in the Accuracy of the appellant's submission page
 
   Scenario: AC07 Appeal details side panel

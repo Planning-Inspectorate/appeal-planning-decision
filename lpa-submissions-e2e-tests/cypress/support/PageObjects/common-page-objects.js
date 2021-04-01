@@ -30,6 +30,14 @@ exports.labelText = (labelTextId) => {
   return cy.get(`[data-cy="${labelTextId}"]`);
 };
 
+exports.label = (labelId) => {
+  return cy.get(`label[data-cy="${labelId}"]`);
+};
+
+exports.labelLegend = (labelLegendId) => {
+  return cy.get(`[data-cy="${labelLegendId}"] legend`);
+};
+
 exports.labelHint = (labelHintId) => {
   return cy.get(`div[data-cy="${labelHintId}"]`);
 };

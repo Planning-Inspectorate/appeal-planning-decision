@@ -73,11 +73,6 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'goToReviewAccuracyOfTheAppellantSubmissionPage',
-  require('./appeals-questionnaire-navigation/goToReviewAccuracyOfTheAppellantsSubmissionPage'),
-);
-
-Cypress.Commands.add(
   'goToTellUsAboutAppealSitePage',
   require('./appeals-questionnaire-navigation/goToTellUsAboutAppealSitePage'),
 );
@@ -171,18 +166,3 @@ Cypress.Commands.add('clickSaveAndContinue', require('./common/clickSaveAndConti
 Cypress.Commands.add('clickBackButton', require('./common/clickBackButton'));
 
 Cypress.Commands.add('validateErrorMessage', require('./common/validateErrorMessage'));
-
-Cypress.Commands.add(
-  'accurateSubmissionRadio',
-  require('./accuracy-appellants-submission/accurateSubmissionRadio'),
-);
-
-Cypress.Commands.add(
-  'inaccuracyReasonInput',
-  require('./accuracy-appellants-submission/inaccuracyReasonInput'),
-);
-
-Cypress.Commands.add(
-  'verifyAccurateSubmissionLabel',
-  require('./accuracy-appellants-submission/verifyAccurateSubmissionLabel'),
-);
