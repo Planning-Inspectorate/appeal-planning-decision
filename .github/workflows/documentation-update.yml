@@ -45,7 +45,7 @@ jobs:
       fail-fast: false
       matrix:
         # run 5 copies of the job in parallel
-        machines: [ 1 ]
+        machines: [ 1, 2, 3, 4, 5 ]
 
     steps:
       - uses: actions/checkout@v2
@@ -138,6 +138,7 @@ jobs:
             fwaacp-${{ runner.os }}-node-${{ github.ref }}-
             fwaacp-${{ runner.os }}-node-
             fwaacp-${{ runner.os }}-
+
       - name: Cache Cypress binary
         uses: actions/cache@v2
         env:
@@ -229,6 +230,7 @@ jobs:
             fwaq-${{ runner.os }}-node-${{ github.ref }}-
             fwaq-${{ runner.os }}-node-
             fwaq-${{ runner.os }}-
+
       - name: Cache Cypress binary
         uses: actions/cache@v2
         env:
