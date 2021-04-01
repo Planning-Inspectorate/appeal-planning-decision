@@ -114,6 +114,7 @@ jobs:
   cypress-forms-web-app-default-docs:
     if: always()
       needs: cypress-forms-web-app-default
+
     steps:
       - name: Post-process results without ACP integration
         if: ${{ always() }}
