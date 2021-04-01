@@ -75,6 +75,7 @@ jobs:
             fwa-${{ runner.os }}-cypress-${{ github.ref }}-
             fwa-${{ runner.os }}-cypress-
             fwa-${{ runner.os }}-
+
       - name: Cache local node_modules
         uses: actions/cache@v2
         env:
@@ -106,8 +107,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           working-directory: ./e2e-tests
-          command: 'npx cypress-tags run --record --parallel --ci-build-id ${{ needs.context.outputs.uuid }}'
+          record: true
+          parallel: true
+          ci-build-id: ${{ needs.context.outputs.uuid }}
 
+  cypress-forms-web-app-default-docs:
+    if: always()
+      needs: cypress-forms-web-app-default
+    steps:
       - name: Post-process results without ACP integration
         if: ${{ always() }}
         run: npm run test:e2e:postprocess
