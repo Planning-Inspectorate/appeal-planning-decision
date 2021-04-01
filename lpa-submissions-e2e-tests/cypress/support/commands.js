@@ -157,6 +157,11 @@ Cypress.Commands.add(
   require('./appeals-questionnaire-navigation/verifyCannotStartStatus'),
 );
 
+Cypress.Commands.add(
+  'goToTellUsAboutAppealsInImmediateAreaPage',
+  require('./appeals-questionnaire-navigation/goToTellUsAboutAppealsInImmediateAreaPage'),
+);
+
 Cypress.Commands.add('verifyAppealDetailsSidebar', require('./common/verifyAppealDetailsSidebar'));
 
 Cypress.Commands.add('getAppealDetailsSidebar', require('./common/getAppealDetailsSidebar'));
