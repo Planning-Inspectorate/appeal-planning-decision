@@ -9,7 +9,7 @@ module.exports = () => {
 
   // prove that the entered data is retained during navigation
   // -> use the provided 'back' button
-  cy.get('[data-cy="back"]').click();
+  cy.clickBackLink();
 
   // -> confirm the expected state of the radio-buttons
   cy.get('#is-your-appeal-about-a-listed-building-2').should('be.checked');

@@ -1,4 +1,4 @@
-module.exports = (appeal, overrides = {}) => {
+module.exports = (appeal, options = {}) => {
   cy.goToHouseholderQuestionPage();
   cy.provideHouseholderAnswerYes();
 
@@ -14,7 +14,7 @@ module.exports = (appeal, overrides = {}) => {
   cy.provideDecisionDate(appeal.decisionDate);
 
   if (appeal.eligibility.eligibleLocalPlanningDepartment) {
-    cy.provideEligibleLocalPlanningDepartment(overrides);
+    cy.provideEligibleLocalPlanningDepartment(options);
   } else {
     cy.provideIneigibleLocalPlanningDepartment();
   }
@@ -102,9 +102,9 @@ module.exports = (appeal, overrides = {}) => {
     cy.clickSaveAndContinue();
 
     if (appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold) {
-      cy.answerDidToldOtherOwnersAppeal();
+      cy.answerHaveToldOtherOwnersAppeal();
     } else {
-      cy.answerDidNotToldOtherOwnersAppeal();
+      cy.answerHaveNotToldOtherOwnersAppeal();
     }
     cy.clickSaveAndContinue();
   }

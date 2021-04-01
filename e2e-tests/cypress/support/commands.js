@@ -14,3 +14,4 @@ require('./commands/guidance-page-commands');
 require('./appeal-submission-information/submission-information-commands');
 require('./cookie-consent-view-preferences/commands');
 require('./flash-message/flash-message-commands');
+require('./back-link/back-link-commands');

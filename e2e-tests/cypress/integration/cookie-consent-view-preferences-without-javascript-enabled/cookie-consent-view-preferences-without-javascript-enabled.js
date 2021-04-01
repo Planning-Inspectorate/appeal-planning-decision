@@ -5,7 +5,7 @@ Given('a user has elected to manage their cookie preference without JavaScript e
 });
 
 When('the user views the Cookie Preferences service page', () => {
-  cy.visit('/cookies', { script: true });
+  cy.visit('/cookies', { script: false });
 });
 
 Then('the page content will mention about cookies requiring Javascript to be turned on', () => {

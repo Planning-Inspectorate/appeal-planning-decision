@@ -161,7 +161,7 @@ Given('changes are made for Visiting the appeal site section', () => {
   cy.goToWholeSiteOwnerPage();
   cy.answerDoesNotOwnTheWholeAppeal();
   cy.clickSaveAndContinue();
-  cy.answerDidToldOtherOwnersAppeal();
+  cy.answerHaveToldOtherOwnersAppeal();
   cy.clickSaveAndContinue();
   cy.goToAccessSitePage();
   cy.answerCannotSeeTheWholeAppeal();

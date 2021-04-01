@@ -12,7 +12,7 @@ export const dateForXDaysAgo = (x) => {
   };
 };
 
-const eligibleDate = dateForXDaysAgo(84);
+export const eligibleDate = dateForXDaysAgo(84);
 const ineligibleDate = dateForXDaysAgo(85);
 
 Given('a Decision Date is requested', () => {

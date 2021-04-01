@@ -20,6 +20,8 @@ const renderTemplateFilter = require('./lib/render-template-filter');
 const flashMessageCleanupMiddleware = require('./middleware/flash-message-cleanup');
 const flashMessageToNunjucks = require('./middleware/flash-message-to-nunjucks');
 const removeUnwantedCookiesMiddelware = require('./middleware/remove-unwanted-cookies');
+const navigationHistoryMiddleware = require('./middleware/navigation-history');
+const navigationHistoryToNunjucksMiddleware = require('./middleware/navigation-history-to-nunjucks');
 require('express-async-errors');
 
 const config = require('./config');
@@ -116,6 +118,8 @@ app.use(
 app.use(fileUpload(config.fileUpload));
 app.use(flashMessageCleanupMiddleware);
 app.use(flashMessageToNunjucks(env));
+app.use(navigationHistoryMiddleware());
+app.use(navigationHistoryToNunjucksMiddleware(env));
 
 // Routes
 app.use('/', routes);
