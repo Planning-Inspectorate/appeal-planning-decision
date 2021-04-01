@@ -1,5 +1,5 @@
 /// <reference types = "Cypress"/>
-import sectionName from '../PageObjects/common-page-objects';
+import { sectionName } from '../PageObjects/common-page-objects';
 
 module.exports = (section) => {
   sectionName()
