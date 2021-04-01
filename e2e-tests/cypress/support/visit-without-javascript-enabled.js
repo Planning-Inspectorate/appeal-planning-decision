@@ -3,9 +3,10 @@
  *
  * https://github.com/cypress-io/cypress/issues/1611
  */
-Cypress.Commands.overwrite('visit', (orig, url, options = {}) => {
+Cypress.Commands.overwrite('visit', (orig, url, options = { script: true }) => {
   const parentDocument = cy.state('window').parent.document;
   const iframe = parentDocument.querySelector('.iframes-container iframe');
+
   if (false === options.script) {
     if (false !== Cypress.config('chromeWebSecurity')) {
       throw new TypeError(
@@ -13,6 +14,8 @@ Cypress.Commands.overwrite('visit', (orig, url, options = {}) => {
       );
     }
     iframe.sandbox = 'allow-forms';
+  } else {
+    iframe.removeAttribute('sandbox');
   }
 
   return orig(url, options);

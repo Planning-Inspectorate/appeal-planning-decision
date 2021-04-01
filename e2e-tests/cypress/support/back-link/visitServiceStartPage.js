@@ -1,4 +1,4 @@
 module.exports = (options = {}) => {
-  cy.visit('/cookies', options);
+  cy.visit('/', { failOnStatusCode: false, ...options });
   cy.wait(Cypress.env('demoDelay'));
 };
