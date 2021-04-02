@@ -16,13 +16,13 @@ And the LPA Planning Officer remains on the page
 Scenario: AC03 - The LPA Planning Officer selects No on the Development Plan Document and Neighbourhood Plan question
 Given the Development Plan Document and Neighbourhood Plan question is requested
 When there is not a Development plan document or Neighbourhood plan
-Then progress is made to the Tasklist
+Then progress is made to the task list
 And the Development Plan Document subsection is shown as completed
 
 Scenario Outline: AC04 - The LPA Planning Officer provides details about the Development Plan Document and Neighbourhood Plan
 Given there is a Development Plan Document and Neighbourhood Plan
 When details are provided about the plan '<plan_details>'
-Then progress is made to the Tasklist
+Then progress is made to the task list
 And the Development Plan Document subsection is shown as completed
 Examples:
   | plan_details           |

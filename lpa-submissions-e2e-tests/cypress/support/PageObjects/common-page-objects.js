@@ -1,7 +1,3 @@
-exports.questionTitle = () => {
-  return cy.get('h1');
-};
-
 exports.sectionName = () => {
   return cy.get('.govuk-caption-l');
 };
@@ -15,7 +11,7 @@ exports.backButton = () => {
 };
 
 exports.pageHeading = () => {
-  return cy.get('.govuk-fieldset__heading');
+  return cy.get('h1');
 };
 
 exports.textArea = (textAreaId) => {

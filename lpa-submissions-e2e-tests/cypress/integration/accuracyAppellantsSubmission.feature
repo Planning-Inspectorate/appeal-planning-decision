@@ -4,7 +4,7 @@ Feature: Accuracy of the Apellants Submission
   so that the Planning Inspectorate can make a decision.
 
   Scenario: AC01 Access Review accuracy of the appellant's submission page
-    Given the user is on the Task List page
+    Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     When the user selects the link "Review accuracy of the appellant's submission"
     Then the user is presented with the correct page
     And the radio group label is 'Does the information from the appellant accurately reflect the original planning application?'
@@ -20,7 +20,7 @@ Feature: Accuracy of the Apellants Submission
     Given the user is in the Review accuracy of the appellant's submission page
     When the user selects 'Yes'
     And the user selects Save and Continue
-    Then the user is taken to the task list
+    Then progress is made to the task list
     And a Completed status is populated on that sub-section of the task list
 
   Scenario: AC04 LPA user selects no and is presented with free text field
@@ -33,7 +33,7 @@ Feature: Accuracy of the Apellants Submission
     When the user selects 'No'
     And the user enters '<inaccuracy_reason>'
     And the user selects Save and Continue
-    Then the user is taken to the task list
+    Then progress is made to the task list
     And a Completed status is populated on that sub-section of the task list
     Examples:
       | inaccuracy_reason  |
@@ -61,7 +61,7 @@ Feature: Accuracy of the Apellants Submission
     Given the user is in the Review accuracy of the appellant's submission page
     When the user selects 'No'
     And the user selects the back link
-    Then the user is taken to the task list
+    Then progress is made to the task list
     And any information they have inputted will not be saved
 
   Scenario: AC09 LPA user has completed the "Review accuracy of the appellant's submission" page and returns to that sub section from the Task List

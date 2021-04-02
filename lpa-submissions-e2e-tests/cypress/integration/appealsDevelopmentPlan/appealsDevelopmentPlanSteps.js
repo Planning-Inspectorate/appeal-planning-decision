@@ -10,10 +10,6 @@ const textAreaId = 'plan-changes-text';
 const noButtonId = 'has-plan-submitted-no';
 const yesButtonId = 'has-plan-submitted-yes';
 
-Given(`a LPA Planning Officer is reviewing their LPA Questionnaire task list`, () => {
-  cy.goToAppealsQuestionnaireTasklistPage();
-});
-
 Given(`the Development Plan Document and Neighbourhood Plan question is requested`, () => {
   cy.goToPage(pageId);
   cy.verifyPageTitle(pageTitle);
@@ -81,8 +77,8 @@ When('the LPA Planning Officer chooses to go to the previous page', () => {
 When(
   `the LPA Planning Officer returns to the Development Plan Document and Neighbourhood Plan question from the Task List`,
   () => {
-    cy.goToAppealsQuestionnaireTasklistPage();
-    cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
+    cy.goToTaskListPage();
+    cy.clickOnTaskListLink(taskListId);
     cy.verifyPageTitle(pageTitle);
   },
 );
@@ -104,20 +100,12 @@ Then(`the LPA Planning Officer remains on the page`, () => {
   cy.checkPageA11y(pageId);
 });
 
-Then(`progress is made to the Tasklist`, () => {
-  cy.goToAppealsQuestionnaireTasklistPage();
-});
-
 Then(`the Development Plan Document subsection is shown as completed`, () => {
   cy.verifyCompletedStatus(taskListId);
 });
 
-Then('the LPA Planning Officer is taken to the Task List', () => {
-  cy.verifyTaskListPageTitle();
-});
-
 Then('any information they have entered will not be saved', () => {
-  cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
+  cy.clickOnTaskListLink(taskListId);
   cy.verifyPageTitle(pageTitle);
   input(yesButtonId).should('not.be.checked');
   input(noButtonId).should('not.be.checked');

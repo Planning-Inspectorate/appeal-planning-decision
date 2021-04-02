@@ -3,7 +3,7 @@ Feature: Appeals in immediate area
   So that the Planning Inspectorate can consider the appeal in light of others nearby.
 
   Scenario: Verify The Tell us about any appeals in the immediate area page
-    Given The Householder planning appeal questionnaire page is presented
+    Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     When the user selects the link Tell us about any appeals in the immediate area
     Then the user is presented with the Immediate Area page
 
@@ -17,7 +17,7 @@ Feature: Appeals in immediate area
     Given the user is on the Tell us about any appeals in the immediate area page
     When the user selects the option 'No'
     And the user selects Save and Continue
-    Then the user navigates to the Task List
+    Then progress is made to the task list
     And a Completed status is populated for the task
 
   Scenario: AC03 LPA user selects yes and is presented with free text field
@@ -30,7 +30,7 @@ Feature: Appeals in immediate area
     When the user selects the option 'Yes'
     And the user enters '<appeal_reference_numbers>'
     And the user selects Save and Continue
-    Then the user navigates to the Task List
+    Then progress is made to the task list
     And a Completed status is populated for the task
     Examples:
       | appeal_reference_numbers          |
@@ -59,5 +59,5 @@ Feature: Appeals in immediate area
     Given the user is on the Tell us about any appeals in the immediate area page
     When the user selects the option 'No'
     And the user selects the back link
-    Then the user navigates to the Task List
+    Then progress is made to the task list
     And any information they have entered will not be saved

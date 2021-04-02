@@ -35,8 +35,7 @@ Cypress.Commands.add('injectAxe', () => {
     window.document.head.appendChild(script);
   });
 });
-Cypress.Commands.add('checkPageA11y', (path) => {
-  //cy.visit(path);
+Cypress.Commands.add('checkPageA11y', () => {
   cy.injectAxe();
   cy.checkA11y(
     {
@@ -48,13 +47,8 @@ Cypress.Commands.add('checkPageA11y', (path) => {
 });
 
 Cypress.Commands.add(
-  'validatePageHolderPageLoad',
-  require('./appeals-questionnaire-navigation/validatePageHolderPageLoad'),
-);
-
-Cypress.Commands.add(
-  'goToAppealsQuestionnaireTasklistPage',
-  require('./appeals-questionnaire-tasklist/goToAppealsQuestionnaireTasklistPage'),
+  'goToTaskListPage',
+  require('./appeals-questionnaire-tasklist/goToTaskListPage'),
 );
 
 Cypress.Commands.add('goToPage', require('./common/goToPage'));
@@ -68,33 +62,13 @@ Cypress.Commands.add('verifyPageTitle', require('./common/verifyPageTitle'));
 Cypress.Commands.add('verifySectionName', require('./common/verifySectionName'));
 
 Cypress.Commands.add(
-  'verifyTaskListPageTitle',
-  require('./appeals-questionnaire-tasklist/verifyTaskListPageTitle'),
-);
-
-Cypress.Commands.add(
-  'clickOnLinksOnAppealQuestionnaireTaskListPage',
-  require('./appeals-questionnaire-tasklist/clickOnLinksOnAppealQuestionnaireTaskListPage'),
-);
-
-Cypress.Commands.add(
-  'verifyNotStartedStatus',
-  require('./appeals-questionnaire-navigation/verifyNotStartedStatus'),
+  'clickOnTaskListLink',
+  require('./appeals-questionnaire-tasklist/clickOnTaskListLink'),
 );
 
 Cypress.Commands.add(
   'verifyCompletedStatus',
   require('./appeals-questionnaire-tasklist/verifyCompletedStatus'),
-);
-
-Cypress.Commands.add(
-  'checkYourAnswers',
-  require('./appeals-questionnaire-navigation/checkYourAnswers'),
-);
-
-Cypress.Commands.add(
-  'verifyCannotStartStatus',
-  require('./appeals-questionnaire-navigation/verifyCannotStartStatus'),
 );
 
 Cypress.Commands.add('verifyAppealDetailsSidebar', require('./common/verifyAppealDetailsSidebar'));

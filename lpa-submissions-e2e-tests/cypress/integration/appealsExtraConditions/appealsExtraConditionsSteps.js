@@ -10,10 +10,6 @@ const textAreaId = 'extra-conditions-text';
 const noButtonId = 'has-extra-conditions-no';
 const yesButtonId = 'has-extra-conditions-yes';
 
-Given(`the householder planning appeal questionnaire task list is presented`, () => {
-  cy.goToAppealsQuestionnaireTasklistPage();
-});
-
 When(`the user selects the link 'Do you have any extra conditions?'`, () => {
   cy.goToPage(pageId);
   cy.verifyPageTitle(pageTitle);
@@ -32,7 +28,6 @@ Then(
 );
 
 Given(`user is in the extra conditions page`, () => {
-  cy.goToAppealsQuestionnaireTasklistPage();
   cy.goToPage(pageId);
   cy.verifyPageTitle(pageTitle);
 });
@@ -57,10 +52,6 @@ Then(`the user remains on extra conditions page`, () => {
 
 When(`user selects the option {string}`, (option) => {
   option === 'Yes' ? input(yesButtonId).check() : input(noButtonId).check();
-});
-
-Then('user navigates to the Task List', () => {
-  cy.verifyTaskListPageTitle();
 });
 
 Then('a Completed status is populated for the task', () => {
@@ -88,22 +79,19 @@ When('user selects the back link', () => {
 });
 
 Then('any information they have entered will not be saved', () => {
-  cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
+  cy.clickOnTaskListLink(taskListId);
   cy.verifyPageTitle(pageTitle);
   input(noButtonId).should('not.be.checked');
 });
 
 Given('a user has completed the information needed on the extra conditions page', () => {
-  cy.goToAppealsQuestionnaireTasklistPage();
-  cy.verifyTaskListPageTitle();
-  cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
-  cy.verifyPageTitle(pageTitle);
+  cy.goToPage(pageId);
   input(noButtonId).check();
   cy.clickSaveAndContinue();
 });
 
 When('the user returns to the extra conditions page from the Task List', () => {
-  cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
+  cy.clickOnTaskListLink(taskListId);
   cy.verifyPageTitle(pageTitle);
 });
 

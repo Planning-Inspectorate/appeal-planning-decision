@@ -1,278 +1,117 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 
-//Given the Householder planning appeal questionnaire page is presented
-Given('The Householder planning appeal questionnaire page is presented', () => {
-  cy.goToAppealsQuestionnaireTasklistPage();
-});
+const title =
+  'Householder planning appeal questionnaire - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK';
+const heading = 'Householder planning appeal questionnaire';
+const url = '/task-list';
 
-Given(`The User clicks on {string}`, (taskname) => {
-  let name = '';
-  switch (taskname) {
-    case "About the appeal - Review accuracy of the appellant's submission":
-      name = 'submissionAccuracy';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      cy.verifyPage('/accuracy-submission');
-      break;
-    case 'About the appeal - Do you have any extra conditions?':
-      name = 'extraConditions';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      break;
-    case 'About the appeal - Tell us about any appeals in the immediate area':
-      name = 'otherAppeals';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      cy.verifyPage('/other-appeals');
-      break;
-    case 'About the appeal site - Tell us about the appeal site':
-      name = 'aboutSite';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      cy.validatePageHolderPageLoad();
-      break;
-    case 'Required documents - Upload the plans used to reach the decision':
-      name = 'plansDecision';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      cy.validatePageHolderPageLoad();
-      break;
-    case "Required documents - Upload the Planning Officer's report":
-      name = 'officersReport';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      cy.validatePageHolderPageLoad();
-      break;
-    case 'Optional supporting documents - Telling interested parties about the application':
-      name = 'interestedPartiesApplication';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      cy.validatePageHolderPageLoad();
-      break;
-    case 'Optional supporting documents - Representations from interested parties':
-      name = 'representationsInterestedParties';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      cy.validatePageHolderPageLoad();
-      break;
-    case 'Optional supporting documents - Notifying interested parties of the appeal':
-      name = 'interestedPartiesAppeal';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      cy.validatePageHolderPageLoad();
-      break;
-    case 'Optional supporting documents - Site notices':
-      name = 'siteNotices';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      cy.validatePageHolderPageLoad();
-      break;
-    case 'Optional supporting documents - Planning history':
-      name = 'planningHistory';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      cy.validatePageHolderPageLoad();
-      break;
-    case 'Optional supporting documents - Statutory development plan policy':
-      name = 'statutoryDevelopment';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      cy.validatePageHolderPageLoad();
-      break;
-    case 'Optional supporting documents - Other relevant policies':
-      name = 'otherPolicies';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      cy.validatePageHolderPageLoad();
-      break;
-    case 'Optional supporting documents - Supplementary planning document extracts':
-      name = 'supplementaryPlanningDocuments';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      cy.validatePageHolderPageLoad();
-      break;
-    case 'Optional supporting documents - Development Plan Document or Neighbourhood Plan':
-      name = 'developmentOrNeighbourhood';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      cy.verifyPage('/development-plan');
-      break;
-    default:
-      throw new Error('Unknown task name = ' + taskname);
-  }
+const visibleWithText = (textToFind, node) => {
+  node.invoke('text').then((text) => {
+    expect(text).to.contain(textToFind);
+  });
+};
+
+const tasks = [
+  {
+    ref: "About the appeal - Review accuracy of the appellant's submission",
+    name: 'submissionAccuracy',
+    url: '/accuracy-submission',
+  },
+  {
+    ref: 'About the appeal - Do you have any extra conditions?',
+    name: 'extraConditions',
+    url: '/extra-conditions',
+  },
+  {
+    ref: 'About the appeal - Tell us about any appeals in the immediate area',
+    name: 'otherAppeals',
+    url: '/other-appeals',
+  },
+  {
+    ref: 'Required documents - Upload the plans used to reach the decision',
+    name: 'plansDecision',
+    url: '/plans',
+  },
+  {
+    ref: 'Optional supporting documents - Development Plan Document or Neighbourhood Plan',
+    name: 'developmentOrNeighbourhood',
+    url: '/development-plan',
+  },
+];
+
+const getTaskDetails = (taskRef) => {
+  const task = tasks.find((task) => taskRef === task.ref);
+
+  if (!task) throw new Error(`Unknown task name = ${taskRef}`);
+
+  return task || {};
+};
+
+const verifyNotStartedStatus = (taskName) => {
+  cy.get('li[' + taskName + '-status="NOT STARTED"]')
+    .find('.govuk-tag')
+    .contains('NOT STARTED');
+};
+
+/**
+ * Steps
+ * ----------------------------------------------
+ */
+
+Given(`The User clicks on {string}`, (taskRef) => {
+  const { name, url } = getTaskDetails(taskRef) || {};
+
+  cy.clickOnTaskListLink(name);
+  cy.verifyPage(url);
 });
 
 //When User clicks on Back button
 When(`User clicks on Back button`, () => {
-  cy.clickBackButton();
+  cy.go('back');
 });
 
-//Then User is navigated to Householder questionnaire page
-Then(`User is navigated to Householder questionnaire page`, () => {
-  cy.goToAppealsQuestionnaireTasklistPage();
+Then(`The task {string} is available for selection`, (taskRef) => {
+  const { name } = getTaskDetails(taskRef) || {};
+
+  cy.clickOnTaskListLink(name);
 });
 
-Then(`The task {string} is available for selection`, (taskname) => {
-  let name = '';
-  switch (taskname) {
-    case "About the appeal - Review accuracy of the appellant's submission":
-      name = 'submissionAccuracy';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      break;
-    case 'About the appeal - Do you have any extra conditions?':
-      name = 'extraConditions';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      break;
-    case 'About the appeal - Tell us about any appeals in the immediate area':
-      name = 'otherAppeals';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      break;
-    case 'About the appeal site - Tell us about the appeal site':
-      name = 'aboutSite';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      break;
-    case 'Required documents - Upload the plans used to reach the decision':
-      name = 'plansDecision';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      break;
-    case "Required documents - Upload the Planning Officer's report":
-      name = 'officersReport';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      break;
-    case 'Optional supporting documents - Telling interested parties about the application':
-      name = 'interestedPartiesApplication';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      break;
-    case 'Optional supporting documents - Representations from interested parties':
-      name = 'representationsInterestedParties';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      break;
-    case 'Optional supporting documents - Notifying interested parties of the appeal':
-      name = 'interestedPartiesAppeal';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      break;
-    case 'Optional supporting documents - Site notices':
-      name = 'siteNotices';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      break;
-    case 'Optional supporting documents - Planning history':
-      name = 'planningHistory';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      break;
-    case 'Optional supporting documents - Statutory development plan policy':
-      name = 'statutoryDevelopment';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      break;
-    case 'Optional supporting documents - Other relevant policies':
-      name = 'otherPolicies';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      break;
-    case 'Optional supporting documents - Supplementary planning document extracts':
-      name = 'supplementaryPlanningDocuments';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      break;
-    case 'Optional supporting documents - Development Plan Document or Neighbourhood Plan':
-      name = 'developmentOrNeighbourhood';
-      cy.clickOnLinksOnAppealQuestionnaireTaskListPage(name);
-      break;
+Then(`The state for {string} is displayed to be "NOT STARTED"`, (taskRef) => {
+  const { name } = getTaskDetails(taskRef) || {};
 
-    default:
-      throw new Error('Unknown task name = ' + taskname);
-  }
+  verifyNotStartedStatus(name);
 });
 
-Then(`The state for {string} is displayed to be "NOT STARTED"`, (taskname) => {
-  let name = '';
-  switch (taskname) {
-    case "About the appeal - Review accuracy of the appellant's submission":
-      name = 'submissionAccuracy';
-      cy.verifyNotStartedStatus(name);
-      break;
-    case 'About the appeal - Do you have any extra conditions?':
-      name = 'extraConditions';
-      cy.verifyNotStartedStatus(name);
-      break;
-    case 'About the appeal - Tell us about any appeals in the immediate area':
-      name = 'otherAppeals';
-      cy.verifyNotStartedStatus(name);
-      break;
-    case 'About the appeal site - Tell us about the appeal site':
-      name = 'aboutSite';
-      cy.verifyNotStartedStatus(name);
-      break;
-    case 'Required documents - Upload the plans used to reach the decision':
-      name = 'plansDecision';
-      cy.verifyNotStartedStatus(name);
-      break;
-    case "Required documents - Upload the Planning Officer's report":
-      name = 'officersReport';
-      cy.verifyNotStartedStatus(name);
-      break;
-    case 'Optional supporting documents - Telling interested parties about the application':
-      name = 'interestedPartiesApplication';
-      cy.verifyNotStartedStatus(name);
-      break;
-    case 'Optional supporting documents - Representations from interested parties':
-      name = 'representationsInterestedParties';
-      cy.verifyNotStartedStatus(name);
-      break;
-    case 'Optional supporting documents - Notifying interested parties of the appeal':
-      name = 'interestedPartiesAppeal';
-      cy.verifyNotStartedStatus(name);
-      break;
-    case 'Optional supporting documents - Site notices':
-      name = 'siteNotices';
-      cy.verifyNotStartedStatus(name);
-      break;
-    case 'Optional supporting documents - Planning history':
-      name = 'planningHistory';
-      cy.verifyNotStartedStatus(name);
-      break;
-    case 'Optional supporting documents - Statutory development plan policy':
-      name = 'statutoryDevelopment';
-      cy.verifyNotStartedStatus(name);
-      break;
-    case 'Optional supporting documents - Other relevant policies':
-      name = 'otherPolicies';
-      cy.verifyNotStartedStatus(name);
-      break;
-    case 'Optional supporting documents - Supplementary planning document extracts':
-      name = 'supplementaryPlanningDocuments';
-      cy.verifyNotStartedStatus(name);
-      break;
-    case 'Optional supporting documents - Development Plan Document or Neighbourhood Plan':
-      name = 'developmentOrNeighbourhood';
-      cy.verifyNotStartedStatus(name);
-      break;
-
-    default:
-      throw new Error('Unknown task name = ' + taskname);
-  }
+Then('the LPA Planning Officer is taken to the Task List', () => {
+  cy.verifyPage(url);
+  cy.verifyPageTitle(title);
+  cy.verifyPageHeading(heading);
+  cy.checkPageA11y();
+  visibleWithText(
+    'Use the links below to submit your information. You can complete the sections in any order.',
+    cy.get('.govuk-body-l'),
+  );
+  visibleWithText(
+    'Only include documents that were considered when making a decision on the application.',
+    cy.get('[data-cy="task-list--optionalDocumentsSection"]'),
+  );
 });
 
-Then(
-  'The title of the page is "Householder planning appeal questionnaire - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK"',
-  () => {
-    cy.verifyTaskListPageTitle();
-  },
-);
-
-//The state for "Before You submit - Check your answers" is displayed to be "CANNOT START YET"
 Then(
   'The state for "Before You submit - Check your answers" is displayed to be "CANNOT START YET"',
   () => {
-    cy.checkYourAnswers();
-    cy.verifyCannotStartStatus();
-  },
-);
-
-Then(
-  'The "Use the links below to submit your information. You can complete the sections in any order." is displayed',
-  () => {
-    cy.get('.govuk-body-l')
-      .invoke('text')
-      .then((text) => {
-        expect(text).to.contain(
-          'Use the links below to submit your information. You can complete the sections in any order.',
-        );
-      });
+    cy.get('li[checkyouranswers-status="CANNOT START YET"]')
+      .find('.govuk-tag')
+      .contains('CANNOT START YET');
   },
 );
 
 Then(
   'The "Only include documents that were considered when making a decision on the application." is displayed in Optional Supporting Documents',
   () => {
-    cy.get('[data-cy="task-list--optionalDocumentsSection"]')
-      .invoke('text')
-      .then((text) => {
-        expect(text).to.contain(
-          'Only include documents that were considered when making a decision on the application.',
-        );
-      });
+    visibleWithText(
+      'Only include documents that were considered when making a decision on the application.',
+      cy.get('[data-cy="task-list--optionalDocumentsSection"]'),
+    );
   },
 );
