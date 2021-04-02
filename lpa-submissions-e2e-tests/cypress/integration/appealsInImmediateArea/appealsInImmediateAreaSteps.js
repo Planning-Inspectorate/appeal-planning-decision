@@ -18,10 +18,6 @@ const labelTextId = 'appeal-reference-numbers-label';
 const noButtonId = 'adjacent-appeals-no';
 const yesButtonId = 'adjacent-appeals-yes';
 
-Given('The Householder planning appeal questionnaire page is presented', () => {
-  cy.goToAppealsQuestionnaireTasklistPage();
-});
-
 Given('the user is on the Tell us about any appeals in the immediate area page', () => {
   cy.goToPage(pageId);
   cy.verifyPageTitle(pageTitle);
@@ -29,8 +25,8 @@ Given('the user is on the Tell us about any appeals in the immediate area page',
 });
 
 When(`the user selects the link Tell us about any appeals in the immediate area`, () => {
-  cy.goToAppealsQuestionnaireTasklistPage();
-  cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
+  cy.goToTaskListPage();
+  cy.clickOnTaskListLink(taskListId);
 });
 
 When(`the user selects Save and Continue`, () => {
@@ -48,10 +44,6 @@ Then(`the user remains on 'Tell us about any appeals in the immediate area' page
 
 When('the user selects the option {string}', (option) => {
   option === 'Yes' ? input(yesButtonId).check() : input(noButtonId).check();
-});
-
-Then('the user navigates to the Task List', () => {
-  cy.verifyTaskListPageTitle();
 });
 
 Then('a Completed status is populated for the task', () => {
@@ -91,10 +83,7 @@ Then('the user is shown the error message {string}', (errorMessage) => {
 });
 
 Given('a user has completed the information needed on the appeals in immediate area page', () => {
-  cy.goToAppealsQuestionnaireTasklistPage();
-  cy.verifyTaskListPageTitle();
-  cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
-  cy.verifyPage(pageId);
+  cy.goToPage(pageId);
   input(noButtonId).check();
   cy.clickSaveAndContinue();
 });
@@ -102,8 +91,7 @@ Given('a user has completed the information needed on the appeals in immediate a
 When(
   `the user returns to the 'Tell us about any appeals in the immediate area' page from the Task List`,
   () => {
-    cy.verifyTaskListPageTitle();
-    cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
+    cy.clickOnTaskListLink(taskListId);
     cy.verifyPage(pageId);
   },
 );
@@ -117,7 +105,7 @@ When('the user selects the back link', () => {
 });
 
 Then('any information they have entered will not be saved', () => {
-  cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
+  cy.clickOnTaskListLink(taskListId);
   cy.verifyPage(pageId);
   input(noButtonId).should('not.be.checked');
 });

@@ -12,10 +12,6 @@ const inaccuracyReasonInputId = 'inaccuracy-reason';
 const accurateSubmissionLabelId = 'accurate-submission-label';
 const sectionName = 'About the appeal';
 
-Given('the user is on the Task List page', () => {
-  cy.goToAppealsQuestionnaireTasklistPage();
-});
-
 Given(`the user is in the Review accuracy of the appellant's submission page`, () => {
   cy.goToPage(pageId);
   cy.verifyPageTitle(pageTitle);
@@ -24,17 +20,14 @@ Given(`the user is in the Review accuracy of the appellant's submission page`, (
 Given(
   `a user has completed the information needed on the accuracy of the appellant's submission page`,
   () => {
-    cy.goToAppealsQuestionnaireTasklistPage();
-    cy.verifyPage(taskListUrl);
-    cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
-    cy.verifyPageTitle(pageTitle);
+    cy.goToPage(pageId);
     input(yesButtonId).check();
     cy.clickSaveAndContinue();
   },
 );
 
 When(`the user selects the link "Review accuracy of the appellant's submission"`, () => {
-  cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
+  cy.clickOnTaskListLink(taskListId);
 });
 
 When('the user does not select an option', () => {
@@ -64,8 +57,8 @@ When('the user selects the back link', () => {
 
 When('the user returns to the submission accuracy page from the Task List', () => {
   cy.verifyPage(taskListUrl);
-  cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
-  cy.verifyPageTitle(pageTitle);
+  cy.clickOnTaskListLink(taskListId);
+  cy.verifyPage(pageId);
 });
 
 Then('the user is presented with the correct page', () => {
@@ -92,10 +85,6 @@ Then(`the user remains in the Accuracy of the appellant's submission page`, () =
   cy.verifyPageTitle(pageTitle);
 });
 
-Then('the user is taken to the task list', () => {
-  cy.verifyPage(taskListUrl);
-});
-
 Then('a Completed status is populated on that sub-section of the task list', () => {
   cy.verifyCompletedStatus(taskListId);
 });
@@ -109,7 +98,7 @@ Then('the user can see the appeal details panel on the right hand side of the pa
 });
 
 Then('any information they have inputted will not be saved', () => {
-  cy.clickOnLinksOnAppealQuestionnaireTaskListPage(taskListId);
+  cy.clickOnTaskListLink(taskListId);
   cy.verifyPageTitle(pageTitle);
   input(noButtonId).should('not.be.checked');
 });
