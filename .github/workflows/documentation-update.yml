@@ -113,22 +113,16 @@ jobs:
           parallel: true
           ci-build-id: ${{ needs.context.outputs.uuid }}
 
-      - name: images
-        uses: actions/upload-artifact@master
-        # there might be no screenshots created when:
-        # - there are no test failures
-        # so only upload screenshots if previous step has failed
-        if: failure()
-        with:
-          name: screenshots
-          path: cypress/screenshots
+      - name: Generate html report
+        if: ${{ always() }}
+        run: npm run test:e2e:postprocess
 
-      - name: videos
-      # video should always be generated
-        uses: actions/upload-artifact@master
+      - name: Archive report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
         with:
-          name: videos
-          path: cypress/videos
+          name: CYPRESS-FWA-ACP-results
+          path: ${{ env.CYPRESS_DEFAULT }}/cucumber-report
 
   cypress-forms-web-app-ACP:
     name: "Documentation: forms-web-app (Cypress, ACP)"
