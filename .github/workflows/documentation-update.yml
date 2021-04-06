@@ -118,15 +118,23 @@ jobs:
         run: |
           uuidgen
 
+
+
       - name: Generate html report
         if: ${{ always() }}
         run: npm run test:e2e:postprocess
+
+      - name: Set UUID
+        id: generate-uuid
+        uses: filipstefansson/uuid-action@v1
+        with:
+          name: ${{ gihub.sha }}
 
       - name: Archive report
         if: ${{ always() }}
         uses: actions/upload-artifact@main
         with:
-          name: CYPRESS-FWA-results-${{ test_id }}
+          name: CYPRESS-FWA-results-${{ steps.generate-uuid.outputs.uuid }}
           path: ${{ env.CYPRESS_DEFAULT }}/cucumber-report
 
   cypress-forms-web-app-ACP:
