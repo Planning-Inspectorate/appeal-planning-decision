@@ -34,8 +34,20 @@ jobs:
         id: uuid
         run: echo "::set-output name=value::$GITHUB_SHA-$(date +"%s")"
 
+  testJob:
+    name: "Build ID"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    outputs:
+      uuid: ${{ steps.uuid.outputs.value }}
+    steps:
+      - name: 'uuid'
+        id: uuid
+        run: |
+          uuidgen
+
   cypress-forms-web-app-default:
-    needs: ['context']
+    needs: ['context'],   ['testJob']
     name: "Documentation: forms-web-app (Cypress, default)"
     if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
@@ -111,7 +123,7 @@ jobs:
           working-directory: ./e2e-tests
           record: true
           parallel: true
-          ci-build-id: ${{ needs.context.outputs.uuid }}
+          ci-build-id: ${{ needs.testJob.outputs.uuid }}
 
       - name: Generate html report
         if: ${{ always() }}
@@ -121,7 +133,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@main
         with:
-          name: CYPRESS-FWA-results-${{ $CODEBUILD_INITIATOR }}
+          name: CYPRESS-FWA-results-${{ needs.context.outputs.uuid }}
           path: ${{ env.CYPRESS_DEFAULT }}/cucumber-report
 
   cypress-forms-web-app-ACP:
