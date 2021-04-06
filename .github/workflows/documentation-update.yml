@@ -112,8 +112,9 @@ jobs:
           ci-build-id: ${{ needs.context.outputs.uuid }}
 
   cypress-forms-web-app-default-docs:
-    if: always()
-      needs: cypress-forms-web-app-default
+    needs: cypress-forms-web-app-default
+    name: "Post-process Documentation: forms-web-app (Cypress, default)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
 
     steps:
       - name: Post-process results without ACP integration
