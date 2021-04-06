@@ -19,6 +19,7 @@ on:
   push:
     branches:
       - master
+      - 'feature/**'
 
 jobs:
   context:
