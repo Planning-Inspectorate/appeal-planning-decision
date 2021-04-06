@@ -133,7 +133,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@main
         with:
-          name: CYPRESS-FWA-results-${{ uuidgen }}
+          name: CYPRESS-FWA-results-${{ job.container.id }}
           path: ${{ env.CYPRESS_DEFAULT }}/cucumber-report
 
   cypress-forms-web-app-ACP:
