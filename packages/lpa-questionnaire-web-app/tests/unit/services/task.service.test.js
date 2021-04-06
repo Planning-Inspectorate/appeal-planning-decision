@@ -8,7 +8,7 @@ const appealReply = require('../../../src/lib/empty-appeal-reply');
 describe('services/task.service', () => {
   describe('SECTIONS', () => {
     it('should return not started from statusTemp', () => {
-      expect(SECTIONS[3].tasks[0].rule(appealReply)).toEqual(NOT_STARTED);
+      expect(SECTIONS[1].tasks[0].rule(appealReply)).toEqual(NOT_STARTED);
     });
     it('should return cannot start yet for statusCheckYourAnswer', () => {
       expect(SECTIONS[SECTIONS.length - 1].tasks[0].rule(appealReply)).toEqual(CANNOT_START_YET);
