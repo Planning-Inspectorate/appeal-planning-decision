@@ -115,6 +115,7 @@ jobs:
     needs: cypress-forms-web-app-default
     name: "Post-process Documentation: forms-web-app (Cypress, default)"
     if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
 
     steps:
       - name: Post-process results without ACP integration
