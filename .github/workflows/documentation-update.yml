@@ -47,7 +47,7 @@ jobs:
           uuidgen
 
   cypress-forms-web-app-default:
-    needs: ['context'],   ['testJob']
+    needs: ['context','testJob']
     name: "Documentation: forms-web-app (Cypress, default)"
     if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
