@@ -121,7 +121,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@main
         with:
-          name: CYPRESS-FWA-ACP-results
+          name: CYPRESS-FWA-results-${{ $CODEBUILD_INITIATOR }}
           path: ${{ env.CYPRESS_DEFAULT }}/cucumber-report
 
   cypress-forms-web-app-ACP:
