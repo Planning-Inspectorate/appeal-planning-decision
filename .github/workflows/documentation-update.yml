@@ -111,23 +111,22 @@ jobs:
           parallel: true
           ci-build-id: ${{ needs.context.outputs.uuid }}
 
-  cypress-forms-web-app-default-docs:
-    needs: cypress-forms-web-app-default
-    name: "Post-process Documentation: forms-web-app (Cypress, default)"
-    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Post-process results without ACP integration
-        if: ${{ always() }}
-        run: npm run test:e2e:postprocess
-
-      - name: Archive report
-        if: ${{ always() }}
-        uses: actions/upload-artifact@main
-        with:
-          name: CYPRESS-FWA-default-results
-          path: ${{ env.CYPRESS_DEFAULT }}/cucumber-report
+      - name: Test documentation
+        # Save videos and screenshots as test artifacts
+        # https://github.com/actions/upload-artifact
+        - uses: actions/upload-artifact@master
+          # there might be no screenshots created when:
+          # - there are no test failures
+          # so only upload screenshots if previous step has failed
+          if: failure()
+          with:
+            name: screenshots
+            path: cypress/screenshots
+        # video should always be generated
+        - uses: actions/upload-artifact@master
+          with:
+            name: videos
+            path: cypress/videos
 
   cypress-forms-web-app-ACP:
     name: "Documentation: forms-web-app (Cypress, ACP)"
