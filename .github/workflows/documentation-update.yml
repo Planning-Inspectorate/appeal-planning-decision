@@ -111,7 +111,7 @@ jobs:
           working-directory: ./e2e-tests
           record: true
           parallel: true
-          ci-build-id: ${{ needs.testJob.outputs.uuid }}
+          ci-build-id: ${{ needs.context.outputs.uuid }}
 
       - name: Generate html report
         if: ${{ always() }}
@@ -121,7 +121,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@main
         with:
-          name: CYPRESS-FWA-results-${{ github.action }}
+          name: CYPRESS-FWA-results-${{ job.container.id }}
           path: ${{ env.CYPRESS_DEFAULT }}/cucumber-report
 
   cypress-forms-web-app-ACP:
