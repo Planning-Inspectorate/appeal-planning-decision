@@ -19,6 +19,7 @@ on:
   push:
     branches:
       - master
+      - feature/as-1825-doc-run-fixes
 
 jobs:
   context:
