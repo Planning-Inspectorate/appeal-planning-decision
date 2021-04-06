@@ -113,13 +113,6 @@ jobs:
           parallel: true
           ci-build-id: ${{ needs.context.outputs.uuid }}
 
-      - name: generate id
-        id: test_id
-        run: |
-          uuidgen
-
-
-
       - name: Generate html report
         if: ${{ always() }}
         run: npm run test:e2e:postprocess
@@ -128,7 +121,7 @@ jobs:
         id: generate-uuid
         uses: filipstefansson/uuid-action@v1
         with:
-          name: ${{ gihub.sha }}
+          name: ${{ github.sha }}
 
       - name: Archive report
         if: ${{ always() }}
