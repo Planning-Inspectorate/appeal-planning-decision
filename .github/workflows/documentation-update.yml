@@ -52,6 +52,71 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Cache central NPM modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-fwa-central-npm-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: fwa-${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            fwa-${{ runner.os }}-node-${{ github.ref }}-
+            fwa-${{ runner.os }}-node-
+            fwa-${{ runner.os }}-
+
+      - name: Cache Cypress binary
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-fwa-cypress-binary
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.cache/Cypress
+          key: fwa-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            fwa-${{ runner.os }}-cypress-${{ github.ref }}-
+            fwa-${{ runner.os }}-cypress-
+            fwa-${{ runner.os }}-
+
+      - name: Cache local node_modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-fwa-local-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: node_modules
+          key: fwa-${{ runner.os }}-node-modules-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            fwa-${{ runner.os }}-node-modules-${{ github.ref }}-
+            fwa-${{ runner.os }}-node-modules-
+            fwa-${{ runner.os }}-
+
+      - name: Install the world
+        run: make install
+
+      - name: Start the world without ACP integration i.e. PINS
+        run: |
+          export SERVER_LIMITED_ROUTING_ENABLED=false
+          docker-compose up -d
+
+      - name: Run the tests without ACP integration in parallel
+        uses: cypress-io/github-action@v2
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          # Pass the Github token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          working-directory: ./e2e-tests
+          record: true
+          parallel: true
+          ci-build-id: ${{ needs.testJob.outputs.uuid }}
+
+      - name: Generate html report
+        if: ${{ always() }}
+        run: npm run test:e2e:postprocess
+
       - name: Archive report
         if: ${{ always() }}
         uses: actions/upload-artifact@main
