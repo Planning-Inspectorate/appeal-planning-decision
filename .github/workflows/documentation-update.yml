@@ -120,8 +120,6 @@ jobs:
       - name: Set UUID
         id: generate-uuid
         uses: filipstefansson/uuid-action@v1
-        with:
-          name: ${{ github.sha }}
 
       - name: Archive report
         if: ${{ always() }}
