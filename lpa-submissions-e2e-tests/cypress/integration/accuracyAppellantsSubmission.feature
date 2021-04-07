@@ -68,3 +68,9 @@ Feature: Accuracy of the Apellants Submission
     Given a user has completed the information needed on the accuracy of the appellant's submission page
     When the user returns to the submission accuracy page from the Task List
     Then the information they previously entered is still populated
+
+  Scenario: AC10 Change answers
+    Given a change to answer 'Accuracy Appellant Submission' is requested from Change your answers page
+    When an answer is saved
+    Then progress is made to the Check Your Answers page
+    And the updated answer is displayed
