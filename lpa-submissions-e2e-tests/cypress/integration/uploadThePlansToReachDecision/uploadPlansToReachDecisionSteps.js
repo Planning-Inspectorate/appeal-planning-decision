@@ -47,26 +47,12 @@ const deleteFile = () => {
   cy.get(`.moj-multi-file-upload__delete`).click();
 };
 
-const visibleWithText = (textToFind, node) => {
-  node.invoke('text').then((text) => {
-    expect(text).to.contain(textToFind);
-  });
-};
-
-const visibleWithoutText = (textToFind, node) => {
-  node.invoke('text').then((text) => {
-    expect(text).not.to.contain(textToFind);
-  });
-};
-
 const validateFileUpload = (fileName) => {
-  const node = cy.get('.govuk-summary-list__row');
-  visibleWithText(fileName, node);
+  cy.visibleWithText(fileName, '.govuk-summary-list__row');
 };
 
 const validateFileDeleted = (fileName) => {
-  const node = cy.get('.moj-multi-file-upload__list');
-  visibleWithoutText(fileName, node);
+  cy.visibleWithoutText(fileName, '.moj-multi-file-upload__list');
 };
 
 const documentsFor = (appealReplyId) => {
@@ -147,7 +133,7 @@ Given("The question 'Upload the plans used to reach the decision' has been compl
 });
 
 When('LPA Planning Officer chooses to upload plans used to reach the decision', () => {
-  cy.clickOnTaskListLink('plansDecision');
+  cy.clickOnSubTaskLink('plansDecision');
   cy.verifyPage(pageUrl);
 });
 
@@ -190,6 +176,13 @@ When('the plans used to reach the decision question is requested', () => {
   goToUploadDecisionPage();
 });
 
+When('an answer is saved', () => {
+  const fileName = 'upload-file-valid.docx';
+  uploadFiles(fileName);
+  validateFileUpload(fileName);
+  cy.clickSaveAndContinue();
+});
+
 Then('LPA Planning Officer is presented with the ability to upload plans', () => {
   cy.verifyPage(pageUrl);
   cy.verifyPageTitle(pageTitle);
@@ -225,4 +218,8 @@ Then('the information they previously entered is still populated', () => {
   if (!assumeLimitedAccess) {
     expectFileToBeInDocumentService('upload-file-valid.pdf');
   }
+});
+
+Then('the updated answer is displayed', () => {
+  cy.confirmCheckYourAnswersDisplayed('plansDecision', 'upload-file-valid.docx');
 });
