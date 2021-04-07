@@ -26,7 +26,7 @@ Given('the user is on the Tell us about any appeals in the immediate area page',
 
 When(`the user selects the link Tell us about any appeals in the immediate area`, () => {
   cy.goToTaskListPage();
-  cy.clickOnTaskListLink(taskListId);
+  cy.clickOnSubTaskLink(taskListId);
 });
 
 When(`the user selects Save and Continue`, () => {
@@ -95,7 +95,7 @@ Given('a user has completed the information needed on the appeals in immediate a
 When(
   `the user returns to the 'Tell us about any appeals in the immediate area' page from the Task List`,
   () => {
-    cy.clickOnTaskListLink(taskListId);
+    cy.clickOnSubTaskLink(taskListId);
     cy.verifyPage(pageId);
   },
 );
@@ -109,7 +109,16 @@ When('the user selects the back link', () => {
 });
 
 Then('any information they have entered will not be saved', () => {
-  cy.clickOnTaskListLink(taskListId);
+  cy.clickOnSubTaskLink(taskListId);
   cy.verifyPage(pageId);
   input(noButtonId).should('not.be.checked');
+});
+
+When('an answer is saved', () => {
+  input(noButtonId).check();
+  cy.clickSaveAndContinue();
+});
+
+Then('the updated answer is displayed', () => {
+  cy.confirmCheckYourAnswersDisplayed('otherAppeals', 'No');
 });
