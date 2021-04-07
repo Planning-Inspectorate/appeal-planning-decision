@@ -56,7 +56,13 @@ Scenario: AC07 - Back link
   Then progress is made to the task list
   And any information they have entered will not be saved
 
-Scenario: User has completed the extra conditions page and returns to that page from the Task List
+Scenario: AC08 - User has completed the extra conditions page and returns to that page from the Task List
   Given a user has completed the information needed on the extra conditions page
   When the user returns to the extra conditions page from the Task List
   Then the information they previously entered is still populated
+
+Scenario: AC09 - Change answers
+    Given a change to answer 'Extra Conditions' is requested from Change your answers page
+    When an answer is saved
+    Then progress is made to the Check Your Answers page
+    And the updated answer is displayed

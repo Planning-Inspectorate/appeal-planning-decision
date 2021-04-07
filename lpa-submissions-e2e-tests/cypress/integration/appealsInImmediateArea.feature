@@ -61,3 +61,9 @@ Feature: Appeals in immediate area
     And the user selects the back link
     Then progress is made to the task list
     And any information they have entered will not be saved
+
+  Scenario: AC08 Change answers
+    Given a change to answer 'Appeals in Immediate Area' is requested from Change your answers page
+    When an answer is saved
+    Then progress is made to the Check Your Answers page
+    And the updated answer is displayed

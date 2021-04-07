@@ -78,10 +78,15 @@ When(
   `the LPA Planning Officer returns to the Development Plan Document and Neighbourhood Plan question from the Task List`,
   () => {
     cy.goToTaskListPage();
-    cy.clickOnTaskListLink(taskListId);
+    cy.clickOnSubTaskLink(taskListId);
     cy.verifyPageTitle(pageTitle);
   },
 );
+
+When('an answer is saved', () => {
+  input(noButtonId).check();
+  cy.clickSaveAndContinue();
+});
 
 Then(`the LPA Planning Officer is presented with the ability to provide information`, () => {
   cy.verifyPageHeading(pageHeading);
@@ -105,7 +110,7 @@ Then(`the Development Plan Document subsection is shown as completed`, () => {
 });
 
 Then('any information they have entered will not be saved', () => {
-  cy.clickOnTaskListLink(taskListId);
+  cy.clickOnSubTaskLink(taskListId);
   cy.verifyPageTitle(pageTitle);
   input(yesButtonId).should('not.be.checked');
   input(noButtonId).should('not.be.checked');
@@ -127,4 +132,8 @@ Then('no is still selected', () => {
 Then('yes is still selected, and plan details are still populated', () => {
   input(yesButtonId).should('be.checked');
   textArea(textAreaId).should('have.value', 'some_text');
+});
+
+Then('the updated answer is displayed', () => {
+  cy.confirmCheckYourAnswersDisplayed('hasPlanSubmitted', 'No');
 });
