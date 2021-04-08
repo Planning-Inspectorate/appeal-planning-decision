@@ -1,22 +1,16 @@
 const { body } = require('express-validator');
-const { FORM_FIELD } = require('../../controllers/eligibility/listed-building');
 
-const rules = () => {
-  const isYourAppealAListedBuildingId = 'is-your-appeal-about-a-listed-building';
+const validIsListedBuildingOptions = ['yes', 'no'];
 
-  const isYourAppealAListedBuildingPossibleValues = FORM_FIELD[
-    isYourAppealAListedBuildingId
-  ].items.reduce((acc, item) => [...acc, item.value], []);
-
-  return [
-    body(isYourAppealAListedBuildingId)
-      .notEmpty()
-      .withMessage('Select yes if your appeal is about a listed building')
-      .bail()
-      .isIn(isYourAppealAListedBuildingPossibleValues),
-  ];
-};
+const rules = () => [
+  body('is-your-appeal-about-a-listed-building')
+    .notEmpty()
+    .withMessage('Select yes if your appeal is about a listed building')
+    .bail()
+    .isIn(validIsListedBuildingOptions),
+];
 
 module.exports = {
   rules,
+  validIsListedBuildingOptions,
 };
