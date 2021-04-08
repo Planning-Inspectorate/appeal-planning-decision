@@ -24,13 +24,17 @@ const matchWhatWeCanFrom = (hardCodedExpectations) => {
         },
         otherDocuments: {
           ...hardCodedExpectations.appeal.yourAppealSection.otherDocuments,
-          uploadedFiles: [...hardCodedExpectations.appeal.yourAppealSection.otherDocuments.uploadedFiles.map( (hardcodedFile ) => {
-            return {
-              ...hardcodedFile,
-              id: expect.any(String),
-              location: expect.any(String),
-            }
-          })],
+          uploadedFiles: [
+            ...hardCodedExpectations.appeal.yourAppealSection.otherDocuments.uploadedFiles.map(
+              (hardcodedFile) => {
+                return {
+                  ...hardcodedFile,
+                  id: expect.any(String),
+                  location: expect.any(String),
+                };
+              },
+            ),
+          ],
         },
       },
       requiredDocumentsSection: {
@@ -57,7 +61,7 @@ const matchWhatWeCanFrom = (hardCodedExpectations) => {
         appealPDFStatement: {
           uploadedFile: {
             id: expect.any(String),
-            name: "Appeal-form.pdf",
+            name: 'Appeal-form.pdf',
             location: expect.any(String),
             size: expect.any(Number),
           },
@@ -73,7 +77,7 @@ const STANDARD_APPEAL = {
     householderPlanningPermission: true,
     eligibleLocalPlanningDepartment: true,
     isClaimingCosts: false,
-    isListedBuilding: true,
+    isListedBuilding: false,
   },
   aboutYouSection: {
     yourDetails: {

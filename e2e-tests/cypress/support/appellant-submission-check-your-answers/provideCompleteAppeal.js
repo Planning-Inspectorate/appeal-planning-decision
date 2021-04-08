@@ -26,9 +26,9 @@ module.exports = (appeal, overrides = {}) => {
   cy.clickSaveAndContinue();
 
   if (appeal.eligibility.isListedBuilding) {
-    cy.stateCaseDoesNotInvolveAListedBuilding();
-  } else {
     cy.stateCaseInvolvesListedBuilding();
+  } else {
+    cy.stateCaseDoesNotInvolveAListedBuilding();
   }
 
   cy.goToCostsPage();
