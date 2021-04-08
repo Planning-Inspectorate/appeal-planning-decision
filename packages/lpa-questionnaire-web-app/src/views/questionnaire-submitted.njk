@@ -1,0 +1,27 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+
+{% block pageTitle %}
+  Information submitted - Appeal questionnaire - Appeal a householder planning decision - GOV.UK
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {{ govukPanel({
+        titleText: "Information submitted",
+        html: "We've sent a confirmation email to: your.email@work.gov.uk"
+      }) }}
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <h2 class="govuk-heading-m">What happens next</h2>
+
+      <ul>
+        <li>Your evidence has been submitted to the Planning Inspectorate, and a copy sent to the appellant.</li>
+        <li>The Planning Inspectorate will be in touch if we require any further information.</li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}
