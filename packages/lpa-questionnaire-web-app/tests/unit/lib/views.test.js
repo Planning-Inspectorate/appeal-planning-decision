@@ -10,6 +10,7 @@ describe('lib/views', () => {
       EXTRA_CONDITIONS: 'extra-conditions',
       DEVELOPMENT_PLAN: 'development-plan',
       UPLOAD_PLANS: 'upload-plans',
+      CONFIRM_ANSWERS: 'confirm-answers',
       QUESTIONNAIRE_SUBMITTED: 'questionnaire-submitted',
     });
   });
