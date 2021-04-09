@@ -1,0 +1,23 @@
+const { get } = require('./router-mock');
+const { VIEW } = require('../../../src/lib/views');
+const confirmAnswersController = require('../../../src/controllers/confirm-answers');
+const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
+
+describe('routes/confirm-answers', () => {
+  beforeEach(() => {
+    // eslint-disable-next-line global-require
+    require('../../../src/routes/confirm-answers');
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it('should define the expected routes', () => {
+    expect(get).toHaveBeenCalledWith(
+      `/:id/${VIEW.CONFIRM_ANSWERS}`,
+      [fetchExistingAppealReplyMiddleware],
+      confirmAnswersController.getConfirmAnswers
+    );
+  });
+});

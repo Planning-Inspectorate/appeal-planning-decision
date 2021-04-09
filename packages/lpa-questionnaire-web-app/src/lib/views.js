@@ -7,6 +7,7 @@ const VIEW = {
   DEVELOPMENT_PLAN: 'development-plan',
   UPLOAD_PLANS: 'upload-plans',
   QUESTIONNAIRE_SUBMITTED: 'questionnaire-submitted',
+  CONFIRM_ANSWERS: 'confirm-answers',
 };
 
 module.exports = {

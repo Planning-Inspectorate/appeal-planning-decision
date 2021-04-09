@@ -1,0 +1,48 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{%- from "components/check-answers/macro.njk" import checkAnswers -%}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: taskListLink
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+      <span class="govuk-caption-xl">
+          Submit your evidence
+        </span>
+
+      <h1 class="govuk-heading-xl">Check your answers</h1>
+
+      <p>Before you submit your evidence, take a moment to make sure you're happy with the answers you've provided.</p>
+
+      {{ checkAnswers({
+        sections: sections
+      }) }}
+
+      {{ govukWarningText({
+          text: "By submitting this questionnaire, you confirm that, to the best of your knowledge, the details are correct.",
+          iconFallbackText: "Warning"
+        }) }}
+
+      <form action="{{ submissionLink }}" method="get" novalidate>
+
+        {{ govukButton({
+          text: "Accept and send",
+          attributes: {
+            'data-cy': 'submit'
+          }
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

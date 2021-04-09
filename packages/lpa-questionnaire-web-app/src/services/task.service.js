@@ -53,7 +53,7 @@ const SECTIONS = [
     tasks: [
       {
         taskId: 'checkYourAnswers',
-        href: '/placeholder',
+        href: '/confirm-answers',
         rule: checkYourAnswerCompletion,
       },
     ],

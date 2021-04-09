@@ -1,0 +1,12 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% for section in params.sections %}
+  {% if section.id !== 'submitQuestionnaireSection' %}
+    <h2 class="govuk-heading-m">{{ section.heading }}</h2>
+
+    {{ govukSummaryList({
+      classes: 'govuk-!-margin-bottom-9',
+      rows: section.subTasks
+    }) }}
+  {% endif %}
+{% endfor %}
