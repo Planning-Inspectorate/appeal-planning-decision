@@ -6,6 +6,7 @@ module.exports.APPEAL_DOCUMENT = {
     eligibility: {
       enforcementNotice: null,
       isClaimingCosts: null,
+      isListedBuilding: null,
     },
     aboutYouSection: {
       yourDetails: {
