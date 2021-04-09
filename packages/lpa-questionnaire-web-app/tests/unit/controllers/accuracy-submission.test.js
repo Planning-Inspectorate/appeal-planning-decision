@@ -2,7 +2,7 @@ const accuracySubmissionController = require('../../../src/controllers/accuracy-
 const { createOrUpdateAppealReply } = require('../../../src/lib/appeal-reply-api-wrapper');
 const { getTaskStatus } = require('../../../src/services/task.service');
 const logger = require('../../../src/lib/logger');
-const appealReply = require('../../../src/lib/empty-appeal-reply');
+const appealReply = require('../emptyAppealReply');
 const { VIEW } = require('../../../src/lib/views');
 const { mockReq, mockRes } = require('../mocks');
 

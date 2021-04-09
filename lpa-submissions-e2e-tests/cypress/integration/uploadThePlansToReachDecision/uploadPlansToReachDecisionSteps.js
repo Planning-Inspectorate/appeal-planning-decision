@@ -80,18 +80,14 @@ const fileIsNotInDocumentService = (appealReplyId, fileName) => {
   });
 }
 
-const findAppealReplyId = () => {
-  return cy.document().get('head meta[name="appealReplyId"]').invoke('attr', 'content')
-}
-
 const expectFileToBeInDocumentService = (fileName) => {
-  findAppealReplyId().then( (id) => {
+  cy.getAppealReplyId().then( (id) => {
     fileIsInDocumentService(id, fileName)
   });
 }
 
 const expectFileNotToBeInDocumentService = (fileName) => {
-  findAppealReplyId().then( (id) => {
+  cy.getAppealReplyId().then( (id) => {
     fileIsNotInDocumentService(id, fileName)
   });
 }
