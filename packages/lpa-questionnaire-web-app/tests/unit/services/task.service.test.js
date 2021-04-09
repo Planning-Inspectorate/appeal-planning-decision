@@ -3,7 +3,7 @@ const {
   CANNOT_START_YET,
 } = require('../../../src/services/task-status/task-statuses');
 const { SECTIONS, getTaskStatus } = require('../../../src/services/task.service');
-const appealReply = require('../../../src/lib/empty-appeal-reply');
+const appealReply = require('../emptyAppealReply');
 
 describe('services/task.service', () => {
   describe('SECTIONS', () => {

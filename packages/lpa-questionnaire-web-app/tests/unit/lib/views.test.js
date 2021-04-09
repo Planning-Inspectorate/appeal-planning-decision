@@ -11,6 +11,7 @@ describe('lib/views', () => {
       DEVELOPMENT_PLAN: 'development-plan',
       UPLOAD_PLANS: 'upload-plans',
       INFORMATION_SUBMITTED: 'information-submitted',
+      CONFIRM_ANSWERS: 'confirm-answers',
     });
   });
 });

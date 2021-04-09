@@ -1,19 +1,18 @@
 const { get, post } = require('./router-mock');
-const { VIEW } = require('../../../src/lib/views');
-const accuracySubmissionController = require('../../../src/controllers/accuracy-submission');
+const extraConditionsController = require('../../../src/controllers/extra-conditions');
 const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
 const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
 const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
 const {
-  rules: accuracySubmissionValidationRules,
-} = require('../../../src/validators/accuracy-submission');
+  rules: extraConditionsValidationRules,
+} = require('../../../src/validators/extra-conditions');
 
-jest.mock('../../../src/validators/accuracy-submission');
+jest.mock('../../../src/validators/extra-conditions');
 
-describe('routes/accuracy-submission', () => {
+describe('routes/extra-conditions', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
-    require('../../../src/routes/accuracy-submission');
+    require('../../../src/routes/extra-conditions');
   });
 
   afterEach(() => {
@@ -22,15 +21,15 @@ describe('routes/accuracy-submission', () => {
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      `/:id/${VIEW.ACCURACY_SUBMISSION}`,
+      `/:id/extra-conditions`,
       [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
-      accuracySubmissionController.getAccuracySubmission
+      extraConditionsController.getExtraConditions
     );
     expect(post).toHaveBeenCalledWith(
-      `/:id/${VIEW.ACCURACY_SUBMISSION}`,
-      accuracySubmissionValidationRules(),
+      '/:id/extra-conditions',
+      extraConditionsValidationRules(),
       validationErrorHandler,
-      accuracySubmissionController.postAccuracySubmission
+      extraConditionsController.postExtraConditions
     );
   });
 });
