@@ -251,7 +251,7 @@ describe('appeals.validators.schemas', () => {
           },
         }),
         expected: (result) => {
-          expect(result.errors.length).toEqual(3);
+          expect(result.errors.length).toEqual(4);
         },
       });
     });

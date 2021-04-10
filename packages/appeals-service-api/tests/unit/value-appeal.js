@@ -8,6 +8,7 @@ module.exports = (appeal) => {
     enforcementNotice: true,
     householderPlanningPermission: true,
     isClaimingCosts: false,
+    isListedBuilding: false,
   };
   appeal.aboutYouSection.yourDetails = {
     isOriginalApplicant: false,
