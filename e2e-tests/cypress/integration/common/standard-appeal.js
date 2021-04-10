@@ -72,7 +72,7 @@ const STANDARD_APPEAL = {
   eligibility: {
     householderPlanningPermission: true,
     eligibleLocalPlanningDepartment: true,
-    listedBuilding: true,
+    isListedBuilding: true,
     isClaimingCosts: false,
     isListedBuilding: true
   },
