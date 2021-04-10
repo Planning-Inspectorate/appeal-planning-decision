@@ -11,14 +11,15 @@
     "eligibility": {
       "enforcementNotice": false,
       "householderPlanningPermission": true,
-      "isClaimingCosts": false
+      "isClaimingCosts": false,
+      "isListedBuilding": null
     },
     "aboutYouSection": {
       "yourDetails": {
         "isOriginalApplicant": true,
         "name": "Valid Name",
         "email": "valid@email.com",
-        "appealingOnBehalfOf": ""
+        "appealingOnBehalfOf": "",
       }
     },
     "requiredDocumentsSection": {

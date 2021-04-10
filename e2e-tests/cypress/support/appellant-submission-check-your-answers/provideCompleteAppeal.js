@@ -25,7 +25,7 @@ module.exports = (appeal, overrides = {}) => {
   cy.provideEnforcementNoticeAnswer(appeal.eligibility.enforcementNotice === true);
   cy.clickSaveAndContinue();
 
-  if (appeal.eligibility.listedBuilding) {
+  if (appeal.eligibility.isListedBuilding) {
     cy.stateCaseDoesNotInvolveAListedBuilding();
   } else {
     cy.stateCaseInvolvesListedBuilding();
