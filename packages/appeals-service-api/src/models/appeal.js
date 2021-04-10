@@ -9,6 +9,7 @@ exports.appealDocument = {
     enforcementNotice: null,
     householderPlanningPermission: null,
     isClaimingCosts: null,
+    isListedBuilding: null,
   },
   aboutYouSection: {
     yourDetails: {
