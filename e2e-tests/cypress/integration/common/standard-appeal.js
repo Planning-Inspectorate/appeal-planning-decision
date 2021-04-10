@@ -74,6 +74,7 @@ const STANDARD_APPEAL = {
     eligibleLocalPlanningDepartment: true,
     listedBuilding: true,
     isClaimingCosts: false,
+    isListedBuilding: true
   },
   aboutYouSection: {
     yourDetails: {

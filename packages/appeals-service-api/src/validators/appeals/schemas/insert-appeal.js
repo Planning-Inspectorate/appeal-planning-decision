@@ -139,5 +139,6 @@ exports.insertAppeal = yup
       enforcementNotice: yup.bool().nullable().default(null),
       householderPlanningPermission: yup.bool().nullable().default(null),
       isClaimingCosts: yup.bool().nullable().default(null),
+      isListedBuilding: yup.bool().nullable()._default(null),
     }),
   });
