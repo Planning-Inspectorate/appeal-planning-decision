@@ -31,6 +31,3 @@ Feature: Appellant submits a planning application reference number so that the p
       | invalid number                    | reason                   |
       | ""                                | "mandatory field"        |
       | "1234567890123456789012345678901" | "exceeds max characters" |
-
-
-
