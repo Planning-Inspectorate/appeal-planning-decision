@@ -306,6 +306,8 @@ components:
           type: boolean
         isClaimingCosts:
           type: boolean
+        isListedBuilding:
+          type: boolean
     HealthAndSafety:
       type: object
       properties:

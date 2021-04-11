@@ -84,6 +84,12 @@ exports.updateAppeal = yup
               }
               return yup.mixed().notRequired();
             }),
+            isListedBuilding: yup.lazy((isListedBuilding) => {
+              if (isListedBuilding !== undefined) {
+                return yup.bool().required();
+              }
+              return yup.mixed().notRequired();
+            }),
           })
           .noUnknown(true);
       }

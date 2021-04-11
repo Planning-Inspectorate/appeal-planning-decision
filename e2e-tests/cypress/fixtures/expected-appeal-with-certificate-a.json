@@ -7,7 +7,8 @@
     "eligibility": {
       "enforcementNotice": false,
       "householderPlanningPermission": true,
-      "isClaimingCosts": false
+      "isClaimingCosts": false,
+      "isListedBuildig": null
     },
     "aboutYouSection": {
       "yourDetails": {
