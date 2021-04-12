@@ -1,6 +1,10 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { getTask } from './task';
-import { STANDARD_APPEAL } from './standard-appeal';
+import {
+  STANDARD_APPEAL,
+  APPEAL_NOT_OWNER_OTHERS_INFORMED,
+  APPEAL_NOT_OWNER_OTHERS_NOT_INFORMED,
+} from './standard-appeal';
 
 Given('the completed task list page is displayed', () => {
   cy.provideCompleteAppeal(STANDARD_APPEAL);
@@ -222,4 +226,55 @@ Then('the absence of other document is correctly displayed', () => {
     '[data-cy="supporting-documents-no-files"]',
     'No files uploaded',
   );
+});
+
+Given('an agent or appellant is reviewing their answers and they wholly own the site', () => {
+  cy.provideCompleteAppeal(STANDARD_APPEAL);
+});
+
+Given(
+  'an agent or appellant is reviewing their answers and they do not wholly own the site',
+  () => {
+    cy.provideCompleteAppeal(APPEAL_NOT_OWNER_OTHERS_INFORMED);
+  },
+);
+
+Given(
+  'an agent or appellant has provided information where they have informed the other owners',
+  () => {
+    cy.provideCompleteAppeal(APPEAL_NOT_OWNER_OTHERS_INFORMED);
+  },
+);
+
+Given(
+  'an agent or appellant has provided information where they have not informed the other owners',
+  () => {
+    cy.provideCompleteAppeal(APPEAL_NOT_OWNER_OTHERS_NOT_INFORMED);
+  },
+);
+
+When(
+  'agent or appellant decide to change their other owner notification answer from no to yes',
+  () => {
+    cy.get('[data-cy="other-owner-notification-change"]').click();
+    cy.get('[data-cy="answer-yes"]').check();
+    cy.get('[data-cy="button-save-and-continue"]').click();
+    cy.goToCheckYourAnswersPage();
+  },
+);
+
+Then('the answer for other owner notification is displayed with a change link', () => {
+  cy.confirmCheckYourAnswersDisplayItem('[data-cy="other-owner-notification"]', 'Yes');
+});
+
+Then('the answer for other owner notification is not displayed', () => {
+  cy.get('[data-cy="other-owner-notification"]').should('be.hidden');
+});
+
+Then('the positive answer for other owner notification is displayed with a change link', () => {
+  cy.confirmCheckYourAnswersDisplayItem('[data-cy="other-owner-notification"]', 'Yes');
+});
+
+Then('the negative answer for other owner notification is displayed with a change link', () => {
+  cy.confirmCheckYourAnswersDisplayItem('[data-cy="other-owner-notification"]', 'No');
 });
