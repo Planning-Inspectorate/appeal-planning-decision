@@ -266,6 +266,25 @@
           },
           {
             key: {
+              text: "Have you told the other owners"
+            },
+            value: {
+              text: boolToSentenceCaseField(appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold, { 'data-cy': "other-owner-notification" })
+            },
+            classes: 'govuk-!-display-none' if appeal.appealSiteSection.siteOwnership.ownsWholeSite,
+            actions: {
+              items: [
+                {
+                  href: "/appellant-submission/site-ownership-certb",
+                  text: "Change",
+                  visuallyHiddenText: "Have you told the other owners?",
+                  attributes: { "data-cy":"other-owner-notification-change"}
+                }
+              ]
+            }
+          },
+          {
+            key: {
               text: "Can the Inspector see the whole of the appeal site from a public road?"
             },
             value: {
