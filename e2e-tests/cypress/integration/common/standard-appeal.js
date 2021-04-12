@@ -134,7 +134,135 @@ const STANDARD_APPEAL = {
   },
 };
 
+const APPEAL_NOT_OWNER_OTHERS_NOT_INFORMED = {
+  decisionDate: dateForXDaysAgo(30),
+  eligibility: {
+    householderPlanningPermission: true,
+    eligibleLocalPlanningDepartment: true,
+    listedBuilding: true,
+    isClaimingCosts: false,
+  },
+  aboutYouSection: {
+    yourDetails: {
+      isOriginalApplicant: true,
+      name: 'Valid Name',
+      email: 'valid@email.com',
+      appealingOnBehalfOf: null,
+    },
+  },
+  requiredDocumentsSection: {
+    applicationNumber: 'ValidNumber/12345',
+    originalApplication: {
+      uploadedFile: {
+        name: 'appeal-statement-valid.doc',
+      },
+    },
+    decisionLetter: {
+      uploadedFile: {
+        name: 'appeal-statement-valid.doc',
+      },
+    },
+  },
+  yourAppealSection: {
+    appealStatement: {
+      uploadedFile: {
+        name: 'appeal-statement-valid.doc',
+      },
+      hasSensitiveInformation: null,
+    },
+    otherDocuments: {
+      uploadedFiles: [],
+    },
+  },
+  appealSiteSection: {
+    siteAddress: {
+      addressLine1: '1 Taylor Road',
+      addressLine2: 'Clifton',
+      town: 'Bristol',
+      county: 'South Glos',
+      postcode: 'BS8 1TG',
+    },
+    siteOwnership: {
+      ownsWholeSite: false,
+      haveOtherOwnersBeenTold: false,
+    },
+    siteAccess: {
+      canInspectorSeeWholeSiteFromPublicRoad: true,
+      howIsSiteAccessRestricted: '',
+    },
+    healthAndSafety: {
+      hasIssues: false,
+      healthAndSafetyIssues: '',
+    },
+  },
+};
+
+const APPEAL_NOT_OWNER_OTHERS_INFORMED = {
+  decisionDate: dateForXDaysAgo(30),
+  eligibility: {
+    householderPlanningPermission: true,
+    eligibleLocalPlanningDepartment: true,
+    listedBuilding: true,
+    isClaimingCosts: false,
+  },
+  aboutYouSection: {
+    yourDetails: {
+      isOriginalApplicant: true,
+      name: 'Valid Name',
+      email: 'valid@email.com',
+      appealingOnBehalfOf: null,
+    },
+  },
+  requiredDocumentsSection: {
+    applicationNumber: 'ValidNumber/12345',
+    originalApplication: {
+      uploadedFile: {
+        name: 'appeal-statement-valid.doc',
+      },
+    },
+    decisionLetter: {
+      uploadedFile: {
+        name: 'appeal-statement-valid.doc',
+      },
+    },
+  },
+  yourAppealSection: {
+    appealStatement: {
+      uploadedFile: {
+        name: 'appeal-statement-valid.doc',
+      },
+      hasSensitiveInformation: null,
+    },
+    otherDocuments: {
+      uploadedFiles: [],
+    },
+  },
+  appealSiteSection: {
+    siteAddress: {
+      addressLine1: '1 Taylor Road',
+      addressLine2: 'Clifton',
+      town: 'Bristol',
+      county: 'South Glos',
+      postcode: 'BS8 1TG',
+    },
+    siteOwnership: {
+      ownsWholeSite: false,
+      haveOtherOwnersBeenTold: true,
+    },
+    siteAccess: {
+      canInspectorSeeWholeSiteFromPublicRoad: true,
+      howIsSiteAccessRestricted: '',
+    },
+    healthAndSafety: {
+      hasIssues: false,
+      healthAndSafetyIssues: '',
+    },
+  },
+};
+
 module.exports = {
   matchWhatWeCanFrom,
   STANDARD_APPEAL,
+  APPEAL_NOT_OWNER_OTHERS_INFORMED,
+  APPEAL_NOT_OWNER_OTHERS_NOT_INFORMED,
 };
