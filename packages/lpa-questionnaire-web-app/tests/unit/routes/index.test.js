@@ -1,5 +1,16 @@
 const { use } = require('./router-mock');
 
+const homeRouter = require('../../../src/routes/home');
+const filesRouter = require('../../../src/routes/files');
+const taskListRouter = require('../../../src/routes/task-list');
+const confirmAnswersRouter = require('../../../src/routes/confirm-answers');
+const accuracySubmissionRouter = require('../../../src/routes/accuracy-submission');
+const otherAppealsRouter = require('../../../src/routes/other-appeals');
+const extraConditionsRouter = require('../../../src/routes/extra-conditions');
+const developmentPlanRouter = require('../../../src/routes/development-plan');
+const uploadPlansRouter = require('../../../src/routes/upload-plans');
+const questionnaireSubmittedRouter = require('../../../src/routes/questionnaire-submitted');
+
 describe('routes/index', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
@@ -11,6 +22,15 @@ describe('routes/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(10);
+    expect(use).toHaveBeenCalledWith(homeRouter);
+    expect(use).toHaveBeenCalledWith(filesRouter);
+    expect(use).toHaveBeenCalledWith(taskListRouter);
+    expect(use).toHaveBeenCalledWith(confirmAnswersRouter);
+    expect(use).toHaveBeenCalledWith(accuracySubmissionRouter);
+    expect(use).toHaveBeenCalledWith(otherAppealsRouter);
+    expect(use).toHaveBeenCalledWith(extraConditionsRouter);
+    expect(use).toHaveBeenCalledWith(developmentPlanRouter);
+    expect(use).toHaveBeenCalledWith(uploadPlansRouter);
+    expect(use).toHaveBeenCalledWith(questionnaireSubmittedRouter);
   });
 });
