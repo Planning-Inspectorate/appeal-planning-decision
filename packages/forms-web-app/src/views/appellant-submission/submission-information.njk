@@ -176,6 +176,17 @@
           },
           {
             key: {
+              text: "Have you told the other owners that your'e appealing?"
+            },
+            value: {
+              text: summaryField("Yes, I have already told the other owners", { 'data-cy': "other-owner-notification" })
+              if appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold
+              else summaryField("No, but I understand that I have to inform them", { 'data-cy': "other-owner-notification" })
+            },
+            classes: 'govuk-!-display-none' if appeal.appealSiteSection.siteOwnership.ownsWholeSite
+          },
+          {
+            key: {
               text: "Can the Inspector see the whole of the appeal site from a public road?"
             },
             value: {
