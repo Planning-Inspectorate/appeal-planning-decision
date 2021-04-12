@@ -264,7 +264,10 @@ When(
 );
 
 Then('the answer for other owner notification is displayed with a change link', () => {
-  cy.confirmCheckYourAnswersDisplayItem('[data-cy="other-owner-notification"]', 'Yes');
+  cy.confirmCheckYourAnswersDisplayItem(
+    '[data-cy="other-owner-notification"]',
+    'Yes, I have already told the other owners',
+  );
 });
 
 Then('the answer for other owner notification is not displayed', () => {
@@ -272,9 +275,15 @@ Then('the answer for other owner notification is not displayed', () => {
 });
 
 Then('the positive answer for other owner notification is displayed with a change link', () => {
-  cy.confirmCheckYourAnswersDisplayItem('[data-cy="other-owner-notification"]', 'Yes');
+  cy.confirmCheckYourAnswersDisplayItem(
+    '[data-cy="other-owner-notification"]',
+    'Yes, I have already told the other owners',
+  );
 });
 
 Then('the negative answer for other owner notification is displayed with a change link', () => {
-  cy.confirmCheckYourAnswersDisplayItem('[data-cy="other-owner-notification"]', 'No');
+  cy.confirmCheckYourAnswersDisplayItem(
+    '[data-cy="other-owner-notification"]',
+    'No, but I understand that I have to inform them',
+  );
 });
