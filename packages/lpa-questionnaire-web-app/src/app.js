@@ -11,7 +11,7 @@ const uuid = require('uuid');
 const fileUpload = require('express-fileupload');
 const { prometheus } = require('@pins/common');
 const sessionConfig = require('./lib/session');
-const fileSizeDisplayHelper = require('./lib/file-size-display-helper');
+const { fileSizeDisplayHelper } = require('./lib/file-upload-helpers');
 require('express-async-errors');
 
 const config = require('./config');
@@ -49,6 +49,16 @@ app.use(
 app.use(
   '/assets/govuk/all.js',
   express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'all.js'))
+);
+app.use(
+  '/assets/moj/all.js',
+  express.static(
+    path.join(__dirname, '..', 'node_modules', '@ministryofjustice', 'frontend', 'moj', 'all.js')
+  )
+);
+app.use(
+  '/assets/jquery/jquery.min.js',
+  express.static(path.join(__dirname, '..', 'node_modules', 'jquery', 'dist', 'jquery.min.js'))
 );
 app.use(fileUpload(config.fileUpload));
 

@@ -77,8 +77,8 @@ Then('the radio group label is {string}', (label) => {
 
 Then('the user is shown the error message {string}', (errorMessage) => {
   errorMessage === 'Select yes if the information accurately reflects the planning application'
-    ? cy.validateErrorMessage(errorMessage, 'accurate-submission-error', 'accurate-submission')
-    : cy.validateErrorMessage(errorMessage, 'inaccuracy-reason-error', 'inaccuracy-reason');
+    ? cy.validateErrorMessage(errorMessage, '[data-cy="accurate-submission-error"]', 'accurate-submission')
+    : cy.validateErrorMessage(errorMessage, '[data-cy="inaccuracy-reason-error"]', 'inaccuracy-reason');
 });
 
 Then(`the user remains in the Accuracy of the appellant's submission page`, () => {
@@ -91,10 +91,6 @@ Then('a Completed status is populated on that sub-section of the task list', () 
 
 Then('the user is provided with a free text field to input their reasons', () => {
   labelText(inaccuracyReasonInputId).should('be.visible');
-});
-
-Then('the user can see the appeal details panel on the right hand side of the page', () => {
-  cy.verifyAppealDetailsSidebar({});
 });
 
 Then('any information they have inputted will not be saved', () => {

@@ -42,8 +42,8 @@ When(`user selects Save and Continue`, () => {
 
 Then(`user is shown an error message {string}`, (errorMessage) => {
   errorMessage === 'Select yes if you have extra conditions'
-    ? cy.validateErrorMessage(errorMessage, 'extra-conditions-error', 'has-extra-conditions')
-    : cy.validateErrorMessage(errorMessage, 'extra-conditions-text-error', 'extra-conditions-text');
+    ? cy.validateErrorMessage(errorMessage, '[data-cy="extra-conditions-error"]', 'has-extra-conditions')
+    : cy.validateErrorMessage(errorMessage, '[data-cy="extra-conditions-text-error"]', 'extra-conditions-text');
 });
 
 Then(`the user remains on extra conditions page`, () => {
@@ -64,14 +64,6 @@ When(`user enters {string}`, (extra_information) => {
 
 Given('user does not provide extra information', () => {
   textArea(textAreaId).should('have.value', '');
-});
-
-Then('the appeal details panel is displayed on the right hand side of the page', () => {
-  cy.verifyAppealDetailsSidebar({
-    applicationNumber: 'ABC/123',
-    applicationAddress: '999 Letsby Avenue, Sheffield, South Yorkshire, S9 1XY',
-    apellantName: 'Bob Smith',
-  });
 });
 
 When('user selects the back link', () => {

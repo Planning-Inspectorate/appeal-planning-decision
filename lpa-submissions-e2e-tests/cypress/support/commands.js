@@ -1,3 +1,6 @@
+require('cypress-file-upload');
+require('./visit-without-javascript-enabled');
+
 const severityIndicators = {
   minor: '🟢 Minor',
   moderate: '🟡 Moderate',

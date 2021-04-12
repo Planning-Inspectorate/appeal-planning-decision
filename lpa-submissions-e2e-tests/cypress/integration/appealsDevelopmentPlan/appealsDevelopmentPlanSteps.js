@@ -90,8 +90,8 @@ Then(`the LPA Planning Officer is presented with the ability to provide informat
 
 Then(`progress is halted with an error message {string}`, (errorMessage) => {
   errorMessage === 'Select yes if there is a relevant Development Plan or Neighbourhood Plan'
-    ? cy.validateErrorMessage(errorMessage, 'has-plan-submitted-error', 'has-plan-submitted')
-    : cy.validateErrorMessage(errorMessage, 'plan-changes-text-error', 'plan-changes-text');
+    ? cy.validateErrorMessage(errorMessage, '[data-cy="has-plan-submitted-error"]', 'has-plan-submitted')
+    : cy.validateErrorMessage(errorMessage, '[data-cy="plan-changes-text-error"]', 'plan-changes-text');
 });
 
 Then(`the LPA Planning Officer remains on the page`, () => {
