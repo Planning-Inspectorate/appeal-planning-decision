@@ -266,10 +266,12 @@
           },
           {
             key: {
-              text: "Have you told the other owners"
+              text: "Have you told the other owners that your'e appealing?"
             },
             value: {
-              text: boolToSentenceCaseField(appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold, { 'data-cy': "other-owner-notification" })
+              text: summaryField("Yes, I have already told the other owners", { 'data-cy': "other-owner-notification" })
+              if appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold
+              else summaryField("No, but I understand that I have to inform them", { 'data-cy': "other-owner-notification" })
             },
             classes: 'govuk-!-display-none' if appeal.appealSiteSection.siteOwnership.ownsWholeSite,
             actions: {
@@ -277,7 +279,7 @@
                 {
                   href: "/appellant-submission/site-ownership-certb",
                   text: "Change",
-                  visuallyHiddenText: "Have you told the other owners?",
+                  visuallyHiddenText: "Have you told the other owners that your'e appealing?",
                   attributes: { "data-cy":"other-owner-notification-change"}
                 }
               ]
