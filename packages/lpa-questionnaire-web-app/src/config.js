@@ -1,4 +1,5 @@
 const fifteenMegabytes = 1024 * 1024 * 15;
+const httpPort = Number(process.env.PORT || 3000);
 
 module.exports = {
   appeals: {
@@ -40,9 +41,13 @@ module.exports = {
     url: process.env.APPEAL_REPLY_SERVICE_API_URL,
   },
   server: {
+    host: process.env.HOST_URL || `http://localhost:${httpPort}`, // This is used for the HTML generator
     port: Number(process.env.PORT || 3000),
     sessionSecret: process.env.SESSION_KEY,
     useSecureSessionCookie: process.env.USE_SECURE_SESSION_COOKIES === 'true',
     googleAnalyticsId: '',
+  },
+  pdf: {
+    url: process.env.PDF_SERVICE_API_URL,
   },
 };
