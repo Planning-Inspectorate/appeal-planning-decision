@@ -4,8 +4,8 @@ const {
   extraConditionsCompletion,
   developmentPlanCompletion,
   uploadPlansCompletion,
-  checkYourAnswerCompletion,
 } = require('./task-status');
+const checkYourAnswerCompletion = require('./task-status/check-your-answers');
 
 const SECTIONS = [
   {
