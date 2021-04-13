@@ -23,11 +23,11 @@ module.exports = async (req, res, next) => {
   }
 
   try {
-    req.log.debug({ id: req.session.appealReply.id }, 'Get existing appeal');
+    req.log.debug({ id: req.session.appealReply.id }, 'Get existing appeal reply');
     req.session.appealReply = await getExistingAppealReply(req.session.appealReply.id);
   } catch (err) {
-    req.log.debug({ err }, 'Error retrieving appeal');
-    req.session.appeal = await createOrUpdateAppealReply({ appealId: req.params.id });
+    req.log.debug({ err }, 'Error retrieving appeal reply');
+    req.session.appealReply = await createOrUpdateAppealReply({ appealId: req.params.id });
   }
   return next();
 };

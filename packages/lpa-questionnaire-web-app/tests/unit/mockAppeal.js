@@ -78,6 +78,11 @@ module.exports = {
       },
     },
   },
+  submission: {
+    pdfStatement: {
+      uploadedFile: null,
+    },
+  },
   aboutYouSection: {
     yourDetails: {
       appealingOnBehalfOf: '',
