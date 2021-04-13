@@ -6,11 +6,18 @@ const uuid = require('uuid');
 const config = require('../config');
 const parentLogger = require('./logger');
 
-exports.createDocument = async (parentId, formData) => {
-  const path = `/api/v1/${parentId}`;
+function isDataBuffer(data) {
+  return data !== null && data !== undefined && typeof data === 'object';
+}
 
+function isTheFormDataBuffer(data) {
+  return isDataBuffer(data) && data.tempFilePath;
+}
+
+exports.createDocument = async (parentId, data, fileName) => {
   const correlationId = uuid.v4();
-  const url = `${config.documents.url}${path}`;
+
+  const url = `${config.documents.url}/api/v1/${parentId}`;
 
   const logger = parentLogger.child({
     correlationId,
@@ -20,7 +27,14 @@ exports.createDocument = async (parentId, formData) => {
   let apiResponse;
   try {
     const fd = new FormData();
-    fd.append('file', fs.createReadStream(formData.tempFilePath), formData.name);
+    if (isTheFormDataBuffer(data)) {
+      const documentName = fileName || data.name;
+      fd.append('file', fs.createReadStream(data.tempFilePath), documentName);
+    } else if (isDataBuffer(data)) {
+      fd.append('file', data, fileName);
+    } else {
+      throw new Error('The type of provided data to create a document with is wrong');
+    }
 
     apiResponse = await fetch(url, {
       method: 'POST',
@@ -57,10 +71,8 @@ exports.createDocument = async (parentId, formData) => {
 };
 
 exports.deleteDocument = async (parentId, id) => {
-  const path = `/api/v1/${parentId}/${id}`;
-
   const correlationId = uuid.v4();
-  const url = `${config.documents.url}${path}`;
+  const url = `${config.documents.url}/api/v1/${parentId}/${id}`;
 
   const logger = parentLogger.child({
     correlationId,

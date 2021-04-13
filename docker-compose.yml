@@ -141,6 +141,8 @@ services:
     image: node:14-alpine
     environment:
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
+      DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
+      PDF_SERVICE_API_URL: http://pdf-service-api:3000
       APPEAL_REPLY_SERVICE_API_URL: http://appeal-reply-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FILE_UPLOAD_DEBUG: "false"
