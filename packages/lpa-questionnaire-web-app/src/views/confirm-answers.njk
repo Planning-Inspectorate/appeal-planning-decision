@@ -5,6 +5,10 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {%- from "components/check-answers/macro.njk" import checkAnswers -%}
 
+{% block pageTitle %}
+  Check your answers - Appeal questionnaire - Appeal a householder planning decision - GOV.UK
+{% endblock %}
+
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",

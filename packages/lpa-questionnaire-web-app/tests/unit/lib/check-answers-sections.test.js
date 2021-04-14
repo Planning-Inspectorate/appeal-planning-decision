@@ -11,9 +11,17 @@ jest.mock('../../../src/services/task.service', () => ({
           href: '/mock-task-1',
           rule: () => 'NOT STARTED',
         },
+        {
+          taskId: 'mockTask2',
+          href: '/mock-task-2',
+          rule: () => 'NOT STARTED',
+        },
       ],
     },
   ],
+  CHECK_ANSWERS: {
+    mockTask2: 'Different mock title',
+  },
   HEADERS: {
     mockSection: 'Mock Section',
     mockTask1: 'Mock Task 1',
@@ -84,9 +92,9 @@ describe('check-answers-sections', () => {
           subTasks: [
             {
               key: { text: 'Mock Task 1' },
-              value: output,
-              attributes: {
-                'data-cy': 'mockTask1',
+              value: {
+                ...output,
+                classes: 'test__mockTask1--answer',
               },
               actions: {
                 items: [
@@ -94,6 +102,28 @@ describe('check-answers-sections', () => {
                     href: '/mock-id/mock-task-1',
                     text: 'Change',
                     visuallyHiddenText: 'Mock Task 1',
+                    attributes: {
+                      'data-cy': 'mockTask1',
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              key: { text: 'Different mock title' },
+              value: {
+                text: 'No answer found',
+                classes: 'test__mockTask2--answer',
+              },
+              actions: {
+                items: [
+                  {
+                    href: '/mock-id/mock-task-2',
+                    text: 'Change',
+                    visuallyHiddenText: 'Different mock title',
+                    attributes: {
+                      'data-cy': 'mockTask2',
+                    },
                   },
                 ],
               },
@@ -118,9 +148,16 @@ describe('check-answers-sections', () => {
         subTasks: [
           {
             key: { text: 'Mock Task 1' },
-            value: { text: 'No answer found' },
-            attributes: {
-              'data-cy': 'mockTask1',
+            value: {
+              text: 'No answer found',
+              classes: 'test__mockTask1--answer',
+            },
+          },
+          {
+            key: { text: 'Different mock title' },
+            value: {
+              text: 'No answer found',
+              classes: 'test__mockTask2--answer',
             },
           },
         ],

@@ -1,4 +1,4 @@
-const { HEADERS, SECTIONS } = require('../services/task.service');
+const { HEADERS, CHECK_ANSWERS, SECTIONS } = require('../services/task.service');
 
 const getFileListHtml = (files) => {
   const filesHtml = files.map((file) => `<li>${file.name}</li>`);
@@ -42,10 +42,13 @@ module.exports = (appealReply, appealId, showActions = true) => {
       id: sectionId,
       heading: HEADERS[sectionId],
       subTasks: tasks.map(({ taskId, href }) => {
-        const name = HEADERS[taskId];
+        const name = CHECK_ANSWERS[taskId] || HEADERS[taskId];
         return {
           key: { text: name },
-          value: getAnswer(taskId, sectionId, appealReply),
+          value: {
+            ...getAnswer(taskId, sectionId, appealReply),
+            classes: `test__${taskId}--answer`,
+          },
           actions: showActions
             ? {
                 items: [
@@ -53,13 +56,13 @@ module.exports = (appealReply, appealId, showActions = true) => {
                     href: `/${appealId}${href}`,
                     text: 'Change',
                     visuallyHiddenText: name,
+                    attributes: {
+                      'data-cy': taskId,
+                    },
                   },
                 ],
               }
             : undefined,
-          attributes: {
-            'data-cy': `${taskId}`,
-          },
         };
       }),
     };

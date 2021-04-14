@@ -73,9 +73,16 @@ const HEADERS = {
   checkYourAnswers: 'Check your answers',
 };
 
+// Contains section descriptions that will appear underneath heading in sections on task list page
 const DESCRIPTIONS = {
   optionalDocumentsSection:
     'Only include documents that were considered when making a decision on the application.',
+};
+
+// Contains overrides for check answers page headings. Should be used sparingly to avoid content mis-matches
+const CHECK_ANSWERS = {
+  submissionAccuracy:
+    'Does the information from the appellant accurately reflect the original planning application?',
 };
 
 const getTaskStatus = (appealReply, sectionId, taskId) => {
@@ -92,5 +99,6 @@ module.exports = {
   HEADERS,
   DESCRIPTIONS,
   SECTIONS,
+  CHECK_ANSWERS,
   getTaskStatus,
 };
