@@ -40,6 +40,7 @@ describe('controllers/upload-plans', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
+        appealReplyId: null,
         backLink: backLinkUrl,
       });
     });
@@ -49,6 +50,7 @@ describe('controllers/upload-plans', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
+        appealReplyId: null,
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
       });
     });
@@ -65,6 +67,7 @@ describe('controllers/upload-plans', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
+        appealReplyId: null,
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
         uploadedFiles,
       });

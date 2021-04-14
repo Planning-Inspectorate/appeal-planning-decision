@@ -86,7 +86,7 @@ describe('lib/documents-api-wrapper', () => {
     });
   });
 
-  describe('createDocument', () => {
+  describe('deleteDocument', () => {
     let mockDocument;
 
     beforeEach(() => {
@@ -103,19 +103,19 @@ describe('lib/documents-api-wrapper', () => {
       expect(deleteDocument(mockDocument)).rejects.toThrow('Bad Request');
     });
 
-    it('should throw if the response code is anything other than a 202', async () => {
-      fetch.mockResponse('a response body', { status: 204 });
-      expect(deleteDocument(mockDocument)).rejects.toThrow('No Content');
+    it('should throw if the response code is anything other than a 204', async () => {
+      fetch.mockResponse('a response body', { status: 205 });
+      expect(deleteDocument(mockDocument)).rejects.toThrow('Reset Content');
     });
 
-    it('should return the expected response if the fetch status is 202', async () => {
+    it('should return the expected response if the fetch status is 204', async () => {
       fetch.mockResponse(
         JSON.stringify({
           deletedId: 123,
         }),
-        { status: 202 }
+        { status: 204 }
       );
-      expect(await deleteDocument(mockDocument)).toEqual({
+      expect(await deleteDocument(mockDocument, 123)).toEqual({
         deletedId: 123,
       });
     });

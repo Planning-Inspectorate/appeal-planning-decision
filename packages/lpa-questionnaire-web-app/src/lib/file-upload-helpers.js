@@ -1,4 +1,4 @@
-const { createDocument } = require('./documents-api-wrapper');
+const { createDocument, deleteDocument } = require('./documents-api-wrapper');
 
 // https://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable-string/10420404
 const suffixes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -23,13 +23,12 @@ exports.MIME_TYPE_PNG = 'image/png';
 exports.deleteFile = (fileRef, req) => {
   if (!fileRef || !req) throw new Error('Missing required fields');
 
-  // TODO: add handling for deletion from DB and doc store as part of AS-1538
   const file = req.session.uploadedFiles?.find(
     (upload) => upload.id === fileRef || upload.name === fileRef
   );
 
   if (file) {
-    // TODO: when available needs a check here if the file has an ID (meaning it has been uploaded before). If it does needs to be marked for delete
+    deleteDocument(req.session.appealReply.id, file.id);
 
     req.session.uploadedFiles = req.session.uploadedFiles.filter(
       (upload) => upload.id !== file.id || upload.name !== file.name

@@ -1,5 +1,7 @@
 import { Given, When, Then, Before, After } from 'cypress-cucumber-preprocessor/steps';
 import defaultPathId from '../../utils/defaultPathId';
+const documentServiceBaseURL = Cypress.env('DOCUMENT_SERVICE_BASE_URL');
+const assumeLimitedAccess = Cypress.env('ASSUME_LIMITED_ACCESS');
 
 const pageTitle =
   'Upload plans used to reach the decision - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK';
@@ -66,6 +68,47 @@ const validateFileDeleted = (fileName) => {
   const node = cy.get('.moj-multi-file-upload__list');
   visibleWithoutText(fileName, node);
 };
+
+const documentsFor = (appealReplyId) => {
+  return cy.request({
+    url: `${documentServiceBaseURL}/${appealReplyId}`,
+    failOnStatusCode: false,
+  }).then(resp=>resp.body)
+}
+
+const scanDocumentsForOurFile = (documents, fileName) => {
+  return documents && documents.length && documents.find(document=>document.name===fileName);
+}
+
+const fileIsInDocumentService = (appealReplyId, fileName) => {
+  documentsFor(appealReplyId).then((documents) => {
+    const ourFileInDocumentService = scanDocumentsForOurFile(documents, fileName);
+    expect(ourFileInDocumentService).to.not.eq(undefined, `expected to find ${fileName} in document store for ${appealReplyId}`);
+  });
+}
+
+const fileIsNotInDocumentService = (appealReplyId, fileName) => {
+  documentsFor(appealReplyId).then((documents) => {
+    const ourFileInDocumentService = scanDocumentsForOurFile(documents, fileName);
+    expect(ourFileInDocumentService).to.eq(undefined, `expected ${fileName} to have been deleted from document store for ${appealReplyId}`);
+  });
+}
+
+const findAppealReplyId = () => {
+  return cy.document().get('head meta[name="appealReplyId"]').invoke('attr', 'content')
+}
+
+const expectFileToBeInDocumentService = (fileName) => {
+  findAppealReplyId().then( (id) => {
+    fileIsInDocumentService(id, fileName)
+  });
+}
+
+const expectFileNotToBeInDocumentService = (fileName) => {
+  findAppealReplyId().then( (id) => {
+    fileIsNotInDocumentService(id, fileName)
+  });
+}
 
 /**
  * Steps
@@ -170,8 +213,14 @@ Then('progress is halted with file {string} error message {string}', (fileName, 
 
 Then('the file is removed', () => {
   validateFileDeleted('upload-file-valid.pdf');
+  if (!assumeLimitedAccess) {
+    expectFileNotToBeInDocumentService('upload-file-valid.pdf');
+  }
 });
 
 Then('the information they previously entered is still populated', () => {
   validateFileUpload('upload-file-valid.pdf');
+  if (!assumeLimitedAccess) {
+    expectFileToBeInDocumentService('upload-file-valid.pdf');
+  }
 });
