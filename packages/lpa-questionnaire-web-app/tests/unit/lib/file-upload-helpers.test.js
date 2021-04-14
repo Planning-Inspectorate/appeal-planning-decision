@@ -126,28 +126,30 @@ describe('lib/file-upload-helpers', () => {
       req = {
         session: {
           uploadedFiles: [{ name: 'mock-file' }],
+          appealReply: { id: 'mock-appeal-reply-id' },
         },
       };
     });
 
     it('should throw error if no name', () => {
-      expect(() => deleteFile(undefined, req)).toThrowError();
+      expect(() => deleteFile(undefined, req)).toThrow();
     });
 
     it('should throw error if no request', () => {
-      expect(() => deleteFile('mock-file', undefined)).toThrowError();
+      expect(() => deleteFile('mock-file', undefined)).toThrow();
     });
 
     it('should throw an error if file not found', () => {
-      expect(() => deleteFile('another-file', req)).toThrowError();
+      expect(() => deleteFile('another-file', req)).toThrow();
     });
 
-    it('should delete a file if found', () => {
-      deleteFile('mock-file', req);
+    it('should delete a file if found', async () => {
+      await deleteFile('mock-file', req);
 
       expect(req).toEqual({
         session: {
           uploadedFiles: [],
+          appealReply: { id: 'mock-appeal-reply-id' },
         },
       });
     });

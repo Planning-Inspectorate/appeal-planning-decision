@@ -85,13 +85,11 @@ exports.deleteDocument = async (parentId, id) => {
     throw new Error(apiResponse.statusText);
   }
 
-  const ok = (await apiResponse.status) === 202;
+  const ok = (await apiResponse.status) === 204;
 
   if (!ok) {
     throw new Error(apiResponse.statusText);
   }
 
-  const response = await apiResponse.json();
-
-  return response;
+  return { deletedId: id };
 };
