@@ -10,7 +10,7 @@ const otherAppealsRouter = require('./other-appeals');
 const extraConditionsRouter = require('./extra-conditions');
 const developmentPlanRouter = require('./development-plan');
 const uploadPlansRouter = require('./upload-plans');
-const questionnaireSubmittedRouter = require('./questionnaire-submitted');
+const informationSubmittedRouter = require('./information-submitted');
 
 router.use(homeRouter);
 router.use(filesRouter);
@@ -20,6 +20,6 @@ router.use(otherAppealsRouter);
 router.use(extraConditionsRouter);
 router.use(developmentPlanRouter);
 router.use(uploadPlansRouter);
-router.use(questionnaireSubmittedRouter);
+router.use(informationSubmittedRouter);
 
 module.exports = router;

@@ -1,11 +1,11 @@
 const { get } = require('./router-mock');
 const { VIEW } = require('../../../src/lib/views');
-const questionnaireSubmittedController = require('../../../src/controllers/questionnaire-submitted');
+const informationSubmittedController = require('../../../src/controllers/information-submitted');
 
-describe('routes/questionnaire-submitted', () => {
+describe('routes/information-submitted', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
-    require('../../../src/routes/questionnaire-submitted');
+    require('../../../src/routes/information-submitted');
   });
 
   afterEach(() => {
@@ -14,8 +14,8 @@ describe('routes/questionnaire-submitted', () => {
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      `/:id/${VIEW.QUESTIONNAIRE_SUBMITTED}`,
-      questionnaireSubmittedController.getQuestionnaireSubmitted
+      `/:id/${VIEW.INFORMATION_SUBMITTED}`,
+      informationSubmittedController.getInformationSubmitted
     );
   });
 });
