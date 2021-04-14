@@ -1,4 +1,4 @@
-const questionnaireSubmittedController = require('../../../src/controllers/questionnaire-submitted');
+const informationSubmittedController = require('../../../src/controllers/information-submitted');
 const { VIEW } = require('../../../src/lib/views');
 const { mockReq, mockRes } = require('../mocks');
 
@@ -7,8 +7,8 @@ describe('getDevelopmentPlan', () => {
     const res = mockRes();
     const req = mockReq();
 
-    questionnaireSubmittedController.getQuestionnaireSubmitted(req, res);
+    informationSubmittedController.getInformationSubmitted(req, res);
 
-    expect(res.render).toHaveBeenCalledWith(VIEW.QUESTIONNAIRE_SUBMITTED, {});
+    expect(res.render).toHaveBeenCalledWith(VIEW.INFORMATION_SUBMITTED, {});
   });
 });
