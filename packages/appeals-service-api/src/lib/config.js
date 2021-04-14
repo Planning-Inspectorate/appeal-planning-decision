@@ -72,7 +72,12 @@ module.exports = {
       baseUrl: process.env.SRV_NOTIFY_BASE_URL,
       serviceId: process.env.SRV_NOTIFY_SERVICE_ID,
       apiKey: process.env.SRV_NOTIFY_API_KEY,
+      // deprecated, see `sendEmail` inside `./notify`
       templateId: process.env.SRV_NOTIFY_TEMPLATE_ID,
+      templates: {
+        appealSubmissionReceivedNotificationEmailToLpa:
+          process.env.SRV_NOTIFY_APPEAL_SUBMISSION_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID,
+      },
     },
     osPlaces: {
       key: process.env.SRV_OS_PLACES_KEY,

@@ -7,12 +7,12 @@ const express = require('express');
 
 const router = express.Router();
 
-const appeals = require('./appeals');
-const lpas = require('./local-planning-authorities');
-const apiDocs = require('./api-docs');
+const appealsRouter = require('./appeals');
+const localPlanningAuthoritiesRouter = require('./local-planning-authorities');
+const apiDocsRouter = require('./api-docs');
 
-router.use('/api/v1/appeals', appeals);
-router.use('/api/v1/local-planning-authorities', lpas);
-router.use('/api-docs', apiDocs);
+router.use('/api/v1/appeals', appealsRouter);
+router.use('/api/v1/local-planning-authorities', localPlanningAuthoritiesRouter);
+router.use('/api-docs', apiDocsRouter);
 
 module.exports = router;

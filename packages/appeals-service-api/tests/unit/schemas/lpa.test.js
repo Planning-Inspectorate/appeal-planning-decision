@@ -4,7 +4,7 @@ jest.mock('fs', () => ({
     readFile: jest.fn(),
   },
 }));
-jest.mock('../lib/config', () => ({
+jest.mock('../../../src/lib/config', () => ({
   data: {
     lpa: {
       listPath: 'listPath',
@@ -19,8 +19,8 @@ jest.mock('../lib/config', () => ({
 const fs = require('fs');
 const { when } = require('jest-when');
 const csvParser = require('neat-csv');
-const LPA = require('./lpa');
-const config = require('../lib/config');
+const LPA = require('.../../../src/schemas/lpa');
+const config = require('../../../src/lib/config');
 
 describe('LPA schema test', () => {
   describe('methods', () => {
