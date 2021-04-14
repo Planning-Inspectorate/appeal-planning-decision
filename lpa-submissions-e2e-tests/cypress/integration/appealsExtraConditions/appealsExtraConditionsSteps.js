@@ -97,5 +97,5 @@ When('an answer is saved', () => {
 });
 
 Then('the updated answer is displayed', () => {
-  cy.confirmCheckYourAnswersDisplayed('hasExtraConditions', 'No');
+  cy.confirmCheckYourAnswersDisplayed('extraConditions', 'No');
 });

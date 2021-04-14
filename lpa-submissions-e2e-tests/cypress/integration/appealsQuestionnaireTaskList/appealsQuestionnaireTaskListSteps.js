@@ -48,11 +48,11 @@ Then('the LPA Planning Officer is taken to the Task List', () => {
   cy.checkPageA11y();
   cy.visibleWithText(
     'Use the links below to submit your information. You can complete the sections in any order.',
-    cy.get('.govuk-body-l'),
+    '.govuk-body-l',
   );
   cy.visibleWithText(
     'Only include documents that were considered when making a decision on the application.',
-    cy.get('[data-cy="task-list--optionalDocumentsSection"]'),
+    '[data-cy="task-list--optionalDocumentsSection"]',
   );
 });
 
@@ -70,7 +70,7 @@ Then(
   () => {
     cy.visibleWithText(
       'Only include documents that were considered when making a decision on the application.',
-      cy.get('[data-cy="task-list--optionalDocumentsSection"]'),
+      '[data-cy="task-list--optionalDocumentsSection"]',
     );
   },
 );

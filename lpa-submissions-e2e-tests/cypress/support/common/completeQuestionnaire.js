@@ -1,7 +1,17 @@
 module.exports = () => {
-  cy.fixture('completedAppealReply').then((reply) => {
-    const url = `${Cypress.env('appealReplyServiceUrl')}/api/v1/reply`;
+  // Visit task list page to invoke session, which generates an appeal reply ID
+  cy.goToTaskListPage();
 
-    cy.request('POST', url, reply);
+  let id
+  cy.getAppealReplyId().then(replyId => id = replyId);
+
+  cy.fixture('completedAppealReply.json').then((reply) => {
+    cy.request(
+      'PUT',
+      `${Cypress.env('appealReplyServiceBaseUrl')}/api/v1/reply/${id}`,
+      reply
+    ).then(response => {
+      expect(response.body.aboutAppealSection.submissionAccuracy).to.have.property('accurateSubmission', false);
+    });
   });
 };

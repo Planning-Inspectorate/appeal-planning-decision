@@ -63,7 +63,7 @@ Feature: Appeals in immediate area
     And any information they have entered will not be saved
 
   Scenario: AC08 Change answers
-    Given a change to answer 'Appeals in Immediate Area' is requested from Change your answers page
+    Given a change to answer 'Other Appeals' is requested from Change your answers page
     When an answer is saved
     Then progress is made to the Check Your Answers page
     And the updated answer is displayed

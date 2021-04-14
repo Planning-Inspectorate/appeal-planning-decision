@@ -16,6 +16,8 @@ Cypress.Commands.add('visibleWithText', require('./common/visibleWithText'));
 
 Cypress.Commands.add('visibleWithoutText', require('./common/visibleWithoutText'));
 
+Cypress.Commands.add('getAppealReplyId', require('./common/getAppealReplyId'));
+
 Cypress.Commands.add(
   'goToTaskListPage',
   require('./appeals-questionnaire-tasklist/goToTaskListPage'),

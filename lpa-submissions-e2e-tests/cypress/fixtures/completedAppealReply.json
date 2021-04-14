@@ -62,8 +62,8 @@
       "uploadedFiles": []
     },
     "developmentOrNeighbourhood": {
-      "hasPlanSubmitted": null,
-      "planChanges": ""
+      "hasPlanSubmitted": true,
+      "planChanges": "mock plan changes"
     }
   },
   "sectionStates": {

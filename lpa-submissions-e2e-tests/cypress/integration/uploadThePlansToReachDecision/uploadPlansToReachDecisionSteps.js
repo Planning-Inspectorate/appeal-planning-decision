@@ -46,13 +46,11 @@ const deleteFile = () => {
 };
 
 const validateFileUpload = (fileName) => {
-  const node = cy.get('.govuk-summary-list__row');
-  cy.visibleWithText(fileName, node);
+  cy.visibleWithText(fileName, '.govuk-summary-list__row');
 };
 
 const validateFileDeleted = (fileName) => {
-  const node = cy.get('.moj-multi-file-upload__list');
-  cy.visibleWithoutText(fileName, node);
+  cy.visibleWithoutText(fileName, '.moj-multi-file-upload__list');
 };
 
 /**
@@ -92,7 +90,7 @@ Given("The question 'Upload the plans used to reach the decision' has been compl
 });
 
 When('LPA Planning Officer chooses to upload plans used to reach the decision', () => {
-  cy.clickOnTaskListLink('plansDecision');
+  cy.clickOnSubTaskLink('plansDecision');
   cy.verifyPage(pageUrl);
 });
 

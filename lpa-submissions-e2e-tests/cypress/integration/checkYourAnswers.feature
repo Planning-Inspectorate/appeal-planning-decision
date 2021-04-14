@@ -21,7 +21,7 @@ Feature: Check Your Answers
   Scenario: AC03 - Submit answers
     Given Check Your Answers in presented
     When the answers are completed
-    Then the data is submitted
+    Then progress is made to the submission confirmation page
 
   Scenario: AC04 - Back Link
     Given Check Your Answers in presented

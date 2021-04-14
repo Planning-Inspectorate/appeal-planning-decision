@@ -117,5 +117,5 @@ Then('the information they previously entered is still populated', () => {
 });
 
 Then('the updated answer is displayed', () => {
-  cy.confirmCheckYourAnswersDisplayed('accurateSubmission', 'Yes');
+  cy.confirmCheckYourAnswersDisplayed('submissionAccuracy', 'Yes');
 });

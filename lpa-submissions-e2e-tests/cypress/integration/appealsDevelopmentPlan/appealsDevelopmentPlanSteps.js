@@ -135,5 +135,5 @@ Then('yes is still selected, and plan details are still populated', () => {
 });
 
 Then('the updated answer is displayed', () => {
-  cy.confirmCheckYourAnswersDisplayed('hasPlanSubmitted', 'No');
+  cy.confirmCheckYourAnswersDisplayed('developmentOrNeighbourhood', 'No');
 });

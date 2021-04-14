@@ -15,7 +15,7 @@ Feature: Task lists
     Then The task <task> is available for selection
     Examples:
       | task                           |
-      | "Accuracy Apellant Submission" |
+      | "Accuracy Appellant Submission" |
       | "Extra Conditions"             |
       | "Other Appeals"                |
       | "Upload Plans"                 |
@@ -28,7 +28,7 @@ Feature: Task lists
     Then the LPA Planning Officer is taken to the Task List
     Examples:
       | task                           |
-      | "Accuracy Apellant Submission" |
+      | "Accuracy Appellant Submission" |
       | "Extra Conditions"             |
       | "Other Appeals"                |
       | "Upload Plans"                 |
@@ -40,7 +40,7 @@ Feature: Task lists
     And The state for "Before You submit - Check your answers" is displayed to be "CANNOT START YET"
     Examples:
       | task                           |
-      | "Accuracy Apellant Submission" |
+      | "Accuracy Appellant Submission" |
       | "Extra Conditions"             |
       | "Other Appeals"                |
       | "Upload Plans"                 |
