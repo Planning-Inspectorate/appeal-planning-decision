@@ -1,4 +1,5 @@
 const express = require('express');
+
 const appealsController = require('../controllers/appeals');
 const {
   appealInsertValidationRules,

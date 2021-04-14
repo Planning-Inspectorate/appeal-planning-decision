@@ -1,5 +1,7 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import moment from 'moment';
 import { matchWhatWeCanFrom, STANDARD_APPEAL } from './standard-appeal';
+import appealsServiceApiConfig from '../../../../packages/appeals-service-api/src/lib/config';
 
 const queueValidationEnabled = Cypress.env('QUEUE_VALIDATION_ENABLED');
 const notifyValidationEnabled = Cypress.env('NOTIFY_VALIDATION_ENABLED');
@@ -262,7 +264,6 @@ When('the appeal is submitted', () => {
 });
 
 Then('a case is created for the appellant', () => {
-
   if (queueValidationEnabled) {
     cy.task('getLastFromQueue').then((actualMessage) => {
       const expected = require('../../fixtures/ucd-831-ac1.json');
@@ -347,6 +348,37 @@ Then('the associated documents will be available for the case worker to review',
       cy.log(`actualMessage = \n${JSON.stringify(actualMessage, null, 2)}`);
       cy.log(`reasonableExpectation = \n${JSON.stringify(reasonableExpectation, null, 2)}`);
       expect(actualMessage).toEqual(reasonableExpectation);
+    });
+  }
+});
+
+Then('the LPA will receive an email notification of the appeal', () => {
+  if (queueValidationEnabled && notifyValidationEnabled) {
+    cy.task('getLastFromQueue').then((actualMessage) => {
+      const templateId = Cypress.env(
+        'SRV_NOTIFY_APPEAL_SUBMISSION_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID',
+      );
+      const validationUrl = `${notifyValidationBaseUrl}notifications?template_id=${templateId}&reference=${actualMessage.appeal.id}`;
+
+      cy.request(validationUrl).then((response) => {
+        expect(response.body).to.have.length(1);
+
+        expect(response.body).toEqual([
+          {
+            template_id: '79488d5d-7efd-4273-a11f-e73f11d19676',
+            email_address: 'appealsplanning@bradford.gov.uk',
+            personalisation: {
+              LPA: 'Bradford',
+              date: moment(actualMessage.appeal.submissionDate).format('DD MMMM YYYY'),
+              'planning application number': 'ValidNumber/12345',
+              'site address': '1 Taylor Road\nClifton\nBristol\nSouth Glos\nBS8 1TG',
+            },
+            reference: actualMessage.appeal.id,
+            type: 'email',
+            id: expect.any(Number),
+          },
+        ]);
+      });
     });
   }
 });

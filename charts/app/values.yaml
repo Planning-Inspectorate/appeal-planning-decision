@@ -32,6 +32,8 @@ appealsServiceApi:
       secretName: ""
       serviceId: ""
       templateId: 15ed37a9-506c-4845-88ea-95502282a863
+      templates:
+        appealSubmissionReceivedNotificationEmailToLpa: 79488d5d-7efd-4273-a11f-e73f11d19676
 
 documentServiceApi:
   replicaCount: 1

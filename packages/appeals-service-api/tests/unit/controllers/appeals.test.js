@@ -9,6 +9,8 @@ jest.mock('../../../src/db/db');
 const valueAppeal = require('../value-appeal');
 const { mockReq, mockRes } = require('../mocks');
 
+jest.mock('../../../../common/src/lib/notify/notify-builder', () => ({}));
+
 async function addInDatabase() {
   const appeal = JSON.parse(JSON.stringify(appealDocument));
 

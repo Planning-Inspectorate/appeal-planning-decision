@@ -490,7 +490,7 @@ Typically, you will need to add some identifying detail to associate the logs to
 
 ```javascript
 const log = logger.child({ someId: uuid.v4() });
-log.info('info_message');
+log.info('an informational message');
 ```
 
 ## Data Access
