@@ -8,6 +8,11 @@ Given('the questionnaire has been completed', () => {
   cy.completeQuestionnaire();
 });
 
+When('the LPA Questionnaire is submitted', () => {
+  cy.goToCheckYourAnswersPage();
+  cy.clickSubmitButton();
+});
+
 When('Back is then requested', () => {
   cy.clickBackButton();
 });
