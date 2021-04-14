@@ -53,7 +53,7 @@ function onError(error) {
  * Event listener for HTTP server "listening" event.
  */
 function onListening() {
-  logger.info({ config }, 'Listening');
+  logger.info({ config }, 'Listening!');
 }
 
 /**
