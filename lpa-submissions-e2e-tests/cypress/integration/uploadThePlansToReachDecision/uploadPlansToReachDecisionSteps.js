@@ -160,12 +160,14 @@ Then('Upload the plans used to reach the decision subsection is shown as complet
 });
 
 Then('progress is halted with question error message {string}', (errorMessage) => {
-  cy.validateErrorMessage(errorMessage, '#documents-error', 'documents')
+  cy.validateErrorMessage(errorMessage, '#documents-error', 'documents');
+  cy.verifyPageTitle(`Error: ${pageTitle}`);
 });
 
 Then('progress is halted with file {string} error message {string}', (fileName, errorMessage) => {
   cy.validateErrorMessage(errorMessage, null, fileName);
   validateFileUpload(errorMessage);
+  cy.verifyPageTitle(`Error: ${pageTitle}`);
 });
 
 Then('the file is removed', () => {
