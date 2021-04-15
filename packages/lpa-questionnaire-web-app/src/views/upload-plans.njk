@@ -1,7 +1,7 @@
 {% extends "layouts/multi-file-upload.njk" %}
 
 {% block pageTitle %}
-  Upload plans used to reach the decision - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK
+  {% if errorSummary.length %}Error: {% endif %}Upload plans used to reach the decision - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK
 {% endblock %}
 
 {% block sectionName %}
