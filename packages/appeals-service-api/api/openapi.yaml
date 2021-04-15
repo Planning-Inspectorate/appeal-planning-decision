@@ -328,11 +328,14 @@ components:
           example: 'Adur LPA'
         inTrial:
           type: boolean
-        england:
-          type: boolean
-        wales:
-          type: boolean
-          example: false
+        email:
+          type: string
+          nullable: true
+          example: 'example@domain.gov.uk'
+        domain:
+          type: string
+          nullable: true
+          example: 'domain.gov.uk'
         horizonId:
           type: string
           nullable: true
