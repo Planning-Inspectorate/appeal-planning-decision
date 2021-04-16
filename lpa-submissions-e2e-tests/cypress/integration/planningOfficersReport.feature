@@ -59,7 +59,7 @@ Feature: Upload the Planning Officer’s report
   Scenario Outline: AC6 LPA Planning Officer selects invalid file size
     Given Upload the Planning Officer’s report question is requested
     When invalid files '<invalid_file_size>' have been selected
-    Then progress is halted with a message the file 'is too big'
+    Then progress is halted with a message the file '<invalid_file_size>' 'is too big'
     Examples:
       | invalid_file_size      |
       | upload_file_large.tiff |
@@ -67,13 +67,14 @@ Feature: Upload the Planning Officer’s report
   Scenario Outline: AC7 LPA Planning Officer selects Invalid file format
     Given Upload the Planning Officer’s report question is requested
     When invalid files '<invalid_format>' have been selected
-    Then progress is halted with a message the file 'format is incorrect'
+    Then progress is halted with a message the file '<invalid_format>' 'format is incorrect'
     Examples:
       | invalid_format                     |
       | upload-file-invalid-wrong-type.csv |
 
   Scenario: AC8 LPA Planning Officer selects to return to previous page
     Given Upload the Planning Officer’s report question is requested
+    And a file has been uploaded
     When Back is then requested
     Then the LPA Planning Officer is taken to the Task List
     And any document uploaded will not be saved
@@ -90,8 +91,8 @@ Feature: Upload the Planning Officer’s report
     Then the file is removed
 
   Scenario: AC11 LPA Planning Officer returns to the completed Upload the plans used to reach the decision question
-    Given The question 'Upload the plans used to reach the decision' has been completed
-    When the plans used to reach the decision question is requested
+    Given The question 'Upload the Planning Officer’s report' has been completed
+    When the Upload the Planning Officer’s report question is requested
     Then the information they previously entered is still populated
 
   Scenario: AC12 Appeal details side panel
@@ -108,22 +109,22 @@ Feature: Upload the Planning Officer’s report
       | valid_file             |
       | upload-file-valid.tiff |
 
-  Scenario: AC14 Check your answers
-    Given all the mandatory questions for the questionnaire have been completed
-    When Check your Answers if displayed
-    Then Upload the Planning Officer’s report heading and the uploaded file name should be displayed
+  # Scenario: AC14 Check your answers
+  #   Given all the mandatory questions for the questionnaire have been completed
+  #   When Check your Answers if displayed
+  #   Then Upload the Planning Officer’s report heading and the uploaded file name should be displayed
 
-  Scenario: AC15 Change answers
-    Given a change to question 'Upload Planning Officers report' is requested from Change your answers page
-    When an answer is saved
-    Then progress is made to the Check Your Answers page
-    And the updated answer is displayed
+  # Scenario: AC15 Change answers
+  #   Given a change to question 'Upload Planning Officers report' is requested from Change your answers page
+  #   When an answer is saved
+  #   Then progress is made to the Check Your Answers page
+  #   And the updated answer is displayed
 
-  Scenario: AC16 PDF
-    Given the questionnaire has been submitted
-    When the PDF has been generated
-    Then Upload the Planning Officers report is displayed on the PDF
+  # Scenario: AC16 PDF
+  #   Given the questionnaire has been submitted
+  #   When the PDF has been generated
+  #   Then Upload the Planning Officers report is displayed on the PDF
 
-  Scenario: AC17 Horizon
-    When the questionnaire data has been submitted to Horizon
-    Then the Planning Officers report is present in Horizon
+  # Scenario: AC17 Horizon
+  #   When the questionnaire data has been submitted to Horizon
+  #   Then the Planning Officers report is present in Horizon
