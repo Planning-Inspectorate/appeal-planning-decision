@@ -77,7 +77,10 @@ module.exports = class LPA {
           LPA19CD.startsWith('S') === false &&
           LPA19CD.startsWith('N') === false &&
           LPA19CD.startsWith('W') === false;
-        logger.trace({ include, id: LPA19CD }, 'Filtering out Scottish, Northern Irish and Welsh LPAs');
+        logger.trace(
+          { include, id: LPA19CD },
+          'Filtering out Scottish, Northern Irish and Welsh LPAs'
+        );
         return include;
       })
       .map(({ LPA19CD: id, LPA19NM: name, EMAIL: email, DOMAIN: domain }) => {
