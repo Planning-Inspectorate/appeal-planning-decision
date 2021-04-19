@@ -3,6 +3,7 @@ const extraConditionsCompletion = require('./extra-conditions');
 const otherAppealsCompletion = require('./other-appeals');
 const developmentPlanCompletion = require('./development-plan');
 const uploadPlansCompletion = require('./upload-plans');
+const officersReportCompletion = require('./officers-report');
 
 module.exports = {
   accuracySubmissionCompletion,
@@ -10,4 +11,5 @@ module.exports = {
   otherAppealsCompletion,
   developmentPlanCompletion,
   uploadPlansCompletion,
+  officersReportCompletion,
 };

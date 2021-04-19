@@ -1,4 +1,4 @@
-{% extends "layouts/main.njk" %}
+{% extends "./main.njk" %}
 
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
@@ -32,6 +32,9 @@
       <form action="" method="POST" novalidate encType="multipart/form-data">
         <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>{% block sectionName %}{% endblock %}</span>
         <h1 class="govuk-heading-l">{% block pageHeading %}{% endblock %}</h1>
+
+        <p>{% block pageDescription %}{% endblock %}</p>
+
         {{ govukInsetText({
           text: "File size should be no more than " + fileSizeLimits.maxFileSize | formatBytes
         }) }}

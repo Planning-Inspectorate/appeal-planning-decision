@@ -13,26 +13,26 @@ const router = express.Router();
 const getConfig = (_, res, next) => {
   res.locals.routeInfo = {
     sectionName: 'requiredDocumentsSection',
-    taskName: 'plansDecision',
-    view: VIEW.UPLOAD_PLANS,
-    name: 'Upload Plans',
+    taskName: 'officersReport',
+    view: VIEW.OFFICERS_REPORT,
+    name: 'Planning Officer’s report',
   };
 
   next();
 };
 
 router.get(
-  '/:id/plans',
+  '/:id/officers-report',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
   getConfig,
   uploadQuestionController.getUpload
 );
 
 router.post(
-  '/:id/plans',
+  '/:id/officers-report',
   [
     reqFilesToReqBodyFilesMiddleware('documents'),
-    uploadValidationRules('Upload plans used to reach the decision'),
+    uploadValidationRules('Upload the planning officer’s report or other documents and minutes'),
   ],
   validationErrorHandler,
   getConfig,

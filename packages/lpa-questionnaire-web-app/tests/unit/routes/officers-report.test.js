@@ -16,11 +16,11 @@ const { VIEW } = require('../../../src/lib/views');
 jest.mock('../../../src/middleware/req-files-to-req-body-files');
 jest.mock('../../../src/validators/upload-tasks');
 
-describe('routes/upload-plans', () => {
+describe('routes/officers-report', () => {
   describe('router', () => {
     beforeEach(() => {
       // eslint-disable-next-line global-require
-      require('../../../src/routes/upload-plans');
+      require('../../../src/routes/officers-report');
     });
 
     afterEach(() => {
@@ -29,17 +29,17 @@ describe('routes/upload-plans', () => {
 
     it('should define the expected routes', () => {
       // eslint-disable-next-line global-require
-      const { getConfig } = require('../../../src/routes/upload-plans');
+      const { getConfig } = require('../../../src/routes/officers-report');
 
       expect(get).toHaveBeenCalledWith(
-        '/:id/plans',
+        '/:id/officers-report',
         [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
         getConfig,
         uploadQuestionController.getUpload
       );
 
       expect(post).toHaveBeenCalledWith(
-        '/:id/plans',
+        '/:id/officers-report',
         [reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
         validationErrorHandler,
         getConfig,
@@ -51,7 +51,7 @@ describe('routes/upload-plans', () => {
   describe('getConfig', () => {
     it('should define the expected config', () => {
       // eslint-disable-next-line global-require
-      const { getConfig } = require('../../../src/routes/upload-plans');
+      const { getConfig } = require('../../../src/routes/officers-report');
 
       const res = mockRes();
       const next = jest.fn();
@@ -61,9 +61,9 @@ describe('routes/upload-plans', () => {
       expect(next).toHaveBeenCalled();
       expect(res.locals.routeInfo).toEqual({
         sectionName: 'requiredDocumentsSection',
-        taskName: 'plansDecision',
-        view: VIEW.UPLOAD_PLANS,
-        name: 'Upload Plans',
+        taskName: 'officersReport',
+        view: VIEW.OFFICERS_REPORT,
+        name: 'Planning Officer’s report',
       });
     });
   });

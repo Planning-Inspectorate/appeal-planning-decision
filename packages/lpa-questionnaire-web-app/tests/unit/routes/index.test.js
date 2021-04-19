@@ -8,8 +8,9 @@ const accuracySubmissionRouter = require('../../../src/routes/accuracy-submissio
 const otherAppealsRouter = require('../../../src/routes/other-appeals');
 const extraConditionsRouter = require('../../../src/routes/extra-conditions');
 const developmentPlanRouter = require('../../../src/routes/development-plan');
-const uploadPlansRouter = require('../../../src/routes/upload-plans');
+const { router: uploadPlansRouter } = require('../../../src/routes/upload-plans');
 const informationSubmittedRouter = require('../../../src/routes/information-submitted');
+const { router: officersReportRouter } = require('../../../src/routes/officers-report');
 
 describe('routes/index', () => {
   beforeEach(() => {
@@ -32,5 +33,6 @@ describe('routes/index', () => {
     expect(use).toHaveBeenCalledWith(developmentPlanRouter);
     expect(use).toHaveBeenCalledWith(uploadPlansRouter);
     expect(use).toHaveBeenCalledWith(informationSubmittedRouter);
+    expect(use).toHaveBeenCalledWith(officersReportRouter);
   });
 });
