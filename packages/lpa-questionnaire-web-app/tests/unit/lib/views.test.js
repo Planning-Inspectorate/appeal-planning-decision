@@ -12,6 +12,7 @@ describe('lib/views', () => {
       UPLOAD_PLANS: 'upload-plans',
       INFORMATION_SUBMITTED: 'information-submitted',
       CONFIRM_ANSWERS: 'confirm-answers',
+      PDF_GENERATION: 'pdf-generation',
     });
   });
 });
