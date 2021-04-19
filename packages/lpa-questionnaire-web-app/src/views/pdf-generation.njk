@@ -1,0 +1,21 @@
+{% from "components/pdf-generation/macro.njk" import pdfGeneration %}
+
+<!DOCTYPE html>
+<html lang="{{ htmlLang | default('en') }}" class="govuk-template {{ htmlClasses }}">
+  <head>
+      <title>Response to householder planning appeal</title>
+      <link href="/public/stylesheets/main.css" media="all" rel="stylesheet" type="text/css"/>
+  </head>
+  <body>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <h1 class="govuk-heading-l">Response to householder planning appeal</h1>
+
+          {{ pdfGeneration({
+            sections: sections
+          }) }}
+
+        </div>
+      </div>
+  </body>
+</html>

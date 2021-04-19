@@ -16,6 +16,7 @@ describe('lib/views', () => {
       PLANNING_HISTORY: 'planning-history',
       INFORMATION_SUBMITTED: 'information-submitted',
       CONFIRM_ANSWERS: 'confirm-answers',
+      PDF_GENERATION: 'pdf-generation',
     });
   });
 });
