@@ -4,6 +4,7 @@ const {
   extraConditionsCompletion,
   otherAppealsCompletion,
   uploadPlansCompletion,
+  officersReportCompletion,
 } = require('.');
 
 // This should only contain completion checks for required fields
@@ -12,6 +13,7 @@ const requiredCompletion = [
   extraConditionsCompletion,
   otherAppealsCompletion,
   uploadPlansCompletion,
+  officersReportCompletion,
 ];
 module.exports = (appealReply) => {
   if (!appealReply) return null;

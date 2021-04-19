@@ -9,13 +9,16 @@ const getAppealSideBarDetails = require('../lib/appeal-sidebar-details');
 const { getTaskStatus } = require('../services/task.service');
 const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
 
-exports.getUploadPlans = (req, res) => {
-  const { uploadedFiles = [] } = req.session.appealReply.requiredDocumentsSection.plansDecision;
+exports.getUpload = (req, res) => {
+  const { sectionName, taskName, view } = res.locals.routeInfo;
+  req.log.error({ routeInfo: res.locals.routeInfo }, 'Route Info');
+
+  const { uploadedFiles = [] } = req.session.appealReply[sectionName][taskName];
 
   // set uploaded files
   req.session.uploadedFiles = uploadedFiles;
 
-  res.render(VIEW.UPLOAD_PLANS, {
+  res.render(view, {
     appeal: getAppealSideBarDetails(req.session.appeal),
     appealReplyId: req.session.appealReply.id,
     backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
@@ -23,7 +26,9 @@ exports.getUploadPlans = (req, res) => {
   });
 };
 
-exports.postUploadPlans = async (req, res) => {
+exports.postUpload = async (req, res) => {
+  const { sectionName, taskName, view, name } = res.locals.routeInfo;
+
   const documents = req.body?.files?.documents || [];
 
   const { delete: deleteId = '', errors = {}, submit = '' } = req.body;
@@ -37,7 +42,7 @@ exports.postUploadPlans = async (req, res) => {
     try {
       await deleteFile(deleteId, req);
     } catch (err) {
-      req.log.error({ err }, `Error deleting ${deleteId} from Upload Plans`);
+      req.log.error({ err }, `Error deleting ${deleteId} from ${name}`);
     }
   } else if (documents.length) {
     // Chance for files to be attached due to non-JS solution, these need to be uploaded (with appropriate errors);
@@ -53,7 +58,7 @@ exports.postUploadPlans = async (req, res) => {
 
       req.session.uploadedFiles = [...(req.session?.uploadedFiles || []), ...uploadedFiles];
     } catch (err) {
-      req.log.error({ err }, 'Error uploading files to ');
+      req.log.error({ err }, 'Error uploading files to documents service');
       errorMessage = err;
     }
   }
@@ -63,7 +68,7 @@ exports.postUploadPlans = async (req, res) => {
   const constructedErrorSummary = fileErrorSummary(errorMessage, req.session?.uploadedFiles);
 
   if (!submit || constructedErrorSummary?.length) {
-    res.render(VIEW.UPLOAD_PLANS, {
+    res.render(view, {
       ...fileUploadNunjucksVariables(
         errorMessage,
         constructedErrorSummary,
@@ -78,9 +83,6 @@ exports.postUploadPlans = async (req, res) => {
 
   try {
     const { appealReply } = req.session;
-    const sectionName = 'requiredDocumentsSection';
-    const taskName = 'plansDecision';
-
     appealReply[sectionName][taskName].uploadedFiles = req.session.uploadedFiles;
 
     appealReply.sectionStates[sectionName][taskName] = getTaskStatus(
@@ -94,9 +96,9 @@ exports.postUploadPlans = async (req, res) => {
     // If it gets this far there are no errors and files must exist
     res.redirect(req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`);
   } catch (err) {
-    req.log.error({ err }, 'Error adding files to Upload Plans question');
+    req.log.error({ err }, `Error adding files to ${name} question`);
 
-    res.render(VIEW.UPLOAD_PLANS, {
+    res.render(view, {
       ...fileUploadNunjucksVariables(err, fileErrorSummary(err, req), req.session?.uploadedFiles),
       appeal: getAppealSideBarDetails(req.session.appeal),
       backLink,
