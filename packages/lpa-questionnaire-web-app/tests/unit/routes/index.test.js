@@ -1,5 +1,7 @@
 const { use } = require('./router-mock');
 
+const { router: officersReportRouter } = require('../../../src/routes/officers-report');
+
 describe('routes/index', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
@@ -11,6 +13,6 @@ describe('routes/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(9);
+    expect(use).toHaveBeenCalledWith(officersReportRouter);
   });
 });
