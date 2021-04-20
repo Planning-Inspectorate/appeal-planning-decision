@@ -14,13 +14,15 @@ const config = require('../lib/config');
 const logger = require('../lib/logger');
 
 module.exports = class LPA {
-  constructor({ id, name, inTrial, email, domain, horizonId }) {
+  constructor({ id, name, inTrial, email, domain, england, wales, horizonId }) {
     this.id = id;
     this.name = name;
     this.inTrial = inTrial;
     this.email = email;
     this.domain = domain;
 
+    this.england = england;
+    this.wales = wales;
     this.horizonId = horizonId;
   }
 
@@ -97,6 +99,8 @@ module.exports = class LPA {
           inTrial,
           email,
           domain,
+          england: id.startsWith('E'),
+          wales: id.startsWith('W'),
           id: id.toUpperCase(),
         });
       })
