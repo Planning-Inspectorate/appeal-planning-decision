@@ -1,6 +1,10 @@
+const appealService = require('./appeal-service-api');
+const appealReplyService = require('./appeal-reply-service-api');
+
 require('cypress-file-upload');
 require('./visit-without-javascript-enabled');
 require('./accessibility');
+
 
 Cypress.Commands.add('goToPage', require('./common/goToPage'));
 
@@ -53,3 +57,11 @@ Cypress.Commands.add('clickBackButton', require('./common/clickBackButton'));
 Cypress.Commands.add('validateErrorMessage', require('./common/validateErrorMessage'));
 
 Cypress.Commands.add('completeQuestionnaire', require('./common/completeQuestionnaire'));
+
+Cypress.Commands.add('createAppeal', appealService.create);
+Cypress.Commands.add('updateAppeal', appealService.update);
+Cypress.Commands.add('insertAppeal', appealService.insert);
+Cypress.Commands.add('createAppealReply', appealReplyService.create);
+Cypress.Commands.add('updateAppealReply', appealReplyService.update);
+Cypress.Commands.add('insertAppealReply', appealReplyService.insert);
+Cypress.Commands.add('insertAppealAndCreateReply', appealReplyService.insertAppealAndCreateReply);

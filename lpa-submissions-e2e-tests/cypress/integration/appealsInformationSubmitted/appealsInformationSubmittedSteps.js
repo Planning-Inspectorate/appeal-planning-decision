@@ -4,8 +4,14 @@ const informationSubmittedPageId = 'information-submitted';
 const informationSubmittedPageTitle =
   'Information submitted - Appeal questionnaire - Appeal a householder planning decision - GOV.UK';
 
+const {appeal} = require('../../fixtures/anAppeal.json');
+
 Given(`the Information Submitted page is requested`, () => {
-  cy.goToPage(informationSubmittedPageId);
+  cy.insertAppealAndCreateReply(appeal);
+
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.goToPage(informationSubmittedPageId, appealReply.appealId);
+  });
 });
 
 Then(`the Information Submitted page will be shown`, () => {

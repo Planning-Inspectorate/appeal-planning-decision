@@ -83,8 +83,7 @@ Feature: Upload the plans used to reach the LPA decision
     Then the file is removed
 
   Scenario: AC10  LPA Planning Officer deletes a file after save and continue
-    Given a file has been uploaded and confirmed
-    And Upload the plans used to reach the decision question is requested
+    Given a file has been uploaded and confirmed And Upload the plans used to reach the decision question is requested
     When LPA Planning Officer deletes the file
     Then the file is removed
 

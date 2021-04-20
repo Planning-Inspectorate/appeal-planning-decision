@@ -8,13 +8,9 @@ Feature: appealDetailsSidebar:
   Site address
   Apellant Name
 
-  Scenario Outline: AC1-Appeal details sidebar is displayed with the correct information
-    Given A subsection page is presented with id of <id>
-    Then The appeal details sidebar is displayed with the heading "Planning application number", "Site address", and "Appellant Name"
-    And The <application-number>, <address>, and <apellant-name> is displayed
-    Examples:
-      | id                                     | application-number   | address                                                 | apellant-name   |
-      | "89aa8504-773c-42be-bb68-029716ad9756" | "ABC/123"            | "999 Letsby Avenue, Sheffield, South Yorkshire, S9 1XY" | "Bob Smith"     |
+  Scenario: AC1-Appeal details sidebar is displayed with the correct information
+    Given A subsection page is presented with a good id
+    Then the appeal details panel is displayed on the right hand side of the page
 
   Scenario Outline: Appeal details sidebar not shown if invalid ID is provided
     Given A subsection page is presented with id of <id>

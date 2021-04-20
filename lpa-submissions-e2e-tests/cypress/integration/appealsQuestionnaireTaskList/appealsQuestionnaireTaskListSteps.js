@@ -6,6 +6,8 @@ const title =
 const heading = 'Householder planning appeal questionnaire';
 const url = '/task-list';
 
+const {appeal} = require('../../fixtures/anAppeal.json');
+
 const verifyNotStartedStatus = (taskName) => {
   cy.get('li[' + taskName + '-status="NOT STARTED"]')
     .find('.govuk-tag')
@@ -18,10 +20,15 @@ const verifyNotStartedStatus = (taskName) => {
  */
 
 Given(`The User clicks on {string}`, (taskRef) => {
-  const { id, url } = getSubTaskInfo(taskRef) || {};
+  cy.insertAppealAndCreateReply(appeal);
 
-  cy.clickOnSubTaskLink(id);
-  cy.verifyPage(url);
+  cy.get('@appealReply').then( (appealReply) => {
+    const { id, url } = getSubTaskInfo(taskRef) || {};
+
+    cy.clickOnSubTaskLink(id);
+    cy.verifyPage(url);
+  });
+
 });
 
 //When User clicks on Back button

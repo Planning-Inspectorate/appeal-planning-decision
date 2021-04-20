@@ -10,6 +10,8 @@ const textAreaId = 'extra-conditions-text';
 const noButtonId = 'has-extra-conditions-no';
 const yesButtonId = 'has-extra-conditions-yes';
 
+const {appeal} = require('../../fixtures/anAppeal.json');
+
 When(`the user selects the link 'Do you have any extra conditions?'`, () => {
   cy.goToPage(pageId);
   cy.verifyPageTitle(pageTitle);
@@ -28,8 +30,13 @@ Then(
 );
 
 Given(`user is in the extra conditions page`, () => {
-  cy.goToPage(pageId);
-  cy.verifyPageTitle(pageTitle);
+  cy.insertAppealAndCreateReply(appeal);
+
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.goToPage(pageId, appealReply.appealId);
+    cy.verifyPageTitle(pageTitle);
+  });
+
 });
 
 When(`user does not select an option`, () => {
@@ -77,9 +84,14 @@ Then('any information they have entered will not be saved', () => {
 });
 
 Given('a user has completed the information needed on the extra conditions page', () => {
-  cy.goToPage(pageId);
-  input(noButtonId).check();
-  cy.clickSaveAndContinue();
+  cy.insertAppealAndCreateReply(appeal);
+
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.goToPage(pageId, appealReply.appealId);
+    input(noButtonId).check();
+    cy.clickSaveAndContinue();
+  });
+
 });
 
 When('the user returns to the extra conditions page from the Task List', () => {

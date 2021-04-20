@@ -1,5 +1,5 @@
 const developmentPlanController = require('../../../src/controllers/development-plan');
-const { createOrUpdateAppealReply } = require('../../../src/lib/appeal-reply-api-wrapper');
+const { updateAppealReply } = require('../../../src/lib/appeal-reply-api-wrapper');
 const { getTaskStatus } = require('../../../src/services/task.service');
 const logger = require('../../../src/lib/logger');
 const appealReply = require('../emptyAppealReply');
@@ -117,7 +117,7 @@ describe('controllers/development-plan', () => {
 
       await developmentPlanController.postDevelopmentPlan(mockRequest, res);
 
-      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
+      expect(updateAppealReply).toHaveBeenCalledWith(mockAppealReply);
       expect(res.render).not.toHaveBeenCalled();
       expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
     });
@@ -160,7 +160,7 @@ describe('controllers/development-plan', () => {
 
       await developmentPlanController.postDevelopmentPlan(mockRequest, res);
 
-      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
+      expect(updateAppealReply).toHaveBeenCalledWith(mockAppealReply);
       expect(res.render).not.toHaveBeenCalled();
       expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
     });
@@ -201,11 +201,11 @@ describe('controllers/development-plan', () => {
         },
       };
 
-      createOrUpdateAppealReply.mockRejectedValue('mock api error');
+      updateAppealReply.mockRejectedValue('mock api error');
 
       await developmentPlanController.postDevelopmentPlan(mockRequest, res);
 
-      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
+      expect(updateAppealReply).toHaveBeenCalledWith(mockAppealReply);
       expect(res.redirect).not.toHaveBeenCalled();
       expect(logger.error).toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.DEVELOPMENT_PLAN, {

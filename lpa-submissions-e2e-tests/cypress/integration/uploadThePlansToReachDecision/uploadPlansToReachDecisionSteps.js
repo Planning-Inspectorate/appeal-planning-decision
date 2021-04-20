@@ -1,17 +1,19 @@
 import { Given, When, Then, Before, After } from 'cypress-cucumber-preprocessor/steps';
-import defaultPathId from '../../utils/defaultPathId';
 const documentServiceBaseURL = Cypress.env('DOCUMENT_SERVICE_BASE_URL');
-const assumeLimitedAccess = Cypress.env('ASSUME_LIMITED_ACCESS');
 
 const pageTitle =
   'Upload plans used to reach the decision - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK';
 const pageUrl = '/plans';
-const path = `/${defaultPathId}/plans`;
+const path = `plans`;
 
 let disableJs = false;
 
+const preCannedAppeal = require('../../fixtures/anAppeal.json');
+
 const goToUploadDecisionPage = () => {
-  cy.visit(path, { script: !disableJs });
+  cy.get('@appeal').then( (appeal) =>{
+    cy.visit(`${appeal.id}/${path}`, { script: !disableJs });
+  });
 };
 
 const clickUploadButton = () => {
@@ -106,26 +108,54 @@ After({ tags: '@nojs' }, () => {
 });
 
 Given('Upload the plans used to reach the decision question is requested', () => {
-  goToUploadDecisionPage();
+  cy.insertAppealAndCreateReply(preCannedAppeal.appeal).as('appealReply');
+
+  cy.get('@appealReply').then( (appealReply) => {
+    goToUploadDecisionPage(appealReply.appealId);
+  });
 });
 
 Given('a file has been uploaded', () => {
-  goToUploadDecisionPage();
-  uploadFiles('upload-file-valid.pdf');
+  cy.insertAppealAndCreateReply(preCannedAppeal.appeal).as('appealReply');
+
+  cy.get('@appealReply').then( (appealReply) => {
+    goToUploadDecisionPage(appealReply.appealId);
+    uploadFiles('upload-file-valid.pdf');
+  });
 });
 
 Given('a file has been uploaded and confirmed', () => {
-  goToUploadDecisionPage();
-  uploadFiles('upload-file-valid.pdf');
-  validateFileUpload('upload-file-valid.pdf');
-  cy.clickSaveAndContinue();
+  cy.insertAppealAndCreateReply(preCannedAppeal.appeal).as('appealReply');
+
+  cy.get('@appealReply').then( (appealReply) => {
+    goToUploadDecisionPage(appealReply.appealId);
+    uploadFiles('upload-file-valid.pdf');
+    validateFileUpload('upload-file-valid.pdf');
+    cy.clickSaveAndContinue();
+  });
+});
+
+Given('a file has been uploaded and confirmed And Upload the plans used to reach the decision question is requested', () => {
+  cy.insertAppealAndCreateReply(preCannedAppeal.appeal).as('appealReply');
+
+  cy.get('@appealReply').then( (appealReply) => {
+    goToUploadDecisionPage(appealReply.appealId);
+    uploadFiles('upload-file-valid.pdf');
+    validateFileUpload('upload-file-valid.pdf');
+    cy.clickSaveAndContinue();
+    goToUploadDecisionPage(appealReply.appealId);
+  });
 });
 
 Given("The question 'Upload the plans used to reach the decision' has been completed", () => {
-  goToUploadDecisionPage();
-  uploadFiles('upload-file-valid.pdf');
-  validateFileUpload('upload-file-valid.pdf');
-  cy.clickSaveAndContinue();
+  cy.insertAppealAndCreateReply(preCannedAppeal.appeal).as('appealReply');
+
+  cy.get('@appealReply').then( (appealReply) => {
+    goToUploadDecisionPage(appealReply.appealId);
+    uploadFiles('upload-file-valid.pdf');
+    validateFileUpload('upload-file-valid.pdf');
+    cy.clickSaveAndContinue();
+  });
 });
 
 When('LPA Planning Officer chooses to upload plans used to reach the decision', () => {
@@ -204,16 +234,12 @@ Then('progress is halted with file {string} error message {string}', (fileName, 
 
 Then('the file is removed', () => {
   validateFileDeleted('upload-file-valid.pdf');
-  if (!assumeLimitedAccess) {
-    expectFileNotToBeInDocumentService('upload-file-valid.pdf');
-  }
+  expectFileNotToBeInDocumentService('upload-file-valid.pdf');
 });
 
 Then('the information they previously entered is still populated', () => {
   validateFileUpload('upload-file-valid.pdf');
-  if (!assumeLimitedAccess) {
-    expectFileToBeInDocumentService('upload-file-valid.pdf');
-  }
+  expectFileToBeInDocumentService('upload-file-valid.pdf');
 });
 
 Then('the updated answer is displayed', () => {

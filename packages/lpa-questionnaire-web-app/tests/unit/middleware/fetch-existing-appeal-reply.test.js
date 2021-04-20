@@ -3,7 +3,8 @@ jest.mock('../../../src/lib/appeal-reply-api-wrapper');
 const { mockReq, mockRes } = require('../mocks');
 const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
 const {
-  createOrUpdateAppealReply,
+  createAppealReply,
+  updateAppealReply,
   getExistingAppealReply,
 } = require('../../../src/lib/appeal-reply-api-wrapper');
 const config = require('../../../src/config');
@@ -26,39 +27,7 @@ describe('middleware/fetch-existing-appeal-reply', () => {
         ...mockReq(null),
       }),
       expected: (req, res, next) => {
-        expect(getExistingAppealReply).not.toHaveBeenCalled();
-        expect(createOrUpdateAppealReply).toHaveBeenCalledWith({ appealId: 'mock-id' });
-        expect(next).toHaveBeenCalled();
-      },
-    },
-    {
-      title: 'set empty appeal reply and call next immediately if no id set',
-      given: () => ({
-        ...mockReq(),
-      }),
-      expected: (req, res, next) => {
-        expect(getExistingAppealReply).not.toHaveBeenCalled();
-        expect(next).toHaveBeenCalled();
-      },
-    },
-    {
-      title: 'call next if api lookup fails',
-      given: () => {
-        getExistingAppealReply.mockRejectedValue('API is down');
-        createOrUpdateAppealReply.mockReturnValue({ fake: 'appeal data' });
-        return {
-          ...mockReq(),
-          session: {
-            appealReply: {
-              id: '123-abc',
-            },
-          },
-        };
-      },
-      expected: (req, res, next) => {
-        expect(getExistingAppealReply).toHaveBeenCalledWith('123-abc');
-        expect(createOrUpdateAppealReply).toHaveBeenCalledWith({ appealId: 'mock-id' });
-        expect(req.session.appeal).toEqual({ fake: 'appeal data' });
+        expect(createAppealReply).toHaveBeenCalled();
         expect(next).toHaveBeenCalled();
       },
     },
@@ -69,10 +38,8 @@ describe('middleware/fetch-existing-appeal-reply', () => {
 
         return {
           ...mockReq(),
-          session: {
-            appealReply: {
-              id: '123-abc',
-            },
+          params: {
+            id: '123-abc',
           },
         };
       },
