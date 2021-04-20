@@ -1,6 +1,9 @@
 const { validationResult } = require('express-validator');
 const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
-const { rules } = require('../../../../src/validators/eligibility/listed-building');
+const {
+  rules,
+  validIsListedBuildingOptions,
+} = require('../../../../src/validators/eligibility/listed-building');
 
 describe('validators/eligibility/listed-building', () => {
   describe('rules', () => {
@@ -79,6 +82,12 @@ describe('validators/eligibility/listed-building', () => {
         const result = validationResult(mockReq);
         expected(result);
       });
+    });
+  });
+
+  describe('validIsListedBuildingOptions', () => {
+    it('should define the expected valid listed building options', () => {
+      expect(validIsListedBuildingOptions).toEqual(['yes', 'no']);
     });
   });
 });

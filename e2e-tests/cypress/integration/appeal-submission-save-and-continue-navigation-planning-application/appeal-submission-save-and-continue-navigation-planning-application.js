@@ -19,7 +19,7 @@ When('the "Application number" is submitted with valid values', () => {
     `{selectall}{backspace}${planningApplicationNumber}`,
   );
   cy.wait(Cypress.env('demoDelay'));
-  cy.get('[data-cy="save-and-continue"]').click();
+  cy.get('[data-cy="button-save-and-continue"]').click();
   cy.wait(Cypress.env('demoDelay'));
 });
 

@@ -26,8 +26,9 @@
       <span class="govuk-caption-l">Before you start</span>
 
       {{ govukRadios({
-        idPrefix: FORM_FIELD['is-your-appeal-about-a-listed-building'].id,
-        name: FORM_FIELD['is-your-appeal-about-a-listed-building'].id,
+        classes: "govuk-radios",
+        idPrefix: "is-your-appeal-about-a-listed-building",
+        name: "is-your-appeal-about-a-listed-building",
         fieldset: {
           legend: {
             text: "Is your appeal about a listed building?",
@@ -35,7 +36,20 @@
             classes: "govuk-fieldset__legend--l"
           }
         },
-        items: FORM_FIELD['is-your-appeal-about-a-listed-building'].items,
+        items: [
+          {
+            value: "yes",
+            text: "Yes",
+            attributes: { "data-cy": "answer-yes" },
+            checked: appeal.eligibility.isListedBuilding == true
+          },
+          {
+            value: "no",
+            text: "No",
+            attributes: { "data-cy": "answer-no" },
+            checked: appeal.eligibility.isListedBuilding == false
+          }
+        ],
         errorMessage: errors['is-your-appeal-about-a-listed-building'] and {
           text: errors['is-your-appeal-about-a-listed-building'].msg
         }

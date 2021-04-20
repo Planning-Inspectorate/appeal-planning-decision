@@ -1,46 +1,61 @@
 const { VIEW } = require('../../lib/views');
-
-const FORM_FIELD = {
-  'is-your-appeal-about-a-listed-building': {
-    id: 'is-your-appeal-about-a-listed-building',
-    items: [
-      {
-        value: 'yes',
-        text: 'Yes',
-      },
-      {
-        value: 'no',
-        text: 'No',
-      },
-    ],
-  },
-};
-
-exports.FORM_FIELD = FORM_FIELD;
+const { validIsListedBuildingOptions } = require('../../validators/eligibility/listed-building');
+const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 
 exports.getServiceNotAvailableForListedBuildings = (req, res) => {
   res.render(VIEW.ELIGIBILITY.LISTED_OUT);
 };
 
 exports.getListedBuilding = (req, res) => {
-  res.render(VIEW.ELIGIBILITY.LISTED_BUILDING, { FORM_FIELD });
+  res.render(VIEW.ELIGIBILITY.LISTED_BUILDING, { appeal: req.session.appeal });
 };
 
-exports.postListedBuilding = (req, res) => {
+exports.postListedBuilding = async (req, res) => {
   const { body } = req;
-
   const { errors = {}, errorSummary = [] } = body;
+
+  const { appeal } = req.session;
+
+  let isAppealAboutAListedBuilding = null;
+  if (validIsListedBuildingOptions.includes(req.body['is-your-appeal-about-a-listed-building'])) {
+    isAppealAboutAListedBuilding = req.body['is-your-appeal-about-a-listed-building'] === 'yes';
+  }
 
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.ELIGIBILITY.LISTED_BUILDING, {
+      appeal: {
+        ...appeal,
+        eligibility: {
+          ...appeal.eligibility,
+          isListedBuilding: isAppealAboutAListedBuilding,
+        },
+      },
       errors,
       errorSummary,
-      FORM_FIELD,
     });
     return;
   }
 
-  if (body['is-your-appeal-about-a-listed-building'] === 'yes') {
+  try {
+    req.session.appeal = await createOrUpdateAppeal({
+      ...appeal,
+      eligibility: {
+        ...appeal.eligibility,
+        isListedBuilding: isAppealAboutAListedBuilding,
+      },
+    });
+  } catch (e) {
+    req.log.error(e);
+
+    res.render(VIEW.ELIGIBILITY.LISTED_BUILDING, {
+      appeal,
+      errors,
+      errorSummary: [{ text: e.toString(), href: '#' }],
+    });
+    return;
+  }
+
+  if (isAppealAboutAListedBuilding) {
     res.redirect(`/${VIEW.ELIGIBILITY.LISTED_OUT}`);
     return;
   }

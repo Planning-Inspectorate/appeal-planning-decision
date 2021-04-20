@@ -49,12 +49,12 @@ When('the "Site ownership" is submitted with a NO value', () => {
 });
 
 When('the "Site ownership certb" is submitted with a YES value', () => {
-  cy.answerDidToldOtherOwnersAppeal();
+  cy.answerHaveToldOtherOwnersAppeal();
   cy.clickSaveAndContinue();
 });
 
 When('the "Site ownership certb" is submitted with a NO value', () => {
-  cy.answerDidNotToldOtherOwnersAppeal();
+  cy.answerHaveNotToldOtherOwnersAppeal();
   cy.clickSaveAndContinue();
 });
 

@@ -1,5 +1,6 @@
 const express = require('express');
 
+const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
 const listedBuildingController = require('../../controllers/eligibility/listed-building');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const {
@@ -9,7 +10,11 @@ const {
 const router = express.Router();
 
 router.get('/listed-out', listedBuildingController.getServiceNotAvailableForListedBuildings);
-router.get('/listed-building', listedBuildingController.getListedBuilding);
+router.get(
+  '/listed-building',
+  [fetchExistingAppealMiddleware],
+  listedBuildingController.getListedBuilding
+);
 router.post(
   '/listed-building',
   listedBuildingValidationRules(),

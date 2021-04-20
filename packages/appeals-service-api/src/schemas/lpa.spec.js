@@ -31,8 +31,8 @@ describe('LPA schema test', () => {
           name: 'some-name',
           horizonId: 'some-hid',
           inTrial: true,
-          england: true,
-          wales: true,
+          email: 'some-email',
+          domain: 'some-domain',
         };
 
         const lpa = new LPA(obj);
@@ -40,8 +40,8 @@ describe('LPA schema test', () => {
         expect(lpa.id).toBe(obj.id);
         expect(lpa.name).toBe(obj.name);
         expect(lpa.inTrial).toBe(obj.inTrial);
-        expect(lpa.england).toBe(obj.england);
-        expect(lpa.wales).toBe(obj.wales);
+        expect(lpa.domain).toBe(obj.domain);
+        expect(lpa.email).toBe(obj.email);
         expect(lpa.horizonId).toBe(obj.horizonId);
       });
     });
@@ -236,12 +236,12 @@ describe('LPA schema test', () => {
 
     describe('#loadData', () => {
       it('should load the data from the files', async () => {
-        const lpaExample = `OBJECTID,LPA19CD,LPA19NM,BNG_E,BNG_N,LONG,LAT,Shape__Area,Shape__Length
-1,E60000001,County Durham LPA,410381,532242,-1.8405,54.68513,2231526181.85083,315240.533401901
-390,W43000018,Cardiff LPA,315270,178887,-3.22212,51.50254,142287245.75211,79678.4715379399
-2,E60000002,Darlington LPA,428029,515648,-1.56835,54.53534,197475688.992432,107206.401677287
-331,N13000004,Belfast LPA,146465,529747,-5.92535,54.59853,137716630.472664,65908.6538260691
-343,S44000005,City of Edinburgh LPA,320193,669416,-3.27826,55.91119,263351803.906158,108121.329976751`;
+        const lpaExample = `OBJECTID,LPA19CD,LPA19NM,email,domain
+1,E60000001,County Durham LPA,,
+390,W43000018,Cardiff LPA,,
+2,E60000002,Darlington LPA,,
+331,N13000004,Belfast LPA,,
+343,S44000005,City of Edinburgh LPA,,`;
 
         const trialistExample = [
           {
@@ -258,9 +258,12 @@ describe('LPA schema test', () => {
         /* This is simplified duplication of the parse method to check it works */
         const parsedCSV = (await csvParser(lpaExample))
           .filter(
-            ({ LPA19CD }) => LPA19CD.startsWith('S') === false && LPA19CD.startsWith('N') === false
+            ({ LPA19CD }) =>
+              LPA19CD.startsWith('S') === false &&
+              LPA19CD.startsWith('N') === false &&
+              LPA19CD.startsWith('W') === false
           )
-          .map(({ LPA19CD: id, LPA19NM: name }) => {
+          .map(({ LPA19CD: id, LPA19NM: name, EMAIL: email, DOMAIN: domain }) => {
             const { inTrial = false, horizonId = null } =
               trialistExample.find(({ id: trialistId }) => trialistId === id) || {};
             return {
@@ -268,8 +271,8 @@ describe('LPA schema test', () => {
               horizonId,
               inTrial,
               id: id.toUpperCase(),
-              england: id.startsWith('E'),
-              wales: id.startsWith('W'),
+              email,
+              domain,
             };
           })
           .sort((a, b) => {

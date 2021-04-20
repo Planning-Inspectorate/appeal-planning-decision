@@ -5,14 +5,16 @@ Given('user has not previously provided a planning application number', () => {
 });
 
 Given('user has previously provided a planning application number {string}', (valid_number) => {
+  cy.visit('/appellant-submission/application-number');
   cy.providePlanningApplicationNumber(valid_number);
 });
 
 Given('the user is prompted to provide a planning application number', () => {
-    cy.goToPlanningApplicationNumberPage();
+  cy.goToPlanningApplicationNumberPage();
 });
 
 When('the user provides a planning application number {string}', (valid_number) => {
+  cy.visit('/appellant-submission/application-number');
   cy.providePlanningApplicationNumber(valid_number);
 });
 
@@ -26,10 +28,14 @@ Then('the user is informed that the application number is not valid because {str
       cy.confirmPlanningApplicationNumberRejectedBecause('Enter your planning application number');
       break;
     case 'exceeds max characters':
-      cy.confirmPlanningApplicationNumberRejectedBecause('Planning application number must be 30 characters or fewer');
+      cy.confirmPlanningApplicationNumberRejectedBecause(
+        'Planning application number must be 30 characters or fewer',
+      );
       break;
     default:
-      throw new Error(`test fails here because it could not find the reason [${reason}] in the list of cases`)
+      throw new Error(
+        `test fails here because it could not find the reason [${reason}] in the list of cases`,
+      );
   }
 });
 

@@ -1,4 +1,4 @@
-const { createDocument } = require('./documents-api-wrapper');
+const { createDocument, deleteDocument } = require('./documents-api-wrapper');
 
 // https://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable-string/10420404
 const suffixes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -23,13 +23,12 @@ exports.MIME_TYPE_PNG = 'image/png';
 exports.deleteFile = (fileRef, req) => {
   if (!fileRef || !req) throw new Error('Missing required fields');
 
-  // TODO: add handling for deletion from DB and doc store as part of AS-1538
   const file = req.session.uploadedFiles?.find(
     (upload) => upload.id === fileRef || upload.name === fileRef
   );
 
   if (file) {
-    // TODO: when available needs a check here if the file has an ID (meaning it has been uploaded before). If it does needs to be marked for delete
+    deleteDocument(req.session.appealReply.id, file.id);
 
     req.session.uploadedFiles = req.session.uploadedFiles.filter(
       (upload) => upload.id !== file.id || upload.name !== file.name
@@ -72,8 +71,8 @@ exports.fileErrorSummary = (inputError, files, inputName = 'documents') => {
   ];
 };
 
-const getErrorHtml = (error) => {
-  return `<span class="moj-multi-file-upload__error">
+const getErrorHtml = (error, name) => {
+  return `<span class="moj-multi-file-upload__error" id="${name}">
       <svg class="moj-banner__icon" fill="currentColor" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" height="25" width="25">
         <path d="M13.6,15.4h-2.3v-4.5h2.3V15.4z M13.6,19.8h-2.3v-2.2h2.3V19.8z M0,23.2h25L12.5,2L0,23.2z"/>
       </svg>
@@ -102,7 +101,7 @@ exports.fileUploadNunjucksVariables = (errorMessage, errorSummary, files) => ({
       fileName: doc.id || doc.name,
       originalFileName: doc.name,
       message: {
-        html: doc.error ? getErrorHtml(doc.error) : getSuccessHtml(doc.name),
+        html: doc.error ? getErrorHtml(doc.error, doc.name) : getSuccessHtml(doc.name),
       },
     })),
 });

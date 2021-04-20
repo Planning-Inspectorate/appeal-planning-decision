@@ -14,12 +14,12 @@ Feature: Task lists
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     Then The task <task> is available for selection
     Examples:
-      | task                                                                              |
-      | "About the appeal - Review accuracy of the appellant's submission"                |
-      | "About the appeal - Do you have any extra conditions?"                            |
-      | "About the appeal - Tell us about any appeals in the immediate area"              |
-      | "Required documents - Upload the plans used to reach the decision"                |
-      | "Optional supporting documents - Development Plan Document or Neighbourhood Plan" |
+      | task                           |
+      | "Accuracy Appellant Submission" |
+      | "Extra Conditions"             |
+      | "Other Appeals"                |
+      | "Upload Plans"                 |
+      | "Development Plan"             |
 
   Scenario Outline: User is able to navigate to tasklist page by clicking on back button
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
@@ -27,21 +27,21 @@ Feature: Task lists
     When User clicks on Back button
     Then the LPA Planning Officer is taken to the Task List
     Examples:
-      | task                                                                              |
-      | "About the appeal - Review accuracy of the appellant's submission"                |
-      | "About the appeal - Do you have any extra conditions?"                            |
-      | "About the appeal - Tell us about any appeals in the immediate area"              |
-      | "Required documents - Upload the plans used to reach the decision"                |
-      | "Optional supporting documents - Development Plan Document or Neighbourhood Plan" |
+      | task                           |
+      | "Accuracy Appellant Submission" |
+      | "Extra Conditions"             |
+      | "Other Appeals"                |
+      | "Upload Plans"                 |
+      | "Development Plan"             |
 
   Scenario Outline: When the lpa questionnaire is not started, then the tasks are in "NOT STARTED" state
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     Then The state for <task> is displayed to be "NOT STARTED"
     And The state for "Before You submit - Check your answers" is displayed to be "CANNOT START YET"
     Examples:
-      | task                                                                              |
-      | "About the appeal - Review accuracy of the appellant's submission"                |
-      | "About the appeal - Do you have any extra conditions?"                            |
-      | "About the appeal - Tell us about any appeals in the immediate area"              |
-      | "Required documents - Upload the plans used to reach the decision"                |
-      | "Optional supporting documents - Development Plan Document or Neighbourhood Plan" |
+      | task                           |
+      | "Accuracy Appellant Submission" |
+      | "Extra Conditions"             |
+      | "Other Appeals"                |
+      | "Upload Plans"                 |
+      | "Development Plan"             |

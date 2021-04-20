@@ -1,4 +1,4 @@
-module.exports = (overrides = {}) => {
-  cy.visit('/eligibility/householder-planning-permission', overrides);
+module.exports = (options = {}) => {
+  cy.visit('/eligibility/householder-planning-permission', options);
   cy.wait(Cypress.env('demoDelay'));
 };

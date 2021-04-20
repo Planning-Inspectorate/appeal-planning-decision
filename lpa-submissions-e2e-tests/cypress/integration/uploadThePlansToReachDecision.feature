@@ -106,3 +106,9 @@ Feature: Upload the plans used to reach the LPA decision
     Examples:
       | valid_file             |
       | upload-file-valid.tiff |
+
+  Scenario: AC14 Change answers
+    Given a change to answer 'Upload Plans' is requested from Change your answers page
+    When an answer is saved
+    Then progress is made to the Check Your Answers page
+    And the updated answer is displayed

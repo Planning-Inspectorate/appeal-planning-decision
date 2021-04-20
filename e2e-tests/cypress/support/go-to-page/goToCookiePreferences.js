@@ -1,4 +1,4 @@
-module.exports = (overrides = {}) => {
-  cy.visit('/cookies', overrides);
+module.exports = (options = {}) => {
+  cy.visit('/cookies', options);
   cy.wait(Cypress.env('demoDelay'));
 };

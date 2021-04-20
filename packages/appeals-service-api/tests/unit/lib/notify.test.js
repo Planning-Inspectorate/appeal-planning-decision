@@ -62,7 +62,7 @@ describe('Getting formatted address', () => {
       file: 'JVBERi0MxNTIxUXXhTu/X5Nzc0CiUlRU9G',
       is_csv: false,
     };
-    const lpa = 'Bradford LPA';
+    const lpa = 'Bradford';
     const name = 'John Smith';
     const appealId = 'jhbdfoi-d72344675348-q3iuhak7u5324jvb§00mdf-jdaijhbwefi';
     const output = {

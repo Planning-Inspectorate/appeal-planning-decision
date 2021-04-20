@@ -6,6 +6,8 @@ const VIEW = {
   EXTRA_CONDITIONS: 'extra-conditions',
   DEVELOPMENT_PLAN: 'development-plan',
   UPLOAD_PLANS: 'upload-plans',
+  INFORMATION_SUBMITTED: 'information-submitted',
+  CONFIRM_ANSWERS: 'confirm-answers',
 };
 
 module.exports = {

@@ -4,7 +4,10 @@ jest.mock('../services/upload.service');
 
 const multer = require('multer');
 const { when } = require('jest-when');
-const { uploadDocumentsToBlobStorage } = require('../services/upload.service');
+const {
+  uploadDocumentsToBlobStorage,
+  deleteFromBlobStorageByLocation,
+} = require('../services/upload.service');
 
 const controller = require('./documents');
 const Documents = require('../schemas/documents');
@@ -503,5 +506,163 @@ describe('Documents controller', () => {
         expect(res.send).toBeCalledWith(dtoValue);
       });
     });
+  });
+
+  describe('#deleteDocument', () => {
+    it('should return a 404 error if no document found', async () => {
+      const applicationId = 'some-app-id';
+      const documentId = 'some-doc-id';
+      const req = {
+        log: {
+          debug: jest.fn(),
+        },
+        params: {
+          applicationId,
+          documentId,
+        },
+      };
+
+      Documents.findOne.mockResolvedValue(null);
+
+      expect(await controller.deleteDocument(req, res)).toBe(undefined);
+
+      expect(Documents.findOne).toBeCalledWith({
+        applicationId,
+        id: documentId,
+      });
+
+      expect(res.status).toBeCalledWith(404);
+      expect(res.send).toBeCalledWith({
+        message: 'Unknown document ID',
+      });
+    });
+  });
+
+  it('Should return an 404 if document wasnt there to delete', async () => {
+    const applicationId = 'some-app-id';
+    const documentId = 'some-doc-id';
+    const req = {
+      log: {
+        debug: jest.fn(),
+        error: jest.fn(),
+      },
+      params: {
+        applicationId,
+        documentId,
+      },
+    };
+
+    const doc = {
+      generateId: jest.fn(),
+      generateLocation: jest.fn(),
+      get: jest.fn(),
+      save: jest.fn().mockResolvedValue(),
+      validate: jest.fn().mockResolvedValue(),
+    };
+
+    doc.generateId.mockReturnValue(doc);
+
+    Documents.findOne.mockResolvedValue(doc);
+    Documents.deleteOne.mockResolvedValue({ deletedCount: 0 });
+
+    expect(await controller.deleteDocument(req, res)).toBe(undefined);
+
+    expect(res.status).toBeCalledWith(404);
+  });
+
+  it('Should return a 500 if delete from database fails', async () => {
+    const applicationId = 'some-app-id';
+    const documentId = 'some-doc-id';
+    const req = {
+      log: {
+        debug: jest.fn(),
+        error: jest.fn(),
+      },
+      params: {
+        applicationId,
+        documentId,
+      },
+    };
+
+    const doc = {
+      generateId: jest.fn(),
+      generateLocation: jest.fn(),
+      get: jest.fn(),
+      save: jest.fn().mockResolvedValue(),
+      validate: jest.fn().mockResolvedValue(),
+    };
+
+    doc.generateId.mockReturnValue(doc);
+
+    Documents.findOne.mockResolvedValue(doc);
+    Documents.deleteOne.mockRejectedValue(new Error('Computer says no'));
+
+    expect(await controller.deleteDocument(req, res)).toBe(undefined);
+
+    expect(res.status).toBeCalledWith(500);
+  });
+
+  it('Should return an error if delete from blob storage fails', async () => {
+    const applicationId = 'some-app-id';
+    const documentId = 'some-doc-id';
+    const req = {
+      log: {
+        error: jest.fn(),
+      },
+      params: {
+        applicationId,
+        documentId,
+      },
+    };
+
+    const doc = {
+      generateId: jest.fn(),
+      generateLocation: jest.fn(),
+      get: jest.fn(),
+      save: jest.fn().mockResolvedValue(),
+      validate: jest.fn().mockResolvedValue(),
+    };
+
+    doc.generateId.mockReturnValue(doc);
+
+    Documents.findOne.mockResolvedValue(doc);
+    Documents.deleteOne.mockResolvedValue({ deletedCount: 1 });
+    deleteFromBlobStorageByLocation.mockResolvedValue(false);
+
+    expect(await controller.deleteDocument(req, res)).toBe(undefined);
+    expect(req.log.error).toHaveBeenCalled();
+    expect(res.status).toBeCalledWith(500);
+  });
+
+  it('Should return 204 when document deletion succeeds', async () => {
+    const applicationId = 'some-app-id';
+    const documentId = 'some-doc-id';
+    const req = {
+      log: {
+        debug: jest.fn(),
+        error: jest.fn(),
+      },
+      params: {
+        applicationId,
+        documentId,
+      },
+    };
+
+    const doc = {
+      generateId: jest.fn(),
+      generateLocation: jest.fn(),
+      get: jest.fn(),
+      save: jest.fn().mockResolvedValue(),
+      validate: jest.fn().mockResolvedValue(),
+    };
+
+    doc.generateId.mockReturnValue(doc);
+
+    Documents.findOne.mockResolvedValue(doc);
+    Documents.deleteOne.mockResolvedValue({ deletedCount: 1 });
+    deleteFromBlobStorageByLocation.mockResolvedValue(true);
+
+    expect(await controller.deleteDocument(req, res)).toBe(undefined);
+    expect(res.status).toBeCalledWith(204);
   });
 });

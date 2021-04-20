@@ -1,11 +1,25 @@
 const listedBuildingController = require('../../../../src/controllers/eligibility/listed-building');
+const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
+const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 
-const req = mockReq();
-const res = mockRes();
+jest.mock('../../../../src/lib/appeals-api-wrapper');
 
 describe('controllers/eligibility/listed-building', () => {
+  let req;
+  let res;
+  let appeal;
+
+  beforeEach(() => {
+    req = mockReq();
+    res = mockRes();
+
+    ({ empty: appeal } = APPEAL_DOCUMENT);
+
+    jest.resetAllMocks();
+  });
+
   describe('getServiceNotAvailableForListedBuildings', () => {
     it('calls the correct template', () => {
       listedBuildingController.getServiceNotAvailableForListedBuildings(req, res);
@@ -19,54 +33,100 @@ describe('controllers/eligibility/listed-building', () => {
       listedBuildingController.getListedBuilding(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.LISTED_BUILDING, {
+        appeal: req.session.appeal,
         FORM_FIELD: listedBuildingController.FORM_FIELD,
       });
     });
   });
 
   describe('postListedBuilding', () => {
-    it('should redirect on the happy path', () => {
+    it('should re-render the template with errors if there is any validation error', async () => {
       const mockRequest = {
-        body: {},
+        ...req,
+        body: {
+          'is-your-appeal-about-a-listed-building': 'bad value',
+          errors: { a: 'b' },
+          errorSummary: [{ text: 'There were errors here', href: '#' }],
+        },
       };
-      const mockResponse = {
-        redirect: jest.fn(),
-      };
+      await listedBuildingController.postListedBuilding(mockRequest, res);
 
-      listedBuildingController.postListedBuilding(mockRequest, mockResponse);
+      expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
-      expect(mockResponse.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.COSTS}`);
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.LISTED_BUILDING, {
+        appeal: {
+          ...req.session.appeal,
+          eligibility: {
+            ...req.session.appeal.eligibility,
+            isListedBuilding: null,
+          },
+        },
+        errorSummary: [{ text: 'There were errors here', href: '#' }],
+        errors: { a: 'b' },
+      });
     });
 
-    it('should redirect to listed-out if given a listed building', () => {
+    it('should re-render the template with errors if there is any api call error', async () => {
       const mockRequest = {
+        ...req,
+        body: {},
+      };
+
+      const error = new Error('Cheers');
+      createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
+
+      await listedBuildingController.postListedBuilding(mockRequest, res);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+
+      expect(req.log.error).toHaveBeenCalledWith(error);
+
+      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.LISTED_BUILDING, {
+        appeal: req.session.appeal,
+        errors: {},
+        errorSummary: [{ text: error.toString(), href: '#' }],
+      });
+    });
+
+    it('should redirect to `/eligibility/listed-out` if `is-your-appeal-about-a-listed-building` is `yes`', async () => {
+      const mockRequest = {
+        ...req,
         body: {
           'is-your-appeal-about-a-listed-building': 'yes',
         },
       };
-      const mockResponse = {
-        redirect: jest.fn(),
-      };
+      await listedBuildingController.postListedBuilding(mockRequest, res);
 
-      listedBuildingController.postListedBuilding(mockRequest, mockResponse);
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...appeal,
+        eligibility: {
+          ...appeal.eligibility,
+          isListedBuilding: true,
+        },
+      });
 
-      expect(mockResponse.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.LISTED_OUT}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.LISTED_OUT}`);
     });
 
-    it('calls the correct template on error', () => {
+    it('should redirect to `/eligibility/costs` if `is-your-appeal-about-a-listed-building` is `no`', async () => {
       const mockRequest = {
+        ...req,
         body: {
-          errors: [1, 2, 3],
+          'is-your-appeal-about-a-listed-building': 'no',
         },
       };
+      await listedBuildingController.postListedBuilding(mockRequest, res);
 
-      listedBuildingController.postListedBuilding(mockRequest, res);
-
-      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.LISTED_BUILDING, {
-        FORM_FIELD: listedBuildingController.FORM_FIELD,
-        errorSummary: [],
-        errors: [1, 2, 3],
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...appeal,
+        eligibility: {
+          ...appeal.eligibility,
+          isListedBuilding: false,
+        },
       });
+
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.COSTS}`);
     });
   });
 });

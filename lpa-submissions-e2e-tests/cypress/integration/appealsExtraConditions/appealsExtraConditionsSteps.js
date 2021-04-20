@@ -71,7 +71,7 @@ When('user selects the back link', () => {
 });
 
 Then('any information they have entered will not be saved', () => {
-  cy.clickOnTaskListLink(taskListId);
+  cy.clickOnSubTaskLink(taskListId);
   cy.verifyPageTitle(pageTitle);
   input(noButtonId).should('not.be.checked');
 });
@@ -83,10 +83,19 @@ Given('a user has completed the information needed on the extra conditions page'
 });
 
 When('the user returns to the extra conditions page from the Task List', () => {
-  cy.clickOnTaskListLink(taskListId);
+  cy.clickOnSubTaskLink(taskListId);
   cy.verifyPageTitle(pageTitle);
 });
 
 Then('the information they previously entered is still populated', () => {
   input(noButtonId).should('be.checked');
+});
+
+When('an answer is saved', () => {
+  input(noButtonId).check();
+  cy.clickSaveAndContinue();
+});
+
+Then('the updated answer is displayed', () => {
+  cy.confirmCheckYourAnswersDisplayed('extraConditions', 'No');
 });
