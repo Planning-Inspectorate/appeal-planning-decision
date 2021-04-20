@@ -7,16 +7,13 @@ const {
 } = require('../lib/file-upload-helpers');
 const getAppealSideBarDetails = require('../lib/appeal-sidebar-details');
 const { getTaskStatus } = require('../services/task.service');
-const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
+const { updateAppealReply } = require('../lib/appeal-reply-api-wrapper');
 
 exports.getUpload = (req, res) => {
   const { sectionName, taskName, view } = res.locals.routeInfo;
-  req.log.error({ routeInfo: res.locals.routeInfo }, 'Route Info');
+  req.log.debug({ routeInfo: res.locals.routeInfo }, 'Route Info');
 
   const { uploadedFiles = [] } = req.session.appealReply[sectionName][taskName];
-
-  // set uploaded files
-  req.session.uploadedFiles = uploadedFiles;
 
   res.render(view, {
     appeal: getAppealSideBarDetails(req.session.appeal),
@@ -77,7 +74,6 @@ exports.postUpload = async (req, res) => {
       appeal: getAppealSideBarDetails(req.session.appeal),
       backLink,
     });
-
     return;
   }
 
@@ -90,10 +86,8 @@ exports.postUpload = async (req, res) => {
       sectionName,
       taskName
     );
+    req.session.appealReply = await updateAppealReply(appealReply);
 
-    req.session.appealReply = await createOrUpdateAppealReply(appealReply);
-
-    // If it gets this far there are no errors and files must exist
     res.redirect(req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`);
   } catch (err) {
     req.log.error({ err }, `Error adding files to ${name} question`);

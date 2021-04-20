@@ -5,7 +5,9 @@ const { utils } = require('@pins/common');
 const config = require('../config');
 const parentLogger = require('./logger');
 
-async function handler(path, method = 'GET', opts = {}, headers = {}) {
+const appealReplyServiceApiUrl = '/api/v1/reply';
+
+async function handler(path, method, opts = {}, headers = {}) {
   const correlationId = uuid.v4();
   const url = `${config.appealReply.url}${path}`;
 
@@ -23,27 +25,19 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
         const apiResponse = await fetch(url, {
           method,
           headers: {
-            'Content-Type': 'application/json',
             'X-Correlation-ID': correlationId,
             ...headers,
+            'Content-Type': 'application/json',
           },
           ...opts,
         });
 
         if (!apiResponse.ok) {
-          logger.debug(apiResponse, 'API Response not OK');
-          try {
-            const errorResponse = await apiResponse.json();
-            /* istanbul ignore else */
-            if (errorResponse.errors && errorResponse.errors.length) {
-              throw new Error(errorResponse.errors.join('\n'));
-            }
-
-            /* istanbul ignore next */
-            throw new Error(apiResponse.statusText);
-          } catch (e) {
-            throw new Error(e.message);
+          logger.error(apiResponse, 'API Response not OK');
+          if (apiResponse.status === 404) {
+            return null;
           }
+          throw new Error('something went wrong');
         }
 
         logger.debug('Successfully called');
@@ -52,7 +46,7 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
 
         logger.debug('Successfully parsed to JSON');
 
-        return data;
+        return data.reply;
       })
     );
   } catch (err) {
@@ -61,27 +55,30 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
   }
 }
 
-/**
- * A single wrapper around creating, or updating a new or existing appeal through the Reply
- * Service API.
- *
- * @param reply
- * @returns {Promise<*>}
- */
-exports.createOrUpdateAppealReply = (appealReply) => {
-  let appealReplyServiceApiUrl = '/api/v1/reply';
-  let method = 'POST';
+exports.updateAppealReply = (appealReply) => {
+  const logger = parentLogger.child({
+    service: 'Reply Service API',
+  });
 
-  if (appealReply.id && appealReply.id !== '') {
-    appealReplyServiceApiUrl += `/${appealReply.id}`;
-    method = 'PUT';
+  if (appealReply.appealId && appealReply.appealId !== '') {
+    return handler(`${appealReplyServiceApiUrl}/${appealReply.appealId}`, 'PUT', {
+      body: JSON.stringify(appealReply),
+    });
   }
+  logger.error(
+    `updateAppealReply; provided appealReply does't have an appealId.. ${JSON.stringify(
+      appealReply
+    )}`
+  );
+  throw new Error('something went wrong');
+};
 
-  return handler(appealReplyServiceApiUrl, method, {
-    body: JSON.stringify(appealReply),
+exports.createAppealReply = async () => {
+  return handler(`${appealReplyServiceApiUrl}`, 'POST', {
+    body: { appealId: uuid.v4() },
   });
 };
 
 exports.getExistingAppealReply = async (id) => {
-  return handler(`/api/v1/reply/${id}`);
+  return handler(`/api/v1/reply/${id}`, 'GET');
 };

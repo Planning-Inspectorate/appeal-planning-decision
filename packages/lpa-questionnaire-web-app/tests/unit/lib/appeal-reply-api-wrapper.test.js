@@ -1,9 +1,8 @@
-jest.mock('uuid');
-
 const fetch = require('node-fetch');
-const uuid = require('uuid');
+
 const {
-  createOrUpdateAppealReply,
+  createAppealReply,
+  updateAppealReply,
   getExistingAppealReply,
 } = require('../../../src/lib/appeal-reply-api-wrapper');
 
@@ -32,55 +31,29 @@ describe('lib/appeal-reply-api-wrapper', () => {
     jest.useRealTimers();
   });
 
-  describe('createOrUpdateAppealReply', () => {
+  describe('createAppealReply', () => {
     [
       {
         title: 'POST when a id is missing',
         given: () => {
-          fetch.mockResponseOnce(JSON.stringify({ good: 'data' }));
-
-          return {
-            a: 'b',
-            id: undefined,
-          };
+          fetch.mockResponseOnce(JSON.stringify({ reply: { good: 'data' } }));
         },
         expected: (appealReplyApiResponse) => {
           expect(fetch).toHaveBeenCalledWith(`${config.appealReply.url}/api/v1/reply`, {
-            body: '{"a":"b"}',
+            body: { appealId: expect.any(String) },
             headers: {
               'Content-Type': 'application/json',
-              'X-Correlation-ID': uuid.v4(),
+              'X-Correlation-ID': expect.any(String),
             },
             method: 'POST',
           });
           expect(appealReplyApiResponse).toEqual({ good: 'data' });
         },
       },
-      {
-        title: 'PUT when a id is provided',
-        given: () => {
-          fetch.mockResponseOnce(JSON.stringify({ shouldBe: 'valid' }));
-
-          return {
-            c: 'd',
-            id: '123-abc',
-          };
-        },
-        expected: (appealReplyApiResponse) => {
-          expect(fetch).toHaveBeenCalledWith(`${config.appealReply.url}/api/v1/reply/123-abc`, {
-            body: '{"c":"d","id":"123-abc"}',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-Correlation-ID': uuid.v4(),
-            },
-            method: 'PUT',
-          });
-          expect(appealReplyApiResponse).toEqual({ shouldBe: 'valid' });
-        },
-      },
     ].forEach(({ title, given, expected }) => {
       it(`should ${title}`, async () => {
-        const appealReplyApiResponse = await createOrUpdateAppealReply(given());
+        given();
+        const appealReplyApiResponse = await createAppealReply();
         expected(appealReplyApiResponse);
       });
     });
@@ -91,7 +64,65 @@ describe('lib/appeal-reply-api-wrapper', () => {
       });
 
       try {
-        await createOrUpdateAppealReply({
+        await createAppealReply({
+          a: 'b',
+        });
+      } catch (e) {
+        expect(e.toString()).toEqual('Error: something went wrong');
+      }
+    });
+
+    it('should gracefully handle a 404 failure because coverage', async () => {
+      fetch.mockResponseOnce(JSON.stringify({ errors: ['something went wrong'] }), {
+        status: 404,
+      });
+
+      try {
+        await createAppealReply({
+          a: 'b',
+        });
+      } catch (e) {
+        expect(e.toString()).toEqual('Error: something went wrong');
+      }
+    });
+  });
+
+  describe('updateAppealReply', () => {
+    [
+      {
+        title: 'PUT when a id is provided',
+        given: () => {
+          fetch.mockResponseOnce(JSON.stringify({ reply: { shouldBe: 'valid' } }));
+          return {
+            appealId: '123-abc',
+          };
+        },
+        expected: (appealReplyApiResponse) => {
+          expect(fetch).toHaveBeenCalledWith(`${config.appealReply.url}/api/v1/reply/123-abc`, {
+            body: '{"appealId":"123-abc"}',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Correlation-ID': expect.any(String),
+            },
+            method: 'PUT',
+          });
+          expect(appealReplyApiResponse).toEqual({ shouldBe: 'valid' });
+        },
+      },
+    ].forEach(({ title, given, expected }) => {
+      it(`should ${title}`, async () => {
+        const appealReplyApiResponse = await updateAppealReply(given());
+        expected(appealReplyApiResponse);
+      });
+    });
+
+    it('should gracefully handle a fetch failure', async () => {
+      fetch.mockResponseOnce(JSON.stringify({ errors: ['something went wrong'] }), {
+        status: 400,
+      });
+
+      try {
+        await updateAppealReply({
           a: 'b',
         });
       } catch (e) {

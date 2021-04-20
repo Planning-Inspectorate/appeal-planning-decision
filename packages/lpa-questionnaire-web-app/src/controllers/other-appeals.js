@@ -2,7 +2,7 @@ const logger = require('../lib/logger');
 const { VIEW } = require('../lib/views');
 const getAppealSideBarDetails = require('../lib/appeal-sidebar-details');
 const { getTaskStatus } = require('../services/task.service');
-const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
+const { updateAppealReply } = require('../lib/appeal-reply-api-wrapper');
 
 const sectionName = 'aboutAppealSection';
 const taskName = 'otherAppeals';
@@ -62,7 +62,7 @@ exports.postOtherAppeals = async (req, res) => {
   );
 
   try {
-    req.session.appealReply = await createOrUpdateAppealReply(appealReply);
+    req.session.appealReply = await updateAppealReply(appealReply);
   } catch (e) {
     logger.error(e);
 

@@ -86,13 +86,12 @@ Feature: Notifying interested parties of the appeal
 
   Scenario: AC10 LPA Planning Officer deletes a file after save and continue
     Given a file has been uploaded and confirmed
-    And Notifying interested parties of the appeal is requested
     When LPA Planning Officer deletes the file
     Then the file is removed
 
   Scenario: AC11 LPA Planning Officer returns to the completed Notifying interested parties of the appeal
     Given The question 'Notifying interested parties of the appeal' has been completed
-    When Notifying interested parties of the appeal is requested
+    When Notifying interested parties of the appeal is revisited
     Then the information they previously entered is still populated
 
   Scenario: AC12 Appeal details side panel

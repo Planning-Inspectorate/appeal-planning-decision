@@ -73,8 +73,7 @@ Feature: Planning History
       | upload-file-invalid-wrong-type.csv |
 
   Scenario: AC8 LPA Planning Officer selects to return to previous page
-    Given planning history question is requested
-    And a file has been uploaded
+    Given a file has been uploaded
     When Back is then requested
     Then the LPA Planning Officer is taken to the Task List
     And any document uploaded will not be saved
@@ -86,13 +85,12 @@ Feature: Planning History
 
   Scenario: AC10 LPA Planning Officer deletes a file after save and continue
     Given a file has been uploaded and confirmed
-    And planning history question is requested
     When LPA Planning Officer deletes the file
     Then the file is removed
 
   Scenario: AC11 LPA Planning Officer returns to the completed Planning History question
     Given The question 'Planning history' has been completed
-    When planning history question is requested
+    When the planning history question is revisited
     Then the information they previously entered is still populated
 
   Scenario: AC12 Appeal details side panel

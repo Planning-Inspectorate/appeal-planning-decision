@@ -3,6 +3,13 @@ import { Given, When, Then, Before, After } from 'cypress-cucumber-preprocessor/
 const documentServiceBaseURL = Cypress.env('DOCUMENT_SERVICE_BASE_URL');
 const assumeLimitedAccess = Cypress.env('ASSUME_LIMITED_ACCESS');
 
+const baseUrl = Cypress.config('baseUrl');
+const urlWePostToInNonJSLand = (appealId,url) => {
+    return `${baseUrl}/${appealId}/${url}`;
+}
+
+const preCannedAppeal = require('../../fixtures/anAppeal.json');
+
 let disableJs = false;
 
 const clickUploadButton = () => {
@@ -23,34 +30,38 @@ const validateFileNotPresent = (fileName) => {
 
 const uploadFiles = (fileName, dropZone) => {
   cy.get('@page').then(({ url }) => {
-    // start watching the POST requests
-    cy.server({ method: 'POST' });
-    cy.route({
-      method: 'POST',
-      url: disableJs ? url : 'upload',
-    }).as('upload');
+    cy.get('@appealReply').then( (appealReply) => {
 
-    const target = () => {
-      return dropZone ? cy.get('.moj-multi-file-upload__dropzone') : cy.get('input#documents');
-    };
+      // start watching the POST requests
+      cy.server({method: 'POST'});
 
-    target().attachFile(
-      Array.isArray(fileName) ? fileName : [fileName],
-      dropZone ? { subjectType: 'drag-n-drop' } : null,
-    );
+      cy.route({
+        method: 'POST',
+        url: disableJs ? urlWePostToInNonJSLand(appealReply.appealId, url) : 'upload',
+      }).as('upload');
 
-    if (disableJs) {
-      clickUploadButton();
-    } else {
-      cy.wait('@upload', { requestTimeout: 3000 });
-    }
-    cy.server({ enable: false });
+      const target = () => {
+        return dropZone ? cy.get('.moj-multi-file-upload__dropzone') : cy.get('input#documents');
+      };
+
+      target().attachFile(
+        Array.isArray(fileName) ? fileName : [fileName],
+        dropZone ? { subjectType: 'drag-n-drop' } : null,
+      );
+
+      if (disableJs) {
+        clickUploadButton();
+      } else {
+        cy.wait('@upload', { requestTimeout: 3000 });
+      }
+      cy.server({ enable: false });
+    });
   });
 };
 
-const goToUploadPage = () => {
+const goToUploadPage = (appealId) => {
   cy.get('@page').then(({ url }) => {
-    cy.goToPage(url, undefined, disableJs);
+    cy.goToPage(url, appealId, disableJs);
   });
 };
 
@@ -119,29 +130,40 @@ After({ tags: '@nojs' }, () => {
 });
 
 Given('a file has been uploaded', () => {
-  goToUploadPage();
-  uploadFiles('upload-file-valid.pdf');
+  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.get('@appealReply').then( (appealReply) => {
+    goToUploadPage(appealReply.appealId);
+    uploadFiles('upload-file-valid.pdf');
+  });
 });
 
 Given('a file has been uploaded and confirmed', () => {
-  goToUploadPage();
-  uploadFiles('upload-file-valid.pdf');
-  validateFileUpload('upload-file-valid.pdf');
-  cy.clickSaveAndContinue();
-  goToUploadPage();
+  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.get('@appealReply').then( (appealReply) => {
+    goToUploadPage(appealReply.appealId);
+    uploadFiles('upload-file-valid.pdf');
+    validateFileUpload('upload-file-valid.pdf');
+    cy.clickSaveAndContinue();
+    goToUploadPage(appealReply.appealId);
+  });
 });
 
 Given('The question {string} has been completed', () => {
-  goToUploadPage();
-  uploadFiles('upload-file-valid.pdf');
-  validateFileUpload('upload-file-valid.pdf');
-  cy.clickSaveAndContinue();
+  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.get('@appealReply').then( (appealReply) => {
+    goToUploadPage(appealReply.appealId);
+    uploadFiles('upload-file-valid.pdf');
+    validateFileUpload('upload-file-valid.pdf');
+    cy.clickSaveAndContinue();
+  });
 });
 
 When('valid file {string} is successfully uploaded', (fileName) => {
-  uploadFiles(fileName);
-  validateFileUpload(fileName);
-  cy.clickSaveAndContinue();
+  cy.get('@appealReply').then( (appealReply) => {
+    uploadFiles(fileName);
+    validateFileUpload(fileName);
+    cy.clickSaveAndContinue();
+  });
 });
 
 When('valid file {string} is uploaded via drag and drop', (fileName) => {

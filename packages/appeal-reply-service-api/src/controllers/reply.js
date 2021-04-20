@@ -5,6 +5,8 @@ const ReplyModel = require('../models/replySchema');
 
 const dbId = 'reply';
 
+const findByAppealId = (appealId) => ({ 'reply.appealId': { $eq: appealId } });
+
 module.exports = {
   async create(req, res) {
     const { appealId } = req.body;
@@ -17,7 +19,8 @@ module.exports = {
       id: uuid.v4(),
       appealId,
     });
-    logger.debug(`Creating reply ${reply.id} ...`);
+
+    logger.info(`Creating reply ${reply.id} for appeal:: ${appealId}`);
     try {
       await mongodb
         .get()
@@ -27,7 +30,7 @@ module.exports = {
           mongodb
             .get()
             .collection(dbId)
-            .findOne({ _id: reply.id })
+            .findOne(findByAppealId(appealId))
             .then((doc) => {
               logger.debug(`Reply ${reply.id} created`);
               res.status(201).send(doc.reply);
@@ -41,17 +44,23 @@ module.exports = {
 
   async get(req, res) {
     const idParam = req.params.id;
-    logger.debug(`Retrieving reply ${idParam} ...`);
+    logger.info(`Retrieving reply for appealId:: ${idParam}`);
     try {
       await mongodb
         .get()
         .collection(dbId)
-        .findOne({ _id: idParam })
+        .findOne(findByAppealId(idParam))
         .then((doc) => {
           logger.debug(`Reply ${idParam} retrieved`);
-          res.status(200).send(doc.reply);
+          if (!doc) {
+            logger.warn(`Could not find reply ${idParam}`);
+            res.status(404).send(null);
+          } else {
+            res.status(200).send(doc);
+          }
         })
         .catch((err) => {
+          logger.error(err);
           logger.warn(`Could not find reply ${idParam}\n${err}`);
           res.status(404).send(null);
         });
@@ -63,21 +72,18 @@ module.exports = {
 
   async update(req, res) {
     const idParam = req.params.id;
-    logger.debug(`Updating reply ${idParam} ...`);
+    logger.info(`Updating reply for appealId:: ${idParam}`);
 
     await mongodb
       .get()
       .collection(dbId)
-      .findOne({ _id: idParam })
-      .then(async (originalDoc) => {
-        logger.debug(`Original doc \n${originalDoc.reply}`);
-
-        await mongodb
+      .findOne(findByAppealId(idParam))
+      .then((originalDoc) => {
+        return mongodb
           .get()
           .collection(dbId)
-          .updateOne({ _id: idParam }, { $set: { uuid: idParam, reply: req.body } })
+          .updateOne({ _id: originalDoc._id }, { $set: { reply: req.body } }) // eslint-disable-line no-underscore-dangle
           .then(() => {
-            logger.debug(`Updated reply ${idParam}\n`);
             res.status(200).send(req.body);
           })
           .catch((err) => {

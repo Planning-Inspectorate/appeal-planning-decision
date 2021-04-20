@@ -3,15 +3,26 @@ const filesController = require('../controllers/files');
 const reqFilesToReqBodyFilesMiddleware = require('../middleware/req-files-to-req-body-files');
 const fileValidationRules = require('../validators/files');
 const { validationErrorHandler } = require('../validators/validation-error-handler');
+const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing-appeal-reply');
+const fetchAppealMiddleware = require('../middleware/fetch-appeal');
 
 const router = express.Router();
 
 router.post(
   '/upload',
-  [reqFilesToReqBodyFilesMiddleware('documents'), fileValidationRules()],
+  [
+    fetchAppealMiddleware,
+    fetchExistingAppealReplyMiddleware,
+    reqFilesToReqBodyFilesMiddleware('documents'),
+    fileValidationRules(),
+  ],
   validationErrorHandler,
   filesController.uploadFile
 );
-router.post('/delete', filesController.deleteFile);
+router.post(
+  '/delete',
+  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+  filesController.deleteFile
+);
 
 module.exports = router;

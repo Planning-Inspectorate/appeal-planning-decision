@@ -6,7 +6,7 @@ const {
   uploadFiles,
 } = require('../../../src/lib/file-upload-helpers');
 const logger = require('../../../src/lib/logger');
-const { createOrUpdateAppealReply } = require('../../../src/lib/appeal-reply-api-wrapper');
+const { updateAppealReply } = require('../../../src/lib/appeal-reply-api-wrapper');
 const { VIEW } = require('../../../src/lib/views');
 const { getTaskStatus } = require('../../../src/services/task.service');
 const { mockReq, mockRes } = require('../mocks');
@@ -282,7 +282,7 @@ describe('controllers/upload-question', () => {
         },
       };
 
-      createOrUpdateAppealReply.mockRejectedValue('api-error');
+      updateAppealReply.mockRejectedValue('api-error');
 
       await uploadQuestionController.postUpload(mockRequest, res);
 
@@ -310,7 +310,7 @@ describe('controllers/upload-question', () => {
 
       await uploadQuestionController.postUpload(mockRequest, res);
 
-      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
+      expect(updateAppealReply).toHaveBeenCalledWith(mockAppealReply);
       expect(res.render).not.toHaveBeenCalled();
       expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
     });

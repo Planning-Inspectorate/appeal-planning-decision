@@ -86,13 +86,12 @@ Feature: Representations from interested parties
 
   Scenario: AC10  LPA Planning Officer deletes a file after save and continue
     Given a file has been uploaded and confirmed
-    And Representations from interested parties question is requested
     When LPA Planning Officer deletes the file
     Then the file is removed
 
   Scenario: AC11 LPA Planning Officer returns to the completed Upload the plans used to reach the decision question
     Given The question 'Representations from Interested parties' has been completed
-    When the Representations from interested parties question is requested
+    When the Representations from interested parties question is revisited
     Then the information they previously entered is still populated
 
   Scenario: AC12 Appeal details side panel

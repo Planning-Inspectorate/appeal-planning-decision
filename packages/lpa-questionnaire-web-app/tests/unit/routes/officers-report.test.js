@@ -5,7 +5,6 @@ const uploadQuestionController = require('../../../src/controllers/upload-questi
 
 const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
 const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
-const clearUploadedFilesMiddleware = require('../../../src/middleware/clear-uploaded-files');
 const reqFilesToReqBodyFilesMiddleware = require('../../../src/middleware/req-files-to-req-body-files');
 
 const uploadTasksValidationRules = require('../../../src/validators/upload-tasks');
@@ -33,7 +32,7 @@ describe('routes/officers-report', () => {
 
       expect(get).toHaveBeenCalledWith(
         '/:id/officers-report',
-        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
+        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
         getConfig,
         uploadQuestionController.getUpload
       );

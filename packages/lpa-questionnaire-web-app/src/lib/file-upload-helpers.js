@@ -29,7 +29,6 @@ exports.deleteFile = (fileRef, req) => {
 
   if (file) {
     deleteDocument(req.session.appealReply.id, file.id);
-
     req.session.uploadedFiles = req.session.uploadedFiles.filter(
       (upload) => upload.id !== file.id || upload.name !== file.name
     );

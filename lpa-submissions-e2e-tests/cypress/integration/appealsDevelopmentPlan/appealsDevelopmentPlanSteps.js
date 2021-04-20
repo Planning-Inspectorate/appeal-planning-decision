@@ -10,35 +10,53 @@ const textAreaId = 'plan-changes-text';
 const noButtonId = 'has-plan-submitted-no';
 const yesButtonId = 'has-plan-submitted-yes';
 
+const {appeal} = require('../../fixtures/anAppeal.json');
+
 Given(`the Development Plan Document and Neighbourhood Plan question is requested`, () => {
-  cy.goToPage(pageId);
-  cy.verifyPageTitle(pageTitle);
+  cy.insertAppealAndCreateReply(appeal);
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.goToPage(pageId, appealReply.appealId);
+    cy.verifyPageTitle(pageTitle);
+  });
+
 });
 
 Given(`there is a Development Plan Document and Neighbourhood Plan`, () => {
-  cy.goToPage(pageId);
-  cy.verifyPageTitle(pageTitle);
-  input(yesButtonId).check();
+  cy.insertAppealAndCreateReply(appeal);
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.goToPage(pageId, appealReply.appealId);
+    cy.verifyPageTitle(pageTitle);
+
+    input(yesButtonId).check();
+  });
 });
 
 Given(
   'the LPA Planning Officer has selected no and completed the Development Plan Document and Neighbourhood Plan question',
   () => {
-    cy.goToPage(pageId);
-    cy.verifyPageTitle(pageTitle);
-    input(noButtonId).check();
-    cy.clickSaveAndContinue();
+    cy.insertAppealAndCreateReply(appeal);
+    cy.get('@appealReply').then( (appealReply) => {
+      cy.goToPage(pageId, appealReply.appealId);
+      cy.verifyPageTitle(pageTitle);
+
+      input(noButtonId).check();
+      cy.clickSaveAndContinue();
+    });
+
   },
 );
 
 Given(
   'the LPA Planning Officer has selected yes, entered plan details, and completed the Development Plan Document and Neighbourhood Plan question',
   () => {
-    cy.goToPage(pageId);
-    cy.verifyPageTitle(pageTitle);
-    input(yesButtonId).check();
-    textArea(textAreaId).type('some_text');
-    cy.clickSaveAndContinue();
+    cy.insertAppealAndCreateReply(appeal);
+    cy.get('@appealReply').then( (appealReply) => {
+      cy.goToPage(pageId, appealReply.appealId);
+      cy.verifyPageTitle(pageTitle);
+      input(yesButtonId).check();
+      textArea(textAreaId).type('some_text');
+      cy.clickSaveAndContinue();
+    });
   },
 );
 
@@ -102,7 +120,9 @@ Then(`progress is halted with an error message {string}`, (errorMessage) => {
 Then(`the LPA Planning Officer remains on the page`, () => {
   cy.verifyPageHeading(pageHeading);
   cy.verifyPageTitle(pageTitle);
-  cy.checkPageA11y(pageId);
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.checkPageA11y(`/${appealReply.appealId}/${pageId}`);
+  });
 });
 
 Then(`the Development Plan Document subsection is shown as completed`, () => {
@@ -115,14 +135,6 @@ Then('any information they have entered will not be saved', () => {
   input(yesButtonId).should('not.be.checked');
   input(noButtonId).should('not.be.checked');
   textArea(textAreaId).should('have.value', '');
-});
-
-Then('the appeal details panel on the right hand side of the page can be viewed', () => {
-  cy.verifyAppealDetailsSidebar({
-    applicationNumber: 'ABC/123',
-    applicationAddress: '999 Letsby Avenue, Sheffield, South Yorkshire, S9 1XY',
-    apellantName: 'Bob Smith',
-  });
 });
 
 Then('no is still selected', () => {

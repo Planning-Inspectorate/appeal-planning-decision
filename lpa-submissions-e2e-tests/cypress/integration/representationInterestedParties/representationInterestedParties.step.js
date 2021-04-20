@@ -1,6 +1,8 @@
 import { Given, When, Then, Before } from 'cypress-cucumber-preprocessor/steps';
 import defaultPathId from '../../utils/defaultPathId';
 
+const preCannedAppeal = require('../../fixtures/anAppeal.json');
+
 const page = {
   id: 'representationsInterestedParties',
   heading: `Representations from interested parties`,
@@ -11,8 +13,8 @@ const page = {
 
 let disableJs = false;
 
-const goToInterestedPartiesPage = () => {
-  cy.goToPage(page.url, undefined, disableJs);
+const goToInterestedPartiesPage = (appealId) => {
+  cy.goToPage(page.url, appealId, disableJs);
 };
 
 Before(() => {
@@ -25,11 +27,17 @@ Before({ tags: '@nojs' }, () => {
 });
 
 Given('LPA Planning Officer has not added any data to the Representations from Interested Parties question', () => {
-  // No action needed as this is the default state
+  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.get('@appealReply').then( (appealReply) => {
+    goToInterestedPartiesPage(appealReply.appealId);
+  });
 });
 
 Given('Representations from interested parties question is requested', () => {
-  goToInterestedPartiesPage();
+  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.get('@appealReply').then( (appealReply) => {
+    goToInterestedPartiesPage(appealReply.appealId);
+  });
 });
 
 When('LPA Planning Officer chooses to upload the document Representations from interested parties', () => {
@@ -37,8 +45,10 @@ When('LPA Planning Officer chooses to upload the document Representations from i
   cy.verifyPage(page.url);
 });
 
-When('the Representations from interested parties question is requested', () => {
-  goToInterestedPartiesPage();
+When('the Representations from interested parties question is revisited', () => {
+  cy.get('@appealReply').then( (appealReply) => {
+    goToInterestedPartiesPage(appealReply.appealId);
+  });
 });
 
 Then('LPA Planning Officer is presented with the ability to upload any documents relevant to the question Representations from interested parties', () => {
@@ -46,7 +56,9 @@ Then('LPA Planning Officer is presented with the ability to upload any documents
   cy.verifyPageTitle(page.title);
   cy.verifyPageHeading(page.heading);
   cy.verifySectionName(page.section);
-  cy.checkPageA11y(`/${defaultPathId}/${page.url}`);
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.checkPageA11y(`/${appealReply.appealId}/${page.url}`);
+  });
 });
 
 Then('Representations from interested parties subsection is shown as completed', () => {

@@ -1,6 +1,8 @@
 import { Given, When, Then, Before } from 'cypress-cucumber-preprocessor/steps';
 import defaultPathId from '../../utils/defaultPathId';
 
+const preCannedAppeal = require('../../fixtures/anAppeal.json');
+
 const page = {
   id: 'interestedPartiesAppeal',
   heading: 'Notifying interested parties of the appeal',
@@ -25,11 +27,14 @@ Before({ tags: '@nojs' }, () => {
 });
 
 Given('LPA Planning Officer has not added any data to the Notifying interested parties of the appeal question', () => {
-  // This is empty as cypress default state results in this question holding no data
+  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
 });
 
 Given('Notifying interested parties of the appeal is requested', () => {
-  goToNotifyingPartiesPage();
+  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.get('@appealReply').then( (appealReply) => {
+    goToNotifyingPartiesPage(appealReply.appealId);
+  });
 });
 
 When('LPA Planning Officer chooses to upload the document Notifying interested parties of the appeal', () => {
@@ -37,8 +42,10 @@ When('LPA Planning Officer chooses to upload the document Notifying interested p
   cy.verifyPage(page.url);
 });
 
-When('Notifying interested parties of the appeal is requested', () => {
-  goToNotifyingPartiesPage();
+When('Notifying interested parties of the appeal is revisited', () => {
+  cy.get('@appealReply').then( (appealReply) => {
+    goToNotifyingPartiesPage(appealReply.appealId);
+  });
 });
 
 Then('LPA Planning Officer is presented with the ability to upload any documents relevant to the question Notifying interested parties of the appeal', () => {
@@ -46,7 +53,9 @@ Then('LPA Planning Officer is presented with the ability to upload any documents
   cy.verifyPageTitle(page.title);
   cy.verifyPageHeading(page.heading);
   cy.verifySectionName(page.section);
-  cy.checkPageA11y(`/${defaultPathId}/${page.url}`);
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.checkPageA11y(`/${appealReply.appealId}/${page.url}`);
+  });
 });
 
 Then('Notifying interested parties of the appeal subsection is shown as completed', () => {

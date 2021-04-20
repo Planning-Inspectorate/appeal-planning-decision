@@ -1,7 +1,15 @@
 import { Given, Then } from 'cypress-cucumber-preprocessor/steps';
+const {appeal} = require('../../fixtures/anAppeal.json');
 
 Given('A subsection page is presented with id of {string}', (id) => {
   cy.goToPage('other-appeals', id);
+});
+
+Given('A subsection page is presented with a good id', () => {
+  cy.insertAppealAndCreateReply(appeal);
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.goToPage('other-appeals', appealReply.appealId);
+  });
 });
 
 Then(

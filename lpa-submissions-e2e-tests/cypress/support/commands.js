@@ -1,6 +1,7 @@
 require('cypress-file-upload');
 require('./visit-without-javascript-enabled');
 require('./accessibility');
+require('./apis');
 
 Cypress.Commands.add('goToPage', require('./common/goToPage'));
 

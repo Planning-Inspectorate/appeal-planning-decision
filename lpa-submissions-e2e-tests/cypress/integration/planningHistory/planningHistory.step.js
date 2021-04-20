@@ -1,6 +1,8 @@
 import { Given, When, Then, Before } from 'cypress-cucumber-preprocessor/steps';
 import defaultPathId from '../../utils/defaultPathId';
 
+const preCannedAppeal = require('../../fixtures/anAppeal.json');
+
 const page = {
   id: 'planningHistory',
   heading: 'Planning history',
@@ -11,8 +13,8 @@ const page = {
 
 let disableJs = false;
 
-const goToPlanningHistoryPage = () => {
-  cy.goToPage(page.url, undefined, disableJs);
+const goToPlanningHistoryPage = (appealId) => {
+  return cy.goToPage(page.url, appealId, disableJs);
 };
 
 Before(() => {
@@ -25,11 +27,14 @@ Before({ tags: '@nojs' }, () => {
 });
 
 Given('LPA Planning Officer has not added any data to the planning history question', () => {
-  // This is empty as cypress default state results in this question holding no data
+  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
 });
 
 Given('planning history question is requested', () => {
-  goToPlanningHistoryPage();
+  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.get('@appealReply').then( (appealReply) => {
+    goToPlanningHistoryPage(appealReply.appealId);
+  });
 });
 
 When('LPA Planning Officer chooses to upload the planning history', () => {
@@ -37,8 +42,10 @@ When('LPA Planning Officer chooses to upload the planning history', () => {
   cy.verifyPage(page.url);
 });
 
-When('planning history question is requested', () => {
-  goToPlanningHistoryPage();
+When('the planning history question is revisited', () => {
+  cy.get('@appealReply').then( (appealReply) => {
+    goToPlanningHistoryPage(appealReply.appealId);
+  });
 });
 
 Then('LPA Planning Officer is presented with the ability to upload planning history', () => {
@@ -46,7 +53,9 @@ Then('LPA Planning Officer is presented with the ability to upload planning hist
   cy.verifyPageTitle(page.title);
   cy.verifyPageHeading(page.heading);
   cy.verifySectionName(page.section);
-  cy.checkPageA11y(`/${defaultPathId}/${page.url}`);
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.checkPageA11y(`/${appealReply.appealId}/${page.url}`);
+  });
 });
 
 Then('planning history subsection is shown as completed', () => {

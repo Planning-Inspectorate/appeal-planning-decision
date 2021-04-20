@@ -1,7 +1,4 @@
-const {
-  createOrUpdateAppealReply,
-  getExistingAppealReply,
-} = require('../lib/appeal-reply-api-wrapper');
+const { createAppealReply, getExistingAppealReply } = require('../lib/appeal-reply-api-wrapper');
 
 /**
  * Middleware to ensure any route that needs the appeal reply form data can have it pre-populated when the
@@ -13,21 +10,31 @@ const {
  * @returns {Promise<*>}
  */
 module.exports = async (req, res, next) => {
-  if (!req.session) {
+  if (!req.session || !req.params.id) {
     return next();
   }
 
-  if (!req.session.appealReply || !req.session.appealReply.id) {
-    req.session.appealReply = await createOrUpdateAppealReply({ appealId: req.params.id });
-    return next();
-  }
-
+  const { id } = req.params;
   try {
-    req.log.debug({ id: req.session.appealReply.id }, 'Get existing appeal reply');
-    req.session.appealReply = await getExistingAppealReply(req.session.appealReply.id);
+    req.session.appealReply = await getExistingAppealReply(id);
   } catch (err) {
-    req.log.debug({ err }, 'Error retrieving appeal reply');
-    req.session.appealReply = await createOrUpdateAppealReply({ appealId: req.params.id });
+    if (err.status === 404) {
+      // TODO this bit is just staying in to make manual testing easier
+      // - i've been running all the cypress tests with it commented out
+      //   to find the straight and narrow, and keep me on it
+      //--
+      // i gather the plan is that some other asynchronous process will be
+      // inserting this for us
+      //--
+      // however in the meantime: if i take this out, no-one will be able to
+      // look at our site in dev without poking this data in vai the API
+      // and i don't think we want to go there.
+      // -- when the time comes, this case should likely 404 or something.
+      req.session.appealReply = await createAppealReply(id);
+    } else {
+      return next(err);
+    }
   }
+
   return next();
 };

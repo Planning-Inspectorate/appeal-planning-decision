@@ -1,6 +1,8 @@
 import { Given, When, Then, Before } from 'cypress-cucumber-preprocessor/steps';
 import defaultPathId from '../../utils/defaultPathId';
 
+const preCannedAppeal = require('../../fixtures/anAppeal.json');
+
 const page = {
   id: 'officersReport',
   heading: `Upload the Planning Officer's report`,
@@ -11,8 +13,8 @@ const page = {
 
 let disableJs = false;
 
-const goToOfficersReportPage = () => {
-  cy.goToPage(page.url, undefined, disableJs);
+const goToOfficersReportPage = (appealId) => {
+  cy.goToPage(page.url, appealId, disableJs);
 };
 
 Before(() => {
@@ -25,7 +27,10 @@ Before({ tags: '@nojs' }, () => {
 });
 
 Given('Upload the Planning Officer’s report question is requested', () => {
-  goToOfficersReportPage();
+  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.get('@appealReply').then( (appealReply) => {
+    goToOfficersReportPage(appealReply.appealId);
+  });
 });
 
 When('LPA Planning Officer chooses to upload Planning Officer report', () => {
@@ -33,8 +38,10 @@ When('LPA Planning Officer chooses to upload Planning Officer report', () => {
   cy.verifyPage(page.url);
 });
 
-When('the Upload the Planning Officer’s report question is requested', () => {
-  goToOfficersReportPage();
+When('the Upload the Planning Officer’s report question is revisited', () => {
+  cy.get('@appealReply').then( (appealReply) => {
+    goToOfficersReportPage(appealReply.appealId);
+  });
 });
 
 Then('LPA Planning Officer is presented with the ability to upload the Planning Officer’s report', () => {
@@ -42,7 +49,9 @@ Then('LPA Planning Officer is presented with the ability to upload the Planning 
   cy.verifyPageTitle(page.title);
   cy.verifyPageHeading(page.heading);
   cy.verifySectionName(page.section);
-  cy.checkPageA11y(`/${defaultPathId}/${page.url}`);
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.checkPageA11y(`/${appealReply.appealId}/${page.url}`);
+  });
 });
 
 Then('Upload the Planning Officer’s report subsection is shown as completed', () => {

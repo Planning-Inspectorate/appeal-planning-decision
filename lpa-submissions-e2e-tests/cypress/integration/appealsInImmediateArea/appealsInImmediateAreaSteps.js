@@ -18,10 +18,15 @@ const labelTextId = 'appeal-reference-numbers-label';
 const noButtonId = 'adjacent-appeals-no';
 const yesButtonId = 'adjacent-appeals-yes';
 
+const {appeal} = require('../../fixtures/anAppeal.json');
+
 Given('the user is on the Tell us about any appeals in the immediate area page', () => {
-  cy.goToPage(pageId);
-  cy.verifyPageTitle(pageTitle);
-  cy.verifyPageHeading(pageHeading);
+  cy.insertAppealAndCreateReply(appeal);
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.goToPage(pageId, appealReply.appealId);
+    cy.verifyPageTitle(pageTitle);
+    cy.verifyPageHeading(pageHeading);
+  });
 });
 
 When(`the user selects the link Tell us about any appeals in the immediate area`, () => {
@@ -35,7 +40,9 @@ When(`the user selects Save and Continue`, () => {
 
 Then('the user is presented with the Immediate Area page', () => {
   cy.verifyPageTitle(pageTitle);
-  cy.checkPageA11y(pageId);
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.checkPageA11y(`/${appealReply.appealId}/${pageId}`);
+  });
 });
 
 Then(`the user remains on 'Tell us about any appeals in the immediate area' page`, () => {
@@ -87,9 +94,13 @@ Then('the user is shown the error message {string}', (errorMessage) => {
 });
 
 Given('a user has completed the information needed on the appeals in immediate area page', () => {
-  cy.goToPage(pageId);
-  input(noButtonId).check();
-  cy.clickSaveAndContinue();
+  cy.insertAppealAndCreateReply(appeal);
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.goToPage(pageId, appealReply.appealId);
+    input(noButtonId).check();
+    cy.clickSaveAndContinue();
+  });
+
 });
 
 When(

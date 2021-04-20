@@ -3,7 +3,7 @@ jest.mock('../../../src/lib/appeal-reply-api-wrapper');
 const { mockReq, mockRes } = require('../mocks');
 const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
 const {
-  createOrUpdateAppealReply,
+  createAppealReply,
   getExistingAppealReply,
 } = require('../../../src/lib/appeal-reply-api-wrapper');
 const config = require('../../../src/config');
@@ -21,58 +21,14 @@ describe('middleware/fetch-existing-appeal-reply', () => {
       },
     },
     {
-      title: 'set empty appeal reply and call next immediately if no appeal exists',
-      given: () => ({
-        ...mockReq(null),
-      }),
-      expected: (req, res, next) => {
-        expect(getExistingAppealReply).not.toHaveBeenCalled();
-        expect(createOrUpdateAppealReply).toHaveBeenCalledWith({ appealId: 'mock-id' });
-        expect(next).toHaveBeenCalled();
-      },
-    },
-    {
-      title: 'set empty appeal reply and call next immediately if no id set',
-      given: () => ({
-        ...mockReq(),
-      }),
-      expected: (req, res, next) => {
-        expect(getExistingAppealReply).not.toHaveBeenCalled();
-        expect(next).toHaveBeenCalled();
-      },
-    },
-    {
-      title: 'call next if api lookup fails',
-      given: () => {
-        getExistingAppealReply.mockRejectedValue('API is down');
-        createOrUpdateAppealReply.mockReturnValue({ fake: 'appeal data' });
-        return {
-          ...mockReq(),
-          session: {
-            appealReply: {
-              id: '123-abc',
-            },
-          },
-        };
-      },
-      expected: (req, res, next) => {
-        expect(getExistingAppealReply).toHaveBeenCalledWith('123-abc');
-        expect(createOrUpdateAppealReply).toHaveBeenCalledWith({ appealId: 'mock-id' });
-        expect(req.session.appealReply).toEqual({ fake: 'appeal data' });
-        expect(next).toHaveBeenCalled();
-      },
-    },
-    {
       title: 'set session.appealReply and call next if api call succeeds',
       given: () => {
         getExistingAppealReply.mockResolvedValue({ good: 'data' });
 
         return {
           ...mockReq(),
-          session: {
-            appealReply: {
-              id: '123-abc',
-            },
+          params: {
+            id: '123-abc',
           },
         };
       },
@@ -80,6 +36,45 @@ describe('middleware/fetch-existing-appeal-reply', () => {
         expect(getExistingAppealReply).toHaveBeenCalledWith('123-abc');
         expect(next).toHaveBeenCalled();
         expect(req.session.appealReply).toEqual({ good: 'data' });
+      },
+    },
+    {
+      title:
+        'just creates an appealReply anyway if we 404 - this goes at some point when the flow is complete',
+      given: () => {
+        getExistingAppealReply.mockRejectedValue({ status: 404 });
+        createAppealReply.mockResolvedValue({ good: 'data' });
+
+        return {
+          ...mockReq(),
+          params: {
+            id: '123-abc',
+          },
+        };
+      },
+      expected: (req, res, next) => {
+        expect(getExistingAppealReply).toHaveBeenCalledWith('123-abc');
+        expect(createAppealReply).toHaveBeenCalledWith('123-abc');
+        expect(next).toHaveBeenCalled();
+        expect(req.session.appealReply).toEqual({ good: 'data' });
+      },
+    },
+    {
+      title: 'handles other errors nicely',
+      given: () => {
+        getExistingAppealReply.mockRejectedValue({ status: 400 });
+
+        return {
+          ...mockReq(),
+          params: {
+            id: '123-abc',
+          },
+        };
+      },
+      expected: (req, res, next) => {
+        expect(getExistingAppealReply).toHaveBeenCalledWith('123-abc');
+        expect(createAppealReply).not.toHaveBeenCalled();
+        expect(next).toHaveBeenCalledWith({ status: 400 });
       },
     },
   ].forEach(({ title, given, expected }) => {

@@ -12,19 +12,24 @@ const inaccuracyReasonInputId = 'inaccuracy-reason';
 const accurateSubmissionLabelId = 'accurate-submission-label';
 const sectionName = 'About the appeal';
 
+const {appeal} = require('../../fixtures/anAppeal.json');
+
 Given(`the user is in the Review accuracy of the appellant's submission page`, () => {
-  cy.goToPage(pageId);
-  cy.verifyPageTitle(pageTitle);
+  cy.insertAppealAndCreateReply(appeal);
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.goToPage(pageId, appealReply.appealId);
+    cy.verifyPageTitle(pageTitle);
+  });
 });
 
-Given(
-  `a user has completed the information needed on the accuracy of the appellant's submission page`,
-  () => {
-    cy.goToPage(pageId);
+Given(`a user has completed the information needed on the accuracy of the appellant's submission page`, () => {
+  cy.insertAppealAndCreateReply(appeal);
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.goToPage(pageId, appealReply.appealId);
     input(yesButtonId).check();
     cy.clickSaveAndContinue();
-  },
-);
+  });
+});
 
 When(`the user selects the link "Review accuracy of the appellant's submission"`, () => {
   cy.clickOnSubTaskLink(taskListId);
@@ -69,7 +74,9 @@ When('an answer is saved', () => {
 Then('the user is presented with the correct page', () => {
   cy.verifySectionName(sectionName);
   cy.verifyPageTitle(pageTitle);
-  cy.checkPageA11y(pageId);
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.checkPageA11y(`/${appealReply.appealId}/${pageId}`);
+  });
 });
 
 Then('the radio group label is {string}', (label) => {
@@ -118,4 +125,13 @@ Then('the information they previously entered is still populated', () => {
 
 Then('the updated answer is displayed', () => {
   cy.confirmCheckYourAnswersDisplayed('submissionAccuracy', 'Yes');
+});
+
+Then('the appeal details panel is displayed on the right hand side of the page', () => {
+  const {siteAddress} = appeal.appealSiteSection;
+  cy.verifyAppealDetailsSidebar({
+    applicationNumber: appeal.requiredDocumentsSection.applicationNumber,
+    applicationAddress: `${siteAddress.addressLine1}, ${siteAddress.addressLine2}, ${siteAddress.town}, ${siteAddress.county}, ${siteAddress.postcode}`,
+    apellantName: appeal.aboutYouSection.yourDetails.name,
+  });
 });

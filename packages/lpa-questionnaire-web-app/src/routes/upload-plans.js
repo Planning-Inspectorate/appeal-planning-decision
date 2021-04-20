@@ -4,7 +4,6 @@ const uploadQuestionController = require('../controllers/upload-question');
 const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing-appeal-reply');
 const fetchAppealMiddleware = require('../middleware/fetch-appeal');
 const reqFilesToReqBodyFilesMiddleware = require('../middleware/req-files-to-req-body-files');
-const clearUploadedFilesMiddleware = require('../middleware/clear-uploaded-files');
 const uploadValidationRules = require('../validators/upload-tasks');
 const { validationErrorHandler } = require('../validators/validation-error-handler');
 
@@ -23,7 +22,7 @@ const getConfig = (_, res, next) => {
 
 router.get(
   '/:id/plans',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
+  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
   getConfig,
   uploadQuestionController.getUpload
 );

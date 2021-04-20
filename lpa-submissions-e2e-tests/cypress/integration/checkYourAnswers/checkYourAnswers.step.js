@@ -6,14 +6,27 @@ const title =
   'Check your answers - Appeal questionnaire - Appeal a householder planning decision - GOV.UK';
 const heading = 'Check your answers';
 
+const {appeal} = require('../../fixtures/anAppeal.json');
+const reply = require('../../fixtures/completedAppealReply.json');
+
 Given('Check Your Answers in presented', () => {
-  cy.completeQuestionnaire();
-  cy.goToCheckYourAnswersPage();
+  cy.insertAppealAndCreateReply(appeal, reply);
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.goToCheckYourAnswersPage(appealReply.appealId);
+  });
+
 });
 
 When('Check Your Answers page is displayed', () => {
-  cy.completeQuestionnaire();
-  cy.goToCheckYourAnswersPage();
+  cy.insertAppealAndCreateReply(appeal, reply);
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.goToCheckYourAnswersPage(appealReply.appealId);
+  });
+
+});
+
+When('a LPA Planning Officer reviews their LPA Questionnaire task list', () => {
+  cy.goToTaskListPage();
 });
 
 When('the answers are completed', () => {
