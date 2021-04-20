@@ -12,6 +12,7 @@ const dbId = 'reply';
 async function createReply() {
   const reply = new ReplyModel({ id: uuid.v4() });
   reply.id = uuid.v4();
+  reply.appealId = uuid.v4();
   await mongodb.get().collection(dbId).insertOne({ _id: reply.id, uuid: reply.id, reply });
   return reply;
 }
@@ -36,8 +37,8 @@ describe('Replies API', () => {
   });
 
   test('POST /api/v1/reply - It responds with a newly created reply', async () => {
-    const reply = new ReplyModel({ appealId: 1 });
-    const response = await request(app).post(endpoint).send({ appealId: 1 });
+    const reply = new ReplyModel({ appealId: '1' });
+    const response = await request(app).post(endpoint).send({ appealId: '1' });
     expect(response.body.appealId).toBe(reply.appealId);
     expect(response.statusCode).toBe(201);
   });
@@ -54,8 +55,8 @@ describe('Replies API', () => {
 
   test('GET /api/v1/reply/{id} - It responds with an existing reply', async () => {
     const reply = await createReply();
-    const response = await request(app).get(`${endpoint}/${reply.id}`);
-    expect(JSON.stringify(response.body)).toBe(JSON.stringify(reply));
+    const response = await request(app).get(`${endpoint}/${reply.appealId}`);
+    expect(JSON.stringify(response.body.reply)).toBe(JSON.stringify(reply));
     expect(response.statusCode).toBe(200);
   });
 
@@ -66,11 +67,14 @@ describe('Replies API', () => {
   });
 
   test('PUT /api/v1/reply/{id} - It responds with status 200 and matching reply', async () => {
-    const reply = { id: uuid.v4() };
+    const reply = {
+      id: uuid.v4(),
+      appealId: uuid.v4(),
+    };
     await mongodb.get().collection(dbId).insertOne({ _id: reply.id, uuid: reply.id, reply });
 
     reply.updated = true;
-    const response = await request(app).put(`/api/v1/reply/${reply.id}`).send(reply);
+    const response = await request(app).put(`/api/v1/reply/${reply.appealId}`).send(reply);
     expect(response.body).toEqual(reply);
     expect(response.statusCode).toBe(200);
   });

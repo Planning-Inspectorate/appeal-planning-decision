@@ -34,23 +34,6 @@ describe('middleware/fetch-appeal', () => {
       },
     },
     {
-      title: 'if appeal id in session and matches path id, API is not called',
-      given: () => ({
-        session: {
-          appeal: {
-            id: '123-abc',
-          },
-        },
-        params: {
-          id: '123-abc',
-        },
-      }),
-      expected: (req, res, next) => {
-        expect(getAppeal).not.toHaveBeenCalled();
-        expect(next).toHaveBeenCalled();
-      },
-    },
-    {
       title: 'call next if api lookup fails',
       given: () => {
         getAppeal.mockRejectedValue('API is down');

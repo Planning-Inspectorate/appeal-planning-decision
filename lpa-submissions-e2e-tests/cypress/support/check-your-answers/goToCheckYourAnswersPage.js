@@ -1,3 +1,3 @@
-module.exports = () => {
-  cy.goToPage('confirm-answers');
+module.exports = (id) => {
+  cy.goToPage('confirm-answers', id);
 };

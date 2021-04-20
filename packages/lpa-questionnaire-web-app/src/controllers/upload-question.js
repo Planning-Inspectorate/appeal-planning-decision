@@ -7,7 +7,7 @@ const {
 } = require('../lib/file-upload-helpers');
 const getAppealSideBarDetails = require('../lib/appeal-sidebar-details');
 const { getTaskStatus } = require('../services/task.service');
-const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
+const { updateAppealReply } = require('../lib/appeal-reply-api-wrapper');
 
 exports.getUpload = (req, res) => {
   const { sectionName, taskName, view } = res.locals.routeInfo;
@@ -91,7 +91,7 @@ exports.postUpload = async (req, res) => {
       taskName
     );
 
-    req.session.appealReply = await createOrUpdateAppealReply(appealReply);
+    req.session.appealReply = await updateAppealReply(appealReply);
 
     // If it gets this far there are no errors and files must exist
     res.redirect(req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`);

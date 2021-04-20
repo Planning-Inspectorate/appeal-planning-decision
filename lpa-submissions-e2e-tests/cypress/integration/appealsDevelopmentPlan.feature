@@ -45,7 +45,7 @@ Feature: Appeals Development Plan
 
   Scenario: AC07 - Appeal details side panel
     Given the Development Plan Document and Neighbourhood Plan question is requested
-    Then the appeal details panel on the right hand side of the page can be viewed
+    Then the appeal details panel is displayed on the right hand side of the page
 
   Scenario: AC08 - The LPA Planning Officer has selected no and completed the Development Plan Document and Neighbourhood Plan question and returns to that page from the Task List
     Given the LPA Planning Officer has selected no and completed the Development Plan Document and Neighbourhood Plan question

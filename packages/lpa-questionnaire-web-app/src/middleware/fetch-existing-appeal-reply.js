@@ -1,5 +1,6 @@
 const {
-  createOrUpdateAppealReply,
+  createAppealReply,
+  updateAppealReply,
   getExistingAppealReply,
 } = require('../lib/appeal-reply-api-wrapper');
 
@@ -13,21 +14,18 @@ const {
  * @returns {Promise<*>}
  */
 module.exports = async (req, res, next) => {
-  if (!req.session) {
+  if (!req.session || !req.params.id) {
     return next();
   }
 
-  if (!req.session.appealReply || !req.session.appealReply.id) {
-    req.session.appealReply = await createOrUpdateAppealReply({ appealId: req.params.id });
-    return next();
+  const { id } = req.params;
+  req.session.appealReply = await getExistingAppealReply(id);
+
+  if (!req.session.appealReply) {
+    req.log.debug(`creating new appeal reply for appeal id = ${id}`);
+    req.session.appealReply = await createAppealReply();
   }
 
-  try {
-    req.log.debug({ id: req.session.appealReply.id }, 'Get existing appeal');
-    req.session.appealReply = await getExistingAppealReply(req.session.appealReply.id);
-  } catch (err) {
-    req.log.debug({ err }, 'Error retrieving appeal');
-    req.session.appeal = await createOrUpdateAppealReply({ appealId: req.params.id });
-  }
+  req.log.debug(`${id}  -> ${ JSON.stringify(req.session.appealReply)}`);
   return next();
 };

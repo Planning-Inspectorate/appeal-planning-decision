@@ -15,16 +15,12 @@ module.exports = async (req, res, next) => {
     return next();
   }
 
-  const { appeal } = req.session;
-
-  if (!appeal || !appeal.id || appeal.id !== appealId) {
-    try {
-      req.log.debug({ appealId }, 'Get existing appeal');
-      req.session.appeal = await getAppeal(appealId);
-    } catch (err) {
-      req.log.debug({ err }, 'Error retrieving appeal');
-      req.session.appeal = null;
-    }
+  try {
+    req.log.debug({ appealId }, 'Get existing appeal');
+    req.session.appeal = await getAppeal(appealId);
+  } catch (err) {
+    req.log.debug({ err }, 'Error retrieving appeal');
+    req.session.appeal = null;
   }
 
   return next();

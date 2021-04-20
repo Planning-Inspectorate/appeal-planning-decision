@@ -10,7 +10,7 @@ Feature: Check Your Answers
 
   Scenario: AC01 - Accessing 'Check Your Answers' from the task list
     Given all the mandatory questions for the questionnaire have been completed
-    And a LPA Planning Officer is reviewing their LPA Questionnaire task list
+    When a LPA Planning Officer reviews their LPA Questionnaire task list
     Then Check Your Answers sub section has a status of NOT STARTED
     And the LPA is able to proceed to Check Your Answers
 

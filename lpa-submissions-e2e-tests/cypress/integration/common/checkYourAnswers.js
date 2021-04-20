@@ -3,6 +3,8 @@ import { getSubTaskInfo } from '../../support/common/subTasks';
 
 const pageId = 'confirm-answers'
 
+const preCannedAppeal = require('../../fixtures/anAppeal.json');
+
 let currentSubTask = {};
 
 Before(() => {
@@ -10,9 +12,13 @@ Before(() => {
 });
 
 Given('a change to answer {string} is requested from Change your answers page', (answer) => {
-  cy.goToCheckYourAnswersPage();
-  currentSubTask = getSubTaskInfo(answer);
-  cy.clickOnSubTaskLink(currentSubTask.id);
+  cy.insertAppealAndCreateReply(preCannedAppeal.appeal).as('appealReply');
+
+  cy.get('@appealReply').then( (appealReply) => {
+    cy.goToCheckYourAnswersPage(appealReply.appealId);
+    currentSubTask = getSubTaskInfo(answer);
+    cy.clickOnSubTaskLink(currentSubTask.id);
+  });
 });
 
 When('Check your Answers is displayed', () => {

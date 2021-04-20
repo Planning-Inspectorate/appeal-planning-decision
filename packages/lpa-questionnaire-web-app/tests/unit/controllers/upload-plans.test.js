@@ -1,4 +1,4 @@
-const uploadQuestionController = require('../../../src/controllers/upload-question');
+const uploadPlansController = require('../../../src/controllers/upload-plans');
 const {
   fileErrorSummary,
   fileUploadNunjucksVariables,
@@ -8,6 +8,7 @@ const {
 const logger = require('../../../src/lib/logger');
 const { updateAppealReply } = require('../../../src/lib/appeal-reply-api-wrapper');
 const { VIEW } = require('../../../src/lib/views');
+const emptyAppealReply = require('../emptyAppealReply');
 const { getTaskStatus } = require('../../../src/services/task.service');
 const { mockReq, mockRes } = require('../mocks');
 
@@ -16,82 +17,64 @@ jest.mock('../../../src/lib/file-upload-helpers');
 jest.mock('../../../src/services/task.service');
 jest.mock('../../../src/lib/logger');
 
-describe('controllers/upload-question', () => {
+describe('controllers/upload-plans', () => {
   const backLinkUrl = '/mock-id/mock-back-link';
   let req;
   let res;
   let mockAppealReply;
 
   beforeEach(() => {
-    mockAppealReply = {
-      mockSection: {
-        mockTask: {
-          uploadedFiles: [],
-        },
-      },
-      sectionStates: {
-        mockSection: {
-          mockTask: 'NOT_STARTED',
-        },
-      },
-    };
+    mockAppealReply = { ...emptyAppealReply };
 
     req = mockReq(mockAppealReply);
-    res = {
-      ...mockRes(),
-      locals: {
-        routeInfo: {
-          sectionName: 'mockSection',
-          taskName: 'mockTask',
-          view: 'mock-view',
-          name: 'Mock Name',
-        },
-      },
-    };
+    res = mockRes();
 
     jest.resetAllMocks();
   });
 
-  describe('getUpload', () => {
+  describe('getUploadPlans', () => {
     it('should call the correct template', () => {
       req.session.backLink = backLinkUrl;
 
-      uploadQuestionController.getUpload(req, res);
+      uploadPlansController.getUploadPlans(req, res);
 
-      expect(res.render).toHaveBeenCalledWith('mock-view', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
+        appealReplyId: null,
         backLink: backLinkUrl,
       });
     });
 
     it('it should have the correct back link when no request session object exists.', () => {
-      uploadQuestionController.getUpload(req, res);
+      uploadPlansController.getUploadPlans(req, res);
 
-      expect(res.render).toHaveBeenCalledWith('mock-view', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
+        appealReplyId: null,
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
       });
     });
 
     it('it should show files if they are available', () => {
       const uploadedFiles = [{ name: 'mock-file' }, { name: 'another-file' }];
-      req.session.appealReply.mockSection.mockTask = uploadedFiles;
+      req.session.appealReply.requiredDocumentsSection.plansDecision = uploadedFiles;
 
       fileUploadNunjucksVariables.mockReturnValue({
         uploadedFiles,
       });
 
-      uploadQuestionController.getUpload(req, res);
+      uploadPlansController.getUploadPlans(req, res);
 
-      expect(res.render).toHaveBeenCalledWith('mock-view', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
+        appealReplyId: null,
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
         uploadedFiles,
       });
     });
   });
 
-  describe('postUpload', () => {
+  describe('postUploadPlans', () => {
     it('should delete a document from temporary files if delete is passed', async () => {
       fileUploadNunjucksVariables.mockReturnValue({
         uploadedFiles: [{ name: 'another-file' }],
@@ -107,10 +90,10 @@ describe('controllers/upload-question', () => {
         },
       };
 
-      await uploadQuestionController.postUpload(mockRequest, res);
+      await uploadPlansController.postUploadPlans(mockRequest, res);
 
       expect(deleteFile).toHaveBeenCalledWith('some-file', mockRequest);
-      expect(res.render).toHaveBeenCalledWith('mock-view', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
         backLink: '/mock-id/task-list',
         uploadedFiles: [{ name: 'another-file' }],
@@ -129,11 +112,11 @@ describe('controllers/upload-question', () => {
         },
       };
 
-      await uploadQuestionController.postUpload(mockRequest, res);
+      await uploadPlansController.postUploadPlans(mockRequest, res);
 
       expect(logger.error).toHaveBeenCalledWith(
         { err: new Error('mock delete error') },
-        'Error deleting some-file from Mock Name'
+        'Error deleting some-file from Upload Plans'
       );
     });
 
@@ -157,10 +140,10 @@ describe('controllers/upload-question', () => {
 
       uploadFiles.mockReturnValue([{ name: 'some-file' }]);
 
-      await uploadQuestionController.postUpload(mockRequest, res);
+      await uploadPlansController.postUploadPlans(mockRequest, res);
 
       expect(mockRequest.session.uploadedFiles).toEqual([{ name: 'some-file' }], mockRequest);
-      expect(res.render).toHaveBeenCalledWith('mock-view', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
         backLink: '/mock-id/task-list',
         uploadedFiles: [{ name: 'some-file' }],
@@ -190,13 +173,13 @@ describe('controllers/upload-question', () => {
 
       uploadFiles.mockReturnValue([{ name: 'some-file' }]);
 
-      await uploadQuestionController.postUpload(mockRequest, res);
+      await uploadPlansController.postUploadPlans(mockRequest, res);
 
       expect(mockRequest.session.uploadedFiles).toEqual(
         [{ name: 'original-file' }, { name: 'some-file' }],
         mockRequest
       );
-      expect(res.render).toHaveBeenCalledWith('mock-view', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
         backLink: '/mock-id/task-list',
         uploadedFiles: [{ name: 'original-file' }, { name: 'some-file' }],
@@ -219,10 +202,10 @@ describe('controllers/upload-question', () => {
 
       uploadFiles.mockRejectedValue('api-error');
 
-      await uploadQuestionController.postUpload(mockRequest, res);
+      await uploadPlansController.postUploadPlans(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith('mock-view', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
         backLink: '/mock-id/task-list',
       });
@@ -237,10 +220,10 @@ describe('controllers/upload-question', () => {
         },
       };
 
-      await uploadQuestionController.postUpload(mockRequest, res);
+      await uploadPlansController.postUploadPlans(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith('mock-view', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
         backLink: '/mock-id/task-list',
       });
@@ -261,11 +244,11 @@ describe('controllers/upload-question', () => {
 
       fileErrorSummary.mockReturnValue([{ href: 'documents', text: 'some-error' }]);
 
-      await uploadQuestionController.postUpload(mockRequest, res);
+      await uploadPlansController.postUploadPlans(mockRequest, res);
 
       expect(fileErrorSummary).toHaveBeenCalledWith('some-error', undefined);
       expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith('mock-view', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
         backLink: '/mock-id/task-list',
       });
@@ -284,10 +267,10 @@ describe('controllers/upload-question', () => {
 
       updateAppealReply.mockRejectedValue('api-error');
 
-      await uploadQuestionController.postUpload(mockRequest, res);
+      await uploadPlansController.postUploadPlans(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith('mock-view', {
+      expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
         backLink: '/mock-id/task-list',
       });
@@ -296,8 +279,10 @@ describe('controllers/upload-question', () => {
     it('should redirect with uploaded files set and status passed', async () => {
       getTaskStatus.mockImplementation(() => 'mock-status');
 
-      mockAppealReply.mockSection.mockTask.uploadedFiles = [{ name: 'mock-file' }];
-      mockAppealReply.sectionStates.mockSection.mockTask = 'mock-status';
+      mockAppealReply.requiredDocumentsSection.plansDecision.uploadedFiles = [
+        { name: 'mock-file' },
+      ];
+      mockAppealReply.sectionStates.requiredDocumentsSection.plansDecision = 'mock-status';
 
       uploadFiles.mockReturnValue([{ name: 'mock-file' }]);
 
@@ -308,7 +293,7 @@ describe('controllers/upload-question', () => {
         },
       };
 
-      await uploadQuestionController.postUpload(mockRequest, res);
+      await uploadPlansController.postUploadPlans(mockRequest, res);
 
       expect(updateAppealReply).toHaveBeenCalledWith(mockAppealReply);
       expect(res.render).not.toHaveBeenCalled();

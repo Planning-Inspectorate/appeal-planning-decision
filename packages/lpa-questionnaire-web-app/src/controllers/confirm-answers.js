@@ -1,8 +1,10 @@
+const logger = require('../lib/logger');
 const { VIEW } = require('../lib/views');
 const checkAnswersSections = require('../lib/check-answers-sections');
 
 exports.getConfirmAnswers = (req, res) => {
   const { appealReply } = req.session;
+  logger.info(`getConfirmAnswers :: appealReply == ${JSON.stringify(appealReply)}`)
   const sections = checkAnswersSections(appealReply, req.params.id);
 
   // Set backLink property in session

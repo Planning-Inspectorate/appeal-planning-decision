@@ -5,8 +5,11 @@ const ReplyModel = require('../models/replySchema');
 
 const dbId = 'reply';
 
+const findByAppealId = (appealId) => ({ 'reply.appealId': { $eq: appealId } });
+
 module.exports = {
   async create(req, res) {
+    logger.info(req.body);
     const { appealId } = req.body;
     if (appealId === '' || appealId === undefined) {
       logger.error(`Problem creating reply - no appealID`);
@@ -27,7 +30,7 @@ module.exports = {
           mongodb
             .get()
             .collection(dbId)
-            .findOne({ _id: reply.id })
+            .findOne(findByAppealId(appealId))
             .then((doc) => {
               logger.debug(`Reply ${reply.id} created`);
               res.status(201).send(doc.reply);
@@ -46,12 +49,18 @@ module.exports = {
       await mongodb
         .get()
         .collection(dbId)
-        .findOne({ _id: idParam })
+        .findOne(findByAppealId(idParam))
         .then((doc) => {
           logger.debug(`Reply ${idParam} retrieved`);
-          res.status(200).send(doc.reply);
+          if (!doc) {
+            logger.warn(`Could not find reply ${idParam}`);
+            res.status(404).send(null);
+          } else {
+            res.status(200).send(doc);
+          }
         })
         .catch((err) => {
+          logger.error(err);
           logger.warn(`Could not find reply ${idParam}\n${err}`);
           res.status(404).send(null);
         });
@@ -68,14 +77,15 @@ module.exports = {
     await mongodb
       .get()
       .collection(dbId)
-      .findOne({ _id: idParam })
-      .then(async (originalDoc) => {
-        logger.debug(`Original doc \n${originalDoc.reply}`);
+      .findOne(findByAppealId(idParam))
+      .then((originalDoc) => {
+        logger.debug({ originalDoc, msg: 'Original doc' });
+        logger.debug({ newDoc: req.body, msg: 'Requested update' });
 
-        await mongodb
+        return mongodb
           .get()
           .collection(dbId)
-          .updateOne({ _id: idParam }, { $set: { uuid: idParam, reply: req.body } })
+          .updateOne({ _id: originalDoc._id }, { $set: { reply: req.body } }) // eslint-disable-line no-underscore-dangle
           .then(() => {
             logger.debug(`Updated reply ${idParam}\n`);
             res.status(200).send(req.body);
