@@ -336,6 +336,11 @@ components:
           type: string
           nullable: true
           example: 'domain.gov.uk'
+        england:
+          type: boolean
+        wales:
+          type: boolean
+          example: false
         horizonId:
           type: string
           nullable: true
