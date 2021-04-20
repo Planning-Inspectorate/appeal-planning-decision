@@ -1,6 +1,5 @@
 module.exports = (appeal, options = {}) => {
   cy.goToHouseholderQuestionPage();
-  cy.provideHouseholderAnswerYes();
 
   if (appeal.eligibility.householderPlanningPermission) {
     cy.provideHouseholderAnswerYes();
