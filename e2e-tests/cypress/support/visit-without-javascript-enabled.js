@@ -13,7 +13,7 @@ Cypress.Commands.overwrite('visit', (orig, url, options = { script: true }) => {
         "When you disable script you also have to set 'chromeWebSecurity' in your config to 'false'",
       );
     }
-    iframe.sandbox = 'allow-forms';
+    iframe.sandbox = 'allow-forms allow-same-origin';
   } else {
     iframe.removeAttribute('sandbox');
   }

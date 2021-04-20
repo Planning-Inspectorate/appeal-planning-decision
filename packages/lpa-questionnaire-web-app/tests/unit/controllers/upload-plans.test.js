@@ -8,7 +8,7 @@ const {
 const logger = require('../../../src/lib/logger');
 const { createOrUpdateAppealReply } = require('../../../src/lib/appeal-reply-api-wrapper');
 const { VIEW } = require('../../../src/lib/views');
-const emptyAppealReply = require('../../../src/lib/empty-appeal-reply');
+const emptyAppealReply = require('../emptyAppealReply');
 const { getTaskStatus } = require('../../../src/services/task.service');
 const { mockReq, mockRes } = require('../mocks');
 
@@ -40,6 +40,7 @@ describe('controllers/upload-plans', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
+        appealReplyId: null,
         backLink: backLinkUrl,
       });
     });
@@ -49,6 +50,7 @@ describe('controllers/upload-plans', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
+        appealReplyId: null,
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
       });
     });
@@ -65,6 +67,7 @@ describe('controllers/upload-plans', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.UPLOAD_PLANS, {
         appeal: null,
+        appealReplyId: null,
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
         uploadedFiles,
       });

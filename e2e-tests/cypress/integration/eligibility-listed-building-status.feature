@@ -16,3 +16,8 @@ Feature: A prospective appellant states whether or not their appeal covers a lis
     When the user states that their case does not concern a Listed Building
     Then the user can proceed to the claiming Costs eligibility check
 
+  @as-1854
+  Scenario: Should retain the selected answer on re-visiting the page
+    Given the user states that their case does not concern a Listed Building
+    When the user returns to the listed building page
+    Then the user sees their previous given answer is correctly displayed

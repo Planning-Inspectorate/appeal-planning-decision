@@ -27,7 +27,7 @@ Given(
 );
 
 When(`the user selects the link "Review accuracy of the appellant's submission"`, () => {
-  cy.clickOnTaskListLink(taskListId);
+  cy.clickOnSubTaskLink(taskListId);
 });
 
 When('the user does not select an option', () => {
@@ -57,8 +57,13 @@ When('the user selects the back link', () => {
 
 When('the user returns to the submission accuracy page from the Task List', () => {
   cy.verifyPage(taskListUrl);
-  cy.clickOnTaskListLink(taskListId);
+  cy.clickOnSubTaskLink(taskListId);
   cy.verifyPage(pageId);
+});
+
+When('an answer is saved', () => {
+  input(yesButtonId).check();
+  cy.clickSaveAndContinue();
 });
 
 Then('the user is presented with the correct page', () => {
@@ -77,8 +82,16 @@ Then('the radio group label is {string}', (label) => {
 
 Then('the user is shown the error message {string}', (errorMessage) => {
   errorMessage === 'Select yes if the information accurately reflects the planning application'
-    ? cy.validateErrorMessage(errorMessage, '[data-cy="accurate-submission-error"]', 'accurate-submission')
-    : cy.validateErrorMessage(errorMessage, '[data-cy="inaccuracy-reason-error"]', 'inaccuracy-reason');
+    ? cy.validateErrorMessage(
+        errorMessage,
+        '[data-cy="accurate-submission-error"]',
+        'accurate-submission',
+      )
+    : cy.validateErrorMessage(
+        errorMessage,
+        '[data-cy="inaccuracy-reason-error"]',
+        'inaccuracy-reason',
+      );
 });
 
 Then(`the user remains in the Accuracy of the appellant's submission page`, () => {
@@ -94,11 +107,15 @@ Then('the user is provided with a free text field to input their reasons', () =>
 });
 
 Then('any information they have inputted will not be saved', () => {
-  cy.clickOnTaskListLink(taskListId);
+  cy.clickOnSubTaskLink(taskListId);
   cy.verifyPageTitle(pageTitle);
   input(noButtonId).should('not.be.checked');
 });
 
 Then('the information they previously entered is still populated', () => {
   input(yesButtonId).should('be.checked');
+});
+
+Then('the updated answer is displayed', () => {
+  cy.confirmCheckYourAnswersDisplayed('submissionAccuracy', 'Yes');
 });

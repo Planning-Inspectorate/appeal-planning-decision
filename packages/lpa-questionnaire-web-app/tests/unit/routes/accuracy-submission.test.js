@@ -1,8 +1,14 @@
-const { get } = require('./router-mock');
+const { get, post } = require('./router-mock');
 const { VIEW } = require('../../../src/lib/views');
 const accuracySubmissionController = require('../../../src/controllers/accuracy-submission');
 const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
 const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
+const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
+const {
+  rules: accuracySubmissionValidationRules,
+} = require('../../../src/validators/accuracy-submission');
+
+jest.mock('../../../src/validators/accuracy-submission');
 
 describe('routes/accuracy-submission', () => {
   beforeEach(() => {
@@ -19,6 +25,12 @@ describe('routes/accuracy-submission', () => {
       `/:id/${VIEW.ACCURACY_SUBMISSION}`,
       [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
       accuracySubmissionController.getAccuracySubmission
+    );
+    expect(post).toHaveBeenCalledWith(
+      `/:id/${VIEW.ACCURACY_SUBMISSION}`,
+      accuracySubmissionValidationRules(),
+      validationErrorHandler,
+      accuracySubmissionController.postAccuracySubmission
     );
   });
 });

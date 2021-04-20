@@ -43,6 +43,7 @@ exports.getTaskList = (req, res) => {
   req.session.backLink = `/${req.params.id}/${VIEW.TASK_LIST}`;
 
   res.render(VIEW.TASK_LIST, {
+    appealReplyId: req.session.appealReply?.id,
     applicationStatus,
     sections,
   });

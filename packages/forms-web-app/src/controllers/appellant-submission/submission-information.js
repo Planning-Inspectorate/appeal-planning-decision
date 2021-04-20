@@ -6,6 +6,10 @@ const { VIEW } = require('../../lib/views');
 const logger = require('../../lib/logger');
 
 exports.getSubmissionInformation = async (req, res) => {
+  /**
+   * These two values are provided via middleware that is configured to run for this route.
+   * @see src/routes/appellant-submission/submission-information.js
+   */
   const { appeal, appealLPD } = req.session;
 
   const { appealId } = req.params;
