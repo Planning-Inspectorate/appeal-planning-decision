@@ -7,6 +7,7 @@ const confirmAnswersRouter = require('../../../src/routes/confirm-answers');
 const accuracySubmissionRouter = require('../../../src/routes/accuracy-submission');
 const otherAppealsRouter = require('../../../src/routes/other-appeals');
 const extraConditionsRouter = require('../../../src/routes/extra-conditions');
+const { router: interestedPartiesRouter } = require('../../../src/routes/interested-parties');
 const developmentPlanRouter = require('../../../src/routes/development-plan');
 const { router: uploadPlansRouter } = require('../../../src/routes/upload-plans');
 const informationSubmittedRouter = require('../../../src/routes/information-submitted');
@@ -30,6 +31,7 @@ describe('routes/index', () => {
     expect(use).toHaveBeenCalledWith(accuracySubmissionRouter);
     expect(use).toHaveBeenCalledWith(otherAppealsRouter);
     expect(use).toHaveBeenCalledWith(extraConditionsRouter);
+    expect(use).toHaveBeenCalledWith(interestedPartiesRouter);
     expect(use).toHaveBeenCalledWith(developmentPlanRouter);
     expect(use).toHaveBeenCalledWith(uploadPlansRouter);
     expect(use).toHaveBeenCalledWith(informationSubmittedRouter);

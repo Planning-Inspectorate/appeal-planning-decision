@@ -109,6 +109,18 @@ describe('validators/upload-plans', () => {
         },
       },
       {
+        title: 'no file but no error message passed - pass',
+        given: () => ({
+          given: () => ({
+            body: {},
+          }),
+        }),
+        errorMessage: null,
+        expected: (result) => {
+          expect(result.errors).toHaveLength(0);
+        },
+      },
+      {
         title: 'valid file - pass',
         given: () => ({
           body: {
@@ -144,12 +156,12 @@ describe('validators/upload-plans', () => {
           expect(result.errors).toHaveLength(0);
         },
       },
-    ].forEach(({ title, given, expected }) => {
+    ].forEach(({ title, given, expected, errorMessage = 'Mock error message' }) => {
       it(`should return the expected validation outcome - ${title}`, async () => {
         const mockReq = given();
         const mockRes = jest.fn();
 
-        await testExpressValidatorMiddleware(mockReq, mockRes, rules('Mock error message'));
+        await testExpressValidatorMiddleware(mockReq, mockRes, rules(errorMessage));
         const result = validationResult(mockReq);
         expected(result);
       });
