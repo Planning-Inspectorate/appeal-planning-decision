@@ -43,6 +43,11 @@ const stepCompletion = () => {
   uploadFiles('upload-file-valid.pdf');
   cy.clickSaveAndContinue();
 
+  // Officers Report
+  cy.goToPage('representations');
+  uploadFiles('upload-file-valid.pdf');
+  cy.clickSaveAndContinue();
+
   // Development Plan
   cy.goToPage('development-plan');
   input('has-plan-submitted-yes').check()
