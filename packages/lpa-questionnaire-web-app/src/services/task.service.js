@@ -5,6 +5,7 @@ const {
   developmentPlanCompletion,
   uploadPlansCompletion,
   officersReportCompletion,
+  interestedPartiesCompletion,
 } = require('./task-status');
 const checkYourAnswerCompletion = require('./task-status/check-your-answers');
 
@@ -48,6 +49,11 @@ const SECTIONS = [
     sectionId: 'optionalDocumentsSection',
     tasks: [
       {
+        taskId: 'representationsInterestedParties',
+        href: '/representations',
+        rule: interestedPartiesCompletion,
+      },
+      {
         taskId: 'developmentOrNeighbourhood',
         href: '/development-plan',
         rule: developmentPlanCompletion,
@@ -75,6 +81,7 @@ const HEADERS = {
   plansDecision: 'Upload the plans used to reach the decision',
   officersReport: 'Planning Officer’s report',
   optionalDocumentsSection: 'Optional supporting documents',
+  representationsInterestedParties: 'Representations from interested parties',
   developmentOrNeighbourhood: 'Development Plan Document or Neighbourhood Plan',
   submitQuestionnaireSection: 'Before you submit',
   checkYourAnswers: 'Check your answers',
