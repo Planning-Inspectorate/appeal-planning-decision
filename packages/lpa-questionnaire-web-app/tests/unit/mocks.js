@@ -15,6 +15,7 @@ const mockReq = (appealReply = emptyAppealReply, id = 'mock-id') => ({
 
 const mockRes = () => {
   const res = {};
+  res.locals = {};
   res.redirect = jest.fn();
   res.render = jest.fn();
   res.status = jest.fn().mockReturnValue(res);

@@ -4,7 +4,7 @@ jest.mock('fs', () => ({
     readFile: jest.fn(),
   },
 }));
-jest.mock('../lib/config', () => ({
+jest.mock('../../../src/lib/config', () => ({
   data: {
     lpa: {
       listPath: 'listPath',
@@ -19,8 +19,8 @@ jest.mock('../lib/config', () => ({
 const fs = require('fs');
 const { when } = require('jest-when');
 const csvParser = require('neat-csv');
-const LPA = require('./lpa');
-const config = require('../lib/config');
+const LPA = require('.../../../src/schemas/lpa');
+const config = require('../../../src/lib/config');
 
 describe('LPA schema test', () => {
   describe('methods', () => {
@@ -33,6 +33,8 @@ describe('LPA schema test', () => {
           inTrial: true,
           email: 'some-email',
           domain: 'some-domain',
+          england: true,
+          wales: true,
         };
 
         const lpa = new LPA(obj);
@@ -42,6 +44,8 @@ describe('LPA schema test', () => {
         expect(lpa.inTrial).toBe(obj.inTrial);
         expect(lpa.domain).toBe(obj.domain);
         expect(lpa.email).toBe(obj.email);
+        expect(lpa.england).toBe(obj.england);
+        expect(lpa.wales).toBe(obj.wales);
         expect(lpa.horizonId).toBe(obj.horizonId);
       });
     });
@@ -273,6 +277,8 @@ describe('LPA schema test', () => {
               id: id.toUpperCase(),
               email,
               domain,
+              england: id.startsWith('E'),
+              wales: id.startsWith('W'),
             };
           })
           .sort((a, b) => {

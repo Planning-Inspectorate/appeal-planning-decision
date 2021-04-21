@@ -9,6 +9,7 @@ const valueAppeal = require('../unit/value-appeal');
 
 jest.mock('../../src/db/db');
 jest.mock('../../src/lib/queue');
+jest.mock('../../../common/src/lib/notify/notify-builder', () => ({}));
 
 async function createAppeal() {
   const appeal = JSON.parse(JSON.stringify(appealDocument));

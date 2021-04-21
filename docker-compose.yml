@@ -52,6 +52,7 @@ services:
       SRV_NOTIFY_SERVICE_ID: 'dummy-service-id-for-notify'
       SRV_NOTIFY_API_KEY: 'dummy-api-key-for-notify'
       SRV_NOTIFY_TEMPLATE_ID: 'dummy-template-id-for-notify'
+      SRV_NOTIFY_APPEAL_SUBMISSION_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID: '79488d5d-7efd-4273-a11f-e73f11d19676'
       SRV_OS_PLACES_URL: http://mock-os-places:3000
     ports:
       - 3000:3000
