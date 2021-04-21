@@ -126,28 +126,30 @@ describe('lib/file-upload-helpers', () => {
       req = {
         session: {
           uploadedFiles: [{ name: 'mock-file' }],
+          appealReply: { id: 'mock-appeal-reply-id' },
         },
       };
     });
 
     it('should throw error if no name', () => {
-      expect(() => deleteFile(undefined, req)).toThrowError();
+      expect(() => deleteFile(undefined, req)).toThrow();
     });
 
     it('should throw error if no request', () => {
-      expect(() => deleteFile('mock-file', undefined)).toThrowError();
+      expect(() => deleteFile('mock-file', undefined)).toThrow();
     });
 
     it('should throw an error if file not found', () => {
-      expect(() => deleteFile('another-file', req)).toThrowError();
+      expect(() => deleteFile('another-file', req)).toThrow();
     });
 
-    it('should delete a file if found', () => {
-      deleteFile('mock-file', req);
+    it('should delete a file if found', async () => {
+      await deleteFile('mock-file', req);
 
       expect(req).toEqual({
         session: {
           uploadedFiles: [],
+          appealReply: { id: 'mock-appeal-reply-id' },
         },
       });
     });
@@ -206,7 +208,7 @@ describe('lib/file-upload-helpers', () => {
             fileName: 'mock-file',
             originalFileName: 'mock-file',
             message: {
-              html: `<span class="moj-multi-file-upload__error">
+              html: `<span class="moj-multi-file-upload__error" id="mock-file">
       <svg class="moj-banner__icon" fill="currentColor" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" height="25" width="25">
         <path d="M13.6,15.4h-2.3v-4.5h2.3V15.4z M13.6,19.8h-2.3v-2.2h2.3V19.8z M0,23.2h25L12.5,2L0,23.2z"/>
       </svg>

@@ -52,6 +52,7 @@ services:
       SRV_NOTIFY_SERVICE_ID: 'dummy-service-id-for-notify'
       SRV_NOTIFY_API_KEY: 'dummy-api-key-for-notify'
       SRV_NOTIFY_TEMPLATE_ID: 'dummy-template-id-for-notify'
+      SRV_NOTIFY_APPEAL_SUBMISSION_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID: '79488d5d-7efd-4273-a11f-e73f11d19676'
       SRV_OS_PLACES_URL: http://mock-os-places:3000
     ports:
       - 3000:3000
@@ -119,6 +120,8 @@ services:
       USE_SECURE_SESSION_COOKIES: "false"
     ports:
       - 9000:3000
+      # node debugger
+      # - 9229:9229
     working_dir: /opt/app
     links:
       - appeals-service-api
@@ -132,6 +135,8 @@ services:
       - ./packages/common:/opt/app/node_modules/@pins/common
       - ./packages/forms-web-app:/opt/app
     command: npm run start:dev
+    # if enabling debug, be sure to uncomment / expose the debug port above.
+    # command: npm run start:dev:debug
 
   lpa-questionnaire-web-app:
     image: node:14-alpine

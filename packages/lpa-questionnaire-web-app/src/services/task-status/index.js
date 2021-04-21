@@ -1,6 +1,15 @@
-exports.accuracySubmissionCompletion = require('./accuracy-submission');
-exports.extraConditionsCompletion = require('./extra-conditions');
-exports.otherAppealsCompletion = require('./other-appeals');
-exports.developmentPlanCompletion = require('./development-plan');
-exports.uploadPlansCompletion = require('./upload-plans');
-exports.checkYourAnswerCompletion = require('./check-your-answer');
+const accuracySubmissionCompletion = require('./accuracy-submission');
+const extraConditionsCompletion = require('./extra-conditions');
+const otherAppealsCompletion = require('./other-appeals');
+const developmentPlanCompletion = require('./development-plan');
+const uploadPlansCompletion = require('./upload-plans');
+const officersReportCompletion = require('./officers-report');
+
+module.exports = {
+  accuracySubmissionCompletion,
+  extraConditionsCompletion,
+  otherAppealsCompletion,
+  developmentPlanCompletion,
+  uploadPlansCompletion,
+  officersReportCompletion,
+};

@@ -1,7 +1,7 @@
 jest.mock('../../src/lib/logger');
 
 const logger = require('../../src/lib/logger');
-const emptyAppealReply = require('../../src/lib/empty-appeal-reply');
+const emptyAppealReply = require('./emptyAppealReply');
 
 const mockReq = (appealReply = emptyAppealReply, id = 'mock-id') => ({
   log: logger,
@@ -15,6 +15,7 @@ const mockReq = (appealReply = emptyAppealReply, id = 'mock-id') => ({
 
 const mockRes = () => {
   const res = {};
+  res.locals = {};
   res.redirect = jest.fn();
   res.render = jest.fn();
   res.status = jest.fn().mockReturnValue(res);

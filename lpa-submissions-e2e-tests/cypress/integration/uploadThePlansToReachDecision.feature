@@ -3,7 +3,7 @@ Feature: Upload the plans used to reach the LPA decision
   I want to upload the plans which were used to reach the LPA decision
   So that they can form part of the evidence on which the Inspector makes a decision
 
-  Scenario: AC1 LPA Planning Officer navigations to 'Upload the plans used to reach the decision' question
+  Scenario: AC1 LPA Planning Officer navigates to 'Upload the plans used to reach the decision' question
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     When LPA Planning Officer chooses to upload plans used to reach the decision
     Then LPA Planning Officer is presented with the ability to upload plans
@@ -54,12 +54,12 @@ Feature: Upload the plans used to reach the LPA decision
   Scenario: AC5 LPA Planning Officer does not upload a file and is provided with an error.
     Given Upload the plans used to reach the decision question is requested
     When no file has been uploaded
-    Then progress is halted with question error message 'Upload plans used to reach the decision'
+    Then progress is halted with a message to 'Upload plans used to reach the decision'
 
   Scenario Outline: AC6 LPA Planning Officer selects invalid file size
     Given Upload the plans used to reach the decision question is requested
     When invalid files '<invalid_file_size>' have been selected
-    Then progress is halted with file '<invalid_file_size>' error message '<invalid_file_size> must be smaller than 15 MB'
+    Then progress is halted with a message the file '<invalid_file_size>' 'is too big'
     Examples:
       | invalid_file_size      |
       | upload_file_large.tiff |
@@ -67,7 +67,7 @@ Feature: Upload the plans used to reach the LPA decision
   Scenario Outline: AC7 LPA Planning Officer selects Invalid file format
     Given Upload the plans used to reach the decision question is requested
     When invalid files '<invalid_format>' have been selected
-    Then progress is halted with file '<invalid_format>' error message '<invalid_format> is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
+    Then progress is halted with a message the file '<invalid_format>' 'format is incorrect'
     Examples:
       | invalid_format                     |
       | upload-file-invalid-wrong-type.csv |
@@ -106,3 +106,9 @@ Feature: Upload the plans used to reach the LPA decision
     Examples:
       | valid_file             |
       | upload-file-valid.tiff |
+
+  Scenario: AC14 Change answers
+    Given a change to answer 'Upload Plans' is requested from Change your answers page
+    When an answer is saved
+    Then progress is made to the Check Your Answers page
+    And the updated answer is displayed

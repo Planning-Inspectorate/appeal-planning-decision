@@ -8,6 +8,7 @@ const notify = require('../../../src/lib/notify');
 jest.mock('../../../src/db/db');
 jest.mock('../../../src/lib/queue');
 jest.mock('../../../src/lib/notify');
+jest.mock('../../../../common/src/lib/notify/notify-builder', () => ({}));
 
 describe('services/validation.service', () => {
   let appeal;
@@ -358,6 +359,7 @@ describe('services/validation.service', () => {
       expect(appeal.submissionDate).toBe(null);
       expect(queue.addAppeal).not.toHaveBeenCalled();
       expect(notify.sendEmail).not.toHaveBeenCalled();
+      expect(notify.sendAppealSubmissionReceivedNotificationEmailToLpa).not.toHaveBeenCalled();
     });
 
     test('isFirstSubmission is true', async () => {
@@ -366,6 +368,9 @@ describe('services/validation.service', () => {
       expect(appeal.submissionDate).not.toBe(null);
       expect(queue.addAppeal).toHaveBeenCalledWith(updatedAppeal);
       expect(notify.sendEmail).toHaveBeenCalledWith(appeal.value);
+      expect(notify.sendAppealSubmissionReceivedNotificationEmailToLpa).toHaveBeenCalledWith(
+        appeal.value
+      );
     });
   });
 });

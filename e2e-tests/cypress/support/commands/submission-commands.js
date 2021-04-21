@@ -13,12 +13,10 @@ Cypress.Commands.add(
   require('../appeal-statement-submission/confirmThatNoErrorTriggered'),
 );
 
-
 Cypress.Commands.add(
   'confirmFileUploadIsRequested',
   require('../appeal-statement-submission/confirmFileUploadIsRequested'),
 );
-
 
 Cypress.Commands.add(
   'confirmAppealStatementFileIsNotUploaded',
@@ -156,13 +154,13 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'answerDidNotToldOtherOwnersAppeal',
-  require('../appeal-submission-appeal-site-ownership/answerDidNotToldOtherOwnersAppeal'),
+  'answerHaveNotToldOtherOwnersAppeal',
+  require('../appeal-submission-appeal-site-ownership/answerHaveNotToldOtherOwnersAppeal'),
 );
 
 Cypress.Commands.add(
-  'answerDidToldOtherOwnersAppeal',
-  require('../appeal-submission-appeal-site-ownership/answerDidToldOtherOwnersAppeal'),
+  'answerHaveToldOtherOwnersAppeal',
+  require('../appeal-submission-appeal-site-ownership/answerHaveToldOtherOwnersAppeal'),
 );
 
 Cypress.Commands.add(

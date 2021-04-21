@@ -328,6 +328,14 @@ components:
           example: 'Adur LPA'
         inTrial:
           type: boolean
+        email:
+          type: string
+          nullable: true
+          example: 'example@domain.gov.uk'
+        domain:
+          type: string
+          nullable: true
+          example: 'domain.gov.uk'
         england:
           type: boolean
         wales:

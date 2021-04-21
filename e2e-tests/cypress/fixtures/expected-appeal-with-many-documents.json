@@ -12,7 +12,7 @@
       "enforcementNotice": false,
       "householderPlanningPermission": true,
       "isClaimingCosts": false,
-      "isListedBuilding": null
+      "isListedBuilding": false
     },
     "aboutYouSection": {
       "yourDetails": {

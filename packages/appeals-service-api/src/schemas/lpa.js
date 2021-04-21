@@ -14,12 +14,13 @@ const config = require('../lib/config');
 const logger = require('../lib/logger');
 
 module.exports = class LPA {
-  constructor({ id, name, inTrial, england, wales, horizonId }) {
+  constructor({ id, name, inTrial, email, domain, england, wales, horizonId }) {
     this.id = id;
     this.name = name;
     this.inTrial = inTrial;
+    this.email = email;
+    this.domain = domain;
 
-    /* Can be in multiple regions */
     this.england = england;
     this.wales = wales;
     this.horizonId = horizonId;
@@ -74,11 +75,17 @@ module.exports = class LPA {
     return (await csvParser(lpaList))
       .filter(({ LPA19CD }) => {
         /* Filter out Scotland and Northern Ireland LPAs */
-        const include = LPA19CD.startsWith('S') === false && LPA19CD.startsWith('N') === false;
-        logger.trace({ include, id: LPA19CD }, 'Filtering out Scottish and Northern Irish LPAs');
+        const include =
+          LPA19CD.startsWith('S') === false &&
+          LPA19CD.startsWith('N') === false &&
+          LPA19CD.startsWith('W') === false;
+        logger.trace(
+          { include, id: LPA19CD },
+          'Filtering out Scottish, Northern Irish and Welsh LPAs'
+        );
         return include;
       })
-      .map(({ LPA19CD: id, LPA19NM: name }) => {
+      .map(({ LPA19CD: id, LPA19NM: name, EMAIL: email, DOMAIN: domain }) => {
         /* Use our own data model format */
         const trialist = trialists.find(({ id: trialistId }) => trialistId === id);
 
@@ -90,10 +97,11 @@ module.exports = class LPA {
           name,
           horizonId,
           inTrial,
-          id: id.toUpperCase(),
-          /* A merger may happen of an English and Welsh LPA */
+          email,
+          domain,
           england: id.startsWith('E'),
           wales: id.startsWith('W'),
+          id: id.toUpperCase(),
         });
       })
       .sort(

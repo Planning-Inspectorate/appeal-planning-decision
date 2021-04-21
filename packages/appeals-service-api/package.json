@@ -11,7 +11,7 @@
     "start:dev": "nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
     "test": "jest",
     "test:cov": "jest --coverage",
-    "test:watch": "jest --watch",
+    "test:watch": "jest --watchAll --runInBand --coverage",
     "test:tdd": "jest --watchAll --verbose",
     "documentation": "jest --coverage --reporters jest-html-reporters --coverageReporters html"
   },
@@ -55,23 +55,5 @@
     "pino-pretty": "^4.3.0",
     "prettier": "^2.1.2",
     "supertest": "^6.0.1"
-  },
-  "jest": {
-    "coverageThreshold": {
-      "global": {
-        "branches": 100,
-        "functions": 100,
-        "lines": 100,
-        "statements": 100
-      }
-    },
-    "moduleFileExtensions": [
-      "js",
-      "json"
-    ],
-    "rootDir": "src",
-    "testRegex": ".spec.js$",
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
   }
 }

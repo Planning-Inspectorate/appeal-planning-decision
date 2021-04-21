@@ -10,6 +10,9 @@ describe('lib/views', () => {
       EXTRA_CONDITIONS: 'extra-conditions',
       DEVELOPMENT_PLAN: 'development-plan',
       UPLOAD_PLANS: 'upload-plans',
+      OFFICERS_REPORT: 'officers-report',
+      INFORMATION_SUBMITTED: 'information-submitted',
+      CONFIRM_ANSWERS: 'confirm-answers',
     });
   });
 });

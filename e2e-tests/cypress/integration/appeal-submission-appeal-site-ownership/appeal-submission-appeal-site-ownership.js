@@ -25,9 +25,9 @@ function stateOwnSiteOwner(isWholeOwner) {
 
 function stateOtherOwnersBeenTold(areOtherOwnersTold) {
   if (areOtherOwnersTold) {
-    cy.answerDidToldOtherOwnersAppeal();
+    cy.answerHaveToldOtherOwnersAppeal();
   } else {
-    cy.answerDidNotToldOtherOwnersAppeal();
+    cy.answerHaveNotToldOtherOwnersAppeal();
   }
   cy.clickSaveAndContinue();
 }

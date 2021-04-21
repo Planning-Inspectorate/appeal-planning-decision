@@ -22,7 +22,8 @@
       {% if errorSummary %}
         {{ govukErrorSummary({
           titleText: "There is a problem",
-          errorList: errorSummary
+          errorList: errorSummary,
+          attributes: {"data-cy": "error-wrapper"}
         }) }}
       {% endif %}
 

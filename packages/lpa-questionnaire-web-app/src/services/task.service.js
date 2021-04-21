@@ -4,8 +4,9 @@ const {
   extraConditionsCompletion,
   developmentPlanCompletion,
   uploadPlansCompletion,
-  checkYourAnswerCompletion,
+  officersReportCompletion,
 } = require('./task-status');
+const checkYourAnswerCompletion = require('./task-status/check-your-answers');
 
 const SECTIONS = [
   {
@@ -36,6 +37,11 @@ const SECTIONS = [
         href: '/plans',
         rule: uploadPlansCompletion,
       },
+      {
+        taskId: 'officersReport',
+        href: '/officers-report',
+        rule: officersReportCompletion,
+      },
     ],
   },
   {
@@ -53,7 +59,7 @@ const SECTIONS = [
     tasks: [
       {
         taskId: 'checkYourAnswers',
-        href: '/placeholder',
+        href: '/confirm-answers',
         rule: checkYourAnswerCompletion,
       },
     ],
@@ -67,15 +73,23 @@ const HEADERS = {
   otherAppeals: 'Tell us about any appeals in the immediate area',
   requiredDocumentsSection: 'Required documents',
   plansDecision: 'Upload the plans used to reach the decision',
+  officersReport: 'Planning Officer’s report',
   optionalDocumentsSection: 'Optional supporting documents',
   developmentOrNeighbourhood: 'Development Plan Document or Neighbourhood Plan',
   submitQuestionnaireSection: 'Before you submit',
   checkYourAnswers: 'Check your answers',
 };
 
+// Contains section descriptions that will appear underneath heading in sections on task list page
 const DESCRIPTIONS = {
   optionalDocumentsSection:
     'Only include documents that were considered when making a decision on the application.',
+};
+
+// Contains overrides for check answers page headings. Should be used sparingly to avoid content mis-matches
+const CHECK_ANSWERS = {
+  submissionAccuracy:
+    'Does the information from the appellant accurately reflect the original planning application?',
 };
 
 const getTaskStatus = (appealReply, sectionId, taskId) => {
@@ -92,5 +106,6 @@ module.exports = {
   HEADERS,
   DESCRIPTIONS,
   SECTIONS,
+  CHECK_ANSWERS,
   getTaskStatus,
 };

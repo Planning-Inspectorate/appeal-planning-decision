@@ -115,8 +115,23 @@ const uploadToBlobStorage = (blobStorageClient) => {
     );
 };
 
+const deleteFromBlobStorage = async (location) => {
+  connectToBlobStorage();
+
+  const doc = containerClient.getBlockBlobClient(location);
+
+  try {
+    await doc.delete();
+    return true;
+  } catch (e) {
+    logger.error({ error: e.details }, `Error deleting document from blob storage.`);
+    return false;
+  }
+};
+
 module.exports = {
   connectToBlobStorage,
   downloadFromBlobStorage,
+  deleteFromBlobStorage,
   uploadToBlobStorage,
 };
