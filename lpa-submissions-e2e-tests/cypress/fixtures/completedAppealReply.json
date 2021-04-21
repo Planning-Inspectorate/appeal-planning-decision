@@ -48,10 +48,20 @@
       "uploadedFiles": []
     },
     "representationsInterestedParties": {
-      "uploadedFiles": []
+      "uploadedFiles": [
+        {
+          "name": "upload-file-valid.pdf",
+          "id": "a6be9fa8-de03-43d2-a13b-0a18661fd498"
+        }
+      ]
     },
     "interestedPartiesAppeal": {
-      "uploadedFiles": []
+      "uploadedFiles": [
+        {
+          "name": "upload-file-valid.pdf",
+          "id": "4583adcb-6400-462f-9407-abe18f3a7737"
+        }
+      ]
     },
     "siteNotices": null,
     "planningHistory": {
