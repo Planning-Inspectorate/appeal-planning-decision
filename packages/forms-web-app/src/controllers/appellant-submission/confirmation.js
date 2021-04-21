@@ -9,5 +9,4 @@ exports.getConfirmation = (req, res) => {
     appellantEmail,
     appealId,
   });
-
 };
