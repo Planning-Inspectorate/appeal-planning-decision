@@ -59,7 +59,7 @@ Given('an appellant has successfully submitted an appeal', () => {
     cy.guidancePageNavigation('start');
   });
   
-  Then('the agent is able to create a new appeal a new appeal without any error message', () => {
+  Then('the agent is able to create a new appeal without any error message', () => {
     cy.userIsNavigatedToPage('/eligibility/householder-planning-permission');
      // check neither of the options is selected
      cy.get('[data-cy="answer-yes"]').first().should('not.be.checked');

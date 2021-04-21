@@ -12,4 +12,4 @@ Then the appellant is able to create a new appeal without any error message
 Scenario: AC2: Agent to be able to create more than 1 appeal
 Given an agent has successfully submitted an appeal
 When the agent starts a new appeal
-Then the agent is able to create a new appeal a new appeal without any error message
+Then the agent is able to create a new appeal without any error message
