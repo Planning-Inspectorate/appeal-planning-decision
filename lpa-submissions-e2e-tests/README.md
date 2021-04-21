@@ -27,6 +27,16 @@ To just run the all the tests in memory (the quickest way to get a red/green res
 npx cypress run
 ```
 
+#### Running tests on deployed environments (dev, pre-prod, prod)
+
+In order to reduce run time, for many tests API is used to inject the required data before running tests. As this is not available on deployed environments, an override is in place. To run the tests with the override, add the following to cypress cli calls
+
+```shell
+--env ASSUME_LIMITED_ACCESS=true
+# for example
+npx cypress run --env ASSUME_LIMITED_ACCESS=true
+```
+
 #### Pointing at other environments
 
 all our defaults for cypress point at localhost:xxxx and assume it can find all our services running under docker-compose..
