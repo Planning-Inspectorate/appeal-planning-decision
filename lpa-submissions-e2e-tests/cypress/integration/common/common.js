@@ -4,6 +4,10 @@ Given('all the mandatory questions for the questionnaire have been completed', (
   cy.completeQuestionnaire();
 });
 
+Given('the questionnaire has been completed', () => {
+  cy.completeQuestionnaire();
+});
+
 When('Back is then requested', () => {
   cy.clickBackButton();
 });

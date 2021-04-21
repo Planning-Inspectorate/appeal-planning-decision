@@ -25,6 +25,11 @@ export const subTasks = [
     url: 'officers-report',
   },
   {
+    ref: 'Representations from Interested parties',
+    id: 'representationsInterestedParties',
+    url: 'representation',
+  },
+  {
     ref: 'Development Plan',
     id: 'developmentOrNeighbourhood',
     url: 'development-plan',
