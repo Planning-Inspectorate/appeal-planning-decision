@@ -54,7 +54,7 @@ Then('Representations from interested parties subsection is shown as completed',
 });
 
 Then('Representations from Interested parties heading and the uploaded file name should be displayed', () => {
-  cy.confirmCheckYourAnswersDisplayed('plansDecision', 'upload-file-valid.pdf');
+  cy.confirmCheckYourAnswersDisplayed(page.id, 'upload-file-valid.pdf');
 });
 
 // TODO: move to shared file when AS-10 merged

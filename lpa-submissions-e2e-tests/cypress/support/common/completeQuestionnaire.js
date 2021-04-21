@@ -43,8 +43,13 @@ const stepCompletion = () => {
   uploadFiles('upload-file-valid.pdf');
   cy.clickSaveAndContinue();
 
-  // Officers Report
+  // Representation of interested parties
   cy.goToPage('representations');
+  uploadFiles('upload-file-valid.pdf');
+  cy.clickSaveAndContinue();
+
+  // Notifying interested parties
+  cy.goToPage('notifications');
   uploadFiles('upload-file-valid.pdf');
   cy.clickSaveAndContinue();
 

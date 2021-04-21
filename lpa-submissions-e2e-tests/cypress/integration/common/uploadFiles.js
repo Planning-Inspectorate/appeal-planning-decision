@@ -61,41 +61,49 @@ const verifyUploadPageTitleError = () => {
 };
 
 const documentsFor = (appealReplyId) => {
-  return cy.request({
-    url: `${documentServiceBaseURL}/${appealReplyId}`,
-    failOnStatusCode: false,
-  }).then(resp=>resp.body)
-}
+  return cy
+    .request({
+      url: `${documentServiceBaseURL}/${appealReplyId}`,
+      failOnStatusCode: false,
+    })
+    .then((resp) => resp.body);
+};
 
 const scanDocumentsForOurFile = (documents, fileName) => {
-  return documents && documents.length && documents.find(document=>document.name===fileName);
-}
+  return documents && documents.length && documents.find((document) => document.name === fileName);
+};
 
 const fileIsInDocumentService = (appealReplyId, fileName) => {
   documentsFor(appealReplyId).then((documents) => {
     const ourFileInDocumentService = scanDocumentsForOurFile(documents, fileName);
-    expect(ourFileInDocumentService).to.not.eq(undefined, `expected to find ${fileName} in document store for ${appealReplyId}`);
+    expect(ourFileInDocumentService).to.not.eq(
+      undefined,
+      `expected to find ${fileName} in document store for ${appealReplyId}`,
+    );
   });
-}
+};
 
 const fileIsNotInDocumentService = (appealReplyId, fileName) => {
   documentsFor(appealReplyId).then((documents) => {
     const ourFileInDocumentService = scanDocumentsForOurFile(documents, fileName);
-    expect(ourFileInDocumentService).to.eq(undefined, `expected ${fileName} to have been deleted from document store for ${appealReplyId}`);
+    expect(ourFileInDocumentService).to.eq(
+      undefined,
+      `expected ${fileName} to have been deleted from document store for ${appealReplyId}`,
+    );
   });
-}
+};
 
 const expectFileToBeInDocumentService = (fileName) => {
-  cy.getAppealReplyId().then( (id) => {
-    fileIsInDocumentService(id, fileName)
+  cy.getAppealReplyId().then((id) => {
+    fileIsInDocumentService(id, fileName);
   });
-}
+};
 
 const expectFileNotToBeInDocumentService = (fileName) => {
-  cy.getAppealReplyId().then( (id) => {
-    fileIsNotInDocumentService(id, fileName)
+  cy.getAppealReplyId().then((id) => {
+    fileIsNotInDocumentService(id, fileName);
   });
-}
+};
 
 /**
  * Steps
@@ -120,6 +128,7 @@ Given('a file has been uploaded and confirmed', () => {
   uploadFiles('upload-file-valid.pdf');
   validateFileUpload('upload-file-valid.pdf');
   cy.clickSaveAndContinue();
+  goToUploadPage();
 });
 
 Given('The question {string} has been completed', () => {
@@ -211,5 +220,11 @@ Then('the information they previously entered is still populated', () => {
 Then('the updated answer is displayed', () => {
   cy.get('@page').then(({ id }) => {
     cy.confirmCheckYourAnswersDisplayed(id, 'upload-file-valid.docx');
+  });
+});
+
+Then('the status is not started', () => {
+  cy.get('@page').then(({ id }) => {
+    cy.get(`li[${id}-status="NOT STARTED"]`).find('.govuk-tag').contains('NOT STARTED');
   });
 });
