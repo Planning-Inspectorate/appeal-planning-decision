@@ -35,7 +35,12 @@
       ]
     },
     "officersReport": {
-      "uploadedFiles": []
+      "uploadedFiles": [
+        {
+          "name": "upload-file-valid.pdf",
+          "id": "c89ba175-82cc-404f-bdbb-450c4659df30"
+        }
+      ]
     }
   },
   "optionalDocumentsSection": {

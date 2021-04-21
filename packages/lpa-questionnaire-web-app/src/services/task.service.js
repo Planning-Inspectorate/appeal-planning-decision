@@ -4,6 +4,7 @@ const {
   extraConditionsCompletion,
   developmentPlanCompletion,
   uploadPlansCompletion,
+  officersReportCompletion,
 } = require('./task-status');
 const checkYourAnswerCompletion = require('./task-status/check-your-answers');
 
@@ -36,6 +37,11 @@ const SECTIONS = [
         href: '/plans',
         rule: uploadPlansCompletion,
       },
+      {
+        taskId: 'officersReport',
+        href: '/officers-report',
+        rule: officersReportCompletion,
+      },
     ],
   },
   {
@@ -67,6 +73,7 @@ const HEADERS = {
   otherAppeals: 'Tell us about any appeals in the immediate area',
   requiredDocumentsSection: 'Required documents',
   plansDecision: 'Upload the plans used to reach the decision',
+  officersReport: 'Planning Officer’s report',
   optionalDocumentsSection: 'Optional supporting documents',
   developmentOrNeighbourhood: 'Development Plan Document or Neighbourhood Plan',
   submitQuestionnaireSection: 'Before you submit',

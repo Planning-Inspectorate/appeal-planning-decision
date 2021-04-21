@@ -20,6 +20,11 @@ export const subTasks = [
     url: 'plans',
   },
   {
+    ref: 'Upload Planning Officers report',
+    id: 'officersReport',
+    url: 'officers-report',
+  },
+  {
     ref: 'Development Plan',
     id: 'developmentOrNeighbourhood',
     url: 'development-plan',

@@ -1,3 +1,9 @@
+const mockIsAppealSubmitted = jest.fn();
+
+jest.doMock('../../../src/services/appeal.service', () => ({
+  isAppealSubmitted: mockIsAppealSubmitted,
+}));
+
 const { appealDocument } = require('../../../src/models/appeal');
 const { mockReq, mockRes } = require('../mocks');
 const {

@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const { testExpressValidatorMiddleware } = require('./validation-middleware-helper');
-const rules = require('../../../src/validators/upload-plans');
+const rules = require('../../../src/validators/upload-tasks');
 const { MIME_TYPE_JPEG } = require('../../../src/lib/file-upload-helpers');
 const config = require('../../../src/config');
 
@@ -38,7 +38,7 @@ describe('validators/upload-plans', () => {
         }),
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
-          expect(result.errors[0].msg).toBe('Upload plans used to reach the decision');
+          expect(result.errors[0].msg).toBe('Mock error message');
         },
       },
       {
@@ -50,7 +50,7 @@ describe('validators/upload-plans', () => {
         }),
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
-          expect(result.errors[0].msg).toBe('Upload plans used to reach the decision');
+          expect(result.errors[0].msg).toBe('Mock error message');
         },
       },
       {
@@ -64,7 +64,7 @@ describe('validators/upload-plans', () => {
         }),
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
-          expect(result.errors[0].msg).toBe('Upload plans used to reach the decision');
+          expect(result.errors[0].msg).toBe('Mock error message');
         },
       },
       {
@@ -149,7 +149,7 @@ describe('validators/upload-plans', () => {
         const mockReq = given();
         const mockRes = jest.fn();
 
-        await testExpressValidatorMiddleware(mockReq, mockRes, rules());
+        await testExpressValidatorMiddleware(mockReq, mockRes, rules('Mock error message'));
         const result = validationResult(mockReq);
         expected(result);
       });
