@@ -7,7 +7,7 @@ Given('a LPA Planning Officer is reviewing their LPA Questionnaire task list', (
 });
 
 When('LPA Planning Officer is reviewing the Task List', () => {
-  cy.verifyPage(url);
+  cy.goToTaskListPage();
 });
 
 Then('progress is made to the task list', () => {

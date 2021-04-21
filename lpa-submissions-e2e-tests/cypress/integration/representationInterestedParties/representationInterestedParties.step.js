@@ -24,11 +24,11 @@ Before({ tags: '@nojs' }, () => {
   disableJs = true;
 });
 
-Given('Given LPA Planning Officer has not added any data to the Representations from Interested Parties question', () => {
-  cy.goToTaskListPage();
+Given('LPA Planning Officer has not added any data to the Representations from Interested Parties question', () => {
+  // No action needed as this is the default state
 });
 
-Given('Upload the Planning Officer’s report question is requested', () => {
+Given('Representations from interested parties question is requested', () => {
   goToInterestedPartiesPage();
 });
 
@@ -37,7 +37,7 @@ When('LPA Planning Officer chooses to upload the document Representations from i
   cy.verifyPage(page.url);
 });
 
-When('the Upload the Planning Officer’s report question is requested', () => {
+When('the Representations from interested parties question is requested', () => {
   goToInterestedPartiesPage();
 });
 
@@ -58,7 +58,7 @@ Then('Representations from Interested parties heading and the uploaded file name
 });
 
 // TODO: move to shared file when AS-10 merged
-Then('the status is Not Started', () => {
+Then('the status is not started', () => {
   cy.get(`li[${page.id}-status="NOT STARTED"]`)
     .find('.govuk-tag')
     .contains('NOT STARTED');

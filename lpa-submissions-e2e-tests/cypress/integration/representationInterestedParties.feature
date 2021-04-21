@@ -8,10 +8,10 @@ Feature: Representations from interested parties
     When LPA Planning Officer chooses to upload the document Representations from interested parties
     Then LPA Planning Officer is presented with the ability to upload any documents relevant to the question Representations from interested parties
 
-  Scenario: AC3. Task list shows the correct initial status
+  Scenario: AC2. Task list shows the correct initial status
     Given LPA Planning Officer has not added any data to the Representations from Interested Parties question
     When LPA Planning Officer is reviewing the Task List
-    Then the status is Not started
+    Then the status is not started
 
   Scenario Outline: AC3 LPA Planning Officer successfully uploads file via upload button
     Given Representations from interested parties question is requested
@@ -120,8 +120,8 @@ Feature: Representations from interested parties
     Then progress is made to the Check Your Answers page
     And the updated answer is displayed
 
-  Scenario: AC16 PDF & Horizon
-    Given the questionnaire has been completed
-    When the LPA Planning Officer submits the questionnaire
-    Then the Representations from Interested parties is displayed on the PDF
-    And the Representations from Interested parties is present in Horizon
+  # Scenario: AC16 PDF & Horizon
+  #   Given the questionnaire has been completed
+  #   When the LPA Planning Officer submits the questionnaire
+  #   Then the Representations from Interested parties is displayed on the PDF
+  #   And the Representations from Interested parties is present in Horizon
