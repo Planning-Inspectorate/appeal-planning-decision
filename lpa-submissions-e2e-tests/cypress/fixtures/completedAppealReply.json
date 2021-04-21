@@ -48,7 +48,12 @@
       "uploadedFiles": []
     },
     "representationsInterestedParties": {
-      "uploadedFiles": []
+      "uploadedFiles": [
+        {
+          "name": "upload-file-valid.pdf",
+          "id": "ed0abb14-b50c-45bf-9ee3-1df75ce3e45b"
+        }
+      ]
     },
     "interestedPartiesAppeal": {
       "uploadedFiles": []
