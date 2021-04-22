@@ -106,7 +106,7 @@ spec:
             - name: SRV_NOTIFY_TEMPLATE_ID
               value: {{ .Values.appealsServiceApi.config.notify.templateId | quote }}
             - name: SRV_NOTIFY_APPEAL_SUBMISSION_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID
-              value: { { .Values.appealsServiceApi.config.notify.templates.appealSubmissionReceivedNotificationEmailToLpa | quote } }
+              value: {{ .Values.appealsServiceApi.config.notify.templates.appealNotificationEmailToLpa | quote }}
           volumeMounts:
             - name: lpa-data-volume
               mountPath: /data/lpa

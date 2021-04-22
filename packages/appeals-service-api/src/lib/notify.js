@@ -140,9 +140,7 @@ async function sendAppealSubmissionReceivedNotificationEmailToLpa(appeal) {
     }
 
     await NotifyBuilder()
-      .setTemplateId(
-        config.services.notify.templates.appealSubmissionReceivedNotificationEmailToLpa
-      )
+      .setTemplateId(config.services.notify.templates.appealNotificationEmailToLpa)
       .setDestinationEmailAddress(lpa.email)
       .setTemplateVariablesFromObject({
         LPA: lpa.name,
