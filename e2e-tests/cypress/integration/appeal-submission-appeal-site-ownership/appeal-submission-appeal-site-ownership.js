@@ -16,7 +16,7 @@ function givenAlreadySubmittedandWholeSiteOwner(isAlreadySubmitted, isWholeSiteO
 
 function stateOwnSiteOwner(isWholeOwner) {
   if (isWholeOwner) {
-    cy.answerOwnsTheWholeAppeal();
+    cy.OwnsTheWholeAppeal();
   } else {
     cy.answerDoesNotOwnTheWholeAppeal();
   }
