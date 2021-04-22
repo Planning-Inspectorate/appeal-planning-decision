@@ -55,7 +55,10 @@
     },
     "siteNotices": null,
     "planningHistory": {
-      "uploadedFiles": []
+      "uploadedFiles": [{
+        "name": "upload-file-valid.pdf",
+        "id": "e04e2cc0-de29-4a78-9941-67bab0c9251b"
+      }]
     },
     "statutoryDevelopment": {
       "uploadedFiles": []
