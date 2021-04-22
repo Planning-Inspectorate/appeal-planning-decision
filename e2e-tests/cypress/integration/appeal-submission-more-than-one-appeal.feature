@@ -1,4 +1,4 @@
-Feature: As an appellant/agent using the appeals service
+Feature: As an appellant or agent using the appeals service
   I need to be able to submit more than one appeal
   So that I can create all the appeals I need
 
