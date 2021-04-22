@@ -1,0 +1,29 @@
+name: Helm Validation
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+      - develop
+      - 'feature/**'
+      - 'fix/**'
+      - 'subtask/**'
+
+jobs:
+  helm-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: helm lint openfaas-amqp1.0-connector
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: helm lint charts/openfaas-amqp1.0-connector
+
+      - uses: actions/checkout@v1
+      - name: helm charts/app build and lint
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: helm dependency build charts/app && helm lint charts/app
