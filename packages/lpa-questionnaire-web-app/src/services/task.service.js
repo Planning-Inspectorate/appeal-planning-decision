@@ -7,6 +7,7 @@ const {
   officersReportCompletion,
   interestedPartiesCompletion,
   notifyingPartiesCompletion,
+  planningHistoryCompletion,
 } = require('./task-status');
 const checkYourAnswerCompletion = require('./task-status/check-your-answers');
 
@@ -60,6 +61,11 @@ const SECTIONS = [
         rule: notifyingPartiesCompletion,
       },
       {
+        taskId: 'planningHistory',
+        href: '/planning-history',
+        rule: planningHistoryCompletion,
+      },
+      {
         taskId: 'developmentOrNeighbourhood',
         href: '/development-plan',
         rule: developmentPlanCompletion,
@@ -89,6 +95,7 @@ const HEADERS = {
   optionalDocumentsSection: 'Optional supporting documents',
   representationsInterestedParties: 'Representations from interested parties',
   interestedPartiesAppeal: 'Notifying interested parties of the appeal',
+  planningHistory: 'Planning history',
   developmentOrNeighbourhood: 'Development Plan Document or Neighbourhood Plan',
   submitQuestionnaireSection: 'Before you submit',
   checkYourAnswers: 'Check your answers',

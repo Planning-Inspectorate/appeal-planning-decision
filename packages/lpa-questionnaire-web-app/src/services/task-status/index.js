@@ -6,6 +6,7 @@ const notifyingPartiesCompletion = require('./notifying-parties');
 const developmentPlanCompletion = require('./development-plan');
 const uploadPlansCompletion = require('./upload-plans');
 const officersReportCompletion = require('./officers-report');
+const planningHistoryCompletion = require('./planning-history');
 
 module.exports = {
   accuracySubmissionCompletion,
@@ -16,4 +17,5 @@ module.exports = {
   developmentPlanCompletion,
   uploadPlansCompletion,
   officersReportCompletion,
+  planningHistoryCompletion,
 };
