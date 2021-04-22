@@ -54,5 +54,5 @@ Then('Notifying interested parties of the appeal subsection is shown as complete
 });
 
 Then('Notifying interested parties of the appeal heading is shown and the uploaded file name should be displayed', () => {
-  cy.confirmCheckYourAnswersDisplayed('plansDecision', 'upload-file-valid.pdf');
+  cy.confirmCheckYourAnswersDisplayed(page.id, 'upload-file-valid.pdf');
 });

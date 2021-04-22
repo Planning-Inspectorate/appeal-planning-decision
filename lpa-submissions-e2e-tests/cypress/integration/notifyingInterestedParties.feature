@@ -92,7 +92,7 @@ Feature: Notifying interested parties of the appeal
 
   Scenario: AC11 LPA Planning Officer returns to the completed Notifying interested parties of the appeal
     Given The question 'Notifying interested parties of the appeal' has been completed
-    When the Notifying interested parties of the appeal is requested
+    When Notifying interested parties of the appeal is requested
     Then the information they previously entered is still populated
 
   Scenario: AC12 Appeal details side panel
@@ -120,8 +120,8 @@ Feature: Notifying interested parties of the appeal
     Then progress is made to the Check Your Answers page
     And the updated answer is displayed
 
-  Scenario: AC16 PDF & Horizon
-    Given the questionnaire has been completed
-    When the LPA Planning Officer submits the questionnaire
-    Then Notifying interested parties of the appeal is displayed on the  questionnaire PDF
-    And Notifying interested parties of the appeal and uploaded files are present in Horizon
+  # Scenario: AC16 PDF & Horizon
+  #   Given the questionnaire has been completed
+  #   When the LPA Planning Officer submits the questionnaire
+  #   Then Notifying interested parties of the appeal is displayed on the  questionnaire PDF
+  #   And Notifying interested parties of the appeal and uploaded files are present in Horizon

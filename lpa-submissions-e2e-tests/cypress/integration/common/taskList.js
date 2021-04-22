@@ -1,8 +1,12 @@
-import { Given, Then } from 'cypress-cucumber-preprocessor/steps';
+import { Given, Then, When } from 'cypress-cucumber-preprocessor/steps';
 
 const url = '/task-list';
 
-Given("a LPA Planning Officer is reviewing their LPA Questionnaire task list", ()=> {
+Given('a LPA Planning Officer is reviewing their LPA Questionnaire task list', () => {
+  cy.goToTaskListPage();
+});
+
+When('LPA Planning Officer is reviewing the Task List', () => {
   cy.goToTaskListPage();
 });
 
