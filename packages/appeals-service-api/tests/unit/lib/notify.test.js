@@ -216,7 +216,7 @@ describe('lib/notify', () => {
         expect(mockError).not.toHaveBeenCalled();
 
         expect(mockSetTemplateId).toHaveBeenCalledWith(
-          config.services.notify.templates.appealSubmissionReceivedNotificationEmailToLpa
+          config.services.notify.templates.appealNotificationEmailToLpa
         );
         expect(mockSetDestinationEmailAddress).toHaveBeenCalledWith('some@example.com');
         expect(mockSetTemplateVariablesFromObject).toHaveBeenCalledWith({

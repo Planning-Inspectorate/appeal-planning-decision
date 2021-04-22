@@ -75,7 +75,7 @@ module.exports = {
       // deprecated, see `sendEmail` inside `./notify`
       templateId: process.env.SRV_NOTIFY_TEMPLATE_ID,
       templates: {
-        appealSubmissionReceivedNotificationEmailToLpa:
+        appealNotificationEmailToLpa:
           process.env.SRV_NOTIFY_APPEAL_SUBMISSION_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID,
       },
     },
