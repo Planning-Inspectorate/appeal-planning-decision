@@ -6,7 +6,6 @@
  * @param next
  * @returns {Promise<*>}
  */
-
 module.exports = async (req, res, next) => {
   if (!req.body) return next();
 
