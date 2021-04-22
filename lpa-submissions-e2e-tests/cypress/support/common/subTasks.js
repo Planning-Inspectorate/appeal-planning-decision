@@ -35,6 +35,11 @@ export const subTasks = [
     url: 'notifications',
   },
   {
+    ref: 'Planning history',
+    id: 'planningHistory',
+    url: 'planning-history',
+  },
+  {
     ref: 'Development Plan',
     id: 'developmentOrNeighbourhood',
     url: 'development-plan',
