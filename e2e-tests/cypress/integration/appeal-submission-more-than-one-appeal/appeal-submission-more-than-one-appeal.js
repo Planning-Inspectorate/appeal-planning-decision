@@ -12,7 +12,6 @@ Given('an appellant has successfully submitted an appeal', () => {
   });
   cy.clickCheckYourAnswers();
   cy.clickSaveAndContinue();
-
   cy.agreeToTheDeclaration();
   cy.confirmAppealSubmitted();
 });
@@ -38,6 +37,9 @@ Then('the appellant is able to create a new appeal without any error message', (
 
 
 Given('an agent has successfully submitted an appeal', () => {
+  cy.goToPageBeforeYouAppeal();
+  cy.goToPageStartYourAppeal();
+  cy.guidancePageNavigation('start');
   cy.provideCompleteAppeal({
     ...STANDARD_APPEAL,
     aboutYouSection: {
