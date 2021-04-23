@@ -66,13 +66,3 @@ for e2e tests in the pipelines. To create the required files locally run this co
 ````
 ./create-large-test-files.sh
 ````
-
-#### Integration with Appeals Casework Portal ([ACP](https://acp.planninginspectorate.gov.uk/))
-
-Separate feature files are available for testing integration with ACP. 
-This integration takes user to an external website to complete appeal submission if the decision date is eligible and valid. 
-When ACP integration is enabled most of the current routes should not be reachable because the user will submit their appeal on the ACP website.
-From the e2e-tests folder, the following command can be used to run these ACP feature files by overriding the default Cypress configuration:
-```
-node_modules/cypress/bin/cypress open --config integrationFolder=cypress/integration-with-acp
-```
