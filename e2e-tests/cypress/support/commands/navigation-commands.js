@@ -94,18 +94,8 @@ Cypress.Commands.add('goToCookiePreferencesPage', require('../go-to-page/goToCoo
 // Confirmation
 
 Cypress.Commands.add(
-  'confirmNavigationAcpPage',
-  require('../integration-with-acp/confirmNavigationAcpPage'),
-);
-
-Cypress.Commands.add(
   'confirmNavigationTermsAndConditionsPage',
   require('../appeal-navigation-confirmation/appellant-submission/confirmNavigationTermsAndConditionsPage'),
-);
-
-Cypress.Commands.add(
-  'confirmNavigationPageNotFoundPage',
-  require('../integration-with-acp/confirmNavigationPageNotFoundPage'),
 );
 
 Cypress.Commands.add(
