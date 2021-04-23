@@ -1,4 +1,3 @@
-const url = require('url');
 const express = require('express');
 const compression = require('compression');
 const lusca = require('lusca');
@@ -32,38 +31,12 @@ const app = express();
 
 prometheus.init(app);
 
-app
-  .use(
-    pinoExpress({
-      logger,
-      genReqId: () => uuid.v4(),
-    })
-  )
-  .use((req, res, next) => {
-    const { pathname: currentlUrl } = url.parse(req.url);
-    if (config.server.limitedRouting.enabled) {
-      const isAllowed = config.server.limitedRouting.allowedRoutes.some((route) => {
-        let routeRegex = route;
-        if (!route.test) {
-          /* Convert route to RegExp */
-          routeRegex = new RegExp(`^${route}$`, 'i');
-        }
-        const routeTestResult = routeRegex.test(currentlUrl);
-
-        req.log.trace({ routeTestResult, currentlUrl, routeRegex }, 'Matching route availability');
-
-        return routeTestResult;
-      });
-
-      if (!isAllowed) {
-        req.log.debug({ currentlUrl }, 'User accessing unavailable page - display 404 page');
-        res.status(404).render('error/not-found');
-        return;
-      }
-    }
-
-    next();
-  });
+app.use(
+  pinoExpress({
+    logger,
+    genReqId: () => uuid.v4(),
+  })
+);
 
 const isDev = app.get('env') === 'development';
 
