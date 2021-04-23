@@ -417,17 +417,6 @@ Once you've made a change, enter `make update-functions` and this will build the
 **NB** When finished, you will need to run `helm un -n openfaas-fn functions` to clean up the updated containers. For the
 moment, this will need to be done by someone with admin rights to the cluster.
 
-### ACP integration
-
-> Deprecated with release of MVP - 2021-03-19
-
-The current target MVP checks only the decision date eligibility before passing the user to an existing external service
-Appeals Casework Portal (ACP) for user to submit their appeal.
-In the FWA ui app this behaviour is controlled by setting the environment variable `SERVER_LIMITED_ROUTING_ENABLED`.
-For convenience, a placeholder environment variable is present in the `docker-compose.yml` file.
-With this set to `true` only a limited set of pages are accessible and user will be taken to ACP from decision date eligibility check.
-With this set to `false` all existing pages will be accessible and user will proceed to LPD selection instead of ACP.
-
 ## GOV.UK Notify integration
 
 The following environment variables are required to integrate with the GOV.UK. Notify service:
