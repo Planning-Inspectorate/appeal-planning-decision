@@ -2,26 +2,49 @@ const confirmationController = require('../../../../src/controllers/appellant-su
 const { mockReq, mockRes } = require('../../mocks');
 const { VIEW } = require('../../../../src/lib/views');
 
-const req = mockReq();
-const res = mockRes();
-
 describe('controllers/appellant-submission/confirmation', () => {
+  let req;
+  let res;
+
+  beforeEach(() => {
+    req = mockReq();
+    res = mockRes();
+  });
+
   describe('getConfirmation', () => {
-    it('should call the correct template', () => {
-      const appellantEmail = 'hello@example.com';
-      const r = {
+    let appealId;
+    let appellantEmail;
+
+    beforeEach(() => {
+      appealId = 'some-fake-id';
+      appellantEmail = 'hello@example.com';
+
+      req = {
         ...req,
         session: {
           ...req.session,
           appeal: {
+            id: appealId,
             'appellant-email': appellantEmail,
           },
         },
       };
-      confirmationController.getConfirmation(r, res);
+    });
+
+    it('should ensure req.session.appeal is reset', () => {
+      expect(req.session.appeal).not.toBeNull();
+
+      confirmationController.getConfirmation(req, res);
+
+      expect(req.session.appeal).toBeNull();
+    });
+
+    it('should call the correct template', () => {
+      confirmationController.getConfirmation(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.CONFIRMATION, {
         appellantEmail,
+        appealId,
       });
     });
   });
