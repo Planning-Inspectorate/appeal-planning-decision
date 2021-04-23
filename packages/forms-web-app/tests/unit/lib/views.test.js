@@ -56,6 +56,7 @@ describe('lib/views', () => {
       MESSAGES: {
         COOKIES_UPDATED_SUCCESSFULLY: 'messages/cookies-updated-successfully',
       },
+      YOUR_PLANNING_APPEAL: 'your-planning-appeal/index',
     });
   });
 });

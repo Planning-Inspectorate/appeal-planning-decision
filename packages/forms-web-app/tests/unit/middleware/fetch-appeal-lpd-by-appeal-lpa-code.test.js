@@ -23,8 +23,8 @@ describe('middleware/fetch-appeal-lpd-by-appeal-lpa-code', () => {
       expected: (req, res, next) => {
         expect(req.session.appeal).toBeUndefined();
         expect(getDepartmentFromId).not.toHaveBeenCalled();
-        expect(next).not.toHaveBeenCalled();
-        expect(res.sendStatus).toHaveBeenCalledWith(400);
+        expect(next).toHaveBeenCalled();
+        expect(req.session.appealLPD).toBeUndefined();
       },
     },
     {
@@ -40,11 +40,8 @@ describe('middleware/fetch-appeal-lpd-by-appeal-lpa-code', () => {
       }),
       expected: (req, res, next) => {
         expect(getDepartmentFromId).not.toHaveBeenCalled();
-        expect(next).not.toHaveBeenCalled();
-        expect(res.status).toHaveBeenCalledWith(400);
-        expect(res.render).toHaveBeenCalledWith('error/400', {
-          message: 'Unable to locate the LPA code for the given appeal.',
-        });
+        expect(next).toHaveBeenCalled();
+        expect(req.session.appealLPD).toBeUndefined();
       },
     },
     {
