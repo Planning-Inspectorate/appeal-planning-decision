@@ -21,6 +21,7 @@ describe('routes/index', () => {
     expect(use).toHaveBeenCalledWith('/cookies', cookieRouter);
     expect(use).toHaveBeenCalledWith('/appellant-submission', appellantSubmissionRouter);
     expect(use).toHaveBeenCalledWith('/eligibility', eligibilityRouter);
-    expect(use.mock.calls.length).toBe(5);
+    expect(use).toHaveBeenCalledWith('/your-planning-appeal', eligibilityRouter);
+    expect(use.mock.calls.length).toBe(6);
   });
 });
