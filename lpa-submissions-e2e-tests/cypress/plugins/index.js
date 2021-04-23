@@ -1,4 +1,6 @@
-const cucumber = require('cypress-cucumber-preprocessor').default
+const cucumber = require('cypress-cucumber-preprocessor').default;
+const pdf = require('pdf-parse');
+
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
 //
@@ -15,14 +17,21 @@ const cucumber = require('cypress-cucumber-preprocessor').default
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
-module.exports = (on,config) => {
-  on('file:preprocessor',cucumber())
+const parsePdf = async (pdfBuffer) => {
+  return await pdf(pdfBuffer);
+};
+
+module.exports = (on, config) => {
+  on('file:preprocessor', cucumber());
 
   on('task', {
-    log (message) {
-      console.log(message)
+    log(message) {
+      console.log(message);
 
-      return null
-    }
-  })
-}
+      return null;
+    },
+    getPdfContent(pdfBuffer) {
+      return String(parsePdf(pdfBuffer));
+    },
+  });
+};
