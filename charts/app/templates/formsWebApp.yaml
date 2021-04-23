@@ -71,8 +71,6 @@ spec:
               value: {{ .Values.formsWebApp.config.logLevel }}
             - name: PORT
               value: {{ .Values.formsWebApp.config.port | quote }}
-            - name: SERVER_LIMITED_ROUTING_ENABLED
-              value: {{ .Values.formsWebApp.config.enableLimitedRouting | quote }}
             - name: SESSION_MONGODB_DB_NAME
               value: forms-web-app
             - name: SESSION_MONGODB_COLLECTION
