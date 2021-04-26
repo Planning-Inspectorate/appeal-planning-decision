@@ -5,6 +5,128 @@ process.env.HORIZON_URL = 'horizon-url';
 const axios = require('axios');
 const handler = require('./handler');
 
+const { createDataObject } = handler;
+
+const mockEventBody = {
+  caseReference: '1234567890',
+  applicationId: 'some-app-id',
+  documentId: 'some-document-id',
+  documentType: 'LPA Decision Notice',
+  documentInvolvement: 'some-doc-involvement',
+  documentGroupType: 'some-doc-group-type',
+  docServiceOutput: {
+    blobStorageLocation: 'blob-storage-location',
+    name: 'some-file-name',
+    createdAt: '2021-02-07T12:00:00Z',
+    data: 'base64',
+  },
+  horizonOutput: {
+    some: 'response',
+  },
+};
+
+const data = {
+  data: 'some-data',
+  name: 'some-data-name',
+  createdAt: 'some-data-createdAt',
+};
+
+describe('createDataObject', () => {
+  let eventBody;
+
+  beforeEach(() => {
+    eventBody = { ...mockEventBody };
+  });
+
+  it('documentInvolvementValue should be "LPA", if reply', () => {
+    const expectedItem = {
+      'a:AttributeValue': {
+        '__i:type': 'a:StringAttributeValue',
+        'a:Name': 'some-doc-involvement',
+        'a:Value': 'LPA',
+      },
+    };
+    eventBody.documentType = 'Consultation Responses';
+    const result = createDataObject(data, eventBody);
+    expect(result['a:HorizonAPIDocument']['a:Metadata']['a:Attributes']).toContainEqual(
+      expectedItem
+    );
+  });
+
+  it('documentGroupTypeValue should be "Evidence", if reply', () => {
+    const expectedItem = {
+      'a:AttributeValue': {
+        '__i:type': 'a:StringAttributeValue',
+        'a:Name': 'some-doc-group-type',
+        'a:Value': 'Evidence',
+      },
+    };
+    eventBody.documentType = 'Consultation Responses';
+    const result = createDataObject(data, eventBody);
+    expect(result['a:HorizonAPIDocument']['a:Metadata']['a:Attributes']).toContainEqual(
+      expectedItem
+    );
+  });
+
+  it('documentInvolvement should be specific entries, if defined', () => {
+    const expectedItem = {
+      'a:AttributeValue': {
+        '__i:type': 'a:StringAttributeValue',
+        'a:Name': 'some-doc-involvement',
+        'a:Value': 'Appellant',
+      },
+    };
+
+    const result = createDataObject(data, eventBody);
+    expect(result['a:HorizonAPIDocument']['a:Metadata']['a:Attributes']).toContainEqual(
+      expectedItem
+    );
+  });
+
+  it('documentInvolvement should be default entries, if null', () => {
+    const expectedItem = {
+      'a:AttributeValue': {
+        '__i:type': 'a:StringAttributeValue',
+        'a:Name': 'Document:Involvement',
+        'a:Value': 'Appellant',
+      },
+    };
+    const result = createDataObject(data, { ...eventBody, documentInvolvement: null });
+    expect(result['a:HorizonAPIDocument']['a:Metadata']['a:Attributes']).toContainEqual(
+      expectedItem
+    );
+  });
+
+  it('documentGroupType should be specific entries, if defined', () => {
+    const expectedItem = {
+      'a:AttributeValue': {
+        '__i:type': 'a:StringAttributeValue',
+        'a:Name': 'some-doc-group-type',
+        'a:Value': 'Initial Documents',
+      },
+    };
+    const result = createDataObject(data, eventBody);
+    expect(result['a:HorizonAPIDocument']['a:Metadata']['a:Attributes']).toContainEqual(
+      expectedItem
+    );
+  });
+
+  it('documentGroupType should be default entries, if null', () => {
+    const expectedItem = {
+      'a:AttributeValue': {
+        '__i:type': 'a:StringAttributeValue',
+        'a:Name': 'Document:Document Group Type',
+        'a:Value': 'Initial Documents',
+      },
+    };
+
+    const result = createDataObject(data, { ...eventBody, documentGroupType: null });
+    expect(result['a:HorizonAPIDocument']['a:Metadata']['a:Attributes']).toContainEqual(
+      expectedItem
+    );
+  });
+});
+
 describe('handler', () => {
   const envvars = process.env;
   let context;
@@ -14,7 +136,7 @@ describe('handler', () => {
     process.env = { ...envvars };
 
     event = {
-      body: {},
+      body: { ...mockEventBody },
       log: {
         info: jest.fn(),
         error: jest.fn(),
@@ -31,38 +153,19 @@ describe('handler', () => {
   });
 
   it('should download the file from blob storage and push to Horizon', async () => {
-    const caseReference = '1234567890';
-    const applicationId = 'some-app-id';
-    const documentId = 'some-document-id';
-    const documentType = 'some-doc-type';
-    const docServiceOutput = {
-      blobStorageLocation: 'blob-storage-location',
-      name: 'some-file-name',
-      createdAt: '2021-02-07T12:00:00Z',
-      data: 'base64',
-    };
-    const horizonOutput = {
-      some: 'response',
-    };
-
-    event.body = {
-      caseReference,
-      applicationId,
-      documentId,
-      documentType,
-    };
+    const { caseReference } = event.body;
 
     axios.get.mockResolvedValue({
-      data: docServiceOutput,
+      data: event.body.docServiceOutput,
     });
 
     axios.post.mockResolvedValue({
-      data: horizonOutput,
+      data: event.body.horizonOutput,
     });
 
     expect(await handler(event, context)).toEqual({
       caseReference,
-      data: horizonOutput,
+      data: event.body.horizonOutput,
     });
 
     expect(axios.post).toBeCalledWith(
@@ -77,23 +180,23 @@ describe('handler', () => {
             { '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance' },
             {
               'a:HorizonAPIDocument': {
-                'a:Content': docServiceOutput.data,
-                'a:DocumentType': documentType,
-                'a:Filename': docServiceOutput.name,
+                'a:Content': event.body.docServiceOutput.data,
+                'a:DocumentType': event.body.documentType,
+                'a:Filename': event.body.docServiceOutput.name,
                 'a:IsPublished': 'true',
                 'a:Metadata': {
                   'a:Attributes': [
                     {
                       'a:AttributeValue': {
                         '__i:type': 'a:StringAttributeValue',
-                        'a:Name': 'Document:Involvement',
+                        'a:Name': 'some-doc-involvement',
                         'a:Value': 'Appellant',
                       },
                     },
                     {
                       'a:AttributeValue': {
                         '__i:type': 'a:StringAttributeValue',
-                        'a:Name': 'Document:Document Group Type',
+                        'a:Name': 'some-doc-group-type',
                         'a:Value': 'Initial Documents',
                       },
                     },
@@ -108,7 +211,7 @@ describe('handler', () => {
                       'a:AttributeValue': {
                         '__i:type': 'a:DateAttributeValue',
                         'a:Name': 'Document:Received/Sent Date',
-                        'a:Value': docServiceOutput.createdAt,
+                        'a:Value': event.body.docServiceOutput.createdAt,
                       },
                     },
                   ],
