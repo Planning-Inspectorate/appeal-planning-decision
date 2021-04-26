@@ -9,7 +9,7 @@ module.exports = ({ chosenLocalPlanningDepartment = undefined } = {}) => {
       } else {
         const eligiblePlanningDepartments = departments.toString().split(',');
         if (eligiblePlanningDepartments.length > 0) {
-          lpd = eligiblePlanningDepartments[0];
+          lpd = eligiblePlanningDepartments[eligiblePlanningDepartments.length-1];
         }
       }
 
