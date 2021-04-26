@@ -16,3 +16,4 @@ require('./cookie-consent-view-preferences/commands');
 require('./flash-message/flash-message-commands');
 require('./back-link/back-link-commands');
 require('./eligibility-listed-building-status/listed-building-commands');
+require('./errors/commands');
