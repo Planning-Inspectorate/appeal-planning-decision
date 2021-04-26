@@ -82,8 +82,6 @@ Cypress.Commands.add(
   require('../go-to-page/goToSubmissionInformationPage'),
 );
 
-// ACP Integration
-
 Cypress.Commands.add('goToPageNotFoundPage', require('../go-to-page/goToPageNotFoundPage'));
 
 // Common

@@ -6,10 +6,7 @@ module.exports = {
     defaultDisplayDateFormat: 'DD MMMM YYYY',
   },
   appeals: {
-    startingPoint:
-      process.env.SERVER_LIMITED_ROUTING_ENABLED === 'true'
-        ? '/eligibility/decision-date'
-        : '/before-you-appeal',
+    startingPoint: '/before-you-appeal',
     timeout: Number(process.env.APPEALS_SERVICE_API_TIMEOUT || 10000),
     url: process.env.APPEALS_SERVICE_API_URL,
   },
@@ -57,22 +54,6 @@ module.exports = {
     redact: ['opts.body', 'config.db.session.uri', 'config.server.sessionSecret'],
   },
   server: {
-    limitedRouting: {
-      enabled: process.env.SERVER_LIMITED_ROUTING_ENABLED === 'true',
-      /* Strings and regex are both allowable */
-      allowedRoutes: [
-        '/',
-        '/eligibility/decision-date',
-        '/eligibility/decision-date-passed',
-        '/eligibility/no-decision',
-        // These must be in to ensure the application runs correctly
-        '/health',
-        '/metrics',
-        /^\/assets\//i,
-        /^\/public\//i,
-      ],
-      serviceUrl: 'https://acp.planninginspectorate.gov.uk',
-    },
     host: process.env.HOST_URL || `http://localhost:${httpPort}`, // This is used for the HTML generator
     port: httpPort,
     sessionSecret: process.env.SESSION_KEY,
