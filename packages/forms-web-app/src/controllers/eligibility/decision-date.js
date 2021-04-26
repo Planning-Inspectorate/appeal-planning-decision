@@ -2,7 +2,6 @@ const { addWeeks, endOfDay, isBefore, isValid, parseISO } = require('date-fns');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 const { VIEW } = require('../../lib/views');
-const config = require('../../config');
 
 const getDeadlineDate = (decisionDate) => {
   return addWeeks(endOfDay(decisionDate), 12);
@@ -67,13 +66,9 @@ exports.postDecisionDate = async (req, res) => {
 
   const decisionDatePassed = isBefore(getDeadlineDate(parseISO(appeal.decisionDate)), today);
 
-  let redirectTo = decisionDatePassed
+  const redirectTo = decisionDatePassed
     ? `/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`
     : `/${VIEW.ELIGIBILITY.PLANNING_DEPARTMENT}`;
-
-  if (config.server.limitedRouting.enabled && !decisionDatePassed) {
-    redirectTo = config.server.limitedRouting.serviceUrl;
-  }
 
   res.redirect(redirectTo);
 };
