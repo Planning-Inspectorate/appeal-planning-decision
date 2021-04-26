@@ -84,7 +84,7 @@ const HEADERS = {
   extraConditions: 'Do you have any extra conditions?',
   otherAppeals: 'Tell us about any appeals in the immediate area',
   requiredDocumentsSection: 'Required documents',
-  plansDecision: 'Upload the plans used to reach the decision',
+  plansDecision: 'Plans used to reach the decision',
   officersReport: 'Planning Officer’s report',
   optionalDocumentsSection: 'Optional supporting documents',
   representationsInterestedParties: 'Representations from interested parties',
