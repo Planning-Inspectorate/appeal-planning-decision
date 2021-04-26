@@ -1,4 +1,5 @@
 jest.mock('axios');
+jest.mock('../handler-reply');
 process.env.APPEALS_SERVICE_URL = 'appeals-api';
 process.env.HORIZON_URL = 'horizon-url';
 process.env.GATEWAY_URL = 'openfaas-gateway';
@@ -6,7 +7,8 @@ process.env.GATEWAY_URL = 'openfaas-gateway';
 const axios = require('axios');
 const { advanceTo, clear: clearDateMocks } = require('jest-date-mock');
 const { when } = require('jest-when');
-const handler = require('./handler');
+const handler = require('../handler');
+const { handlerReply } = require('../handler-reply');
 
 describe('handler', () => {
   const envvars = process.env;
@@ -37,6 +39,14 @@ describe('handler', () => {
   });
 
   describe('success', () => {
+    it('should simulate a reply being passed to handlerReply', async () => {
+      const mockEvent = { body: {} };
+      const mockHttpStatus = { httpStatus: 200 };
+      handlerReply.mockImplementation();
+      await handler(mockEvent, mockHttpStatus);
+      expect(handlerReply).toHaveBeenCalled();
+    });
+
     it('should simulate an appeal with original applicant for an English LPA', async () => {
       const lpaCode = 'some-lpa-code';
       const lpaHorizonId = '12345';

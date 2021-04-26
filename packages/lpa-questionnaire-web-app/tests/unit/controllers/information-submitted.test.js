@@ -16,6 +16,7 @@ jest.mock('../../../src/lib/logger', () => ({
     warn: jest.fn(),
   }),
 }));
+
 jest.mock('../../../src/services/pdf.service');
 
 describe('../../../src/controllers/information-submitted', () => {
