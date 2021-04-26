@@ -17,7 +17,6 @@ jest.mock('../../../../src/config', () => ({
 const decisionDateController = require('../../../../src/controllers/eligibility/decision-date');
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
-const config = require('../../../../src/config');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
@@ -154,6 +153,7 @@ describe('controllers/eligibility/decision-date', () => {
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.PLANNING_DEPARTMENT}`);
     });
+
     it('should redirect to decision drop out as deadline date is passed', async () => {
       const decisionDate = subDays(subWeeks(endOfDay(new Date()), 12), 1);
 
@@ -168,38 +168,6 @@ describe('controllers/eligibility/decision-date', () => {
       await decisionDateController.postDecisionDate(mockRequest, res);
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`);
-    });
-
-    it('should redirect to decision drop out as deadline date is passed with limited routing', async () => {
-      const decisionDate = subDays(subWeeks(endOfDay(new Date()), 12), 1);
-      config.server.limitedRouting.enabled = true;
-
-      const mockRequest = {
-        ...req,
-        body: {
-          'decision-date': format(decisionDate, 'yyyy-MM-dd'),
-          errors: {},
-          errorSummary: [],
-        },
-      };
-      await decisionDateController.postDecisionDate(mockRequest, res);
-
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`);
-    });
-
-    it('should redirect to external service on success if limitedRouted is enabled', async () => {
-      config.server.limitedRouting.enabled = true;
-
-      const mockRequest = {
-        ...req,
-        body: {
-          errors: {},
-          errorSummary: [],
-        },
-      };
-      await decisionDateController.postDecisionDate(mockRequest, res);
-
-      expect(res.redirect).toHaveBeenCalledWith(config.server.limitedRouting.serviceUrl);
     });
   });
 

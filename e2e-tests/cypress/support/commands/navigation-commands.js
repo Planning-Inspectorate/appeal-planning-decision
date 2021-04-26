@@ -82,8 +82,6 @@ Cypress.Commands.add(
   require('../go-to-page/goToSubmissionInformationPage'),
 );
 
-// ACP Integration
-
 Cypress.Commands.add('goToPageNotFoundPage', require('../go-to-page/goToPageNotFoundPage'));
 
 // Common
@@ -94,18 +92,8 @@ Cypress.Commands.add('goToCookiePreferencesPage', require('../go-to-page/goToCoo
 // Confirmation
 
 Cypress.Commands.add(
-  'confirmNavigationAcpPage',
-  require('../integration-with-acp/confirmNavigationAcpPage'),
-);
-
-Cypress.Commands.add(
   'confirmNavigationTermsAndConditionsPage',
   require('../appeal-navigation-confirmation/appellant-submission/confirmNavigationTermsAndConditionsPage'),
-);
-
-Cypress.Commands.add(
-  'confirmNavigationPageNotFoundPage',
-  require('../integration-with-acp/confirmNavigationPageNotFoundPage'),
 );
 
 Cypress.Commands.add(
