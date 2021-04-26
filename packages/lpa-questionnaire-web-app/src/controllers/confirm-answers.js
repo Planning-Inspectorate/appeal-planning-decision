@@ -1,7 +1,7 @@
 const { VIEW } = require('../lib/views');
 const checkAnswersSections = require('../lib/check-answers-sections');
 
-exports.getConfirmAnswers = (req, res) => {
+module.exports = (req, res) => {
   const { appealReply } = req.session;
   const sections = checkAnswersSections(appealReply, req.params.id);
 
