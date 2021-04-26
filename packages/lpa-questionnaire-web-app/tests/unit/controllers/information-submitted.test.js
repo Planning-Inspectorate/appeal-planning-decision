@@ -1,14 +1,55 @@
-const informationSubmittedController = require('../../../src/controllers/information-submitted');
+const {
+  getInformationSubmitted,
+  postInformationSubmitted,
+} = require('../../../src/controllers/information-submitted');
+const { createOrUpdateAppealReply } = require('../../../src/lib/appeal-reply-api-wrapper');
 const { VIEW } = require('../../../src/lib/views');
 const { mockReq, mockRes } = require('../mocks');
 
-describe('getDevelopmentPlan', () => {
-  it('should call the correct template', () => {
-    const res = mockRes();
-    const req = mockReq();
+jest.mock('../../../src/lib/appeal-reply-api-wrapper');
+jest.mock('../../../src/lib/logger', () => ({
+  child: () => ({
+    debug: jest.fn(),
+    error: jest.fn(),
+    info: jest.fn(),
+    warn: jest.fn(),
+  }),
+}));
 
-    informationSubmittedController.getInformationSubmitted(req, res);
+describe('../../../src/controllers/information-submitted', () => {
+  let req;
+  let res;
 
-    expect(res.render).toHaveBeenCalledWith(VIEW.INFORMATION_SUBMITTED, {});
+  beforeEach(() => {
+    req = mockReq();
+    res = mockRes();
+  });
+
+  describe('getInformationSubmitted', () => {
+    it('should call the correct template', () => {
+      getInformationSubmitted(req, res);
+
+      expect(res.render).toHaveBeenCalledWith(VIEW.INFORMATION_SUBMITTED, {});
+    });
+  });
+
+  describe('postInformationSubmitted', () => {
+    it('should return 500 if there is an error in the submission', async () => {
+      createOrUpdateAppealReply.mockRejectedValue('mock api error');
+
+      await postInformationSubmitted(req, res);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(res.status).toHaveBeenCalledWith(500);
+    });
+
+    it('should redirect to information submitted page on success', async () => {
+      createOrUpdateAppealReply.mockReturnValue('reply ok');
+
+      await postInformationSubmitted(req, res);
+
+      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.INFORMATION_SUBMITTED}`);
+      expect(res.status).not.toHaveBeenCalled();
+    });
   });
 });
