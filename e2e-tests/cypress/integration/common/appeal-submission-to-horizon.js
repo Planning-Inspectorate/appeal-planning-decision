@@ -366,9 +366,9 @@ Then('the LPA will receive an email notification of the appeal', () => {
         expect(response.body).toEqual([
           {
             template_id: '79488d5d-7efd-4273-a11f-e73f11d19676',
-            email_address: 'appealsplanning@bradford.gov.uk',
+            email_address: 'abby.bale@planninginspectorate.gov.uk',
             personalisation: {
-              LPA: 'Bradford',
+              LPA: 'System Test Borough Council',
               date: moment(actualMessage.appeal.submissionDate).format('DD MMMM YYYY'),
               'planning application number': 'ValidNumber/12345',
               'site address': '1 Taylor Road\nClifton\nBristol\nSouth Glos\nBS8 1TG',

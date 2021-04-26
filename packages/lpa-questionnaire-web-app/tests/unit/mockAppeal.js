@@ -88,6 +88,6 @@ module.exports = {
   },
   state: 'DRAFT',
   decisionDate: null,
-  lpaCode: 'E60000068',
+  lpaCode: 'E69999999',
   id: '89aa8504-773c-42be-bb68-029716ad9756',
 };
