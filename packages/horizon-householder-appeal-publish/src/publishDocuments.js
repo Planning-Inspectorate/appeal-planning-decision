@@ -11,7 +11,6 @@ const config = require('./config');
  * @param {{id: string, type: string}[]} documents
  * @param {string} serviceId
  * @param {string} horizonId
- * @returns {Promise<void>}
  */
 const publishDocuments = async (log, documents, serviceId, horizonId) => {
   await Promise.all(

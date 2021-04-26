@@ -67,7 +67,11 @@ const populateDocuments = (body) => {
  * @param {object} event contains body.reply
  * @param {string} horizonCaseId
  * @param {string} context contains the httpStatusCode
- * @returns {string} horizonCaseId or error message
+ *
+ * @typedef {{ id: string }} horizonCaseId
+ * @typedef {{ message: string }} errorMessage
+ *
+ * @returns {horizonCaseId | errorMessage}
  */
 const handlerReply = async (event, horizonCaseId, context) => {
   event.log.info({ config }, 'Received householder reply publish request');
