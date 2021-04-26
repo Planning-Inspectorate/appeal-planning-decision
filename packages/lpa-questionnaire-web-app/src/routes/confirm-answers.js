@@ -4,10 +4,6 @@ const confirmAnswersController = require('../controllers/confirm-answers');
 
 const router = express.Router();
 
-router.get(
-  '/:id/confirm-answers',
-  [fetchExistingAppealReplyMiddleware],
-  confirmAnswersController.getConfirmAnswers
-);
+router.get('/:id/confirm-answers', [fetchExistingAppealReplyMiddleware], confirmAnswersController);
 
 module.exports = router;

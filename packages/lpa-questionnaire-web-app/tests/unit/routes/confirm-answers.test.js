@@ -17,7 +17,7 @@ describe('routes/confirm-answers', () => {
     expect(get).toHaveBeenCalledWith(
       `/:id/${VIEW.CONFIRM_ANSWERS}`,
       [fetchExistingAppealReplyMiddleware],
-      confirmAnswersController.getConfirmAnswers
+      confirmAnswersController
     );
   });
 });
