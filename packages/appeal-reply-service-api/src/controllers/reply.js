@@ -2,6 +2,7 @@ const uuid = require('uuid');
 const logger = require('../lib/logger');
 const mongodb = require('../db/db');
 const ReplyModel = require('../models/replySchema');
+const queue = require('../lib/queue');
 
 const dbId = 'reply';
 
@@ -65,6 +66,8 @@ module.exports = {
     const idParam = req.params.id;
     logger.debug(`Updating reply ${idParam} ...`);
 
+    const newDoc = req.body;
+
     await mongodb
       .get()
       .collection(dbId)
@@ -72,13 +75,23 @@ module.exports = {
       .then(async (originalDoc) => {
         logger.debug(`Original doc \n${originalDoc.reply}`);
 
+        const isFirstSubmission = originalDoc.state !== 'SUBMITTED' && newDoc.state === 'SUBMITTED';
+
+        if (isFirstSubmission) newDoc.submissionDate = new Date().toISOString();
+
         await mongodb
           .get()
           .collection(dbId)
-          .updateOne({ _id: idParam }, { $set: { uuid: idParam, reply: req.body } })
+          .updateOne({ _id: idParam }, { $set: { uuid: idParam, reply: newDoc } })
           .then(() => {
             logger.debug(`Updated reply ${idParam}\n`);
-            res.status(200).send(req.body);
+
+            if (isFirstSubmission) {
+              queue.addAppealReply(newDoc);
+              // TODO: call to notify will go here
+            }
+
+            res.status(200).send(newDoc);
           })
           .catch((err) => {
             logger.error(`Problem updating reply ${idParam}\n${err}`);
