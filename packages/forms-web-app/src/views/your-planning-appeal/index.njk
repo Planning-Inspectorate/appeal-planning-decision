@@ -1,0 +1,65 @@
+{% extends "layouts/main.njk" %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "../macros/summary-field.njk" import summaryField %}
+
+{% set title="Your planning appeal - Appeal a householder planning decision - GOV.UK" %}
+
+{% block pageTitle %}
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      Your planning appeal
+    </h1>
+    {{ govukSummaryList({
+      rows: [
+        {
+          key: {
+            text: "Appellant Name"
+          },
+          value: {
+            text: summaryField(appeal.aboutYouSection.yourDetails.name, { 'data-cy': "appellant-name" })
+          }
+        },
+        {
+          key: {
+            text: "Site Address"
+          },
+          value: {
+            text: summaryField(appeal | appealSiteAddressToArray | join(", ") | safe, { 'data-cy': "appellant-address" })
+          }
+        }
+      ]
+    }) }}
+    <h2 class="govuk-heading-m">Stages of your appeal</h2>
+    <ol class="timeline">
+      <li class="timeline__entry">
+        <h2 class="timeline__header">Appeal received</h2>
+        <p class="timeline__sub-header govuk-!-margin-bottom-5" data-cy="appeal-submission-date">{{appeal.submissionDate | date}}</p>
+      </li>
+
+      <li class="timeline__entry">
+        <h2 class="timeline__header">The local planning department submit their case file</h2>
+        <p>Your local planning department will submit their case file from the original planning application. This usually takes around 3 weeks from the date you submit your appeal. </p>
+      </li>
+
+      <li class="timeline__entry">
+        <h2 class="timeline__header">Site visit</h2>
+        <p>An Inspector may need to visit the appeal site. We'll contact you to confirm a date a time.</p>
+      </li>
+
+      <li class="timeline__entry">
+        <h2 class="timeline__header">Decision</h2>
+        <p>The Inspector will consider the evidence from all parties to make a decision.</p>
+      </li>
+    </ol>
+
+  </div>
+</div>
+{% endblock %}
