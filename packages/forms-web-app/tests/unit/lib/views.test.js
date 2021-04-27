@@ -53,10 +53,14 @@ describe('lib/views', () => {
         STAGES_APPEAL: 'guidance-pages/stages-appeal',
       },
 
+      YOUR_PLANNING_APPEAL: {
+        INDEX: 'your-planning-appeal/index',
+        YOUR_APPEAL_DETAILS: 'your-planning-appeal/your-appeal-details',
+      },
+
       MESSAGES: {
         COOKIES_UPDATED_SUCCESSFULLY: 'messages/cookies-updated-successfully',
       },
-      YOUR_PLANNING_APPEAL: 'your-planning-appeal/index',
     });
   });
 });

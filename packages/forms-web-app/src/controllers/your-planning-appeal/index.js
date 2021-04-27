@@ -5,7 +5,7 @@ exports.getYourPlanningAppeal = async (req, res, next) => {
 
   if (!appeal || !appealLPD) return next();
 
-  return res.render(VIEW.YOUR_PLANNING_APPEAL, {
+  return res.render(VIEW.YOUR_PLANNING_APPEAL.INDEX, {
     appeal,
     lpd: appealLPD,
   });

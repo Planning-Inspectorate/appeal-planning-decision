@@ -37,9 +37,12 @@ Then('progress is halted with a message that an answer to the Costs question is 
   cy.title().should('match', /^Error: /);
 });
 
-Then('access is available to guidance while an answer to the Costs question is still requested', () => {
-  cy.confirmGuidanceLinkDisplayed();
-});
+Then(
+  'access is available to guidance while an answer to the Costs question is still requested',
+  () => {
+    cy.confirmGuidanceLinkDisplayed();
+  },
+);
 
 Then('access is available to ACP', () => {
   cy.confirmAcpLinkDisplayed();

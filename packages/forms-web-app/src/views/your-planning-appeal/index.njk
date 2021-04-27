@@ -16,7 +16,7 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">
+    <h1 class="govuk-heading-l" data-cy="page-heading">
       Your planning appeal
     </h1>
     {{ govukSummaryList({
@@ -44,6 +44,7 @@
       <li class="timeline__entry">
         <h2 class="timeline__header">Appeal received</h2>
         <p class="govuk-body" data-cy="appeal-submission-date">{{ appeal.submissionDate | date('D MMMM YYYY') }}</p>
+        <p><a href="/your-planning-appeal/your-appeal-details" data-cy="view-your-appeal-details-link" title="View your appeal details">View your appeal details</a></p>
       </li>
 
       <li class="timeline__entry">
