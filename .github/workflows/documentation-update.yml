@@ -387,7 +387,6 @@ jobs:
     if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     needs:
       - cypress-forms-web-app-default
-      - cypress-forms-web-app-ACP
       - jest-forms-web-app
       - cypress-lpa-questionnaire-web-app
       - jest-lpa-questionnaire-web-app
