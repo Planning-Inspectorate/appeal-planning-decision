@@ -128,6 +128,7 @@ exports.uploadFiles = async (files, appealReplyId) => {
             text: file.name,
           },
           fileName: file.name,
+          error: file.error,
           originalFileName: file.name,
           // needed for Cypress testing
           location: document.location,
