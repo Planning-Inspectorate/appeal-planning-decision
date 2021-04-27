@@ -1,15 +1,14 @@
 const fetch = require('node-fetch');
 const FormData = require('form-data');
-const uuid = require('uuid');
+const { v4: uuid } = require('uuid');
 
 const config = require('../config');
 const parentLogger = require('./logger');
 
 exports.generatePDF = async (filename, htmlContent) => {
-  const path = `/api/v1/pdf`;
+  const url = `${config.pdf.url}/api/v1/pdf`;
 
-  const correlationId = uuid.v4();
-  const url = `${config.pdf.url}${path}`;
+  const correlationId = uuid();
 
   const logger = parentLogger.child({
     correlationId,

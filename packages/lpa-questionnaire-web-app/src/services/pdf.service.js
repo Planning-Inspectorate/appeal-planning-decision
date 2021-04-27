@@ -1,7 +1,12 @@
 const nunjucks = require('nunjucks');
 const path = require('path');
+const uuid = require('uuid');
+
 const checkAnswersSections = require('../lib/check-answers-sections');
 const appealSidebarDetails = require('../lib/appeal-sidebar-details');
+const { generatePDF } = require('../lib/pdf-api-wrapper');
+const { createDocument } = require('../lib/documents-api-wrapper');
+const logger = require('../lib/logger');
 
 // *****CONFIG***** \\
 
@@ -33,18 +38,49 @@ const buildAppealDetailsRows = (appealData) => {
         value: {
           html: `<p>${appealData[heading]}</p>`,
         },
-        actions: undefined,
       };
     }),
   };
 };
 
-exports.convertToHtml = (req, appeal) => {
-  const sections = checkAnswersSections(req.session.appealReply, req.params.id, false);
+const convertToHtml = (appealReply, appeal) => {
+  const sections = checkAnswersSections(appealReply, null, false);
+
   const appealDetails = getAppealDetails(appeal);
   const appealDetailsRows = buildAppealDetailsRows(appealDetails);
   sections.unshift(appealDetailsRows);
+
   return nunjucks.render(path.resolve(__dirname, '../views/pdf-generation.njk'), {
     sections,
   });
+};
+
+const createPdf = async (appealReply, appeal) => {
+  const { id } = appealReply;
+
+  const log = logger.child({ appealReplyId: id, uuid: uuid.v4() });
+
+  try {
+    log.info('Creating PDF appeal document');
+
+    const renderedHtml = convertToHtml(appealReply, appeal);
+    const pdfBuffer = await generatePDF(`${id}.pdf`, renderedHtml);
+
+    log.debug('Creating document from PDF buffer');
+    const document = await createDocument(id, pdfBuffer);
+
+    log.debug('PDF document successfully created');
+
+    return document;
+  } catch (err) {
+    const msg = 'Error generating PDF';
+    log.error({ err }, msg);
+
+    throw new Error(msg);
+  }
+};
+
+module.exports = {
+  convertToHtml,
+  createPdf,
 };

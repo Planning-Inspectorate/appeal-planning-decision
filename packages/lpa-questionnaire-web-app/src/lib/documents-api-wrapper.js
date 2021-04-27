@@ -7,10 +7,9 @@ const config = require('../config');
 const parentLogger = require('./logger');
 
 exports.createDocument = async (parentId, formData) => {
-  const path = `/api/v1/${parentId}`;
-
   const correlationId = uuid.v4();
-  const url = `${config.documents.url}${path}`;
+
+  const url = `${config.documents.url}/api/v1/${parentId}`;
 
   const logger = parentLogger.child({
     correlationId,
@@ -57,10 +56,8 @@ exports.createDocument = async (parentId, formData) => {
 };
 
 exports.deleteDocument = async (parentId, id) => {
-  const path = `/api/v1/${parentId}/${id}`;
-
   const correlationId = uuid.v4();
-  const url = `${config.documents.url}${path}`;
+  const url = `${config.documents.url}/api/v1/${parentId}/${id}`;
 
   const logger = parentLogger.child({
     correlationId,
