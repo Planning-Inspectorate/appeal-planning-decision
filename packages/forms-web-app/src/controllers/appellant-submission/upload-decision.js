@@ -1,6 +1,6 @@
+const logger = require('../../lib/logger');
 const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
-const logger = require('../../lib/logger');
 const { createDocument } = require('../../lib/documents-api-wrapper');
 const { getTaskStatus } = require('../../services/task.service');
 const { getNextTask } = require('../../services/task.service');

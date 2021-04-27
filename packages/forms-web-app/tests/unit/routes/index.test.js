@@ -4,6 +4,7 @@ const eligibilityRouter = require('../../../src/routes/eligibility');
 const homeRouter = require('../../../src/routes/home');
 const cookieRouter = require('../../../src/routes/cookies');
 const guidancePagesRouter = require('../../../src/routes/guidance-pages');
+const yourPlanningAppealRouter = require('../../../src/routes/your-planning-appeal');
 
 describe('routes/index', () => {
   beforeEach(() => {
@@ -21,7 +22,7 @@ describe('routes/index', () => {
     expect(use).toHaveBeenCalledWith('/cookies', cookieRouter);
     expect(use).toHaveBeenCalledWith('/appellant-submission', appellantSubmissionRouter);
     expect(use).toHaveBeenCalledWith('/eligibility', eligibilityRouter);
-    expect(use).toHaveBeenCalledWith('/your-planning-appeal', eligibilityRouter);
+    expect(use).toHaveBeenCalledWith('/your-planning-appeal', yourPlanningAppealRouter);
     expect(use.mock.calls.length).toBe(6);
   });
 });

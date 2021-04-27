@@ -17,3 +17,5 @@ require('./flash-message/flash-message-commands');
 require('./back-link/back-link-commands');
 require('./eligibility-listed-building-status/listed-building-commands');
 require('./errors/commands');
+require('./your-planning-appeal/commands');
+require('./your-planning-appeal-your-appeal-details/commands');

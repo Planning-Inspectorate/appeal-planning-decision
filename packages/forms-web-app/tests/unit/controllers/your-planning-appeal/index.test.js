@@ -1,8 +1,8 @@
-const yourPlanningAppealController = require('../../../src/controllers/your-planning-appeal');
-const { mockReq, mockRes } = require('../mocks');
-const { VIEW } = require('../../../src/lib/views');
+const yourPlanningAppealController = require('../../../../src/controllers/your-planning-appeal');
+const { mockReq, mockRes } = require('../../mocks');
+const { VIEW } = require('../../../../src/lib/views');
 
-describe('controllers/your-planning-appeal', () => {
+describe('controllers/your-planning-appeal/index', () => {
   let req;
   let res;
   let next;
@@ -35,7 +35,7 @@ describe('controllers/your-planning-appeal', () => {
       };
       await yourPlanningAppealController.getYourPlanningAppeal(req, res, next);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.YOUR_PLANNING_APPEAL, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.YOUR_PLANNING_APPEAL.INDEX, {
         appeal,
         lpd,
       });
