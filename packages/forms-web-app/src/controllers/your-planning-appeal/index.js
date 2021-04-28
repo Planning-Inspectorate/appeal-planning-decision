@@ -1,7 +1,7 @@
-const logger = require('../lib/logger');
-const { VIEW } = require('../lib/views');
-const { getDepartmentFromId } = require('../services/department.service');
-const appealModel = require('../models/appealModel');
+const logger = require('../../lib/logger');
+const { VIEW } = require('../../lib/views');
+const { getDepartmentFromId } = require('../../services/department.service');
+const appealModel = require('../../models/appealModel');
 
 exports.getYourPlanningAppeal = async (req, res, next) => {
   const { appealId } = req.params;
@@ -18,7 +18,7 @@ exports.getYourPlanningAppeal = async (req, res, next) => {
     return next(error);
   }
 
-  res.render(VIEW.YOUR_PLANNING_APPEAL, {
+  return res.render(VIEW.YOUR_PLANNING_APPEAL, {
     appeal,
     lpd,
   });
