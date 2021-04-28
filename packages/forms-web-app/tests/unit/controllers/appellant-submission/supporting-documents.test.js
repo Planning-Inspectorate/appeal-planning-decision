@@ -1,3 +1,8 @@
+jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/lib/documents-api-wrapper');
+jest.mock('../../../../src/services/task.service');
+jest.mock('../../../../src/lib/logger');
+
 const supportingDocumentsController = require('../../../../src/controllers/appellant-submission/supporting-documents');
 const { mockReq, mockRes } = require('../../mocks');
 const logger = require('../../../../src/lib/logger');
@@ -6,11 +11,6 @@ const { createDocument } = require('../../../../src/lib/documents-api-wrapper');
 const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
 const { VIEW } = require('../../../../src/lib/views');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
-
-jest.mock('../../../../src/lib/appeals-api-wrapper');
-jest.mock('../../../../src/lib/documents-api-wrapper');
-jest.mock('../../../../src/services/task.service');
-jest.mock('../../../../src/lib/logger');
 
 const sectionName = 'yourAppealSection';
 const taskName = 'otherDocuments';

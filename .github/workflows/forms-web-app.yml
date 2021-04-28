@@ -37,6 +37,9 @@ jobs:
         with:
           node-version: 14.x
 
+      - name: Install the common dependencies
+        run: npm --prefix ../common install
+
       - run: npm ci
 
       - name: Get next version number

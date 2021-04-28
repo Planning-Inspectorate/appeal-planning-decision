@@ -25,7 +25,7 @@ const send = async (method, params = {}) => {
       },
     });
 
-    logger.debug('Api successfully responded with', apiResponse);
+    logger.debug(apiResponse, 'Api successfully responded with');
 
     return apiResponse.data;
   } catch (err) {
