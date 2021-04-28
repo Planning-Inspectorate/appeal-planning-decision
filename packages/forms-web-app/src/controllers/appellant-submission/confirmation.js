@@ -1,5 +1,5 @@
 const { VIEW } = require('../../lib/views');
-const { isDecisionDatePassed } = require('../eligibility/decision-date');
+const isDecisionDatePassed = require('../../lib/is-decision-date-passed');
 
 exports.getConfirmation = (req, res) => {
   const appellantEmail = req.session && req.session.appeal && req.session.appeal['appellant-email'];
