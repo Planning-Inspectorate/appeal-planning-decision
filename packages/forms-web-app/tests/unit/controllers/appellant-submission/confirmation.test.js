@@ -50,7 +50,7 @@ describe('controllers/appellant-submission/confirmation', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.CONFIRMATION, {
         appellantEmail,
-        appealId
+        appealId,
       });
     });
 
