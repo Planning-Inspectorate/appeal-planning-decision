@@ -32,7 +32,7 @@
             text: "Site Address"
           },
           value: {
-            text: summaryField(appeal | appealSiteAddressToArray | join(", ") | safe, { 'data-cy': "appellant-address" })
+            text: summaryField(appeal | appealSiteAddressToArray | join("<br>") | safe, { 'data-cy': "appellant-address" })
           }
         }
       ]
