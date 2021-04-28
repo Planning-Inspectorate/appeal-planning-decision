@@ -10,7 +10,8 @@ const getDeadlineDate = (decisionDate) => {
 
 const isDecisionDatePassed = (appeal) => {
   const today = endOfDay(new Date());
-  const decisionDatePassed = !appeal.decisionDate || isBefore(getDeadlineDate(parseISO(appeal.decisionDate)), today);
+  const decisionDatePassed
+    = !appeal.decisionDate || isBefore(getDeadlineDate(parseISO(appeal.decisionDate)), today);
 
   return decisionDatePassed;
 };
