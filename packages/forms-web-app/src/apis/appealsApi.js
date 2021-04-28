@@ -5,7 +5,8 @@ const parentLogger = require('../lib/logger');
 
 const send = async (method, params = {}) => {
   const correlationId = uuid.v4();
-  const url = `${config.appeals.url}${params.url}`;
+  const url = `${config.appeals.url}${params.url || ''}`;
+  const headers = params.headers || {};
   const logger = parentLogger.child({
     correlationId,
     service: 'Appeals Service API',
@@ -20,7 +21,7 @@ const send = async (method, params = {}) => {
       headers: {
         'Content-Type': 'application/json',
         'X-Correlation-ID': correlationId,
-        ...params.headers,
+        ...headers,
       },
     });
 
@@ -54,5 +55,4 @@ module.exports = {
   post,
   put,
   destroy,
-  send,
 };
