@@ -8,6 +8,12 @@ const getDeadlineDate = (decisionDate) => {
   return addWeeks(endOfDay(decisionDate), 12);
 };
 
+const isDecisionDatePassed = (appeal) => {
+  const today = endOfDay(new Date());
+  const decisionDatePassed = !appeal.decisionDate || isBefore(getDeadlineDate(parseISO(appeal.decisionDate)), today);
+  return decisionDatePassed;
+}
+
 exports.getNoDecision = (req, res) => {
   res.render(VIEW.ELIGIBILITY.NO_DECISION);
 };
@@ -63,9 +69,7 @@ exports.postDecisionDate = async (req, res) => {
     return;
   }
 
-  const today = endOfDay(new Date());
-
-  const decisionDatePassed = isBefore(getDeadlineDate(parseISO(appeal.decisionDate)), today);
+  const decisionDatePassed = isDecisionDatePassed(appeal);
 
   let redirectTo = decisionDatePassed
     ? `/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`
@@ -88,3 +92,6 @@ exports.getDecisionDatePassed = (req, res) => {
     deadlineDate,
   });
 };
+
+exports.isDecisionDatePassed = isDecisionDatePassed;
+

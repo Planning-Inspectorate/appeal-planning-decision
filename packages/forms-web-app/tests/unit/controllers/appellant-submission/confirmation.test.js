@@ -1,3 +1,4 @@
+const { endOfDay, subWeeks } = require('date-fns');
 const confirmationController = require('../../../../src/controllers/appellant-submission/confirmation');
 const { mockReq, mockRes } = require('../../mocks');
 const { VIEW } = require('../../../../src/lib/views');
@@ -14,8 +15,12 @@ describe('controllers/appellant-submission/confirmation', () => {
   describe('getConfirmation', () => {
     let appealId;
     let appellantEmail;
+    let decisionDate;
 
     beforeEach(() => {
+      const today = endOfDay(new Date());
+      decisionDate = (subWeeks(endOfDay(today), 1)).toISOString();
+
       appealId = 'some-fake-id';
       appellantEmail = 'hello@example.com';
 
@@ -24,6 +29,7 @@ describe('controllers/appellant-submission/confirmation', () => {
         session: {
           ...req.session,
           appeal: {
+            decisionDate,
             id: appealId,
             'appellant-email': appellantEmail,
           },
@@ -44,8 +50,17 @@ describe('controllers/appellant-submission/confirmation', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.CONFIRMATION, {
         appellantEmail,
-        appealId,
+        appealId
       });
+    });
+
+    it('should call redirect to decision date passed', () => {
+      const today = endOfDay(new Date());
+      req.session.appeal.decisionDate = (subWeeks(endOfDay(today), 13)).toISOString();
+
+      confirmationController.getConfirmation(req, res);
+
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`);
     });
   });
 });
