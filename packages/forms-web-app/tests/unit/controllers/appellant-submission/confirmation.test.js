@@ -19,7 +19,7 @@ describe('controllers/appellant-submission/confirmation', () => {
     const today = endOfDay(new Date());
 
     beforeEach(() => {
-      decisionDate = (subWeeks(endOfDay(today), 1)).toISOString();
+      decisionDate = subWeeks(endOfDay(today), 1).toISOString();
 
       appealId = 'some-fake-id';
       appellantEmail = 'hello@example.com';
@@ -55,7 +55,7 @@ describe('controllers/appellant-submission/confirmation', () => {
     });
 
     it('should call redirect to decision date passed', () => {
-      req.session.appeal.decisionDate = (subWeeks(endOfDay(today), 13)).toISOString();
+      req.session.appeal.decisionDate = subWeeks(endOfDay(today), 13).toISOString();
 
       confirmationController.getConfirmation(req, res);
 

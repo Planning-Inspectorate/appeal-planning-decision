@@ -11,8 +11,9 @@ const getDeadlineDate = (decisionDate) => {
 const isDecisionDatePassed = (appeal) => {
   const today = endOfDay(new Date());
   const decisionDatePassed = !appeal.decisionDate || isBefore(getDeadlineDate(parseISO(appeal.decisionDate)), today);
+
   return decisionDatePassed;
-}
+};
 
 exports.getNoDecision = (req, res) => {
   res.render(VIEW.ELIGIBILITY.NO_DECISION);
@@ -94,4 +95,3 @@ exports.getDecisionDatePassed = (req, res) => {
 };
 
 exports.isDecisionDatePassed = isDecisionDatePassed;
-
