@@ -1,6 +1,5 @@
 {
   "singleQuote": true,
   "printWidth": 100,
-  "trailingComma": "all",
-  "tabWidth": 1
+  "trailingComma": "all"
 }
