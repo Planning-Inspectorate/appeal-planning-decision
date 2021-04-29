@@ -343,12 +343,35 @@ az aks list -o tsv --query '[].name'
 The name format will include the environment you're after at the end of the name.
 
 _* Note: The numbers in the Resource names may change over time. The command above will return the latest values._
+
 ### Get the Kubeconfig file
+
+This needs to be done for the specific environment you are interested in working with:
+
+#### Dev
 
 ```shell script
 az aks get-credentials \
   -g pins-uks-k8s-dev \
   -n pins-uks-k8s-5883-dev \
+  --overwrite-existing
+```
+
+#### PreProd
+
+```shell script
+az aks get-credentials \
+  -g pins-uks-k8s-preprod \
+  -n pins-uks-k8s-9624-preprod \
+  --overwrite-existing
+```
+
+#### Prod
+
+```shell script
+az aks get-credentials \
+  -g pins-uks-k8s-prod \
+  -n pins-uks-k8s-6622-prod \
   --overwrite-existing
 ```
 
