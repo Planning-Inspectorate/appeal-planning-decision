@@ -19,6 +19,7 @@ const replySchema = new Mongoose.Schema({
   id: { type: String, default: '' },
   appealId: { type: String, default: '' },
   state: { type: String, default: '' },
+  submissionDate: { type: Date, default: null },
   aboutAppealSection: {
     submissionAccuracy: {
       accurateSubmission: { type: Boolean, default: null },
