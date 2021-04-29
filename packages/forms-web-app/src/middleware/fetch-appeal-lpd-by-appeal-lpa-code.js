@@ -8,6 +8,8 @@ module.exports = async (req, res, next) => {
     return res.sendStatus(400);
   }
 
+  console.log(`appeal`, appeal);
+
   if (!appeal.lpaCode) {
     res.status(400);
     return res.render('error/400', {

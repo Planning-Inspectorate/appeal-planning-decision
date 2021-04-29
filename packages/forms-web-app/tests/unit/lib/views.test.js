@@ -53,6 +53,10 @@ describe('lib/views', () => {
         STAGES_APPEAL: 'guidance-pages/stages-appeal',
       },
 
+      YOUR_PLANNING_APPEAL: {
+        INDEX: 'your-planning-appeal/index',
+      },
+
       MESSAGES: {
         COOKIES_UPDATED_SUCCESSFULLY: 'messages/cookies-updated-successfully',
       },
