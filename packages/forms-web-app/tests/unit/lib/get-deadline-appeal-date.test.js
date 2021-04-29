@@ -6,7 +6,7 @@ describe('lib/get-deadline-appeal-date', () => {
   let decisionDate;
 
   describe('deadline date', () => {
-    test(`should return correct deadline if today date given`, () => {
+    test(`should return correct deadline if todays date is given`, () => {
       decisionDate = endOfDay(today).toISOString();
       expect(getDeadlineAppealDate(parseISO(decisionDate))).toEqual(
         addWeeks(endOfDay(parseISO(decisionDate)), 12)
@@ -20,7 +20,7 @@ describe('lib/get-deadline-appeal-date', () => {
       );
     });
 
-    test(`should return correct deadline if given expired date`, () => {
+    test(`should return correct deadline if given expired date (more than 12 weeks old)`, () => {
       decisionDate = subWeeks(endOfDay(today), 13).toISOString();
       expect(getDeadlineAppealDate(parseISO(decisionDate))).toEqual(
         addWeeks(endOfDay(parseISO(decisionDate)), 12)
