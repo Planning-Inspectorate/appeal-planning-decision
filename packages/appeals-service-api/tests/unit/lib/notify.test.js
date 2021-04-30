@@ -20,7 +20,7 @@ const mockSetTemplateVariablesFromObject = jest.fn().mockReturnThis();
 const mockSetReference = jest.fn().mockReturnThis();
 const mockSend = jest.fn();
 
-jest.doMock('../../../../common/src/lib/notify/notify-builder', () => {
+jest.doMock('@pins/common/src/lib/notify/notify-builder', () => {
   return () => ({
     setTemplateId: mockSetTemplateId,
     setDestinationEmailAddress: mockSetDestinationEmailAddress,
