@@ -2,13 +2,11 @@ const { getDepartmentFromId } = require('../services/department.service');
 const logger = require('../lib/logger');
 
 module.exports = async (req, res, next) => {
-  const { appeal } = req.session;
+  const { appeal } = res.locals;
 
   if (!appeal) {
     return res.sendStatus(400);
   }
-
-  console.log(`appeal`, appeal);
 
   if (!appeal.lpaCode) {
     res.status(400);
@@ -18,10 +16,10 @@ module.exports = async (req, res, next) => {
   }
 
   try {
-    req.session.appealLPD = await getDepartmentFromId(appeal.lpaCode);
+    res.locals.appealLPD = await getDepartmentFromId(appeal.lpaCode);
   } catch (e) {
     logger.error(e);
-    delete req.session.appealLPD;
+    delete res.locals.appealLPD;
   }
 
   return next();

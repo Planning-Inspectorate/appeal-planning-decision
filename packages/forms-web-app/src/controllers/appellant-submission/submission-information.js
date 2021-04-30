@@ -10,7 +10,7 @@ exports.getSubmissionInformation = async (req, res) => {
    * These two values are provided via middleware that is configured to run for this route.
    * @see src/routes/appellant-submission/submission-information.js
    */
-  const { appeal, appealLPD } = req.session;
+  const { appeal, appealLPD } = res.locals;
 
   const { appealId } = req.params;
   const log = logger.child({ appealId, uuid: uuid.v4() });
