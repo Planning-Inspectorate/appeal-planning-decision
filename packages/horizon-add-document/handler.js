@@ -9,15 +9,10 @@ const config = {
   },
 };
 
-async function parseFile(log, documentId, applicationId, documentType) {
-  log.info({ applicationId, documentId, documentType }, 'Downloading document');
-
-  const { data } = await axios.get(`/api/v1/${applicationId}/${documentId}/file`, {
-    baseURL: config.documents.url,
-    params: {
-      base64: true,
-    },
-  });
+function createDataObject(data, body) {
+  const { documentType } = body;
+  const documentInvolvement = body.documentInvolvement || 'Document:Involvement';
+  const documentGroupType = body.documentGroupType || 'Document:Document Group Type';
 
   return {
     // The order of this object is important
@@ -31,14 +26,14 @@ async function parseFile(log, documentId, applicationId, documentType) {
           {
             'a:AttributeValue': {
               '__i:type': 'a:StringAttributeValue',
-              'a:Name': 'Document:Involvement',
+              'a:Name': documentInvolvement,
               'a:Value': 'Appellant',
             },
           },
           {
             'a:AttributeValue': {
               '__i:type': 'a:StringAttributeValue',
-              'a:Name': 'Document:Document Group Type',
+              'a:Name': documentGroupType,
               'a:Value': 'Initial Documents',
             },
           },
@@ -63,12 +58,25 @@ async function parseFile(log, documentId, applicationId, documentType) {
   };
 }
 
+async function parseFile({ log, body }) {
+  const { documentId, applicationId, documentType } = body;
+  log.info({ applicationId, documentId, documentType }, 'Downloading document');
+
+  const { data } = await axios.get(`/api/v1/${applicationId}/${documentId}/file`, {
+    baseURL: config.documents.url,
+    params: {
+      base64: true,
+    },
+  });
+
+  return createDataObject(data, body);
+}
+
 module.exports = async (event, context) => {
   event.log.info({ config }, 'Receiving add document request');
 
   try {
-    const { body } = event;
-    const { caseReference, applicationId, documentId, documentType } = body;
+    const { caseReference } = event.body;
 
     const input = {
       AddDocuments: {
@@ -78,7 +86,7 @@ module.exports = async (event, context) => {
         documents: [
           { '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business' },
           { '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance' },
-          await parseFile(event.log, documentId, applicationId, documentType),
+          await parseFile(event),
         ],
       },
     };
@@ -139,3 +147,5 @@ module.exports = async (event, context) => {
     };
   }
 };
+
+module.exports.createDataObject = createDataObject;
