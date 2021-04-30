@@ -165,7 +165,11 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
-      createDocument.mockImplementation(() => ({ id: fakeFileId }));
+      createDocument.mockImplementation(() => ({
+        id: fakeFileId,
+        location: '00aa11bb22cc',
+        size: 123,
+      }));
       getNextTask.mockReturnValue({
         href: fakeNextUrl,
       });
@@ -196,6 +200,10 @@ describe('controllers/appellant-submission/appeal-statement', () => {
             uploadedFile: {
               id: fakeFileId,
               name: fakeFileName,
+              fileName: fakeFileName,
+              originalFileName: fakeFileName,
+              location: '00aa11bb22cc',
+              size: 123,
             },
           },
         },

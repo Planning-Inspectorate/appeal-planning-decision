@@ -37,6 +37,8 @@ exports.postUploadApplication = async (req, res) => {
         appeal[sectionName][taskName].uploadedFile = {
           id: document.id,
           name: req.files['application-upload'].name,
+          fileName: req.files['application-upload'].name,
+          originalFileName: req.files['application-upload'].name,
           location: document.location,
           size: document.size,
         };
