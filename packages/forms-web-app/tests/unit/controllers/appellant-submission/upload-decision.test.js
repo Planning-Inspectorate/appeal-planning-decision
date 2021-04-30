@@ -146,7 +146,11 @@ describe('controllers/appellant-submission/upload-decision', () => {
 
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
-      createDocument.mockImplementation(() => ({ id: fakeFileId }));
+      createDocument.mockImplementation(() => ({
+        id: fakeFileId,
+        location: '00aa11bb22cc',
+        size: 123,
+      }));
 
       getNextTask.mockReturnValue({
         href: fakeNextUrl,
@@ -171,6 +175,10 @@ describe('controllers/appellant-submission/upload-decision', () => {
             uploadedFile: {
               id: fakeFileId,
               name: fakeFileName,
+              fileName: fakeFileName,
+              originalFileName: fakeFileName,
+              location: '00aa11bb22cc',
+              size: 123,
             },
           },
         },
