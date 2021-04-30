@@ -7,7 +7,7 @@
     "build": "npm run build:client && npm run build:sass && npm run build:app",
     "build:app": "cp -Rf ./src ./dist",
     "build:client": "webpack --config webpack.prod.js",
-    "build:sass": "node-sass src/sass/main.scss src/public/stylesheets/main.css --output-style compressed",
+    "build:sass": "sass src/sass/main.scss:src/public/stylesheets/main.css --style=compressed --load-path=./ --no-source-map",
     "start": "node dist/server.js",
     "start:dev": "npm-run-all --parallel start:dev:server start:dev:client",
     "start:dev:debug": "npm-run-all --parallel start:dev:server:debug start:dev:client",
@@ -46,11 +46,11 @@
     "http-errors": "~1.6.3",
     "lusca": "^1.6.1",
     "node-fetch": "^2.6.1",
-    "node-sass": "^4.14.1",
     "nunjucks": "^3.2.2",
     "nunjucks-date-filter": "^0.1.1",
     "pino": "^6.7.0",
     "pino-http": "^5.3.0",
+    "sass": "^1.32.12",
     "uuid": "^8.3.1"
   },
   "devDependencies": {
