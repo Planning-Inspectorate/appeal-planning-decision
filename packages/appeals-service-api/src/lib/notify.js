@@ -1,10 +1,10 @@
 const { NotifyClient } = require('notifications-node-client');
 const fetch = require('node-fetch');
 const { format } = require('date-fns');
+const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
 const config = require('./config');
 const logger = require('./logger');
 const { getLpa } = require('../services/lpa.service');
-const NotifyBuilder = require('../../../common/src/lib/notify/notify-builder');
 const { isValidAppealForSubmissionReceivedNotificationEmail } = require('./notify-validation');
 
 function getAddress(siteAddress) {
