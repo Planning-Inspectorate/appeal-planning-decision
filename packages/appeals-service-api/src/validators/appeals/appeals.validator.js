@@ -37,8 +37,8 @@ const appealInsertValidationRules = async (req, res, next) => {
       return next(ApiError.appealAlreadySubmitted());
     }
 
-    if (appeal && appeal.decisionDate && await isDecisionDatePassed(appeal)) {
-      logger.debug('Appeal\'s decision date is passed so end processing request with 409 response');
+    if (appeal && appeal.decisionDate && (await isDecisionDatePassed(appeal))) {
+      logger.debug("Appeal's decision date is passed so end processing request with 409 response");
       return next(ApiError.appealDecisionDatePassed());
     }
 

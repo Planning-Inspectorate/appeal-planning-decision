@@ -23,7 +23,9 @@ class ApiError {
   }
 
   static appealDecisionDatePassed() {
-    return new ApiError(409, { errors: ['Cannot update or submit appeal with passed decision date'] });
+    return new ApiError(409, {
+      errors: ['Cannot update or submit appeal with passed decision date'],
+    });
   }
 }
 
