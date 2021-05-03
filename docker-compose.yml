@@ -49,13 +49,15 @@ services:
       SERVER_SHOW_ERRORS: "true"
       SRV_HORIZON_URL: http://mock-horizon:3000
       SRV_NOTIFY_BASE_URL: http://mock-notify:3000
-      SRV_NOTIFY_SERVICE_ID: 'dummy-service-id-for-notify'
-      SRV_NOTIFY_API_KEY: 'dummy-api-key-for-notify'
-      SRV_NOTIFY_TEMPLATE_ID: 'dummy-template-id-for-notify'
-      SRV_NOTIFY_APPEAL_SUBMISSION_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID: '79488d5d-7efd-4273-a11f-e73f11d19676'
+      SRV_NOTIFY_SERVICE_ID: "dummy-service-id-for-notify"
+      SRV_NOTIFY_API_KEY: "dummy-api-key-for-notify"
+      SRV_NOTIFY_TEMPLATE_ID: "dummy-template-id-for-notify"
+      SRV_NOTIFY_APPEAL_SUBMISSION_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID: "79488d5d-7efd-4273-a11f-e73f11d19676"
       SRV_OS_PLACES_URL: http://mock-os-places:3000
     ports:
       - 3000:3000
+      # node debugger
+      # - 9229:9229
     working_dir: /opt/app
     links:
       - document-service-api
@@ -76,6 +78,8 @@ services:
       - ./packages/common:/opt/app/node_modules/@pins/common:ro # Replace the module to avoid symlink errors
       - ./packages/appeals-service-api:/opt/app:ro
     command: npm run start:dev
+    # if enabling debug, be sure to uncomment / expose the debug port above.
+    # command: npm run start:dev:debug
 
   document-service-api: &document-service
     image: node:14-alpine
@@ -281,7 +285,7 @@ services:
   gotenberg:
     image: thecodingmachine/gotenberg:6
     environment:
-      DEFAULT_LISTEN_PORT: '4000'
-      DISABLE_UNOCONV: '1'
+      DEFAULT_LISTEN_PORT: "4000"
+      DISABLE_UNOCONV: "1"
     ports:
       - 4006:4000

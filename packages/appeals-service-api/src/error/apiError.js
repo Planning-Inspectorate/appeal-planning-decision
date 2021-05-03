@@ -21,6 +21,10 @@ class ApiError {
   static appealAlreadySubmitted() {
     return new ApiError(409, { errors: ['Cannot update appeal that is already SUBMITTED'] });
   }
+
+  static appealDecisionDatePassed() {
+    return new ApiError(409, { errors: ['Cannot update or submit appeal with passed decision date'] });
+  }
 }
 
 module.exports = ApiError;

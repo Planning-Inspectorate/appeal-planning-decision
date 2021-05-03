@@ -3,6 +3,7 @@ const { updateAppeal } = require('./schemas/update-appeal');
 const { isAppealSubmitted } = require('../../services/appeal.service');
 const logger = require('../../lib/logger');
 const ApiError = require('../../error/apiError');
+const isDecisionDatePassed = require('../../lib/is-decision-date-passed');
 
 const appealUpdateValidationRules = async (req, res, next) => {
   try {
@@ -27,11 +28,18 @@ const appealInsertValidationRules = async (req, res, next) => {
     req.body = await insertAppeal.validate(req.body, { abortEarly: false });
     logger.debug('Valid input format');
 
+    const appeal = req.body;
     const appealId = req.body.id;
     const pathId = req.params.id;
+
     if (await isAppealSubmitted(appealId)) {
       logger.debug('Appeal is already submitted so end processing request with 409 response');
       return next(ApiError.appealAlreadySubmitted());
+    }
+
+    if (appeal && appeal.decisionDate && await isDecisionDatePassed(appeal)) {
+      logger.debug('Appeal\'s decision date is passed so end processing request with 409 response');
+      return next(ApiError.appealDecisionDatePassed());
     }
 
     if (pathId !== appealId) {

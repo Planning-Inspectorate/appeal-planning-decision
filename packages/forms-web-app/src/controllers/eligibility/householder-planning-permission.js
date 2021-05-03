@@ -10,6 +10,10 @@ exports.getServiceOnlyForHouseholderPlanningPermission = (req, res) => {
 };
 
 exports.getHouseholderPlanningPermission = (req, res) => {
+  /* allow the user to update the decisionDate when date is expired 
+  and user gets back to beginning */
+  req.session.appeal.decisionDate = null;
+
   res.render(VIEW.ELIGIBILITY.HOUSEHOLDER_PLANNING_PERMISSION, {
     appeal: req.session.appeal,
   });

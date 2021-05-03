@@ -1,3 +1,4 @@
+const { endOfDay, subDays } = require('date-fns');
 const submissionController = require('../../../../src/controllers/appellant-submission/submission');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { storePdfAppeal } = require('../../../../src/services/pdf.service');
@@ -13,6 +14,7 @@ describe('controllers/appellant-submission/submission', () => {
   let req;
   let res;
   let appeal;
+  const todaysDate = subDays(endOfDay(new Date()), 1);
 
   const appealPdf = {
     id: 'id',
@@ -25,6 +27,7 @@ describe('controllers/appellant-submission/submission', () => {
     req = mockReq();
     res = mockRes();
     ({ empty: appeal } = APPEAL_DOCUMENT);
+    appeal.decisionDate = todaysDate;
     appeal.yourAppealSection.otherDocuments.uploadedFiles = [];
 
     jest.resetAllMocks();
@@ -83,6 +86,7 @@ describe('controllers/appellant-submission/submission', () => {
           },
         },
         state: 'SUBMITTED',
+        decisionDate: todaysDate,
       });
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SUBMISSION, {

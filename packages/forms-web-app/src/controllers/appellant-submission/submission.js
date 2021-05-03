@@ -2,7 +2,8 @@ const uuid = require('uuid');
 const { storePdfAppeal } = require('../../services/pdf.service');
 
 const { VIEW } = require('../../lib/views');
-const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
+const { createdOrUpdatedAppealHandler } = require('../../lib/create-or-update-appeal-handler');
+
 const logger = require('../../lib/logger');
 
 exports.getSubmission = (req, res) => {
@@ -43,8 +44,19 @@ exports.postSubmission = async (req, res) => {
         },
       };
 
-      req.session.appeal = await createOrUpdateAppeal(appeal);
-      log.debug('Appeal successfully submitted');
+      const createOrUpdateAppealErrHandler = (e) => {
+        log.error({ e }, 'The appeal submission failed');
+        res.render(VIEW.APPELLANT_SUBMISSION.SUBMISSION, {
+          errors,
+          errorSummary: [{ text: e.toString(), href: '#' }],
+        });
+      };
+
+      if (await createdOrUpdatedAppealHandler({ req, res, createOrUpdateAppealErrHandler })) {
+        log.debug('Appeal successfully submitted');
+      } else {
+        return;
+      }
     } catch (e) {
       log.error({ e }, 'The appeal submission failed');
       res.render(VIEW.APPELLANT_SUBMISSION.SUBMISSION, {
