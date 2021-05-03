@@ -16,7 +16,7 @@ const { createOrUpdateAppeal } = require('../../../src/lib/appeals-api-wrapper')
 describe('lib/create-or-update-appeal-handler', () => {
   let req;
   let res;
-  const createOrUpdateAppealErrHandler = jest.fn();
+  let createOrUpdateAppealErrHandler = jest.fn();
   const today = endOfDay(new Date());
 
   beforeEach(() => {
@@ -32,7 +32,6 @@ describe('lib/create-or-update-appeal-handler', () => {
     );
 
     req.session.appeal.decisionDate = today;
-
     await createdOrUpdatedAppealHandler({ req, res, createOrUpdateAppealErrHandler });
 
     expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`);
@@ -47,11 +46,38 @@ describe('lib/create-or-update-appeal-handler', () => {
     );
 
     req.session.appeal.decisionDate = today;
-
     await createdOrUpdatedAppealHandler({ req, res, createOrUpdateAppealErrHandler });
 
     expect(res.redirect).not.toHaveBeenCalledWith();
     expect(req.session.expiredDecisionDate).toEqual(undefined);
     expect(createOrUpdateAppealErrHandler).toHaveBeenCalledWith(error);
+  });
+
+  it('should call createOrUpdateAppeal if no errors', async () => {
+    req.session.appeal.decisionDate = createOrUpdateAppeal.mockImplementation(() =>
+      Promise.resolve(req.session.appeal)
+    );
+
+    await createdOrUpdatedAppealHandler({ req, res, createOrUpdateAppealErrHandler });
+
+    expect(res.redirect).not.toHaveBeenCalledWith();
+    expect(req.session.expiredDecisionDate).toEqual(undefined);
+    expect(createOrUpdateAppealErrHandler).not.toHaveBeenCalledWith();
+    expect(createOrUpdateAppeal).toHaveBeenCalledWith(req.session.appeal);
+  });
+
+  it('should return false if errors but no handler provided', async () => {
+    const error = new Error('custom error');
+    req.session.appeal.decisionDate = createOrUpdateAppeal.mockImplementation(() =>
+      Promise.reject(error)
+    );
+    createOrUpdateAppealErrHandler = null;
+
+    expect(
+      await createdOrUpdatedAppealHandler({ req, res, createOrUpdateAppealErrHandler })
+    ).toEqual(false);
+
+    expect(res.redirect).not.toHaveBeenCalledWith();
+    expect(req.session.expiredDecisionDate).toEqual(undefined);
   });
 });
