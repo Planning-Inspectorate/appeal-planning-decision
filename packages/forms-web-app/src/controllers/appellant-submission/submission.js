@@ -37,6 +37,8 @@ exports.postSubmission = async (req, res) => {
           uploadedFile: {
             id,
             name,
+            fileName: name,
+            originalFileName: name,
             location,
             size,
           },
