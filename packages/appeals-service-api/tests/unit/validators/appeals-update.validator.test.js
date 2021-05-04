@@ -444,7 +444,11 @@ describe('appeals.validators.schemas', () => {
         given: () => ({
           requiredDocumentsSection: {
             originalApplication: {
-              uploadedFile: { name: 'name of the document', id: appealId },
+              uploadedFile: {
+                name: 'name of the document',
+                originalFileName: 'name of the document',
+                id: appealId,
+              },
             },
           },
         }),
@@ -458,10 +462,11 @@ describe('appeals.validators.schemas', () => {
           requiredDocumentsSection: { originalApplication: {} },
         }),
         expected: (result) => {
-          expect(result.errors.length).toEqual(2);
+          expect(result.errors.length).toEqual(3);
           expect(result.errors).toEqual(
             expect.arrayContaining([
               'requiredDocumentsSection.originalApplication.uploadedFile.name is a required field',
+              'requiredDocumentsSection.originalApplication.uploadedFile.originalFileName is a required field',
               'requiredDocumentsSection.originalApplication.uploadedFile.id is a required field',
             ])
           );
@@ -487,6 +492,7 @@ describe('appeals.validators.schemas', () => {
             originalApplication: {
               uploadedFile: {
                 id: 'this not a good uuid',
+                originalFileName: 'name of the document',
               },
             },
           },
@@ -517,7 +523,13 @@ describe('appeals.validators.schemas', () => {
         title: 'accepted - requiredDocumentsSection.decisionLetter - valid document',
         given: () => ({
           requiredDocumentsSection: {
-            decisionLetter: { uploadedFile: { name: 'name of the document', id: appealId } },
+            decisionLetter: {
+              uploadedFile: {
+                name: 'name of the document',
+                originalFileName: 'name of the document',
+                id: appealId,
+              },
+            },
           },
         }),
         expected: (result) => {
@@ -530,10 +542,11 @@ describe('appeals.validators.schemas', () => {
           requiredDocumentsSection: { decisionLetter: {} },
         }),
         expected: (result) => {
-          expect(result.errors.length).toEqual(2);
+          expect(result.errors.length).toEqual(3);
           expect(result.errors).toEqual(
             expect.arrayContaining([
               'requiredDocumentsSection.decisionLetter.uploadedFile.name is a required field',
+              'requiredDocumentsSection.decisionLetter.uploadedFile.originalFileName is a required field',
               'requiredDocumentsSection.decisionLetter.uploadedFile.id is a required field',
             ])
           );
@@ -559,6 +572,7 @@ describe('appeals.validators.schemas', () => {
             decisionLetter: {
               uploadedFile: {
                 id: 'this not a good uuid',
+                originalFileName: 'a file name',
               },
             },
           },
@@ -611,11 +625,12 @@ describe('appeals.validators.schemas', () => {
           yourAppealSection: { appealStatement: {} },
         }),
         expected: (result) => {
-          expect(result.errors.length).toEqual(3);
+          expect(result.errors.length).toEqual(4);
           expect(result.errors).toEqual(
             expect.arrayContaining([
               'yourAppealSection.appealStatement.hasSensitiveInformation is a required field',
               'yourAppealSection.appealStatement.uploadedFile.name is a required field',
+              'yourAppealSection.appealStatement.uploadedFile.originalFileName is a required field',
               'yourAppealSection.appealStatement.uploadedFile.id is a required field',
             ])
           );
@@ -639,7 +654,11 @@ describe('appeals.validators.schemas', () => {
           yourAppealSection: {
             appealStatement: {
               hasSensitiveInformation: 'true',
-              uploadedFile: { name: 'name of the document', id: appealId },
+              uploadedFile: {
+                name: 'name of the document',
+                originalFileName: 'name of the document',
+                id: appealId,
+              },
             },
           },
         }),
@@ -656,6 +675,7 @@ describe('appeals.validators.schemas', () => {
               hasSensitiveInformation: 'bad format',
               uploadedFile: {
                 id: 'this not a good uuid',
+                originalFileName: 'a file name',
               },
             },
           },
@@ -717,7 +737,9 @@ describe('appeals.validators.schemas', () => {
         title: 'accepted - yourAppealSection.otherDocuments - good uploadedFiles list',
         given: () => ({
           yourAppealSection: {
-            otherDocuments: { uploadedFiles: [{ name: 'Good name', id: appealId }] },
+            otherDocuments: {
+              uploadedFiles: [{ name: 'Good name', originalFileName: 'Good name', id: appealId }],
+            },
           },
         }),
         expected: (result) => {
@@ -730,8 +752,8 @@ describe('appeals.validators.schemas', () => {
           yourAppealSection: {
             otherDocuments: {
               uploadedFiles: [
-                { name: 'Good name', id: 'bad id' },
-                { name: '', id: appealId },
+                { name: 'Good name', originalFileName: 'Good name', id: 'bad id' },
+                { name: '', originalFileName: '', id: appealId },
               ],
             },
           },

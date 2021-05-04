@@ -59,6 +59,8 @@ describe('services/validation.service', () => {
     test('Appeal statement upload file cannot have name without id', async () => {
       appeal.yourAppealSection.appealStatement.uploadedFile.name =
         'my_uploaded_file_appeal_statement.pdf';
+      appeal.yourAppealSection.appealStatement.uploadedFile.originalFileName =
+        'my_uploaded_file_appeal_statement.pdf';
       appeal.yourAppealSection.appealStatement.uploadedFile.id = null;
 
       const errors = validateAppeal(appeal);
@@ -70,6 +72,7 @@ describe('services/validation.service', () => {
 
     test('Appeal statement upload file cannot have id without name', async () => {
       appeal.yourAppealSection.appealStatement.uploadedFile.name = '';
+      appeal.yourAppealSection.appealStatement.uploadedFile.originalFileName = 'a file name';
       appeal.yourAppealSection.appealStatement.uploadedFile.id =
         '3fa85f64-5717-4562-b3fc-2c963f66afa6';
 
@@ -82,6 +85,8 @@ describe('services/validation.service', () => {
 
     test('Appeal statement upload file cannot have sensitive information', async () => {
       appeal.yourAppealSection.appealStatement.uploadedFile.name =
+        'my_uploaded_file_appeal_statement.pdf';
+      appeal.yourAppealSection.appealStatement.uploadedFile.originalFileName =
         'my_uploaded_file_appeal_statement.pdf';
       appeal.yourAppealSection.appealStatement.uploadedFile.id =
         '3fa85f64-5717-4562-b3fc-2c963f66afa6';
@@ -97,6 +102,8 @@ describe('services/validation.service', () => {
     test('Appeal statement upload file must include answer to sensitive information question', async () => {
       appeal.yourAppealSection.appealStatement.uploadedFile.name =
         'my_uploaded_file_appeal_statement.pdf';
+      appeal.yourAppealSection.appealStatement.uploadedFile.originalFileName =
+        'my_uploaded_file_appeal_statement.pdf';
       appeal.yourAppealSection.appealStatement.uploadedFile.id =
         '3fa85f64-5717-4562-b3fc-2c963f66afa6';
       appeal.yourAppealSection.appealStatement.hasSensitiveInformation = null;
@@ -110,9 +117,13 @@ describe('services/validation.service', () => {
 
     test('supporting document files should have both id and names', async () => {
       appeal.yourAppealSection.otherDocuments.uploadedFiles = [
-        { id: '3fa85f64-5717-4562-b3fc-2c963f66afa6', name: 'filename-1' },
-        { id: null, name: 'filename-2' },
-        { id: '3fa85f64-5717-4562-b3fc-2c963f66afa8', name: '' },
+        {
+          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          name: 'filename-1',
+          originalFileName: 'filename-1',
+        },
+        { id: null, name: 'filename-2', originalFileName: 'filename-2' },
+        { id: '3fa85f64-5717-4562-b3fc-2c963f66afa8', name: '', originalFileName: '' },
       ];
 
       const errors = validateAppeal(appeal);
@@ -128,6 +139,8 @@ describe('services/validation.service', () => {
     test('original planning application upload file cannot have name without id', async () => {
       appeal.requiredDocumentsSection.originalApplication.uploadedFile.name =
         'my_uploaded_file_planning_application.pdf';
+      appeal.requiredDocumentsSection.originalApplication.uploadedFile.originalFileName =
+        'my_uploaded_file_planning_application.pdf';
       appeal.requiredDocumentsSection.originalApplication.uploadedFile.id = null;
 
       const errors = validateAppeal(appeal);
@@ -139,6 +152,7 @@ describe('services/validation.service', () => {
 
     test('original planning application upload file cannot have id without name', async () => {
       appeal.requiredDocumentsSection.originalApplication.uploadedFile.name = '';
+      appeal.requiredDocumentsSection.originalApplication.uploadedFile.originalFileName = '';
       appeal.requiredDocumentsSection.originalApplication.uploadedFile.id =
         '3fa85f64-5717-4562-b3fc-2c963f66afa7';
 
@@ -151,6 +165,8 @@ describe('services/validation.service', () => {
     test('decision letter upload file cannot have name without id', async () => {
       appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name =
         'my_uploaded_file_planning_application.pdf';
+      appeal.requiredDocumentsSection.decisionLetter.uploadedFile.originalFileName =
+        'my_uploaded_file_planning_application.pdf';
       appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id = null;
 
       const errors = validateAppeal(appeal);
@@ -162,6 +178,7 @@ describe('services/validation.service', () => {
 
     test('decision letter upload file cannot have id without name', async () => {
       appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name = '';
+      appeal.requiredDocumentsSection.decisionLetter.uploadedFile.originalFileName = '';
       appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id =
         '3fa85f64-5717-4562-b3fc-2c963f66afa7';
 
@@ -175,6 +192,8 @@ describe('services/validation.service', () => {
     test('appeal statement pdf upload file cannot have name without id', async () => {
       appeal.appealSubmission.appealPDFStatement.uploadedFile.name =
         'c9ce252a-9843-45d9-ab3c-a80590a38282.pdf';
+      appeal.appealSubmission.appealPDFStatement.uploadedFile.originalFileName =
+        'c9ce252a-9843-45d9-ab3c-a80590a38282.pdf';
       appeal.appealSubmission.appealPDFStatement.uploadedFile.id = null;
 
       const errors = validateAppeal(appeal);
@@ -185,9 +204,11 @@ describe('services/validation.service', () => {
     });
 
     test('appeal statement pdf upload file cannot have id without name', async () => {
-      appeal.appealSubmission.appealPDFStatement.uploadedFile.name = '';
-      appeal.appealSubmission.appealPDFStatement.uploadedFile.id =
-        'c9ce252a-9843-45d9-ab3c-a80590a38282';
+      appeal.appealSubmission.appealPDFStatement.uploadedFile = {
+        id: 'c9ce252a-9843-45d9-ab3c-a80590a38282',
+        name: '',
+        originalFileName: '',
+      };
 
       const errors = validateAppeal(appeal);
 
