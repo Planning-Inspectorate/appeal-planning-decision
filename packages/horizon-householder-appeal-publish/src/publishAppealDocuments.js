@@ -9,11 +9,11 @@ const config = require('./config');
  *
  * @param log
  * @param {{id: string, type: string}[]} documents
- * @param {string} serviceId
+ * @param {string} appealId
  * @param {string} horizonId
  * @returns {Promise<void>}
  */
-const publishDocuments = async (log, documents, serviceId, horizonId) => {
+const publishDocuments = async (log, documents, appealId, horizonId) => {
   await Promise.all(
     documents
       /* Remove any undefined keys */
@@ -24,7 +24,7 @@ const publishDocuments = async (log, documents, serviceId, horizonId) => {
             documentId,
             documentType,
             horizonId,
-            serviceId,
+            appealId,
           },
           'Publish document to Horizon'
         );
@@ -36,7 +36,7 @@ const publishDocuments = async (log, documents, serviceId, horizonId) => {
             documentType,
             // These are named as-per Horizon keys
             caseReference: horizonId,
-            applicationId: serviceId,
+            applicationId: appealId,
           },
           {
             baseURL: config.openfaas.gatewayUrl,

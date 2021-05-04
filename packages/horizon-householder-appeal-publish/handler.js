@@ -1,12 +1,16 @@
 const axios = require('axios');
 const config = require('./src/config');
+const { handlerReply } = require('./handler-reply');
 const { convertToSoapKVPair } = require('./src/convertToSoapKVPair');
 const { callHorizon } = require('./src/callHorizon');
 const { createContacts } = require('./src/createContacts');
 const { getLpaData } = require('./src/getLpaData');
 const { publishDocuments } = require('./src/publishDocuments');
+const { catchErrorHandling } = require('./src/catchErrorHandling');
 
 module.exports = async (event, context) => {
+  if (!event.body.appeal) return handlerReply(event, context);
+
   event.log.info({ config }, 'Received householder appeal publish request');
   try {
     const { body } = event;
@@ -167,42 +171,7 @@ module.exports = async (event, context) => {
       id: horizonCaseId,
     };
   } catch (err) {
-    let message;
-    let httpStatus = 500;
-
-    if (err.response) {
-      message = 'No response received from Horizon';
-      event.log.error(
-        {
-          message: err.message,
-          data: err.response.data,
-          status: err.response.status,
-          headers: err.response.headers,
-        },
-        message
-      );
-    } else if (err.request) {
-      message = 'Error sending to Horizon';
-      httpStatus = 400;
-      event.log.error(
-        {
-          message: err.message,
-          request: err.request,
-        },
-        message
-      );
-    } else {
-      /* istanbul ignore next */
-      message = err.message ?? 'General error';
-      event.log.error(
-        {
-          message: err.message,
-          stack: err.stack,
-        },
-        message
-      );
-    }
-
+    const [message, httpStatus] = catchErrorHandling(event, err);
     context.httpStatus = httpStatus;
 
     return {
