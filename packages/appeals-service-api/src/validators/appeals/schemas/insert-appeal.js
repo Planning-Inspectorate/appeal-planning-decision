@@ -24,6 +24,7 @@ exports.insertAppeal = yup
       originalApplication: yup.object().shape({
         uploadedFile: yup.object().shape({
           name: yup.string().max(255).ensure(),
+          originalFileName: yup.string().max(255).ensure(),
           id: yup
             .string()
             .uuid()
@@ -35,6 +36,7 @@ exports.insertAppeal = yup
       decisionLetter: yup.object().shape({
         uploadedFile: yup.object().shape({
           name: yup.string().max(255).ensure(),
+          originalFileName: yup.string().max(255).ensure(),
           id: yup
             .string()
             .uuid()
@@ -48,6 +50,7 @@ exports.insertAppeal = yup
       appealStatement: yup.object().shape({
         uploadedFile: yup.object().shape({
           name: yup.string().max(255).ensure(),
+          originalFileName: yup.string().max(255).ensure(),
           id: yup
             .string()
             .uuid()
@@ -63,6 +66,7 @@ exports.insertAppeal = yup
           .of(
             yup.object().shape({
               name: yup.string().max(255).ensure(),
+              originalFileName: yup.string().max(255).ensure(),
               id: yup
                 .string()
                 .uuid()
@@ -79,6 +83,7 @@ exports.insertAppeal = yup
       appealPDFStatement: yup.object().shape({
         uploadedFile: yup.object().shape({
           name: yup.string().max(255).ensure(),
+          originalFileName: yup.string().max(255).ensure(),
           id: yup
             .string()
             .uuid()

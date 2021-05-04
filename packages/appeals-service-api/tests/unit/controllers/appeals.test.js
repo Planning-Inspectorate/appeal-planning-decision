@@ -6,6 +6,7 @@ const { appealDocument } = require('../../../src/models/appeal');
 const mongodb = require('../../../src/db/db');
 
 jest.mock('../../../src/db/db');
+jest.mock('../../../src/lib/logger');
 const valueAppeal = require('../value-appeal');
 const { mockReq, mockRes } = require('../mocks');
 

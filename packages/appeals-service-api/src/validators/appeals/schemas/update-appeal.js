@@ -7,6 +7,7 @@ function document() {
     .shape({
       uploadedFile: yup.object().shape({
         name: yup.string().max(255).ensure().required(),
+        originalFileName: yup.string().max(255).ensure().required(),
         id: yup
           .string()
           .uuid()
@@ -185,6 +186,7 @@ exports.updateAppeal = yup
                     .object()
                     .shape({
                       name: yup.string().max(255).ensure().required(),
+                      originalFileName: yup.string().max(255).ensure(),
                       id: yup
                         .string()
                         .uuid()
