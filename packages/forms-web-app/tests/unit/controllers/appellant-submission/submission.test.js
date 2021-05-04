@@ -79,7 +79,11 @@ describe('controllers/appellant-submission/submission', () => {
         ...appeal,
         appealSubmission: {
           appealPDFStatement: {
-            uploadedFile: appealPdf,
+            uploadedFile: {
+              ...appealPdf,
+              fileName: appealPdf.name,
+              originalFileName: appealPdf.name,
+            },
           },
         },
         state: 'SUBMITTED',
@@ -143,7 +147,11 @@ describe('controllers/appellant-submission/submission', () => {
         ...appeal,
         appealSubmission: {
           appealPDFStatement: {
-            uploadedFile: appealPdf,
+            uploadedFile: {
+              ...appealPdf,
+              fileName: appealPdf.name,
+              originalFileName: appealPdf.name,
+            },
           },
         },
         state: 'SUBMITTED',
