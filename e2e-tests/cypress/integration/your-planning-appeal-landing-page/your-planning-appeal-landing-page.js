@@ -14,11 +14,13 @@ When('your planning appeal page is viewed with a valid appealId', () => {
     .invoke('val')
     .then((appealId) => {
       cy.visit(`/your-planning-appeal/${appealId}`);
+      cy.wait(Cypress.env('demoDelay'));
     });
 });
 
 When('your planning appeal page is viewed with an incorrect appealId', () => {
   cy.visit('/your-planning-appeal/unknown-appeal-id', { failOnStatusCode: false });
+  cy.wait(Cypress.env('demoDelay'));
 });
 
 Then('the user sees the appropriate general data along with data for step 1', () => {
