@@ -102,6 +102,11 @@ const replySchema = new Mongoose.Schema({
       developmentOrNeighbourhood: { type: String, default: 'NOT STARTED' },
     },
   },
+  submission: {
+    pdfStatement: {
+      uploadedFile: { type: uploadedFilesSchema, default: null },
+    },
+  },
 });
 
 module.exports = Mongoose.model('Reply', replySchema);
