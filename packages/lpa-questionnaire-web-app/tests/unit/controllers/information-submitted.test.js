@@ -3,6 +3,7 @@ const {
   postInformationSubmitted,
 } = require('../../../src/controllers/information-submitted');
 const { createOrUpdateAppealReply } = require('../../../src/lib/appeal-reply-api-wrapper');
+const { createPdf } = require('../../../src/services/pdf.service');
 const { VIEW } = require('../../../src/lib/views');
 const { mockReq, mockRes } = require('../mocks');
 
@@ -15,6 +16,7 @@ jest.mock('../../../src/lib/logger', () => ({
     warn: jest.fn(),
   }),
 }));
+jest.mock('../../../src/services/pdf.service');
 
 describe('../../../src/controllers/information-submitted', () => {
   let req;
@@ -29,7 +31,9 @@ describe('../../../src/controllers/information-submitted', () => {
     it('should call the correct template', () => {
       getInformationSubmitted(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.INFORMATION_SUBMITTED, {});
+      expect(res.render).toHaveBeenCalledWith(VIEW.INFORMATION_SUBMITTED, {
+        appealReplyId: null,
+      });
     });
   });
 
@@ -45,6 +49,7 @@ describe('../../../src/controllers/information-submitted', () => {
 
     it('should redirect to information submitted page on success', async () => {
       createOrUpdateAppealReply.mockReturnValue('reply ok');
+      createPdf.mockReturnValue({ id: 'mock-pdf', name: 'mock.pdf' });
 
       await postInformationSubmitted(req, res);
 

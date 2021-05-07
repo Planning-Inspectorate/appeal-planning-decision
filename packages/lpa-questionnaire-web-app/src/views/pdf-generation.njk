@@ -4,7 +4,8 @@
 <html lang="{{ htmlLang | default('en') }}" class="govuk-template {{ htmlClasses }}">
   <head>
       <title>Response to householder planning appeal</title>
-      <link href="/public/stylesheets/main.css" media="all" rel="stylesheet" type="text/css"/>
+      <style>{{ css | safe }}</style>
+      <style>.govuk-template { background-color: #FFFFFF; }</style>
   </head>
   <body>
       <div class="govuk-grid-row">

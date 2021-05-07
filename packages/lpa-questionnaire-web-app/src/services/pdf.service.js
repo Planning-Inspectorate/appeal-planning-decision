@@ -67,7 +67,7 @@ const createPdf = async (appealReply, appeal) => {
     const pdfBuffer = await generatePDF(`${id}.pdf`, renderedHtml);
 
     log.debug('Creating document from PDF buffer');
-    const document = await createDocument(id, pdfBuffer);
+    const document = await createDocument(id, pdfBuffer, `${id}.pdf`);
 
     log.debug('PDF document successfully created');
 

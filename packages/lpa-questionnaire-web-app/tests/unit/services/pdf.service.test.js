@@ -44,7 +44,7 @@ describe('services/pdf.service', () => {
       const document = await createPdf(mockAppealReply, mockAppeal);
 
       expect(generatePDF).toHaveBeenCalledWith('mock-id.pdf', html);
-      expect(createDocument).toHaveBeenCalledWith('mock-id', 'mock-pdf');
+      expect(createDocument).toHaveBeenCalledWith('mock-id', 'mock-pdf', 'mock-id.pdf');
       expect(document).toEqual('mock-document');
     });
   });

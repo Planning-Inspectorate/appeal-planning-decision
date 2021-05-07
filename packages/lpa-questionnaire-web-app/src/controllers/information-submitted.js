@@ -1,38 +1,33 @@
 const { VIEW } = require('../lib/views');
 const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
 const logger = require('../lib/logger');
+const { createPdf } = require('../services/pdf.service');
 
-exports.getInformationSubmitted = (_, res) => {
-  res.render(VIEW.INFORMATION_SUBMITTED, {});
+exports.getInformationSubmitted = (req, res) => {
+  res.render(VIEW.INFORMATION_SUBMITTED, {
+    appealReplyId: req.session?.appealReply?.id,
+  });
 };
 
 exports.postInformationSubmitted = async (req, res) => {
-  const { appealReply } = req.session;
+  const { appealReply, appeal } = req.session;
   const log = logger.child({ appealReplyId: appealReply.id });
 
   log.info('Submitting the appeal reply');
 
   try {
-    /**
-     * TODO: call PDF service here. something like:
-     * const { id, name, location, size } = await createAppealReplyPdf(appealReply);
-     */
+    const { id, name } = await createPdf(appealReply, appeal);
 
     appealReply.state = 'SUBMITTED';
 
-    /**
-     * TODO: add PDF to submission. Expected structure:
-     * appealReply.submission = {
-     *   pdfStatement: {
-     *     uploadedFile: {
-     *       id,
-     *       name,
-     *       location,
-     *       size,
-     *     },
-     *   },
-     * };
-     */
+    appealReply.submission = {
+      pdfStatement: {
+        uploadedFile: {
+          id,
+          name,
+        },
+      },
+    };
 
     req.session.appealReply = await createOrUpdateAppealReply(appealReply);
 
