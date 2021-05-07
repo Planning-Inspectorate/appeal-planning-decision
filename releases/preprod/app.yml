@@ -5,11 +5,11 @@ metadata:
   name: app
   namespace: app-preprod
   annotations:
-    fluxcd.io/automated: "true"
+    fluxcd.io/automated: 'true'
     filter.fluxcd.io/appealReplyServiceApi: semver:~1.1.0
     filter.fluxcd.io/appealsServiceApi: semver:~1.15.0
     filter.fluxcd.io/documentServiceApi: semver:~1.4.0
-    filter.fluxcd.io/formsWebApp: semver:~1.44.0
+    filter.fluxcd.io/formsWebApp: semver:~1.45.0
     filter.fluxcd.io/horizon-householder-appeal-publish: semver:~1.0.0
     filter.fluxcd.io/lpaQuestionnaireWebApp: semver:~1.15.0
     filter.fluxcd.io/pdfServiceApi: semver:~1.0.0
@@ -76,12 +76,12 @@ spec:
       name: pins-uks-vault-5989-prep
       envSpecific:
         multiValueSecrets:
-        - http-basic
+          - http-basic
 
     pinsKeyVault:
       envSpecific:
         secrets:
-        - notify-preprod
+          - notify-preprod
 
     ingress:
       hosts:
