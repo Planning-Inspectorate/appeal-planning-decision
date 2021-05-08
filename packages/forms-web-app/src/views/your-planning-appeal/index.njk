@@ -27,6 +27,8 @@
           },
           value: {
             text: summaryField(appeal.aboutYouSection.yourDetails.name, { 'data-cy': "appellant-name" })
+            if appeal.aboutYouSection.yourDetails.isOriginalApplicant
+            else summaryField(appeal.aboutYouSection.yourDetails.appealingOnBehalfOf, { 'data-cy': "appellant-name" })
           }
         },
         {
@@ -49,7 +51,7 @@
 
       <li class="timeline__entry">
         <h2 class="timeline__header">The local planning department submit their case file</h2>
-        <p class="govuk-body">{{lpd.name}} will send you a copy of their questionnaire and supporting documents for your information only, you do not need to do anything.</p>
+        <p class="govuk-body" data-cy="lpd-docs-statement">{{lpd.name}} will send you a copy of their questionnaire and supporting documents for your information only, you do not need to do anything.</p>
       </li>
 
       <li class="timeline__entry">
