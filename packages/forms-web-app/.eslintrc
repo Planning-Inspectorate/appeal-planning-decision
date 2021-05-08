@@ -6,18 +6,14 @@
   "extends": ["airbnb-base", "prettier"],
   "plugins": ["jest", "prettier"],
   "root": true,
-  "ignorePatterns": [
-    "node_modules/**",
-    "src/public/javascript/**",
-    "dist/**",
-    "webpack.**"
-  ],
+  "ignorePatterns": ["node_modules/**", "src/public/javascript/**", "dist/**", "webpack.**"],
   "rules": {
     "prettier/prettier": "error"
   },
   "env": {
     "es2021": true,
     "node": true,
-    "jest": true
+    "jest": true,
+    "browser": true
   }
 }
