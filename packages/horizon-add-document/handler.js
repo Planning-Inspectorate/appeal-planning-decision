@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { appealDocumentTypes } = require('./documentTypes');
 
 const config = {
   documents: {
@@ -9,16 +10,24 @@ const config = {
   },
 };
 
+// body.documentType is tested instead of passing in a new 'is this an appeal or reply' parameter
+// from packages/horizon-householder-appeal-publish/src/publishDocuments.js.
+// This is because doing so breaks the tests for horizon-householder-appeal-publish
+const isAppeal = (documentType) => {
+  return Object.values(appealDocumentTypes).indexOf(documentType) > -1;
+};
+
 function createDataObject(data, body) {
-  const { documentType } = body;
-  const documentInvolvement = body.documentInvolvement || 'Document:Involvement';
-  const documentGroupType = body.documentGroupType || 'Document:Document Group Type';
+  const documentInvolvementName = body.documentInvolvement || 'Document:Involvement';
+  const documentGroupTypeName = body.documentGroupType || 'Document:Document Group Type';
+  const documentInvolvementValue = isAppeal(body.documentType) ? 'Appellant' : 'LPA';
+  const documentGroupTypeValue = isAppeal(body.documentType) ? 'Initial Documents' : 'Evidence';
 
   return {
     // The order of this object is important
     'a:HorizonAPIDocument': {
       'a:Content': data.data,
-      'a:DocumentType': documentType,
+      'a:DocumentType': body.documentType,
       'a:Filename': data.name,
       'a:IsPublished': 'true',
       'a:Metadata': {
@@ -26,15 +35,15 @@ function createDataObject(data, body) {
           {
             'a:AttributeValue': {
               '__i:type': 'a:StringAttributeValue',
-              'a:Name': documentInvolvement,
-              'a:Value': 'Appellant',
+              'a:Name': documentInvolvementName,
+              'a:Value': documentInvolvementValue,
             },
           },
           {
             'a:AttributeValue': {
               '__i:type': 'a:StringAttributeValue',
-              'a:Name': documentGroupType,
-              'a:Value': 'Initial Documents',
+              'a:Name': documentGroupTypeName,
+              'a:Value': documentGroupTypeValue,
             },
           },
           {

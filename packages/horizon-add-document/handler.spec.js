@@ -7,11 +7,11 @@ const handler = require('./handler');
 
 const { createDataObject } = handler;
 
-const eventBody = {
+const mockEventBody = {
   caseReference: '1234567890',
   applicationId: 'some-app-id',
   documentId: 'some-document-id',
-  documentType: 'some-doc-type',
+  documentType: 'LPA Decision Notice',
   documentInvolvement: 'some-doc-involvement',
   documentGroupType: 'some-doc-group-type',
   docServiceOutput: {
@@ -32,6 +32,42 @@ const data = {
 };
 
 describe('createDataObject', () => {
+  let eventBody;
+
+  beforeEach(() => {
+    eventBody = { ...mockEventBody };
+  });
+
+  it('documentInvolvementValue should be "LPA", if reply', () => {
+    const expectedItem = {
+      'a:AttributeValue': {
+        '__i:type': 'a:StringAttributeValue',
+        'a:Name': 'some-doc-involvement',
+        'a:Value': 'LPA',
+      },
+    };
+    eventBody.documentType = 'Consultation Responses';
+    const result = createDataObject(data, eventBody);
+    expect(result['a:HorizonAPIDocument']['a:Metadata']['a:Attributes']).toContainEqual(
+      expectedItem
+    );
+  });
+
+  it('documentGroupTypeValue should be "Evidence", if reply', () => {
+    const expectedItem = {
+      'a:AttributeValue': {
+        '__i:type': 'a:StringAttributeValue',
+        'a:Name': 'some-doc-group-type',
+        'a:Value': 'Evidence',
+      },
+    };
+    eventBody.documentType = 'Consultation Responses';
+    const result = createDataObject(data, eventBody);
+    expect(result['a:HorizonAPIDocument']['a:Metadata']['a:Attributes']).toContainEqual(
+      expectedItem
+    );
+  });
+
   it('documentInvolvement should be specific entries, if defined', () => {
     const expectedItem = {
       'a:AttributeValue': {
@@ -40,6 +76,7 @@ describe('createDataObject', () => {
         'a:Value': 'Appellant',
       },
     };
+
     const result = createDataObject(data, eventBody);
     expect(result['a:HorizonAPIDocument']['a:Metadata']['a:Attributes']).toContainEqual(
       expectedItem
@@ -99,7 +136,7 @@ describe('handler', () => {
     process.env = { ...envvars };
 
     event = {
-      body: { ...eventBody },
+      body: { ...mockEventBody },
       log: {
         info: jest.fn(),
         error: jest.fn(),
