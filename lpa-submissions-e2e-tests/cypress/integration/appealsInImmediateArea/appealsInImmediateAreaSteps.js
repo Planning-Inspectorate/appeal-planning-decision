@@ -18,7 +18,7 @@ const labelTextId = 'appeal-reference-numbers-label';
 const noButtonId = 'adjacent-appeals-no';
 const yesButtonId = 'adjacent-appeals-yes';
 
-const {appeal} = require('../../fixtures/anAppeal.json');
+const appeal = require('../../fixtures/completedAppeal.json');
 
 Given('the user is on the Tell us about any appeals in the immediate area page', () => {
   cy.insertAppealAndCreateReply(appeal);

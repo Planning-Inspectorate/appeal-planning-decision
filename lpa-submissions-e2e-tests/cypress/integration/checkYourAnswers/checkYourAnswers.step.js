@@ -6,7 +6,7 @@ const title =
   'Check your answers - Appeal questionnaire - Appeal a householder planning decision - GOV.UK';
 const heading = 'Check your answers';
 
-const {appeal} = require('../../fixtures/anAppeal.json');
+const appeal = require('../../fixtures/completedAppeal.json');
 const reply = require('../../fixtures/completedAppealReply.json');
 
 Given('Check Your Answers in presented', () => {

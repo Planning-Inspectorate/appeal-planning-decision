@@ -4,7 +4,7 @@ const informationSubmittedPageId = 'information-submitted';
 const informationSubmittedPageTitle =
   'Information submitted - Appeal questionnaire - Appeal a householder planning decision - GOV.UK';
 
-const {appeal} = require('../../fixtures/anAppeal.json');
+  const appeal = require('../../fixtures/completedAppeal.json');
 
 Given(`the Information Submitted page is requested`, () => {
   cy.insertAppealAndCreateReply(appeal);

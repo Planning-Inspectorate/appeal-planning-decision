@@ -8,7 +8,7 @@ const urlWePostToInNonJSLand = (appealId,url) => {
     return `${baseUrl}/${appealId}/${url}`;
 }
 
-const preCannedAppeal = require('../../fixtures/anAppeal.json');
+const appeal = require('../../fixtures/completedAppeal.json');
 
 let disableJs = false;
 
@@ -130,7 +130,7 @@ After({ tags: '@nojs' }, () => {
 });
 
 Given('a file has been uploaded', () => {
-  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.insertAppealAndCreateReply(appeal);
   cy.get('@appealReply').then( (appealReply) => {
     goToUploadPage(appealReply.appealId);
     uploadFiles('upload-file-valid.pdf');
@@ -138,7 +138,7 @@ Given('a file has been uploaded', () => {
 });
 
 Given('a file has been uploaded and confirmed', () => {
-  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.insertAppealAndCreateReply(appeal);
   cy.get('@appealReply').then( (appealReply) => {
     goToUploadPage(appealReply.appealId);
     uploadFiles('upload-file-valid.pdf');
@@ -149,7 +149,7 @@ Given('a file has been uploaded and confirmed', () => {
 });
 
 Given('The question {string} has been completed', () => {
-  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.insertAppealAndCreateReply(appeal);
   cy.get('@appealReply').then( (appealReply) => {
     goToUploadPage(appealReply.appealId);
     uploadFiles('upload-file-valid.pdf');
@@ -159,11 +159,9 @@ Given('The question {string} has been completed', () => {
 });
 
 When('valid file {string} is successfully uploaded', (fileName) => {
-  cy.get('@appealReply').then( (appealReply) => {
     uploadFiles(fileName);
     validateFileUpload(fileName);
     cy.clickSaveAndContinue();
-  });
 });
 
 When('valid file {string} is uploaded via drag and drop', (fileName) => {

@@ -10,7 +10,7 @@ const textAreaId = 'extra-conditions-text';
 const noButtonId = 'has-extra-conditions-no';
 const yesButtonId = 'has-extra-conditions-yes';
 
-const {appeal} = require('../../fixtures/anAppeal.json');
+const appeal = require('../../fixtures/completedAppeal.json');
 
 When(`the user selects the link 'Do you have any extra conditions?'`, () => {
   cy.goToPage(pageId);

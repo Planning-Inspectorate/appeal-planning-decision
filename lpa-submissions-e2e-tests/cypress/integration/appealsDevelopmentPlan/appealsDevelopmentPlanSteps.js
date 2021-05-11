@@ -10,7 +10,7 @@ const textAreaId = 'plan-changes-text';
 const noButtonId = 'has-plan-submitted-no';
 const yesButtonId = 'has-plan-submitted-yes';
 
-const {appeal} = require('../../fixtures/anAppeal.json');
+const appeal = require('../../fixtures/completedAppeal.json');
 
 Given(`the Development Plan Document and Neighbourhood Plan question is requested`, () => {
   cy.insertAppealAndCreateReply(appeal);

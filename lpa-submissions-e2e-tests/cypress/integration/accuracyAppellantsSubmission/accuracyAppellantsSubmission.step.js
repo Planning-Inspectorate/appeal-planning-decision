@@ -12,7 +12,7 @@ const inaccuracyReasonInputId = 'inaccuracy-reason';
 const accurateSubmissionLabelId = 'accurate-submission-label';
 const sectionName = 'About the appeal';
 
-const {appeal} = require('../../fixtures/anAppeal.json');
+const appeal = require('../../fixtures/completedAppeal.json');
 
 Given(`the user is in the Review accuracy of the appellant's submission page`, () => {
   cy.insertAppealAndCreateReply(appeal);

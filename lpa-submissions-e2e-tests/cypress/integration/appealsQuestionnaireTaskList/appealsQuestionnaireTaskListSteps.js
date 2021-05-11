@@ -6,7 +6,7 @@ const title =
 const heading = 'Householder planning appeal questionnaire';
 const url = '/task-list';
 
-const {appeal} = require('../../fixtures/anAppeal.json');
+const appeal = require('../../fixtures/completedAppeal.json');
 
 const verifyNotStartedStatus = (taskName) => {
   cy.get('li[' + taskName + '-status="NOT STARTED"]')

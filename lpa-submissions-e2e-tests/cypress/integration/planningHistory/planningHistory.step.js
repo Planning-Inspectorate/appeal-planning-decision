@@ -1,7 +1,6 @@
 import { Given, When, Then, Before } from 'cypress-cucumber-preprocessor/steps';
-import defaultPathId from '../../utils/defaultPathId';
 
-const preCannedAppeal = require('../../fixtures/anAppeal.json');
+const appeal = require('../../fixtures/completedAppeal.json');
 
 const page = {
   id: 'planningHistory',
@@ -27,11 +26,11 @@ Before({ tags: '@nojs' }, () => {
 });
 
 Given('LPA Planning Officer has not added any data to the planning history question', () => {
-  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.insertAppealAndCreateReply(appeal);
 });
 
 Given('planning history question is requested', () => {
-  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.insertAppealAndCreateReply(appeal);
   cy.get('@appealReply').then( (appealReply) => {
     goToPlanningHistoryPage(appealReply.appealId);
   });

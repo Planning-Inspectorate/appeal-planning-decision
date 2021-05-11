@@ -1,7 +1,6 @@
 import { Given, When, Then, Before } from 'cypress-cucumber-preprocessor/steps';
-import defaultPathId from '../../utils/defaultPathId';
 
-const preCannedAppeal = require('../../fixtures/anAppeal.json');
+const appeal = require('../../fixtures/completedAppeal.json');
 
 const page = {
   id: 'plansDecision',

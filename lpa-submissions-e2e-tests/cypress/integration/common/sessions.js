@@ -10,7 +10,7 @@ const EXTRA_CONDITIONS_PAGE_TEXTAREA = 'extra-conditions-text'
 const EXTRA_CONDITIONS_PAGE_NO = 'has-extra-conditions-no'
 const EXTRA_CONDITIONS_PAGE_YES = 'has-extra-conditions-yes'
 
-const {appeal} = require('../../fixtures/anAppeal.json');
+const appeal = require('../../fixtures/completedAppeal.json');
 const reply = require('../../fixtures/completedAppealReply.json');
 
 Given('answers have been saved to the questionnaire', () => {
