@@ -1,9 +1,6 @@
-import { Given, _, Then } from 'cypress-cucumber-preprocessor/steps';
+import { Given, Then } from 'cypress-cucumber-preprocessor/steps';
 
-const getAppeal = require('../../../../packages/lpa-questionnaire-web-app/src/lib/appeals-api-wrapper');
-const getLPAList = require('../../../../packages/forms-web-app/src/lib/appeals-api-wrapper');
-
-const informationSubmittedPageId = 'information-submitted';
+const informationSubmittedUrl = 'information-submitted';
 const informationSubmittedPageTitle =
   'Information submitted - Appeal questionnaire - Appeal a householder planning decision - GOV.UK';
 
@@ -12,12 +9,20 @@ const getLPAEmail = (lpaId) => {
 };
 
 Given(`the Information Submitted page is requested`, () => {
-  cy.goToPage(informationSubmittedPageId);
+  cy.goToPage(informationSubmittedUrl);
 });
 
 Then(`the Information Submitted page will be shown`, () => {
+  cy.verifyPage(informationSubmittedUrl);
   cy.verifyPageTitle(informationSubmittedPageTitle);
-  cy.checkPageA11y(informationSubmittedPageId);
+  cy.checkPageA11y();
+});
+
+Then(`the LPA email address is displayed on the Information Submitted page`, () => {
+  cy.visibleWithText(
+    `We’ve sent a confirmation email to abby.bale@planninginspectorate.gov.uk.`,
+    '[data-cy=lpaEmailString]',
+  );
 });
 
 Then(`the LPA email address is displayed on the Information Submitted page`, () => {
