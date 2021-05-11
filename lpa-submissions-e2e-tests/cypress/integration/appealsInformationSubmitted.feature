@@ -5,3 +5,4 @@ so that I know that the Planning Inspectors have received it
 Scenario: AC01 - LPA Planning Officer submits finished LPA Questionnaire
 Given the Information Submitted page is requested
 Then the Information Submitted page will be shown
+And the LPA email address is displayed on the Information Submitted page
