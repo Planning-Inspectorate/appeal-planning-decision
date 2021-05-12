@@ -41,6 +41,9 @@ runs:
           cd ${{ inputs.DIR }}
           export GITHUB_TOKEN="${{ inputs.GITHUB_TOKEN }}"
 
+          echo "Run a semantic-release dry-run so the output can be debugged."
+          ${ROOT_DIR}/node_modules/.bin/semantic-release -d
+
           NEW_VERSION=$(${ROOT_DIR}/node_modules/.bin/semantic-release -d | awk '/Release note for version/ { getline; print $2 }')
 
           if [ -n "$NEW_VERSION" ]; then
