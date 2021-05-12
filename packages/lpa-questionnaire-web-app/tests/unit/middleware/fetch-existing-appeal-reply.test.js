@@ -40,8 +40,10 @@ describe('middleware/fetch-existing-appeal-reply', () => {
     },
     {
       title:
-        'just creates an appealReply anyway if we 404 - this goes at some point when the flow is complete',
+        'env.CREATE_REPLY_IF_REPLY_NOT_PRESENT == "true" -> we create a new reply if someone tries to look at an appeal that does not have a reply',
       given: () => {
+        process.env.CREATE_REPLY_IF_REPLY_NOT_PRESENT = 'true';
+
         getExistingAppealReply.mockRejectedValue({ status: 404 });
         createAppealReply.mockResolvedValue({ good: 'data' });
 
@@ -57,6 +59,28 @@ describe('middleware/fetch-existing-appeal-reply', () => {
         expect(createAppealReply).toHaveBeenCalledWith('123-abc');
         expect(next).toHaveBeenCalled();
         expect(req.session.appealReply).toEqual({ good: 'data' });
+      },
+    },
+    {
+      title: 'env.CREATE_REPLY_IF_REPLY_NOT_PRESENT != "true" -> we do not create a new reply',
+      given: () => {
+        process.env.CREATE_REPLY_IF_REPLY_NOT_PRESENT = 'false';
+
+        getExistingAppealReply.mockRejectedValue({ status: 404 });
+
+        return {
+          ...mockReq(),
+          params: {
+            id: '123-abc',
+          },
+        };
+      },
+      expected: (req, res, next) => {
+        expect(getExistingAppealReply).toHaveBeenCalledWith('123-abc');
+        expect(createAppealReply).not.toHaveBeenCalled();
+        expect(next).toHaveBeenCalled();
+        const originalSessionData = mockReq().session.appealReply;
+        expect(req.session.appealReply).toEqual(originalSessionData);
       },
     },
     {
