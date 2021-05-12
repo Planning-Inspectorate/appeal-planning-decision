@@ -26,7 +26,7 @@ Before({ tags: '@nojs' }, () => {
 });
 
 Given('Upload the Planning Officer’s report question is requested', () => {
-  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.insertAppealAndCreateReply(appeal);
   cy.get('@appealReply').then( (appealReply) => {
     goToOfficersReportPage(appealReply.appealId);
   });

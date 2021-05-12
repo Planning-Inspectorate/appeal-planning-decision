@@ -1,5 +1,5 @@
 const { VIEW } = require('../lib/views');
-const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
+const { updateAppealReply } = require('../lib/appeal-reply-api-wrapper');
 const logger = require('../lib/logger');
 const { createPdf } = require('../services/pdf.service');
 
@@ -29,7 +29,7 @@ exports.postInformationSubmitted = async (req, res) => {
       },
     };
 
-    req.session.appealReply = await createOrUpdateAppealReply(appealReply);
+    req.session.appealReply = await updateAppealReply(appealReply);
 
     log.debug('Appeal Reply successfully submitted');
   } catch (err) {

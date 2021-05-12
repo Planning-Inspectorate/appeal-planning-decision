@@ -26,14 +26,14 @@ Before({ tags: '@nojs' }, () => {
 });
 
 Given('LPA Planning Officer has not added any data to the Representations from Interested Parties question', () => {
-  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.insertAppealAndCreateReply(appeal);
   cy.get('@appealReply').then( (appealReply) => {
     goToInterestedPartiesPage(appealReply.appealId);
   });
 });
 
 Given('Representations from interested parties question is requested', () => {
-  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.insertAppealAndCreateReply(appeal);
   cy.get('@appealReply').then( (appealReply) => {
     goToInterestedPartiesPage(appealReply.appealId);
   });

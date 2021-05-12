@@ -126,12 +126,3 @@ Then('the information they previously entered is still populated', () => {
 Then('the updated answer is displayed', () => {
   cy.confirmCheckYourAnswersDisplayed('submissionAccuracy', 'Yes');
 });
-
-Then('the appeal details panel is displayed on the right hand side of the page', () => {
-  const {siteAddress} = appeal.appealSiteSection;
-  cy.verifyAppealDetailsSidebar({
-    applicationNumber: appeal.requiredDocumentsSection.applicationNumber,
-    applicationAddress: `${siteAddress.addressLine1}, ${siteAddress.addressLine2}, ${siteAddress.town}, ${siteAddress.county}, ${siteAddress.postcode}`,
-    apellantName: appeal.aboutYouSection.yourDetails.name,
-  });
-});

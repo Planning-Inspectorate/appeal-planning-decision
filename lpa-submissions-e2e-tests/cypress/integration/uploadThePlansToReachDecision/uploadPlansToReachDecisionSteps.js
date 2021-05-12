@@ -30,14 +30,14 @@ Before({ tags: '@nojs' }, () => {
 });
 
 Given('LPA Planning Officer is presented with the ability to upload plans', () => {
-  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.insertAppealAndCreateReply(appeal);
   cy.get('@appealReply').then( (appealReply) => {
     goToUploadDecisionPage(appealReply.appealId);
   });
 });
 
 Given('Upload the plans used to reach the decision question is requested', () => {
-  cy.insertAppealAndCreateReply(preCannedAppeal.appeal);
+  cy.insertAppealAndCreateReply(appeal);
   cy.get('@appealReply').then( (appealReply) => {
     goToUploadDecisionPage(appealReply.appealId);
   });

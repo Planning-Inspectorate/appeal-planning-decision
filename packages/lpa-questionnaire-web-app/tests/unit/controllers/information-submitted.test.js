@@ -2,7 +2,7 @@ const {
   getInformationSubmitted,
   postInformationSubmitted,
 } = require('../../../src/controllers/information-submitted');
-const { createOrUpdateAppealReply } = require('../../../src/lib/appeal-reply-api-wrapper');
+const { updateAppealReply } = require('../../../src/lib/appeal-reply-api-wrapper');
 const { createPdf } = require('../../../src/services/pdf.service');
 const { VIEW } = require('../../../src/lib/views');
 const { mockReq, mockRes } = require('../mocks');
@@ -39,7 +39,7 @@ describe('../../../src/controllers/information-submitted', () => {
 
   describe('postInformationSubmitted', () => {
     it('should return 500 if there is an error in the submission', async () => {
-      createOrUpdateAppealReply.mockRejectedValue('mock api error');
+      updateAppealReply.mockRejectedValue('mock api error');
 
       await postInformationSubmitted(req, res);
 
@@ -48,7 +48,7 @@ describe('../../../src/controllers/information-submitted', () => {
     });
 
     it('should redirect to information submitted page on success', async () => {
-      createOrUpdateAppealReply.mockReturnValue('reply ok');
+      updateAppealReply.mockReturnValue('reply ok');
       createPdf.mockReturnValue({ id: 'mock-pdf', name: 'mock.pdf' });
 
       await postInformationSubmitted(req, res);
