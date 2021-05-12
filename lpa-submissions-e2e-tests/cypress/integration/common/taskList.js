@@ -4,15 +4,11 @@ const url = '/task-list';
 
 Given("a LPA Planning Officer is reviewing their LPA Questionnaire task list", ()=> {
   cy.insertAppealAndCreateReply();
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.goToPage('task-list', appealReply.appealId);
-  })
+  cy.goToTaskListPage();
 });
 
 When("LPA Planning Officer is reviewing the Task List", ()=> {
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.goToPage('task-list', appealReply.appealId);
-  })
+  cy.goToTaskListPage();
 });
 
 Then('progress is made to the task list', () => {
