@@ -34,7 +34,7 @@ all our defaults for cypress point at localhost:xxxx and assume it can find all 
 we can over-ride the url cypress uses to browse our site, but our tests rely on the ability to poke data into the underlying services.
 
 * you will need to have been through the login and authentication process with azure+kubernetes, and be authenticated as admin against the dev cluster.
-* option 1: we have hacked a tool together that does the job: `npm run dev-portforwarding`
+* option 1: we have hacked a tool together that does the job: `npm run port-forwarding`
 * option 2: download and install an off-the-shelf tool such as https://kube-forwarder.pixelpoint.io/
  * this tool would need to be manually configured- it doesn't take long as entirely powered by auto-complete but if it's your first visit you may want to get your hands on a kubernetes/dev person so help set it up?
 

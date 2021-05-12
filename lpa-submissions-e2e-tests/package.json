@@ -8,7 +8,7 @@
     "test:e2e": "npx cypress run -e TAGS='not @wip'",
     "test:e2e:postprocess": "node ./reporter.js",
     "test:smoke": "npx cypress run -e TAGS='not @wip and @smoketest'",
-    "dev-portforwarding": "node ./port-forwarder.js"
+    "port-forwarding": "node ./port-forwarder.js"
   },
   "author": "",
   "license": "ISC",
