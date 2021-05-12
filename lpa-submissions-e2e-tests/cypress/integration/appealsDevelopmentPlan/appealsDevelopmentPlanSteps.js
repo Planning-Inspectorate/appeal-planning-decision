@@ -14,34 +14,27 @@ const appeal = require('../../fixtures/completedAppeal.json');
 
 Given(`the Development Plan Document and Neighbourhood Plan question is requested`, () => {
   cy.insertAppealAndCreateReply(appeal);
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.goToPage(pageId, appealReply.appealId);
-    cy.verifyPageTitle(pageTitle);
-  });
-
+  cy.goToPage(pageId);
+  cy.verifyPageTitle(pageTitle);
 });
 
 Given(`there is a Development Plan Document and Neighbourhood Plan`, () => {
   cy.insertAppealAndCreateReply(appeal);
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.goToPage(pageId, appealReply.appealId);
-    cy.verifyPageTitle(pageTitle);
+  cy.goToPage(pageId);
+  cy.verifyPageTitle(pageTitle);
 
-    input(yesButtonId).check();
-  });
+  input(yesButtonId).check();
 });
 
 Given(
   'the LPA Planning Officer has selected no and completed the Development Plan Document and Neighbourhood Plan question',
   () => {
     cy.insertAppealAndCreateReply(appeal);
-    cy.get('@appealReply').then( (appealReply) => {
-      cy.goToPage(pageId, appealReply.appealId);
-      cy.verifyPageTitle(pageTitle);
+    cy.goToPage(pageId);
+    cy.verifyPageTitle(pageTitle);
 
-      input(noButtonId).check();
-      cy.clickSaveAndContinue();
-    });
+    input(noButtonId).check();
+    cy.clickSaveAndContinue();
 
   },
 );
@@ -50,13 +43,11 @@ Given(
   'the LPA Planning Officer has selected yes, entered plan details, and completed the Development Plan Document and Neighbourhood Plan question',
   () => {
     cy.insertAppealAndCreateReply(appeal);
-    cy.get('@appealReply').then( (appealReply) => {
-      cy.goToPage(pageId, appealReply.appealId);
-      cy.verifyPageTitle(pageTitle);
-      input(yesButtonId).check();
-      textArea(textAreaId).type('some_text');
-      cy.clickSaveAndContinue();
-    });
+    cy.goToPage(pageId);
+    cy.verifyPageTitle(pageTitle);
+    input(yesButtonId).check();
+    textArea(textAreaId).type('some_text');
+    cy.clickSaveAndContinue();
   },
 );
 
@@ -120,9 +111,7 @@ Then(`progress is halted with an error message {string}`, (errorMessage) => {
 Then(`the LPA Planning Officer remains on the page`, () => {
   cy.verifyPageHeading(pageHeading);
   cy.verifyPageTitle(pageTitle);
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.checkPageA11y(`/${appealReply.appealId}/${pageId}`);
-  });
+  cy.checkPageA11y();
 });
 
 Then(`the Development Plan Document subsection is shown as completed`, () => {

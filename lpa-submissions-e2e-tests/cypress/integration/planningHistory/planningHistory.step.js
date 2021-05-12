@@ -31,9 +31,7 @@ Given('LPA Planning Officer has not added any data to the planning history quest
 
 Given('planning history question is requested', () => {
   cy.insertAppealAndCreateReply(appeal);
-  cy.get('@appealReply').then( (appealReply) => {
-    goToPlanningHistoryPage(appealReply.appealId);
-  });
+  goToPlanningHistoryPage();
 });
 
 When('LPA Planning Officer chooses to upload the planning history', () => {
@@ -42,9 +40,7 @@ When('LPA Planning Officer chooses to upload the planning history', () => {
 });
 
 When('the planning history question is revisited', () => {
-  cy.get('@appealReply').then( (appealReply) => {
-    goToPlanningHistoryPage(appealReply.appealId);
-  });
+  goToPlanningHistoryPage();
 });
 
 Then('LPA Planning Officer is presented with the ability to upload planning history', () => {
@@ -52,9 +48,7 @@ Then('LPA Planning Officer is presented with the ability to upload planning hist
   cy.verifyPageTitle(page.title);
   cy.verifyPageHeading(page.heading);
   cy.verifySectionName(page.section);
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.checkPageA11y(`/${appealReply.appealId}/${page.url}`);
-  });
+  cy.checkPageA11y();
 });
 
 Then('planning history subsection is shown as completed', () => {

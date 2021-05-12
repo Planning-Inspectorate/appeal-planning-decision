@@ -27,16 +27,12 @@ Before({ tags: '@nojs' }, () => {
 
 Given('LPA Planning Officer has not added any data to the Representations from Interested Parties question', () => {
   cy.insertAppealAndCreateReply(appeal);
-  cy.get('@appealReply').then( (appealReply) => {
-    goToInterestedPartiesPage(appealReply.appealId);
-  });
+  goToInterestedPartiesPage();
 });
 
 Given('Representations from interested parties question is requested', () => {
   cy.insertAppealAndCreateReply(appeal);
-  cy.get('@appealReply').then( (appealReply) => {
-    goToInterestedPartiesPage(appealReply.appealId);
-  });
+  goToInterestedPartiesPage();
 });
 
 When('LPA Planning Officer chooses to upload the document Representations from interested parties', () => {
@@ -45,9 +41,7 @@ When('LPA Planning Officer chooses to upload the document Representations from i
 });
 
 When('the Representations from interested parties question is revisited', () => {
-  cy.get('@appealReply').then( (appealReply) => {
-    goToInterestedPartiesPage(appealReply.appealId);
-  });
+  goToInterestedPartiesPage();
 });
 
 Then('LPA Planning Officer is presented with the ability to upload any documents relevant to the question Representations from interested parties', () => {
@@ -55,9 +49,7 @@ Then('LPA Planning Officer is presented with the ability to upload any documents
   cy.verifyPageTitle(page.title);
   cy.verifyPageHeading(page.heading);
   cy.verifySectionName(page.section);
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.checkPageA11y(`/${appealReply.appealId}/${page.url}`);
-  });
+  cy.checkPageA11y();
 });
 
 Then('Representations from interested parties subsection is shown as completed', () => {

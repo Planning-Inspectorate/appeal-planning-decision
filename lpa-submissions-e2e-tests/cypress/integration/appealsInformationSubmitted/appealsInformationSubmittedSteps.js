@@ -8,14 +8,10 @@ const informationSubmittedPageTitle =
 
 Given(`the Information Submitted page is requested`, () => {
   cy.insertAppealAndCreateReply(appeal);
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.goToPage(informationSubmittedPageId, appealReply.appealId);
-  });
+  cy.goToPage(informationSubmittedPageId);
 });
 
 Then(`the Information Submitted page will be shown`, () => {
   cy.verifyPageTitle(informationSubmittedPageTitle);
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.checkPageA11y(`/${appealReply.appealId}/${informationSubmittedPageId}`);
-  });
+  cy.checkPageA11y();
 });

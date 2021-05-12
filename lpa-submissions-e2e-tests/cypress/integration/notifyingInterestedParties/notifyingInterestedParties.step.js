@@ -31,9 +31,7 @@ Given('LPA Planning Officer has not added any data to the Notifying interested p
 
 Given('Notifying interested parties of the appeal is requested', () => {
   cy.insertAppealAndCreateReply(appeal);
-  cy.get('@appealReply').then( (appealReply) => {
-    goToNotifyingPartiesPage(appealReply.appealId);
-  });
+  goToNotifyingPartiesPage();
 });
 
 When('LPA Planning Officer chooses to upload the document Notifying interested parties of the appeal', () => {
@@ -42,9 +40,7 @@ When('LPA Planning Officer chooses to upload the document Notifying interested p
 });
 
 When('Notifying interested parties of the appeal is revisited', () => {
-  cy.get('@appealReply').then( (appealReply) => {
-    goToNotifyingPartiesPage(appealReply.appealId);
-  });
+  goToNotifyingPartiesPage();
 });
 
 Then('LPA Planning Officer is presented with the ability to upload any documents relevant to the question Notifying interested parties of the appeal', () => {
@@ -52,9 +48,7 @@ Then('LPA Planning Officer is presented with the ability to upload any documents
   cy.verifyPageTitle(page.title);
   cy.verifyPageHeading(page.heading);
   cy.verifySectionName(page.section);
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.checkPageA11y(`/${appealReply.appealId}/${page.url}`);
-  });
+  cy.checkPageA11y();
 });
 
 Then('Notifying interested parties of the appeal subsection is shown as completed', () => {

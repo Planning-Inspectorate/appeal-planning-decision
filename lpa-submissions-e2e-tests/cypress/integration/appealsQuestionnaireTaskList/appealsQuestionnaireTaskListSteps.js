@@ -21,12 +21,9 @@ const verifyNotStartedStatus = (taskName) => {
 
 Given(`The User clicks on {string}`, (taskRef) => {
   cy.insertAppealAndCreateReply(appeal);
-  cy.get('@appealReply').then( (appealReply) => {
-    const { id, url } = getSubTaskInfo(taskRef) || {};
-    cy.clickOnSubTaskLink(id);
-    cy.verifyPage(url);
-  });
-
+  const { id, url } = getSubTaskInfo(taskRef) || {};
+  cy.clickOnSubTaskLink(id);
+  cy.verifyPage(url);
 });
 
 //When User clicks on Back button

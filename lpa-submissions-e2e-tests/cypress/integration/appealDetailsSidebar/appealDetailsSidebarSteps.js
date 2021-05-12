@@ -7,9 +7,7 @@ Given('A subsection page is presented with id of {string}', (id) => {
 
 Given('A subsection page is presented with a good id', () => {
   cy.insertAppealAndCreateReply(appeal);
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.goToPage('other-appeals', appealReply.appealId);
-  });
+  cy.goToPage('other-appeals');
 });
 
 Then(

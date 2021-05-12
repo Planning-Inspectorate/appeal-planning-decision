@@ -31,16 +31,12 @@ Before({ tags: '@nojs' }, () => {
 
 Given('LPA Planning Officer is presented with the ability to upload plans', () => {
   cy.insertAppealAndCreateReply(appeal);
-  cy.get('@appealReply').then( (appealReply) => {
-    goToUploadDecisionPage(appealReply.appealId);
-  });
+  goToUploadDecisionPage();
 });
 
 Given('Upload the plans used to reach the decision question is requested', () => {
   cy.insertAppealAndCreateReply(appeal);
-  cy.get('@appealReply').then( (appealReply) => {
-    goToUploadDecisionPage(appealReply.appealId);
-  });
+  goToUploadDecisionPage();
 });
 
 When('LPA Planning Officer chooses to upload plans used to reach the decision', () => {
@@ -49,9 +45,7 @@ When('LPA Planning Officer chooses to upload plans used to reach the decision', 
 });
 
 When('the plans used to reach the decision question is revisited', () => {
-  cy.get('@appealReply').then( (appealReply) => {
-    goToUploadDecisionPage(appealReply.appealId);
-  });
+  goToUploadDecisionPage();
 });
 
 Then('LPA Planning Officer is presented with the ability to upload plans', () => {
@@ -59,9 +53,7 @@ Then('LPA Planning Officer is presented with the ability to upload plans', () =>
   cy.verifyPageTitle(page.title);
   cy.verifyPageHeading(page.heading);
   cy.verifySectionName(page.section);
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.checkPageA11y(`/${appealReply.appealId}/${page.url}`);
-  });
+  cy.checkPageA11y();
 });
 
 Then('Upload the plans used to reach the decision subsection is shown as completed', () => {

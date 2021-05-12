@@ -16,19 +16,15 @@ const appeal = require('../../fixtures/completedAppeal.json');
 
 Given(`the user is in the Review accuracy of the appellant's submission page`, () => {
   cy.insertAppealAndCreateReply(appeal);
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.goToPage(pageId, appealReply.appealId);
-    cy.verifyPageTitle(pageTitle);
-  });
+  cy.goToPage(pageId);
+  cy.verifyPageTitle(pageTitle);
 });
 
 Given(`a user has completed the information needed on the accuracy of the appellant's submission page`, () => {
   cy.insertAppealAndCreateReply(appeal);
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.goToPage(pageId, appealReply.appealId);
-    input(yesButtonId).check();
-    cy.clickSaveAndContinue();
-  });
+  cy.goToPage(pageId);
+  input(yesButtonId).check();
+  cy.clickSaveAndContinue();
 });
 
 When(`the user selects the link "Review accuracy of the appellant's submission"`, () => {
@@ -74,9 +70,7 @@ When('an answer is saved', () => {
 Then('the user is presented with the correct page', () => {
   cy.verifySectionName(sectionName);
   cy.verifyPageTitle(pageTitle);
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.checkPageA11y(`/${appealReply.appealId}/${pageId}`);
-  });
+  cy.checkPageA11y();
 });
 
 Then('the radio group label is {string}', (label) => {

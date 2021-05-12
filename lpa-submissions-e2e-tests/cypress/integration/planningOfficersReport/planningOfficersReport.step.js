@@ -27,9 +27,7 @@ Before({ tags: '@nojs' }, () => {
 
 Given('Upload the Planning Officer’s report question is requested', () => {
   cy.insertAppealAndCreateReply(appeal);
-  cy.get('@appealReply').then( (appealReply) => {
-    goToOfficersReportPage(appealReply.appealId);
-  });
+  goToOfficersReportPage();
 });
 
 When('LPA Planning Officer chooses to upload Planning Officer report', () => {
@@ -38,9 +36,7 @@ When('LPA Planning Officer chooses to upload Planning Officer report', () => {
 });
 
 When('the Upload the Planning Officer’s report question is revisited', () => {
-  cy.get('@appealReply').then( (appealReply) => {
-    goToOfficersReportPage(appealReply.appealId);
-  });
+  goToOfficersReportPage();
 });
 
 Then('LPA Planning Officer is presented with the ability to upload the Planning Officer’s report', () => {
@@ -48,9 +44,7 @@ Then('LPA Planning Officer is presented with the ability to upload the Planning 
   cy.verifyPageTitle(page.title);
   cy.verifyPageHeading(page.heading);
   cy.verifySectionName(page.section);
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.checkPageA11y(`/${appealReply.appealId}/${page.url}`);
-  });
+  cy.checkPageA11y();
 });
 
 Then('Upload the Planning Officer’s report subsection is shown as completed', () => {

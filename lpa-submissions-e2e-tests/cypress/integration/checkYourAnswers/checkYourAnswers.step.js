@@ -11,18 +11,12 @@ const reply = require('../../fixtures/completedAppealReply.json');
 
 Given('Check Your Answers in presented', () => {
   cy.insertAppealAndCreateReply(appeal, reply);
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.goToCheckYourAnswersPage(appealReply.appealId);
-  });
-
+  cy.goToCheckYourAnswersPage();
 });
 
 When('Check Your Answers page is displayed', () => {
   cy.insertAppealAndCreateReply(appeal, reply);
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.goToCheckYourAnswersPage(appealReply.appealId);
-  });
-
+  cy.goToCheckYourAnswersPage();
 });
 
 When('a LPA Planning Officer reviews their LPA Questionnaire task list', () => {

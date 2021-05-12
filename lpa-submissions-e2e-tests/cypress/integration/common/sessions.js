@@ -19,24 +19,23 @@ Given('answers have been saved to the questionnaire', () => {
 
 When('the questionnaire is revisited in a new session', () => {
   cy.clearCookies();
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.visit(`/${appealReply.appealId}/confirm-answers`);
-  });
+  cy.goToCheckYourAnswersPage();
 });
 
 Then('previously entered data will be visible', () => {
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.visit(`/${appealReply.appealId}/${ACCURACY_SUBMISSION_PAGE}`);
+  cy.goToPage(ACCURACY_SUBMISSION_PAGE);
 
-    input(ACCURACY_SUBMISSION_NO).should('be.checked');
+  cy.get('@appealReply').then( (appealReply) => {
+    input(ACCURACY_SUBMISSION_NO).should('be.checked'); //should care about content of reply object but in a rush..
     labelText(ACCURACY_SUBMISSION_REASON).should('have.value', reply.aboutAppealSection.submissionAccuracy.inaccuracyReason);
   });
 });
 
 When('changes are made in a new session', () => {
   cy.clearCookies();
+  cy.goToPage(EXTRA_CONDITIONS_PAGE);
+
   cy.get('@appealReply').then( (appealReply) => {
-    cy.visit(`/${appealReply.appealId}/${EXTRA_CONDITIONS_PAGE}`);
     input(EXTRA_CONDITIONS_PAGE_YES).should('be.checked');
     textArea(EXTRA_CONDITIONS_PAGE_TEXTAREA).should('have.value', reply.aboutAppealSection.extraConditions.extraConditions);
 
@@ -46,9 +45,6 @@ When('changes are made in a new session', () => {
 });
 
 Then('the changes over write the previously saved answers', () => {
-  cy.get('@appealReply').then( (appealReply) => {
-    cy.visit(`/${appealReply.appealId}/${EXTRA_CONDITIONS_PAGE}`);
-
-    input(EXTRA_CONDITIONS_PAGE_NO).should('be.checked');
-  });
+  cy.goToPage(EXTRA_CONDITIONS_PAGE);
+  input(EXTRA_CONDITIONS_PAGE_NO).should('be.checked');
 });
