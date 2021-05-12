@@ -20,8 +20,7 @@ import 'cypress-axe';
 import './commands';
 import "cypress-ntlm-auth/dist/commands";
 
+require('cypress-downloadfile/lib/downloadFileCommand');
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
-
-

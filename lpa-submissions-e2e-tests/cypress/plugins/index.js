@@ -1,6 +1,6 @@
 const cucumber = require('cypress-cucumber-preprocessor').default;
+const {downloadFile} = require('cypress-downloadfile/lib/addPlugin')
 const pdf = require('pdf-parse');
-
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
 //
@@ -23,15 +23,16 @@ const parsePdf = async (pdfBuffer) => {
 
 module.exports = (on, config) => {
   on('file:preprocessor', cucumber());
-
+  on('task', {downloadFile})
   on('task', {
     log(message) {
       console.log(message);
 
       return null;
     },
-    getPdfContent(pdfBuffer) {
-      return String(parsePdf(pdfBuffer));
+    async getPdfContent(pdfBuffer) {
+      const parsed = await parsePdf(pdfBuffer);
+      return parsed.text;
     },
   });
 };
