@@ -73,8 +73,7 @@ Feature: Notifying interested parties of the appeal
       | upload-file-invalid-wrong-type.csv |
 
   Scenario: AC8 LPA Planning Officer selects to return to previous page
-    Given Notifying interested parties of the appeal is requested
-    And a file has been uploaded
+    Given a file has been uploaded
     When Back is then requested
     Then the LPA Planning Officer is taken to the Task List
     And any document uploaded will not be saved
