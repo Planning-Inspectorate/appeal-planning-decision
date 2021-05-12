@@ -1,11 +1,15 @@
 const { insertAppeal } = require('./schemas/insert-appeal');
 const { updateAppeal } = require('./schemas/update-appeal');
+const appealBusinessRules = require('./schemas/business-rules');
 const { isAppealSubmitted } = require('../../services/appeal.service');
 const logger = require('../../lib/logger');
 const ApiError = require('../../error/apiError');
 
 const appealUpdateValidationRules = async (req, res, next) => {
   try {
+    console.log(`123342342`);
+    req.body = await appealBusinessRules.validate(req.body, { abortEarly: false });
+
     req.body = await updateAppeal.validate(req.body, { abortEarly: false });
     logger.debug('Valid input format');
 

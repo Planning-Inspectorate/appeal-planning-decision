@@ -23,10 +23,18 @@ router.get(
 router.post(
   '/decision-date',
   [fetchExistingAppealMiddleware, combineDateInputsMiddleware],
-  decisionDateValidationRules(),
-  validationErrorHandler,
+  // decisionDateValidationRules(),
+  // validationErrorHandler,
   decisionDateController.postDecisionDate
 );
+
+// router.post(
+//   '/decision-date',
+//   [fetchExistingAppealMiddleware, combineDateInputsMiddleware],
+//   decisionDateValidationRules(),
+//   validationErrorHandler,
+//   decisionDateController.postDecisionDate
+// );
 
 /* GET eligibility decision date out page. */
 router.get(

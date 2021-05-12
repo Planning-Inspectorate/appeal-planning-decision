@@ -74,6 +74,7 @@ services:
       - rabbitmq
     volumes:
       - ./packages/common:/opt/app/node_modules/@pins/common:ro # Replace the module to avoid symlink errors
+      - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules:ro # Replace the module to avoid symlink errors
       - ./packages/appeals-service-api:/opt/app:ro
     command: npm run start:dev
 

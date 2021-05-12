@@ -1,19 +1,11 @@
 const fetch = require('node-fetch');
 const uuid = require('uuid');
 const { utils } = require('@pins/common');
+const ApiResponseError = require('./error/api-response-error');
 
 const config = require('../config');
 const parentLogger = require('./logger');
 
-/**
- * @deprecated
- *
- * @param path
- * @param method
- * @param opts
- * @param headers
- * @returns {Promise<*>}
- */
 async function handler(path, method = 'GET', opts = {}, headers = {}) {
   const correlationId = uuid.v4();
   const url = `${config.appeals.url}${path}`;
@@ -41,18 +33,14 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
 
         if (!apiResponse.ok) {
           logger.debug(apiResponse, 'API Response not OK');
-          try {
-            const errorResponse = await apiResponse.json();
-            /* istanbul ignore else */
-            if (errorResponse.errors && errorResponse.errors.length) {
-              throw new Error(errorResponse.errors.join('\n'));
-            }
 
-            /* istanbul ignore next */
-            throw new Error(apiResponse.statusText);
-          } catch (e) {
-            throw new Error(e.message);
+          const errorResponse = await apiResponse.json();
+
+          if (errorResponse.errorMap && Object.entries(errorResponse.errorMap).length) {
+            throw new ApiResponseError(400, 'something went wrong', errorResponse);
           }
+
+          throw new Error(apiResponse.statusText);
         }
 
         logger.debug('Successfully called');
@@ -73,8 +61,6 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
 /**
  * A single wrapper around creating, or updating a new or existing appeal through the Appeals
  * Service API.
- *
- * @deprecated
  *
  * @param appeal
  * @returns {Promise<*>}
