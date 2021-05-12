@@ -23,8 +23,7 @@ Feature: Task lists
       | "Development Plan"                |
 
   Scenario Outline: User is able to navigate to tasklist page by clicking on back button
-    Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
-    And The User clicks on <task>
+    Given a LPA Planning Officer is reviewing their LPA Questionnaire task list and chooses to review <task>
     When User clicks on Back button
     Then the LPA Planning Officer is taken to the Task List
     Examples:

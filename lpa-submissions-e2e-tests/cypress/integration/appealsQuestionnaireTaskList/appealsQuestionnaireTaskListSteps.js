@@ -19,8 +19,9 @@ const verifyNotStartedStatus = (taskName) => {
  * ----------------------------------------------
  */
 
-Given(`The User clicks on {string}`, (taskRef) => {
+Given(`a LPA Planning Officer is reviewing their LPA Questionnaire task list and chooses to review {string}`, (taskRef) => {
   cy.insertAppealAndCreateReply(appeal);
+  cy.goToTaskListPage();
   const { id, url } = getSubTaskInfo(taskRef) || {};
   cy.clickOnSubTaskLink(id);
   cy.verifyPage(url);
