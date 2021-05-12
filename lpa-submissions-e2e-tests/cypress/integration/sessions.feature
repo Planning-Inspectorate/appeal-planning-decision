@@ -5,12 +5,12 @@ Feature: Session Handling and association with an appeal
 
   @as-1903 @as-1903-AC1
   Scenario: Viewing saved information
-    Given answers have been saved to the questionnaire
+    Given all the mandatory questions for the questionnaire have been completed
     When the questionnaire is revisited in a new session
     Then previously entered data will be visible
 
   @as-1903 @as-1903-AC2
   Scenario: Changes made to questionnaire
-    Given answers have been saved to the questionnaire
+    Given all the mandatory questions for the questionnaire have been completed
     When changes are made in a new session
     Then the changes over write the previously saved answers

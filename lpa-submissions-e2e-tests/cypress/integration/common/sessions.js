@@ -18,6 +18,7 @@ Given('answers have been saved to the questionnaire', () => {
 });
 
 When('the questionnaire is revisited in a new session', () => {
+  cy.clearCookies();
   cy.get('@appealReply').then( (appealReply) => {
     cy.visit(`/${appealReply.appealId}/confirm-answers`);
   });
@@ -33,6 +34,7 @@ Then('previously entered data will be visible', () => {
 });
 
 When('changes are made in a new session', () => {
+  cy.clearCookies();
   cy.get('@appealReply').then( (appealReply) => {
     cy.visit(`/${appealReply.appealId}/${EXTRA_CONDITIONS_PAGE}`);
     input(EXTRA_CONDITIONS_PAGE_YES).should('be.checked');
