@@ -1,5 +1,4 @@
 const schema = require('../../../../src/validators/appellant-submission/supporting-documents-schema');
-const validateFileSize = require('../../../../src/validators/custom/file-size');
 const validMimeType = require('../../../../src/validators/custom/mime-type');
 const {
   MIME_TYPE_DOC,
@@ -9,7 +8,6 @@ const {
   MIME_TYPE_TIF,
   MIME_TYPE_PNG,
 } = require('../../../../src/lib/mime-types');
-const config = require('../../../../src/config');
 
 jest.mock('../../../../src/validators/custom/file-size');
 jest.mock('../../../../src/validators/custom/mime-type');
@@ -42,6 +40,5 @@ describe('validators/appellant-submission/supporting-documents-schema', () => {
         'pingu.penguin is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
       );
     });
-
   });
 });
