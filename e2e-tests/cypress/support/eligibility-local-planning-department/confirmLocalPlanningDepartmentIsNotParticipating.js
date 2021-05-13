@@ -11,8 +11,4 @@ module.exports = (text) => {
     .should('have.attr', 'href')
     .and('include', 'https://acp.planninginspectorate.gov.uk/myportal/default.aspx');
   cy.wait(Cypress.env('demoDelay'));
-  cy.checkPageA11y({
-    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
-    exclude: ['.govuk-radios__input'],
-  });
-};
+ };
