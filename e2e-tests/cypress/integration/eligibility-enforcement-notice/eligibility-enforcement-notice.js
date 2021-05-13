@@ -18,6 +18,10 @@ When('the appellant has not received an Enforcement Notice', () => {
 
 Then('progress is halted with a message that the Enforcement Notice question is required', () => {
   cy.confirmThatEnforcementNoticeAnswerIsRequired();
+  cy.checkPageA11y({
+    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
+    exclude: ['.govuk-radios__input'],
+  });
 });
 
 Then(

@@ -396,6 +396,10 @@ Then('the appeal details will be shown - appellant, without files', () => {
       ? STANDARD_APPEAL.appealSiteSection.healthAndSafety.healthAndSafetyIssues
       : 'No',
   });
+  cy.checkPageA11y({
+    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
+    exclude: ['.govuk-radios__input'],
+  });
 });
 
 Then('the appeal details will be shown - agent, without files', () => {
@@ -445,6 +449,10 @@ Then('the appeal details will be shown - agent, without files', () => {
       .hasIssues
       ? AGENT_APPEAL_WITHOUT_FILES.appealSiteSection.healthAndSafety.healthAndSafetyIssues
       : 'No',
+  });
+  cy.checkPageA11y({
+    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
+    exclude: ['.govuk-radios__input'],
   });
 });
 
