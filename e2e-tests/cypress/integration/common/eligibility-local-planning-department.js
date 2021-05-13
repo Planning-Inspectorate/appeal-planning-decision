@@ -2,8 +2,6 @@ import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 
 Given('the list of Local Planning Department is presented', () => {
   cy.goToPlanningDepartmentPage();
-
-  cy.checkPageA11y();
 });
 
 Given('the user can select from a list of Local Planning Departments', () => {

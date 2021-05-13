@@ -10,4 +10,9 @@ module.exports = () => {
 
   // pause long enough to capture a nice video
   cy.wait(Cypress.env('demoDelay'));
+  //Accessibility testing
+  cy.checkPageA11y({
+    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
+    exclude: ['.govuk-radios__input'],
+  });
 };

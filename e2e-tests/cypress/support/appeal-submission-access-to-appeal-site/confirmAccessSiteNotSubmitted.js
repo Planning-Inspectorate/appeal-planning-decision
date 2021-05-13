@@ -6,3 +6,4 @@ module.exports = () => {
 
   cy.wait(Cypress.env('demoDelay'));
 };
+

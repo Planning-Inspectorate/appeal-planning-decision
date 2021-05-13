@@ -396,11 +396,15 @@ Then('the appeal details will be shown - appellant, without files', () => {
       ? STANDARD_APPEAL.appealSiteSection.healthAndSafety.healthAndSafetyIssues
       : 'No',
   });
+  cy.checkPageA11y({
+    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
+    exclude: ['.govuk-radios__input'],
+  });
 });
 
 Then('the appeal details will be shown - agent, without files', () => {
   console.log(`AGENT_APPEAL_WITHOUT_FILES`, AGENT_APPEAL_WITHOUT_FILES);
-  cy.assertCyTagHasExactText({
+   cy.assertCyTagHasExactText({
     'appeal-submission-date': moment().format('D MMMM YYYY'),
     'appellant-name': AGENT_APPEAL_WITHOUT_FILES.aboutYouSection.yourDetails.appealingOnBehalfOf,
     'your-email': AGENT_APPEAL_WITHOUT_FILES.aboutYouSection.yourDetails.email,
@@ -445,6 +449,10 @@ Then('the appeal details will be shown - agent, without files', () => {
       .hasIssues
       ? AGENT_APPEAL_WITHOUT_FILES.appealSiteSection.healthAndSafety.healthAndSafetyIssues
       : 'No',
+  });
+  cy.checkPageA11y({
+    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
+    exclude: ['.govuk-radios__input'],
   });
 });
 

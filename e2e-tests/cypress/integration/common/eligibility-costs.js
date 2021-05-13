@@ -35,6 +35,11 @@ Then('progress is halted with a message that an answer to the Costs question is 
   cy.confirmNavigationCostsPage();
   cy.confirmTextOnPage('Select yes if you are claiming for costs as part of your appeal');
   cy.title().should('match', /^Error: /);
+  //Accessibility Testing
+  cy.checkPageA11y({
+    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
+    exclude: ['.govuk-radios__input'],
+  });
 });
 
 Then(

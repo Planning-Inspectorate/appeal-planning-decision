@@ -16,11 +16,19 @@ When('your planning appeal page is viewed with a valid appealId', () => {
       cy.visit(`/your-planning-appeal/${appealId}`);
       cy.wait(Cypress.env('demoDelay'));
     });
+  cy.checkPageA11y({
+    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
+    exclude: ['.govuk-radios__input'],
+  });
 });
 
 When('your planning appeal page is viewed with an incorrect appealId', () => {
   cy.visit('/your-planning-appeal/unknown-appeal-id', { failOnStatusCode: false });
   cy.wait(Cypress.env('demoDelay'));
+  cy.checkPageA11y({
+    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
+    exclude: ['.govuk-radios__input'],
+  });
 });
 
 Then('the user sees the appropriate general data along with data for step 1', () => {
@@ -40,4 +48,8 @@ Then('the user sees the appropriate general data along with data for step 1', ()
 
 Then('the user sees the 404 page', () => {
   cy.confirmNavigationPageNotFoundPage();
+  cy.checkPageA11y({
+    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
+    exclude: ['.govuk-radios__input'],
+  });
 });

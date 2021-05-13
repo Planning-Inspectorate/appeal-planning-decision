@@ -33,6 +33,10 @@ Cypress.Commands.add(
   'goToEnforcementNoticePage',
   require('../go-to-page/goToEnforcementNoticePage'),
 );
+Cypress.Commands.add(
+  'goToEnforcementNoticeOutPage',
+  require('../go-to-page/goToEnforcementNoticeOutPage'),
+);
 Cypress.Commands.add('goToListedBuildingPage', require('../go-to-page/goToListedBuildingPage'));
 Cypress.Commands.add(
   'goToListedBuildingOutPage',
@@ -79,8 +83,9 @@ Cypress.Commands.add('goToCheckYourAnswersPage', require('../go-to-page/goToChec
 Cypress.Commands.add('goToSubmissionPage', require('../go-to-page/goToSubmissionPage'));
 Cypress.Commands.add(
   'goToSubmissionInformationPage',
-  require('../go-to-page/goToSubmissionInformationPage'),
+  require('../go-to-page/goToSubmissionInformationPage')
 );
+Cypress.Commands.add('goToConfirmationPage', require('../go-to-page/goToConfirmationPage'));
 
 Cypress.Commands.add('goToPageNotFoundPage', require('../go-to-page/goToPageNotFoundPage'));
 

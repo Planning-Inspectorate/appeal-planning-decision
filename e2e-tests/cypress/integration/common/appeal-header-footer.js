@@ -4,8 +4,14 @@ Given('an appeal is being made', () => {});
 
 When('the {string} page is presented', (page) => {
   switch (page) {
-    case 'Eligibility - Start appeal':
-      cy.goToStartAppealPage();
+    case 'Start your appeal':
+      cy.goToPageStartYourAppeal();
+      break;
+    case 'Eligibility - House holder planning permission':
+      cy.goToHouseholderQuestionPage();
+      break;
+    case 'Eligibility - Householder planning permission out':
+      cy.goToHouseholderQuestionOutPage();
       break;
     case 'Eligibility - Decision date':
       cy.goToDecisionDatePage();
@@ -22,10 +28,22 @@ When('the {string} page is presented', (page) => {
     case 'Eligibility - Planning department out':
       cy.goToPlanningDepartmentOutPage();
       break;
+    case 'Enforcement - Notice':
+      cy.goToEnforcementNoticePage();
+      break;
+    case 'Enforcement - Notice out':
+      cy.goToEnforcementNoticeOutPage();
+      break;
     case 'Eligibility - Listed building':
       cy.goToListedBuildingPage();
       break;
     case 'Eligibility - Listed building out':
+      cy.goToListedBuildingOutPage();
+      break;
+    case 'Eligibility - Costs':
+      cy.goToListedBuildingPage();
+      break;
+    case 'Eligibility - Costs out':
       cy.goToListedBuildingOutPage();
       break;
     case 'Eligibility - Appeal statement info':
@@ -73,11 +91,14 @@ When('the {string} page is presented', (page) => {
     case 'Appellant submission - Appeal site - Site safety':
       cy.goToHealthAndSafetyPage();
       break;
-    case 'Appellant submission - Appeal answers':
+    case 'Appellant submission - Check your answers':
       cy.goToCheckYourAnswersPage();
       break;
-    case 'Appeal submission':
+    case 'Appeal submission - Declaration':
       cy.goToSubmissionPage();
+      break;
+    case 'Appeal submission - Confirmation':
+      cy.goToConfirmationPage();
       break;
     default:
       throw new Error('This page is unknown = ' + page);

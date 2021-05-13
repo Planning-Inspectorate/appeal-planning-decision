@@ -38,6 +38,10 @@ Then('progress is halted with a message that a householder planning permission i
   cy.title().should('include', 'Error: ')
   cy.confirmNavigationHouseholderQuestionPage();
   cy.confirmTextOnPage('Select Yes if you applied for householder planning permission');
+  cy.checkPageA11y({
+    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
+    exclude: ['.govuk-radios__input'],
+  });
 });
 
 Then('progress is made to the eligibility decision date question', () => {

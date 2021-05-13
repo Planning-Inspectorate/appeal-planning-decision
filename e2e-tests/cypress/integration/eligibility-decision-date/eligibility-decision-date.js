@@ -51,12 +51,24 @@ Then(
 Then('progress is halted with a message that a Decision Date is required', () => {
   cy.confirmNavigationDecisionDateAbsentPage();
   cy.confirmDecisionDate({ day: '', month: '', year: '' });
-});
+  cy.checkPageA11y({
+    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
+    exclude: ['.govuk-radios__input'],
+  });
+ });
 
 Then('progress is halted with an error: {string}', (error) => {
   cy.confirmProvidedDecisionDateError(error);
+  cy.checkPageA11y({
+    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
+    exclude: ['.govuk-radios__input'],
+  });
 });
 
 Then('the correct input {string} is highlighted', (highlights) => {
   cy.confirmProvidedDecisionDateErrorHighlight(highlights);
+  cy.checkPageA11y({
+    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
+    exclude: ['.govuk-radios__input'],
+  });
 });
