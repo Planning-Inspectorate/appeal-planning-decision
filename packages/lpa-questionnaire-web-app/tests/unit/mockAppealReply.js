@@ -2,6 +2,7 @@ module.exports = {
   id: 'mock-id',
   appealId: '89aa8504-773c-42be-bb68-029716ad9756',
   state: 'COMPLETED',
+  lpaCode: 'E69999999',
   aboutAppealSection: {
     submissionAccuracy: {
       accurateSubmission: false,

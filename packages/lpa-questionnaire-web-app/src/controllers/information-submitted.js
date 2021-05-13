@@ -1,11 +1,28 @@
+const fetch = require('node-fetch');
+const config = require('../config');
 const { VIEW } = require('../lib/views');
 const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
 const logger = require('../lib/logger');
 const { createPdf } = require('../services/pdf.service');
 
-exports.getInformationSubmitted = (req, res) => {
+exports.getInformationSubmitted = async (req, res) => {
+  const { lpaCode } = req.session.appeal;
+  const path = `/api/v1/local-planning-authorities/${lpaCode}`;
+  const url = `${config.appeals.url}${path}`;
+  let lpaEmailString;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    lpaEmailString = `We’ve sent a confirmation email to ${data.email}.`;
+    req.log.info('LPA Email recevied successfully');
+  } catch (error) {
+    lpaEmailString = '';
+    req.log.error({ error }, 'Get LPA Email failed');
+  }
+
   res.render(VIEW.INFORMATION_SUBMITTED, {
     appealReplyId: req.session?.appealReply?.id,
+    lpaEmailString,
   });
 };
 
