@@ -2,7 +2,7 @@ openapi: 0.0.1
 info:
   title: Appeal Reply Service API Documentation
   description:
-    API to <ul><li>create, retrieve and modify appeal replies</li><li>
+    API to <ul><li>create, retrieve and modify appeal replies</li></ul>
   version: 1.0.3
   license:
     name: MIT
@@ -87,6 +87,29 @@ paths:
                     items:
                       type: string
                       example: 'requiredDocumentsSection.originalApplication.uploadedFile.id must be a valid UUID'
+        '404':
+          description: The reply could not be found
+  '/api/v1/reply/appeal/{id}':
+    get:
+      summary: Returns an existing reply by the appeal ID
+      description: The reply includes the state of all subsections.
+      tags:
+        - Reply
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique identifier for Appeal
+      responses:
+        '200':
+          description: Returns an reply
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reply'
         '404':
           description: The reply could not be found
 components:

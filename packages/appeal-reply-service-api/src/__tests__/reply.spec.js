@@ -9,8 +9,8 @@ jest.mock('../db/db');
 const endpoint = '/api/v1/reply';
 const dbId = 'reply';
 
-async function createReply() {
-  const reply = new ReplyModel({ id: uuid.v4() });
+async function createReply(appealId) {
+  const reply = new ReplyModel({ id: uuid.v4(), appealId });
   reply.id = uuid.v4();
   await mongodb.get().collection(dbId).insertOne({ _id: reply.id, uuid: reply.id, reply });
   return reply;
@@ -73,5 +73,18 @@ describe('Replies API', () => {
     const response = await request(app).put(`/api/v1/reply/${reply.id}`).send(reply);
     expect(response.body).toEqual(reply);
     expect(response.statusCode).toBe(200);
+  });
+
+  test('GET /api/v1/reply/{id} - It responds with an existing reply', async () => {
+    const reply = await createReply('1234');
+    const response = await request(app).get(`${endpoint}/appeal/1234`);
+    expect(JSON.stringify(response.body)).toBe(JSON.stringify(reply));
+    expect(response.statusCode).toBe(200);
+  });
+
+  test('GET /api/v1/reply/appeal/{id} - It responds with an error - Not Found', async () => {
+    const response = await request(app).get(`${endpoint}/appeal/non-existent-id`);
+    expect(response.body).toEqual({});
+    expect(response.statusCode).toBe(404);
   });
 });
