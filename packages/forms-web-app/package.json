@@ -40,7 +40,7 @@
     "express-pino-logger": "^5.0.0",
     "express-session": "^1.17.1",
     "express-validator": "^6.6.1",
-    "file-type": "^16.0.1",
+    "file-type": "^16.4.0",
     "form-data": "^3.0.0",
     "govuk-frontend": "^3.11.0",
     "http-errors": "~1.6.3",
