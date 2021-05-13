@@ -63,6 +63,28 @@ module.exports = {
     }
   },
 
+  async getByAppeal(req, res) {
+    const appealId = req.params.id;
+    logger.debug(`Retrieving reply by appeal ID ${appealId} ...`);
+    try {
+      await mongodb
+        .get()
+        .collection(dbId)
+        .findOne({ 'reply.appealId': { $eq: appealId } })
+        .then((doc) => {
+          logger.debug(`Reply for appeal ${appealId} retrieved`);
+          res.status(200).send(doc.reply);
+        })
+        .catch((err) => {
+          logger.warn(`Could not find reply for appeal ${appealId}\n${err}`);
+          res.status(404).send(null);
+        });
+    } catch (err) {
+      logger.error({ appealId, err }, 'Problem retrieving reply for appeal');
+      res.status(500).send(`Problem finding reply for appeal ${appealId}`);
+    }
+  },
+
   async update(req, res) {
     const idParam = req.params.id;
     logger.debug({ idParam }, `Updating reply ...`);

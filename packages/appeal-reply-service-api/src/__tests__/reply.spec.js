@@ -13,8 +13,8 @@ jest.mock('../db/db');
 const endpoint = '/api/v1/reply';
 const dbId = 'reply';
 
-async function createReply() {
-  const reply = new ReplyModel({ id: uuid.v4() });
+async function createReply(appealId) {
+  const reply = new ReplyModel({ id: uuid.v4(), appealId });
   reply.id = uuid.v4();
   await mongodb.get().collection(dbId).insertOne({ _id: reply.id, uuid: reply.id, reply });
   return reply;
@@ -67,6 +67,21 @@ describe('Replies API', () => {
     const response = await request(app).get(`${endpoint}/non-existent-id`);
     expect(response.body).toEqual({});
     expect(response.statusCode).toBe(404);
+  });
+
+  test('GET /api/v1/reply/appeal/{id} - It responds with an error - Not Found', async () => {
+    const response = await request(app).get(`${endpoint}/appeal/non-existent-id`);
+    expect(response.body).toEqual({});
+    expect(response.statusCode).toBe(404);
+  });
+
+  test('GET /api/v1/reply/appeal/{id} - It responds with an error - Database error', async () => {
+    mongodb.get.mockImplementationOnce(() => {
+      throw new Error('mock error');
+    });
+
+    const response = await request(app).get(`${endpoint}/appeal/1234`);
+    expect(response.statusCode).toBe(500);
   });
 
   test('PUT /api/v1/reply/{id} - It responds with status 200 and matching reply', async () => {
