@@ -4,4 +4,5 @@ module.exports = () => {
     .and('include', 'https://www.smartsurvey.co.uk/s/7OGXZZ/');
 
   cy.wait(Cypress.env('demoDelay'));
+  cy.wait(100);
 };
