@@ -10,12 +10,11 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       {{ govukPanel({
-        titleText: "Information submitted",
-        html: "We've sent a confirmation email to: your.email@work.gov.uk"
+        titleText: "Questionnaire submitted"
       }) }}
 
+      <p class="govuk-body" data-cy="lpaEmailString">{{lpaEmailString}}</p>
       <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
-
       <h2 class="govuk-heading-m">What happens next</h2>
 
       <ul>
