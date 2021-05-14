@@ -62,6 +62,30 @@ spec:
               value: {{ .Values.appealReplyServiceApi.config.port | quote }}
             - name: SERVER_TERMINATION_GRACE_PERIOD_SECONDS
               value: {{ 10 | quote }} # Same as "periodSeconds" for readinessProbe
+            - name: HORIZON_HAS_PUBLISHER_HOST
+              value: {{ $queueConfig.amqp.connection.host | quote }}
+            - name: HORIZON_HAS_PUBLISHER_HOSTNAME
+              value: {{ $queueConfig.amqp.connection.hostname | quote }}
+            - name: HORIZON_HAS_PUBLISHER_RECONNECT_LIMIT
+              value: {{ $queueConfig.amqp.connection.reconnectLimit | quote }}
+            - name: HORIZON_HAS_PUBLISHER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: {{ $queueConfig.amqp.connection.existingPasswordSecret | quote }}
+            - name: HORIZON_HAS_PUBLISHER_PORT
+              value: {{ $queueConfig.amqp.connection.port | quote }}
+            - name: HORIZON_HAS_PUBLISHER_ATTEMPT_RECONNECTION
+              value: {{ $queueConfig.amqp.connection.reconnect | quote }}
+            - name: HORIZON_HAS_PUBLISHER_TRANSPORT
+              value: {{ $queueConfig.amqp.connection.transport | quote }}
+            - name: HORIZON_HAS_PUBLISHER_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: {{ $queueConfig.amqp.connection.existingUsernameSecret | quote }}
+            - name: HORIZON_HAS_PUBLISHER_QUEUE
+              value: {{ $queueConfig.amqp.receiver.source | quote }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
