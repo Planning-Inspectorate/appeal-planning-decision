@@ -65,13 +65,20 @@
     },
     "siteNotices": null,
     "planningHistory": {
-      "uploadedFiles": [{
-        "name": "upload-file-valid.pdf",
-        "id": "e04e2cc0-de29-4a78-9941-67bab0c9251b"
-      }]
+      "uploadedFiles": [
+        {
+          "name": "upload-file-valid.pdf",
+          "id": "e04e2cc0-de29-4a78-9941-67bab0c9251b"
+        }
+      ]
     },
     "statutoryDevelopment": {
-      "uploadedFiles": []
+      "uploadedFiles": [
+        {
+          "name": "upload-file-valid.pdf",
+          "id": "4a754d67-9c12-5556-ae71-28af8f710ea4"
+        }
+      ]
     },
     "otherPolicies": {
       "uploadedFiles": []
@@ -111,7 +118,7 @@
   },
   "submission": {
     "pdfStatement": {
-        "uploadedFile": null
+      "uploadedFile": null
     }
   }
 }

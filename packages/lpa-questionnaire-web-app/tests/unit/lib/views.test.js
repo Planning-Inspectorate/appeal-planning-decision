@@ -14,6 +14,7 @@ describe('lib/views', () => {
       UPLOAD_PLANS: 'upload-plans',
       OFFICERS_REPORT: 'officers-report',
       PLANNING_HISTORY: 'planning-history',
+      STATUTORY_DEVELOPMENT: 'statutory-development',
       INFORMATION_SUBMITTED: 'information-submitted',
       CONFIRM_ANSWERS: 'confirm-answers',
       PDF_GENERATION: 'pdf-generation',

@@ -7,6 +7,7 @@ const developmentPlanCompletion = require('./development-plan');
 const uploadPlansCompletion = require('./upload-plans');
 const officersReportCompletion = require('./officers-report');
 const planningHistoryCompletion = require('./planning-history');
+const statutoryDevelopmentCompletion = require('./statutory-development');
 
 module.exports = {
   accuracySubmissionCompletion,
@@ -18,4 +19,5 @@ module.exports = {
   uploadPlansCompletion,
   officersReportCompletion,
   planningHistoryCompletion,
+  statutoryDevelopmentCompletion,
 };
