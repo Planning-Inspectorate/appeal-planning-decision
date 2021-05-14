@@ -1,11 +1,13 @@
+const { validate: validateUuid } = require('uuid');
+const config = require('../config');
 const {
   createOrUpdateAppealReply,
-  getExistingAppealReply,
+  getAppealReplyByAppeal,
 } = require('../lib/appeal-reply-api-wrapper');
 
 /**
  * Middleware to ensure any route that needs the appeal reply form data can have it pre-populated when the
- * controller action is invoked.
+ * controller action is invoked. Looks up the appeal reply by the appeal ID
  *
  * @param req
  * @param res
@@ -13,21 +15,29 @@ const {
  * @returns {Promise<*>}
  */
 module.exports = async (req, res, next) => {
-  if (!req.session) {
-    return next();
-  }
+  const { id: appealId = '' } = req.params;
 
-  if (!req.session.appealReply || !req.session.appealReply.id) {
-    req.session.appealReply = await createOrUpdateAppealReply({ appealId: req.params.id });
-    return next();
+  if (!appealId || !validateUuid(appealId)) {
+    res.status(404).send();
+    return;
   }
 
   try {
-    req.log.debug({ id: req.session.appealReply.id }, 'Get existing appeal reply');
-    req.session.appealReply = await getExistingAppealReply(req.session.appealReply.id);
+    req.log.debug({ appealId }, 'Get existing appeal reply by appeal ID');
+
+    req.session.appealReply = await getAppealReplyByAppeal(appealId);
   } catch (err) {
-    req.log.debug({ err }, 'Error retrieving appeal reply');
-    req.session.appealReply = await createOrUpdateAppealReply({ appealId: req.params.id });
+    req.log.error({ err }, 'Error retrieving appeal reply');
+
+    if (config.appealReply.allowCreate) {
+      req.session.appealReply = await createOrUpdateAppealReply({ appealId });
+    } else {
+      req.log.info({ appealId }, 'Allow Create is disabled for Get existing appeal, returning 404');
+
+      res.status(404).send();
+      return;
+    }
   }
-  return next();
+
+  next();
 };
