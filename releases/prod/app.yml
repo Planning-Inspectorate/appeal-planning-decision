@@ -21,6 +21,7 @@ spec:
         lpaQuestionnaireWebApp: lpa-questions.planninginspectorate.gov.uk
 
     appealReplyServiceApi:
+      allowCreate: 'false'
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/appeal-reply-service-api
