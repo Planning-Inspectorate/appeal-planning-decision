@@ -140,6 +140,7 @@ services:
   lpa-questionnaire-web-app:
     image: node:14-alpine
     environment:
+      ALLOW_APPEAL_REPLY_CREATE: "true"
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       PDF_SERVICE_API_URL: http://pdf-service-api:3000

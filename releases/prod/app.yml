@@ -24,6 +24,7 @@ spec:
     enable: true
   values:
     appealReplyServiceApi:
+      allowCreate: 'false'
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/appeal-reply-service-api
