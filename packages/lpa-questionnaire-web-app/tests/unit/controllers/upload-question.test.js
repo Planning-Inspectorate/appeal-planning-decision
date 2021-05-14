@@ -62,7 +62,6 @@ describe('controllers/upload-question', () => {
 
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
-        appealReplyId: 'mock-id',
         backLink: backLinkUrl,
       });
     });
@@ -72,7 +71,6 @@ describe('controllers/upload-question', () => {
 
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
-        appealReplyId: 'mock-id',
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
       });
     });
@@ -89,7 +87,6 @@ describe('controllers/upload-question', () => {
 
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
-        appealReplyId: 'mock-id',
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
         uploadedFiles,
       });

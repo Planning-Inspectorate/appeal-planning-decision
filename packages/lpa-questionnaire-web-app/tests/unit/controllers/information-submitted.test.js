@@ -61,7 +61,6 @@ describe('../../../src/controllers/information-submitted', () => {
       fetch.mockResponseOnce(JSON.stringify(mockLPAObject));
       await getInformationSubmitted(req, res);
       expect(res.render).toHaveBeenCalledWith(VIEW.INFORMATION_SUBMITTED, {
-        appealReplyId: null,
         lpaEmailString,
       });
     });
@@ -73,7 +72,6 @@ describe('../../../src/controllers/information-submitted', () => {
       });
       await getInformationSubmitted(req, res);
       expect(res.render).toHaveBeenCalledWith(VIEW.INFORMATION_SUBMITTED, {
-        appealReplyId: null,
         lpaEmailString,
       });
     });
