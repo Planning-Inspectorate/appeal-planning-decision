@@ -1,3 +1,4 @@
+const { validate: validateUuid } = require('uuid');
 const { getAppeal } = require('../lib/appeals-api-wrapper');
 
 /**
@@ -9,23 +10,23 @@ const { getAppeal } = require('../lib/appeals-api-wrapper');
  * @returns {Promise<*>}
  */
 module.exports = async (req, res, next) => {
-  const appealId = req.params && req.params.id;
+  const { id: appealId = '' } = req.params;
 
-  if (!req.session || !appealId) {
-    return next();
+  if (!appealId || !validateUuid(appealId)) {
+    res.status(404).send();
+    return;
   }
 
-  const { appeal } = req.session;
+  try {
+    req.log.debug({ appealId }, 'Get existing appeal');
 
-  if (!appeal || !appeal.id || appeal.id !== appealId) {
-    try {
-      req.log.debug({ appealId }, 'Get existing appeal');
-      req.session.appeal = await getAppeal(appealId);
-    } catch (err) {
-      req.log.debug({ err }, 'Error retrieving appeal');
-      req.session.appeal = null;
-    }
+    req.session.appeal = await getAppeal(appealId);
+  } catch (err) {
+    req.log.debug({ err }, 'Error retrieving appeal');
+
+    res.status(404).send();
+    return;
   }
 
-  return next();
+  next();
 };

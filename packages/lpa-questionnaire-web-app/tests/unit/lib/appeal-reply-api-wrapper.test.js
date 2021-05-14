@@ -5,6 +5,7 @@ const uuid = require('uuid');
 const {
   createOrUpdateAppealReply,
   getExistingAppealReply,
+  getAppealReplyByAppeal,
 } = require('../../../src/lib/appeal-reply-api-wrapper');
 
 const config = require('../../../src/config');
@@ -105,6 +106,14 @@ describe('lib/appeal-reply-api-wrapper', () => {
       fetch.mockResponseOnce(JSON.stringify({ shouldBe: 'valid' }));
       await getExistingAppealReply('123');
       expect(fetch.mock.calls[0][0]).toEqual('http://fake.url/api/v1/reply/123');
+    });
+  });
+
+  describe('getAppealReplyByAppeal', () => {
+    it(`should call the expected URL`, async () => {
+      fetch.mockResponseOnce(JSON.stringify({ shouldBe: 'valid' }));
+      await getAppealReplyByAppeal('123');
+      expect(fetch.mock.calls[0][0]).toEqual('http://fake.url/api/v1/reply/appeal/123');
     });
   });
 });
