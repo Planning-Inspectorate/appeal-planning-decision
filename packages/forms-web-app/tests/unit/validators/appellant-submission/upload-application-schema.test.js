@@ -101,17 +101,17 @@ describe('validators/appellant-submission/upload-application-schema', () => {
       );
     });
 
-    it('should call the validateFileSize validator', () => {
-      fn('some value', {
+    it('should call the validateFileSize validator', async () => {
+      await fn('some value', {
         req: {
-          session: appealWithFile,
-          files: { a: { mimetype: MIME_TYPE_JPEG, size: 12345 } },
+          session: appealWithoutFile,
+          files: { a: { mimetype: MIME_TYPE_DOC, size: 12345 } },
         },
         path: 'a',
       });
       expect(validateFileSize).toHaveBeenCalledWith(
         12345,
-        config.fileUpload.pins.uploadApplicationMaxFileSize
+        config.fileUpload.pins.uploadDecisionMaxFileSize
       );
     });
   });

@@ -139,7 +139,7 @@ describe('validators/appellant-submission/upload-decision', () => {
           },
         }),
         expected: (result) => {
-          expect(result.errors).toHaveLength(1);
+          expect(result.errors).toHaveLength(0);
         },
       },
     ].forEach(({ title, given, expected }) => {

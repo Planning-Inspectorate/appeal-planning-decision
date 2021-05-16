@@ -47,7 +47,7 @@ module.exports = {
         );
 
         // check file size
-         validateFileSize(size, config.fileUpload.pins.uploadApplicationMaxFileSize, name);
+        validateFileSize(size, config.fileUpload.pins.uploadApplicationMaxFileSize, name);
 
         return true;
       },

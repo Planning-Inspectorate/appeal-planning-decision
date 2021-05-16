@@ -188,7 +188,7 @@ describe('validators/appellant-submission/appeal-statement', () => {
           },
         }),
         expected: (result) => {
-          expect(result.errors).toHaveLength(1);
+          expect(result.errors).toHaveLength(0);
         },
       },
     ].forEach(({ title, given, expected }) => {
