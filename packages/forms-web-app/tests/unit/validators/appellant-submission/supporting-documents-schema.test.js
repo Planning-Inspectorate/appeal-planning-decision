@@ -43,8 +43,8 @@ describe('validators/appellant-submission/supporting-documents-schema', () => {
       );
     });
 
-    it('should call the validateFileSize validator', () => {
-      fn({ mimetype: MIME_TYPE_JPEG, name: 'pingu.penguin', size: 12345 });
+    it('should call the validateFileSize validator', async () => {
+      await fn({ mimetype: MIME_TYPE_JPEG, name: 'pingu.penguin', size: 12345 });
       expect(validateFileSize).toHaveBeenCalledWith(
         12345,
         config.fileUpload.pins.supportingDocumentsMaxFileSize,

@@ -40,7 +40,7 @@ describe('validators/appellant-submission/upload-decision-schema', () => {
     });
 
     it('should throw an error if `req.files` is undefined and no planning application was submitted', () => {
-      expect(() => fn('some value', { req: { session: appealWithoutFile } })).toThrow(
+      expect(() => fn('some value', { req: { session: appealWithoutFile } })).rejects.toThrow(
         'Select a decision letter'
       );
     });
@@ -53,7 +53,7 @@ describe('validators/appellant-submission/upload-decision-schema', () => {
             files: {},
           },
         })
-      ).toThrow('Select a decision letter');
+      ).rejects.toThrow('Select a decision letter');
     });
 
     it('should throw an error if `req.files[path]` is not matched and no planning application was submitted', () => {
@@ -62,7 +62,7 @@ describe('validators/appellant-submission/upload-decision-schema', () => {
           req: { session: appealWithoutFile, files: { a: { mimetype: MIME_TYPE_PDF } } },
           path: 'x',
         })
-      ).toThrow('Select a decision letter');
+      ).rejects.toThrow('Select a decision letter');
     });
 
     it('should return true if `req.files` is undefined but a decision letter was previously submitted', () => {
@@ -82,8 +82,8 @@ describe('validators/appellant-submission/upload-decision-schema', () => {
       ).toBeTruthy();
     });
 
-    it('should call the validMimeType validator', () => {
-      fn('some value', {
+    it('should call the validMimeType validator', async () => {
+      await fn('some value', {
         req: {
           session: appealWithoutFile,
           files: { a: { mimetype: MIME_TYPE_DOCX } },
@@ -104,8 +104,8 @@ describe('validators/appellant-submission/upload-decision-schema', () => {
       );
     });
 
-    it('should call the validateFileSize validator', () => {
-      fn('some value', {
+    it('should call the validateFileSize validator', async () => {
+      await fn('some value', {
         req: {
           session: appealWithoutFile,
           files: { a: { mimetype: MIME_TYPE_DOC, size: 12345 } },

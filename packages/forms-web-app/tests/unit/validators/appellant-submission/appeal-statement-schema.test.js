@@ -76,35 +76,38 @@ describe('validators/appellant-submission/appeal-statement-schema', () => {
       ).toBeTruthy();
     });
 
-    it('should throw error if `req.files` is undefined and no appeal was previously submitted', () => {
-      expect(() =>
+    it('should throw error if `req.files` is undefined and no appeal was previously submitted', async () => {
+      await expect(() =>
         fn('some value', {
           req: {
             session,
           },
         })
-      ).toThrow('Upload the appeal statement');
+      ).rejects.toThrow('Upload the appeal statement');
     });
 
-    it('should throw error if `req.files` is empty and no appeal was previously submitted', () => {
-      expect(() =>
+    it('should throw error if `req.files` is empty and no appeal was previously submitted', async () => {
+      await expect(() =>
         fn('some value', {
           req: {
             session,
             files: {},
           },
         })
-      ).toThrow('Upload the appeal statement');
+      ).rejects.toThrow('Upload the appeal statement');
     });
 
-    it('should throw error if `req.files[path]` is not matched and no appeal was previously submitted', () => {
-      expect(() =>
+    it('should throw error if `req.files[path]` is not matched and no appeal was previously submitted', async () => {
+      await expect(() =>
         fn('some value', { req: { session, files: { a: { mimetype: MIME_TYPE_PDF } } } })
-      ).toThrow('Upload the appeal statement');
+      ).rejects.toThrow('Upload the appeal statement');
     });
 
-    it('should call the validMimeType validator', () => {
-      fn('some value', { req: { session, files: { a: { mimetype: MIME_TYPE_PDF } } }, path: 'a' });
+    it('should call the validMimeType validator', async () => {
+      await fn('some value', {
+        req: { session, files: { a: { mimetype: MIME_TYPE_PDF } } },
+        path: 'a',
+      });
       expect(validMimeType).toHaveBeenCalledWith(
         MIME_TYPE_PDF,
         [
@@ -119,8 +122,8 @@ describe('validators/appellant-submission/appeal-statement-schema', () => {
       );
     });
 
-    it('should call the validateFileSize validator', () => {
-      fn('some value', {
+    it('should call the validateFileSize validator', async () => {
+      await fn('some value', {
         req: { session, files: { a: { mimetype: MIME_TYPE_PDF, size: 12345 } } },
         path: 'a',
       });
