@@ -40,6 +40,11 @@ export const subTasks = [
     url: 'planning-history',
   },
   {
+    ref: 'Other relevant policies',
+    id: 'otherPolicies',
+    url: 'other-policies',
+  },
+  {
     ref: 'Development Plan',
     id: 'developmentOrNeighbourhood',
     url: 'development-plan',
