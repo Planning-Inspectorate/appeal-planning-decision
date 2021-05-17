@@ -355,7 +355,6 @@ Then('the appeal details will be shown - appellant, without files', () => {
   cy.assertCyTagHasExactText({
     'appeal-submission-date': moment().format('D MMMM YYYY'),
     'appellant-name': STANDARD_APPEAL.aboutYouSection.yourDetails.name,
-    'your-email': STANDARD_APPEAL.aboutYouSection.yourDetails.email,
     'planning-application-number': STANDARD_APPEAL.requiredDocumentsSection.applicationNumber,
     'appeal-site': [
       STANDARD_APPEAL.appealSiteSection.siteAddress.addressLine1,
@@ -403,11 +402,9 @@ Then('the appeal details will be shown - appellant, without files', () => {
 });
 
 Then('the appeal details will be shown - agent, without files', () => {
-  console.log(`AGENT_APPEAL_WITHOUT_FILES`, AGENT_APPEAL_WITHOUT_FILES);
-   cy.assertCyTagHasExactText({
+  cy.assertCyTagHasExactText({
     'appeal-submission-date': moment().format('D MMMM YYYY'),
     'appellant-name': AGENT_APPEAL_WITHOUT_FILES.aboutYouSection.yourDetails.appealingOnBehalfOf,
-    'your-email': AGENT_APPEAL_WITHOUT_FILES.aboutYouSection.yourDetails.email,
     'planning-application-number':
       AGENT_APPEAL_WITHOUT_FILES.requiredDocumentsSection.applicationNumber,
     'appeal-site': [
@@ -460,7 +457,6 @@ Then('a count for each document type will be displayed on the page - appellant',
   cy.assertCyTagHasExactText({
     'appeal-submission-date': moment().format('D MMMM YYYY'),
     'appellant-name': APPELLANT_APPEAL_WITH_FILES.aboutYouSection.yourDetails.name,
-    'your-email': APPELLANT_APPEAL_WITH_FILES.aboutYouSection.yourDetails.email,
     'planning-application-number':
       APPELLANT_APPEAL_WITH_FILES.requiredDocumentsSection.applicationNumber,
     'appeal-site': [
@@ -515,7 +511,6 @@ Then('a count for each document type will be displayed on the page - agent', () 
   cy.assertCyTagHasExactText({
     'appeal-submission-date': moment().format('D MMMM YYYY'),
     'appellant-name': AGENT_APPEAL_WITH_FILES.aboutYouSection.yourDetails.appealingOnBehalfOf,
-    'your-email': AGENT_APPEAL_WITH_FILES.aboutYouSection.yourDetails.email,
     'planning-application-number':
       AGENT_APPEAL_WITH_FILES.requiredDocumentsSection.applicationNumber,
     'appeal-site': [
