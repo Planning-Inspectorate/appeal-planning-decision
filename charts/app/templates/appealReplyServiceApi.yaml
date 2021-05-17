@@ -1,3 +1,5 @@
+{{ $queueConfig := index .Values "horizon-householder-appeal-publish" }} #Same as appealsService
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
