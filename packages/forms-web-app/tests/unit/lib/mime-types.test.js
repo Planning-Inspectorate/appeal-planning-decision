@@ -1,5 +1,6 @@
 const {
   MIME_TYPE_DOC,
+  MIME_BINARY_TYPE_DOC,
   MIME_TYPE_DOCX,
   MIME_TYPE_PDF,
   MIME_TYPE_JPEG,
@@ -10,6 +11,7 @@ const {
 describe('lib/mime-types', () => {
   it('should define the expected mime types', () => {
     expect(MIME_TYPE_DOC).toBe('application/msword');
+    expect(MIME_BINARY_TYPE_DOC).toBe('application/x-cfb');
     expect(MIME_TYPE_DOCX).toBe(
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     );

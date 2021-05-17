@@ -40,7 +40,7 @@ describe('validators/appellant-submission/upload-application-schema', () => {
     });
 
     it('should throw an error if `req.files` is undefined and no planning application was submitted', () => {
-      expect(() => fn('some value', { req: { session: appealWithoutFile } })).toThrow(
+      expect(() => fn('some value', { req: { session: appealWithoutFile } })).rejects.toThrow(
         'Select a planning application form'
       );
     });
@@ -53,7 +53,7 @@ describe('validators/appellant-submission/upload-application-schema', () => {
             files: {},
           },
         })
-      ).toThrow('Select a planning application form');
+      ).rejects.toThrow('Select a planning application form');
     });
 
     it('should throw an error if `req.files[path]` is not matched and no planning application was submitted', () => {
@@ -62,7 +62,7 @@ describe('validators/appellant-submission/upload-application-schema', () => {
           req: { session: appealWithoutFile, files: { a: { mimetype: MIME_TYPE_PDF } } },
           path: 'x',
         })
-      ).toThrow('Select a planning application form');
+      ).rejects.toThrow('Select a planning application form');
     });
 
     it('should return true if `req.files` is undefined but an application was previously submitted', () => {
@@ -101,17 +101,17 @@ describe('validators/appellant-submission/upload-application-schema', () => {
       );
     });
 
-    it('should call the validateFileSize validator', () => {
-      fn('some value', {
+    it('should call the validateFileSize validator', async () => {
+      await fn('some value', {
         req: {
-          session: appealWithFile,
-          files: { a: { mimetype: MIME_TYPE_JPEG, size: 12345 } },
+          session: appealWithoutFile,
+          files: { a: { mimetype: MIME_TYPE_DOC, size: 12345 } },
         },
         path: 'a',
       });
       expect(validateFileSize).toHaveBeenCalledWith(
         12345,
-        config.fileUpload.pins.uploadApplicationMaxFileSize
+        config.fileUpload.pins.uploadDecisionMaxFileSize
       );
     });
   });
