@@ -22,7 +22,7 @@ MockFile.prototype.create = function (name, size, mimeType, filePath) {
 
 // mock file test harness
 describe('Mock file for file upload testing', function () {
-  it('should be valid when given a smaller file size than the configured maximum', async () => {
+  it('should be valid when binary content type is in valid list', async () => {
     const mock = new MockFile();
     const file = mock.create(
       'example.jpeg',
@@ -39,3 +39,22 @@ describe('Mock file for file upload testing', function () {
     ).toBeTruthy();
   });
 });
+
+// describe('Mock file for file upload testing', function () {
+//   it('should be invalid when binary content type is not in valid list', async () => {
+//     const mock = new MockFile();
+//     const file = mock.create(
+//       'example.ods',
+//       1024,
+//       'application/vnd.oasis.opendocument.spreadsheet',
+//       `${__dirname}/../../../fixtures/file_example.ods`
+//     );
+//     expect(
+//       await validateMimeBinaryType(
+//         file,
+//         ['image/jpeg'],
+//         'Doc is is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
+//       )
+//     ).toBeFalsy();
+//   });
+// });
