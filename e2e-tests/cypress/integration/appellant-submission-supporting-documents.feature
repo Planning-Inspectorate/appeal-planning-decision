@@ -31,7 +31,7 @@ Feature: Appellant submission - Supporting documents
       | "appeal-statement-valid.jpg"          |
       | "appeal-statement-valid.jpeg"         |
       | "appeal-statement-valid.png"          |
-      | "appeal-statement-valid-max-size.png" |
+#      | "appeal-statement-valid-max-size.png" |
 
   Scenario: AC3: When a valid document is uploaded,  they it's added to existing documents
     Given supporting document "appeal-statement-valid.pdf" being submitted
@@ -45,7 +45,7 @@ Feature: Appellant submission - Supporting documents
     Examples:
       | filename                                  | reason                    |
       | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    |
-      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
+#      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
 
   Scenario Outline: AC4: When an invalid document is uploaded, then previous documents uploaded remains unaltered
     Given supporting document "appeal-statement-valid.pdf" being submitted
@@ -55,7 +55,7 @@ Feature: Appellant submission - Supporting documents
     Examples:
       | filename                                  | reason                    |
       | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    |
-      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
+#      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
 
   Scenario: When multiple valid documents simultaneously uploaded, then they are successfully submitted
     Given the supporting document page is displayed

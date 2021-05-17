@@ -37,7 +37,7 @@ Feature: Planning Application file submission
       | "appeal-statement-valid.jpg"          |
       | "appeal-statement-valid.jpeg"         |
       | "appeal-statement-valid.png"          |
-      | "appeal-statement-valid-max-size.png" |
+#      | "appeal-statement-valid-max-size.png" |
 
   Scenario: Prospective appellant submits valid planning application file replaces previous file
     Given user has previously submitted a planning application file "appeal-statement-valid.pdf"
@@ -52,7 +52,7 @@ Feature: Planning Application file submission
     Examples:
       | filename                                  | reason                    |
       | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    |
-      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
+#      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
 
 
   Scenario Outline: Prospective appellant submits invalid planning application file
@@ -61,7 +61,7 @@ Feature: Planning Application file submission
     Examples:
       | filename                                  | reason                    |
       | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    |
-      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
+#      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
 
 
   Scenario Outline: Prospective appellant successfully submits valid planning application file followed by invalid file that is rejected before successfully submitting another valid file
@@ -71,7 +71,7 @@ Feature: Planning Application file submission
     Examples:
       | first-valid-file             | invalid-file                              | reason                    | second-valid-file            |
       | "appeal-statement-valid.pdf" | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    | "appeal-statement-valid.doc" |
-      | "appeal-statement-valid.pdf" | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" | "appeal-statement-valid.doc" |
+#      | "appeal-statement-valid.pdf" | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" | "appeal-statement-valid.doc" |
 
   Scenario Outline: Prospective appellant successfully submits valid planning application file followed by invalid file that is rejected before proceeding without selecting a new file
     Given user has previously submitted a valid planning application file <valid-file> followed by an invalid file <invalid-file> that was rejected because <reason>
@@ -80,4 +80,4 @@ Feature: Planning Application file submission
     Examples:
       | invalid-file                              | reason                    | valid-file                   |
       | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    | "appeal-statement-valid.doc" |
-      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" | "appeal-statement-valid.doc" |
+#      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" | "appeal-statement-valid.doc" |
