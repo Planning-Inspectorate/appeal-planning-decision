@@ -23,7 +23,7 @@ Feature: Appeal statement file submission
       | "appeal-statement-valid.jpg"          |
       | "appeal-statement-valid.jpeg"         |
       | "appeal-statement-valid.png"          |
-      | "appeal-statement-valid-max-size.png" |
+#      | "appeal-statement-valid-max-size.png" |
 
   @as-120 @ac-3-1
   Scenario: Prospective applicant confirms no sensitive information but chooses not to upload an appeal statement file
@@ -69,7 +69,7 @@ Feature: Appeal statement file submission
     Examples:
       | filename                                  | reason                    |
       | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    |
-      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
+#      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
 
   Scenario Outline: Prospective appellant submits invalid appeal statement file without sensitive information does not replace previous file
     Given user has previously submitted an appeal statement file "appeal-statement-valid.pdf"
@@ -79,7 +79,7 @@ Feature: Appeal statement file submission
     Examples:
       | filename                                  | reason                    |
       | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    |
-      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
+#      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
 
 
   Scenario Outline: Prospective appellant submits invalid appeal statement file with sensitive information
@@ -90,7 +90,7 @@ Feature: Appeal statement file submission
     Examples:
       | filename                                  | reason                    |
       | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    |
-      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
+#      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
 
   Scenario Outline: Prospective appellant successfully submits valid appeal statement file followed by invalid file that is rejected before successfully submitting another valid file
     Given user has previously submitted a valid appeal statement file <first-valid-file> followed by an invalid file <invalid-file> that was rejected because <reason>
@@ -99,7 +99,7 @@ Feature: Appeal statement file submission
     Examples:
       | first-valid-file             | invalid-file                              | reason                    | second-valid-file            |
       | "appeal-statement-valid.pdf" | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    | "appeal-statement-valid.doc" |
-      | "appeal-statement-valid.pdf" | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" | "appeal-statement-valid.doc" |
+#      | "appeal-statement-valid.pdf" | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" | "appeal-statement-valid.doc" |
 
 
   Scenario Outline: Prospective appellant successfully submits valid appeal statement file followed by invalid file that is rejected before proceeding without selecting a new file
@@ -109,5 +109,5 @@ Feature: Appeal statement file submission
     Examples:
       | invalid-file                              | reason                    | valid-file                   |
       | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    | "appeal-statement-valid.doc" |
-      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" | "appeal-statement-valid.doc" |
+#      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" | "appeal-statement-valid.doc" |
 

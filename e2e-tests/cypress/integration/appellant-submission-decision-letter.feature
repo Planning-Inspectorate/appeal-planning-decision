@@ -36,7 +36,7 @@ Feature: Appellant submission - decision letter
       | "appeal-statement-valid.jpg"          |
       | "appeal-statement-valid.jpeg"         |
       | "appeal-statement-valid.png"          |
-      | "appeal-statement-valid-max-size.png" |
+#      | "appeal-statement-valid-max-size.png" |
 
 
   Scenario: Prospective appellant submits valid decision letter file replaces previous file
@@ -52,7 +52,7 @@ Feature: Appellant submission - decision letter
     Examples:
       | filename                                  | reason                    |
       | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    |
-      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
+#      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
 
   Scenario Outline: Prospective appellant submits invalid decision letter file
     When user submits a decision letter file <filename>
@@ -60,7 +60,7 @@ Feature: Appellant submission - decision letter
     Examples:
       | filename                                  | reason                    |
       | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    |
-      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
+#      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
 
   Scenario Outline: Prospective appellant successfully submits valid decision letter file followed by invalid file that is rejected before successfully submitting another valid file
     Given user has previously submitted a valid decision letter file <first-valid-file> followed by an invalid file <invalid-file> that was rejected because <reason>
@@ -69,7 +69,7 @@ Feature: Appellant submission - decision letter
     Examples:
       | first-valid-file             | invalid-file                              | reason                    | second-valid-file            |
       | "appeal-statement-valid.pdf" | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    | "appeal-statement-valid.doc" |
-      | "appeal-statement-valid.pdf" | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" | "appeal-statement-valid.doc" |
+#      | "appeal-statement-valid.pdf" | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" | "appeal-statement-valid.doc" |
 
   Scenario Outline: Prospective appellant successfully submits valid decision letter file followed by invalid file that is rejected before proceeding without selecting a new file
     Given user has previously submitted a valid decision letter file <valid-file> followed by an invalid file <invalid-file> that was rejected because <reason>
@@ -78,4 +78,4 @@ Feature: Appellant submission - decision letter
     Examples:
       | invalid-file                              | reason                    | valid-file                   |
       | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    | "appeal-statement-valid.doc" |
-      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" | "appeal-statement-valid.doc" |
+#      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" | "appeal-statement-valid.doc" |
