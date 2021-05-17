@@ -1,37 +1,35 @@
-const blob = require('cross-blob');
-const fs = require('fs');
+const CrossBlob = require('cross-blob');
 const validateMimeBinaryType = require('../../../../src/validators/custom/mime-binary-type');
 
 function MockFile() {}
 
-MockFile.prototype.create = function (name, size, mimeType) {
-  name = name || 'mock.txt';
-  size = size || 1024;
-  mimeType = mimeType || 'plain/txt';
-
+MockFile.prototype.create = function (name, size, mimeType, filePath) {
   function range(count) {
     let output = '';
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < count; i += 1) {
       output += 'a';
     }
     return output;
   }
 
-  const blob1 = new blob([range(size)], { type: mimeType });
-  blob1.lastModifiedDate = new Date();
-  blob1.name = name;
-  blob1.tempFilePath = `${__dirname}/../../../fixtures/file_example.jpeg`;
-  //blob1.tempFilePath = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAAC';
-  blob1.mimetype = mimeType;
-  return blob1;
+  const blobStream = new CrossBlob([range(size)], { type: mimeType });
+  blobStream.name = name;
+  blobStream.mimetype = mimeType;
+  blobStream.tempFilePath = filePath;
+
+  return blobStream;
 };
 
 // mock file test harness
 describe('Mock file for file upload testing', function () {
   it('should be valid when given a smaller file size than the configured maximum', async () => {
-    const size = 1024 * 1024 * 2;
     const mock = new MockFile();
-    const file = mock.create('pic.png', size, 'image/jpeg');
+    const file = mock.create(
+      'example.jpeg',
+      1024,
+      'image/jpeg',
+      `${__dirname}/../../../fixtures/file_example.jpeg`
+    );
     expect(
       await validateMimeBinaryType(
         file,
