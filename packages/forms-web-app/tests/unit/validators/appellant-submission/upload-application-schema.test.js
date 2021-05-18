@@ -111,7 +111,7 @@ describe('validators/appellant-submission/upload-application-schema', () => {
       });
       expect(validateFileSize).toHaveBeenCalledWith(
         12345,
-        config.fileUpload.pins.uploadDecisionMaxFileSize
+        config.fileUpload.pins.uploadApplicationMaxFileSize
       );
     });
   });
