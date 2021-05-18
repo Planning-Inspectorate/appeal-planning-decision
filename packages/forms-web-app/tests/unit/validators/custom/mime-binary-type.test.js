@@ -12,7 +12,7 @@ const validateMimeBinaryType = require('../../../../src/validators/custom/mime-b
 
 function MockFile() {}
 
-MockFile.prototype.create = function (name, size, mimeType, filePath) {
+MockFile.prototype.create = (name, size, mimeType, filePath) => {
   const blobStream = new CrossBlob(['a'.repeat(size)], { type: mimeType });
   blobStream.name = name;
   blobStream.mimetype = mimeType;
