@@ -22,7 +22,7 @@ MockFile.prototype.create = (name, size, mimeType, filePath) => {
 };
 
 // mock file test harness
-describe('Mock file for file upload testing', function () {
+describe('Mock file for file upload testing', function mockFileValid() {
   it('should be valid when binary content type is in valid list', async () => {
     const mock = new MockFile();
     const file = mock.create(
@@ -48,7 +48,7 @@ describe('Mock file for file upload testing', function () {
   });
 });
 
-describe('Mock file for file upload testing', function () {
+describe('Mock file for file upload testing', function mockFileInvalid() {
   it('should be invalid when binary content type is not in valid list', async () => {
     const mock = new MockFile();
     const file = mock.create(
