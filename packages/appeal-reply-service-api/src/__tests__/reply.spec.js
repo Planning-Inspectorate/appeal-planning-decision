@@ -87,4 +87,13 @@ describe('Replies API', () => {
     expect(response.body).toEqual({});
     expect(response.statusCode).toBe(404);
   });
+
+  test('GET /api/v1/reply/appeal/{id} - It responds with an error - Database error', async () => {
+    mongodb.get.mockImplementation(() => {
+      throw new Error('mock error');
+    });
+
+    const response = await request(app).get(`${endpoint}/appeal/1234`);
+    expect(response.statusCode).toBe(500);
+  });
 });
