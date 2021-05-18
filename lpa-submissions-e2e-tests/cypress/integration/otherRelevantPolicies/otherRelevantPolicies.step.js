@@ -2,7 +2,7 @@ import { Given, When, Then, Before } from 'cypress-cucumber-preprocessor/steps';
 import defaultPathId from '../../utils/defaultPathId';
 
 const page = {
-  id: 'otherRelevantPolicies',
+  id: 'otherPolicies',
   heading: 'Other relevant policies',
   section: 'Optional supporting documents',
   title:
@@ -33,7 +33,7 @@ Given('other relevant policies question is requested', () => {
   goToOtherRelevantPoliciesPage();
 });
 
-When('LPA Planning Officer chooses to upload the other relevant policies', () => {
+When('LPA Planning Officer chooses upload the other relevant policies', () => {
   cy.clickOnSubTaskLink(page.id);
   cy.verifyPage(page.url);
 });

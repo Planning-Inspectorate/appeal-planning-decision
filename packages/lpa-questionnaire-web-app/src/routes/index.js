@@ -15,6 +15,7 @@ const developmentPlanRouter = require('./development-plan');
 const { router: uploadPlansRouter } = require('./upload-plans');
 const { router: officersReportRouter } = require('./officers-report');
 const { router: planningHistoryRouter } = require('./planning-history');
+const { router: otherPoliciesRouter } = require('./other-policies');
 const informationSubmittedRouter = require('./information-submitted');
 
 router.use(homeRouter);
@@ -30,6 +31,7 @@ router.use(developmentPlanRouter);
 router.use(uploadPlansRouter);
 router.use(officersReportRouter);
 router.use(planningHistoryRouter);
+router.use(otherPoliciesRouter);
 router.use(informationSubmittedRouter);
 
 module.exports = router;
