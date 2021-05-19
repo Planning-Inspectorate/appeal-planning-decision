@@ -62,6 +62,11 @@ const stepCompletion = () => {
   uploadFiles('upload-file-valid.pdf');
   cy.clickSaveAndContinue();
 
+  // Other relevant policies
+  cy.goToPage('other-policies');
+  uploadFiles('upload-file-valid.pdf');
+  cy.clickSaveAndContinue();
+
   // Development Plan
   cy.goToPage('development-plan');
   input('has-plan-submitted-yes').check();
