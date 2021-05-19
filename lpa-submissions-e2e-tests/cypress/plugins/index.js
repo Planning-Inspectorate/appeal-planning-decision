@@ -1,4 +1,5 @@
 const cucumber = require('cypress-cucumber-preprocessor').default;
+const { downloadFile } = require('cypress-downloadfile/lib/addPlugin');
 const pdf = require('pdf-parse');
 
 // ***********************************************************
@@ -30,8 +31,10 @@ module.exports = (on, config) => {
 
       return null;
     },
-    getPdfContent(pdfBuffer) {
-      return String(parsePdf(pdfBuffer));
+    async getPdfContent(pdfBuffer) {
+      const parsed = await parsePdf(pdfBuffer);
+      return parsed.text;
     },
+    downloadFile,
   });
 };
