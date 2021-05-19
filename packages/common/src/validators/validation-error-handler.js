@@ -18,6 +18,4 @@ const validationErrorHandler = (req, res, next) => {
   return next();
 };
 
-module.exports = {
-  validationErrorHandler,
-};
+module.exports = validationErrorHandler;
