@@ -76,6 +76,7 @@ const populateDocuments = (body) => {
 const handlerReply = async (event, horizonCaseId, context) => {
   event.log.info({ config }, 'Received householder reply publish request');
   try {
+    event.log.info({ event }, 'STEVE: handler-reply');
     const { body } = event;
     const replyId = body.reply.id;
     await publishDocuments(event.log, populateDocuments(body), replyId, horizonCaseId);

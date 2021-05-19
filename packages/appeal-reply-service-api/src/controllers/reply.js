@@ -87,6 +87,7 @@ module.exports = {
             logger.debug(`Updated reply ${idParam}\n`);
 
             if (isFirstSubmission) {
+              logger.info({ newDoc }, 'STEVE: api');
               queue.addAppealReply(newDoc);
               // TODO: call to notify will go here
             }
