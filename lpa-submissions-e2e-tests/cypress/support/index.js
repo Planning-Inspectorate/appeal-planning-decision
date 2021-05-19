@@ -13,15 +13,8 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-// Import Cypress-axe
 import 'cypress-axe';
 
-// Import commands.js using ES2015 syntax:
+import 'cypress-ntlm-auth/dist/commands';
+import 'cypress-downloadfile/lib/downloadFileCommand';
 import './commands';
-import "cypress-ntlm-auth/dist/commands";
-
-
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
-
-
