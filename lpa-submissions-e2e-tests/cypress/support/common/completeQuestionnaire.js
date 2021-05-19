@@ -72,6 +72,11 @@ const stepCompletion = () => {
   input('has-plan-submitted-yes').check();
   textArea('plan-changes-text').type('mock plan changes');
   cy.clickSaveAndContinue();
+
+  // Statutory Development Plan Policy
+  cy.goToPage('statutory-development');
+  uploadFiles('upload-file-valid.pdf');
+  cy.clickSaveAndContinue();
 };
 
 const apiCompletion = () => {
