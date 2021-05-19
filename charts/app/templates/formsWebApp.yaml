@@ -51,6 +51,8 @@ spec:
           env:
             - name: APPEALS_SERVICE_API_URL
               value: "http://{{ include "app.fullname" . }}:{{ .Values.appealsServiceApi.service.port }}"
+            - name: COOKIE_EXPIRES_TIMER_IN_MS
+              value: {{ .Values.formsWebApp.config.cookies.expiresTimerInMilliseconds | quote }}
             - name: DOCUMENTS_SERVICE_API_URL
               value: "http://{{ include "app.fullname" . }}:{{ .Values.documentServiceApi.service.port }}"
             - name: PDF_SERVICE_API_URL

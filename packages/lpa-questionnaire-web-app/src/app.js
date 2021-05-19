@@ -9,7 +9,11 @@ const session = require('express-session');
 const pinoExpress = require('express-pino-logger');
 const uuid = require('uuid');
 const fileUpload = require('express-fileupload');
-const { prometheus } = require('@pins/common');
+const {
+  prometheus,
+  middleware: commonMiddleware,
+  nunjucks: { filters: commonNunjucksFilters },
+} = require('@pins/common');
 const sessionConfig = require('./lib/session');
 const { fileSizeDisplayHelper } = require('./lib/file-upload-helpers');
 require('express-async-errors');
@@ -29,6 +33,29 @@ app.use(
   })
 );
 
+const isDev = app.get('env') === 'development';
+
+const nunjucksConfig = {
+  autoescape: true,
+  noCache: true,
+  watch: isDev,
+  express: app,
+};
+
+const viewPaths = [
+  path.join(__dirname, '..', 'node_modules', 'govuk-frontend'),
+  path.join(__dirname, '..', 'node_modules', '@ministryofjustice', 'frontend'),
+  path.join(__dirname, '..', '..', 'common', 'src', 'views'),
+  path.join(__dirname, 'views'),
+];
+
+const env = nunjucks.configure(viewPaths, nunjucksConfig);
+env.addFilter('date', dateFilter);
+env.addFilter('formatBytes', fileSizeDisplayHelper);
+env.addFilter('render', commonNunjucksFilters.renderTemplate(nunjucks));
+env.addGlobal('fileSizeLimits', config.fileUpload.pins);
+env.addGlobal('googleAnalyticsId', config.server.googleAnalyticsId);
+
 if (config.server.useSecureSessionCookie) {
   app.set('trust proxy', 1); // trust first proxy
 }
@@ -40,7 +67,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session(sessionConfig()));
+app.use(commonMiddleware.removeUnwantedCookies);
+app.use(commonMiddleware.flashMessageCleanup);
+app.use(commonMiddleware.flashMessageToNunjucks(env));
 app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use(
+  '/public/common',
+  express.static(path.join(__dirname, '..', '..', 'common', 'src', 'public'))
+);
 app.use(
   '/assets',
   express.static(path.join(__dirname, '..', 'node_modules', 'accessible-autocomplete', 'dist')),
@@ -81,26 +115,7 @@ app
     next();
   });
 
-const isDev = app.get('env') === 'development';
-
-const nunjucksConfig = {
-  autoescape: true,
-  noCache: true,
-  watch: isDev,
-  express: app,
-};
-
-const viewPaths = [
-  path.join(__dirname, '..', 'node_modules', 'govuk-frontend'),
-  path.join(__dirname, '..', 'node_modules', '@ministryofjustice', 'frontend'),
-  path.join(__dirname, '..', 'node_modules', '@pins', 'common', 'src', 'frontend'),
-  path.join(__dirname, 'views'),
-];
-
-const env = nunjucks.configure(viewPaths, nunjucksConfig);
-env.addFilter('date', dateFilter);
-env.addFilter('formatBytes', fileSizeDisplayHelper);
-env.addGlobal('fileSizeLimits', config.fileUpload.pins);
-env.addGlobal('googleAnalyticsId', config.server.googleAnalyticsId);
+// For working with req.subdomains, primarily for cookie control.
+app.set('subdomain offset', config.server.subdomainOffset);
 
 module.exports = app;

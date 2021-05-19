@@ -8,6 +8,8 @@
 {% endblock %}
 
 {% block header %}
+  {% include "includes/cookie-banner.njk" %}
+
   {{ govukHeader({
     homepageUrl: "/",
     serviceName: 'Appeal a householder planning decision',
