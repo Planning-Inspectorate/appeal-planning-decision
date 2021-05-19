@@ -1,3 +1,4 @@
+const fs = require('fs');
 const nunjucks = require('nunjucks');
 const path = require('path');
 const uuid = require('uuid');
@@ -50,7 +51,10 @@ const convertToHtml = (appealReply, appeal) => {
   const appealDetailsRows = buildAppealDetailsRows(appealDetails);
   sections.unshift(appealDetailsRows);
 
+  const css = fs.readFileSync(path.resolve(__dirname, '../public/stylesheets/main.css'), 'utf8');
+
   return nunjucks.render(path.resolve(__dirname, '../views/pdf-generation.njk'), {
+    css,
     sections,
   });
 };
