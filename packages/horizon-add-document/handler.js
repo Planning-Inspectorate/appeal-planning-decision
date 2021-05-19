@@ -29,7 +29,7 @@ function createDataObject(data, body) {
       'a:Content': data.data,
       'a:DocumentType': body.documentType,
       'a:Filename': data.name,
-      'a:IsPublished': 'true',
+      'a:IsPublished': 'false',
       'a:Metadata': {
         'a:Attributes': [
           {

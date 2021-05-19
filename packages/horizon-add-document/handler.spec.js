@@ -183,7 +183,7 @@ describe('handler', () => {
                 'a:Content': event.body.docServiceOutput.data,
                 'a:DocumentType': event.body.documentType,
                 'a:Filename': event.body.docServiceOutput.name,
-                'a:IsPublished': 'true',
+                'a:IsPublished': 'false',
                 'a:Metadata': {
                   'a:Attributes': [
                     {
