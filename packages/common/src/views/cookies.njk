@@ -1,0 +1,96 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% block head %}
+  {{ super() }}
+  <script src="/public/common/javascripts/cookiePreferences.bundle.js" defer></script>
+{% endblock head %}
+
+{% block pageTitle %}
+  Change your cookie settings - Appeal a householder planning decision - GOV.UK
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% include 'components/flash-message.njk' %}
+
+      <h1 class="govuk-heading-l cookie-settings__with-js govuk-!-display-none" data-cy="cookies-with-js-heading">Change your cookie settings</h1>
+      <h1 class="govuk-heading-l cookie-settings__no-js" data-cy="cookies-without-js-heading">Cookies on appeal a householder planning decision service</h1>
+
+      <p data-cy="common-cookie-information">Cookies are files saved on your phone, tablet or computer when you visit a website. We use cookies to store
+        information about how you use the appeal a householder planning decision service, such as the pages you
+        visit.</p>
+
+      <h2 class="govuk-heading-m">Cookie settings</h2>
+
+      {% include 'includes/cookies-without-js.njk' %}
+
+      <div class="cookie-settings__with-js govuk-!-display-none" data-cy="cookies-with-js-content">
+        <p>We use different types of cookies. </p>
+        <p>You can choose which cookies you’re happy for us to use and how the data is shared.</p>
+        <h2 class="govuk-heading-m">Strictly necessary cookies</h2>
+        <p>We use essential cookies to help you use the appeal a householder planning decision service. These do things
+          such as:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>remember your progress through our service</li>
+          <li>remember you have seen the cookies message</li>
+        </ul>
+        <p>These cookies need to be on to give you the best experience using the service.</p>
+
+        <form action="" method="post" accept-charset="utf-8">
+          <div class="govuk-form-group">
+            <fieldset class="govuk-fieldset" aria-describedby="optional-cookies-hint">
+              <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                <h1 class="govuk-fieldset__heading">
+                  Cookies used to improve appeal a householder planning decision service
+                </h1>
+              </legend>
+
+              <div id="optional-cookies-hint" class="govuk-hint">
+              <span class="govuk-hint">
+                <p>We use Google Analytics to measure how you use the appeal a householder planning decision service so we can improve it based on user needs. We do not allow Google to use or share the data about how you use this site.</p>
+                <p>You agree to the Planning Inspectorate using your data to help improve the appeal a householder planning decision service.</p>
+              </span>
+              </div>
+
+              {{ govukRadios({
+                idPrefix: "usage-cookies",
+                name: "usage-cookies",
+                items: [
+                  {
+                    value: "on",
+                    text: "On",
+                    attributes: { "data-cy":"usage-cookies-yes"},
+                    checked: cookiePolicy.usage == true
+                  },
+                  {
+                    value: "off",
+                    text: "Off",
+                    attributes: { "data-cy":"usage-cookies-no"},
+                    checked: cookiePolicy.usage == false
+                  }
+                ]
+              }) }}
+
+            </fieldset>
+          </div>
+
+          {{ govukButton({
+            text: "Save changes",
+            type: "submit",
+            attributes: { "data-cy":"button-save-changes"}
+          }) }}
+
+          <input type="hidden" name="previous_page_path" value="{{ previousPagePath }}">
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

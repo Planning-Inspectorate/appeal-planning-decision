@@ -70,6 +70,8 @@ formsWebApp:
     tag: latest
   config:
     port: 3000
+    cookies:
+      expiresTimerInMilliseconds: 31536000000
     googleAnalyticsId: ""
     logLevel: trace
     upload:
@@ -88,6 +90,8 @@ lpaQuestionnaireWebApp:
     tag: latest
   config:
     port: 3000
+    cookies:
+      expiresTimerInMilliseconds: 31536000000
     googleAnalyticsId: ""
     logLevel: trace
     subdomainOffset: ""

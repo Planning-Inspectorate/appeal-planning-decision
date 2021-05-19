@@ -1,0 +1,13 @@
+{% from "../macros/cookie-banner.njk" import cookieBanner %}
+{% from "../macros/cookie-banner-accepted.njk" import cookieBannerAccepted %}
+{% from "../macros/cookie-banner-rejected.njk" import cookieBannerRejected %}
+
+{% set showCookieBanner = displayCookieBanner | default(true) %}
+
+{%- if showCookieBanner -%}
+  <div id="global-cookie-message" role="region" aria-label="cookie banner" data-nosnippet="">
+    {{ cookieBanner() }}
+    {{ cookieBannerAccepted() }}
+    {{ cookieBannerRejected() }}
+  </div>
+{%- endif -%}
