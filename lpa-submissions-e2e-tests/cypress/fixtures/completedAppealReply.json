@@ -73,7 +73,12 @@
       ]
     },
     "statutoryDevelopment": {
-      "uploadedFiles": []
+      "uploadedFiles": [
+        {
+          "name": "upload-file-valid.pdf",
+          "id": "4a754d67-9c12-5556-ae71-28af8f710ea4"
+        }
+      ]
     },
     "otherPolicies": {
       "uploadedFiles": [

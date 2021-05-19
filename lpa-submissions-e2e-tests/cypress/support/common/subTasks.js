@@ -49,6 +49,11 @@ export const subTasks = [
     id: 'developmentOrNeighbourhood',
     url: 'development-plan',
   },
+  {
+    ref: 'Statutory development plan policy',
+    id: 'statutoryDevelopment',
+    url: 'statutory-development'
+  }
 ];
 
 export const getSubTaskInfo = (subTaskRef) => {
