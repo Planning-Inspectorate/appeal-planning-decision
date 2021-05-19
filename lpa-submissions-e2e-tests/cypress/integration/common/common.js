@@ -1,5 +1,13 @@
 import { Given, When } from 'cypress-cucumber-preprocessor/steps';
 
+Given('an appeal has been created', () => {
+  cy.completeAppeal();
+})
+
+Given('a questionnaire has been created', () => {
+  cy.generateQuestionnaire();
+})
+
 Given('all the mandatory questions for the questionnaire have been completed', () => {
   cy.completeQuestionnaire();
 });

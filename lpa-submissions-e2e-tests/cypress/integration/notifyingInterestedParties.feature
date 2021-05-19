@@ -3,6 +3,10 @@ Feature: Notifying interested parties of the appeal
   I want to provide the Planning Inspectorate with documents that was used to notify interested parties on the application.
   So that this can form part of the Inspectors decision.
 
+  Background:
+    Given an appeal has been created
+    And a questionnaire has been created
+
   Scenario: AC1 Access Notifying interested parties of the appeal about the application question
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     When LPA Planning Officer chooses to upload the document Notifying interested parties of the appeal

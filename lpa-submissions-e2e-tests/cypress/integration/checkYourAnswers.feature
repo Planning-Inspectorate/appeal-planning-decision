@@ -8,6 +8,10 @@ Feature: Check Your Answers
 
   The user will only be able to access the Check Your Answers page when all mandatory sections are completed.
 
+  Background:
+    Given an appeal has been created
+    And a questionnaire has been created
+
   Scenario: AC01 - Accessing 'Check Your Answers' from the task list
     Given all the mandatory questions for the questionnaire have been completed
     And a LPA Planning Officer is reviewing their LPA Questionnaire task list
@@ -19,12 +23,12 @@ Feature: Check Your Answers
     Then a summary of questions and answers is provided
 
   Scenario: AC03 - Submit answers
-    Given Check Your Answers in presented
+    Given Check Your Answers is presented
     When the answers are completed
     Then progress is made to the submission confirmation page
 
   Scenario: AC04 - Back Link
-    Given Check Your Answers in presented
+    Given Check Your Answers is presented
     When the LPA Planning Officer selects a question
     And the LPA Planning Officer chooses to go to the previous page
     Then user is returned to the Check your answers page

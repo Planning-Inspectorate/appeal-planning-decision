@@ -3,6 +3,10 @@ Feature: Upload the plans used to reach the LPA decision
   I want to upload the plans which were used to reach the LPA decision
   So that they can form part of the evidence on which the Inspector makes a decision
 
+  Background:
+    Given an appeal has been created
+    And a questionnaire has been created
+
   Scenario: AC1 LPA Planning Officer navigates to 'Upload the plans used to reach the decision' question
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     When LPA Planning Officer chooses to upload plans used to reach the decision

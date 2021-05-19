@@ -3,6 +3,10 @@ Feature: Representations from interested parties
   I want to provide the Planning Inspectorate with any Representations from interested parties.
   So that this can form part of the Inspectors decision.
 
+  Background:
+    Given an appeal has been created
+    And a questionnaire has been created
+
   Scenario: AC1 LPA  Planning officer navigates to ‘Representations from interested parties.’ question
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     When LPA Planning Officer chooses to upload the document Representations from interested parties
