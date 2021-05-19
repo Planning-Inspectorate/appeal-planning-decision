@@ -4,16 +4,22 @@
   {% endif %}
 
   <!--[if lte IE 8]><link href="/public/stylesheets/main-ie8.css" rel="stylesheet" type="text/css" /><![endif]-->
-  <!--[if gt IE 8]><!--><link href="/public/stylesheets/main.css" media="all" rel="stylesheet" type="text/css"/><!--<![endif]-->
+  <!--[if gt IE 8]><!--><link href="/public/stylesheets/main.css" media="all" rel="stylesheet" type="text/css" /><!--<![endif]-->
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script data-cy="Google Analytics" async src="https://www.googletagmanager.com/gtag/js?id={{ googleAnalyticsId | safe }}"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+  <p hidden id="gaId">{{ googleAnalyticsId }}</p>
 
-    gtag('config', '{{ googleAnalyticsId | safe }}');
-  </script>
+  {% if googleAnalyticsId and cookies.cookie_policy.usage %}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    {#  <script data-cy="Google Analytics" async src="https://www.googletagmanager.com/gtag/js?id={{ googleAnalyticsId | safe }}"></script>#}
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '{{ googleAnalyticsId | safe }}');
+    </script>
+  {% endif %}
+
+  <script src="/public/common/javascripts/index.bundle.js" defer></script>
 
 {% endblock head %}

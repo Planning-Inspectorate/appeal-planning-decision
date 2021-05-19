@@ -7,10 +7,16 @@
  */
 
 module.exports = {
+  cookies: {
+    expiresTimerInMilliseconds: Number(
+      process.env.COOKIE_EXPIRES_TIMER_IN_MS || 365 * 24 * 60 * 60 * 1000
+    ),
+  },
   logger: {
     level: process.env.LOGGER_LEVEL || 'info',
     redact: ['config.services.notify.apiKey'],
   },
+  isProduction: process.env.NODE_ENV === 'production',
   services: {
     notify: {
       baseUrl: process.env.SRV_NOTIFY_BASE_URL,

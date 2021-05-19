@@ -1,4 +1,7 @@
 const express = require('express');
+const {
+  routes: { cookies: cookiesRouter },
+} = require('@pins/common');
 
 const router = express.Router();
 
@@ -17,6 +20,7 @@ const { router: officersReportRouter } = require('./officers-report');
 const { router: planningHistoryRouter } = require('./planning-history');
 const informationSubmittedRouter = require('./information-submitted');
 
+router.use('/cookies', cookiesRouter);
 router.use(homeRouter);
 router.use(filesRouter);
 router.use(taskListRouter);
