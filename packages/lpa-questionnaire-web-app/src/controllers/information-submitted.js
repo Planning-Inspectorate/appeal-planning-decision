@@ -4,9 +4,7 @@ const logger = require('../lib/logger');
 const { createPdf } = require('../services/pdf.service');
 
 exports.getInformationSubmitted = (req, res) => {
-  res.render(VIEW.INFORMATION_SUBMITTED, {
-    appealReplyId: req.session?.appealReply?.id,
-  });
+  res.render(VIEW.INFORMATION_SUBMITTED, {});
 };
 
 exports.postInformationSubmitted = async (req, res) => {

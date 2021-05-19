@@ -40,7 +40,6 @@ describe('controllers/task-list', () => {
       taskListController.getTaskList(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.TASK_LIST, {
-        appealReplyId: null,
         applicationStatus: 'Application incomplete',
         sections: [
           {

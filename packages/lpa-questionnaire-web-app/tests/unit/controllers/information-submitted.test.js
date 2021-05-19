@@ -31,9 +31,7 @@ describe('../../../src/controllers/information-submitted', () => {
     it('should call the correct template', () => {
       getInformationSubmitted(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.INFORMATION_SUBMITTED, {
-        appealReplyId: null,
-      });
+      expect(res.render).toHaveBeenCalledWith(VIEW.INFORMATION_SUBMITTED, {});
     });
   });
 
