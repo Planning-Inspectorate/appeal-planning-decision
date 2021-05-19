@@ -1,8 +1,10 @@
 const express = require('express');
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 
 const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
 const appealStatementController = require('../../controllers/appellant-submission/appeal-statement');
-const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const {
   rules: appealStatementValidationRules,
 } = require('../../validators/appellant-submission/appeal-statement');
