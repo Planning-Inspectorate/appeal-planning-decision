@@ -9,6 +9,7 @@ const {
   notifyingPartiesCompletion,
   planningHistoryCompletion,
   otherPoliciesCompletion,
+  statutoryDevelopmentCompletion,
 } = require('./task-status');
 const checkYourAnswerCompletion = require('./task-status/check-your-answers');
 
@@ -72,6 +73,11 @@ const SECTIONS = [
         rule: otherPoliciesCompletion,
       },
       {
+        taskId: 'statutoryDevelopment',
+        href: '/statutory-development',
+        rule: statutoryDevelopmentCompletion,
+      },
+      {
         taskId: 'developmentOrNeighbourhood',
         href: '/development-plan',
         rule: developmentPlanCompletion,
@@ -103,6 +109,7 @@ const HEADERS = {
   interestedPartiesAppeal: 'Notifying interested parties of the appeal',
   planningHistory: 'Planning history',
   otherPolicies: 'Other relevant policies',
+  statutoryDevelopment: 'Statutory development plan policy',
   developmentOrNeighbourhood: 'Development Plan Document or Neighbourhood Plan',
   submitQuestionnaireSection: 'Before you submit',
   checkYourAnswers: 'Check your answers',

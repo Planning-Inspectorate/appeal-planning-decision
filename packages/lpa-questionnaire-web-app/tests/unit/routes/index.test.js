@@ -15,6 +15,7 @@ const informationSubmittedRouter = require('../../../src/routes/information-subm
 const { router: officersReportRouter } = require('../../../src/routes/officers-report');
 const { router: planningHistoryRouter } = require('../../../src/routes/planning-history');
 const { router: otherPoliciesRouter } = require('../../../src/routes/other-policies');
+const { router: statutoryDevelopmentRouter } = require('../../../src/routes/statutory-development');
 
 describe('routes/index', () => {
   beforeEach(() => {
@@ -42,5 +43,6 @@ describe('routes/index', () => {
     expect(use).toHaveBeenCalledWith(officersReportRouter);
     expect(use).toHaveBeenCalledWith(planningHistoryRouter);
     expect(use).toHaveBeenCalledWith(otherPoliciesRouter);
+    expect(use).toHaveBeenCalledWith(statutoryDevelopmentRouter);
   });
 });

@@ -11,6 +11,7 @@ const VIEW = {
   OFFICERS_REPORT: 'officers-report',
   PLANNING_HISTORY: 'planning-history',
   OTHER_POLICIES: 'other-policies',
+  STATUTORY_DEVELOPMENT: 'statutory-development',
   INFORMATION_SUBMITTED: 'information-submitted',
   CONFIRM_ANSWERS: 'confirm-answers',
   PDF_GENERATION: 'pdf-generation',
