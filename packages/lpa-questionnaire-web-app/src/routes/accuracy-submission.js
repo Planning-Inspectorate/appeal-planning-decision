@@ -2,7 +2,9 @@ const express = require('express');
 const accuracySubmissionController = require('../controllers/accuracy-submission');
 const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing-appeal-reply');
 const fetchAppealMiddleware = require('../middleware/fetch-appeal');
-const { validationErrorHandler } = require('../validators/validation-error-handler');
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const { rules: accuracySubmissionValidationRules } = require('../validators/accuracy-submission');
 
 const router = express.Router();

@@ -2,7 +2,9 @@ const express = require('express');
 const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
 const yourDetailsController = require('../../controllers/appellant-submission/your-details');
 const { rules: yourDetailsRules } = require('../../validators/appellant-submission/your-details');
-const { validationErrorHandler } = require('../../validators/validation-error-handler');
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 
 const router = express.Router();
 

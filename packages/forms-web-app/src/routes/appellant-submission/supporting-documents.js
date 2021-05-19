@@ -3,7 +3,9 @@ const express = require('express');
 const supportingDocumentsController = require('../../controllers/appellant-submission/supporting-documents');
 const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
 const reqFilesToReqBodyFilesMiddleware = require('../../middleware/req-files-to-req-body-files');
-const { validationErrorHandler } = require('../../validators/validation-error-handler');
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const {
   rules: supportingDocumentsValidationRules,
 } = require('../../validators/appellant-submission/supporting-documents');

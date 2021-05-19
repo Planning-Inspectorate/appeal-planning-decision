@@ -8,16 +8,12 @@
   },
   "scripts": {
     "prebuild": "rm -Rf ./dist",
-    "build": "npm run build:client && npm run build:sass && npm run build:app",
+    "build": "npm run build:sass && npm run build:app",
     "build:app": "cp -Rf ./src ./dist",
-    "build:client": "webpack --config webpack.prod.js",
     "build:sass": "sass src/sass/main.scss:src/public/stylesheets/main.css --style=compressed --load-path=./ --no-source-map",
     "start": "node dist/server.js",
-    "start:dev": "npm-run-all --parallel start:dev:server start:dev:client",
-    "start:dev:debug": "npm-run-all --parallel start:dev:server:debug start:dev:client",
-    "start:dev:server": "nodemon src/server.js | pino-pretty -tlc",
-    "start:dev:server:debug": "node --inspect-brk=0.0.0.0 src/server.js",
-    "start:dev:client": "webpack --config webpack.dev.js --watch",
+    "start:dev": "nodemon src/server.js | pino-pretty -tlc",
+    "start:dev:debug": "nodemon --inspect-brk=0.0.0.0 src/server.js",
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix",
     "format": "prettier --write './**/*.js'",
@@ -46,7 +42,7 @@
     "express-validator": "^6.6.1",
     "file-type": "^16.4.0",
     "form-data": "^3.0.0",
-    "govuk-frontend": "^3.11.0",
+    "govuk-frontend": "^3.12.0",
     "http-errors": "~1.6.3",
     "lusca": "^1.6.1",
     "node-fetch": "^2.6.1",
@@ -73,12 +69,8 @@
     "jest-fetch-mock": "^3.0.3",
     "jest-html-reporters": "^2.1.2",
     "nodemon": "^2.0.6",
-    "npm-run-all": "^4.1.5",
     "patch-package": "^6.2.2",
     "pino-pretty": "^4.3.0",
-    "prettier": "^2.1.2",
-    "webpack": "^5.24.2",
-    "webpack-cli": "^4.5.0",
-    "webpack-merge": "^5.7.3"
+    "prettier": "^2.1.2"
   }
 }

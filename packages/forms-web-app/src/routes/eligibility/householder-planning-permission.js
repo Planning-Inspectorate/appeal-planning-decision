@@ -2,7 +2,9 @@ const express = require('express');
 
 const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
 const householderPlanningPermissionController = require('../../controllers/eligibility/householder-planning-permission');
-const { validationErrorHandler } = require('../../validators/validation-error-handler');
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const {
   rules: householderPlanningPermissionValidationRules,
 } = require('../../validators/eligibility/householder-planning-permission');

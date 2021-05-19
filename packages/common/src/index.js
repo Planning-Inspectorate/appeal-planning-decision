@@ -6,6 +6,7 @@ const nunjucks = require('./nunjucks');
 const prometheus = require('./prometheus');
 const routes = require('./routes');
 const utils = require('./utils');
+const validators = require('./validators');
 
 module.exports = {
   controllers,
@@ -16,4 +17,5 @@ module.exports = {
   prometheus,
   routes,
   utils,
+  validators,
 };
