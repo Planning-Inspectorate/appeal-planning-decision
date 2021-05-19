@@ -68,10 +68,10 @@ const replySchema = new Mongoose.Schema({
       uploadedFiles: { type: [uploadedFilesSchema], default: [] },
     },
     otherPolicies: {
-      uploadedFiles: { type: [uploadedFilesMetaSchema], default: [] },
+      uploadedFiles: { type: [uploadedFilesSchema], default: [] },
     },
     supplementaryPlanningDocuments: {
-      uploadedFiles: { type: [uploadedFilesSchema], default: [] },
+      uploadedFiles: { type: [uploadedFilesMetaSchema], default: [] },
     },
     developmentOrNeighbourhood: {
       hasPlanSubmitted: { type: Boolean, default: null },
