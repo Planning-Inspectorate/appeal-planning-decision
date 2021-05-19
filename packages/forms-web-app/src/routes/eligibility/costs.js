@@ -2,7 +2,9 @@ const express = require('express');
 
 const costsController = require('../../controllers/eligibility/costs');
 const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
-const { validationErrorHandler } = require('../../validators/validation-error-handler');
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const { rules: costsValidationRules } = require('../../validators/eligibility/costs');
 
 const router = express.Router();

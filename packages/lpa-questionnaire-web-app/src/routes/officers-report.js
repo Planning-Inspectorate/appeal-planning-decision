@@ -6,7 +6,9 @@ const fetchAppealMiddleware = require('../middleware/fetch-appeal');
 const reqFilesToReqBodyFilesMiddleware = require('../middleware/req-files-to-req-body-files');
 const clearUploadedFilesMiddleware = require('../middleware/clear-uploaded-files');
 const uploadValidationRules = require('../validators/upload-tasks');
-const { validationErrorHandler } = require('../validators/validation-error-handler');
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 
 const router = express.Router();
 
