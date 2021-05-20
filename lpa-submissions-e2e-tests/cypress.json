@@ -7,9 +7,10 @@
   "video": false,
   "env": {
     "demoDelay": 0,
-    "DOCUMENT_SERVICE_BASE_URL": "http://localhost:3001/api/v1",
     "ASSUME_LIMITED_ACCESS": false,
     "APPEAL_REPLY_SERVICE_BASE_URL": "http://localhost:3002/api/v1",
+    "DOCUMENT_SERVICE_BASE_URL": "http://localhost:3001/api/v1",
+    "EMAIL_NOTIFICATION_URL": "http://localhost:5001/notifications",
     "TAGS": "not @wip"
   },
   "retries": {

@@ -28,23 +28,27 @@ describe('lib/notify/notify-builder', () => {
     let destinationEmail;
     let reference;
     let templatePersonalisation;
+    let emailReplyToId;
 
     beforeEach(() => {
       templateId = '123-abc';
       destinationEmail = 'a@b.com';
       reference = 'xyz/123/abc';
       templatePersonalisation = { x: 'y', a: 'b' };
+      emailReplyToId = '000';
+
+      NotifyBuilder.reset();
     });
 
     describe('getNotifyClient', () => {
       test('sets the client implicitly if not explicitly provided', async () => {
-        await NotifyBuilder()
-          .setTemplateId(templateId)
+        await NotifyBuilder.setTemplateId(templateId)
           .setReference('abc/123')
           .setDestinationEmailAddress(destinationEmail)
           .sendEmail();
 
         expect(mockInfo.mock.calls).toEqual([
+          ['Resetting the notify client'],
           [`Sending email via notify`],
           ['Notify client was not set. Creating...'],
         ]);
@@ -60,6 +64,7 @@ describe('lib/notify/notify-builder', () => {
               templateId: '123-abc',
               destinationEmail: 'a@b.com',
               templatePersonalisation: 'Has 0 value(s) set.',
+              emailReplyToId: '',
             },
           ],
         ]);
@@ -69,15 +74,17 @@ describe('lib/notify/notify-builder', () => {
     test('can build and send an email', async () => {
       const client = mockCreateNotifyClient();
 
-      await NotifyBuilder()
-        .setNotifyClient(client)
+      await NotifyBuilder.setNotifyClient(client)
         .setTemplateId(templateId)
         .setReference('abc/123')
         .setDestinationEmailAddress(destinationEmail)
         .setTemplateVariablesFromObject(templatePersonalisation)
         .sendEmail();
 
-      expect(mockInfo.mock.calls).toEqual([[`Sending email via notify`]]);
+      expect(mockInfo.mock.calls).toEqual([
+        ['Resetting the notify client'],
+        [`Sending email via notify`],
+      ]);
 
       expect(mockDebug.mock.calls).toEqual([
         [{ notifyClient: client }, 'Setting notify client'],
@@ -93,6 +100,7 @@ describe('lib/notify/notify-builder', () => {
             templateId: '123-abc',
             destinationEmail: 'a@b.com',
             templatePersonalisation: 'Has 2 value(s) set.',
+            emailReplyToId: '',
           },
         ],
       ]);
@@ -107,7 +115,7 @@ describe('lib/notify/notify-builder', () => {
       describe('guards', () => {
         test('throws if template id is not set', async () => {
           try {
-            await NotifyBuilder().sendEmail();
+            await NotifyBuilder.sendEmail();
           } catch (e) {
             expect(e).toEqual(new Error('Template ID must be set before an email can be sent.'));
           }
@@ -115,7 +123,7 @@ describe('lib/notify/notify-builder', () => {
 
         test('throws if destination email address is not set', async () => {
           try {
-            await NotifyBuilder().setTemplateId('123').sendEmail();
+            await NotifyBuilder.setTemplateId('123').sendEmail();
           } catch (e) {
             expect(e).toEqual(
               new Error('A destination email address must be set before an email can be sent.')
@@ -125,8 +133,7 @@ describe('lib/notify/notify-builder', () => {
 
         test('throws if reference is not set', async () => {
           try {
-            await NotifyBuilder()
-              .setTemplateId('123')
+            await NotifyBuilder.setTemplateId('123')
               .setDestinationEmailAddress('abc@example.com')
               .sendEmail();
           } catch (e) {
@@ -139,16 +146,17 @@ describe('lib/notify/notify-builder', () => {
     describe('addFileToTemplateVariables', () => {
       test('prepares the upload', () => {
         const fileValue = 'File object, or Buffer value goes here.';
-        NotifyBuilder()
-          .setNotifyClient(mockCreateNotifyClient())
-          .addFileToTemplateVariables('file key', fileValue);
+        NotifyBuilder.setNotifyClient(mockCreateNotifyClient()).addFileToTemplateVariables(
+          'file key',
+          fileValue
+        );
         expect(mockPrepareUploadFn).toHaveBeenCalledWith(fileValue);
       });
     });
 
     describe('setTemplateVariable', () => {
       test('with redact', () => {
-        NotifyBuilder().setTemplateVariable('a key', 'a value');
+        NotifyBuilder.setTemplateVariable('a key', 'a value');
 
         expect(mockDebug.mock.calls).toEqual([
           [
@@ -162,7 +170,7 @@ describe('lib/notify/notify-builder', () => {
       });
 
       test('without redact', () => {
-        NotifyBuilder().setTemplateVariable('a key', 'a value', false);
+        NotifyBuilder.setTemplateVariable('a key', 'a value', false);
 
         expect(mockDebug.mock.calls).toEqual([
           [
@@ -250,17 +258,18 @@ describe('lib/notify/notify-builder', () => {
         test(description, async () => {
           setUp();
 
-          await NotifyBuilder()
-            .setNotifyClient(mockCreateNotifyClient())
+          await NotifyBuilder.setNotifyClient(mockCreateNotifyClient())
             .setTemplateId(templateId)
             .setReference(reference)
             .setDestinationEmailAddress(destinationEmail)
             .setTemplateVariablesFromObject(templatePersonalisation)
+            .setEmailReplyToId(emailReplyToId)
             .sendEmail();
 
           expect(mockNotifySendEmailFn).toHaveBeenCalledWith(templateId, destinationEmail, {
             personalisation: templatePersonalisation,
             reference,
+            emailReplyToId,
           });
 
           expectation();

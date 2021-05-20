@@ -13,11 +13,17 @@ services:
     image: node:14-alpine
     environment:
       DOCS_API_PATH: /opt/app/api
+      APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       MONGODB_DB_NAME: appeals-reply-service-api
       MONGODB_URL: mongodb://mongodb:27017
       SERVER_SHOW_ERRORS: "true"
       LOGGER_LEVEL: "debug"
+      SRV_NOTIFY_BASE_URL: http://mock-notify:3000
+      SRV_NOTIFY_SERVICE_ID: 'dummy-service-id-for-notify'
+      SRV_NOTIFY_API_KEY: 'dummy-api-key-for-notify'
+      SRV_NOTIFY_TEMPLATE_ID_APPEAL_REPLY_SUBMISSION_CONFIRMATION: '937b4147-8420-42da-859d-d4a65bdf99bc'
+      SRV_NOTIFY_EMAIL_REPLYTO_ID_APPEAL_REPLY_SUBMISSION_CONFIRMATION: 'cc6c4dd4-6c10-4b80-a045-0c9fb797d926'
       HORIZON_HAS_PUBLISHER_HOST: rabbitmq
       HORIZON_HAS_PUBLISHER_PASSWORD: admin
       HORIZON_HAS_PUBLISHER_PORT: 5672
@@ -147,7 +153,6 @@ services:
     image: node:14-alpine
     environment:
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
-      DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       PDF_SERVICE_API_URL: http://pdf-service-api:3000
       APPEAL_REPLY_SERVICE_API_URL: http://appeal-reply-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
