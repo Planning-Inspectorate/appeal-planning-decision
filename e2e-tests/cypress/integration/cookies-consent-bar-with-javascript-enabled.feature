@@ -29,7 +29,7 @@ Feature: Cookie consent bar - with JS
     Then the GA cookies are enabled
 
   @as-1230 @as-1230-3
-  Scenario: Reject Not necessary Cookies
+  Scenario: Reject not necessary Cookies
     Given a user has not previously submitted cookie preferences
     When the user rejects not necessary cookies
     Then the GA cookies remain disabled

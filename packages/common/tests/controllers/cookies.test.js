@@ -41,10 +41,6 @@ describe('controllers/cookies', () => {
   });
 
   describe('getCookies', () => {
-    beforeEach(() => {
-      // getPreviousPagePath.mockImplementation(() => fakePreviousPage);
-    });
-
     it('should not throw if cannot parse req.cookies value', () => {
       req.cookies[cookieConfig.COOKIE_POLICY_KEY] = 'blurgh';
 
