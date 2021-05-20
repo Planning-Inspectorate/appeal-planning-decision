@@ -10,7 +10,7 @@ metadata:
     filter.fluxcd.io/pingHorizon: semver:~1.0.0
 
     repository.fluxcd.io/horizon-add-document: functions.horizon-add-document.image
-    filter.fluxcd.io/horizon-add-document: semver:~1.1.0
+    filter.fluxcd.io/horizon-add-document: semver:~1.2.0
     tag.fluxcd.io/horizon-add-document: functions.horizon-add-document.tag
 
     repository.fluxcd.io/horizon-create-contact: functions.horizon-create-contact.image
