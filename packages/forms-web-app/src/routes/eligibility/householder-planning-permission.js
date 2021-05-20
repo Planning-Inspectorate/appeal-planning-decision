@@ -1,10 +1,9 @@
 const express = require('express');
-
-const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
-const householderPlanningPermissionController = require('../../controllers/eligibility/householder-planning-permission');
 const {
   validators: { validationErrorHandler },
 } = require('@pins/common');
+const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
+const householderPlanningPermissionController = require('../../controllers/eligibility/householder-planning-permission');
 const {
   rules: householderPlanningPermissionValidationRules,
 } = require('../../validators/eligibility/householder-planning-permission');

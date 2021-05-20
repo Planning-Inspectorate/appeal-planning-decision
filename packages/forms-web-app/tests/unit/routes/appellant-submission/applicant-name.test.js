@@ -1,7 +1,9 @@
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const { get, post } = require('../router-mock');
 const applicantNameController = require('../../../../src/controllers/appellant-submission/applicant-name');
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
-const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const {
   rules: applicantNameValidationRules,
 } = require('../../../../src/validators/appellant-submission/applicant-name');
