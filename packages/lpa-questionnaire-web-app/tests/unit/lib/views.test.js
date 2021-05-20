@@ -8,6 +8,7 @@ describe('lib/views', () => {
       OTHER_APPEALS: 'other-appeals',
       ACCURACY_SUBMISSION: 'accuracy-submission',
       EXTRA_CONDITIONS: 'extra-conditions',
+      INTERESTED_PARTIES: 'interested-parties',
       REPRESENTATIONS: 'representations',
       NOTIFYING_PARTIES: 'notifying-parties',
       DEVELOPMENT_PLAN: 'development-plan',

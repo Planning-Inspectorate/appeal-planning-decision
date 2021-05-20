@@ -5,6 +5,7 @@ const {
   developmentPlanCompletion,
   uploadPlansCompletion,
   officersReportCompletion,
+  interestedPartiesCompletion,
   representationsCompletion,
   notifyingPartiesCompletion,
   planningHistoryCompletion,
@@ -52,6 +53,11 @@ const SECTIONS = [
   {
     sectionId: 'optionalDocumentsSection',
     tasks: [
+      {
+        taskId: 'interestedPartiesApplication',
+        href: '/interested-parties',
+        rule: interestedPartiesCompletion,
+      },
       {
         taskId: 'representationsInterestedParties',
         href: '/representations',
@@ -105,6 +111,7 @@ const HEADERS = {
   plansDecision: 'Plans used to reach the decision',
   officersReport: "Planning Officer's report",
   optionalDocumentsSection: 'Optional supporting documents',
+  interestedPartiesApplication: 'Interested parties application',
   representationsInterestedParties: 'Representations from interested parties',
   interestedPartiesAppeal: 'Notifying interested parties of the appeal',
   planningHistory: 'Planning history',
