@@ -47,6 +47,32 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
           GET_VERSION: 'true'
 
+      - name: Set next version number
+        uses: ./.github/actions/semantic-release
+        if: ${{ steps.version_number.outputs.new_release_published == 'true' }}
+        with:
+          DIR: packages/${{ env.APP_DIR }}
+          GITHUB_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          SET_VERSION: 'true'
+
+      - name: Exit if no git tag was created
+        if: ${{ steps.version_number.outputs.new_release_published == 'true' }}
+        run: |
+          echo "Info: Check if a git tag has been created for the new version."
+          if [[ "$NEW_VERSION" == "" ]]
+          then
+            echo "Error: NEW_VERSION should not be blank."
+            exit 1
+          fi
+
+          if (git tag --points-at HEAD | grep "$NEW_VERSION" &>/dev/null)
+          then
+            echo "Info: git tag exists for version: $NEW_VERSION"
+          else
+            echo "Error: git tag does not exist for version: $NEW_VERSION"
+            exit 1
+          fi
+
       - name: Extract variables
         id: vars
         run: |
@@ -102,10 +128,3 @@ jobs:
       - uses: ./.github/actions/flux
         if: ${{ steps.version_number.outputs.new_release_published == 'true' }}
 
-      - name: Set next version number
-        uses: ./.github/actions/semantic-release
-        if: ${{ steps.version_number.outputs.new_release_published == 'true' }}
-        with:
-          DIR: packages/${{ env.APP_DIR }}
-          GITHUB_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-          SET_VERSION: 'true'
