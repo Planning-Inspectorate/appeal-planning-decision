@@ -11,7 +11,7 @@ const page = {
 
 let disableJs = false;
 
-const goToInterestedPartiesPage = () => {
+const goToRepresentationsPage = () => {
   cy.goToPage(page.url, undefined, disableJs);
 };
 
@@ -29,7 +29,7 @@ Given('LPA Planning Officer has not added any data to the Representations from I
 });
 
 Given('Representations from interested parties question is requested', () => {
-  goToInterestedPartiesPage();
+  goToRepresentationsPage();
 });
 
 When('LPA Planning Officer chooses to upload the document Representations from interested parties', () => {
@@ -38,7 +38,7 @@ When('LPA Planning Officer chooses to upload the document Representations from i
 });
 
 When('the Representations from interested parties question is requested', () => {
-  goToInterestedPartiesPage();
+  goToRepresentationsPage();
 });
 
 Then('LPA Planning Officer is presented with the ability to upload any documents relevant to the question Representations from interested parties', () => {

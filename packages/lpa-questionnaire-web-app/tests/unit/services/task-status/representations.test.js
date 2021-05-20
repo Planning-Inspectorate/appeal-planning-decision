@@ -1,7 +1,7 @@
 const { NOT_STARTED, COMPLETED } = require('../../../../src/services/task-status/task-statuses');
-const interestedPartiesCompletion = require('../../../../src/services/task-status/interested-parties');
+const representationsCompletion = require('../../../../src/services/task-status/representations');
 
-describe('services/task.service/task-status/interested-parties', () => {
+describe('services/task.service/task-status/representations', () => {
   [
     {
       title: 'should return null if no appeal reply passed',
@@ -41,7 +41,7 @@ describe('services/task.service/task-status/interested-parties', () => {
     },
   ].forEach(({ title, mockAppealReply, result }) => {
     it(title, () => {
-      expect(interestedPartiesCompletion(mockAppealReply)).toEqual(result);
+      expect(representationsCompletion(mockAppealReply)).toEqual(result);
     });
   });
 });

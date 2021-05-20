@@ -1,7 +1,7 @@
 const accuracySubmissionCompletion = require('./accuracy-submission');
 const extraConditionsCompletion = require('./extra-conditions');
 const otherAppealsCompletion = require('./other-appeals');
-const interestedPartiesCompletion = require('./interested-parties');
+const representationsCompletion = require('./representations');
 const notifyingPartiesCompletion = require('./notifying-parties');
 const developmentPlanCompletion = require('./development-plan');
 const uploadPlansCompletion = require('./upload-plans');
@@ -14,7 +14,7 @@ module.exports = {
   accuracySubmissionCompletion,
   extraConditionsCompletion,
   otherAppealsCompletion,
-  interestedPartiesCompletion,
+  representationsCompletion,
   notifyingPartiesCompletion,
   developmentPlanCompletion,
   uploadPlansCompletion,

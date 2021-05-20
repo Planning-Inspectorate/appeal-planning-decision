@@ -16,11 +16,11 @@ const { VIEW } = require('../../../src/lib/views');
 jest.mock('../../../src/middleware/req-files-to-req-body-files');
 jest.mock('../../../src/validators/upload-tasks');
 
-describe('routes/interested-parties', () => {
+describe('routes/representations', () => {
   describe('router', () => {
     beforeEach(() => {
       // eslint-disable-next-line global-require
-      require('../../../src/routes/interested-parties');
+      require('../../../src/routes/representations');
     });
 
     afterEach(() => {
@@ -29,7 +29,7 @@ describe('routes/interested-parties', () => {
 
     it('should define the expected routes', () => {
       // eslint-disable-next-line global-require
-      const { getConfig } = require('../../../src/routes/interested-parties');
+      const { getConfig } = require('../../../src/routes/representations');
 
       expect(get).toHaveBeenCalledWith(
         '/:id/representations',
@@ -51,7 +51,7 @@ describe('routes/interested-parties', () => {
   describe('getConfig', () => {
     it('should define the expected config', () => {
       // eslint-disable-next-line global-require
-      const { getConfig } = require('../../../src/routes/interested-parties');
+      const { getConfig } = require('../../../src/routes/representations');
 
       const res = mockRes();
       const next = jest.fn();
@@ -62,7 +62,7 @@ describe('routes/interested-parties', () => {
       expect(res.locals.routeInfo).toEqual({
         sectionName: 'optionalDocumentsSection',
         taskName: 'representationsInterestedParties',
-        view: VIEW.INTERESTED_PARTIES,
+        view: VIEW.REPRESENTATIONS,
         name: 'Representations from interested parties',
       });
     });
