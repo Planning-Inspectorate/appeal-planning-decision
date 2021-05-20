@@ -139,8 +139,7 @@ async function sendAppealSubmissionReceivedNotificationEmailToLpa(appeal) {
       throw new Error('Missing LPA email. This indicates an issue with the look up data.');
     }
 
-    await NotifyBuilder()
-      .setTemplateId(config.services.notify.templates.appealNotificationEmailToLpa)
+    await NotifyBuilder.setTemplateId(config.services.notify.templates.appealNotificationEmailToLpa)
       .setDestinationEmailAddress(lpa.email)
       .setTemplateVariablesFromObject({
         LPA: lpa.name,
