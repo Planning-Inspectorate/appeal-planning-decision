@@ -5,7 +5,11 @@ const mongodb = require('../db/db');
 const app = require('../app');
 const ReplyModel = require('../models/replySchema');
 
+jest.mock('../lib/notify');
+const notify = require('../lib/notify');
+
 jest.mock('../db/db');
+
 const endpoint = '/api/v1/reply';
 const dbId = 'reply';
 
@@ -73,5 +77,16 @@ describe('Replies API', () => {
     const response = await request(app).put(`/api/v1/reply/${reply.id}`).send(reply);
     expect(response.body).toEqual(reply);
     expect(response.statusCode).toBe(200);
+  });
+
+  test('PUT /api/v1/reply/{id} - It responds with status 200 and matching reply and sends completed email', async () => {
+    const reply = { id: uuid.v4(), state: 'SUBMITTED' };
+    await mongodb.get().collection(dbId).insertOne({ _id: reply.id, uuid: reply.id, reply });
+
+    reply.updated = true;
+    const response = await request(app).put(`/api/v1/reply/${reply.id}`).send(reply);
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(reply);
+    expect(notify.sendAppealReplySubmissionConfirmationEmailToLpa).toHaveBeenCalled();
   });
 });
