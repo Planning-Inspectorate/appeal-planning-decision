@@ -2,6 +2,7 @@ const uuid = require('uuid');
 const logger = require('../lib/logger');
 const mongodb = require('../db/db');
 const ReplyModel = require('../models/replySchema');
+const notify = require('../lib/notify');
 const queue = require('../lib/queue');
 
 const dbId = 'reply';
@@ -75,25 +76,32 @@ module.exports = {
       .then(async (originalDoc) => {
         // logger.debug(`Original doc \n${originalDoc.reply}`);
         logger.debug(originalDoc.reply, 'STEVE_API');
-
-        const isFirstSubmission = originalDoc.state !== 'SUBMITTED' && newDoc.state === 'SUBMITTED';
-
-        if (isFirstSubmission) newDoc.submissionDate = new Date().toISOString();
-
         await mongodb
           .get()
           .collection(dbId)
-          .updateOne({ _id: idParam }, { $set: { uuid: idParam, reply: newDoc } })
-          .then(() => {
+          .updateOne({ _id: idParam }, { $set: { uuid: idParam, reply: req.body } })
+          .then(async () => {
             logger.debug(`Updated reply ${idParam}\n`);
 
+            const isFirstSubmission =
+              originalDoc.state !== 'SUBMITTED' && newDoc.state === 'SUBMITTED';
             if (isFirstSubmission) {
-              logger.info({ newDoc }, 'STEVE_IS_FIRST_SUBMISSION');
-              queue.addAppealReply(newDoc);
-              // TODO: call to notify will go here
+              newDoc.submissionDate = new Date().toISOString();
             }
 
-            res.status(200).send(newDoc);
+            if (isFirstSubmission) {
+              logger.info({ newDoc }, 'First submission for questionnaire');
+              await queue.addAppealReply(newDoc);
+              try {
+                await notify.sendAppealReplySubmissionConfirmationEmailToLpa(req.body);
+                res.status(200).send(req.body);
+              } catch (err) {
+                logger.error({ err, idParam }, 'Problem sending email');
+                res.status(500).send(`Problem sending email`);
+              }
+            } else {
+              res.status(200).send(req.body);
+            }
           })
           .catch((err) => {
             logger.error(`Problem updating reply ${idParam}\n${err}`);
