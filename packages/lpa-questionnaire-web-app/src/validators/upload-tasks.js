@@ -10,7 +10,7 @@ const rules = (errorMessage) => {
         if (!errorMessage) return true;
 
         // checks if manual upload has happened, or if uploadedFiles exist
-        return !!req.body?.files?.documents?.length || !!req.session?.uploadedFiles?.length;
+        return !!req.body?.files?.documents?.length || !!req.body?.tempDocs;
       })
       .withMessage(errorMessage),
   ];

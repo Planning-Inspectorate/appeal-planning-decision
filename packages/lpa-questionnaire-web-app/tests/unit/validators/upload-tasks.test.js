@@ -142,14 +142,8 @@ describe('validators/upload-plans', () => {
       {
         title: 'valid uploaded documents exist - pass',
         given: () => ({
-          session: {
-            uploadedFiles: [
-              {
-                mimetype: MIME_TYPE_JPEG,
-                name: 'mock-file',
-                size: config.fileUpload.pins.maxFileSize - 1,
-              },
-            ],
+          body: {
+            tempDocs: '{ "id: mock-content" }',
           },
         }),
         expected: (result) => {

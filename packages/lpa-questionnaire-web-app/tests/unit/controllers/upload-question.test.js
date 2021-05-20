@@ -2,9 +2,9 @@ const uploadQuestionController = require('../../../src/controllers/upload-questi
 const {
   fileErrorSummary,
   fileUploadNunjucksVariables,
-  deleteFile,
   uploadFiles,
 } = require('../../../src/lib/file-upload-helpers');
+const { deleteDocument } = require('../../../src/lib/documents-api-wrapper');
 const logger = require('../../../src/lib/logger');
 const { createOrUpdateAppealReply } = require('../../../src/lib/appeal-reply-api-wrapper');
 const { VIEW } = require('../../../src/lib/views');
@@ -12,6 +12,7 @@ const { getTaskStatus } = require('../../../src/services/task.service');
 const { mockReq, mockRes } = require('../mocks');
 
 jest.mock('../../../src/lib/appeal-reply-api-wrapper');
+jest.mock('../../../src/lib/documents-api-wrapper');
 jest.mock('../../../src/lib/file-upload-helpers');
 jest.mock('../../../src/services/task.service');
 jest.mock('../../../src/lib/logger');
@@ -24,6 +25,7 @@ describe('controllers/upload-question', () => {
 
   beforeEach(() => {
     mockAppealReply = {
+      id: 'mock-id',
       mockSection: {
         mockTask: {
           uploadedFiles: [],
@@ -60,6 +62,7 @@ describe('controllers/upload-question', () => {
 
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
+        appealReplyId: 'mock-id',
         backLink: backLinkUrl,
       });
     });
@@ -69,6 +72,7 @@ describe('controllers/upload-question', () => {
 
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
+        appealReplyId: 'mock-id',
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
       });
     });
@@ -85,6 +89,7 @@ describe('controllers/upload-question', () => {
 
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
+        appealReplyId: 'mock-id',
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
         uploadedFiles,
       });
@@ -101,15 +106,13 @@ describe('controllers/upload-question', () => {
         ...req,
         body: {
           delete: 'some-file',
-        },
-        session: {
-          uploadedFiles: [{ name: 'some-file' }, { name: 'another-file' }],
+          tempDocs: '{ "name": "some-file" }, { "name": "another-file" }',
         },
       };
 
       await uploadQuestionController.postUpload(mockRequest, res);
 
-      expect(deleteFile).toHaveBeenCalledWith('some-file', mockRequest);
+      expect(deleteDocument).toHaveBeenCalledWith('mock-id', 'some-file');
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
         backLink: '/mock-id/task-list',
@@ -118,7 +121,7 @@ describe('controllers/upload-question', () => {
     });
 
     it('should log an error if delete function returns one', async () => {
-      deleteFile.mockImplementation(() => {
+      deleteDocument.mockImplementation(() => {
         throw new Error('mock delete error');
       });
 
@@ -126,6 +129,7 @@ describe('controllers/upload-question', () => {
         ...req,
         body: {
           delete: 'some-file',
+          tempDocs: [],
         },
       };
 
@@ -137,7 +141,7 @@ describe('controllers/upload-question', () => {
       );
     });
 
-    it('should upload any files and add to session if submit not clicked and reload page', async () => {
+    it('should upload any files and add to tempDocs if submit not clicked and reload page', async () => {
       fileUploadNunjucksVariables.mockReturnValue({
         uploadedFiles: [{ name: 'some-file' }],
       });
@@ -159,47 +163,10 @@ describe('controllers/upload-question', () => {
 
       await uploadQuestionController.postUpload(mockRequest, res);
 
-      expect(mockRequest.session.uploadedFiles).toEqual([{ name: 'some-file' }], mockRequest);
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
         backLink: '/mock-id/task-list',
         uploadedFiles: [{ name: 'some-file' }],
-      });
-    });
-
-    it('should add to existing session files if files present and submit not clicked, then reload page', async () => {
-      fileUploadNunjucksVariables.mockReturnValue({
-        uploadedFiles: [{ name: 'original-file' }, { name: 'some-file' }],
-      });
-
-      const mockRequest = {
-        ...req,
-        body: {
-          files: {
-            documents: [
-              {
-                name: 'some-file',
-              },
-            ],
-          },
-        },
-        session: {
-          uploadedFiles: [{ name: 'original-file' }],
-        },
-      };
-
-      uploadFiles.mockReturnValue([{ name: 'some-file' }]);
-
-      await uploadQuestionController.postUpload(mockRequest, res);
-
-      expect(mockRequest.session.uploadedFiles).toEqual(
-        [{ name: 'original-file' }, { name: 'some-file' }],
-        mockRequest
-      );
-      expect(res.render).toHaveBeenCalledWith('mock-view', {
-        appeal: null,
-        backLink: '/mock-id/task-list',
-        uploadedFiles: [{ name: 'original-file' }, { name: 'some-file' }],
       });
     });
 
@@ -263,7 +230,7 @@ describe('controllers/upload-question', () => {
 
       await uploadQuestionController.postUpload(mockRequest, res);
 
-      expect(fileErrorSummary).toHaveBeenCalledWith('some-error', undefined);
+      expect(fileErrorSummary).toHaveBeenCalledWith('some-error', []);
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
@@ -276,9 +243,6 @@ describe('controllers/upload-question', () => {
         ...req,
         body: {
           submit: 'save',
-        },
-        session: {
-          uploadedFiles: [{ name: 'original-file' }],
         },
       };
 
