@@ -3,16 +3,14 @@
  */
 /* eslint-env browser */
 
-const { initialiseCookieConsent } = require('../../../../../src/lib/client-side/cookie/index');
+const { initialiseCookieConsent } = require('../../../../src/lib/client-side/cookie/index');
 
-const {
-  cookieConsentHandler,
-} = require('../../../../../src/lib/client-side/cookie/cookie-consent');
+const { cookieConsentHandler } = require('../../../../src/lib/client-side/cookie/cookie-consent');
 
-const { readCookie } = require('../../../../../src/lib/client-side/cookie/cookie-jar');
+const { readCookie } = require('../../../../src/lib/client-side/cookie/cookie-jar');
 
-jest.mock('../../../../../src/lib/client-side/cookie/cookie-jar');
-jest.mock('../../../../../src/lib/client-side/cookie/cookie-consent');
+jest.mock('../../../../src/lib/client-side/cookie/cookie-jar');
+jest.mock('../../../../src/lib/client-side/cookie/cookie-consent');
 
 const getExampleDom = () => document.createElement('div');
 

@@ -1,7 +1,9 @@
 const { get, post } = require('../router-mock');
 const listedBuildingController = require('../../../../src/controllers/eligibility/listed-building');
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
-const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const {
   rules: listedBuildingValidationRules,
 } = require('../../../../src/validators/eligibility/listed-building');

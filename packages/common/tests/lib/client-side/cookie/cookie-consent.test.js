@@ -5,7 +5,7 @@
 
 const { getByTestId } = require('@testing-library/dom');
 const { default: userEvent } = require('@testing-library/user-event');
-const cookieConfig = require('../../../../../src/lib/client-side/cookie/cookie-config');
+const cookieConfig = require('../../../../src/lib/client-side/cookie/cookie-config');
 const {
   addRejectCookieConsentListener,
   addAcceptCookieConsentListener,
@@ -14,30 +14,30 @@ const {
   getConsentButtons,
   hideConsentBanner,
   setCookies,
-} = require('../../../../../src/lib/client-side/cookie/cookie-consent');
+} = require('../../../../src/lib/client-side/cookie/cookie-consent');
 
 const {
   createCookie,
   eraseCookie,
   readCookie,
-} = require('../../../../../src/lib/client-side/cookie/cookie-jar');
+} = require('../../../../src/lib/client-side/cookie/cookie-jar');
 
 const {
   showCookieConsentAcceptedBanner,
-} = require('../../../../../src/lib/client-side/cookie/cookie-consent-accepted');
+} = require('../../../../src/lib/client-side/cookie/cookie-consent-accepted');
 
 const {
   showCookieConsentRejectedBanner,
-} = require('../../../../../src/lib/client-side/cookie/cookie-consent-rejected');
+} = require('../../../../src/lib/client-side/cookie/cookie-consent-rejected');
 
 const {
   initialiseOptionalJavaScripts,
-} = require('../../../../../src/lib/client-side/javascript-requiring-consent');
+} = require('../../../../src/lib/client-side/javascript-requiring-consent');
 
-jest.mock('../../../../../src/lib/client-side/cookie/cookie-jar');
-jest.mock('../../../../../src/lib/client-side/cookie/cookie-consent-accepted');
-jest.mock('../../../../../src/lib/client-side/cookie/cookie-consent-rejected');
-jest.mock('../../../../../src/lib/client-side/javascript-requiring-consent');
+jest.mock('../../../../src/lib/client-side/cookie/cookie-jar');
+jest.mock('../../../../src/lib/client-side/cookie/cookie-consent-accepted');
+jest.mock('../../../../src/lib/client-side/cookie/cookie-consent-rejected');
+jest.mock('../../../../src/lib/client-side/javascript-requiring-consent');
 
 const govUkDisplayNoneCssClass = 'govuk-!-display-none';
 

@@ -1,6 +1,8 @@
 const { get, post } = require('../router-mock');
 const siteLocationController = require('../../../../src/controllers/appellant-submission/site-location');
-const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const {
   rules: siteLocationValidationRules,
 } = require('../../../../src/validators/appellant-submission/site-location');

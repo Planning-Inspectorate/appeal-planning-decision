@@ -2,7 +2,9 @@ const { get, post } = require('./router-mock');
 const developmentPlanController = require('../../../src/controllers/development-plan');
 const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
 const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
-const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const {
   rules: developmentPlanValidationRules,
 } = require('../../../src/validators/development-plan');

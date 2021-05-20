@@ -1,16 +1,16 @@
-const cookiesController = require('../../../src/controllers/cookies');
-const cookieConfig = require('../../../src/lib/client-side/cookie/cookie-config');
-const appConfig = require('../../../src/config');
-const getPreviousPagePath = require('../../../src/lib/get-previous-page-path');
-const { VIEW } = require('../../../src/lib/views');
+const cookiesController = require('../../src/controllers/cookies');
+const cookieConfig = require('../../src/lib/client-side/cookie/cookie-config');
+const appConfig = require('../../src/config');
+const getPreviousPagePath = require('../../src/lib/get-previous-page-path');
+const { VIEW } = require('../../src/lib/views');
 const { mockReq, mockRes } = require('../mocks');
-const { addFlashMessage } = require('../../../src/lib/flash-message');
-const { removeUnwantedCookies } = require('../../../src/lib/remove-unwanted-cookies');
+const { addFlashMessage } = require('../../src/lib/flash-message');
+const { removeUnwantedCookies } = require('../../src/lib/remove-unwanted-cookies');
 
-jest.mock('../../../src/config');
-jest.mock('../../../src/lib/remove-unwanted-cookies');
-jest.mock('../../../src/lib/flash-message');
-jest.mock('../../../src/lib/get-previous-page-path');
+jest.mock('../../src/config');
+jest.mock('../../src/lib/remove-unwanted-cookies');
+jest.mock('../../src/lib/flash-message');
+jest.mock('../../src/lib/get-previous-page-path');
 
 describe('controllers/cookies', () => {
   const FIXED_SYSTEM_TIME = '2020-11-18T00:00:00Z';

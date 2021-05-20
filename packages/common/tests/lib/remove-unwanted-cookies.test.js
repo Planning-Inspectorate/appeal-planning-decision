@@ -1,14 +1,14 @@
 const {
   defaultKeepMeCookies,
   removeUnwantedCookies,
-} = require('../../../src/lib/remove-unwanted-cookies');
+} = require('../../src/lib/remove-unwanted-cookies');
 const { mockReq, mockRes } = require('../mocks');
-const cookieConfig = require('../../../src/lib/client-side/cookie/cookie-config');
+const cookieConfig = require('../../src/lib/client-side/cookie/cookie-config');
 const {
   extractRootDomainNameFromHostnameAndSubdomains,
-} = require('../../../src/lib/extract-root-domain-name-from-full-domain-name');
+} = require('../../src/lib/extract-root-domain-name-from-full-domain-name');
 
-jest.mock('../../../src/lib/extract-root-domain-name-from-full-domain-name');
+jest.mock('../../src/lib/extract-root-domain-name-from-full-domain-name');
 
 describe('lib/remove-unwanted-cookies', () => {
   describe('defaultKeepMeCookies', () => {

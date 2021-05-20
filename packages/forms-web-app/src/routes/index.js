@@ -12,7 +12,7 @@ const guidancePagesRouter = require('./guidance-pages');
 const yourPlanningAppealRouter = require('./your-planning-appeal');
 
 router.use('/', homeRouter);
-router.use(guidancePagesRouter);
+router.use('/', guidancePagesRouter);
 router.use('/cookies', cookiesRouter);
 router.use('/appellant-submission', appellantSubmissionRouter);
 router.use('/eligibility', eligibilityRouter);

@@ -1,7 +1,7 @@
 const {
   subdomainArrayToString,
   extractRootDomainNameFromHostnameAndSubdomains,
-} = require('../../../src/lib/extract-root-domain-name-from-full-domain-name');
+} = require('../../src/lib/extract-root-domain-name-from-full-domain-name');
 
 describe('lib/extract-root-domain-name-from-full-domain-name', () => {
   describe('subdomainArrayToString', () => {

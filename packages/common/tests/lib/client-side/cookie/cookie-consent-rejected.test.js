@@ -9,7 +9,7 @@ const {
   addCookieConsentRejectedListener,
   hideConsentRejectedBanner,
   showCookieConsentRejectedBanner,
-} = require('../../../../../src/lib/client-side/cookie/cookie-consent-rejected');
+} = require('../../../../src/lib/client-side/cookie/cookie-consent-rejected');
 
 const govUkDisplayNoneCssClass = 'govuk-!-display-none';
 

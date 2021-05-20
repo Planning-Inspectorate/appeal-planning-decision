@@ -2,7 +2,9 @@ const { get, post } = require('../router-mock');
 const decisionDateController = require('../../../../src/controllers/eligibility/decision-date');
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 const combineDateInputsMiddleware = require('../../../../src/middleware/combine-date-inputs');
-const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const {
   rules: decisionDateValidationRules,
 } = require('../../../../src/validators/eligibility/decision-date');

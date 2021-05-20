@@ -3,7 +3,9 @@ const { VIEW } = require('../../../src/lib/views');
 const otherAppealsController = require('../../../src/controllers/other-appeals');
 const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
 const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
-const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const { rules: otherAppealsValidationRules } = require('../../../src/validators/other-appeals');
 
 jest.mock('../../../src/validators/other-appeals');

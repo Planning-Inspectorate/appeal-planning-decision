@@ -3,7 +3,9 @@ const { VIEW } = require('../../../src/lib/views');
 const accuracySubmissionController = require('../../../src/controllers/accuracy-submission');
 const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
 const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
-const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const {
   rules: accuracySubmissionValidationRules,
 } = require('../../../src/validators/accuracy-submission');

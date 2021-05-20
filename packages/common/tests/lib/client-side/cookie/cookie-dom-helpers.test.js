@@ -4,7 +4,7 @@
 /* eslint-env browser */
 
 const { getByTestId } = require('@testing-library/dom');
-const domHelpers = require('../../../../../src/lib/client-side/cookie/cookie-dom-helpers');
+const domHelpers = require('../../../../src/lib/client-side/cookie/cookie-dom-helpers');
 
 const getExampleDom = () => {
   const div = document.createElement('div');

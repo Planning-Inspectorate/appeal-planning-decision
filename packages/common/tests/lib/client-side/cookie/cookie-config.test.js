@@ -1,4 +1,4 @@
-const cookieConfig = require('../../../../../src/lib/client-side/cookie/cookie-config');
+const cookieConfig = require('../../../../src/lib/client-side/cookie/cookie-config');
 
 describe('lib/client-side/cookie/cookie-config', () => {
   test('COOKIE_POLICY_KEY', () => {
