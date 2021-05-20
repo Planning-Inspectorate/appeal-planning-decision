@@ -2,6 +2,7 @@ const uuid = require('uuid');
 const logger = require('../lib/logger');
 const mongodb = require('../db/db');
 const ReplyModel = require('../models/replySchema');
+const notify = require('../lib/notify');
 
 const dbId = 'reply';
 
@@ -76,9 +77,19 @@ module.exports = {
           .get()
           .collection(dbId)
           .updateOne({ _id: idParam }, { $set: { uuid: idParam, reply: req.body } })
-          .then(() => {
+          .then(async () => {
             logger.debug(`Updated reply ${idParam}\n`);
-            res.status(200).send(req.body);
+            if (req.body.state === 'SUBMITTED') {
+              try {
+                await notify.sendAppealReplySubmissionConfirmationEmailToLpa(req.body);
+                res.status(200).send(req.body);
+              } catch (err) {
+                logger.error(`Problem sending email ${idParam}\n${err}`);
+                res.status(500).send(`Problem sending email`);
+              }
+            } else {
+              res.status(200).send(req.body);
+            }
           })
           .catch((err) => {
             logger.error(`Problem updating reply ${idParam}\n${err}`);
