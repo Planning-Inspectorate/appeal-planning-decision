@@ -45,7 +45,12 @@
   },
   "optionalDocumentsSection": {
     "interestedPartiesApplication": {
-      "uploadedFiles": []
+      "uploadedFiles": [
+        {
+          "name": "upload-file-valid.pdf",
+          "id": "99ee0123-ac21-7618-b00a-12dfdde8d9a5"
+        }
+      ]
     },
     "representationsInterestedParties": {
       "uploadedFiles": [
