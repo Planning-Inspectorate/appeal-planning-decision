@@ -21,13 +21,14 @@ const mockSetReference = jest.fn().mockReturnThis();
 const mockSend = jest.fn();
 
 jest.doMock('@pins/common/src/lib/notify/notify-builder', () => {
-  return () => ({
+  const mock = {
     setTemplateId: mockSetTemplateId,
     setDestinationEmailAddress: mockSetDestinationEmailAddress,
     setTemplateVariablesFromObject: mockSetTemplateVariablesFromObject,
     setReference: mockSetReference,
     sendEmail: mockSend,
-  });
+  };
+  return mock;
 });
 
 const { getLpa } = require('../../../src/services/lpa.service');
