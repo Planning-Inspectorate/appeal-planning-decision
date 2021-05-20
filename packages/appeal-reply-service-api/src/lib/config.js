@@ -22,6 +22,7 @@ module.exports = {
   docs: {
     api: {
       path: process.env.DOCS_API_PATH || path.join(__dirname, '..', '..', 'api'),
+      url: process.env.DOCUMENTS_SERVICE_API_URL,
     },
   },
   logger: {
@@ -49,5 +50,23 @@ module.exports = {
     terminationGracePeriod: Number(
       (process.env.SERVER_TERMINATION_GRACE_PERIOD_SECONDS || 0) * 1000
     ),
+  },
+  appeals: {
+    url: process.env.APPEALS_SERVICE_API_URL,
+  },
+  services: {
+    notify: {
+      baseUrl: process.env.SRV_NOTIFY_BASE_URL,
+      serviceId: process.env.SRV_NOTIFY_SERVICE_ID,
+      apiKey: process.env.SRV_NOTIFY_API_KEY,
+      emailReplyToId: {
+        appealReplySubmissionConfirmation:
+          process.env.SRV_NOTIFY_EMAIL_REPLYTO_ID_APPEAL_REPLY_SUBMISSION_CONFIRMATION,
+      },
+      templates: {
+        appealReplySubmissionConfirmation:
+          process.env.SRV_NOTIFY_TEMPLATE_ID_APPEAL_REPLY_SUBMISSION_CONFIRMATION,
+      },
+    },
   },
 };

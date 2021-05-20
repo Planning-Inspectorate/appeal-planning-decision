@@ -12,7 +12,7 @@ const router = express.Router();
 let spec;
 
 try {
-  const fileContents = fs.readFileSync(path.join(config.docs.api.path, 'openapi.yaml'), 'utf8');
+  const fileContents = fs.readFileSync(path.join(config.docs.api.url, 'openapi.yaml'), 'utf8');
   spec = yaml.safeLoad(fileContents);
   logger.debug(`Loaded api spec doc`);
 } catch (err) {

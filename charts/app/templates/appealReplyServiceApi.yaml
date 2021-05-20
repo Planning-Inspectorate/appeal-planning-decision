@@ -1,4 +1,4 @@
-{{ $queueConfig := index .Values "horizon-householder-appeal-publish" }} #Same as appealsService
+{{ $queueConfig := index .Values "horizon-householder-appeal-publish" }}
 
 apiVersion: apps/v1
 kind: Deployment
@@ -88,6 +88,23 @@ spec:
                   name: {{ $queueConfig.amqp.connection.existingUsernameSecret | quote }}
             - name: HORIZON_HAS_PUBLISHER_QUEUE
               value: {{ $queueConfig.amqp.receiver.source | quote }}
+            - name: DOCUMENTS_SERVICE_API_URL
+              value: "http://{{ include "app.fullname" . }}:{{ .Values.documentServiceApi.service.port }}"
+            - name: APPEALS_SERVICE_API_URL
+              value: "http://{{ include "app.fullname" . }}:{{ .Values.appealsServiceApi.service.port }}"
+            - name: SRV_NOTIFY_BASE_URL
+              value: {{ .Values.appealReplyServiceApi.config.notify.baseUrl | quote }}
+            - name: SRV_NOTIFY_SERVICE_ID
+              value: {{ .Values.appealReplyServiceApi.config.notify.serviceId | quote }}
+            - name: SRV_NOTIFY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: value
+                  name: {{ .Values.appealReplyServiceApi.config.notify.secretName }}
+            - name: SRV_NOTIFY_TEMPLATE_ID_APPEAL_REPLY_SUBMISSION_CONFIRMATION
+              value: {{ .Values.appealReplyServiceApi.config.notify.templates.appealReplyNotificationEmailToLpa | quote }}
+            - name: SRV_NOTIFY_EMAIL_REPLYTO_ID_APPEAL_REPLY_SUBMISSION_CONFIRMATION
+              value: {{ .Values.appealReplyServiceApi.config.notify.emailReplyToId.appealReplyNotificationEmailToLpa | quote }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

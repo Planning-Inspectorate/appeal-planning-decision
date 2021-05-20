@@ -4,7 +4,7 @@ const logger = require('./logger');
 
 const options = config.messageQueue.horizonHASPublisher.connection;
 
-function addAppealReply(message) {
+async function addAppealReply(message) {
   container.connect(options).open_sender(config.messageQueue.horizonHASPublisher.queue);
 
   container.once('sendable', (context) => {
