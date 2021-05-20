@@ -12,7 +12,7 @@ install:
 
 	for dir in ${APPS}; do \
 		echo "-- Installing $${dir} --"; \
-		(cd $${dir} && npm ci); \
+		(cd $${dir} && npm install); \
 		echo "-- Installed for $${dir} --"; \
   	done
 

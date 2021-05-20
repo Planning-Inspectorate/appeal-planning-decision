@@ -37,7 +37,9 @@ jobs:
         with:
           node-version: 14.x
 
-      - run: npm ci
+      - run: npm -v
+
+      - run: npm install
 
       - name: Get next version number
         uses: ./.github/actions/semantic-release
