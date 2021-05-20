@@ -14,6 +14,9 @@ appealReplyServiceApi:
   config:
     port: 3000
     logLevel: trace
+  notify:
+    templates:
+      appealReplyNotificationEmailToLpa: 937b4147-8420-42da-859d-d4a65bdf99bc
 
 appealsServiceApi:
   replicaCount: 1
