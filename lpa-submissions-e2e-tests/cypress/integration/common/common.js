@@ -1,5 +1,13 @@
 import { Given, When } from 'cypress-cucumber-preprocessor/steps';
 
+Given('an appeal has been created', () => {
+  cy.completeAppeal();
+})
+
+Given('a questionnaire has been created', () => {
+  cy.generateQuestionnaire();
+})
+
 Given('all the mandatory questions for the questionnaire have been completed', () => {
   cy.completeQuestionnaire();
 });
@@ -14,17 +22,8 @@ Given('{string} question has been requested', () => {
   });
 });
 
-Given('the questionnaire for appeal {string} has been completed', (appealId) => {
-  cy.completeQuestionnaire(appealId);
-});
-
 When('the LPA Questionnaire is submitted', () => {
   cy.goToCheckYourAnswersPage();
-  cy.clickSubmitButton();
-});
-
-When('the LPA Questionnaire for appeal {string} is submitted', (appealId) => {
-  cy.goToCheckYourAnswersPage(appealId);
   cy.clickSubmitButton();
 });
 
