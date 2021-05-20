@@ -1,4 +1,5 @@
-const { uploadFiles, deleteFile } = require('../lib/file-upload-helpers');
+const { uploadFiles } = require('../lib/file-upload-helpers');
+const { deleteDocument } = require('../lib/documents-api-wrapper');
 
 exports.uploadFile = async (req, res) => {
   const { body } = req;
@@ -18,9 +19,6 @@ exports.uploadFile = async (req, res) => {
     [document] = await uploadFiles(files.documents, req.session?.appealReply?.id);
   }
 
-  // push all files to uploaded files to keep errors after post
-  req.session.uploadedFiles = [...(req.session.uploadedFiles || []), document];
-
   const { name: fileName } = document;
 
   const response = error
@@ -38,18 +36,14 @@ exports.uploadFile = async (req, res) => {
   res.status(200).json({
     ...response,
     file: {
-      filename: fileName,
+      filename: document.id,
       originalname: fileName,
+      id: document.id,
     },
   });
 };
 
 exports.deleteFile = async (req, res) => {
-  if (!req.session) {
-    res.status(500).send('No session data found');
-    return;
-  }
-
   const {
     body: { delete: deleteId = '' },
   } = req;
@@ -60,13 +54,14 @@ exports.deleteFile = async (req, res) => {
   }
 
   try {
-    deleteFile(deleteId, req);
+    await deleteDocument(req.session.appealReply.id, deleteId);
   } catch (err) {
     res.status(404).send('Files to delete not found');
     return;
   }
 
   res.status(200).json({
+    id: deleteId,
     success: {
       messageText: `${deleteId} deleted`,
     },

@@ -1,4 +1,4 @@
-const { createDocument, deleteDocument } = require('./documents-api-wrapper');
+const { createDocument } = require('./documents-api-wrapper');
 
 // https://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable-string/10420404
 const suffixes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -14,29 +14,6 @@ exports.MIME_TYPE_PDF = 'application/pdf';
 exports.MIME_TYPE_TIF = 'image/tiff';
 exports.MIME_TYPE_JPEG = 'image/jpeg';
 exports.MIME_TYPE_PNG = 'image/png';
-
-/**
- *
- * @param fileRef name or ID of file to delete
- * @param req request sent
- */
-exports.deleteFile = (fileRef, req) => {
-  if (!fileRef || !req) throw new Error('Missing required fields');
-
-  const file = req.session.uploadedFiles?.find(
-    (upload) => upload.id === fileRef || upload.name === fileRef
-  );
-
-  if (file) {
-    deleteDocument(req.session.appealReply.id, file.id);
-
-    req.session.uploadedFiles = req.session.uploadedFiles.filter(
-      (upload) => upload.id !== file.id || upload.name !== file.name
-    );
-  } else {
-    throw new Error('Delete file not found');
-  }
-};
 
 /**
  * Constructs errorSummary for page with MOJ multi file upload
@@ -92,18 +69,21 @@ const getSuccessHtml = (name) => {
 exports.fileUploadNunjucksVariables = (errorMessage, errorSummary, files) => ({
   errorMessage,
   errorSummary,
-  uploadedFiles:
-    files &&
-    files.map((doc) => ({
-      deleteButton: {
-        text: 'Delete',
-      },
-      fileName: doc.id || doc.name,
-      originalFileName: doc.name,
-      message: {
-        html: doc.error ? getErrorHtml(doc.error, doc.name) : getSuccessHtml(doc.name),
-      },
-    })),
+  ...(files && files.length
+    ? {
+        uploadedFiles: files.map((doc) => ({
+          deleteButton: {
+            text: 'Delete',
+          },
+          fileName: doc.id || doc.name,
+          originalFileName: doc.name,
+          message: {
+            html: doc.error ? getErrorHtml(doc.error, doc.name) : getSuccessHtml(doc.name),
+          },
+        })),
+        documentList: JSON.stringify(files).replace(/[[\]']+/g, ''),
+      }
+    : {}),
 });
 
 /**

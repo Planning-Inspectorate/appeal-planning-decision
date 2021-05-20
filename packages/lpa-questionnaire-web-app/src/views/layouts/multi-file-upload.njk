@@ -68,7 +68,7 @@
         {{ mojMultiFileUpload({
           uploadedFiles: {
             heading: { text: 'Files added' },
-            items: uploadedFiles
+            items: uploadedFiles or []
           },
           uploadHtml: uploadHtml
         }) }}
@@ -82,6 +82,8 @@
             <li>PNG – <strong>.png</strong></li>
           </ul>
         {% endset %}
+
+        <input type="hidden" id="tempDocs" name="tempDocs" value="{{ documentList }}" />
 
         {{ govukDetails({
           summaryText: 'Accepted file formats',
@@ -114,10 +116,34 @@
 window.MOJFrontend.initAll();
 
 if (typeof MOJFrontend.MultiFileUpload !== 'undefined') {
+  var temporaryDocInput = document.getElementById('tempDocs');
+
+  function onFileUpload(context, file, response) {
+    var upload = {
+      id: response.file.id,
+      name: response.file.originalname,
+      error: response.error ? response.error.message : undefined,
+    };
+
+    temporaryDocInput.value = temporaryDocInput.value + JSON.stringify(upload);
+  };
+
+  function onFileDelete(context, response) {
+    var rawUploads = temporaryDocInput.value.match(/{.*?}/g) || [];
+    var newUploads = [];
+    for (i = 0; i < rawUploads.length ; i++) {
+      if(rawUploads[i].indexOf(response.id) < 0) newUploads.push(JSON.parse(rawUploads[i]));
+    }
+
+    temporaryDocInput.value = JSON.stringify(newUploads).replace(/[[\]']+/g, '');
+  };
+
   new MOJFrontend.MultiFileUpload({
     container: $('.moj-multi-file-upload'),
     uploadUrl: '/upload',
     deleteUrl: '/delete',
+    uploadFileExitHook: onFileUpload,
+    fileDeleteHook: onFileDelete,
   });
 }
 </script>

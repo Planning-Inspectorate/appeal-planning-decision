@@ -8,7 +8,6 @@ const {
   MIME_TYPE_TIF,
   MIME_TYPE_PNG,
   fileSizeDisplayHelper,
-  deleteFile,
   fileErrorSummary,
   fileUploadNunjucksVariables,
   uploadFiles,
@@ -119,42 +118,6 @@ describe('lib/file-upload-helpers', () => {
     });
   });
 
-  describe('deleteFile', () => {
-    let req;
-
-    beforeEach(() => {
-      req = {
-        session: {
-          uploadedFiles: [{ name: 'mock-file' }],
-          appealReply: { id: 'mock-appeal-reply-id' },
-        },
-      };
-    });
-
-    it('should throw error if no name', () => {
-      expect(() => deleteFile(undefined, req)).toThrow();
-    });
-
-    it('should throw error if no request', () => {
-      expect(() => deleteFile('mock-file', undefined)).toThrow();
-    });
-
-    it('should throw an error if file not found', () => {
-      expect(() => deleteFile('another-file', req)).toThrow();
-    });
-
-    it('should delete a file if found', async () => {
-      await deleteFile('mock-file', req);
-
-      expect(req).toEqual({
-        session: {
-          uploadedFiles: [],
-          appealReply: { id: 'mock-appeal-reply-id' },
-        },
-      });
-    });
-  });
-
   describe('errorFileSummary', () => {
     it('outputs an empty array if no error and invalid files are passed', () => {
       expect(fileErrorSummary(undefined, undefined)).toEqual([]);
@@ -189,6 +152,7 @@ describe('lib/file-upload-helpers', () => {
 
       const errorSummary = fileErrorSummary('mock-input-error', files);
       expect(fileUploadNunjucksVariables('mock-input-error', errorSummary, files)).toEqual({
+        documentList: '{"name":"mock-file","error":"some error"},{"name":"another-file"}',
         errorMessage: 'mock-input-error',
         errorSummary: [
           {
@@ -232,6 +196,12 @@ describe('lib/file-upload-helpers', () => {
             },
           },
         ],
+      });
+    });
+    it('outputs fewer items if files is empty', () => {
+      expect(fileUploadNunjucksVariables('', '', [])).toEqual({
+        errorMessage: '',
+        errorSummary: '',
       });
     });
   });

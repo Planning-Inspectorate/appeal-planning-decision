@@ -1,8 +1,10 @@
 const filesController = require('../../../src/controllers/files');
-const { deleteFile, uploadFiles } = require('../../../src/lib/file-upload-helpers');
+const { uploadFiles } = require('../../../src/lib/file-upload-helpers');
+const { deleteDocument } = require('../../../src/lib/documents-api-wrapper');
 const { mockReq, mockRes } = require('../mocks');
 
 jest.mock('../../../src/lib/file-upload-helpers');
+jest.mock('../../../src/lib/documents-api-wrapper');
 
 describe('controllers/files', () => {
   describe('uploadFile', () => {
@@ -54,7 +56,6 @@ describe('controllers/files', () => {
               message: 'some error',
             },
             file: {
-              filename: 'mock-file',
               originalname: 'mock-file',
             },
           });
@@ -74,47 +75,16 @@ describe('controllers/files', () => {
             },
           },
         }),
-        uploadResponse: () => [{ name: 'mock-file' }],
-        expected: (req, res) => {
-          expect(req.session.uploadedFiles).toEqual([{ name: 'mock-file' }]);
+        uploadResponse: () => [{ id: 'mock-id', name: 'mock-file' }],
+        expected: (_, res) => {
           expect(res.status).toHaveBeenCalledWith(200);
           expect(res.json).toHaveBeenCalledWith({
             success: {
               messageHtml: 'mock-file',
             },
             file: {
-              filename: 'mock-file',
-              originalname: 'mock-file',
-            },
-          });
-        },
-      },
-      {
-        title: 'should append doc if valid and other documents exist',
-        given: () => ({
-          ...mockReq(),
-          body: {
-            files: {
-              documents: [{ name: 'mock-file' }],
-            },
-          },
-          session: {
-            uploadedFiles: [{ name: 'another-file' }],
-          },
-        }),
-        uploadResponse: () => [{ name: 'mock-file' }],
-        expected: (req, res) => {
-          expect(req.session.uploadedFiles).toEqual([
-            { name: 'another-file' },
-            { name: 'mock-file' },
-          ]);
-          expect(res.status).toHaveBeenCalledWith(200);
-          expect(res.json).toHaveBeenCalledWith({
-            success: {
-              messageHtml: 'mock-file',
-            },
-            file: {
-              filename: 'mock-file',
+              filename: 'mock-id',
+              id: 'mock-id',
               originalname: 'mock-file',
             },
           });
@@ -137,17 +107,6 @@ describe('controllers/files', () => {
   describe('deleteFile', () => {
     [
       {
-        title: 'should return status 500 if no session found',
-        given: () => ({
-          ...mockReq(),
-          session: null,
-        }),
-        expected: (_, res) => {
-          expect(res.status).toHaveBeenCalledWith(500);
-          expect(res.send).toHaveBeenCalledWith('No session data found');
-        },
-      },
-      {
         title: 'should return status 400 if no delete ID provided',
         given: () => ({
           ...mockReq(),
@@ -159,7 +118,7 @@ describe('controllers/files', () => {
         },
       },
       {
-        title: 'should return 404 if deleteFile returns an error',
+        title: 'should return 404 if deleteDocument returns an error',
         given: () => ({
           ...mockReq(),
           body: {
@@ -170,7 +129,7 @@ describe('controllers/files', () => {
           throw new Error('something happened');
         },
         expected: (req, res) => {
-          expect(deleteFile).toHaveBeenCalledWith('mock-file', req);
+          expect(deleteDocument).toHaveBeenCalledWith(null, 'mock-file');
           expect(res.status).toHaveBeenCalledWith(404);
         },
       },
@@ -181,13 +140,11 @@ describe('controllers/files', () => {
           body: {
             delete: 'mock-file',
           },
-          session: {
-            uploadedFiles: [{ name: 'mock-file' }],
-          },
         }),
         expected: (req, res) => {
           expect(res.status).toHaveBeenCalledWith(200);
           expect(res.json).toHaveBeenCalledWith({
+            id: 'mock-file',
             success: {
               messageText: 'mock-file deleted',
             },
@@ -199,7 +156,7 @@ describe('controllers/files', () => {
         const req = given();
         const res = mockRes();
 
-        deleteFile.mockImplementation(deleteMock || (() => {}));
+        deleteDocument.mockImplementation(deleteMock || (() => {}));
 
         await filesController.deleteFile(req, res);
 
