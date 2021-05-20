@@ -38,6 +38,11 @@ jobs:
         with:
           node-version: 14.x
 
+      - run: npm -v
+
+      - name: Install the common webpack dependencies
+        run: npm --prefix ../common install
+
       - run: npm ci
 
       - uses: ./.github/actions/flux

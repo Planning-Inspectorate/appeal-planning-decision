@@ -38,8 +38,8 @@ services:
       - document-service-api
       - mongodb
     volumes:
-      - ./packages/common:/opt/app/node_modules/@pins/common:ro # Replace the module to avoid symlink errors
-      - ./packages/appeal-reply-service-api:/opt/app:ro
+      - ./packages/common:/opt/app/node_modules/@pins/common # Replace the module to avoid symlink errors
+      - ./packages/appeal-reply-service-api:/opt/app
     command: npm run start:dev
 
   appeals-service-api:

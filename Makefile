@@ -10,6 +10,10 @@ down:
 install:
 	npm ci
 
+	echo "-- Building the common directory dependencies --"
+	(cd packages/common && npm install && npm run build)
+	echo "-- Built the common directory dependencies --"
+
 	for dir in ${APPS}; do \
 		echo "-- Installing $${dir} --"; \
 		(cd $${dir} && npm ci); \
