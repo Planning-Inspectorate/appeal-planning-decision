@@ -25,10 +25,15 @@
     "express-validator": "^6.11.1",
     "govuk-frontend": "^3.12.0",
     "notifications-node-client": "^5.1.0",
+    "nunjucks": "^3.2.3",
+    "nunjucks-date-filter": "^0.1.1",
     "pino": "^6.11.3",
     "prom-client": "^13.0.0"
   },
   "devDependencies": {
+    "@testing-library/dom": "^7.29.6",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/user-event": "^12.8.1",
     "eslint": "^7.12.1",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.15.0",

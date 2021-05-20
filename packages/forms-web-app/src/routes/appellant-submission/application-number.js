@@ -1,10 +1,10 @@
 const express = require('express');
-
-const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
-const applicationNumberController = require('../../controllers/appellant-submission/application-number');
 const {
   validators: { validationErrorHandler },
 } = require('@pins/common');
+
+const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
+const applicationNumberController = require('../../controllers/appellant-submission/application-number');
 const {
   rules: applicationNumberValidationRules,
 } = require('../../validators/appellant-submission/application-number');

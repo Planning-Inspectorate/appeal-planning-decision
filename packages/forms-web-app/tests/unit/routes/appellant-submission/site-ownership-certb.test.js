@@ -1,7 +1,9 @@
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const { get, post } = require('../router-mock');
 const siteOwnershipCertBController = require('../../../../src/controllers/appellant-submission/site-ownership-certb');
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
-const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const {
   rules: siteOwnershipCertBValidationRules,
 } = require('../../../../src/validators/appellant-submission/site-ownership-certb');

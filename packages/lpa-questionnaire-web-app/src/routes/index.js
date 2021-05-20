@@ -26,7 +26,9 @@ const { router: statutoryDevelopmentRouter } = require('./statutory-development'
 const informationSubmittedRouter = require('./information-submitted');
 const booleanQuestionRouter = require('./question-type/boolean');
 
-router.use('/cookies', cookiesRouter);
+const getPreviousPagePathMiddleware = require('../middleware/get-previous-page-path');
+
+router.use('/cookies', [getPreviousPagePathMiddleware], cookiesRouter);
 router.use(homeRouter);
 router.use(filesRouter);
 router.use(taskListRouter);

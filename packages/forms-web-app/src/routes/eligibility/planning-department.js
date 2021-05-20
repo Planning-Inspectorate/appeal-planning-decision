@@ -1,10 +1,9 @@
 const express = require('express');
-
-const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
-const planningDepartmentController = require('../../controllers/eligibility/planning-department');
 const {
   validators: { validationErrorHandler },
 } = require('@pins/common');
+const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
+const planningDepartmentController = require('../../controllers/eligibility/planning-department');
 const {
   rules: planningDepartmentValidationRules,
 } = require('../../validators/eligibility/planning-department');

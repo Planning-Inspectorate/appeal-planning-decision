@@ -1,8 +1,10 @@
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const { post } = require('./router-mock');
 const filesController = require('../../../src/controllers/files');
 const reqFilesToReqBodyFilesMiddleware = require('../../../src/middleware/req-files-to-req-body-files');
 const filesValidationRules = require('../../../src/validators/files');
-const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
 
 jest.mock('../../../src/middleware/req-files-to-req-body-files');
 jest.mock('../../../src/validators/files');

@@ -1,6 +1,8 @@
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const { get, post } = require('../router-mock');
 const applicationNumberController = require('../../../../src/controllers/appellant-submission/application-number');
-const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const {
   rules: applicationNumberValidationRules,
 } = require('../../../../src/validators/appellant-submission/application-number');

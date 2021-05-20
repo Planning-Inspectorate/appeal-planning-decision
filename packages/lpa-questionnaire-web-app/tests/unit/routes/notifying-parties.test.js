@@ -1,3 +1,7 @@
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
+
 const { get, post } = require('./router-mock');
 const { mockRes } = require('../mocks');
 
@@ -9,7 +13,6 @@ const clearUploadedFilesMiddleware = require('../../../src/middleware/clear-uplo
 const reqFilesToReqBodyFilesMiddleware = require('../../../src/middleware/req-files-to-req-body-files');
 
 const uploadTasksValidationRules = require('../../../src/validators/upload-tasks');
-const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
 
 const { VIEW } = require('../../../src/lib/views');
 

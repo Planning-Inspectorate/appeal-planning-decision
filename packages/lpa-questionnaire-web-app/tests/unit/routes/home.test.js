@@ -12,6 +12,9 @@ describe('routes/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith('/:id((?!(upload|delete)\\w+))', indexController.getIndex);
+    expect(get).toHaveBeenCalledWith(
+      '/:id((?!(cookies|upload|delete)\\w+))',
+      indexController.getIndex
+    );
   });
 });

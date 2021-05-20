@@ -1,6 +1,8 @@
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const { get, post } = require('../router-mock');
 const appealStatementController = require('../../../../src/controllers/appellant-submission/appeal-statement');
-const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const {
   rules: appealStatementValidationRules,
 } = require('../../../../src/validators/appellant-submission/appeal-statement');

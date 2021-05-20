@@ -1,10 +1,9 @@
 const express = require('express');
-
-const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
-const siteOwnershipController = require('../../controllers/appellant-submission/site-ownership');
 const {
   validators: { validationErrorHandler },
 } = require('@pins/common');
+const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
+const siteOwnershipController = require('../../controllers/appellant-submission/site-ownership');
 const {
   rules: siteOwnershipValidationRules,
 } = require('../../validators/appellant-submission/site-ownership');

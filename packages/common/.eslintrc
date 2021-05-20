@@ -4,12 +4,12 @@
     "sourceType": "module"
   },
   "extends": ["airbnb-base", "prettier"],
+  "ignorePatterns": ["node_modules/**", "src/public/javascripts/**", "dist/**", "webpack.**"],
   "plugins": ["jest", "prettier"],
   "root": true,
   "rules": {
     "prettier/prettier": "error"
   },
-
   "env": {
     "commonjs": true,
     "es2021": true,

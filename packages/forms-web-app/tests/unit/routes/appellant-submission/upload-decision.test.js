@@ -1,6 +1,8 @@
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const { get, post } = require('../router-mock');
 const uploadDecisionController = require('../../../../src/controllers/appellant-submission/upload-decision');
-const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const {
   rules: uploadDecisionValidationRules,
 } = require('../../../../src/validators/appellant-submission/upload-decision');

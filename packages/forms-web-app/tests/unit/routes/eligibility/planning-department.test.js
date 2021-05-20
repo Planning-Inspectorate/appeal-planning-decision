@@ -1,6 +1,8 @@
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const { get, post } = require('../router-mock');
 const planningDepartmentController = require('../../../../src/controllers/eligibility/planning-department');
-const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 const {
   rules: planningDepartmentValidationRules,

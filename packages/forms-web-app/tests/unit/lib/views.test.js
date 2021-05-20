@@ -5,8 +5,6 @@ describe('lib/views', () => {
     expect(VIEW).toEqual({
       APPLICATION_NUMBER: 'application-number',
 
-      COOKIES: 'cookies',
-
       ELIGIBILITY: {
         LISTED_BUILDING: 'eligibility/listed-building',
         LISTED_OUT: 'eligibility/listed-out',
@@ -56,10 +54,6 @@ describe('lib/views', () => {
       YOUR_PLANNING_APPEAL: {
         INDEX: 'your-planning-appeal/index',
         YOUR_APPEAL_DETAILS: 'your-planning-appeal/your-appeal-details',
-      },
-
-      MESSAGES: {
-        COOKIES_UPDATED_SUCCESSFULLY: 'messages/cookies-updated-successfully',
       },
     });
   });
