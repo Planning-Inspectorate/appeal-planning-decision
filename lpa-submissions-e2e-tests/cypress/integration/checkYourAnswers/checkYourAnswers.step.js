@@ -6,7 +6,7 @@ const title =
   'Check your answers - Appeal questionnaire - Appeal a householder planning decision - GOV.UK';
 const heading = 'Check your answers';
 
-Given('Check Your Answers in presented', () => {
+Given('Check Your Answers is presented', () => {
   cy.completeQuestionnaire();
   cy.goToCheckYourAnswersPage();
 });

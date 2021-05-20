@@ -2,6 +2,10 @@ Feature: Appeals in immediate area
   As a beta LPA I want to inform the Planning Inspectorate of any appeals in the immediate area
   So that the Planning Inspectorate can consider the appeal in light of others nearby.
 
+  Background:
+    Given an appeal has been created
+    And a questionnaire has been created
+
   Scenario: Verify The Tell us about any appeals in the immediate area page
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     When the user selects the link Tell us about any appeals in the immediate area

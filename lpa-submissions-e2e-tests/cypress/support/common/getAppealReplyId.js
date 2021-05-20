@@ -1,3 +1,3 @@
 module.exports = () => {
-  return cy.get('meta[name="appeal-reply-id"]').invoke('attr', 'content');
+  return cy.get('@appealReply').then((appealReply) => appealReply.id);
 };

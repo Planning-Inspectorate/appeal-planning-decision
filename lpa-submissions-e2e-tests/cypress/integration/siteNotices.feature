@@ -3,6 +3,10 @@ Feature: Site Notices
   I want to upload the property site notices considered in the application,
   So that it can form part of the evidence on which the Inspector makes a decision.
 
+  Background:
+    Given an appeal has been created
+    And a questionnaire has been created
+
   Scenario: AC1 LPA Planning Officer navigates to site notices question
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     When LPA Planning Officer chooses to upload the site notices

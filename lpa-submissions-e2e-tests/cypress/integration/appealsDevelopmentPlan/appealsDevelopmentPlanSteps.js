@@ -77,7 +77,6 @@ When('the LPA Planning Officer chooses to go to the previous page', () => {
 When(
   `the LPA Planning Officer returns to the Development Plan Document and Neighbourhood Plan question from the Task List`,
   () => {
-    cy.goToTaskListPage();
     cy.clickOnSubTaskLink(taskListId);
     cy.verifyPageTitle(pageTitle);
   },
@@ -117,14 +116,6 @@ Then('any information they have entered will not be saved', () => {
   input(yesButtonId).should('not.be.checked');
   input(noButtonId).should('not.be.checked');
   textArea(textAreaId).should('have.value', '');
-});
-
-Then('the appeal details panel on the right hand side of the page can be viewed', () => {
-  cy.verifyAppealDetailsSidebar({
-    applicationNumber: 'ABC/123',
-    applicationAddress: '999 Letsby Avenue, Sheffield, South Yorkshire, S9 1XY',
-    apellantName: 'Bob Smith',
-  });
 });
 
 Then('no is still selected', () => {

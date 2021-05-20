@@ -3,6 +3,10 @@ Feature: Upload the Planning Officer's report
   I want to provide the Planning Inspectorate with a copy of the Planning Officer's Report
   So that this can form part of the Inspectors decision.
 
+  Background:
+    Given an appeal has been created
+    And a questionnaire has been created
+
   Scenario: AC1 LPA Planning Officer navigations to Upload the Planning Officer's report question
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     When LPA Planning Officer chooses to upload Planning Officer report
