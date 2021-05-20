@@ -1,11 +1,8 @@
 const { VIEW } = require('../lib/views');
 const appConfig = require('../config');
 const cookieConfig = require('../lib/client-side/cookie/cookie-config');
-// const getPreviousPagePath = require('../lib/get-previous-page-path');
 const { addFlashMessage } = require('../lib/flash-message');
 const { removeUnwantedCookies } = require('../lib/remove-unwanted-cookies');
-
-const getPreviousPagePath = () => '/';
 
 const getExistingCookiePolicy = (req) => {
   let cookiePolicy = {};
@@ -26,7 +23,8 @@ exports.getCookies = (req, res) => {
   res.render(VIEW.COOKIES, {
     cookiePolicy: getExistingCookiePolicy(req),
     displayCookieBanner: false,
-    previousPagePath: getPreviousPagePath(req),
+    // set via middleware from the specific front end app
+    previousPagePath: res.locals.previousPagePath,
   });
 };
 

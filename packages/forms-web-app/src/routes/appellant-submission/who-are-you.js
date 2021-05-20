@@ -1,9 +1,9 @@
 const express = require('express');
-const whoAreYouController = require('../../controllers/appellant-submission/who-are-you');
-const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
 const {
   validators: { validationErrorHandler },
 } = require('@pins/common');
+const whoAreYouController = require('../../controllers/appellant-submission/who-are-you');
+const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
 const {
   rules: whoAreYouValidationRules,
 } = require('../../validators/appellant-submission/who-are-you');

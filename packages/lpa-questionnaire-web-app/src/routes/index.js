@@ -23,7 +23,9 @@ const { router: otherPoliciesRouter } = require('./other-policies');
 const { router: statutoryDevelopmentRouter } = require('./statutory-development');
 const informationSubmittedRouter = require('./information-submitted');
 
-router.use('/cookies', cookiesRouter);
+const getPreviousPagePathMiddleware = require('../middleware/get-previous-page-path');
+
+router.use('/cookies', [getPreviousPagePathMiddleware], cookiesRouter);
 router.use(homeRouter);
 router.use(filesRouter);
 router.use(taskListRouter);

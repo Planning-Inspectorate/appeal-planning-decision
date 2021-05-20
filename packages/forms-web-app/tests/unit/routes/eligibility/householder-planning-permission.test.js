@@ -1,7 +1,9 @@
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const { get, post } = require('../router-mock');
 const householderPlanningPermissionController = require('../../../../src/controllers/eligibility/householder-planning-permission');
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
-const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const {
   rules: householderPlanningPermissionValidationRules,
 } = require('../../../../src/validators/eligibility/householder-planning-permission');

@@ -1,10 +1,9 @@
 const express = require('express');
-
-const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
-const enforcementNoticeController = require('../../controllers/eligibility/enforcement-notice');
 const {
   validators: { validationErrorHandler },
 } = require('@pins/common');
+const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
+const enforcementNoticeController = require('../../controllers/eligibility/enforcement-notice');
 const {
   rules: enforcementNoticeValidationRules,
 } = require('../../validators/eligibility/enforcement-notice');

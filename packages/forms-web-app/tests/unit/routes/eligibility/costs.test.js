@@ -1,7 +1,9 @@
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const { get, post } = require('../router-mock');
 const costsController = require('../../../../src/controllers/eligibility/costs');
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
-const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const { rules: costsValidationRules } = require('../../../../src/validators/eligibility/costs');
 
 jest.mock('../../../../src/validators/eligibility/costs');

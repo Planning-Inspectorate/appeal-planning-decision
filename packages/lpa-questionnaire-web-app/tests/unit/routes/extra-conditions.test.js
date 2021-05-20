@@ -1,8 +1,10 @@
+const {
+  validators: { validationErrorHandler },
+} = require('@pins/common');
 const { get, post } = require('./router-mock');
 const extraConditionsController = require('../../../src/controllers/extra-conditions');
 const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
 const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
-const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
 const {
   rules: extraConditionsValidationRules,
 } = require('../../../src/validators/extra-conditions');

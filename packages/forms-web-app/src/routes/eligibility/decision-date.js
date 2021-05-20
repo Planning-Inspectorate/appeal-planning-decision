@@ -1,11 +1,10 @@
 const express = require('express');
-
-const decisionDateController = require('../../controllers/eligibility/decision-date');
-const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
-const combineDateInputsMiddleware = require('../../middleware/combine-date-inputs');
 const {
   validators: { validationErrorHandler },
 } = require('@pins/common');
+const decisionDateController = require('../../controllers/eligibility/decision-date');
+const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
+const combineDateInputsMiddleware = require('../../middleware/combine-date-inputs');
 const {
   rules: decisionDateValidationRules,
 } = require('../../validators/eligibility/decision-date');

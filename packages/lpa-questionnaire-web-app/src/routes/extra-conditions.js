@@ -1,10 +1,10 @@
 const express = require('express');
-const extraConditionsController = require('../controllers/extra-conditions');
-const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing-appeal-reply');
-const fetchAppealMiddleware = require('../middleware/fetch-appeal');
 const {
   validators: { validationErrorHandler },
 } = require('@pins/common');
+const extraConditionsController = require('../controllers/extra-conditions');
+const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing-appeal-reply');
+const fetchAppealMiddleware = require('../middleware/fetch-appeal');
 const { rules: extraConditionsValidationRules } = require('../validators/extra-conditions');
 
 const router = express.Router();

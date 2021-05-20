@@ -11,7 +11,7 @@ exports[`views/includes/head Google Analytics section should not render if googl
 
   
 
-  <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
+  <script src=\\"/public/common/javascripts/index.bundle.js\\" defer></script>
 
 
 
@@ -29,7 +29,7 @@ exports[`views/includes/head Google Analytics section should not render if googl
 
   
 
-  <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
+  <script src=\\"/public/common/javascripts/index.bundle.js\\" defer></script>
 
 
 
@@ -47,7 +47,7 @@ exports[`views/includes/head Google Analytics section should not render if googl
 
   
 
-  <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
+  <script src=\\"/public/common/javascripts/index.bundle.js\\" defer></script>
 
 
 
@@ -75,7 +75,7 @@ exports[`views/includes/head Google Analytics section should render if googleAna
   </script>
   
 
-  <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
+  <script src=\\"/public/common/javascripts/index.bundle.js\\" defer></script>
 
 
 
