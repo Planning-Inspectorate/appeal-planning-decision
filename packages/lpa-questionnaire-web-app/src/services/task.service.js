@@ -5,7 +5,7 @@ const {
   developmentPlanCompletion,
   uploadPlansCompletion,
   officersReportCompletion,
-  interestedPartiesCompletion,
+  representationsCompletion,
   notifyingPartiesCompletion,
   planningHistoryCompletion,
   otherPoliciesCompletion,
@@ -54,7 +54,7 @@ const SECTIONS = [
       {
         taskId: 'representationsInterestedParties',
         href: '/representations',
-        rule: interestedPartiesCompletion,
+        rule: representationsCompletion,
       },
       {
         taskId: 'interestedPartiesAppeal',

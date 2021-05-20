@@ -14,7 +14,7 @@ const getConfig = (_, res, next) => {
   res.locals.routeInfo = {
     sectionName: 'optionalDocumentsSection',
     taskName: 'representationsInterestedParties',
-    view: VIEW.INTERESTED_PARTIES,
+    view: VIEW.REPRESENTATIONS,
     name: 'Representations from interested parties',
   };
 

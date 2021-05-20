@@ -47,7 +47,7 @@ const stepCompletion = () => {
   uploadFiles('upload-file-valid.pdf');
   cy.clickSaveAndContinue();
 
-  // Representation of interested parties
+  // Representations of interested parties
   cy.goToPage('representations');
   uploadFiles('upload-file-valid.pdf');
   cy.clickSaveAndContinue();

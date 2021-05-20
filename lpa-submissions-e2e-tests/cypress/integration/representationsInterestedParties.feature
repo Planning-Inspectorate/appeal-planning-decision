@@ -120,8 +120,8 @@ Feature: Representations from interested parties
     Then progress is made to the Check Your Answers page
     And the updated answer is displayed
 
-  # Scenario: AC16 PDF & Horizon
-  #   Given the questionnaire has been completed
-  #   When the LPA Planning Officer submits the questionnaire
-  #   Then the Representations from Interested parties is displayed on the PDF
-  #   And the Representations from Interested parties is present in Horizon
+#   # Scenario: AC16 PDF & Horizon
+#   #   Given the questionnaire has been completed
+#   #   When the LPA Planning Officer submits the questionnaire
+#   #   Then the Representations from Interested parties is displayed on the PDF
+#   #   And the Representations from Interested parties is present in Horizon

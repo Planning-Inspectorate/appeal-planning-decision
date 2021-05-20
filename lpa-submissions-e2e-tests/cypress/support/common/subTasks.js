@@ -27,7 +27,7 @@ export const subTasks = [
   {
     ref: 'Representations from Interested parties',
     id: 'representationsInterestedParties',
-    url: 'representation',
+    url: 'representations',
   },
   {
     ref: 'Notifying interested parties of the appeal',
