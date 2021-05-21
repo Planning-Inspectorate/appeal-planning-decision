@@ -85,6 +85,7 @@ const handlerReply = async (event, horizonCaseId, context) => {
       id: horizonCaseId,
     };
   } catch (err) {
+    event.log.info(err, 'STEVE_HANDLER_REPLY_ERROR');
     const [message, httpStatus] = catchErrorHandling(event, err);
     context.httpStatus = httpStatus;
     return {

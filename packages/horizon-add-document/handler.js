@@ -101,6 +101,7 @@ module.exports = async (event, context) => {
       },
     };
 
+    event.log.info(input, 'STEVE_ADD_EVENT_INPUT');
     event.log.info('Uploading documents to Horizon');
 
     const { data } = await axios.post('/horizon', input, {
@@ -108,6 +109,8 @@ module.exports = async (event, context) => {
       /* Needs to be infinity as Horizon doesn't support multipart uploads */
       maxBodyLength: Infinity,
     });
+
+    event.log.info(data, 'STEVE_ADD_EVENT_DATA');
 
     return {
       caseReference,
