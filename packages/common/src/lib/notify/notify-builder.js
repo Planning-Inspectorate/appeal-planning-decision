@@ -2,6 +2,11 @@ const logger = require('../logger');
 const { createNotifyClient } = require('./notify-factory');
 
 module.exports = {
+  /**
+   * Resets all the data on the object useful for cleaning the client between emails or tests.
+   *
+   * @returns {*}
+   */
   reset() {
     this.notifyClient = undefined;
     this.templateId = undefined;
@@ -19,7 +24,7 @@ module.exports = {
   },
 
   /**
-   * Intentionally do not expose the notify client directly.
+   * Set the default notify client. This should always be the first function called unless the intent is to mock the client.
    *
    * @returns {*}
    */

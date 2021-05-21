@@ -104,7 +104,7 @@ spec:
             - name: SRV_NOTIFY_TEMPLATE_ID
               value: { { .Values.appealsServiceApi.config.notify.templateId | quote } }
             - name: SRV_NOTIFY_APPEAL_REPLY_SUBMISSION_CONFIRMATION
-              value: { { .Values.appealsServiceApi.config.notify.templates.appealRepplyNotificationEmailToLpa | quote } }
+              value: { { .Values.appealsServiceApi.config.notify.templates.appealReplyNotificationEmailToLpa | quote } }
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
