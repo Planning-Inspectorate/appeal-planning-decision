@@ -67,7 +67,7 @@ describe('populateDocuments', () => {
 
   beforeEach(() => {
     mockAppealReply = getMockAppealReply();
-    body = { reply: mockAppealReply };
+    body = { ...mockAppealReply };
     expectation = getFullExpectation(mockAppealReply);
   });
 
@@ -104,7 +104,7 @@ describe('handlerReply', () => {
     };
 
     newMockAppealReply = getMockAppealReply();
-    body = { reply: newMockAppealReply };
+    body = { ...newMockAppealReply };
   });
 
   afterEach(() => {
@@ -114,7 +114,6 @@ describe('handlerReply', () => {
 
   it('should simulate an reply with documents to publish', async () => {
     const horizonFullCaseId = `ABC/1234/${horizonCaseId}`;
-    const replyId = 'mock-id';
 
     const event = {
       log: logMock,
@@ -136,7 +135,7 @@ describe('handlerReply', () => {
           documentId,
           documentType,
           caseReference: horizonCaseId,
-          applicationId: replyId,
+          applicationId: body.id,
         },
         {
           baseURL: process.env.GATEWAY_URL,

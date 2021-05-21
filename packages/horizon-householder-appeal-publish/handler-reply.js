@@ -45,10 +45,10 @@ const populateDocuments = (body) => {
   const documents = [];
 
   Object.keys(documentsSections).forEach((key) => {
-    if (body.reply[documentsSections[key]] !== undefined) {
+    if (body[documentsSections[key]] !== undefined) {
       documents.push(
         convertDocumentArray(
-          body.reply[documentsSections[key]][key].uploadedFiles,
+          body[documentsSections[key]][key].uploadedFiles,
           sectionTypes[`${key}Type`]
         )
       );
@@ -78,7 +78,7 @@ const handlerReply = async (event, horizonCaseId, context) => {
   try {
     event.log.info({ event }, 'STEVE: handler-reply');
     const { body } = event;
-    const replyId = body.reply.id;
+    const replyId = body.id;
     await publishDocuments(event.log, populateDocuments(body), replyId, horizonCaseId);
     event.log.info({ horizonCaseId }, 'Successful reply publish to Horizon');
     return {
