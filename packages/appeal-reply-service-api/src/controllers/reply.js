@@ -92,7 +92,7 @@ module.exports = {
                 await notify.sendAppealReplySubmissionConfirmationEmailToLpa(req.body);
                 res.status(200).send(req.body);
               } catch (err) {
-                logger.error(`Problem sending email ${idParam}\n${err}`);
+                logger.error({ err, idParam }, 'Problem sending email');
                 res.status(500).send(`Problem sending email`);
               }
             } else {
