@@ -85,6 +85,7 @@ module.exports = async (event, context) => {
   event.log.info({ config }, 'Receiving add document request');
 
   try {
+    event.log.info(event.body, 'STEVE_ADD_EVENT_BODY');
     const { caseReference } = event.body;
 
     const input = {
@@ -100,6 +101,7 @@ module.exports = async (event, context) => {
       },
     };
 
+    event.log.info(input, 'STEVE_ADD_EVENT_INPUT');
     event.log.info('Uploading documents to Horizon');
 
     const { data } = await axios.post('/horizon', input, {
@@ -108,11 +110,14 @@ module.exports = async (event, context) => {
       maxBodyLength: Infinity,
     });
 
+    event.log.info(data, 'STEVE_ADD_EVENT_DATA');
+
     return {
       caseReference,
       data,
     };
   } catch (err) {
+    event.log.info(err, 'STEVE_ADD_CATCH');
     let message;
     let httpStatus = 500;
 
