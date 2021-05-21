@@ -73,7 +73,8 @@ module.exports = {
       .collection(dbId)
       .findOne({ _id: idParam })
       .then(async (originalDoc) => {
-        logger.debug(`Original doc \n${originalDoc.reply}`);
+        // logger.debug(`Original doc \n${originalDoc.reply}`);
+        logger.debug(originalDoc.reply, 'STEVE_API');
 
         const isFirstSubmission = originalDoc.state !== 'SUBMITTED' && newDoc.state === 'SUBMITTED';
 
@@ -87,7 +88,7 @@ module.exports = {
             logger.debug(`Updated reply ${idParam}\n`);
 
             if (isFirstSubmission) {
-              logger.info({ newDoc }, 'STEVE: api');
+              logger.info({ newDoc }, 'STEVE_IS_FIRST_SUBMISSION');
               queue.addAppealReply(newDoc);
               // TODO: call to notify will go here
             }

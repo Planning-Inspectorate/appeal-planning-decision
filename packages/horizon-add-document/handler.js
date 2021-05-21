@@ -85,6 +85,7 @@ module.exports = async (event, context) => {
   event.log.info({ config }, 'Receiving add document request');
 
   try {
+    event.log.info(event.body, 'STEVE_ADD_EVENT_BODY');
     const { caseReference } = event.body;
 
     const input = {
@@ -113,6 +114,7 @@ module.exports = async (event, context) => {
       data,
     };
   } catch (err) {
+    event.log.info(err, 'STEVE_ADD_CATCH');
     let message;
     let httpStatus = 500;
 
