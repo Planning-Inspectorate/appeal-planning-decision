@@ -73,8 +73,7 @@ module.exports = {
       .collection(dbId)
       .findOne({ _id: idParam })
       .then(async (originalDoc) => {
-        // logger.debug(`Original doc \n${originalDoc.reply}`);
-        logger.debug(...originalDoc.reply, 'STEVE-ORIGINAL');
+        logger.debug(`Original doc \n${originalDoc.reply}`);
 
         const isFirstSubmission = originalDoc.state !== 'SUBMITTED' && newDoc.state === 'SUBMITTED';
 
