@@ -84,9 +84,10 @@ describe('Replies API', () => {
     await mongodb.get().collection(dbId).insertOne({ _id: reply.id, uuid: reply.id, reply });
 
     reply.updated = true;
+    reply.submissionDate = expect.stringMatching('.*');
     const response = await request(app).put(`/api/v1/reply/${reply.id}`).send(reply);
     expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(reply);
+    expect(response.body).toMatchObject(reply);
     expect(notify.sendAppealReplySubmissionConfirmationEmailToLpa).toHaveBeenCalled();
   });
 });
