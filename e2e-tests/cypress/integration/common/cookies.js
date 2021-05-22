@@ -1,6 +1,11 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { expectCookieIsNotDefined, expectExpressSessionCookieIsDefined } from '../cookies/cookies';
 
+before(() => {
+  console.log(`moooooooooooo`, );
+  Cypress.Cookies.debug(true)
+})
+
 When('the user neither accepts nor rejects not necessary cookies', () => {
   cy.goToTaskListPage();
 });
@@ -50,6 +55,7 @@ Then('the GA cookies remain disabled', () => {
 });
 
 Given('a user has not previously submitted cookie preferences', () => {
+  Cypress.Cookies.debug(true)
   cy.clearCookies();
 });
 
