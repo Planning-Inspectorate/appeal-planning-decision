@@ -216,10 +216,10 @@ jobs:
           dest: './logs'
       - name: Tar logs
         if: failure()
-        run: tar cvzf ./logs.tgz ./logs
+        run: tar cvzf ./logs-${{ needs.context.outputs.uuid }}.tgz ./logs
       - name: Upload logs to GitHub
         if: failure()
         uses: actions/upload-artifact@master
         with:
-          name: logs.tgz
-          path: ./logs.tgz
+          name: logs-${{ needs.context.outputs.uuid }}.tgz
+          path: ./logs-${{ needs.context.outputs.uuid }}.tgz
