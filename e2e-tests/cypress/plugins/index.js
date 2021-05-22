@@ -25,17 +25,11 @@ const cucumber = require('cypress-cucumber-preprocessor').default
 
 module.exports = (on, config) => {
   const queue = require('./queue')(config);
+  require('cypress-log-to-output').install(on)
   on('file:preprocessor', cucumber());
   on('task', {
     listenToQueue: queue.listenToQueue,
     putOnQueue: queue.putOnQueue,
     getLastFromQueue: queue.getLastFromQueue,
   })
-}
-
-module.exports = (on, config) => {
-  /** the rest of your plugins... **/
-  require('cypress-log-to-output').install(on)
-  // or, if there is already a before:browser:launch handler, use .browserLaunchHandler inside of it
-  // @see https://github.com/flotwig/cypress-log-to-output/issues/5
 }
