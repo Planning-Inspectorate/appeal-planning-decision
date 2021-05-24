@@ -18,7 +18,7 @@ module.exports = {
     return this;
   },
 
-  setPrivateNotifyClient(notifyClient) {
+  setNotifyClient(notifyClient) {
     logger.debug({ notifyClient }, 'Setting notify client');
     this.notifyClient = notifyClient;
   },
@@ -31,21 +31,10 @@ module.exports = {
   getNotifyClient() {
     if (!this.notifyClient) {
       logger.info('Notify client was not set. Creating...');
-      this.setPrivateNotifyClient(createNotifyClient());
+      this.setNotifyClient(createNotifyClient());
     }
 
     return this.notifyClient;
-  },
-  /**
-   * Allow overriding the default / fallback client with custom settings. This is optional.
-   *
-   * @param notifyClient
-   * @returns {*}
-   */
-  setNotifyClient(notifyClient) {
-    this.setPrivateNotifyClient(notifyClient);
-
-    return this;
   },
 
   /**

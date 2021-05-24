@@ -1,4 +1,4 @@
-APPS = data e2e-tests lpa-submissions-e2e-tests packages/*
+npAPPS = data e2e-tests lpa-submissions-e2e-tests packages/*
 STACKS = common environments
 SSH_KEY ?= ~/.ssh/id_rsa.pub
 PUB_KEY = $(shell cat $(SSH_KEY))

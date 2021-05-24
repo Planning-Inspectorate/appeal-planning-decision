@@ -36,9 +36,9 @@ async function sendAppealReplySubmissionConfirmationEmailToLpa(reply) {
     )
       .setDestinationEmailAddress(lpa.email)
       .setTemplateVariablesFromObject({
-        'planning appeal reference ': appeal.id,
-        'name of local planning department ': lpa.name,
-        'planning application number ': appeal.requiredDocumentsSection.applicationNumber,
+        'planning appeal reference': appeal.id,
+        'name of local planning department': lpa.name,
+        'planning application number': appeal.requiredDocumentsSection.applicationNumber,
       })
       .setReference(`${appeal.id}.SubmissionConfirmation`)
       .addFileToTemplateVariables('link to appeal submission pdf', pdf)

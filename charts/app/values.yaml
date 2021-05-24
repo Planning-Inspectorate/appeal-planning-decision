@@ -18,7 +18,6 @@ appealReplyServiceApi:
     baseUrl: "" # Let Notify package resolve this itself
     secretName: ""
     serviceId: ""
-    templateId: 15ed37a9-506c-4845-88ea-95502282a863
     templates:
       appealReplyNotificationEmailToLpa: 937b4147-8420-42da-859d-d4a65bdf99bc
 

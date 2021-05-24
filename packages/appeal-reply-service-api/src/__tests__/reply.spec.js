@@ -4,10 +4,9 @@ const uuid = require('uuid');
 const mongodb = require('../db/db');
 const app = require('../app');
 const ReplyModel = require('../models/replySchema');
-
-jest.mock('../lib/notify');
 const notify = require('../lib/notify');
 
+jest.mock('../lib/notify');
 jest.mock('../db/db');
 
 const endpoint = '/api/v1/reply';

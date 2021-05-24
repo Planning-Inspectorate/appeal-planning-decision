@@ -23,7 +23,7 @@ services:
       SRV_NOTIFY_SERVICE_ID: 'dummy-service-id-for-notify'
       SRV_NOTIFY_API_KEY: 'dummy-api-key-for-notify'
       SRV_NOTIFY_TEMPLATE_ID: 'dummy-template-id-for-notify'
-      SRV_NOTIFY_APPEAL_REPLY_SUBMISSION_CONFIRMATION: '937b4147-8420-42da-859d-d4a65bdf99bc'
+      SRV_NOTIFY_TEMPLATE_ID_APPEAL_REPLY_SUBMISSION_CONFIRMATION: '937b4147-8420-42da-859d-d4a65bdf99bc'
       HORIZON_HAS_PUBLISHER_HOST: rabbitmq
       HORIZON_HAS_PUBLISHER_PASSWORD: admin
       HORIZON_HAS_PUBLISHER_PORT: 5672
@@ -153,7 +153,6 @@ services:
     image: node:14-alpine
     environment:
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
-      DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       PDF_SERVICE_API_URL: http://pdf-service-api:3000
       APPEAL_REPLY_SERVICE_API_URL: http://appeal-reply-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
