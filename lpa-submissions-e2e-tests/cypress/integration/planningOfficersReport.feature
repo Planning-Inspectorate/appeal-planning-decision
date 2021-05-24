@@ -1,18 +1,18 @@
-Feature: Upload the Planning Officer’s report
+Feature: Upload the Planning Officer's report
   As a LPA Planning Officer
-  I want to provide the Planning Inspectorate with a copy of the Planning Officer’s Report
+  I want to provide the Planning Inspectorate with a copy of the Planning Officer's Report
   So that this can form part of the Inspectors decision.
 
-  Scenario: AC1 LPA Planning Officer navigations to Upload the Planning Officer’s report question
+  Scenario: AC1 LPA Planning Officer navigations to Upload the Planning Officer's report question
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     When LPA Planning Officer chooses to upload Planning Officer report
-    Then LPA Planning Officer is presented with the ability to upload the Planning Officer’s report
+    Then LPA Planning Officer is presented with the ability to upload the Planning Officer's report
 
   Scenario Outline: AC2 LPA Planning Officer successfully uploads file via upload button
-    Given Upload the Planning Officer’s report question is requested
+    Given Upload the Planning Officer's report question is requested
     When valid file '<valid_file>' is successfully uploaded
     Then progress is made to the task list
-    And Upload the Planning Officer’s report subsection is shown as completed
+    And Upload the Planning Officer's report subsection is shown as completed
     Examples:
       | valid_file             |
       | upload-file-valid.tiff |
@@ -25,10 +25,10 @@ Feature: Upload the Planning Officer’s report
       | upload-file-valid.docx |
 
   Scenario Outline: AC3 LPA Planning Officer successfully uploads file via Drag and Drop
-    Given Upload the Planning Officer’s report question is requested
+    Given Upload the Planning Officer's report question is requested
     When valid file '<valid_file>' is uploaded via drag and drop
     Then progress is made to the task list
-    And Upload the Planning Officer’s report subsection is shown as completed
+    And Upload the Planning Officer's report subsection is shown as completed
     Examples:
       | valid_file             |
       | upload-file-valid.tiff |
@@ -41,10 +41,10 @@ Feature: Upload the Planning Officer’s report
       | upload-file-valid.docx |
 
   Scenario Outline: AC4 LPA Planning Officer successfully uploads multiple files
-    Given Upload the Planning Officer’s report question is requested
+    Given Upload the Planning Officer's report question is requested
     When valid multiple files '<multiple_files>' are uploaded
     Then progress is made to the task list
-    And Upload the Planning Officer’s report subsection is shown as completed
+    And Upload the Planning Officer's report subsection is shown as completed
     Examples:
       | multiple_files                                                       |
       | upload-file-valid.tiff, upload-file-valid.tif, upload-file-valid.png |
@@ -52,12 +52,12 @@ Feature: Upload the Planning Officer’s report
       | upload-file-valid.doc, upload-file-valid.docx                        |
 
   Scenario: AC5 LPA Planning Officer does not upload a file and is provided with an error.
-    Given Upload the Planning Officer’s report question is requested
+    Given Upload the Planning Officer's report question is requested
     When no file has been uploaded
-    Then progress is halted with a message to 'Upload the planning officer’s report or other documents and minutes'
+    Then progress is halted with a message to "Upload the planning officer's report or other documents and minutes"
 
   Scenario Outline: AC6 LPA Planning Officer selects invalid file size
-    Given Upload the Planning Officer’s report question is requested
+    Given Upload the Planning Officer's report question is requested
     When invalid files '<invalid_file_size>' have been selected
     Then progress is halted with a message the file '<invalid_file_size>' 'is too big'
     Examples:
@@ -65,7 +65,7 @@ Feature: Upload the Planning Officer’s report
       | upload_file_large.tiff |
 
   Scenario Outline: AC7 LPA Planning Officer selects Invalid file format
-    Given Upload the Planning Officer’s report question is requested
+    Given Upload the Planning Officer's report question is requested
     When invalid files '<invalid_format>' have been selected
     Then progress is halted with a message the file '<invalid_format>' 'format is incorrect'
     Examples:
@@ -73,7 +73,7 @@ Feature: Upload the Planning Officer’s report
       | upload-file-invalid-wrong-type.csv |
 
   Scenario: AC8 LPA Planning Officer selects to return to previous page
-    Given Upload the Planning Officer’s report question is requested
+    Given Upload the Planning Officer's report question is requested
     And a file has been uploaded
     When Back is then requested
     Then the LPA Planning Officer is taken to the Task List
@@ -86,25 +86,25 @@ Feature: Upload the Planning Officer’s report
 
   Scenario: AC10  LPA Planning Officer deletes a file after save and continue
     Given a file has been uploaded and confirmed
-    And Upload the Planning Officer’s report question is requested
+    And Upload the Planning Officer's report question is requested
     When LPA Planning Officer deletes the file
     Then the file is removed
 
   Scenario: AC11 LPA Planning Officer returns to the completed Upload the plans used to reach the decision question
-    Given The question 'Upload the Planning Officer’s report' has been completed
-    When the Upload the Planning Officer’s report question is requested
+    Given The question "Upload the Planning Officer's report" has been completed
+    When the Upload the Planning Officer's report question is requested
     Then the information they previously entered is still populated
 
   Scenario: AC12 Appeal details side panel
-    Given Upload the Planning Officer’s report question is requested
+    Given Upload the Planning Officer's report question is requested
     Then the appeal details panel is displayed on the right hand side of the page
 
   @nojs
   Scenario Outline: AC13 JavaScript Disabled
-    Given Upload the Planning Officer’s report question is requested
+    Given Upload the Planning Officer's report question is requested
     When valid file '<valid_file>' is successfully uploaded
     Then progress is made to the task list
-    And Upload the Planning Officer’s report subsection is shown as completed
+    And Upload the Planning Officer's report subsection is shown as completed
     Examples:
       | valid_file             |
       | upload-file-valid.tiff |
@@ -112,7 +112,7 @@ Feature: Upload the Planning Officer’s report
   Scenario: AC14 Check your answers
     Given all the mandatory questions for the questionnaire have been completed
     When Check your Answers is displayed
-    Then Upload the Planning Officer’s report heading and the uploaded file name should be displayed
+    Then Upload the Planning Officer's report heading and the uploaded file name should be displayed
 
   Scenario: AC15 Change answers
     Given a change to answer 'Upload Planning Officers report' is requested from Change your answers page

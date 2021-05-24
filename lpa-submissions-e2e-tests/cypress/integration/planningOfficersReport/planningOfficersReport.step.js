@@ -24,7 +24,7 @@ Before({ tags: '@nojs' }, () => {
   disableJs = true;
 });
 
-Given('Upload the Planning Officer’s report question is requested', () => {
+Given("Upload the Planning Officer's report question is requested", () => {
   goToOfficersReportPage();
 });
 
@@ -33,11 +33,11 @@ When('LPA Planning Officer chooses to upload Planning Officer report', () => {
   cy.verifyPage(page.url);
 });
 
-When('the Upload the Planning Officer’s report question is requested', () => {
+When("the Upload the Planning Officer's report question is requested", () => {
   goToOfficersReportPage();
 });
 
-Then('LPA Planning Officer is presented with the ability to upload the Planning Officer’s report', () => {
+Then("LPA Planning Officer is presented with the ability to upload the Planning Officer's report", () => {
   cy.verifyPage(page.url);
   cy.verifyPageTitle(page.title);
   cy.verifyPageHeading(page.heading);
@@ -45,10 +45,10 @@ Then('LPA Planning Officer is presented with the ability to upload the Planning 
   cy.checkPageA11y(`/${defaultPathId}/${page.url}`);
 });
 
-Then('Upload the Planning Officer’s report subsection is shown as completed', () => {
+Then("Upload the Planning Officer's report subsection is shown as completed", () => {
   cy.verifyCompletedStatus(page.id);
 });
 
-Then('Upload the Planning Officer’s report heading and the uploaded file name should be displayed', () => {
+Then("Upload the Planning Officer's report heading and the uploaded file name should be displayed", () => {
   cy.confirmCheckYourAnswersDisplayed('plansDecision', 'upload-file-valid.pdf');
 });
