@@ -15,7 +15,7 @@ const getConfig = (_, res, next) => {
     sectionName: 'requiredDocumentsSection',
     taskName: 'officersReport',
     view: VIEW.OFFICERS_REPORT,
-    name: 'Planning Officer’s report',
+    name: "Planning Officer's report",
   };
 
   next();
@@ -32,7 +32,7 @@ router.post(
   '/:id/officers-report',
   [
     reqFilesToReqBodyFilesMiddleware('documents'),
-    uploadValidationRules('Upload the planning officer’s report or other documents and minutes'),
+    uploadValidationRules("Upload the planning officer's report or other documents and minutes"),
   ],
   validationErrorHandler,
   getConfig,
