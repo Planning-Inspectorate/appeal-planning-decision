@@ -2,14 +2,12 @@ import { Then } from 'cypress-cucumber-preprocessor/steps';
 
 Then('a confirmation email is sent to the LPA',()=>{
   cy.verifyPage('information-submitted');
-  let emailNotification;
   if (!Cypress.env('ASSUME_LIMITED_ACCESS')) {
     cy.request(
       'GET',
       `${Cypress.env('EMAIL_NOTIFICATION_URL')}`,
     ).then((response) => {
-      console.log(response.body);
-      let emailNotificationLength = (response.body.length)-1;
+      const emailNotificationLength = (response.body.length)-1;
       const emailNotification = response.body[emailNotificationLength];
       expect(emailNotification.template_id).to.eq('937b4147-8420-42da-859d-d4a65bdf99bc');
       expect(emailNotification.email_address).to.eq('abby.bale@planninginspectorate.gov.uk');
