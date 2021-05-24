@@ -103,7 +103,7 @@ const HEADERS = {
   otherAppeals: 'Tell us about any appeals in the immediate area',
   requiredDocumentsSection: 'Required documents',
   plansDecision: 'Plans used to reach the decision',
-  officersReport: 'Planning Officer’s report',
+  officersReport: "Planning Officer's report",
   optionalDocumentsSection: 'Optional supporting documents',
   representationsInterestedParties: 'Representations from interested parties',
   interestedPartiesAppeal: 'Notifying interested parties of the appeal',

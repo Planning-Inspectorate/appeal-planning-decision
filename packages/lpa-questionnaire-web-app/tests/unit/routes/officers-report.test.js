@@ -63,7 +63,7 @@ describe('routes/officers-report', () => {
         sectionName: 'requiredDocumentsSection',
         taskName: 'officersReport',
         view: VIEW.OFFICERS_REPORT,
-        name: 'Planning Officer’s report',
+        name: "Planning Officer's report",
       });
     });
   });

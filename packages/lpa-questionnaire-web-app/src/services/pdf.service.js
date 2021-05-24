@@ -22,8 +22,8 @@ const getAppealDetails = (appeal) => {
   const sidebarDetails = appealSidebarDetails(appeal);
   return {
     'Planning Application Number': sidebarDetails.number,
-    'Site Address': sidebarDetails.address,
     'Appellant Name': sidebarDetails.appellant,
+    'Site Address': sidebarDetails.address,
   };
 };
 
@@ -68,10 +68,10 @@ const createPdf = async (appealReply, appeal) => {
     log.info('Creating PDF appeal document');
 
     const renderedHtml = convertToHtml(appealReply, appeal);
-    const pdfBuffer = await generatePDF(`${id}.pdf`, renderedHtml);
+    const pdfBuffer = await generatePDF('lpa-questionnaire.pdf', renderedHtml);
 
     log.debug('Creating document from PDF buffer');
-    const document = await createDocument(id, pdfBuffer, `${id}.pdf`);
+    const document = await createDocument(id, pdfBuffer, 'lpa-questionnaire.pdf');
 
     log.debug('PDF document successfully created');
 
