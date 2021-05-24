@@ -3,6 +3,7 @@ const logger = require('../lib/logger');
 const mongodb = require('../db/db');
 const ReplyModel = require('../models/replySchema');
 const notify = require('../lib/notify');
+const queue = require('../lib/queue');
 
 const dbId = 'reply';
 
@@ -82,10 +83,10 @@ module.exports = {
           .then(async () => {
             logger.debug(`Updated reply ${idParam}\n`);
 
-            if (originalDoc.state !== 'SUBMITTED' && newDoc.state === 'SUBMITTED') {
-              logger.info({ newDoc }, 'STEVE_IS_FIRST_SUBMISSION');
-              await queue.addAppealReply(newDoc);
-            }
+            // if (originalDoc.state !== 'SUBMITTED' && newDoc.state === 'SUBMITTED') {
+            //   logger.info({ newDoc }, 'STEVE_IS_FIRST_SUBMISSION');
+            //   await queue.addAppealReply(newDoc);
+            // }
 
             if (req.body.state === 'SUBMITTED') {
               try {
@@ -98,8 +99,6 @@ module.exports = {
             } else {
               res.status(200).send(req.body);
             }
-
-            res.status(200).send(newDoc);
           })
           .catch((err) => {
             logger.error(`Problem updating reply ${idParam}\n${err}`);
