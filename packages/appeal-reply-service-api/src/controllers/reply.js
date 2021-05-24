@@ -3,7 +3,7 @@ const logger = require('../lib/logger');
 const mongodb = require('../db/db');
 const ReplyModel = require('../models/replySchema');
 const notify = require('../lib/notify');
-const queue = require('../lib/queue');
+// const queue = require('../lib/queue');
 
 const dbId = 'reply';
 
