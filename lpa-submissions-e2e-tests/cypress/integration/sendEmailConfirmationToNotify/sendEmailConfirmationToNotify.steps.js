@@ -7,11 +7,11 @@ Then('a confirmation email is sent to the LPA',()=>{
       'GET',
       `${Cypress.env('EMAIL_NOTIFICATION_URL')}`,
     ).then((response) => {
-      const emailNotificationLength = (response.body.length)-1;
+      let emailNotificationLength = (response.body.length)-1;
       const emailNotification = response.body[emailNotificationLength];
       expect(emailNotification.template_id).to.eq('937b4147-8420-42da-859d-d4a65bdf99bc');
       expect(emailNotification.email_address).to.eq('abby.bale@planninginspectorate.gov.uk');
-      expect(emailNotification.personalisation.["planning appeal reference "]).to.eq('89aa8504-773c-42be-bb68-029716ad9756');
+      expect(emailNotification.personalisation["planning appeal reference"]).to.eq('89aa8504-773c-42be-bb68-029716ad9756');
       expect(emailNotification.reference).to.eq('89aa8504-773c-42be-bb68-029716ad9756.SubmissionConfirmation');
       expect(response.status).to.eq(200);
     });

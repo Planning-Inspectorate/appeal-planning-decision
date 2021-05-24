@@ -83,10 +83,16 @@ module.exports = {
           .then(async () => {
             logger.debug(`Updated reply ${idParam}\n`);
 
-            if (originalDoc.state !== 'SUBMITTED' && newDoc.state === 'SUBMITTED') {
-              logger.info({ newDoc }, 'STEVE_IS_FIRST_SUBMISSION');
-              await queue.addAppealReply(newDoc);
+            const isFirstSubmission =
+              originalDoc.state !== 'SUBMITTED' && newDoc.state === 'SUBMITTED';
+            if (isFirstSubmission) {
+              newDoc.submissionDate = new Date().toISOString();
             }
+
+            // if (isFirstSubmission) {
+            //   logger.info({ newDoc }, 'STEVE_IS_FIRST_SUBMISSION');
+            //   await queue.addAppealReply(newDoc);
+            // }
 
             if (req.body.state === 'SUBMITTED') {
               try {
