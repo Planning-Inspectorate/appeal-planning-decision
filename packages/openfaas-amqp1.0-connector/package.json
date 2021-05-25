@@ -2,6 +2,10 @@
   "name": "openfaas-amqp1.0-connector",
   "version": "1.1.1",
   "description": "An OpenFaaS connector for working with AMQP 1.0",
+  "engines": {
+    "node": ">=14.0.0 <15.0.0",
+    "npm": ">=6.0.0 <7.0.0"
+  },
   "main": "./dist/app",
   "scripts": {
     "prebuild": "rm -Rf ./dist",
