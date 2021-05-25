@@ -8,17 +8,27 @@ down:
 .PHONY: down
 
 install:
+	npm -v
 	npm ci
 
-	echo "-- Building the common directory dependencies --"
-	(cd packages/common && npm install && npm run build)
-	echo "-- Built the common directory dependencies --"
+	# Because there are expectations that the common package behaves like an NPM package from the perspective of
+	# other `package.json` files in the `packages` directory. Build this first to ensure the installation process works.
+	echo "-- Installing the common directory dependency --"
+	(cd packages/common && npm install)
+	echo "-- Installed the common directory dependency --"
 
 	for dir in ${APPS}; do \
 		echo "-- Installing $${dir} --"; \
 		(cd $${dir} && npm ci); \
 		echo "-- Installed for $${dir} --"; \
   	done
+
+	# `packages/common/package.json` has a `postinstall` script to ensure the webpack assets are bundled for production.
+	# We do not want the production build of webpack for local development. This is because local dev does not behave
+	# identically to dev / preprod / prod, e.g. no SSL on local. This ensures the correct assets are used in dev.
+	echo "-- Building the common directory development environment assets --"
+	(cd packages/common && npm run build:dev)
+	echo "-- Built the common directory development environment assets --"
 
 	echo "-- Creating large test files for e2e tests --"
 	(cd e2e-tests && ./create-large-test-files.sh)
