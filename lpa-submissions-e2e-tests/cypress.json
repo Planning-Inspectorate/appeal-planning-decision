@@ -4,6 +4,7 @@
   "chromeWebSecurity": false,
   "viewportWidth": 1024,
   "viewportHeight": 1600,
+  "video": false,
   "env": {
     "demoDelay": 0,
     "DOCUMENT_SERVICE_BASE_URL": "http://localhost:3001/api/v1",

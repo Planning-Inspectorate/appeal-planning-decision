@@ -1,10 +1,8 @@
 name: Cypress
 
 env:
-  CYPRESS_VIDEOS: ./e2e-tests/cypress/videos
   CYPRESS_SCREENSHOTS: ./e2e-tests/cypress/screenshots
   CYPRESS_REPORTS: ./e2e-tests/cypress/cucumber-report
-  LPA_CYPRESS_VIDEOS: ./lpa-submissions-e2e-tests/cypress/videos
   LPA_CYPRESS_SCREENSHOTS: ./lpa-submissions-e2e-tests/cypress/screenshots
   LPA_CYPRESS_REPORTS: ./lpa-submissions-e2e-tests/cypress/cucumber-report
 
@@ -90,13 +88,6 @@ jobs:
         with:
           name: results-lpa
           path: ${{ env.LPA_CYPRESS_REPORTS }}
-
-      - name: Archive videos
-        if: ${{ always() }}
-        uses: actions/upload-artifact@main
-        with:
-          name: videos-lpa
-          path: ${{ env.LPA_CYPRESS_VIDEOS }}
 
       - name: Archive screenshots
         if: ${{ always() }}
@@ -192,13 +183,6 @@ jobs:
         with:
           name: results-pins
           path: ${{ env.CYPRESS_REPORTS }}
-
-      - name: Archive videos
-        if: ${{ always() }}
-        uses: actions/upload-artifact@main
-        with:
-          name: videos-pins
-          path: ${{ env.CYPRESS_VIDEOS }}
 
       - name: Archive screenshots
         if: ${{ always() }}
