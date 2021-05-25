@@ -111,7 +111,7 @@ const HEADERS = {
   plansDecision: 'Plans used to reach the decision',
   officersReport: "Planning Officer's report",
   optionalDocumentsSection: 'Optional supporting documents',
-  interestedPartiesApplication: 'Interested parties application',
+  interestedPartiesApplication: 'Telling interested parties about the application',
   representationsInterestedParties: 'Representations from interested parties',
   interestedPartiesAppeal: 'Notifying interested parties of the appeal',
   planningHistory: 'Planning history',
