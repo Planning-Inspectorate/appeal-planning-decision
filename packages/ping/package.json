@@ -2,6 +2,10 @@
   "name": "ping",
   "version": "0.0.0",
   "description": "Check if an external endpoint is responding",
+  "engines": {
+    "node": ">=14.0.0 <15.0.0",
+    "npm": ">=6.0.0 <7.0.0"
+  },
   "main": "index.js",
   "scripts": {
     "format": "prettier --write './**/*.js'",
