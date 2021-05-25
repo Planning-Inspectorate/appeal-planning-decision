@@ -15,7 +15,7 @@ const getConfig = (_, res, next) => {
     sectionName: 'optionalDocumentsSection',
     taskName: 'interestedPartiesApplication',
     view: VIEW.INTERESTED_PARTIES,
-    name: 'Interested parties application',
+    name: 'Telling interested parties about the application',
   };
 
   next();

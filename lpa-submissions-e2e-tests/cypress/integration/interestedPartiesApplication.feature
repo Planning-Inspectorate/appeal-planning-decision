@@ -91,7 +91,7 @@
       Then the file is removed
 
     Scenario: AC11 LPA Planning Officer returns to the completed Interested Parties Application question
-      Given The question 'interested parties application' has been completed
+      Given The question 'Telling interested parties about the application' has been completed
       When interested parties application question is requested
       Then the information they previously entered is still populated
 
@@ -115,7 +115,7 @@
       Then interested parties application question heading is shown and the uploaded file name should be displayed
 
     Scenario: AC15 Change answers
-      Given a change to answer 'Interested parties application' is requested from Change your answers page
+      Given a change to answer 'Telling interested parties about the application' is requested from Change your answers page
       When an answer is saved
       Then progress is made to the Check Your Answers page
       And the updated answer is displayed
