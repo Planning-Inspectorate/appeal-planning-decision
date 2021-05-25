@@ -190,10 +190,6 @@ jobs:
           # determine the unique run id necessary to re-run the checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          # note that this is deliberately explicitly set to Chrome, and will fail with FF or
-          # Electron Chromium (default), because `NODE_ENV` will be 'production` inside the respective Dockerfile
-          # which will then try to use secure cookies, which will fail because the cypress tests do not use HTTPS
-          browser: chrome
           working-directory: ./e2e-tests
           record: true
           parallel: true
