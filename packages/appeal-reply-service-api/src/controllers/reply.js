@@ -3,7 +3,7 @@ const logger = require('../lib/logger');
 const mongodb = require('../db/db');
 const ReplyModel = require('../models/replySchema');
 const notify = require('../lib/notify');
-// const queue = require('../lib/queue');
+const queue = require('../lib/queue');
 
 const dbId = 'reply';
 
@@ -89,12 +89,9 @@ module.exports = {
               newDoc.submissionDate = new Date().toISOString();
             }
 
-            // if (isFirstSubmission) {
-            //   logger.info({ newDoc }, 'STEVE_IS_FIRST_SUBMISSION');
-            //   await queue.addAppealReply(newDoc);
-            // }
-
-            if (req.body.state === 'SUBMITTED') {
+            if (isFirstSubmission) {
+              logger.info({ newDoc }, 'First submission for questionnaire');
+              await queue.addAppealReply(newDoc);
               try {
                 await notify.sendAppealReplySubmissionConfirmationEmailToLpa(req.body);
                 res.status(200).send(req.body);

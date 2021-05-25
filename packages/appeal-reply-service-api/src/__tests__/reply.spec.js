@@ -6,6 +6,7 @@ const app = require('../app');
 const ReplyModel = require('../models/replySchema');
 const notify = require('../lib/notify');
 
+jest.mock('../lib/queue');
 jest.mock('../lib/notify');
 jest.mock('../db/db');
 
