@@ -15,16 +15,7 @@
       "appealReferenceNumbers": "abc-123, def-456"
     }
   },
-  "aboutAppealSiteSection": {
-    "aboutSite": {
-      "cannotSeeLand": null,
-      "wouldNeedToEnter": null,
-      "wouldNeedNeighbourAccess": null,
-      "wouldAffectListedBuilding": null,
-      "isGreenBelt": null,
-      "isConservationArea": null
-    }
-  },
+  "siteSeenPublicLand": true,
   "requiredDocumentsSection": {
     "plansDecision": {
       "uploadedFiles": [

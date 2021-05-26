@@ -56,4 +56,12 @@ Cypress.Commands.add('completeQuestionnaire', require('./common/completeQuestion
 
 Cypress.Commands.add('hasLink', require('./common/hasLink'));
 
-Cypress.Commands.add('clickDataCyElement', require('./common/clickDataCyElement'));
+Cypress.Commands.add(
+  'downloadSubmissionPdf',
+  require('./common/pdfFunctions').downloadSubmissionPdf,
+);
+
+Cypress.Commands.add(
+  'checkSubmissionPdfContent',
+  require('./common/pdfFunctions').checkSubmissionPdfContent,
+);
