@@ -16,13 +16,13 @@ Feature: Site seen from public land
   Scenario: AC03 LPA Officer selects Yes to Site seen from public land
     Given 'Site seen from public land' question has been requested
     When the answer is 'yes'
-    Then progress is made to the task list
+    Then officer progresses to the task list from yes no question
     And the 'Site seen from public land' subsection is shown as completed
 
   Scenario: AC04 LPA Officer selects No to Site seen from public land
     Given 'Site seen from public land' question has been requested
     When the answer is 'no'
-    Then progress is made to the task list
+    Then officer progresses to the task list from yes no question
     And the 'Site seen from public land' subsection is shown as completed
 
   Scenario: AC05 LPA Officer selects to return to the previous page
@@ -57,4 +57,3 @@ Feature: Site seen from public land
     Given the questionnaire has been completed
     When the LPA Questionnaire is submitted
     Then data from check your answer page for a yes or no question is displayed on the PDF
-
