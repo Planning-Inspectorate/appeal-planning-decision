@@ -45,6 +45,11 @@ export const subTasks = [
     url: 'site-notice',
   },
   {
+    ref: 'Conservation area map and guidance',
+    id: 'conservationAreaMap',
+    url: 'conservation-area-map',
+  },
+  {
     ref: 'Planning history',
     id: 'planningHistory',
     url: 'planning-history',
