@@ -76,6 +76,14 @@
         }
       ]
     },
+    "conservationAreaMap": {
+      "uploadedFiles": [
+        {
+          "name": "upload-file-valid.pdf",
+          "id": "11dbbb23-9677-a890-aa33-f887b8b1e209"
+        }
+      ]
+    },
     "planningHistory": {
       "uploadedFiles": [
         {
@@ -125,6 +133,7 @@
       "interestedPartiesApplication": "COMPLETED",
       "representationsInterestedParties": "COMPLETED",
       "interestedPartiesAppeal": "COMPLETED",
+      "conservationAreaMap": "COMPLETED",
       "siteNotices": "COMPLETED",
       "planningHistory": "COMPLETED",
       "statutoryDevelopment": "COMPLETED",

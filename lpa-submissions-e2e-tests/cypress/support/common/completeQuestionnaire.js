@@ -62,6 +62,11 @@ const stepCompletion = () => {
   uploadFiles('upload-file-valid.pdf');
   cy.clickSaveAndContinue();
 
+  // Notifying interested parties
+  cy.goToPage('conservation-area-map');
+  uploadFiles('upload-file-valid.pdf');
+  cy.clickSaveAndContinue();
+
   // Planning History
   cy.goToPage('planning-history');
   uploadFiles('upload-file-valid.pdf');
