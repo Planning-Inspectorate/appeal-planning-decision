@@ -34,14 +34,7 @@ const replySchema = new Mongoose.Schema({
       appealReferenceNumbers: { type: String, default: '' },
     },
   },
-  aboutAppealSiteSection: {
-    cannotSeeLand: { type: Boolean, default: null },
-    wouldNeedToEnter: { type: Boolean, default: null },
-    wouldNeedNeighbourAccess: { type: Boolean, default: null },
-    wouldAffectListedBuilding: { type: Boolean, default: null },
-    isGreenBelt: { type: Boolean, default: null },
-    isConservationArea: { type: Boolean, default: null },
-  },
+  siteSeenPublicLand: { type: Boolean, default: null },
   requiredDocumentsSection: {
     plansDecision: {
       uploadedFiles: { type: [uploadedFilesSchema], default: [] },
