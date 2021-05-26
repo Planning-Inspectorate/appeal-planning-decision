@@ -15,6 +15,7 @@ describe('lib/views', () => {
       UPLOAD_PLANS: 'upload-plans',
       OFFICERS_REPORT: 'officers-report',
       SITE_NOTICES: 'site-notices',
+      CONSERVATION_AREA_MAP: 'conservation-area-map',
       PLANNING_HISTORY: 'planning-history',
       OTHER_POLICIES: 'other-policies',
       STATUTORY_DEVELOPMENT: 'statutory-development',

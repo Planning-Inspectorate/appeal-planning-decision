@@ -15,6 +15,7 @@ const { router: uploadPlansRouter } = require('../../../src/routes/upload-plans'
 const informationSubmittedRouter = require('../../../src/routes/information-submitted');
 const { router: officersReportRouter } = require('../../../src/routes/officers-report');
 const { router: siteNoticesRouter } = require('../../../src/routes/site-notices');
+const { router: conservationAreaMapRouter } = require('../../../src/routes/conservation-area-map');
 const { router: planningHistoryRouter } = require('../../../src/routes/planning-history');
 const { router: otherPoliciesRouter } = require('../../../src/routes/other-policies');
 const { router: statutoryDevelopmentRouter } = require('../../../src/routes/statutory-development');
@@ -45,6 +46,7 @@ describe('routes/index', () => {
     expect(use).toHaveBeenCalledWith(informationSubmittedRouter);
     expect(use).toHaveBeenCalledWith(officersReportRouter);
     expect(use).toHaveBeenCalledWith(siteNoticesRouter);
+    expect(use).toHaveBeenCalledWith(conservationAreaMapRouter);
     expect(use).toHaveBeenCalledWith(planningHistoryRouter);
     expect(use).toHaveBeenCalledWith(otherPoliciesRouter);
     expect(use).toHaveBeenCalledWith(statutoryDevelopmentRouter);
