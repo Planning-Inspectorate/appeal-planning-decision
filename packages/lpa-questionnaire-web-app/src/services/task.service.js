@@ -9,6 +9,7 @@ const {
   representationsCompletion,
   notifyingPartiesCompletion,
   siteNoticesCompletion,
+  conservationAreaMapCompletion,
   planningHistoryCompletion,
   otherPoliciesCompletion,
   statutoryDevelopmentCompletion,
@@ -75,6 +76,11 @@ const SECTIONS = [
         rule: siteNoticesCompletion,
       },
       {
+        taskId: 'conservationAreaMap',
+        href: '/conservation-area-map',
+        rule: conservationAreaMapCompletion,
+      },
+      {
         taskId: 'planningHistory',
         href: '/planning-history',
         rule: planningHistoryCompletion,
@@ -121,6 +127,7 @@ const HEADERS = {
   representationsInterestedParties: 'Representations from interested parties',
   interestedPartiesAppeal: 'Notifying interested parties of the appeal',
   siteNotices: 'Site notices',
+  conservationAreaMap: 'Conservation area map and guidance',
   planningHistory: 'Planning history',
   otherPolicies: 'Other relevant policies',
   statutoryDevelopment: 'Statutory development plan policy',

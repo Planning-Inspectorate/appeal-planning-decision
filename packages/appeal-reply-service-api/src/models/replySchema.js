@@ -63,6 +63,9 @@ const replySchema = new Mongoose.Schema({
     siteNotices: {
       uploadedFiles: { type: [uploadedFilesSchema], default: [] },
     },
+    conservationAreaMap: {
+      uploadedFiles: { type: [uploadedFilesSchema], default: [] },
+    },
     planningHistory: {
       uploadedFiles: { type: [uploadedFilesSchema], default: [] },
     },
@@ -98,6 +101,7 @@ const replySchema = new Mongoose.Schema({
       representationsInterestedParties: { type: String, default: 'NOT STARTED' },
       interestedPartiesAppeal: { type: String, default: 'NOT STARTED' },
       siteNotices: { type: String, default: 'NOT STARTED' },
+      conservationAreaMap: { type: String, default: 'NOT STARTED' },
       planningHistory: { type: String, default: 'NOT STARTED' },
       statutoryDevelopment: { type: String, default: 'NOT STARTED' },
       otherPolicies: { type: String, default: 'NOT STARTED' },
