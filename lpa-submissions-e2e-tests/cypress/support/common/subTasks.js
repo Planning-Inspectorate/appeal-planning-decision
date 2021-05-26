@@ -72,9 +72,5 @@ export const subTasks = [
 ];
 
 export const getSubTaskInfo = (subTaskRef) => {
-  const subTask = subTasks.find((st) => st.ref === subTaskRef);
-
-  if (!subTask) throw new Error(`Unknown sub task name = ${subTaskRef}`);
-
-  return subTask;
+  return subTasks.find((st) => st.ref === subTaskRef);
 };
