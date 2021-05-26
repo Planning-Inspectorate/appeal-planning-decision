@@ -1,18 +1,12 @@
-import { Given, When, Then, Before } from 'cypress-cucumber-preprocessor/steps';
-import { getSubTaskInfo } from '../../support/common/subTasks';
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 
 const pageId = 'confirm-answers'
 
-let currentSubTask = {};
-
-Before(() => {
-  currentSubTask = {};
-});
-
-Given('a change to answer {string} is requested from Change your answers page', (answer) => {
+Given('a change to answer {string} is requested from Change your answers page', () => {
   cy.goToCheckYourAnswersPage();
-  currentSubTask = getSubTaskInfo(answer);
-  cy.clickOnSubTaskLink(currentSubTask.id);
+  cy.get('@page').then(({ id }) => {
+    cy.clickOnSubTaskLink(id);
+  });
 });
 
 When('Check your Answers is displayed', () => {
