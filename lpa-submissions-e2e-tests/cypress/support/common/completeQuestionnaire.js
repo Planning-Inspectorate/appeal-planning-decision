@@ -57,6 +57,11 @@ const stepCompletion = () => {
   uploadFiles('upload-file-valid.pdf');
   cy.clickSaveAndContinue();
 
+  // Site Notices
+  cy.goToPage('site-notice');
+  uploadFiles('upload-file-valid.pdf');
+  cy.clickSaveAndContinue();
+
   // Planning History
   cy.goToPage('planning-history');
   uploadFiles('upload-file-valid.pdf');
