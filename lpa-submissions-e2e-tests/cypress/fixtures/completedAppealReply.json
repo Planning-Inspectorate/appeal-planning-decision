@@ -17,6 +17,10 @@
     }
   },
   "siteSeenPublicLand": true,
+  "enterAppealSite": {
+    "value": true,
+    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. siteSeenPublicLand."
+  },
   "requiredDocumentsSection": {
     "plansDecision": {
       "uploadedFiles": [
