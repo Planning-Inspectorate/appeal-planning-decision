@@ -1,13 +1,13 @@
 const link = 'https://www.smartsurvey.co.uk/s/GHUFVZ/'
-const dataCyId = 'Feedback';
+const selector = '[data-cy="Feedback"]';
 
 Given('the LPA Questionnaire is accessed', () => {
   cy.goToTaskListPage();
-  cy.hasLink(dataCyId, link);
+  cy.hasLink(selector, link);
 });
 
 When('the feedback link is selected', () => {
-  cy.clickDataCyElement(dataCyId);
+  cy.get(selector).click();
 });
 
 Then('the feedback survey is presented', () => {

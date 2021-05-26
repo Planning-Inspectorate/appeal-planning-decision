@@ -1,5 +1,5 @@
-module.exports = (dataCy, linkUrl) => {
-  cy.get(`[data-cy=${dataCy}]`)
+module.exports = (selector, linkUrl) => {
+  cy.get(selector)
     .should('have.attr', 'href')
     .and('include', linkUrl);
 };
