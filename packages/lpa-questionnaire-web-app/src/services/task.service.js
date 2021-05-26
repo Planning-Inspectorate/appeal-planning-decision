@@ -8,6 +8,7 @@ const {
   interestedPartiesCompletion,
   representationsCompletion,
   notifyingPartiesCompletion,
+  siteNoticesCompletion,
   planningHistoryCompletion,
   otherPoliciesCompletion,
   statutoryDevelopmentCompletion,
@@ -69,6 +70,11 @@ const SECTIONS = [
         rule: notifyingPartiesCompletion,
       },
       {
+        taskId: 'siteNotices',
+        href: '/site-notice',
+        rule: siteNoticesCompletion,
+      },
+      {
         taskId: 'planningHistory',
         href: '/planning-history',
         rule: planningHistoryCompletion,
@@ -114,6 +120,7 @@ const HEADERS = {
   interestedPartiesApplication: 'Telling interested parties about the application',
   representationsInterestedParties: 'Representations from interested parties',
   interestedPartiesAppeal: 'Notifying interested parties of the appeal',
+  siteNotices: 'Site notices',
   planningHistory: 'Planning history',
   otherPolicies: 'Other relevant policies',
   statutoryDevelopment: 'Statutory development plan policy',

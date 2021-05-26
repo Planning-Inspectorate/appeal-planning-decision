@@ -10,6 +10,7 @@ const VIEW = {
   DEVELOPMENT_PLAN: 'development-plan',
   UPLOAD_PLANS: 'upload-plans',
   OFFICERS_REPORT: 'officers-report',
+  SITE_NOTICES: 'site-notices',
   PLANNING_HISTORY: 'planning-history',
   OTHER_POLICIES: 'other-policies',
   STATUTORY_DEVELOPMENT: 'statutory-development',

@@ -60,7 +60,9 @@ const replySchema = new Mongoose.Schema({
     interestedPartiesAppeal: {
       uploadedFiles: { type: [uploadedFilesSchema], default: [] },
     },
-    siteNotices: { type: Boolean, default: null },
+    siteNotices: {
+      uploadedFiles: { type: [uploadedFilesSchema], default: [] },
+    },
     planningHistory: {
       uploadedFiles: { type: [uploadedFilesSchema], default: [] },
     },
