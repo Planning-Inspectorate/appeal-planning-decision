@@ -68,7 +68,14 @@
         }
       ]
     },
-    "siteNotices": null,
+    "siteNotices": {
+      "uploadedFiles": [
+        {
+          "name": "upload-file-valid.pdf",
+          "id": "5ff87234-a009-bb12-5765-788992f2f3ac"
+        }
+      ]
+    },
     "planningHistory": {
       "uploadedFiles": [
         {

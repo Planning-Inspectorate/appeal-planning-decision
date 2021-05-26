@@ -40,6 +40,11 @@ export const subTasks = [
     url: 'notifications',
   },
   {
+    ref: 'Site notices',
+    id: 'siteNotices',
+    url: 'site-notice',
+  },
+  {
     ref: 'Planning history',
     id: 'planningHistory',
     url: 'planning-history',
@@ -57,8 +62,8 @@ export const subTasks = [
   {
     ref: 'Statutory development plan policy',
     id: 'statutoryDevelopment',
-    url: 'statutory-development'
-  }
+    url: 'statutory-development',
+  },
 ];
 
 export const getSubTaskInfo = (subTaskRef) => {
