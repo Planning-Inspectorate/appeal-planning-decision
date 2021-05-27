@@ -53,3 +53,7 @@ Cypress.Commands.add('clickBackButton', require('./common/clickBackButton'));
 Cypress.Commands.add('validateErrorMessage', require('./common/validateErrorMessage'));
 
 Cypress.Commands.add('completeQuestionnaire', require('./common/completeQuestionnaire'));
+
+Cypress.Commands.add('hasLink', require('./common/hasLink'));
+
+Cypress.Commands.add('clickDataCyElement', require('./common/clickDataCyElement'));
