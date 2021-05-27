@@ -17,13 +17,13 @@ const isAppeal = (documentType) => {
   return Object.values(appealDocumentTypes).indexOf(documentType) > -1;
 };
 
-function createDataObject(data, body) {
+function createDataObject(log, data, body) {
   const documentInvolvementName = body.documentInvolvement || 'Document:Involvement';
   const documentGroupTypeName = body.documentGroupType || 'Document:Document Group Type';
   const documentInvolvementValue = isAppeal(body.documentType) ? 'Appellant' : 'LPA';
   const documentGroupTypeValue = isAppeal(body.documentType) ? 'Initial Documents' : 'Evidence';
 
-  return {
+  const object = {
     // The order of this object is important
     'a:HorizonAPIDocument': {
       'a:Content': data.data,
@@ -65,6 +65,8 @@ function createDataObject(data, body) {
       'a:NodeId': '0',
     },
   };
+
+  log.info(object, 'STEVE_OBJECT');
 }
 
 async function parseFile({ log, body }) {
@@ -78,7 +80,7 @@ async function parseFile({ log, body }) {
     },
   });
 
-  return createDataObject(data, body);
+  return createDataObject(log, data, body);
 }
 
 module.exports = async (event, context) => {
