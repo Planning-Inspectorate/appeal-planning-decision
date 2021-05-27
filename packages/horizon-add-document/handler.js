@@ -81,7 +81,7 @@ async function parseFile({ log, body }) {
   const object = createDataObject(data, body);
   log.info({ object }, 'STEVE_OBJECT');
 
-  return createDataObject(data, body);
+  return object;
 }
 
 module.exports = async (event, context) => {
