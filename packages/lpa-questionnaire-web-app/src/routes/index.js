@@ -21,6 +21,7 @@ const { router: planningHistoryRouter } = require('./planning-history');
 const { router: otherPoliciesRouter } = require('./other-policies');
 const { router: statutoryDevelopmentRouter } = require('./statutory-development');
 const informationSubmittedRouter = require('./information-submitted');
+const booleanQuestionRouter = require('./question-type/boolean');
 
 router.use(homeRouter);
 router.use(filesRouter);
@@ -41,5 +42,6 @@ router.use(planningHistoryRouter);
 router.use(otherPoliciesRouter);
 router.use(statutoryDevelopmentRouter);
 router.use(informationSubmittedRouter);
+router.use(booleanQuestionRouter);
 
 module.exports = router;

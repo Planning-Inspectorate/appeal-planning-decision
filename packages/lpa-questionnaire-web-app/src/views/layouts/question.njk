@@ -1,0 +1,52 @@
+ {% extends "layouts/main.njk" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "components/appeal-details/macro.njk" import appealDetails %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: backLink,
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
+{% block pageTitle %}
+  {% if errorSummary.length %}Error: {% endif %}{{ page.title }}
+{% endblock %}
+
+{% block content %}
+
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST" novalidate>
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>{{ page.section }}</span>
+        {% block question %}{% endblock %}
+
+        {{ govukButton({
+          text: "Save and continue",
+          attributes: {
+            'data-cy': 'save'
+          }
+        }) }}
+      </form>
+    </div>
+
+    {{
+      appealDetails({
+        appeal: appeal
+      })
+    }}
+  </div>
+{% endblock %}

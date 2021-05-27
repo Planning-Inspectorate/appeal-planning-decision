@@ -19,6 +19,7 @@ const { router: conservationAreaMapRouter } = require('../../../src/routes/conse
 const { router: planningHistoryRouter } = require('../../../src/routes/planning-history');
 const { router: otherPoliciesRouter } = require('../../../src/routes/other-policies');
 const { router: statutoryDevelopmentRouter } = require('../../../src/routes/statutory-development');
+const booleanQuestionRouter = require('../../../src/routes/question-type/boolean');
 
 describe('routes/index', () => {
   beforeEach(() => {
@@ -50,5 +51,6 @@ describe('routes/index', () => {
     expect(use).toHaveBeenCalledWith(planningHistoryRouter);
     expect(use).toHaveBeenCalledWith(otherPoliciesRouter);
     expect(use).toHaveBeenCalledWith(statutoryDevelopmentRouter);
+    expect(use).toHaveBeenCalledWith(booleanQuestionRouter);
   });
 });
