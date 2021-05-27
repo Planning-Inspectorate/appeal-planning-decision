@@ -48,6 +48,7 @@ describe('lib/notify/notify-builder', () => {
           .sendEmail();
 
         expect(mockInfo.mock.calls).toEqual([
+          ['Resetting the notify client'],
           [`Sending email via notify`],
           ['Notify client was not set. Creating...'],
         ]);
@@ -80,7 +81,10 @@ describe('lib/notify/notify-builder', () => {
         .setTemplateVariablesFromObject(templatePersonalisation)
         .sendEmail();
 
-      expect(mockInfo.mock.calls).toEqual([[`Sending email via notify`]]);
+      expect(mockInfo.mock.calls).toEqual([
+        ['Resetting the notify client'],
+        [`Sending email via notify`],
+      ]);
 
       expect(mockDebug.mock.calls).toEqual([
         [{ notifyClient: client }, 'Setting notify client'],

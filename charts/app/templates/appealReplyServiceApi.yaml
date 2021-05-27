@@ -93,18 +93,16 @@ spec:
             - name: APPEALS_SERVICE_API_URL
               value: "http://{{ include "app.fullname" . }}:{{ .Values.appealsServiceApi.service.port }}"
             - name: SRV_NOTIFY_BASE_URL
-              value: {{ .Values.appealsServiceApi.config.notify.baseUrl | quote }}
+              value: {{ .Values.appealReplyServiceApi.config.notify.baseUrl | quote }}
             - name: SRV_NOTIFY_SERVICE_ID
-              value: {{ .Values.appealsServiceApi.config.notify.serviceId | quote }}
+              value: {{ .Values.appealReplyServiceApi.config.notify.serviceId | quote }}
             - name: SRV_NOTIFY_API_KEY
               valueFrom:
                 secretKeyRef:
                   key: value
-                  name: {{ .Values.appealsServiceApi.config.notify.secretName }}
-            - name: SRV_NOTIFY_TEMPLATE_ID
-              value: {{ .Values.appealsServiceApi.config.notify.templateId | quote }}
+                  name: {{ .Values.appealReplyServiceApi.config.notify.secretName }}
             - name: SRV_NOTIFY_TEMPLATE_ID_APPEAL_REPLY_SUBMISSION_CONFIRMATION
-              value: {{ .Values.appealsServiceApi.config.notify.templates.appealReplyNotificationEmailToLpa | quote }}
+              value: {{ .Values.appealReplyServiceApi.config.notify.templates.appealReplyNotificationEmailToLpa | quote }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

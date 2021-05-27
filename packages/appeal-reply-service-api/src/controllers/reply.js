@@ -19,7 +19,7 @@ module.exports = {
       id: uuid.v4(),
       appealId,
     });
-    logger.debug(`Creating reply ${reply.id} ...`);
+    logger.debug({ replyId: reply.id }, 'Creating reply...');
     try {
       await mongodb
         .get()
@@ -31,41 +31,41 @@ module.exports = {
             .collection(dbId)
             .findOne({ _id: reply.id })
             .then((doc) => {
-              logger.debug(`Reply ${reply.id} created`);
+              logger.debug({ replyId: reply.id }, 'Reply created');
               res.status(201).send(doc.reply);
             });
         });
     } catch (err) {
-      logger.error(`Problem creating a reply ${reply.id}\n${err}`);
-      res.status(500).send(`Problem creating an reply`);
+      logger.error({ replyId: reply.id, err }, `Problem creating a reply`);
+      res.status(500).send(`Problem creating a reply`);
     }
   },
 
   async get(req, res) {
     const idParam = req.params.id;
-    logger.debug(`Retrieving reply ${idParam} ...`);
+    logger.debug({ idParam }, `Retrieving reply...`);
     try {
       await mongodb
         .get()
         .collection(dbId)
         .findOne({ _id: idParam })
         .then((doc) => {
-          logger.debug(`Reply ${idParam} retrieved`);
+          logger.debug({ idParam }, `Reply retrieved`);
           res.status(200).send(doc.reply);
         })
         .catch((err) => {
-          logger.warn(`Could not find reply ${idParam}\n${err}`);
+          logger.warn({ idParam, err }, `Could not find reply`);
           res.status(404).send(null);
         });
     } catch (err) {
-      logger.error(`Problem retrieving reply ${idParam}\n${err}`);
-      res.status(500).send(`Problem finding reply ${idParam}`);
+      logger.error({ idParam, err }, `Problem retrieving reply`);
+      res.status(500).send({ idParam }, `Problem finding reply`);
     }
   },
 
   async update(req, res) {
     const idParam = req.params.id;
-    logger.debug(`Updating reply ${idParam} ...`);
+    logger.debug({ idParam }, `Updating reply ...`);
 
     const newDoc = req.body;
 
@@ -74,14 +74,12 @@ module.exports = {
       .collection(dbId)
       .findOne({ _id: idParam })
       .then(async (originalDoc) => {
-        // logger.debug(`Original doc \n${originalDoc.reply}`);
-        logger.debug(originalDoc.reply, 'STEVE_API');
         await mongodb
           .get()
           .collection(dbId)
           .updateOne({ _id: idParam }, { $set: { uuid: idParam, reply: req.body } })
           .then(async () => {
-            logger.debug(`Updated reply ${idParam}\n`);
+            logger.debug({ idParam }, `Updated reply`);
 
             const isFirstSubmission =
               originalDoc.state !== 'SUBMITTED' && newDoc.state === 'SUBMITTED';
@@ -104,12 +102,12 @@ module.exports = {
             }
           })
           .catch((err) => {
-            logger.error(`Problem updating reply ${idParam}\n${err}`);
+            logger.error({ idParam, err }, `Problem updating reply`);
             res.status(500).send(`Problem updating reply`);
           });
       })
       .catch((err) => {
-        logger.warn(`Couldn't find reply ${idParam} to update\n${err}`);
+        logger.warn({ idParam, err }, `Couldn't find reply to update`);
         res.status(404).send(`Couldn't find reply`);
       });
   },

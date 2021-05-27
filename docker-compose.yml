@@ -22,7 +22,6 @@ services:
       SRV_NOTIFY_BASE_URL: http://mock-notify:3000
       SRV_NOTIFY_SERVICE_ID: 'dummy-service-id-for-notify'
       SRV_NOTIFY_API_KEY: 'dummy-api-key-for-notify'
-      SRV_NOTIFY_TEMPLATE_ID: 'dummy-template-id-for-notify'
       SRV_NOTIFY_TEMPLATE_ID_APPEAL_REPLY_SUBMISSION_CONFIRMATION: '937b4147-8420-42da-859d-d4a65bdf99bc'
       HORIZON_HAS_PUBLISHER_HOST: rabbitmq
       HORIZON_HAS_PUBLISHER_PASSWORD: admin

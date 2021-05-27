@@ -20,10 +20,6 @@ jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
 });
 
 describe('Notify', () => {
-  beforeAll(async () => {});
-
-  afterAll(async () => {});
-
   test('Send Appeal Reply Submission Confirmation Email To Lpa', async () => {
     const lpaCode = '11111';
     const appealId = '000000';

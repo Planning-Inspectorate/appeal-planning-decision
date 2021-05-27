@@ -20,16 +20,13 @@ const mockSetTemplateVariablesFromObject = jest.fn().mockReturnThis();
 const mockSetReference = jest.fn().mockReturnThis();
 const mockSend = jest.fn();
 
-jest.doMock('@pins/common/src/lib/notify/notify-builder', () => {
-  const mock = {
-    setTemplateId: mockSetTemplateId,
-    setDestinationEmailAddress: mockSetDestinationEmailAddress,
-    setTemplateVariablesFromObject: mockSetTemplateVariablesFromObject,
-    setReference: mockSetReference,
-    sendEmail: mockSend,
-  };
-  return mock;
-});
+jest.doMock('@pins/common/src/lib/notify/notify-builder', () => ({
+  setTemplateId: mockSetTemplateId,
+  setDestinationEmailAddress: mockSetDestinationEmailAddress,
+  setTemplateVariablesFromObject: mockSetTemplateVariablesFromObject,
+  setReference: mockSetReference,
+  sendEmail: mockSend,
+}));
 
 const { getLpa } = require('../../../src/services/lpa.service');
 

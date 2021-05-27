@@ -3,11 +3,12 @@ const { createNotifyClient } = require('./notify-factory');
 
 module.exports = {
   /**
-   * Resets all the data on the object useful for cleaning the client between emails or tests.
+   * Resets all the data on the object. Useful for cleaning the client between emails or tests.
    *
    * @returns {*}
    */
   reset() {
+    logger.info('Resetting the notify client');
     this.notifyClient = undefined;
     this.templateId = undefined;
     this.templatePersonalisation = undefined;
@@ -18,24 +19,20 @@ module.exports = {
     return this;
   },
 
-  setPrivateNotifyClient(notifyClient) {
-    logger.debug({ notifyClient }, 'Setting notify client');
-    this.notifyClient = notifyClient;
-  },
-
   /**
-   * Gets the set client and set it if its not set sets it
+   * Gets the underlying notify client.
    *
    * @returns {*}
    */
   getNotifyClient() {
     if (!this.notifyClient) {
       logger.info('Notify client was not set. Creating...');
-      this.setPrivateNotifyClient(createNotifyClient());
+      this.setNotifyClient(createNotifyClient());
     }
 
     return this.notifyClient;
   },
+
   /**
    * Allow overriding the default / fallback client with custom settings. This is optional.
    *
@@ -43,7 +40,8 @@ module.exports = {
    * @returns {*}
    */
   setNotifyClient(notifyClient) {
-    this.setPrivateNotifyClient(notifyClient);
+    logger.debug({ notifyClient }, 'Setting notify client');
+    this.notifyClient = notifyClient;
 
     return this;
   },

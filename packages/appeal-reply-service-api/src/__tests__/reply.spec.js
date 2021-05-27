@@ -80,13 +80,21 @@ describe('Replies API', () => {
   });
 
   test('PUT /api/v1/reply/{id} - It responds with status 200 and matching reply and sends completed email', async () => {
-    const reply = { id: uuid.v4(), state: 'SUBMITTED', submissionDate: {} };
+    const fakeId = uuid.v4();
+    const reply = { id: fakeId, state: 'SUBMITTED', submissionDate: {} };
+
     await mongodb.get().collection(dbId).insertOne({ _id: reply.id, uuid: reply.id, reply });
 
     reply.updated = true;
     const response = await request(app).put(`/api/v1/reply/${reply.id}`).send(reply);
+
     expect(response.statusCode).toBe(200);
     expect(response.body).toMatchObject(reply);
-    expect(notify.sendAppealReplySubmissionConfirmationEmailToLpa).toHaveBeenCalled();
+    expect(notify.sendAppealReplySubmissionConfirmationEmailToLpa).toHaveBeenCalledWith({
+      id: fakeId,
+      state: 'SUBMITTED',
+      submissionDate: response.body.submissionDate,
+      updated: true,
+    });
   });
 });
