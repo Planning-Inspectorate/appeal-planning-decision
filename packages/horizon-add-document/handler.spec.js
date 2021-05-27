@@ -5,7 +5,7 @@ process.env.HORIZON_URL = 'horizon-url';
 const axios = require('axios');
 const handler = require('./handler');
 
-const { createDataObject } = handler;
+const { createDataObject, getCaseReferenceFromAPI } = handler;
 
 const mockEventBody = {
   caseReference: '1234567890',
@@ -30,6 +30,12 @@ const data = {
   name: 'some-data-name',
   createdAt: 'some-data-createdAt',
 };
+
+describe('getCaseReferenceFromAPI', () => {
+  it('should return the caseReference from the appeal using the API', async () => {
+    expect(await getCaseReferenceFromAPI()).toEqual('case-reference-api-call');
+  });
+});
 
 describe('createDataObject', () => {
   let eventBody;
@@ -175,6 +181,95 @@ describe('handler', () => {
           __soap_op: 'http://tempuri.org/IHorizon/AddDocuments',
           __xmlns: 'http://tempuri.org/',
           caseReference,
+          documents: [
+            { '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business' },
+            { '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance' },
+            {
+              'a:HorizonAPIDocument': {
+                'a:Content': event.body.docServiceOutput.data,
+                'a:DocumentType': event.body.documentType,
+                'a:Filename': event.body.docServiceOutput.name,
+                'a:IsPublished': 'false',
+                'a:Metadata': {
+                  'a:Attributes': [
+                    {
+                      'a:AttributeValue': {
+                        '__i:type': 'a:StringAttributeValue',
+                        'a:Name': 'some-doc-involvement',
+                        'a:Value': 'Appellant',
+                      },
+                    },
+                    {
+                      'a:AttributeValue': {
+                        '__i:type': 'a:StringAttributeValue',
+                        'a:Name': 'some-doc-group-type',
+                        'a:Value': 'Initial Documents',
+                      },
+                    },
+                    {
+                      'a:AttributeValue': {
+                        '__i:type': 'a:StringAttributeValue',
+                        'a:Name': 'Document:Incoming/Outgoing/Internal',
+                        'a:Value': 'Incoming',
+                      },
+                    },
+                    {
+                      'a:AttributeValue': {
+                        '__i:type': 'a:DateAttributeValue',
+                        'a:Name': 'Document:Received/Sent Date',
+                        'a:Value': event.body.docServiceOutput.createdAt,
+                      },
+                    },
+                  ],
+                },
+                'a:NodeId': '0',
+              },
+            },
+          ],
+        },
+      },
+      {
+        baseURL: process.env.HORIZON_URL,
+        maxBodyLength: Infinity,
+      }
+    );
+
+    /* Horizon must be called in a specific order - not easy to enforce with objects, but best we can do */
+    expect(
+      Object.keys(axios.post.mock.calls[0][1].AddDocuments.documents[2]['a:HorizonAPIDocument'])
+    ).toEqual([
+      'a:Content',
+      'a:DocumentType',
+      'a:Filename',
+      'a:IsPublished',
+      'a:Metadata',
+      'a:NodeId',
+    ]);
+  });
+
+  it('should download the file from blob storage and push to Horizon, with case reference from API', async () => {
+    event.body.caseReference = null;
+
+    axios.get.mockResolvedValue({
+      data: event.body.docServiceOutput,
+    });
+
+    axios.post.mockResolvedValue({
+      data: event.body.horizonOutput,
+    });
+
+    expect(await handler(event, context)).toEqual({
+      caseReference: 'case-reference-api-call',
+      data: event.body.horizonOutput,
+    });
+
+    expect(axios.post).toBeCalledWith(
+      '/horizon',
+      {
+        AddDocuments: {
+          __soap_op: 'http://tempuri.org/IHorizon/AddDocuments',
+          __xmlns: 'http://tempuri.org/',
+          caseReference: 'case-reference-api-call',
           documents: [
             { '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business' },
             { '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance' },
