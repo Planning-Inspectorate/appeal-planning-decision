@@ -8,18 +8,24 @@ const getFileListHtml = (files) => {
     : '<p>No files uploaded</p>';
 };
 
+const getValueText = (value) => {
+  if (typeof value === 'boolean') return `<p>${value ? 'Yes' : 'No'}</p>`;
+  return value ? `<p>${value}</p>` : null;
+};
+
 const getBooleanTextHtml = (answer) => {
+  if (typeof answer !== 'object') return getValueText(answer);
   const elements = Object.values(answer).map((value) => {
-    if (typeof value === 'boolean') return `<p>${value ? 'Yes' : 'No'}</p>`;
-    return value ? `<p>${value}</p>` : null;
+    return getValueText(value);
   });
   return elements.join('');
 };
 
 const getAnswer = (id, sectionId, appealReply) => {
-  const answer = appealReply[sectionId]?.[id];
+  // TODO: this check can be removed when the appealReply structure is flattened for all questions
+  const answer = sectionId === 'aboutSiteSection' ? appealReply[id] : appealReply[sectionId]?.[id];
 
-  if (!answer) return { text: 'No answer found' };
+  if (!answer && typeof answer !== 'boolean') return { text: 'No answer found' };
 
   if (answer.uploadedFiles) {
     return { html: getFileListHtml(answer.uploadedFiles) };

@@ -16,16 +16,7 @@ module.exports = {
       appealReferenceNumbers: '',
     },
   },
-  aboutAppealSiteSection: {
-    aboutSite: {
-      cannotSeeLand: null,
-      wouldNeedToEnter: null,
-      wouldNeedNeighbourAccess: null,
-      wouldAffectListedBuilding: null,
-      isGreenBelt: null,
-      isConservationArea: null,
-    },
-  },
+  siteSeenPublicLand: null,
   requiredDocumentsSection: {
     plansDecision: {
       uploadedFiles: [],
