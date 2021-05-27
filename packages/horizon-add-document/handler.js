@@ -10,6 +10,10 @@ const config = {
   },
 };
 
+async function getCaseReferenceFromAPI() {
+  return 'case-reference-api-call';
+}
+
 // body.documentType is tested instead of passing in a new 'is this an appeal or reply' parameter
 // from packages/horizon-householder-appeal-publish/src/publishDocuments.js.
 // This is because doing so breaks the tests for horizon-householder-appeal-publish
@@ -68,7 +72,9 @@ function createDataObject(data, body) {
 }
 
 async function parseFile({ log, body }) {
+  log.info('A');
   const { documentId, applicationId, documentType } = body;
+  log.info('B');
   log.info({ applicationId, documentId, documentType }, 'Downloading document');
 
   const { data } = await axios.get(`/api/v1/${applicationId}/${documentId}/file`, {
@@ -89,7 +95,8 @@ module.exports = async (event, context) => {
 
   try {
     event.log.info(event.body, 'STEVE_ADD_EVENT_BODY');
-    const { caseReference } = event.body;
+    const caseReference = event.body.caseReference || (await getCaseReferenceFromAPI());
+    event.log.info(caseReference, 'STEVE_CASE_REFERENCE');
 
     const input = {
       AddDocuments: {
@@ -166,3 +173,4 @@ module.exports = async (event, context) => {
 };
 
 module.exports.createDataObject = createDataObject;
+module.exports.getCaseReferenceFromAPI = getCaseReferenceFromAPI;
