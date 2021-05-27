@@ -57,6 +57,11 @@ describe('check-answers-sections', () => {
       output: { html: '' },
     },
     {
+      title: 'Shows Yes if boolean value true provided directly',
+      taskValue: true,
+      output: { html: '<p>Yes</p>' },
+    },
+    {
       title: 'Shows Yes if boolean value true provided',
       taskValue: {
         mockValue: true,

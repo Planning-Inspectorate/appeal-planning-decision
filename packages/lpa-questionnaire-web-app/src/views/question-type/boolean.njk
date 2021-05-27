@@ -1,0 +1,47 @@
+ {% extends "layouts/question.njk" %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% block question %}
+  {{ govukRadios({
+    idPrefix: "booleanInput",
+    name: "booleanInput",
+    fieldset: {
+      legend: {
+        text: page.heading,
+        isPageHeading: true,
+        classes: "govuk-fieldset__legend--l"
+      },
+      attributes: {
+        'data-cy': 'booleanInput-label'
+      }
+    },
+    items: [
+      {
+        value: "yes",
+        text: "Yes",
+        checked: true if values['booleanInput'] === true,
+        attributes: {
+          "data-cy": "booleanInput-yes"
+        }
+      },
+      {
+        value: "no",
+        checked: true if values['booleanInput'] === false,
+        conditional: {
+          html: appealRefHtml
+        },
+        text: "No",
+        attributes: {
+          "data-cy": "booleanInput-no"
+        }
+      }
+    ],
+    errorMessage: errors['booleanInput'] and {
+      text: errors['booleanInput'].msg,
+      attributes: {
+        'data-cy': 'booleanInput-error'
+      }
+    }
+  }) }}
+{% endblock %}

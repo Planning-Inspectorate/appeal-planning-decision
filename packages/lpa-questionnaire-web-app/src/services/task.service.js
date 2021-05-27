@@ -13,6 +13,7 @@ const {
   planningHistoryCompletion,
   otherPoliciesCompletion,
   statutoryDevelopmentCompletion,
+  booleanCompletion,
 } = require('./task-status');
 const checkYourAnswerCompletion = require('./task-status/check-your-answers');
 
@@ -34,6 +35,16 @@ const SECTIONS = [
         taskId: 'otherAppeals',
         href: '/other-appeals',
         rule: otherAppealsCompletion,
+      },
+    ],
+  },
+  {
+    sectionId: 'aboutSiteSection',
+    tasks: [
+      {
+        taskId: 'siteSeenPublicLand',
+        href: '/public-land',
+        rule: booleanCompletion,
       },
     ],
   },
@@ -119,6 +130,9 @@ const HEADERS = {
   submissionAccuracy: "Review accuracy of the appellant's submission",
   extraConditions: 'Do you have any extra conditions?',
   otherAppeals: 'Tell us about any appeals in the immediate area',
+  aboutSiteSection: 'About the Appeal Site',
+  siteSeenPublicLand:
+    'Can the inspector see the relevant parts of the appeal site from public land?',
   requiredDocumentsSection: 'Required documents',
   plansDecision: 'Plans used to reach the decision',
   officersReport: "Planning Officer's report",

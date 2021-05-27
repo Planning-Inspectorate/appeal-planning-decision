@@ -5,6 +5,7 @@ const {
   otherAppealsCompletion,
   uploadPlansCompletion,
   officersReportCompletion,
+  booleanCompletion,
 } = require('.');
 
 // This should only contain completion checks for required fields
@@ -14,6 +15,10 @@ const requiredCompletion = [
   otherAppealsCompletion,
   uploadPlansCompletion,
   officersReportCompletion,
+  {
+    id: 'siteSeenPublicLand',
+    func: booleanCompletion,
+  },
 ];
 module.exports = (appealReply) => {
   if (!appealReply) return null;
@@ -23,7 +28,9 @@ module.exports = (appealReply) => {
   }
 
   return requiredCompletion.every((check) => {
-    return check(appealReply) === COMPLETED;
+    return typeof check === 'object'
+      ? check.func(appealReply, check.id) === COMPLETED
+      : check(appealReply) === COMPLETED;
   })
     ? NOT_STARTED
     : CANNOT_START_YET;
