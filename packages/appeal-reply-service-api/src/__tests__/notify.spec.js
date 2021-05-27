@@ -1,7 +1,10 @@
-const axios = require('axios');
-const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
-const notify = require('../lib/notify.js');
-const config = require('../lib/config');
+const mockError = jest.fn();
+const mockInfo = jest.fn();
+
+jest.doMock('../lib/logger', () => ({
+  error: mockError,
+  info: mockInfo,
+}));
 
 jest.mock('axios');
 jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
@@ -19,65 +22,208 @@ jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
   return mock;
 });
 
+const axios = require('axios');
+const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
+const { sendAppealReplySubmissionConfirmationEmailToLpa } = require('../lib/notify.js');
+const config = require('../lib/config');
+
 describe('Notify', () => {
-  test('Send Appeal Reply Submission Confirmation Email To Lpa', async () => {
-    const lpaCode = '11111';
-    const appealId = '000000';
-    const fileId = '222222';
-    const email = 'test@test.com';
-    const name = 'name';
-    const fileData = 'file data';
+  let fakeLpaCode;
+  let fakeAppealId;
+  let fakeFileId;
+  let fakeEmail;
+  let fakeName;
+  let fakeFileData;
 
-    config.services.notify.templates.appealReplySubmissionConfirmation = 'test';
-    config.appeals.url = 'appeals.url';
-    config.docs.api.url = 'docs.url';
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-    axios.get
-      .mockResolvedValueOnce({
-        data: {
-          id: appealId,
-          requiredDocumentsSection: {
-            applicationNumber: appealId,
-          },
-        },
-      })
-      .mockResolvedValueOnce({
-        data: {
-          name,
-          email,
-        },
-      })
-      .mockResolvedValueOnce({
-        data: fileData,
+  describe('sendAppealReplySubmissionConfirmationEmailToLpa', () => {
+    beforeEach(() => {
+      fakeLpaCode = '11111';
+      fakeAppealId = '000000';
+      fakeReplyId = 'xxx-yyy-000';
+      fakeFileId = '222222';
+      fakeEmail = 'test@test.com';
+      fakeName = 'name';
+      fakeFileData = 'file data';
+
+      config.services.notify.templates.appealReplySubmissionConfirmation = 'test';
+      config.appeals.url = 'appeals.url';
+      config.docs.api.url = 'docs.url';
+    });
+
+    describe('unhappy paths', () => {
+      test('it returns early if reply.appealId is undefined', async () => {
+        await sendAppealReplySubmissionConfirmationEmailToLpa({});
+        expect(mockError).toHaveBeenCalledWith('reply.appealId was undefined. Aborting.');
       });
 
-    await notify.sendAppealReplySubmissionConfirmationEmailToLpa({
-      lpaCode,
-      appealId,
-      submission: {
-        pdfStatement: {
-          uploadedFile: {
-            id: fileId,
+      test('it throws if appeal response is invalid', async () => {
+        await sendAppealReplySubmissionConfirmationEmailToLpa({
+          appealId: fakeAppealId,
+        });
+        expect(mockError).toHaveBeenCalledWith(
+          { err: new TypeError("Cannot read property 'data' of undefined") },
+          'Unable to retrieve appeal data.'
+        );
+      });
+
+      test('it returns early if appeal.lpaCode is undefined', async () => {
+        axios.get.mockResolvedValueOnce('some invalid response');
+        await sendAppealReplySubmissionConfirmationEmailToLpa({
+          appealId: fakeAppealId,
+        });
+        expect(mockError).toHaveBeenCalledWith('appeal.lpaCode was undefined. Aborting.');
+      });
+
+      test('it throws if LPA response is invalid', async () => {
+        axios.get.mockResolvedValueOnce({ data: { lpaCode: fakeLpaCode } });
+
+        await sendAppealReplySubmissionConfirmationEmailToLpa({
+          appealId: fakeAppealId,
+        });
+        expect(mockError).toHaveBeenCalledWith(
+          { err: new TypeError("Cannot read property 'data' of undefined") },
+          'Unable to retrieve LPA data.'
+        );
+      });
+
+      test('it throws if PDF response is invalid', async () => {
+        axios.get
+          .mockResolvedValueOnce({ data: { lpaCode: fakeLpaCode } })
+          .mockResolvedValueOnce({ data: { email: fakeEmail } });
+
+        await sendAppealReplySubmissionConfirmationEmailToLpa({
+          appealId: fakeAppealId,
+        });
+        expect(mockError).toHaveBeenCalledWith(
+          { err: new TypeError("Cannot read property 'pdfStatement' of undefined") },
+          'Unable to retrieve PDF data.'
+        );
+      });
+
+      test('it throws if lpa.email is invalid', async () => {
+        const fakeLpaResponseData = { some: 'data' };
+        axios.get
+          .mockResolvedValueOnce({ data: { lpaCode: fakeLpaCode } })
+          .mockResolvedValueOnce({ data: fakeLpaResponseData })
+          .mockResolvedValueOnce({ data: { pdf: fakeFileData } });
+
+        await sendAppealReplySubmissionConfirmationEmailToLpa({
+          id: fakeReplyId,
+          appealId: fakeAppealId,
+          submission: {
+            pdfStatement: {
+              uploadedFile: {
+                id: fakeFileId,
+              },
+            },
           },
-        },
-      },
-      id: appealId,
+        });
+        expect(mockInfo).toHaveBeenCalledWith(
+          { docsPath: `${config.docs.api.url}/api/v1/${fakeReplyId}/${fakeFileId}/file` },
+          'docs service route'
+        );
+        expect(mockError).toHaveBeenCalledWith(
+          {
+            err: new Error('Missing LPA email. This indicates an issue with the look up data.'),
+            lpa: fakeLpaResponseData,
+          },
+          'Unable to send appeal submission received notification email to LPA.'
+        );
+      });
+
+      test('it throws if unable to send the email', async () => {
+        const fakeLpaResponseData = { email: fakeEmail, some: 'data' };
+        axios.get
+          .mockResolvedValueOnce({ data: { lpaCode: fakeLpaCode } })
+          .mockResolvedValueOnce({ data: fakeLpaResponseData })
+          .mockResolvedValueOnce({ data: { pdf: fakeFileData } });
+
+        await sendAppealReplySubmissionConfirmationEmailToLpa({
+          id: fakeReplyId,
+          appealId: fakeAppealId,
+          submission: {
+            pdfStatement: {
+              uploadedFile: {
+                id: fakeFileId,
+              },
+            },
+          },
+        });
+        expect(mockInfo).toHaveBeenCalledWith(
+          { docsPath: `${config.docs.api.url}/api/v1/${fakeReplyId}/${fakeFileId}/file` },
+          'docs service route'
+        );
+        expect(mockError).toHaveBeenCalledWith(
+          {
+            err: new TypeError("Cannot read property 'applicationNumber' of undefined"),
+            lpa: fakeLpaResponseData,
+          },
+          'Unable to send appeal submission received notification email to LPA.'
+        );
+      });
     });
 
-    expect(NotifyBuilder.setTemplateId).toHaveBeenCalledWith(
-      config.services.notify.templates.appealReplySubmissionConfirmation
-    );
-    expect(NotifyBuilder.setDestinationEmailAddress).toHaveBeenCalledWith(email);
-    expect(NotifyBuilder.setTemplateVariablesFromObject).toHaveBeenCalledWith({
-      'name of local planning department': name,
-      'planning appeal reference': appealId,
-      'planning application number': appealId,
+    describe('happy path', () => {
+      test('Send Appeal Reply Submission Confirmation Email To Lpa', async () => {
+        axios.get
+          .mockResolvedValueOnce({
+            data: {
+              id: fakeAppealId,
+              lpaCode: fakeLpaCode,
+              requiredDocumentsSection: {
+                applicationNumber: fakeAppealId,
+              },
+            },
+          })
+          .mockResolvedValueOnce({
+            data: {
+              name: fakeName,
+              email: fakeEmail,
+            },
+          })
+          .mockResolvedValueOnce({
+            data: fakeFileData,
+          });
+
+        const reply = {
+          lpaCode: fakeLpaCode,
+          appealId: fakeAppealId,
+          submission: {
+            pdfStatement: {
+              uploadedFile: {
+                id: fakeFileId,
+              },
+            },
+          },
+          id: fakeReplyId,
+        };
+
+        await sendAppealReplySubmissionConfirmationEmailToLpa(reply);
+
+        expect(mockError).not.toHaveBeenCalled();
+
+        expect(NotifyBuilder.setTemplateId).toHaveBeenCalledWith(
+          config.services.notify.templates.appealReplySubmissionConfirmation
+        );
+        expect(NotifyBuilder.setDestinationEmailAddress).toHaveBeenCalledWith(fakeEmail);
+        expect(NotifyBuilder.setTemplateVariablesFromObject).toHaveBeenCalledWith({
+          'name of local planning department': fakeName,
+          'planning appeal reference': fakeAppealId,
+          'planning application number': fakeAppealId,
+        });
+        expect(NotifyBuilder.setReference).toHaveBeenCalledWith(
+          `${fakeAppealId}.SubmissionConfirmation`
+        );
+        expect(NotifyBuilder.addFileToTemplateVariables).toHaveBeenCalledWith(
+          'link to appeal submission pdf',
+          fakeFileData
+        );
+        expect(NotifyBuilder.sendEmail).toHaveBeenCalled();
+      });
     });
-    expect(NotifyBuilder.setReference).toHaveBeenCalledWith(`${appealId}.SubmissionConfirmation`);
-    expect(NotifyBuilder.addFileToTemplateVariables).toHaveBeenCalledWith(
-      'link to appeal submission pdf',
-      fileData
-    );
-    expect(NotifyBuilder.sendEmail).toHaveBeenCalled();
   });
 });
