@@ -34,6 +34,7 @@ describe('Notify', () => {
   let fakeEmail;
   let fakeName;
   let fakeFileData;
+  let fakeReplyId;
 
   afterEach(() => {
     jest.clearAllMocks();
