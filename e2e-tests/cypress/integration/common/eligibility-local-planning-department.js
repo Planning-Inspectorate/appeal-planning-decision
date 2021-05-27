@@ -124,6 +124,8 @@ And('the user can proceed to the Enforcement Notice eligibility check', () => {
 });
 
 And('progress is halted with the message “This service is not available in your area”', () => {
+  const heading = 'This service is not available in your area';
   cy.confirmNavigationLocalPlanningDepartmentPage();
-  cy.confirmTextOnPage('This service is not available in your area');
+  cy.title().should('contain', heading);
+  cy.confirmTextOnPage(heading);
 });
