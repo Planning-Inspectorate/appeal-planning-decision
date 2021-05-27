@@ -10,6 +10,7 @@ const officersReportCompletion = require('./officers-report');
 const planningHistoryCompletion = require('./planning-history');
 const otherPoliciesCompletion = require('./other-policies');
 const statutoryDevelopmentCompletion = require('./statutory-development');
+const booleanCompletion = require('./boolean');
 
 module.exports = {
   accuracySubmissionCompletion,
@@ -24,4 +25,5 @@ module.exports = {
   planningHistoryCompletion,
   otherPoliciesCompletion,
   statutoryDevelopmentCompletion,
+  booleanCompletion,
 };
