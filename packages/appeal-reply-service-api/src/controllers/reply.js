@@ -75,7 +75,7 @@ module.exports = {
       .findOne({ _id: idParam })
       .then(async (originalDoc) => {
         // logger.debug(`Original doc \n${originalDoc.reply}`);
-        // logger.debug(originalDoc.reply, 'STEVE_API');
+        logger.debug(originalDoc.reply, 'STEVE_API');
 
         await mongodb
           .get()
@@ -87,6 +87,7 @@ module.exports = {
             const isFirstSubmission =
               originalDoc.state !== 'SUBMITTED' && newDoc.state === 'SUBMITTED';
             if (isFirstSubmission) {
+              logger.info({ newDoc }, 'STEVE_IS_FIRST_SUBMISSION');
               newDoc.submissionDate = new Date().toISOString();
             }
 
