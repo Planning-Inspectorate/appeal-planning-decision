@@ -103,6 +103,8 @@ spec:
                   name: {{ .Values.appealReplyServiceApi.config.notify.secretName }}
             - name: SRV_NOTIFY_TEMPLATE_ID_APPEAL_REPLY_SUBMISSION_CONFIRMATION
               value: {{ .Values.appealReplyServiceApi.config.notify.templates.appealReplyNotificationEmailToLpa | quote }}
+            - name: SRV_NOTIFY_EMAIL_REPLYTO_ID_APPEAL_REPLY_SUBMISSION_CONFIRMATION
+              value: { { .Values.appealReplyServiceApi.config.notify.emailReplyToId.appealReplyNotificationEmailToLpa | quote } }
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

@@ -54,6 +54,7 @@ async function sendAppealReplySubmissionConfirmationEmailToLpa(reply) {
     await NotifyBuilder.setTemplateId(
       config.services.notify.templates.appealReplySubmissionConfirmation
     )
+      .setEmailReplyToId(config.services.notify.emailReplyToId.appealReplySubmissionConfirmation)
       .setDestinationEmailAddress(lpa.email)
       .setTemplateVariablesFromObject({
         'planning appeal reference': appeal.id,

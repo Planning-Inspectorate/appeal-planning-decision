@@ -59,6 +59,10 @@ module.exports = {
       baseUrl: process.env.SRV_NOTIFY_BASE_URL,
       serviceId: process.env.SRV_NOTIFY_SERVICE_ID,
       apiKey: process.env.SRV_NOTIFY_API_KEY,
+      emailReplyToId: {
+        appealReplySubmissionConfirmation:
+          process.env.SRV_NOTIFY_EMAIL_REPLYTO_ID_APPEAL_REPLY_SUBMISSION_CONFIRMATION,
+      },
       templates: {
         appealReplySubmissionConfirmation:
           process.env.SRV_NOTIFY_TEMPLATE_ID_APPEAL_REPLY_SUBMISSION_CONFIRMATION,

@@ -50,7 +50,9 @@ describe('Notify', () => {
       fakeName = 'name';
       fakeFileData = 'file data';
 
-      config.services.notify.templates.appealReplySubmissionConfirmation = 'test';
+      config.services.notify.templates.appealReplySubmissionConfirmation = 'fake-template-id';
+      config.services.notify.emailReplyToId.appealReplySubmissionConfirmation =
+        'fake-email-reply-to-id';
       config.appeals.url = 'appeals.url';
       config.docs.api.url = 'docs.url';
     });
@@ -209,6 +211,9 @@ describe('Notify', () => {
 
         expect(NotifyBuilder.setTemplateId).toHaveBeenCalledWith(
           config.services.notify.templates.appealReplySubmissionConfirmation
+        );
+        expect(NotifyBuilder.setEmailReplyToId).toHaveBeenCalledWith(
+          config.services.notify.emailReplyToId.appealReplySubmissionConfirmation
         );
         expect(NotifyBuilder.setDestinationEmailAddress).toHaveBeenCalledWith(fakeEmail);
         expect(NotifyBuilder.setTemplateVariablesFromObject).toHaveBeenCalledWith({
