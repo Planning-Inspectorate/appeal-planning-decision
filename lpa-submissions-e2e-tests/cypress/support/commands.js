@@ -1,6 +1,9 @@
 require('cypress-file-upload');
 require('./visit-without-javascript-enabled');
 require('./accessibility');
+require('./cookie-consent-view-preferences/commands');
+require('./cookies/cookies-commands');
+require('./flash-message/flash-message-commands');
 
 Cypress.Commands.add('goToPage', require('./common/goToPage'));
 
@@ -65,3 +68,7 @@ Cypress.Commands.add(
   'checkSubmissionPdfContent',
   require('./common/pdfFunctions').checkSubmissionPdfContent,
 );
+
+Cypress.Commands.add('checkRadioButton', require('./common/checkRadioButton'));
+
+Cypress.Commands.add('assertRadioButtonState', require('./common/assertRadioButtonState'));
