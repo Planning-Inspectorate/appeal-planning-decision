@@ -1,7 +1,17 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { getSubTaskInfo } from '../../support/common/subTasks';
+
+const disableJs = true;
 
 Given('a user visits the site with JavaScript disabled', () => {
-  cy.visit('/', { script: false });
+  cy.goToPage('task-list', undefined, disableJs);
+});
+
+When('the user navigates through the service', () => {
+  const { id, url } = getSubTaskInfo("Accuracy Appellant Submission");
+
+  cy.clickOnSubTaskLink(id);
+  cy.verifyPage(url);
 });
 
 When('the user views the cookie preferences page', () => {
@@ -9,5 +19,5 @@ When('the user views the cookie preferences page', () => {
 });
 
 Then('the cookies page is presented', () => {
-  cy.goToCookiesPage('/cookies');
+  cy.visit('/cookies', { script: false });
 });
