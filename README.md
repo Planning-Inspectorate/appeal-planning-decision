@@ -95,7 +95,7 @@ image separately, you must build the common image separately:
 docker build -t common ./common
 ```
 
-# Branching
+## Branching
 
 Please follow the established [branching strategy](https://pins-ds.atlassian.net/wiki/spaces/AAPDS/pages/425132090/Branching+strategy).
 In the event of divergence from the README, the external document will take
@@ -105,7 +105,7 @@ All commit messages must be written in the [Conventional Commit Format](#commit-
 This uses [Semantic Release](https://semantic-release.gitbook.io/semantic-release/)
 to generate the release numbers for the artifacts.
 
-# Releases
+## Releases
 
 Releases are done using the GitOps workflow. Lots can be found about [GitOps
 online](https://www.gitops.tech/), but in summary, we have a release manifest
@@ -114,7 +114,23 @@ online](https://www.gitops.tech/), but in summary, we have a release manifest
 ones are the image and the tag to track, the URL of the Docker registry and any
 variables which we want to apply (in this instance, just the URL).
 
-# Commit Message Format
+## Deployments
+
+In a departure from the fully automated GitOps workflow, releases have been separated from deployments. While Flux automation has been disabled, helm-operator automation has been retained. In order to deploy to any environment, the developer must make a change to the HelmRelease image tag directly.
+
+The developer must update the tag in the app.yml file for the environment being deployed to (e.g. releases/dev/app.yml).
+
+````yaml
+appealsServiceApi:
+  image:
+    tag: 1.15.3
+````
+
+Once this change to the HelmRelease chart has been pushed to master, it will be detected by Flux and deployed to the cluster.
+
+Note that, as Flux automation has been disabled, Flux will never automatically commit to master. This will remove the potential for race conditions and semantic-release errors when the version of master checked out by a Github Workflow is rendered out of date by Flux commits.
+
+## Commit Message Format
 
 This repo uses [Semantic Release](https://semantic-release.gitbook.io) to
 generate release version numbers, so it is imperative that all commits are
@@ -197,7 +213,7 @@ Or:
     git add .
     npm run commit
 
-# Terraform
+## Terraform
 
 [Terraform](https://www.terraform.io/) is used to provision the infrastructure in Azure. The state is stored in Azure 
 Blob Storage.
@@ -266,7 +282,7 @@ terraform destroy # This will destroy all resources
   - `User.Read` (with Admin grant)
 
 
-# Kubernetes
+## Kubernetes
 
 The application is deployed to an Azure-managed Kubernetes cluster. The cluster is configured with [Role-Based Access Control (RBAC)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
 with two levels: `admin` (can do everything) and `user` (can read everything in the deployment namespace, except secrets).
