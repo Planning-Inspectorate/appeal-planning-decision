@@ -448,7 +448,7 @@ The following environment variables are required to integrate with the GOV.UK. N
 SRV_NOTIFY_API_KEY: 'some-valid-notify-api-key'
 SRV_NOTIFY_TEMPLATE_ID: '15ed37a9-506c-4845-88ea-95502282a863'
 ```
-Notes on optional environment variables: 
+Notes on optional environment variables:
 * If `SRV_NOTIFY_BASE_URL` is not provided then the correct default value i.e. `https://api.notifications.service.gov.uk` will be assumed by the client automatically.
 * If `SRV_NOTIFY_SERVICE_ID` is not provided then the client will obtain this value from the api key automatically.
 * If `SRV_NOTIFY_SERVICE_ID` is provided then it must be valid to avoid 403 responses.
