@@ -8,6 +8,12 @@ inputs:
 runs:
   using: composite
   steps:
+    # Flux uses flux-sync tags on git to maintain a pointer to the current
+    # version of the code it has deployed. However, this causes a problem for
+    # semantic-release. It will error out on git fetch saying that these tags
+    # have changed and do not match its local copy. As semantic-release does not
+    # currently support a force fetch, the workaround is to delete the tags
+    # locally.
     - name: Remove local Flux tag
       shell: bash
       run: |
