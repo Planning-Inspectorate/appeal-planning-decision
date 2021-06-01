@@ -58,5 +58,8 @@
       "pre-commit": "bash .husky/pre-commit.sh \"packages\"",
       "pre-push": "npm run commitlint"
     }
+  },
+  "dependencies": {
+    "moment": "^2.29.1"
   }
 }

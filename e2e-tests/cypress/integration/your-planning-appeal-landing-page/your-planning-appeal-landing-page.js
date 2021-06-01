@@ -1,5 +1,6 @@
 import { When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { STANDARD_APPEAL } from '../common/standard-appeal';
+import format from 'date-fns/format'
 
 Given('an agent or appellant has submitted an appeal', () => {
   cy.provideCompleteAppeal(STANDARD_APPEAL);
@@ -42,7 +43,7 @@ Then('the user sees the appropriate general data along with data for step 1', ()
   );
   cy.get('[data-cy="appeal-submission-date"]').should(
     'have.text',
-    Cypress.moment().format('D MMMM YYYY'),
+    format(new Date(), 'D MMMM YYYY')
   );
 });
 
