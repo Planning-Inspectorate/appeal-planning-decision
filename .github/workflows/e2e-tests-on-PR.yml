@@ -115,14 +115,14 @@ jobs:
 
       - name: Archive results
         if: ${{ always() }}
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v2
         with:
           name: results-lpa
           path: ${{ env.LPA_CYPRESS_REPORTS }}
 
       - name: Archive screenshots
         if: ${{ always() }}
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v2
         with:
           name: screenshots-lpa
           path: ${{ env.LPA_CYPRESS_SCREENSHOTS }}
@@ -207,14 +207,14 @@ jobs:
 
       - name: Archive results
         if: ${{ always() }}
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v2
         with:
           name: results-pins
           path: ${{ env.CYPRESS_REPORTS }}
 
       - name: Archive screenshots
         if: ${{ always() }}
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v2
         with:
           name: screenshots-pins
           path: ${{ env.CYPRESS_SCREENSHOTS }}
