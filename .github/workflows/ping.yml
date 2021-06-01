@@ -124,6 +124,3 @@ jobs:
           DOCKER_TAG: ${{ steps.version_number.outputs.new_release_version_number  }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           VERSION: ${{ steps.vars.outputs.new_version }}
-
-      - uses: ./.github/actions/flux
-        if: ${{ steps.version_number.outputs.new_release_published == 'true' }}
