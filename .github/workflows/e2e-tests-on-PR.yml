@@ -108,6 +108,7 @@ jobs:
           record: true
           parallel: true
           ci-build-id: ${{ needs.context.outputs.uuid }}
+          group: 'LPA Questionnaire'
 
       - name: Post-process results
         if: ${{ always() }}
@@ -200,6 +201,7 @@ jobs:
           record: true
           parallel: true
           ci-build-id: ${{ needs.context.outputs.uuid }}
+          group: 'Appeals Service'
 
       - name: Post-process results
         if: ${{ always() }}
