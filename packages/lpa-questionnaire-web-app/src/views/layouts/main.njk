@@ -2,7 +2,6 @@
 
 {% from "govuk/components/header/macro.njk" import govukHeader %}
 {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
-{% from "govuk/components/footer/macro.njk" import govukFooter %}
 
 {% block head %}
   {% include "includes/head.njk" %}
@@ -41,44 +40,7 @@
 {% endblock %}
 
 {% block footer %}
-  {{ govukFooter({
-  navigation: [
-    {
-      title: "Contact the Planning Inspectorate",
-      columns: 2,
-      items: [
-      {
-        href: "tel:03034445000",
-        text: "Customer Support: England 0303 444 5000"
-      },
-      {
-        href: "mailto:enquiries@planninginspectorate.gov.uk",
-        text: "enquiries@planninginspectorate.gov.uk"
-      }
-    ]
-    },
-    {
-      title: "Service information",
-      items: [
-      {
-        href: "https://www.gov.uk/government/publications/appeals-portal-documents",
-        text: "Terms and conditions",
-        attributes: { "data-cy":"Terms and conditions" }
-
-      },
-      {
-        href: "https://www.gov.uk/government/publications/appeals-portal-documents",
-        text: "Privacy",
-        attributes: { "data-cy":"Privacy" }
-      },
-      {
-        href: "#3",
-        text: "Accessibility"
-      }
-    ]
-    }
-  ]
-  }) }}
+  {% include "pins/components/footer.njk" %}
 {% endblock %}
 
 {% block bodyEnd %}
