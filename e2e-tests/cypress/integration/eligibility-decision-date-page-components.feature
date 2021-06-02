@@ -1,4 +1,4 @@
-@wip
+
 Feature: The Decision Date page has the right structure
     I need to provide the date of the decision from the local planning department,
     so that the system can confirm whether my appeal is in time.
@@ -41,16 +41,3 @@ Feature: The Decision Date page has the right structure
      And I can see the link Appeal a Planning Decision service and it links to "https://acp.planninginspectorate.gov.uk/"
      And I can see the footer
 
-
-
-  # navigation? implementation specific and therefore a component test?
-  Scenario Outline: User enters the valid decision date and can proceed through eligibility checker
-      Given I navigate to the Eligibility checker page
-      And I am on the decision date page
-      When I enter Day as <Day> and Month as <Month> and Year as <Year>
-      And I click on Continue button
-      Then I am the local planning department page
-
-      Examples:
-          | Day   | Month   | Year   |
-          | "24"  | "01"    | "2021" |
