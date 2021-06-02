@@ -35,6 +35,10 @@ const replySchema = new Mongoose.Schema({
     },
   },
   siteSeenPublicLand: { type: Boolean, default: null },
+  enterAppealSite: {
+    mustEnter: { type: Boolean, default: null },
+    enterReasons: { type: String, default: '' },
+  },
   requiredDocumentsSection: {
     plansDecision: {
       uploadedFiles: { type: [uploadedFilesSchema], default: [] },
