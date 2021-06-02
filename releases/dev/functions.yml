@@ -28,7 +28,7 @@ spec:
     functions:
       horizon-add-document:
         image: pinscommonukscontainers3887default.azurecr.io/horizon-add-document
-        tag: 1.2.4
+        tag: 1.2.6
         envvars:
           DOCUMENT_SERVICE_URL: http://app.app-dev.svc.cluster.local:3001
           HORIZON_URL: http://10.0.7.4:8000
