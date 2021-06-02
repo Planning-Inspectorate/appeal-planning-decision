@@ -10,10 +10,6 @@ const config = {
   },
 };
 
-async function getCaseReferenceFromAPI() {
-  return '3219745';
-}
-
 // body.documentType is tested instead of passing in a new 'is this an appeal or reply' parameter
 // from packages/horizon-householder-appeal-publish/src/publishDocuments.js.
 // This is because doing so breaks the tests for horizon-householder-appeal-publish
@@ -93,7 +89,7 @@ module.exports = async (event, context) => {
 
   try {
     event.log.info(event.body, 'STEVE_ADD_EVENT_BODY');
-    const caseReference = event.body.caseReference || (await getCaseReferenceFromAPI());
+    const { caseReference } = event.body;
     event.log.info(caseReference, 'STEVE_CASE_REFERENCE');
 
     const input = {
@@ -171,4 +167,4 @@ module.exports = async (event, context) => {
 };
 
 module.exports.createDataObject = createDataObject;
-module.exports.getCaseReferenceFromAPI = getCaseReferenceFromAPI;
+// module.exports.getCaseReferenceFromAPI = getCaseReferenceFromAPI;

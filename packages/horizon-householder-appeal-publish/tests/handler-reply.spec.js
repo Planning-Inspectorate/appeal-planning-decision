@@ -84,7 +84,7 @@ describe('populateDocuments', () => {
 
 describe('handlerReply', () => {
   const envvars = process.env;
-  const horizonCaseId = 'mock-case-id';
+  const horizonCaseId = '3219745';
   let context;
   let logMock;
   let newMockAppealReply;
@@ -120,7 +120,7 @@ describe('handlerReply', () => {
       body: { ...body },
     };
 
-    expect(await handlerReply(event, horizonCaseId, context)).toEqual({
+    expect(await handlerReply(event, context)).toEqual({
       id: horizonFullCaseId.split('/').slice(-1).pop(),
     });
 

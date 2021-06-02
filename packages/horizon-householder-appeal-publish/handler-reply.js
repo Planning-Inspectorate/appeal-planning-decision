@@ -73,12 +73,13 @@ const populateDocuments = (body) => {
  *
  * @returns {horizonCaseId | errorMessage}
  */
-const handlerReply = async (event, horizonCaseId, context) => {
+const handlerReply = async (event, context) => {
   event.log.info({ config }, 'Received householder reply publish request');
   try {
     event.log.info({ event }, 'STEVE: handler-reply');
     const { body } = event;
     const replyId = body.id;
+    const horizonCaseId = '3219745'; // TODO: Add via API
     await publishDocuments(event.log, populateDocuments(body), replyId, horizonCaseId);
     event.log.info({ horizonCaseId }, 'Successful reply publish to Horizon');
     return {

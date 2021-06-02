@@ -9,7 +9,6 @@ const { publishDocuments } = require('../src/publishDocuments');
 
 describe('handlerReply', () => {
   const envvars = process.env;
-  const horizonCaseId = 'mock-case-id';
   let context;
   let logMock;
 
@@ -48,7 +47,7 @@ describe('handlerReply', () => {
     mockError.request = true; // To elicit correct response in catchErrorHandling()
     publishDocuments.mockRejectedValue(mockError);
 
-    expect(await handlerReply(event, horizonCaseId, context)).toEqual({
+    expect(await handlerReply(event, context)).toEqual({
       message: 'Error sending to Horizon',
     });
 
