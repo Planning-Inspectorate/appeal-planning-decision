@@ -11,7 +11,7 @@ const config = {
 };
 
 async function getCaseReferenceFromAPI() {
-  return 'case-reference-api-call';
+  return '3219745';
 }
 
 // body.documentType is tested instead of passing in a new 'is this an appeal or reply' parameter
@@ -72,9 +72,7 @@ function createDataObject(data, body) {
 }
 
 async function parseFile({ log, body }) {
-  log.info('A');
   const { documentId, applicationId, documentType } = body;
-  log.info('B');
   log.info({ applicationId, documentId, documentType }, 'Downloading document');
 
   const { data } = await axios.get(`/api/v1/${applicationId}/${documentId}/file`, {
