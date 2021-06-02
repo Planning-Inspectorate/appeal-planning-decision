@@ -4,8 +4,7 @@ class PO_EligibilityDecisionDate {
   }
 
   validatePageTitle() {
-    //cy.title().should('eq', 'Local Planning authority details') -> Actual, delete the below line
-    cy.title().should('eq', 'GOV.UK - The best place to find government services and information');
+    cy.title().should('eq', "What's the decision date on the letter from the local planning department? - Eligibility - Appeal a householder planning decision - GOV.UK");
   }
 
   validateHeaderLogo() {
