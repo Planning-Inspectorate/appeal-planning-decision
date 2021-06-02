@@ -8,7 +8,7 @@ for automated testing and BDD.
 #### Running against a different base URL
 
 By default, Cypress will run tests against the URL defines in the `baseUrl` setting in `cypress.json` (currently,
-[localhost:9000](http://localhost:9000)). If you wish to switch to a different URL, you can set an environment
+[localhost:9003](http://localhost:9003)). If you wish to switch to a different URL, you can set an environment
 variable to do so. For example, to run against the prod cluster.
 
 ```shell

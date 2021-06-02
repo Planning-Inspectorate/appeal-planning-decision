@@ -9,7 +9,7 @@ The following guide is for WebStorm, but should be transferable to other IDEs.
 # but needs to match the one you will use in your IDE
 
     ports:
-      - 9000:3000
+      - 9003:3000
       # node debugger
       - 9229:9229
 ```
@@ -45,7 +45,7 @@ The debugger should connect:
 
 6. In your browser, reload the page where you added the breakpoint.
 
-For the purposes of this example, this would be `http://0.0.0.0:9000/appellant-submission/task-list`
+For the purposes of this example, this would be `http://0.0.0.0:9003/appellant-submission/task-list`
 
 7. You should now have successfully enabled step debugging:
 

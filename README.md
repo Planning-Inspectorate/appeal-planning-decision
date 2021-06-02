@@ -6,7 +6,7 @@ Monorepo for all PINS Appeal planning decision services and infrastructure
 
 - `make install`
 - `make serve`
-- Go to [localhost:9000](http://localhost:9000)
+- Go to [localhost:9003](http://localhost:9003)
 
 ## Pre-requisites
 
@@ -47,7 +47,7 @@ To run the whole stack:
 make serve
 ```
 
-Then go to [localhost:9000](http://localhost:9000) (forms-web-app) or
+Then go to [localhost:9003](http://localhost:9003) (forms-web-app) or
 [localhost:3000](http://localhost:3000) (appeals-service-api)
 
 > As a convention, public facing web service will use the port range `9000-9999`

@@ -71,7 +71,7 @@ formsWebApp:
   replicaCount: 1
   service:
     name: forms-web-app
-    port: 9000
+    port: 9003
   image:
     repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
     pullPolicy: Always
@@ -171,7 +171,7 @@ ingress:
       host: fwa-example.local
       secretName: fwa-tls-secret
       path: /
-      port: 9000
+      port: 9003
       redirects:
         - path: /health
           target: /display-404

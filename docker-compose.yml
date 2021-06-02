@@ -130,7 +130,7 @@ services:
       SUBDOMAIN_OFFSET: 0
       USE_SECURE_SESSION_COOKIES: "false"
     ports:
-      - 9000:3000
+      - 9003:3000
       # node debugger
       # - 9229:9229
     working_dir: /opt/app
