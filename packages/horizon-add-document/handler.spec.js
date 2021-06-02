@@ -31,9 +31,11 @@ const data = {
   createdAt: 'some-data-createdAt',
 };
 
+const testHorizonId = '3219745';
+
 describe('getCaseReferenceFromAPI', () => {
   it('should return the caseReference from the appeal using the API', async () => {
-    expect(await getCaseReferenceFromAPI()).toEqual('case-reference-api-call');
+    expect(await getCaseReferenceFromAPI()).toEqual(testHorizonId);
   });
 });
 
@@ -259,7 +261,7 @@ describe('handler', () => {
     });
 
     expect(await handler(event, context)).toEqual({
-      caseReference: 'case-reference-api-call',
+      caseReference: testHorizonId,
       data: event.body.horizonOutput,
     });
 
@@ -269,7 +271,7 @@ describe('handler', () => {
         AddDocuments: {
           __soap_op: 'http://tempuri.org/IHorizon/AddDocuments',
           __xmlns: 'http://tempuri.org/',
-          caseReference: 'case-reference-api-call',
+          caseReference: testHorizonId,
           documents: [
             { '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business' },
             { '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance' },
