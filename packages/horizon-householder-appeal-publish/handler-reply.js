@@ -81,12 +81,10 @@ const handlerReply = async (event, context) => {
     const replyId = body.id;
     const horizonCaseId = '3219745'; // TODO: Add via API
     await publishDocuments(event.log, populateDocuments(body), replyId, horizonCaseId);
-    event.log.info({ horizonCaseId }, 'Successful reply publish to Horizon');
     return {
       id: horizonCaseId,
     };
   } catch (err) {
-    event.log.info(err, 'STEVE_HANDLER_REPLY_ERROR');
     const [message, httpStatus] = catchErrorHandling(event, err);
     context.httpStatus = httpStatus;
     return {
