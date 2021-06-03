@@ -114,13 +114,6 @@ jobs:
         if: ${{ always() }}
         run: npm run test:e2e:lpa:postprocess
 
-      - name: Archive results
-        if: ${{ always() }}
-        uses: actions/upload-artifact@main
-        with:
-          name: results-lpa
-          path: ${{ env.LPA_CYPRESS_REPORTS }}
-
       - name: Archive screenshots
         if: ${{ always() }}
         uses: actions/upload-artifact@main
@@ -206,13 +199,6 @@ jobs:
       - name: Post-process results
         if: ${{ always() }}
         run: npm run test:e2e:postprocess
-
-      - name: Archive results
-        if: ${{ always() }}
-        uses: actions/upload-artifact@main
-        with:
-          name: results-pins
-          path: ${{ env.CYPRESS_REPORTS }}
 
       - name: Archive screenshots
         if: ${{ always() }}
