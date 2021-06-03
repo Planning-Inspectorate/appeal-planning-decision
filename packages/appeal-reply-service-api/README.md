@@ -1,6 +1,6 @@
 # Appeal Reply Service API
 
-The microservice API for the appeal reply service
+The microservice API for the appeal reply service.
 
 ## Commands
 
