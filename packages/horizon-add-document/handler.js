@@ -86,9 +86,10 @@ async function parseFile({ log, body }) {
 
 module.exports = async (event, context) => {
   event.log.info({ config }, 'Receiving add document request');
+  event.log.info(event, 'STEVE_ADD_EVENT');
+  event.log.info(context, 'STEVE_ADD_CONTEXT');
 
   try {
-    event.log.info(event.body, 'STEVE_ADD_EVENT_BODY');
     const { caseReference } = event.body;
     event.log.info(caseReference, 'STEVE_CASE_REFERENCE');
 
