@@ -11,7 +11,7 @@ const router = express.Router();
 booleanQuestions.forEach((question) => {
   /* istanbul ignore next */
   const getConfig = (_, res, next) => {
-    res.locals.questionInfo = question;
+    res.locals.question = question;
     next();
   };
 
@@ -24,7 +24,7 @@ booleanQuestions.forEach((question) => {
 
   router.post(
     `/:id/${question.url}`,
-    booleanQuestionRules(question.emptyError),
+    booleanQuestionRules(question.emptyError, question.text),
     validationErrorHandler,
     getConfig,
     booleanQuestionController.postBooleanQuestion

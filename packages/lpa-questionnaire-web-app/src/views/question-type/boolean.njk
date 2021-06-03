@@ -1,6 +1,39 @@
  {% extends "layouts/question.njk" %}
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% set textObject = {
+  id: 'booleanInputText',
+  name: 'booleanInputText',
+  type: 'text',
+  spellcheck: false,
+  value: values['booleanInputText'],
+  attributes: {
+    'data-cy': 'booleanInputText'
+  },
+  label: {
+    text: question.text and question.text.label
+  },
+  hint: {
+    text: question.text and question.text.hint
+  },
+  errorMessage: errors['booleanInputText'] and {
+    text: errors['booleanInputText'].msg,
+    attributes: {
+      'data-cy': 'booleanInputText-error'
+    }
+  }
+} %}
+
+{% set textInput %}
+  {% if question.text and question.text.textarea  %}
+    {{ govukTextarea(textObject) }}
+  {% else %}
+    {{ govukInput(textObject) }}
+  {% endif %}
+{% endset %}
 
 {% block question %}
   {{ govukRadios({
@@ -8,7 +41,7 @@
     name: "booleanInput",
     fieldset: {
       legend: {
-        text: page.heading,
+        text: question.heading,
         isPageHeading: true,
         classes: "govuk-fieldset__legend--l"
       },
@@ -16,24 +49,30 @@
         'data-cy': 'booleanInput-label'
       }
     },
+    hint: {
+      text: question.hint
+    },
     items: [
       {
         value: "yes",
         text: "Yes",
-        checked: true if values['booleanInput'] === true,
+        checked: true if values['booleanInput'] === 'yes' or values['booleanInput'] === true,
         attributes: {
           "data-cy": "booleanInput-yes"
+        },
+        conditional: {
+          html: question.text and question.text.parentValue and textInput
         }
       },
       {
         value: "no",
-        checked: true if values['booleanInput'] === false,
-        conditional: {
-          html: appealRefHtml
-        },
+        checked: true if values['booleanInput'] === 'no' or values['booleanInput'] === false,
         text: "No",
         attributes: {
           "data-cy": "booleanInput-no"
+        },
+        conditional: {
+          html: question.text and not question.text.parentValue and textInput
         }
       }
     ],

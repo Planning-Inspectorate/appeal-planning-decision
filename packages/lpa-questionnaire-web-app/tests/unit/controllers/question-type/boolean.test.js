@@ -11,16 +11,30 @@ jest.mock('../../../../src/lib/appeal-reply-api-wrapper');
 
 describe('controllers/question-type/boolean', () => {
   const backLinkUrl = '/mock-id/mock-back-link';
-  const page = {
-    heading: 'Mock Heading',
-    section: 'Mock Section',
-    title: 'Mock Title',
-  };
+  let question;
+  let questionText;
   let req;
   let res;
   let mockAppealReply;
 
   beforeEach(() => {
+    question = {
+      id: 'mockTask',
+      heading: 'Mock Heading',
+      section: 'Mock Section',
+      title: 'Mock Title',
+    };
+
+    questionText = {
+      ...question,
+      dataId: 'mockBoolId',
+      text: {
+        id: 'mockTextId',
+        parentValue: true,
+        label: 'Mock text label',
+      },
+    };
+
     mockAppealReply = {
       mockTask: null,
     };
@@ -29,7 +43,7 @@ describe('controllers/question-type/boolean', () => {
     res = {
       ...mockRes(),
       locals: {
-        questionInfo: { ...page, id: 'mockTask' },
+        question,
       },
     };
 
@@ -45,7 +59,7 @@ describe('controllers/question-type/boolean', () => {
       expect(res.render).toHaveBeenCalledWith(BOOLEAN_VIEW, {
         appeal: null,
         backLink: backLinkUrl,
-        page,
+        question,
         values: { booleanInput: null },
       });
     });
@@ -56,12 +70,12 @@ describe('controllers/question-type/boolean', () => {
       expect(res.render).toHaveBeenCalledWith(BOOLEAN_VIEW, {
         appeal: null,
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
-        page,
+        question,
         values: { booleanInput: null },
       });
     });
 
-    it('it should show values if they are available', () => {
+    it('it should show yes or no values if they are available', () => {
       req.session.appealReply.mockTask = true;
 
       getBooleanQuestion(req, res);
@@ -69,9 +83,36 @@ describe('controllers/question-type/boolean', () => {
       expect(res.render).toHaveBeenCalledWith(BOOLEAN_VIEW, {
         appeal: null,
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
-        page,
+        question,
         values: { booleanInput: true },
       });
+    });
+
+    it('it should show yes or no and text values if they are available', () => {
+      req.session.appealReply.mockTask = {
+        mockBoolId: true,
+        mockTextId: 'Mock text value',
+        value: true,
+      };
+
+      const expectedResult = {
+        appeal: null,
+        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        question: questionText,
+        values: {
+          booleanInput: true,
+          booleanInputText: 'Mock text value',
+        },
+      };
+
+      res.locals.question = questionText;
+
+      getBooleanQuestion(req, res);
+      expect(res.render).toHaveBeenCalledWith(BOOLEAN_VIEW, expectedResult);
+
+      res.locals.question.dataId = undefined;
+      getBooleanQuestion(req, res);
+      expect(res.render).toHaveBeenCalledWith(BOOLEAN_VIEW, expectedResult);
     });
   });
 
@@ -89,7 +130,10 @@ describe('controllers/question-type/boolean', () => {
     });
 
     it('should redirect with input set to yes', async () => {
-      mockAppealReply.mockTask = true;
+      const expectedReplay = {
+        ...mockAppealReply,
+        mockTask: true,
+      };
 
       const mockRequest = {
         ...req,
@@ -100,13 +144,15 @@ describe('controllers/question-type/boolean', () => {
 
       await postBooleanQuestion(mockRequest, res);
 
-      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
+      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReplay);
       expect(res.render).not.toHaveBeenCalled();
       expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should redirect with input set to no', async () => {
-      mockAppealReply.mockTask = true;
+      const expectedReplay = {
+        mockTask: false,
+      };
 
       const mockRequest = {
         ...req,
@@ -117,7 +163,57 @@ describe('controllers/question-type/boolean', () => {
 
       await postBooleanQuestion(mockRequest, res);
 
-      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
+      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReplay);
+      expect(res.render).not.toHaveBeenCalled();
+      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+    });
+
+    it('should redirect with text input and dataId set', async () => {
+      const expectedReplay = {
+        mockTask: {
+          mockBoolId: true,
+          mockTextId: 'Mock text value',
+        },
+      };
+
+      const mockRequest = {
+        ...mockReq({ ...expectedReplay }),
+        body: {
+          booleanInput: 'no',
+          booleanInputText: 'Mock text value',
+        },
+      };
+
+      res.locals.question = questionText;
+
+      await postBooleanQuestion(mockRequest, res);
+
+      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReplay);
+      expect(res.render).not.toHaveBeenCalled();
+      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+    });
+
+    it('should redirect with text input set and dataId not set', async () => {
+      const expectedReplay = {
+        mockTask: {
+          value: true,
+          mockTextId: 'Mock text value',
+        },
+      };
+
+      const mockRequest = {
+        ...mockReq({ ...expectedReplay }),
+        body: {
+          booleanInput: 'no',
+          booleanInputText: 'Mock text value',
+        },
+      };
+
+      res.locals.question = { ...questionText, dataId: '' };
+
+      await postBooleanQuestion(mockRequest, res);
+
+      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReplay);
       expect(res.render).not.toHaveBeenCalled();
       expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
     });
@@ -140,14 +236,18 @@ describe('controllers/question-type/boolean', () => {
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
-        page,
+        question,
         values: {
           booleanInput: 'no',
+          booleanInputText: '',
         },
       });
     });
     it('should re-render the template with an error if there is an API error', async () => {
-      mockAppealReply.mockTask = true;
+      const expectedReplay = {
+        ...mockAppealReply,
+        mockTask: false,
+      };
 
       const mockRequest = {
         ...req,
@@ -160,7 +260,7 @@ describe('controllers/question-type/boolean', () => {
 
       await postBooleanQuestion(mockRequest, res);
 
-      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
+      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReplay);
       expect(res.redirect).not.toHaveBeenCalled();
       expect(req.log.error).toHaveBeenCalledWith(
         { err: 'mock api error' },
@@ -171,9 +271,10 @@ describe('controllers/question-type/boolean', () => {
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
         errorSummary: [{ text: 'mock api error' }],
         errors: {},
-        page,
+        question,
         values: {
           booleanInput: 'no',
+          booleanInputText: '',
         },
       });
     });
