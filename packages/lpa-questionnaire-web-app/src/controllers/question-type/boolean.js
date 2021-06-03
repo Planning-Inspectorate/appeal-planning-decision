@@ -5,45 +5,49 @@ const { createOrUpdateAppealReply } = require('../../lib/appeal-reply-api-wrappe
 exports.BOOLEAN_VIEW = 'question-type/boolean';
 
 exports.getBooleanQuestion = (req, res) => {
-  const { id, heading, section, title } = res.locals.questionInfo;
+  const { id, dataId, text } = res.locals.question;
 
   const booleanInput = req.session.appealReply[id];
 
-  const values = {
-    booleanInput,
-  };
+  let values = {};
+
+  if (booleanInput && typeof booleanInput === 'object') {
+    values = {
+      booleanInput: dataId ? booleanInput[dataId] : booleanInput.value,
+      booleanInputText: booleanInput[text.id],
+    };
+  } else {
+    values = { booleanInput };
+  }
 
   res.render(this.BOOLEAN_VIEW, {
     appeal: getAppealSideBarDetails(req.session.appeal),
     backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
     values,
-    page: {
-      heading,
-      section,
-      title,
-    },
+    question: res.locals.question,
   });
 };
 
 exports.postBooleanQuestion = async (req, res) => {
-  const { id, heading, section, title } = res.locals.questionInfo;
+  const { id, dataId, text } = res.locals.question;
   const {
-    body: { errors = {}, errorSummary = [], booleanInput = null },
+    body: { errors = {}, errorSummary = [], booleanInput = null, booleanInputText = '' },
     session: { appealReply },
   } = req;
 
-  const values = { booleanInput };
-  const page = {
-    heading,
-    section,
-    title,
-  };
+  const values = { booleanInput, booleanInputText };
 
   try {
     if (Object.keys(errors).length > 0) throw new Error('Validation failed');
 
     if (typeof booleanInput === 'string') {
-      appealReply[id] = booleanInput === 'yes';
+      if (text) {
+        appealReply[id][text.id] = booleanInputText;
+        appealReply[id][dataId || 'value'] = booleanInput === 'yes';
+      } else {
+        appealReply[id] = booleanInput === 'yes';
+      }
+
       req.session.appealReply = await createOrUpdateAppealReply(appealReply);
     }
   } catch (err) {
@@ -56,7 +60,7 @@ exports.postBooleanQuestion = async (req, res) => {
       errors,
       errorSummary: errorSummary.length ? errorSummary : [{ text: err.toString() }],
       values,
-      page,
+      question: res.locals.question,
     });
 
     return;

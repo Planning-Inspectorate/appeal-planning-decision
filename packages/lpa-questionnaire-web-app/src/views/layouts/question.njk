@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block pageTitle %}
-  {% if errorSummary.length %}Error: {% endif %}{{ page.title }}
+  {% if errorSummary.length %}Error: {% endif %}{{ question.title }}
 {% endblock %}
 
 {% block content %}
@@ -31,7 +31,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form action="" method="POST" novalidate>
-        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>{{ page.section }}</span>
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>{{ question.section }}</span>
         {% block question %}{% endblock %}
 
         {{ govukButton({

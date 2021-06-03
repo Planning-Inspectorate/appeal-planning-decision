@@ -46,6 +46,11 @@ const SECTIONS = [
         href: '/public-land',
         rule: booleanCompletion,
       },
+      {
+        taskId: 'enterAppealSite',
+        href: '/site-access',
+        rule: booleanCompletion,
+      },
     ],
   },
   {
@@ -133,6 +138,7 @@ const HEADERS = {
   aboutSiteSection: 'About the Appeal Site',
   siteSeenPublicLand:
     'Can the inspector see the relevant parts of the appeal site from public land?',
+  enterAppealSite: 'Would the inspector need to enter the appeal site?',
   requiredDocumentsSection: 'Required documents',
   plansDecision: 'Plans used to reach the decision',
   officersReport: "Planning Officer's report",
