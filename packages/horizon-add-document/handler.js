@@ -79,19 +79,19 @@ async function parseFile({ log, body }) {
   });
 
   const object = createDataObject(data, body);
-  log.info({ object }, 'STEVE_OBJECT');
+  log.info({ object }, 'D - OBJECT');
 
   return object;
 }
 
 module.exports = async (event, context) => {
   event.log.info({ config }, 'Receiving add document request');
-  event.log.info(event, 'STEVE_ADD_EVENT');
-  event.log.info(context, 'STEVE_ADD_CONTEXT');
+  event.log.info('A - EVENT', event);
+  event.log.info('B - CONTEXT', context);
 
   try {
     const { caseReference } = event.body;
-    event.log.info(caseReference, 'STEVE_CASE_REFERENCE');
+    event.log.info('C - CASE_REFERENCE', caseReference);
 
     const input = {
       AddDocuments: {
@@ -106,7 +106,7 @@ module.exports = async (event, context) => {
       },
     };
 
-    event.log.info(input, 'STEVE_ADD_EVENT_INPUT');
+    event.log.info('E - INPUT', input);
     event.log.info('Uploading documents to Horizon');
 
     const { data } = await axios.post('/horizon', input, {
@@ -115,14 +115,14 @@ module.exports = async (event, context) => {
       maxBodyLength: Infinity,
     });
 
-    event.log.info(data, 'STEVE_ADD_EVENT_DATA');
+    event.log.info('F - DATA', data);
 
     return {
       caseReference,
       data,
     };
   } catch (err) {
-    event.log.info(err, 'STEVE_ADD_CATCH');
+    event.log.info('Error', err);
     let message;
     let httpStatus = 500;
 
