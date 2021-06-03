@@ -1,8 +1,7 @@
 /**
  * Main
  *
- * This is the main starting point for the application. It
- * configures
+ * This is the main starting point for the application.
  */
 const logger = require('./lib/logger');
 const server = require('./server');
