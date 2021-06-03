@@ -8,12 +8,30 @@ Then('a confirmation email is sent to the LPA', () => {
       const emailNotification = response.body[lastEmailNotificationOnTheStack];
       expect(emailNotification.template_id).to.eq('937b4147-8420-42da-859d-d4a65bdf99bc');
       expect(emailNotification.email_address).to.eq('abby.bale@planninginspectorate.gov.uk');
-      expect(emailNotification.personalisation['planning appeal reference']).to.eq(
+
+      expect(Object.keys(emailNotification.personalisation).length).to.eq(4);
+      expect(emailNotification.personalisation['Planning appeal number']).to.eq(
         '89aa8504-773c-42be-bb68-029716ad9756',
       );
+      expect(emailNotification.personalisation['Name of local planning department']).to.eq(
+        'System Test Borough Council',
+      );
+      expect(emailNotification.personalisation['Planning application number']).to.eq('ABC/123');
+
+      expect(
+        Object.keys(emailNotification.personalisation['link to appeal questionnaire pdf']).length,
+      ).to.eq(2);
+      expect(
+        emailNotification.personalisation['link to appeal questionnaire pdf'].file.length,
+      ).to.be.gt(1);
+      expect(emailNotification.personalisation['link to appeal questionnaire pdf'].is_csv).to.eq(
+        false,
+      );
+
       expect(emailNotification.reference).to.eq(
         '89aa8504-773c-42be-bb68-029716ad9756.SubmissionConfirmation',
       );
+      expect(emailNotification.email_reply_to_id).to.eq('f1e6c8c5-786e-41ca-9086-10b67f31bc86');
       expect(response.status).to.eq(200);
     });
   }

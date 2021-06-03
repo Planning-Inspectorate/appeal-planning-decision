@@ -209,6 +209,14 @@ describe('Notify', () => {
 
         expect(mockError).not.toHaveBeenCalled();
 
+        expect(axios.get).toHaveBeenCalledWith('appeals.url/api/v1/appeals/000000');
+        expect(axios.get).toHaveBeenCalledWith(
+          'appeals.url/api/v1/local-planning-authorities/11111'
+        );
+        expect(axios.get).toHaveBeenCalledWith('docs.url/api/v1/xxx-yyy-000/222222/file', {
+          responseType: 'arraybuffer',
+        });
+
         expect(NotifyBuilder.setTemplateId).toHaveBeenCalledWith(
           config.services.notify.templates.appealReplySubmissionConfirmation
         );
@@ -217,15 +225,15 @@ describe('Notify', () => {
         );
         expect(NotifyBuilder.setDestinationEmailAddress).toHaveBeenCalledWith(fakeEmail);
         expect(NotifyBuilder.setTemplateVariablesFromObject).toHaveBeenCalledWith({
-          'name of local planning department': fakeName,
-          'planning appeal reference': fakeAppealId,
-          'planning application number': fakeAppealId,
+          'Name of local planning department': fakeName,
+          'Planning appeal number': fakeAppealId,
+          'Planning application number': fakeAppealId,
         });
         expect(NotifyBuilder.setReference).toHaveBeenCalledWith(
           `${fakeAppealId}.SubmissionConfirmation`
         );
         expect(NotifyBuilder.addFileToTemplateVariables).toHaveBeenCalledWith(
-          'link to appeal submission pdf',
+          'link to appeal questionnaire pdf',
           fakeFileData
         );
         expect(NotifyBuilder.sendEmail).toHaveBeenCalled();

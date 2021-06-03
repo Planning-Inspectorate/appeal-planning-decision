@@ -39,7 +39,7 @@ async function sendAppealReplySubmissionConfirmationEmailToLpa(reply) {
   try {
     const pdfUrl = `${config.docs.api.url}/api/v1/${reply.id}/${reply.submission.pdfStatement.uploadedFile.id}/file`;
     logger.info({ docsPath: pdfUrl }, 'docs service route');
-    const pdfRes = await axios.get(pdfUrl, { responseType: 'blob' });
+    const pdfRes = await axios.get(pdfUrl, { responseType: 'arraybuffer' });
     pdf = pdfRes.data;
   } catch (err) {
     logger.error({ err }, 'Unable to retrieve PDF data.');
@@ -57,12 +57,12 @@ async function sendAppealReplySubmissionConfirmationEmailToLpa(reply) {
       .setEmailReplyToId(config.services.notify.emailReplyToId.appealReplySubmissionConfirmation)
       .setDestinationEmailAddress(lpa.email)
       .setTemplateVariablesFromObject({
-        'planning appeal reference': appeal.id,
-        'name of local planning department': lpa.name,
-        'planning application number': appeal.requiredDocumentsSection.applicationNumber,
+        'Planning appeal number': appeal.id,
+        'Name of local planning department': lpa.name,
+        'Planning application number': appeal.requiredDocumentsSection.applicationNumber,
       })
+      .addFileToTemplateVariables('link to appeal questionnaire pdf', pdf)
       .setReference(`${appeal.id}.SubmissionConfirmation`)
-      .addFileToTemplateVariables('link to appeal submission pdf', pdf)
       .sendEmail();
   } catch (e) {
     logger.error(

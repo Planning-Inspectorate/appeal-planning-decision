@@ -23,6 +23,8 @@ spec:
       config:
         notify:
           secretName: akv-notify-prod
+          emailReplyToId:
+            appealReplyNotificationEmailToLpa: cc6c4dd4-6c10-4b80-a045-0c9fb797d926
           templates:
             appealReplyNotificationEmailToLpa: d275326e-917b-404e-9702-fddd708bdb1f
 
