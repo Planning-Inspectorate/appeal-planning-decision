@@ -19,7 +19,7 @@ appealReplyServiceApi:
       secretName: ""
       serviceId: ""
       emailReplyToId:
-        appealReplyNotificationEmailToLpa: cc6c4dd4-6c10-4b80-a045-0c9fb797d926
+        appealReplyNotificationEmailToLpa: f1e6c8c5-786e-41ca-9086-10b67f31bc86
       templates:
         appealReplyNotificationEmailToLpa: 937b4147-8420-42da-859d-d4a65bdf99bc
 
