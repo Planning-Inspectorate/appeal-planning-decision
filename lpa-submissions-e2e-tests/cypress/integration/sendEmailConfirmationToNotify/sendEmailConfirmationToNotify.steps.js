@@ -10,13 +10,13 @@ Then('a confirmation email is sent to the LPA', () => {
       expect(emailNotification.email_address).to.eq('abby.bale@planninginspectorate.gov.uk');
 
       expect(Object.keys(emailNotification.personalisation).length).to.eq(4);
-      expect(emailNotification.personalisation['Planning appeal number']).to.eq(
-        '89aa8504-773c-42be-bb68-029716ad9756',
-      );
+      expect(emailNotification.personalisation['Planning appeal number']).to.eq('fake-horizon-id');
       expect(emailNotification.personalisation['Name of local planning department']).to.eq(
         'System Test Borough Council',
       );
-      expect(emailNotification.personalisation['Planning application number']).to.eq('ABC/123');
+      expect(emailNotification.personalisation['Planning application number']).to.eq(
+        'ValidNumber/12345',
+      );
 
       expect(
         Object.keys(emailNotification.personalisation['link to appeal questionnaire pdf']).length,
@@ -29,7 +29,7 @@ Then('a confirmation email is sent to the LPA', () => {
       );
 
       expect(emailNotification.reference).to.eq(
-        '89aa8504-773c-42be-bb68-029716ad9756.SubmissionConfirmation',
+        '15549118-106f-4394-95c6-c63887b7d4c9.SubmissionConfirmation',
       );
       expect(emailNotification.email_reply_to_id).to.eq('f1e6c8c5-786e-41ca-9086-10b67f31bc86');
       expect(response.status).to.eq(200);

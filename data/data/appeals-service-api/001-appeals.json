@@ -95,5 +95,125 @@
       "lpaCode": "E69999999",
       "id": "89aa8504-773c-42be-bb68-029716ad9756"
     }
+  },
+  {
+    "_id": "15549118-106f-4394-95c6-c63887b7d4c9",
+    "uuid": "15549118-106f-4394-95c6-c63887b7d4c9",
+    "appeal": {
+      "id": "15549118-106f-4394-95c6-c63887b7d4c9",
+      "horizonId": "fake-horizon-id",
+      "lpaCode": "E69999999",
+      "decisionDate": "2021-05-05T12:00:00.000Z",
+      "submissionDate": "2021-06-04T08:48:36.802Z",
+      "state": "SUBMITTED",
+      "eligibility": {
+        "enforcementNotice": false,
+        "householderPlanningPermission": true,
+        "isClaimingCosts": false,
+        "isListedBuilding": false
+      },
+      "aboutYouSection": {
+        "yourDetails": {
+          "isOriginalApplicant": true,
+          "name": "Appellant Name",
+          "email": "valid@email.com",
+          "appealingOnBehalfOf": ""
+        }
+      },
+      "requiredDocumentsSection": {
+        "applicationNumber": "ValidNumber/12345",
+        "originalApplication": {
+          "uploadedFile": {
+            "name": "appeal-statement-valid.doc",
+            "id": "1e32acf2-0c93-4de8-b8ec-984d58d61061",
+            "originalFileName": "appeal-statement-valid.doc",
+            "fileName": "appeal-statement-valid.doc",
+            "location": "e5a794ede0defc298e991a48aa48f7b8",
+            "size": "22528"
+          }
+        },
+        "decisionLetter": {
+          "uploadedFile": {
+            "name": "appeal-statement-valid.doc",
+            "id": "5a273a5d-cdcb-44a9-9d46-3a32a6f7c494",
+            "originalFileName": "appeal-statement-valid.doc",
+            "fileName": "appeal-statement-valid.doc",
+            "location": "b01aec87e3bb7877cabb3d86f02e739e",
+            "size": "22528"
+          }
+        }
+      },
+      "yourAppealSection": {
+        "appealStatement": {
+          "uploadedFile": {
+            "name": "appeal-statement-valid.doc",
+            "id": "2c333762-47b2-4447-85f0-a3931d9ca9f2",
+            "originalFileName": "appeal-statement-valid.doc",
+            "fileName": "appeal-statement-valid.doc",
+            "location": "97a05e6cc26552f57f93224ca41d0c89",
+            "size": "22528"
+          },
+          "hasSensitiveInformation": false
+        },
+        "otherDocuments": {
+          "uploadedFiles": []
+        }
+      },
+      "appealSiteSection": {
+        "siteAddress": {
+          "addressLine1": "1 Taylor Road",
+          "addressLine2": "Clifton",
+          "town": "Bristol",
+          "county": "South Glos",
+          "postcode": "BS8 1TG"
+        },
+        "siteOwnership": {
+          "ownsWholeSite": true,
+          "haveOtherOwnersBeenTold": null
+        },
+        "siteAccess": {
+          "canInspectorSeeWholeSiteFromPublicRoad": true,
+          "howIsSiteAccessRestricted": ""
+        },
+        "healthAndSafety": {
+          "hasIssues": false,
+          "healthAndSafetyIssues": ""
+        }
+      },
+      "appealSubmission": {
+        "appealPDFStatement": {
+          "uploadedFile": {
+            "name": "Appeal-form.pdf",
+            "id": "56f5c1f2-cc74-4cb9-96f8-371a215ff473",
+            "originalFileName": "Appeal-form.pdf",
+            "fileName": "Appeal-form.pdf",
+            "location": "0afa7f65106701cca34072ac07e7e76f",
+            "size": "39020"
+          }
+        }
+      },
+      "sectionStates": {
+        "aboutYouSection": {
+          "yourDetails": "COMPLETED"
+        },
+        "requiredDocumentsSection": {
+          "applicationNumber": "COMPLETED",
+          "originalApplication": "COMPLETED",
+          "decisionLetter": "COMPLETED"
+        },
+        "yourAppealSection": {
+          "appealStatement": "COMPLETED",
+          "otherDocuments": "NOT STARTED"
+        },
+        "appealSiteSection": {
+          "siteAddress": "COMPLETED",
+          "siteAccess": "COMPLETED",
+          "siteOwnership": "COMPLETED",
+          "healthAndSafety": "COMPLETED"
+        }
+      },
+      "createdAt": "2021-06-04T08:48:22.342Z",
+      "updatedAt": "2021-06-04T08:48:36.802Z"
+    }
   }
 ]

@@ -30,6 +30,7 @@ const config = require('../lib/config');
 describe('Notify', () => {
   let fakeLpaCode;
   let fakeAppealId;
+  let fakeHorizonId;
   let fakeFileId;
   let fakeEmail;
   let fakeName;
@@ -44,6 +45,7 @@ describe('Notify', () => {
     beforeEach(() => {
       fakeLpaCode = '11111';
       fakeAppealId = '000000';
+      fakeHorizonId = 'fake-horizon-id';
       fakeReplyId = 'xxx-yyy-000';
       fakeFileId = '222222';
       fakeEmail = 'test@test.com';
@@ -176,6 +178,7 @@ describe('Notify', () => {
           .mockResolvedValueOnce({
             data: {
               id: fakeAppealId,
+              horizonId: fakeHorizonId,
               lpaCode: fakeLpaCode,
               requiredDocumentsSection: {
                 applicationNumber: fakeAppealId,
@@ -226,7 +229,7 @@ describe('Notify', () => {
         expect(NotifyBuilder.setDestinationEmailAddress).toHaveBeenCalledWith(fakeEmail);
         expect(NotifyBuilder.setTemplateVariablesFromObject).toHaveBeenCalledWith({
           'Name of local planning department': fakeName,
-          'Planning appeal number': fakeAppealId,
+          'Planning appeal number': fakeHorizonId,
           'Planning application number': fakeAppealId,
         });
         expect(NotifyBuilder.setReference).toHaveBeenCalledWith(
