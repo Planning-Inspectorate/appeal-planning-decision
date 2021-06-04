@@ -14,8 +14,17 @@ Given('{string} question has been requested', () => {
   });
 });
 
+Given('the questionnaire for appeal {string} has been completed', (appealId) => {
+  cy.completeQuestionnaire(appealId);
+});
+
 When('the LPA Questionnaire is submitted', () => {
   cy.goToCheckYourAnswersPage();
+  cy.clickSubmitButton();
+});
+
+When('the LPA Questionnaire for appeal {string} is submitted', (appealId) => {
+  cy.goToCheckYourAnswersPage(appealId);
   cy.clickSubmitButton();
 });
 

@@ -57,7 +57,7 @@ async function sendAppealReplySubmissionConfirmationEmailToLpa(reply) {
       .setEmailReplyToId(config.services.notify.emailReplyToId.appealReplySubmissionConfirmation)
       .setDestinationEmailAddress(lpa.email)
       .setTemplateVariablesFromObject({
-        'Planning appeal number': appeal.id,
+        'Planning appeal number': appeal.horizonId,
         'Name of local planning department': lpa.name,
         'Planning application number': appeal.requiredDocumentsSection.applicationNumber,
       })
