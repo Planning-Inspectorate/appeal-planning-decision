@@ -79,7 +79,7 @@ const handlerReply = async (event, context) => {
     event.log.info({ event }, 'STEVE: handler-reply');
     const { body } = event;
     const replyId = body.id;
-    const horizonCaseId = '3219745'; // TODO: Add via API
+    const horizonCaseId = '3219717'; // TODO: Add via API
     await publishDocuments(event.log, populateDocuments(body), replyId, horizonCaseId);
     return {
       id: horizonCaseId,
