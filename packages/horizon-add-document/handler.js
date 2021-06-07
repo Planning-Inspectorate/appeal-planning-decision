@@ -79,19 +79,16 @@ async function parseFile({ log, body }) {
   });
 
   const object = createDataObject(data, body);
-  console.log('D - OBJECT', object);
 
   return object;
 }
 
 module.exports = async (event, context) => {
   event.log.info({ config }, 'Receiving add document request');
-  console.log('A - EVENT', event);
-  console.log('B - CONTEXT', context);
 
   try {
     const { caseReference } = event.body;
-    console.log('C - CASE_REFERENCE', caseReference);
+    console.log('CASE_REFERENCE', caseReference);
 
     const input = {
       AddDocuments: {
@@ -106,7 +103,7 @@ module.exports = async (event, context) => {
       },
     };
 
-    console.log('E - INPUT', input);
+    console.log('INPUT', { input });
     event.log.info('Uploading documents to Horizon');
 
     const { data } = await axios.post('/horizon', input, {
@@ -114,8 +111,6 @@ module.exports = async (event, context) => {
       /* Needs to be infinity as Horizon doesn't support multipart uploads */
       maxBodyLength: Infinity,
     });
-
-    console.log('F - DATA', data);
 
     return {
       caseReference,
