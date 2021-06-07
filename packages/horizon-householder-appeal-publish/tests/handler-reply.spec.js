@@ -34,6 +34,14 @@ const getFullExpectation = () => {
       type: sectionTypes.interestedPartiesAppealType,
     },
     {
+      id: ods.siteNotices.uploadedFiles[0].id,
+      type: sectionTypes.siteNoticesType,
+    },
+    {
+      id: ods.conservationAreaMap.uploadedFiles[0].id,
+      type: sectionTypes.conservationAreaMapType,
+    },
+    {
       id: ods.planningHistory.uploadedFiles[0].id,
       type: sectionTypes.planningHistoryType,
     },
