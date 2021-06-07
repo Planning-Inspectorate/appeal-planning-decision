@@ -21,7 +21,7 @@
 {% endblock %}
 
 {% block pageTitle %}
-  Do you have any extra conditions? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK
+  {% if errorSummary.length %}Error: {% endif %}Do you have any extra conditions? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK
 {% endblock %}
 
 {% block content %}
