@@ -72,7 +72,22 @@ const getMockAppealReply = () => {
           },
         ],
       },
-      siteNotices: null,
+      siteNotices: {
+        uploadedFiles: [
+          {
+            name: 'upload-file-valid.pdf',
+            id: '384abc89-19aa-b120-aaee-8477de0f91fa',
+          },
+        ],
+      },
+      conservationAreaMap: {
+        uploadedFiles: [
+          {
+            name: 'upload-file-valid.pdf',
+            id: '00951f7a-4666-ca11-a0aa-fg15a66g098f',
+          },
+        ],
+      },
       planningHistory: {
         uploadedFiles: [
           {

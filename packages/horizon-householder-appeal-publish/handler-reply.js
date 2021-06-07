@@ -11,6 +11,8 @@ const documentsSections = {
   interestedPartiesApplication: 'optionalDocumentsSection',
   representationsInterestedParties: 'optionalDocumentsSection',
   interestedPartiesAppeal: 'optionalDocumentsSection',
+  siteNotices: 'optionalDocumentsSection',
+  conservationAreaMap: 'optionalDocumentsSection',
   planningHistory: 'optionalDocumentsSection',
   statutoryDevelopment: 'optionalDocumentsSection',
   otherPolicies: 'optionalDocumentsSection',
