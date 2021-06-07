@@ -84,7 +84,7 @@ describe('populateDocuments', () => {
 
 describe('handlerReply', () => {
   const envvars = process.env;
-  const horizonCaseId = '3219717';
+  const horizonCaseId = '3219751';
   let context;
   let logMock;
   let newMockAppealReply;
