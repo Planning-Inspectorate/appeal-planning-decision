@@ -18,7 +18,7 @@
 {% endblock %}
 
 {% block pageTitle %}
-  Review accuracy of appellant's submission - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK
+  {% if errorSummary.length %}Error: {% endif %}Review accuracy of appellant's submission - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK
 {% endblock %}
 
 {% block content %}

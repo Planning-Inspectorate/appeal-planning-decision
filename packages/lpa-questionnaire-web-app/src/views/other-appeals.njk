@@ -18,7 +18,7 @@
 {% endblock %}
 
 {% block pageTitle %}
-  Are there any other appeals adjacent or close to the site still being considered? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK
+  {% if errorSummary.length %}Error: {% endif %}Are there any other appeals adjacent or close to the site still being considered? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK
 {% endblock %}
 
 {% block content %}
