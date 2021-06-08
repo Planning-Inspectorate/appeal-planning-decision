@@ -11,10 +11,6 @@ inputs:
   GITHUB_TOKEN:
     description: GITHUB_TOKEN secret
     required: true
-  SET_VERSION:
-    description: Workflow is to set the next version number
-    required: false
-    default: "false"
 outputs:
   new_release_published:
     description: Tells you if a new release is to be published - either "true" or "false"
@@ -41,10 +37,9 @@ runs:
           cd ${{ inputs.DIR }}
           export GITHUB_TOKEN="${{ inputs.GITHUB_TOKEN }}"
 
-          echo "Run a semantic-release dry-run so the output can be debugged."
-          ${ROOT_DIR}/node_modules/.bin/semantic-release -d
-
-          NEW_VERSION=$(${ROOT_DIR}/node_modules/.bin/semantic-release -d | awk '/Release note for version/ { getline; print $2 }')
+          # Only run semantic-release once to minimise race conditions with flux.
+          ${ROOT_DIR}/node_modules/.bin/semantic-release --ci 2>&1 | tee outputfile
+          NEW_VERSION=$(cat outputfile | awk '/Release note for version/ { getline; print $2 }')
 
           if [ -n "$NEW_VERSION" ]; then
             NEW_VERSION_PUBLISHED=true
@@ -55,14 +50,3 @@ runs:
         echo "::set-output name=new_release_published::$NEW_VERSION_PUBLISHED"
         echo "::set-output name=new_release_version::$NEW_VERSION"
         echo "::set-output name=new_release_version_number::$NEW_VERSION_NUMBER"
-
-    - name: Set version
-      shell: bash
-      run: |
-        if [ "${{ inputs.SET_VERSION }}" == "true" ]; then
-          ROOT_DIR=$(pwd)
-          npm ci
-          cd ${{ inputs.DIR }}
-          export GITHUB_TOKEN="${{ inputs.GITHUB_TOKEN }}"
-          ${ROOT_DIR}/node_modules/.bin/semantic-release --ci
-        fi
