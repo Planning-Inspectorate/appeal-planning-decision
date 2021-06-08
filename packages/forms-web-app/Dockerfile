@@ -9,7 +9,7 @@ ENV VERSION="${VERSION}"
 # Do not rely on NODE_ENV - exists for performance reasons only
 ENV NODE_ENV=production
 ENV PORT=3000
-# This must be built locally from the common package
+# This must be built locally from the common package.
 COPY --from=common:latest /opt/app ../common
 ADD dist dist
 ADD node_modules node_modules

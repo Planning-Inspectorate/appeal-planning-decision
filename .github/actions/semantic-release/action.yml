@@ -31,7 +31,8 @@ runs:
         NEW_VERSION_PUBLISHED=false
         NEW_VERSION=""
         NEW_VERSION_NUMBER=""
-        if [ "${{ inputs.GET_VERSION }}" == "true" ]; then
+        if [ "${{ inputs.GET_VERSION }}" == "true" ] && [[ ${GITHUB_REF#refs/heads/} == "master" ]] ; then
+
           ROOT_DIR=$(pwd)
           npm ci
           cd ${{ inputs.DIR }}
@@ -39,7 +40,7 @@ runs:
 
           # Only run semantic-release once to minimise race conditions with flux.
           ${ROOT_DIR}/node_modules/.bin/semantic-release --ci 2>&1 | tee outputfile
-          NEW_VERSION=$(cat outputfile | awk '/Release note for version/ { getline; print $2 }')
+          NEW_VERSION=$(cat outputfile | grep "Created tag" | awk '{ print $NF }')
 
           if [ -n "$NEW_VERSION" ]; then
             NEW_VERSION_PUBLISHED=true
