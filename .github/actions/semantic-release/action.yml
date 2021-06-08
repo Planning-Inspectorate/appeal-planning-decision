@@ -39,7 +39,7 @@ runs:
 
           # Only run semantic-release once to minimise race conditions with flux.
           ${ROOT_DIR}/node_modules/.bin/semantic-release --ci 2>&1 | tee outputfile
-          NEW_VERSION=$(cat outputfile | awk '/Release note for version/ { getline; print $2 }')
+          NEW_VERSION=$(cat outputfile | grep "Created tag" | awk '{ print $NF }')
 
           if [ -n "$NEW_VERSION" ]; then
             NEW_VERSION_PUBLISHED=true
