@@ -50,17 +50,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
           GET_VERSION: 'true'
 
-      - uses: ./.github/actions/flux
-        if: ${{ steps.version_number.outputs.new_release_published == 'true' }}
-
-      - name: Set next version number
-        uses: ./.github/actions/semantic-release
-        if: ${{ steps.version_number.outputs.new_release_published == 'true' }}
-        with:
-          DIR: packages/${{ env.APP_DIR }}
-          GITHUB_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-          SET_VERSION: 'true'
-
       - name: Exit if no git tag was created
         if: ${{ steps.version_number.outputs.new_release_published == 'true' }}
         run: |
