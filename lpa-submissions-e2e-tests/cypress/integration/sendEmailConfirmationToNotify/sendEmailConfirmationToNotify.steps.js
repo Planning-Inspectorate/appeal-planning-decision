@@ -7,7 +7,7 @@ Then('a confirmation email is sent to the LPA', () => {
       const lastEmailNotificationOnTheStack = response.body.length - 1;
       const emailNotification = response.body[lastEmailNotificationOnTheStack];
       expect(emailNotification.template_id).to.eq('937b4147-8420-42da-859d-d4a65bdf99bc');
-      expect(emailNotification.email_address).to.eq('abby.bale@planninginspectorate.gov.uk');
+      expect(emailNotification.email_address).to.eq('AppealPlanningDecisionTest@planninginspectorate.gov.uk');
 
       expect(Object.keys(emailNotification.personalisation).length).to.eq(4);
       expect(emailNotification.personalisation['Planning appeal number']).to.eq('fake-horizon-id');

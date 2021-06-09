@@ -366,7 +366,7 @@ Then('the LPA will receive an email notification of the appeal', () => {
         expect(response.body).toEqual([
           {
             template_id: '79488d5d-7efd-4273-a11f-e73f11d19676',
-            email_address: 'abby.bale@planninginspectorate.gov.uk',
+            email_address: 'AppealPlanningDecisionTest@planninginspectorate.gov.uk',
             personalisation: {
               LPA: 'System Test Borough Council',
               date: moment(actualMessage.appeal.submissionDate).format('DD MMMM YYYY'),

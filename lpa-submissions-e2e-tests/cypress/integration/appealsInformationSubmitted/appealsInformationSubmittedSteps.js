@@ -15,7 +15,7 @@ Then(`the Information Submitted page will be shown`, () => {
 
 Then(`the LPA email address is displayed on the Information Submitted page`, () => {
   cy.visibleWithText(
-    `We’ve sent a confirmation email to abby.bale@planninginspectorate.gov.uk.`,
+    `We’ve sent a confirmation email to AppealPlanningDecisionTest@planninginspectorate.gov.uk.`,
     '[data-cy=lpaEmailString]',
   );
 });
