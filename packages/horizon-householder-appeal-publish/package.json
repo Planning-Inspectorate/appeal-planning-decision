@@ -22,7 +22,8 @@
     "./**/*.{js, json}": "npm run format"
   },
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "pino": "^6.11.3"
   },
   "devDependencies": {
     "eslint": "^7.12.1",
@@ -35,6 +36,7 @@
     "jest-date-mock": "^1.0.8",
     "jest-html-reporters": "^2.1.2",
     "jest-when": "^3.2.0",
+    "pino-pretty": "^4.3.0",
     "prettier": "^2.1.2"
   },
   "jest": {
