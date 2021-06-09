@@ -13,7 +13,6 @@ Scenario: AC02 - User makes no selection and is provided an error
   When user does not select an option
   And user selects Save and Continue
   Then user is shown an error message "Select yes if you have extra conditions"
-  And the user remains on extra conditions page
 
 Scenario: AC03 - User selects no and proceeds to task list
   Given user is in the extra conditions page
@@ -43,12 +42,10 @@ Scenario: AC05 - user does not provides further information in text field and is
   And user does not provide extra information
   When user selects Save and Continue
   Then user is shown an error message "What are the extra conditions?"
-  And the user remains on extra conditions page
 
 Scenario: AC06 - user can see the Appeal details side panel
   Given user is in the extra conditions page
   Then the appeal details panel is displayed on the right hand side of the page
-  And the user remains on extra conditions page
 
 Scenario: AC07 - Back link
   Given user is in the extra conditions page
