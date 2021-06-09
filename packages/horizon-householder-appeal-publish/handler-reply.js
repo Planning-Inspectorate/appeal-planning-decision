@@ -2,6 +2,7 @@ const config = require('./src/config');
 const sectionTypes = require('./src/sectionTypes');
 const { publishDocuments } = require('./src/publishDocuments');
 const { catchErrorHandling } = require('./src/catchErrorHandling');
+const { getHorizonId } = require('./src/getHorizonId');
 
 // ***** OBJECTS ***** //
 
@@ -77,14 +78,15 @@ const populateDocuments = (body) => {
  */
 const handlerReply = async (event, context) => {
   event.log.info({ config }, 'Received householder reply publish request');
+  const horizonId = await getHorizonId(event.body.appealId);
+  event.log.info(horizonId, 'HHAP - horizonId');
   try {
     event.log.info({ event }, 'STEVE: handler-reply');
     const { body } = event;
     const replyId = body.id;
-    const horizonCaseId = '3219751'; // TODO: Add via API
-    await publishDocuments(event.log, populateDocuments(body), replyId, horizonCaseId);
+    await publishDocuments(event.log, populateDocuments(body), replyId, horizonId);
     return {
-      id: horizonCaseId,
+      id: horizonId,
     };
   } catch (err) {
     const [message, httpStatus] = catchErrorHandling(event, err);
@@ -97,4 +99,4 @@ const handlerReply = async (event, context) => {
 
 // ***** EXPORTS ***** //
 
-module.exports = { convertDocumentArray, populateDocuments, handlerReply };
+module.exports = { convertDocumentArray, populateDocuments, handlerReply, getHorizonId };
