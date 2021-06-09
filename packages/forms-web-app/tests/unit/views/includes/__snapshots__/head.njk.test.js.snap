@@ -7,7 +7,7 @@ exports[`views/includes/head Google Analytics section should not render if googl
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
-  <p hidden id=\\"gaId\\"></p>
+  <script id=\\"gaId\\" type='text/plain'></script>
 
   
 
@@ -25,7 +25,7 @@ exports[`views/includes/head Google Analytics section should not render if googl
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
-  <p hidden id=\\"gaId\\"></p>
+  <script id=\\"gaId\\" type='text/plain'></script>
 
   
 
@@ -43,7 +43,7 @@ exports[`views/includes/head Google Analytics section should not render if googl
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
-  <p hidden id=\\"gaId\\">123</p>
+  <script id=\\"gaId\\" type='text/plain'>123</script>
 
   
 
@@ -61,7 +61,7 @@ exports[`views/includes/head Google Analytics section should render if googleAna
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
-  <p hidden id=\\"gaId\\">123</p>
+  <script id=\\"gaId\\" type='text/plain'>123</script>
 
   
 <!-- Global site tag (gtag.js) - Google Analytics -->
