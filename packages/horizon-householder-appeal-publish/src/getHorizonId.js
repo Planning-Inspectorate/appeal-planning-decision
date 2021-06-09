@@ -1,5 +1,6 @@
 const axios = require('axios');
 const logger = require('./lib/logger');
+const config = require('./config');
 
 /**
  * Retrieves the horizonId from the event object
@@ -8,7 +9,7 @@ const logger = require('./lib/logger');
  */
 const getHorizonId = async (appealId) => {
   try {
-    const appealUrl = `${process.env.APPEALS_SERVICE_API_URL}/api/v1/appeals/${appealId}`;
+    const appealUrl = `${config.appealsService.url}/api/v1/appeals/${appealId}`;
     const appealRes = await axios.get(appealUrl);
     return appealRes.data.appeal.horizonId;
   } catch (err) {
