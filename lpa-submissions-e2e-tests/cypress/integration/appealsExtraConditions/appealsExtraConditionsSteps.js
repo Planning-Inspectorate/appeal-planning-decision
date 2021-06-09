@@ -42,12 +42,16 @@ When(`user selects Save and Continue`, () => {
 
 Then(`user is shown an error message {string}`, (errorMessage) => {
   errorMessage === 'Select yes if you have extra conditions'
-    ? cy.validateErrorMessage(errorMessage, '[data-cy="extra-conditions-error"]', 'has-extra-conditions')
-    : cy.validateErrorMessage(errorMessage, '[data-cy="extra-conditions-text-error"]', 'extra-conditions-text');
-});
-
-Then(`the user remains on extra conditions page`, () => {
-  cy.verifyPageTitle(pageTitle);
+    ? cy.validateErrorMessage(
+        errorMessage,
+        '[data-cy="extra-conditions-error"]',
+        'has-extra-conditions',
+      )
+    : cy.validateErrorMessage(
+        errorMessage,
+        '[data-cy="extra-conditions-text-error"]',
+        'extra-conditions-text',
+      );
 });
 
 When(`user selects the option {string}`, (option) => {

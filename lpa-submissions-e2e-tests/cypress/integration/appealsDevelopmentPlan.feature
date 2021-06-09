@@ -11,7 +11,6 @@ Feature: Appeals Development Plan
     Given the Development Plan Document and Neighbourhood Plan question is requested
     When an answer is not provided
     Then progress is halted with an error message "Select yes if there is a relevant Development Plan or Neighbourhood Plan"
-    And the LPA Planning Officer remains on the page
 
   Scenario: AC03 - The LPA Planning Officer selects No on the Development Plan Document and Neighbourhood Plan question
     Given the Development Plan Document and Neighbourhood Plan question is requested
@@ -35,7 +34,6 @@ Feature: Appeals Development Plan
     Given there is a Development Plan Document and Neighbourhood Plan
     When no details are given about the plan
     Then progress is halted with an error message "Enter the relevant information about the plan and this appeal"
-    And the LPA Planning Officer remains on the page
 
   Scenario: AC06 - Back link
     Given the Development Plan Document and Neighbourhood Plan question is requested
