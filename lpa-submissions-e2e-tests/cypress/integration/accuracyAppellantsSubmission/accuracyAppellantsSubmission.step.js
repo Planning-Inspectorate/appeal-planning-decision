@@ -94,10 +94,6 @@ Then('the user is shown the error message {string}', (errorMessage) => {
       );
 });
 
-Then(`the user remains in the Accuracy of the appellant's submission page`, () => {
-  cy.verifyPageTitle(pageTitle);
-});
-
 Then('a Completed status is populated on that sub-section of the task list', () => {
   cy.verifyCompletedStatus(taskListId);
 });
