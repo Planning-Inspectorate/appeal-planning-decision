@@ -1,10 +1,12 @@
 jest.mock('axios');
+jest.mock('../src/getHorizonId');
 const axios = require('axios');
 
 process.env.GATEWAY_URL = 'openfaas-gateway';
 
 const { convertDocumentArray, populateDocuments, handlerReply } = require('../handler-reply');
 const { getMockAppealReply } = require('./mockAppealReply');
+const { getHorizonId } = require('../src/getHorizonId');
 const sectionTypes = require('../src/sectionTypes');
 
 const getFullExpectation = () => {
@@ -92,7 +94,7 @@ describe('populateDocuments', () => {
 
 describe('handlerReply', () => {
   const envvars = process.env;
-  const horizonCaseId = '3219751';
+  const horizonCaseId = 'mock-horizon-id';
   let context;
   let logMock;
   let newMockAppealReply;
@@ -122,6 +124,7 @@ describe('handlerReply', () => {
 
   it('should simulate an reply with documents to publish', async () => {
     const horizonFullCaseId = `ABC/1234/${horizonCaseId}`;
+    getHorizonId.mockReturnValue(horizonCaseId);
 
     const event = {
       log: logMock,
