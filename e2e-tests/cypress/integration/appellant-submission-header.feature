@@ -1,6 +1,7 @@
 Feature: Common link in header section
   Each of the Eligibility and Appellant Submission webpages must display link to feedback page
 
+  @as-2264
   Scenario Outline: Required link in header is present
     Given an appeal is being made
     When the <page> page is presented
