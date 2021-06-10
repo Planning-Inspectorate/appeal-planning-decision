@@ -10,7 +10,9 @@ const config = require('./config');
 const getHorizonId = async (appealId) => {
   try {
     const appealUrl = `${config.appealsService.url}/api/v1/appeals/${appealId}`;
+    logger.info({ appealUrl }, 'appealUrl');
     const appealRes = await axios.get(appealUrl);
+    logger.info({ appealRes }, 'appealRes');
     return appealRes.data.appeal.horizonId;
   } catch (err) {
     logger.error({ err }, 'Unable to retrieve appeal data.');

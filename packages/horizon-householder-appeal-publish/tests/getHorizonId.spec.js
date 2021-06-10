@@ -6,6 +6,7 @@ jest.mock('axios');
 
 jest.mock('../src/lib/logger', () => ({
   error: jest.fn(),
+  info: jest.fn(),
 }));
 
 describe('getHorizonId', () => {
