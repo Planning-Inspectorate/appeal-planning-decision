@@ -15,6 +15,10 @@ const VIEW = {
   PLANNING_HISTORY: 'planning-history',
   OTHER_POLICIES: 'other-policies',
   STATUTORY_DEVELOPMENT: 'statutory-development',
+  SUPPLEMENTARY_DOCUMENTS: {
+    LIST: 'supplementary-documents/list',
+    ADD_DOCUMENT: 'supplementary-documents/add-document',
+  },
   INFORMATION_SUBMITTED: 'information-submitted',
   CONFIRM_ANSWERS: 'confirm-answers',
   PDF_GENERATION: 'pdf-generation',
