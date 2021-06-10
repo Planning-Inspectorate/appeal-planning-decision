@@ -18,7 +18,7 @@ describe('getHorizonId', () => {
 
   it('should return a correct horizonId from an appealId', async () => {
     const expectedHorizonId = '3000001';
-    const mockAppealAPIObject = { appealRes: { data: { horizonId: expectedHorizonId } } };
+    const mockAppealAPIObject = { data: { horizonId: expectedHorizonId } };
     axios.get.mockResolvedValue(mockAppealAPIObject);
     expect(await getHorizonId(appealId)).toEqual(expectedHorizonId);
   });
