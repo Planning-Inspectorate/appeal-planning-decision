@@ -81,7 +81,7 @@ const handlerReply = async (event, context) => {
   const horizonId = await getHorizonId(event.body.appealId);
   event.log.info(horizonId, 'HHAP - horizonId');
   try {
-    event.log.info({ event }, 'STEVE: handler-reply');
+    event.log.info({ event }, 'handlerReply event');
     const { body } = event;
     const replyId = body.id;
     await publishDocuments(event.log, populateDocuments(body), replyId, horizonId);
