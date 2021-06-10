@@ -13,7 +13,7 @@ const getHorizonId = async (appealId) => {
     logger.info({ appealUrl }, 'appealUrl');
     const appealAPIObject = await axios.get(appealUrl);
     logger.info({ appealAPIObject }, 'appealRes');
-    return appealAPIObject.appealRes.data.horizonId;
+    return appealAPIObject.data.horizonId;
   } catch (err) {
     logger.error({ err }, 'Unable to retrieve appeal data.');
     return 0;
