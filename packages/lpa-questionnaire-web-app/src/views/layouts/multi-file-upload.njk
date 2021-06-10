@@ -4,10 +4,10 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "components/appeal-details/macro.njk" import appealDetails %}
-{%- from "govuk/components/file-upload/macro.njk" import govukFileUpload -%}
-{%- from "moj/components/multi-file-upload/macro.njk" import mojMultiFileUpload -%}
-{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload -%}
+{% from "moj/components/multi-file-upload/macro.njk" import mojMultiFileUpload -%}
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "components/accepted-document-formats/macro.njk" import acceptedDocumentFormats %}
 
 {% block beforeContent %}
   {{ govukBackLink({
@@ -73,22 +73,9 @@
           uploadHtml: uploadHtml
         }) }}
 
-        {% set acceptedFormats %}
-          <ul class="govuk-list govuk-list--bullets">
-            <li>PDF – <strong>.pdf</strong></li>
-            <li>Microsoft Word – <strong>.doc</strong> or <strong>.docx</strong></li>
-            <li>TIF – <strong>.tif</strong> or <strong>.tiff</strong></li>
-            <li>JPEG – <strong>.jpg</strong> or <strong>.jpeg</strong></li>
-            <li>PNG – <strong>.png</strong></li>
-          </ul>
-        {% endset %}
-
         <input type="hidden" id="tempDocs" name="tempDocs" value="{{ documentList }}" />
 
-        {{ govukDetails({
-          summaryText: 'Accepted file formats',
-          html: acceptedFormats
-        }) }}
+        {{ acceptedDocumentFormats({}) }}
 
         {{ govukButton({
           text: 'Save and continue',

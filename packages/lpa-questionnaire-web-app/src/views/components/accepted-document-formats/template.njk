@@ -1,0 +1,16 @@
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+{% set acceptedFormats %}
+  <ul class="govuk-list govuk-list--bullets">
+    <li>PDF – <strong>.pdf</strong></li>
+    <li>Microsoft Word – <strong>.doc</strong> or <strong>.docx</strong></li>
+    <li>TIF – <strong>.tif</strong> or <strong>.tiff</strong></li>
+    <li>JPEG – <strong>.jpg</strong> or <strong>.jpeg</strong></li>
+    <li>PNG – <strong>.png</strong></li>
+  </ul>
+{% endset %}
+
+{{ govukDetails({
+  summaryText: 'Accepted file formats',
+  html: acceptedFormats
+}) }}

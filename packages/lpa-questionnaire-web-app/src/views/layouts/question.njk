@@ -1,4 +1,4 @@
- {% extends "layouts/main.njk" %}
+{% extends "layouts/main.njk" %}
 
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
@@ -30,16 +30,29 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <form action="" method="POST" novalidate>
+      <form action="" method="POST" novalidate{% if hasFileUpload %} encType="multipart/form-data"{% endif %}>
         <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>{{ question.section }}</span>
         {% block question %}{% endblock %}
 
-        {{ govukButton({
+        <div class="govuk-button-group">
+          {{ govukButton({
           text: "Save and continue",
           attributes: {
             'data-cy': 'save'
           }
         }) }}
+
+          {% if showCancel %}
+            {{ govukButton({
+            text: "Cancel",
+            href: backLink,
+            classes: "govuk-button--secondary",
+            attributes: {
+              'data-cy': 'cancel'
+            }
+          }) }}
+          {% endif %}
+        </div>
       </form>
     </div>
 
