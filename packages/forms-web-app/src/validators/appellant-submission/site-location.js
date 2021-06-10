@@ -13,18 +13,18 @@ const ruleAddressLine1 = () =>
   body('site-address-line-one')
     .escape()
     .notEmpty()
-    .withMessage('Enter a building and/or street')
+    .withMessage('Enter the first line of the address')
     .bail()
     .isLength({ min: 1, max: 60 })
     .bail()
-    .withMessage('Building and/or street must be 60 characters or fewer');
+    .withMessage('The first line of the address must be 60 characters or fewer');
 
 const ruleAddressLine2 = () =>
   body('site-address-line-two')
     .escape()
     .isLength({ min: 0, max: 60 })
     .bail()
-    .withMessage('Building and/or street must be 60 characters or fewer');
+    .withMessage('The first line of the address must be 60 characters or fewer');
 
 const ruleAddressTownCity = () =>
   body('site-town-city')
@@ -36,10 +36,7 @@ const ruleAddressTownCity = () =>
 const ruleAddressCounty = () =>
   body('site-county')
     .escape()
-    .notEmpty()
-    .withMessage('Enter a county')
-    .bail()
-    .isLength({ min: 1, max: 60 })
+    .isLength({ min: 0, max: 60 })
     .bail()
     .withMessage('County must be 60 characters or fewer');
 

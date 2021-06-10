@@ -220,26 +220,18 @@ describe('services/validation.service', () => {
     [
       {
         addressLine1: '',
-        county: 'county',
         postcode: 'postcode',
       },
       {
         addressLine1: 'addressLine1',
-        county: '',
-        postcode: 'postcode',
-      },
-      {
-        addressLine1: 'addressLine1',
-        county: 'county',
         postcode: '',
       },
     ].forEach((siteAddress) => {
       test('the site address should see all its mandatory fields valued or none of them, other it should fail', async () => {
         appeal.appealSiteSection.siteAddress = siteAddress;
 
-        const siteAddressErrorMessage = `The appeal appellant site address must have addressLine1, county and postcode valued.
+        const siteAddressErrorMessage = `The appeal appellant site address must have addressLine1 and postcode valued.
     addressLine1=${appeal.appealSiteSection.siteAddress.addressLine1}
-    county=${appeal.appealSiteSection.siteAddress.county}
     postcode=${appeal.appealSiteSection.siteAddress.postcode}`;
 
         const errors = validateAppeal(appeal);

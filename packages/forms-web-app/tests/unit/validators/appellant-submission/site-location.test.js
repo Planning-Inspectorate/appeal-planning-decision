@@ -30,13 +30,13 @@ describe('validators/appellant-submission/site-location', () => {
 
         expect(rule.stack[1].negated).toBeTruthy();
         expect(rule.stack[1].validator.name).toEqual('isEmpty');
-        expect(rule.stack[1].message).toEqual('Enter a building and/or street');
+        expect(rule.stack[1].message).toEqual('Enter the first line of the address');
 
         expect(rule.stack[3].negated).toBeFalsy();
         expect(rule.stack[3].validator.name).toEqual('isLength');
         expect(rule.stack[3].options).toEqual([{ max: 60, min: 1 }]);
         expect(rule.stack[3].message).toEqual(
-          'Building and/or street must be 60 characters or fewer'
+          'The first line of the address must be 60 characters or fewer'
         );
       });
     });
@@ -56,7 +56,7 @@ describe('validators/appellant-submission/site-location', () => {
         expect(rule.stack[1].validator.name).toEqual('isLength');
         expect(rule.stack[1].options).toEqual([{ max: 60, min: 0 }]);
         expect(rule.stack[1].message).toEqual(
-          'Building and/or street must be 60 characters or fewer'
+          'The first line of the address must be 60 characters or fewer'
         );
       });
     });
@@ -86,18 +86,14 @@ describe('validators/appellant-submission/site-location', () => {
         expect(rule.fields).toEqual(['site-county']);
         expect(rule.locations).toEqual(['body']);
         expect(rule.optional).toBeFalsy();
-        expect(rule.stack).toHaveLength(5);
+        expect(rule.stack).toHaveLength(3);
 
         expect(rule.stack[0].sanitizer.name).toEqual('escape');
 
-        expect(rule.stack[1].negated).toBeTruthy();
-        expect(rule.stack[1].validator.name).toEqual('isEmpty');
-        expect(rule.stack[1].message).toEqual('Enter a county');
-
-        expect(rule.stack[3].negated).toBeFalsy();
-        expect(rule.stack[3].validator.name).toEqual('isLength');
-        expect(rule.stack[3].options).toEqual([{ max: 60, min: 1 }]);
-        expect(rule.stack[3].message).toEqual('County must be 60 characters or fewer');
+        expect(rule.stack[1].negated).toBeFalsy();
+        expect(rule.stack[1].validator.name).toEqual('isLength');
+        expect(rule.stack[1].options).toEqual([{ max: 60, min: 0 }]);
+        expect(rule.stack[1].message).toEqual('County must be 60 characters or fewer');
       });
     });
 
@@ -146,7 +142,6 @@ describe('validators/appellant-submission/site-location', () => {
         given: () => ({
           body: {
             'site-address-line-one': '1 Taylor Road',
-            'site-county': 'South Glos',
             'site-postcode': 'BS8 1TG',
           },
         }),
@@ -183,6 +178,20 @@ describe('validators/appellant-submission/site-location', () => {
         },
       },
       {
+        title: 'valid - county is missing',
+        given: () => ({
+          body: {
+            'site-address-line-one': '1 Taylor Road',
+            'site-address-line-two': 'Clifton',
+            'site-town-city': 'Bristol',
+            'site-postcode': 'BS8 1TG',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(0);
+        },
+      },
+      {
         title: 'invalid - site-address-line-one is missing',
         given: () => ({
           body: {
@@ -194,22 +203,7 @@ describe('validators/appellant-submission/site-location', () => {
         }),
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
-          expect(result.errors[0].msg).toEqual('Enter a building and/or street');
-        },
-      },
-      {
-        title: 'invalid - site-county is missing',
-        given: () => ({
-          body: {
-            'site-address-line-one': '1 Taylor Road',
-            'site-address-line-two': 'Clifton',
-            'site-town-city': 'Bristol',
-            'site-postcode': 'BS8 1TG',
-          },
-        }),
-        expected: (result) => {
-          expect(result.errors).toHaveLength(1);
-          expect(result.errors[0].msg).toEqual('Enter a county');
+          expect(result.errors[0].msg).toEqual('Enter the first line of the address');
         },
       },
       {
@@ -228,7 +222,7 @@ describe('validators/appellant-submission/site-location', () => {
         },
       },
       {
-        title: 'invalid - site-address-line-one and site-county are missing',
+        title: 'invalid - site-address-line-one (required) and site-county (optional) are missing',
         given: () => ({
           body: {
             'site-address-line-two': 'Clifton',
@@ -237,9 +231,8 @@ describe('validators/appellant-submission/site-location', () => {
           },
         }),
         expected: (result) => {
-          expect(result.errors).toHaveLength(2);
-          expect(result.errors[0].msg).toEqual('Enter a building and/or street');
-          expect(result.errors[1].msg).toEqual('Enter a county');
+          expect(result.errors).toHaveLength(1);
+          expect(result.errors[0].msg).toEqual('Enter the first line of the address');
         },
       },
       {
@@ -253,12 +246,12 @@ describe('validators/appellant-submission/site-location', () => {
         }),
         expected: (result) => {
           expect(result.errors).toHaveLength(2);
-          expect(result.errors[0].msg).toEqual('Enter a building and/or street');
+          expect(result.errors[0].msg).toEqual('Enter the first line of the address');
           expect(result.errors[1].msg).toEqual('Enter a postcode');
         },
       },
       {
-        title: 'invalid - site-county and site-postcode are missing',
+        title: 'invalid - site-county (optional) and site-postcode (required) are missing',
         given: () => ({
           body: {
             'site-address-line-one': '1 Taylor Road',
@@ -267,9 +260,8 @@ describe('validators/appellant-submission/site-location', () => {
           },
         }),
         expected: (result) => {
-          expect(result.errors).toHaveLength(2);
-          expect(result.errors[0].msg).toEqual('Enter a county');
-          expect(result.errors[1].msg).toEqual('Enter a postcode');
+          expect(result.errors).toHaveLength(1);
+          expect(result.errors[0].msg).toEqual('Enter a postcode');
         },
       },
       {
@@ -278,10 +270,9 @@ describe('validators/appellant-submission/site-location', () => {
           body: {},
         }),
         expected: (result) => {
-          expect(result.errors).toHaveLength(3);
-          expect(result.errors[0].msg).toEqual('Enter a building and/or street');
-          expect(result.errors[1].msg).toEqual('Enter a county');
-          expect(result.errors[2].msg).toEqual('Enter a postcode');
+          expect(result.errors).toHaveLength(2);
+          expect(result.errors[0].msg).toEqual('Enter the first line of the address');
+          expect(result.errors[1].msg).toEqual('Enter a postcode');
         },
       },
       {
@@ -298,7 +289,7 @@ describe('validators/appellant-submission/site-location', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].msg).toEqual(
-            'Building and/or street must be 60 characters or fewer'
+            'The first line of the address must be 60 characters or fewer'
           );
         },
       },
@@ -316,7 +307,7 @@ describe('validators/appellant-submission/site-location', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].msg).toEqual(
-            'Building and/or street must be 60 characters or fewer'
+            'The first line of the address must be 60 characters or fewer'
           );
         },
       },
