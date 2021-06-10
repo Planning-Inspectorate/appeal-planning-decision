@@ -8,10 +8,9 @@ const uploadedFilesSchema = new Mongoose.Schema({
 const uploadedFilesMetaSchema = new Mongoose.Schema({
   name: { type: String, default: '' },
   id: { type: String, default: '' },
-  status: { type: String, default: '' },
-  isSubjectPublicConsultation: { type: String, default: '' },
-  formalAdoption: { type: String, default: '' },
-  emergingDocument: { type: String, default: '' },
+  documentName: { type: String, default: '' },
+  adoptedDate: { type: Date, default: null },
+  stageReached: { type: String, default: '' },
 });
 
 const replySchema = new Mongoose.Schema({
