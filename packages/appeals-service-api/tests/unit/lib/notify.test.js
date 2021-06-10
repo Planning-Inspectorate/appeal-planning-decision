@@ -55,10 +55,9 @@ describe('lib/notify', () => {
     test('Format address with minimum fields', () => {
       const input = {
         addressLine1: 'Line 1',
-        county: 'County',
         postcode: 'SA18 3RT',
       };
-      const output = 'Line 1\nCounty\nSA18 3RT';
+      const output = 'Line 1\nSA18 3RT';
       expect(getAddress(input)).toEqual(output);
     });
   });

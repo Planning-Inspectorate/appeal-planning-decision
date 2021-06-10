@@ -1,6 +1,7 @@
 const { VIEW } = require('../lib/views');
 
 const TASK_STATUS = require('./task-status/task-statuses');
+const { statusAppealSiteAddress } = require('./task-status/status-appeal-site-address');
 const { statusSiteOwnership } = require('./task-status/status-site-ownership');
 const { statusYourDetails } = require('./task-status/status-your-details');
 
@@ -27,11 +28,6 @@ function statusDecisionLetter(appeal) {
 function statusApplicationNumber(appeal) {
   const task = appeal.requiredDocumentsSection;
   return task.applicationNumber ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
-}
-
-function statusAppealSiteAddress(appeal) {
-  const { addressLine1, county, postcode } = appeal.appealSiteSection.siteAddress;
-  return addressLine1 && county && postcode ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
 }
 
 function statusHealthAndSafety(appeal) {

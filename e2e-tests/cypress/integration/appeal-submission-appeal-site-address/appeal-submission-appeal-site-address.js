@@ -78,7 +78,7 @@ Then(
   (reason) => {
     switch (reason) {
       case 'Address Line 1 is required':
-        cy.confirmSiteAddressWasRejectedBecause('Enter a building and/or street');
+        cy.confirmSiteAddressWasRejectedBecause('Enter the first line of the address');
         break;
       case 'County is required':
         cy.confirmSiteAddressWasRejectedBecause('Enter a county');
@@ -88,12 +88,12 @@ Then(
         break;
       case 'Address Line 1 has a limit of 60 characters':
         cy.confirmSiteAddressWasRejectedBecause(
-          'Building and/or street must be 60 characters or fewer',
+          'The first line of the address must be 60 characters or fewer',
         );
         break;
       case 'Address Line 2 has a limit of 60 characters':
         cy.confirmSiteAddressWasRejectedBecause(
-          'Building and/or street must be 60 characters or fewer',
+          'The first line of the address must be 60 characters or fewer',
         );
         break;
       case 'Town or City has a limit of 60 characters':
@@ -120,16 +120,16 @@ Then(
 Then('the user is informed that {string}', (reason) => {
   switch (reason) {
     case 'Address Line 1 is required':
-      cy.confirmSiteAddressWasRejectedBecause('Enter a building and/or street');
+      cy.confirmSiteAddressWasRejectedBecause('Enter the first line of the address');
       break;
     case 'Address Line 1 has a limit of 60 characters':
       cy.confirmSiteAddressWasRejectedBecause(
-        'Building and/or street must be 60 characters or fewer',
+        'The first line of the address must be 60 characters or fewer',
       );
       break;
     case 'Address Line 2 has a limit of 60 characters':
       cy.confirmSiteAddressWasRejectedBecause(
-        'Building and/or street must be 60 characters or fewer',
+        'The first line of the address must be 60 characters or fewer',
       );
       break;
     case 'Town or City has a limit of 60 characters':
