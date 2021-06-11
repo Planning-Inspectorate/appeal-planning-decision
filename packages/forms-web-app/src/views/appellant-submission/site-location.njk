@@ -36,95 +36,120 @@
 
           <p>The appeal site is the area of property or land that your original planning application relates to.</p>
 
+          {% set addressLine1Id = "site-address-line-one" %}
+          {% set addressLine1LabelId = addressLine1Id + "-label" %}
           {% set addressLine1Text = "Address line 1" %}
           {{ govukInput({
             label: {
+              attributes: {
+                id: addressLine1LabelId
+              },
               text: addressLine1Text
             },
-            id: "site-address-line-one",
+            id: addressLine1Id,
             value: appeal.appealSiteSection.siteAddress.addressLine1,
-            name: "site-address-line-one",
+            name: addressLine1Id,
             autocomplete: "address-line1",
-            describedBy: addressLine1Text,
+            describedBy: addressLine1LabelId,
             attributes: {
               title: addressLine1Text
             },
-            errorMessage: errors['site-address-line-one'] and {
-              text: errors['site-address-line-one'].msg
+            errorMessage: errors[addressLine1Id] and {
+              text: errors[addressLine1Id].msg
             }
           }) }}
 
+          {% set addressLine2Id = "site-address-line-two" %}
+          {% set addressLine2LabelId = addressLine2Id + "-label" %}
           {% set addressLine2Text = "Address line 2 (optional)" %}
           {{ govukInput({
             label: {
+              attributes: {
+                id: addressLine2LabelId
+              },
               text: addressLine2Text
             },
-            id: "site-address-line-two",
+            id: addressLine2Id,
             value: appeal.appealSiteSection.siteAddress.addressLine2,
-            name: "site-address-line-two",
+            name: addressLine2Id,
             autocomplete: "address-line2",
-            describedBy: addressLine2Text,
+            describedBy: addressLine2LabelId,
             attributes: {
               title: addressLine2Text
             },
-            errorMessage: errors['site-address-line-two'] and {
-              text: errors['site-address-line-two'].msg
+            errorMessage: errors[addressLine2Id] and {
+              text: errors[addressLine2Id].msg
             }
           }) }}
 
+          {% set townOrCityId = "site-town-city" %}
+          {% set townOrCityLabelId = townOrCityId + "-label" %}
           {% set townOrCityText = "Town or city (optional)" %}
           {{ govukInput({
             label: {
+              attributes: {
+                id: townOrCityLabelId
+              },
               text: townOrCityText
             },
             classes: "govuk-!-width-two-thirds",
-            id: "site-town-city",
+            id: townOrCityId,
             value: appeal.appealSiteSection.siteAddress.town,
-            name: "site-town-city",
+            name: townOrCityId,
             autocomplete: "address-level2",
-            describedBy: townOrCityText,
+            describedBy: townOrCityLabelId,
             attributes: {
               title: townOrCityText
             },
-            errorMessage: errors['site-town-city'] and {
-              text: errors['site-town-city'].msg
+            errorMessage: errors[townOrCityId] and {
+              text: errors[townOrCityId].msg
             }
           }) }}
 
+          {% set countyId = "site-county" %}
+          {% set countyLabelId = countyId + "-label" %}
           {% set countyText = "County (optional)" %}
           {{ govukInput({
             label: {
+              attributes: {
+                id: countyLabelId
+              },
               text: countyText
             },
             classes: "govuk-!-width-two-thirds",
-            id: "site-county",
+            id: countyId,
             value: appeal.appealSiteSection.siteAddress.county,
-            name: "site-county",
-            describedBy: countyText,
+            name: countyId,
+            describedBy: countyLabelId,
             attributes: {
               title: countyText
             },
-            errorMessage: errors['site-county'] and {
-              text: errors['site-county'].msg
+            errorMessage: errors[countyId] and {
+              text: errors[countyId].msg
             }
           }) }}
 
+          {% set postcodeId = "site-postcode" %}
+          {% set postcodeLabelId = postcodeId + "-label" %}
           {% set postcodeText = "Postcode" %}
           {{ govukInput({
             label: {
+              attributes: {
+                id: postcodeLabelId
+              },
               text: "Postcode"
             },
             classes: "govuk-input--width-10",
-            id: "site-postcode",
+            id: postcodeId,
             value: appeal.appealSiteSection.siteAddress.postcode,
-            name: "site-postcode",
+            name: postcodeId,
             autocomplete: "postal-code",
-            describedBy: postcodeText,
+            describedBy: postcodeLabelId,
             attributes: {
               title: postcodeText
             },
-            errorMessage: errors['site-postcode'] and {
-              text: errors['site-postcode'].msg
+            errorMessage: errors[postcodeId] and {
+              text: errors[postcodeId].msg
             }
           }) }}
 
