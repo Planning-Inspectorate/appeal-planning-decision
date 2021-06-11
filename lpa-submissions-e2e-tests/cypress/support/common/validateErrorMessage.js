@@ -3,7 +3,7 @@ import { summaryErrorMessage as summaryErrorMessageObject } from '../../support/
 
 module.exports = (errorMessage, errorMessageObjectId, summaryErrorMessageObjectId) => {
   summaryErrorMessageObject(summaryErrorMessageObjectId).should('be.visible');
-  cy.title().should('match', '/^Error: /');
+  cy.title().should('match', /^Error: /);
   summaryErrorMessageObject(summaryErrorMessageObjectId)
     .invoke('text')
     .then((text) => {
