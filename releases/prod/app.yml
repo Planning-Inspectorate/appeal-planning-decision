@@ -50,7 +50,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
-        tag: 1.46.5
+        tag: 1.46.10
       config:
         googleAnalyticsId: UA-187490521-3
 
