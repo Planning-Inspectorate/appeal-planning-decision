@@ -21,12 +21,19 @@ describe('getHorizonId', () => {
     const mockAppealAPIObject = { data: { horizonId: expectedHorizonId } };
     axios.get.mockResolvedValue(mockAppealAPIObject);
     expect(await getHorizonId(appealId)).toEqual(expectedHorizonId);
+    expect(logger.info).toHaveBeenCalledWith(
+      { horizonId: '3000001' },
+      'Horizon ID obtained from Appeals Service API'
+    );
   });
 
   it('should log an error', async () => {
     axios.get.mockRejectedValue('error');
-    const horizonId = await getHorizonId(appealId);
-    expect(logger.error).toHaveBeenCalledWith({ err: 'error' }, 'Unable to retrieve appeal data.');
-    expect(horizonId).toEqual(0);
+    try {
+      await getHorizonId(appealId);
+    } catch (err) {
+      expect(err.toString()).toEqual('Error: Current appeal does not contain Horizon ID');
+      expect(logger.error).toHaveBeenCalledWith({ err: 'error' }, 'Unable to retrieve appeal data');
+    }
   });
 });
