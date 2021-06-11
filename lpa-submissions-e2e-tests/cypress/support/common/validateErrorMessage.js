@@ -4,6 +4,8 @@ import { summaryErrorMessage as summaryErrorMessageObject } from '../../support/
 module.exports = (errorMessage, errorMessageObjectId, summaryErrorMessageObjectId) => {
   summaryErrorMessageObject(summaryErrorMessageObjectId).should('be.visible');
   cy.title().should('match', /^Error: /);
+  cy.checkPageA11y();
+
   summaryErrorMessageObject(summaryErrorMessageObjectId)
     .invoke('text')
     .then((text) => {
