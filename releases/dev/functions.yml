@@ -28,7 +28,7 @@ spec:
     functions:
       horizon-add-document:
         image: pinscommonukscontainers3887default.azurecr.io/horizon-add-document
-        tag: 1.2.13
+        tag: 1.2.14
         envvars:
           DOCUMENT_SERVICE_URL: http://app.app-dev.svc.cluster.local:3001
           HORIZON_URL: http://10.0.7.4:8000
@@ -41,7 +41,7 @@ spec:
 
       horizon-householder-appeal-publish:
         image: pinscommonukscontainers3887default.azurecr.io/horizon-householder-appeal-publish
-        tag: 1.5.4
+        tag: 1.5.5
         envvars:
           APPEALS_SERVICE_URL: http://app.app-dev.svc.cluster.local:3000
           DOCUMENT_SERVICE_URL: http://app.app-dev.svc.cluster.local:3001
