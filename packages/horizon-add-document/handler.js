@@ -88,7 +88,6 @@ module.exports = async (event, context) => {
 
   try {
     const { caseReference } = event.body;
-    console.log('CASE_REFERENCE', caseReference);
 
     const input = {
       AddDocuments: {
@@ -103,7 +102,6 @@ module.exports = async (event, context) => {
       },
     };
 
-    console.log('INPUT', { input });
     event.log.info('Uploading documents to Horizon');
 
     const { data } = await axios.post('/horizon', input, {
