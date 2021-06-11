@@ -43,7 +43,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
-        tag: 1.46.11
+        tag: 1.47.0
       config:
         googleAnalyticsId: G-TZBWMVPTHV
 
@@ -51,7 +51,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/lpa-questionnaire-web-app
-        tag: 1.26.0
+        tag: 1.27.0
 
     pdfServiceApi:
       replicaCount: 2
