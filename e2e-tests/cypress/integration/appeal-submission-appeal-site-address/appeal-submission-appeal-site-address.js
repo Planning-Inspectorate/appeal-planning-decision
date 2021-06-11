@@ -80,9 +80,6 @@ Then(
       case 'Address Line 1 is required':
         cy.confirmSiteAddressWasRejectedBecause('Enter the first line of the address');
         break;
-      case 'County is required':
-        cy.confirmSiteAddressWasRejectedBecause('Enter a county');
-        break;
       case 'Postcode is required':
         cy.confirmSiteAddressWasRejectedBecause('Enter a postcode');
         break;
@@ -93,7 +90,7 @@ Then(
         break;
       case 'Address Line 2 has a limit of 60 characters':
         cy.confirmSiteAddressWasRejectedBecause(
-          'The first line of the address must be 60 characters or fewer',
+          'The second line of the address must be 60 characters or fewer',
         );
         break;
       case 'Town or City has a limit of 60 characters':
@@ -129,7 +126,7 @@ Then('the user is informed that {string}', (reason) => {
       break;
     case 'Address Line 2 has a limit of 60 characters':
       cy.confirmSiteAddressWasRejectedBecause(
-        'The first line of the address must be 60 characters or fewer',
+        'The second line of the address must be 60 characters or fewer',
       );
       break;
     case 'Town or City has a limit of 60 characters':
@@ -137,9 +134,6 @@ Then('the user is informed that {string}', (reason) => {
       break;
     case 'County has a limit of 60 characters':
       cy.confirmSiteAddressWasRejectedBecause('County must be 60 characters or fewer');
-      break;
-    case 'County is required':
-      cy.confirmSiteAddressWasRejectedBecause('Enter a county');
       break;
     case 'Postcode is required':
       cy.confirmSiteAddressWasRejectedBecause('Enter a postcode');

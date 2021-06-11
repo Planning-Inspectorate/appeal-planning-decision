@@ -24,7 +24,7 @@ const ruleAddressLine2 = () =>
     .escape()
     .isLength({ min: 0, max: 60 })
     .bail()
-    .withMessage('The first line of the address must be 60 characters or fewer');
+    .withMessage('The second line of the address must be 60 characters or fewer');
 
 const ruleAddressTownCity = () =>
   body('site-town-city')

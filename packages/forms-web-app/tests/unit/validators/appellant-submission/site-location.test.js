@@ -56,7 +56,7 @@ describe('validators/appellant-submission/site-location', () => {
         expect(rule.stack[1].validator.name).toEqual('isLength');
         expect(rule.stack[1].options).toEqual([{ max: 60, min: 0 }]);
         expect(rule.stack[1].message).toEqual(
-          'The first line of the address must be 60 characters or fewer'
+          'The second line of the address must be 60 characters or fewer'
         );
       });
     });
@@ -307,7 +307,7 @@ describe('validators/appellant-submission/site-location', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].msg).toEqual(
-            'The first line of the address must be 60 characters or fewer'
+            'The second line of the address must be 60 characters or fewer'
           );
         },
       },

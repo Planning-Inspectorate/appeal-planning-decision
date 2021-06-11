@@ -50,6 +50,7 @@ Feature: Appellant provides the Appeal Site Address
     Then the user is informed that "Address Line 1 is required"
     And the user is informed that "Postcode is required"
 
+  @as-2483
   Scenario Outline: Prospective appellant provides address data that exceeds the maximum length constraint for each field
     Given the user is prompted for the site address
     When the user provides a value which is too long - <component> : <count>
@@ -63,6 +64,7 @@ Feature: Appellant provides the Appeal Site Address
       | "County"         | 61    | "County has a limit of 60 characters"         |
       | "Postcode"       | 9     | "Postcode has a limit of 8 characters"        |
 
+  @as-2483
   Scenario: Prospective appellant provides address data that exceeds the maximum length constraint for multiple fields
     Given the user is prompted for the site address
     When the user provides values that are too long for Address Line 1, Address Line 2, Town or City, County and Postcode
