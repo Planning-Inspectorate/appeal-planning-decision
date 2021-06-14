@@ -52,7 +52,7 @@
         {% endif %}
 
         <div class="govuk-form-group {% if errors['application-upload'] %}govuk-form-group--error{% endif %}">
-          <label class="govuk-heading-m" for="application-upload">
+          <label class="govuk-heading-m" for="application-upload" id="application-upload-label">
             Upload a file
           </label>
           {% if errors['application-upload'] %}
@@ -60,7 +60,7 @@
             <span class="govuk-visually-hidden">Error:</span> {{ errors['application-upload'].msg }}
           </span>
           {% endif %}
-          <input class="govuk-file-upload" id="application-upload" name="application-upload" type="file">
+          <input class="govuk-file-upload" id="application-upload" name="application-upload" type="file" aria-labelledby="application-upload-label" />
         </div>
 
         <details class="govuk-details" data-module="govuk-details">
