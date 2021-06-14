@@ -151,6 +151,24 @@ describe('controllers/files', () => {
           });
         },
       },
+      {
+        title: 'should return status 200 if deleted file is invalid (id is "undefined" string)',
+        given: () => ({
+          ...mockReq(),
+          body: {
+            delete: 'undefined',
+          },
+        }),
+        expected: (req, res) => {
+          expect(res.status).toHaveBeenCalledWith(200);
+          expect(res.json).toHaveBeenCalledWith({
+            id: 'undefined',
+            success: {
+              messageText: 'undefined deleted',
+            },
+          });
+        },
+      },
     ].forEach(({ title, given, expected, deleteMock }) => {
       it(title, async () => {
         const req = given();

@@ -120,6 +120,28 @@ describe('controllers/upload-question', () => {
       });
     });
 
+    it('should delete a document from temporary files if invalid (id is undefined)', async () => {
+      fileUploadNunjucksVariables.mockReturnValue({
+        uploadedFiles: [{ name: 'another-file' }],
+      });
+
+      const mockRequest = {
+        ...req,
+        body: {
+          delete: 'undefined',
+          tempDocs: '{ "name": "some-file" }, { "name": "another-file" }',
+        },
+      };
+
+      await uploadQuestionController.postUpload(mockRequest, res);
+
+      expect(res.render).toHaveBeenCalledWith('mock-view', {
+        appeal: null,
+        backLink: '/mock-id/task-list',
+        uploadedFiles: [{ name: 'another-file' }],
+      });
+    });
+
     it('should log an error if delete function returns one', async () => {
       deleteDocument.mockImplementation(() => {
         throw new Error('mock delete error');
