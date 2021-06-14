@@ -19,6 +19,10 @@ const requiredCompletion = [
     id: 'siteSeenPublicLand',
     func: booleanCompletion,
   },
+  {
+    id: 'enterAppealSite',
+    func: booleanCompletion,
+  },
 ];
 module.exports = (appealReply) => {
   if (!appealReply) return null;
