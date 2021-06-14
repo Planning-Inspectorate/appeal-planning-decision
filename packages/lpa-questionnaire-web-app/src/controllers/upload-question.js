@@ -42,7 +42,8 @@ exports.postUpload = async (req, res) => {
   // Chance for delete to be triggered due to non-JS solution. delete will be set to value of filename if button clicked
   if (deleteId) {
     try {
-      await deleteDocument(appealReply.id, deleteId);
+      // deleteId will be 'undefined' if file upload error
+      if (deleteId !== 'undefined') await deleteDocument(appealReply.id, deleteId);
     } catch (err) {
       req.log.error({ err }, `Error deleting ${deleteId} from ${name}`);
     }

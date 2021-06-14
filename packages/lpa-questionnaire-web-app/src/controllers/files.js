@@ -54,7 +54,8 @@ exports.deleteFile = async (req, res) => {
   }
 
   try {
-    await deleteDocument(req.session.appealReply.id, deleteId);
+    // deleteId will be 'undefined' if file upload error
+    if (deleteId !== 'undefined') await deleteDocument(req.session.appealReply.id, deleteId);
   } catch (err) {
     res.status(404).send('Files to delete not found');
     return;
