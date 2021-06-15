@@ -23,6 +23,10 @@ const requiredCompletion = [
     id: 'enterAppealSite',
     func: booleanCompletion,
   },
+  {
+    id: 'greenBelt',
+    func: booleanCompletion,
+  },
 ];
 module.exports = (appealReply) => {
   if (!appealReply) return null;
