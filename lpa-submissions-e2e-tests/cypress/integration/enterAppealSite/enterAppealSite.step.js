@@ -10,7 +10,8 @@ const page = {
   emptyError: 'Select yes if the inspector would need to enter the appeal site',
   textEmptyError: 'Enter the reasons the Inspector would need to enter the appeal site',
   textChildOf: 'Yes',
-  textMock: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. siteSeenPublicLand.'
+  textMock:
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. enterAppealSite.',
 };
 
 Before(() => {
