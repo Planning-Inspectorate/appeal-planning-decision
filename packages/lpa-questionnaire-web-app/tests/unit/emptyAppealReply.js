@@ -17,6 +17,11 @@ module.exports = {
     },
   },
   siteSeenPublicLand: null,
+  enterAppealSite: {
+    mustEnter: null,
+    enterReasons: '',
+  },
+  greenBelt: null,
   requiredDocumentsSection: {
     plansDecision: {
       uploadedFiles: [],
