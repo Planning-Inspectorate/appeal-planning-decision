@@ -39,6 +39,7 @@ const replySchema = new Mongoose.Schema({
     mustEnter: { type: Boolean, default: null },
     enterReasons: { type: String, default: '' },
   },
+  greenBelt: { type: Boolean, default: null },
   requiredDocumentsSection: {
     plansDecision: {
       uploadedFiles: { type: [uploadedFilesSchema], default: [] },
