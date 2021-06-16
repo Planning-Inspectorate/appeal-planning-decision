@@ -5,7 +5,7 @@ metadata:
   name: app
   namespace: app-prod
   annotations:
-    fluxcd.io/automated: "false"
+    fluxcd.io/automated: 'false'
 spec:
   releaseName: app
   chart:
@@ -15,6 +15,10 @@ spec:
   rollback:
     enable: true
   values:
+    globals:
+      domainNames:
+        appealsWebApp: appeal-planning-decision.planninginspectorate.gov.uk
+
     appealReplyServiceApi:
       replicaCount: 2
       image:
@@ -39,6 +43,7 @@ spec:
           templateId: 83c02ec6-c2ec-4551-86b3-807d4f203e19
           templates:
             appealNotificationEmailToLpa: b8c7a449-3bc1-4ce1-b07c-4e90f4bd9c17
+            appealSubmissionConfirmationEmailToAppellant: 27cddb5b-aa1e-453e-a511-f8eab31c3bb3
 
     documentServiceApi:
       replicaCount: 2
@@ -80,7 +85,7 @@ spec:
     pinsKeyVault:
       envSpecific:
         secrets:
-        - notify-prod
+          - notify-prod
 
     ingress:
       hosts:

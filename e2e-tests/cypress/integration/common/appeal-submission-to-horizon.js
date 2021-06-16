@@ -1,7 +1,6 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import moment from 'moment';
 import { matchWhatWeCanFrom, STANDARD_APPEAL } from './standard-appeal';
-import appealsServiceApiConfig from '../../../../packages/appeals-service-api/src/lib/config';
 
 const queueValidationEnabled = Cypress.env('QUEUE_VALIDATION_ENABLED');
 const notifyValidationEnabled = Cypress.env('NOTIFY_VALIDATION_ENABLED');
@@ -12,6 +11,8 @@ const notifyValidationBaseUrl =
   ':' +
   Cypress.env('NOTIFY_VALIDATION_PORT') +
   '/';
+
+const appealsAppBaseUrl = Cypress.env('APP_APPEALS_BASE_URL');
 
 Given('a prospective appellant has provided appeal information', () => {
   cy.provideCompleteAppeal({
@@ -399,34 +400,68 @@ And('an email notification is sent', () => {
   }
 });
 
-And('a confirmation email containing a link to the appeal pdf is sent to the appellant', () => {
-  if (queueValidationEnabled && notifyValidationEnabled) {
-    cy.task('getLastFromQueue').then((actualMessage) => {
-      cy.request(
-        notifyValidationBaseUrl +
-          'notifications?reference=' +
-          actualMessage.appeal.id +
-          '&email_address=' +
-          actualMessage.appeal.aboutYouSection.yourDetails.email,
-      )
-        .its('body')
-        .should('have.length', 1);
-    });
-  }
-});
+And(
+  'a confirmation email containing a link to the your-planning-appeal page is sent to the appellant',
+  () => {
+    if (queueValidationEnabled && notifyValidationEnabled) {
+      cy.task('getLastFromQueue').then((actualMessage) => {
+        cy.request(
+          notifyValidationBaseUrl +
+            'notifications?reference=' +
+            actualMessage.appeal.id +
+            '&email_address=' +
+            actualMessage.appeal.aboutYouSection.yourDetails.email,
+        ).then((response) => {
+          expect(response.body).toEqual([
+            {
+              template_id: '72f71441-12bf-4455-afbc-c58f9c72bfbd',
+              email_address: 'valid@email.com',
+              personalisation: {
+                name: actualMessage.appeal.aboutYouSection.yourDetails.name,
+                'appeal site address': '1 Taylor Road\nClifton\nBristol\nSouth Glos\nBS8 1TG',
+                'local planning department': 'System Test Borough Council',
+                'view appeal url': `${appealsAppBaseUrl}/your-planning-appeal/${actualMessage.appeal.id}`,
+              },
+              reference: actualMessage.appeal.id,
+              type: 'email',
+              id: expect.any(Number),
+            },
+          ]);
+        });
+      });
+    }
+  },
+);
 
-And('a confirmation email containing a link to the appeal pdf is sent to the agent', () => {
-  if (queueValidationEnabled && notifyValidationEnabled) {
-    cy.task('getLastFromQueue').then((actualMessage) => {
-      cy.request(
-        notifyValidationBaseUrl +
-          'notifications?reference=' +
-          actualMessage.appeal.id +
-          '&email_address=' +
-          actualMessage.appeal.aboutYouSection.yourDetails.email,
-      )
-        .its('body')
-        .should('have.length', 1);
-    });
-  }
-});
+And(
+  'a confirmation email containing a link to the your-planning-appeal page is sent to the agent',
+  () => {
+    if (queueValidationEnabled && notifyValidationEnabled) {
+      cy.task('getLastFromQueue').then((actualMessage) => {
+        cy.request(
+          notifyValidationBaseUrl +
+            'notifications?reference=' +
+            actualMessage.appeal.id +
+            '&email_address=' +
+            actualMessage.appeal.aboutYouSection.yourDetails.email,
+        ).then((response) => {
+          expect(response.body).toEqual([
+            {
+              template_id: '72f71441-12bf-4455-afbc-c58f9c72bfbd',
+              email_address: 'valid@email.com',
+              personalisation: {
+                name: actualMessage.appeal.aboutYouSection.yourDetails.name,
+                'appeal site address': '1 Taylor Road\nClifton\nBristol\nSouth Glos\nBS8 1TG',
+                'local planning department': 'System Test Borough Council',
+                'view appeal url': `${appealsAppBaseUrl}/your-planning-appeal/${actualMessage.appeal.id}`,
+              },
+              reference: actualMessage.appeal.id,
+              type: 'email',
+              id: expect.any(Number),
+            },
+          ]);
+        });
+      });
+    }
+  },
+);

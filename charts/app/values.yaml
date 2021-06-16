@@ -2,6 +2,10 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+global:
+  domainNames:
+    appealsWebApp: ""
+
 appealReplyServiceApi:
   replicaCount: 1
   service:
@@ -42,6 +46,7 @@ appealsServiceApi:
       templateId: 15ed37a9-506c-4845-88ea-95502282a863
       templates:
         appealNotificationEmailToLpa: 79488d5d-7efd-4273-a11f-e73f11d19676
+        appealSubmissionConfirmationEmailToAppellant: 72f71441-12bf-4455-afbc-c58f9c72bfbd
 
 documentServiceApi:
   replicaCount: 1

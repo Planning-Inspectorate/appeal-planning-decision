@@ -116,6 +116,33 @@ async function sendEmail(appeal) {
   }
 }
 
+async function sendAppealSubmissionConfirmationEmailToAppellant(appeal) {
+  if (!isValidAppealForSubmissionReceivedNotificationEmail(appeal)) {
+    throw new Error('Appeal was not available.');
+  }
+
+  try {
+    const lpa = await getLpa(appeal.lpaCode);
+
+    await NotifyBuilder.reset()
+      .setTemplateId(config.services.notify.templates.appealSubmissionConfirmationEmailToAppellant)
+      .setDestinationEmailAddress(appeal.aboutYouSection.yourDetails.email)
+      .setTemplateVariablesFromObject({
+        name: appeal.aboutYouSection.yourDetails.name,
+        'appeal site address': getAddress(appeal.appealSiteSection.siteAddress),
+        'local planning department': lpa.name,
+        'view appeal url': `${config.apps.appeals.baseUrl}/your-planning-appeal/${appeal.id}`,
+      })
+      .setReference(appeal.id)
+      .sendEmail();
+  } catch (e) {
+    logger.error(
+      { err: e, appeal },
+      'Unable to send appeal submission confirmation email to appellant.'
+    );
+  }
+}
+
 async function sendAppealSubmissionReceivedNotificationEmailToLpa(appeal) {
   if (!isValidAppealForSubmissionReceivedNotificationEmail(appeal)) {
     throw new Error('Appeal was not available.');
@@ -139,7 +166,8 @@ async function sendAppealSubmissionReceivedNotificationEmailToLpa(appeal) {
       throw new Error('Missing LPA email. This indicates an issue with the look up data.');
     }
 
-    await NotifyBuilder.setTemplateId(config.services.notify.templates.appealNotificationEmailToLpa)
+    await NotifyBuilder.reset()
+      .setTemplateId(config.services.notify.templates.appealNotificationEmailToLpa)
       .setDestinationEmailAddress(lpa.email)
       .setTemplateVariablesFromObject({
         LPA: lpa.name,
@@ -164,4 +192,5 @@ module.exports = {
   getFileUrl,
   getOptions,
   sendAppealSubmissionReceivedNotificationEmailToLpa,
+  sendAppealSubmissionConfirmationEmailToAppellant,
 };
