@@ -371,7 +371,7 @@ describe('services/validation.service', () => {
       expect(outcome).toEqual(updatedAppeal);
       expect(appeal.submissionDate).toBe(null);
       expect(queue.addAppeal).not.toHaveBeenCalled();
-      expect(notify.sendEmail).not.toHaveBeenCalled();
+      expect(notify.sendAppealSubmissionConfirmationEmailToAppellant).not.toHaveBeenCalled();
       expect(notify.sendAppealSubmissionReceivedNotificationEmailToLpa).not.toHaveBeenCalled();
     });
 
@@ -380,7 +380,9 @@ describe('services/validation.service', () => {
       expect(outcome).toEqual(updatedAppeal);
       expect(appeal.submissionDate).not.toBe(null);
       expect(queue.addAppeal).toHaveBeenCalledWith(updatedAppeal);
-      expect(notify.sendEmail).toHaveBeenCalledWith(appeal.value);
+      expect(notify.sendAppealSubmissionConfirmationEmailToAppellant).toHaveBeenCalledWith(
+        appeal.value
+      );
       expect(notify.sendAppealSubmissionReceivedNotificationEmailToLpa).toHaveBeenCalledWith(
         appeal.value
       );

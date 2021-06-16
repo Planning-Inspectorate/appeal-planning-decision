@@ -297,7 +297,7 @@ const updateAppeal = async (appeal, isFirstSubmission = false) => {
 
     if (isFirstSubmission) {
       queue.addAppeal(updatedDocument.value);
-      await notify.sendEmail(updatedDocument.value.appeal);
+      await notify.sendAppealSubmissionConfirmationEmailToAppellant(updatedDocument.value.appeal);
       await notify.sendAppealSubmissionReceivedNotificationEmailToLpa(updatedDocument.value.appeal);
     }
 

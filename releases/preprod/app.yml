@@ -5,7 +5,7 @@ metadata:
   name: app
   namespace: app-preprod
   annotations:
-    fluxcd.io/automated: "false"
+    fluxcd.io/automated: 'false'
 spec:
   releaseName: app
   chart:
@@ -15,6 +15,10 @@ spec:
   rollback:
     enable: true
   values:
+    globals:
+      domainNames:
+        appealsWebApp: appeals-preprod.planninginspectorate.gov.uk
+
     appealReplyServiceApi:
       replicaCount: 2
       image:
@@ -71,12 +75,12 @@ spec:
       name: pins-uks-vault-5989-prep
       envSpecific:
         multiValueSecrets:
-        - http-basic
+          - http-basic
 
     pinsKeyVault:
       envSpecific:
         secrets:
-        - notify-preprod
+          - notify-preprod
 
     ingress:
       hosts:

@@ -14,6 +14,7 @@ jest.doMock('../../../src/lib/logger', () => ({
   error: mockError,
 }));
 
+const mockReset = jest.fn().mockReturnThis();
 const mockSetTemplateId = jest.fn().mockReturnThis();
 const mockSetDestinationEmailAddress = jest.fn().mockReturnThis();
 const mockSetTemplateVariablesFromObject = jest.fn().mockReturnThis();
@@ -21,6 +22,7 @@ const mockSetReference = jest.fn().mockReturnThis();
 const mockSend = jest.fn();
 
 jest.doMock('@pins/common/src/lib/notify/notify-builder', () => ({
+  reset: mockReset,
   setTemplateId: mockSetTemplateId,
   setDestinationEmailAddress: mockSetDestinationEmailAddress,
   setTemplateVariablesFromObject: mockSetTemplateVariablesFromObject,
@@ -36,6 +38,7 @@ const {
   getFileUrl,
   getOptions,
   sendAppealSubmissionReceivedNotificationEmailToLpa,
+  sendAppealSubmissionConfirmationEmailToAppellant,
 } = require('../../../src/lib/notify');
 
 describe('lib/notify', () => {
@@ -221,6 +224,112 @@ describe('lib/notify', () => {
           date: '19 April 2021',
           'planning application number': '123/abc/xyz',
           'site address': '999 some street\na town\nrt12 9ya',
+        });
+        expect(mockSetReference).toHaveBeenCalledWith('some-fake-id');
+        expect(mockSend).toHaveBeenCalledTimes(1);
+      });
+    });
+  });
+
+  describe('sendAppealSubmissionConfirmationEmailToAppellant', () => {
+    let notifyBuilder;
+
+    beforeEach(() => {
+      jest.doMock('../../../../common/src/lib/notify/notify-builder', () => notifyBuilder);
+
+      isValidAppealForSubmissionReceivedNotificationEmail.mockReturnValue(true);
+    });
+
+    it('should throw an error if appeal is invalid', async () => {
+      isValidAppealForSubmissionReceivedNotificationEmail.mockReturnValue(false);
+      try {
+        await sendAppealSubmissionConfirmationEmailToAppellant({});
+      } catch (e) {
+        expect(e).toEqual(new Error('Appeal was not available.'));
+      }
+    });
+
+    describe('with valid appeal object', () => {
+      let appeal;
+
+      beforeEach(() => {
+        appeal = {
+          ...APPEAL_DOCUMENT.empty,
+          id: 'some-fake-id',
+          lpaCode: 'some-lpa-code',
+          submissionDate: new Date('19 April 2021'),
+          aboutYouSection: {
+            yourDetails: {
+              name: 'appellant name',
+            },
+          },
+          requiredDocumentsSection: {
+            ...APPEAL_DOCUMENT.empty.requiredDocumentsSection,
+            applicationNumber: '123/abc/xyz',
+          },
+          appealSiteSection: {
+            ...APPEAL_DOCUMENT.empty.appealSiteSection,
+            siteAddress: {
+              addressLine1: '999 some street',
+              town: 'a town',
+              postcode: 'rt12 9ya',
+            },
+          },
+        };
+      });
+
+      afterEach(() => {
+        mockError.mockClear();
+        mockSend.mockClear();
+      });
+
+      it('should log an error if unable to find the given LPA by ID', async () => {
+        const error = new Error('boom');
+        getLpa.mockRejectedValue(error);
+
+        try {
+          await sendAppealSubmissionConfirmationEmailToAppellant(appeal);
+        } catch (e) {
+          expect(mockError).toHaveBeenCalledWith(
+            { err: e, lpaCode: 'some-lpa-code' },
+            'Unable to find LPA from given lpaCode'
+          );
+        }
+      });
+
+      it('should throw if the looked up LPA has no email address', async () => {
+        const mockLpa = { name: 'whoops, email is missing' };
+        getLpa.mockResolvedValue(mockLpa);
+
+        try {
+          await sendAppealSubmissionConfirmationEmailToAppellant(appeal);
+        } catch (e) {
+          expect(mockError).toHaveBeenCalledWith(
+            {
+              err: new Error('Missing LPA email. This indicates an issue with the look up data.'),
+              lpa: mockLpa,
+            },
+            'Unable to send appeal submission received notification email to LPA.'
+          );
+        }
+      });
+
+      it('should send an email', async () => {
+        getLpa.mockResolvedValue({ name: 'lpa name', email: 'some@example.com' });
+
+        await sendAppealSubmissionConfirmationEmailToAppellant(appeal);
+
+        expect(mockError).not.toHaveBeenCalled();
+
+        expect(mockSetTemplateId).toHaveBeenCalledWith(
+          config.services.notify.templates.appealNotificationEmailToApellant
+        );
+        expect(mockSetDestinationEmailAddress).toHaveBeenCalledWith('some@example.com');
+        expect(mockSetTemplateVariablesFromObject).toHaveBeenCalledWith({
+          name: 'appellant name',
+          'appeal site address': '999 some street\na town\nrt12 9ya',
+          'local planning department': 'lpa name',
+          'view appeal url': `${config.apps.appeals.baseUrl}/your-planning-appeal/some-fake-id`,
         });
         expect(mockSetReference).toHaveBeenCalledWith('some-fake-id');
         expect(mockSend).toHaveBeenCalledTimes(1);

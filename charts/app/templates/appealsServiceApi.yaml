@@ -51,6 +51,8 @@ spec:
               path: /health
               port: {{.Values.appealsServiceApi.service.name }}
           env:
+            - name: APP_APPEALS_BASE_URL
+              value: "https://{{ .Values.global.domainNames.appealsWebApp }}"
             - name: DOCUMENTS_SERVICE_API_URL
               value: "http://{{ include "app.fullname" . }}:{{ .Values.documentServiceApi.service.port }}"
             - name: HORIZON_HAS_PUBLISHER_HOST
@@ -107,6 +109,8 @@ spec:
               value: {{ .Values.appealsServiceApi.config.notify.templateId | quote }}
             - name: SRV_NOTIFY_APPEAL_SUBMISSION_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID
               value: {{ .Values.appealsServiceApi.config.notify.templates.appealNotificationEmailToLpa | quote }}
+            - name: SRV_NOTIFY_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID
+              value: {{ .Values.appealsServiceApi.config.notify.templates.appealSubmissionConfirmationEmailToAppellant | quote }}
           volumeMounts:
             - name: lpa-data-volume
               mountPath: /data/lpa

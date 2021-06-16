@@ -6,9 +6,9 @@ Feature: Send email notification
 Scenario: Send email confirmation to appellant
   Given an appellant has prepared an appeal
   When the appeal is submitted
-  Then a confirmation email containing a link to the appeal pdf is sent to the appellant
+  Then a confirmation email containing a link to the your-planning-appeal page is sent to the appellant
 
 Scenario: Send email confirmation to agent
   Given an agent has prepared an appeal
   When the appeal is submitted
-  Then a confirmation email containing a link to the appeal pdf is sent to the agent
+  Then a confirmation email containing a link to the your-planning-appeal page is sent to the agent

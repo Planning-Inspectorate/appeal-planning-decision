@@ -75,6 +75,8 @@ module.exports = {
       // deprecated, see `sendEmail` inside `./notify`
       templateId: process.env.SRV_NOTIFY_TEMPLATE_ID,
       templates: {
+        appealSubmissionConfirmationEmailToAppellant:
+          process.env.SRV_NOTIFY_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
         appealNotificationEmailToLpa:
           process.env.SRV_NOTIFY_APPEAL_SUBMISSION_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID,
       },
@@ -82,6 +84,11 @@ module.exports = {
     osPlaces: {
       key: process.env.SRV_OS_PLACES_KEY,
       url: process.env.SRV_OS_PLACES_URL,
+    },
+  },
+  apps: {
+    appeals: {
+      baseUrl: process.env.APP_APPEALS_BASE_URL,
     },
   },
 };
