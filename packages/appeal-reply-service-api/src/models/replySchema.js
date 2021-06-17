@@ -40,6 +40,7 @@ const replySchema = new Mongoose.Schema({
     enterReasons: { type: String, default: '' },
   },
   greenBelt: { type: Boolean, default: null },
+  nearConservationArea: { type: Boolean, default: null },
   requiredDocumentsSection: {
     plansDecision: {
       uploadedFiles: { type: [uploadedFilesSchema], default: [] },
