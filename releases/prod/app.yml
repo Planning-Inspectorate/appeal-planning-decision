@@ -40,10 +40,13 @@ spec:
       config:
         notify:
           secretName: akv-notify-prod
+          emailReplyToId:
+            startEmailToLpa: cc6c4dd4-6c10-4b80-a045-0c9fb797d926
           templateId: 83c02ec6-c2ec-4551-86b3-807d4f203e19
           templates:
             appealNotificationEmailToLpa: b8c7a449-3bc1-4ce1-b07c-4e90f4bd9c17
             appealSubmissionConfirmationEmailToAppellant: 27cddb5b-aa1e-453e-a511-f8eab31c3bb3
+            startEmailToLpa: 22a6d662-3bbe-404f-8bca-c4b5c67ad346
 
     documentServiceApi:
       replicaCount: 2

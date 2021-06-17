@@ -5,6 +5,7 @@
 global:
   domainNames:
     appealsWebApp: ""
+    lpaQuestionnaireWebApp: ""
 
 appealReplyServiceApi:
   replicaCount: 1
@@ -47,6 +48,9 @@ appealsServiceApi:
       templates:
         appealNotificationEmailToLpa: 79488d5d-7efd-4273-a11f-e73f11d19676
         appealSubmissionConfirmationEmailToAppellant: 72f71441-12bf-4455-afbc-c58f9c72bfbd
+        startEmailToLpa: c4701212-4b6a-4b55-801a-c86c7dbea54b
+      emailReplyToId:
+        startEmailToLpa: f1e6c8c5-786e-41ca-9086-10b67f31bc86
 
 documentServiceApi:
   replicaCount: 1
