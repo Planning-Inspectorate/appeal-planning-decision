@@ -9,7 +9,7 @@ module.exports = {
   coverageThreshold: {
     global: {
       branches: 92,
-      functions: 86,
+      functions: 87,
       lines: 86,
       statements: 86,
     },
@@ -17,4 +17,5 @@ module.exports = {
   moduleFileExtensions: ['js', 'json'],
   testMatch: ['**/?(*.)+(spec|test).js?(x)'],
   testEnvironment: 'node',
+  setupFiles: ['<rootDir>/tests/setup-jest.js'],
 };

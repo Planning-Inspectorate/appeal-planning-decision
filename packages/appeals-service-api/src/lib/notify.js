@@ -4,28 +4,13 @@ const { format } = require('date-fns');
 const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
 const config = require('./config');
 const logger = require('./logger');
+const { getAddressSingleLine, getAddressMultiLine } = require('./get-address');
+const { getFormattedQuestionnaireDueDate } = require('./questionnaire-due-date');
 const { getLpa } = require('../services/lpa.service');
-const { isValidAppealForSubmissionReceivedNotificationEmail } = require('./notify-validation');
-
-function getAddress(siteAddress) {
-  const address = [];
-  if (siteAddress.addressLine1) {
-    address.push(siteAddress.addressLine1);
-  }
-  if (siteAddress.addressLine2) {
-    address.push(siteAddress.addressLine2);
-  }
-  if (siteAddress.town) {
-    address.push(siteAddress.town);
-  }
-  if (siteAddress.county) {
-    address.push(siteAddress.county);
-  }
-  if (siteAddress.postcode) {
-    address.push(siteAddress.postcode);
-  }
-  return address.join('\n');
-}
+const {
+  isValidAppealForSubmissionReceivedNotificationEmail,
+  isValidAppealForSendStartEmailToLPAEmail,
+} = require('./notify-validation');
 
 /**
  * @deprecated
@@ -80,7 +65,7 @@ async function sendEmail(appeal) {
     pdfFile = Buffer.from(arrayBuffer);
     const lpa = await getLpa(appeal.lpaCode);
     const options = getOptions(
-      getAddress(appeal.appealSiteSection.siteAddress),
+      getAddressMultiLine(appeal.appealSiteSection.siteAddress),
       notifyClient.prepareUpload(pdfFile),
       lpa.name,
       appeal.aboutYouSection.yourDetails.name,
@@ -129,7 +114,7 @@ async function sendAppealSubmissionConfirmationEmailToAppellant(appeal) {
       .setDestinationEmailAddress(appeal.aboutYouSection.yourDetails.email)
       .setTemplateVariablesFromObject({
         name: appeal.aboutYouSection.yourDetails.name,
-        'appeal site address': getAddress(appeal.appealSiteSection.siteAddress),
+        'appeal site address': getAddressMultiLine(appeal.appealSiteSection.siteAddress),
         'local planning department': lpa.name,
         'view appeal url': `${config.apps.appeals.baseUrl}/your-planning-appeal/${appeal.id}`,
       })
@@ -173,7 +158,7 @@ async function sendAppealSubmissionReceivedNotificationEmailToLpa(appeal) {
         LPA: lpa.name,
         date: format(appeal.submissionDate, 'dd MMMM yyyy'),
         'planning application number': appeal.requiredDocumentsSection.applicationNumber,
-        'site address': getAddress(appeal.appealSiteSection.siteAddress),
+        'site address': getAddressMultiLine(appeal.appealSiteSection.siteAddress),
       })
       .setReference(appeal.id)
       .sendEmail();
@@ -185,12 +170,56 @@ async function sendAppealSubmissionReceivedNotificationEmailToLpa(appeal) {
   }
 }
 
+async function sendStartEmailToLPA(appeal) {
+  if (!isValidAppealForSendStartEmailToLPAEmail(appeal)) {
+    throw new Error('Appeal was not available.');
+  }
+
+  let lpa = {};
+  try {
+    lpa = await getLpa(appeal.lpaCode);
+  } catch (e) {
+    logger.error({ err: e, lpaCode: appeal.lpaCode }, 'Unable to find LPA from given lpaCode');
+  }
+
+  if (!lpa || !lpa.name) {
+    lpa = {
+      name: appeal.lpaCode,
+    };
+  }
+
+  try {
+    if (!lpa.email) {
+      throw new Error('Missing LPA email. This indicates an issue with the look up data.');
+    }
+
+    await NotifyBuilder.reset()
+      .setTemplateId(config.services.notify.templates.startEmailToLpa)
+      .setEmailReplyToId(config.services.notify.emailReplyToId.startEmailToLpa)
+      .setDestinationEmailAddress(lpa.email)
+      .setTemplateVariablesFromObject({
+        'site address one line': getAddressSingleLine(appeal.appealSiteSection.siteAddress),
+        'horizon id': appeal.horizonId,
+        lpa: lpa.name,
+        'planning application number': appeal.requiredDocumentsSection.applicationNumber,
+        'site address': getAddressMultiLine(appeal.appealSiteSection.siteAddress),
+        'questionnaire due date': getFormattedQuestionnaireDueDate(appeal),
+        url: `${config.apps.lpaQuestionnaire.baseUrl}/${appeal.id}`,
+        'appellant email address': appeal.aboutYouSection.yourDetails.email,
+      })
+      .setReference(appeal.id)
+      .sendEmail();
+  } catch (e) {
+    logger.error({ err: e }, 'Unable to send start email to LPA.');
+  }
+}
+
 module.exports = {
   sendEmail,
-  getAddress,
   getNotifyClientArguments,
   getFileUrl,
   getOptions,
   sendAppealSubmissionReceivedNotificationEmailToLpa,
   sendAppealSubmissionConfirmationEmailToAppellant,
+  sendStartEmailToLPA,
 };

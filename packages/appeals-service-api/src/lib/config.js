@@ -79,6 +79,10 @@ module.exports = {
           process.env.SRV_NOTIFY_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
         appealNotificationEmailToLpa:
           process.env.SRV_NOTIFY_APPEAL_SUBMISSION_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID,
+        startEmailToLpa: process.env.SRV_NOTIFY_START_EMAIL_TO_LPA_TEMPLATE_ID,
+      },
+      emailReplyToId: {
+        startEmailToLpa: process.env.SRV_NOTIFY_EMAIL_REPLYTO_ID_START_EMAIL_TO_LPA,
       },
     },
     osPlaces: {
@@ -89,6 +93,9 @@ module.exports = {
   apps: {
     appeals: {
       baseUrl: process.env.APP_APPEALS_BASE_URL,
+    },
+    lpaQuestionnaire: {
+      baseUrl: process.env.APP_LPA_QUESTIONNAIRE_BASE_URL,
     },
   },
 };
