@@ -27,6 +27,10 @@ const requiredCompletion = [
     id: 'greenBelt',
     func: booleanCompletion,
   },
+  {
+    id: 'nearConservationArea',
+    func: booleanCompletion,
+  },
 ];
 module.exports = (appealReply) => {
   if (!appealReply) return null;
