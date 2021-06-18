@@ -39,6 +39,10 @@ const replySchema = new Mongoose.Schema({
     mustEnter: { type: Boolean, default: null },
     enterReasons: { type: String, default: '' },
   },
+  accessNeighboursLand: {
+    needsAccess: { type: Boolean, default: null },
+    addressAndReason: { type: String, default: '' },
+  },
   greenBelt: { type: Boolean, default: null },
   nearConservationArea: { type: Boolean, default: null },
   requiredDocumentsSection: {
