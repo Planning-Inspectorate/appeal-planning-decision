@@ -21,6 +21,10 @@ module.exports = {
     mustEnter: null,
     enterReasons: '',
   },
+  accessNeighboursLand: {
+    needsAccess: null,
+    addressAndReason: '',
+  },
   greenBelt: null,
   nearConservationArea: null,
   requiredDocumentsSection: {
