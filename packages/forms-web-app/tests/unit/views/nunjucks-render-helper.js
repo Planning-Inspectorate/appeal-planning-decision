@@ -9,7 +9,6 @@ const dateFilter = require('nunjucks-date-filter');
 const filterByKey = require('../../../src/lib/filter-by-key');
 const addKeyValuePair = require('../../../src/lib/add-key-value-pair');
 const appealSiteAddressToArray = require('../../../src/lib/appeal-site-address-to-array');
-const render = require('../../../src/lib/render-template-filter');
 
 const viewPaths = [
   path.join(__dirname, '../../..', 'node_modules', 'govuk-frontend'),

@@ -24,7 +24,7 @@ jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
 
 const axios = require('axios');
 const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
-const { sendAppealReplySubmissionConfirmationEmailToLpa } = require('../lib/notify.js');
+const { sendAppealReplySubmissionConfirmationEmailToLpa } = require('../lib/notify');
 const config = require('../lib/config');
 
 describe('Notify', () => {
