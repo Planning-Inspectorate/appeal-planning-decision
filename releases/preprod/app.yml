@@ -23,7 +23,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/appeal-reply-service-api
-        tag: 1.6.2
+        tag: 1.8.0
       config:
         notify:
           secretName: akv-notify-preprod
@@ -32,7 +32,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/appeals-service-api
-        tag: 1.16.2
+        tag: 1.19.0
       config:
         notify:
           secretName: akv-notify-preprod
@@ -55,7 +55,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/lpa-questionnaire-web-app
-        tag: 1.15.1
+        tag: 1.28.0
 
     pdfServiceApi:
       replicaCount: 2
