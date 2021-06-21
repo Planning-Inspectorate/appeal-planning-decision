@@ -24,6 +24,10 @@ const requiredCompletion = [
     func: booleanCompletion,
   },
   {
+    id: 'accessNeighboursLand',
+    func: booleanCompletion,
+  },
+  {
     id: 'greenBelt',
     func: booleanCompletion,
   },
