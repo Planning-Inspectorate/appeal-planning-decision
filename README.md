@@ -1,5 +1,7 @@
 # Appeal Planning Decision
 
+#
+
 Monorepo for all PINS Appeal planning decision services and infrastructure
 
 ## TL;DR
@@ -120,11 +122,11 @@ In a departure from the fully automated GitOps workflow, releases have been sepa
 
 The developer must update the tag in the app.yml file for the environment being deployed to (e.g. releases/dev/app.yml).
 
-````yaml
+```yaml
 appealsServiceApi:
   image:
     tag: 1.15.3
-````
+```
 
 Once this change to the HelmRelease chart has been pushed to master, it will be detected by Flux and deployed to the cluster.
 
@@ -215,7 +217,7 @@ Or:
 
 ## Terraform
 
-[Terraform](https://www.terraform.io/) is used to provision the infrastructure in Azure. The state is stored in Azure 
+[Terraform](https://www.terraform.io/) is used to provision the infrastructure in Azure. The state is stored in Azure
 Blob Storage.
 
 > **Important** - this application is built using [Terraform v0.14.0](https://releases.hashicorp.com/terraform/0.14.0/). Please
@@ -281,7 +283,6 @@ terraform destroy # This will destroy all resources
 - Microsoft Graph
   - `User.Read` (with Admin grant)
 
-
 ## Kubernetes
 
 The application is deployed to an Azure-managed Kubernetes cluster. The cluster is configured with [Role-Based Access Control (RBAC)](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
@@ -300,15 +301,16 @@ is via [Key Vault](https://docs.microsoft.com/en-us/azure/key-vault/general/basi
 to inject these as Kubernetes Secrets.
 
 There are two Key Vaults available to each deployment:
- - Environment. As part of the infrastructure deployment process, a Key Vault is created for each environment. This should
-only be used to store automatically generated data, such database configuration. There is a job to extract variables from
-the Terraform job and put them into this Key Vault. As this Key Vault is managed by Terraform, it should only have secrets
-stored in here that are automatically generated - anything manually added may get lost.
- - PINS. In the PINS Azure subscription, there is a manually created Key Vault. The purpose of this is for PINS Staff to
-be able to inject data into this infrastructure without ever having to transmit it insecurely. This is only available to
-PINS staff so there is no loss in the chain of custody of data. Any secrets that you wish to store manually (eg, a 
-token generated for a third-party service, such as Notify) must be stored in here. There is only one of these Key Vaults,
-so this is designed as the global Key Vault.
+
+- Environment. As part of the infrastructure deployment process, a Key Vault is created for each environment. This should
+  only be used to store automatically generated data, such database configuration. There is a job to extract variables from
+  the Terraform job and put them into this Key Vault. As this Key Vault is managed by Terraform, it should only have secrets
+  stored in here that are automatically generated - anything manually added may get lost.
+- PINS. In the PINS Azure subscription, there is a manually created Key Vault. The purpose of this is for PINS Staff to
+  be able to inject data into this infrastructure without ever having to transmit it insecurely. This is only available to
+  PINS staff so there is no loss in the chain of custody of data. Any secrets that you wish to store manually (eg, a
+  token generated for a third-party service, such as Notify) must be stored in here. There is only one of these Key Vaults,
+  so this is designed as the global Key Vault.
 
 The access rights to both of these Key Vaults are done a least-privilege basis and should only ever have `GET` access.
 Even `LIST` could produce a vulnerability so should never be granted.
@@ -358,7 +360,7 @@ az aks list -o tsv --query '[].name'
 
 The name format will include the environment you're after at the end of the name.
 
-_* Note: The numbers in the Resource names may change over time. The command above will return the latest values._
+_\* Note: The numbers in the Resource names may change over time. The command above will return the latest values._
 
 ### Get the Kubeconfig file
 
@@ -399,26 +401,34 @@ kubectl logs -f -n app-dev app-form-web-app-1111111111-aaaaa
 ```
 
 The available namespaces can be listed with the command:
+
 ```shell script
 kubectl get namespace
 ```
+
 All environments should include the following namespaces:
+
 ```shell script
 openfass
 openfaas-fn
 ```
 
 In addition, environment-specific namespaces exist e.g.
+
 ```shell script
 app-dev # for dev
 app-preprod # for preprod
 app-prod # for prod
 ```
+
 To list the pods in a namespace use the `kubectl get pods` command with the required namespace:
+
 ```shell script
 kubectl get pods -n openfass
 ```
+
 To see what tag is currently deployed in dev:
+
 ```shell script
 kubectl describe pod -n app-dev app-form-web-app | grep -e "Image:" -e "Started:"
 ```
@@ -464,10 +474,12 @@ The following environment variables are required to integrate with the GOV.UK. N
 SRV_NOTIFY_API_KEY: 'some-valid-notify-api-key'
 SRV_NOTIFY_TEMPLATE_ID: '15ed37a9-506c-4845-88ea-95502282a863'
 ```
+
 Notes on optional environment variables:
-* If `SRV_NOTIFY_BASE_URL` is not provided then the correct default value i.e. `https://api.notifications.service.gov.uk` will be assumed by the client automatically.
-* If `SRV_NOTIFY_SERVICE_ID` is not provided then the client will obtain this value from the api key automatically.
-* If `SRV_NOTIFY_SERVICE_ID` is provided then it must be valid to avoid 403 responses.
+
+- If `SRV_NOTIFY_BASE_URL` is not provided then the correct default value i.e. `https://api.notifications.service.gov.uk` will be assumed by the client automatically.
+- If `SRV_NOTIFY_SERVICE_ID` is not provided then the client will obtain this value from the api key automatically.
+- If `SRV_NOTIFY_SERVICE_ID` is provided then it must be valid to avoid 403 responses.
 
 A mock Notify service is available. The mock service requires the following environment variables:
 
@@ -523,7 +535,7 @@ log.info('an informational message');
 
 ## Data Access
 
-Developers are granted access to the data stores in the Dev and PreProd environments. No sensitive data is stored in 
+Developers are granted access to the data stores in the Dev and PreProd environments. No sensitive data is stored in
 these environments making is appropriate for developer access.
 
 To access the data, please use the [Azure Portal](https://portal.azure.com).
