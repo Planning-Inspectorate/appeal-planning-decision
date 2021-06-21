@@ -52,6 +52,11 @@ const SECTIONS = [
         rule: booleanCompletion,
       },
       {
+        taskId: 'accessNeighboursLand',
+        href: '/neighbours-land',
+        rule: booleanCompletion,
+      },
+      {
         taskId: 'greenBelt',
         href: '/green-belt',
         rule: booleanCompletion,
@@ -154,6 +159,7 @@ const HEADERS = {
   siteSeenPublicLand:
     'Can the inspector see the relevant parts of the appeal site from public land?',
   enterAppealSite: 'Would the inspector need to enter the appeal site?',
+  accessNeighboursLand: "Would the inspector need access to a neighbour's land?",
   greenBelt: 'Is the appeal site in a green belt?',
   nearConservationArea: 'Is the appeal site in or near a conservation area?',
   requiredDocumentsSection: 'Required documents',

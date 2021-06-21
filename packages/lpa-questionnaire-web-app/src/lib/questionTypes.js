@@ -48,6 +48,23 @@ exports.booleanQuestions = [
     },
   },
   {
+    id: 'accessNeighboursLand',
+    heading: "Would the inspector need access to a neighbour's land?",
+    section: 'About the Appeal Site',
+    title:
+      "Would the inspector need access to a neighbour's land? - Appeal questionnaire - Appeal a householder planning decision - GOV.UK",
+    emptyError: 'Select yes if the inspector needs access to a neighbour’s land',
+    url: 'neighbours-land',
+    dataId: 'needsAccess',
+    text: {
+      id: 'addressAndReason',
+      emptyError: "Enter the reasons the Inspector would need to enter a neighbour's land",
+      parentValue: true,
+      label: 'Tell us the full address and why you think a visit is required',
+      textarea: true,
+    },
+  },
+  {
     id: 'greenBelt',
     heading: 'Is the appeal site in a green belt?',
     section: 'About the Appeal Site',
