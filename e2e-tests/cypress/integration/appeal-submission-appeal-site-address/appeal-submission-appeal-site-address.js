@@ -94,7 +94,7 @@ Then(
         );
         break;
       case 'Town or City has a limit of 60 characters':
-        cy.confirmSiteAddressWasRejectedBecause('Town or city must be 60 characters or fewer');
+        cy.confirmSiteAddressWasRejectedBecause('Town or City must be 60 characters or fewer');
         break;
       case 'County has a limit of 60 characters':
         cy.confirmSiteAddressWasRejectedBecause('County must be 60 characters or fewer');
@@ -130,7 +130,7 @@ Then('the user is informed that {string}', (reason) => {
       );
       break;
     case 'Town or City has a limit of 60 characters':
-      cy.confirmSiteAddressWasRejectedBecause('Town or city must be 60 characters or fewer');
+      cy.confirmSiteAddressWasRejectedBecause('Town or City must be 60 characters or fewer');
       break;
     case 'County has a limit of 60 characters':
       cy.confirmSiteAddressWasRejectedBecause('County must be 60 characters or fewer');
