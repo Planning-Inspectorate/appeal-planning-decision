@@ -31,7 +31,7 @@ const ruleAddressTownCity = () =>
     .escape()
     .isLength({ min: 0, max: 60 })
     .bail()
-    .withMessage('Town or city must be 60 characters or fewer');
+    .withMessage('Town or City must be 60 characters or fewer');
 
 const ruleAddressCounty = () =>
   body('site-county')

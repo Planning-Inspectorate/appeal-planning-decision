@@ -75,7 +75,7 @@ describe('validators/appellant-submission/site-location', () => {
         expect(rule.stack[1].negated).toBeFalsy();
         expect(rule.stack[1].validator.name).toEqual('isLength');
         expect(rule.stack[1].options).toEqual([{ max: 60, min: 0 }]);
-        expect(rule.stack[1].message).toEqual('Town or city must be 60 characters or fewer');
+        expect(rule.stack[1].message).toEqual('Town or City must be 60 characters or fewer');
       });
     });
 
@@ -324,7 +324,7 @@ describe('validators/appellant-submission/site-location', () => {
         }),
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
-          expect(result.errors[0].msg).toEqual('Town or city must be 60 characters or fewer');
+          expect(result.errors[0].msg).toEqual('Town or City must be 60 characters or fewer');
         },
       },
       {
