@@ -1,0 +1,165 @@
+ {% extends "layouts/question.njk" %}
+
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "components/accepted-document-formats/macro.njk" import acceptedDocumentFormats %}
+
+{% set hasFileUpload = true %}
+{% set showCancel = true %}
+
+{% block question %}
+  <h1 class="govuk-heading-l">{{ question.heading }}</h1>
+
+  <p>You can add one supplementary planning document at a time. You will be able to add more later.</p>
+  <p>{{ errors | dump }}</p>
+
+  {{ govukFileUpload({
+    id: "documents",
+    name: "documents",
+    formGroup: {
+      classes: "govuk-!-margin-bottom-3 govuk-!-margin-top-8"
+    },
+    label: {
+      text: "Upload a file",
+      classes: "govuk-label--m govuk-!-margin-top-8"
+    },
+    errorMessage: errors['documents'] and {
+      text: errors['documents'].msg,
+      attributes: {
+        'data-cy': 'documents-error'
+      }
+    }
+  }) }}
+
+  {{ acceptedDocumentFormats() }}
+
+  {{ govukInput({
+    id: "documentName",
+    name: "documentName",
+    label: {
+      text: "Document name",
+      classes: "govuk-label--m"
+    },
+    formGroup: {
+      classes: "govuk-!-margin-top-8"
+    },
+    value: values["documentName"],
+    errorMessage: errors['documentName'] and {
+      text: errors['documentName'].msg,
+      attributes: {
+        'data-cy': 'documentName-error'
+      }
+    }
+  }) }}
+
+
+  {% set yesHtml %}
+    {{ govukDateInput( {
+      id: "adoptedDate",
+      namePrefix: "adoptedDate",
+      fieldset: {
+        legend: {
+          text: "Tell us the date of adoption"
+        }
+      },
+      hint: {
+        text: "For example, 20 04 2020"
+      },
+      errorMessage: errors and {
+        text: errors['adoptedDate'].msg or errors['adoptedDate-day'].msg or errors['adoptedDate-month'].msg or errors['adoptedDate-year'].msg,
+        attributes: {
+          'data-cy': 'adoptedDate-error'
+        }
+      },
+      items: [
+        {
+          classes: "govuk-input--width-2 govuk-input--error" if errors['adoptedDate'] or errors['adoptedDate-day'] else "govuk-input--width-2",
+          name: "day",
+          value: values["adoptedDate-day"]
+        },
+        {
+          classes: "govuk-input--width-2 govuk-input--error" if errors['adoptedDate'] or errors['adoptedDate-month'] else "govuk-input--width-2",
+          name: "month",
+          value: values["adoptedDate-month"]
+        },
+        {
+          classes: "govuk-input--width-4 govuk-input--error" if errors['adoptedDate'] or errors['adoptedDate-year'] else "govuk-input--width-4",
+          name: "year",
+          value: values["adoptedDate-year"]
+        }
+      ]
+    } ) }}
+  {% endset %}
+
+  {% set noHtml %}
+    {{ govukInput({
+      id: 'stageReached',
+      name: 'stageReached',
+      type: 'text',
+      spellcheck: false,
+      attributes: {
+        'data-cy': 'stageReached'
+      },
+      label: {
+        text: 'Tell us what stage this has reached',
+        attributes: {
+          'data-cy': 'inaccuracy-reason-label'
+        }
+      },
+      value: values["stageReached"],
+      errorMessage: errors['stageReached'] and {
+        text: errors['stageReached'].msg,
+        attributes: {
+          'data-cy': 'stageReached-error'
+        }
+      }
+    }) }}
+  {% endset %}
+
+  {{ govukRadios({
+    idPrefix: "formallyAdopted",
+    name: "formallyAdopted",
+    fieldset: {
+      legend: {
+        text: 'Is it formally adopted?',
+        classes: "govuk-label--m"
+      }
+    },
+    formGroup: {
+      classes: "govuk-!-margin-top-8"
+    },
+    errorMessage: errors['formallyAdopted'] and {
+      text: errors['formallyAdopted'].msg,
+      attributes: {
+        'data-cy': 'formallyAdopted-error'
+      }
+    },
+    items: [
+      {
+        value: "yes",
+        text: "Yes",
+        checked: true if values['formallyAdopted'] === 'yes',
+        conditional: {
+          html: yesHtml
+        },
+        attributes: {
+          "data-cy": "formallyAdopted-yes"
+        }
+      },
+      {
+        value: "no",
+        text: "No",
+        checked: true if values['formallyAdopted'] === 'no',
+        conditional: {
+          html: noHtml
+        },
+        attributes: {
+          "data-cy": "formallyAdopted-no"
+        }
+      }
+    ]
+  }) }}
+
+{% endblock %}

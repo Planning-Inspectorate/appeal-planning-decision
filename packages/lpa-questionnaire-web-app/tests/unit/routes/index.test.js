@@ -20,6 +20,7 @@ const { router: planningHistoryRouter } = require('../../../src/routes/planning-
 const { router: otherPoliciesRouter } = require('../../../src/routes/other-policies');
 const { router: statutoryDevelopmentRouter } = require('../../../src/routes/statutory-development');
 const booleanQuestionRouter = require('../../../src/routes/question-type/boolean');
+const supplementaryDocumentsRouter = require('../../../src/routes/supplementary-documents');
 
 describe('routes/index', () => {
   beforeEach(() => {
@@ -52,5 +53,6 @@ describe('routes/index', () => {
     expect(use).toHaveBeenCalledWith(otherPoliciesRouter);
     expect(use).toHaveBeenCalledWith(statutoryDevelopmentRouter);
     expect(use).toHaveBeenCalledWith(booleanQuestionRouter);
+    expect(use).toHaveBeenCalledWith(supplementaryDocumentsRouter);
   });
 });

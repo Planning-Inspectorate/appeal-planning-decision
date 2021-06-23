@@ -56,6 +56,11 @@ const SECTIONS = [
         href: '/green-belt',
         rule: booleanCompletion,
       },
+      {
+        taskId: 'nearConservationArea',
+        href: '/conservation-area',
+        rule: booleanCompletion,
+      },
     ],
   },
   {
@@ -145,6 +150,7 @@ const HEADERS = {
     'Can the inspector see the relevant parts of the appeal site from public land?',
   enterAppealSite: 'Would the inspector need to enter the appeal site?',
   greenBelt: 'Is the appeal site in a green belt?',
+  nearConservationArea: 'Is the appeal site in or near a conservation area?',
   requiredDocumentsSection: 'Required documents',
   plansDecision: 'Plans used to reach the decision',
   officersReport: "Planning Officer's report",

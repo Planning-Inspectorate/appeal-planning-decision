@@ -22,6 +22,7 @@ module.exports = {
     enterReasons: '',
   },
   greenBelt: null,
+  nearConservationArea: null,
   requiredDocumentsSection: {
     plansDecision: {
       uploadedFiles: [],
