@@ -18,6 +18,7 @@ spec:
     globals:
       domainNames:
         appealsWebApp: appeals-dev.planninginspectorate.gov.uk
+        lpaQuestionnaireWebApp: lpa-questions-dev.planninginspectorate.gov.uk
 
     appealReplyServiceApi:
       replicaCount: 2

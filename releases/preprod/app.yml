@@ -18,6 +18,7 @@ spec:
     globals:
       domainNames:
         appealsWebApp: appeals-preprod.planninginspectorate.gov.uk
+        lpaQuestionnaireWebApp: lpa-questions-preprod.planninginspectorate.gov.uk
 
     appealReplyServiceApi:
       replicaCount: 2
