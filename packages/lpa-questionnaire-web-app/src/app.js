@@ -45,6 +45,7 @@ const nunjucksConfig = {
 const viewPaths = [
   path.join(__dirname, '..', 'node_modules', 'govuk-frontend'),
   path.join(__dirname, '..', 'node_modules', '@ministryofjustice', 'frontend'),
+  path.join(__dirname, '..', 'node_modules', '@pins', 'common', 'src', 'frontend'),
   path.join(__dirname, '..', '..', 'common', 'src', 'views'),
   path.join(__dirname, 'views'),
 ];
