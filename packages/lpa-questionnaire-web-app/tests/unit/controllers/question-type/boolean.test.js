@@ -117,6 +117,88 @@ describe('controllers/question-type/boolean', () => {
   });
 
   describe('postBooleanQuestion', () => {
+    it('should populate appealReply with a positive input and associated text', async () => {
+      const expectedReply = {
+        'mock-id': {
+          'mock-data-id': true,
+          text: {
+            'mock-text-id': 'mock-text',
+          },
+        },
+      };
+
+      const mockRequest = {
+        ...req,
+        body: {
+          booleanInput: 'yes',
+          booleanInputText: 'mock-text',
+        },
+        session: {
+          appealReply: {
+            ...expectedReply,
+          },
+        },
+      };
+
+      const mockResponse = {
+        ...res,
+        locals: {
+          question: {
+            id: 'mock-id',
+            dataId: 'mock-data-id',
+            text: {
+              id: 'mock-text-id',
+            },
+          },
+        },
+      };
+
+      await postBooleanQuestion(mockRequest, mockResponse);
+      expect(res.render).not.toHaveBeenCalled();
+      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReply);
+    });
+
+    it('should populate appealReply with a negative input and blank text, regardless of text box being populated', async () => {
+      const expectedReply = {
+        'mock-id': {
+          'mock-data-id': false,
+          text: {
+            'mock-text-id': '',
+          },
+        },
+      };
+
+      const mockRequest = {
+        ...req,
+        body: {
+          booleanInput: 'no',
+          booleanInputText: 'mock-text',
+        },
+        session: {
+          appealReply: {
+            ...expectedReply,
+          },
+        },
+      };
+
+      const mockResponse = {
+        ...res,
+        locals: {
+          question: {
+            id: 'mock-id',
+            dataId: 'mock-data-id',
+            text: {
+              id: 'mock-text-id',
+            },
+          },
+        },
+      };
+
+      await postBooleanQuestion(mockRequest, mockResponse);
+      expect(res.render).not.toHaveBeenCalled();
+      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReply);
+    });
+
     it('should redirect to the back link specified', async () => {
       const mockRequest = {
         ...req,
@@ -130,7 +212,7 @@ describe('controllers/question-type/boolean', () => {
     });
 
     it('should redirect with input set to yes', async () => {
-      const expectedReplay = {
+      const expectedReply = {
         ...mockAppealReply,
         mockTask: true,
       };
@@ -144,13 +226,13 @@ describe('controllers/question-type/boolean', () => {
 
       await postBooleanQuestion(mockRequest, res);
 
-      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReplay);
+      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReply);
       expect(res.render).not.toHaveBeenCalled();
       expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should redirect with input set to no', async () => {
-      const expectedReplay = {
+      const expectedReply = {
         mockTask: false,
       };
 
@@ -163,13 +245,13 @@ describe('controllers/question-type/boolean', () => {
 
       await postBooleanQuestion(mockRequest, res);
 
-      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReplay);
+      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReply);
       expect(res.render).not.toHaveBeenCalled();
       expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should redirect with text input and dataId set', async () => {
-      const expectedReplay = {
+      const expectedReply = {
         mockTask: {
           mockBoolId: true,
           mockTextId: 'Mock text value',
@@ -177,7 +259,7 @@ describe('controllers/question-type/boolean', () => {
       };
 
       const mockRequest = {
-        ...mockReq({ ...expectedReplay }),
+        ...mockReq({ ...expectedReply }),
         body: {
           booleanInput: 'no',
           booleanInputText: 'Mock text value',
@@ -188,13 +270,13 @@ describe('controllers/question-type/boolean', () => {
 
       await postBooleanQuestion(mockRequest, res);
 
-      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReplay);
+      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReply);
       expect(res.render).not.toHaveBeenCalled();
       expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should redirect with text input set and dataId not set', async () => {
-      const expectedReplay = {
+      const expectedReply = {
         mockTask: {
           value: true,
           mockTextId: 'Mock text value',
@@ -202,7 +284,7 @@ describe('controllers/question-type/boolean', () => {
       };
 
       const mockRequest = {
-        ...mockReq({ ...expectedReplay }),
+        ...mockReq({ ...expectedReply }),
         body: {
           booleanInput: 'no',
           booleanInputText: 'Mock text value',
@@ -213,7 +295,7 @@ describe('controllers/question-type/boolean', () => {
 
       await postBooleanQuestion(mockRequest, res);
 
-      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReplay);
+      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReply);
       expect(res.render).not.toHaveBeenCalled();
       expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
     });
@@ -244,7 +326,7 @@ describe('controllers/question-type/boolean', () => {
       });
     });
     it('should re-render the template with an error if there is an API error', async () => {
-      const expectedReplay = {
+      const expectedReply = {
         ...mockAppealReply,
         mockTask: false,
       };
@@ -260,7 +342,7 @@ describe('controllers/question-type/boolean', () => {
 
       await postBooleanQuestion(mockRequest, res);
 
-      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReplay);
+      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReply);
       expect(res.redirect).not.toHaveBeenCalled();
       expect(req.log.error).toHaveBeenCalledWith(
         { err: 'mock api error' },

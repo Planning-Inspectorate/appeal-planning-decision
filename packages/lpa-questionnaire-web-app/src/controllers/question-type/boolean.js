@@ -42,12 +42,16 @@ exports.postBooleanQuestion = async (req, res) => {
 
     if (typeof booleanInput === 'string') {
       if (text) {
-        appealReply[id][text.id] = booleanInputText;
-        appealReply[id][dataId || 'value'] = booleanInput === 'yes';
+        if (booleanInput === 'yes') {
+          appealReply[id][text.id] = booleanInputText;
+          appealReply[id][dataId] = true;
+        } else {
+          appealReply[id][text.id] = '';
+          appealReply[id][dataId] = false;
+        }
       } else {
         appealReply[id] = booleanInput === 'yes';
       }
-
       req.session.appealReply = await createOrUpdateAppealReply(appealReply);
     }
   } catch (err) {
