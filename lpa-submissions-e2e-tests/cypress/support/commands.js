@@ -40,6 +40,11 @@ Cypress.Commands.add(
   require('./check-your-answers/confirmCheckYourAnswersDisplayed'),
 );
 
+Cypress.Commands.add(
+  'confirmCheckYourAnswersDisplayedTextIsBlank',
+  require('./check-your-answers/confirmCheckYourAnswersDisplayedTextIsBlank'),
+);
+
 Cypress.Commands.add('verifyAppealDetailsSidebar', require('./common/verifyAppealDetailsSidebar'));
 
 Cypress.Commands.add('getAppealDetailsSidebar', require('./common/getAppealDetailsSidebar'));

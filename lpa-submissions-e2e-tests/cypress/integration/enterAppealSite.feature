@@ -57,6 +57,7 @@ Feature: Enter Appeal Site
     When a yes or no answer is saved
     Then progress is made to the Check Your Answers page
     And the updated yes or no answer is displayed
+    Then 'Enter the appeal site' answer should be blank
 
   Scenario: AC11 PDF
     Given the questionnaire has been completed
