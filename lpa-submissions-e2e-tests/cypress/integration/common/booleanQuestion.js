@@ -121,6 +121,12 @@ Then('{string} yes or no question and answer should be displayed', () => {
   });
 });
 
+Then('{string} answer should be blank', () => {
+  cy.get('@page').then(({ id, textChildOf, textMock }) => {
+    cy.confirmCheckYourAnswersDisplayedTextIsBlank(id, '');
+  });
+});
+
 Then('the updated yes or no answer is displayed', () => {
   cy.get('@page').then(({ id, textChildOf }) => {
     if (textChildOf) {
