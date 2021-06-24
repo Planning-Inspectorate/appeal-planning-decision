@@ -74,8 +74,7 @@ module.exports = {
       .collection(dbId)
       .findOne({ _id: idParam })
       .then(async (originalDoc) => {
-        // logger.debug(`Original doc \n${originalDoc.reply}`);
-        logger.debug(originalDoc.reply, 'STEVE_API');
+        logger.debug(`Original doc \n${originalDoc.reply}`);
 
         await mongodb
           .get()
