@@ -97,6 +97,11 @@ const SECTIONS = [
         rule: notifyingPartiesCompletion,
       },
       {
+        taskId: 'originalPlanningApplicationPublicised',
+        href: '/application-publicity',
+        rule: booleanCompletion,
+      },
+      {
         taskId: 'siteNotices',
         href: '/site-notice',
         rule: siteNoticesCompletion,
@@ -158,6 +163,7 @@ const HEADERS = {
   interestedPartiesApplication: 'Telling interested parties about the application',
   representationsInterestedParties: 'Representations from interested parties',
   interestedPartiesAppeal: 'Notifying interested parties of the appeal',
+  originalPlanningApplicationPublicised: 'Did you publicise the original planning application?',
   siteNotices: 'Site notices',
   conservationAreaMap: 'Conservation area map and guidance',
   planningHistory: 'Planning history',

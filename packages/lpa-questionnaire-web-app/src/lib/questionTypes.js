@@ -65,4 +65,12 @@ exports.booleanQuestions = [
     url: 'conservation-area',
     emptyError: 'Select yes it the appeal site is in or near a conservation area',
   },
+  {
+    id: 'originalPlanningApplicationPublicised',
+    heading: 'Did you publicise the original planning application?',
+    section: 'Optional supporting documents',
+    title:
+      'Original planning application publicity - Appeal questionnaire - Appeal a householder planning decision - GOV.UK',
+    url: 'application-publicity',
+  },
 ];
