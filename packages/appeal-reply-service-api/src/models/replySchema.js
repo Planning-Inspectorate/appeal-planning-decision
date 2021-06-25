@@ -42,6 +42,10 @@ const replySchema = new Mongoose.Schema({
     needsAccess: { type: Boolean, default: null },
     addressAndReason: { type: String, default: '' },
   },
+  listedBuilding: {
+    affectSetting: { type: Boolean, default: null },
+    buildingDetails: { type: String, default: '' },
+  },
   greenBelt: { type: Boolean, default: null },
   nearConservationArea: { type: Boolean, default: null },
   requiredDocumentsSection: {
