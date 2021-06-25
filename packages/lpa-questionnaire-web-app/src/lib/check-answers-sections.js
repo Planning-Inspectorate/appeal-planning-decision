@@ -23,8 +23,10 @@ const getBooleanTextHtml = (answer) => {
 
 const getAnswer = (id, sectionId, appealReply) => {
   // TODO: this check can be removed when the appealReply structure is flattened for all questions
-  const answer = sectionId === 'aboutSiteSection' ? appealReply[id] : appealReply[sectionId]?.[id];
-
+  const answer =
+    sectionId === 'aboutSiteSection' || id === 'originalPlanningApplicationPublicised'
+      ? appealReply[id]
+      : appealReply[sectionId]?.[id];
   if (!answer && typeof answer !== 'boolean') return { text: 'No answer found' };
 
   if (answer.uploadedFiles) {
