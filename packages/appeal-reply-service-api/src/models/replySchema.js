@@ -58,6 +58,7 @@ const replySchema = new Mongoose.Schema({
     interestedPartiesAppeal: {
       uploadedFiles: { type: [uploadedFilesSchema], default: [] },
     },
+    originalPlanningApplicationPublicised: { type: Boolean, default: null },
     siteNotices: {
       uploadedFiles: { type: [uploadedFilesSchema], default: [] },
     },
