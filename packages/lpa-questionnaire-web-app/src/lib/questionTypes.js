@@ -61,6 +61,23 @@ exports.booleanQuestions = [
       emptyError: "Enter the reasons the Inspector would need to enter a neighbour's land",
       parentValue: true,
       label: 'Tell us the full address and why you think a visit is required',
+    },
+  },
+  {
+    id: 'listedBuilding',
+    heading: 'Would the development affect the setting of a listed building?',
+    section: 'About the Appeal Site',
+    title:
+      'Would the development affect the setting of a listed building? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
+    emptyError: 'Select yes if the development affects the setting of a listed building',
+    url: 'listed-building',
+    dataId: 'affectSetting',
+    text: {
+      id: 'buildingDetails',
+      emptyError: 'Enter the details for the listed building',
+      parentValue: true,
+      label:
+        'Add the relevant listing description from the List of Buildings of Special Architectural or Historic Interest',
       textarea: true,
     },
   },

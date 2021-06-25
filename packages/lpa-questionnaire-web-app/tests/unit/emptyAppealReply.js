@@ -25,6 +25,10 @@ module.exports = {
     needsAccess: null,
     addressAndReason: '',
   },
+  listedBuilding: {
+    affectSetting: null,
+    buildingDetails: '',
+  },
   greenBelt: null,
   nearConservationArea: null,
   requiredDocumentsSection: {
