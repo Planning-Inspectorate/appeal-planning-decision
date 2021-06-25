@@ -41,6 +41,7 @@ module.exports = {
     interestedPartiesAppeal: {
       uploadedFiles: [],
     },
+    originalPlanningApplicationPublicised: null,
     siteNotices: null,
     planningHistory: {
       uploadedFiles: [],
