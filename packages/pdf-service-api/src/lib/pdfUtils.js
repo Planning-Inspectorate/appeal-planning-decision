@@ -5,7 +5,7 @@ const toPDF = pipe(
   gotenberg(`${config.gotenberg.url}`),
   convert,
   html,
-  set(scale(0.75)),
+  set(scale(1.0)),
   to({
     marginTop: 0.2,
     marginBottom: 0.2,
