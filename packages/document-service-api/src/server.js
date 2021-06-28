@@ -5,6 +5,8 @@
 const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
+const { BasicStrategy } = require('passport-http');
+const passport = require('passport');
 const pinoExpress = require('express-pino-logger');
 const { prometheus } = require('@pins/common');
 const uuid = require('uuid');
@@ -12,8 +14,22 @@ require('express-async-errors');
 
 const config = require('./lib/config');
 const healthChecks = require('./lib/healthchecks');
+const fwaSessionStrategy = require('./security/strategy/fwa-session');
 const logger = require('./lib/logger');
 const routes = require('./routes');
+
+passport.use('fwa-session', fwaSessionStrategy);
+
+passport.use(
+  'something-else',
+  new BasicStrategy((username, password, done) => {
+    if (username !== 'another-valid') {
+      return done(null, false);
+    }
+
+    return done(null, { hello: 'chris' });
+  })
+);
 
 module.exports = () => {
   const app = express();
@@ -32,6 +48,7 @@ module.exports = () => {
       })
     )
     .use(bodyParser.json())
+    .use(passport.initialize())
     .use('/', routes)
     .use((req, res) => {
       /* Handle 404 error */
