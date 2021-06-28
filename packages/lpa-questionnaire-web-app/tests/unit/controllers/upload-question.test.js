@@ -257,6 +257,27 @@ describe('controllers/upload-question', () => {
       });
     });
 
+    it('should reload the page if there is an input error (invalid files)', async () => {
+      const mockRequest = {
+        ...req,
+        body: {
+          submit: 'save',
+          tempDocs: '{ "name": "some-error", "error": "error"}',
+        },
+      };
+
+      fileErrorSummary.mockReturnValue([{ href: '', text: 'some-error' }]);
+
+      await uploadQuestionController.postUpload(mockRequest, res);
+
+      expect(fileErrorSummary).toHaveBeenCalledWith('', [{ name: 'documents', error: 'error' }]);
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledWith('mock-view', {
+        appeal: null,
+        backLink: '/mock-id/task-list',
+      });
+    });
+
     it('should reload the page showing errors if there is an error updating the appeal', async () => {
       const mockRequest = {
         ...req,
