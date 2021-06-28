@@ -61,7 +61,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/pdf-service-api
-        tag: 1.0.2
+        tag: 1.0.3
 
     queueRetryService:
       image:
