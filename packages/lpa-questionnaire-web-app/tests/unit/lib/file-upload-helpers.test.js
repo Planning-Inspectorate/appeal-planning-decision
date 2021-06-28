@@ -124,12 +124,15 @@ describe('lib/file-upload-helpers', () => {
     });
 
     it('outputs the expected file summary', () => {
-      const files = [{ name: 'mock-file', error: 'some error' }];
+      const files = [{ name: 'mock-file', error: 'some error' }, { error: 'some other error' }];
 
       expect(fileErrorSummary(undefined, files)).toEqual([
         {
           href: '#mock-file',
           text: 'some error',
+        },
+        {
+          text: 'some other error',
         },
       ]);
 
@@ -141,6 +144,9 @@ describe('lib/file-upload-helpers', () => {
         {
           href: '#mock-file',
           text: 'some error',
+        },
+        {
+          text: 'some other error',
         },
       ]);
     });

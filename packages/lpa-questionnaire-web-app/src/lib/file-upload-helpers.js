@@ -37,11 +37,14 @@ exports.fileErrorSummary = (inputError, files, inputName = 'documents') => {
       : []),
     ...(Array.isArray(files) && files.length
       ? files.reduce((errorsOutput, file) => {
-          if (file.error)
-            errorsOutput.push({
-              href: `#${file.name}`,
-              text: file.error,
-            });
+          if (file.error) {
+            const errorObject = {};
+            if (file.name) {
+              errorObject.href = `#${file.name}`;
+            }
+            errorObject.text = file.error;
+            errorsOutput.push(errorObject);
+          }
           return errorsOutput;
         }, [])
       : []),
