@@ -36,7 +36,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/appeals-service-api
-        tag: 1.15.3
+        tag: 1.19.0
       config:
         notify:
           secretName: akv-notify-prod
@@ -55,7 +55,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
-        tag: 1.47.1
+        tag: 1.47.3
       config:
         googleAnalyticsId: UA-187490521-3
 
