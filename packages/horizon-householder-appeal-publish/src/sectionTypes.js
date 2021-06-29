@@ -10,4 +10,5 @@ module.exports = {
   statutoryDevelopmentType: 'Development Plans',
   otherPoliciesType: 'LPA Questionnaire Documents',
   supplementaryPlanningDocumentsType: 'Supplementary Guidance',
+  pdfType: 'LPA Questionnaire Documents',
 };
