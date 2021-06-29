@@ -2,6 +2,7 @@ const config = require('../config');
 
 const defaultOptions = {
   fallbackPath: config.appeals.startingPoint,
+  filterPaths: [/favicon.ico/, /^\/document\//],
   stackSize: 255,
 };
 
@@ -21,6 +22,11 @@ module.exports = (options = defaultOptions) => (req, res, next) => {
   }
 
   const currentPage = req.baseUrl + req.path;
+
+  if (activeOptions.filterPaths.some((regexFilter) => regexFilter.test(currentPage))) {
+    next();
+    return;
+  }
 
   // going forwards
   if (currentPage === req.session.navigationHistory[0]) {

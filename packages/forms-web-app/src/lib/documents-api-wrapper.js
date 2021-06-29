@@ -2,9 +2,61 @@ const fs = require('fs');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
 const uuid = require('uuid');
+const { utils } = require('@pins/common');
 
 const config = require('../config');
 const parentLogger = require('./logger');
+
+async function handler(path, method = 'GET', opts = {}, headers = {}) {
+  const correlationId = uuid.v4();
+  const url = `${config.documents.url}${path}`;
+
+  const logger = parentLogger.child({
+    correlationId,
+    service: 'Documents Service API',
+  });
+
+  try {
+    logger.debug({ url, method, opts, headers }, 'New call');
+
+    return await utils.promiseTimeout(
+      config.appeals.timeout,
+      Promise.resolve().then(async () => {
+        const apiResponse = await fetch(url, {
+          method,
+          headers: {
+            'X-Correlation-ID': correlationId,
+            ...headers,
+          },
+          ...opts,
+        });
+
+        if (!apiResponse.ok) {
+          logger.debug(apiResponse, 'API Response not OK');
+          try {
+            const errorResponse = await apiResponse.json();
+            /* istanbul ignore else */
+            if (errorResponse.errors && errorResponse.errors.length) {
+              throw new Error(errorResponse.errors.join('\n'));
+            }
+
+            /* istanbul ignore next */
+            throw new Error(apiResponse.statusText);
+          } catch (e) {
+            throw new Error(e.message);
+          }
+        }
+
+        logger.debug('Successfully called');
+
+        return apiResponse;
+      })
+    );
+  } catch (err) {
+    logger.error({ err }, 'Error');
+    throw err;
+  }
+}
 
 function isDataBuffer(data) {
   return data !== null && data !== undefined && typeof data === 'object';
@@ -70,4 +122,8 @@ exports.createDocument = async (appeal, data, fileName) => {
   }
 
   return response;
+};
+
+exports.getDocument = async (appealId, documentId) => {
+  return handler(`/api/v1/${appealId}/${documentId}/file`);
 };
