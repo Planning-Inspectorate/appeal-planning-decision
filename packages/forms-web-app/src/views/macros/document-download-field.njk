@@ -1,0 +1,5 @@
+{% macro documentDownloadField(link, text, attributes = {}) %}
+  <a href="{{ link }}" title="Download {{ text }}" {%- for attribute, value in attributes %} {{attribute}}="{{value}}"{% endfor %}>
+    {{- text -}}
+  </a>
+{% endmacro %}

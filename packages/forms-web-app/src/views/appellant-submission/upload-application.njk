@@ -46,7 +46,9 @@
                 data-file-id="{{ appeal.requiredDocumentsSection.originalApplication.uploadedFile.id }}"
                 data-file-location="{{ appeal.requiredDocumentsSection.originalApplication.uploadedFile.location }}"
                 data-file-size="{{ appeal.requiredDocumentsSection.originalApplication.uploadedFile.size }}">
-              {{- appeal.requiredDocumentsSection.originalApplication.uploadedFile.name -}}
+              <a href="{{ ['/document', appeal.id, appeal.requiredDocumentsSection.originalApplication.uploadedFile.id ] | join('/') }}" title="Download {{ appeal.requiredDocumentsSection.originalApplication.uploadedFile.name }}" data-cy="application-upload-file-link">
+                {{- appeal.requiredDocumentsSection.originalApplication.uploadedFile.name -}}
+              </a>
             </li>
           </ul>
         {% endif %}

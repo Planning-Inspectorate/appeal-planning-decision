@@ -1,0 +1,29 @@
+{% from "../macros/document-download-field.njk" import documentDownloadField %}
+{% from "./summary-field.njk" import summaryField %}
+
+{% macro multifileUploadToAnchorList(appealId, value, attributes = {}) %}
+  {% set cyTag = '' %}
+  {%- for attribute, value in attributes %}
+    {% if attribute === 'data-cy' %}
+      {% set cyTag = value %}
+    {% endif %}
+  {% endfor %}
+
+  {% set attributesWithCyTagRemoved = attributes | filterByKey('data-cy') %}
+
+  {% if value | length < 1 %}
+    {{ summaryField('No files uploaded', attributesWithCyTagRemoved | addKeyValuePair('data-cy', [cyTag, "no-files"] | join("-"))) }}
+  {% else %}
+    <p {%- for attribute, value in attributesWithCyTagRemoved %} {{attribute}}="{{value}}"{% endfor %} data-cy="{{- [cyTag, "uploaded-file-count-heading"] | join("-") -}}">{{ value | length }} file{% if value | length > 1 %}s{% endif%} uploaded</p>
+    <ul class="govuk-list">
+      {% for file in value %}
+        <li>{{ documentDownloadField(
+            ['/document', appealId, file.id ] | join('/'),
+            file.name,
+            { 'data-cy': [cyTag, "uploaded-file", loop.index0] | join("-") }
+          ) }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endmacro %}
