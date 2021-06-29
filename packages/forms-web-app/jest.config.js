@@ -12,7 +12,6 @@ module.exports = {
     '<rootDir>/src/app.js',
     '<rootDir>/src/server.js',
     '<rootDir>/src/public/javascripts/main.js',
-    '<rootDir>/src/validators/custom/clamav.js',
   ],
   coverageThreshold: {
     global: {

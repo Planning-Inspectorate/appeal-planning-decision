@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const NodeClam = require('clamscan');
 const fs = require('fs');
 
