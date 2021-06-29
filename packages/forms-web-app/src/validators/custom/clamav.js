@@ -14,8 +14,10 @@ module.exports = async (fileInformation, errorMessage) => {
 
     const fileStream = fs.createReadStream(fileInformation.tempFilePath);
 
+    // eslint-disable-next-line camelcase
     const { is_infected } = await clamscan.scan_stream(fileStream);
 
+    // eslint-disable-next-line camelcase
     if (is_infected) {
       throw new Error(errorMessage);
     }
