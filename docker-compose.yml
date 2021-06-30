@@ -129,7 +129,7 @@ services:
       FILE_UPLOAD_USE_TEMP_FILES: 'true'
       FILE_UPLOAD_TMP_PATH: '/tmp'
       GOOGLE_ANALYTICS_ID: G-TZBWMVPTHV
-      SESSION_MONGODB_URL: mongodb://mongodb:27017/fwa-sessions
+      SESSION_MONGODB_URL: mongodb://mongodb:27017/lpa-sessions
       SESSION_KEY: some_secure_key_goes_here
       # please override this locally if using not using localhost or ip address to browse the site in dev.
       SUBDOMAIN_OFFSET: 0
