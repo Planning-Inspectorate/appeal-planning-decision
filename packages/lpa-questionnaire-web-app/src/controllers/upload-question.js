@@ -46,6 +46,8 @@ exports.postUpload = async (req, res) => {
       if (deleteId !== 'undefined') await deleteDocument(appealReply.id, deleteId);
     } catch (err) {
       req.log.error({ err }, `Error deleting ${deleteId} from ${name}`);
+    } finally {
+      uploadedFiles = uploadedFiles.filter((file) => file.id !== deleteId);
     }
   } else if (documents.length) {
     // Chance for files to be attached due to non-JS solution, these need to be uploaded (with appropriate errors);
