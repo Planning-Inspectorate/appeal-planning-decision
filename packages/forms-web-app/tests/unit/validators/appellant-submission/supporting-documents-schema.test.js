@@ -39,7 +39,7 @@ describe('validators/appellant-submission/supporting-documents-schema', () => {
           MIME_TYPE_TIF,
           MIME_TYPE_PNG,
         ],
-        'pingu.penguin is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
+        'pingu.penguin must be a DOC, DOCX, PDF, TIF, JPG or PNG'
       );
     });
 
