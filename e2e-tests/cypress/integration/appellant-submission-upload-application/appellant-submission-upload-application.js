@@ -21,7 +21,7 @@ Given(
 
     switch (reason) {
       case 'file type is invalid':
-        cy.confirmPlanningApplicationRejectedBecause('Doc is the wrong file type');
+        cy.confirmPlanningApplicationRejectedBecause('The selected file must be a');
         break;
       case 'file size exceeds limit':
         cy.confirmPlanningApplicationRejectedBecause('The file must be smaller than');
@@ -73,7 +73,7 @@ Then(
   (reason) => {
     switch (reason) {
       case 'file type is invalid':
-        cy.confirmPlanningApplicationRejectedBecause('Doc is the wrong file type');
+        cy.confirmPlanningApplicationRejectedBecause('The selected file must be a');
         break;
       case 'file size exceeds limit':
         cy.confirmPlanningApplicationRejectedBecause('The file must be smaller than');

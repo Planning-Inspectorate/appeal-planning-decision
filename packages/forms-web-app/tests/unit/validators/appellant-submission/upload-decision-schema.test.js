@@ -100,7 +100,7 @@ describe('validators/appellant-submission/upload-decision-schema', () => {
           MIME_TYPE_TIF,
           MIME_TYPE_PNG,
         ],
-        'Doc is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
+        'The selected file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
       );
     });
 

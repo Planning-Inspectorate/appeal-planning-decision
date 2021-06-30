@@ -42,7 +42,7 @@ describe('Mock file for file upload testing', function mockFileValid() {
           MIME_TYPE_TIF,
           MIME_TYPE_PNG,
         ],
-        'Doc is is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
+        'The selected file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
       )
     ).toBeTruthy();
   });
@@ -69,10 +69,8 @@ describe('Mock file for file upload testing', function mockFileInvalid() {
           MIME_TYPE_TIF,
           MIME_TYPE_PNG,
         ],
-        'Doc is is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
+        'The selected file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
       )
-    ).rejects.toEqual(
-      TypeError('Doc is is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG')
-    );
+    ).rejects.toEqual(TypeError('The selected file must be a DOC, DOCX, PDF, TIF, JPG or PNG'));
   });
 });
