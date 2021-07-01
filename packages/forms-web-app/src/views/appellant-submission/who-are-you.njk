@@ -24,34 +24,34 @@
 
         {{ govukRadios({
           classes: "",
-          idPrefix: FORM_FIELD['are-you-the-original-appellant'].id,
-          name: FORM_FIELD['are-you-the-original-appellant'].id,
+          idPrefix: FORM_FIELD['original-application-your-name'].id,
+          name: FORM_FIELD['original-application-your-name'].id,
           fieldset: {
             legend: {
-              text: "Are you the original applicant on the planning application form?",
+              text: "Was the original planning application made in your name?",
               isPageHeading: true,
               classes: "govuk-fieldset__legend--l"
             }
           },
           hint: {
-            text: "If you are not the applicant, you must be have their permission to submit an appeal on their behalf."
+            html: "<p>Your appeal must be in the same name as the original planning application.</p><p>If you are an agent you must have the applicant's permission to submit an appeal on their behalf, in the same name as the original planning application.</p><p>If an appeal is in a different name to the original planning application we will not be able to accept it.</p>"
           },
           items: [
             {
               value: 'yes',
-              text: 'Yes',
+              text: 'Yes, the original application was made in my name',
               attributes: { "data-cy":"answer-yes"},
               checked: appeal.aboutYouSection.yourDetails.isOriginalApplicant
             },
             {
               value: 'no',
-              text: 'No',
+              text: "No, I'm an agent acting on behalf of the applicant",
               attributes: { 'data-cy':'answer-no'},
               checked: appeal.aboutYouSection.yourDetails.isOriginalApplicant === false
             }
           ],
-          errorMessage: errors['are-you-the-original-appellant'] and {
-            text: errors['are-you-the-original-appellant'].msg
+          errorMessage: errors['original-application-your-name'] and {
+            text: errors['original-application-your-name'].msg
           }
         }) }}
 
