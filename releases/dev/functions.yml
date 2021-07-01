@@ -23,7 +23,7 @@ spec:
         tag: 1.0.0
       config:
         ping:
-          url: http://10.0.7.4:8001/status
+          url: http://10.0.7.4:8000/horizon
 
     functions:
       horizon-add-document:
