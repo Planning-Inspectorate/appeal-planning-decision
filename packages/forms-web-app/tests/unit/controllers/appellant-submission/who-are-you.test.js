@@ -48,7 +48,7 @@ describe('controllers/appellant-submission/who-are-you', () => {
       const mockRequest = {
         ...mockReq(appeal),
         body: {
-          'are-you-the-original-appellant': 'yes',
+          'original-application-your-name': 'yes',
           errors: {},
           errorSummary: {},
         },
@@ -85,7 +85,7 @@ describe('controllers/appellant-submission/who-are-you', () => {
       const mockRequest = {
         ...mockReq(appeal),
         body: {
-          'are-you-the-original-appellant': 'no',
+          'original-application-your-name': 'no',
           errors: {},
           errorSummary: {},
         },
@@ -102,7 +102,7 @@ describe('controllers/appellant-submission/who-are-you', () => {
       const mockRequest = {
         ...mockReq(appeal),
         body: {
-          'are-you-the-original-appellant': true,
+          'original-application-your-name': true,
           errors: { a: 'b' },
           errorSummary: [{ text: 'There were errors here', href: '#' }],
         },
