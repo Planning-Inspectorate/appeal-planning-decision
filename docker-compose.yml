@@ -302,3 +302,12 @@ services:
       DISABLE_UNOCONV: '1'
     ports:
       - 4006:4000
+
+  mongoExpress:
+    image: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+    depends_on:
+      - mongodb
+    ports:
+      - "5003:8081"
