@@ -61,5 +61,9 @@ module.exports = {
     subdomainOffset: parseInt(process.env.SUBDOMAIN_OFFSET, 10) || 3,
     useSecureSessionCookie: process.env.USE_SECURE_SESSION_COOKIES === 'true',
     googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID,
+    googleTagManagerId: process.env.GOOGLE_TAG_MANAGER_ID,
+  },
+  featureFlag: {
+    googleTagManager: process.env.FEATURE_FLAG_GOOGLE_TAG_MANAGER === 'true',
   },
 };
