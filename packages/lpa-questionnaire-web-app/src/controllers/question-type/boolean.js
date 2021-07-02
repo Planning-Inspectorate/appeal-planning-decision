@@ -42,6 +42,10 @@ exports.postBooleanQuestion = async (req, res) => {
 
     if (typeof booleanInput === 'string') {
       if (text) {
+        if (typeof appealReply[id] === 'undefined') {
+          appealReply[id] = {};
+        }
+
         if (booleanInput === 'yes') {
           appealReply[id][text.id] = booleanInputText;
           appealReply[id][dataId] = true;
