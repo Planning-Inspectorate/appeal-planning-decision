@@ -43,7 +43,7 @@ module.exports = {
 
   async get(req, res) {
     const idParam = req.params.id;
-    logger.debug({ idParam }, `Retrieving reply...`);
+    logger.debug({ idParam }, `Retrieving reply from MongoDb`);
     try {
       await mongodb
         .get()
