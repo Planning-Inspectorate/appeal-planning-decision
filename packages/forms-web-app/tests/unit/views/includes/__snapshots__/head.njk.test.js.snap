@@ -2,82 +2,178 @@
 
 exports[`views/includes/head Google Analytics section should not render if googleAnalyticsId and cookies.cookie_policy.usage are not set 1`] = `
 "
-    
 
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
-  <script id=\\"gaId\\" type='text/plain'></script>
+  
+    <script id=\\"gaId\\" type='text/plain'></script>
 
+    
   
 
   <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
 
 
-
-    "
+"
 `;
 
 exports[`views/includes/head Google Analytics section should not render if googleAnalyticsId is not set but cookies.cookie_policy.usage is set 1`] = `
 "
-    
 
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
-  <script id=\\"gaId\\" type='text/plain'></script>
+  
+    <script id=\\"gaId\\" type='text/plain'></script>
 
+    
   
 
   <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
 
 
-
-    "
+"
 `;
 
 exports[`views/includes/head Google Analytics section should not render if googleAnalyticsId is set but cookies.cookie_policy.usage is not set 1`] = `
 "
-    
 
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
-  <script id=\\"gaId\\" type='text/plain'>123</script>
+  
+    <script id=\\"gaId\\" type='text/plain'>123</script>
 
+    
   
 
   <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
 
 
-
-    "
+"
 `;
 
 exports[`views/includes/head Google Analytics section should render if googleAnalyticsId and cookies.cookie_policy.usage are set 1`] = `
 "
-    
 
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
-  <script id=\\"gaId\\" type='text/plain'>123</script>
-
   
-<!-- Global site tag (gtag.js) - Google Analytics -->
+    <script id=\\"gaId\\" type='text/plain'>123</script>
 
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-    gtag('config', '123');
-  </script>
+        gtag('config', '123');
+      </script>
+    
   
 
   <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
 
 
+"
+`;
 
-    "
+exports[`views/includes/head Google Tag Manager section should not render if featureFlag.googleTagManager and googleTagManagerId are not set 1`] = `
+"
+
+  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
+  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
+
+  
+    <script id=\\"gaId\\" type='text/plain'>123</script>
+
+    
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', '123');
+      </script>
+    
+  
+
+  <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
+
+
+"
+`;
+
+exports[`views/includes/head Google Tag Manager section should not render if featureFlag.googleTagManager is not set but googleTagManagerId is set 1`] = `
+"
+
+  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
+  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
+
+  
+    <script id=\\"gaId\\" type='text/plain'>123</script>
+
+    
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', '123');
+      </script>
+    
+  
+
+  <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
+
+
+"
+`;
+
+exports[`views/includes/head Google Tag Manager section should not render if featureFlag.googleTagManager is set but googleTagManagerId is not set 1`] = `
+"
+
+  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
+  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
+
+  
+    
+  
+
+  <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
+
+
+"
+`;
+
+exports[`views/includes/head Google Tag Manager section should render if featureFlag.googleTagManager and googleTagManagerId are set 1`] = `
+"
+
+  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
+  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
+
+  
+    
+      <!-- Google Tag Manager -->
+      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','456');</script>
+      <!-- End Google Tag Manager -->
+    
+  
+
+  <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
+
+
+"
 `;
