@@ -93,6 +93,8 @@ formsWebApp:
       debug: true
       uploadDir: /upload-dir
       useTmpFiles: true
+    googleTagManagerId: ""
+    featureFlagGoogleTagManager: ""
 
 lpaQuestionnaireWebApp:
   replicaCount: 1

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`lib/client-side/google-analytics initialiseGoogleAnalytics 1`] = `
+exports[`lib/client-side/google-analytics initialiseGoogleAnalytics when the Google Tag Manager feature flag is false 1`] = `
 <body>
   <p
     id="gaId"
@@ -14,3 +14,5 @@ exports[`lib/client-side/google-analytics initialiseGoogleAnalytics 1`] = `
   <script />
 </body>
 `;
+
+exports[`lib/client-side/google-analytics initialiseGoogleAnalytics when the Google Tag Manager feature flag is true 1`] = `null`;

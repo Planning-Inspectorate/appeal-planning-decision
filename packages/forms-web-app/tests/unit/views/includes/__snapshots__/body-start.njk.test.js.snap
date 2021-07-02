@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`views/includes/body-start Google Tag Manager section should not render if featureFlag.googleTagManager and googleTagManagerId are not set 1`] = `
+"
+
+  
+
+"
+`;
+
+exports[`views/includes/body-start Google Tag Manager section should not render if featureFlag.googleTagManager is not set but googleTagManagerId is set 1`] = `
+"
+
+  
+
+"
+`;
+
+exports[`views/includes/body-start Google Tag Manager section should not render if featureFlag.googleTagManager is set but googleTagManagerId is not set 1`] = `
+"
+
+  
+    
+  
+
+"
+`;
+
+exports[`views/includes/body-start Google Tag Manager section should render if featureFlag.googleTagManager and googleTagManagerId are set 1`] = `
+"
+
+  
+    
+      <!-- Google Tag Manager (noscript) -->
+      <noscript><iframe src=\\"https://www.googletagmanager.com/ns.html?id=456\\"
+      height=\\"0\\" width=\\"0\\" style=\\"display:none;visibility:hidden\\"></iframe></noscript>
+      <!-- End Google Tag Manager (noscript) -->
+    
+  
+
+"
+`;

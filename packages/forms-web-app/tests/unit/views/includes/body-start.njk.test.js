@@ -1,36 +1,10 @@
 const nunjucksTestRenderer = require('../nunjucks-render-helper');
 const { deleteGlobalVars, matchesSnapshot } = require('../nunjucks-helper-functions');
 
-describe('views/includes/head', () => {
-  const includePath = '{% include "includes/head.njk" %}';
-
-  describe('Google Analytics section', () => {
-    beforeEach(() => {
-      deleteGlobalVars(['cookies', 'googleAnalyticsId']);
-    });
-
-    it(`should not render if googleAnalyticsId and cookies.cookie_policy.usage are not set`, () => {
-      matchesSnapshot(includePath);
-    });
-
-    it(`should not render if googleAnalyticsId is set but cookies.cookie_policy.usage is not set`, () => {
-      nunjucksTestRenderer.addGlobal('googleAnalyticsId', 123);
-      matchesSnapshot(includePath);
-    });
-
-    it(`should not render if googleAnalyticsId is not set but cookies.cookie_policy.usage is set`, () => {
-      nunjucksTestRenderer.addGlobal('cookies', { cookie_policy: { usage: true } });
-      matchesSnapshot(includePath);
-    });
-
-    it(`should render if googleAnalyticsId and cookies.cookie_policy.usage are set`, () => {
-      nunjucksTestRenderer.addGlobal('googleAnalyticsId', 123);
-      nunjucksTestRenderer.addGlobal('cookies', { cookie_policy: { usage: true } });
-      matchesSnapshot(includePath);
-    });
-  });
-
+describe('views/includes/body-start', () => {
   describe('Google Tag Manager section', () => {
+    const includePath = '{% include "includes/body-start.njk" %}';
+
     beforeEach(() => {
       deleteGlobalVars(['featureFlag', 'googleTagManagerId']);
     });
