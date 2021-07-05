@@ -29,6 +29,28 @@ describe('services/task.service/task-status/boolean', () => {
     expect(booleanCompletion(mockAppealReply, 'mockTask')).toEqual(NOT_STARTED);
   });
 
+  it('should return not started if undefined', () => {
+    jest.doMock('../../../../src/lib/questionTypes', () => ({
+      booleanQuestions: [
+        {
+          id: 'mockTask',
+          text: {
+            id: 'mockTextId',
+            parentValue: false,
+          },
+        },
+      ],
+    }));
+
+    const booleanCompletion = require('../../../../src/services/task-status/boolean');
+
+    const mockAppealReply = {
+      mockTask: undefined,
+    };
+
+    expect(booleanCompletion(mockAppealReply, 'mockTask')).toEqual(NOT_STARTED);
+  });
+
   it('should return completed if answer is yes (basic boolean)', () => {
     jest.doMock('../../../../src/lib/questionTypes', () => ({
       booleanQuestions: [
