@@ -158,6 +158,42 @@ describe('controllers/question-type/boolean', () => {
       expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReply);
     });
 
+    it('should populate appealReply with a positive input and associated text, even if data section missing', async () => {
+      const expectedReply = {
+        'mock-id': {
+          'mock-data-id': true,
+          'mock-text-id': 'mock-text',
+        },
+      };
+
+      const mockRequest = {
+        ...req,
+        body: {
+          booleanInput: 'yes',
+          booleanInputText: 'mock-text',
+        },
+        session: {
+          appealReply: {},
+        },
+      };
+
+      const mockResponse = {
+        ...res,
+        locals: {
+          question: {
+            id: 'mock-id',
+            dataId: 'mock-data-id',
+            text: {
+              id: 'mock-text-id',
+            },
+          },
+        },
+      };
+
+      await postBooleanQuestion(mockRequest, mockResponse);
+      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReply);
+    });
+
     it('should populate appealReply with a negative input and blank text, regardless of text box being populated', async () => {
       const expectedReply = {
         'mock-id': {
