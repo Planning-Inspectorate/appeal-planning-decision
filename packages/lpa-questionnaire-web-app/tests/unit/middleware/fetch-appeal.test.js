@@ -1,7 +1,4 @@
 jest.mock('../../../src/lib/appeals-api-wrapper');
-jest.mock('../../../src/lib/appeals-api-wrapper', () => ({
-  getAppeal: jest.fn(),
-}));
 
 const { mockReq, mockRes } = require('../mocks');
 const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
@@ -9,116 +6,72 @@ const { getAppeal } = require('../../../src/lib/appeals-api-wrapper');
 const config = require('../../../src/config');
 
 config.appeals.url = 'http://fake.url';
+const appealId = '6546a75e-6e8b-4c47-ad53-c4ed7e634638';
 
 describe('middleware/fetch-appeal', () => {
+  let response;
+
+  beforeEach(() => {
+    jest.resetAllMocks();
+    response = mockRes();
+  });
+
   [
     {
-      title: 'call next immediately if no session',
+      title: 'call 404 error if no appeal ID',
       given: () => ({
         ...mockReq(),
-        session: null,
+        params: {},
       }),
-      expected: (req, res, next) => {
+      expected: (_, res, next) => {
         expect(getAppeal).not.toHaveBeenCalled();
-        expect(next).toHaveBeenCalled();
+        expect(next).not.toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.send).toHaveBeenCalled();
       },
     },
     {
-      title: 'call next immediately if no id in url',
-      given: () => ({
-        ...mockReq(null, null),
-      }),
-      expected: (req, res, next) => {
+      title: 'call 404 error if invalid appeal ID',
+      given: mockReq,
+      expected: (_, res, next) => {
         expect(getAppeal).not.toHaveBeenCalled();
-        expect(next).toHaveBeenCalled();
+        expect(next).not.toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.send).toHaveBeenCalled();
       },
     },
     {
-      title: 'if appeal id in session and matches path id, API is not called',
-      given: () => ({
-        session: {
-          appeal: {
-            id: '123-abc',
-          },
-        },
-        params: {
-          id: '123-abc',
-        },
-      }),
-      expected: (req, res, next) => {
-        expect(getAppeal).not.toHaveBeenCalled();
-        expect(next).toHaveBeenCalled();
-      },
-    },
-    {
-      title: 'call next if api lookup fails',
+      title: 'call 404 error if api lookup fails',
       given: () => {
         getAppeal.mockRejectedValue('API is down');
         return {
           ...mockReq(),
           params: {
-            id: '123-abc',
+            id: appealId,
           },
         };
       },
-      expected: (req, res, next) => {
-        expect(getAppeal).toHaveBeenCalledWith('123-abc');
-        expect(next).toHaveBeenCalled();
+      expected: (_, res, next) => {
+        expect(getAppeal).toHaveBeenCalledWith(appealId);
+        expect(next).not.toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.send).toHaveBeenCalled();
       },
     },
     {
-      title: 'set session.appeal and call next if api call succeeds',
+      title: 'set session.appealReply and call next if api call succeeds',
       given: () => {
         getAppeal.mockResolvedValue({ good: 'data' });
 
         return {
           ...mockReq(),
           params: {
-            id: '123-abc',
+            id: appealId,
           },
         };
       },
-      expected: (req, res, next) => {
-        expect(getAppeal).toHaveBeenCalledWith('123-abc');
-        expect(next).toHaveBeenCalled();
-        expect(req.session.appeal).toEqual({ good: 'data' });
-      },
-    },
-    {
-      title: 'get appeal if appeal object exists but it has no id',
-      given: () => {
-        getAppeal.mockResolvedValue({ good: 'data' });
-
-        return {
-          ...mockReq(),
-          params: {
-            id: '123-abc',
-          },
-        };
-      },
-      expected: (req, res, next) => {
-        expect(getAppeal).toHaveBeenCalledWith('123-abc');
-        expect(next).toHaveBeenCalled();
-        expect(req.session.appeal).toEqual({ good: 'data' });
-      },
-    },
-    {
-      title: 'get appeal if appeal id does not match path id',
-      given: () => {
-        getAppeal.mockResolvedValue({ good: 'data' });
-
-        return {
-          ...mockReq(),
-          appeal: {
-            id: '456-def',
-          },
-          params: {
-            id: '123-abc',
-          },
-        };
-      },
-      expected: (req, res, next) => {
-        expect(getAppeal).toHaveBeenCalledWith('123-abc');
+      expected: (req, _, next) => {
+        expect(getAppeal).toHaveBeenCalledWith(appealId);
         expect(next).toHaveBeenCalled();
         expect(req.session.appeal).toEqual({ good: 'data' });
       },
@@ -128,9 +81,9 @@ describe('middleware/fetch-appeal', () => {
       const next = jest.fn();
       const req = given();
 
-      await fetchAppealMiddleware(req, mockRes, next);
+      await fetchAppealMiddleware(req, response, next);
 
-      expected(req, mockRes, next);
+      expected(req, response, next);
     });
   });
 });

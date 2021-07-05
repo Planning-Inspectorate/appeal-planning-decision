@@ -1,6 +1,6 @@
 module.exports = (filename) => {
   cy.goToDecisionLetterPage();
-  cy.get('#decision-upload-file-name')
+  cy.get('[data-cy="decision-upload-file-link"]')
     .invoke('text')
     .then((text) => {
       expect(text).to.eq(filename);

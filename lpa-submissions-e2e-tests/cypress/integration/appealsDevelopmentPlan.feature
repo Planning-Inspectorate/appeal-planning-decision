@@ -2,6 +2,10 @@ Feature: Appeals Development Plan
   As a beta LPA I want to inform the Planning Inspector of whether any Development Plan Document or Neighbourhood Plan relevant to the appeal has been submitted for examination,
   so that this can form part of the evidence on which the Inspector makes a decision
 
+  Background:
+    Given an appeal has been created
+    And a questionnaire has been created
+
   Scenario: AC01 - The LPA Planning Officer navigates to the Development Plan Document and Neighbourhood Plan question
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     When the LPA Planning Officer chooses to provide information regarding the Development Plan and Neighbourhood Plan
@@ -43,7 +47,7 @@ Feature: Appeals Development Plan
 
   Scenario: AC07 - Appeal details side panel
     Given the Development Plan Document and Neighbourhood Plan question is requested
-    Then the appeal details panel on the right hand side of the page can be viewed
+    Then the appeal details panel is displayed on the right hand side of the page
 
   Scenario: AC08 - The LPA Planning Officer has selected no and completed the Development Plan Document and Neighbourhood Plan question and returns to that page from the Task List
     Given the LPA Planning Officer has selected no and completed the Development Plan Document and Neighbourhood Plan question

@@ -21,7 +21,6 @@ exports.getInformationSubmitted = async (req, res) => {
   }
 
   res.render(VIEW.INFORMATION_SUBMITTED, {
-    appealReplyId: req.session?.appealReply?.id,
     lpaEmailString,
   });
 };

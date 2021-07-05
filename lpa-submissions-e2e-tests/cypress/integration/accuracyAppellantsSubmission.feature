@@ -3,6 +3,10 @@ Feature: Accuracy of the Apellants Submission
   As a beta LPA I want to respond whether the information from the appellant accurately reflects the original planning application
   so that the Planning Inspectorate can make a decision.
 
+  Background:
+    Given an appeal has been created
+    And a questionnaire has been created
+
   Scenario: AC01 Access Review accuracy of the appellant's submission page
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     When the user selects the link "Review accuracy of the appellant's submission"

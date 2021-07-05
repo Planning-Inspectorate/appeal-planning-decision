@@ -89,6 +89,10 @@ spec:
               value: {{ .Values.formsWebApp.config.subdomainOffset | quote }}
             - name: USE_SECURE_SESSION_COOKIES
               value: "true"
+            - name: GOOGLE_TAG_MANAGER_ID
+              value: {{ .Values.formsWebApp.config.googleTagManagerId | quote }}
+            - name: FEATURE_FLAG_GOOGLE_TAG_MANAGER
+              value: {{ .Values.formsWebApp.config.featureFlagGoogleTagManager | quote }}
           volumeMounts:
             - mountPath: {{ .Values.formsWebApp.config.upload.uploadDir | quote }}
               name: upload-cache

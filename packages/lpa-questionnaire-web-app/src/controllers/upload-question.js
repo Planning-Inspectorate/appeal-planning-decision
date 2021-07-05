@@ -22,7 +22,6 @@ exports.getUpload = (req, res) => {
 
   res.render(view, {
     appeal: getAppealSideBarDetails(req.session.appeal),
-    appealReplyId: req.session.appealReply.id,
     backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
     ...fileUploadNunjucksVariables(null, null, uploadedFiles),
   });

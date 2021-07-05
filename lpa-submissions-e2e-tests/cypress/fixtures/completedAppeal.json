@@ -1,0 +1,91 @@
+{
+  "horizonId": 3218951,
+  "lpaCode": "E69999999",
+  "decisionDate": "2021-01-20T12:00:00.000Z",
+  "state": "SUBMITTED",
+  "eligibility": {
+    "enforcementNotice": false,
+    "householderPlanningPermission": true,
+    "isClaimingCosts": false,
+    "isListedBuilding": false
+  },
+  "aboutYouSection": {
+    "yourDetails": {
+      "appealingOnBehalfOf": "",
+      "email": "bob@smith.com",
+      "name": "Bob Smith",
+      "isOriginalApplicant": true
+    }
+  },
+  "requiredDocumentsSection": {
+    "applicationNumber": "ValidNumber/12345",
+    "originalApplication": {
+      "uploadedFile": {
+        "name": "appeal-statement-valid.doc",
+        "id": "7e9cf5db-8ec6-4e4d-a10d-cafec3030ec2",
+        "size": 22528
+      }
+    },
+    "decisionLetter": {
+      "uploadedFile": {
+        "name": "appeal-statement-valid.doc",
+        "id": "7e9cf5db-8ec6-4e4d-a10d-cafec3030ec2",
+        "size": 22528
+      }
+    }
+  },
+  "yourAppealSection": {
+    "appealStatement": {
+      "uploadedFile": {
+        "name": "appeal-statement-valid.doc",
+        "id": "7e9cf5db-8ec6-4e4d-a10d-cafec3030ec2",
+        "size": 22528
+      },
+      "hasSensitiveInformation": false
+    },
+    "otherDocuments": {
+      "uploadedFiles": []
+    }
+  },
+  "appealSiteSection": {
+    "siteAddress": {
+      "addressLine1": "1 Taylor Road",
+      "addressLine2": "Clifton",
+      "town": "Bristol",
+      "county": "South Glos",
+      "postcode": "BS8 1TG"
+    },
+    "siteOwnership": {
+      "ownsWholeSite": false,
+      "haveOtherOwnersBeenTold": false
+    },
+    "siteAccess": {
+      "canInspectorSeeWholeSiteFromPublicRoad": true,
+      "howIsSiteAccessRestricted": ""
+    },
+    "healthAndSafety": {
+      "hasIssues": false,
+      "healthAndSafetyIssues": ""
+    }
+  },
+  "sectionStates": {
+    "aboutYouSection": {
+      "yourDetails": "COMPLETED"
+    },
+    "requiredDocumentsSection": {
+      "applicationNumber": "COMPLETED",
+      "originalApplication": "COMPLETED",
+      "decisionLetter": "COMPLETED"
+    },
+    "yourAppealSection": {
+      "appealStatement": "COMPLETED",
+      "otherDocuments": "NOT STARTED"
+    },
+    "appealSiteSection": {
+      "siteAddress": "COMPLETED",
+      "siteAccess": "COMPLETED",
+      "siteOwnership": "COMPLETED",
+      "healthAndSafety": "COMPLETED"
+    }
+  }
+}

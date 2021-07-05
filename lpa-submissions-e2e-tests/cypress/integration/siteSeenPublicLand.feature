@@ -3,6 +3,10 @@ Feature: Site seen from public land
   I want to provide details about the appeal site
   So that the Planning Inspectorate has the information it needs to decide the appeal.
 
+  Background:
+    Given an appeal has been created
+    And a questionnaire has been created
+
   Scenario: AC01 LPA Officer navigates to Site seen from public land
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     When LPA Planning Officer chooses to provide information about 'Site seen from public land'

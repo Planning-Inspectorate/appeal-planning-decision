@@ -7,7 +7,7 @@ const page = {
   title:
     'Is the appeal site in or near a conservation area? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
   url: 'conservation-area',
-  emptyError: 'Select yes it the appeal site is in or near a conservation area',
+  emptyError: 'Select yes if the appeal site is in or near a conservation area',
 };
 
 Before(() => {

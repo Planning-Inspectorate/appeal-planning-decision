@@ -42,6 +42,7 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
             /* istanbul ignore next */
             throw new Error(apiResponse.statusText);
           } catch (e) {
+            logger.error({ e }, 'Error on appeals API wrapper handler.');
             throw new Error(e.message);
           }
         }
@@ -62,7 +63,7 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
 }
 
 /**
- * A single wrapper around creating, or updating a new or existing appeal through the Appeals
+ * A single wrapper around creating a new, or updating an existing appeal through the Appeals
  * Service API.
  *
  * @param appeal

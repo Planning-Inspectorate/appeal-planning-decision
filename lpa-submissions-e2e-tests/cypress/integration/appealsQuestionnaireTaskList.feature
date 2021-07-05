@@ -6,6 +6,10 @@ Feature: Task lists
 
   The "Check your answer" task state should be "CANNOT START YET"
 
+  Background:
+    Given an appeal has been created
+    And a questionnaire has been created
+
   Scenario: LPA Questionnaire task list page is displayed with static text
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     Then the LPA Planning Officer is taken to the Task List
