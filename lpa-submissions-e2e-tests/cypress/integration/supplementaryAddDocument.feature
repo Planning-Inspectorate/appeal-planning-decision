@@ -17,12 +17,19 @@ Feature: Supplementary Planning Documents - Add Document
       | "an adopted document"    |
       | "a not adopted document" |
 
-  Scenario: AC3 LPA User does not upload document
+  Scenario: AC3 LPA User does not upload document and provides relevant information
+    Given Add supplementary document is requested
+    When file name has been entered
+    And formally adopted is selected as 'yes'
+    And no file has been selected
+    Then progress is halted with a message 'Upload a relevant supplementary planning document'
+
+  Scenario: AC4 LPA User does not upload document
     Given Add supplementary document is requested
     When no file has been selected
-    Then progress is halted with a message 'the file is missing'
+    Then the LPA Planning Officer is taken to the Task List
 
-  Scenario Outline: AC4 LPA User selects invalid file size
+  Scenario Outline: AC5 LPA User selects invalid file size
     Given Add supplementary document is requested
     When invalid file '<invalid_file_size>' has been selected
     Then progress is halted with a message the file '<invalid_file_size>' 'is too big'
@@ -30,7 +37,7 @@ Feature: Supplementary Planning Documents - Add Document
       | invalid_file_size      |
       | upload_file_large.tiff |
 
-  Scenario Outline: AC5 LPA User selects invalid file format
+  Scenario Outline: AC6 LPA User selects invalid file format
     Given Add supplementary document is requested
     When invalid file '<invalid_format>' has been selected
     Then progress is halted with a message the file '<invalid_format>' 'format is incorrect'
@@ -38,17 +45,17 @@ Feature: Supplementary Planning Documents - Add Document
       | invalid_format                     |
       | upload-file-invalid-wrong-type.csv |
 
-  Scenario: AC6 LPA User does not enter file name
+  Scenario: AC7 LPA User does not enter file name
     Given Add supplementary document is requested
     When no file name has been entered
     Then progress is halted with a message 'file name is missing'
 
-  Scenario: AC7 LPA User does not specify if it’s been adopted
+  Scenario: AC8 LPA User does not specify if it’s been adopted
     Given Add supplementary document is requested
     When formally adopted has not been selected
     Then progress is halted with a message 'formally adopted not complete'
 
-  Scenario Outline: AC8 LPA User selects it has been adopted but provides an invalid date <day>-<month>-<year>
+  Scenario Outline: AC9 LPA User selects it has been adopted but provides an invalid date <day>-<month>-<year>
     Given Add supplementary document is requested
     When formally adopted is selected as 'yes'
     And an invalid date of <day>-<month>-<year> is provided
@@ -82,7 +89,7 @@ Feature: Supplementary Planning Documents - Add Document
       | "31" | "10"  | "aaaa" | "Date of adoption must be a real date"           | "year"           |
       | "19" | "10"  | "20"   | "Date of adoption must be a real date"           | "year"           |
 
-  Scenario: AC9 LPA User selects it has not been adopted but does not provide stage reached
+  Scenario: AC10 LPA User selects it has not been adopted but does not provide stage reached
     Given Add supplementary document is requested
     When formally adopted is selected as 'no'
     And stage reached is not completed

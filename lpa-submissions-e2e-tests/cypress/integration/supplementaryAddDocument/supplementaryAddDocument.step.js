@@ -59,6 +59,9 @@ When('invalid file {string} has been selected', (doc) => {
   cy.clickSaveAndContinue();
 });
 
+When('file name has been entered', () => {
+  fileNameInput().type('Supplementary Document name');
+});
 When('no file name has been entered', () => {
   fileNameInput().should('have.value', '');
   cy.clickSaveAndContinue();
