@@ -5,6 +5,8 @@ metadata:
   labels:
   {{- include "app.labels" . | nindent 4 }}
 spec:
+  replicas: {{ .Values.clamav.replicaCount }}
+  minReadySeconds: {{ .Values.clamav.minReadySeconds }}
   selector:
     matchLabels:
   {{- include "app.selectorLabels" . | nindent 6 }}
