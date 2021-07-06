@@ -318,4 +318,3 @@ services:
       - mongodb
     ports:
       - "5003:8081"
-
