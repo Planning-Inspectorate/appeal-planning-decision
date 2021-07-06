@@ -21,12 +21,15 @@ Feature: Supplementary Planning Documents - Add Document
       | "an adopted document"    |
       | "a not adopted document" |
 
-  Scenario: AC3 LPA User does not upload document and provides relevant information
+  Scenario Outline: AC3 LPA User does not upload document and provides relevant information for <document_type>
     Given Add supplementary document is requested
-    When file name has been entered
-    And formally adopted is selected as 'yes'
+    When the meta data is completed for <document_type>
     And no file has been selected
-    Then progress is halted with a message 'Upload a relevant supplementary planning document'
+    Then progress is halted with a message 'the file is missing'
+    Examples:
+      | document_type             |
+      | "an adopted document"    |
+      | "a not adopted document" |
 
   Scenario: AC4 LPA User does not upload document
     Given Add supplementary document is requested
@@ -51,12 +54,17 @@ Feature: Supplementary Planning Documents - Add Document
 
   Scenario: AC7 LPA User does not enter file name
     Given Add supplementary document is requested
-    When no file name has been entered
+    When a document has been uploaded
+    And formally adopted is selected as 'no'
+    And stage reached is completed
+    And no file name has been entered
     Then progress is halted with a message 'file name is missing'
 
   Scenario: AC8 LPA User does not specify if it’s been adopted
     Given Add supplementary document is requested
-    When formally adopted has not been selected
+    When a document has been uploaded
+    And file name has been entered
+    And formally adopted has not been selected
     Then progress is halted with a message 'formally adopted not complete'
 
   Scenario Outline: AC9 LPA User selects it has been adopted but provides an invalid date <day>-<month>-<year>
@@ -66,7 +74,7 @@ Feature: Supplementary Planning Documents - Add Document
     Then progress is halted with an error <error> which highlights <highlights>
     Examples:
       | day  | month | year   | error                                                | highlights       |
-      | ""   | ""    | ""     | "Enter date of adoption"                         | "day,month,year" |
+      | ""   | ""    | ""     | "Tell us the date the supplementary planning document was adopted"| "day,month,year" |
       | ""   | ""    | "2022" | "Date of adoption must include a day and month"  | "day,month"      |
       | ""   | ""    | "2021" | "Date of adoption must include a day and month"  | "day,month"      |
       | ""   | ""    | "1000" | "Date of adoption must include a day and month"  | "day,month"      |

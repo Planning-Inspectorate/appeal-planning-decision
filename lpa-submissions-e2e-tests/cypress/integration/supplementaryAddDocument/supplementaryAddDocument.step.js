@@ -87,6 +87,10 @@ When('stage reached is not completed', () => {
   cy.clickSaveAndContinue();
 });
 
+When('stage reached is completed', () => {
+  stageReachedInput().type('Mock stage');
+});
+
 Then('the LPA Planning Officer is presented with add supplementary document questions', () => {
   cy.verifyPage(page.url);
   cy.verifyPageTitle(page.title);
