@@ -3,6 +3,10 @@ Feature: Conservation Area Map
   I want to upload the property conservation area map considered in the application,
   So that it can form part of the evidence on which the Inspector makes a decision.
 
+  Background:
+    Given an appeal has been created
+    And a questionnaire has been created
+
   Scenario: AC1 LPA Planning Officer navigates to conservation area map question
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     When LPA Planning Officer chooses to upload the conservation area map

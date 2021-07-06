@@ -129,7 +129,7 @@ services:
       FILE_UPLOAD_USE_TEMP_FILES: 'true'
       FILE_UPLOAD_TMP_PATH: '/tmp'
       GOOGLE_ANALYTICS_ID: G-TZBWMVPTHV
-      SESSION_MONGODB_URL: mongodb://mongodb:27017/fwa-sessions
+      SESSION_MONGODB_URL: mongodb://mongodb:27017/lpa-sessions
       SESSION_KEY: some_secure_key_goes_here
       # please override this locally if using not using localhost or ip address to browse the site in dev.
       SUBDOMAIN_OFFSET: 0
@@ -159,15 +159,16 @@ services:
   lpa-questionnaire-web-app:
     image: node:14-alpine
     environment:
+      ALLOW_APPEAL_REPLY_CREATE: "true"
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       PDF_SERVICE_API_URL: http://pdf-service-api:3000
       APPEAL_REPLY_SERVICE_API_URL: http://appeal-reply-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FILE_UPLOAD_DEBUG: 'false'
       FILE_UPLOAD_MAX_FILE_SIZE_BYTES: 15000000
-      FILE_UPLOAD_USE_TEMP_FILES: 'true'
-      FILE_UPLOAD_TMP_PATH: '/tmp'
-      SESSION_MONGODB_URL: mongodb://mongodb:27017/fwa-sessions
+      FILE_UPLOAD_USE_TEMP_FILES: "true"
+      FILE_UPLOAD_TMP_PATH: "/tmp"
+      SESSION_MONGODB_URL: mongodb://mongodb:27017/lpa-sessions
       SESSION_KEY: some_secure_key_goes_here
       USE_SECURE_SESSION_COOKIES: 'false'
     ports:
@@ -308,3 +309,13 @@ services:
     image: mkodockx/docker-clamav
     ports:
       - 3310:3310
+
+  mongoExpress:
+    image: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+    depends_on:
+      - mongodb
+    ports:
+      - "5003:8081"
+

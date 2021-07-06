@@ -86,7 +86,7 @@ Then('both document {string} and {string} are submitted', (fileName1, fileName2)
 Then('document {string} is not submitted because {string}', (fileName, reason) => {
   switch (reason) {
     case 'file type is invalid':
-      cy.confirmSupportingDocumentRejectedBecause(fileName + ' is the wrong file type');
+      cy.confirmSupportingDocumentRejectedBecause(fileName + ' must be a');
       break;
     case 'file size exceeds limit':
       cy.confirmSupportingDocumentRejectedBecause(fileName + ' must be smaller than');
@@ -110,7 +110,7 @@ Then('the documents are added to the previous ones', () => {
 
 Then('none of them is submitted', () => {
   INVALID_DOCUMENTS.forEach((fileName) => {
-    cy.confirmSupportingDocumentRejectedBecause(fileName + ' is the wrong file type');
+    cy.confirmSupportingDocumentRejectedBecause(fileName + ' must be a');
   });
   cy.title().should('include', 'Error: ')
   cy.confirmNumberSupportingDocumentsAccepted(0);
@@ -118,7 +118,7 @@ Then('none of them is submitted', () => {
 
 Then('only valid document are submitted', () => {
   INVALID_DOCUMENTS.forEach((fileName) => {
-    cy.confirmSupportingDocumentRejectedBecause(fileName + ' is the wrong file type');
+    cy.confirmSupportingDocumentRejectedBecause(fileName + ' must be a');
   });
 
   cy.confirmSupportingDocumentAccepted(VALID_DOCUMENTS);

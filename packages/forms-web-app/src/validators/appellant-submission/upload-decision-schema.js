@@ -46,7 +46,7 @@ module.exports = {
             MIME_TYPE_TIF,
             MIME_TYPE_PNG,
           ],
-          'Doc is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
+          'The selected file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
         );
 
         // check file for Virus
@@ -63,7 +63,7 @@ module.exports = {
             MIME_TYPE_JPEG,
             MIME_TYPE_PNG,
           ],
-          'Doc is is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
+          'The selected file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
         );
 
         // check file size

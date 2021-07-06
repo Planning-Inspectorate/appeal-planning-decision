@@ -3,6 +3,10 @@ Feature: Statutory Development Plan Policy
   I want to upload the Statutory development plan policy,
   so that it can form part of the evidence on which the Inspector makes a decision.
 
+  Background:
+    Given an appeal has been created
+    And a questionnaire has been created
+
   Scenario: AC1 LPA Planning Officer navigations to Statutory development plan policy question
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
     When LPA Planning Officer chooses to upload Statutory development plan policy
@@ -120,8 +124,8 @@ Feature: Statutory Development Plan Policy
     Then progress is made to the Check Your Answers page
     And the updated answer is displayed
 
-  # Scenario: AC16 PDF & Horizon
-  #   Given the questionnaire has been completed
-  #   When the LPA Planning Officer submits the questionnaire
-  #   Then Statutory development plan policy is displayed on the  questionnaire PDF
-  #   And Statutory development plan policy & PDF is present in Horizon
+# Scenario: AC16 PDF & Horizon
+#   Given the questionnaire has been completed
+#   When the LPA Planning Officer submits the questionnaire
+#   Then Statutory development plan policy is displayed on the  questionnaire PDF
+#   And Statutory development plan policy & PDF is present in Horizon

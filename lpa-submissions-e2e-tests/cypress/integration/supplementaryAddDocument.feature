@@ -3,6 +3,10 @@ Feature: Supplementary Planning Documents - Add Document
   I want to upload supplementary planning documents,
   so that it can form part of the evidence on which the Inspector makes a decision
 
+  Background:
+    Given an appeal has been created
+    And a questionnaire has been created
+
   Scenario: AC1 LPA Planning Officer navigates to Add Supplementary planning document questions
     Given Add supplementary document is requested
     Then the LPA Planning Officer is presented with add supplementary document questions

@@ -82,6 +82,20 @@ exports.createOrUpdateAppealReply = (appealReply) => {
   });
 };
 
-exports.getExistingAppealReply = async (id) => {
-  return handler(`/api/v1/reply/${id}`);
+/**
+ * Gets an existing appeal reply by it's ID
+ * @param {*} replyId appeal reply ID
+ * @returns get request to to reply API
+ */
+exports.getExistingAppealReply = async (replyId) => {
+  return handler(`/api/v1/reply/${replyId}`);
+};
+
+/**
+ * Gets an existing appeal reply by the appeal id associated with it
+ * @param {*} appealId appeal ID
+ * @returns get request to reply API
+ */
+exports.getAppealReplyByAppeal = async (appealId) => {
+  return handler(`/api/v1/reply/appeal/${appealId}`);
 };

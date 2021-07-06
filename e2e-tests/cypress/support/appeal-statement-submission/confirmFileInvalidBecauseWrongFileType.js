@@ -1,6 +1,6 @@
 module.exports = () => {
   cy.get('.govuk-error-summary__list').invoke('text').then((text) => {
-    expect(text).to.contain('Doc is the wrong file type:');
+    expect(text).to.contain('The selected file must be a');
   });
   cy.wait(Cypress.env('demoDelay'));
   //Accessibility Testing

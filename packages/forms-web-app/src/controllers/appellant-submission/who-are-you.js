@@ -7,16 +7,16 @@ const sectionName = 'aboutYouSection';
 const taskName = 'yourDetails';
 
 const FORM_FIELD = {
-  'are-you-the-original-appellant': {
-    id: 'are-you-the-original-appellant',
+  'original-application-your-name': {
+    id: 'original-application-your-name',
     items: [
       {
         value: 'yes',
-        text: 'Yes',
+        text: 'Yes, the original application was made in my name',
       },
       {
         value: 'no',
-        text: 'No',
+        text: "No, I'm an agent acting on behalf of the applicant",
       },
     ],
   },
@@ -39,7 +39,7 @@ exports.postWhoAreYou = async (req, res) => {
   const { appeal } = req.session;
   const task = appeal[sectionName][taskName];
 
-  switch (body['are-you-the-original-appellant']) {
+  switch (body['original-application-your-name']) {
     case 'yes': {
       task.isOriginalApplicant = true;
       break;

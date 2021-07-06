@@ -77,10 +77,12 @@ module.exports = {
         data: fileData,
       });
     } else {
+      const fileName = doc.get('name');
       const mimeType = doc.get('mimeType');
       req.log.info({ mimeType }, 'Displaying file');
 
       res.set('content-type', mimeType);
+      res.set('x-original-file-name', fileName);
 
       res.send(fileBuffer);
     }

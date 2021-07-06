@@ -37,6 +37,7 @@ module.exports = {
     redact: ['opts.body', 'config.db.session.uri', 'config.server.sessionSecret'],
   },
   appealReply: {
+    allowCreate: process.env.ALLOW_APPEAL_REPLY_CREATE === 'true',
     timeout: Number(process.env.APPEAL_REPLY_SERVICE_API_TIMEOUT || 10000),
     url: process.env.APPEAL_REPLY_SERVICE_API_URL,
   },
