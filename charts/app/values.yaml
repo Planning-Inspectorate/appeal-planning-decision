@@ -267,6 +267,18 @@ gotenberg:
     disableOfficeTemplates: true
     port: 4000
 
+    clamav:
+      replicaCount: 1
+      service:
+        name: clamav
+        port: 3310
+      image:
+        repository: mkodockx/docker-clamav
+        pullPolicy: Always
+        tag: latest
+      config:
+        port: 3310
+
 # This connects this infrastructure with the OpenFaaS service, which is
 # in a separate namespace. This is for ease of maintenance and to keep
 # this logically separated as part of "this" application.
