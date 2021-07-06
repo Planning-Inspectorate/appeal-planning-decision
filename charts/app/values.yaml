@@ -269,13 +269,12 @@ gotenberg:
 
 clamav:
   replicaCount: 1
-  minReadySeconds: 30
   service:
     name: clamav
     port: 3310
   image:
-    repository: quay.io/ukhomeofficedigital/clamav
-    pullPolicy: IfNotPresent
+    repository: mkodockx/docker-clamav
+    pullPolicy: Always
     tag: latest
   config:
     port: 3310
