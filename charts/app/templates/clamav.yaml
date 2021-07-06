@@ -5,6 +5,8 @@ metadata:
   labels:
   {{- include "app.labels" . | nindent 4 }}
 spec:
+  replicas: {{ .Values.clamav.replicaCount }}
+  minReadySeconds: {{ .Values.clamav.minReadySeconds }}
   selector:
     matchLabels:
   {{- include "app.selectorLabels" . | nindent 6 }}
@@ -29,7 +31,7 @@ spec:
           securityContext:
             privileged: false
             runAsUser: 1001
-            {{- with .Values.securityContext }}
+          {{- with .Values.securityContext }}
           {{- toYaml . | nindent 12 }}
           {{- end }}
           image: "{{ .Values.clamav.image.repository }}:{{ .Values.clamav.image.tag }}"
@@ -63,4 +65,3 @@ spec:
       tolerations:
   {{- toYaml . | nindent 8 }}
   {{- end }}
-
