@@ -269,16 +269,16 @@ gotenberg:
 
 clamav:
   replicaCount: 1
+  minReadySeconds: 30
   service:
     name: clamav
-    port: 4000
+    port: 3310
   image:
-    repository: thecodingmachine/gotenberg
-    pullPolicy: Always
-    tag: 6
+    repository: quay.io/ukhomeofficedigital/clamav
+    pullPolicy: IfNotPresent
+    tag: latest
   config:
-    disableOfficeTemplates: true
-    port: 4000
+    port: 3310
 
 # This connects this infrastructure with the OpenFaaS service, which is
 # in a separate namespace. This is for ease of maintenance and to keep
