@@ -26,21 +26,12 @@ spec:
       {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          securityContext:
-            privileged: false
-            runAsUser: 1001
-          {{- with .Values.securityContext }}
-          {{- toYaml . | nindent 12 }}
-          {{- end }}
           image: "{{ .Values.clamav.image.repository }}:{{ .Values.clamav.image.tag }}"
           imagePullPolicy: {{ .Values.clamav.image.pullPolicy }}
           ports:
             - name: {{ .Values.clamav.service.name }}
               containerPort: {{ .Values.clamav.config.port }}
               protocol: TCP
-          env:
-            - name: DEFAULT_LISTEN_PORT
-              value: {{ .Values.clamav.config.port | quote }}
           resources:
       {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
