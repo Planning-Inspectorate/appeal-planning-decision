@@ -34,6 +34,7 @@
     "@ministryofjustice/frontend": "0.2.0",
     "@pins/common": "file:../common",
     "accessible-autocomplete": "^2.0.3",
+    "clamscan": "^1.4.2",
     "compression": "^1.7.4",
     "connect-mongodb-session": "^2.4.1",
     "cookie-parser": "~1.4.4",

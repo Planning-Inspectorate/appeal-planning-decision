@@ -143,10 +143,12 @@ services:
       - appeals-service-api
       - document-service-api
       - mongodb
+      - clamav-server
     depends_on:
       - appeals-service-api
       - document-service-api
       - mongodb
+      - clamav-server
     volumes:
       - ./packages/common:/opt/app/node_modules/@pins/common
       - ./packages/forms-web-app:/opt/app
@@ -311,3 +313,8 @@ services:
       - mongodb
     ports:
       - "5003:8081"
+
+  clamav-server:
+    image: mkodockx/docker-clamav
+    ports:
+      - 3310:3310
