@@ -2,6 +2,7 @@ const { VIEW } = require('../lib/views');
 const getAppealSideBarDetails = require('../lib/appeal-sidebar-details');
 const { uploadFiles } = require('../lib/file-upload-helpers');
 const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
+const errorTexts = require('../validators/validation-messages/supplementary-documents-validation-messages');
 
 const question = {
   heading: 'Supplementary planning document',
@@ -75,6 +76,15 @@ exports.postAddDocument = async (req, res) => {
       };
     return error;
   });
+
+  // Check if all fields have been left blank
+  if (
+    Object.values(errorTexts).filter((vm) => errorSummary.map((obj) => obj.text).includes(vm))
+      .length >= 3
+  ) {
+    res.redirect(`/${appealId}/task-list`);
+    return;
+  }
 
   const errors = renameDocErrorKeys(rawErrors);
 

@@ -226,5 +226,24 @@ describe('controllers/accuracy-submission', () => {
       expect(res.render).not.toHaveBeenCalledWith();
       expect(res.redirect).toHaveBeenCalledWith('/mock-id/supplementary-documents');
     });
+
+    it('should redirect to task-list page if all fields left blank', async () => {
+      mockErrorSummary = [
+        { text: 'Upload a relevant supplementary planning document' },
+        { text: 'Enter a name for the supplementary planning document' },
+        { text: 'Select whether this supplementary planning document has been adopted' },
+      ];
+
+      const mockRequest = {
+        ...req,
+        body: {
+          errors: mockError,
+          errorSummary: mockErrorSummary,
+        },
+      };
+
+      await supplementaryDocumentsController.postAddDocument(mockRequest, res);
+      expect(res.redirect).toHaveBeenCalledWith('/mock-id/task-list');
+    });
   });
 });

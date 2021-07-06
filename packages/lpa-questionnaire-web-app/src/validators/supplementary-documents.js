@@ -2,23 +2,23 @@ const { body } = require('express-validator');
 const { isAfter, endOfDay } = require('date-fns');
 const dateInputValidation = require('./custom/date-input');
 const fileRules = require('./files');
+// const messages = require('./validation-messages/supplementary-documents-validation-messages');
 
-const rules = () => {
+const messages = {
+  upload: 'Upload a relevant supplementary planning document',
+  name: 'Enter a name for the supplementary planning document',
+  adopted: 'Select whether this supplementary planning document has been adopted',
+};
+
+module.exports = function rules() {
   return [
     ...fileRules(),
     body('documents')
       .custom((_, { req }) => !!req.body?.files?.documents?.length)
-      .withMessage('Upload a relevant supplementary planning document')
+      .withMessage(messages.upload)
       .bail(),
-    body('documentName')
-      .notEmpty()
-      .withMessage('Enter a name for the supplementary planning document')
-      .bail(),
-    body('formallyAdopted')
-      .notEmpty()
-      .withMessage('Select whether this supplementary planning document has been adopted')
-      .bail()
-      .isIn(['yes', 'no']),
+    body('documentName').notEmpty().withMessage(messages.name).bail(),
+    body('formallyAdopted').notEmpty().withMessage(messages.adopted).bail().isIn(['yes', 'no']),
     ...dateInputValidation(
       'adoptedDate',
       'date of adoption',
@@ -42,4 +42,4 @@ const rules = () => {
   ];
 };
 
-module.exports = rules;
+exports.messages = messages;
