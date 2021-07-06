@@ -7,7 +7,7 @@ module.exports = async (fileInformation, errorMessage) => {
     const clamscan = await new NodeClam().init({
       debug_mode: true,
       clamdscan: {
-        host: 'clamav-server',
+        host: 'clamav',
         port: 3310,
         bypass_test: true,
       },
