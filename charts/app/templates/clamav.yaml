@@ -1,67 +1,52 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: ReplicationController
 metadata:
-  name: {{ include "app.fullname" . }}-clamav
+  name: clamav
   labels:
-  {{- include "app.labels" . | nindent 4 }}
+    name: clamav
 spec:
-  replicas: {{ .Values.clamav.replicaCount }}
-  minReadySeconds: {{ .Values.clamav.minReadySeconds }}
+  replicas: 1
   selector:
-    matchLabels:
-  {{- include "app.selectorLabels" . | nindent 6 }}
+    name: clamav
   template:
     metadata:
-      annotations:
-      {{- with .Values.podAnnotations }}
-      {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
-    {{- include "app.selectorLabels" . | nindent 8 }}
+        name: clamav
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-      {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "app.serviceAccountName" . }}
-      securityContext:
-      {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-            privileged: false
-            runAsUser: 1001
-          {{- with .Values.securityContext }}
-          {{- toYaml . | nindent 12 }}
-          {{- end }}
-          image: "{{ .Values.clamav.image.repository }}:{{ .Values.clamav.image.tag }}"
-          imagePullPolicy: {{ .Values.clamav.image.pullPolicy }}
-          ports:
-            - name: {{ .Values.clamav.service.name }}
-              containerPort: {{ .Values.clamav.config.port }}
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /ping
-              port: {{ .Values.clamav.service.name }}
-          readinessProbe:
-            httpGet:
-              path: /ping
-              port: {{ .Values.clamav.service.name }}
+        - name: clamd
+          image: quay.io/ukhomeofficedigital/clamav:v1.6.1
           env:
-            - name: DEFAULT_LISTEN_PORT
-              value: {{ .Values.clamav.config.port | quote }}
-          resources:
-      {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-      {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-      {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-  {{- toYaml . | nindent 8 }}
-  {{- end }}
+            - name: UPDATE
+              value: "false"
+          ports:
+            - containerPort: 3200
+              name: api
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/lib/clamav
+              name: avdata
+          livenessProbe:
+            exec:
+              command:
+                - /readyness.sh
+            initialDelaySeconds: 20
+            timeoutSeconds: 2
+        - name: freshclam
+          image: quay.io/ukhomeofficedigital/clamav:v1.6.1
+          env:
+            - name: UPDATE_ONLY
+              value: "true"
+          volumeMounts:
+            - mountPath: /var/lib/clamav
+              name: avdata
+          livenessProbe:
+            exec:
+              command:
+                - /readyness.sh
+            initialDelaySeconds: 20
+            timeoutSeconds: 2
+      volumes:
+        - name: avdata
+          source:
+            emptyDir: {}
