@@ -276,7 +276,7 @@ clamav:
   image:
     repository: quay.io/ukhomeofficedigital/clamav
     pullPolicy: IfNotPresent
-    tag: v.1.7.1
+    tag: latest
   config:
     port: 3310
 
