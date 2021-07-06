@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: clamav
+  name: {{ include "app.fullname" . }}-clamav
   labels:
-    name: clamav
+  {{- include "app.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
