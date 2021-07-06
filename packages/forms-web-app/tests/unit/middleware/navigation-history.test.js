@@ -172,44 +172,6 @@ describe('middleware/navigation-history', () => {
         expect(req.session.navigationHistory).toEqual(['/a/b/c']);
       },
     },
-    {
-      description: 'default filter path - favicon.ico is removed',
-      given: () => ({
-        config: undefined,
-        req: {
-          ...mockReq(),
-          session: {
-            ...mockReq().session,
-            navigationHistory: ['/d/e/f', '/a/b/c'],
-          },
-          baseUrl: '',
-          path: '/favicon.ico',
-        },
-      }),
-      expected: (req, res, next) => {
-        expect(next).toHaveBeenCalled();
-        expect(req.session.navigationHistory).toEqual(['/d/e/f', '/a/b/c']);
-      },
-    },
-    {
-      description: 'default filter path - /document/any/thing is removed',
-      given: () => ({
-        config: undefined,
-        req: {
-          ...mockReq(),
-          session: {
-            ...mockReq().session,
-            navigationHistory: ['/d/e/f', '/a/b/c'],
-          },
-          baseUrl: '',
-          path: '/document/whatever/goes/here',
-        },
-      }),
-      expected: (req, res, next) => {
-        expect(next).toHaveBeenCalled();
-        expect(req.session.navigationHistory).toEqual(['/d/e/f', '/a/b/c']);
-      },
-    },
     // custom config
     {
       description: 'custom config :: override fallbackPath',
@@ -247,48 +209,6 @@ describe('middleware/navigation-history', () => {
       expected: (req, res, next) => {
         expect(next).toHaveBeenCalled();
         expect(req.session.navigationHistory).toEqual(['/x/y/z', '/a', '/b']);
-      },
-    },
-    {
-      description: 'custom config :: filter url matches',
-      given: () => ({
-        config: {
-          filterPaths: [/^\/override\//],
-        },
-        req: {
-          ...mockReq(),
-          session: {
-            ...mockReq().session,
-            navigationHistory: ['/a', '/b'],
-          },
-          baseUrl: '',
-          path: '/override/y/z',
-        },
-      }),
-      expected: (req, res, next) => {
-        expect(next).toHaveBeenCalled();
-        expect(req.session.navigationHistory).toEqual(['/a', '/b']);
-      },
-    },
-    {
-      description: 'custom config :: filter url does not match',
-      given: () => ({
-        config: {
-          filterPaths: [/^\/document\//, /abc/, /123/, /\d+/],
-        },
-        req: {
-          ...mockReq(),
-          session: {
-            ...mockReq().session,
-            navigationHistory: ['/c', '/d'],
-          },
-          baseUrl: '',
-          path: '/x/y/z',
-        },
-      }),
-      expected: (req, res, next) => {
-        expect(next).toHaveBeenCalled();
-        expect(req.session.navigationHistory).toEqual(['/x/y/z', '/c', '/d']);
       },
     },
   ].forEach(({ description, given, expected }) => {

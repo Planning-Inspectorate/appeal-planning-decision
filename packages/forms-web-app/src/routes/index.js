@@ -8,13 +8,11 @@ const homeRouter = require('./home');
 const cookieRouter = require('./cookies');
 const guidancePagesRouter = require('./guidance-pages');
 const yourPlanningAppealRouter = require('./your-planning-appeal');
-const documentsServiceProxyRouter = require('./document-service-proxy');
 
 router.use('/', homeRouter);
 router.use(guidancePagesRouter);
 router.use('/cookies', cookieRouter);
 router.use('/appellant-submission', appellantSubmissionRouter);
-router.use('/document', documentsServiceProxyRouter);
 router.use('/eligibility', eligibilityRouter);
 router.use('/your-planning-appeal', yourPlanningAppealRouter);
 

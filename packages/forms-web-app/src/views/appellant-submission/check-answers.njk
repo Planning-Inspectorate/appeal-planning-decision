@@ -3,9 +3,8 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "../macros/bool-to-sentence-case.njk" import boolToSentenceCaseField %}
-{% from "../macros/multifile-upload-to-anchor-list.njk" import multifileUploadToAnchorList %}
+{% from "../macros/multifile-upload-to-list.njk" import multifileUploadToList %}
 {% from "../macros/summary-field.njk" import summaryField %}
-{% from "../macros/document-download-field.njk" import documentDownloadField %}
 
 {% block pageTitle %}
   Check your answers - Appeal a householder planning decision - GOV.UK
@@ -145,11 +144,7 @@
               text: "Planning application form"
             },
             value: {
-              text: documentDownloadField(
-                ['/document', appeal.id, appeal.requiredDocumentsSection.originalApplication.uploadedFile.id ] | join('/'),
-                appeal.requiredDocumentsSection.originalApplication.uploadedFile.name,
-                { 'data-cy': "upload-application" }
-              )
+              text: summaryField(appeal.requiredDocumentsSection.originalApplication.uploadedFile.name, { 'data-cy': "upload-application" })
             },
             actions: {
               items: [
@@ -167,11 +162,7 @@
               text: "Decision letter"
             },
             value: {
-              text: documentDownloadField(
-                ['/document', appeal.id, appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id ] | join('/'),
-                appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name,
-                { 'data-cy': "upload-decision" }
-              )
+              text: summaryField(appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name, { 'data-cy': "upload-decision" })
             },
             actions: {
               items: [
@@ -198,11 +189,7 @@
               text: "Your appeal statement"
             },
             value: {
-              text: documentDownloadField(
-                ['/document', appeal.id, appeal.yourAppealSection.appealStatement.uploadedFile.id ] | join('/'),
-                appeal.yourAppealSection.appealStatement.uploadedFile.name,
-                { 'data-cy': "appeal-statement" }
-              )
+              text: summaryField(appeal.yourAppealSection.appealStatement.uploadedFile.name, { 'data-cy': "appeal-statement" })
             },
             actions: {
               items: [
@@ -220,7 +207,7 @@
               text: "Documents to support your appeal"
             },
             value: {
-              text: multifileUploadToAnchorList(appeal.id, appeal.yourAppealSection.otherDocuments.uploadedFiles, { 'data-cy': "supporting-documents" })
+              text: multifileUploadToList(appeal.yourAppealSection.otherDocuments.uploadedFiles, { 'data-cy': "supporting-documents" })
             },
             actions: {
               items: [
