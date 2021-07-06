@@ -123,9 +123,7 @@
                 data-file-id="{{ appeal.yourAppealSection.appealStatement.uploadedFile.id }}"
                 data-file-location="{{ appeal.yourAppealSection.appealStatement.uploadedFile.location }}"
                 data-file-size="{{ appeal.yourAppealSection.appealStatement.uploadedFile.size }}">
-              <a href="{{ ['/document', appeal.id, appeal.yourAppealSection.appealStatement.uploadedFile.id ] | join('/') }}" title="Download {{ appeal.yourAppealSection.appealStatement.uploadedFile.name }}" data-cy="appeal-upload-file-link">
-                {{- appeal.yourAppealSection.appealStatement.uploadedFile.name -}}
-              </a>
+              {{- appeal.yourAppealSection.appealStatement.uploadedFile.name -}}
             </li>
           </ul>
         {% endif %}

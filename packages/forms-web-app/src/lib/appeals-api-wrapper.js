@@ -62,7 +62,7 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
 }
 
 /**
- * A single wrapper around creating a new, or updating an existing appeal through the Appeals
+ * A single wrapper around creating, or updating a new or existing appeal through the Appeals
  * Service API.
  *
  * @param appeal

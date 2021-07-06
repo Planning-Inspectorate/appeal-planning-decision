@@ -11,9 +11,7 @@
                  data-file-location="{{ item.location }}"
                  data-file-size="{{ item.size }}"
             >
-              <a href="{{ ['/document', params.appealId, item.id ] | join('/') }}" title="Download {{ item.message.html | safe if item.message.html else item.message.text -}}" data-cy="{{ params.cyTagPrefix }}-{{ loop.index0 }}">
-                {{- item.message.html | safe if item.message.html else item.message.text -}}
-              </a>
+              {{- item.message.html | safe if item.message.html else item.message.text -}}
             </div>
           </div>
         {% endfor %}

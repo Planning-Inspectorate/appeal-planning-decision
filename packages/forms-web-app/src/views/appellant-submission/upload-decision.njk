@@ -35,13 +35,11 @@
           <h2 class="govuk-heading-m">File added:</h2>
           <ul class="govuk-list">
             <li id="decision-upload-file-name"
-                data-cy="decision-upload-file-name"
+                data-cy="application-upload-file-name"
                 data-file-id="{{ appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id }}"
                 data-file-location="{{ appeal.requiredDocumentsSection.decisionLetter.uploadedFile.location }}"
                 data-file-size="{{ appeal.requiredDocumentsSection.decisionLetter.uploadedFile.size }}">
-              <a href="{{ ['/document', appeal.id, appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id ] | join('/') }}" title="Download {{ appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name }}" data-cy="decision-upload-file-link">
-                {{- appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name -}}
-              </a>
+              {{- appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name -}}
             </li>
           </ul>
         {% endif %}
