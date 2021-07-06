@@ -27,7 +27,7 @@ exports.getDocument = async (req, res) => {
     });
   } catch (e) {
     logger.error({ e }, 'Document was retrieved but appears to be missing key data.');
-    return res.sendStatus(500);
+    return res.status(500);
   }
 
   return fileResponse.body.pipe(res);

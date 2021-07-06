@@ -81,7 +81,7 @@ describe('controllers/document-service-proxy', () => {
 
           await documentServiceProxyController.getDocument(request, res);
 
-          expect(res.sendStatus).toHaveBeenCalledWith(500);
+          expect(res.status).toHaveBeenCalledWith(500);
         });
 
         it('should proxy the document request and set the expected headers', async () => {

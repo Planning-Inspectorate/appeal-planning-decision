@@ -43,7 +43,6 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
             /* istanbul ignore next */
             throw new Error(apiResponse.statusText);
           } catch (e) {
-            logger.error({ e }, 'Error on documents API wrapper handler.');
             throw new Error(e.message);
           }
         }
