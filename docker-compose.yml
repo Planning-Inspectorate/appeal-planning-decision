@@ -318,4 +318,3 @@ services:
     image: mkodockx/docker-clamav
     ports:
       - 3310:3310
-      -
