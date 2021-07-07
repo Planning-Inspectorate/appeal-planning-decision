@@ -2,7 +2,6 @@ const config = require('../../config');
 const validateFileSize = require('../custom/file-size');
 const validMimeType = require('../custom/mime-type');
 const validBinaryMimeType = require('../custom/mime-binary-type');
-const validAV = require('../custom/clamav');
 const {
   MIME_TYPE_DOC,
   MIME_BINARY_TYPE_DOC,
@@ -32,9 +31,6 @@ module.exports = {
           ],
           `${name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`
         );
-
-        // check file for Virus
-        await validAV(value, 'The selected file contains a virus');
 
         // check binary mime type of file
         await validBinaryMimeType(
