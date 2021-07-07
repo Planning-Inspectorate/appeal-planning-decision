@@ -2,7 +2,7 @@ const config = require('../../config');
 const validateFileSize = require('../custom/file-size');
 const validMimeType = require('../custom/mime-type');
 const validBinaryMimeType = require('../custom/mime-binary-type');
-//const validAV = require('../custom/clamav');
+const validAV = require('../custom/clamav');
 const {
   MIME_TYPE_DOC,
   MIME_BINARY_TYPE_DOC,
@@ -50,7 +50,7 @@ module.exports = {
         );
 
         // check file for Virus
-        //await validAV(req.files['appeal-upload'], 'The selected file contains a virus');
+        await validAV(req.files['appeal-upload'], 'The selected file contains a virus');
 
         // check binary mime type of file
         await validBinaryMimeType(
