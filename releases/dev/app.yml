@@ -53,11 +53,12 @@ spec:
         googleAnalyticsId: G-TZBWMVPTHV
 
     lpaQuestionnaireWebApp:
-      allowCreate: 'true'
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/lpa-questionnaire-web-app
         tag: 1.33.1
+      config:
+        allowCreate: true
 
     pdfServiceApi:
       replicaCount: 2
