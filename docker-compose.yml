@@ -314,7 +314,7 @@ services:
     ports:
       - "5003:8081"
 
-  clamav-server:
+  clamav:
     image: mkodockx/docker-clamav
     ports:
       - 3310:3310
