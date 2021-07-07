@@ -143,12 +143,12 @@ services:
       - appeals-service-api
       - document-service-api
       - mongodb
-      - clamav-server
+      - clamav
     depends_on:
       - appeals-service-api
       - document-service-api
       - mongodb
-      - clamav-server
+      - clamav
     volumes:
       - ./packages/common:/opt/app/node_modules/@pins/common
       - ./packages/forms-web-app:/opt/app
