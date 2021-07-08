@@ -2,7 +2,6 @@ const { body } = require('express-validator');
 const { isAfter, endOfDay } = require('date-fns');
 const dateInputValidation = require('./custom/date-input');
 const fileRules = require('./files');
-// const messages = require('./validation-messages/supplementary-documents-validation-messages');
 
 const messages = {
   upload: 'Upload a relevant supplementary planning document',
