@@ -12,8 +12,7 @@
 {% block question %}
   <h1 class="govuk-heading-l">{{ question.heading }}</h1>
 
-  <p>You can add one supplementary planning document at a time. You will be able to add more later.</p>
-  <p>{{ errors | dump }}</p>
+  <p>You can add one supplementary planning document at a time. You will be able to add more later.</p> 
 
   {{ govukFileUpload({
     id: "documents",
