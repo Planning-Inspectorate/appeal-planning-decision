@@ -189,6 +189,7 @@ describe('controllers/accuracy-submission', () => {
         values: emptyValues,
       });
     });
+
     it('should redirect to list page if everything is valid', async () => {
       uploadFiles.mockReturnValue([{ id: 'mock-file-id', name: 'some-file.pdf' }]);
 
@@ -244,6 +245,37 @@ describe('controllers/accuracy-submission', () => {
 
       await supplementaryDocumentsController.postAddDocument(mockRequest, res);
       expect(res.redirect).toHaveBeenCalledWith('/mock-id/task-list');
+    });
+
+    it('should only display one date error messages if formally adopted is set to yes, and date is completely blank', async () => {
+      const mockRawErrorSummary = [
+        { text: 'Upload a relevant supplementary planning document' },
+        { text: 'Enter a name for the supplementary planning document' },
+        { text: 'Tell us the date the supplementary planning document was adopted' },
+        { text: 'Date of adoption must include a month and year' },
+        { text: 'Date of adoption must include a year' },
+      ];
+
+      const mockRequest = {
+        ...req,
+        body: {
+          errorSummary: mockRawErrorSummary,
+        },
+      };
+
+      await supplementaryDocumentsController.postAddDocument(mockRequest, res);
+      expect(res.render).toHaveBeenCalledWith(VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
+        appeal: null,
+        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        question: supplementaryDocumentsController.question,
+        errors: {},
+        errorSummary: [
+          { text: 'Upload a relevant supplementary planning document' },
+          { text: 'Enter a name for the supplementary planning document' },
+          { text: 'Tell us the date the supplementary planning document was adopted' },
+        ],
+        values: emptyValues,
+      });
     });
   });
 });
