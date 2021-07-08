@@ -82,7 +82,9 @@ describe('validators/custom/date-input', () => {
         }),
         expected: (result) => {
           expect(result.errors[0].location).toEqual('body');
-          expect(result.errors[0].msg).toEqual('Enter the mock date');
+          expect(result.errors[0].msg).toEqual(
+            'Tell us the date the supplementary planning document was adopted'
+          );
           expect(result.errors[0].param).toEqual('mock-date-day');
           expect(result.errors[0].value).toEqual('');
         },
