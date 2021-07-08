@@ -51,6 +51,8 @@ spec:
         tag: 1.52.4
       config:
         googleAnalyticsId: G-TZBWMVPTHV
+        googleTagManagerId: GTM-KZN7XP4
+        featureFlagGoogleTagManager: 'true'
 
     lpaQuestionnaireWebApp:
       replicaCount: 2
