@@ -32,10 +32,6 @@ module.exports = {
           return true;
         }
 
-        const test = '123';
-
-        console.log(test);
-
         // check file extension type
         const { mimetype } = req.files[path];
 
