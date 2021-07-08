@@ -58,7 +58,7 @@ spec:
         repository: pinscommonukscontainers3887default.azurecr.io/lpa-questionnaire-web-app
         tag: 1.34.2
       config:
-        allowCreate: true
+        allowCreate: 'true'
 
     pdfServiceApi:
       replicaCount: 2
