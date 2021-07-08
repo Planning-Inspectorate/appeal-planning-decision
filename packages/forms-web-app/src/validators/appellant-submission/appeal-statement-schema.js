@@ -9,6 +9,7 @@ const {
   MIME_TYPE_PDF,
   MIME_TYPE_JPEG,
   MIME_TYPE_TIF,
+  MIME_TYPE_PNG,
 } = require('../../lib/mime-types');
 
 module.exports = {
@@ -30,6 +31,10 @@ module.exports = {
         } else if (noNewFileUploaded) {
           return true;
         }
+
+        const test = '123';
+
+        console.log(test);
 
         // check file extension type
         const { mimetype } = req.files[path];
