@@ -34,6 +34,56 @@ const renameDocErrorKeys = (errors) => {
   };
 };
 
+const isFormFullyBlank = (rawErrorSummary) => {
+  const rawErrorSummaryTexts = rawErrorSummary.map((obj) => obj.text);
+
+  const matchingTexts = Object.values(errorTexts.sectionErrorTexts).filter((vm) =>
+    rawErrorSummaryTexts.includes(vm)
+  );
+
+  return matchingTexts.length >= 3;
+};
+
+const populateErrorSummary = (rawErrorSummary) => {
+  return rawErrorSummary.map((error) => {
+    if (error.href === '#files.documents[0]')
+      return {
+        href: '#documents',
+        text: error.text,
+      };
+    if (error.href === '#adoptedDate')
+      return {
+        href: '#adoptedDate-day',
+        text: error.text,
+      };
+    return error;
+  });
+};
+
+const isAdoptedAndDateBlank = (errorSummary) => {
+  const errorSummaryTexts = errorSummary.map((obj) => obj.text);
+
+  const matchingTexts = Object.values(errorTexts.dateErrorTexts).filter((vm) =>
+    errorSummaryTexts.includes(vm)
+  );
+
+  return matchingTexts.length >= 3;
+};
+
+const createErrorSummary = (rawErrorSummary) => {
+  let errorSummary = populateErrorSummary(rawErrorSummary);
+
+  if (isAdoptedAndDateBlank(errorSummary)) {
+    errorSummary = errorSummary.filter(
+      (err) =>
+        err.text !== errorTexts.dateErrorTexts.monthYear &&
+        err.text !== errorTexts.dateErrorTexts.month
+    );
+  }
+
+  return errorSummary;
+};
+
 exports.postAddDocument = async (req, res) => {
   const backLink = res.locals.backLink || req.session.backLink;
 
@@ -52,6 +102,11 @@ exports.postAddDocument = async (req, res) => {
     session: { appealReply },
   } = req;
 
+  if (isFormFullyBlank(rawErrorSummary)) {
+    res.redirect(`/${appealId}/task-list`);
+    return;
+  }
+
   const values = {
     documents,
     documentName,
@@ -62,29 +117,7 @@ exports.postAddDocument = async (req, res) => {
     stageReached,
   };
 
-  const errorSummary = rawErrorSummary.map((error) => {
-    // TODO: reduce date errors to single message
-    if (error.href === '#files.documents[0]')
-      return {
-        href: '#documents',
-        text: error.text,
-      };
-    if (error.href === '#adoptedDate')
-      return {
-        href: '#adoptedDate-day',
-        text: error.text,
-      };
-    return error;
-  });
-
-  // Check if all fields have been left blank
-  if (
-    Object.values(errorTexts).filter((vm) => errorSummary.map((obj) => obj.text).includes(vm))
-      .length >= 3
-  ) {
-    res.redirect(`/${appealId}/task-list`);
-    return;
-  }
+  const errorSummary = createErrorSummary(rawErrorSummary);
 
   const errors = renameDocErrorKeys(rawErrors);
 
