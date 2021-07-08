@@ -1,7 +1,6 @@
 const fetch = require('node-fetch');
 const uuid = require('uuid');
 const { utils } = require('@pins/common');
-
 const config = require('../config');
 const parentLogger = require('./logger');
 
