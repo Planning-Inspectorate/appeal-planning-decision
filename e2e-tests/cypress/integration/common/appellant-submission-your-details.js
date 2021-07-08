@@ -469,7 +469,7 @@ Given('it is confirmed that appellant {string} original applicant', (isOrIsNot) 
 
 
 Then('appeal is not updated because confirmation of original applicant status is required', () => {
-  cy.confirmWhoAreYouRejectedBecause('Yes, the original application was made in my name');
+  cy.confirmWhoAreYouRejectedBecause('Select yes if the original planning application was made in your name');
   cy.confirmAreYouOriginalApplicant('not set');
 })
 
