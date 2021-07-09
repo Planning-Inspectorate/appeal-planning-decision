@@ -18,3 +18,4 @@ import 'cypress-axe';
 import 'cypress-ntlm-auth/dist/commands';
 import 'cypress-downloadfile/lib/downloadFileCommand';
 import './commands';
+import 'cypress-html-validate/dist/commands';
