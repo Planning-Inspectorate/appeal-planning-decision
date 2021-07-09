@@ -300,7 +300,7 @@ Then('the user is informed that the name is missing', () => {
 
 Then('the user is informed that the email is missing', () => {
   cy.goToYourDetailsPage();
-  cy.confirmDetailsWasRejected('Enter your email address');
+  cy.confirmDetailsWasRejected('Enter an email address in the correct format, like name@example.com');
 });
 
 Then(

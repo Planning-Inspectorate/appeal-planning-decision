@@ -44,7 +44,7 @@ const ruleAddressPostCode = () =>
   body('site-postcode')
     .escape()
     .notEmpty()
-    .withMessage('Enter a postcode')
+    .withMessage('Enter a real postcode')
     .bail()
     .isLength({ min: 1, max: 8 })
     .bail()

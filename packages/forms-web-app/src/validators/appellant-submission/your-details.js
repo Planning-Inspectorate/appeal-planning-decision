@@ -28,7 +28,7 @@ function validateEmail(email) {
 const ruleYourEmail = () =>
   body('appellant-email')
     .notEmpty()
-    .withMessage('Enter your email address')
+    .withMessage('Enter an email address in the correct format, like name@example.com')
     .bail()
     .isEmail()
     .withMessage('Email should be a valid email address')
