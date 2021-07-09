@@ -66,6 +66,19 @@ describe('controllers/upload-question', () => {
       });
     });
 
+    it('should call the correct template, with missing data in request', () => {
+      mockAppealReply.mockSection.mockTask = undefined;
+      req.session.appealReply = mockAppealReply;
+      req.session.backLink = backLinkUrl;
+
+      uploadQuestionController.getUpload(req, res);
+
+      expect(res.render).toHaveBeenCalledWith('mock-view', {
+        appeal: null,
+        backLink: backLinkUrl,
+      });
+    });
+
     it('it should have the correct back link when no request session object exists.', () => {
       uploadQuestionController.getUpload(req, res);
 
