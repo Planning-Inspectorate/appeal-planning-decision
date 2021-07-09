@@ -220,7 +220,7 @@ Then('name {string} is invalid because {string}', (name, reason) => {
       cy.confirmDetailsWasRejected('Enter your name');
       break;
     case 'name outside size constraints':
-      cy.confirmDetailsWasRejected('Name must be between 2 and 80 characters');
+      cy.confirmDetailsWasRejected('Your name must be no fewer than 2 characters and no more than 80 characters');
       break;
     case 'name with prohibited characters':
       cy.confirmDetailsWasRejected('Name must only include letters a to z, hyphens, spaces and apostrophes');
@@ -249,7 +249,7 @@ Then('the user is informed that the provided value {string} is invalid because {
       cy.confirmDetailsWasRejected('Enter your name');
       break;
     case 'name outside size constraints':
-      cy.confirmDetailsWasRejected('Name must be between 2 and 80 characters');
+      cy.confirmDetailsWasRejected('Your name must be no fewer than 2 characters and no more than 80 characters');
       break;
     case 'name with prohibited characters':
       cy.confirmDetailsWasRejected('Name must only include letters a to z, hyphens, spaces and apostrophes');
@@ -271,7 +271,7 @@ Then('original applicant value {string} is invalid because {string}', (originalA
       cy.confirmOriginalApplicantWasRejected('Enter the name you are appealing for');
       break;
     case 'name outside size constraints':
-      cy.confirmOriginalApplicantWasRejected('Name must be between 2 and 80 characters');
+      cy.confirmOriginalApplicantWasRejected('Your name must be no fewer than 2 characters and no more than 80 characters');
       break;
     case 'name with prohibited characters':
       cy.confirmOriginalApplicantWasRejected('Name must only include letters a to z, hyphens, spaces and apostrophes');
@@ -300,7 +300,7 @@ Then('the user is informed that the name is missing', () => {
 
 Then('the user is informed that the email is missing', () => {
   cy.goToYourDetailsPage();
-  cy.confirmDetailsWasRejected('Enter your email address');
+  cy.confirmDetailsWasRejected('Enter an email address in the correct format, like name@example.com');
 });
 
 Then(

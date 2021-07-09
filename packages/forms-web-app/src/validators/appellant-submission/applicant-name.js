@@ -10,7 +10,7 @@ const rules = () => {
       .withMessage('Name must only include letters a to z, hyphens, spaces and apostrophes')
       .bail()
       .isLength({ min: 2, max: 80 })
-      .withMessage('Name must be between 2 and 80 characters'),
+      .withMessage('Your name must be no fewer than 2 characters and no more than 80 characters'),
   ];
 };
 

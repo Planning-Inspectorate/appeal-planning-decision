@@ -33,7 +33,7 @@ describe('validators/your-details', () => {
       expect(rule.locations).toEqual(['body']);
       expect(rule.optional).toBeFalsy();
       expect(rule.stack).toHaveLength(7);
-      expect(rule.stack[0].message).toEqual('Enter your email address');
+      expect(rule.stack[0].message).toEqual('Enter an email address in the correct format, like name@example.com');
       expect(rule.stack[2].validator.name).toEqual('isEmail');
     });
 
@@ -58,7 +58,7 @@ describe('validators/your-details', () => {
           expect(result.errors[0].param).toEqual('appellant-name');
           expect(result.errors[0].value).toEqual(undefined);
           expect(result.errors[1].location).toEqual('body');
-          expect(result.errors[1].msg).toEqual('Enter your email address');
+          expect(result.errors[1].msg).toEqual('Enter an email address in the correct format, like name@example.com');
           expect(result.errors[1].param).toEqual('appellant-email');
           expect(result.errors[1].value).toEqual(undefined);
         },
@@ -97,7 +97,7 @@ describe('validators/your-details', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(2);
           expect(result.errors[0].location).toEqual('body');
-          expect(result.errors[0].msg).toEqual('Name must be between 2 and 80 characters');
+          expect(result.errors[0].msg).toEqual('Your name must be no fewer than 2 characters and no more than 80 characters');
           expect(result.errors[0].param).toEqual('appellant-name');
           expect(result.errors[0].value).toEqual('a');
 
@@ -119,7 +119,7 @@ describe('validators/your-details', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(2);
           expect(result.errors[0].location).toEqual('body');
-          expect(result.errors[0].msg).toEqual('Name must be between 2 and 80 characters');
+          expect(result.errors[0].msg).toEqual('Your name must be no fewer than 2 characters and no more than 80 characters');
           expect(result.errors[0].param).toEqual('appellant-name');
           expect(result.errors[0].value).toEqual(
             'Invalid name because it is eighty-one characters long--abcdefghijklmnopqrstuvwxyz'
