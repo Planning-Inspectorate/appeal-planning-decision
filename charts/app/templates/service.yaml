@@ -36,8 +36,8 @@ spec:
       protocol: TCP
       name: {{ .Values.lpaQuestionnaireWebApp.service.name }}
     - port: {{ .Values.clamav.service.port }}
-      targetPort: {{.Values.clamav.service.name }}
+      targetPort: {{ .Values.clamav.service.name }}
       protocol: TCP
-      name: {{.Values.clamav.service.name }}
+      name: {{ .Values.clamav.service.name }}
   selector:
     {{- include "app.selectorLabels" . | nindent 4 }}
