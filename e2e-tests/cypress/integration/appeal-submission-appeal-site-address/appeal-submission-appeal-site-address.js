@@ -81,7 +81,7 @@ Then(
         cy.confirmSiteAddressWasRejectedBecause('Enter the first line of the address');
         break;
       case 'Postcode is required':
-        cy.confirmSiteAddressWasRejectedBecause('Enter a postcode');
+        cy.confirmSiteAddressWasRejectedBecause('Enter a real postcode');
         break;
       case 'Address Line 1 has a limit of 60 characters':
         cy.confirmSiteAddressWasRejectedBecause(
@@ -136,7 +136,7 @@ Then('the user is informed that {string}', (reason) => {
       cy.confirmSiteAddressWasRejectedBecause('County must be 60 characters or fewer');
       break;
     case 'Postcode is required':
-      cy.confirmSiteAddressWasRejectedBecause('Enter a postcode');
+      cy.confirmSiteAddressWasRejectedBecause('Enter a real postcode');
       break;
     case 'Postcode has a limit of 8 characters':
       cy.confirmSiteAddressWasRejectedBecause('Postcode must be 8 characters or fewer');
