@@ -110,7 +110,7 @@ describe('validators/appellant-submission/site-location', () => {
 
         expect(rule.stack[1].negated).toBeTruthy();
         expect(rule.stack[1].validator.name).toEqual('isEmpty');
-        expect(rule.stack[1].message).toEqual('Enter a postcode');
+        expect(rule.stack[1].message).toEqual('Enter a real postcode');
 
         expect(rule.stack[3].negated).toBeFalsy();
         expect(rule.stack[3].validator.name).toEqual('isLength');
@@ -218,7 +218,7 @@ describe('validators/appellant-submission/site-location', () => {
         }),
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
-          expect(result.errors[0].msg).toEqual('Enter a postcode');
+          expect(result.errors[0].msg).toEqual('Enter a real postcode');
         },
       },
       {
@@ -247,7 +247,7 @@ describe('validators/appellant-submission/site-location', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(2);
           expect(result.errors[0].msg).toEqual('Enter the first line of the address');
-          expect(result.errors[1].msg).toEqual('Enter a postcode');
+          expect(result.errors[1].msg).toEqual('Enter a real postcode');
         },
       },
       {
@@ -261,7 +261,7 @@ describe('validators/appellant-submission/site-location', () => {
         }),
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
-          expect(result.errors[0].msg).toEqual('Enter a postcode');
+          expect(result.errors[0].msg).toEqual('Enter a real postcode');
         },
       },
       {
@@ -272,7 +272,7 @@ describe('validators/appellant-submission/site-location', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(2);
           expect(result.errors[0].msg).toEqual('Enter the first line of the address');
-          expect(result.errors[1].msg).toEqual('Enter a postcode');
+          expect(result.errors[1].msg).toEqual('Enter a real postcode');
         },
       },
       {

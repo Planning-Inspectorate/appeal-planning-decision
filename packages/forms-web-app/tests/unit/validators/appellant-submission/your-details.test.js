@@ -81,7 +81,7 @@ describe('validators/your-details', () => {
           expect(result.errors[0].value).toEqual('12 abc');
 
           expect(result.errors[1].location).toEqual('body');
-          expect(result.errors[1].msg).toEqual('Email should be a valid email address');
+          expect(result.errors[1].msg).toEqual('Enter an email address in correct format, like name@example.com');
           expect(result.errors[1].param).toEqual('appellant-email');
           expect(result.errors[1].value).toEqual('@.com');
         },
@@ -102,7 +102,7 @@ describe('validators/your-details', () => {
           expect(result.errors[0].value).toEqual('a');
 
           expect(result.errors[1].location).toEqual('body');
-          expect(result.errors[1].msg).toEqual('Email should be a valid email address');
+          expect(result.errors[1].msg).toEqual('Enter an email address in correct format, like name@example.com');
           expect(result.errors[1].param).toEqual('appellant-email');
           expect(result.errors[1].value).toEqual(13);
         },
@@ -126,7 +126,7 @@ describe('validators/your-details', () => {
           );
 
           expect(result.errors[1].location).toEqual('body');
-          expect(result.errors[1].msg).toEqual('Email should be a valid email address');
+          expect(result.errors[1].msg).toEqual('Enter an email address in correct format, like name@example.com');
           expect(result.errors[1].param).toEqual('appellant-email');
           expect(result.errors[1].value).toEqual(13);
         },
@@ -142,7 +142,7 @@ describe('validators/your-details', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
-          expect(result.errors[0].msg).toEqual('Email should be a valid email address');
+          expect(result.errors[0].msg).toEqual('Enter an email address in correct format, like name@example.com');
           expect(result.errors[0].param).toEqual('appellant-email');
           expect(result.errors[0].value).toEqual('thomas-@example.com');
         },
@@ -158,7 +158,7 @@ describe('validators/your-details', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
-          expect(result.errors[0].msg).toEqual('Email should be a valid email address');
+          expect(result.errors[0].msg).toEqual('Enter an email address in correct format, like name@example.com');
           expect(result.errors[0].param).toEqual('appellant-email');
           expect(result.errors[0].value).toEqual('thomas@example.c');
         },
