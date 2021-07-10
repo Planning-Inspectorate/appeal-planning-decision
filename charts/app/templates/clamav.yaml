@@ -1,120 +1,48 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: clamav
+  name: {{ include "app.fullname" . }}-clamav
   labels:
-    name: clamav
+  {{- include "app.labels" . | nindent 4 }}
 spec:
-  replicas: 3
   selector:
     matchLabels:
-      name: clamav
+  {{- include "app.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      annotations:
+      {{- with .Values.podAnnotations }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        name: clamav
+    {{- include "app.selectorLabels" . | nindent 8 }}
     spec:
-      volumes:
-        - name: secrets
-          emptyDir: {}
-        - name: ca-bundle
-          secret:
-            secretName: ca-bundle
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "app.serviceAccountName" . }}
+      securityContext:
+      {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: vault-side-kick
-          image: quay.io/ukhomeofficedigital/vault-sidekick:v0.3.1
-          imagePullPolicy: Always
-          resources:
-            limits:
-              memory: "100Mi"
-              cpu: 100m
-            requests:
-              memory: "50Mi"
-              cpu: 100m
-          args:
-            - -output=/etc/secrets
-            - -ca-cert=/ca/caroot.bundle
-            - -cn=pki:services/${NAMESPACE}/pki/issue/default:common_name=clamav.${NAMESPACE}.svc.cluster.local,file=/etc/secrets/nginx,fmt=cert
-          env:
-            - name: VAULT_ADDR
-              value: "https://vault.vault.svc.cluster.local:8200"
-            - name: VAULT_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: store-token
-                  key: token
-            - name: NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
-          volumeMounts:
-            - mountPath: /etc/secrets
-              name: secrets
-            - name: ca-bundle
-              mountPath: /ca
-        - name: nginx
-          image: quay.io/ukhomeofficedigital/nginx-proxy:v1.7.0
-          imagePullPolicy: Always
-          env:
-            - name: PROXY_SERVICE_HOST
-              value: 'http://127.0.0.1'
-            - name: PROXY_SERVICE_PORT
-              value: '8080'
-            - name: NAXSI_USE_DEFAULT_RULES
-              value: 'FALSE'
-            - name: ENABLE_UUID_PARAM
-              value: 'FALSE'
-            - name: CLIENT_MAX_BODY_SIZE
-              value: '10'
-            - name: SSL_CERT
-              value: /etc/secrets/nginx.crt
-            - name: SSL_KEY
-              value: /etc/secrets/nginx.key
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.clamav.image.repository }}:{{ .Values.clamav.image.tag }}"
+          imagePullPolicy: {{ .Values.clamav.image.pullPolicy }}
           ports:
-            - name: https
-              containerPort: 443
-          resources:
-            limits:
-              cpu: 100m
-              memory: 400M
-          volumeMounts:
-            - mountPath: /etc/secrets
-              name: secrets
-        - name: clamd-rest
-          image: quay.io/ukhomeofficedigital/go-clamav-rest:{{.DRONE_COMMIT_SHA}}
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 8080
-              name: api
+            - name: {{ .Values.clamav.service.name }}
+              containerPort: {{ .Values.clamav.config.port }}
               protocol: TCP
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: 8080
-            initialDelaySeconds: 60
-            timeoutSeconds: 10
-            periodSeconds: 30
-            failureThreshold: 10
           resources:
-            limits:
-              cpu: 400m
-              memory: 1000M
-        - name: clamd
-          image: quay.io/ukhomeofficedigital/clamav:{{.DRONE_COMMIT_SHA}}
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 3310
-              name: api
-              protocol: TCP
-          readinessProbe:
-            exec:
-              command:
-                - /readyness.sh
-            initialDelaySeconds: 90
-            timeoutSeconds: 10
-            periodSeconds: 30
-            failureThreshold: 10
-          resources:
-            limits:
-              cpu: 500m
-              memory: 1000M
+      {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+  {{- toYaml . | nindent 8 }}
+  {{- end }}
