@@ -103,10 +103,10 @@ Then(
         cy.confirmSiteAddressWasRejectedBecause('Postcode must be 8 characters or fewer');
         break;
       case "Postcodes can't be all letters":
-        cy.confirmSiteAddressWasRejectedBecause('Enter a valid postcode');
+        cy.confirmSiteAddressWasRejectedBecause('Enter a real postcode');
         break;
       case 'Postcodes should begin with a letter':
-        cy.confirmSiteAddressWasRejectedBecause('Enter a valid postcode');
+        cy.confirmSiteAddressWasRejectedBecause('Enter a real postcode');
         break;
       default:
         throw new Error('Reason ' + reason + ' not found');
