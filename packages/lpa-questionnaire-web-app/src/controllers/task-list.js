@@ -18,7 +18,7 @@ function buildTaskLists(appealReply, appealId) {
         'data-cy': `task-list--${sectionId}`,
       },
       tasks: tasks.map(({ taskId, href, rule }) => {
-        const status = rule(appealReply, taskId);
+        const status = rule(appealReply, taskId, sectionId);
 
         return {
           text: HEADERS[taskId],

@@ -18,7 +18,13 @@ const docArrayFromInputString = (tempDocsString) => {
 exports.getUpload = (req, res) => {
   const { sectionName, taskName, view } = res.locals.routeInfo;
 
-  const { uploadedFiles = [] } = req.session.appealReply[sectionName][taskName];
+  let uploadedFiles;
+
+  if (!req.session.appealReply[sectionName][taskName]) {
+    req.session.appealReply[sectionName][taskName] = { uploadFiles: [] };
+  } else {
+    uploadedFiles = req.session.appealReply[sectionName][taskName].uploadedFiles;
+  }
 
   res.render(view, {
     appeal: getAppealSideBarDetails(req.session.appeal),
