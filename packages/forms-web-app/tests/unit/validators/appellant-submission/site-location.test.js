@@ -372,7 +372,7 @@ describe('validators/appellant-submission/site-location', () => {
         }),
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
-          expect(result.errors[0].msg).toEqual('Enter a valid postcode');
+          expect(result.errors[0].msg).toEqual('Enter a real postcode');
         },
       },
       {
@@ -388,7 +388,7 @@ describe('validators/appellant-submission/site-location', () => {
         }),
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
-          expect(result.errors[0].msg).toEqual('Enter a valid postcode');
+          expect(result.errors[0].msg).toEqual('Enter a real postcode');
         },
       },
     ].forEach(({ title, given, expected }) => {
