@@ -5,15 +5,8 @@ const {
   developmentPlanCompletion,
   uploadPlansCompletion,
   officersReportCompletion,
-  interestedPartiesCompletion,
-  representationsCompletion,
-  notifyingPartiesCompletion,
-  siteNoticesCompletion,
-  conservationAreaMapCompletion,
-  planningHistoryCompletion,
-  otherPoliciesCompletion,
-  statutoryDevelopmentCompletion,
   booleanCompletion,
+  fileUploadCompletion,
 } = require('./task-status');
 const checkYourAnswerCompletion = require('./task-status/check-your-answers');
 
@@ -94,17 +87,17 @@ const SECTIONS = [
       {
         taskId: 'interestedPartiesApplication',
         href: '/interested-parties',
-        rule: interestedPartiesCompletion,
+        rule: fileUploadCompletion,
       },
       {
         taskId: 'representationsInterestedParties',
         href: '/representations',
-        rule: representationsCompletion,
+        rule: fileUploadCompletion,
       },
       {
         taskId: 'interestedPartiesAppeal',
         href: '/notifications',
-        rule: notifyingPartiesCompletion,
+        rule: fileUploadCompletion,
       },
       {
         taskId: 'originalPlanningApplicationPublicised',
@@ -114,27 +107,27 @@ const SECTIONS = [
       {
         taskId: 'siteNotices',
         href: '/site-notice',
-        rule: siteNoticesCompletion,
+        rule: fileUploadCompletion,
       },
       {
         taskId: 'conservationAreaMap',
         href: '/conservation-area-map',
-        rule: conservationAreaMapCompletion,
+        rule: fileUploadCompletion,
       },
       {
         taskId: 'planningHistory',
         href: '/planning-history',
-        rule: planningHistoryCompletion,
+        rule: fileUploadCompletion,
       },
       {
         taskId: 'otherPolicies',
         href: '/other-policies',
-        rule: otherPoliciesCompletion,
+        rule: fileUploadCompletion,
       },
       {
         taskId: 'statutoryDevelopment',
         href: '/statutory-development',
-        rule: statutoryDevelopmentCompletion,
+        rule: fileUploadCompletion,
       },
       {
         taskId: 'developmentOrNeighbourhood',
