@@ -56,6 +56,10 @@ Cypress.Commands.add('clickSubmitButton', require('./common/clickSubmitButton'))
 Cypress.Commands.add('clickBackButton', require('./common/clickBackButton'));
 
 Cypress.Commands.add('validateErrorMessage', require('./common/validateErrorMessage'));
+Cypress.Commands.add(
+  'validateFileUploadErrorMessage',
+  require('./common/validateFileUploadErrorMessage'),
+);
 
 Cypress.Commands.add('generateQuestionnaire', require('./common/generateQuestionnaire'));
 

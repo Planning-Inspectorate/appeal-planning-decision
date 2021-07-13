@@ -166,7 +166,7 @@ When('invalid files {string} have been selected', (fileName) => {
 });
 
 When('LPA Planning Officer deletes the file', () => {
-  deleteFile('upload-file-valid.pdf');
+  deleteFile();
 });
 
 When('an answer is saved', () => {
@@ -193,9 +193,8 @@ Then('progress is halted with a message the file {string} {string}', (fileName, 
       break;
   }
 
-  cy.validateErrorMessage(errorMessage, null, fileName);
-  validateFileUpload(errorMessage);
-  verifyUploadPageTitleError();
+  cy.validateFileUploadErrorMessage(errorMessage, null);
+  // validateFileUpload(errorMessage);
 });
 
 Then('any document uploaded will not be saved', () => {
@@ -204,6 +203,7 @@ Then('any document uploaded will not be saved', () => {
 });
 
 Then('the file is removed', () => {
+  cy.wait(1000);
   validateFileNotPresent('upload-file-valid.pdf');
   if (!assumeLimitedAccess) {
     expectFileNotToBeInDocumentService('upload-file-valid.pdf');
