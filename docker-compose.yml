@@ -94,6 +94,21 @@ services:
       - ./packages/appeals-service-api:/opt/app:ro
     command: npm run start:dev
 
+    authentication-service-api:
+    image: node:14-alpine
+    environment:
+      SERVER_SHOW_ERRORS: 'true'
+      LOGGER_LEVEL: 'debug'
+    ports:
+      - 3004:3000
+    working_dir: /opt/app
+    links:
+      - redis
+    volumes:
+      - ./packages/common:/opt/app/node_modules/@pins/common:ro # Replace the module to avoid symlink errors
+      - ./packages/authentication-service-api:/opt/app:ro
+    command: npm run start:dev
+
   document-service-api: &document-service
     image: node:14-alpine
     environment:
@@ -319,3 +334,8 @@ services:
     image: mkodockx/docker-clamav
     ports:
       - 3310:3310
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - 4004:6379

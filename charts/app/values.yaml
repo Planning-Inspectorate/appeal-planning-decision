@@ -52,6 +52,20 @@ appealsServiceApi:
       emailReplyToId:
         startEmailToLpa: f1e6c8c5-786e-41ca-9086-10b67f31bc86
 
+authenticationServiceApi:
+  replicaCount: 1
+  config:
+    port: 3000
+    logLevel: trace
+  image:
+    repository: pinscommonukscontainers3887default.azurecr.io/authentication-service-api
+    pullPolicy: Always
+    tag: latest
+  service:
+    name: auth-srv-api
+    port: 3004
+
+
 documentServiceApi:
   replicaCount: 1
   service:
