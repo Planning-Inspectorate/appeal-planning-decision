@@ -44,19 +44,34 @@ const convertDocumentArray = (arrayOfFiles, type) => {
  * @param {object} body contains the reply object
  * @returns {documents} documents object for Horizon
  */
-const populateDocuments = (body) => {
+const populateDocuments = (event) => {
   const documents = [];
 
   Object.keys(documentsSections).forEach((key) => {
-    if (body[documentsSections[key]] !== undefined) {
+    if (event.body[documentsSections[key]] !== undefined) {
       documents.push(
         convertDocumentArray(
-          body[documentsSections[key]][key].uploadedFiles,
+          event.body[documentsSections[key]][key].uploadedFiles,
           sectionTypes[`${key}Type`]
         )
       );
     }
   });
+
+  const id = event.body.submission.pdfStatement?.uploadedFile.id;
+
+  if (id === undefined) {
+    const message = 'PDF not present in submission';
+    event.log.error(
+      {
+        message,
+        data: event.body.submission,
+      },
+      message
+    );
+  } else {
+    documents.push({ id, type: sectionTypes.pdfType });
+  }
 
   return documents.flat();
 };
@@ -102,7 +117,7 @@ const handlerReply = async (event, context) => {
   try {
     const { body } = event;
     const replyId = body.id;
-    await publishDocuments(event.log, populateDocuments(body), replyId, horizonId);
+    await publishDocuments(event.log, populateDocuments(event), replyId, horizonId);
     return {
       id: horizonId,
     };

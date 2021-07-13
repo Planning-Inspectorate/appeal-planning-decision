@@ -59,6 +59,10 @@ const getFullExpectation = () => {
       id: ods.supplementaryPlanningDocuments.uploadedFiles[0].id,
       type: sectionTypes.supplementaryPlanningDocumentsType,
     },
+    {
+      id: mockAppealReply.submission.pdfStatement.uploadedFile.id,
+      type: sectionTypes.pdfType,
+    },
   ];
 };
 
@@ -71,24 +75,40 @@ describe('addFilesToDocuments', () => {
 });
 
 describe('populateDocuments', () => {
-  let body;
+  let event;
   let mockAppealReply;
   let expectation;
+  let logMock;
+  const mockError = jest.fn();
 
   beforeEach(() => {
     mockAppealReply = getMockAppealReply();
-    body = { ...mockAppealReply };
+    event = { body: { ...mockAppealReply } };
     expectation = getFullExpectation(mockAppealReply);
+    logMock = {
+      error: mockError,
+    };
   });
 
   it('should return a correctly structured documents array including all optional documents', async () => {
-    expect(populateDocuments(body)).toEqual(expectation);
+    expect(populateDocuments(event)).toEqual(expectation);
   });
 
   it('should return a correctly structured documents array with some optional documents', async () => {
     mockAppealReply.optionalDocumentsSection.supplementaryPlanningDocuments.uploadedFiles = [];
+    expectation.splice(-2, 1);
+    expect(populateDocuments(event)).toEqual(expectation);
+  });
+
+  it('should return a correctly structured documents array, without the pdf', async () => {
+    event.body.submission.pdfStatement = undefined;
+    event.log = logMock;
     expectation.pop();
-    expect(populateDocuments(body)).toEqual(expectation);
+    expect(populateDocuments(event)).toEqual(expectation);
+    expect(mockError).toHaveBeenCalledWith(
+      { data: { pdfStatement: undefined }, message: 'PDF not present in submission' },
+      'PDF not present in submission'
+    );
   });
 });
 
