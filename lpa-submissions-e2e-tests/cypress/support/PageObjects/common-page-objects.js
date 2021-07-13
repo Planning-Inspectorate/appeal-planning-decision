@@ -49,3 +49,6 @@ exports.errorMessage = (errorMessageId) => {
 exports.summaryErrorMessage = (summaryErrorMessageId) => {
   return cy.get(`a[href="#${summaryErrorMessageId}"]`);
 };
+exports.summaryFileUploadErrorMessage = () => {
+  return cy.get(`a[href="#documents"]`);
+};
