@@ -58,7 +58,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/lpa-questionnaire-web-app
-        tag: 1.34.4
+        tag: 1.35.0
       config:
         allowCreate: 'true'
 
