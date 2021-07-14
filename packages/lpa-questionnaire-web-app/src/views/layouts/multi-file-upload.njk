@@ -112,7 +112,7 @@ if (typeof MOJFrontend.MultiFileUpload !== 'undefined') {
       error: response.error ? response.error.message : undefined,
     };
 
-      temporaryDocInput.value = temporaryDocInput.value + JSON.stringify(upload);
+    temporaryDocInput.value = temporaryDocInput.value + JSON.stringify(upload);
   };
 
   function onFileDelete(context, response) {
