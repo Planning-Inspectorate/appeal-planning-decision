@@ -337,4 +337,4 @@ services:
   redis:
     image: "redis:alpine"
     ports:
-      - 4004:6379
+      - 4007:6379
