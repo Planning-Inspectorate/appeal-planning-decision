@@ -194,7 +194,6 @@ Then('progress is halted with a message the file {string} {string}', (fileName, 
   }
 
   cy.validateFileUploadErrorMessage(errorMessage, null);
-  // validateFileUpload(errorMessage);
 });
 
 Then('any document uploaded will not be saved', () => {
