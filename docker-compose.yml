@@ -94,7 +94,7 @@ services:
       - ./packages/appeals-service-api:/opt/app:ro
     command: npm run start:dev
 
-    authentication-service-api:
+  authentication-service-api:
     image: node:14-alpine
     environment:
       SERVER_SHOW_ERRORS: 'true'
