@@ -7,7 +7,7 @@ const page = {
   title:
     'Would the Inspector need to enter the appeal site? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
   url: 'site-access',
-  emptyError: 'Select yes if the inspector would need to enter the appeal site',
+  emptyError: 'Select yes if the Inspector would need to enter the appeal site',
   textEmptyError: 'Enter the reasons the Inspector would need to enter the appeal site',
   textChildOf: 'Yes',
   textMock:
