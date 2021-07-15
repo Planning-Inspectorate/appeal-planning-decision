@@ -23,16 +23,16 @@
 exports.booleanQuestions = [
   {
     id: 'siteSeenPublicLand',
-    heading: 'Can the inspector see the relevant parts of the appeal site from public land?',
+    heading: 'Can the Inspector see the relevant parts of the appeal site from public land?',
     section: 'About the Appeal Site',
     title:
-      'Can the inspector see the relevant parts of the appeal site from public land? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
+      'Can the Inspector see the relevant parts of the appeal site from public land? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
     emptyError: 'Select yes if relevant parts of the site can be seen from public land',
     url: 'public-land',
   },
   {
     id: 'enterAppealSite',
-    heading: 'Would the inspector need to enter the appeal site?',
+    heading: 'Would the Inspector need to enter the appeal site?',
     section: 'About the Appeal Site',
     title:
       'Would the Inspector need to enter the appeal site? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
@@ -49,10 +49,10 @@ exports.booleanQuestions = [
   },
   {
     id: 'accessNeighboursLand',
-    heading: "Would the inspector need access to a neighbour's land?",
+    heading: "Would the Inspector need access to a neighbour's land?",
     section: 'About the Appeal Site',
     title:
-      "Would the inspector need access to a neighbour's land? - Appeal questionnaire - Appeal a householder planning decision - GOV.UK",
+      "Would the Inspector need access to a neighbour's land? - Appeal questionnaire - Appeal a householder planning decision - GOV.UK",
     emptyError: 'Select yes if the inspector needs access to a neighbour’s land',
     url: 'neighbours-land',
     dataId: 'needsAccess',
