@@ -2,10 +2,10 @@ import { Before } from 'cypress-cucumber-preprocessor/steps';
 
 const page = {
   id: 'accessNeighboursLand',
-  heading: "Would the inspector need access to a neighbour's land?",
+  heading: "Would the Inspector need access to a neighbour's land?",
   section: 'About the Appeal Site',
   title:
-    "Would the inspector need access to a neighbour's land? - Appeal questionnaire - Appeal a householder planning decision - GOV.UK",
+    "Would the Inspector need access to a neighbour's land? - Appeal questionnaire - Appeal a householder planning decision - GOV.UK",
   url: 'neighbours-land',
   emptyError: 'Select yes if the inspector needs access to a neighbour’s land',
   textEmptyError: "Enter the reasons the Inspector would need to enter a neighbour's land",
