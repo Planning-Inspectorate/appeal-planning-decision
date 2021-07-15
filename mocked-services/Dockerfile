@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:14-alpine
 WORKDIR /opt/app
 ADD . .
 RUN npm ci
