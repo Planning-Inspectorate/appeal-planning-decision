@@ -7,7 +7,7 @@ const page = {
   title:
     "Would the Inspector need access to a neighbour's land? - Appeal questionnaire - Appeal a householder planning decision - GOV.UK",
   url: 'neighbours-land',
-  emptyError: 'Select yes if the inspector needs access to a neighbour’s land',
+  emptyError: 'Select yes if the Inspector needs access to a neighbour’s land',
   textEmptyError: "Enter the reasons the Inspector would need to enter a neighbour's land",
   textChildOf: 'Yes',
   textMock:
