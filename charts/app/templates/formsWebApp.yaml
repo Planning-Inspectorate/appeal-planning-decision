@@ -93,6 +93,9 @@ spec:
               value: {{ .Values.formsWebApp.config.googleTagManagerId | quote }}
             - name: FEATURE_FLAG_GOOGLE_TAG_MANAGER
               value: {{ .Values.formsWebApp.config.featureFlagGoogleTagManager | quote }}
+            - name: CLAMAV_SERVER
+              value: {{ .Values.formsWebApp.config.clamAVServer | quote }}
+
           volumeMounts:
             - mountPath: {{ .Values.formsWebApp.config.upload.uploadDir | quote }}
               name: upload-cache

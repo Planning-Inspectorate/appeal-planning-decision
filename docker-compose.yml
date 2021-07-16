@@ -134,6 +134,7 @@ services:
       # please override this locally if using not using localhost or ip address to browse the site in dev.
       SUBDOMAIN_OFFSET: 0
       USE_SECURE_SESSION_COOKIES: 'false'
+      CLAMAV_SERVER: 'clamav'
     ports:
       - 9003:3000
       # node debugger
