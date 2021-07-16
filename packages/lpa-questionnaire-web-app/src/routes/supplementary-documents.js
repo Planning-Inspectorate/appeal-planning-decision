@@ -1,5 +1,5 @@
 const express = require('express');
-const supplementaryDocumentsController = require('../controllers/supplementary-documents');
+const addSupplementaryDocumentsController = require('../controllers/supplementary-documents/add-supplementary-documents');
 const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing-appeal-reply');
 const fetchAppealMiddleware = require('../middleware/fetch-appeal');
 const reqFilesToReqBodyFilesMiddleware = require('../middleware/req-files-to-req-body-files');
@@ -12,7 +12,7 @@ const router = express.Router();
 router.get(
   '/:id/supplementary-documents/add-document',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
-  supplementaryDocumentsController.getAddDocument
+  addSupplementaryDocumentsController.getAddDocument
 );
 
 router.post(
@@ -21,7 +21,7 @@ router.post(
   combineDateInputsMiddleware,
   supplementaryDocumentsValidationRules(),
   validationErrorHandler,
-  supplementaryDocumentsController.postAddDocument
+  addSupplementaryDocumentsController.postAddDocument
 );
 
 module.exports = router;

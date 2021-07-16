@@ -1,6 +1,6 @@
 const { get, post } = require('./router-mock');
 
-const supplementaryDocumentsController = require('../../../src/controllers/supplementary-documents');
+const supplementaryDocumentsController = require('../../../src/controllers/supplementary-documents/add-supplementary-documents');
 
 const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
 const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');

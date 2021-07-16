@@ -1,12 +1,12 @@
-const supplementaryDocumentsController = require('../../../src/controllers/supplementary-documents');
-const { VIEW } = require('../../../src/lib/views');
-const { uploadFiles } = require('../../../src/lib/file-upload-helpers');
-const { createOrUpdateAppealReply } = require('../../../src/lib/appeal-reply-api-wrapper');
-const { mockReq, mockRes } = require('../mocks');
+const supplementaryDocumentsController = require('../../../../src/controllers/supplementary-documents/add-supplementary-documents');
+const { VIEW } = require('../../../../src/lib/views');
+const { uploadFiles } = require('../../../../src/lib/file-upload-helpers');
+const { createOrUpdateAppealReply } = require('../../../../src/lib/appeal-reply-api-wrapper');
+const { mockReq, mockRes } = require('../../mocks');
 
-jest.mock('../../../src/lib/appeal-reply-api-wrapper');
-jest.mock('../../../src/lib/file-upload-helpers');
-jest.mock('../../../src/lib/logger');
+jest.mock('../../../../src/lib/appeal-reply-api-wrapper');
+jest.mock('../../../../src/lib/file-upload-helpers');
+jest.mock('../../../../src/lib/logger');
 
 describe('controllers/accuracy-submission', () => {
   let req;

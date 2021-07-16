@@ -1,8 +1,8 @@
-const { VIEW } = require('../lib/views');
-const getAppealSideBarDetails = require('../lib/appeal-sidebar-details');
-const { uploadFiles } = require('../lib/file-upload-helpers');
-const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
-const errorTexts = require('../validators/validation-messages/supplementary-documents-validation-messages');
+const { VIEW } = require('../../lib/views');
+const getAppealSideBarDetails = require('../../lib/appeal-sidebar-details');
+const { uploadFiles } = require('../../lib/file-upload-helpers');
+const { createOrUpdateAppealReply } = require('../../lib/appeal-reply-api-wrapper');
+const errorTexts = require('../../validators/validation-messages/supplementary-documents-validation-messages');
 
 const question = {
   heading: 'Supplementary planning document',
@@ -14,7 +14,7 @@ const question = {
 exports.question = question;
 
 exports.getAddDocument = (req, res) => {
-  // TODO: when list pa[ge is created logic around backlink will need adding. If new page normal backlink is fine
+  // TODO: when list page is created logic around backlink will need adding. If new page normal backlink is fine
   // but if coming from new document button need to set the res.locals.backlink to that page. Session still needed for list page
 
   const backLink = res.locals.backLink || req.session.backLink;
