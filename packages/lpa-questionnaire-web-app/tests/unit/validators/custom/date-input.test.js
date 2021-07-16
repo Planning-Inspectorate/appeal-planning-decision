@@ -1,106 +1,359 @@
-const { createValidationErrors } = require('../../../../src/validators/custom/date-input');
+const { validationResult } = require('express-validator');
+const dateInputValidation = require('../../../../src/validators/custom/date-input');
+const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
 
-describe('createValidationErrors', () => {
-  const date = {
-    d: 'mock-ref-day',
-    m: 'mock-ref-month',
-    y: 'mock-ref-year',
-  };
+describe('validators/custom/date-input', () => {
+  const mockId = 'mock-date';
+  const mockLabel = 'the mock date';
 
-  const mockLabel = 'mock-label';
+  describe('rules', () => {
+    it(`has a rule to check for empty day input`, () => {
+      const rule = dateInputValidation(mockId, mockLabel)[0].builder.build();
 
-  const body = {
-    'mock-ref-day': '',
-    'mock-ref-month': '',
-    'mock-ref-year': '',
-  };
+      expect(rule.fields).toEqual(['mock-date-day']);
+      expect(rule.locations).toEqual(['body']);
+      expect(rule.optional).toBeFalsy();
+      expect(rule.stack[1].validator.name).toEqual('isEmpty');
+      expect(rule.stack[1].negated).toBeTruthy();
+    });
 
-  const mockReq = { ...body };
+    it(`has a rule to check for empty month input`, () => {
+      const rule = dateInputValidation(mockId, mockLabel)[1].builder.build();
 
-  [
-    {
-      title: 'should return no data entered error message',
-      given: {
-        ...mockReq,
-        body: { ...body, 'mock-ref-day': '1', 'mock-ref-month': '1', 'mock-ref-year': '1999' },
+      expect(rule.fields).toEqual(['mock-date-month']);
+      expect(rule.locations).toEqual(['body']);
+      expect(rule.optional).toBeFalsy();
+      expect(rule.stack[1].validator.name).toEqual('isEmpty');
+      expect(rule.stack[1].negated).toBeTruthy();
+    });
+
+    it(`has a rule for check for empty year input`, () => {
+      const rule = dateInputValidation(mockId, mockLabel)[2].builder.build();
+
+      expect(rule.fields).toEqual(['mock-date-year']);
+      expect(rule.locations).toEqual(['body']);
+      expect(rule.optional).toBeFalsy();
+      expect(rule.stack[1].validator.name).toEqual('isEmpty');
+      expect(rule.stack[1].negated).toBeTruthy();
+    });
+
+    it(`has a rule to check for valid day input`, () => {
+      const rule = dateInputValidation(mockId, mockLabel)[3].builder.build();
+
+      expect(rule.fields).toEqual(['mock-date-day']);
+      expect(rule.locations).toEqual(['body']);
+      expect(rule.optional).toBeFalsy();
+      expect(rule.stack[1].options).toEqual([{ min: 1, max: 31 }]);
+      expect(rule.stack[1].negated).toBeFalsy();
+      expect(rule.stack[3].negated).toBeFalsy();
+    });
+
+    it(`has a rule to check for valid month input`, () => {
+      const rule = dateInputValidation(mockId, mockLabel)[4].builder.build();
+
+      expect(rule.fields).toEqual(['mock-date-month']);
+      expect(rule.locations).toEqual(['body']);
+      expect(rule.optional).toBeFalsy();
+      expect(rule.stack[1].options).toEqual([{ min: 1, max: 12 }]);
+      expect(rule.stack[1].negated).toBeFalsy();
+    });
+
+    it(`has a rule for valid year input`, () => {
+      const rule = dateInputValidation(mockId, mockLabel)[5].builder.build();
+
+      expect(rule.fields).toEqual(['mock-date-year']);
+      expect(rule.locations).toEqual(['body']);
+      expect(rule.optional).toBeFalsy();
+      expect(rule.stack[1].options).toEqual([{ min: 1000, max: 9999 }]);
+      expect(rule.stack[1].negated).toBeFalsy();
+    });
+  });
+
+  describe('validator', () => {
+    [
+      {
+        title: 'invalid (all empty) - fail',
+        given: () => ({
+          body: {
+            'mock-date-day': '',
+            'mock-date-month': '',
+            'mock-date-year': '',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual(
+            'Tell us the date the supplementary planning document was adopted'
+          );
+          expect(result.errors[0].param).toEqual('mock-date-day');
+          expect(result.errors[0].value).toEqual('');
+        },
       },
-      expected: ``,
-    },
-    {
-      title: 'should return no data entered error message',
-      given: { ...mockReq, body: { ...body } },
-      expected: `Tell us the date the supplementary planning document was adopted`,
-    },
-    {
-      title: 'should return must include a month and year',
-      given: { ...mockReq, body: { ...body, 'mock-ref-day': '1' } },
-      expected: `Mock-label must include a month and year`,
-    },
-    {
-      title: 'should return must include a day and year',
-      given: { ...mockReq, body: { ...body, 'mock-ref-month': '1' } },
-      expected: `Mock-label must include a day and year`,
-    },
-    {
-      title: 'should return must include a day and month',
-      given: { ...mockReq, body: { ...body, 'mock-ref-year': '1999' } },
-      expected: `Mock-label must include a day and month`,
-    },
-    {
-      title: 'should return must include a day',
-      given: { ...mockReq, body: { ...body, 'mock-ref-month': '1', 'mock-ref-year': '1999' } },
-      expected: `Mock-label must include a day`,
-    },
-    {
-      title: 'should return must include a month',
-      given: { ...mockReq, body: { ...body, 'mock-ref-day': '1', 'mock-ref-year': '1999' } },
-      expected: `Mock-label must include a month`,
-    },
-    {
-      title: 'should return must include a year',
-      given: { ...mockReq, body: { ...body, 'mock-ref-day': '1', 'mock-ref-month': '1' } },
-      expected: `Mock-label must include a year`,
-    },
-    {
-      title: 'should return correct error for a non long month',
-      given: {
-        ...mockReq,
-        body: { ...body, 'mock-ref-day': '31', 'mock-ref-month': '5', 'mock-ref-year': '1999' },
+      {
+        title: 'invalid (empty day, month) - fail',
+        given: () => ({
+          body: {
+            'mock-date-day': '',
+            'mock-date-month': '',
+            'mock-date-year': '2020',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual('The mock date must include a day and month');
+          expect(result.errors[0].param).toEqual('mock-date-day');
+          expect(result.errors[0].value).toEqual('');
+        },
       },
-      expected: ``,
-    },
-    {
-      title: 'should return correct error for a long month',
-      given: {
-        ...mockReq,
-        body: { ...body, 'mock-ref-day': '31', 'mock-ref-month': '4', 'mock-ref-year': '1999' },
+      {
+        title: 'invalid (empty day, year) - fail',
+        given: () => ({
+          body: {
+            'mock-date-day': '',
+            'mock-date-month': '12',
+            'mock-date-year': '',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual('The mock date must include a day and year');
+          expect(result.errors[0].param).toEqual('mock-date-day');
+          expect(result.errors[0].value).toEqual('');
+        },
       },
-      expected: `Mock-label must be a real date`,
-    },
-    {
-      title: 'should return correct error for a leap year',
-      given: {
-        ...mockReq,
-        body: { ...body, 'mock-ref-day': '29', 'mock-ref-month': '2', 'mock-ref-year': '2020' },
+      {
+        title: 'invalid (empty day) - fail',
+        given: () => ({
+          body: {
+            'mock-date-day': '',
+            'mock-date-month': '12',
+            'mock-date-year': '2020',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual('The mock date must include a day');
+          expect(result.errors[0].param).toEqual('mock-date-day');
+          expect(result.errors[0].value).toEqual('');
+        },
       },
-      expected: ``,
-    },
-    {
-      title: 'should return correct error for a non leap year',
-      given: {
-        ...mockReq,
-        body: { ...body, 'mock-ref-day': '29', 'mock-ref-month': '2', 'mock-ref-year': '2019' },
+      {
+        title: 'invalid (empty month, year) - fail',
+        given: () => ({
+          body: {
+            'mock-date-day': '1',
+            'mock-date-month': '',
+            'mock-date-year': '',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual('The mock date must include a month and year');
+          expect(result.errors[0].param).toEqual('mock-date-month');
+          expect(result.errors[0].value).toEqual('');
+        },
       },
-      expected: `Mock-label must be a real date`,
-    },
-    {
-      title: 'should return correct error for incorrect input',
-      given: { ...mockReq, body: { ...body, 'mock-ref-day': 'a' } },
-      expected: `Mock-label must be a real date`,
-    },
-  ].forEach(({ title, given, expected }) => {
-    it(title, () => {
-      expect(createValidationErrors(date, given, mockLabel)).toEqual(expected);
+      {
+        title: 'invalid (empty month) - fail',
+        given: () => ({
+          body: {
+            'mock-date-day': '1',
+            'mock-date-month': '',
+            'mock-date-year': '2020',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual('The mock date must include a month');
+          expect(result.errors[0].param).toEqual('mock-date-month');
+          expect(result.errors[0].value).toEqual('');
+        },
+      },
+      {
+        title: 'invalid (empty year) - fail',
+        given: () => ({
+          body: {
+            'mock-date-day': '1',
+            'mock-date-month': '12',
+            'mock-date-year': '',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual('The mock date must include a year');
+          expect(result.errors[0].param).toEqual('mock-date-year');
+          expect(result.errors[0].value).toEqual('');
+        },
+      },
+      {
+        title: 'invalid (day not integer) - fail',
+        given: () => ({
+          body: {
+            'mock-date-day': 'mock',
+            'mock-date-month': '12',
+            'mock-date-year': '2020',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual('The mock date must be a real date');
+          expect(result.errors[0].param).toEqual('mock-date-day');
+          expect(result.errors[0].value).toEqual('mock');
+        },
+      },
+      {
+        title: 'invalid (day > 31) - fail',
+        given: () => ({
+          body: {
+            'mock-date-day': '45',
+            'mock-date-month': '12',
+            'mock-date-year': '2020',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual('The mock date must be a real date');
+          expect(result.errors[0].param).toEqual('mock-date-day');
+          expect(result.errors[0].value).toEqual('45');
+        },
+      },
+      {
+        title: 'invalid (31 day in 30 day month) - fail',
+        given: () => ({
+          body: {
+            'mock-date-day': '31',
+            'mock-date-month': '6',
+            'mock-date-year': '2020',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual('The mock date must be a real date');
+          expect(result.errors[0].param).toEqual('mock-date-day');
+          expect(result.errors[0].value).toEqual(31);
+        },
+      },
+      {
+        title: 'invalid (29 days in February when not leap year) - fail',
+        given: () => ({
+          body: {
+            'mock-date-day': '29',
+            'mock-date-month': '2',
+            'mock-date-year': '2019',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual('The mock date must be a real date');
+          expect(result.errors[0].param).toEqual('mock-date-day');
+          expect(result.errors[0].value).toEqual(29);
+        },
+      },
+      {
+        title: 'invalid (month not numeric) - fail',
+        given: () => ({
+          body: {
+            'mock-date-day': '1',
+            'mock-date-month': 'mock',
+            'mock-date-year': '2020',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual('The mock date must be a real date');
+          expect(result.errors[0].param).toEqual('mock-date-month');
+          expect(result.errors[0].value).toEqual('mock');
+        },
+      },
+      {
+        title: 'invalid (impossible number months) - fail',
+        given: () => ({
+          body: {
+            'mock-date-day': '1',
+            'mock-date-month': '22',
+            'mock-date-year': '2020',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual('The mock date must be a real date');
+          expect(result.errors[0].param).toEqual('mock-date-month');
+          expect(result.errors[0].value).toEqual('22');
+        },
+      },
+      {
+        title: 'invalid (year not numeric) - fail',
+        given: () => ({
+          body: {
+            'mock-date-day': '1',
+            'mock-date-month': '12',
+            'mock-date-year': 'mock',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual('The mock date must be a real date');
+          expect(result.errors[0].param).toEqual('mock-date-year');
+          expect(result.errors[0].value).toEqual('mock');
+        },
+      },
+      {
+        title: 'invalid (year outside range) - fail',
+        given: () => ({
+          body: {
+            'mock-date-day': '1',
+            'mock-date-month': '12',
+            'mock-date-year': '10',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors[0].location).toEqual('body');
+          expect(result.errors[0].msg).toEqual('The mock date must be a real date');
+          expect(result.errors[0].param).toEqual('mock-date-year');
+          expect(result.errors[0].value).toEqual('10');
+        },
+      },
+      {
+        title: 'valid date (29 days in leap year) - pass',
+        given: () => ({
+          body: {
+            'mock-date-day': '29',
+            'mock-date-month': '2',
+            'mock-date-year': '2020',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(0);
+        },
+      },
+      {
+        title: 'valid date - pass',
+        given: () => {
+          return {
+            body: {
+              'mock-date-day': '1',
+              'mock-date-month': '12',
+              'mock-date-year': '2020',
+            },
+          };
+        },
+        expected: (result) => {
+          expect(result.errors).toHaveLength(0);
+        },
+      },
+    ].forEach(({ title, given, expected }) => {
+      it(`should return the expected validation outcome - ${title}`, async () => {
+        const mockReq = given();
+        const mockRes = jest.fn();
+
+        await testExpressValidatorMiddleware(
+          mockReq,
+          mockRes,
+          dateInputValidation(mockId, mockLabel)
+        );
+        const result = validationResult(mockReq);
+        expected(result);
+      });
     });
   });
 });
