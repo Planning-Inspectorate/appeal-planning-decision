@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: {{ .Values.clamav.service.name }}
 spec:
+  type: {{ .Values.service.type }}
   selector:
     {{- range $key,$val := .Values.clamav.labels }}
     {{ $key }}: {{ $val }}
