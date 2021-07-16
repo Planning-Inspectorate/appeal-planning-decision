@@ -50,7 +50,6 @@ spec:
         repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
         tag: 1.52.14
       config:
-        clamAVServer: app
         googleAnalyticsId: G-TZBWMVPTHV
         googleTagManagerId: GTM-KZN7XP4
         featureFlagGoogleTagManager: true
