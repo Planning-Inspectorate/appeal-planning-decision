@@ -270,6 +270,8 @@ gotenberg:
 clamav:
   replicaCount: 1
   service:
+    labels:
+      name: app
     name: clamav
     port: 3310
   image:
