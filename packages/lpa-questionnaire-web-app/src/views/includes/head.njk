@@ -1,4 +1,7 @@
 {% block head %}
+  {% if appealReplyId %}
+      <meta name="appeal-reply-id" content="{{ appealReplyId }}">
+    {% endif %}
   <!--[if lte IE 8]><link href="/public/stylesheets/main-ie8.css" rel="stylesheet" type="text/css" /><![endif]-->
   <!--[if gt IE 8]><!--><link href="/public/stylesheets/main.css" media="all" rel="stylesheet" type="text/css"/><!--<![endif]-->
 

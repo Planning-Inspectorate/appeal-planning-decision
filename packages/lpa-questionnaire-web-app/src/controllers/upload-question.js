@@ -19,23 +19,27 @@ exports.getUpload = (req, res) => {
   const { sectionName, taskName, view } = res.locals.routeInfo;
 
   let uploadedFiles;
+  let appealReplyId;
 
   if (!req.session.appealReply[sectionName][taskName]) {
     req.session.appealReply[sectionName][taskName] = { uploadFiles: [] };
   } else {
     uploadedFiles = req.session.appealReply[sectionName][taskName].uploadedFiles;
+    appealReplyId = req.session.appealReply.id;
   }
 
   res.render(view, {
     appeal: getAppealSideBarDetails(req.session.appeal),
     backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
     ...fileUploadNunjucksVariables(null, null, uploadedFiles),
+    appealReplyId,
   });
 };
 
 exports.postUpload = async (req, res) => {
   const { sectionName, taskName, view, name } = res.locals.routeInfo;
   const { appealReply } = req.session;
+  const { appealReplyId } = appealReply;
   const documents = req.body?.files?.documents || [];
   const { delete: deleteId = '', errors = {}, submit = '' } = req.body;
   const backLink = req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`;
@@ -117,6 +121,7 @@ exports.postUpload = async (req, res) => {
         ...fileUploadNunjucksVariables(errorMessage, constructedErrorSummary, validFiles),
         appeal: getAppealSideBarDetails(req.session.appeal),
         backLink,
+        appealReplyId,
       });
     } else {
       res.redirect(req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`);
@@ -129,6 +134,7 @@ exports.postUpload = async (req, res) => {
       ...fileUploadNunjucksVariables(err, fileErrorSummary(err, req), validFiles),
       appeal: getAppealSideBarDetails(req.session.appeal),
       backLink,
+      appealReplyId,
     });
   }
 };
