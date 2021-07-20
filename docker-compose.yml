@@ -150,6 +150,7 @@ services:
       - mongodb
       - clamav
     volumes:
+      - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
       - ./packages/common:/opt/app/node_modules/@pins/common
       - ./packages/forms-web-app:/opt/app
     command: npm run start:dev

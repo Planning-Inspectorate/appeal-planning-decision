@@ -82,7 +82,7 @@ describe('controllers/eligibility/decision-date', () => {
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
-        decisionDate: '2019-10-10T12:00:00.000Z',
+        decisionDate: new Date('2019-10-10T12:00:00.000Z'),
       });
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`);

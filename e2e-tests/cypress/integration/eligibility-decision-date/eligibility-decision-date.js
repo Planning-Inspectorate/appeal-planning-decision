@@ -12,7 +12,7 @@ export const dateForXDaysAgo = (x) => {
   };
 };
 
-export const eligibleDate = dateForXDaysAgo(84);
+export const eligibleDate = dateForXDaysAgo(5);
 const ineligibleDate = dateForXDaysAgo(85);
 
 Given('a Decision Date is requested', () => {
@@ -44,9 +44,21 @@ Then(
   'progress is halted with a message that the Decision Date is ineligible because it is beyond the deadline for an appeal',
   () => {
     cy.confirmNavigationDecisionDateExpiredPage();
-    cy.confirmDecisionDate(ineligibleDate);
   },
 );
+
+Then('the re-enter the decision date link is clicked', () => {
+  cy.clickReEnterTheDecisionDate();
+});
+
+Then('progress is made to the Decision Date question', () => {
+  cy.confirmNavigationDecisionDatePage();
+  cy.confirmDecisionDate(ineligibleDate);
+});
+
+Then('navigate to the Householder Planning Permission question', () => {
+  cy.goToHouseholderQuestionPage();
+});
 
 Then('progress is halted with a message that a Decision Date is required', () => {
   cy.confirmNavigationDecisionDateAbsentPage();
@@ -55,7 +67,7 @@ Then('progress is halted with a message that a Decision Date is required', () =>
     // known issue: https://github.com/alphagov/govuk-frontend/issues/979
     exclude: ['.govuk-radios__input'],
   });
- });
+});
 
 Then('progress is halted with an error: {string}', (error) => {
   cy.confirmProvidedDecisionDateError(error);
