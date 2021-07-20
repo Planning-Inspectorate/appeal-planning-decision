@@ -8,12 +8,13 @@ const homeRouter = require('./home');
 const cookieRouter = require('./cookies');
 const guidancePagesRouter = require('./guidance-pages');
 const yourPlanningAppealRouter = require('./your-planning-appeal');
+const checkDecisionDateDeadline = require('../middleware/check-decision-date-deadline');
 
 router.use('/', homeRouter);
 router.use(guidancePagesRouter);
 router.use('/cookies', cookieRouter);
-router.use('/appellant-submission', appellantSubmissionRouter);
-router.use('/eligibility', eligibilityRouter);
+router.use('/appellant-submission', checkDecisionDateDeadline, appellantSubmissionRouter);
+router.use('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
 router.use('/your-planning-appeal', yourPlanningAppealRouter);
 
 module.exports = router;

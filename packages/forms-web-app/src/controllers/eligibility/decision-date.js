@@ -1,11 +1,8 @@
-const { addWeeks, endOfDay, isBefore, isValid, parseISO } = require('date-fns');
+const { isValid, parseISO } = require('date-fns');
+const { rules, validation } = require('@pins/business-rules');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 const { VIEW } = require('../../lib/views');
-
-const getDeadlineDate = (decisionDate) => {
-  return addWeeks(endOfDay(decisionDate), 12);
-};
 
 exports.getNoDecision = (req, res) => {
   res.render(VIEW.ELIGIBILITY.NO_DECISION);
@@ -47,7 +44,7 @@ exports.postDecisionDate = async (req, res) => {
 
   const decisionDate = body['decision-date'];
 
-  appeal.decisionDate = `${decisionDate}T12:00:00.000Z`;
+  appeal.decisionDate = new Date(`${decisionDate}T12:00:00.000Z`);
 
   try {
     req.session.appeal = await createOrUpdateAppeal(appeal);
@@ -62,13 +59,13 @@ exports.postDecisionDate = async (req, res) => {
     return;
   }
 
-  const today = endOfDay(new Date());
+  const isWithinExpiryPeriod = validation.appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
+    appeal.decisionDate
+  );
 
-  const decisionDatePassed = isBefore(getDeadlineDate(parseISO(appeal.decisionDate)), today);
-
-  const redirectTo = decisionDatePassed
-    ? `/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`
-    : `/${VIEW.ELIGIBILITY.PLANNING_DEPARTMENT}`;
+  const redirectTo = isWithinExpiryPeriod
+    ? `/${VIEW.ELIGIBILITY.PLANNING_DEPARTMENT}`
+    : `/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`;
 
   res.redirect(redirectTo);
 };
@@ -76,10 +73,7 @@ exports.postDecisionDate = async (req, res) => {
 exports.getDecisionDatePassed = (req, res) => {
   const { appeal } = req.session;
 
-  const decisionDate = parseISO(appeal.decisionDate);
-  const deadlineDate = isValid(decisionDate) ? getDeadlineDate(decisionDate) : null;
-
   res.render(VIEW.ELIGIBILITY.DECISION_DATE_PASSED, {
-    deadlineDate,
+    deadlineDate: appeal.decisionDate && rules.appeal.deadlineDate(parseISO(appeal.decisionDate)),
   });
 };
