@@ -13,7 +13,7 @@ describe('controllers /authentication/your-email', () => {
     it('should call the correct template', () => {
       authenticationController.showEnterEmailAddress(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION_ENTER_EMAIL_ADDRESS, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
         isSessionExpired: false,
         isLinkedExpired: false,
         lpaName: 'testLPA',
@@ -33,7 +33,7 @@ describe('controllers /authentication/your-email/session-expired', () => {
 
       authenticationController.showEnterEmailAddress(sessionExpiredReq, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION_ENTER_EMAIL_ADDRESS, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
         isSessionExpired: true,
         isLinkedExpired: false,
         lpaName: 'testLPA',
@@ -53,7 +53,7 @@ describe('controllers /authentication/your-email/link-expired', () => {
 
       authenticationController.showEnterEmailAddress(linkExpiredReq, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION_ENTER_EMAIL_ADDRESS, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
         isSessionExpired: false,
         isLinkedExpired: true,
         lpaName: 'testLPA',
@@ -83,7 +83,7 @@ describe('controllers /authentication/confirm-email', () => {
       };
       authenticationController.showEmailConfirmation(confirmEmailReq, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION_EMAIL_ADDRESS_CONFIRMATION, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.EMAIL_ADDRESS_CONFIRMATION, {
         email: mockEmail,
         tokenExpirationTime: '15 minutes',
         enterEmailLink: `/123/authentication/your-email`,
