@@ -1,0 +1,33 @@
+{% extends "layouts/main.njk" %}
+
+{% block pageTitle %}
+Confirm your email address - Appeal questionnaire - Appeal a householder planning decision - GOV.UK
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">
+        Householder planning appeal questionnaire
+      </h1>
+
+      <h2 class="govuk-heading-l">
+        Confirm your email address
+      </h2>
+
+      <p>We've sent an email to {{ email }}. You need to click the link in the email to confirm your email address.</p>
+      <p>The link will expire after {{ tokenExpirationTime }}.</p>
+      <p>You can close this window.</p><br />
+
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      <p class="govuk-body govuk-!-font-weight-bold">If you're having problems</p>
+      <p>Check the email hasn't gone into your spam/bulk folder.</p>
+      <p>We can <a href="{{ enterEmailLink }}" class="govuk-link">resend the email</a>.</p>
+      <p>If you're still having problems, you can contact our customer support team:</p>
+      <p>Email: <a href="mailto:enquiries@planninginspectorate.gov.uk" class="govuk-link">enquiries@planninginspectorate.gov.uk</a>
+      <br>Telephone: 0303 444 5000
+      </p>
+    </div>
+  </div>
+{% endblock %}
