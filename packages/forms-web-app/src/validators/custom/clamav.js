@@ -2,7 +2,7 @@
 const NodeClam = require('clamscan');
 const fs = require('fs');
 
-module.exports = async (fileInformation, errorMessage) => {
+module.exports = async (fileInformation, fileName = 'The file') => {
   if (typeof fileInformation?.tempFilePath !== 'undefined') {
     const clamscan = await new NodeClam().init({
       debug_mode: true,
@@ -20,7 +20,7 @@ module.exports = async (fileInformation, errorMessage) => {
 
     // eslint-disable-next-line camelcase
     if (is_infected) {
-      throw new Error(errorMessage);
+      throw new Error(`${fileName} contains a virus`);
     }
   }
 
