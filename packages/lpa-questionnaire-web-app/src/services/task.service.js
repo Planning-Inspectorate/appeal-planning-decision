@@ -7,6 +7,7 @@ const {
   officersReportCompletion,
   booleanCompletion,
   fileUploadCompletion,
+  supplementaryPlanningDocumentsCompletion,
 } = require('./task-status');
 const checkYourAnswerCompletion = require('./task-status/check-your-answers');
 
@@ -130,6 +131,11 @@ const SECTIONS = [
         rule: fileUploadCompletion,
       },
       {
+        taskId: 'supplementaryPlanningDocuments',
+        href: '/supplementary-documents/uploaded-documents',
+        rule: supplementaryPlanningDocumentsCompletion,
+      },
+      {
         taskId: 'developmentOrNeighbourhood',
         href: '/development-plan',
         rule: developmentPlanCompletion,
@@ -173,6 +179,7 @@ const HEADERS = {
   conservationAreaMap: 'Conservation area map and guidance',
   planningHistory: 'Planning history',
   otherPolicies: 'Other relevant policies',
+  supplementaryPlanningDocuments: 'Supplementary planning documents',
   statutoryDevelopment: 'Statutory development plan policy',
   developmentOrNeighbourhood: 'Development Plan Document or Neighbourhood Plan',
   submitQuestionnaireSection: 'Before you submit',

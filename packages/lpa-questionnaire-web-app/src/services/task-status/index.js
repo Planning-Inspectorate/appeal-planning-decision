@@ -6,6 +6,7 @@ const uploadPlansCompletion = require('./upload-plans');
 const officersReportCompletion = require('./officers-report');
 const booleanCompletion = require('./boolean');
 const fileUploadCompletion = require('./file-upload');
+const supplementaryPlanningDocumentsCompletion = require('./supplementary-planning-documents');
 
 module.exports = {
   accuracySubmissionCompletion,
@@ -16,4 +17,5 @@ module.exports = {
   officersReportCompletion,
   booleanCompletion,
   fileUploadCompletion,
+  supplementaryPlanningDocumentsCompletion,
 };

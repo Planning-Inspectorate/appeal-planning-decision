@@ -16,7 +16,7 @@ const VIEW = {
   OTHER_POLICIES: 'other-policies',
   STATUTORY_DEVELOPMENT: 'statutory-development',
   SUPPLEMENTARY_DOCUMENTS: {
-    LIST: 'supplementary-documents/list',
+    UPLOADED_DOCUMENTS: 'supplementary-documents/uploaded-documents',
     ADD_DOCUMENT: 'supplementary-documents/add-document',
   },
   INFORMATION_SUBMITTED: 'information-submitted',
