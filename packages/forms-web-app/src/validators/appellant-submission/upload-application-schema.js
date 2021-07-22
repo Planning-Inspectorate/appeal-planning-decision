@@ -50,7 +50,8 @@ module.exports = {
         );
 
         // check file for Virus
-        await validAV(req.files['application-upload'], 'The selected file contains a virus');
+        const { name } = req.files[path];
+        await validAV(req.files['application-upload'], name);
 
         // check binary mime type of file
         await validBinaryMimeType(

@@ -34,7 +34,7 @@ module.exports = {
         );
 
         // check file for Virus
-        await validAV(value, 'The selected file contains a virus');
+        await validAV(value, name);
 
         // check binary mime type of file
         await validBinaryMimeType(
