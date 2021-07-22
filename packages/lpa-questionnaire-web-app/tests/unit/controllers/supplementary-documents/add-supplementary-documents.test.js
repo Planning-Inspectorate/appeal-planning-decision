@@ -1,14 +1,14 @@
-const supplementaryDocumentsController = require('../../../src/controllers/supplementary-documents');
-const { VIEW } = require('../../../src/lib/views');
-const { uploadFiles } = require('../../../src/lib/file-upload-helpers');
-const { createOrUpdateAppealReply } = require('../../../src/lib/appeal-reply-api-wrapper');
-const { mockReq, mockRes } = require('../mocks');
+const supplementaryDocumentsController = require('../../../../src/controllers/supplementary-documents/add-supplementary-document');
+const { VIEW } = require('../../../../src/lib/views');
+const { uploadFiles } = require('../../../../src/lib/file-upload-helpers');
+const { createOrUpdateAppealReply } = require('../../../../src/lib/appeal-reply-api-wrapper');
+const { mockReq, mockRes } = require('../../mocks');
 
-jest.mock('../../../src/lib/appeal-reply-api-wrapper');
-jest.mock('../../../src/lib/file-upload-helpers');
-jest.mock('../../../src/lib/logger');
+jest.mock('../../../../src/lib/appeal-reply-api-wrapper');
+jest.mock('../../../../src/lib/file-upload-helpers');
+jest.mock('../../../../src/lib/logger');
 
-describe('controllers/accuracy-submission', () => {
+describe('controllers/add-supplementary-documents', () => {
   let req;
   let res;
   const mockAppealReply = {
@@ -225,7 +225,9 @@ describe('controllers/accuracy-submission', () => {
         },
       });
       expect(res.render).not.toHaveBeenCalledWith();
-      expect(res.redirect).toHaveBeenCalledWith('/mock-id/supplementary-documents');
+      expect(res.redirect).toHaveBeenCalledWith(
+        '/mock-id/supplementary-documents/uploaded-documents'
+      );
     });
 
     it('should redirect to task-list page if all fields left blank', async () => {
