@@ -22,5 +22,5 @@ RUN npm prune --production \
   && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
 EXPOSE 3000
 USER node
-VOLUME [ "data" ]
+VOLUME [ "./DATA" ]
 CMD [ "npm", "start" ]
