@@ -22,4 +22,4 @@ RUN npm prune --production \
   && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
 EXPOSE 3000
 USER node
-CMD [ "npm", "start1" ]
+CMD [ "npm", "start" ]
