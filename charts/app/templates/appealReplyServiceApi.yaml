@@ -46,10 +46,14 @@ spec:
             httpGet:
               path: /health
               port: {{ .Values.appealReplyServiceApi.service.name }}
+            initialDelaySeconds: 30
+            periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /health
               port: {{ .Values.appealReplyServiceApi.service.name }}
+            initialDelaySeconds: 30
+            periodSeconds: 30
           env:
             - name: LOGGER_LEVEL
               value: {{ .Values.appealReplyServiceApi.config.logLevel }}
