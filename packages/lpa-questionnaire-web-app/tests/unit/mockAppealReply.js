@@ -24,6 +24,7 @@ module.exports = {
       cannotSeeLand: null,
       wouldNeedToEnter: null,
       wouldNeedNeighbourAccess: null,
+      healthSafety: null,
       wouldAffectListedBuilding: null,
       isGreenBelt: null,
       isConservationArea: null,
