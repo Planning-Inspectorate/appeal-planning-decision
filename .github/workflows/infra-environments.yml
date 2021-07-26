@@ -38,17 +38,9 @@ jobs:
       matrix:
         include:
           - branch: refs/heads/master
-            environment: dev
-            mongodb_backup_interval: 240
-            mongodb_backup_retention: 8
-          - branch: refs/heads/master
             environment: preprod
             mongodb_backup_interval: 240
             mongodb_backup_retention: 8
-          - branch: refs/heads/master
-            environment: prod
-            mongodb_backup_interval: 120
-            mongodb_backup_retention: 720
     steps:
       - uses: actions/checkout@v2
         if: github.ref == matrix.branch
