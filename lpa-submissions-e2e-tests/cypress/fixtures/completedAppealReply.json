@@ -25,6 +25,10 @@
     "needsAccess": true,
     "addressAndReason": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. accessNeighboursLand."
   },
+  "healthSafety": {
+    "hasHealthSafety": true,
+    "healthSafetyIssues": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. accessNeighboursLand."
+  },
   "listedBuilding": {
     "affectSetting": true,
     "buildingDetails": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. listedBuilding."

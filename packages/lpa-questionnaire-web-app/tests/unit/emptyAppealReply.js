@@ -25,6 +25,10 @@ module.exports = {
     needsAccess: null,
     addressAndReason: '',
   },
+  healthSafety: {
+    hasHealthSafety: null,
+    healthSafetyIssues: '',
+  },
   listedBuilding: {
     affectSetting: null,
     buildingDetails: '',
