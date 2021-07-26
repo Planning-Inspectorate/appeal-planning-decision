@@ -38,12 +38,14 @@ spec:
               protocol: TCP
           # These are not true probes, but are used to generate the metrics
           livenessProbe:
+            initialDelaySeconds: 60
             periodSeconds: 60
             timeoutSeconds: {{ div .Values.pingHorizon.config.ping.timeout 1000 }}
             httpGet:
               path: /ping
               port: ping-hzn-srv
           readinessProbe:
+            initialDelaySeconds: 60
             periodSeconds: 60
             httpGet:
               path: /ping

@@ -38,10 +38,14 @@ spec:
             httpGet:
               path: /health
               port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /health
               port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
           env:
             - name: LOGGER_LEVEL
               value: {{ .Values.logger.level }}
