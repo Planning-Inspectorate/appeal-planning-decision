@@ -33,7 +33,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/appeals-service-api
-        tag: 1.22.6
+        tag: 1.22.7
       config:
         notify:
           secretName: akv-notify-preprod
