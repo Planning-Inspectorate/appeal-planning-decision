@@ -2,6 +2,7 @@ const {
   accuracySubmissionCompletion,
   otherAppealsCompletion,
   extraConditionsCompletion,
+  healthSafetyCompletion,
   developmentPlanCompletion,
   uploadPlansCompletion,
   officersReportCompletion,
@@ -49,6 +50,11 @@ const SECTIONS = [
         taskId: 'accessNeighboursLand',
         href: '/neighbours-land',
         rule: booleanCompletion,
+      },
+      {
+        taskId: 'healthSafety',
+        href: '/health-safety',
+        rule: healthSafetyCompletion,
       },
       {
         taskId: 'listedBuilding',
@@ -164,6 +170,7 @@ const HEADERS = {
     'Can the Inspector see the relevant parts of the appeal site from public land?',
   enterAppealSite: 'Would the Inspector need to enter the appeal site?',
   accessNeighboursLand: "Would the Inspector need access to a neighbour's land?",
+  healthSafety: 'Are there any health and safety issues on the appeal site?',
   listedBuilding: 'Would the development affect the setting of a listed building?',
   greenBelt: 'Is the appeal site in a green belt?',
   nearConservationArea: 'Is the appeal site in or near a conservation area?',

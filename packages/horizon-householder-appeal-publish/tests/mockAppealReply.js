@@ -24,6 +24,7 @@ const getMockAppealReply = () => {
         cannotSeeLand: null,
         wouldNeedToEnter: null,
         wouldNeedNeighbourAccess: null,
+        hasHealthSafety: null,
         wouldAffectListedBuilding: null,
         isGreenBelt: null,
         isConservationArea: null,
