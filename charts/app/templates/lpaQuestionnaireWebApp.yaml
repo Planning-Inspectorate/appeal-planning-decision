@@ -44,14 +44,10 @@ spec:
             httpGet:
               path: /health
               port: {{.Values.lpaQuestionnaireWebApp.service.name }}
-            initialDelaySeconds: 30
-            periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /health
               port: {{.Values.lpaQuestionnaireWebApp.service.name }}
-            initialDelaySeconds: 30
-            periodSeconds: 30
           env:
             - name: ALLOW_APPEAL_REPLY_CREATE
               value: {{ .Values.lpaQuestionnaireWebApp.config.allowCreate | quote }}
