@@ -5,6 +5,7 @@ const VIEW = {
   ACCURACY_SUBMISSION: 'accuracy-submission',
   EXTRA_CONDITIONS: 'extra-conditions',
   INTERESTED_PARTIES: 'interested-parties',
+  HEALTH_SAFETY: 'health-safety',
   REPRESENTATIONS: 'representations',
   NOTIFYING_PARTIES: 'notifying-parties',
   DEVELOPMENT_PLAN: 'development-plan',

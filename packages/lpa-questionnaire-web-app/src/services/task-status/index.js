@@ -1,5 +1,6 @@
 const accuracySubmissionCompletion = require('./accuracy-submission');
 const extraConditionsCompletion = require('./extra-conditions');
+const healthSafetyCompletion = require('./health-safety');
 const otherAppealsCompletion = require('./other-appeals');
 const developmentPlanCompletion = require('./development-plan');
 const uploadPlansCompletion = require('./upload-plans');
@@ -10,6 +11,7 @@ const fileUploadCompletion = require('./file-upload');
 module.exports = {
   accuracySubmissionCompletion,
   extraConditionsCompletion,
+  healthSafetyCompletion,
   otherAppealsCompletion,
   developmentPlanCompletion,
   uploadPlansCompletion,
