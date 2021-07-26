@@ -48,7 +48,7 @@ Feature: Accuracy of the Apellants Submission
       |  abc123  |
       | Example with special characters ?!*/ |
 
-  Scenario: AC06 LPA user does not provides further information in text field and is provided an error
+  Scenario: AC06 LPA user does not provide further information in text field and is provided an error
     Given the user is in the Review accuracy of the appellant's submission page
     When the user selects 'No'
     And the user has not provided further information as text regarding their reasons
