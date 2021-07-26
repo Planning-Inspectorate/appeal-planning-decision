@@ -44,10 +44,14 @@ spec:
             httpGet:
               path: /health
               port: {{ .Values.authenticationServiceApi.service.name }}
+            initialDelaySeconds: 30
+            periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /health
               port: {{ .Values.authenticationServiceApi.service.name }}
+            initialDelaySeconds: 30
+            periodSeconds: 30
           env:
             - name: LOGGER_LEVEL
               value: {{ .Values.authenticationServiceApi.config.logLevel }}
