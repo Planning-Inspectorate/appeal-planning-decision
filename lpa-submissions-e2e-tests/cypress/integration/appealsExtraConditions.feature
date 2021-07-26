@@ -40,7 +40,7 @@ Feature: Appeals Extra Conditions
       | extra information with special characters ,. !" }]* & -+%$£@!                                                                                                                                                                                                                       |
       | a very long piece of extra information a very long piece of extra information\na very long piece of extra information a very long piece of extra information\na very long piece of extra information a very long piece of extra information\na very long piece of extra information |
 
-  Scenario: AC05 - user does not provides further information in text field and is provided an error
+  Scenario: AC05 - user does not provide further information in text field and is provided an error
     Given user is in the extra conditions page
     And user selects the option 'Yes'
     And user does not provide extra information
