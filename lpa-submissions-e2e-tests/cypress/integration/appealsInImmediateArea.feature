@@ -46,7 +46,7 @@ Feature: Appeals in immediate area
       | 3232/Test/12                      |
       | 1234567890, 97345345334, 34535535 |
 
-  Scenario: AC05 LPA user does not provides further information in text field and is provided an error
+  Scenario: AC05 LPA user does not provide further information in text field and is provided an error
     Given the user is on the Tell us about any appeals in the immediate area page
     When the user selects the option 'Yes'
     And user does not provide appeal reference numbers
