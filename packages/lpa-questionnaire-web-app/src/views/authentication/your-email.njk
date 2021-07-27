@@ -34,7 +34,10 @@
         {{ govukNotificationBanner({
           html: html,
           titleText: 'Linked expired',
-          role: 'alert'
+          role: 'alert',
+          attributes: {
+            'data-cy': 'link-expired-notification'
+          }
         }) }}
       {% elif isSessionExpired %}
         {% set html %}
@@ -47,7 +50,10 @@
         {{ govukNotificationBanner({
           html: html,
           titleText: 'Session expired',
-          role: 'alert'
+          role: 'alert',
+          attributes: {
+            'data-cy': 'session-expired-notification'
+          }
         }) }}
       {% else %}
         <p>Before you can access this questionnaire, we need to check you work at {{ lpaName }}.</p>
@@ -64,11 +70,17 @@
               text: ["Enter your ", lpaName, " email address"] | join
             },
             id: "email",
-            name: "email"
+            name: "email",
+            attributes: {
+               'data-cy': 'lpa-authentication-email'
+            }
           })
         }}
         {{ govukButton({
-              text: "Continue"
+              text: "Continue",
+              attributes: {
+                'data-cy': 'submit'
+              }
            })
         }}
       </form>
