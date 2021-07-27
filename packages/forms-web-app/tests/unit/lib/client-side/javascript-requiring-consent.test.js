@@ -150,7 +150,7 @@ describe('lib/client-side/javascript-requiring-consent', () => {
           googleTagManagerId: 'some-test-value',
         },
         featureFlag: {
-          googleTagManager: true, // no googletagmanager feature flag.
+          googleTagManager: true, // googletagmanager feature flag.
         },
       };
 
