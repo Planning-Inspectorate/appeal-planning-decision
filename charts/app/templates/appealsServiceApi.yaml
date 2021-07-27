@@ -46,10 +46,14 @@ spec:
             httpGet:
               path: /health
               port: {{ .Values.appealsServiceApi.service.name }}
+            initialDelaySeconds: 60
+            periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /health
               port: {{.Values.appealsServiceApi.service.name }}
+            initialDelaySeconds: 60
+            periodSeconds: 30
           env:
             - name: APP_APPEALS_BASE_URL
               value: "https://{{ .Values.globals.domainNames.appealsWebApp }}"

@@ -43,10 +43,14 @@ spec:
             httpGet:
               path: /
               port: {{ .Values.queueRetryService.service.name }}
+            initialDelaySeconds: 60
+            periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /
               port: {{ .Values.queueRetryService.service.name }}
+            initialDelaySeconds: 60
+            periodSeconds: 30
           env:
             - name: LOGGER_LEVEL
               value: {{ .Values.queueRetryService.config.logLevel }}
