@@ -45,7 +45,7 @@ spec:
             httpGet:
               path: /ping
               port: {{ .Values.gotenberg.service.name }}
-            initialDelaySeconds: 30
+            initialDelaySeconds: 45
             periodSeconds: 5
             failureThreshold: 30
             successThreshold: 1
@@ -54,7 +54,7 @@ spec:
             httpGet:
               path: /ping
               port: {{ .Values.gotenberg.service.name }}
-            initialDelaySeconds: 30
+            initialDelaySeconds: 45
             periodSeconds: 5
             failureThreshold: 30
             successThreshold: 1
