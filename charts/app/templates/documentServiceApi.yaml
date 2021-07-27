@@ -46,10 +46,14 @@ spec:
             httpGet:
               path: /health
               port: {{ .Values.documentServiceApi.service.name }}
+            initialDelaySeconds: 60
+            periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /health
               port: {{ .Values.documentServiceApi.service.name }}
+            initialDelaySeconds: 60
+            periodSeconds: 30
           env:
             - name: BLOB_STORAGE_CONNECTION_STRING
               valueFrom:

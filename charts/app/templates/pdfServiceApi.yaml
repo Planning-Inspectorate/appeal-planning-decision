@@ -44,10 +44,14 @@ spec:
             httpGet:
               path: /health
               port: {{ .Values.pdfServiceApi.service.name }}
+            initialDelaySeconds: 60
+            periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /health
               port: {{ .Values.pdfServiceApi.service.name }}
+            initialDelaySeconds: 60
+            periodSeconds: 30
           env:
             - name: GOTENBERG_URL
               value: "http://{{ include "app.fullname" . }}:{{ .Values.gotenberg.service.port }}"
