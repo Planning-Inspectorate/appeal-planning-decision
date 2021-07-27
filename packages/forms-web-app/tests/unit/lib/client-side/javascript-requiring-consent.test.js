@@ -1,3 +1,8 @@
+/**
+ * @jest-environment jsdom
+ */
+/* eslint-env browser */
+
 const {
   initialiseOptionalJavaScripts,
 } = require('../../../../src/lib/client-side/javascript-requiring-consent');
@@ -5,24 +10,10 @@ const {
 const { readCookie } = require('../../../../src/lib/client-side/cookie/cookie-jar');
 const { initialiseGoogleAnalytics } = require('../../../../src/lib/client-side/google-analytics');
 const googleTagManager = require('../../../../src/lib/client-side/google-tag-manager');
-const appConfig = require('../../../../src/config');
 
 jest.mock('../../../../src/lib/client-side/cookie/cookie-jar');
 jest.mock('../../../../src/lib/client-side/google-analytics');
 jest.mock('../../../../src/lib/client-side/google-tag-manager');
-jest.mock('../../../../src/config');
-
-jest.mock('../../../src/lib/config', () => ({
-  data: {
-    lpa: {
-      listPath: 'listPath',
-      trialistPath: 'trialistPath',
-    },
-  },
-  logger: {
-    level: 'silent',
-  },
-}));
 
 describe('lib/client-side/javascript-requiring-consent', () => {
   describe('initialiseOptionalJavaScripts', () => {
@@ -31,7 +22,7 @@ describe('lib/client-side/javascript-requiring-consent', () => {
 
       readCookie.mockImplementation(() => null);
 
-      initialiseOptionalJavaScripts();
+      initialiseOptionalJavaScripts(document, null);
 
       // eslint-disable-next-line no-console
       expect(console.log).toHaveBeenCalledWith('Consent not yet given for optional JavaScripts.');
@@ -46,7 +37,7 @@ describe('lib/client-side/javascript-requiring-consent', () => {
 
       readCookie.mockImplementation(() => 'string value here');
 
-      initialiseOptionalJavaScripts();
+      initialiseOptionalJavaScripts(document, null);
 
       // eslint-disable-next-line no-console
       expect(console.error).toHaveBeenCalledWith(
@@ -64,7 +55,7 @@ describe('lib/client-side/javascript-requiring-consent', () => {
 
       readCookie.mockImplementation(() => JSON.stringify({ a: 'b' }));
 
-      initialiseOptionalJavaScripts();
+      initialiseOptionalJavaScripts(document, null);
 
       expect(initialiseGoogleAnalytics).not.toHaveBeenCalled();
       expect(googleTagManager.denyConsent).not.toHaveBeenCalled();
@@ -75,18 +66,17 @@ describe('lib/client-side/javascript-requiring-consent', () => {
       jest.spyOn(console, 'log').mockImplementation();
 
       readCookie.mockImplementation(() => JSON.stringify({ usage: false }));
-      appConfig.mockImplementation(() => {
-        return {
-          server: {
-            googleTagManagerId: 'some-test-value',
-          },
-          featureFlag: {
-            foo: true, // no googletagmanager feature flag.
-          },
-        };
-      });
 
-      initialiseOptionalJavaScripts();
+      const config = {
+        server: {
+          googleTagManagerId: 'some-test-value',
+        },
+        featureFlag: {
+          foo: true, // no googletagmanager feature flag.
+        },
+      };
+
+      initialiseOptionalJavaScripts(document, config);
 
       // eslint-disable-next-line no-console
       expect(console.log).toHaveBeenCalledWith(
@@ -102,18 +92,17 @@ describe('lib/client-side/javascript-requiring-consent', () => {
       jest.spyOn(console, 'log').mockImplementation();
 
       readCookie.mockImplementation(() => JSON.stringify({ usage: false }));
-      appConfig.mockImplementation(() => {
-        return {
-          server: {
-            googleTagManagerId: 'some-test-value',
-          },
-          featureFlag: {
-            googleTagManager: false, // no googletagmanager feature flag.
-          },
-        };
-      });
 
-      initialiseOptionalJavaScripts();
+      const config = {
+        server: {
+          googleTagManagerId: 'some-test-value',
+        },
+        featureFlag: {
+          googleTagManager: false, // no googletagmanager feature flag.
+        },
+      };
+
+      initialiseOptionalJavaScripts(document, config);
 
       // eslint-disable-next-line no-console
       expect(console.log).toHaveBeenCalledWith(
@@ -129,18 +118,17 @@ describe('lib/client-side/javascript-requiring-consent', () => {
       jest.spyOn(console, 'log').mockImplementation();
 
       readCookie.mockImplementation(() => JSON.stringify({ usage: false }));
-      appConfig.mockImplementation(() => {
-        return {
-          server: {
-            foo: 'some-test-value',
-          },
-          featureFlag: {
-            googleTagManager: true, // no googletagmanager feature flag.
-          },
-        };
-      });
 
-      initialiseOptionalJavaScripts();
+      const config = {
+        server: {
+          foo: 'some-test-value',
+        },
+        featureFlag: {
+          googleTagManager: true, // no googletagmanager feature flag.
+        },
+      };
+
+      initialiseOptionalJavaScripts(document, config);
 
       // eslint-disable-next-line no-console
       expect(console.log).toHaveBeenCalledWith(
@@ -156,18 +144,17 @@ describe('lib/client-side/javascript-requiring-consent', () => {
       jest.spyOn(console, 'log').mockImplementation();
 
       readCookie.mockImplementation(() => JSON.stringify({ usage: false }));
-      appConfig.mockImplementation(() => {
-        return {
-          server: {
-            googleTagManagerId: 'some-test-value',
-          },
-          featureFlag: {
-            googleTagManager: true, // no googletagmanager feature flag.
-          },
-        };
-      });
 
-      initialiseOptionalJavaScripts();
+      const config = {
+        server: {
+          googleTagManagerId: 'some-test-value',
+        },
+        featureFlag: {
+          googleTagManager: true, // no googletagmanager feature flag.
+        },
+      };
+
+      initialiseOptionalJavaScripts(document, config);
 
       // eslint-disable-next-line no-console
       expect(console.log).toHaveBeenCalledWith(
@@ -182,18 +169,17 @@ describe('lib/client-side/javascript-requiring-consent', () => {
 
     test('calls through to Google Analytics if `usage=true and google tag manager feature flag undefined`', () => {
       readCookie.mockImplementation(() => JSON.stringify({ usage: true }));
-      appConfig.mockImplementation(() => {
-        return {
-          server: {
-            googleTagManagerId: 'some-test-value',
-          },
-          featureFlag: {
-            foo: true, // no googletagmanager feature flag.
-          },
-        };
-      });
 
-      initialiseOptionalJavaScripts();
+      const config = {
+        server: {
+          googleTagManagerId: 'some-test-value',
+        },
+        featureFlag: {
+          foo: true, // no googletagmanager feature flag.
+        },
+      };
+
+      initialiseOptionalJavaScripts(document, config);
 
       expect(initialiseGoogleAnalytics).toHaveBeenCalled();
       expect(googleTagManager.denyConsent).not.toHaveBeenCalled();
@@ -202,18 +188,17 @@ describe('lib/client-side/javascript-requiring-consent', () => {
 
     test('calls through to Google Analytics if `usage=true and google tag manager feature flag false`', () => {
       readCookie.mockImplementation(() => JSON.stringify({ usage: true }));
-      appConfig.mockImplementation(() => {
-        return {
-          server: {
-            googleTagManagerId: 'some-test-value',
-          },
-          featureFlag: {
-            googleTagManager: false, // no googletagmanager feature flag.
-          },
-        };
-      });
 
-      initialiseOptionalJavaScripts();
+      const config = {
+        server: {
+          googleTagManagerId: 'some-test-value',
+        },
+        featureFlag: {
+          googleTagManager: false, // no googletagmanager feature flag.
+        },
+      };
+
+      initialiseOptionalJavaScripts(document, config);
 
       expect(initialiseGoogleAnalytics).toHaveBeenCalled();
       expect(googleTagManager.denyConsent).not.toHaveBeenCalled();
@@ -222,18 +207,17 @@ describe('lib/client-side/javascript-requiring-consent', () => {
 
     test('calls through to Google Analytics if `usage=true and googleTagManagerId undefined`', () => {
       readCookie.mockImplementation(() => JSON.stringify({ usage: true }));
-      appConfig.mockImplementation(() => {
-        return {
-          server: {
-            foo: 'some-test-value',
-          },
-          featureFlag: {
-            googleTagManager: true, // no googletagmanager feature flag.
-          },
-        };
-      });
 
-      initialiseOptionalJavaScripts();
+      const config = {
+        server: {
+          foo: 'some-test-value',
+        },
+        featureFlag: {
+          googleTagManager: true, // no googletagmanager feature flag.
+        },
+      };
+
+      initialiseOptionalJavaScripts(document, config);
 
       expect(initialiseGoogleAnalytics).toHaveBeenCalled();
       expect(googleTagManager.denyConsent).not.toHaveBeenCalled();
@@ -241,22 +225,21 @@ describe('lib/client-side/javascript-requiring-consent', () => {
     });
 
     test('calls through to Google Tag Manager if `usage=true and googleTagManagerId and googleTagManager feature flag is true`', () => {
+      jest.spyOn(console, 'log').mockImplementation();
       readCookie.mockImplementation(() => JSON.stringify({ usage: true }));
-      appConfig.mockImplementation(() => {
-        return {
-          server: {
-            googleTagManagerId: 'some-test-value',
-          },
-          featureFlag: {
-            googleTagManager: true, // no googletagmanager feature flag.
-          },
-        };
-      });
 
-      initialiseOptionalJavaScripts();
+      const config = {
+        server: {
+          googleTagManagerId: 'some-test-value',
+        },
+        featureFlag: {
+          googleTagManager: true, //  googletagmanager feature flag.
+        },
+      };
+
+      initialiseOptionalJavaScripts(document, config);
 
       expect(googleTagManager.grantConsent).toHaveBeenCalled();
-
       expect(initialiseGoogleAnalytics).not.toHaveBeenCalled();
       expect(googleTagManager.denyConsent).not.toHaveBeenCalled();
     });
