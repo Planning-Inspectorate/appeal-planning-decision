@@ -45,14 +45,20 @@ spec:
             httpGet:
               path: /ping
               port: {{ .Values.gotenberg.service.name }}
-            initialDelaySeconds: 60
-            periodSeconds: 30
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            failureThreshold: 30
+            successThreshold: 1
+            timeoutSeconds: 1
           readinessProbe:
             httpGet:
               path: /ping
               port: {{ .Values.gotenberg.service.name }}
-            initialDelaySeconds: 60
-            periodSeconds: 30
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            failureThreshold: 30
+            successThreshold: 1
+            timeoutSeconds: 1
           env:
             - name: DEFAULT_LISTEN_PORT
               value: {{ .Values.gotenberg.config.port | quote }}
