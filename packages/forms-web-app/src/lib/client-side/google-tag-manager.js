@@ -8,6 +8,7 @@ function applyConsent(consent) {
     dataLayer.push(arguments);
   }
 
+  /* istanbul ignore else */
   if (consent === 'denied' || consent === 'granted') {
     gtag('consent', 'update', {
       analytics_storage: consent, // We only care about analytics_storage
