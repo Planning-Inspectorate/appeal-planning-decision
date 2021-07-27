@@ -4,9 +4,8 @@ const { readCookie } = require('./cookie/cookie-jar');
 const cookieConfig = require('./cookie/cookie-config');
 const { initialiseGoogleAnalytics } = require('./google-analytics');
 const googleTagManager = require('./google-tag-manager');
-const config = require('../../config');
 
-const initialiseOptionalJavaScripts = (document) => {
+const initialiseOptionalJavaScripts = (document, config) => {
   const cookie = readCookie(document, cookieConfig.COOKIE_POLICY_KEY);
 
   if (cookie === null) {
