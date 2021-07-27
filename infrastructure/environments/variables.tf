@@ -104,7 +104,7 @@ variable "k8s_max_nodes" {
 
 variable "k8s_version_prefix" {
   description = "Version prefix to use - ensure you end with dot (.)"
-  default = "1.18."
+  default = "1.19."
 }
 
 variable "k8s_vm_size" {
