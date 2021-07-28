@@ -45,10 +45,6 @@ jobs:
             environment: preprod
             mongodb_backup_interval: 240
             mongodb_backup_retention: 8
-          - branch: refs/heads/master
-            environment: prod
-            mongodb_backup_interval: 120
-            mongodb_backup_retention: 720
 
     steps:
       - uses: actions/checkout@v2
