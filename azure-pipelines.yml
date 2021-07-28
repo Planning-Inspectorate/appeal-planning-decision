@@ -10,7 +10,7 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
-  dockerfilePath: '$(Build.SourcesDirectory)/app/packages/appeals-service-api/Dockerfile'
+  dockerfilePath: '$(Build.SourcesDirectory)/packages/appeals-service-api/Dockerfile'
 
 stages:
 - stage: Build
