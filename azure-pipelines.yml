@@ -11,34 +11,43 @@ resources:
 variables:
   tag: '$(Build.BuildId)'
   dockerfilePath: '$(Build.SourcesDirectory)/packages/appeals-service-api/Dockerfile'
-  azureSubscriptionEndpoint: PINS ACPHZN Prod (cbd9712b-34c8-4c94-9633-37ffc0f54f9d)
-  imageName: appealServiceApiImage
-  imageRepository: PINSPortalContainerRepository
-  # dockerRegistryServiceConnection: xxxxxxxxxxxx
+  # azureSubscriptionEndpoint: PINS ACPHZN Prod (cbd9712b-34c8-4c94-9633-37ffc0f54f9d)
+  # imageName: appealServiceApiImage
+  imageRepository: pinsportalinhouse
+  containerRegistry: 'pinsportalcontainerregistry.azurecr.io'
+  dockerRegistryServiceConnection: '2dd2dc19-2d33-4627-ba3b-4b5773617eee'
+  imagePullSecret: 'pinsportalcontainerregistry0d39-auth'
+
+vmImageName: 'node:14-alpine'
 
 stages:
-- stage: BuildAndPush
-  displayName: BuildAndPush
+- stage: Build
+  displayName: Build stage
   jobs:
-  - job: BuildAndPush
-    displayName: Build and Push image
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
     steps:
     - task: Docker@2
-      displayName: Build
+      displayName: Build and push an image to container registry
       inputs:
-        command: build
-        repository: $(imageName)
+        command: buildAndPush
+        repository: $(imageRepository)
         dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
-          appeal-service-api
-    - task: Docker@2
-      displayName: Push
-      inputs:
-        command: push
-        repository: $(imageName)
-        containerRegistry: $(imageRepository)
-        tags: |
-          appeal-service-api
+          $(tag)
+    - upload: manifests
+      artifact: manifests
+    # - task: Docker@2
+    #   displayName: Push
+    #   inputs:
+    #     command: push
+    #     repository: $(imageName)
+    #     containerRegistry: $(imageRepository)
+    #     tags: |
+    #       appeal-service-api
 
 # - stage: Deploy
 #   displayName: Deploy WebApp
