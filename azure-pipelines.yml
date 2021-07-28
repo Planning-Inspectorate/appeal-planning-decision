@@ -3,7 +3,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- master
+- feature/as-3074-appeal-service-api-pipeline
 
 resources:
 - repo: self
