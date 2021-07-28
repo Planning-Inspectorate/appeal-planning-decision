@@ -24,6 +24,6 @@ stages:
       displayName: Build an image
       inputs:
         command: build
-        dockerfile: packages/appeals-service-api/Dockerfile
+        dockerfile: $(packages/appeals-service-api/Dockerfile)
         tags: |
           $(tag)
