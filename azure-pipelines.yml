@@ -17,8 +17,7 @@ variables:
   containerRegistry: 'pinsportalcontainerregistry.azurecr.io'
   dockerRegistryServiceConnection: '2dd2dc19-2d33-4627-ba3b-4b5773617eee'
   imagePullSecret: 'pinsportalcontainerregistry0d39-auth'
-
-vmImageName: 'node:14-alpine'
+  vmImageName: 'node:14-alpine'
 
 stages:
 - stage: Build
