@@ -11,9 +11,10 @@ ENV DOCS_API_PATH=/opt/app/api
 ENV NODE_ENV=production
 ENV SERVER_PORT=3000
 # This must be built locally from the common package
+# COPY --from=common:latest /opt/app ../common
 ADD api api
 ADD src src
-ADD node_modules node_modules
+# ADD node_modules node_modules
 ADD package.json package.json
 ADD package-lock.json package-lock.json
 RUN npm prune --production \
