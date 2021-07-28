@@ -12,25 +12,31 @@ variables:
   tag: '$(Build.BuildId)'
   dockerfilePath: '$(Build.SourcesDirectory)/packages/appeals-service-api/Dockerfile'
   azureSubscriptionEndpoint: PINS ACPHZN Prod (cbd9712b-34c8-4c94-9633-37ffc0f54f9d)
+  imageName: appealServiceApiImage
   imageRepository: PINSPortalContainerRepository
   # dockerRegistryServiceConnection: xxxxxxxxxxxx
 
 stages:
-- stage: Build
-  displayName: Build image
+- stage: BuildAndPush
+  displayName: BuildAndPush
   jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: ubuntu-latest
+  - job: BuildAndPush
+    displayName: Build and Push image
     steps:
     - task: Docker@2
-      displayName: buildAndPush
+      displayName: Build
+      inputs:
+        command: build
+        repository: $(imageName)
+        dockerfile: $(dockerfilePath)
+        tags: |
+          appeal-service-api
+    - task: Docker@2
+      displayName: Push
       inputs:
         command: push
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        # containerRegistry: $(dockerRegistryServiceConnection)
+        repository: $(imageName)
+        containerRegistry: $(imageRepository)
         tags: |
           appeal-service-api
 
