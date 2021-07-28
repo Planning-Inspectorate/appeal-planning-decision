@@ -69,6 +69,11 @@ export const subTasks = [
     id: 'statutoryDevelopment',
     url: 'statutory-development',
   },
+  {
+    ref: 'Supplementary planning documents',
+    id: 'supplementaryPlanningDocuments',
+    url: 'supplementary-documents/uploaded-documents',
+  },
 ];
 
 export const getSubTaskInfo = (subTaskRef) => {

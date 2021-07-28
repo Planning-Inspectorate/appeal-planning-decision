@@ -116,7 +116,16 @@
       ]
     },
     "supplementaryPlanningDocuments": {
-      "uploadedFiles": []
+      "uploadedFiles": [
+        {
+          "name": "upload-file-valid.pdf",
+          "id": "20363838-c8da-4cfd-ab7d-e18a12fe3148",
+          "documentName": "Mock Document Name",
+          "formallyAdopted": true,
+          "adoptedDate": "06-12-2021",
+          "stageReached": ""
+        }
+      ]
     },
     "developmentOrNeighbourhood": {
       "hasPlanSubmitted": true,
