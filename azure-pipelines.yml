@@ -11,6 +11,7 @@ resources:
 variables:
   tag: '$(Build.BuildId)'
   dockerfilePath: '$(Build.SourcesDirectory)/packages/appeals-service-api/Dockerfile'
+  azureSubscriptionEndpoint: PINS
 
 stages:
 - stage: Build
@@ -28,3 +29,26 @@ stages:
         dockerfile: $(dockerfilePath)
         tags: |
           $(tag)
+
+- stage: Deploy
+  displayName: Deploy WebApp
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    steps:
+    # - task: AzureWebApp@1
+    #   inputs:
+    #     appType: webApp
+    #     azureSubscription: 'PINS ACPHZN Prod'
+    #     appName: 'appeal-service-api'
+    #     package: '$(System.DefaultWorkingDirectory)'
+    #     customWebConfig: '-Handler iisnode -NodeStartFile server.js -appType node'
+    - task: AzureRMWebAppDeployment@4
+      displayName: Appeals Service API Deploy
+      inputs:
+        appType: webAppContainer
+        ConnectedServiceName: $(azureSubscriptionEndpoint)
+        WebAppName: $(WebAppName)
+        DockerNamespace: $(DockerNamespace)
+        DockerRepository: $(DockerRepository)
+        DockerImageTag: $(Build.BuildId)
