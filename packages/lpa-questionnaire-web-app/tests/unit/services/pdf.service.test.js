@@ -20,7 +20,8 @@ describe('services/pdf.service', () => {
   let mockAppeal;
 
   beforeEach(() => {
-    mockAppealReply = originalMockAppealReply;
+    mockAppealReply = { ...originalMockAppealReply };
+    mockAppealReply.submissionDate = Date.parse('2021-07-29T07:35:11.426Z');
     mockAppeal = originalMockAppeal;
   });
 
@@ -33,6 +34,12 @@ describe('services/pdf.service', () => {
       mockAppealReply.aboutAppealSection.submissionAccuracy.inaccuracyReason =
         'mock-inaccuracy-reason';
       expect(convertToHtml(mockAppealReply, mockAppeal)).toContain('mock-inaccuracy-reason');
+    });
+
+    it('should contain submissionDate included in the html document', () => {
+      expect(convertToHtml(mockAppealReply, mockAppeal)).toContain(
+        'Submitted to the Planning Inspectorate on 29 July 2021'
+      );
     });
   });
   describe('createPdf', () => {
