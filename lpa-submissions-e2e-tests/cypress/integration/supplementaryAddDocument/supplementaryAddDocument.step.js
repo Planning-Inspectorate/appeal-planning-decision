@@ -92,10 +92,12 @@ Then('the LPA Planning Officer is presented with add supplementary document ques
 });
 
 Then('progress is made to the supplementary document list', () => {
+  cy.clickSaveAndContinue();
   cy.verifyPage('supplementary-documents/uploaded-documents');
 });
 
 Then('progress is halted with a message {string}', (message) => {
+  cy.clickSaveAndContinue();
   cy.verifyPage(page.url);
 
   let errorInput;
