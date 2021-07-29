@@ -114,6 +114,10 @@ When('the LPA tries to access the questionnaire', () => {
   goToPage(questionnairePage);
 });
 
+Then('enter email address page will be opened in the browser', () => {
+  verifyPage(enterEmailAddressLink);
+});
+
 Then('enter email address page will be displayed', () => {
   verifyPage(enterEmailAddressLink);
 });

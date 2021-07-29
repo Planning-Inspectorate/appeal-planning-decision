@@ -11,7 +11,7 @@ Feature: LPA Questionnaire Access - Authentication: Magic Link
   Scenario: LPA selects the link in the start email and LPA is asked to provide email address
     Given LPA Planning Officer wants to complete a questionnaire
     When they click on the link in the start email
-    Then enter email address page will be displayed
+    Then enter email address page will be opened in the browser
 
   Scenario: LPA enters email address not matched with the LPA domain -
     Given access to the questionnaire is requested
@@ -23,11 +23,13 @@ Feature: LPA Questionnaire Access - Authentication: Magic Link
     Given access to the questionnaire is requested
     When an email address is not provided
     Then progress is halted with an error message to enter an email address
+    And a magic link is not sent to the user
 
   Scenario: LPA enters email address in invalid format
     Given access to the questionnaire is requested
     When the email address provided in not in the correct format
     Then progress is halted with an error message to enter an email address
+    And a magic link is not sent to the user
 
   Scenario: LPA enters email address matching LPA domain
     Given access to the questionnaire is requested
