@@ -45,7 +45,6 @@ jobs:
             environment: preprod
             mongodb_backup_interval: 240
             mongodb_backup_retention: 8
-
     steps:
       - uses: actions/checkout@v2
         if: github.ref == matrix.branch
