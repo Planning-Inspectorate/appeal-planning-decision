@@ -32,6 +32,7 @@ exports.postInformationSubmitted = async (req, res) => {
   log.info('Submitting the appeal reply');
 
   try {
+    appealReply.submissionDate = new Date();
     const { id, name } = await createPdf(appealReply, appeal);
 
     appealReply.state = 'SUBMITTED';
