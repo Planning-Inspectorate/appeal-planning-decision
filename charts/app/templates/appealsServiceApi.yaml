@@ -5,14 +5,14 @@ kind: Deployment
 metadata:
   name: {{ include "app.fullname" . }}-appeals-service-api
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+  {{- include "app.labels" . | nindent 4 }}
 spec:
-{{- if not .Values.autoscaling.enabled }}
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.appealsServiceApi.replicaCount }}
-{{- end }}
+  {{- end }}
   selector:
     matchLabels:
-      {{- include "app.selectorLabels" . | nindent 6 }}
+  {{- include "app.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -21,21 +21,21 @@ spec:
         prometheus.io/port: {{ .Values.appealsServiceApi.config.port | quote }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
-        {{- end }}
+      {{- end }}
       labels:
-        {{- include "app.selectorLabels" . | nindent 8 }}
+    {{- include "app.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "app.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.appealsServiceApi.image.repository }}:{{ .Values.appealsServiceApi.image.tag }}"
           imagePullPolicy: {{ .Values.appealsServiceApi.image.pullPolicy }}
           ports:
@@ -46,20 +46,10 @@ spec:
             httpGet:
               path: /health
               port: {{ .Values.appealsServiceApi.service.name }}
-            initialDelaySeconds: 45
-            periodSeconds: 5
-            failureThreshold: 30
-            successThreshold: 1
-            timeoutSeconds: 1
           readinessProbe:
             httpGet:
               path: /health
               port: {{.Values.appealsServiceApi.service.name }}
-            initialDelaySeconds: 45
-            periodSeconds: 5
-            failureThreshold: 30
-            successThreshold: 1
-            timeoutSeconds: 1
           env:
             - name: APP_APPEALS_BASE_URL
               value: "https://{{ .Values.globals.domainNames.appealsWebApp }}"
@@ -135,18 +125,18 @@ spec:
               mountPath: /data/lpa-trialists
               readOnly: true
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+      {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.affinity }}
       affinity:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
         - name: lpa-data-volume

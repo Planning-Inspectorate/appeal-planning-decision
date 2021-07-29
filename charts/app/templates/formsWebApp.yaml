@@ -18,7 +18,7 @@ spec:
         prometheus.io/path: /metrics
         prometheus.io/port: {{ .Values.formsWebApp.config.port | quote }}
         {{- with .Values.podAnnotations }}
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
     {{- include "app.selectorLabels" . | nindent 8 }}
@@ -44,20 +44,10 @@ spec:
             httpGet:
               path: /health
               port: {{.Values.formsWebApp.service.name }}
-            initialDelaySeconds: 45
-            periodSeconds: 5
-            failureThreshold: 30
-            successThreshold: 1
-            timeoutSeconds: 1
           readinessProbe:
             httpGet:
               path: /health
               port: {{.Values.formsWebApp.service.name }}
-            initialDelaySeconds: 45
-            periodSeconds: 5
-            failureThreshold: 30
-            successThreshold: 1
-            timeoutSeconds: 1
           env:
             - name: APPEALS_SERVICE_API_URL
               value: "http://{{ include "app.fullname" . }}:{{ .Values.appealsServiceApi.service.port }}"

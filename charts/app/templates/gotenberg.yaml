@@ -3,30 +3,30 @@ kind: Deployment
 metadata:
   name: {{ include "app.fullname" . }}-gotenberg
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+  {{- include "app.labels" . | nindent 4 }}
 spec:
-{{- if not .Values.autoscaling.enabled }}
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.pdfServiceApi.replicaCount }}
-{{- end }}
+  {{- end }}
   selector:
     matchLabels:
-      {{- include "app.selectorLabels" . | nindent 6 }}
+  {{- include "app.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
-        {{- with .Values.podAnnotations }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
+      {{- with .Values.podAnnotations }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        {{- include "app.selectorLabels" . | nindent 8 }}
+    {{- include "app.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "app.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -34,7 +34,7 @@ spec:
             runAsUser: 1001
             {{- with .Values.securityContext }}
             {{- toYaml . | nindent 12 }}
-            {{- end }}
+          {{- end }}
           image: "{{ .Values.gotenberg.image.repository }}:{{ .Values.gotenberg.image.tag }}"
           imagePullPolicy: {{ .Values.gotenberg.image.pullPolicy }}
           ports:
@@ -45,38 +45,28 @@ spec:
             httpGet:
               path: /ping
               port: {{ .Values.gotenberg.service.name }}
-            initialDelaySeconds: 45
-            periodSeconds: 5
-            failureThreshold: 30
-            successThreshold: 1
-            timeoutSeconds: 1
           readinessProbe:
             httpGet:
               path: /ping
               port: {{ .Values.gotenberg.service.name }}
-            initialDelaySeconds: 45
-            periodSeconds: 5
-            failureThreshold: 30
-            successThreshold: 1
-            timeoutSeconds: 1
           env:
             - name: DEFAULT_LISTEN_PORT
               value: {{ .Values.gotenberg.config.port | quote }}
             {{- if .Values.gotenberg.config.disableOfficeTemplates }}
             - name: DISABLE_UNOCONV
               value: "1"
-            {{- end }}
+          {{- end }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+      {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.affinity }}
       affinity:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- toYaml . | nindent 8 }}
+  {{- end }}

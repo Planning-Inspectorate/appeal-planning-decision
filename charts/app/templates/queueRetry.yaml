@@ -5,34 +5,34 @@ kind: Deployment
 metadata:
   name: {{ include "app.fullname" . }}-queue-retry
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+  {{- include "app.labels" . | nindent 4 }}
 spec:
-{{- if not .Values.autoscaling.enabled }}
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.queueRetryService.replicaCount }}
-{{- end }}
+  {{- end }}
   selector:
     matchLabels:
-      {{- include "app.selectorLabels" . | nindent 6 }}
+  {{- include "app.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
-        {{- with .Values.podAnnotations }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
+      {{- with .Values.podAnnotations }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        {{- include "app.selectorLabels" . | nindent 8 }}
+    {{- include "app.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "app.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.queueRetryService.image.repository }}:{{ .Values.queueRetryService.image.tag }}"
           imagePullPolicy: {{ .Values.queueRetryService.image.pullPolicy }}
           ports:
@@ -43,20 +43,10 @@ spec:
             httpGet:
               path: /
               port: {{ .Values.queueRetryService.service.name }}
-            initialDelaySeconds: 45
-            periodSeconds: 5
-            failureThreshold: 30
-            successThreshold: 1
-            timeoutSeconds: 1
           readinessProbe:
             httpGet:
               path: /
               port: {{ .Values.queueRetryService.service.name }}
-            initialDelaySeconds: 45
-            periodSeconds: 5
-            failureThreshold: 30
-            successThreshold: 1
-            timeoutSeconds: 1
           env:
             - name: LOGGER_LEVEL
               value: {{ .Values.queueRetryService.config.logLevel }}
@@ -77,16 +67,16 @@ spec:
             - name: SERVER_PORT
               value: {{ .Values.queueRetryService.config.port | quote }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+      {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.affinity }}
       affinity:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- toYaml . | nindent 8 }}
+  {{- end }}
