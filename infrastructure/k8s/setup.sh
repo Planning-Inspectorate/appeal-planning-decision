@@ -6,7 +6,7 @@ FLUX_NAMESPACE="flux"
 OPENFAAS_NAMESPACES="openfaas openfaas-fn"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-if ! ( kubectl get ns ${DEPLOY_NAMESPACE ) 2> /dev/null;
+if ! ( kubectl get ns ${DEPLOY_NAMESPACE} ) 2> /dev/null;
 then  
 kubectl create namespace "${DEPLOY_NAMESPACE}" || true
 fi
