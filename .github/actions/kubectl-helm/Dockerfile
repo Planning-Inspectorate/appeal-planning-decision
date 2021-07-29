@@ -1,6 +1,6 @@
 FROM alpine:latest as builder
 ARG KUBE_VERSION=1.19.11
-ARG HELM_VERSION=3.4.0
+ARG HELM_VERSION=3.3.1
 ARG OS_TYPE=linux
 ARG ARCH=amd64
 WORKDIR /opt/app
