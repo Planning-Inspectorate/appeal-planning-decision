@@ -20,3 +20,5 @@ location = "eastus"
 
 > **NB** JSON is not (currently) supported for variables files - this can be
 > added if required.
+
+this will be removed
