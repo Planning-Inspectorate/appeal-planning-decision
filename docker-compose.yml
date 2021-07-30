@@ -303,7 +303,7 @@ services:
 
   # In prod we use Azure Service Bus which uses AMQP1.0
   rabbitmq:
-    image: rabbitmq:3.8.18-management-alpine
+    image: rabbitmq:3-management-alpine
     environment:
       RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbit default_pass admin default_user admin"
     ports:
