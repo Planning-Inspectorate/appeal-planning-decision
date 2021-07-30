@@ -6,9 +6,10 @@ FLUX_NAMESPACE="flux"
 OPENFAAS_NAMESPACES="openfaas openfaas-fn"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-
+if ! ( kubectl get ns ${DEPLOY_NAMESPACE} ) 2> /dev/null;
+then
 kubectl create namespace "${DEPLOY_NAMESPACE}" || true
-
+fi
 add_registry_secret() {
   echo "Adding registry secret to ${DEPLOY_NAMESPACE}"
 
@@ -71,8 +72,10 @@ install_azure_key_vault() {
   echo "Install Azure Key Vault (akv2k8s)@${AKV2K8S_VERSION}"
 
   kubectl apply -f https://raw.githubusercontent.com/sparebankenvest/azure-key-vault-to-kubernetes/master/crds/AzureKeyVaultSecret.yaml
-  kubectl create namespace akv2k8s || true
-
+ if  ! ( kubectl get ns akv2k8s ) 2> /dev/null
+then
+     kubectl create namespace akv2k8s || true
+fi
   kubectl label namespaces \
     "${DEPLOY_NAMESPACE}" \
     --overwrite \
@@ -98,8 +101,10 @@ install_nginx_ingress() {
   echo "Adding Nginx Ingress@${NGINX_INGRESS_VERSION}"
 
   touch "${DIR}/nginx-ingress/${CLUSTER}.yaml"
-
+if  ! ( kubectl get ns nginx-ingress ) 2> /dev/null
+then
   kubectl create namespace nginx-ingress || true
+fi
   helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
   kubectl apply -n nginx-ingress -f "${DIR}/nginx-ingress/configMaps/response-headers.yaml"
   helm repo update
@@ -126,8 +131,10 @@ install_nginx_ingress() {
 install_cert_manager() {
   CERT_MANAGER_VERSION="${CERT_MANAGER_VERSION:-^1.0.0}"
   echo "Adding Cert Manager@${CERT_MANAGER_VERSION}"
-
-  kubectl create namespace cert-manager || true
+  if  ! ( kubectl get ns cert-manager ) 2> /dev/null
+    then
+    kubectl create namespace cert-manager || true
+  fi
   helm repo add jetstack https://charts.jetstack.io
   helm repo update
   helm upgrade \
@@ -158,7 +165,10 @@ install_gitops() {
 
   helm repo add fluxcd https://charts.fluxcd.io
   kubectl apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml
-  kubectl create namespace "${FLUX_NAMESPACE}" || true
+  if  ! ( kubectl get ns ${FLUX_NAMESPACE} ) 2> /dev/null
+     then
+     kubectl create namespace "${FLUX_NAMESPACE}" || true
+  fi
   ssh-keyscan "${REPO_DOMAIN}" > ./known_hosts
   helm upgrade \
     --reset-values \
@@ -229,8 +239,10 @@ install_gitops() {
 
 install_prometheus() {
   echo "Installing Prometheus for monitoring"
-
-  kubectl create namespace prometheus || true
+  if  ! ( kubectl get ns prometheus ) 2> /dev/null
+     then
+     kubectl create namespace prometheus || true
+  fi
   helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
   helm repo add stable https://charts.helm.sh/stable
   helm repo update
