@@ -305,8 +305,7 @@ services:
   rabbitmq:
     image: rabbitmq:3.8.18-management-alpine
     environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: admin
+      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbit default_pass admin default_user admin"
     ports:
       - 4004:5672
       - 4005:15672
