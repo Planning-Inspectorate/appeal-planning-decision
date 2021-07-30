@@ -24,7 +24,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/appeal-reply-service-api
-        tag: 1.10.3
+        tag: 1.10.4
       config:
         notify:
           secretName: akv-notify-preprod
@@ -33,7 +33,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/appeals-service-api
-        tag: 1.22.7
+        tag: 1.22.8
       config:
         notify:
           secretName: akv-notify-preprod
@@ -42,13 +42,13 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/document-service-api
-        tag: 1.5.2
+        tag: 1.5.3
 
     formsWebApp:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
-        tag: 1.52.11
+        tag: 1.53.1
       config:
         googleAnalyticsId: G-TZBWMVPTHV
         googleTagManagerId: GTM-KZN7XP4
@@ -58,7 +58,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/lpa-questionnaire-web-app
-        tag: 1.34.0
+        tag: 1.37.0
       config:
         allowCreate: 'true'
 
@@ -66,7 +66,7 @@ spec:
       replicaCount: 2
       image:
         repository: pinscommonukscontainers3887default.azurecr.io/pdf-service-api
-        tag: 1.0.6
+        tag: 1.0.7
 
     queueRetryService:
       image:
