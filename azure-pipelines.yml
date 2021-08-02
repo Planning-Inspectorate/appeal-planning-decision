@@ -15,7 +15,7 @@ variables:
   # imageName: appealServiceApiImage
   imageRepository: pinsportalinhouse
   containerRegistry: 'pinsportalcontainerregistry.azurecr.io'
-  dockerRegistryServiceConnection: '2dd2dc19-2d33-4627-ba3b-4b5773617eee'
+  dockerRegistryServiceConnection: 'appeals-service-api-registry-connection'
   imagePullSecret: 'pinsportalcontainerregistry0d39-auth'
   vmImageName: 'node:14-alpine'
 
