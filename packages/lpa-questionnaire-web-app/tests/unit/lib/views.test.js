@@ -21,6 +21,7 @@ describe('lib/views', () => {
       STATUTORY_DEVELOPMENT: 'statutory-development',
       SUPPLEMENTARY_DOCUMENTS: {
         UPLOADED_DOCUMENTS: 'supplementary-documents/uploaded-documents',
+        DELETE_DOCUMENT: 'supplementary-documents/delete-document',
         ADD_DOCUMENT: 'supplementary-documents/add-document',
       },
       INFORMATION_SUBMITTED: 'information-submitted',
