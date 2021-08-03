@@ -225,9 +225,11 @@ install_gitops() {
   echo "Flux key from fluxctl:"
   ./fluxctl identity --k8s-fwd-ns "${FLUX_NAMESPACE}"
 
+  echo "tidy up flux"
   # Tidy up and delete fluxctl
   rm -rf fluxctl
 
+  echo "add public key"
   # Add Flux public key as GitHub deploy key
   PUBLIC_KEY=$(kubectl -n "${FLUX_NAMESPACE}" logs deployment/flux | grep identity.pub | cut -d '"' -f2)
   KEY_NAME="${CLUSTER}_cluster_k8s_gitops"
