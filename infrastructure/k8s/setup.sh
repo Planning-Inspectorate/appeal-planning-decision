@@ -208,6 +208,26 @@ install_gitops() {
     helm-operator \
     fluxcd/helm-operator
 
+  # Install fluxctl.
+  # https://github.com/fluxcd/flux
+  curl -L -o fluxctl_linux_arm64 https://github.com/fluxcd/flux/releases/download/1.21.1/fluxctl_linux_arm64
+  mv fluxctl_linux_arm64 fluxctl
+  chmod +x fluxctl
+  echo "Info: fluxctl: $(./fluxctl version)"
+  ls -la
+
+  # Temporarily compare the flux key output using the old method of grabbing from
+  # the logs and the new method using fluxctl. If they match, then replace the
+  # old method in the PUBLIC_KEY line below.
+  echo "Flux key from logs:"
+  kubectl -n "${FLUX_NAMESPACE}" logs deployment/flux | grep identity.pub | cut -d '"' -f2
+
+  echo "Flux key from fluxctl:"
+  ./fluxctl identity --k8s-fwd-ns "${FLUX_NAMESPACE}"
+
+  # Tidy up and delete fluxctl
+  rm -rf fluxctl
+
   # Add Flux public key as GitHub deploy key
   PUBLIC_KEY=$(kubectl -n "${FLUX_NAMESPACE}" logs deployment/flux | grep identity.pub | cut -d '"' -f2)
   KEY_NAME="${CLUSTER}_cluster_k8s_gitops"
