@@ -7,10 +7,7 @@ OPENFAAS_NAMESPACES="openfaas openfaas-fn"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-if ! ( kubectl get ns ${DEPLOY_NAMESPACE} ) 2> /dev/null;
-then
-  kubectl create namespace "${DEPLOY_NAMESPACE}" || true
-fi
+kubectl create namespace "${DEPLOY_NAMESPACE}" || true
 
 add_registry_secret() {
   echo "Adding registry secret to ${DEPLOY_NAMESPACE}"
@@ -74,10 +71,8 @@ install_azure_key_vault() {
   echo "Install Azure Key Vault (akv2k8s)@${AKV2K8S_VERSION}"
 
   kubectl apply -f https://raw.githubusercontent.com/sparebankenvest/azure-key-vault-to-kubernetes/master/crds/AzureKeyVaultSecret.yaml
- if  ! ( kubectl get ns akv2k8s ) 2> /dev/null
-then
-     kubectl create namespace akv2k8s || true
-fi
+  kubectl create namespace akv2k8s || true
+
   kubectl label namespaces \
     "${DEPLOY_NAMESPACE}" \
     --overwrite \
@@ -103,10 +98,8 @@ install_nginx_ingress() {
   echo "Adding Nginx Ingress@${NGINX_INGRESS_VERSION}"
 
   touch "${DIR}/nginx-ingress/${CLUSTER}.yaml"
-if  ! ( kubectl get ns nginx-ingress ) 2> /dev/null
-then
+
   kubectl create namespace nginx-ingress || true
-fi
   helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
   kubectl apply -n nginx-ingress -f "${DIR}/nginx-ingress/configMaps/response-headers.yaml"
   helm repo update
@@ -133,10 +126,8 @@ fi
 install_cert_manager() {
   CERT_MANAGER_VERSION="${CERT_MANAGER_VERSION:-^1.0.0}"
   echo "Adding Cert Manager@${CERT_MANAGER_VERSION}"
-  if  ! ( kubectl get ns cert-manager ) 2> /dev/null
-    then
-    kubectl create namespace cert-manager || true
-  fi
+
+  kubectl create namespace cert-manager || true
   helm repo add jetstack https://charts.jetstack.io
   helm repo update
   helm upgrade \
@@ -167,10 +158,7 @@ install_gitops() {
 
   helm repo add fluxcd https://charts.fluxcd.io
   kubectl apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/master/deploy/crds.yaml
-  if  ! ( kubectl get ns ${FLUX_NAMESPACE} ) 2> /dev/null
-     then
-     kubectl create namespace "${FLUX_NAMESPACE}" || true
-  fi
+  kubectl create namespace "${FLUX_NAMESPACE}" || true
   ssh-keyscan "${REPO_DOMAIN}" > ./known_hosts
   helm upgrade \
     --reset-values \
@@ -182,7 +170,7 @@ install_gitops() {
     --set git.path="releases/${CLUSTER}" \
     --set git.branch="${RELEASE_BRANCH}" \
     --set git.label="${CLUSTER}-flux-sync" \
-    --set git.timeout="1m" \
+    --set git.timeout="10m" \
     --set git.ciSkip="true" \
     --namespace "${FLUX_NAMESPACE}" \
     --version "${GITOPS_FLUX_VERSION}" \
@@ -208,12 +196,41 @@ install_gitops() {
     helm-operator \
     fluxcd/helm-operator
 
+  # Add Flux public key as GitHub deploy key
+  PUBLIC_KEY=$(kubectl -n "${FLUX_NAMESPACE}" logs deployment/flux | grep identity.pub | cut -d '"' -f2)
+  KEY_NAME="${CLUSTER}_cluster_k8s_gitops"
+
+  # Get list of existing keys
+  echo "Getting existing deployment keys"
+  EXISTING_KEYS=$(curl -LsSf \
+    -H "Authorization: token ${REPO_TOKEN}" \
+    "${REPO_API_URL}/repos/${REPO_URL}/keys" | \
+    jq -r --arg KEY_NAME "$KEY_NAME" '.[] | select(.title==$KEY_NAME) | .id')
+
+  # Delete existing key
+  echo "Deleting duplicate deployment keys for ${KEY_NAME}"
+  for key in ${EXISTING_KEYS}
+    do
+      curl -LSf \
+        -H "Authorization: token ${REPO_TOKEN}" \
+        --request DELETE \
+        "${REPO_API_URL}/repos/${REPO_URL}/keys/${key}"
+    done
+
+  # Add new key
+  echo "Adding new ${KEY_NAME} deploy key to GitHub"
+  curl -LsSf \
+    --request POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: token ${REPO_TOKEN}" \
+    --data "{ \"title\": \"${KEY_NAME}\", \"key\": \"${PUBLIC_KEY}\", \"read_only\": false }" \
+    "${REPO_API_URL}/repos/${REPO_URL}/keys"
+}
+
 install_prometheus() {
   echo "Installing Prometheus for monitoring"
-  if  ! ( kubectl get ns prometheus ) 2> /dev/null
-     then
-     kubectl create namespace prometheus || true
-  fi
+
+  kubectl create namespace prometheus || true
   helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
   helm repo add stable https://charts.helm.sh/stable
   helm repo update
