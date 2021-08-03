@@ -213,7 +213,9 @@ install_gitops() {
   curl -L -o fluxctl_linux_arm64 https://github.com/fluxcd/flux/releases/download/1.21.1/fluxctl_linux_arm64
   mv fluxctl_linux_arm64 fluxctl
   chmod +x fluxctl
-  echo "Info: fluxctl: $(./fluxctl/fluxctl version)"
+  cd fluxctl
+  echo "Info: fluxctl: $(fluxctl version)"
+  cd ..
   ls -la
 
   # Temporarily compare the flux key output using the old method of grabbing from
