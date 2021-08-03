@@ -18,6 +18,7 @@ const VIEW = {
   SUPPLEMENTARY_DOCUMENTS: {
     UPLOADED_DOCUMENTS: 'supplementary-documents/uploaded-documents',
     ADD_DOCUMENT: 'supplementary-documents/add-document',
+    DELETE_DOCUMENT: 'supplementary-documents/delete-document',
   },
   INFORMATION_SUBMITTED: 'information-submitted',
   CONFIRM_ANSWERS: 'confirm-answers',
