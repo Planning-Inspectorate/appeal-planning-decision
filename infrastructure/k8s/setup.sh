@@ -208,59 +208,6 @@ install_gitops() {
     helm-operator \
     fluxcd/helm-operator
 
-  # Install fluxctl.
-  # https://github.com/fluxcd/flux
-  curl -L -o fluxctl_linux_arm64 https://github.com/fluxcd/flux/releases/download/1.21.1/fluxctl_linux_arm64
-  mv fluxctl_linux_arm64 fluxctl
-  chmod +x fluxctl
-  echo "Info: fluxctl:"
-  ls -la
-
-  # Temporarily compare the flux key output using the old method of grabbing from
-  # the logs and the new method using fluxctl. If they match, then replace the
-  # old method in the PUBLIC_KEY line below.
-  echo "Flux key from logs:"
-  kubectl -n "${FLUX_NAMESPACE}" logs deployment/flux | grep identity.pub | cut -d '"' -f2
-
-  echo "Flux key from fluxctl:"
-  ./fluxctl identity --k8s-fwd-ns flux
-
-  echo "tidy up flux"
-  # Tidy up and delete fluxctl
-  rm -rf fluxctl
-
-  echo "add public key"
-  # Add Flux public key as GitHub deploy key
-  PUBLIC_KEY=$(kubectl -n "${FLUX_NAMESPACE}" logs deployment/flux | grep identity.pub | cut -d '"' -f2)
-  KEY_NAME="${CLUSTER}_cluster_k8s_gitops"
-
-  # Get list of existing keys
-  echo "Getting existing deployment keys"
-  EXISTING_KEYS=$(curl -LsSf \
-    -H "Authorization: token ${REPO_TOKEN}" \
-    "${REPO_API_URL}/repos/${REPO_URL}/keys" | \
-    jq -r --arg KEY_NAME "$KEY_NAME" '.[] | select(.title==$KEY_NAME) | .id')
-
-  # Delete existing key
-  echo "Deleting duplicate deployment keys for ${KEY_NAME}"
-  for key in ${EXISTING_KEYS}
-    do
-      curl -LSf \
-        -H "Authorization: token ${REPO_TOKEN}" \
-        --request DELETE \
-        "${REPO_API_URL}/repos/${REPO_URL}/keys/${key}"
-    done
-
-  # Add new key
-  echo "Adding new ${KEY_NAME} deploy key to GitHub"
-  curl -LsSf \
-    --request POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: token ${REPO_TOKEN}" \
-    --data "{ \"title\": \"${KEY_NAME}\", \"key\": \"${PUBLIC_KEY}\", \"read_only\": false }" \
-    "${REPO_API_URL}/repos/${REPO_URL}/keys"
-}
-
 install_prometheus() {
   echo "Installing Prometheus for monitoring"
   if  ! ( kubectl get ns prometheus ) 2> /dev/null
