@@ -1,6 +1,7 @@
 const express = require('express');
 const addSupplementaryDocumentController = require('../controllers/supplementary-documents/add-supplementary-document');
 const uploadedDocumentsController = require('../controllers/supplementary-documents/uploaded-documents');
+const deleteSupplementaryDocumentController = require('../controllers/supplementary-documents/delete-supplementary-document');
 const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing-appeal-reply');
 const fetchAppealMiddleware = require('../middleware/fetch-appeal');
 const reqFilesToReqBodyFilesMiddleware = require('../middleware/req-files-to-req-body-files');
@@ -29,6 +30,18 @@ router.get(
   '/:id/supplementary-documents/uploaded-documents',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
   uploadedDocumentsController.getUploadedDocuments
+);
+
+router.get(
+  '/:id/supplementary-documents/delete-document',
+  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+  deleteSupplementaryDocumentController.getDeleteDocument
+);
+
+router.post(
+  '/:id/supplementary-documents/delete-document',
+  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+  deleteSupplementaryDocumentController.postDeleteDocument
 );
 
 module.exports = router;
