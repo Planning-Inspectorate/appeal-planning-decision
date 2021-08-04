@@ -210,7 +210,7 @@ install_gitops() {
   kubectl -n "${FLUX_NAMESPACE}" logs deployment/flux | grep identity.pub | cut -d '"' -f2
 
   echo "Flux key from fluxctl:"
-  ./fluxctl identity --k8s-fwd-ns "${FLUX_NAMESPACE}"
+  ./fluxctl/fluxctl identity --k8s-fwd-ns "${FLUX_NAMESPACE}"
 
   # Tidy up and delete fluxctl
   rm -rf fluxctl
