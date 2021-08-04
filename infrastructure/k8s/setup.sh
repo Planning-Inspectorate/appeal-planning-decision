@@ -170,7 +170,7 @@ install_gitops() {
     --set git.path="releases/${CLUSTER}" \
     --set git.branch="${RELEASE_BRANCH}" \
     --set git.label="${CLUSTER}-flux-sync" \
-    --set git.timeout="1m" \
+    --set git.timeout="5m" \
     --set git.ciSkip="true" \
     --namespace "${FLUX_NAMESPACE}" \
     --version "${GITOPS_FLUX_VERSION}" \
@@ -187,7 +187,7 @@ install_gitops() {
     --cleanup-on-fail \
     --set-file ssh.known_hosts=./known_hosts \
     --set git.ssh.secretName=flux-git-deploy \
-    --set git.timeout="1m" \
+    --set git.timeout="5m" \
     --set helm.versions=v3 \
     --set syncGarbageCollection.enabled=true \
     --values="${DIR}/helm-dependencies.yaml" \
