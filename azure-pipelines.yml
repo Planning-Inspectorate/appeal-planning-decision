@@ -38,19 +38,19 @@ stages:
         tags: |
           $(tag)
 
-- stage: Deploy
-  displayName: Deploy WebApp
-  jobs:
-  - job: Deploy
-    displayName: Deploy
-    steps:
-    - task: AzureWebApp@1
-      inputs:
-        appType: webApp
-        azureSubscription: $(azureSubscriptionEndpoint)
-        appName: 'appeal-service-api'
-        package: '$(System.DefaultWorkingDirectory)'
-        customWebConfig: '-Handler iisnode -NodeStartFile server.js -appType node'
+# - stage: Deploy
+#   displayName: Deploy WebApp
+#   jobs:
+#   - job: Deploy
+#     displayName: Deploy
+#     steps:
+#     - task: AzureWebApp@1
+#       inputs:
+#         appType: webApp
+#         azureSubscription: $(azureSubscriptionEndpoint)
+#         appName: 'appeal-service-api'
+#         package: '$(System.DefaultWorkingDirectory)'
+#         customWebConfig: '-Handler iisnode -NodeStartFile server.js -appType node'
 #     - task: AzureRMWebAppDeployment@4
 #       displayName: Appeals Service API Deploy
 #       inputs:
