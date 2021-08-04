@@ -20,7 +20,7 @@ module.exports = async (fileInformation, fileName = 'The file') => {
 
     // eslint-disable-next-line camelcase
     if (is_infected) {
-      throw new Error(`${fileName} contains a virus`);
+      throw new Error(`${fileName} contains a viruss`);
     }
   }
 
