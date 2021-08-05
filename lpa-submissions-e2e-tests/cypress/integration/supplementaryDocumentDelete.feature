@@ -1,6 +1,6 @@
-Feature: As a LPA Planning Officer,
-  I want to delete an incorrectly uploaded supplementary planning documents,
-  so that it doesnt form part of the evidence on which the Inspector makes a decision
+Feature: As a LPA Planning Officer
+  I want to delete an incorrectly uploaded supplementary planning document
+  so that it does not form part of the evidence on which the Inspector makes a decision
 
   Background:
     Given an appeal has been created
@@ -51,8 +51,4 @@ Feature: As a LPA Planning Officer,
   Scenario: AC07 Appeal Details side panel
     Given Add supplementary document is completed for 'upload-file-valid.jpeg' and document name 'Mock document name'
     And progress is made to delete supplementary page
-    Then the appeal details panel is displayed on the right hand side of the page
-
-  Scenario: AC08 Appeal details side panel
-    Given delete supplementary planning page is presented
     Then the appeal details panel is displayed on the right hand side of the page
