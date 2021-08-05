@@ -1,9 +1,0 @@
-openapi: 0.0.1
-info:
-  title: Authentication Service API Documentation
-  description:
-    API to <ul><li>authenticate users</li></ul>
-  version: 1.0.3
-  license:
-    name: MIT
-    url: 'https://opensource.org/licenses/MIT'
