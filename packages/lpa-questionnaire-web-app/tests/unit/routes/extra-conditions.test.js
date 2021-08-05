@@ -21,12 +21,12 @@ describe('routes/extra-conditions', () => {
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      `/:id/extra-conditions`,
+      `/appeal-questionnaire/:id/extra-conditions`,
       [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
       extraConditionsController.getExtraConditions
     );
     expect(post).toHaveBeenCalledWith(
-      '/:id/extra-conditions',
+      '/appeal-questionnaire/:id/extra-conditions',
       extraConditionsValidationRules(),
       validationErrorHandler,
       extraConditionsController.postExtraConditions

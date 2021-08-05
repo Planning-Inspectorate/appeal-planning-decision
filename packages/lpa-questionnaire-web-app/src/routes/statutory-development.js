@@ -22,14 +22,14 @@ const getConfig = (_, res, next) => {
 };
 
 router.get(
-  '/:id/statutory-development',
+  '/appeal-questionnaire/:id/statutory-development',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
   getConfig,
   uploadQuestionController.getUpload
 );
 
 router.post(
-  '/:id/statutory-development',
+  '/appeal-questionnaire/:id/statutory-development',
   [reqFilesToReqBodyFilesMiddleware('documents'), uploadValidationRules()],
   validationErrorHandler,
   getConfig,

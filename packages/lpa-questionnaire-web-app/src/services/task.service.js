@@ -14,6 +14,7 @@ const checkYourAnswerCompletion = require('./task-status/check-your-answers');
 const SECTIONS = [
   {
     sectionId: 'aboutAppealSection',
+    prefix: '/appeal-questionnaire',
     tasks: [
       {
         taskId: 'submissionAccuracy',
@@ -34,6 +35,7 @@ const SECTIONS = [
   },
   {
     sectionId: 'aboutSiteSection',
+    prefix: '/appeal-questionnaire',
     tasks: [
       {
         taskId: 'siteSeenPublicLand',
@@ -69,6 +71,7 @@ const SECTIONS = [
   },
   {
     sectionId: 'requiredDocumentsSection',
+    prefix: '/appeal-questionnaire',
     tasks: [
       {
         taskId: 'plansDecision',
@@ -84,6 +87,7 @@ const SECTIONS = [
   },
   {
     sectionId: 'optionalDocumentsSection',
+    prefix: '/appeal-questionnaire',
     tasks: [
       {
         taskId: 'interestedPartiesApplication',
@@ -144,6 +148,7 @@ const SECTIONS = [
   },
   {
     sectionId: 'submitQuestionnaireSection',
+    prefix: '/appeal-questionnaire',
     tasks: [
       {
         taskId: 'checkYourAnswers',

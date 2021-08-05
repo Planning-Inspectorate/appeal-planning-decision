@@ -15,7 +15,7 @@ describe('routes/task-list', () => {
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      `/:id/${VIEW.TASK_LIST}`,
+      `/appeal-questionnaire/:id/${VIEW.TASK_LIST}`,
       [fetchExistingAppealReplyMiddleware],
       taskListController.getTaskList
     );

@@ -32,14 +32,14 @@ describe('routes/other-policies', () => {
       const { getConfig } = require('../../../src/routes/other-policies');
 
       expect(get).toHaveBeenCalledWith(
-        '/:id/other-policies',
+        '/appeal-questionnaire/:id/other-policies',
         [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
         getConfig,
         uploadQuestionController.getUpload
       );
 
       expect(post).toHaveBeenCalledWith(
-        '/:id/other-policies',
+        '/appeal-questionnaire/:id/other-policies',
         [reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
         validationErrorHandler,
         getConfig,

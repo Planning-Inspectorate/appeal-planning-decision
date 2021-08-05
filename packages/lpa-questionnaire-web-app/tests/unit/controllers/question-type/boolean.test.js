@@ -6,11 +6,12 @@ const {
 const { VIEW } = require('../../../../src/lib/views');
 const { createOrUpdateAppealReply } = require('../../../../src/lib/appeal-reply-api-wrapper');
 const { mockReq, mockRes } = require('../../mocks');
+const { renderView } = require('../../../../src/util/render');
 
 jest.mock('../../../../src/lib/appeal-reply-api-wrapper');
 
 describe('controllers/question-type/boolean', () => {
-  const backLinkUrl = '/mock-id/mock-back-link';
+  const backLinkUrl = '/appeal-questionnaire/mock-id/mock-back-link';
   let question;
   let questionText;
   let req;
@@ -53,7 +54,6 @@ describe('controllers/question-type/boolean', () => {
   describe('getBooleanQuestion', () => {
     it('should call the correct template', () => {
       req.session.backLink = backLinkUrl;
-
       getBooleanQuestion(req, res);
 
       expect(res.render).toHaveBeenCalledWith(BOOLEAN_VIEW, {
@@ -69,7 +69,7 @@ describe('controllers/question-type/boolean', () => {
 
       expect(res.render).toHaveBeenCalledWith(BOOLEAN_VIEW, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         question,
         values: { booleanInput: null },
       });
@@ -82,7 +82,7 @@ describe('controllers/question-type/boolean', () => {
 
       expect(res.render).toHaveBeenCalledWith(BOOLEAN_VIEW, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         question,
         values: { booleanInput: true },
       });
@@ -97,7 +97,7 @@ describe('controllers/question-type/boolean', () => {
 
       const expectedResult = {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         question: questionText,
         values: {
           booleanInput: true,
@@ -244,7 +244,7 @@ describe('controllers/question-type/boolean', () => {
 
       await postBooleanQuestion(mockRequest, res);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/mock-back-link`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/mock-back-link`);
     });
 
     it('should redirect with input set to yes', async () => {
@@ -264,7 +264,7 @@ describe('controllers/question-type/boolean', () => {
 
       expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReply);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should redirect with input set to no', async () => {
@@ -283,7 +283,7 @@ describe('controllers/question-type/boolean', () => {
 
       expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReply);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should redirect with text input and dataId set', async () => {
@@ -308,7 +308,7 @@ describe('controllers/question-type/boolean', () => {
 
       expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReply);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should redirect with text input set and dataId not set', async () => {
@@ -333,7 +333,7 @@ describe('controllers/question-type/boolean', () => {
 
       expect(createOrUpdateAppealReply).toHaveBeenCalledWith(expectedReply);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should re-render the template with errors if there is any validator error', async () => {
@@ -351,7 +351,7 @@ describe('controllers/question-type/boolean', () => {
       expect(req.log.error).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(BOOLEAN_VIEW, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
         question,
@@ -386,7 +386,7 @@ describe('controllers/question-type/boolean', () => {
       );
       expect(res.render).toHaveBeenCalledWith(BOOLEAN_VIEW, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         errorSummary: [{ text: 'mock api error' }],
         errors: {},
         question,

@@ -16,7 +16,7 @@ describe('routes/confirm-answers', () => {
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      `/:id/${VIEW.CONFIRM_ANSWERS}`,
+      `/appeal-questionnaire/:id/${VIEW.CONFIRM_ANSWERS}`,
       [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
       confirmAnswersController
     );

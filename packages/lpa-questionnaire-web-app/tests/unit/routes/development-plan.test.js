@@ -21,12 +21,12 @@ describe('routes/development-plan', () => {
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      `/:id/development-plan`,
+      `/appeal-questionnaire/:id/development-plan`,
       [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
       developmentPlanController.getDevelopmentPlan
     );
     expect(post).toHaveBeenCalledWith(
-      '/:id/development-plan',
+      '/appeal-questionnaire/:id/development-plan',
       developmentPlanValidationRules(),
       validationErrorHandler,
       developmentPlanController.postDevelopmentPlan

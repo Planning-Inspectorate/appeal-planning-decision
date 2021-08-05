@@ -3,6 +3,7 @@ const getAppealSideBarDetails = require('../../lib/appeal-sidebar-details');
 const { uploadFiles } = require('../../lib/file-upload-helpers');
 const { createOrUpdateAppealReply } = require('../../lib/appeal-reply-api-wrapper');
 const errorTexts = require('../../validators/validation-messages/supplementary-documents-validation-messages');
+const { renderView, redirect } = require('../../util/render');
 
 const question = {
   heading: 'Supplementary planning documents',
@@ -16,12 +17,13 @@ exports.question = question;
 exports.getAddDocument = (req, res) => {
   // TODO: when list page is created logic around backlink will need adding. If new page normal backlink is fine
   // but if coming from new document button need to set the res.locals.backlink to that page. Session still needed for list page
+  const backLink =
+    res.locals.backLink || req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`;
 
-  const backLink = res.locals.backLink || req.session.backLink;
-
-  res.render(VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
+  renderView(res, VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
+    prefix: 'appeal-questionnaire',
     appeal: getAppealSideBarDetails(req.session.appeal),
-    backLink: backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
+    backLink,
     question,
   });
 };
@@ -103,7 +105,7 @@ exports.postAddDocument = async (req, res) => {
   } = req;
 
   if (isFormFullyBlank(rawErrorSummary)) {
-    res.redirect(`/${appealId}/task-list`);
+    redirect(res, 'appeal-questionnaire', `${appealId}/task-list`);
     return;
   }
 
@@ -146,8 +148,9 @@ exports.postAddDocument = async (req, res) => {
     if (err.toString() !== 'Error: Validation failed')
       req.log.error({ err }, 'Error adding supplementary document');
 
-    res.render(VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
-      appeal: getAppealSideBarDetails(req.session.appeal),
+    renderView(res, VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
+      appeal: null,
+      prefix: 'appeal-questionnaire',
       backLink: backLink || `/${appealId}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary: errorSummary.length ? errorSummary : [{ text: err.toString() }],
@@ -158,5 +161,5 @@ exports.postAddDocument = async (req, res) => {
     return;
   }
 
-  res.redirect(`/${appealId}/supplementary-documents/uploaded-documents`);
+  redirect(res, 'appeal-questionnaire', `${appealId}/supplementary-documents/uploaded-documents`);
 };

@@ -22,12 +22,12 @@ describe('routes/accuracy-submission', () => {
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      `/:id/${VIEW.ACCURACY_SUBMISSION}`,
+      `/appeal-questionnaire/:id/${VIEW.ACCURACY_SUBMISSION}`,
       [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
       accuracySubmissionController.getAccuracySubmission
     );
     expect(post).toHaveBeenCalledWith(
-      `/:id/${VIEW.ACCURACY_SUBMISSION}`,
+      `/appeal-questionnaire/:id/${VIEW.ACCURACY_SUBMISSION}`,
       accuracySubmissionValidationRules(),
       validationErrorHandler,
       accuracySubmissionController.postAccuracySubmission

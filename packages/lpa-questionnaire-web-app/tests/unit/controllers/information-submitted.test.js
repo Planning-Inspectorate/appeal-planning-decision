@@ -102,7 +102,9 @@ describe('../../../src/controllers/information-submitted', () => {
 
       await postInformationSubmitted(req, res);
 
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.INFORMATION_SUBMITTED}`);
+      expect(res.redirect).toHaveBeenCalledWith(
+        `/appeal-questionnaire/mock-id/${VIEW.INFORMATION_SUBMITTED}`
+      );
       expect(res.status).not.toHaveBeenCalled();
     });
 
