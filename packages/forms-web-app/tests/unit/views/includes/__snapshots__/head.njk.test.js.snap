@@ -6,11 +6,11 @@ exports[`views/includes/head Google Analytics section should not render if googl
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
-  
+
     <script id=\\"gaId\\" type='text/plain'></script>
 
-    
-  
+
+
 
   <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
 
@@ -24,11 +24,11 @@ exports[`views/includes/head Google Analytics section should not render if googl
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
-  
+
     <script id=\\"gaId\\" type='text/plain'></script>
 
-    
-  
+
+
 
   <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
 
@@ -42,11 +42,11 @@ exports[`views/includes/head Google Analytics section should not render if googl
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
-  
+
     <script id=\\"gaId\\" type='text/plain'>123</script>
 
-    
-  
+
+
 
   <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
 
@@ -60,12 +60,12 @@ exports[`views/includes/head Google Analytics section should render if googleAna
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
-  
+
     <script id=\\"gaId\\" type='text/plain'>123</script>
 
-    
+
       <!-- Global site tag (gtag.js) - Google Analytics -->
-      
+
       <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -73,8 +73,8 @@ exports[`views/includes/head Google Analytics section should render if googleAna
 
         gtag('config', '123');
       </script>
-    
-  
+
+
 
   <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
 
@@ -88,12 +88,12 @@ exports[`views/includes/head Google Tag Manager section should not render if fea
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
-  
+
     <script id=\\"gaId\\" type='text/plain'>123</script>
 
-    
+
       <!-- Global site tag (gtag.js) - Google Analytics -->
-      
+
       <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -101,8 +101,8 @@ exports[`views/includes/head Google Tag Manager section should not render if fea
 
         gtag('config', '123');
       </script>
-    
-  
+
+
 
   <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
 
@@ -116,12 +116,12 @@ exports[`views/includes/head Google Tag Manager section should not render if fea
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
-  
+
     <script id=\\"gaId\\" type='text/plain'>123</script>
 
-    
+
       <!-- Global site tag (gtag.js) - Google Analytics -->
-      
+
       <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -129,8 +129,8 @@ exports[`views/includes/head Google Tag Manager section should not render if fea
 
         gtag('config', '123');
       </script>
-    
-  
+
+
 
   <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
 
@@ -144,9 +144,9 @@ exports[`views/includes/head Google Tag Manager section should not render if fea
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
-  
-    
-  
+
+
+
 
   <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
 
@@ -160,19 +160,8 @@ exports[`views/includes/head Google Tag Manager section should render if feature
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
-  
-    
-      <script>
-        // Define dataLayer and the gtag function.
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
 
-        // Default ad_storage and analytics_storage to 'denied'.
-        gtag('consent', 'default', {
-          'analytics_storage': 'denied'
-          'ad_storage': 'denied'
-        });
-      </script>
+
       <!-- Google Tag Manager -->
       <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -180,8 +169,8 @@ exports[`views/includes/head Google Tag Manager section should render if feature
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','456');</script>
       <!-- End Google Tag Manager -->
-    
-  
+
+
 
   <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
 
