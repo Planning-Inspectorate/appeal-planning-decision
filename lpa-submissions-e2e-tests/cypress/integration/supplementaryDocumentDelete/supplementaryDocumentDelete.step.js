@@ -1,6 +1,7 @@
 import { Given, When, Then, Before } from 'cypress-cucumber-preprocessor/steps';
-import { verifyDeleteConfirmationText } from '../../support/supplementary-add-document/verifyDeleteConfirmationText';
+import verifyDeleteConfirmationText from '../../support/supplementary-add-document/verifyDeleteConfirmationText';
 import {
+  addAnother,
   adoptedRadioYes,
   fileNameInput,
   getCancelButton,
@@ -10,8 +11,9 @@ import {
   getDocumentName,
   uploadFile,
 } from '../../support/PageObjects/SupplementaryAddDocumentsPageObjects';
-import verifySupplementaryDocumentList from '../../support/supplementary-add-document/verifySupplementaryDocumentList';
 import fillAdoptedDate from '../../support/supplementary-add-document/fillAdoptedDate';
+import verifySupplementaryDocumentList from '../../support/supplementary-add-document/verifySupplementaryDocumentList';
+
 const page = {
   heading: 'Delete a supplementary planning document',
   section: 'Optional supporting documents',
@@ -56,12 +58,20 @@ Given('progress is made to delete supplementary page', () => {
   cy.verifyPageTitle(page.title);
   cy.verifyPageHeading(page.heading);
   cy.verifySectionName(page.section);
-  // cy.checkPageA11y();
+  cy.checkPageA11y();
 });
+
+Given('add another file option is selected', () => {
+  addAnother().click();
+});
+
 Given('the LPA planning officer confirms deletion', () => {
   verifyDeleteConfirmationText();
+  getDeleteButton().should('be.disabled');
   getCheckbox().should('not.be.checked').click();
+  getDeleteButton().should('not.be.disabled');
 });
+
 When('LPA planning officer selects to delete {string} file', (documentName) => {
   getDocumentName().should('be.visible');
   verifySupplementaryDocumentList(documentName);
@@ -72,11 +82,13 @@ When('the file is deleted', () => {
 });
 
 When('cancel is selected', () => {
-  getDeleteButton().should('not.be.disabled').click();
+  getCancelButton().should('not.be.disabled');
+  getCancelButton().click();
 });
 
 When('the LPA planning officer does not confirms deletion', () => {
   getCheckbox().should('not.be.checked');
+  getDeleteButton().should('be.disabled');
 });
 
 Then('LPA is not able to delete a file', () => {
@@ -89,7 +101,7 @@ Then('delete supplementary planning page is presented', () => {
   cy.verifyPageTitle(page.title);
   cy.verifyPageHeading(page.heading);
   cy.verifySectionName(page.section);
-  // cy.checkPageA11y();
+  cy.checkPageA11y();
 });
 
 Then('progress is made to supplementary planning add document page', () => {
