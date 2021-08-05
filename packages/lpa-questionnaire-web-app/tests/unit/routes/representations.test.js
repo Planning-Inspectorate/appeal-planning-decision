@@ -32,14 +32,14 @@ describe('routes/representations', () => {
       const { getConfig } = require('../../../src/routes/representations');
 
       expect(get).toHaveBeenCalledWith(
-        '/:id/representations',
+        '/appeal-questionnaire/:id/representations',
         [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
         getConfig,
         uploadQuestionController.getUpload
       );
 
       expect(post).toHaveBeenCalledWith(
-        '/:id/representations',
+        '/appeal-questionnaire/:id/representations',
         [reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
         validationErrorHandler,
         getConfig,

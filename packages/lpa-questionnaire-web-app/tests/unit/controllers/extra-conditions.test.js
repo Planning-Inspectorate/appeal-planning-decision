@@ -134,11 +134,11 @@ describe('controllers/extra-conditions', () => {
           'has-extra-conditions': 'no',
         },
       };
-      mockRequest.session.backLink = backLinkUrl;
+      mockRequest.session.backLink = '/appeal-questionnaire/mock-id/task-list';
 
       await extraConditionsController.postExtraConditions(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith(backLinkUrl);
+      expect(res.redirect).toHaveBeenCalledWith('/appeal-questionnaire/mock-id/task-list');
     });
 
     it('should redirect with extra-conditions set to true and extra-conditions-text passed', async () => {

@@ -32,14 +32,14 @@ describe('routes/planning-history', () => {
       const { getConfig } = require('../../../src/routes/planning-history');
 
       expect(get).toHaveBeenCalledWith(
-        '/:id/planning-history',
+        '/appeal-questionnaire/:id/planning-history',
         [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
         getConfig,
         uploadQuestionController.getUpload
       );
 
       expect(post).toHaveBeenCalledWith(
-        '/:id/planning-history',
+        '/appeal-questionnaire/:id/planning-history',
         [reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
         validationErrorHandler,
         getConfig,

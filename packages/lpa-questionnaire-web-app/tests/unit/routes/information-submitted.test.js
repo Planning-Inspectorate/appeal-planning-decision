@@ -15,7 +15,7 @@ describe('routes/information-submitted', () => {
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      `/:id/${VIEW.INFORMATION_SUBMITTED}`,
+      `/appeal-questionnaire/:id/${VIEW.INFORMATION_SUBMITTED}`,
       fetchAppealMiddleware,
       informationSubmittedController.getInformationSubmitted
     );

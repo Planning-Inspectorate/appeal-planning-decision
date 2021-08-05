@@ -22,14 +22,14 @@ const getConfig = (_, res, next) => {
 };
 
 router.get(
-  '/:id/officers-report',
+  '/appeal-questionnaire/:id/officers-report',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
   getConfig,
   uploadQuestionController.getUpload
 );
 
 router.post(
-  '/:id/officers-report',
+  '/appeal-questionnaire/:id/officers-report',
   [
     reqFilesToReqBodyFilesMiddleware('documents'),
     uploadValidationRules("Upload the planning officer's report or other documents and minutes"),

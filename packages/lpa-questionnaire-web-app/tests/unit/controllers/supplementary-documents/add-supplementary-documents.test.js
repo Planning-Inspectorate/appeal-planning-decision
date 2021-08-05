@@ -246,7 +246,7 @@ describe('controllers/add-supplementary-documents', () => {
       };
 
       await supplementaryDocumentsController.postAddDocument(mockRequest, res);
-      expect(res.redirect).toHaveBeenCalledWith('/mock-id/task-list');
+      expect(res.redirect).toHaveBeenCalledWith('/appeal-questionnaire/mock-id/task-list');
     });
 
     it('should only display one date error messages if formally adopted is set to yes, and date is completely blank', async () => {

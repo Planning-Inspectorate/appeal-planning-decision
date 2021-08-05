@@ -32,14 +32,14 @@ describe('routes/officers-report', () => {
       const { getConfig } = require('../../../src/routes/officers-report');
 
       expect(get).toHaveBeenCalledWith(
-        '/:id/officers-report',
+        '/appeal-questionnaire/:id/officers-report',
         [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
         getConfig,
         uploadQuestionController.getUpload
       );
 
       expect(post).toHaveBeenCalledWith(
-        '/:id/officers-report',
+        '/appeal-questionnaire/:id/officers-report',
         [reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
         validationErrorHandler,
         getConfig,
