@@ -39,3 +39,27 @@ export const continueButton = () => {
 export const supplementaryDocumentList = () => {
   return cy.get('th[class="govuk-table__header"]');
 };
+
+export const getDeleteLink = () => {
+  return cy.get('a[href="delete-document?row=0"]');
+};
+
+export const getDocumentName = () => {
+  return cy.get('th[class="govuk-table__header"]');
+};
+
+export const confirmationMessage = () => {
+  return cy.get('div[class=govuk-checkboxes__item]');
+};
+
+export const getCheckbox = () => {
+  return cy.get('input[id=areyousure]');
+};
+
+export const getDeleteButton = () => {
+  return cy.findByRole('button', { name: 'Delete' });
+};
+
+export const getCancelButton = () => {
+  return cy.findByRole('button', { name: 'Cancel' });
+};
