@@ -7,6 +7,7 @@ jest.mock('../../../src/services/task.service', () => ({
   SECTIONS: [
     {
       sectionId: 'mockSection',
+      prefix: '/appeal-questionnaire',
       tasks: [
         {
           taskId: 'mockTask1',
@@ -52,7 +53,7 @@ describe('controllers/task-list', () => {
             description: 'Mock Description',
             tasks: [
               {
-                href: '/mock-id/mock-task-1',
+                href: '/appeal-questionnaire/mock-id/mock-task-1',
                 text: 'Mock Task 1',
                 status: 'NOT STARTED',
                 attributes: {
@@ -61,7 +62,7 @@ describe('controllers/task-list', () => {
                 },
               },
               {
-                href: '/mock-id/mock-task-2',
+                href: '/appeal-questionnaire/mock-id/mock-task-2',
                 text: 'Mock Task 2',
                 status: 'NOT STARTED',
                 attributes: {

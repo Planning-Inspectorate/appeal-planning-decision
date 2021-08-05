@@ -32,14 +32,14 @@ describe('routes/notifying-parties', () => {
       const { getConfig } = require('../../../src/routes/notifying-parties');
 
       expect(get).toHaveBeenCalledWith(
-        '/:id/notifications',
+        '/appeal-questionnaire/:id/notifications',
         [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
         getConfig,
         uploadQuestionController.getUpload
       );
 
       expect(post).toHaveBeenCalledWith(
-        '/:id/notifications',
+        '/appeal-questionnaire/:id/notifications',
         [reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
         validationErrorHandler,
         getConfig,

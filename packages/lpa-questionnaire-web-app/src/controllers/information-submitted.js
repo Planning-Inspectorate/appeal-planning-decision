@@ -56,5 +56,5 @@ exports.postInformationSubmitted = async (req, res) => {
   }
 
   // redirect ensures any custom handling in get runs as expected
-  res.redirect(`/${req.params.id}/${VIEW.INFORMATION_SUBMITTED}`);
+  res.redirect(`/appeal-questionnaire/${req.params.id}/${VIEW.INFORMATION_SUBMITTED}`);
 };

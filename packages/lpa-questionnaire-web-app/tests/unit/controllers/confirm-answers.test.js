@@ -14,8 +14,8 @@ describe('controllers/confirm-answers', () => {
     confirmAnswersController(req, res);
 
     expect(res.render).toHaveBeenCalledWith(VIEW.CONFIRM_ANSWERS, {
-      taskListLink: `/mock-id/${VIEW.TASK_LIST}`,
-      submissionLink: `/mock-id/${VIEW.INFORMATION_SUBMITTED}`,
+      taskListLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
+      submissionLink: `/appeal-questionnaire/mock-id/${VIEW.INFORMATION_SUBMITTED}`,
     });
   });
 });

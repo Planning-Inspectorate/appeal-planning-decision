@@ -30,7 +30,7 @@ exports.getUpload = (req, res) => {
 
   res.render(view, {
     appeal: getAppealSideBarDetails(req.session.appeal),
-    backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
+    backLink: req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
     ...fileUploadNunjucksVariables(null, null, uploadedFiles),
     appealReplyId,
   });
@@ -42,7 +42,8 @@ exports.postUpload = async (req, res) => {
   const { appealReplyId } = appealReply;
   const documents = req.body?.files?.documents || [];
   const { delete: deleteId = '', errors = {}, submit = '' } = req.body;
-  const backLink = req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`;
+  const backLink =
+    req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`;
 
   const uploadedFiles = docArrayFromInputString(req.body.tempDocs);
   let validFiles = [];
@@ -124,7 +125,9 @@ exports.postUpload = async (req, res) => {
         appealReplyId,
       });
     } else {
-      res.redirect(req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`);
+      res.redirect(
+        req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`
+      );
     }
     // If it gets this far there are no errors and files must exist
   } catch (err) {

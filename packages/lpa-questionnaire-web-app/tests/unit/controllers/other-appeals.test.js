@@ -57,7 +57,7 @@ describe('controllers/other-appeals', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.OTHER_APPEALS, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         values: {
           'adjacent-appeals': 'yes',
           'appeal-reference-numbers': 'abc-123',
@@ -81,7 +81,7 @@ describe('controllers/other-appeals', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.OTHER_APPEALS, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         values: {
           'adjacent-appeals': 'no',
           'appeal-reference-numbers': undefined,
@@ -108,7 +108,7 @@ describe('controllers/other-appeals', () => {
 
       expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should redirect to the back link specified', async () => {

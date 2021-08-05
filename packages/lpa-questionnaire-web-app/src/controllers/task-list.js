@@ -8,7 +8,7 @@ const { VIEW } = require('../lib/views');
  * @return {array} Array of section objects
  */
 function buildTaskLists(appealReply, appealId) {
-  return SECTIONS.map(({ sectionId, tasks }) => {
+  return SECTIONS.map(({ sectionId, prefix, tasks }) => {
     return {
       heading: {
         text: HEADERS[sectionId],
@@ -22,7 +22,7 @@ function buildTaskLists(appealReply, appealId) {
 
         return {
           text: HEADERS[taskId],
-          href: `/${appealId}${href}`,
+          href: `${prefix}/${appealId}${href}`,
           attributes: {
             name: taskId,
             [`${taskId}-status`]: status,

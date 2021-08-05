@@ -5,12 +5,12 @@ const fetchAppealMiddleware = require('../middleware/fetch-appeal');
 const router = express.Router();
 
 router.get(
-  '/:id/information-submitted',
+  '/appeal-questionnaire/:id/information-submitted',
   fetchAppealMiddleware,
   informationSubmittedController.getInformationSubmitted
 );
 router.post(
-  '/:id/information-submitted',
+  '/appeal-questionnaire/:id/information-submitted',
   fetchAppealMiddleware,
   informationSubmittedController.postInformationSubmitted
 );

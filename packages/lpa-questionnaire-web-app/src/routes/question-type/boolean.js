@@ -16,14 +16,14 @@ booleanQuestions.forEach((question) => {
   };
 
   router.get(
-    `/:id/${question.url}`,
+    `/appeal-questionnaire/:id/${question.url}`,
     [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
     getConfig,
     booleanQuestionController.getBooleanQuestion
   );
 
   router.post(
-    `/:id/${question.url}`,
+    `/appeal-questionnaire/:id/${question.url}`,
     booleanQuestionRules(question.emptyError, question.text),
     validationErrorHandler,
     getConfig,

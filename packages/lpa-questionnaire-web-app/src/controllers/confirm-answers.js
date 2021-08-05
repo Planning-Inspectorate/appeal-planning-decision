@@ -9,8 +9,8 @@ module.exports = (req, res) => {
   req.session.backLink = `/${req.params.id}/${VIEW.CONFIRM_ANSWERS}`;
 
   res.render(VIEW.CONFIRM_ANSWERS, {
-    taskListLink: `/${req.params.id}/${VIEW.TASK_LIST}`,
-    submissionLink: `/${req.params.id}/${VIEW.INFORMATION_SUBMITTED}`,
+    taskListLink: `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
+    submissionLink: `/appeal-questionnaire/${req.params.id}/${VIEW.INFORMATION_SUBMITTED}`,
     sections,
   });
 };
