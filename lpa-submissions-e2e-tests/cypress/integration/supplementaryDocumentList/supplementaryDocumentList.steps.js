@@ -8,8 +8,6 @@ import {
 } from '../../support/PageObjects/SupplementaryAddDocumentsPageObjects';
 import fillAdoptedDate from '../../support/supplementary-add-document/fillAdoptedDate';
 import verifySupplementaryDocumentList from '../../support/supplementary-add-document/verifySupplementaryDocumentList';
-import { input } from '../../support/PageObjects/common-page-objects';
-import { getSubTaskInfo } from '../../support/common/subTasks';
 
 const page = {
   heading: 'Supplementary planning documents',
