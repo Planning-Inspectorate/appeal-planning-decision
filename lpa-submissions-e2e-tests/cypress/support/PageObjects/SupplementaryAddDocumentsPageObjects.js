@@ -57,9 +57,9 @@ export const getCheckbox = () => {
 };
 
 export const getDeleteButton = () => {
-  return cy.findByRole('button', { name: 'Delete' });
+  return cy.get('.delete-button');
 };
 
 export const getCancelButton = () => {
-  return cy.findByRole('button', { name: 'Cancel' });
+  return cy.get('.govuk-button--secondary');
 };
