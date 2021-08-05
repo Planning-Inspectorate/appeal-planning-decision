@@ -6,7 +6,6 @@ Feature: As a LPA Planning Officer,
     Given an appeal has been created
     And a questionnaire has been created
 
-
   Scenario Outline: AC01 LPA Planning officer views uploaded file list
     Given Add supplementary document is completed for '<uploadDocument>' and document name '<documentName>'
     Then progress is made to supplementary document list
