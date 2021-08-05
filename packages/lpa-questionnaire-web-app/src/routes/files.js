@@ -7,7 +7,7 @@ const { validationErrorHandler } = require('../validators/validation-error-handl
 const router = express.Router();
 
 router.post(
-  '/upload',
+  '/appeal-questionnaire/upload',
   [reqFilesToReqBodyFilesMiddleware('documents'), fileValidationRules()],
   validationErrorHandler,
   filesController.uploadFile
