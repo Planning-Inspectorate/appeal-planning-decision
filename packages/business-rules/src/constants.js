@@ -13,13 +13,26 @@ const APPEAL_ID = {
   FAST_TRACK_TREES: '1011',
 };
 
+const APPEAL_STATE = {
+  DRAFT: 'DRAFT',
+  SUBMITTED: 'SUBMITTED',
+};
+
 const PROCEDURE_TYPE = {
   WRITTEN_REPRESENTATION: 'Written Representation',
   HEARING: 'Hearing',
   INQUIRY: 'Inquiry',
 };
 
+const SECTION_STATE = {
+  NOT_STARTED: 'NOT STARTED',
+  IN_PROGRESS: 'IN PROGRESS',
+  COMPLETED: 'COMPLETED',
+};
+
 module.exports = {
   APPEAL_ID,
+  APPEAL_STATE,
   PROCEDURE_TYPE,
+  SECTION_STATE,
 };
