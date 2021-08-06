@@ -1,12 +1,20 @@
-const { insertAppeal } = require('./schemas/insert-appeal');
-const { updateAppeal } = require('./schemas/update-appeal');
+const {
+  constants: { APPEAL_ID },
+  schemas: { validate },
+} = require('@pins/business-rules');
 const { isAppealSubmitted } = require('../../services/appeal.service');
 const logger = require('../../lib/logger');
 const ApiError = require('../../error/apiError');
 
 const appealUpdateValidationRules = async (req, res, next) => {
   try {
-    req.body = await updateAppeal.validate(req.body, { abortEarly: false });
+    if (!req.body.appealType) {
+      req.body.appealType = APPEAL_ID.HOUSEHOLDER;
+    }
+
+    console.log('req.body =', req.body);
+
+    req.body = await validate.update(req.body);
     logger.debug('Valid input format');
 
     const appealId = req.body.id;
@@ -24,17 +32,22 @@ const appealUpdateValidationRules = async (req, res, next) => {
 
 const appealInsertValidationRules = async (req, res, next) => {
   try {
-    req.body = await insertAppeal.validate(req.body, { abortEarly: false });
+    if (!req.body.appealType) {
+      req.body.appealType = APPEAL_ID.HOUSEHOLDER;
+    }
+
+    req.body = await validate.insert(req.body);
     logger.debug('Valid input format');
 
     const appealId = req.body.id;
     const pathId = req.params.id;
+
     if (await isAppealSubmitted(appealId)) {
       logger.debug('Appeal is already submitted so end processing request with 409 response');
       return next(ApiError.appealAlreadySubmitted());
     }
 
-    if (pathId !== appealId) {
+    if (appealId && pathId !== appealId) {
       return next(ApiError.notSameId());
     }
 

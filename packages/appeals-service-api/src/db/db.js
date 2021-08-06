@@ -19,11 +19,11 @@ function connect(callback) {
 }
 
 function get() {
-  return mongodb.db(config.db.mongodb.dbName);
+  return mongodb && mongodb.db(config.db.mongodb.dbName);
 }
 
 function close() {
-  mongodb.close();
+  return mongodb && mongodb.close();
 }
 
 module.exports = {

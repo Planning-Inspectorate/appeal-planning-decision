@@ -98,8 +98,9 @@ services:
       - mongodb
       - rabbitmq
     volumes:
-      - ./packages/common:/opt/app/node_modules/@pins/common:ro # Replace the module to avoid symlink errors
-      - ./packages/appeals-service-api:/opt/app:ro
+      - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
+      - ./packages/common:/opt/app/node_modules/@pins/common
+      - ./packages/appeals-service-api:/opt/app
     command: npm run start:dev
 
   document-service-api: &document-service

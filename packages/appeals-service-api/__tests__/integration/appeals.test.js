@@ -160,28 +160,4 @@ describe('Appeals API', () => {
     );
     expect(response.statusCode).toBe(409);
   });
-
-  test('PATCH /api/v1/appeals/{id} - Can update appeal that is already SUBMITTED', async () => {
-    const appeal = await createAppeal();
-    appeal.state = 'SUBMITTED';
-    appeal.horizonId = null;
-    appeal.aboutYouSection.yourDetails.name = 'Some Name';
-    appeal.aboutYouSection.yourDetails.email = 'something@email.com';
-    appeal.aboutYouSection.yourDetails.isOriginalApplicant = true;
-    appeal.sectionStates.aboutYouSection.yourDetails = 'IN PROGRESS';
-    appeal.sectionStates.requiredDocumentsSection.applicationNumber = 'COMPLETED';
-    appeal.sectionStates.requiredDocumentsSection.originalApplication = 'COMPLETED';
-    appeal.sectionStates.requiredDocumentsSection.decisionLetter = 'COMPLETED';
-    appeal.sectionStates.yourAppealSection.appealStatement = 'COMPLETED';
-    appeal.sectionStates.appealSiteSection.siteAccess = 'COMPLETED';
-    appeal.sectionStates.appealSiteSection.siteOwnership = 'COMPLETED';
-    appeal.sectionStates.appealSiteSection.healthAndSafety = 'COMPLETED';
-    appeal.sectionStates.appealSiteSection.siteAddress = 'COMPLETED';
-    await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
-    const response = await request(app)
-      .patch(`/api/v1/appeals/${appeal.id}`)
-      .send({ horizonId: 'h0r1z0n' });
-    expect(response.body.horizonId).toEqual('h0r1z0n');
-    expect(response.statusCode).toBe(200);
-  });
 });
