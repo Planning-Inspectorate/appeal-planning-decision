@@ -1,7 +1,6 @@
 const {
   schemas: { validate },
 } = require('@pins/business-rules');
-const { mockReq, mockRes } = require('../../mocks');
 const {
   appealUpdateValidationRules,
   appealInsertValidationRules,
@@ -34,8 +33,11 @@ describe('appeals.validator', () => {
   let data;
 
   beforeEach(() => {
-    req = mockReq();
-    res = mockRes();
+    req = {
+      body: {},
+      params: {},
+    };
+    res = {};
     data = {
       id: 'f8f96ee9-f66b-474e-9bd0-4bea0292eab5',
     };
