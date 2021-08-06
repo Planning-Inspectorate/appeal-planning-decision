@@ -60,28 +60,26 @@ const populateErrorSummary = (rawErrorSummary) => {
   });
 };
 
-const isAdoptedAndDateBlank = (errorSummary) => {
-  const errorSummaryTexts = errorSummary.map((obj) => obj.text);
+const filterUnwantedMessages = (populatedErrorSummary) => {
+  const texts = populatedErrorSummary.map((e) => e.text);
 
-  const matchingTexts = Object.values(errorTexts.dateErrorTexts).filter((vm) =>
-    errorSummaryTexts.includes(vm)
+  // Remove specific date errors if blank date error present
+  if (texts.includes(errorTexts.dateErrorTexts.enterDate))
+    return populatedErrorSummary.filter(
+      (e) => !e.text.includes(errorTexts.dateErrorTexts.dateErrorTemplate)
+    );
+
+  // Remove single date error if compound ones are present
+  const dateErrors = populatedErrorSummary.filter((e) =>
+    e.text.includes(errorTexts.dateErrorTexts.dateErrorTemplate)
   );
 
-  return matchingTexts.length >= 3;
+  return populatedErrorSummary.filter((e) => e !== dateErrors[1]);
 };
 
 const createErrorSummary = (rawErrorSummary) => {
-  let errorSummary = populateErrorSummary(rawErrorSummary);
-
-  if (isAdoptedAndDateBlank(errorSummary)) {
-    errorSummary = errorSummary.filter(
-      (err) =>
-        err.text !== errorTexts.dateErrorTexts.monthYear &&
-        err.text !== errorTexts.dateErrorTexts.month
-    );
-  }
-
-  return errorSummary;
+  const populatedErrorSummary = populateErrorSummary(rawErrorSummary);
+  return filterUnwantedMessages(populatedErrorSummary);
 };
 
 exports.postAddDocument = async (req, res) => {
