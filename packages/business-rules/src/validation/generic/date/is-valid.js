@@ -1,4 +1,5 @@
 const { isValid } = require('date-fns');
+const BusinessRulesError = require('../../../lib/business-rules-error');
 
 /**
  * @description a very thin wrapper over date-fns/is-valid.
@@ -8,7 +9,7 @@ const { isValid } = require('date-fns');
  */
 module.exports = (givenDate) => {
   if (!isValid(givenDate)) {
-    throw new Error('The given date must be a valid Date instance');
+    throw new BusinessRulesError('The given date must be a valid Date instance');
   }
 
   return true;
