@@ -3,17 +3,26 @@ const isValid = require('../validation/appeal/type/is-valid');
 const { APPEAL_ID } = require('../constants');
 const BusinessRulesError = require('../lib/business-rules-error');
 
-const businessRules = (appealType, data, config) => {
+const validate = (action, data, config = { abortEarly: false }) => {
+  const { appealType } = data;
+
   if (!isValid(appealType)) {
     throw new BusinessRulesError(`${appealType} is not a valid appeal type`);
   }
 
   switch (appealType) {
     case APPEAL_ID.HOUSEHOLDER:
-      return householderAppeal.validate(data, config);
+      return householderAppeal[action].validate(data, config);
     default:
       throw new BusinessRulesError(`No business rules schema found for appeal type ${appealType}`);
   }
 };
 
-module.exports = businessRules;
+const insert = (data, config) => validate('insert', data, config);
+const update = (data, config) => validate('update', data, config);
+
+module.exports = {
+  insert,
+  update,
+  validate,
+};

@@ -1,5 +1,5 @@
-const { businessRules } = require('./business-rules');
+const validate = require('./validate');
 
 module.exports = {
-  businessRules,
+  validate,
 };
