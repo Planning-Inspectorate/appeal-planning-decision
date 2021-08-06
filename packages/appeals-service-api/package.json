@@ -25,6 +25,7 @@
     "./**/*.{js, json}": "npm run format"
   },
   "dependencies": {
+    "@pins/business-rules": "file:../business-rules",
     "@pins/common": "file:../common",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",

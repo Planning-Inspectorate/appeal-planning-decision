@@ -1,12 +1,15 @@
+const {
+  constants: { APPEAL_ID },
+  schemas: { businessRules },
+} = require('@pins/business-rules');
 const { insertAppeal } = require('./schemas/insert-appeal');
-const { updateAppeal } = require('./schemas/update-appeal');
 const { isAppealSubmitted } = require('../../services/appeal.service');
 const logger = require('../../lib/logger');
 const ApiError = require('../../error/apiError');
 
 const appealUpdateValidationRules = async (req, res, next) => {
   try {
-    req.body = await updateAppeal.validate(req.body, { abortEarly: false });
+    req.body = await businessRules(APPEAL_ID.HOUSEHOLDER, req.body, { abortEarly: false });
     logger.debug('Valid input format');
 
     const appealId = req.body.id;

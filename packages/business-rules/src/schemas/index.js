@@ -1,4 +1,4 @@
-const { businessRules } = require('./business-rules');
+const businessRules = require('./business-rules');
 
 module.exports = {
   businessRules,

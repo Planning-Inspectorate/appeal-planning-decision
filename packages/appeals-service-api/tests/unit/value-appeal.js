@@ -2,7 +2,7 @@
 module.exports = (appeal) => {
   appeal.horizonId = 'H0r1Z0N';
   appeal.lpaCode = 'E60000281/new';
-  appeal.decisionDate = '2020-10-29T12:00:00.000Z';
+  appeal.decisionDate = new Date().toISOString();
   appeal.state = 'DRAFT';
   appeal.eligibility = {
     enforcementNotice: true,
