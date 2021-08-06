@@ -1,21 +1,21 @@
 const { appeal, generic } = require('../../validation');
+const createYupError = require('../../utils/create-yup-error');
 
 function isInThePast(value, ...rest) {
-  const errorMessage = () => rest.errorMessage || 'The Decision Date must be in the past';
-
-  /* istanbul ignore next */
-  return this.test('decisionDate', errorMessage, (givenDate) => {
-    return generic.date.isInThePast(givenDate);
+  const errorMessage = rest.errorMessage || 'must be in the past';
+  return this.test('decisionDate', null, function test() {
+    return generic.date.isInThePast(value) || createYupError.call(this, errorMessage);
   });
 }
 
 function isWithinDeadlinePeriod(value, ...rest) {
-  const errorMessage = () => rest.errorMessage || 'The Decision Date has now passed';
-
-  /* istanbul ignore next */
-  return this.test('decisionDate', errorMessage, () =>
-    appeal.decisionDate.isWithinDecisionDateExpiryPeriod(value),
-  );
+  const errorMessage = rest.errorMessage || 'must be before the deadline date';
+  return this.test('decisionDate', null, function test() {
+    return (
+      appeal.decisionDate.isWithinDecisionDateExpiryPeriod(value) ||
+      createYupError.call(this, errorMessage)
+    );
+  });
 }
 
 module.exports = {
