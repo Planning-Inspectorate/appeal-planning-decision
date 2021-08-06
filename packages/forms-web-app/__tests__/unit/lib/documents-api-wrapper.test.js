@@ -34,7 +34,9 @@ describe('lib/documents-api-wrapper', () => {
 
     it('should throw if fetch fails', async () => {
       fetch.mockReject(new Error('fake error message'));
-      expect(createDocument(mockAppeal, data)).rejects.toThrow('fake error message');
+      expect(
+        createDocument(mockAppeal, data, null, documentTypes.appealStatement.name)
+      ).rejects.toThrow('fake error message');
     });
 
     it('should throw if the remote API response is not ok', async () => {
@@ -94,7 +96,7 @@ describe('lib/documents-api-wrapper', () => {
     [null, undefined].forEach((given) => {
       it(`should throw if the document response 'id' is ${given}`, async () => {
         try {
-          await createDocument(mockAppeal, given);
+          await createDocument(mockAppeal, given, null, documentTypes.appealStatement.name);
           expect('to be').not.toBe('to be');
         } catch (e) {
           expect(e.message).toBe(

@@ -82,6 +82,12 @@ exports.createOrUpdateAppeal = (appeal) => {
   });
 };
 
+exports.submitAppeal = (appeal) => {
+  return handler(`/api/v1/appeals/${appeal.id}`, 'PATCH', {
+    body: JSON.stringify(appeal),
+  });
+};
+
 exports.getExistingAppeal = async (sessionId) => {
   return handler(`/api/v1/appeals/${sessionId}`);
 };

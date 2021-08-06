@@ -10,7 +10,7 @@ module.exports = {
     'node_modules',
     '<rootDir>/src/app.js',
     '<rootDir>/src/server.js',
-    '<rootDir>/src/public/javascripts/main.js',
+    '<rootDir>/src/public',
   ],
   testMatch: ['**/?(*.)+(spec|test).js'],
   coverageThreshold: {
