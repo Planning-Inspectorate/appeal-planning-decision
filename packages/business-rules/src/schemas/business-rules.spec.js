@@ -16,7 +16,7 @@ describe('schemas/business-rules', () => {
 
   it('should throw an error if no schema is found', () => {
     expect(() => businessRules(APPEAL_ID.ENFORCEMENT_NOTICE, appeal, config)).toThrow(
-      'No business rules schema found for 100',
+      'No business rules schema found for appeal type 1000',
     );
   });
 
