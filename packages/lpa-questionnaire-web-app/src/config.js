@@ -51,4 +51,10 @@ module.exports = {
   pdf: {
     url: process.env.PDF_SERVICE_API_URL,
   },
+  auth: {
+    cryptoKey: process.env.CRYPTO_KEY,
+    jwtKey: process.env.JWT_KEY,
+    jwtCookieName: process.env.JWT_COOKIE_NAME || 'jwtCookie',
+    jwtCookieMaxAge: process.env.JWT_COOKIE_MAX_AGE,
+  },
 };

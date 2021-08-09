@@ -1,15 +1,16 @@
 const JwtStrategy = require('passport-jwt').Strategy;
 const passport = require('passport');
+const config = require('../config');
 
 module.exports = function configureStrategy() {
   passport.use(
-    'magicLink',
+    'magicLinkJWT',
     new JwtStrategy(
       {
         jwtFromRequest: (req) => {
           return req.params?.magiclink;
         },
-        secretOrKey: 'secret',
+        secretOrKey: config.auth.jwtKey,
         ignoreExpiration: true,
       },
       (jwtPayload, done) => {
@@ -17,12 +18,4 @@ module.exports = function configureStrategy() {
       }
     )
   );
-
-  passport.serializeUser(function (user, done) {
-    done(null, user);
-  });
-
-  passport.deserializeUser(function (user, done) {
-    done(null, user);
-  });
 };
