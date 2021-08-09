@@ -43,7 +43,7 @@ exports.postOtherAppeals = async (req, res) => {
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.OTHER_APPEALS, {
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink: req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary,
       values,
@@ -68,7 +68,7 @@ exports.postOtherAppeals = async (req, res) => {
 
     res.render(VIEW.OTHER_APPEALS, {
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink: req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary: [{ text: e.toString() }],
       values,

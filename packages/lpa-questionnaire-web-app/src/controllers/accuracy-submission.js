@@ -25,7 +25,7 @@ exports.getAccuracySubmission = (req, res) => {
 
   res.render(VIEW.ACCURACY_SUBMISSION, {
     appeal: getAppealSideBarDetails(req.session.appeal),
-    backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
+    backLink: `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
     values,
   });
 };
@@ -45,7 +45,9 @@ exports.postAccuracySubmission = async (req, res) => {
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.ACCURACY_SUBMISSION, {
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink:
+        `/appeal-questionnaire/${req.session.backLink}` ||
+        `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary,
       values,
@@ -69,7 +71,9 @@ exports.postAccuracySubmission = async (req, res) => {
 
     res.render(VIEW.ACCURACY_SUBMISSION, {
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink:
+        `/appeal-questionnaire/${req.session.backLink}` ||
+        `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary: [{ text: e.toString() }],
       values,
@@ -78,5 +82,5 @@ exports.postAccuracySubmission = async (req, res) => {
     return;
   }
 
-  res.redirect(req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`);
+  res.redirect(req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`);
 };
