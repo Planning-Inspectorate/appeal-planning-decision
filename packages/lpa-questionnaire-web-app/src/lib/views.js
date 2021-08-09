@@ -22,6 +22,7 @@ const VIEW = {
   INFORMATION_SUBMITTED: 'information-submitted',
   CONFIRM_ANSWERS: 'confirm-answers',
   PDF_GENERATION: 'pdf-generation',
+  CONTACT_US: 'contact-us',
 };
 
 module.exports = {
