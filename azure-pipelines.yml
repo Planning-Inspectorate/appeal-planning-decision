@@ -1,62 +1,57 @@
 # Docker
-# Build a Docker image
+# Build and push an image to Azure Container Registry
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- feature/as-3074-appeal-service-api-pipeline
+  - feature/as-3074-appeal-service-api-pipeline
 
 resources:
-- repo: self
+  - repo: self
 
 variables:
+  # Container registry service connection established during pipeline creation
   tag: '$(Build.BuildId)'
-  dockerfilePath: '$(Build.SourcesDirectory)/packages/appeals-service-api/Dockerfile'
-  azureSubscriptionEndpoint: PINS ODTDEV (38602df9-8f79-41d1-a971-50c7672ba6f1)
-  # imageName: appealServiceApiImage
-  imageRepository: pinsportalinhouse
-  containerRegistry: 'pinsportalcontainerregistry.azurecr.io'
+  appealsApiDockerfilePath: '$(Build.SourcesDirectory)/packages/appeals-service-api/Dockerfile'
+  documentServiceApiDockerfilePath: '$(Build.SourcesDirectory)/packages/document-service-api/Dockerfile'
+  imageRepository: 'planninginspectorateappealplanningdecision'
+  containerRegistry: 'pinscommonukscontainers3887default.azurecr.io'
   dockerRegistryServiceConnection: 'appeals-service-api-registry-connection'
-  imagePullSecret: 'pinsportalcontainerregistry0d39-auth'
+  # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
 stages:
-- stage: Build
-  displayName: Build stage
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+  - stage: Build Appeals Service API
+    displayName: Build and push Appeals Service API stage
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build and push an image to container registry
+            inputs:
+              command: buildAndPush
+              repository: $(imageRepository)
+              dockerfile: $(appealsApiDockerfilePath)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)-appeal-service-api
 
-# - stage: Deploy
-#   displayName: Deploy WebApp
-#   jobs:
-#   - job: Deploy
-#     displayName: Deploy
-#     steps:
-#     - task: AzureWebApp@1
-#       inputs:
-#         appType: webApp
-#         azureSubscription: $(azureSubscriptionEndpoint)
-#         appName: 'appeal-service-api'
-#         package: '$(System.DefaultWorkingDirectory)'
-#         customWebConfig: '-Handler iisnode -NodeStartFile server.js -appType node'
-#     - task: AzureRMWebAppDeployment@4
-#       displayName: Appeals Service API Deploy
-#       inputs:
-#         appType: webAppContainer
-#         ConnectedServiceName: $(azureSubscriptionEndpoint)
-#         WebAppName: $(WebAppName)
-#         DockerNamespace: $(DockerNamespace)
-#         DockerRepository: $(DockerRepository)
-#         DockerImageTag: $(Build.BuildId)
+  - stage: Build Document Service API
+    displayName: Build and push Document Service API stage
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build and push an image to container registry
+            inputs:
+              command: buildAndPush
+              repository: $(imageRepository)
+              dockerfile: $(documentServiceApiDockerfilePath)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)-document-service-api
