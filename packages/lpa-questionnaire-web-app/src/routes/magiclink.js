@@ -1,8 +1,9 @@
 const express = require('express');
-const magicLinkAuth = require('../middleware/magiclink-auth');
+const getDataFromMagicLinkJWT = require('../middleware/get-magiclink-jwt-data');
+const magicLinkController = require('../controllers/magiclink');
 
 const router = express.Router();
 
-router.get('/magiclink/:magiclink', magicLinkAuth);
+router.get('/magiclink/:magiclink', getDataFromMagicLinkJWT, magicLinkController.login);
 
 module.exports = router;
