@@ -7,7 +7,12 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.js'],
   coverageReporters: ['json', 'html', 'text', 'text-summary'],
-  coveragePathIgnorePatterns: ['node_modules', '<rootDir>/src/app.js', '<rootDir>/src/server.js'],
+  coveragePathIgnorePatterns: [
+    'node_modules',
+    '<rootDir>/src/app.js',
+    '<rootDir>/src/server.js',
+    '<rootDir>/src/config/auth.js',
+  ],
   coverageThreshold: {
     global: {
       branches: 100,
