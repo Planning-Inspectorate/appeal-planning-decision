@@ -20,7 +20,7 @@ ENV DOCS_API_PATH=/opt/app/api
 ENV NODE_ENV=production
 ENV SERVER_PORT=3000
 # This must be built locally from the common package
-COPY --from=planninginspectorateappealplanningdecision:954-commons-image /opt/app ../common
+COPY --from=common:latest /opt/app ../common
 ADD api api
 ADD src src
 # ADD node_modules node_modules
