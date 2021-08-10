@@ -34,7 +34,7 @@ stages:
             inputs:
               command: buildAndPush
               repository: $(imageRepository)
-              dockerfile: $(appealsApiDockerfilePath)
+              dockerfile: $(commonsDockerfilePath)
               containerRegistry: $(dockerRegistryServiceConnection)
               tags: |
                 $(tag)-commons-image
