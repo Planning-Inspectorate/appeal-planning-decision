@@ -20,7 +20,7 @@ variables:
   vmImageName: 'ubuntu-latest'
 
 stages:
-  - stage: Build Appeals Service API
+  - stage: Build_Appeals_Service_API
     displayName: Build and push Appeals Service API stage
     jobs:
       - job: Build
@@ -38,7 +38,7 @@ stages:
               tags: |
                 $(tag)-appeal-service-api
 
-  - stage: Build Document Service API
+  - stage: Build_Document_Service_API
     displayName: Build and push Document Service API stage
     jobs:
       - job: Build
