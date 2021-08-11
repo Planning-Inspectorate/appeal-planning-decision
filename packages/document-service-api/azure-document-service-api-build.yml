@@ -86,8 +86,8 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                Write-Host "Looking for images with label buildNumber=$(Build.BuildNumber)"
-                $imageId = (docker images -a --filter "label=buildNumber=$(Build.BuildNumber)" --format "{{.ID}}")
+                Write-Host "Looking for images with label com.azure.dev.image.build.buildNumber=$(Build.BuildNumber)"
+                $imageId = (docker images -a --filter "label=com.azure.dev.image.build.buildNumber=$(Build.BuildNumber)" --format "{{.ID}}")
                 Write-Host "Setting the imageId to '${imageId}'."
 
                 Write-Host "Running Docker..."            
