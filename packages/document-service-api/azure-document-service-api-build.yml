@@ -86,7 +86,7 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                $imageId = (docker images -a -f "label=buildNumber=$(Build.BuildNumber)" --format "{{.ID}})
+                $imageId = (docker images -a -f "label=buildNumber=$(Build.BuildNumber)" --format "{{.ID}}")
                 Write-Host "Setting the imageId to '${imageId}'."
                 Write-Host "Running Docker..."            
                 $containerId = docker run -d ${imageId}
@@ -96,14 +96,14 @@ stages:
                 # A more elegant retry solution would be better
                 Start-Sleep -Seconds 2
 
-                $testLocation = "${containerId}':'/src/junit.xml"
-                $exitCodeLocation = "${containerId}':'/npm.exitcode"
+                $testLocation = "${containerId}:/src/junit.xml"
+                $exitCodeLocation = "${containerId}:/npm.exitcode"
 
                 Write-Host "Copying test results from '$testLocation'"
-                docker cp ${testLocation} $(Pipeline.Workspace)/junit.xml
+                docker cp "${testLocation}" "$(Pipeline.Workspace)/junit.xml"
 
                 Write-Host "Copying exit code from '$exitCodeLocation'."
-                docker cp ${exitCodeLocation} $(Pipeline.Workspace)/npm.exitcode
+                docker cp "${exitCodeLocation}" "$(Pipeline.Workspace)/npm.exitcode"
           - task: PublishTestResults@2
             displayName: Publish test results
             condition: succeededOrFailed()
