@@ -38,6 +38,24 @@ stages:
               containerRegistry: $(dockerRegistryServiceConnection)
               tags: |
                 $(tag)-commons-image
+
+  - stage: Build_Document_Service_API
+    displayName: Build and push Document Service API stage
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build and push an image to container registry
+            inputs:
+              command: buildAndPush
+              repository: $(imageRepository)
+              dockerfile: $(documentServiceApiDockerfilePath)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)-document-service-api                           
   
   - stage: Build_Appeals_Service_API
     displayName: Build and push Appeals Service API stage
@@ -57,20 +75,4 @@ stages:
               tags: |
                 $(tag)-appeal-service-api  
 
-  - stage: Build_Document_Service_API
-    displayName: Build and push Document Service API stage
-    jobs:
-      - job: Build
-        displayName: Build
-        pool:
-          vmImage: $(vmImageName)
-        steps:
-          - task: Docker@2
-            displayName: Build and push an image to container registry
-            inputs:
-              command: buildAndPush
-              repository: $(imageRepository)
-              dockerfile: $(documentServiceApiDockerfilePath)
-              containerRegistry: $(dockerRegistryServiceConnection)
-              tags: |
-                $(tag)-document-service-api             
+  
