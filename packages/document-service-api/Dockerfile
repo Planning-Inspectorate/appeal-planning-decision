@@ -16,7 +16,7 @@ ENV SERVER_PORT=4000
 # This must be built locally from the common package
 COPY --from=pinscommonukscontainers3887default.azurecr.io/planninginspectorateappealplanningdecision:960-commons-image /opt/app ../common
 ADD src src
-RUN npm ci command in the dockerfile just before node_modules
+RUN npm ci  
 ADD node_modules node_modules
 ADD package.json package.json
 ADD package-lock.json package-lock.json
