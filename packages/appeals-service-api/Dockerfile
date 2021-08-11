@@ -29,7 +29,10 @@ ADD package-lock.json package-lock.json
 RUN npm prune --production \
   && npm rebuild \
   && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
+RUN npm test:ci; echo $? > /npm.exitcode
 EXPOSE 3000
 USER node
 #VOLUME [ "data" ]
 CMD [ "npm", "start" ]
+
+LABEL buildNumber=${BUILD_ID}

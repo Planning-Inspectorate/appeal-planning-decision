@@ -13,6 +13,7 @@
     "start": "node ./",
     "start:dev": "nodemon ./ | pino-pretty -tlc",
     "test": "jest",
+    "test:ci": "jest --reporters=default --reporters=jest-junit",
     "test:cov": "jest --coverage",
     "test:watch": "jest --watch",
     "documentation": "jest --coverage --reporters jest-html-reporters --coverageReporters html"

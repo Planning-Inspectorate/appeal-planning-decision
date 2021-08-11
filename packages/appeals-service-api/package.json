@@ -14,6 +14,7 @@
     "start": "node ./",
     "start:dev": "nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
     "test": "jest",
+    "test:ci": "jest --reporters=default --reporters=jest-junit",
     "test:cov": "jest --coverage",
     "test:watch": "jest --watchAll --runInBand --coverage",
     "test:tdd": "jest --watchAll --verbose",

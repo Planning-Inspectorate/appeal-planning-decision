@@ -1,0 +1,139 @@
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+  branches:
+    include:
+      - feature/as-3074-appeal-service-api-pipeline
+  #    - master
+  paths:
+    include:
+      - packages/document-service-api
+
+resources:
+  - repo: self
+
+name: 'Set dynamically below in a task'
+
+variables:
+  # VERSION INFO ----------------------------------------------------------
+  version.MajorMinor: '1.0' # Manually adjust the version number as needed for semantic versioning. Revision is auto-incremented.
+  version.Revision: $[counter(variables['version.MajorMinor'], 0)]
+  versionNumber: '$(version.MajorMinor).$(version.Revision)'
+  # -----------------------------------------------------------------------
+
+  # Container registry service connection established during pipeline creation
+  documentServiceApiDockerfilePath: '$(Build.SourcesDirectory)/packages/document-service-api/Dockerfile'
+  imageRepository: 'planninginspectorateappealplanningdecision'
+  containerRegistry: 'pinscommonukscontainers3887default.azurecr.io'
+  dockerRegistryServiceConnection: 'appeals-service-api-registry-connection'
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+stages:
+  - stage: Increment_Version
+    displayName: Increment Version Number
+    jobs:
+      - job: Set_Version
+        displayName: Set Version Number
+        steps:
+          - task: PowerShell@2
+            displayName: Set the name of the build (i.e. the Build.BuildNumber)
+            inputs:
+              targetType: 'inline'
+              script: |
+                [string] $buildName = "$(versionNumber)_$(Build.BuildId)"
+                Write-Host "Setting the name of the build to '$buildName'."
+                Write-Host "##vso[build.updatebuildnumber]$buildName"
+
+  - stage: Build_Documents_Service_API
+    displayName: Build Document Service API stage
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build Document Service API image
+            inputs:
+              command: build
+              repository: $(imageRepository)
+              dockerfile: $(documentServiceApiDockerfilePath)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              arguments: >
+                --build-arg APP_NAME=dcoument-service-api
+                --build-arg BUILD_ID=$(Build.BuildNumber)
+                --build-arg VERSION=$(versionNumber)
+              tags: |
+                $(versionNumber)-document-service-api
+
+  - stage: Run_Unit_And_Publish_Tests
+    displayName: Run Unit Tests
+    dependsOn: Build_Document_Service_API
+    condition: succeeded()
+    jobs:
+      - job: Run
+        displayName: Run Unit Tests and Publish Results
+        steps:
+          - task: PowerShell@2
+            displayName: Run tests
+            inputs:
+              targetType: 'inline'
+              script: |
+                $imageId = (docker images -a -f "label=buildNumber=$(Build.BuildNumber)" --format "{{.ID}})
+                $containerId = docker run -d $imageId
+
+                # I found that is was sometimes necessary to have a delay before attempting the copy
+                # A more elegant retry solution would be better
+                Start-Sleep -Seconds 2
+
+                docker cp "$($containerId):/src/junit.xml" $(Pipeline.Workspace)/junit.xml
+                docker cp "$($containerId):/npm.exitcode" $(Pipeline.Workspace)/npm.exitcode
+          - task: PublishTestResult@2
+            displayName: Publish test results
+            condition: succeededOrFailed()
+            inputs:
+              testResultsFormat: 'JUnit'
+              testResultsFiles: 'junit.xml'
+              searchFolder: $(Pipeline.Workspace)
+              mergeTestResults: true
+              failTaskOnFailedTests: true
+              restRunTitle: 'Jest Tests'
+          - task: PowerShell@2
+            displayName: Verify tests passed
+            inputs:
+              targetType: 'inline'
+              script: |
+                # Check exitcode file exists
+                  If("$(Test-Path $(Pipeline.Workspace)/npm.exitcode))" -eq "False") {
+                      Write-Host "Exit code for test run not found"
+                      exit 9
+                  }
+
+                  $exitCode = cat $(Pipeline.Workspace)/npm.exitcode
+
+                  If($exitCode -ne "0") {
+                      Write-Host "Tests failed"
+                      exit $exitCode
+                  }
+
+  - stage: Push_Document_Service_API
+    displayName: Push Document Service API Docker Image stage
+    jobs:
+      - job: Push
+        displayName: Push
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Push Document Service API image
+            inputs:
+              command: push
+              repository: $(imageRepository)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(versionNumber)-document-service-api
+
+# TODO add Cypress tests
