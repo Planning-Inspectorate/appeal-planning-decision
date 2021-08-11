@@ -20,7 +20,7 @@ ENV DOCS_API_PATH=/opt/app/api
 ENV NODE_ENV=production
 ENV SERVER_PORT=3000
 # This must be built locally from the common package
-COPY --from=common:latest /opt/app ../common
+COPY --from=pinscommonukscontainers3887default.azurecr.io/planninginspectorateappealplanningdecision:960-commons-image /opt/app ../common
 ADD api api
 ADD src src
 # ADD node_modules node_modules
