@@ -18,7 +18,7 @@ COPY --from=pinscommonukscontainers3887default.azurecr.io/planninginspectorateap
 ADD src src
 ADD package.json package.json
 ADD package-lock.json package-lock.json
-RUN npm --i production
+npm i --production
 EXPOSE 4000
 USER node
 CMD [ “npm”, “start” ]
