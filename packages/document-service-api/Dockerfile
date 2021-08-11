@@ -15,14 +15,10 @@ ENV NODE_ENV=production
 ENV SERVER_PORT=4000
 # This must be built locally from the common package
 COPY --from=pinscommonukscontainers3887default.azurecr.io/planninginspectorateappealplanningdecision:960-commons-image /opt/app ../common
-ADD src src  
+ADD src src
 ADD package.json package.json
 ADD package-lock.json package-lock.json
-RUN npm ci
-ADD node_modules node_modules
-RUN npm prune --production \
-  && npm rebuild \
-  && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
+RUN npm --i production
 EXPOSE 4000
 USER node
-CMD [ "npm", "start" ]
+CMD [ “npm”, “start” ]
