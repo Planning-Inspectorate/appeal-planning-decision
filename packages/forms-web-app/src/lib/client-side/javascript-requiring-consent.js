@@ -21,21 +21,21 @@ const initialiseOptionalJavaScripts = (document, config) => {
       return;
     }
 
-    if (parsed.usage === false) {
-      // eslint-disable-next-line no-console
-      console.log('Declined consent. Third party cookies are not enabled.');
+    // if (parsed.usage === false) {
+    //   // eslint-disable-next-line no-console
+    //   console.log('Declined consent. Third party cookies are not enabled.');
+    //
+    //   if (config.featureFlag.googleTagManager && config.server.googleTagManagerId) {
+    //     googleTagManager.denyConsent();
+    //   }
+    //   return;
+    // }
 
-      if (config.featureFlag.googleTagManager && config.server.googleTagManagerId) {
-        googleTagManager.denyConsent();
-      }
-      return;
-    }
-
-    if (config.featureFlag.googleTagManager && config.server.googleTagManagerId) {
-      googleTagManager.grantConsent();
-    } else {
+    // if (config.featureFlag.googleTagManager && config.server.googleTagManagerId) {
+    //   googleTagManager.grantConsent();
+    // } else {
       initialiseGoogleAnalytics(document);
-    }
+    // }
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error(`Unable to decode the value of cookie: ${cookieConfig.COOKIE_POLICY_KEY}`, e);
