@@ -80,7 +80,6 @@
       "js",
       "json"
     ],
-    "testRegex": "**/?(*.)+(spec|test).js?(x)",
     "testEnvironment": "node"
   }
 }
