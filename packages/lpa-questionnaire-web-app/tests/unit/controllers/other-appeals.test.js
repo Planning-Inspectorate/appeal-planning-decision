@@ -123,11 +123,11 @@ describe('controllers/other-appeals', () => {
           'adjacent-appeals': 'no',
         },
       };
-      mockRequest.session.backLink = `/appeal-questionnaire/mock-id/task-list`;
+      mockRequest.session.backLink = `/appeal-questionnaire/mock-id/mock-back-link`;
 
       await otherAppealsController.postOtherAppeals(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/task-list`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/mock-back-link`);
     });
 
     it('should redirect with adjacent-appeals set to true and appeal-reference-numbers passed', async () => {
