@@ -18,19 +18,9 @@ COPY --from=pinscommonukscontainers3887default.azurecr.io/planninginspectorateap
 ADD src src
 ADD package.json package.json
 ADD package-lock.json package-lock.json
-<<<<<<< Updated upstream
+
 RUN npm i --production
-EXPOSE 4000
-USER node
-CMD [ “npm”, “start” ]
-=======
-RUN npm prune --production \
-  && npm rebuild \
-  && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
 RUN npm test:ci; echo $? > /npm.exitcode
 EXPOSE 4000
 USER node
-CMD [ "npm", "start" ]
-
-LABEL buildNumber=${BUILD_ID}
->>>>>>> Stashed changes
+CMD [ “npm”, “start” ]

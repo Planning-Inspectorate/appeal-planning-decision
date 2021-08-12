@@ -34,5 +34,3 @@ EXPOSE 3000
 USER node
 #VOLUME [ "data" ]
 CMD [ "npm", "start" ]
-
-LABEL buildNumber=${BUILD_ID}
