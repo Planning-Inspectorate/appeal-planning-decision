@@ -26,16 +26,7 @@ const initialiseOptionalJavaScripts = (document) => {
       // eslint-disable-next-line no-console
       console.log('Declined consent. Third party cookies are not enabled.');
 
-      // if (config.featureFlag.googleTagManager && config.server.googleTagManagerId) {
-      //   googleTagManager.denyConsent();
-      // }
       return;
-    }
-
-    if (config.featureFlag.googleTagManager && config.server.googleTagManagerId) {
-      googleTagManager.grantConsent();
-    //} else {
-      //initialiseGoogleAnalytics(document);
     }
   } catch (e) {
     // eslint-disable-next-line no-console
