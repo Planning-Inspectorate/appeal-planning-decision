@@ -88,11 +88,11 @@ stages:
                 # A more elegant retry solution would be better
                 Start-Sleep -Seconds 2
 
-                $testLocation = "${containerId}:/src/junit.xml"
-                $exitCodeLocation = "${containerId}:/npm.exitcode"
+                $testLocation = "${containerId}:/opt/app/jest_html_reporters.html"
+                $exitCodeLocation = "${containerId}:/opt/app/npm.exitcode"
 
                 Write-Host "Copying test results from '$testLocation'"
-                docker cp "${testLocation}" "$(Pipeline.Workspace)/junit.xml"
+                docker cp "${testLocation}" "$(Pipeline.Workspace)/jest_html_reporters.html"
 
                 Write-Host "Copying exit code from '$exitCodeLocation'."
                 docker cp "${exitCodeLocation}" "$(Pipeline.Workspace)/npm.exitcode"
@@ -101,7 +101,7 @@ stages:
             condition: succeededOrFailed()
             inputs:
               testResultsFormat: 'JUnit'
-              testResultsFiles: 'junit.xml'
+              testResultsFiles: 'jest_html_reporters.html'
               searchFolder: $(Pipeline.Workspace)
               mergeTestResults: true
               failTaskOnFailedTests: true
