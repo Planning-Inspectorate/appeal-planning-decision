@@ -58,7 +58,7 @@ stages:
           vmImage: $(vmImageName)
         steps:
           - task: Docker@2
-            displayName: Build Image
+            displayName: Build and Test Image
             inputs:
               command: build
               repository: $(imageRepository)
@@ -71,7 +71,7 @@ stages:
               tags: |
                 $(versionNumber)-document-service-api
           - task: PowerShell@2
-            displayName: Run Tests
+            displayName: Copy Test Results
             inputs:
               targetType: 'inline'
               script: |

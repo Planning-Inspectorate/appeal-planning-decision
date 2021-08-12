@@ -7,11 +7,11 @@ const { when } = require('jest-when');
 const {
   uploadDocumentsToBlobStorage,
   deleteFromBlobStorageByLocation,
-} = require('../../src/services/upload.service');
+} = require('../../../src/services/upload.service');
 
-const controller = require('../../src/controllers/documents');
-const Documents = require('../../src/schemas/documents');
-const config = require('../../src/lib/config');
+const controller = require('../../../src/controllers/documents');
+const Documents = require('../../../src/schemas/documents');
+const config = require('../../../src/lib/config');
 
 describe('Documents controller', () => {
   let res = {};
