@@ -1,9 +1,9 @@
 jest.mock('uuid');
-jest.mock('../../src/lib/blobStorage');
+jest.mock('../../../src/lib/blobStorage');
 
 const uuid = require('uuid');
-const DocumentsMethods = require('../../src/schemas/documentsMethods');
-const { connectToBlobStorage, downloadFromBlobStorage } = require('../../src/lib/blobStorage');
+const DocumentsMethods = require('../../../src/schemas/documentsMethods');
+const { connectToBlobStorage, downloadFromBlobStorage } = require('../../../src/lib/blobStorage');
 
 describe('Documents methods', () => {
   describe('#downloadFileBuffer', () => {

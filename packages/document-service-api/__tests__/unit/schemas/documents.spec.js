@@ -8,7 +8,7 @@ jest.mock('mongoose', () => {
 
 const { when } = require('jest-when');
 const mongoose = require('mongoose');
-const Methods = require('../../src/schemas/documentsMethods');
+const Methods = require('../../../src/schemas/documentsMethods');
 
 const getMock = jest.fn().mockImplementationOnce();
 const virtualMock = jest.fn().mockImplementationOnce(() => ({
@@ -21,7 +21,7 @@ mongoose.Schema.mockImplementation(() => ({
   virtual: virtualMock,
 }));
 
-require('../../src/schemas/documents');
+require('../../../src/schemas/documents');
 
 describe('Documents Schema', () => {
   let schema;

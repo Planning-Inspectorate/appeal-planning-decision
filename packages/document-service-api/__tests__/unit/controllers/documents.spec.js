@@ -1,6 +1,6 @@
 jest.mock('multer');
-jest.mock('../../src/schemas/documents');
-jest.mock('../../src/services/upload.service');
+jest.mock('../../../src/schemas/documents');
+jest.mock('../../../src/services/upload.service');
 
 const multer = require('multer');
 const { when } = require('jest-when');

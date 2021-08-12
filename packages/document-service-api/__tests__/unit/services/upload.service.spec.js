@@ -1,15 +1,15 @@
-jest.mock('../../src/lib/blobStorage');
-jest.mock('../../src/schemas/documents');
+jest.mock('../../../src/lib/blobStorage');
+jest.mock('../../../src/schemas/documents');
 
 const { when } = require('jest-when');
-const Documents = require('../../src/schemas/documents');
-const { connectToBlobStorage } = require('../../src/lib/blobStorage');
+const Documents = require('../../../src/schemas/documents');
+const { connectToBlobStorage } = require('../../../src/lib/blobStorage');
 
-const { uploadToBlobStorage, deleteFromBlobStorage } = require('../../src/lib/blobStorage');
+const { uploadToBlobStorage, deleteFromBlobStorage } = require('../../../src/lib/blobStorage');
 const {
   uploadDocumentsToBlobStorage,
   deleteFromBlobStorageByLocation,
-} = require('../../src/services/upload.service');
+} = require('../../../src/services/upload.service');
 
 describe('services', () => {
   const originalDoc = {
