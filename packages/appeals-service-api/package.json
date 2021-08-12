@@ -59,5 +59,28 @@
     "pino-pretty": "^4.3.0",
     "prettier": "^2.1.2",
     "supertest": "^6.0.1"
+  },
+  "jest": {
+    "preset": "@shelf/jest-mongodb",
+    "watchPathIgnorePatterns": ["globalConfig"],
+    "collectCoverage": true,
+    "collectCoverageFrom": ["./src/**/*.js"],
+    "coverageReporters": ["json", "html", "text", "text-summary"],
+    "coveragePathIgnorePatterns": ["node_modules", "./src/app.js", "./src/server.js"],
+    "coverageDirectory": "../coverage",
+    "coverageThreshold": {
+      "global": {
+        "branches": 92,
+        "functions": 87,
+        "lines": 86,
+        "statements": 86
+      }
+    },
+    "moduleFileExtensions": [
+      "js",
+      "json"
+    ],
+    "testRegex": "**/?(*.)+(spec|test).js?(x)",
+    "testEnvironment": "node"
   }
 }
