@@ -171,10 +171,10 @@ services:
       FILE_UPLOAD_TMP_PATH: "/tmp"
       SESSION_MONGODB_URL: mongodb://mongodb:27017/lpa-sessions
       SESSION_KEY: some_secure_key_goes_here
-      USE_SECURE_SESSION_COOKIES: 'false'
-      CRYPTO_KEY: vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3
-      JWT_KEY: secret
+      MAGIC_LINK_CRYPTO_KEY: 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3'
+      MAGIC_LINK_JWT_KEY: 'secret'
       JWT_COOKIE_MAX_AGE: 14400000 # 4h
+      JWT_COOKIE_KEY: 'secret'
       LOGGER_LEVEL: 'debug'
     ports:
       - 9001:3000

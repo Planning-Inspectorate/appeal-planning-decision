@@ -18,6 +18,10 @@ require('express-async-errors');
 const config = require('./config');
 const logger = require('./lib/logger');
 const routes = require('./routes');
+const authRoutes = require('./routes/auth');
+
+require('./auth/config').cookieJWT(passport);
+require('./auth/config').magicLinkJWT(passport);
 
 const app = express();
 
@@ -42,8 +46,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session(sessionConfig()));
 app.use(passport.initialize());
-app.use(passport.session());
-require('./config/auth')(passport);
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(
@@ -68,6 +70,7 @@ app.use(
 app.use(fileUpload(config.fileUpload));
 
 // Routes
+app.use('/', authRoutes);
 app.use('/', routes);
 
 // View Engine
