@@ -14,7 +14,6 @@
     "start": "node ./",
     "start:dev": "nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
     "test": "jest",
-    "test:ci": "jest --reporters=default --reporters=jest-junit",
     "test:cov": "jest --coverage",
     "test:watch": "jest --watchAll --runInBand --coverage",
     "test:tdd": "jest --watchAll --verbose",
@@ -43,7 +42,10 @@
     "rhea": "^1.0.24",
     "swagger-ui-express": "^4.1.4",
     "uuid": "^8.3.1",
-    "yup": "^0.31.1"
+    "yup": "^0.31.1",
+    "jest": "^26.6.3",
+    "jest-html-reporters": "^2.1.2",
+    "jest-when": "^3.0.1"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.2.3",
@@ -53,9 +55,6 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "jest": "^26.6.3",
-    "jest-html-reporters": "^2.1.2",
-    "jest-when": "^3.0.1",
     "nodemon": "^2.0.6",
     "pino-pretty": "^4.3.0",
     "prettier": "^2.1.2",
