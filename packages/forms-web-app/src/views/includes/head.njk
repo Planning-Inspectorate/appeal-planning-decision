@@ -3,41 +3,18 @@
   <!--[if lte IE 8]><link href="/public/stylesheets/main-ie8.css" rel="stylesheet" type="text/css" /><![endif]-->
   <!--[if gt IE 8]><!--><link href="/public/stylesheets/main.css" media="all" rel="stylesheet" type="text/css" /><!--<![endif]-->
 
-  {% if featureFlag.googleTagManager %}
-    {% if googleTagManagerId %}
-      <script>
-        // Define dataLayer and the gtag function.
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+  <script id="gaId" type='text/plain'>{{ googleAnalyticsId }}</script>
 
-        // Default ad_storage and analytics_storage to 'denied'.
-        gtag('consent', 'default', {
-          'analytics_storage': 'denied'
-          'ad_storage': 'denied'
-        });
-      </script>
-      <!-- Google Tag Manager -->
-      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','{{ googleTagManagerId | safe }}');</script>
-      <!-- End Google Tag Manager -->
-    {% endif %}
-  {% else %}
-    <script id="gaId" type='text/plain'>{{ googleAnalyticsId }}</script>
+  {% if googleAnalyticsId and cookies.cookie_policy.usage %}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+{#  <script data-cy="Google Analytics" async src="https://www.googletagmanager.com/gtag/js?id={{ googleAnalyticsId | safe }}"></script>#}
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-    {% if googleAnalyticsId and cookies.cookie_policy.usage %}
-      <!-- Global site tag (gtag.js) - Google Analytics -->
-      {# <script data-cy="Google Analytics" async src="https://www.googletagmanager.com/gtag/js?id={{ googleAnalyticsId | safe }}"></script> #}
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', '{{ googleAnalyticsId | safe }}');
-      </script>
-    {% endif %}
+    gtag('config', '{{ googleAnalyticsId | safe }}');
+  </script>
   {% endif %}
 
   <script src="/public/javascripts/index.bundle.js" defer></script>
