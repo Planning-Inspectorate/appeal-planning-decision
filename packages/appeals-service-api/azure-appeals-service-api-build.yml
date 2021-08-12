@@ -49,16 +49,16 @@ stages:
                 Write-Host "Setting the name of the build to '$buildName'."
                 Write-Host "##vso[build.updatebuildnumber]$buildName"
 
-  - stage: Build_Appeals_Service_API
-    displayName: Build Appeals Service API stage
+  - stage: Build_and_Push_Appeals_Service_API
+    displayName: Build, Test and Push Appeals Service API
     jobs:
-      - job: Build
-        displayName: Build
+      - job: Build_Test_Push_Appeal_Service
+        displayName: Build Appeal Service API
         pool:
           vmImage: $(vmImageName)
         steps:
           - task: Docker@2
-            displayName: Build Appeals Service API image
+            displayName: Build Image
             inputs:
               command: build
               repository: $(imageRepository)
@@ -70,24 +70,14 @@ stages:
                 --build-arg VERSION=$(versionNumber)
               tags: |
                 $(versionNumber)-appeal-service-api
-
-  - stage: Run_Unit_And_Publish_Tests
-    displayName: Run Unit Tests
-    dependsOn: Build_Appeals_Service_API
-    condition: succeeded()
-    jobs:
-      - job: Run
-        displayName: Run Unit Tests and Publish Results
-        pool:
-          vmImage: $(vmImageName)
-        steps:
           - task: PowerShell@2
-            displayName: Run tests
+            displayName: Run Tests
             inputs:
               targetType: 'inline'
               script: |
                 Write-Host "Looking for images with label com.azure.dev.image.build.buildNumber=$(Build.BuildNumber)"
-                Write-Host "(docker images -a)"
+                $allContainers = (docker images)
+                Write-Host ${allContainers}
 
                 $imageId = (docker images -a --filter "label=com.azure.dev.image.build.buildNumber=$(Build.BuildNumber)" --format "{{.ID}}")
                 Write-Host "Setting the imageId to '${imageId}'."
@@ -109,7 +99,7 @@ stages:
                 Write-Host "Copying exit code from '$exitCodeLocation'."
                 docker cp "${exitCodeLocation}" "$(Pipeline.Workspace)/npm.exitcode"
           - task: PublishTestResults@2
-            displayName: Publish test results
+            displayName: Publish Test Results
             condition: succeededOrFailed()
             inputs:
               testResultsFormat: 'JUnit'
@@ -119,7 +109,7 @@ stages:
               failTaskOnFailedTests: true
               restRunTitle: 'Jest Tests'
           - task: PowerShell@2
-            displayName: Verify tests passed
+            displayName: Verify Tests Passed
             inputs:
               targetType: 'inline'
               script: |
@@ -135,17 +125,8 @@ stages:
                       Write-Host "Tests failed"
                       exit $exitCode
                   }
-
-  - stage: Push_Appeals_Service_API
-    displayName: Push Appeals Service API Docker Image stage
-    jobs:
-      - job: Push
-        displayName: Push
-        pool:
-          vmImage: $(vmImageName)
-        steps:
           - task: Docker@2
-            displayName: Push Appeals Service API image
+            displayName: Push Image
             inputs:
               command: push
               repository: $(imageRepository)
