@@ -52,9 +52,14 @@ module.exports = {
     url: process.env.PDF_SERVICE_API_URL,
   },
   auth: {
-    cryptoKey: process.env.CRYPTO_KEY,
-    jwtKey: process.env.JWT_KEY,
-    jwtCookieName: process.env.JWT_COOKIE_NAME || 'jwtCookie',
-    jwtCookieMaxAge: process.env.JWT_COOKIE_MAX_AGE,
+    magicLink: {
+      cryptoKey: process.env.MAGIC_LINK_CRYPTO_KEY,
+      jwtKey: process.env.MAGIC_LINK_JWT_KEY,
+    },
+    cookie: {
+      jwtKey: process.env.JWT_COOKIE_KEY,
+      name: process.env.JWT_COOKIE_NAME || 'jwtCookie',
+      maxAge: process.env.JWT_COOKIE_MAX_AGE,
+    },
   },
 };

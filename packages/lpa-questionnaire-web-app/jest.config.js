@@ -11,7 +11,7 @@ module.exports = {
     'node_modules',
     '<rootDir>/src/app.js',
     '<rootDir>/src/server.js',
-    '<rootDir>/src/config/auth.js',
+    '<rootDir>/src/auth/config/',
   ],
   coverageThreshold: {
     global: {

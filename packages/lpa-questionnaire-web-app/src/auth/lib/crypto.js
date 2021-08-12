@@ -1,11 +1,9 @@
 const crypto = require('crypto');
-const config = require('../config');
 
 const algorithm = 'aes-256-ctr';
-const secretKey = config.auth.cryptoKey;
 const iv = crypto.randomBytes(16);
 
-const encrypt = (text) => {
+const encrypt = (text, secretKey) => {
   const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
 
   const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
@@ -16,7 +14,7 @@ const encrypt = (text) => {
   };
 };
 
-const decrypt = (hash) => {
+const decrypt = (hash, secretKey) => {
   const decipher = crypto.createDecipheriv(algorithm, secretKey, Buffer.from(hash.iv, 'hex'));
 
   const decrpyted = Buffer.concat([
