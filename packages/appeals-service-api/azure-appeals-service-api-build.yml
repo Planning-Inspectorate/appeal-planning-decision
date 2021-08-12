@@ -75,11 +75,13 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                Write-Host "Looking for images with label com.azure.dev.image.build.buildNumber=$(Build.BuildNumber)"
+                Write-Host "Looking for images with tag $(versionNumber)-appeal-service-api"
                 $allContainers = (docker images)
                 Write-Host ${allContainers}
+                Write-Host "Running command..."
+                Write-Host "(docker images ***/planninginspectorateappealplanningdecision:$(versionNumber)-appeal-service-api --quiet)"
+                $imageId = (docker images ***/planninginspectorateappealplanningdecision:$(versionNumber)-appeal-service-api --quiet)
 
-                $imageId = (docker images -a --filter reference="*$(versionNumber)-appeal-service-api" --quiet)
                 Write-Host "Setting the imageId to '${imageId}'."
 
                 Write-Host "Running Docker..."            

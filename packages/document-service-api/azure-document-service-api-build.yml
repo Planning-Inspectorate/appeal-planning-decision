@@ -79,7 +79,10 @@ stages:
                 $allContainers = (docker images)
                 Write-Host ${allContainers}
 
-                $imageId = (docker images -a --filter reference="*:$(versionNumber)-document-service-api" --quiet)
+                Write-Host "Running command..."
+                Write-Host "(docker images ***/planninginspectorateappealplanningdecision:$(versionNumber)-document-service-api --quiet)"
+                $imageId = (docker images ***/planninginspectorateappealplanningdecision:$(versionNumber)-document-service-api --quiet)
+
                 Write-Host "Setting the imageId to '${imageId}'."
 
                 Write-Host "Running Docker..."            
