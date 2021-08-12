@@ -22,7 +22,9 @@ exports.getExtraConditions = (req, res) => {
 
   res.render(VIEW.EXTRA_CONDITIONS, {
     appeal: getAppealSideBarDetails(req.session.appeal),
-    backLink: req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
+    backLink: req.session.backLink
+      ? req.session.backLink
+      : `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
     values,
   });
 };
@@ -42,7 +44,9 @@ exports.postExtraConditions = async (req, res) => {
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.EXTRA_CONDITIONS, {
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink: req.session.backLink
+        ? req.session.backLink
+        : `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary,
       values,
@@ -67,9 +71,9 @@ exports.postExtraConditions = async (req, res) => {
 
     res.render(VIEW.EXTRA_CONDITIONS, {
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink:
-        `/appeal-questionnaire/${req.session.backLink}` ||
-        `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink: req.session.backLink
+        ? req.session.backLink
+        : `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary: [{ text: err.toString() }],
       values,
@@ -78,5 +82,9 @@ exports.postExtraConditions = async (req, res) => {
     return;
   }
 
-  res.redirect(req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`);
+  res.redirect(
+    req.session.backLink
+      ? req.session.backLink
+      : `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`
+  );
 };

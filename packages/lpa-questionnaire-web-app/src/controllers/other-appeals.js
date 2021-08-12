@@ -23,7 +23,9 @@ exports.getOtherAppeals = (req, res) => {
 
   res.render(VIEW.OTHER_APPEALS, {
     appeal: getAppealSideBarDetails(req.session.appeal),
-    backLink: req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
+    backLink: req.session.backLink
+      ? req.session.backLink
+      : `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
     values,
   });
 };
@@ -68,7 +70,9 @@ exports.postOtherAppeals = async (req, res) => {
 
     res.render(VIEW.OTHER_APPEALS, {
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink: req.session.backLink
+        ? req.session.backLink
+        : `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary: [{ text: e.toString() }],
       values,
@@ -77,5 +81,9 @@ exports.postOtherAppeals = async (req, res) => {
     return;
   }
 
-  res.redirect(req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`);
+  res.redirect(
+    req.session.backLink
+      ? req.session.backLink
+      : `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`
+  );
 };
