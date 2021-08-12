@@ -88,11 +88,15 @@ stages:
                 # A more elegant retry solution would be better
                 Start-Sleep -Seconds 2
 
-                $testLocation = "${containerId}:/opt/app/jest_html_reporters.html"
+                $testLocation = "${containerId}:/opt/app/junit.xml"
+                $coverageLocation = "${containerId}:/opt/app/coverage"
                 $exitCodeLocation = "${containerId}:/npm.exitcode"
 
                 Write-Host "Copying test results from '$testLocation'"
-                docker cp "${testLocation}" "$(Pipeline.Workspace)/jest_html_reporters.html"
+                docker cp "${testLocation}" "$(Pipeline.Workspace)/junit.xml"
+
+                Write-Host "Copying coverage results from '$coverageLocation'"
+                docker cp "${coverageLocation}" "$(Pipeline.Workspace)/coverage"
 
                 Write-Host "Copying exit code from '$exitCodeLocation'."
                 docker cp "${exitCodeLocation}" "$(Pipeline.Workspace)/npm.exitcode"
@@ -101,7 +105,7 @@ stages:
             condition: succeededOrFailed()
             inputs:
               testResultsFormat: 'JUnit'
-              testResultsFiles: 'jest_html_reporters.html'
+              testResultsFiles: 'junit.xml'
               searchFolder: $(Pipeline.Workspace)
               mergeTestResults: true
               failTaskOnFailedTests: true
@@ -123,6 +127,10 @@ stages:
                       Write-Host "Tests failed"
                       exit $exitCode
                   }
+          - task: PublishCodeCoverageResults@1
+            inputs:
+              codeCoverageTool: Cobertura
+              summaryFileLocation: $(Pipeline.Workspace)/coverage/cobertura-coverage.xml
           - task: Docker@2
             displayName: Push Image
             inputs:

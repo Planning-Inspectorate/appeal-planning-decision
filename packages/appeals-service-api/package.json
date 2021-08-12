@@ -17,7 +17,7 @@
     "test:cov": "jest --coverage",
     "test:watch": "jest --watchAll --runInBand --coverage",
     "test:tdd": "jest --watchAll --verbose",
-    "documentation": "jest --coverage --reporters jest-html-reporters --coverageReporters html"
+    "documentation": "jest --coverage --coverageReporters=cobertura --reporters=default --reporters=jest-junit"
   },
   "author": "Foundry4 <www.foundry4.com>",
   "lint-staged": {
@@ -65,7 +65,6 @@
     "watchPathIgnorePatterns": ["globalConfig"],
     "collectCoverage": true,
     "collectCoverageFrom": ["./src/**/*.js"],
-    "coverageReporters": ["json", "html", "text", "text-summary"],
     "coveragePathIgnorePatterns": ["node_modules", "<rootDir>/src/app.js", "<rootDir>/src/server.js"],
     "coverageDirectory": "<rootDir>/coverage",
     "coverageThreshold": {
