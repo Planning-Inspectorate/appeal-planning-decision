@@ -42,6 +42,7 @@ const addAcceptCookieConsentListener = (document, acceptCookieConsentButton) => 
     hideConsentBanner(document);
     acceptCookieConsentButton.removeEventListener('click', handler);
     showCookieConsentAcceptedBanner(document);
+    initialiseOptionalJavaScripts(document, config);
   };
 
   acceptCookieConsentButton.addEventListener('click', handler, false);

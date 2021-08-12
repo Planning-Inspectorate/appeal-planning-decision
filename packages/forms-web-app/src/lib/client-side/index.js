@@ -5,4 +5,3 @@ const { initialiseOptionalJavaScripts } = require('./javascript-requiring-consen
 const config = require('../../config');
 
 cookieConsentHandler(document);
-initialiseOptionalJavaScripts(document, config);
