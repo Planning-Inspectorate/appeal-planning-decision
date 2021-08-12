@@ -7,11 +7,12 @@ const { validationErrorHandler } = require('../validators/validation-error-handl
 const router = express.Router();
 
 router.post(
-  '/appeal-questionnaire/upload',
+  '/upload',
   [reqFilesToReqBodyFilesMiddleware('documents'), fileValidationRules()],
   validationErrorHandler,
   filesController.uploadFile
 );
+
 router.post('/delete', filesController.deleteFile);
 
 module.exports = router;
