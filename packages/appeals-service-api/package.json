@@ -46,7 +46,8 @@
     "rhea": "^1.0.24",
     "swagger-ui-express": "^4.1.4",
     "uuid": "^8.3.1",
-    "yup": "^0.31.1"
+    "yup": "^0.31.1",
+    "supertest": "^6.1.5"
   },
   "devDependencies": {
     "eslint": "^7.11.0",
@@ -58,7 +59,6 @@
     "nodemon": "^2.0.6",
     "pino-pretty": "^4.3.0",
     "prettier": "^2.1.2",
-    "supertest": "^6.1.5"
   },
   "jest": {
     "preset": "@shelf/jest-mongodb",

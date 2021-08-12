@@ -111,6 +111,7 @@ stages:
               failTaskOnFailedTests: true
               testRunTitle: 'Appeal Service API Jest Tests'
           - task: PublishCodeCoverageResults@1
+            displayName: Publish Code Coverage Results
             inputs:
               codeCoverageTool: Cobertura
               summaryFileLocation: $(Pipeline.Workspace)/coverage/cobertura-coverage.xml
