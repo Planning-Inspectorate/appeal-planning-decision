@@ -1,17 +1,17 @@
 jest.mock('multer');
-jest.mock('../schemas/documents');
-jest.mock('../services/upload.service');
+jest.mock('../../src/schemas/documents');
+jest.mock('../../src/services/upload.service');
 
 const multer = require('multer');
 const { when } = require('jest-when');
 const {
   uploadDocumentsToBlobStorage,
   deleteFromBlobStorageByLocation,
-} = require('../services/upload.service');
+} = require('../../src/services/upload.service');
 
-const controller = require('./documents');
-const Documents = require('../schemas/documents');
-const config = require('../lib/config');
+const controller = require('../../src/controllers/documents');
+const Documents = require('../../src/schemas/documents');
+const config = require('../../src/lib/config');
 
 describe('Documents controller', () => {
   let res = {};

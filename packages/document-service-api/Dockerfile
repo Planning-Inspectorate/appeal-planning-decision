@@ -16,6 +16,7 @@ ENV SERVER_PORT=4000
 # This must be built locally from the common package
 COPY --from=pinscommonukscontainers3887default.azurecr.io/planninginspectorateappealplanningdecision:960-commons-image /opt/app ../common
 ADD src src
+ADD __tests__ __tests__
 ADD package.json package.json
 ADD package-lock.json package-lock.json
 

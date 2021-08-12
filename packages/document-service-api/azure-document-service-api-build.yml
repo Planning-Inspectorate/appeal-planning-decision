@@ -75,7 +75,7 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                Write-Host "Looking for images with label com.azure.dev.image.build.buildNumber=$(Build.BuildNumber)"
+                Write-Host "Looking for images with tag $(versionNumber)-document-service-api"
                 $imageId = (docker images ***/planninginspectorateappealplanningdecision:$(versionNumber)-document-service-api --quiet)
 
                 Write-Host "Setting the imageId to '${imageId}'."
@@ -88,11 +88,15 @@ stages:
                 # A more elegant retry solution would be better
                 Start-Sleep -Seconds 2
 
-                $testLocation = "${containerId}:/opt/app/jest_html_reporters.html"
+                $testLocation = "${containerId}:/opt/app/junit.xml"
+                $coverageLocation = "${containerId}:/opt/app/coverage"
                 $exitCodeLocation = "${containerId}:/npm.exitcode"
 
                 Write-Host "Copying test results from '$testLocation'"
-                docker cp "${testLocation}" "$(Pipeline.Workspace)/jest_html_reporters.html"
+                docker cp "${testLocation}" "$(Pipeline.Workspace)/junit.xml"
+
+                Write-Host "Copying coverage results from '$coverageLocation'"
+                docker cp "${coverageLocation}" "$(Pipeline.Workspace)/coverage"
 
                 Write-Host "Copying exit code from '$exitCodeLocation'."
                 docker cp "${exitCodeLocation}" "$(Pipeline.Workspace)/npm.exitcode"
@@ -101,11 +105,16 @@ stages:
             condition: succeededOrFailed()
             inputs:
               testResultsFormat: 'JUnit'
-              testResultsFiles: 'jest_html_reporters.html'
+              testResultsFiles: 'junit.xml'
               searchFolder: $(Pipeline.Workspace)
               mergeTestResults: true
               failTaskOnFailedTests: true
               testRunTitle: 'Document Service API Jest Tests'
+          - task: PublishCodeCoverageResults@1
+            displayName: Publish Code Coverage Results
+            inputs:
+              codeCoverageTool: Cobertura
+              summaryFileLocation: $(Pipeline.Workspace)/coverage/cobertura-coverage.xml
           - task: PowerShell@2
             displayName: Verify Tests Passed
             inputs:

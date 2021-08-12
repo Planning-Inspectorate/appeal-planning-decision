@@ -15,7 +15,7 @@
     "test": "jest",
     "test:cov": "jest --coverage",
     "test:watch": "jest --watch",
-    "documentation": "jest --coverage --reporters jest-html-reporters --coverageReporters html"
+    "documentation": "jest --bail --coverage --coverageReporters=cobertura --reporters=default --reporters=jest-junit"
   },
   "author": "Foundry4 <www.foundry4.com>",
   "lint-staged": {
@@ -29,15 +29,15 @@
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "express-pino-logger": "^5.0.0",
+    "jest": "^26.6.3",
+    "jest-junit": "^12.2.0",
+    "jest-when": "^3.0.1",
     "js-yaml": "^3.14.1",
     "mongoose": "^5.10.11",
     "multer": "^1.4.2",
     "pino": "^6.7.0",
     "swagger-ui-express": "^4.1.5",
-    "uuid": "^8.3.1",
-    "jest": "^26.6.3",
-    "jest-html-reporters": "^2.1.2",
-    "jest-when": "^3.0.1"
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "eslint": "^7.12.1",
@@ -51,21 +51,34 @@
     "prettier": "^2.1.2"
   },
   "jest": {
+    "watchPathIgnorePatterns": [
+      "globalConfig"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "./src/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "node_modules",
+      "<rootDir>/src/main.js",
+      "<rootDir>/src/server.js"
+    ],
+    "coverageDirectory": "<rootDir>/coverage",
     "coverageThreshold": {
       "global": {
-        "branches": 100,
-        "functions": 100,
-        "lines": 100,
-        "statements": 100
+        "branches": 60,
+        "functions": 60,
+        "lines": 60,
+        "statements": 60
       }
     },
     "moduleFileExtensions": [
       "js",
       "json"
     ],
-    "rootDir": "src",
-    "testRegex": ".spec.js$",
-    "coverageDirectory": "../coverage",
+    "testMatch": [
+      "**/?(*.)+(spec|test).js?(x)"
+    ],
     "testEnvironment": "node"
   }
 }
