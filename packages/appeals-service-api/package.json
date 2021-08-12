@@ -66,8 +66,8 @@
     "collectCoverage": true,
     "collectCoverageFrom": ["./src/**/*.js"],
     "coverageReporters": ["json", "html", "text", "text-summary"],
-    "coveragePathIgnorePatterns": ["node_modules", "./src/app.js", "./src/server.js"],
-    "coverageDirectory": "../coverage",
+    "coveragePathIgnorePatterns": ["node_modules", "<rootDir>/src/app.js", "<rootDir>/src/server.js"],
+    "coverageDirectory": "<rootDir>/coverage",
     "coverageThreshold": {
       "global": {
         "branches": 92,
@@ -81,6 +81,6 @@
       "json"
     ],
     "testEnvironment": "node",
-    "setupFiles": ["./__tests__/setup-jest.js"]
+    "setupFiles": ["<rootDir>/__tests__/setup-jest.js"]
   }
 }
