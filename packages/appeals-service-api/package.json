@@ -17,7 +17,7 @@
     "test:cov": "jest --coverage",
     "test:watch": "jest --watchAll --runInBand --coverage",
     "test:tdd": "jest --watchAll --verbose",
-    "documentation": "jest --coverage --coverageReporters=cobertura --reporters=default --reporters=jest-junit"
+    "documentation": "jest --bail --coverage --coverageReporters=cobertura --reporters=default --reporters=jest-junit"
   },
   "author": "Foundry4 <www.foundry4.com>",
   "lint-staged": {
@@ -87,6 +87,7 @@
       "js",
       "json"
     ],
+    "testMatch": ["**/?(*.)+(spec|test).js?(x)"],
     "testEnvironment": "node",
     "setupFiles": [
       "<rootDir>/__tests__/setup-jest.js"
