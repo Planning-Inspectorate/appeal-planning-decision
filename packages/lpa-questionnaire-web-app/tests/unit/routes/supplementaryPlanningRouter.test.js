@@ -9,6 +9,7 @@ const combineDateInputsMiddleware = require('../../../src/middleware/combine-dat
 const reqFilesToReqBodyFilesMiddleware = require('../../../src/middleware/req-files-to-req-body-files');
 const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
 const supplementaryDocumentsValidationRules = require('../../../src/validators/supplementary-documents');
+const authenticateMiddleware = require('../../../src/middleware/authenticate');
 
 jest.mock('../../../src/middleware/req-files-to-req-body-files');
 jest.mock('../../../src/validators/supplementary-documents');
@@ -27,12 +28,13 @@ describe('routes/supplementary-documents', () => {
     it('should define the expected routes', () => {
       expect(get).toHaveBeenCalledWith(
         '/:id/supplementary-documents',
-        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+        [authenticateMiddleware, fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
         supplementaryDocumentsController.getAddDocument
       );
 
       expect(post).toHaveBeenCalledWith(
         '/:id/supplementary-documents',
+        authenticateMiddleware,
         reqFilesToReqBodyFilesMiddleware('documents'),
         combineDateInputsMiddleware,
         supplementaryDocumentsValidationRules(),
@@ -42,7 +44,7 @@ describe('routes/supplementary-documents', () => {
 
       expect(get).toHaveBeenCalledWith(
         '/:id/supplementary-documents/uploaded-documents',
-        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+        [authenticateMiddleware, fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
         uploadedDocumentsController.getUploadedDocuments
       );
     });
