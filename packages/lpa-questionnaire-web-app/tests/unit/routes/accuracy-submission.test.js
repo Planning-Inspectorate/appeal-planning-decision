@@ -7,6 +7,7 @@ const { validationErrorHandler } = require('../../../src/validators/validation-e
 const {
   rules: accuracySubmissionValidationRules,
 } = require('../../../src/validators/accuracy-submission');
+const authenticateMiddleware = require('../../../src/middleware/authenticate');
 
 jest.mock('../../../src/validators/accuracy-submission');
 
@@ -23,11 +24,12 @@ describe('routes/accuracy-submission', () => {
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
       `/:id/${VIEW.ACCURACY_SUBMISSION}`,
-      [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+      [authenticateMiddleware, fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
       accuracySubmissionController.getAccuracySubmission
     );
     expect(post).toHaveBeenCalledWith(
       `/:id/${VIEW.ACCURACY_SUBMISSION}`,
+      authenticateMiddleware,
       accuracySubmissionValidationRules(),
       validationErrorHandler,
       accuracySubmissionController.postAccuracySubmission

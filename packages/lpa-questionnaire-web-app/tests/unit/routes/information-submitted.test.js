@@ -2,6 +2,7 @@ const { get } = require('./router-mock');
 const { VIEW } = require('../../../src/lib/views');
 const informationSubmittedController = require('../../../src/controllers/information-submitted');
 const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
+const authenticateMiddleware = require('../../../src/middleware/authenticate');
 
 describe('routes/information-submitted', () => {
   beforeEach(() => {
@@ -16,6 +17,7 @@ describe('routes/information-submitted', () => {
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
       `/:id/${VIEW.INFORMATION_SUBMITTED}`,
+      authenticateMiddleware,
       fetchAppealMiddleware,
       informationSubmittedController.getInformationSubmitted
     );

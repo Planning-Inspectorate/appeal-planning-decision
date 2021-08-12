@@ -10,6 +10,7 @@ const reqFilesToReqBodyFilesMiddleware = require('../../../src/middleware/req-fi
 
 const uploadTasksValidationRules = require('../../../src/validators/upload-tasks');
 const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
+const authenticateMiddleware = require('../../../src/middleware/authenticate');
 
 const { VIEW } = require('../../../src/lib/views');
 
@@ -33,14 +34,23 @@ describe('routes/statutory-development', () => {
 
       expect(get).toHaveBeenCalledWith(
         '/:id/statutory-development',
-        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
+        [
+          authenticateMiddleware,
+          fetchAppealMiddleware,
+          fetchExistingAppealReplyMiddleware,
+          clearUploadedFilesMiddleware,
+        ],
         getConfig,
         uploadQuestionController.getUpload
       );
 
       expect(post).toHaveBeenCalledWith(
         '/:id/statutory-development',
-        [reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
+        [
+          authenticateMiddleware,
+          reqFilesToReqBodyFilesMiddleware('documents'),
+          uploadTasksValidationRules(),
+        ],
         validationErrorHandler,
         getConfig,
         uploadQuestionController.postUpload
