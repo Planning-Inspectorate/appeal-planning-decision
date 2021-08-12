@@ -26,13 +26,13 @@ describe('controllers/other-appeals', () => {
 
   describe('getOtherAppeals', () => {
     it('should call the correct template', () => {
-      req.session.backLink = `/mock-id/mock-back-link`;
+      req.session.backLink = `/appeal-questionnaire/mock-id/mock-back-link`;
 
       otherAppealsController.getOtherAppeals(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.OTHER_APPEALS, {
         appeal: null,
-        backLink: `/mock-id/mock-back-link`,
+        backLink: `/appeal-questionnaire/mock-id/mock-back-link`,
         values: {
           'adjacent-appeals': null,
           'appeal-reference-numbers': '',
@@ -123,11 +123,11 @@ describe('controllers/other-appeals', () => {
           'adjacent-appeals': 'no',
         },
       };
-      mockRequest.session.backLink = `/appeal-questionnaire/mock-id/task-list`;
+      mockRequest.session.backLink = `/appeal-questionnaire/mock-id/mock-back-link`;
 
       await otherAppealsController.postOtherAppeals(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/task-list`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/mock-back-link`);
     });
 
     it('should redirect with adjacent-appeals set to true and appeal-reference-numbers passed', async () => {
@@ -146,13 +146,13 @@ describe('controllers/other-appeals', () => {
           'appeal-reference-numbers': 'some-reference',
         },
       };
-      mockRequest.session.backLink = `/mock-id/${VIEW.TASK_LIST}`;
+      mockRequest.session.backLink = `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`;
 
       await otherAppealsController.postOtherAppeals(mockRequest, res);
 
       expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should re-render the template with errors if there is any validator error', async () => {
@@ -170,7 +170,7 @@ describe('controllers/other-appeals', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.OTHER_APPEALS, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
         values: {
@@ -200,7 +200,7 @@ describe('controllers/other-appeals', () => {
       expect(logger.error).toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.OTHER_APPEALS, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         errorSummary: [{ text: 'mock api error' }],
         errors: {},
         values: {

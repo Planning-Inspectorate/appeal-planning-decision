@@ -11,7 +11,7 @@ jest.mock('../../../src/services/task.service');
 jest.mock('../../../src/lib/logger');
 
 describe('controllers/development-plan', () => {
-  const backLinkUrl = '/mock-id/mock-back-link';
+  const backLinkUrl = '/appeal-questionnaire/mock-id/mock-back-link';
   const mockTaskStatus = 'MOCK_STATUS';
   let req;
   let res;
@@ -47,7 +47,7 @@ describe('controllers/development-plan', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.DEVELOPMENT_PLAN, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         values,
       });
     });
@@ -69,7 +69,7 @@ describe('controllers/development-plan', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.DEVELOPMENT_PLAN, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         values: {
           'has-plan-submitted': 'yes',
           'plan-changes-text': 'some-text',
@@ -93,7 +93,7 @@ describe('controllers/development-plan', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.DEVELOPMENT_PLAN, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         values: {
           'has-plan-submitted': 'no',
           'plan-changes-text': undefined,
@@ -119,7 +119,7 @@ describe('controllers/development-plan', () => {
 
       expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should redirect to the back link specified', async () => {
@@ -155,13 +155,13 @@ describe('controllers/development-plan', () => {
           'plan-changes-text': 'some-text',
         },
       };
-      mockRequest.session.backLink = `/mock-id/${VIEW.TASK_LIST}`;
+      mockRequest.session.backLink = `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`;
 
       await developmentPlanController.postDevelopmentPlan(mockRequest, res);
 
       expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should re-render the template with errors if there is any validator error', async () => {
@@ -179,7 +179,7 @@ describe('controllers/development-plan', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.DEVELOPMENT_PLAN, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
         values: {
@@ -209,7 +209,7 @@ describe('controllers/development-plan', () => {
       expect(logger.error).toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.DEVELOPMENT_PLAN, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         errorSummary: [{ text: 'mock api error' }],
         errors: {},
         values: {
