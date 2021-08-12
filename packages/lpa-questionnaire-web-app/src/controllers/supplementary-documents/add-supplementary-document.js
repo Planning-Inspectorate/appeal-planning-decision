@@ -16,12 +16,11 @@ exports.question = question;
 exports.getAddDocument = (req, res) => {
   // TODO: when list page is created logic around backlink will need adding. If new page normal backlink is fine
   // but if coming from new document button need to set the res.locals.backlink to that page. Session still needed for list page
-
-  const backLink = res.locals.backLink || req.session.backLink;
+  // const backLink = res.locals.backLink || req.session.backLink;
 
   res.render(VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
     appeal: getAppealSideBarDetails(req.session.appeal),
-    backLink: backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
+    backLink: `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
     question,
   });
 };
@@ -148,7 +147,7 @@ exports.postAddDocument = async (req, res) => {
 
     res.render(VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: backLink || `/${appealId}/${VIEW.TASK_LIST}`,
+      backLink: `/appeal-questionnaire/${appealId}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary: errorSummary.length ? errorSummary : [{ text: err.toString() }],
       question,
@@ -158,5 +157,5 @@ exports.postAddDocument = async (req, res) => {
     return;
   }
 
-  res.redirect(`/${appealId}/supplementary-documents/uploaded-documents`);
+  res.redirect(`/appeal-questionnaire/${appealId}/supplementary-documents/uploaded-documents`);
 };
