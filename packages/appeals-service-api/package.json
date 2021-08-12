@@ -58,7 +58,7 @@
     "nodemon": "^2.0.6",
     "pino-pretty": "^4.3.0",
     "prettier": "^2.1.2",
-    "supertest": "^6.0.1"
+    "supertest": "^6.1.5"
   },
   "jest": {
     "preset": "@shelf/jest-mongodb",
@@ -87,7 +87,9 @@
       "js",
       "json"
     ],
-    "testMatch": ["**/?(*.)+(spec|test).js?(x)"],
+    "testMatch": [
+      "**/?(*.)+(spec|test).js?(x)"
+    ],
     "testEnvironment": "node",
     "setupFiles": [
       "<rootDir>/__tests__/setup-jest.js"

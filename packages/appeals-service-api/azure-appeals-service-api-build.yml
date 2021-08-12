@@ -110,6 +110,10 @@ stages:
               mergeTestResults: true
               failTaskOnFailedTests: true
               testRunTitle: 'Appeal Service API Jest Tests'
+          - task: PublishCodeCoverageResults@1
+            inputs:
+              codeCoverageTool: Cobertura
+              summaryFileLocation: $(Pipeline.Workspace)/coverage/cobertura-coverage.xml
           - task: PowerShell@2
             displayName: Verify Tests Passed
             inputs:
@@ -127,10 +131,6 @@ stages:
                       Write-Host "Tests failed"
                       exit $exitCode
                   }
-          - task: PublishCodeCoverageResults@1
-            inputs:
-              codeCoverageTool: Cobertura
-              summaryFileLocation: $(Pipeline.Workspace)/coverage/cobertura-coverage.xml
           - task: Docker@2
             displayName: Push Image
             inputs:
