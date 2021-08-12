@@ -3,9 +3,8 @@
 const { readCookie } = require('./cookie/cookie-jar');
 const cookieConfig = require('./cookie/cookie-config');
 const { initialiseGoogleAnalytics } = require('./google-analytics');
-const googleTagManager = require('./google-tag-manager');
 
-const initialiseOptionalJavaScripts = (document, config) => {
+const initialiseOptionalJavaScripts = (document) => {
   const cookie = readCookie(document, cookieConfig.COOKIE_POLICY_KEY);
 
   if (cookie === null) {
@@ -21,21 +20,13 @@ const initialiseOptionalJavaScripts = (document, config) => {
       return;
     }
 
-    // if (parsed.usage === false) {
-    //   // eslint-disable-next-line no-console
-    //   console.log('Declined consent. Third party cookies are not enabled.');
-    //
-    //   if (config.featureFlag.googleTagManager && config.server.googleTagManagerId) {
-    //     googleTagManager.denyConsent();
-    //   }
-    //   return;
-    // }
+    if (parsed.usage === false) {
+      // eslint-disable-next-line no-console
+      console.log('Declined consent. Third party cookies are not enabled.');
+      return;
+    }
 
-    // if (config.featureFlag.googleTagManager && config.server.googleTagManagerId) {
-    //   googleTagManager.grantConsent();
-    // } else {
-      initialiseGoogleAnalytics(document);
-    // }
+    initialiseGoogleAnalytics(document);
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error(`Unable to decode the value of cookie: ${cookieConfig.COOKIE_POLICY_KEY}`, e);
