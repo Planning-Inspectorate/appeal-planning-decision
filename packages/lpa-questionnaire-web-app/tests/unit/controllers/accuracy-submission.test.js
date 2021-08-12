@@ -26,13 +26,13 @@ describe('controllers/accuracy-submission', () => {
 
   describe('getAccuracySubmission', () => {
     it('should call the correct template', () => {
-      req.session.backLink = `/mock-id/mock-back-link`;
+      req.session.backLink = `/appeal-questionnaire/mock-id/mock-back-link`;
 
       accuracySubmissionController.getAccuracySubmission(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.ACCURACY_SUBMISSION, {
         appeal: null,
-        backLink: `/mock-id/mock-back-link`,
+        backLink: `/appeal-questionnaire/mock-id/mock-back-link`,
         values: {
           'accurate-submission': null,
           'inaccuracy-reason': '',
@@ -45,7 +45,7 @@ describe('controllers/accuracy-submission', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.ACCURACY_SUBMISSION, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         values: {
           'accurate-submission': null,
           'inaccuracy-reason': '',
@@ -69,7 +69,7 @@ describe('controllers/accuracy-submission', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.ACCURACY_SUBMISSION, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         values: {
           'accurate-submission': 'yes',
           'inaccuracy-reason': undefined,
@@ -94,7 +94,7 @@ describe('controllers/accuracy-submission', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.ACCURACY_SUBMISSION, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         values: {
           'accurate-submission': 'no',
           'inaccuracy-reason': 'mock reason',
@@ -135,7 +135,7 @@ describe('controllers/accuracy-submission', () => {
 
       expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should redirect with accurate-submission set to no and appeal-reference-numbers passed', async () => {
@@ -178,7 +178,7 @@ describe('controllers/accuracy-submission', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.ACCURACY_SUBMISSION, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
         values: {
@@ -210,7 +210,7 @@ describe('controllers/accuracy-submission', () => {
       expect(logger.error).toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.ACCURACY_SUBMISSION, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         errorSummary: [{ text: 'mock api error' }],
         errors: {},
         values: {

@@ -27,13 +27,12 @@ describe('controllers/add-supplementary-documents', () => {
 
   describe('getAddDocument', () => {
     it('should call the correct template', () => {
-      req.session.backLink = '/mock-id/mock-back-link';
-
+      req.session.backLink = '/appeal-questionnaire/mock-id/mock-back-link';
       supplementaryDocumentsController.getAddDocument(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
         appeal: null,
-        backLink: '/mock-id/mock-back-link',
+        backLink: '/appeal-questionnaire/mock-id/mock-back-link',
         question: supplementaryDocumentsController.question,
       });
     });
@@ -43,20 +42,20 @@ describe('controllers/add-supplementary-documents', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         question: supplementaryDocumentsController.question,
       });
     });
 
     it('should call back link from locals as priority if provided', () => {
-      req.session.backLink = '/mock-id/mock-back-link';
-      res.locals.backLink = '/some/other/backlink';
+      req.session.backLink = '/appeal-questionnaire/mock-id/mock-back-link';
+      res.locals.backLink = '/appeal-questionnaire/some/other/backlink';
 
       supplementaryDocumentsController.getAddDocument(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
         appeal: null,
-        backLink: '/some/other/backlink',
+        backLink: '/appeal-questionnaire/some/other/backlink',
         question: supplementaryDocumentsController.question,
       });
     });
@@ -103,7 +102,7 @@ describe('controllers/add-supplementary-documents', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         question: supplementaryDocumentsController.question,
         errors: mockError,
         errorSummary: mockErrorSummary,
@@ -132,7 +131,7 @@ describe('controllers/add-supplementary-documents', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         question: supplementaryDocumentsController.question,
         errors: { documents: { msg: 'some-error' } },
         errorSummary: [{ href: '#documents', text: 'some-error' }],
@@ -156,7 +155,7 @@ describe('controllers/add-supplementary-documents', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         question: supplementaryDocumentsController.question,
         errors: mockError,
         errorSummary: [{ href: '#adoptedDate-day', text: 'some-error' }],
@@ -182,7 +181,7 @@ describe('controllers/add-supplementary-documents', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         question: supplementaryDocumentsController.question,
         errors: {},
         errorSummary: [{ text: 'mock-api-error' }],
@@ -226,7 +225,7 @@ describe('controllers/add-supplementary-documents', () => {
       });
       expect(res.render).not.toHaveBeenCalledWith();
       expect(res.redirect).toHaveBeenCalledWith(
-        '/mock-id/supplementary-documents/uploaded-documents'
+        '/appeal-questionnaire/mock-id/supplementary-documents/uploaded-documents'
       );
     });
 
@@ -268,7 +267,7 @@ describe('controllers/add-supplementary-documents', () => {
       await supplementaryDocumentsController.postAddDocument(mockRequest, res);
       expect(res.render).toHaveBeenCalledWith(VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         question: supplementaryDocumentsController.question,
         errors: {},
         errorSummary: [

@@ -19,7 +19,7 @@ describe('routes/placeholder', () => {
 
   it('should define the expected routes', () => {
     expect(post).toHaveBeenCalledWith(
-      '/appeal-questionnaire/upload',
+      '/upload',
       [reqFilesToReqBodyFilesMiddleware('documents'), filesValidationRules()],
       validationErrorHandler,
       filesController.uploadFile
