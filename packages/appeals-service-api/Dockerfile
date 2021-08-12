@@ -24,7 +24,6 @@ COPY --from=pinscommonukscontainers3887default.azurecr.io/planninginspectorateap
 ADD api api
 ADD src src
 ADD __tests__ __tests__
-
 # ADD node_modules node_modules
 ADD package.json package.json
 ADD package-lock.json package-lock.json
