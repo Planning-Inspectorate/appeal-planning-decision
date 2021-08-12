@@ -89,7 +89,7 @@ stages:
                 Start-Sleep -Seconds 2
 
                 $testLocation = "${containerId}:/opt/app/jest_html_reporters.html"
-                $exitCodeLocation = "${containerId}:/opt/app/npm.exitcode"
+                $exitCodeLocation = "${containerId}:/npm.exitcode"
 
                 Write-Host "Copying test results from '$testLocation'"
                 docker cp "${testLocation}" "$(Pipeline.Workspace)/jest_html_reporters.html"
