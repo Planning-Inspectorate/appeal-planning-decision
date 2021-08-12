@@ -5,7 +5,7 @@
 trigger:
   branches:
     include:
-      - feature/as-3074-appeal-service-api-pipeline
+      - feature/3074b-appeal-service-api-pipeline-tests
   #    - master
   paths:
     include:
@@ -76,11 +76,6 @@ stages:
               targetType: 'inline'
               script: |
                 Write-Host "Looking for images with label com.azure.dev.image.build.buildNumber=$(Build.BuildNumber)"
-                $allContainers = (docker images)
-                Write-Host ${allContainers}
-
-                Write-Host "Running command..."
-                Write-Host "(docker images ***/planninginspectorateappealplanningdecision:$(versionNumber)-document-service-api --quiet)"
                 $imageId = (docker images ***/planninginspectorateappealplanningdecision:$(versionNumber)-document-service-api --quiet)
 
                 Write-Host "Setting the imageId to '${imageId}'."
@@ -110,7 +105,7 @@ stages:
               searchFolder: $(Pipeline.Workspace)
               mergeTestResults: true
               failTaskOnFailedTests: true
-              restRunTitle: 'Jest Tests'
+              testRunTitle: 'Document Service API Jest Tests'
           - task: PowerShell@2
             displayName: Verify Tests Passed
             inputs:

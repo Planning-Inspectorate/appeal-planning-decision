@@ -20,7 +20,7 @@ ADD package.json package.json
 ADD package-lock.json package-lock.json
 
 RUN npm i --production
-RUN npm test:ci; echo $? > /npm.exitcode
+RUN npm install; npm run documentation; echo $? > /npm.exitcode
 EXPOSE 4000
 USER node
 CMD [ “npm”, “start” ]
