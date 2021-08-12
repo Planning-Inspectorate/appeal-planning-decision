@@ -24,9 +24,7 @@ const initialiseOptionalJavaScripts = (document) => {
       // eslint-disable-next-line no-console
       console.log('Declined consent. Third party cookies are not enabled.');
 
-      //if (config.featureFlag.googleTagManager && config.server.googleTagManagerId) {
-        console.log(config.featureFlag.googleTagManager );
-      //}
+      console.log(config.featureFlag.googleTagManager);
       return;
     }
   } catch (e) {
