@@ -1,6 +1,6 @@
+const { validMimeType } = require('pins-mime-validation');
 const config = require('../../config');
 const validateFileSize = require('../custom/file-size');
-const validMimeType = require('../custom/mime-type');
 const {
   MIME_TYPE_DOC,
   MIME_TYPE_DOCX,
