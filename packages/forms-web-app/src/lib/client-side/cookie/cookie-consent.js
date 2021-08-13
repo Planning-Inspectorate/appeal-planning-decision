@@ -6,7 +6,6 @@ const { hideSingleDomElementBySelector } = require('./cookie-dom-helpers');
 const { showCookieConsentAcceptedBanner } = require('./cookie-consent-accepted');
 const { showCookieConsentRejectedBanner } = require('./cookie-consent-rejected');
 const { initialiseOptionalJavaScripts } = require('../javascript-requiring-consent');
-const config = require('../../../config');
 
 const setCookies = (document, cookiePolicy) => {
   eraseCookie(document, cookieConfig.COOKIE_POLICY_KEY);
@@ -42,7 +41,7 @@ const addAcceptCookieConsentListener = (document, acceptCookieConsentButton) => 
     hideConsentBanner(document);
     acceptCookieConsentButton.removeEventListener('click', handler);
     showCookieConsentAcceptedBanner(document);
-    initialiseOptionalJavaScripts(document, config);
+    initialiseOptionalJavaScripts(document);
   };
 
   acceptCookieConsentButton.addEventListener('click', handler, false);
