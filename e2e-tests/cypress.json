@@ -1,5 +1,5 @@
 {
-  "baseUrl": "http://localhost:9003",
+  "baseUrl": "https://appeals-dev.planninginspectorate.gov.uk",
   "testFiles": "**/*.feature",
   "chromeWebSecurity": false,
   "viewportWidth": 1024,
