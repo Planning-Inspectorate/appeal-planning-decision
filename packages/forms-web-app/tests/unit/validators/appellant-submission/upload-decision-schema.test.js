@@ -1,6 +1,6 @@
+const { validMimeType } = require('pins-mime-validation');
 const schema = require('../../../../src/validators/appellant-submission/upload-decision-schema');
 const validateFileSize = require('../../../../src/validators/custom/file-size');
-const validMimeType = require('../../../../src/validators/custom/mime-type');
 const {
   MIME_TYPE_DOC,
   MIME_TYPE_DOCX,
@@ -11,8 +11,8 @@ const {
 } = require('../../../../src/lib/mime-types');
 const config = require('../../../../src/config');
 
+jest.mock('pins-mime-validation');
 jest.mock('../../../../src/validators/custom/file-size');
-jest.mock('../../../../src/validators/custom/mime-type');
 jest.mock('../../../../src/config');
 
 describe('validators/appellant-submission/upload-decision-schema', () => {

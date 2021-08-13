@@ -1,7 +1,6 @@
+const { validMimeType, validateMimeBinaryType } = require('pins-mime-validation');
 const config = require('../../config');
 const validateFileSize = require('../custom/file-size');
-const validMimeType = require('../custom/mime-type');
-const validBinaryMimeType = require('../custom/mime-binary-type');
 const validAV = require('../custom/clamav');
 const {
   MIME_TYPE_DOC,
@@ -54,7 +53,7 @@ module.exports = {
         await validAV(req.files['decision-upload'], name);
 
         // check binary mime type of file
-        await validBinaryMimeType(
+        await validateMimeBinaryType(
           req.files['decision-upload'],
           [
             MIME_BINARY_TYPE_DOC,
