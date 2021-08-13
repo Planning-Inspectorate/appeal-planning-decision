@@ -2,7 +2,8 @@
 
 const { readCookie } = require('./cookie/cookie-jar');
 const cookieConfig = require('./cookie/cookie-config');
-const config = require('../../config');
+const { initialiseGoogleAnalytics } = require('./google-analytics');
+const googleTagManager = require('./google-tag-manager');
 
 const initialiseOptionalJavaScripts = (document) => {
   const cookie = readCookie(document, cookieConfig.COOKIE_POLICY_KEY);
@@ -24,12 +25,20 @@ const initialiseOptionalJavaScripts = (document) => {
       // eslint-disable-next-line no-console
       console.log('Declined consent. Third party cookies are not enabled.');
 
-      console.log(config.featureFlag.googleTagManager);
+      if (process.env.googleTagManager && process.env.googleTagManagerId) {
+        googleTagManager.denyConsent();
+      }
       return;
+    }
+
+    if (process.env.googleTagManager && process.env.googleTagManagerId) {
+      googleTagManager.grantConsent();
+    } else {
+      initialiseGoogleAnalytics(document);
     }
   } catch (e) {
     // eslint-disable-next-line no-console
-    console.error(`Unable to decode the value of cookie: ${cookieConfig.COOKIE_POLICY_KEY}`, e);
+    console.error(`Unable to decode the value of cookieg`, e);
   }
 };
 

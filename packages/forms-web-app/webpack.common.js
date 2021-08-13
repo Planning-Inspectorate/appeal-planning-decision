@@ -1,5 +1,5 @@
-const path = require('path');
 const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
   entry: {
@@ -10,4 +10,12 @@ module.exports = {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'src', 'public', 'javascripts'),
   },
+  plugins: [
+    new webpack.plugins({
+      'process.env': {
+        'googleTagManager': JSON.stringify(JSON.stringify(process.env.googleTagManager || 'false')),
+        'googleTagManagerId': JSON.stringify(JSON.stringify(process.env.googleTagManagerId || ''))
+      }
+    })
+  ],
 };

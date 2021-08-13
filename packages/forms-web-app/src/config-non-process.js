@@ -1,6 +1,3 @@
-const oneGigabyte = 1024 * 1024 * 1024;
-const httpPort = 3000;
-
 module.exports = {
   application: {
     defaultDisplayDateFormat: 'DD MMMM YYYY',
