@@ -29,7 +29,7 @@ exports.getUpload = (req, res) => {
     appealReplyId = req.session.appealReply.id;
   }
 
-  renderView(res, VIEW.DEVELOPMENT_PLAN, {
+  renderView(res, view, {
     prefix: 'appeal-questionnaire',
     appeal: getAppealSideBarDetails(req.session.appeal),
     backLink: req.session.backLink ? req.session.backLink : `/${req.params.id}/${VIEW.TASK_LIST}`,
