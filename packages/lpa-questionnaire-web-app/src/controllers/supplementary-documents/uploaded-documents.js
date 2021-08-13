@@ -1,6 +1,7 @@
 const { format } = require('date-fns');
 const { VIEW } = require('../../lib/views');
 const getAppealSideBarDetails = require('../../lib/appeal-sidebar-details');
+const { renderView } = require('../../util/render');
 
 const question = {
   heading: 'Supplementary planning documents',
@@ -33,7 +34,8 @@ exports.getUploadedDocuments = (req, res) => {
     ''
   );
 
-  res.render(VIEW.SUPPLEMENTARY_DOCUMENTS.UPLOADED_DOCUMENTS, {
+  renderView(res, VIEW.SUPPLEMENTARY_DOCUMENTS.UPLOADED_DOCUMENTS, {
+    prefix: 'appeal-questionnaire',
     uploadedDocumentsUrl,
     uploadedFiles: populateUploadedFiles(req),
     appeal: getAppealSideBarDetails(req.session.appeal),
