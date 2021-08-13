@@ -11,7 +11,7 @@ module.exports = {
     path: path.resolve(__dirname, 'src', 'public', 'javascripts'),
   },
   plugins: [
-    new webpack.plugins({
+    new webpack.DefinePlugin({
       'process.env': {
         'googleTagManager': JSON.stringify(JSON.stringify(process.env.googleTagManager || 'false')),
         'googleTagManagerId': JSON.stringify(JSON.stringify(process.env.googleTagManagerId || ''))
