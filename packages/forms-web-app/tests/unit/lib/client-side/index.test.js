@@ -9,12 +9,8 @@ const {
   initialiseOptionalJavaScripts,
 } = require('../../../../src/lib/client-side/javascript-requiring-consent');
 
-const config = require('../../../../src/config');
-
 jest.mock('../../../../src/lib/client-side/cookie/cookie-consent');
 jest.mock('../../../../src/lib/client-side/javascript-requiring-consent');
-jest.mock('../../../../src/lib/client-side/javascript-requiring-consent');
-jest.mock('../../../../src/config');
 
 describe('lib/client-side/index', () => {
   test('calls the expected functions', () => {
@@ -22,6 +18,6 @@ describe('lib/client-side/index', () => {
     require('../../../../src/lib/client-side/index');
 
     expect(cookieConsentHandler).toHaveBeenCalledWith(document);
-    expect(initialiseOptionalJavaScripts).toHaveBeenCalledWith(document, config);
+    expect(initialiseOptionalJavaScripts).toHaveBeenCalledWith(document);
   });
 });
