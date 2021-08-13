@@ -1,5 +1,5 @@
 import { findCookieObjectByName } from '../../integration/cookies/cookies';
-import cookieConfig from '../../../../packages/forms-web-app/src/lib/client-side/cookie/cookie-config';
+import cookieConfig from '../../integration/cookies/cookie-config';
 
 module.exports = () => {
   cy.getCookies().then((cookies) => {
