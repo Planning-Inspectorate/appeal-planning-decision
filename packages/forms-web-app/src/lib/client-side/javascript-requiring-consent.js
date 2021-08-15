@@ -1,4 +1,5 @@
 /* eslint-env browser */
+/* istanbul ignore file */
 
 const { readCookie } = require('./cookie/cookie-jar');
 const cookieConfig = require('./cookie/cookie-config');
