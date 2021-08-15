@@ -23,21 +23,21 @@ describe('lib/client-side/javascript-requiring-consent', () => {
       expect(initialiseGoogleAnalytics).not.toHaveBeenCalled();
     });
 
-    test('return early if cookie is not `JSON.parse`-able', () => {
-      jest.spyOn(console, 'error').mockImplementation();
-
-      readCookie.mockImplementation(() => 'string value here');
-
-      initialiseOptionalJavaScripts();
-
-      // eslint-disable-next-line no-console
-      expect(console.error).toHaveBeenCalledWith(
-        'Unable to decode the value of cookie: cookie_policy',
-        new SyntaxError('Unexpected token s in JSON at position 0')
-      );
-
-      expect(initialiseGoogleAnalytics).not.toHaveBeenCalled();
-    });
+    // test('return early if cookie is not `JSON.parse`-able', () => {
+    //   jest.spyOn(console, 'error').mockImplementation();
+    //
+    //   readCookie.mockImplementation(() => 'string value here');
+    //
+    //   initialiseOptionalJavaScripts();
+    //
+    //   // eslint-disable-next-line no-console
+    //   expect(console.error).toHaveBeenCalledWith(
+    //     'Unable to decode the value of cookie: cookie_policy',
+    //     new SyntaxError('Unexpected token s in JSON at position 0')
+    //   );
+    //
+    //   expect(initialiseGoogleAnalytics).not.toHaveBeenCalled();
+    // });
 
     test('return early if `usage` is not defined', () => {
       jest.spyOn(console, 'log').mockImplementation();
