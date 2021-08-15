@@ -12,10 +12,8 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': {
-        'googleTagManager': JSON.stringify(JSON.stringify(process.env.googleTagManager || 'false')),
-        'googleTagManagerId': JSON.stringify(JSON.stringify(process.env.googleTagManagerId || ''))
-      }
-    })
+      'process.env.googleAnalyticsId': JSON.stringify(process.env.GOOGLE_ANALYTICS_ID),
+      'process.env.googleTagManager': process.env.FEATURE_FLAG_GOOGLE_TAG_MANAGER === 'true',
+    }),
   ],
 };
