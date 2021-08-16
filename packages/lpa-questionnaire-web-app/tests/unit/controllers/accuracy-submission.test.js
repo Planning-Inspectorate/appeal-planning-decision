@@ -111,11 +111,11 @@ describe('controllers/accuracy-submission', () => {
           'accurate-submission': 'yes',
         },
       };
-      mockRequest.session.backLink = `/mock-id/mock-back-link`;
+      mockRequest.session.backLink = `/appeal-questionnaire/mock-id/mock-back-link`;
 
       await accuracySubmissionController.postAccuracySubmission(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/mock-back-link`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/mock-back-link`);
     });
 
     it('should redirect with accurate-submission set to yes', async () => {

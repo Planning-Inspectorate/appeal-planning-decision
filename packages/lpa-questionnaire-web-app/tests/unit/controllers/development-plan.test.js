@@ -134,7 +134,6 @@ describe('controllers/development-plan', () => {
         },
       };
       mockRequest.session.backLink = backLinkUrl;
-
       await developmentPlanController.postDevelopmentPlan(mockRequest, res);
 
       expect(res.redirect).toHaveBeenCalledWith(backLinkUrl);

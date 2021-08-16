@@ -18,7 +18,7 @@ jest.mock('../../../src/services/task.service');
 jest.mock('../../../src/lib/logger');
 
 describe('controllers/upload-question', () => {
-  const backLinkUrl = '/mock-id/mock-back-link';
+  const backLinkUrl = '/appeal-questionnaire/mock-id/mock-back-link';
   let req;
   let res;
   let mockAppealReply;

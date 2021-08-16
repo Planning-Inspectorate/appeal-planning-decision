@@ -30,7 +30,7 @@ describe('controllers/uploaded-documents', () => {
 
     renderObject = {
       appeal: null,
-      backLink: '/mock-id/mock-back-link',
+      backLink: '/appeal-questionnaire/mock-id/mock-back-link',
       question: uploadedDocumentsController.question,
       uploadedDocumentsUrl,
       uploadedFiles,
@@ -41,23 +41,26 @@ describe('controllers/uploaded-documents', () => {
 
   describe('getUploadedDocuments', () => {
     it.only('should call the correct template', () => {
-      req.session.backLink = '/mock-id/mock-back-link';
+      req = mockReq(mockAppealReply);
+      req.session.backLink = '/appeal-questionnaire/mock-id/mock-back-link';
       uploadedDocumentsController.getUploadedDocuments(req, res);
+
+      console.log({ session: req });
 
       expect(res.render).toHaveBeenCalledWith(view, renderObject);
     });
 
     it.only('should call task-list as a default back link if nothing set in session', () => {
       uploadedDocumentsController.getUploadedDocuments(req, res);
-      renderObject.backLink = `/mock-id/${VIEW.TASK_LIST}`;
+      renderObject.backLink = `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`;
 
       expect(res.render).toHaveBeenCalledWith(view, renderObject);
     });
 
     it.only('should call back link from locals as priority if provided', () => {
-      req.session.backLink = '/mock-id/mock-back-link';
-      res.locals.backLink = '/some/other/backlink';
-      renderObject.backLink = '/some/other/backlink';
+      req.session.backLink = '/appeal-questionnaire/mock-id/mock-back-link';
+      res.locals.backLink = '/appeal-questionnaire/some/other/backlink';
+      renderObject.backLink = '/appeal-questionnaire/some/other/backlink';
 
       uploadedDocumentsController.getUploadedDocuments(req, res);
 
@@ -68,7 +71,7 @@ describe('controllers/uploaded-documents', () => {
       const mockRequest = {
         ...req,
         session: {
-          backLink: '/mock-id/mock-back-link',
+          backLink: '/appeal-questionnaire/mock-id/mock-back-link',
           appealReply: {
             ...mockAppealReply,
             optionalDocumentsSection: {
@@ -103,6 +106,8 @@ describe('controllers/uploaded-documents', () => {
           { class: 'govuk-link', html: '<a href="delete-document?row=1">Delete</a>' },
         ],
       ];
+
+      // console.log({ mockRequest });
 
       uploadedDocumentsController.getUploadedDocuments(mockRequest, res);
       expect(res.render).toHaveBeenCalledWith(view, renderObject);
