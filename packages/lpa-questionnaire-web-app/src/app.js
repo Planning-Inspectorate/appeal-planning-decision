@@ -10,7 +10,6 @@ const pinoExpress = require('express-pino-logger');
 const uuid = require('uuid');
 const fileUpload = require('express-fileupload');
 const { prometheus } = require('@pins/common');
-const passport = require('passport');
 const sessionConfig = require('./lib/session');
 const { fileSizeDisplayHelper } = require('./lib/file-upload-helpers');
 require('express-async-errors');
@@ -19,9 +18,6 @@ const config = require('./config');
 const logger = require('./lib/logger');
 const routes = require('./routes');
 const authRoutes = require('./routes/auth');
-
-require('./auth/config').cookieJWT(passport);
-require('./auth/config').magicLinkJWT(passport);
 
 const app = express();
 
@@ -45,7 +41,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session(sessionConfig()));
-app.use(passport.initialize());
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(

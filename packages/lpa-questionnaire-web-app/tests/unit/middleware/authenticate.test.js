@@ -1,9 +1,9 @@
 jest.mock('../../../src/auth/passportWrapper');
 jest.mock('../../../src/lib/appeals-api-wrapper');
-const passportWrapper = require('../../../src/auth/passportWrapper');
+const passportWrapper = require('../../../src/services/authentication/passportWrapper');
 const authenticate = require('../../../src/middleware/authenticate');
-const ExpiredJWTError = require('../../../src/auth/error/ExpiredJWTError');
-const InvalidJWTError = require('../../../src/auth/error/InvalidJWTError');
+const ExpiredJWTError = require('../../../src/services/authentication/error/ExpiredJWTError');
+const InvalidJWTError = require('../../../src/services/authentication/error/InvalidJWTError');
 const { getAppeal } = require('../../../src/lib/appeals-api-wrapper');
 const { mockReq, mockRes } = require('../mocks');
 const mockAppealReply = require('../mockAppealReply');
