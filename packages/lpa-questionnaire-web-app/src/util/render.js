@@ -6,7 +6,7 @@ const renderView = (res, view, { prefix, backLink, ...params }) => {
     });
   }
 
-  return res.render(view, { ...params });
+  return res.render(view, { backLink, ...params });
 };
 
 const redirect = (res, prefix, url, backlink) => {

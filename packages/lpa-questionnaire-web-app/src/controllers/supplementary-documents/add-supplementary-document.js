@@ -149,8 +149,9 @@ exports.postAddDocument = async (req, res) => {
       req.log.error({ err }, 'Error adding supplementary document');
 
     renderView(res, VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
+      appeal: null,
       prefix: 'appeal-questionnaire',
-      backLink: backLink || `${appealId}/${VIEW.TASK_LIST}`,
+      backLink: backLink || `/${appealId}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary: errorSummary.length ? errorSummary : [{ text: err.toString() }],
       question,
