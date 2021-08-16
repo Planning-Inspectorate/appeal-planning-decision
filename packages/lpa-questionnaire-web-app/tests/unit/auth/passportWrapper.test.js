@@ -1,8 +1,8 @@
 jest.mock('passport');
 const passport = require('passport');
-const passportWrapper = require('../../../src/auth/passportWrapper');
-const ExpiredJWTError = require('../../../src/auth/error/ExpiredJWTError');
-const InvalidJWTError = require('../../../src/auth/error/InvalidJWTError');
+const passportWrapper = require('../../../src/services/authentication/passportWrapper');
+const ExpiredJWTError = require('../../../src/services/authentication/error/ExpiredJWTError');
+const InvalidJWTError = require('../../../src/services/authentication/error/InvalidJWTError');
 const { mockReq, mockRes } = require('../mocks');
 
 function mockPassportAuthenticateResponse(error, response) {

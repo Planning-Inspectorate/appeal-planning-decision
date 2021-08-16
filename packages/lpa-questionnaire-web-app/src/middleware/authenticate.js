@@ -1,9 +1,8 @@
 const { validate: validateUuid } = require('uuid');
-const passportWrapper = require('../auth/passportWrapper');
+const authenticationService = require('../services/authentication/authentication.service');
 const { getAppeal } = require('../lib/appeals-api-wrapper');
 const logger = require('../lib/logger');
-const ExpiredJWTError = require('../auth/error/ExpiredJWTError');
-const { COOKIE_JWT } = require('../auth/config').strategyName;
+const ExpiredJWTError = require('../services/authentication/error/ExpiredJWTError');
 
 async function getLPACode(appealId) {
   if (!appealId || !validateUuid(appealId)) {
@@ -11,72 +10,58 @@ async function getLPACode(appealId) {
     return undefined;
   }
 
-  let lpaCode;
   try {
     logger.debug({ appealId }, 'Get appeal by id');
     const appeal = await getAppeal(appealId);
     if (appeal.errors) {
       logger.error(`Get appeal by id returned error response. ${JSON.stringify(appeal)}`);
-    } else {
-      lpaCode = appeal.lpaCode;
     }
+    return appeal.lpaCode;
   } catch (err) {
     logger.error({ err }, 'Error retrieving appeal');
-  }
-
-  return lpaCode;
-}
-
-function getUserData(req, res, jwtToken) {
-  if (!jwtToken.userData) {
-    req.log.error('JWT Cookie does not contain mandatory user data object.');
     return undefined;
   }
-
-  return jwtToken.userData;
 }
 
-function handleJWTExpired(req, res, err) {
+function handleTokenExpired(req, res, err) {
   req.log.debug('Cookie JWT token is expired. User will be redirected to login page.');
-  const userData = getUserData(req, res, err.jwtPayload);
-  if (!userData) {
+
+  const { userInformation } = err.jwtPayload;
+  if (!userInformation.lpaCode) {
+    req.log.error('Cookie token is missing lpaCode.');
     return res.status(404).send();
   }
 
-  return res.redirect(`/${userData.lpaCode}/authentication/your-email/session-expired`);
+  return res.redirect(`/${userInformation.lpaCode}/authentication/your-email/session-expired`);
 }
 
-async function handleJWTError(req, res, err) {
+async function handleTokenInvalidError(req, res, err) {
   req.log.debug({ err }, 'User is not authenticated and will be redirected to login page.');
 
   const lpaCode = await getLPACode(req.params?.id);
   if (!lpaCode) {
     req.log.error(
-      `Failure occurred while trying to redirect user to /authentication/your-email page. Appeal does not exist, we can't get lpaCode.`
+      `LPA code not found. Failure occurred while trying to redirect user to /:lpaCode/authentication/your-email page.`
     );
     return res.status(404).send();
   }
 
+  req.session.redirectURL = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
   return res.redirect(`/${lpaCode}/authentication/your-email`);
 }
 
 module.exports = async (req, res, next) => {
-  return passportWrapper
-    .authenticate(COOKIE_JWT, req, res)
-    .then((jwtPayload) => {
-      const userData = getUserData(req, res, jwtPayload);
-      if (!userData) {
-        return res.status(404).send();
-      }
-
-      req.userData = userData;
+  return authenticationService
+    .authenticate(req, res)
+    .then((token) => {
+      req.userInformation = token.userInformation;
       req.log.debug('User is authenticated.');
       return next();
     })
     .catch((err) => {
       if (err instanceof ExpiredJWTError) {
-        return handleJWTExpired(req, res, err);
+        return handleTokenExpired(req, res, err);
       }
-      return handleJWTError(req, res, err);
+      return handleTokenInvalidError(req, res, err);
     });
 };
