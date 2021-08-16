@@ -55,8 +55,8 @@ describe('controllers/question-type/boolean', () => {
     it('should call the correct template', () => {
       req.session.backLink = backLinkUrl;
       getBooleanQuestion(req, res);
-      
-      expect(renderView).toHaveBeenCalledWith(BOOLEAN_VIEW, {
+
+      expect(res.render).toHaveBeenCalledWith(BOOLEAN_VIEW, {
         appeal: null,
         backLink: backLinkUrl,
         question,
