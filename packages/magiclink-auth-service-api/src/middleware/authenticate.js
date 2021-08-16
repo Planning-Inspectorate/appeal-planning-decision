@@ -1,6 +1,5 @@
-const passportWrapper = require('../util/auth/passportWrapper');
-const ExpiredTokenError = require('../util/auth/error/ExpiredTokenError');
-const jwtAuthStrategy = require('../config/jwtAuthStrategy');
+const authenticationService = require('../service/authenticationService');
+const ExpiredTokenError = require('../service/error/ExpiredTokenError');
 const mapper = require('../mappers/magicLinkTokenMapper');
 
 function handleTokenExpiredError(req, res, err) {
@@ -16,7 +15,7 @@ function handleInvalidTokenError(req, res, err) {
 
 module.exports = async (req, res, next) => {
   try {
-    const token = await passportWrapper.authenticate(jwtAuthStrategy.name, req, res);
+    const token = await authenticationService.authenticate(req, res);
     req.log.debug('MagicLink token is valid.');
 
     req.magicLinkData = mapper.tokenToMagicLinkData(token);

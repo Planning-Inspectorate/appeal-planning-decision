@@ -9,6 +9,7 @@ function create(req, res) {
 
   const magicLinkData = req.body;
   const magicLinkEndpoint = createMagicLink(req.protocol, req.get('host'), magicLinkData);
+
   sendMagicLinkEmail(magicLinkData.magicLink.destinationEmail, magicLinkEndpoint);
 
   return res.status(200).send({ url: magicLinkEndpoint });
@@ -19,7 +20,7 @@ function login(req, res) {
   const authData = req.magicLinkData.auth;
 
   const token = createAuthToken(authData.userInformation, authData.tokenValidity);
-  console.log('Token auth ' + token);
+
   setCookie(res, authData.cookieName, token);
   logger.debug('JWT cookie set with success. User is logged in.');
 
@@ -28,7 +29,7 @@ function login(req, res) {
 
 function setCookie(res, name, token) {
   res.cookie(name, token, {
-    maxAge: config.cookie.maxAge,
+    expires: new Date(Date.now() + config.cookieValidityTimeMillis),
     httpOnly: true,
   });
 }
