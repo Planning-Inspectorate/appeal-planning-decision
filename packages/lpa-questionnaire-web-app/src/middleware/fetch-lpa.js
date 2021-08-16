@@ -13,7 +13,6 @@ module.exports = async (req, res, next) => {
     req.lpa = await getLPA(lpaCode);
   } catch (err) {
     req.log.debug({ err }, 'Error retrieving LPA.');
-
     res.status(404).send();
     return;
   }

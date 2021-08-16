@@ -61,7 +61,6 @@ function showEmailConfirmation(req, res) {
   req.log.debug('Enter show email confirmation controller');
 
   return res.render(VIEW.AUTHENTICATION.EMAIL_ADDRESS_CONFIRMATION, {
-    tokenExpirationTime: '15 minutes',
     email: req.session?.email,
     enterEmailLink: `/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
   });
