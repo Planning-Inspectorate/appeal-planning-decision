@@ -1,6 +1,4 @@
 const { use } = require('../router-mock');
-
-const magiclinkRouter = require('../../../../src/routes/auth/magiclink');
 const authenticationRouter = require('../../../../src/routes/auth/authentication');
 
 describe('routes/index', () => {
@@ -14,7 +12,6 @@ describe('routes/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(use).toHaveBeenCalledWith(magiclinkRouter);
     expect(use).toHaveBeenCalledWith(authenticationRouter);
   });
 });

@@ -1,5 +1,6 @@
 const { get, post } = require('../router-mock');
 const authenticationController = require('../../../../src/controllers/authentication');
+const fetchLPA = require('../../../../src/middleware/fetch-lpa');
 
 describe('routes/extra-conditions', () => {
   beforeEach(() => {
@@ -10,14 +11,17 @@ describe('routes/extra-conditions', () => {
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
       `/:lpaCode/authentication/your-email/:error(session-expired|link-expired)?`,
+      fetchLPA,
       authenticationController.showEnterEmailAddress
     );
     expect(post).toHaveBeenCalledWith(
       '/:lpaCode/authentication/your-email',
+      fetchLPA,
       authenticationController.processEmailAddress
     );
     expect(get).toHaveBeenCalledWith(
       '/:lpaCode/authentication/confirm-email',
+      fetchLPA,
       authenticationController.showEmailConfirmation
     );
   });
