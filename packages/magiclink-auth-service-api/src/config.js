@@ -10,15 +10,10 @@ module.exports = {
     baseUrl: process.env.SRV_NOTIFY_BASE_URL,
     serviceId: process.env.SRV_NOTIFY_SERVICE_ID,
     apiKey: process.env.SRV_NOTIFY_API_KEY,
-    templateId: process.env.SRV_NOTIFY_TEMPLATE_ID || '1cd00f93-9814-44b5-99db-97382b38cf13',
+    templateId: process.env.MAGIC_LINK_TEMPLATE_ID,
   },
-  cryptoKey: process.env.MAGIC_LINK_CRYPTO_KEY,
-  jwtKey: process.env.MAGIC_LINK_JWT_KEY,
-  magicLink: {
-    expiryTime: Number(process.env.MAGIC_LINK_EXPIRY_TIME),
-  },
-  cookie: {
-    name: process.env.JWT_COOKIE_NAME || 'jwtCookie',
-    maxAge: process.env.JWT_COOKIE_MAX_AGE,
-  },
+  dataEncryptionKey: process.env.DATA_ENCRYPTION_KEY,
+  jwtSigningKey: process.env.JWT_SIGNING_KEY,
+  magicLinkValidityTimeMillis: Number(process.env.MAGIC_LINK_VALIDITY_TIME_MILLIS),
+  cookieValidityTimeMillis: Number(process.env.COOKIE_VALIDITY_TIME_MILLIS),
 };

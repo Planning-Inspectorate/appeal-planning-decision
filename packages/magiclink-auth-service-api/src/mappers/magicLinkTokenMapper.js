@@ -8,7 +8,7 @@ function magicLinkDataToToken(magicLinkData) {
   const encryptedData = cryptoUtils.encrypt(JSON.stringify(magicLinkData));
   return {
     data: encryptedData,
-    exp: config.magicLink.expiryTime,
+    exp: new Date().getTime() + config.magicLinkValidityTimeMillis,
   };
 }
 
