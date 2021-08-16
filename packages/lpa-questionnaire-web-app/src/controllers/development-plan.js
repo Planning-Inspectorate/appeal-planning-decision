@@ -81,10 +81,5 @@ exports.postDevelopmentPlan = async (req, res) => {
     return;
   }
 
-  redirect(
-    res,
-    'appeal-questionnaire',
-    `mock-id/mock-back-link`,
-    req.session.backLink
-  );
+  redirect(res, 'appeal-questionnaire', `mock-id/${VIEW.TASK_LIST}`, req.session.backLink);
 };

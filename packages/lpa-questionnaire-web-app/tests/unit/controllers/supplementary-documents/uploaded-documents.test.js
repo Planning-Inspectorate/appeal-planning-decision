@@ -42,10 +42,17 @@ describe('controllers/uploaded-documents', () => {
   describe('getUploadedDocuments', () => {
     it.only('should call the correct template', () => {
       req = mockReq(mockAppealReply);
-      req.session.backLink = '/appeal-questionnaire/mock-id/mock-back-link';
-      uploadedDocumentsController.getUploadedDocuments(req, res);
+      const mockRequest = {
+        ...req,
+        protocol: 'mock-protocol',
+        headers: {
+          host: 'mock-host',
+        },
+        url: 'mock-url',
+      };
 
-      console.log({ session: req });
+      req.session.backLink = '/appeal-questionnaire/mock-id/mock-back-link';
+      uploadedDocumentsController.getUploadedDocuments(mockRequest, res);
 
       expect(res.render).toHaveBeenCalledWith(view, renderObject);
     });

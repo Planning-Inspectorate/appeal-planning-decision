@@ -105,17 +105,16 @@ describe('controllers/accuracy-submission', () => {
 
   describe('postAccuracySubmission', () => {
     it('should redirect to the back link specified', async () => {
-      const mockRequest = {
+      req = {
         ...mockReq(),
         body: {
           'accurate-submission': 'yes',
         },
       };
-      mockRequest.session.backLink = `/appeal-questionnaire/mock-id/mock-back-link`;
+      req.session.backLink = `/appeal-questionnaire/mock-id/task-list`;
+      await accuracySubmissionController.postAccuracySubmission(req, res);
 
-      await accuracySubmissionController.postAccuracySubmission(mockRequest, res);
-
-      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/mock-back-link`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/task-list`);
     });
 
     it('should redirect with accurate-submission set to yes', async () => {
@@ -160,7 +159,7 @@ describe('controllers/accuracy-submission', () => {
 
       expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should re-render the template with errors if there is any validator error', async () => {

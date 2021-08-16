@@ -133,10 +133,10 @@ describe('controllers/development-plan', () => {
           'has-plan-submitted': 'no',
         },
       };
-      mockRequest.session.backLink = backLinkUrl;
+      mockRequest.session.backLink = '/appeal-questionnaire/mock-id/task-listw';
       await developmentPlanController.postDevelopmentPlan(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith(backLinkUrl);
+      expect(res.redirect).toHaveBeenCalledWith('/appeal-questionnaire/mock-id/task-list');
     });
 
     it('should redirect with has-plan-submitted set to true and plan-changes-text passed', async () => {
