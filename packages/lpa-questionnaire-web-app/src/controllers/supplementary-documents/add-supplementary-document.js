@@ -105,7 +105,7 @@ exports.postAddDocument = async (req, res) => {
   } = req;
 
   if (isFormFullyBlank(rawErrorSummary)) {
-    redirect(res, 'appeal-questionnaire', `/${appealId}/task-list`);
+    redirect(res, 'appeal-questionnaire', `${appealId}/task-list`);
     return;
   }
 
@@ -150,7 +150,7 @@ exports.postAddDocument = async (req, res) => {
 
     renderView(res, VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
       prefix: 'appeal-questionnaire',
-      backLink: `/${appealId}/${VIEW.TASK_LIST}`,
+      backLink: backLink || `${appealId}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary: errorSummary.length ? errorSummary : [{ text: err.toString() }],
       question,
@@ -160,5 +160,5 @@ exports.postAddDocument = async (req, res) => {
     return;
   }
 
-  redirect(res, 'appeal-questionnaire', `/${appealId}/supplementary-documents/uploaded-documents`);
+  redirect(res, 'appeal-questionnaire', `${appealId}/supplementary-documents/uploaded-documents`);
 };
