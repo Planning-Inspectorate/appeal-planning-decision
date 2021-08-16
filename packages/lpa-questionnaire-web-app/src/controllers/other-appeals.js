@@ -74,7 +74,7 @@ exports.postOtherAppeals = async (req, res) => {
       appeal: getAppealSideBarDetails(req.session.appeal),
       backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
-      errorSummary,
+      errorSummary: [{ text: e.toString() }],
       values,
     });
 
