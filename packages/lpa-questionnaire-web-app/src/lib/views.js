@@ -30,6 +30,10 @@ const VIEW = {
     UNHANDLED_EXCEPTION: 'error/unhandled-exception',
   },
   CONTACT_US: 'contact-us',
+  AUTHENTICATION: {
+    ENTER_EMAIL_ADDRESS: 'authentication/your-email',
+    EMAIL_ADDRESS_CONFIRMATION: 'authentication/confirm-email',
+  },
 };
 
 module.exports = {
