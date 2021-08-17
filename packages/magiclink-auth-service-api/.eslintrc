@@ -1,0 +1,18 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 11,
+    "sourceType": "module"
+  },
+  "extends": ["airbnb-base", "prettier"],
+  "plugins": ["jest", "prettier"],
+  "root": true,
+  "ignorePatterns": ["node_modules/**"],
+  "rules": {
+    "prettier/prettier": "error"
+  },
+  "env": {
+    "es2020": true,
+    "node": true,
+    "jest": true
+  }
+}
