@@ -15,7 +15,6 @@ router.post(
   documentTypeValidator,
   filesController.uploadFile
 );
-
 router.post('/delete', authenticate, filesController.deleteFile);
 
 module.exports = router;
