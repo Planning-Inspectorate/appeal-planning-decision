@@ -5,6 +5,10 @@ const authenticate = require('../middleware/authenticate');
 const router = express.Router();
 
 /* GET home page. */
-router.get('/appeal-questionnaire/:id((?!(upload|delete)\\w+))', authenticate, indexController.getIndex);
+router.get(
+  '/appeal-questionnaire/:id((?!(upload|delete)\\w+))',
+  authenticate,
+  indexController.getIndex
+);
 
 module.exports = router;
