@@ -1,0 +1,89 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% block pageTitle %}
+  {% if errorSummary.length %}Error: {% endif %}Your email address - Appeal questionnaire - Appeal a householder planning decision - GOV.UK
+{% endblock %}
+
+{% block content %}
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">
+        Householder planning appeal questionnaire
+      </h1>
+
+      {% if isLinkedExpired %}
+        {% set html %}
+          <p class="govuk-notification-banner__heading">
+           Your link has expired
+          </p>
+          <p class="govuk-body">To get a new link, you need to enter your {{ lpaName }} email address.</p>
+        {% endset %}
+
+        {{ govukNotificationBanner({
+          html: html,
+          titleText: 'Linked expired',
+          role: 'alert',
+          attributes: {
+            'data-cy': 'link-expired-notification'
+          }
+        }) }}
+      {% elif isSessionExpired %}
+        {% set html %}
+          <p class="govuk-notification-banner__heading">
+           Your session has timed out
+          </p>
+          <p class="govuk-body">To return to the questionnaire, you need to enter your {{ lpaName }} email address.</p>
+        {% endset %}
+
+        {{ govukNotificationBanner({
+          html: html,
+          titleText: 'Session expired',
+          role: 'alert',
+          attributes: {
+            'data-cy': 'session-expired-notification'
+          }
+        }) }}
+      {% else %}
+        <p>Before you can access this questionnaire, we need to check you work at {{ lpaName }}.</p>
+      {% endif %}
+
+      <form action="{{ enterEmailLink }}" method="POST" novalidate>
+        {{ govukInput({
+            label: {
+              text: "Your email address",
+              classes: "govuk-label--l",
+              isPageHeading: true
+            },
+            hint: {
+              text: ["Enter your ", lpaName, " email address"] | join
+            },
+            id: "email",
+            name: "email",
+            attributes: {
+               'data-cy': 'lpa-authentication-email'
+            }
+          })
+        }}
+        {{ govukButton({
+              text: "Continue",
+              attributes: {
+                'data-cy': 'submit'
+              }
+           })
+        }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

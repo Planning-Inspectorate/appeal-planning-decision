@@ -24,6 +24,10 @@ const VIEW = {
   INFORMATION_SUBMITTED: 'information-submitted',
   CONFIRM_ANSWERS: 'confirm-answers',
   PDF_GENERATION: 'pdf-generation',
+  AUTHENTICATION: {
+    ENTER_EMAIL_ADDRESS: 'authentication/your-email',
+    EMAIL_ADDRESS_CONFIRMATION: 'authentication/confirm-email',
+  },
 };
 
 module.exports = {
