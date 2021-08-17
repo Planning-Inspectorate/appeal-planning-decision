@@ -3,13 +3,14 @@ const { mockReq, mockRes } = require('../mocks');
 const { VIEW } = require('../../../src/lib/views');
 
 const mockEmail = 'test.email@test.uk';
-const mockAppealId = '123';
+const mockLPACode = '123';
 
 const res = mockRes();
-const req = mockReq({}, mockAppealId);
+const req = mockReq();
+req.params.lpaCode = mockLPACode;
 
 describe('authentication controller', () => {
-  describe('/:id/authentication/your-email', () => {
+  describe('/:lpaCode/authentication/your-email', () => {
     describe('show authentication enter email page', () => {
       it('should call the correct template', () => {
         authenticationController.showEnterEmailAddress(req, res);
@@ -24,7 +25,7 @@ describe('authentication controller', () => {
     });
   });
 
-  describe('/:id/authentication/your-email/session-expired', () => {
+  describe('/:lpaCode/authentication/your-email/session-expired', () => {
     describe('show authentication enter email page with session expired notification ', () => {
       it('should call the correct template', () => {
         const sessionExpiredReq = {
@@ -44,7 +45,7 @@ describe('authentication controller', () => {
     });
   });
 
-  describe('/:id/authentication/your-email/link-expired', () => {
+  describe('/:lpaCode/authentication/your-email/link-expired', () => {
     describe('show authentication enter email page with link expired notification ', () => {
       it('should call the correct template', () => {
         const linkExpiredReq = {
@@ -64,7 +65,7 @@ describe('authentication controller', () => {
     });
   });
 
-  describe('/:id/authentication/your-email', () => {
+  describe('/:lpaCode/authentication/your-email', () => {
     describe('processes email authentication', () => {
       it('should call the correct template', () => {
         authenticationController.processEmailAddress(req, res);
@@ -73,7 +74,7 @@ describe('authentication controller', () => {
     });
   });
 
-  describe('/:id/authentication/confirm-email', () => {
+  describe('/:lpaCode/authentication/confirm-email', () => {
     describe('show authentication email confirmation page', () => {
       it('should call the correct template', () => {
         const confirmEmailReq = {
