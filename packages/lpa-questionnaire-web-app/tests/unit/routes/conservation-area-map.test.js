@@ -10,6 +10,7 @@ const reqFilesToReqBodyFilesMiddleware = require('../../../src/middleware/req-fi
 
 const uploadTasksValidationRules = require('../../../src/validators/upload-tasks');
 const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
+const authenticateMiddleware = require('../../../src/middleware/authenticate');
 
 const { VIEW } = require('../../../src/lib/views');
 
@@ -33,14 +34,23 @@ describe('routes/conservation-area-map', () => {
 
       expect(get).toHaveBeenCalledWith(
         '/:id/conservation-area-map',
-        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
+        [
+          authenticateMiddleware,
+          fetchAppealMiddleware,
+          fetchExistingAppealReplyMiddleware,
+          clearUploadedFilesMiddleware,
+        ],
         getConfig,
         uploadQuestionController.getUpload
       );
 
       expect(post).toHaveBeenCalledWith(
         '/:id/conservation-area-map',
-        [reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
+        [
+          authenticateMiddleware,
+          reqFilesToReqBodyFilesMiddleware('documents'),
+          uploadTasksValidationRules(),
+        ],
         validationErrorHandler,
         getConfig,
         uploadQuestionController.postUpload

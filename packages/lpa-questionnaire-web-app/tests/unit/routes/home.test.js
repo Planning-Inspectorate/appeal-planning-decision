@@ -1,5 +1,6 @@
 const { get } = require('./router-mock');
 const indexController = require('../../../src/controllers');
+const authenticateMiddleware = require('../../../src/middleware/authenticate');
 
 describe('routes/index', () => {
   beforeEach(() => {
@@ -12,6 +13,10 @@ describe('routes/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith('/:id((?!(upload|delete)\\w+))', indexController.getIndex);
+    expect(get).toHaveBeenCalledWith(
+      '/:id((?!(upload|delete)\\w+))',
+      authenticateMiddleware,
+      indexController.getIndex
+    );
   });
 });
