@@ -4,17 +4,19 @@ const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing
 const fetchAppealMiddleware = require('../middleware/fetch-appeal');
 const { validationErrorHandler } = require('../validators/validation-error-handler');
 const { rules: otherAppealsValidationRules } = require('../validators/other-appeals');
+const authenticate = require('../middleware/authenticate');
 
 const router = express.Router();
 
 router.get(
   '/appeal-questionnaire/:id/other-appeals',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+  [authenticate, fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
   otherAppealsController.getOtherAppeals
 );
 
 router.post(
   '/appeal-questionnaire/:id/other-appeals',
+  authenticate,
   otherAppealsValidationRules(),
   validationErrorHandler,
   otherAppealsController.postOtherAppeals

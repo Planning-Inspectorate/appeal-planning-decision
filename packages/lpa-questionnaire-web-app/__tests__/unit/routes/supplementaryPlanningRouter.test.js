@@ -9,6 +9,7 @@ const { validationErrorHandler } = require('../../../src/validators/validation-e
 const supplementaryDocumentsValidationRules = require('../../../src/validators/supplementary-documents');
 const checkIfSupplementaryDocuments = require('../../../src/middleware/check-if-supplementary-documents');
 const deleteSupplementaryDocumentController = require('../../../src/controllers/supplementary-documents/delete-supplementary-document');
+const authenticateMiddleware = require('../../../src/middleware/authenticate');
 
 jest.mock('../../../src/middleware/req-files-to-req-body-files');
 jest.mock('../../../src/validators/supplementary-documents');
@@ -27,12 +28,13 @@ describe('routes/supplementary-documents', () => {
     it('should define the expected routes', () => {
       expect(get).toHaveBeenCalledWith(
         '/appeal-questionnaire/:id/supplementary-documents',
-        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+        [authenticateMiddleware, fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
         supplementaryDocumentsController.getAddDocument
       );
 
       expect(post).toHaveBeenCalledWith(
         '/appeal-questionnaire/:id/supplementary-documents',
+        authenticateMiddleware,
         reqFilesToReqBodyFilesMiddleware('documents'),
         combineDateInputsMiddleware,
         supplementaryDocumentsValidationRules(),
@@ -42,14 +44,14 @@ describe('routes/supplementary-documents', () => {
 
       expect(get).toHaveBeenCalledWith(
         '/appeal-questionnaire/:id/supplementary-documents/uploaded-documents',
-        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+        [authenticateMiddleware, fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
         checkIfSupplementaryDocuments,
         uploadedDocumentsController.getUploadedDocuments
       );
 
       expect(get).toHaveBeenCalledWith(
         '/appeal-questionnaire/:id/supplementary-documents/delete-document',
-        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+        [authenticateMiddleware, fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
         deleteSupplementaryDocumentController.getDeleteDocument
       );
     });

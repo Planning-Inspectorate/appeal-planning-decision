@@ -6,6 +6,7 @@ const { validationErrorHandler } = require('../../../src/validators/validation-e
 const {
   rules: developmentPlanValidationRules,
 } = require('../../../src/validators/development-plan');
+const authenticateMiddleware = require('../../../src/middleware/authenticate');
 
 jest.mock('../../../src/validators/development-plan');
 
@@ -22,11 +23,13 @@ describe('routes/development-plan', () => {
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
       `/appeal-questionnaire/:id/development-plan`,
-      [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+      [authenticateMiddleware, fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
       developmentPlanController.getDevelopmentPlan
     );
+
     expect(post).toHaveBeenCalledWith(
       '/appeal-questionnaire/:id/development-plan',
+      authenticateMiddleware,
       developmentPlanValidationRules(),
       validationErrorHandler,
       developmentPlanController.postDevelopmentPlan
