@@ -28,6 +28,10 @@ const VIEW = {
     NOT_FOUND: 'error/not-found',
     UNHANDLED_EXCEPTION: 'error/unhandled-exception',
   },
+  AUTHENTICATION: {
+    ENTER_EMAIL_ADDRESS: 'authentication/your-email',
+    EMAIL_ADDRESS_CONFIRMATION: 'authentication/confirm-email',
+  },
 };
 
 module.exports = {
