@@ -7,6 +7,7 @@ const reqFilesToReqBodyFilesMiddleware = require('../middleware/req-files-to-req
 const clearUploadedFilesMiddleware = require('../middleware/clear-uploaded-files');
 const uploadValidationRules = require('../validators/upload-tasks');
 const { validationErrorHandler } = require('../validators/validation-error-handler');
+const authenticate = require('../middleware/authenticate');
 
 const router = express.Router();
 
@@ -23,7 +24,12 @@ const getConfig = (_, res, next) => {
 
 router.get(
   '/:id/plans',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
+  [
+    authenticate,
+    fetchAppealMiddleware,
+    fetchExistingAppealReplyMiddleware,
+    clearUploadedFilesMiddleware,
+  ],
   getConfig,
   uploadQuestionController.getUpload
 );
@@ -31,6 +37,7 @@ router.get(
 router.post(
   '/:id/plans',
   [
+    authenticate,
     reqFilesToReqBodyFilesMiddleware('documents'),
     uploadValidationRules('Upload plans used to reach the decision'),
   ],

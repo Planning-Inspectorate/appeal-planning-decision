@@ -7,6 +7,7 @@ const reqFilesToReqBodyFilesMiddleware = require('../middleware/req-files-to-req
 const clearUploadedFilesMiddleware = require('../middleware/clear-uploaded-files');
 const uploadValidationRules = require('../validators/upload-tasks');
 const { validationErrorHandler } = require('../validators/validation-error-handler');
+const authenticate = require('../middleware/authenticate');
 
 const router = express.Router();
 
@@ -23,14 +24,19 @@ const getConfig = (_, res, next) => {
 
 router.get(
   '/:id/site-notice',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
+  [
+    authenticate,
+    fetchAppealMiddleware,
+    fetchExistingAppealReplyMiddleware,
+    clearUploadedFilesMiddleware,
+  ],
   getConfig,
   uploadQuestionController.getUpload
 );
 
 router.post(
   '/:id/site-notice',
-  [reqFilesToReqBodyFilesMiddleware('documents'), uploadValidationRules()],
+  [authenticate, reqFilesToReqBodyFilesMiddleware('documents'), uploadValidationRules()],
   validationErrorHandler,
   getConfig,
   uploadQuestionController.postUpload
