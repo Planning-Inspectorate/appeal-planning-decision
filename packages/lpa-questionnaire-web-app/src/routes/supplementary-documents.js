@@ -8,6 +8,7 @@ const reqFilesToReqBodyFilesMiddleware = require('../middleware/req-files-to-req
 const combineDateInputsMiddleware = require('../middleware/combine-date-inputs');
 const { validationErrorHandler } = require('../validators/validation-error-handler');
 const supplementaryDocumentsValidationRules = require('../validators/supplementary-documents');
+const checkIfSupplementaryDocuments = require('../middleware/check-if-supplementary-documents');
 
 const router = express.Router();
 
@@ -29,6 +30,7 @@ router.post(
 router.get(
   '/appeal-questionnaire/:id/supplementary-documents/uploaded-documents',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+  checkIfSupplementaryDocuments,
   uploadedDocumentsController.getUploadedDocuments
 );
 
