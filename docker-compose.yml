@@ -188,6 +188,25 @@ services:
       - ./packages/lpa-questionnaire-web-app:/opt/app
     command: npm run start:dev
 
+  magiclink-service-api:
+    image: node:14-alpine
+    environment:
+      SRV_NOTIFY_BASE_URL: http://mock-notify:3000
+      SRV_NOTIFY_SERVICE_ID: 'dummy-service-id-for-notify'
+      SRV_NOTIFY_API_KEY: 'dummy-api-key-for-notify'
+      MAGIC_LINK_TEMPLATE_ID: '1cd00f93-9814-44b5-99db-97382b38cf13'
+      DATA_ENCRYPTION_KEY: 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3'
+      JWT_SIGNING_KEY: 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3'
+      MAGIC_LINK_VALIDITY_TIME_MILLIS: '900000' # 15 min
+      COOKIE_VALIDITY_TIME_MILLIS: '14400000' # 4h
+    ports:
+      - 3009:3009
+    working_dir: /opt/app
+    volumes:
+      - ./packages/common:/opt/app/node_modules/@pins/common
+      - ./packages/magiclink-auth-service-api:/opt/app
+    command: npm run start:dev
+
   # This does not work locally with RabbitMQ
   queue-retry:
     image: library/node:14-alpine
