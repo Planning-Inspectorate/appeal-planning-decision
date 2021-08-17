@@ -1,0 +1,91 @@
+openapi: 3.0.0
+info:
+  title: Magic Link Authentication API Documentation
+  description:
+    API to <ul><li>create magic link and send it by email</li><li>authenticate user by creating a JWT cookie</li></ul>
+  version: 1.0.0
+  license:
+    name: MIT
+    url: 'https://opensource.org/licenses/MIT'
+servers:
+  - url: 'http://localhost:3009/'
+paths:
+  '/api/v1/magiclink':
+    post:
+      summary: Creates a magiclink that expires in 15 minutes and sends it via email to 'destinationEmail'.
+      description: |
+        Creates a magiclink URL that has a signed JWT token embeded and sends it via email to 'destinationEmail'.
+        The JWT contains the encrypted request input data and expires in 15 minutes.
+      requestBody:
+        description: Magic link request body that contain information required for the magic link authentication flow.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MagicLink'
+        required: true
+      responses:
+        '200':
+          description: OK
+
+  '/api/v1/magiclink/{magiclink}':
+    get:
+      summary: Authenticates user.
+      description: |
+        Authenticates user by creating a signed JWT token and setting it inside a cookie with the name 'cookieName'.
+        The JWT payload contains the 'userInformation' data.
+      parameters:
+        - in: path
+          name: magiclink
+          required: true
+          schema:
+            type: string
+            format: JWT
+          description: |
+            Magic link token in JWT format that is used for authorisation and information exchange.
+            Authorisation: The JWT signature is used to validate that the token was created by our service and that the payload has not been altered.
+            Information exchange: The JWT payload contains all the details required for the authentication flow.
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '500':
+          description: Server Error
+components:
+  schemas:
+    MagicLink:
+      properties:
+        magicLink:
+          type: object
+          description: This object contains information needed for creating the magic link token and redirecting the user in case of success or failure.
+          properties:
+            destinationEmail:
+              type: string
+              description: The email address where the magiclink will be send to.
+            redirectURL:
+              type: string
+              description: The URL where the user will be redirected when they click on a valid magic link token.
+            expiredLinkRedirectURL:
+              type: string
+              description: The URL where the user will be redirected when they click on a expired magic link token.
+          required:
+            - destinationEmail
+            - redirectURL
+            - expiredLinkRedirectURL
+        authObject:
+          type: object
+          description: This object contains data required for the user authentication.
+          properties:
+            cookieName:
+              type: string
+              description: The name of the cookie that will be stored in the browser.
+            userInformation:
+              type: string
+              description: The user information that will be stored inside the JWT token cookie.
+            tokenValidity:
+              type: string
+              description: The JWT token validity time in miliseconds.
+          required:
+            - cookieName
+            - userInformation
+            - tokenValidity
