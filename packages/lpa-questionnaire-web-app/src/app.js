@@ -18,6 +18,7 @@ const config = require('./config');
 const logger = require('./lib/logger');
 const routes = require('./routes');
 const { VIEW } = require('./lib/views');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session(sessionConfig()));
+
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(
   '/assets',
@@ -64,6 +66,7 @@ app.use(
 app.use(fileUpload(config.fileUpload));
 
 // Routes
+app.use('/', authRoutes);
 app.use('/', routes);
 
 // View Engine
