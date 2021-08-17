@@ -11,6 +11,7 @@ const mockReq = (appealReply = emptyAppealReply, id = 'mock-id') => ({
   session: {
     appealReply,
   },
+  get: jest.fn(),
 });
 
 const mockRes = () => {
@@ -21,6 +22,7 @@ const mockRes = () => {
   res.status = jest.fn().mockReturnValue(res);
   res.json = jest.fn().mockReturnValue(res);
   res.send = jest.fn().mockReturnValue(res);
+  res.cookie = jest.fn().mockReturnValue(res);
   return res;
 };
 
