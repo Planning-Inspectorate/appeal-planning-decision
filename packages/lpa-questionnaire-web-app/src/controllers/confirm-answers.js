@@ -3,6 +3,7 @@ const checkAnswersSections = require('../lib/check-answers-sections');
 const { renderView } = require('../util/render');
 
 module.exports = (req, res) => {
+  req.session.isCheckingAnswers = true;
   const { appealReply } = req.session;
   const sections = checkAnswersSections(appealReply, req.params.id);
 

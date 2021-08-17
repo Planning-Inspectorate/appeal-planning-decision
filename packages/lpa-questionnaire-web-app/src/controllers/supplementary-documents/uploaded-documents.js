@@ -29,6 +29,10 @@ const populateUploadedFiles = (req) => {
 
 exports.getUploadedDocuments = (req, res) => {
   const backLink = res.locals.backLink || req.session.backLink;
+  const continueLink =
+    req.session.isCheckingAnswers === true
+      ? `/${req.session.appealReply.appealId}/confirm-answers`
+      : backLink;
   const uploadedDocumentsUrl = `${req.protocol}://${req.headers.host}${req.url}`.replace(
     '/uploaded-documents',
     ''
@@ -41,5 +45,6 @@ exports.getUploadedDocuments = (req, res) => {
     appeal: getAppealSideBarDetails(req.session.appeal),
     backLink: backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
     question,
+    continueLink,
   });
 };

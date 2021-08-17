@@ -36,6 +36,7 @@ function buildTaskLists(appealReply, appealId) {
 }
 
 exports.getTaskList = (req, res) => {
+  req.session.isCheckingAnswers = false;
   const { appealReply } = req.session;
   const sections = buildTaskLists(appealReply, req.params.id);
   const applicationStatus = 'Application incomplete';
