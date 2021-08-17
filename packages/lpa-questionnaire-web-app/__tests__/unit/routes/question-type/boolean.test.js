@@ -5,6 +5,7 @@ const fetchAppealMiddleware = require('../../../../src/middleware/fetch-appeal')
 const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const booleanQuestionRules = require('../../../../src/validators/question-type/boolean');
 const alreadySubmittedMiddleware = require('../../../../src/middleware/already-submitted');
+const authenticateMiddleware = require('../../../../src/middleware/authenticate');
 
 const mockQuestions = [
   {
@@ -30,12 +31,18 @@ describe('routes/question-type/boolean', () => {
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
       `/appeal-questionnaire/:id/mock-url`,
-      [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+      [
+        authenticateMiddleware,
+        fetchAppealMiddleware,
+        fetchExistingAppealReplyMiddleware,
+        alreadySubmittedMiddleware,
+      ],
       expect.any(Function),
       booleanQuestionController.getBooleanQuestion
     );
     expect(post).toHaveBeenCalledWith(
       `/appeal-questionnaire/:id/mock-url`,
+      authenticateMiddleware,
       booleanQuestionRules('Mock error'),
       validationErrorHandler,
       expect.any(Function),
