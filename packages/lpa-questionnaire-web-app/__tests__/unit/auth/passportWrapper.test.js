@@ -1,8 +1,8 @@
 jest.mock('passport');
 const passport = require('passport');
 const passportWrapper = require('../../../src/services/authentication/passportWrapper');
-const ExpiredJWTError = require('../../../src/services/authentication/error/ExpiredTokenError');
-const InvalidJWTError = require('../../../src/services/authentication/error/InvalidTokenError');
+const ExpiredJWTError = require('../../../src/services/authentication/error/ExpiredJWTError');
+const InvalidJWTError = require('../../../src/services/authentication/error/InvalidJWTError');
 const { mockReq, mockRes } = require('../mocks');
 
 function mockPassportAuthenticateResponse(error, response) {
@@ -16,40 +16,40 @@ describe('passportWrapper.authenticate', () => {
   const req = mockReq();
   const res = mockRes();
 
-  let tokenPayload;
+  let jwtPayload;
 
   beforeEach(() => {
-    tokenPayload = {
+    jwtPayload = {
       exp: 1912235086000,
       userData: {},
     };
   });
 
-  describe('with valid tokenPayload', () => {
-    it('should resolve promise with tokenPayload value', async () => {
-      mockPassportAuthenticateResponse(null, tokenPayload);
+  describe('with valid jwtPayload', () => {
+    it('should resolve promise with jwtPayload value', async () => {
+      mockPassportAuthenticateResponse(null, jwtPayload);
 
       const response = await passportWrapper.authenticate(strategyName, req, res);
 
-      expect(response).toEqual(tokenPayload);
+      expect(response).toEqual(jwtPayload);
     });
   });
 
-  describe('with expired tokenPayload', () => {
+  describe('with expired jwtPayload', () => {
     it('should reject promise with ExpiredJWTError', async () => {
-      tokenPayload.exp = '123';
-      mockPassportAuthenticateResponse(null, tokenPayload);
+      jwtPayload.exp = '123';
+      mockPassportAuthenticateResponse(null, jwtPayload);
 
       try {
         await passportWrapper.authenticate(strategyName, req, res);
       } catch (err) {
         expect(err.name).toEqual(ExpiredJWTError.name);
-        expect(err.tokenPayload).toEqual(tokenPayload);
+        expect(err.jwtPayload).toEqual(jwtPayload);
       }
     });
   });
 
-  describe('with missing or invalid tokenPayload', () => {
+  describe('with missing or invalid jwtPayload', () => {
     it('should reject promise with InvalidJWTError', async () => {
       mockPassportAuthenticateResponse(null, false);
 
