@@ -11,6 +11,7 @@ const { validationErrorHandler } = require('../validators/validation-error-handl
 const supplementaryDocumentsValidationRules = require('../validators/supplementary-documents');
 const checkIfSupplementaryDocuments = require('../middleware/check-if-supplementary-documents');
 const alreadySubmittedMiddleware = require('../middleware/already-submitted');
+const authenticate = require('../middleware/authenticate');
 
 const router = express.Router();
 
@@ -22,12 +23,18 @@ const getConfig = (req, res, next) => {
 
 router.get(
   '/appeal-questionnaire/:id/supplementary-documents',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+  [
+    authenticate,
+    fetchAppealMiddleware,
+    fetchExistingAppealReplyMiddleware,
+    alreadySubmittedMiddleware,
+  ],
   addSupplementaryDocumentController.getAddDocument
 );
 
 router.post(
   '/appeal-questionnaire/:id/supplementary-documents',
+  authenticate,
   reqFilesToReqBodyFilesMiddleware('documents'),
   combineDateInputsMiddleware,
   supplementaryDocumentsValidationRules(),
@@ -38,20 +45,35 @@ router.post(
 
 router.get(
   '/appeal-questionnaire/:id/supplementary-documents/uploaded-documents',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+  [
+    authenticate,
+    fetchAppealMiddleware,
+    fetchExistingAppealReplyMiddleware,
+    alreadySubmittedMiddleware,
+  ],
   checkIfSupplementaryDocuments,
   uploadedDocumentsController.getUploadedDocuments
 );
 
 router.get(
   '/appeal-questionnaire/:id/supplementary-documents/delete-document',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+  [
+    authenticate,
+    fetchAppealMiddleware,
+    fetchExistingAppealReplyMiddleware,
+    alreadySubmittedMiddleware,
+  ],
   deleteSupplementaryDocumentController.getDeleteDocument
 );
 
 router.post(
   '/appeal-questionnaire/:id/supplementary-documents/delete-document',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+  [
+    authenticate,
+    fetchAppealMiddleware,
+    fetchExistingAppealReplyMiddleware,
+    alreadySubmittedMiddleware,
+  ],
   deleteSupplementaryDocumentController.postDeleteDocument
 );
 
