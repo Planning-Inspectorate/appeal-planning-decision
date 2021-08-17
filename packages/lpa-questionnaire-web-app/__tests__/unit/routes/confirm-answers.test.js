@@ -3,6 +3,7 @@ const { VIEW } = require('../../../src/lib/views');
 const confirmAnswersController = require('../../../src/controllers/confirm-answers');
 const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
 const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
+const authenticateMiddleware = require('../../../src/middleware/authenticate');
 
 describe('routes/confirm-answers', () => {
   beforeEach(() => {
@@ -17,7 +18,7 @@ describe('routes/confirm-answers', () => {
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
       `/appeal-questionnaire/:id/${VIEW.CONFIRM_ANSWERS}`,
-      [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+      [authenticateMiddleware, fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
       confirmAnswersController
     );
   });

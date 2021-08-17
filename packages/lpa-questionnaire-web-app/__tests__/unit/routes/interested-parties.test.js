@@ -10,6 +10,7 @@ const reqFilesToReqBodyFilesMiddleware = require('../../../src/middleware/req-fi
 
 const uploadTasksValidationRules = require('../../../src/validators/upload-tasks');
 const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
+const authenticateMiddleware = require('../../../src/middleware/authenticate');
 
 const { VIEW } = require('../../../src/lib/views');
 
@@ -33,14 +34,23 @@ describe('routes/interested-parties', () => {
 
       expect(get).toHaveBeenCalledWith(
         '/appeal-questionnaire/:id/interested-parties',
-        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
+        [
+          authenticateMiddleware,
+          fetchAppealMiddleware,
+          fetchExistingAppealReplyMiddleware,
+          clearUploadedFilesMiddleware,
+        ],
         getConfig,
         uploadQuestionController.getUpload
       );
 
       expect(post).toHaveBeenCalledWith(
         '/appeal-questionnaire/:id/interested-parties',
-        [reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
+        [
+          authenticateMiddleware,
+          reqFilesToReqBodyFilesMiddleware('documents'),
+          uploadTasksValidationRules(),
+        ],
         validationErrorHandler,
         getConfig,
         uploadQuestionController.postUpload
