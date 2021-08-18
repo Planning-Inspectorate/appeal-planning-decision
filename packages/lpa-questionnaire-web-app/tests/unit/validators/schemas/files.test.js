@@ -1,3 +1,4 @@
+const validAV = require('pins-clamav');
 const { validMimeType } = require('pins-mime-validation');
 const schema = require('../../../../src/validators/schemas/files');
 const validateFileSize = require('../../../../src/validators/custom/file-size');
@@ -11,13 +12,14 @@ const {
 } = require('../../../../src/lib/file-upload-helpers');
 const config = require('../../../../src/config');
 
+jest.mock('pins-clamav');
 jest.mock('pins-mime-validation');
 jest.mock('../../../../src/validators/custom/file-size');
 jest.mock('../../../../src/config');
 
 describe('validators/schemas/files', () => {
-  it('has a defined custom schema object', () => {
-    expect(schema['files.documents.*'].custom.options).toBeDefined();
+  it('has a defined custom schema object', async () => {
+    expect(await schema['files.documents.*'].custom.options).toBeDefined();
   });
 
   describe(`schema['files.documents.*'].custom.options`, () => {
@@ -43,8 +45,10 @@ describe('validators/schemas/files', () => {
       );
     });
 
-    it('should call the validateFileSize validator', () => {
-      fn({ mimetype: MIME_TYPE_JPEG, name: 'pingu.penguin', size: 12345 });
+    it('should call the validateFileSize validator', async () => {
+      await fn({ mimetype: MIME_TYPE_JPEG, name: 'pingu.penguin', size: 12345 });
+
+      expect(validAV).toHaveBeenCalled();
       expect(validateFileSize).toHaveBeenCalledWith(
         12345,
         config.fileUpload.pins.maxFileSize,
