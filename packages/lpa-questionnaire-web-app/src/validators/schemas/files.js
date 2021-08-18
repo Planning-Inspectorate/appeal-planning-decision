@@ -1,3 +1,4 @@
+const validAV = require('pins-clamav');
 const { validMimeType } = require('pins-mime-validation');
 const config = require('../../config');
 const validateFileSize = require('../custom/file-size');
@@ -13,7 +14,7 @@ const {
 module.exports = {
   'files.documents.*': {
     custom: {
-      options: (value) => {
+      options: async (value) => {
         const { name, mimetype, size } = value;
 
         validMimeType(
@@ -28,6 +29,9 @@ module.exports = {
           ],
           `${name} is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG`
         );
+
+        // check file for Virus
+        await validAV(value, name);
 
         validateFileSize(size, config.fileUpload.pins.maxFileSize, name);
 
