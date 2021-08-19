@@ -1,6 +1,8 @@
 # Write your PowerShell commands here.
 
-$path = "$(System.DefaultWorkingDirectory)/CypressTests/AppealsServiceTests"
+param ($path)
+
+#$path = "$(System.DefaultWorkingDirectory)/CypressTests/AppealsServiceTests"
 $endpoint = "www.google.com" #"https://appeals-dev.planninginspectorate.gov.uk" # make this a variable
 Set-Location -Path ${path}
 
