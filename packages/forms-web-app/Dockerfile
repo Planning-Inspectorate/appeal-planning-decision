@@ -12,7 +12,9 @@ ENV PORT=3000
 COPY --from=pinscommonukscontainers3887default.azurecr.io/planninginspectorateappealplanningdecision:960-commons-image /opt/app ../common
 COPY --from=pinscommonukscontainers3887default.azurecr.io/planninginspectorateappealplanningdecision:1.0.3-business-rules /opt/app ../business-rules
 
-COPY package*.json ./
+ADD package.json package.json
+ADD package-lock.json package-lock.json
+
 ADD __tests__ __tests__
 RUN npm i
 COPY . ./
