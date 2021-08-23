@@ -14,6 +14,8 @@ trigger:
 resources:
   - repo: self
 
+name: '0.0.0' # set dynamically below in a task
+
 variables:
   # VERSION INFO ----------------------------------------------------------
   version.MajorMinor: '1.0' # Manually adjust the version number as needed for semantic versioning. Revision is auto-incremented.
