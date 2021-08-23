@@ -27,9 +27,11 @@ ADD __tests__ __tests__
 # ADD node_modules node_modules
 ADD package.json package.json
 ADD package-lock.json package-lock.json
-RUN npm prune --production \
-  && npm rebuild \
-  && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
+
+RUN npm i --production
+# RUN npm prune --production \
+# && npm rebuild \
+# && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
 RUN npm install; npm run documentation; echo $? > /npm.exitcode
 EXPOSE 3000
 USER node
