@@ -14,7 +14,6 @@ COPY --from=pinscommonukscontainers3887default.azurecr.io/planninginspectorateap
 
 ADD package.json package.json
 ADD package-lock.json package-lock.json
-
 ADD __tests__ __tests__
 RUN npm i
 COPY . ./
