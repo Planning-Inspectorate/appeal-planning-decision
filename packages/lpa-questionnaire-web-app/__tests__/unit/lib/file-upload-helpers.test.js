@@ -213,6 +213,10 @@ describe('lib/file-upload-helpers', () => {
   });
 
   describe('uploadFiles', () => {
+    afterAll(async () => {
+      jest.resetAllMocks();
+    });
+
     const mockId = 'abc-123';
 
     it('should return an array of uploaded files', async () => {
