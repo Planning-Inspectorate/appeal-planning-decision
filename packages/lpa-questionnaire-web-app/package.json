@@ -70,6 +70,6 @@
     "prettier": "^2.1.2"
   },
   "jest" : {
-    "resetMocks": "false"
+    "resetMocks": false
   }
 }
