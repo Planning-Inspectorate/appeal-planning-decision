@@ -13,6 +13,19 @@ function handleInvalidTokenError(req, res, err) {
   return res.status(404).send();
 }
 
+/**
+ * Authenticates the user using the magic link token defined inside the request path param. Sets the magic link token payload data on the request if authentication is successfull.
+ *
+ * The following logic is used:
+ * If the token is valid and is not expired, the JWT token payload data is set on the request object and next function is called.
+ * If the token is expired, the user is redirected to the 'expiredLinkRedirectURL' value defined inside the JWT token payload.
+ * If the token is invalid, the user is redirected to the 404 error page.
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise<*>}
+ */
 module.exports = async (req, res, next) => {
   try {
     const token = await authenticationService.authenticate(req, res);

@@ -17,6 +17,12 @@ const magicLinkDataSchema = yup.object().shape({
   auth: authObject.required(),
 });
 
+/**
+ * Validates the magicLinkData request payload.
+ *
+ * @param magicLinkData
+ * @returns promise that returns the given magicLinkData if data is valid, throws error otherwise.
+ */
 async function validate(magicLinkData) {
   return magicLinkDataSchema.validate(magicLinkData, { abortEarly: false, allowUnknown: false });
 }

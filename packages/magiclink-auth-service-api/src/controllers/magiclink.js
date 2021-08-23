@@ -5,12 +5,36 @@ const createAuthToken = require('../interactors/createAuthToken');
 const logger = require('../util/logger');
 const dateUtils = require('../util/dateUtil');
 
+/**
+ * Creates a magic link URL that has a signed JWT token embedded and sends it via email to the given 'destinationEmail'.
+ * The JWT contains the encrypted request body data and has an expiration time.
+ *
+ * @param req HTTP request object that contains the data required for the magic link authentication flow.
+ * Request body payload example: {
+ *  "magicLink": {
+ *    "redirectURL": "http://localhost:9001/89aa8504-773c-42be-bb68-029716ad9756/task-list",
+ *    "expiredLinkRedirectURL": "http://localhost:9001/E69999999/authentication/your-email/link-expired",
+ *    "destinationEmail": "email.test@test.com"
+ *  },
+ * "auth": {
+ *    "userInformation": {
+ *      "email": "adriana.test@gmail.com",
+ *      "lpaCode": "E69999999"
+ *    },
+ *    "tokenValidity": 400000,
+ *    "cookieName": "authCookie"
+ *  }
+ * }
+ * @param res HTTP response object.
+ * @returns magicLink URL in case of success
+ */
 function create(req, res) {
   logger.debug('Enter magic link controller');
 
   const magicLinkData = req.body;
   const magicLinkEndpoint = createMagicLink(req.protocol, req.get('host'), magicLinkData);
 
+  // we don't need to wait for the response
   sendMagicLinkEmail(magicLinkData.magicLink.destinationEmail, magicLinkEndpoint);
 
   return res.status(201).send({ magicLink: magicLinkEndpoint });
@@ -23,6 +47,14 @@ function setCookie(res, name, token) {
   });
 }
 
+/**
+ * Authenticates user by creating a signed JWT token and setting it inside a cookie. The JWT token payload contains
+ * the 'magicLinkData.auth' object received in the request payload.
+ *
+ * @param req HTTP request object that contains magicLinkData.
+ * @param res HTTP response object.
+ * @returns redirects to the 'redirectURL' attribute value in case of success.
+ */
 function login(req, res) {
   logger.debug('Enter login controller');
   const authData = req.magicLinkData.auth;
