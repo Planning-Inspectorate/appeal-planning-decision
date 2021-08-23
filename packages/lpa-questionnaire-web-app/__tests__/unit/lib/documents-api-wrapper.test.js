@@ -1,5 +1,4 @@
-import fetchMock from 'jest-fetch-mock';
-
+const fetch = require('node-fetch');
 const { createDocument, deleteDocument } = require('../../../src/lib/documents-api-wrapper');
 
 const mockLogger = jest.fn();
@@ -18,7 +17,7 @@ jest.mock('uuid', () => ({
 
 describe('lib/documents-api-wrapper', () => {
   beforeEach(() => {
-    fetchMock.resetMocks();
+    fetch.resetMocks();
   });
 
   describe('createDocument', () => {
@@ -33,12 +32,12 @@ describe('lib/documents-api-wrapper', () => {
     });
 
     it('should throw if fetch fails', async () => {
-      fetchMock.mockReject(new Error('fake error message'));
+      fetch.mockReject(new Error('fake error message'));
       expect(createDocument(mockId, data)).rejects.toThrow('fake error message');
     });
 
     it('should throw if the remote API response is not ok', async () => {
-      fetchMock.mockResponse('fake response body', { status: 400 });
+      fetch.mockResponse('fake response body', { status: 400 });
       try {
         await createDocument(mockId, data);
         expect('to be').not.toBe('to be');
@@ -48,7 +47,7 @@ describe('lib/documents-api-wrapper', () => {
     });
 
     it('should throw if the response code is anything other than a 202', async () => {
-      fetchMock.mockResponse('a response body', { status: 204 });
+      fetch.mockResponse('a response body', { status: 204 });
       try {
         await createDocument(mockId, data);
         expect('to be').not.toBe('to be');
@@ -58,7 +57,7 @@ describe('lib/documents-api-wrapper', () => {
     });
 
     it('should throw if the document response is missing an `id`', async () => {
-      fetchMock.mockResponse(
+      fetch.mockResponse(
         JSON.stringify({
           name: 'tmp-2-1607684291243',
         }),
@@ -74,7 +73,7 @@ describe('lib/documents-api-wrapper', () => {
 
     [null, undefined].forEach((given) => {
       it(`should throw if the document response 'id' is ${given}`, async () => {
-        fetchMock.mockResponse(
+        fetch.mockResponse(
           JSON.stringify({
             id: given,
             name: 'tmp-2-1607684291243',
@@ -105,7 +104,7 @@ describe('lib/documents-api-wrapper', () => {
     });
 
     it('should return the expected response if the fetch status is 202 with form data input', async () => {
-      fetchMock.mockResponse(
+      fetch.mockResponse(
         JSON.stringify({
           applicationId: 123,
           id: '123-abc-456-xyz',
@@ -121,7 +120,7 @@ describe('lib/documents-api-wrapper', () => {
     });
 
     it('should return the expected response if the fetch status is 202 with form data input with name overrided', async () => {
-      fetchMock.mockResponse(
+      fetch.mockResponse(
         JSON.stringify({
           applicationId: 123,
           id: '123-abc-456-xyz',
@@ -138,7 +137,7 @@ describe('lib/documents-api-wrapper', () => {
     });
 
     it('should return the expected response if the fetch status is 202 with data buffer input', async () => {
-      fetchMock.mockResponse(
+      fetch.mockResponse(
         JSON.stringify({
           applicationId: 123,
           id: '123-abc-456-xyz',
@@ -162,22 +161,22 @@ describe('lib/documents-api-wrapper', () => {
     });
 
     it('should throw if fetch fails', async () => {
-      fetchMock.mockReject(new Error('fake error message'));
+      fetch.mockReject(new Error('fake error message'));
       expect(deleteDocument(mockDocument)).rejects.toThrow('fake error message');
     });
 
     it('should throw if the remote API response is not ok', () => {
-      fetchMock.mockResponse('fake response body', { status: 400 });
+      fetch.mockResponse('fake response body', { status: 400 });
       expect(deleteDocument(mockDocument)).rejects.toThrow('Bad Request');
     });
 
     it('should throw if the response code is anything other than a 204', async () => {
-      fetchMock.mockResponse('a response body', { status: 205 });
+      fetch.mockResponse('a response body', { status: 205 });
       expect(deleteDocument(mockDocument)).rejects.toThrow('Reset Content');
     });
 
     it('should return the expected response if the fetch status is 204', async () => {
-      fetchMock.mockResponse(
+      fetch.mockResponse(
         JSON.stringify({
           deletedId: 123,
         }),
