@@ -154,11 +154,11 @@ describe('lib/file-upload-helpers', () => {
 
   describe('fileUploadNunjucksVariables', () => {
     it('outputs the expected variables', () => {
-      const files = [{ name: 'mock-file', error: 'some error' }, { name: 'another-file-x' }];
+      const files = [{ name: 'mock-file', error: 'some error' }, { name: 'another-file' }];
 
       const errorSummary = fileErrorSummary('mock-input-error', files);
       expect(fileUploadNunjucksVariables('mock-input-error', errorSummary, files)).toEqual({
-        documentList: '{"name":"mock-file","error":"some error"},{"name":"another-file-x"}',
+        documentList: '{"name":"mock-file","error":"some error"},{"name":"another-file"}',
         errorMessage: 'mock-input-error',
         errorSummary: [
           {
@@ -190,14 +190,14 @@ describe('lib/file-upload-helpers', () => {
             deleteButton: {
               text: 'Delete',
             },
-            fileName: 'another-file-y',
-            originalFileName: 'another-file-y',
+            fileName: 'another-file',
+            originalFileName: 'another-file',
             message: {
               html: `<span class="moj-multi-file-upload__success">
       <svg class="moj-banner__icon" fill="currentColor" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" height="25" width="25">
         <path d="M25,6.2L8.7,23.2L0,14.1l4-4.2l4.7,4.9L21,2L25,6.2z"/>
       </svg>
-      another-file-y
+      another-file
     </span>`,
             },
           },
@@ -218,41 +218,6 @@ describe('lib/file-upload-helpers', () => {
     });
 
     const mockId = 'abc-123';
-
-    it('should return an array of uploaded files', async () => {
-      createDocument
-        .mockImplementationOnce(() => ({ id: 'mock-id-1' }))
-        .mockImplementationOnce(() => ({ id: 'mock-id-2' }));
-
-      const uploadedFiles1 = [{ name: 'mock-file' }, { name: 'another-file-z' }];
-
-      const result = await uploadFiles(uploadedFiles1, mockId);
-
-      expect(result).toEqual([
-        {
-          fileName: 'mock-file',
-          id: 'mock-id-1',
-          location: undefined,
-          message: {
-            text: 'mock-file',
-          },
-          name: 'mock-file',
-          originalFileName: 'mock-file',
-          size: undefined,
-        },
-        {
-          fileName: 'another-file-z',
-          id: 'mock-id-2',
-          location: undefined,
-          message: {
-            text: 'another-file-z',
-          },
-          name: 'another-file-z',
-          originalFileName: 'another-file-z',
-          size: undefined,
-        },
-      ]);
-    });
 
     it('should not upload a file if it has an ID', async () => {
       const uploadedFiles2 = [{ name: 'mock-file', id: 'mock-id' }];
@@ -275,12 +240,47 @@ describe('lib/file-upload-helpers', () => {
       ]);
     });
 
+    it('should return an array of uploaded files', async () => {
+      createDocument
+        .mockImplementationOnce(() => ({ id: 'mock-id-1' }))
+        .mockImplementationOnce(() => ({ id: 'mock-id-2' }));
+
+      const uploadedFiles1 = [{ name: 'mock-file' }, { name: 'another-file' }];
+
+      const result = await uploadFiles(uploadedFiles1, mockId);
+
+      expect(result).toEqual([
+        {
+          fileName: 'mock-file',
+          id: 'mock-id-1',
+          location: undefined,
+          message: {
+            text: 'mock-file',
+          },
+          name: 'mock-file',
+          originalFileName: 'mock-file',
+          size: undefined,
+        },
+        {
+          fileName: 'another-file',
+          id: 'mock-id-2',
+          location: undefined,
+          message: {
+            text: 'another-file',
+          },
+          name: 'another-file',
+          originalFileName: 'another-file',
+          size: undefined,
+        },
+      ]);
+    });
+
     it('should throw an error if there is a problem with the document service', async () => {
       createDocument
         .mockImplementationOnce(() => ({ id: 'mock-id-1' }))
         .mockRejectedValueOnce('API is down');
 
-      const uploadedFiles3 = [{ name: 'mock-file' }, { name: 'another-file-a' }];
+      const uploadedFiles3 = [{ name: 'mock-file' }, { name: 'another-file' }];
 
       try {
         await uploadFiles(uploadedFiles3, mockId);
