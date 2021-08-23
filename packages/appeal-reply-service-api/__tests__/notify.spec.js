@@ -1,7 +1,7 @@
 const mockError = jest.fn();
 const mockInfo = jest.fn();
 
-jest.doMock('../lib/logger', () => ({
+jest.doMock('../src/lib/logger', () => ({
   error: mockError,
   info: mockInfo,
 }));
