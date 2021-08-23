@@ -1,14 +1,14 @@
 const request = require('supertest');
 const { MongoClient } = require('mongodb');
 const uuid = require('uuid');
-const mongodb = require('../db/db');
-const app = require('../app');
-const ReplyModel = require('../models/replySchema');
-const notify = require('../lib/notify');
+const mongodb = require('../src/db/db');
+const app = require('../src/app');
+const ReplyModel = require('../src/models/replySchema');
+const notify = require('../src/lib/notify');
 
-jest.mock('../lib/queue');
-jest.mock('../lib/notify');
-jest.mock('../db/db');
+jest.mock('../src/lib/queue');
+jest.mock('../src/lib/notify');
+jest.mock('../src/db/db');
 
 const endpoint = '/api/v1/reply';
 const dbId = 'reply';
