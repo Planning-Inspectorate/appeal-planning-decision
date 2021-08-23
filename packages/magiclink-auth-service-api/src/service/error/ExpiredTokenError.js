@@ -1,8 +1,8 @@
-module.exports = class ExpiredJWTError extends Error {
-  constructor(message, jwtPayload) {
+module.exports = class ExpiredTokenError extends Error {
+  constructor(message, tokenPayload) {
     super(message);
     this.name = this.constructor.name;
     Error.captureStackTrace(this, this.constructor);
-    this.jwtPayload = jwtPayload;
+    this.tokenPayload = tokenPayload;
   }
 };

@@ -4,7 +4,7 @@ const logger = require('../util/logger');
 
 module.exports = async (req, res, next) => {
   try {
-    req.body = await magicLinkDataValidator(req.body);
+    req.body = await magicLinkDataValidator.validate(req.body);
     logger.debug('Magic link request body is valid.');
     return next();
   } catch (err) {
