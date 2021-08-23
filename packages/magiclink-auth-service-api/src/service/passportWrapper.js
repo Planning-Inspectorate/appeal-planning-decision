@@ -6,6 +6,14 @@ function isTokenExpired(tokenPayload) {
   return tokenPayload.exp <= new Date().valueOf();
 }
 
+/**
+ * Wrapper function on top of the passport library.
+ *
+ * @param strategyName passportStrategy
+ * @param req HTTP request object
+ * @param res HTTP response object
+ * @returns {Promise<unknown>} promise that returns token payload if passport authentication is successful or one of the custom errors @type {ExpiredTokenError|InvalidTokenError} otherwise.
+ */
 async function authenticate(strategyName, req, res) {
   return new Promise((resolve, reject) => {
     passport.authenticate(strategyName, (err, tokenPayload) => {

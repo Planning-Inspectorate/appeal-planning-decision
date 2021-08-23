@@ -1,3 +1,7 @@
+/**
+ * Error thrown during authentication when the token is invalid.
+ * @type {InvalidTokenError}
+ */
 module.exports = class InvalidTokenError extends Error {
   constructor(message) {
     super(message);
