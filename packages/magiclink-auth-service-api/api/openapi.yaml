@@ -10,7 +10,7 @@ info:
 servers:
   - url: 'http://localhost:3009/'
 paths:
-  '/api/v1/magiclink':
+  '/magiclink':
     post:
       summary: Creates a magiclink that expires in 15 minutes and sends it via email to 'destinationEmail'.
       description: |
@@ -27,7 +27,7 @@ paths:
         '200':
           description: OK
 
-  '/api/v1/magiclink/{magiclink}':
+  '/magiclink/{magiclink}':
     get:
       summary: Authenticates user.
       description: |
@@ -42,8 +42,10 @@ paths:
             format: JWT
           description: |
             Magic link token in JWT format that is used for authorisation and information exchange.
-            Authorisation: The JWT signature is used to validate that the token was created by our service and that the payload has not been altered.
-            Information exchange: The JWT payload contains all the details required for the authentication flow.
+            <ul>
+            <li>Authorisation: The JWT signature is used to validate that the token was created by our service and that the payload has not been altered.</li>
+            <li>Information exchange: The JWT payload contains all the details required for the authentication flow.</li>
+            </ul>
       responses:
         '200':
           description: OK
