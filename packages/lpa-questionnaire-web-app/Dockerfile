@@ -14,6 +14,7 @@ COPY --from=pinscommonukscontainers3887default.azurecr.io/planninginspectorateap
 #ADD dist dist
 #ADD node_modules node_modules
 ADD src src
+ADD __tests__ __tests__
 ADD package.json package.json
 ADD package-lock.json package-lock.json
 #RUN npm i --production

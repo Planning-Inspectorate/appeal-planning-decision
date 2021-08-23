@@ -24,7 +24,7 @@ variables:
   # -----------------------------------------------------------------------
 
   # Container registry service connection established during pipeline creation
-  formsWebAppDockerfilePath: '$(Build.SourcesDirectory)/packages/lpa-questionnaire-web-app/Dockerfile'
+  lpaQuestionnaireWebAppDockerfilePath: '$(Build.SourcesDirectory)/packages/lpa-questionnaire-web-app/Dockerfile'
   imageRepository: 'planninginspectorateappealplanningdecision'
   containerRegistry: 'pinscommonukscontainers3887default.azurecr.io'
   dockerRegistryServiceConnection: 'appeals-service-api-registry-connection' ## this needs renamed
@@ -49,11 +49,11 @@ stages:
                 Write-Host "Setting the name of the build to '$buildName'."
                 Write-Host "##vso[build.updatebuildnumber]$buildName"
 
-  - stage: Build_and_Push_Forms_Web_App
-    displayName: Build, Test and Push Forms Web App
+  - stage: Build_and_Push_LPA_Questionnaire
+    displayName: Build, Test and Push LPA Questionnaire
     jobs:
-      - job: Build_Test_Push_Forms_Web_App
-        displayName: Build Forms Web App
+      - job: Build_Test_Push_LPA_Questionnaire
+        displayName: Build LPA Questionnaire
         pool:
           vmImage: $(vmImageName)
         steps:
@@ -62,7 +62,7 @@ stages:
             inputs:
               command: build
               repository: $(imageRepository)
-              dockerfile: $(formsWebAppDockerfilePath)
+              dockerfile: $(lpaQuestionnaireWebAppDockerfilePath)
               containerRegistry: $(dockerRegistryServiceConnection)
               arguments: >
                 --build-arg APP_NAME=lpa-questionnaire-web-app
