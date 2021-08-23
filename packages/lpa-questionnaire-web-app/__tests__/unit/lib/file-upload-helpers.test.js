@@ -154,11 +154,11 @@ describe('lib/file-upload-helpers', () => {
 
   describe('fileUploadNunjucksVariables', () => {
     it('outputs the expected variables', () => {
-      const files = [{ name: 'mock-file', error: 'some error' }, { name: 'another-file' }];
+      const files = [{ name: 'mock-file', error: 'some error' }, { name: 'another-file-x' }];
 
       const errorSummary = fileErrorSummary('mock-input-error', files);
       expect(fileUploadNunjucksVariables('mock-input-error', errorSummary, files)).toEqual({
-        documentList: '{"name":"mock-file","error":"some error"},{"name":"another-file"}',
+        documentList: '{"name":"mock-file","error":"some error"},{"name":"another-file-x"}',
         errorMessage: 'mock-input-error',
         errorSummary: [
           {
@@ -190,14 +190,14 @@ describe('lib/file-upload-helpers', () => {
             deleteButton: {
               text: 'Delete',
             },
-            fileName: 'another-file',
-            originalFileName: 'another-file',
+            fileName: 'another-file-y',
+            originalFileName: 'another-file-y',
             message: {
               html: `<span class="moj-multi-file-upload__success">
       <svg class="moj-banner__icon" fill="currentColor" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" height="25" width="25">
         <path d="M25,6.2L8.7,23.2L0,14.1l4-4.2l4.7,4.9L21,2L25,6.2z"/>
       </svg>
-      another-file
+      another-file-y
     </span>`,
             },
           },
@@ -224,7 +224,7 @@ describe('lib/file-upload-helpers', () => {
         .mockImplementationOnce(() => ({ id: 'mock-id-1' }))
         .mockImplementationOnce(() => ({ id: 'mock-id-2' }));
 
-      const uploadedFiles1 = [{ name: 'mock-file' }, { name: 'another-file' }];
+      const uploadedFiles1 = [{ name: 'mock-file' }, { name: 'another-file-z' }];
 
       const result = await uploadFiles(uploadedFiles1, mockId);
 
@@ -241,14 +241,14 @@ describe('lib/file-upload-helpers', () => {
           size: undefined,
         },
         {
-          fileName: 'another-file',
+          fileName: 'another-file-z',
           id: 'mock-id-2',
           location: undefined,
           message: {
-            text: 'another-file',
+            text: 'another-file-z',
           },
-          name: 'another-file',
-          originalFileName: 'another-file',
+          name: 'another-file-z',
+          originalFileName: 'another-file-z',
           size: undefined,
         },
       ]);
@@ -280,7 +280,7 @@ describe('lib/file-upload-helpers', () => {
         .mockImplementationOnce(() => ({ id: 'mock-id-1' }))
         .mockRejectedValueOnce('API is down');
 
-      const uploadedFiles3 = [{ name: 'mock-file' }, { name: 'another-file' }];
+      const uploadedFiles3 = [{ name: 'mock-file' }, { name: 'another-file-a' }];
 
       try {
         await uploadFiles(uploadedFiles3, mockId);
