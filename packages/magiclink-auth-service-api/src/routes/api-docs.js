@@ -11,7 +11,7 @@ const router = express.Router();
 let spec;
 
 try {
-  const fileContents = fs.readFileSync(path.join('../../api', 'openapi.yaml'), 'utf8');
+  const fileContents = fs.readFileSync(path.join('api', 'openapi.yaml'), 'utf8');
   spec = yaml.safeLoad(fileContents);
   logger.debug(`Loaded magic link api spec doc`);
 } catch (err) {
