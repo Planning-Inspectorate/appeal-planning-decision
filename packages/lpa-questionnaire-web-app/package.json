@@ -68,8 +68,5 @@
     "patch-package": "^6.2.2",
     "pino-pretty": "^4.3.0",
     "prettier": "^2.1.2"
-  },
-  "jest" : {
-    "resetMocks": false
   }
 }
