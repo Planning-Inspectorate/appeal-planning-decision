@@ -14,7 +14,7 @@ paths:
     post:
       summary: Creates a magiclink that expires in 15 minutes and sends it via email to 'destinationEmail'.
       description: |
-        Creates a magiclink URL that has a signed JWT token embeded and sends it via email to 'destinationEmail'.
+        Creates a magic link URL that has a signed JWT token embedded and sends it via email to 'destinationEmail'.
         The JWT contains the encrypted request input data and expires in 15 minutes.
       requestBody:
         description: Magic link request body that contain information required for the magic link authentication flow.
@@ -61,7 +61,7 @@ components:
           properties:
             destinationEmail:
               type: string
-              description: The email address where the magiclink will be send to.
+              description: The email address where the magic link will be send to.
             redirectURL:
               type: string
               description: The URL where the user will be redirected when they click on a valid magic link token.
