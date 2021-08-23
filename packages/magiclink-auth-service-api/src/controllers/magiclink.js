@@ -3,6 +3,7 @@ const createMagicLink = require('../interactors/createMagicLink');
 const sendMagicLinkEmail = require('../interactors/sendMagicLinkEmail');
 const createAuthToken = require('../interactors/createAuthToken');
 const logger = require('../util/logger');
+const dateUtils = require('../util/dateUtil');
 
 function create(req, res) {
   logger.debug('Enter magic link controller');
@@ -12,7 +13,14 @@ function create(req, res) {
 
   sendMagicLinkEmail(magicLinkData.magicLink.destinationEmail, magicLinkEndpoint);
 
-  return res.status(200).send({ url: magicLinkEndpoint });
+  return res.status(201).send({ magicLink: magicLinkEndpoint });
+}
+
+function setCookie(res, name, token) {
+  res.cookie(name, token, {
+    expires: dateUtils.addMillisToCurrentDate(config.cookieValidityTimeMillis),
+    httpOnly: true,
+  });
 }
 
 function login(req, res) {
@@ -25,13 +33,6 @@ function login(req, res) {
   logger.debug('JWT cookie set with success. User is logged in.');
 
   return res.redirect(req.magicLinkData.magicLink.redirectURL);
-}
-
-function setCookie(res, name, token) {
-  res.cookie(name, token, {
-    expires: new Date(Date.now() + config.cookieValidityTimeMillis),
-    httpOnly: true,
-  });
 }
 
 module.exports = {

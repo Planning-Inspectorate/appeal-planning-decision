@@ -16,7 +16,10 @@ module.exports = (protocol, hostname, magicLinkData) => {
     const magicLinkToken = createMagicLinkToken(magicLinkData);
     return `${protocol}://${hostname}/magiclink/${magicLinkToken}`;
   } catch (error) {
-    logger.error({ err: error }, 'An error occurred while trying to create magic link token');
+    logger.error(
+      { err: { message: error.message, stacktrace: error.stack } },
+      'An error occurred while trying to create magic link token',
+    );
     throw new Error('An error occurred while trying to create magic link token');
   }
 };

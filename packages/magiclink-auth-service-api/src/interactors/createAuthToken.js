@@ -1,10 +1,11 @@
 const jwtUtil = require('../util/jwt');
 const logger = require('../util/logger');
+const dateUtils = require('../util/dateUtil');
 
 module.exports = (userInformation, tokenValidity) => {
   logger.debug('Create authentication JWT.');
   return jwtUtil.sign({
-    userInformation: userInformation,
-    exp: new Date().getTime() + tokenValidity,
+    userInformation,
+    exp: dateUtils.addMillisToCurrentDate(tokenValidity).getTime(),
   });
 };

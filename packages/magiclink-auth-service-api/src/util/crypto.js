@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const config = require('../config');
+
 const algorithm = 'aes-256-ctr';
 const iv = crypto.randomBytes(16);
 const secretKey = config.dataEncryptionKey;
