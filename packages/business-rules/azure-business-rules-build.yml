@@ -37,6 +37,8 @@ stages:
     jobs:
       - job: Set_Version
         displayName: Set Version Number
+        pool:
+          vmImage: $(vmImageName)
         steps:
           - task: PowerShell@2
             displayName: Set the name of the build (i.e. the Build.BuildNumber)
