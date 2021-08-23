@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:14
 ARG APP_NAME
 ARG BUILD_ID
 ARG VERSION
@@ -38,8 +38,11 @@ ENV USE_SECURE_SESSION_COOKIES=“false”
 #RUN npm prune --production
 #  && npm rebuild \
 #  && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
+
+RUN npm install; npm run documentation; echo $? > /npm.exitcode
+
 EXPOSE 3000
 USER node
 CMD ["npm", "run", "start" ]
 #CMD [ “npm”,“run”,“start” ]
-                                
+

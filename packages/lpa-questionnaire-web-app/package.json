@@ -19,7 +19,7 @@
     "postinstall": "patch-package",
     "test": "jest --coverage ",
     "test:watch": "jest --watchAll --runInBand --coverage",
-    "documentation": "jest --coverage --reporters jest-html-reporters --coverageReporters html"
+    "documentation": "jest --bail --coverage --coverageReporters=cobertura --reporters=default --reporters=jest-junit"
   },
   "lint-staged": {
     "./**/*.js": "npm run lint:fix",
@@ -51,7 +51,10 @@
     "pino": "^6.7.0",
     "pino-http": "^5.3.0",
     "sass": "^1.32.12",
-    "uuid": "^8.3.1"
+    "uuid": "^8.3.1",
+    "jest": "^26.6.1",
+    "jest-fetch-mock": "^3.0.3",
+    "jest-junit": "^12.2.0"
   },
   "devDependencies": {
     "eslint": "^7.11.0",
@@ -60,9 +63,6 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "jest": "^26.6.1",
-    "jest-fetch-mock": "^3.0.3",
-    "jest-html-reporters": "^2.1.2",
     "nodemon": "^2.0.6",
     "patch-package": "^6.2.2",
     "pino-pretty": "^4.3.0",
