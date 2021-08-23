@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const { fetch } = require('node-fetch');
 const { createDocument, deleteDocument } = require('../../../src/lib/documents-api-wrapper');
 
 const mockLogger = jest.fn();
