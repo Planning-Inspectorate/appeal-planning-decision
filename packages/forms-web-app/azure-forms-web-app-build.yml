@@ -9,7 +9,7 @@ trigger:
   #    - master
   paths:
     include:
-      - packages/appeal-reply-service-api
+      - packages/forms-web-app
 
 resources:
   - repo: self
@@ -24,7 +24,7 @@ variables:
   # -----------------------------------------------------------------------
 
   # Container registry service connection established during pipeline creation
-  appealsReplyApiDockerfilePath: '$(Build.SourcesDirectory)/packages/appeal-reply-service-api/Dockerfile'
+  formsWebAppDockerfilePath: '$(Build.SourcesDirectory)/packages/forms-web-app/Dockerfile'
   imageRepository: 'planninginspectorateappealplanningdecision'
   containerRegistry: 'pinscommonukscontainers3887default.azurecr.io'
   dockerRegistryServiceConnection: 'appeals-service-api-registry-connection' ## this needs renamed
@@ -49,11 +49,11 @@ stages:
                 Write-Host "Setting the name of the build to '$buildName'."
                 Write-Host "##vso[build.updatebuildnumber]$buildName"
 
-  - stage: Build_and_Push_Appeal_Reply_Service_API
-    displayName: Build, Test and Push Appeal Reply Service API
+  - stage: Build_and_Push_Forms_Web_App
+    displayName: Build, Test and Push Forms Web App
     jobs:
-      - job: Build_Test_Push_Appeal_Reply_Service
-        displayName: Build Appeal Reply Service API
+      - job: Build_Test_Push_Forms_Web_App
+        displayName: Build Forms Web App
         pool:
           vmImage: $(vmImageName)
         steps:
@@ -62,21 +62,21 @@ stages:
             inputs:
               command: build
               repository: $(imageRepository)
-              dockerfile: $(appealsReplyApiDockerfilePath)
+              dockerfile: $(formsWebAppDockerfilePath)
               containerRegistry: $(dockerRegistryServiceConnection)
               arguments: >
-                --build-arg APP_NAME=appeal-reply-service-api
+                --build-arg APP_NAME=forms-web-app
                 --build-arg BUILD_ID=$(Build.BuildNumber)
                 --build-arg VERSION=$(versionNumber)
               tags: |
-                $(versionNumber)-appeal-reply-service-api
+                $(versionNumber)-forms-web-app
           - task: PowerShell@2
             displayName: Copy Test Results
             inputs:
               targetType: 'inline'
               script: |
-                Write-Host "Looking for images with tag $(versionNumber)-appeal-reply-service-api"
-                $imageId = (docker images ***/planninginspectorateappealplanningdecision:$(versionNumber)-appeal-reply-service-api --quiet)
+                Write-Host "Looking for images with tag $(versionNumber)-forms-web-app"
+                $imageId = (docker images ***/planninginspectorateappealplanningdecision:$(versionNumber)-forms-web-app --quiet)
 
                 Write-Host "Setting the imageId to '${imageId}'."
 
@@ -139,4 +139,4 @@ stages:
               repository: $(imageRepository)
               containerRegistry: $(dockerRegistryServiceConnection)
               tags: |
-                $(versionNumber)-appeal-reply-service-api
+                $(versionNumber)-forms-web-app

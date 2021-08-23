@@ -140,5 +140,3 @@ stages:
               containerRegistry: $(dockerRegistryServiceConnection)
               tags: |
                 $(versionNumber)-appeal-service-api
-
-# TODO add Cypress tests
