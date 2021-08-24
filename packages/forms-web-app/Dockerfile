@@ -23,7 +23,7 @@ RUN npm prune --production \
   && npm rebuild \
   && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
 
-RUN npm install; npm run documentation; echo $? > /npm.exitcode
+RUN npm run documentation; echo $? > /npm.exitcode
 EXPOSE 3000
 
 ENV APPEALS_SERVICE_API_URL="https://dev-appealsserviceapi.azurewebsites.net"

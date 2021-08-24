@@ -1,3 +1,4 @@
+require('jest-fetch-mock').enableMocks();
 const fetch = require('node-fetch');
 const { createDocument, deleteDocument } = require('../../../src/lib/documents-api-wrapper');
 
