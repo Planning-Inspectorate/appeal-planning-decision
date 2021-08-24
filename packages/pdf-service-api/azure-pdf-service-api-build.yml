@@ -9,7 +9,7 @@ trigger:
   #    - master
   paths:
     include:
-      - packages/lpa-questionnaire-web-app
+      - packages/pdf-service-api
 
 resources:
   - repo: self
@@ -24,7 +24,7 @@ variables:
   # -----------------------------------------------------------------------
 
   # Container registry service connection established during pipeline creation
-  lpaQuestionnaireWebAppDockerfilePath: '$(Build.SourcesDirectory)/packages/lpa-questionnaire-web-app/Dockerfile'
+  pdfServiceApiWebAppDockerfilePath: '$(Build.SourcesDirectory)/packages/pdf-service-api/Dockerfile'
   imageRepository: 'planninginspectorateappealplanningdecision'
   containerRegistry: 'pinscommonukscontainers3887default.azurecr.io'
   dockerRegistryServiceConnection: 'appeals-service-api-registry-connection' ## this needs renamed
@@ -49,11 +49,11 @@ stages:
                 Write-Host "Setting the name of the build to '$buildName'."
                 Write-Host "##vso[build.updatebuildnumber]$buildName"
 
-  - stage: Build_and_Push_LPA_Questionnaire
-    displayName: Build, Test and Push LPA Questionnaire
+  - stage: Build_and_Push_PDF_Service_API
+    displayName: Build, Test and Push PDF Service API
     jobs:
-      - job: Build_Test_Push_LPA_Questionnaire
-        displayName: Build LPA Questionnaire
+      - job: Build_Test_Push_PDF_Service_API
+        displayName: Build PDF Service API
         pool:
           vmImage: $(vmImageName)
         steps:
@@ -62,21 +62,21 @@ stages:
             inputs:
               command: build
               repository: $(imageRepository)
-              dockerfile: $(lpaQuestionnaireWebAppDockerfilePath)
+              dockerfile: $(pdfServiceApiWebAppDockerfilePath)
               containerRegistry: $(dockerRegistryServiceConnection)
               arguments: >
-                --build-arg APP_NAME=lpa-questionnaire-web-app
+                --build-arg APP_NAME=pdf-service-api
                 --build-arg BUILD_ID=$(Build.BuildNumber)
                 --build-arg VERSION=$(versionNumber)
               tags: |
-                $(versionNumber)-lpa-questionnaire-web-app
+                $(versionNumber)-pdf-service-api
           - task: PowerShell@2
             displayName: Copy Test Results
             inputs:
               targetType: 'inline'
               script: |
-                Write-Host "Looking for images with tag $(versionNumber)-lpa-questionnaire-web-app"
-                $imageId = (docker images ***/planninginspectorateappealplanningdecision:$(versionNumber)-lpa-questionnaire-web-app --quiet)
+                Write-Host "Looking for images with tag $(versionNumber)-pdf-service-api"
+                $imageId = (docker images ***/planninginspectorateappealplanningdecision:$(versionNumber)-pdf-service-api --quiet)
 
                 Write-Host "Setting the imageId to '${imageId}'."
 
@@ -109,7 +109,7 @@ stages:
               searchFolder: $(Pipeline.Workspace)
               mergeTestResults: true
               failTaskOnFailedTests: true
-              testRunTitle: 'LPA Questionnaire Web App Jest Tests'
+              testRunTitle: 'PDF Service Jest Tests'
           - task: PublishCodeCoverageResults@1
             displayName: Publish Code Coverage Results
             inputs:
@@ -139,4 +139,4 @@ stages:
               repository: $(imageRepository)
               containerRegistry: $(dockerRegistryServiceConnection)
               tags: |
-                $(versionNumber)-lpa-questionnaire-web-app
+                $(versionNumber)-pdf-service-api
