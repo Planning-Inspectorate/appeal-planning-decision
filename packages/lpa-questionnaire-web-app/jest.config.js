@@ -7,6 +7,7 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.js'],
   coveragePathIgnorePatterns: ['node_modules', '<rootDir>/src/app.js', '<rootDir>/src/server.js'],
+  moduleFileExtensions: ['js', 'json'],
   testMatch: ['**/?(*.)+(spec|test).js?(x)'],
   coverageThreshold: {
     global: {

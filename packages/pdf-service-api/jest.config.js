@@ -10,6 +10,7 @@ module.exports = {
     '<rootDir>/src/main.js',
   ],
   testMatch: ['**/?(*.)+(spec|test).js?(x)'],
+  moduleFileExtensions: ['js', 'json'],
   coverageThreshold: {
     global: {
       branches: 80,

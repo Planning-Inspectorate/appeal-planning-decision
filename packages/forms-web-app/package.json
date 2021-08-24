@@ -33,6 +33,7 @@
   "dependencies": {
     "@ministryofjustice/frontend": "0.2.0",
     "@pins/business-rules": "file:../business-rules",
+    "@testing-library/jest-dom": "^5.11.9",
     "@pins/common": "file:../common",
     "accessible-autocomplete": "^2.0.3",
     "clamscan": "^1.4.2",
@@ -66,7 +67,6 @@
   },
   "devDependencies": {
     "@testing-library/dom": "^7.29.6",
-    "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/user-event": "^12.8.1",
     "cross-blob": "^2.0.0",
     "eslint": "^7.11.0",
