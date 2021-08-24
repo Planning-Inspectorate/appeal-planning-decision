@@ -17,6 +17,8 @@ ENV SERVER_PORT=4000
 COPY --from=pinscommonukscontainers3887default.azurecr.io/planninginspectorateappealplanningdecision:960-commons-image /opt/app ../common
 ADD src src
 ADD __tests__ __tests__
+ADD jest.config.js jest.config.js
+
 ADD package.json package.json
 ADD package-lock.json package-lock.json
 

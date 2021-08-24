@@ -17,6 +17,7 @@ ADD src src
 ADD package.json package.json
 ADD package-lock.json package-lock.json
 ADD __tests__ __tests__
+ADD jest.config.js jest.config.js
 
 #RUN npm i --production
 RUN npm i
