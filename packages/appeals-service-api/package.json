@@ -59,40 +59,5 @@
     "nodemon": "^2.0.6",
     "pino-pretty": "^4.3.0",
     "prettier": "^2.1.2"
-  },
-  "jest": {
-    "preset": "@shelf/jest-mongodb",
-    "watchPathIgnorePatterns": [
-      "globalConfig"
-    ],
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "./src/**/*.js"
-    ],
-    "coveragePathIgnorePatterns": [
-      "node_modules",
-      "<rootDir>/src/app.js",
-      "<rootDir>/src/server.js"
-    ],
-    "coverageDirectory": "<rootDir>/coverage",
-    "coverageThreshold": {
-      "global": {
-        "branches": 60,
-        "functions": 60,
-        "lines": 60,
-        "statements": 60
-      }
-    },
-    "moduleFileExtensions": [
-      "js",
-      "json"
-    ],
-    "testMatch": [
-      "**/?(*.)+(spec|test).js?(x)"
-    ],
-    "testEnvironment": "node",
-    "setupFiles": [
-      "<rootDir>/__tests__/setup-jest.js"
-    ]
   }
 }

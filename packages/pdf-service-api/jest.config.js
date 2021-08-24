@@ -9,7 +9,7 @@ module.exports = {
     '<rootDir>/src/server.js',
     '<rootDir>/src/main.js',
   ],
-  testMatch: ['**/?(*.)+(spec|test).js?(x)'],
+  testMatch: ['**/?(*.)+(spec|test).js'],
   moduleFileExtensions: ['js', 'json'],
   coverageThreshold: {
     global: {
