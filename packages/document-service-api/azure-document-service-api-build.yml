@@ -76,7 +76,7 @@ stages:
 
                 Foreach ($resp in $responseList)
                 {
-                  if ($resp.createdDate -gt $curDate)
+                  if ((get-date $resp.createdDate) -gt (get-date $curDate))
                   {
                     $response = $resp;
                     $curDate = $resp.createdDate;
