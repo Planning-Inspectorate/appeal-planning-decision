@@ -1,5 +1,3 @@
-require('jest-fetch-mock').enableMocks();
-
 global.TextEncoder = require('util').TextEncoder;
 
 const fetch = require('node-fetch');

@@ -1,5 +1,3 @@
-require('jest-fetch-mock').enableMocks();
-
 const fetch = require('node-fetch');
 const {
   getInformationSubmitted,
