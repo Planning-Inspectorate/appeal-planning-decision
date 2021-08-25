@@ -3,7 +3,7 @@
 param ($path)
 
 #$path = "$(System.DefaultWorkingDirectory)/CypressTests/AppealsServiceTests"
-$endpoint = "www.google.com" #"https://appeals-dev.planninginspectorate.gov.uk" # make this a variable
+$endpoint = "https://dev-formswebappserviceapi.azurewebsites.net" # make this a variable
 Set-Location -Path ${path}
 
 Test-Connection -ComputerName "${endpoint}" -Traceroute # this line is for debug only, can be commented out when confirmed working.
