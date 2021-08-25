@@ -68,4 +68,3 @@ stages:
                 $(versionNumber)-common-image
 
 # TODO add Jest tests
-# TODO add Cypress tests
