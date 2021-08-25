@@ -69,7 +69,7 @@ stages:
                 $base64AuthInfo= [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(":$(PAT)"))
                 Write-Host "Provided token: $(PAT)"
 
-                $PipelineUrl = "https://dev.azure.com/planninginspectorate/appeal-planning-decision/_apis/pipelines/$(pipelineId)/runs?$top=1&api-version=6.0-preview.1" 
+                $PipelineUrl = "https://dev.azure.com/planninginspectorate/appeal-planning-decision/_apis/pipelines/$(pipelineId)/runs?`$top=1&api-version=6.0-preview.1" 
                 Write-Host "Pipeline url: $PipelineUrl"
 
                 $response = Invoke-RestMethod -Uri $PipelineUrl -ContentType "application/json" -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)}
