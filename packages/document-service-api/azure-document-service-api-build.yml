@@ -71,15 +71,8 @@ stages:
 
                 $PipelineUrl = "https://dev.azure.com/planninginspectorate/appeal-planning-decision/_apis/pipelines/$(pipelineId)/runs?api-version=6.0-preview.1" 
                 Write-Host "Pipeline url: $PipelineUrl"
-                $body ="{ 
-                `"resources`":{
-                        `"repositories`":{
-                            `"self`":{`"refName`":`"refs/heads/feature/3074b-appeal-service-api-pipeline-tests`"
-                            }
-                        }
-                    }
-                }"       
-                $response = Invoke-RestMethod -Uri $PipelineUrl -ContentType "application/json" -Body $body -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)} -Method POST
+
+                $response = Invoke-RestMethod -Uri $PipelineUrl -ContentType "application/json" -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)}
                 Write-Host "Response: $response"
                 $BuildUrl = "https://dev.azure.com/planninginspectorate/appeal-planning-decision/_apis/build/builds/$($response.Id)?api-version=6.1-preview.6"
                 Write-Host  $BuildUrl
