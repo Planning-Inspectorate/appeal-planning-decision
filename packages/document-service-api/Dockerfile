@@ -14,7 +14,7 @@ ENV MONGODB_URL='mongodb://pins-uks-mongodb-9475-dev:u5K6MuXfg1SjUF2iorpYua1j8xF
 ENV NODE_ENV=production
 ENV SERVER_PORT=4000
 # This must be built locally from the common package
-COPY --from=pinscommonukscontainers3887default.azurecr.io/planninginspectorateappealplanningdecision:960-commons-image /opt/app ../common
+COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
 ADD src src
 ADD __tests__ __tests__
 ADD jest.config.js jest.config.js

@@ -17,9 +17,6 @@
 # Infrastructure
 /infrastructure/**    @Planning-Inspectorate/admin
 
-# Helm configuration
-/charts/**            @Planning-Inspectorate/admin
-
 # PreProd Releases
 /releases/preprod     @Planning-Inspectorate/admin @Planning-Inspectorate/testers
 

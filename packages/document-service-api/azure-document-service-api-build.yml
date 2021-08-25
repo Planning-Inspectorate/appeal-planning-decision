@@ -25,7 +25,7 @@ variables:
 
   # Container registry service connection established during pipeline creation
   documentServiceApiDockerfilePath: '$(Build.SourcesDirectory)/packages/document-service-api/Dockerfile'
-  imageRepository: 'planninginspectorateappealplanningdecision'
+  imageRepository: 'document-service-api'
   containerRegistry: 'pinscommonukscontainers3887default.azurecr.io'
   dockerRegistryServiceConnection: 'appeals-service-api-registry-connection'
   # Agent VM image name
@@ -65,18 +65,20 @@ stages:
               dockerfile: $(documentServiceApiDockerfilePath)
               containerRegistry: $(dockerRegistryServiceConnection)
               arguments: >
-                --build-arg APP_NAME=dcoument-service-api
+                --build-arg APP_NAME=document-service-api
                 --build-arg BUILD_ID=$(Build.BuildNumber)
                 --build-arg VERSION=$(versionNumber)
               tags: |
-                $(versionNumber)-document-service-api
+                $(versionNumber)
+                document-service-api
+                latest
           - task: PowerShell@2
             displayName: Copy Test Results
             inputs:
               targetType: 'inline'
               script: |
-                Write-Host "Looking for images with tag $(versionNumber)-document-service-api"
-                $imageId = (docker images ***/planninginspectorateappealplanningdecision:$(versionNumber)-document-service-api --quiet)
+                Write-Host "Looking for images with tag $(versionNumber)"
+                $imageId = (docker images ***/$(imageRepository):$(versionNumber) --quiet)
 
                 Write-Host "Setting the imageId to '${imageId}'."
 
@@ -139,4 +141,6 @@ stages:
               repository: $(imageRepository)
               containerRegistry: $(dockerRegistryServiceConnection)
               tags: |
-                $(versionNumber)-document-service-api
+                $(versionNumber)
+                document-service-api
+                latest

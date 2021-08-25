@@ -9,8 +9,8 @@ ENV VERSION="${VERSION}"
 # Do not rely on NODE_ENV - exists for performance reasons only
 ENV PORT=3000
 # This must be built locally from the common package
-COPY --from=pinscommonukscontainers3887default.azurecr.io/planninginspectorateappealplanningdecision:960-commons-image /opt/app ../common
-COPY --from=pinscommonukscontainers3887default.azurecr.io/planninginspectorateappealplanningdecision:1.0.3-business-rules /opt/app ../business-rules
+COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
+COPY --from=pinscommonukscontainers3887default.azurecr.io/business-rules:latest /opt/app ../business-rules
 
 ADD package.json package.json
 ADD package-lock.json package-lock.json

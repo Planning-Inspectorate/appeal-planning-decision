@@ -25,7 +25,7 @@ variables:
 
   # Container registry service connection established during pipeline creation
   businessRulesDockerfilePath: '$(Build.SourcesDirectory)/packages/business-rules/Dockerfile'
-  imageRepository: 'planninginspectorateappealplanningdecision'
+  imageRepository: 'business-rules' # this might not work if the repository doesnt exist
   containerRegistry: 'pinscommonukscontainers3887default.azurecr.io'
   dockerRegistryServiceConnection: 'appeals-service-api-registry-connection'
   # Agent VM image name
@@ -49,6 +49,8 @@ stages:
                 Write-Host "Setting the name of the build to '$buildName'."
                 Write-Host "##vso[build.updatebuildnumber]$buildName"
 
+  # THERE ARE NO TESTS ON THIS
+
   - stage: Build_Business_Rules_Package
     displayName: Build and Push Business Rules
     jobs:
@@ -65,6 +67,8 @@ stages:
               dockerfile: $(businessRulesDockerfilePath)
               containerRegistry: $(dockerRegistryServiceConnection)
               tags: |
-                $(versionNumber)-business-rules
+                $(versionNumber)
+                business-rules
+                latest
 
 # TODO add Jest tests

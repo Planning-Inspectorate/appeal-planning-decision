@@ -12,7 +12,7 @@ ENV NODE_ENV=production
 ENV SERVER_PORT=3000
 ENV GOTENBURG_URL="http://gotenberg:4000"
 # This must be built locally from the common package
-COPY --from=pinscommonukscontainers3887default.azurecr.io/planninginspectorateappealplanningdecision:960-commons-image /opt/app ../common
+COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
 ADD api api
 ADD src src
 ADD package.json package.json

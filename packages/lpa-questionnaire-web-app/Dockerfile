@@ -10,7 +10,7 @@ ENV VERSION="${VERSION}"
 ENV NODE_ENV=production
 ENV PORT=3000
 # This must be built locally from the common package
-COPY --from=pinscommonukscontainers3887default.azurecr.io/planninginspectorateappealplanningdecision:960-commons-image /opt/app ../common
+COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
 #ADD dist dist
 #ADD node_modules node_modules
 ADD src src
