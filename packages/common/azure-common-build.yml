@@ -25,7 +25,7 @@ variables:
 
   # Container registry service connection established during pipeline creation
   commonsDockerfilePath: '$(Build.SourcesDirectory)/packages/common/Dockerfile'
-  imageRepository: 'planninginspectorateappealplanningdecision'
+  imageRepository: 'common'
   containerRegistry: 'pinscommonukscontainers3887default.azurecr.io'
   dockerRegistryServiceConnection: 'appeals-service-api-registry-connection'
   # Agent VM image name
