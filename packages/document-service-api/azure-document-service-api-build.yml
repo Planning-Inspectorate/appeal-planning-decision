@@ -30,7 +30,7 @@ variables:
   dockerRegistryServiceConnection: 'appeals-service-api-registry-connection'
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-  PAT: '2caupyoha5jmebtqvqxupeacq4l32crc6hwjojlv5dnhrmdx443q'
+  PAT: '2caupyoha5jmebtqvqxupeacq4l32crc6hwjojlv5dnhrmdx443q' # move this to a private variable
   pipelineId: '49'
 
 stages:
@@ -68,7 +68,7 @@ stages:
                 $connectionToken= "$(PAT)"
 
                 $base64AuthInfo= [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(":$($connectionToken)"))
-                $PipelineUrl = "https://dev.azure.com/planninginspectorate/appeal-planning-decision/_apis/pipelines/${pipelineId}/runs?api-version=6.0-preview.1" 
+                $PipelineUrl = "https://dev.azure.com/planninginspectorate/appeal-planning-decision/_apis/pipelines/$(pipelineId)/runs?api-version=6.0-preview.1" 
                 Write-Host "Pipeline url: $PipelineUrl"
                 $body ="{ 
                 `"resources`":{
