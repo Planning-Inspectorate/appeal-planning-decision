@@ -65,6 +65,8 @@ stages:
               dockerfile: $(commonsDockerfilePath)
               containerRegistry: $(dockerRegistryServiceConnection)
               tags: |
-                $(versionNumber)-common-image
+                $(versionNumber)
+                common
+                latest
 
 # TODO add Jest tests
