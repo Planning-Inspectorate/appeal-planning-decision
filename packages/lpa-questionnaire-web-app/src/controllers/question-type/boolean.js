@@ -1,6 +1,7 @@
 const { VIEW } = require('../../lib/views');
 const getAppealSideBarDetails = require('../../lib/appeal-sidebar-details');
 const { createOrUpdateAppealReply } = require('../../lib/appeal-reply-api-wrapper');
+const { renderView, redirect } = require('../../util/render');
 
 exports.BOOLEAN_VIEW = 'question-type/boolean';
 
@@ -20,7 +21,8 @@ exports.getBooleanQuestion = (req, res) => {
     values = { booleanInput };
   }
 
-  res.render(this.BOOLEAN_VIEW, {
+  renderView(res, this.BOOLEAN_VIEW, {
+    prefix: 'appeal-questionnaire',
     appeal: getAppealSideBarDetails(req.session.appeal),
     backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
     values,
@@ -62,7 +64,8 @@ exports.postBooleanQuestion = async (req, res) => {
     if (err.toString() !== 'Error: Validation failed')
       req.log.error({ err }, 'Error creating or updating appeal');
 
-    res.render(this.BOOLEAN_VIEW, {
+    renderView(res, this.BOOLEAN_VIEW, {
+      prefix: 'appeal-questionnaire',
       appeal: getAppealSideBarDetails(req.session.appeal),
       backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
@@ -74,5 +77,5 @@ exports.postBooleanQuestion = async (req, res) => {
     return;
   }
 
-  res.redirect(req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`);
+  redirect(res, 'appeal-questionnaire', `${req.params.id}/${VIEW.TASK_LIST}`, req.session.backLink);
 };
