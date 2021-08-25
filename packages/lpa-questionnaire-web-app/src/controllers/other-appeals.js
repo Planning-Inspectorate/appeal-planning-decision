@@ -3,6 +3,7 @@ const { VIEW } = require('../lib/views');
 const getAppealSideBarDetails = require('../lib/appeal-sidebar-details');
 const { getTaskStatus } = require('../services/task.service');
 const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
+const { renderView, redirect } = require('../util/render');
 
 const sectionName = 'aboutAppealSection';
 const taskName = 'otherAppeals';
@@ -21,11 +22,10 @@ exports.getOtherAppeals = (req, res) => {
     'adjacent-appeals': adjacentAppeals,
   };
 
-  res.render(VIEW.OTHER_APPEALS, {
+  renderView(res, VIEW.OTHER_APPEALS, {
+    prefix: 'appeal-questionnaire',
     appeal: getAppealSideBarDetails(req.session.appeal),
-    backLink: req.session.backLink
-      ? req.session.backLink
-      : `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
+    backLink: req.session.backLink ? req.session.backLink : `/${req.params.id}/${VIEW.TASK_LIST}`,
     values,
   });
 };
@@ -43,7 +43,8 @@ exports.postOtherAppeals = async (req, res) => {
   };
 
   if (Object.keys(errors).length > 0) {
-    res.render(VIEW.OTHER_APPEALS, {
+    renderView(res, VIEW.OTHER_APPEALS, {
+      prefix: 'appeal-questionnaire',
       appeal: getAppealSideBarDetails(req.session.appeal),
       backLink: req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
@@ -68,11 +69,10 @@ exports.postOtherAppeals = async (req, res) => {
   } catch (e) {
     logger.error(e);
 
-    res.render(VIEW.OTHER_APPEALS, {
+    renderView(res, VIEW.OTHER_APPEALS, {
+      prefix: 'appeal-questionnaire',
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink
-        ? req.session.backLink
-        : `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink: req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary: [{ text: e.toString() }],
       values,
@@ -81,9 +81,5 @@ exports.postOtherAppeals = async (req, res) => {
     return;
   }
 
-  res.redirect(
-    req.session.backLink
-      ? req.session.backLink
-      : `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`
-  );
+  redirect(res, 'appeal-questionnaire', `${req.params.id}/${VIEW.TASK_LIST}`, req.session.backLink);
 };

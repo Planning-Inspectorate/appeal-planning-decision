@@ -2,6 +2,7 @@ const { VIEW } = require('../lib/views');
 const getAppealSideBarDetails = require('../lib/appeal-sidebar-details');
 const { getTaskStatus } = require('../services/task.service');
 const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
+const { renderView, redirect } = require('../util/render');
 
 const sectionName = 'aboutAppealSection';
 const taskName = 'extraConditions';
@@ -20,11 +21,10 @@ exports.getExtraConditions = (req, res) => {
     'extra-conditions-text': extraConditionsSection.extraConditions,
   };
 
-  res.render(VIEW.EXTRA_CONDITIONS, {
+  renderView(res, VIEW.EXTRA_CONDITIONS, {
+    prefix: 'appeal-questionnaire',
     appeal: getAppealSideBarDetails(req.session.appeal),
-    backLink: req.session.backLink
-      ? req.session.backLink
-      : `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
+    backLink: req.session.backLink ? req.session.backLink : `/${req.params.id}/${VIEW.TASK_LIST}`,
     values,
   });
 };
@@ -42,11 +42,10 @@ exports.postExtraConditions = async (req, res) => {
   };
 
   if (Object.keys(errors).length > 0) {
-    res.render(VIEW.EXTRA_CONDITIONS, {
+    renderView(res, VIEW.EXTRA_CONDITIONS, {
+      prefix: 'appeal-questionnaire',
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink
-        ? req.session.backLink
-        : `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink: req.session.backLink ? req.session.backLink : `/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary,
       values,
@@ -69,11 +68,10 @@ exports.postExtraConditions = async (req, res) => {
   } catch (err) {
     req.log.error({ err }, 'Error creating or updating appeal');
 
-    res.render(VIEW.EXTRA_CONDITIONS, {
+    renderView(res, VIEW.EXTRA_CONDITIONS, {
+      prefix: 'appeal-questionnaire',
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink
-        ? req.session.backLink
-        : `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink: req.session.backLink ? req.session.backLink : `/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary: [{ text: err.toString() }],
       values,
@@ -82,9 +80,5 @@ exports.postExtraConditions = async (req, res) => {
     return;
   }
 
-  res.redirect(
-    req.session.backLink
-      ? req.session.backLink
-      : `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`
-  );
+  redirect(res, 'appeal-questionnaire', `${req.params.id}/${VIEW.TASK_LIST}`, req.session.backLink);
 };

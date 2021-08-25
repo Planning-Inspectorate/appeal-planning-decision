@@ -1,5 +1,6 @@
 const { HEADERS, SECTIONS, DESCRIPTIONS } = require('../services/task.service');
 const { VIEW } = require('../lib/views');
+const { renderView } = require('../util/render');
 
 /**
  * @name buildTaskLists
@@ -42,7 +43,8 @@ exports.getTaskList = (req, res) => {
   // Set backLink property in session
   req.session.backLink = `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`;
 
-  res.render(VIEW.TASK_LIST, {
+  renderView(res, VIEW.TASK_LIST, {
+    prefix: 'appeal-questionnaire',
     applicationStatus,
     sections,
   });
