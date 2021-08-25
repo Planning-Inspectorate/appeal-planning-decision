@@ -64,15 +64,25 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                Write-Host "Triggering pipeline..."
+                Write-Host "Waiting for common to complete..."
 
                 $base64AuthInfo= [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(":$(PAT)"))
-                Write-Host "Provided token: $(PAT)"
 
-                $PipelineUrl = "https://dev.azure.com/planninginspectorate/appeal-planning-decision/_apis/pipelines/$(pipelineId)/runs?`$top=1&api-version=6.0-preview.1" 
+                $PipelineUrl = "https://dev.azure.com/planninginspectorate/appeal-planning-decision/_apis/pipelines/$(pipelineId)/runs?api-version=6.0-preview.1" 
                 Write-Host "Pipeline url: $PipelineUrl"
 
-                $response = Invoke-RestMethod -Uri $PipelineUrl -ContentType "application/json" -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)}
+                $responseList = Invoke-RestMethod -Uri $PipelineUrl -ContentType "application/json" -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)}
+                $curDate = "2000-01-01T00:00:00.3310266Z"
+
+                Foreach ($resp in $responseList)
+                {
+                  if ($resp.createdDate -gt $curDate)
+                  {
+                    $response = $resp;
+                    $curDate = $resp.createdDate;
+                  }
+                }
+
                 Write-Host "Response: $response"
                 $BuildUrl = "https://dev.azure.com/planninginspectorate/appeal-planning-decision/_apis/build/builds/$($response.Id)?api-version=6.1-preview.6"
                 Write-Host  $BuildUrl
