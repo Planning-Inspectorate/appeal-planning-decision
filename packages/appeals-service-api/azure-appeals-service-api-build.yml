@@ -70,7 +70,7 @@ stages:
                 --build-arg VERSION=$(versionNumber)
               tags: |
                 $(versionNumber)
-                appeal-service-api
+                appeals-service-api
                 latest
           - task: PowerShell@2
             displayName: Copy Test Results
@@ -142,5 +142,5 @@ stages:
               containerRegistry: $(dockerRegistryServiceConnection)
               tags: |
                 $(versionNumber)
-                appeal-service-api
+                appeals-service-api
                 latest
