@@ -71,20 +71,23 @@ stages:
                 $PipelineUrl = "https://dev.azure.com/planninginspectorate/appeal-planning-decision/_apis/pipelines/$(pipelineId)/runs?api-version=6.0-preview.1" 
                 Write-Host "Pipeline url: $PipelineUrl"
 
-                $responseList = Invoke-RestMethod -Uri $PipelineUrl -ContentType "application/json" -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)}
+                $responseList = Invoke-RestMethod -Uri $PipelineUrl -ContentType "application/json" -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)} | ConvertFrom-Json
                 $curDate = "2000-01-01T00:00:00.3310266Z"
 
                 Foreach ($resp in $responseList)
                 {
-                  if ((get-date $resp.createdDate) -gt (get-date $curDate))
+                  Write-Host $resp;
+                  Write-Host $resp.value;
+
+                  if ((get-date $resp.value.createdDate) -gt (get-date $curDate))
                   {
                     $response = $resp;
-                    $curDate = $resp.createdDate;
+                    $curDate = $resp.value.createdDate;
                   }
                 }
 
                 Write-Host "Response: $response"
-                $BuildUrl = "https://dev.azure.com/planninginspectorate/appeal-planning-decision/_apis/build/builds/$($response.Id)?api-version=6.1-preview.6"
+                $BuildUrl = "https://dev.azure.com/planninginspectorate/appeal-planning-decision/_apis/build/builds/$($response.value.id)?api-version=6.1-preview.6"
                 Write-Host  $BuildUrl
 
                 $TimeoutAfter = New-TimeSpan -Minutes 15
