@@ -30,8 +30,7 @@ variables:
   dockerRegistryServiceConnection: 'appeals-service-api-registry-connection'
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-  PAT: '2caupyoha5jmebtqvqxupeacq4l32crc6hwjojlv5dnhrmdx443q' # move this to a private variable
-  pipelineId: '49'
+  # pipelineId: '49'
 
 stages:
   - stage: Increment_Version
