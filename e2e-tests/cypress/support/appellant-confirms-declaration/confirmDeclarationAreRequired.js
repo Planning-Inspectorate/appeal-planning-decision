@@ -2,7 +2,7 @@ module.exports = () => {
   cy.get('.govuk-error-summary__list')
     .invoke('text')
     .then((text) => {
-      expect(text).to.contain('You need to agree to the declaration');
+      expect(text).to.contain('Select to confirm you agree');
     });
 
   cy.title().should('match', /^Error: /);

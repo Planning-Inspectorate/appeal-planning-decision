@@ -25,11 +25,11 @@ Then('the planning application number in the appeal will be {string}', (applicat
 Then('the user is informed that the application number is not valid because {string}', (reason) => {
   switch (reason) {
     case 'mandatory field':
-      cy.confirmPlanningApplicationNumberRejectedBecause('Enter your planning application number');
+      cy.confirmPlanningApplicationNumberRejectedBecause('Enter the original planning application number');
       break;
     case 'exceeds max characters':
       cy.confirmPlanningApplicationNumberRejectedBecause(
-        'Planning application number must be 30 characters or fewer',
+        'The application number must be no more than 30 characters',
       );
       break;
     default:

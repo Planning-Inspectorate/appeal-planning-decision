@@ -24,7 +24,7 @@ Given(
         cy.confirmDecisionLetterRejectedBecause('The selected file must be a');
         break;
       case 'file size exceeds limit':
-        cy.confirmDecisionLetterRejectedBecause('The file must be smaller than');
+        cy.confirmDecisionLetterRejectedBecause('The selected file must be smaller than');
         break;
     }
   },
@@ -76,7 +76,7 @@ Then(
         cy.confirmDecisionLetterRejectedBecause('The selected file must be a');
         break;
       case 'file size exceeds limit':
-        cy.confirmDecisionLetterRejectedBecause('The file must be smaller than');
+        cy.confirmDecisionLetterRejectedBecause('The selected file must be smaller than');
         break;
     }
   },

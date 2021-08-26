@@ -29,7 +29,7 @@ Feature: Appeal statement file submission
   Scenario: Prospective applicant confirms no sensitive information but chooses not to upload an appeal statement file
     Given user did not previously submitted an appeal statement file
     When user confirms that there is no sensitive information without selecting an appeal statement file to upload
-    Then user is informed that he needs to upload the appeal statement
+    Then user is informed that he needs to select an appeal statement
 
   @as-120 @ac-3-2
   Scenario: Prospective does not provide appeal statement but had previously submitted one
@@ -41,7 +41,7 @@ Feature: Appeal statement file submission
   Scenario: Prospective applicant chooses not to upload an appeal statement file and does not confirm no sensitive information
     Given user did not previously submitted an appeal statement file
     When user does not confirm that there is no sensitive information nor upload a statement
-    Then user is informed that he needs to upload the appeal statement and confirms that it does not contain sensitive information
+    Then user is informed that he needs to select an appeal statement and confirms that it does not contain sensitive information
 
 
   Scenario: Prospective appellant submits valid appeal statement file without sensitive information replaces previous file
