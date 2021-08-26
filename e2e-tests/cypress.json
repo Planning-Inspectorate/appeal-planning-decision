@@ -1,5 +1,5 @@
 {
-  "baseUrl": "https://appeals-dev.planninginspectorate.gov.uk",
+  "baseUrl": "https://dev-formswebappserviceapi.azurewebsites.net",
   "testFiles": "**/*.feature",
   "chromeWebSecurity": false,
   "viewportWidth": 1024,
