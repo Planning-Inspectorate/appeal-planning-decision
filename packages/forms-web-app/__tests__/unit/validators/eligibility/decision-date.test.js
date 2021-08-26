@@ -28,7 +28,7 @@ describe('validators/eligibility/decision-date', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
-          expect(result.errors[0].msg).toEqual('The Decision Date must be in the past');
+          expect(result.errors[0].msg).toEqual('Decision date must be today or in the past');
           expect(result.errors[0].param).toEqual('decision-date');
           expect(result.errors[0].value).toEqual('2130-06-11');
         },
