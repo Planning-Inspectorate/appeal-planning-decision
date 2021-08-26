@@ -9,7 +9,7 @@ const rules = () => {
       const today = endOfDay(new Date());
 
       if (isAfter(new Date(value), today)) {
-        throw new Error('The Decision Date must be in the past');
+        throw new Error('Decision date must be today or in the past');
       }
 
       return true;

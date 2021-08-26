@@ -49,6 +49,11 @@ module.exports = {
           'The selected file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
         );
 
+        // check file size
+        const { size } = req.files[path];
+
+        validateFileSize(size, config.fileUpload.pins.uploadApplicationMaxFileSize);
+
         // check file for Virus
         const { name } = req.files[path];
         await validAV(req.files['decision-upload'], name);
@@ -66,11 +71,6 @@ module.exports = {
           ],
           'The selected file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
         );
-
-        // check file size
-        const { size } = req.files[path];
-
-        validateFileSize(size, config.fileUpload.pins.uploadApplicationMaxFileSize);
 
         return true;
       },

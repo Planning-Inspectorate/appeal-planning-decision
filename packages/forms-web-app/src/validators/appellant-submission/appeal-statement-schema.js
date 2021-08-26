@@ -27,7 +27,7 @@ module.exports = {
 
         if (noFilePreviouslyUploaded) {
           if (noNewFileUploaded) {
-            throw new Error('Upload the appeal statement');
+            throw new Error('Select an appeal statement');
           }
         } else if (noNewFileUploaded) {
           return true;

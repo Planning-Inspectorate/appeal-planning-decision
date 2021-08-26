@@ -7,7 +7,7 @@ const rules = () => {
 
     body('does-not-include-sensitive-information')
       .notEmpty()
-      .withMessage('Confirm that your statement does not include sensitive information')
+      .withMessage('Select to confirm you have not included sensitive information')
       .bail()
       .equals('i-confirm'),
   ];
