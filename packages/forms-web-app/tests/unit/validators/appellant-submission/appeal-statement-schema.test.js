@@ -83,7 +83,7 @@ describe('validators/appellant-submission/appeal-statement-schema', () => {
             session,
           },
         })
-      ).rejects.toThrow('Upload the appeal statement');
+      ).rejects.toThrow('Select an appeal statement');
     });
 
     it('should throw error if `req.files` is empty and no appeal was previously submitted', async () => {
@@ -94,13 +94,13 @@ describe('validators/appellant-submission/appeal-statement-schema', () => {
             files: {},
           },
         })
-      ).rejects.toThrow('Upload the appeal statement');
+      ).rejects.toThrow('Select an appeal statement');
     });
 
     it('should throw error if `req.files[path]` is not matched and no appeal was previously submitted', async () => {
       await expect(() =>
         fn('some value', { req: { session, files: { a: { mimetype: MIME_TYPE_PDF } } } })
-      ).rejects.toThrow('Upload the appeal statement');
+      ).rejects.toThrow('Select an appeal statement');
     });
 
     it('should call the validMimeType validator', async () => {

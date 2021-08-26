@@ -13,10 +13,10 @@ const ruleSiteAccessSafetyConcerns = () =>
   body('site-access-safety-concerns')
     .if(body('site-access-safety').matches('yes'))
     .notEmpty()
-    .withMessage('Enter details of the health and safety concerns')
+    .withMessage('Tell us about the health and safety issues')
     .bail()
     .isLength({ min: 0, max: 255 })
-    .withMessage('The safety concerns should have maximum 255 characters');
+    .withMessage('Health and safety information must be 255 characters or fewer');
 
 const rules = () => [ruleSiteAccessSafety(), ruleSiteAccessSafetyConcerns()];
 
