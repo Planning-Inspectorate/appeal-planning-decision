@@ -6,7 +6,7 @@ param ($path)
 $endpoint = "dev-formswebappserviceapi.azurewebsites.net" # make this a variable
 Set-Location -Path ${path}
 
-Test-Connection -ComputerName "${endpoint}" -Traceroute # this line is for debug only, can be commented out when confirmed working.
+#Test-Connection -ComputerName "${endpoint}" -Traceroute # this line is for debug only, can be commented out when confirmed working.
 
 if(Test-Connection -ComputerName "${endpoint}" -Quiet) {
     Write-Host "Successfully connected to ${endpoint}"
