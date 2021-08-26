@@ -28,8 +28,8 @@ const config = {
           duration: 'weeks',
         },
         questionnaireDue: {
-          time: 1,
-          duration: 'weeks',
+          time: 5,
+          duration: 'days',
         },
       },
       [APPEAL_ID.ENFORCEMENT_LISTED_BUILDING]: {
