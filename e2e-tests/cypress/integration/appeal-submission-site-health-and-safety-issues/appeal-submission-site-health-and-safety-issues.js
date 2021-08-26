@@ -121,7 +121,7 @@ Then('no health and safety issues is presented', () => {
 
 Then('appeal is not updated because the health and safety concerns exceed the limit', () => {
   cy.isSafetyIssuesInputPresented(true);
-  cy.confirmSiteSafetyRejectedBecause('The safety concerns should have maximum 255 characters');
+  cy.confirmSiteSafetyRejectedBecause('Health and safety information must be 255 characters or fewer');
   cy.confirmSiteHasIssuesAnswered('blank');
 });
 
@@ -157,6 +157,6 @@ Then('appeal is not updated because confirmation of health and safety issues is 
 });
 
 Then('appeal is not updated because health and safety concerns are required', () => {
-  cy.confirmSiteSafetyRejectedBecause('Enter details of the health and safety concerns');
+  cy.confirmSiteSafetyRejectedBecause('Tell us about the health and safety issues');
   cy.confirmSiteHasIssuesAnswered('blank');
 });

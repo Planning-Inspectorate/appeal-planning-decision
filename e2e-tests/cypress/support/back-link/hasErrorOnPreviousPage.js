@@ -5,7 +5,7 @@ module.exports = () => {
   cy.clickSaveAndContinue();
 
   // invalid, see error
-  cy.confirmPlanningApplicationNumberRejectedBecause('Enter your planning application number');
+  cy.confirmPlanningApplicationNumberRejectedBecause('Enter the original planning application number');
   cy.get('[data-cy="error-wrapper"]').should('exist');
 
   // now submit the valid form

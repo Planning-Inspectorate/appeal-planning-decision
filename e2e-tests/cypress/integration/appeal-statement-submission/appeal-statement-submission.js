@@ -72,13 +72,13 @@ Then('user is informed that the file is not submitted because {string}', (reason
 });
 
 
-Then('user is informed that he needs to upload the appeal statement',() => {
+Then('user is informed that he needs to select an appeal statement',() => {
   cy.confirmFileUploadIsRequested();
   cy.title().should('match', /^Error: /);
 });
 
 
-Then('user is informed that he needs to upload the appeal statement and confirms that it does not contain sensitive information',() =>{
+Then('user is informed that he needs to select an appeal statement and confirms that it does not contain sensitive information',() =>{
   cy.confirmFileUploadIsRequested();
   cy.confirmFileContainsSensitiveInformation();
   cy.title().should('match', /^Error: /);

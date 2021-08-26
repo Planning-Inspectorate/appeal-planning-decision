@@ -24,7 +24,7 @@ Given(
         cy.confirmPlanningApplicationRejectedBecause('The selected file must be a');
         break;
       case 'file size exceeds limit':
-        cy.confirmPlanningApplicationRejectedBecause('The file must be smaller than');
+        cy.confirmPlanningApplicationRejectedBecause('The selected file must be smaller than');
         break;
     }
   },
@@ -76,7 +76,7 @@ Then(
         cy.confirmPlanningApplicationRejectedBecause('The selected file must be a');
         break;
       case 'file size exceeds limit':
-        cy.confirmPlanningApplicationRejectedBecause('The file must be smaller than');
+        cy.confirmPlanningApplicationRejectedBecause('The selected file must be smaller than');
         break;
     }
   },
