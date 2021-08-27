@@ -2,6 +2,7 @@ const { VIEW } = require('../../lib/views');
 const getAppealSideBarDetails = require('../../lib/appeal-sidebar-details');
 const { createOrUpdateAppealReply } = require('../../lib/appeal-reply-api-wrapper');
 const { deleteDocument } = require('../../lib/documents-api-wrapper');
+const { renderView, redirect } = require('../../util/render');
 
 const question = {
   heading: 'Delete a supplementary planning document',
@@ -32,13 +33,14 @@ const defineFileToDelete = (req) => {
 exports.getDeleteDocument = (req, res) => {
   const backLink = res.locals.backLink || req.session.backLink;
   const fileToDelete = defineFileToDelete(req);
-  const cancelLink = `${req.protocol}://${req.headers.host}/${req.session.appealReply.appealId}/supplementary-documents/uploaded-documents`;
+  const cancelLink = `${req.protocol}://${req.headers.host}/appeal-questionnaire/${req.session.appealReply.appealId}/supplementary-documents/uploaded-documents`;
 
-  res.render(VIEW.SUPPLEMENTARY_DOCUMENTS.DELETE_DOCUMENT, {
+  renderView(res, VIEW.SUPPLEMENTARY_DOCUMENTS.DELETE_DOCUMENT, {
+    prefix: 'appeal-questionnaire',
     cancelLink,
     fileToDelete,
     appeal: getAppealSideBarDetails(req.session.appeal),
-    backLink: backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
+    backLink: backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
     question,
   });
 };
@@ -70,16 +72,32 @@ exports.postDeleteDocument = async (req, res) => {
     await deleteDocument(appealReply.id, fileToDelete.id);
   } catch (err) {
     req.log.error({ err }, `Error deleting file`);
-    res.redirect(`/${req.session.appealReply.appealId}/supplementary-documents`);
+    redirect(
+      res,
+      'appeal-questionnaire',
+      `${req.session.appealReply.appealId}/${VIEW.SUPPLEMENTARY_DOCUMENTS.UPLOADED_DOCUMENTS}`,
+      req.session.backLink
+    );
+
     return;
   }
 
   await createOrUpdateAppealReply(constructNewAppealReply(appealReply, newUploadedFiles));
 
   if (newUploadedFiles.length < 1) {
-    res.redirect(`/${req.session.appealReply.appealId}/supplementary-documents`);
+    redirect(
+      res,
+      'appeal-questionnaire',
+      `${req.session.appealReply.appealId}/${VIEW.SUPPLEMENTARY_DOCUMENTS.UPLOADED_DOCUMENTS}`,
+      req.session.backLink
+    );
     return;
   }
 
-  res.redirect(`/${req.session.appealReply.appealId}/supplementary-documents/uploaded-documents`);
+  redirect(
+    res,
+    'appeal-questionnaire',
+    `${req.session.appealReply.appealId}/${VIEW.SUPPLEMENTARY_DOCUMENTS.UPLOADED_DOCUMENTS}`,
+    req.session.backLink
+  );
 };
