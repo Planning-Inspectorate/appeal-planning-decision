@@ -33,13 +33,13 @@ router.get(
 );
 
 router.get(
-  '/:id/supplementary-documents/delete-document',
+  '/appeal-questionnaire/:id/supplementary-documents/delete-document',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
   deleteSupplementaryDocumentController.getDeleteDocument
 );
 
 router.post(
-  '/:id/supplementary-documents/delete-document',
+  '/appeal-questionnaire/:id/supplementary-documents/delete-document',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
   deleteSupplementaryDocumentController.postDeleteDocument
 );
