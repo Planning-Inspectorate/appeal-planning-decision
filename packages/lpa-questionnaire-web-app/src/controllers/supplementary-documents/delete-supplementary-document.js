@@ -75,7 +75,7 @@ exports.postDeleteDocument = async (req, res) => {
     redirect(
       res,
       'appeal-questionnaire',
-      `${req.session.appealReply.appealId}/${VIEW.SUPPLEMENTARY_DOCUMENTS.UPLOADED_DOCUMENTS}`,
+      `${req.session.appealReply.appealId}/${VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT}`,
       req.session.backLink
     );
 

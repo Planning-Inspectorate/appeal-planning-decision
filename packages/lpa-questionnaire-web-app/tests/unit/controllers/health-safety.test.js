@@ -12,7 +12,7 @@ jest.mock('../../../src/lib/logger');
 
 describe('controllers/health-safety', () => {
   const mockTaskStatus = 'MOCK_STATUS';
-  const backLinkUrl = '/mock-id/mock-back-link';
+  const backLinkUrl = '/appeal-questionnaire/mock-id/mock-back-link';
 
   let req;
   let res;
@@ -48,7 +48,7 @@ describe('controllers/health-safety', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.HEALTH_SAFETY, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         values,
       });
     });
@@ -70,7 +70,7 @@ describe('controllers/health-safety', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.HEALTH_SAFETY, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         values: {
           'has-health-safety': 'yes',
           'health-safety-text': 'some-text',
@@ -94,7 +94,7 @@ describe('controllers/health-safety', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.HEALTH_SAFETY, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         values: {
           'has-health-safety': 'no',
           'health-safety-text': undefined,
@@ -120,7 +120,7 @@ describe('controllers/health-safety', () => {
 
       expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should redirect to the back link specified', async () => {
@@ -134,7 +134,7 @@ describe('controllers/health-safety', () => {
           'has-health-safety': 'no',
         },
       };
-      mockRequest.session.backLink = backLinkUrl;
+      mockRequest.session.backLink = `/mock-id/mock-back-link`;
 
       await healthSafetyController.postHealthSafety(mockRequest, res);
 
@@ -162,7 +162,7 @@ describe('controllers/health-safety', () => {
 
       expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should re-render the template with errors if there is any validator error', async () => {
@@ -180,7 +180,7 @@ describe('controllers/health-safety', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.HEALTH_SAFETY, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
         values: {
@@ -210,7 +210,7 @@ describe('controllers/health-safety', () => {
       expect(logger.error).toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.HEALTH_SAFETY, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         errorSummary: [{ text: 'mock api error' }],
         errors: {},
         values: {

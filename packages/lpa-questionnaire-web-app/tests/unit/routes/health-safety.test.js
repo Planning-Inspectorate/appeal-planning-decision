@@ -19,12 +19,12 @@ describe('routes/health-safety', () => {
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      `/:id/health-safety`,
+      `/appeal-questionnaire/:id/health-safety`,
       [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
       healthSafetyController.getHealthSafety
     );
     expect(post).toHaveBeenCalledWith(
-      '/:id/health-safety',
+      '/appeal-questionnaire/:id/health-safety',
       healthSafetyValidationRules(),
       validationErrorHandler,
       healthSafetyController.postHealthSafety
