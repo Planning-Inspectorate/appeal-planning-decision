@@ -11,10 +11,8 @@ module.exports = (req, res) => {
 
   renderView(res, VIEW.CONFIRM_ANSWERS, {
     prefix: 'appeal-questionnaire',
-    backLink: req.session.backLink
-      ? req.session.backLink
-      : `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
     submissionLink: `/appeal-questionnaire/${req.params.id}/${VIEW.INFORMATION_SUBMITTED}`,
+    taskListLink: `/appeal-questionnaire/${req.params.id}/task-list`,
     sections,
   });
 };
