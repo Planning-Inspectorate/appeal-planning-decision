@@ -11,10 +11,8 @@ if nc -dvzw1 $endpoint 443 2>/dev/null; then
         echo "Cypress already installed.";
     else
         npm install;
-    fi 
-
+    fi
     npm run test:e2e;
-
 else
     echo "##vso[task.LogIssue type=error;]Could not connect to $endpoint";
     exit 1;
