@@ -85,10 +85,6 @@ module.exports = {
         startEmailToLpa: process.env.SRV_NOTIFY_EMAIL_REPLYTO_ID_START_EMAIL_TO_LPA,
       },
     },
-    osPlaces: {
-      key: process.env.SRV_OS_PLACES_KEY,
-      url: process.env.SRV_OS_PLACES_URL,
-    },
   },
   apps: {
     appeals: {
