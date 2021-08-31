@@ -1,4 +1,4 @@
-module.exports = class InvalidJWTError extends Error {
+module.exports = class InvalidTokenError extends Error {
   constructor(message) {
     super(message);
     this.name = this.constructor.name;
