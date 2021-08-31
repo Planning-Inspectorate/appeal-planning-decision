@@ -48,7 +48,7 @@ exports.postAccuracySubmission = async (req, res) => {
     renderView(res, VIEW.ACCURACY_SUBMISSION, {
       prefix: 'appeal-questionnaire',
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink ? req.session.backLink : `/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary,
       values,
@@ -73,7 +73,7 @@ exports.postAccuracySubmission = async (req, res) => {
     renderView(res, VIEW.ACCURACY_SUBMISSION, {
       prefix: 'appeal-questionnaire',
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink ? req.session.backLink : `/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary: [{ text: e.toString() }],
       values,

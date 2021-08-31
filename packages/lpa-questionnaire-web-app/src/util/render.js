@@ -1,12 +1,14 @@
-const renderView = (res, view, { prefix, backLink, ...params }) => {
+const renderView = (res, view, params) => {
+  const { prefix, backLink, ...payload } = params;
+
   if (typeof backLink !== 'undefined' && !backLink.includes(prefix)) {
     return res.render(view, {
       backLink: `/${prefix}${backLink}`,
-      ...params,
+      ...payload,
     });
   }
 
-  return res.render(view, { backLink, ...params });
+  return res.render(view, { backLink, ...payload });
 };
 
 const redirect = (res, prefix, url, backlink) => {
