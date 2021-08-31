@@ -1,6 +1,6 @@
 #!/bin/bash
 
-endpoint="dev-lpaquestionnaireserviceapi.azurewebsites.net"
+endpoint="dev-formswebappserviceapi.azurewebsites.net" 
 cd "$1" || exit
 
 if nc -dvzw1 $endpoint 443 2>/dev/null; then
