@@ -14,7 +14,7 @@ ENV LPA_TRIALIST_DATA_PATH='/opt/app/data/lpa-trialists.json'
 
 ENV  MONGODB_AUTO_INDEX='true'
 ENV  MONGODB_DB_NAME='appeals-service-api'
-ENV  MONGODB_URL='mongodb://pins-uks-mongodb-9475-dev:u5K6MuXfg1SjUF2iorpYua1j8xFcvl2x566WF9aMzNZpDYw52HGrZd9djdOLGfEui7WZrnJ1l9En5n1NwgAKjA==@pins-uks-mongodb-9475-dev.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@pins-uks-mongodb-9475-dev@'
+#ENV  MONGODB_URL='mongodb://pins-uks-mongodb-9475-dev:u5K6MuXfg1SjUF2iorpYua1j8xFcvl2x566WF9aMzNZpDYw52HGrZd9djdOLGfEui7WZrnJ1l9En5n1NwgAKjA==@pins-uks-mongodb-9475-dev.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@pins-uks-mongodb-9475-dev@'
 ENV DOCS_API_PATH=/opt/app/api
 # Do not rely on NODE_ENV - exists for performance reasons only
 ENV NODE_ENV=production
