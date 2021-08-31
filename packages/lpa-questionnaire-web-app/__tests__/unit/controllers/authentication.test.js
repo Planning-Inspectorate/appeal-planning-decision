@@ -1,95 +1,103 @@
+jest.mock('../../../src/lib/magiclink-api-wrapper');
 const authenticationController = require('../../../src/controllers/authentication');
+const mockMagicLinkAPIWrapper = require('../../../src/lib/magiclink-api-wrapper');
 const { mockReq, mockRes } = require('../mocks');
 const { VIEW } = require('../../../src/lib/views');
 
-const mockEmail = 'test.email@test.uk';
-const mockLPACode = '123';
-
-const res = mockRes();
-const req = mockReq();
-req.params.lpaCode = mockLPACode;
+const mockEmail = 'test.address@planninginspectorate.gov.uk';
 
 describe('authentication controller', () => {
-  describe('/:lpaCode/authentication/your-email', () => {
-    describe('show authentication enter email page', () => {
-      it('should call the correct template', () => {
-        authenticationController.showEnterEmailAddress(req, res);
+  let res;
+  let req;
 
-        expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
-          isSessionExpired: false,
-          isLinkedExpired: false,
-          lpaName: 'testLPA',
-          enterEmailLink: '/123/authentication/your-email',
-        });
+  beforeEach(() => {
+    res = mockRes();
+    req = mockReq();
+    req.params.lpaCode = 'E69999999';
+    req.lpa = {
+      id: 'E69999999',
+      name: 'System Test Borough Council',
+      domain: 'planninginspectorate.gov.uk',
+    };
+  });
+
+  describe('GET /:lpaCode/authentication/your-email', () => {
+    it('should call the correct template', () => {
+      authenticationController.showEnterEmailAddress(req, res);
+
+      expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
+        isSessionExpired: false,
+        isLinkedExpired: false,
+        lpaName: 'System Test Borough Council',
+        enterEmailLink: '/E69999999/authentication/your-email',
       });
     });
   });
 
-  describe('/:lpaCode/authentication/your-email/session-expired', () => {
-    describe('show authentication enter email page with session expired notification ', () => {
-      it('should call the correct template', () => {
-        const sessionExpiredReq = {
-          ...req,
-        };
-        sessionExpiredReq.params.error = 'session-expired';
+  describe('GET /:lpaCode/authentication/your-email/session-expired', () => {
+    it('should call the correct template and the "isSessionExpired" attribute set true', () => {
+      req.params.error = 'session-expired';
 
-        authenticationController.showEnterEmailAddress(sessionExpiredReq, res);
+      authenticationController.showEnterEmailAddress(req, res);
 
-        expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
-          isSessionExpired: true,
-          isLinkedExpired: false,
-          lpaName: 'testLPA',
-          enterEmailLink: '/123/authentication/your-email',
-        });
+      expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
+        isSessionExpired: true,
+        isLinkedExpired: false,
+        lpaName: 'System Test Borough Council',
+        enterEmailLink: '/E69999999/authentication/your-email',
       });
     });
   });
 
-  describe('/:lpaCode/authentication/your-email/link-expired', () => {
-    describe('show authentication enter email page with link expired notification ', () => {
-      it('should call the correct template', () => {
-        const linkExpiredReq = {
-          ...req,
-        };
-        linkExpiredReq.params.error = 'link-expired';
+  describe('GET /:lpaCode/authentication/your-email/link-expired', () => {
+    it('should call the correct template and the attribute "isLinkedExpired" set true', () => {
+      req.params.error = 'link-expired';
 
-        authenticationController.showEnterEmailAddress(linkExpiredReq, res);
+      authenticationController.showEnterEmailAddress(req, res);
 
-        expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
-          isSessionExpired: false,
-          isLinkedExpired: true,
-          lpaName: 'testLPA',
-          enterEmailLink: '/123/authentication/your-email',
-        });
+      expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
+        isSessionExpired: false,
+        isLinkedExpired: true,
+        lpaName: 'System Test Borough Council',
+        enterEmailLink: '/E69999999/authentication/your-email',
       });
     });
   });
 
-  describe('/:lpaCode/authentication/your-email', () => {
-    describe('processes email authentication', () => {
-      it('should call the correct template', () => {
-        authenticationController.processEmailAddress(req, res);
-        expect(res.redirect).toHaveBeenCalledWith('/123/authentication/confirm-email');
-      });
+  describe('POST /:lpaCode/authentication/your-email', () => {
+    it('should call magic link API and redirect user to confirm email page if user email address is within lpa domain', async () => {
+      req.body = { email: mockEmail };
+      mockMagicLinkAPIWrapper.createMagicLink.mockResolvedValue();
+
+      await authenticationController.processEmailAddress(req, res);
+
+      expect(mockMagicLinkAPIWrapper.createMagicLink).toHaveBeenCalledTimes(1);
+      expect(req.session.email).toEqual(mockEmail);
+      expect(res.redirect).toHaveBeenCalledWith('/E69999999/authentication/confirm-email');
+    });
+
+    it('should redirect to confirm email page if user email address not within lpa domain', async () => {
+      req.body = { email: 'test.address@test.co.uk' };
+      mockMagicLinkAPIWrapper.createMagicLink.mockResolvedValue();
+
+      await authenticationController.processEmailAddress(req, res);
+
+      expect(mockMagicLinkAPIWrapper.createMagicLink).toHaveBeenCalledTimes(0);
+      expect(req.session.email).toEqual('test.address@test.co.uk');
+      expect(res.redirect).toHaveBeenCalledWith('/E69999999/authentication/confirm-email');
     });
   });
 
-  describe('/:lpaCode/authentication/confirm-email', () => {
-    describe('show authentication email confirmation page', () => {
-      it('should call the correct template', () => {
-        const confirmEmailReq = {
-          ...req,
-          session: {
-            email: mockEmail,
-          },
-        };
-        authenticationController.showEmailConfirmation(confirmEmailReq, res);
+  describe('GET /:lpaCode/authentication/confirm-email', () => {
+    it('should call the correct template', () => {
+      req.session = {
+        email: mockEmail,
+      };
+      authenticationController.showEmailConfirmation(req, res);
 
-        expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.EMAIL_ADDRESS_CONFIRMATION, {
-          email: mockEmail,
-          tokenExpirationTime: '15 minutes',
-          enterEmailLink: `/123/authentication/your-email`,
-        });
+      expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.EMAIL_ADDRESS_CONFIRMATION, {
+        email: mockEmail,
+        enterEmailLink: `/E69999999/authentication/your-email`,
       });
     });
   });

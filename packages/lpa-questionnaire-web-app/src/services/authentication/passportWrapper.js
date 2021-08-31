@@ -1,23 +1,23 @@
 const passport = require('passport');
-const ExpiredJWTError = require('./error/ExpiredJWTError');
-const InvalidJWTError = require('./error/InvalidJWTError');
+const ExpiredTokenError = require('./error/ExpiredTokenError');
+const InvalidTokenError = require('./error/InvalidTokenError');
 
-function isJWTExpired(jwtPayload) {
-  return jwtPayload.exp <= new Date().valueOf();
+function isTokenExpired(tokenPayload) {
+  return tokenPayload.exp <= new Date().valueOf();
 }
 
 async function authenticate(strategyName, req, res) {
   return new Promise((resolve, reject) => {
-    passport.authenticate(strategyName, (err, jwtPayload) => {
-      if (!jwtPayload) {
-        reject(new InvalidJWTError('Invalid or missing JWT token.'));
+    passport.authenticate(strategyName, (err, tokenPayload) => {
+      if (!tokenPayload) {
+        reject(new InvalidTokenError('Invalid or missing token.'));
       }
 
-      if (isJWTExpired(jwtPayload)) {
-        reject(new ExpiredJWTError('JWT Token has expired.', jwtPayload));
+      if (isTokenExpired(tokenPayload)) {
+        reject(new ExpiredTokenError('Token has expired.', tokenPayload));
       }
 
-      return resolve(jwtPayload);
+      return resolve(tokenPayload);
     })(req, res);
   });
 }
