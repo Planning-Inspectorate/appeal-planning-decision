@@ -11,6 +11,8 @@
     "APPEAL_SERVICE_BASE_URL": "http://localhost:3000/api/v1",
     "DOCUMENT_SERVICE_BASE_URL": "http://localhost:3001/api/v1",
     "EMAIL_NOTIFICATION_URL": "http://localhost:5001/notifications",
+    "AUTH_TOKEN_SIGNING_KEY": "",
+    "AUTH_COOKIE_NAME": "",
     "TAGS": "not @wip"
   },
   "retries": {

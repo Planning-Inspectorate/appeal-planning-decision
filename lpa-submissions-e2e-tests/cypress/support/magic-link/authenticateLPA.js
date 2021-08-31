@@ -1,11 +1,6 @@
-import goToPage from '../common/goToPage';
-import inputEmailAddress from './inputEmailAddress';
-import clickSubmit from '../common/clickSubmitButton';
-import getMagicLink from './getMagicLink';
+import createAuthToken from './createAuthToken';
 
 module.exports = () => {
-  goToPage('authentication/your-email');
-  inputEmailAddress();
-  clickSubmit();
-  getMagicLink().then((magicLink) => goToPage(magicLink));
+  const token = createAuthToken();
+  cy.setCookie(Cypress.env('AUTH_COOKIE_NAME'), token);
 };

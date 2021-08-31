@@ -10,7 +10,9 @@ import inputEmailAddress from '../../support/magic-link/inputEmailAddress';
 import authenticateLPA from '../../support/magic-link/authenticateLPA';
 import getMagicLink from '../../support/magic-link/getMagicLink';
 import getMagicLinkEmail from '../../support/magic-link/getMagicLinkEmail';
+import createAuthToken from '../../support/magic-link/createAuthToken';
 
+const lpaCode = 'E69999999';
 const enterEmailAddressLink = 'authentication/your-email';
 const confirmEmailAddressLink = 'authentication/confirm-email';
 const questionnairePage = 'task-list';
@@ -21,11 +23,11 @@ Given('LPA wants to access a questionnaire', () => {
 });
 
 Given('the LPA is on the confirm your email page', () => {
-  goToPage(confirmEmailAddressLink);
+  goToPage(confirmEmailAddressLink, lpaCode);
 });
 
 Given('LPA user receives a magic link for accessing the questionnaire', () => {
-  goToPage(enterEmailAddressLink);
+  goToPage(enterEmailAddressLink, lpaCode);
   inputEmailAddress();
   clickSubmit();
 });
@@ -35,25 +37,16 @@ And('is trying to access the LPA questionnaire', () => {
 });
 
 Given('access to the questionnaire is requested', () => {
-  goToPage(enterEmailAddressLink);
+  goToPage(enterEmailAddressLink, lpaCode);
 });
 
 Given('LPA user wants to have the magic link resent to them', () => {
-  goToPage(confirmEmailAddressLink);
+  goToPage(confirmEmailAddressLink, lpaCode);
 });
 
 Given('the session has timed out', () => {
-  // TODO check if the session id cookie name is correct and if this works as expected
-  const expiryDate = new Date();
-  expiryDate.setMinutes(expiryDate.getMinutes() - 20);
-
-  cy.getCookie('connect.sid').then((cookie) => {
-    cy.clearCookies();
-    cy.setCookie(cookie.name, cookie.value, {
-      expiry: expiryDate.valueOf(),
-      domain: cookie.domain,
-    });
-  });
+  const expiredAuthToken = createAuthToken(new Date(Date.now() - 1000));
+  cy.setCookie(Cypress.env('AUTH_COOKIE_NAME'), expiredAuthToken);
 });
 
 Given('LPA Planning Officer wants to complete a questionnaire', () => {
@@ -101,9 +94,7 @@ When('they select a valid link', () => {
 });
 
 When('they select an expired magic link', () => {
-  const expiredToken = 'expiredToken';
-  const expiredMagicLink = `${questionnairePage}?token=${expiredToken}`;
-  goToPage(expiredMagicLink);
+  goToPage('/authentication/your-email/link-expired', lpaCode);
 });
 
 When('they select ‘resend the email’', () => {
@@ -124,8 +115,7 @@ Then('enter email address page will be displayed', () => {
 
 Then('a magic link is sent to that email address via Notify', () => {
   getMagicLinkEmail().then((response) => {
-    // TODO assert email body
-    // expect(response.body).toEqual([]);
+    expect(response.body[0].personalisation.magicLinkURL).toExist();
   });
 });
 
