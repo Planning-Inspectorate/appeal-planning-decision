@@ -5,6 +5,7 @@ const passportWrapper = require('./passportWrapper');
 
 const AUTH_STRATEGY_NAME = 'JWT';
 
+/* istanbul ignore next */
 function setUpAuthStrategy() {
   const jwtStrategy = new JwtStrategy(
     {
