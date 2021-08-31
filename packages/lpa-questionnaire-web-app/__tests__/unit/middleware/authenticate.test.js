@@ -1,16 +1,16 @@
 jest.mock('../../../src/services/authentication/authentication.service');
 jest.mock('../../../src/lib/appeals-api-wrapper');
-process.env.JWT_SIGNING_KEY = 'mockKey';
-process.env.TOKEN_COOKIE_NAME = '';
-const authenticationService = require('../../../src/services/authentication/authentication.service');
+const mockAuthenticationService = require('../../../src/services/authentication/authentication.service');
+const mockAppealsApiWrapper = require('../../../src/lib/appeals-api-wrapper');
+
 const authenticate = require('../../../src/middleware/authenticate');
-const ExpiredJWTError = require('../../../src/services/authentication/error/ExpiredJWTError');
-const InvalidJWTError = require('../../../src/services/authentication/error/InvalidJWTError');
-const { getAppeal } = require('../../../src/lib/appeals-api-wrapper');
+const ExpiredTokenError = require('../../../src/services/authentication/error/ExpiredTokenError');
+const InvalidTokenError = require('../../../src/services/authentication/error/InvalidTokenError');
+
 const { mockReq, mockRes } = require('../mocks');
 const mockAppealReply = require('../mockAppealReply');
 
-describe('middleware/is-user-authenticated-or-redirect', () => {
+describe('middleware/authenticate', () => {
   let req;
   let res;
   let jwtPayload;
@@ -26,7 +26,6 @@ describe('middleware/is-user-authenticated-or-redirect', () => {
 
     req = mockReq();
     req.params.id = '89aa8504-773c-42be-bb68-029716ad9756';
-
     res = mockRes();
 
     jwtPayload = {
@@ -35,33 +34,37 @@ describe('middleware/is-user-authenticated-or-redirect', () => {
     };
   });
 
-  describe('with expired jwtToken that has correct user information', () => {
-    it('should redirect user to :lpaCode/authentication/your-email page', async () => {
-      authenticationService.authenticate.mockRejectedValue(new ExpiredJWTError('', jwtPayload));
+  it('should redirect user to :lpaCode/authentication/your-email page if jwtToken is expired', async () => {
+    mockAuthenticationService.authenticate.mockRejectedValue(new ExpiredTokenError('', jwtPayload));
 
-      await authenticate(req, res, next);
+    await authenticate(req, res, next);
 
-      expect(res.redirect).toHaveBeenCalledWith(
-        '/E69999999/authentication/your-email/session-expired'
-      );
-    });
+    expect(res.redirect).toHaveBeenCalledWith(
+      '/E69999999/authentication/your-email/session-expired'
+    );
   });
 
-  describe('with valid jwtToken that has correct user information', () => {
-    it('should set the decoded jwt user information on the request', async () => {
-      authenticationService.authenticate.mockResolvedValue(jwtPayload);
+  it('should redirect to 404 error page if jwtToken is expired and token payload does not contain lpa code', async () => {
+    mockAuthenticationService.authenticate.mockRejectedValue(new ExpiredTokenError('', {}));
 
-      await authenticate(req, res, next);
+    await authenticate(req, res, next);
 
-      expect(req.userInformation).toEqual(userInformation);
-      expect(next).toHaveBeenCalled();
-    });
+    expect(res.status).toHaveBeenCalledWith(404);
   });
 
-  describe('with InvalidJWTError error and req has an existing appealId path param', () => {
-    it('should redirect to /:lpaCode/authentication/your-email page', async () => {
-      getAppeal.mockResolvedValue(mockAppealReply);
-      authenticationService.authenticate.mockRejectedValue(new InvalidJWTError());
+  it('should set the decoded jwt user information on the request if jwtToken is valid', async () => {
+    mockAuthenticationService.authenticate.mockResolvedValue(jwtPayload);
+
+    await authenticate(req, res, next);
+
+    expect(req.userInformation).toEqual(userInformation);
+    expect(next).toHaveBeenCalled();
+  });
+
+  describe('with InvalidTokenError error', () => {
+    it('should redirect to /:lpaCode/authentication/your-email page if req has an existing appealId path param', async () => {
+      mockAppealsApiWrapper.getAppeal.mockResolvedValue(mockAppealReply);
+      mockAuthenticationService.authenticate.mockRejectedValue(new InvalidTokenError());
 
       await authenticate(req, res, next);
 
@@ -69,35 +72,19 @@ describe('middleware/is-user-authenticated-or-redirect', () => {
         `/${mockAppealReply.lpaCode}/authentication/your-email`
       );
     });
-  });
 
-  describe('with InvalidJWTError error and req has no appealId path param', () => {
-    it('should redirect to 404 error page', async () => {
-      delete req.params.id;
-      getAppeal.mockResolvedValue(mockAppealReply);
-      authenticationService.authenticate.mockRejectedValue(new InvalidJWTError());
+    it('should redirect to 404 error page if req has an invalid appealId path param', async () => {
+      req.params.id = 'invalidAppealId';
+      mockAuthenticationService.authenticate.mockRejectedValue(new InvalidTokenError());
 
       await authenticate(req, res, next);
 
       expect(res.status).toHaveBeenCalledWith(404);
     });
-  });
 
-  describe('with InvalidJWTError error and req has invalid appealId path param', () => {
-    it('should redirect to 404 error page', async () => {
-      req.params.id = 'appealId';
-      authenticationService.authenticate.mockRejectedValue(new InvalidJWTError());
-
-      await authenticate(req, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(404);
-    });
-  });
-
-  describe('with InvalidJWTError error and req has nonexistent appealId path param', () => {
-    it('should redirect to 404 error page', async () => {
-      authenticationService.authenticate.mockRejectedValue(new InvalidJWTError());
-      getAppeal.mockResolvedValue({
+    it('should redirect to 404 error page if req has nonexistent appealId path param', async () => {
+      mockAuthenticationService.authenticate.mockRejectedValue(new InvalidTokenError());
+      mockAppealsApiWrapper.getAppeal.mockResolvedValue({
         code: 404,
         errors: ['The appeal 89aa8504-773c-42be-bb68-029716ad9756 was not found'],
       });
@@ -106,12 +93,10 @@ describe('middleware/is-user-authenticated-or-redirect', () => {
 
       expect(res.status).toHaveBeenCalledWith(404);
     });
-  });
 
-  describe('with InvalidJWTError error and Appeal API is down', () => {
-    it('should redirect to 404 error page', async () => {
-      authenticationService.authenticate.mockRejectedValue(new InvalidJWTError());
-      getAppeal.mockRejectedValue(new Error('API is down'));
+    it('should redirect to 404 error page if Appeal API is down', async () => {
+      mockAuthenticationService.authenticate.mockRejectedValue(new InvalidTokenError());
+      mockAppealsApiWrapper.getAppeal.mockRejectedValue(new Error('API is down'));
 
       await authenticate(req, res, next);
 
