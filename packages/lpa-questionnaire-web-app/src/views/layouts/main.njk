@@ -21,7 +21,7 @@
 {% block main %}
   <div class="govuk-width-container govuk-body {{ containerClasses }}">
 
-    <main id="main-content" role="main"{% if mainLang %} lang="{{ mainLang }}"{% endif %}>
+    <main id="main-content" {% if mainLang %} lang="{{ mainLang }}"{% endif %}>
       {{ govukPhaseBanner({
         tag: {
           text: "beta"

@@ -23,7 +23,7 @@
         {{- item.html | safe if item.html else item.text -}}
       </a>
     {% else %}
-      <span data-cy="{{ item.attributes.name }}" class="app-task-list__task-name"">
+      <span data-cy="{{ item.attributes.name }}" class="app-task-list__task-name">
         {{- item.html | safe if item.html else item.text -}}
       </span>
       {% endif %}
