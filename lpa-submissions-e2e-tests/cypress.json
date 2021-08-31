@@ -1,16 +1,22 @@
 {
   "baseUrl": "https://dev-lpaquestionnaireserviceapi.azurewebsites.net",
   "testFiles": "**/*.feature",
+  "reporter": "junit",
+  "reporterOptions": {
+    "mochaFile": "tests/test-output-[hash].xml",
+    "toConsole": true,
+    "attachments": true
+    },
   "chromeWebSecurity": false,
   "viewportWidth": 1024,
   "viewportHeight": 1600,
   "video": false,
   "env": {
     "demoDelay": 0,
-    "APPEAL_REPLY_SERVICE_BASE_URL": "http://localhost:3002/api/v1",
-    "APPEAL_SERVICE_BASE_URL": "http://localhost:3000/api/v1",
-    "DOCUMENT_SERVICE_BASE_URL": "http://localhost:3001/api/v1",
-    "EMAIL_NOTIFICATION_URL": "http://localhost:5001/notifications",
+    "APPEAL_REPLY_SERVICE_BASE_URL": "https://dev-appealsreplyserviceapi.azurewebsites.net/api/v1",
+    "APPEAL_SERVICE_BASE_URL": "https://dev-appealsserviceapi.azurewebsites.net/api/v1",
+    "DOCUMENT_SERVICE_BASE_URL": "https://documentserviceapi.azurewebsites.net/api/v1",
+    "EMAIL_NOTIFICATION_URL": "https://api.notifications.service.gov.uk",
     "TAGS": "not @wip"
   },
   "retries": {
