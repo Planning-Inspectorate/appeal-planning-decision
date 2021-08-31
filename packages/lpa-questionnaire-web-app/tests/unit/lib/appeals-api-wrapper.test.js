@@ -1,7 +1,7 @@
 jest.mock('uuid');
 
 const fetch = require('node-fetch');
-const { getAppeal } = require('../../../src/lib/appeals-api-wrapper');
+const { getAppeal, getLPA } = require('../../../src/lib/appeals-api-wrapper');
 
 const config = require('../../../src/config');
 
@@ -39,6 +39,27 @@ describe('lib/appeals-api-wrapper', () => {
       fetch.mockRejectedValueOnce('API is down');
       try {
         await getAppeal('123');
+      } catch (e) {
+        expect(e).toEqual('API is down');
+      }
+    });
+  });
+
+  describe('getLPA', () => {
+    it('should call the expected URL', async () => {
+      fetch.mockResponseOnce(JSON.stringify({ shouldBe: 'valid' }));
+
+      await getLPA('mockLpaCode');
+
+      expect(fetch.mock.calls[0][0]).toEqual(
+        'http://fake.url/api/v1/local-planning-authorities/mockLpaCode'
+      );
+    });
+
+    it('should return an error if there is a problem contacting then API', async () => {
+      fetch.mockRejectedValueOnce('API is down');
+      try {
+        await getLPA('mockLpaCode');
       } catch (e) {
         expect(e).toEqual('API is down');
       }
