@@ -6,9 +6,18 @@ Feature: Decision Date eligibility check
     When an eligible Decision Date is provided
     Then progress is made to the Local Planning Department eligibility question
 
-  Scenario: Ineligible Decision Date prevents progress
+  Scenario: Ineligible Decision Date continues to Decision Date Passed page and allows returning to the Decision Date page
     Given a Decision Date is requested
     When an ineligible Decision Date is provided
+    And progress is halted with a message that the Decision Date is ineligible because it is beyond the deadline for an appeal
+    And the re-enter the decision date link is clicked
+    Then progress is made to the Decision Date question
+
+  Scenario: Ineligible Decision Date continues to Decision Date Passed page and prevents navigating to a page other than the Decision Date page
+    Given a Decision Date is requested
+    When an ineligible Decision Date is provided
+    And progress is halted with a message that the Decision Date is ineligible because it is beyond the deadline for an appeal
+    And navigate to the Householder Planning Permission question
     Then progress is halted with a message that the Decision Date is ineligible because it is beyond the deadline for an appeal
 
   Scenario: Absence of Decision Date prevents progress

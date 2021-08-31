@@ -1,4 +1,7 @@
 {% block head %}
+  {% if appealReplyId %}
+      <meta name="appeal-reply-id" content="{{ appealReplyId }}">
+    {% endif %}
   <link href="/public/stylesheets/main.css" media="all" rel="stylesheet" type="text/css"/>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->

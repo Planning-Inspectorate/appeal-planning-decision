@@ -50,7 +50,6 @@ Feature: Common link in header section
       | "Eligibility - House holder planning permission"                       |
       | "Eligibility - Householder planning permission out"                    |
       | "Eligibility - Decision date"                                          |
-      | "Eligibility - Decision date expired"                                  |
       | "Eligibility - No decision date"                                       |
       | "Eligibility - Planning department"                                    |
       | "Eligibility - Planning department out"                                |

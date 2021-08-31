@@ -1,0 +1,66 @@
+{% extends "layouts/main.njk" %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "components/appeal-details/macro.njk" import appealDetails %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: backLink,
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
+{% block pageTitle %}
+  Supplementary planning documents - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK
+{% endblock %}
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST" novalidate{% if hasFileUpload %} encType="multipart/form-data"{% endif %}>
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>{{ question.section }}</span>
+        <h1 class="govuk-heading-l">{{ question.heading }}</h1>
+
+        {{ govukTable({
+          captionClasses: "govuk-table__caption--l",
+          firstCellIsHeader: true,
+          head: [
+            {text: "Document name"},
+            {text: "Formally adopted"},
+            {text: ""}
+          ],
+          rows: uploadedFiles
+        }) }}
+
+        {{ govukButton({
+          text: "Add another",
+          classes: "govuk-button--secondary",
+          href: uploadedDocumentsUrl,
+          attributes: {
+            'data-cy': 'add-another'
+            }
+        }) }}
+
+        <div class="govuk-form-group">
+          {{ govukButton({
+            text: "Continue",
+            href: backLink,
+            classes: "govuk-button--before",
+            attributes: {
+              'data-cy': 'continue'
+            }
+          }) }}
+        </div>
+      </form>
+    </div>
+
+    {{
+      appealDetails({
+        appeal: appeal
+      })
+    }}
+  </div>
+{% endblock %}

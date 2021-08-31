@@ -7,7 +7,6 @@ on:
   pull_request:
     paths:
       - infrastructure/common/**/*
-      - infrastructure/environments/**/*
       - infrastructure/modules/**/*
 
 defaults:
@@ -43,7 +42,7 @@ jobs:
           terraform validate
 
       - name: Terraform security scan
-        uses: triat/terraform-security-scan@v2.2.3
+        uses: triat/terraform-security-scan@v3.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:

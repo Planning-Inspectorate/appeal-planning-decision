@@ -236,7 +236,7 @@ Then('email {string} is invalid because {string}', (email, reason) => {
       cy.confirmDetailsWasRejected('Enter your email');
       break;
     case 'email invalid':
-      cy.confirmDetailsWasRejected('Email should be a valid email address');
+      cy.confirmDetailsWasRejected('Enter an email address in the correct format, like name@example.com');
       break;
     default:
       throw new Error(`test fails here because it could not find the reason [${reason}] in the list of cases`)
@@ -258,7 +258,7 @@ Then('the user is informed that the provided value {string} is invalid because {
       cy.confirmDetailsWasRejected('Enter your email');
       break;
     case 'email invalid':
-      cy.confirmDetailsWasRejected('Email should be a valid email address');
+      cy.confirmDetailsWasRejected('Enter an email address in the correct format, like name@example.com');
       break;
     default:
       throw new Error(`test fails here because it could not find the reason [${reason}] in the list of cases`)
@@ -290,7 +290,7 @@ Then('the user is informed that the provided name is invalid', () => {
 
 Then('the user is informed that the provided email is invalid', () => {
   cy.goToYourDetailsPage();
-  cy.confirmDetailsWasRejected('Email should be a valid email address');
+  cy.confirmDetailsWasRejected('Enter an email address in the correct format, like name@example.com');
 });
 
 Then('the user is informed that the name is missing', () => {
@@ -469,7 +469,7 @@ Given('it is confirmed that appellant {string} original applicant', (isOrIsNot) 
 
 
 Then('appeal is not updated because confirmation of original applicant status is required', () => {
-  cy.confirmWhoAreYouRejectedBecause('Yes, the original application was made in my name');
+  cy.confirmWhoAreYouRejectedBecause('Select yes if the original planning application was made in your name');
   cy.confirmAreYouOriginalApplicant('not set');
 })
 

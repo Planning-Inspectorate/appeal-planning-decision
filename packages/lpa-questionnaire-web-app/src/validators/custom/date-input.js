@@ -21,7 +21,7 @@ module.exports = (inputRef, inputLabel, condition = () => true) => {
       .notEmpty()
       .withMessage((_, { req }) => {
         if (!req.body[monthInput] && !req.body[yearInput]) {
-          return `Enter ${inputLabel}`;
+          return `Tell us the date the supplementary planning document was adopted`;
         }
 
         if (!req.body[monthInput] && req.body[yearInput]) {

@@ -2,6 +2,7 @@ const { CANNOT_START_YET, NOT_STARTED, COMPLETED } = require('./task-statuses');
 const {
   accuracySubmissionCompletion,
   extraConditionsCompletion,
+  healthSafetyCompletion,
   otherAppealsCompletion,
   uploadPlansCompletion,
   officersReportCompletion,
@@ -12,6 +13,7 @@ const {
 const requiredCompletion = [
   accuracySubmissionCompletion,
   extraConditionsCompletion,
+  healthSafetyCompletion,
   otherAppealsCompletion,
   uploadPlansCompletion,
   officersReportCompletion,

@@ -63,6 +63,20 @@ describe('controllers/upload-question', () => {
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
         backLink: backLinkUrl,
+        appealReplyId: 'mock-id',
+      });
+    });
+
+    it('should call the correct template, with missing data in request', () => {
+      mockAppealReply.mockSection.mockTask = undefined;
+      req.session.appealReply = mockAppealReply;
+      req.session.backLink = backLinkUrl;
+
+      uploadQuestionController.getUpload(req, res);
+
+      expect(res.render).toHaveBeenCalledWith('mock-view', {
+        appeal: null,
+        backLink: backLinkUrl,
       });
     });
 
@@ -72,6 +86,7 @@ describe('controllers/upload-question', () => {
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        appealReplyId: 'mock-id',
       });
     });
 
@@ -89,6 +104,7 @@ describe('controllers/upload-question', () => {
         appeal: null,
         backLink: `/mock-id/${VIEW.TASK_LIST}`,
         uploadedFiles,
+        appealReplyId: 'mock-id',
       });
     });
   });
@@ -250,6 +266,27 @@ describe('controllers/upload-question', () => {
       await uploadQuestionController.postUpload(mockRequest, res);
 
       expect(fileErrorSummary).toHaveBeenCalledWith('some-error', []);
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledWith('mock-view', {
+        appeal: null,
+        backLink: '/mock-id/task-list',
+      });
+    });
+
+    it('should reload the page if there is an input error (invalid files)', async () => {
+      const mockRequest = {
+        ...req,
+        body: {
+          submit: 'save',
+          tempDocs: '{ "name": "some-error", "error": "error"}',
+        },
+      };
+
+      fileErrorSummary.mockReturnValue([{ href: '', text: 'some-error' }]);
+
+      await uploadQuestionController.postUpload(mockRequest, res);
+
+      expect(fileErrorSummary).toHaveBeenCalledWith('', [{ name: 'documents', error: 'error' }]);
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,

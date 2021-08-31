@@ -18,7 +18,8 @@
     "cypress-cucumber-preprocessor": "^4.0.0",
     "cypress-downloadfile": "^1.2.0",
     "cypress-file-upload": "5.0.2",
-    "multiple-cucumber-html-reporter": "1.18.0"
+    "multiple-cucumber-html-reporter": "1.18.0",
+    "@testing-library/cypress": "^8.0.0"
   },
   "dependencies": {
     "cypress-html-validate": "2.0.1",

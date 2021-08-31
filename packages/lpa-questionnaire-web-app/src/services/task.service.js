@@ -2,18 +2,13 @@ const {
   accuracySubmissionCompletion,
   otherAppealsCompletion,
   extraConditionsCompletion,
+  healthSafetyCompletion,
   developmentPlanCompletion,
   uploadPlansCompletion,
   officersReportCompletion,
-  interestedPartiesCompletion,
-  representationsCompletion,
-  notifyingPartiesCompletion,
-  siteNoticesCompletion,
-  conservationAreaMapCompletion,
-  planningHistoryCompletion,
-  otherPoliciesCompletion,
-  statutoryDevelopmentCompletion,
   booleanCompletion,
+  fileUploadCompletion,
+  supplementaryPlanningDocumentsCompletion,
 } = require('./task-status');
 const checkYourAnswerCompletion = require('./task-status/check-your-answers');
 
@@ -57,6 +52,11 @@ const SECTIONS = [
         rule: booleanCompletion,
       },
       {
+        taskId: 'healthSafety',
+        href: '/health-safety',
+        rule: healthSafetyCompletion,
+      },
+      {
         taskId: 'listedBuilding',
         href: '/listed-building',
         rule: booleanCompletion,
@@ -94,17 +94,17 @@ const SECTIONS = [
       {
         taskId: 'interestedPartiesApplication',
         href: '/interested-parties',
-        rule: interestedPartiesCompletion,
+        rule: fileUploadCompletion,
       },
       {
         taskId: 'representationsInterestedParties',
         href: '/representations',
-        rule: representationsCompletion,
+        rule: fileUploadCompletion,
       },
       {
         taskId: 'interestedPartiesAppeal',
         href: '/notifications',
-        rule: notifyingPartiesCompletion,
+        rule: fileUploadCompletion,
       },
       {
         taskId: 'originalPlanningApplicationPublicised',
@@ -114,27 +114,32 @@ const SECTIONS = [
       {
         taskId: 'siteNotices',
         href: '/site-notice',
-        rule: siteNoticesCompletion,
+        rule: fileUploadCompletion,
       },
       {
         taskId: 'conservationAreaMap',
         href: '/conservation-area-map',
-        rule: conservationAreaMapCompletion,
+        rule: fileUploadCompletion,
       },
       {
         taskId: 'planningHistory',
         href: '/planning-history',
-        rule: planningHistoryCompletion,
+        rule: fileUploadCompletion,
       },
       {
         taskId: 'otherPolicies',
         href: '/other-policies',
-        rule: otherPoliciesCompletion,
+        rule: fileUploadCompletion,
       },
       {
         taskId: 'statutoryDevelopment',
         href: '/statutory-development',
-        rule: statutoryDevelopmentCompletion,
+        rule: fileUploadCompletion,
+      },
+      {
+        taskId: 'supplementaryPlanningDocuments',
+        href: '/supplementary-documents/uploaded-documents',
+        rule: supplementaryPlanningDocumentsCompletion,
       },
       {
         taskId: 'developmentOrNeighbourhood',
@@ -162,9 +167,10 @@ const HEADERS = {
   otherAppeals: 'Tell us about any appeals in the immediate area',
   aboutSiteSection: 'About the Appeal Site',
   siteSeenPublicLand:
-    'Can the inspector see the relevant parts of the appeal site from public land?',
-  enterAppealSite: 'Would the inspector need to enter the appeal site?',
-  accessNeighboursLand: "Would the inspector need access to a neighbour's land?",
+    'Can the Inspector see the relevant parts of the appeal site from public land?',
+  enterAppealSite: 'Would the Inspector need to enter the appeal site?',
+  accessNeighboursLand: "Would the Inspector need access to a neighbour's land?",
+  healthSafety: 'Are there any health and safety issues on the appeal site?',
   listedBuilding: 'Would the development affect the setting of a listed building?',
   greenBelt: 'Is the appeal site in a green belt?',
   nearConservationArea: 'Is the appeal site in or near a conservation area?',
@@ -180,6 +186,7 @@ const HEADERS = {
   conservationAreaMap: 'Conservation area map and guidance',
   planningHistory: 'Planning history',
   otherPolicies: 'Other relevant policies',
+  supplementaryPlanningDocuments: 'Supplementary planning documents',
   statutoryDevelopment: 'Statutory development plan policy',
   developmentOrNeighbourhood: 'Development Plan Document or Neighbourhood Plan',
   submitQuestionnaireSection: 'Before you submit',

@@ -1,0 +1,32 @@
+{
+  "name": "@pins/business-rules",
+  "version": "0.0.0",
+  "description": "PINS technical and business rule validation logic",
+  "private": true,
+  "main": "src/index.js",
+  "scripts": {
+    "doc": "jsdoc -c jsdoc.conf.json",
+    "format": "prettier --write './**/*.js'",
+    "lint": "eslint ./",
+    "test": "jest",
+    "test:cov": "jest --coverage",
+    "test:watch": "jest --watchAll --runInBand --coverage",
+    "documentation": "jest --coverage --reporters jest-html-reporters --coverageReporters html"
+  },
+  "author": "",
+  "devDependencies": {
+    "eslint": "^7.12.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.6.3",
+    "jest-html-reporters": "^2.1.2",
+    "prettier": "^2.1.2"
+  },
+  "dependencies": {
+    "date-fns": "^2.21.3",
+    "yup": "^0.32.9"
+  }
+}

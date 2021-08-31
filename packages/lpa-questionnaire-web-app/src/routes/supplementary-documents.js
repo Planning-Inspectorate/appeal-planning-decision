@@ -1,5 +1,7 @@
 const express = require('express');
-const supplementaryDocumentsController = require('../controllers/supplementary-documents');
+const addSupplementaryDocumentController = require('../controllers/supplementary-documents/add-supplementary-document');
+const uploadedDocumentsController = require('../controllers/supplementary-documents/uploaded-documents');
+const deleteSupplementaryDocumentController = require('../controllers/supplementary-documents/delete-supplementary-document');
 const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing-appeal-reply');
 const fetchAppealMiddleware = require('../middleware/fetch-appeal');
 const reqFilesToReqBodyFilesMiddleware = require('../middleware/req-files-to-req-body-files');
@@ -10,18 +12,36 @@ const supplementaryDocumentsValidationRules = require('../validators/supplementa
 const router = express.Router();
 
 router.get(
-  '/:id/supplementary-documents/add-document',
+  '/:id/supplementary-documents',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
-  supplementaryDocumentsController.getAddDocument
+  addSupplementaryDocumentController.getAddDocument
 );
 
 router.post(
-  '/:id/supplementary-documents/add-document',
+  '/:id/supplementary-documents',
   reqFilesToReqBodyFilesMiddleware('documents'),
   combineDateInputsMiddleware,
   supplementaryDocumentsValidationRules(),
   validationErrorHandler,
-  supplementaryDocumentsController.postAddDocument
+  addSupplementaryDocumentController.postAddDocument
+);
+
+router.get(
+  '/:id/supplementary-documents/uploaded-documents',
+  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+  uploadedDocumentsController.getUploadedDocuments
+);
+
+router.get(
+  '/:id/supplementary-documents/delete-document',
+  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+  deleteSupplementaryDocumentController.getDeleteDocument
+);
+
+router.post(
+  '/:id/supplementary-documents/delete-document',
+  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+  deleteSupplementaryDocumentController.postDeleteDocument
 );
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const { get, post } = require('./router-mock');
 
-const supplementaryDocumentsController = require('../../../src/controllers/supplementary-documents');
+const supplementaryDocumentsController = require('../../../src/controllers/supplementary-documents/add-supplementary-document');
+const uploadedDocumentsController = require('../../../src/controllers/supplementary-documents/uploaded-documents');
 
 const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
 const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
@@ -25,18 +26,24 @@ describe('routes/supplementary-documents', () => {
 
     it('should define the expected routes', () => {
       expect(get).toHaveBeenCalledWith(
-        '/:id/supplementary-documents/add-document',
+        '/:id/supplementary-documents',
         [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
         supplementaryDocumentsController.getAddDocument
       );
 
       expect(post).toHaveBeenCalledWith(
-        '/:id/supplementary-documents/add-document',
+        '/:id/supplementary-documents',
         reqFilesToReqBodyFilesMiddleware('documents'),
         combineDateInputsMiddleware,
         supplementaryDocumentsValidationRules(),
         validationErrorHandler,
         supplementaryDocumentsController.postAddDocument
+      );
+
+      expect(get).toHaveBeenCalledWith(
+        '/:id/supplementary-documents/uploaded-documents',
+        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+        uploadedDocumentsController.getUploadedDocuments
       );
     });
   });

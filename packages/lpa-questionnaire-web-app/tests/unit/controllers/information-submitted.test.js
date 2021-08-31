@@ -32,6 +32,15 @@ describe('../../../src/controllers/information-submitted', () => {
   let lpaEmailString;
   let mockLPAObject;
 
+  beforeAll(() => {
+    jest.useFakeTimers('modern');
+    jest.setSystemTime(Date.parse('2021-07-29T07:35:11.426Z'));
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   beforeEach(() => {
     req = mockReq();
     res = mockRes();
@@ -95,6 +104,27 @@ describe('../../../src/controllers/information-submitted', () => {
 
       expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.INFORMATION_SUBMITTED}`);
       expect(res.status).not.toHaveBeenCalled();
+    });
+
+    it('should update the appealReply session object on success', async () => {
+      createOrUpdateAppealReply.mockReturnValue('reply ok');
+      createPdf.mockReturnValue({ id: 'mock-pdf', name: 'mock.pdf' });
+
+      await postInformationSubmitted(req, res);
+
+      const { appealReply } = req.session;
+      appealReply.state = 'SUBMITTED';
+      appealReply.submissionDate = Date.parse('2021-07-29T07:35:11.426Z');
+      appealReply.submission = {
+        pdfStatement: {
+          uploadedFile: {
+            id: 'mock-pdf',
+            name: 'mock.pdf',
+          },
+        },
+      };
+
+      expect(req.session.appealReply).toEqual(appealReply);
     });
   });
 });

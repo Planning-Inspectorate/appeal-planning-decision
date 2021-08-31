@@ -2,6 +2,8 @@ const fs = require('fs');
 const nunjucks = require('nunjucks');
 const path = require('path');
 const uuid = require('uuid');
+const { format } = require('date-fns');
+const gbLocale = require('date-fns/locale/en-GB');
 
 const checkAnswersSections = require('../lib/check-answers-sections');
 const appealSidebarDetails = require('../lib/appeal-sidebar-details');
@@ -45,6 +47,8 @@ const buildAppealDetailsRows = (appealData) => {
 };
 
 const convertToHtml = (appealReply, appeal) => {
+  const submissionDate = format(appealReply.submissionDate, 'dd MMMM yyyy', gbLocale);
+
   const sections = checkAnswersSections(appealReply, null, false);
 
   const appealDetails = getAppealDetails(appeal);
@@ -55,6 +59,7 @@ const convertToHtml = (appealReply, appeal) => {
 
   return nunjucks.render(path.resolve(__dirname, '../views/pdf-generation.njk'), {
     css,
+    submissionDate,
     sections,
   });
 };

@@ -9,6 +9,7 @@ describe('lib/views', () => {
       ACCURACY_SUBMISSION: 'accuracy-submission',
       EXTRA_CONDITIONS: 'extra-conditions',
       INTERESTED_PARTIES: 'interested-parties',
+      HEALTH_SAFETY: 'health-safety',
       REPRESENTATIONS: 'representations',
       NOTIFYING_PARTIES: 'notifying-parties',
       DEVELOPMENT_PLAN: 'development-plan',
@@ -20,7 +21,8 @@ describe('lib/views', () => {
       OTHER_POLICIES: 'other-policies',
       STATUTORY_DEVELOPMENT: 'statutory-development',
       SUPPLEMENTARY_DOCUMENTS: {
-        LIST: 'supplementary-documents/list',
+        UPLOADED_DOCUMENTS: 'supplementary-documents/uploaded-documents',
+        DELETE_DOCUMENT: 'supplementary-documents/delete-document',
         ADD_DOCUMENT: 'supplementary-documents/add-document',
       },
       INFORMATION_SUBMITTED: 'information-submitted',

@@ -34,6 +34,11 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'clickReEnterTheDecisionDate',
+  require('../eligibility-decision-date-passed/clickReEnterTheDecisionDate'),
+);
+
+Cypress.Commands.add(
   'provideLocalPlanningDepartment',
   require('../eligibility-local-planning-department/provideLocalPlanningDepartment'),
 );
