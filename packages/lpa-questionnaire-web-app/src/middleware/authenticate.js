@@ -2,7 +2,7 @@ const { validate: validateUuid } = require('uuid');
 const authenticationService = require('../services/authentication/authentication.service');
 const { getAppeal } = require('../lib/appeals-api-wrapper');
 const logger = require('../lib/logger');
-const ExpiredJWTError = require('../services/authentication/error/ExpiredJWTError');
+const ExpiredTokenError = require('../services/authentication/error/ExpiredTokenError');
 
 async function getLPACode(appealId) {
   if (!appealId || !validateUuid(appealId)) {
@@ -26,8 +26,8 @@ async function getLPACode(appealId) {
 function handleTokenExpired(req, res, err) {
   req.log.debug('Cookie JWT token is expired. User will be redirected to login page.');
 
-  const { userInformation } = err.jwtPayload;
-  if (!userInformation.lpaCode) {
+  const { userInformation } = err.tokenPayload;
+  if (!userInformation?.lpaCode) {
     req.log.error('Cookie token is missing lpaCode.');
     return res.status(404).send();
   }
@@ -59,7 +59,7 @@ module.exports = async (req, res, next) => {
       return next();
     })
     .catch((err) => {
-      if (err instanceof ExpiredJWTError) {
+      if (err instanceof ExpiredTokenError) {
         return handleTokenExpired(req, res, err);
       }
       return handleTokenInvalidError(req, res, err);
