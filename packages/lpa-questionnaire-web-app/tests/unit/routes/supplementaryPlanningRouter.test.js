@@ -26,13 +26,13 @@ describe('routes/supplementary-documents', () => {
 
     it('should define the expected routes', () => {
       expect(get).toHaveBeenCalledWith(
-        '/:id/supplementary-documents',
+        '/appeal-questionnaire/:id/supplementary-documents',
         [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
         supplementaryDocumentsController.getAddDocument
       );
 
       expect(post).toHaveBeenCalledWith(
-        '/:id/supplementary-documents',
+        '/appeal-questionnaire/:id/supplementary-documents',
         reqFilesToReqBodyFilesMiddleware('documents'),
         combineDateInputsMiddleware,
         supplementaryDocumentsValidationRules(),
@@ -41,7 +41,7 @@ describe('routes/supplementary-documents', () => {
       );
 
       expect(get).toHaveBeenCalledWith(
-        '/:id/supplementary-documents/uploaded-documents',
+        '/appeal-questionnaire/:id/supplementary-documents/uploaded-documents',
         [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
         uploadedDocumentsController.getUploadedDocuments
       );

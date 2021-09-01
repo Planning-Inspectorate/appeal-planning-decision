@@ -14,7 +14,7 @@ describe('controllers/index', () => {
     it('should call the correct template', () => {
       indexController.getIndex(req, res);
 
-      expect(res.redirect).toHaveBeenCalledWith('/123-abc/task-list');
+      expect(res.redirect).toHaveBeenCalledWith('/appeal-questionnaire/123-abc/task-list');
     });
   });
 });

@@ -32,14 +32,14 @@ describe('routes/conservation-area-map', () => {
       const { getConfig } = require('../../../src/routes/conservation-area-map');
 
       expect(get).toHaveBeenCalledWith(
-        '/:id/conservation-area-map',
+        '/appeal-questionnaire/:id/conservation-area-map',
         [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
         getConfig,
         uploadQuestionController.getUpload
       );
 
       expect(post).toHaveBeenCalledWith(
-        '/:id/conservation-area-map',
+        '/appeal-questionnaire/:id/conservation-area-map',
         [reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
         validationErrorHandler,
         getConfig,

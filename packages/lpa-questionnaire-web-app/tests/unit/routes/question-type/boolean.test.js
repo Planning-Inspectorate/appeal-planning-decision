@@ -28,13 +28,13 @@ describe('routes/question-type/boolean', () => {
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      `/:id/mock-url`,
+      `/appeal-questionnaire/:id/mock-url`,
       [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
       expect.any(Function),
       booleanQuestionController.getBooleanQuestion
     );
     expect(post).toHaveBeenCalledWith(
-      `/:id/mock-url`,
+      `/appeal-questionnaire/:id/mock-url`,
       booleanQuestionRules('Mock error'),
       validationErrorHandler,
       expect.any(Function),
