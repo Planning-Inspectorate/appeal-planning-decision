@@ -23,7 +23,7 @@
       rows: [
         {
           key: {
-            text: "Appellant Name"
+            text: "Appellant name" if not appeal.aboutYouSection.yourDetails.isOriginalApplicant else "Your name"
           },
           value: {
             text: summaryField(appeal.aboutYouSection.yourDetails.name, { 'data-cy': "appellant-name" })
@@ -33,7 +33,7 @@
         },
         {
           key: {
-            text: "Site Address"
+            text: "Site address"
           },
           value: {
             text: summaryField(appeal | appealSiteAddressToArray | join("<br>") | safe, { 'data-cy': "appellant-address" })
