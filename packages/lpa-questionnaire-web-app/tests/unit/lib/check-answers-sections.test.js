@@ -5,6 +5,7 @@ jest.mock('../../../src/services/task.service', () => ({
   SECTIONS: [
     {
       sectionId: 'mockSection',
+      prefix: '/appeal-questionnaire',
       tasks: [
         {
           taskId: 'mockTask1',
@@ -104,7 +105,7 @@ describe('check-answers-sections', () => {
               actions: {
                 items: [
                   {
-                    href: '/mock-id/mock-task-1',
+                    href: '/appeal-questionnaire/mock-id/mock-task-1',
                     text: 'Change',
                     visuallyHiddenText: 'Mock Task 1',
                     attributes: {
@@ -123,7 +124,7 @@ describe('check-answers-sections', () => {
               actions: {
                 items: [
                   {
-                    href: '/mock-id/mock-task-2',
+                    href: '/appeal-questionnaire/mock-id/mock-task-2',
                     text: 'Change',
                     visuallyHiddenText: 'Different mock title',
                     attributes: {

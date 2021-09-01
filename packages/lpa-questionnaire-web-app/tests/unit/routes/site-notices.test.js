@@ -32,14 +32,14 @@ describe('routes/site-notices', () => {
       const { getConfig } = require('../../../src/routes/site-notices');
 
       expect(get).toHaveBeenCalledWith(
-        '/:id/site-notice',
+        '/appeal-questionnaire/:id/site-notice',
         [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
         getConfig,
         uploadQuestionController.getUpload
       );
 
       expect(post).toHaveBeenCalledWith(
-        '/:id/site-notice',
+        '/appeal-questionnaire/:id/site-notice',
         [reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
         validationErrorHandler,
         getConfig,
