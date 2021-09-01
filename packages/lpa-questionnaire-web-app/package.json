@@ -17,7 +17,7 @@
     "lint:fix": "eslint ./ --fix",
     "format": "prettier --write './**/*.js'",
     "postinstall": "patch-package",
-    "test": "jest --coverage ",
+    "test": "jest --coverage --verbose false ",
     "test:watch": "jest --watchAll --runInBand --coverage",
     "documentation": "jest --coverage --reporters jest-html-reporters --coverageReporters html"
   },

@@ -8,13 +8,13 @@ const { rules: healthSafetyValidationRules } = require('../validators/health-saf
 const router = express.Router();
 
 router.get(
-  '/:id/health-safety',
+  '/appeal-questionnaire/:id/health-safety',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
   healthSafetyController.getHealthSafety
 );
 
 router.post(
-  '/:id/health-safety',
+  '/appeal-questionnaire/:id/health-safety',
   healthSafetyValidationRules(),
   validationErrorHandler,
   healthSafetyController.postHealthSafety

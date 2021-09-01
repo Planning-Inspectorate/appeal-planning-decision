@@ -6,7 +6,7 @@ const confirmAnswersController = require('../controllers/confirm-answers');
 const router = express.Router();
 
 router.get(
-  '/:id/confirm-answers',
+  '/appeal-questionnaire/:id/confirm-answers',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
   confirmAnswersController
 );
