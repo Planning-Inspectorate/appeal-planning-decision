@@ -1,5 +1,6 @@
 const { VIEW } = require('../lib/views');
 const checkAnswersSections = require('../lib/check-answers-sections');
+const { renderView } = require('../util/render');
 
 module.exports = (req, res) => {
   const { appealReply } = req.session;
@@ -8,9 +9,10 @@ module.exports = (req, res) => {
   // Set backLink property in session
   req.session.backLink = `/${req.params.id}/${VIEW.CONFIRM_ANSWERS}`;
 
-  res.render(VIEW.CONFIRM_ANSWERS, {
-    taskListLink: `/${req.params.id}/${VIEW.TASK_LIST}`,
-    submissionLink: `/${req.params.id}/${VIEW.INFORMATION_SUBMITTED}`,
+  renderView(res, VIEW.CONFIRM_ANSWERS, {
+    prefix: 'appeal-questionnaire',
+    submissionLink: `/appeal-questionnaire/${req.params.id}/${VIEW.INFORMATION_SUBMITTED}`,
+    taskListLink: '/appeal-questionnaire/mock-id/task-list',
     sections,
   });
 };

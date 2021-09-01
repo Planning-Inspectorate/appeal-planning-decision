@@ -8,13 +8,13 @@ const { rules: extraConditionsValidationRules } = require('../validators/extra-c
 const router = express.Router();
 
 router.get(
-  '/:id/extra-conditions',
+  '/appeal-questionnaire/:id/extra-conditions',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
   extraConditionsController.getExtraConditions
 );
 
 router.post(
-  '/:id/extra-conditions',
+  '/appeal-questionnaire/:id/extra-conditions',
   extraConditionsValidationRules(),
   validationErrorHandler,
   extraConditionsController.postExtraConditions

@@ -4,6 +4,10 @@ const taskListController = require('../controllers/task-list');
 
 const router = express.Router();
 
-router.get('/:id/task-list', [fetchExistingAppealReplyMiddleware], taskListController.getTaskList);
+router.get(
+  '/appeal-questionnaire/:id/task-list',
+  [fetchExistingAppealReplyMiddleware],
+  taskListController.getTaskList
+);
 
 module.exports = router;

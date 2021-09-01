@@ -12,13 +12,13 @@ const supplementaryDocumentsValidationRules = require('../validators/supplementa
 const router = express.Router();
 
 router.get(
-  '/:id/supplementary-documents',
+  '/appeal-questionnaire/:id/supplementary-documents',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
   addSupplementaryDocumentController.getAddDocument
 );
 
 router.post(
-  '/:id/supplementary-documents',
+  '/appeal-questionnaire/:id/supplementary-documents',
   reqFilesToReqBodyFilesMiddleware('documents'),
   combineDateInputsMiddleware,
   supplementaryDocumentsValidationRules(),
@@ -27,19 +27,19 @@ router.post(
 );
 
 router.get(
-  '/:id/supplementary-documents/uploaded-documents',
+  '/appeal-questionnaire/:id/supplementary-documents/uploaded-documents',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
   uploadedDocumentsController.getUploadedDocuments
 );
 
 router.get(
-  '/:id/supplementary-documents/delete-document',
+  '/appeal-questionnaire/:id/supplementary-documents/delete-document',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
   deleteSupplementaryDocumentController.getDeleteDocument
 );
 
 router.post(
-  '/:id/supplementary-documents/delete-document',
+  '/appeal-questionnaire/:id/supplementary-documents/delete-document',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
   deleteSupplementaryDocumentController.postDeleteDocument
 );
