@@ -4,7 +4,7 @@
   "reporter": "junit",
   "reporterOptions": {
     "mochaFile": "tests/test-output-[hash].xml",
-    "toConsole": true,
+    "toConsole": false,
     "attachments": true
     },
   "chromeWebSecurity": false,
