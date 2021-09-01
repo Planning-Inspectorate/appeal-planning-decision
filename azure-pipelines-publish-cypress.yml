@@ -52,8 +52,3 @@ stages:
             inputs:
               targetPath: $(Build.SourcesDirectory)/lpa-submissions-e2e-tests
               artifactName: LPASubmissionsTests
-          - task: PublishPipelineArtifact@1
-            displayName: Publish Tests Lite
-            inputs:
-              targetPath: $(Build.SourcesDirectory)/test-lite
-              artifactName: TestLite
