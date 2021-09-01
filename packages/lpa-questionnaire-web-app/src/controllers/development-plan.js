@@ -46,7 +46,7 @@ exports.postDevelopmentPlan = async (req, res) => {
     renderView(res, VIEW.DEVELOPMENT_PLAN, {
       prefix: 'appeal-questionnaire',
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink ? req.session.backLink : `/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary,
       values,
@@ -72,7 +72,7 @@ exports.postDevelopmentPlan = async (req, res) => {
     renderView(res, VIEW.DEVELOPMENT_PLAN, {
       prefix: 'appeal-questionnaire',
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink ? req.session.backLink : `/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary: [{ text: err.toString() }],
       values,
