@@ -55,5 +55,5 @@ stages:
           - task: PublishPipelineArtifact@1
             displayName: Publish Tests Lite
             inputs:
-              targetPath: $(Build.SourcesDirectory)/tests-lite
+              targetPath: $(Build.SourcesDirectory)/test-lite
               artifactName: TestLite
