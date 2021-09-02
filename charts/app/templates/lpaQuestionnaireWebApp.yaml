@@ -1,0 +1,121 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "app.fullname" . }}-lpa-questionnaire-web-app
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.lpaQuestionnaireWebApp.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: {{ .Values.lpaQuestionnaireWebApp.config.port | quote }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "app.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "app.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.lpaQuestionnaireWebApp.image.repository }}:{{ .Values.lpaQuestionnaireWebApp.image.tag }}"
+          imagePullPolicy: {{ .Values.lpaQuestionnaireWebApp.image.pullPolicy }}
+          ports:
+            - name: {{.Values.lpaQuestionnaireWebApp.service.name }}
+              containerPort: {{ .Values.lpaQuestionnaireWebApp.config.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{.Values.lpaQuestionnaireWebApp.service.name }}
+            initialDelaySeconds: 45
+            periodSeconds: 5
+            failureThreshold: 30
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{.Values.lpaQuestionnaireWebApp.service.name }}
+            initialDelaySeconds: 45
+            periodSeconds: 5
+            failureThreshold: 30
+            successThreshold: 1
+            timeoutSeconds: 1
+          env:
+            - name: ALLOW_APPEAL_REPLY_CREATE
+              value: {{ .Values.lpaQuestionnaireWebApp.config.allowCreate | quote }}
+            - name: APPEAL_REPLY_SERVICE_API_URL
+              value: "http://{{ include "app.fullname" . }}:{{ .Values.appealReplyServiceApi.service.port }}"
+            - name: APPEALS_SERVICE_API_URL
+              value: "http://{{ include "app.fullname" . }}:{{ .Values.appealsServiceApi.service.port }}"
+            - name: DOCUMENTS_SERVICE_API_URL
+              value: "http://{{ include "app.fullname" . }}:{{ .Values.documentServiceApi.service.port }}"
+            - name: PDF_SERVICE_API_URL
+              value: "http://{{ include "app.fullname" . }}:{{ .Values.pdfServiceApi.service.port }}"
+            - name: GOOGLE_ANALYTICS_ID
+              value: {{ .Values.lpaQuestionnaireWebApp.config.googleAnalyticsId | quote }}
+            - name: FILE_UPLOAD_DEBUG
+              value: {{ .Values.lpaQuestionnaireWebApp.config.upload.debug | quote }}
+            - name: FILE_UPLOAD_MAX_FILE_SIZE_BYTES
+              value: {{ .Values.documentServiceApi.config.upload.maxSize | quote }}
+            - name: FILE_UPLOAD_TMP_PATH
+              value: {{ .Values.lpaQuestionnaireWebApp.config.upload.uploadDir | quote }}
+            - name: FILE_UPLOAD_USE_TEMP_FILES
+              value: {{ .Values.lpaQuestionnaireWebApp.config.upload.useTmpFiles | quote }}
+            - name: LOGGER_LEVEL
+              value: {{ .Values.lpaQuestionnaireWebApp.config.logLevel }}
+            - name: PORT
+              value: {{ .Values.lpaQuestionnaireWebApp.config.port | quote }}
+            - name: SESSION_MONGODB_DB_NAME
+              value: lpa-questionnaire-web-app
+            - name: SESSION_MONGODB_COLLECTION
+              value: sessions
+            - name: SESSION_MONGODB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: value
+                  name: akv-mongodb-connection-url
+            - name: SESSION_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: value
+                  name: akv-lpa-questionnaire-session-key
+            - name: USE_SECURE_SESSION_COOKIES
+              value: "true"
+          volumeMounts:
+            - mountPath: {{ .Values.lpaQuestionnaireWebApp.config.upload.uploadDir | quote }}
+              name: upload-cache
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: upload-cache
+          emptyDir: {}

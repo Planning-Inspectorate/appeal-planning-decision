@@ -1,0 +1,417 @@
+name: Documentation
+
+env:
+  CYPRESS_DEFAULT: ./e2e-tests/cypress
+  CYPRESS_LPA_QUESTIONAIRE: ./lpa-submissions-e2e-tests/cypress
+
+  DOCUMENTATION_ROOT: ./e2e-tests/documentation
+
+  APPEALS_SERVICE_API: ./packages/appeals-service-api
+  COMMON: ./packages/common
+  DOCUMENT_SERVICE_API: ./packages/document-service-api
+  FORMS_WEB_APP: ./packages/forms-web-app
+  HORIZON_ADD_DOCUMENT_FN: ./packages/horizon-add-document
+  HORIZON_CREATE_CONTACT_FN: ./packages/horizon-create-contact
+  HORIZON_HOUSEHOLDER_APPEAL_PUBLISH_FN: ./packages/horizon-householder-appeal-publish
+  LPA_QUESTIONNAIRE_WEB_APP: ./packages/lpa-questionnaire-web-app
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  context:
+    name: "Build ID"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    outputs:
+      uuid: ${{ steps.uuid.outputs.value }}
+    steps:
+      - name: 'uuid'
+        id: uuid
+        run: echo "::set-output name=value::$GITHUB_SHA-$(date +"%s")"
+
+  cypress-forms-web-app-default:
+    needs: ['context']
+    name: "Documentation: forms-web-app (Cypress, default)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    strategy:
+      # when one test fails, DO NOT cancel the other
+      # containers, because this will kill Cypress processes
+      # leaving the Dashboard hanging ...
+      # https://github.com/cypress-io/github-action/issues/48
+      fail-fast: false
+      matrix:
+        # run 7 copies of the job in parallel
+        machines: [ 1, 2, 3, 4, 5, 6, 7 ]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache central NPM modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-fwa-central-npm-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: fwa-${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            fwa-${{ runner.os }}-node-${{ github.ref }}-
+            fwa-${{ runner.os }}-node-
+            fwa-${{ runner.os }}-
+
+      - name: Cache Cypress binary
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-fwa-cypress-binary
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.cache/Cypress
+          key: fwa-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            fwa-${{ runner.os }}-cypress-${{ github.ref }}-
+            fwa-${{ runner.os }}-cypress-
+            fwa-${{ runner.os }}-
+
+      - name: Cache local node_modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-fwa-local-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: node_modules
+          key: fwa-${{ runner.os }}-node-modules-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            fwa-${{ runner.os }}-node-modules-${{ github.ref }}-
+            fwa-${{ runner.os }}-node-modules-
+            fwa-${{ runner.os }}-
+
+      - name: Install the world
+        run: make install
+
+      - name: Start the world
+        run: docker-compose up -d
+
+      - name: Run the tests in parallel
+        uses: cypress-io/github-action@v2
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          # Pass the Github token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          working-directory: ./e2e-tests
+          record: true
+          parallel: true
+          ci-build-id: ${{ needs.context.outputs.uuid }}
+
+      - name: Post-process results
+        if: ${{ always() }}
+        run: npm run test:e2e:postprocess
+
+      - name: Set UUID for archive report
+        id: generate-uuid
+        uses: filipstefansson/uuid-action@v1
+
+      - name: Archive report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: CYPRESS-FWA-${{ steps.generate-uuid.outputs.uuid }}-results
+          path: ${{ env.CYPRESS_DEFAULT }}/cucumber-report
+
+  jest-forms-web-app:
+    name: "Documentation: forms-web-app (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate html reports
+        run: npm run document:forms-web-app
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_forms-web-app-results
+          path: ${{ env.FORMS_WEB_APP }}/jest_html_reporters.html
+
+      - name: Archive coverage
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_forms-web-app-coverage
+          path: ${{ env.FORMS_WEB_APP }}/coverage
+
+  cypress-lpa-questionnaire-web-app:
+    name: "Documentation: lpa-questionnaire-web-app (Cypress)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache central NPM modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-fwaq-central-npm-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: fwaq-${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            fwaq-${{ runner.os }}-node-${{ github.ref }}-
+            fwaq-${{ runner.os }}-node-
+            fwaq-${{ runner.os }}-
+
+      - name: Cache Cypress binary
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-fwaq-cypress-binary
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.cache/Cypress
+          key: fwaq-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            fwaq-${{ runner.os }}-cypress-${{ github.ref }}-
+            fwaq-${{ runner.os }}-cypress-
+            fwaq-${{ runner.os }}-
+
+      - name: Cache local node_modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-fwaq-local-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: node_modules
+          key: fwaq-${{ runner.os }}-node-modules-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            fwaq-${{ runner.os }}-node-modules-${{ github.ref }}-
+            fwaq-${{ runner.os }}-node-modules-
+            fwaq-${{ runner.os }}-
+
+      - name: Install the world
+        run: make install
+
+      - name: Start the world
+        run: docker-compose up -d
+
+      - name: Run the tests against LPA questionaire
+        run: npm run test:e2e:lpa
+
+      - name: Generate html report
+        if: ${{ always() }}
+        run: npm run test:e2e:lpa:postprocess
+
+      - name: Archive report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: CYPRESS-LPA-questionaire-results
+          path: ${{ env.CYPRESS_LPA_QUESTIONAIRE }}/cucumber-report
+
+  jest-lpa-questionnaire-web-app:
+    name: "Documentation: lpa-questionnaire-web-app (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate html reports
+        run: npm run document:lpa-questionnaire-web-app
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_lpa-questionnaire-web-app-results
+          path: ${{ env.LPA_QUESTIONNAIRE_WEB_APP }}/jest_html_reporters.html
+
+      - name: Archive coverage
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_lpa-questionnaire-web-app-coverage
+          path: ${{ env.LPA_QUESTIONNAIRE_WEB_APP }}/coverage
+
+  jest-appeals-service-api:
+    name: "Documentation: appeals-service-api (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate html reports
+        run: npm run document:appeals-service-api
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_appeals-service-api-results
+          path: ${{ env.APPEALS_SERVICE_API }}/jest_html_reporters.html
+
+      - name: Archive coverage
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_appeals-service-api-coverage
+          path: ${{ env.APPEALS_SERVICE_API }}/coverage
+
+  jest-common:
+    name: "Documentation: common (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate html reports
+        run: npm run document:common
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_common-results
+          path: ${{ env.COMMON }}/jest_html_reporters.html
+
+      - name: Archive coverage
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_common-coverage
+          path: ${{ env.COMMON }}/coverage
+
+  jest-horizon-add-document:
+    name: "Documentation: horizon-add-document (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate html reports
+        run: npm run document:horizon-add-document
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_horizon-add-document-results
+          path: ${{ env.HORIZON_ADD_DOCUMENT_FN }}/jest_html_reporters.html
+
+      - name: Archive coverage
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_horizon-add-document-coverage
+          path: ${{ env.HORIZON_ADD_DOCUMENT_FN }}/coverage
+
+  jest-horizon-create-contact:
+    name: "Documentation: horizon-create-contact (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate html reports
+        run: npm run document:horizon-create-contact
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_horizon-create-contact-results
+          path: ${{ env.HORIZON_CREATE_CONTACT_FN }}/jest_html_reporters.html
+
+      - name: Archive coverage
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_horizon-create-contact-coverage
+          path: ${{ env.HORIZON_CREATE_CONTACT_FN }}/coverage
+
+  jest-horizon-householder-appeal-publish:
+    name: "Documentation: horizon-householder-appeal-publish (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate html reports
+        run: npm run document:horizon-householder-appeal-publish
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_horizon-householder-appeal-publish-results
+          path: ${{ env.HORIZON_HOUSEHOLDER_APPEAL_PUBLISH_FN }}/jest_html_reporters.html
+
+      - name: Archive coverage
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_horizon-householder-appeal-publish-coverage
+          path: ${{ env.HORIZON_HOUSEHOLDER_APPEAL_PUBLISH_FN }}/coverage
+
+  jest-document-service-api:
+    name: "Documentation: document-service-api (Jest)"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate html reports
+        run: npm run document:document-service-api
+
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_document-service-api-results
+          path: ${{ env.DOCUMENT_SERVICE_API }}/jest_html_reporters.html
+
+      - name: Archive coverage
+        if: ${{ always() }}
+        uses: actions/upload-artifact@main
+        with:
+          name: JEST_document-service-api-coverage
+          path: ${{ env.DOCUMENT_SERVICE_API }}/coverage
+
+  publish-test-suite-results:
+    name: "Documentation: Publish to Github Pages"
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    needs:
+      - cypress-forms-web-app-default
+      - jest-forms-web-app
+      - cypress-lpa-questionnaire-web-app
+      - jest-lpa-questionnaire-web-app
+      - jest-appeals-service-api
+      - jest-document-service-api
+      - jest-common
+      - jest-horizon-add-document
+      - jest-horizon-create-contact
+      - jest-horizon-householder-appeal-publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+
+      - name: put all CYPRESS* + JEST* artifacts into our documentation
+        run: |
+          cp -r CYPRESS* ${{ env.DOCUMENTATION_ROOT }}
+          cp -r JEST* ${{ env.DOCUMENTATION_ROOT }}
+
+      - name: Publish the documentation
+        if: ${{ always() }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ env.DOCUMENTATION_ROOT }}
+          user_name: 'Karuna[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'

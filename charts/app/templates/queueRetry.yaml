@@ -1,0 +1,92 @@
+{{ $queueConfig := index .Values "horizon-householder-appeal-publish" }}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "app.fullname" . }}-queue-retry
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.queueRetryService.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "app.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "app.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.queueRetryService.image.repository }}:{{ .Values.queueRetryService.image.tag }}"
+          imagePullPolicy: {{ .Values.queueRetryService.image.pullPolicy }}
+          ports:
+            - name: {{ .Values.queueRetryService.service.name }}
+              containerPort: {{ .Values.queueRetryService.config.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.queueRetryService.service.name }}
+            initialDelaySeconds: 45
+            periodSeconds: 5
+            failureThreshold: 30
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.queueRetryService.service.name }}
+            initialDelaySeconds: 45
+            periodSeconds: 5
+            failureThreshold: 30
+            successThreshold: 1
+            timeoutSeconds: 1
+          env:
+            - name: LOGGER_LEVEL
+              value: {{ .Values.queueRetryService.config.logLevel }}
+            - name: HORIZON_HAS_PUBLISHER_HOST
+              value: {{ $queueConfig.amqp.connection.host | quote }}
+            - name: HORIZON_HAS_PUBLISHER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: {{ $queueConfig.amqp.connection.existingPasswordSecret | quote }}
+            - name: HORIZON_HAS_PUBLISHER_QUEUES
+              value: {{ .Values.queueRetryService.config.queues | join "," }}
+            - name: HORIZON_HAS_PUBLISHER_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: {{ $queueConfig.amqp.connection.existingUsernameSecret | quote }}
+            - name: SERVER_PORT
+              value: {{ .Values.queueRetryService.config.port | quote }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

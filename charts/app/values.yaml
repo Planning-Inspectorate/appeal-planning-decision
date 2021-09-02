@@ -1,0 +1,325 @@
+# Default values for app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  domainNames:
+    appealsWebApp: ""
+    lpaQuestionnaireWebApp: ""
+
+appealReplyServiceApi:
+  replicaCount: 1
+  service:
+    name: areply-src-api
+    port: 3002
+  image:
+    repository: pinscommonukscontainers3887default.azurecr.io/appeal-reply-service-api
+    pullPolicy: Always
+    tag: latest
+  config:
+    port: 3000
+    logLevel: trace
+    notify:
+      baseUrl: "" # Let Notify package resolve this itself
+      secretName: ""
+      serviceId: ""
+      emailReplyToId:
+        appealReplyNotificationEmailToLpa: f1e6c8c5-786e-41ca-9086-10b67f31bc86
+      templates:
+        appealReplyNotificationEmailToLpa: 937b4147-8420-42da-859d-d4a65bdf99bc
+
+appealsServiceApi:
+  replicaCount: 1
+  service:
+    name: appeals-srv-api
+    port: 3000
+  image:
+    repository: pinscommonukscontainers3887default.azurecr.io/appeals-service-api
+    pullPolicy: Always
+    tag: latest
+  config:
+    port: 3000
+    logLevel: trace
+    notify:
+      baseUrl: "" # Let Notify package resolve this itself
+      secretName: ""
+      serviceId: ""
+      templateId: 15ed37a9-506c-4845-88ea-95502282a863
+      templates:
+        appealNotificationEmailToLpa: 79488d5d-7efd-4273-a11f-e73f11d19676
+        appealSubmissionConfirmationEmailToAppellant: 72f71441-12bf-4455-afbc-c58f9c72bfbd
+        startEmailToLpa: c4701212-4b6a-4b55-801a-c86c7dbea54b
+      emailReplyToId:
+        startEmailToLpa: f1e6c8c5-786e-41ca-9086-10b67f31bc86
+
+authenticationServiceApi:
+  replicaCount: 1
+  config:
+    port: 3000
+    logLevel: trace
+  image:
+    repository: pinscommonukscontainers3887default.azurecr.io/authentication-service-api
+    pullPolicy: Always
+    tag: latest
+  service:
+    name: auth-srv-api
+    port: 3004
+
+
+documentServiceApi:
+  replicaCount: 1
+  service:
+    name: docs-srv-api
+    port: 3001
+  image:
+    repository: pinscommonukscontainers3887default.azurecr.io/document-service-api
+    pullPolicy: Always
+    tag: latest
+  config:
+    db:
+      name: document-service-api
+    cron:
+      schedule: "*/1 * * * *"
+      successfulJobHistoryLimit: 3
+    upload:
+      maxSize: 15000000 # 15mb
+      maxUploadAttempts: 3
+      processQueryLimit: 5
+      uploadContainerName: uploads
+      uploadDir: /upload-dir
+    port: 3000
+    logLevel: trace
+
+formsWebApp:
+  replicaCount: 1
+  service:
+    name: forms-web-app
+    port: 9003
+  image:
+    repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
+    pullPolicy: Always
+    tag: latest
+  config:
+    port: 3000
+    googleAnalyticsId: ""
+    logLevel: trace
+    upload:
+      debug: true
+      uploadDir: /upload-dir
+      useTmpFiles: true
+    googleTagManagerId: ""
+    featureFlagGoogleTagManager: ""
+
+lpaQuestionnaireWebApp:
+  replicaCount: 1
+  service:
+    name: lpaq-web-app
+    port: 9001
+  image:
+    repository: pinscommonukscontainers3887default.azurecr.io/lpa-questionnaire-web-app
+    pullPolicy: Always
+    tag: latest
+  config:
+    port: 3000
+    googleAnalyticsId: ""
+    logLevel: trace
+    subdomainOffset: ""
+    upload:
+      debug: true
+      uploadDir: /upload-dir
+      useTmpFiles: true
+
+pdfServiceApi:
+  replicaCount: 1
+  service:
+    name: pdf-srv-api
+    port: 3003
+  image:
+    repository: pinscommonukscontainers3887default.azurecr.io/pdf-service-api
+    pullPolicy: Always
+    tag: latest
+  config:
+    port: 3000
+    logLevel: trace
+
+queueRetryService:
+  replicaCount: 1
+  service:
+    name: queue-retry-api
+  image:
+    repository: pinscommonukscontainers3887default.azurecr.io/queue-retry
+    pullPolicy: Always
+    tag: latest
+  config:
+    port: 3000
+    logLevel: trace
+    queues:
+      - horizon-householder-appeal-publish
+
+imagePullSecrets:
+  - name: azure-docker-registry
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+# fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+# runAsUser: 1000
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  hosts:
+    fwa:
+      host: fwa-example.local
+      secretName: fwa-tls-secret
+      path: /
+      port: 9003
+      redirects:
+        - path: /health
+          target: /display-404
+        - path: /metrics
+          target: /display-404
+    lpaq:
+      host: lpaq-example.local
+      secretName: lpaq-tls-secret
+      path: /
+      port: 9001
+      redirects:
+        - path: /health
+          target: /display-404
+        - path: /metrics
+          target: /display-404
+  # The secret must be in the format for the nginx-ingress manual. If using
+  # Azure Key Vault, store the secret in the vault as JSON
+  # @link https://kubernetes.github.io/ingress-nginx/examples/auth/basic/
+  httpBasic:
+    enabled: false
+    message: "Authentication Required"
+    secret: ""
+  clusterIssuer: letsencrypt
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+#   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+keyVault:
+  name: key-vault-name
+  secrets:
+    - docs-blob-storage-connection-string
+    - fwa-session-key
+    - lpa-questionnaire-session-key
+    - mongodb-connection-url
+  multiValueSecrets:
+    - message-queue
+  envSpecific:
+    secrets: []
+    multiValueSecrets: []
+
+pinsKeyVault:
+  name: odtkeyvault
+  secrets: []
+  multiValueSecrets: []
+  envSpecific:
+    secrets: []
+    multiValueSecrets: []
+
+### Third-party services
+gotenberg:
+  replicaCount: 1
+  service:
+    name: gotenberg
+    port: 4000
+  image:
+    repository: thecodingmachine/gotenberg
+    pullPolicy: Always
+    tag: 6
+  config:
+    disableOfficeTemplates: true
+    port: 4000
+
+clamav:
+  replicaCount: 1
+  service:
+    name: clamav
+    port: 3310
+  image:
+    repository: mkodockx/docker-clamav
+    pullPolicy: Always
+    tag: latest
+  config:
+    port: 3310
+
+# This connects this infrastructure with the OpenFaaS service, which is
+# in a separate namespace. This is for ease of maintenance and to keep
+# this logically separated as part of "this" application.
+horizon-householder-appeal-publish:
+  imagePullSecrets:
+    - name: azure-docker-registry
+  image:
+    repository: pinscommonukscontainers3887default.azurecr.io/openfaas-amqp1.0-connector
+    tag: latest
+  amqp:
+    connection:
+      existingPasswordSecret: akv-message-queue
+      existingUsernameSecret: akv-message-queue
+      host: ""
+      hostname: ""
+      port: 5671
+      reconnectLimit: 5
+      reconnect: true
+      transport: tls
+    receiver:
+      source: horizon-householder-appeal-publish
+    receiverFlow:
+      manual: true
+      concurrentItems: 1
+      postProcessPause: 10000
+    response:
+      sendReply: false
+  openfaas:
+    function: horizon-householder-appeal-publish
+    gateway: http://gateway.openfaas.svc.cluster.local:8080

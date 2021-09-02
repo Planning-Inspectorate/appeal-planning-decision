@@ -1,0 +1,50 @@
+name: Terraform Validation
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    paths:
+      - infrastructure/common/**/*
+      - infrastructure/environments/**/*
+      - infrastructure/modules/**/*
+
+defaults:
+  run:
+    working-directory: infrastructure
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
+    strategy:
+      max-parallel: 5
+      matrix:
+        path:
+          - common
+          - environments
+          - modules
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.0
+          terraform_wrapper: false
+
+      - name: Validate
+        run: |
+          cd ${{ matrix.path }}
+          terraform init -backend=false
+          terraform validate
+
+      - name: Terraform security scan
+        uses: triat/terraform-security-scan@v3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tfsec_actions_working_dir: infrastructure/${{ matrix.path }}

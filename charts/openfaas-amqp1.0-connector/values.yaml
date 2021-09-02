@@ -1,0 +1,68 @@
+# Default values for amqp-connector.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: registry.gitlab.com/mrsimonemms/openfaas-amqp1.0-connector
+  pullPolicy: Always
+
+logger:
+  level: trace
+
+amqp:
+  connection:
+    existingPasswordSecret:
+    existingUsernameSecret:
+    host:
+    hostname:
+    reconnectLimit: 5
+    password:
+    port: 5672
+    reconnect: true
+    transport:
+    username:
+  delivery:
+    maxAttempts: 3
+  receiver:
+    autoAccept: false
+    source: openfaas
+  receiverFlow:
+    manual: false
+    concurrentItems: 500
+    postProcessPause: 0
+  response:
+    replyQueue: openfaas_reply
+    sendReply: true
+
+openfaas:
+  async: false
+  callbackUrl:
+  existingPasswordSecret:
+  existingUsernameSecret:
+  function:
+  gateway:
+  password:
+  username:
+
+health:
+  port: 3000
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: amqp-connector
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+resources: {}
+
+affinity: {}

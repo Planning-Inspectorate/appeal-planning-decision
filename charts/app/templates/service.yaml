@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "app.fullname" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.appealsServiceApi.service.port }}
+      targetPort: {{.Values.appealsServiceApi.service.name }}
+      protocol: TCP
+      name: {{.Values.appealsServiceApi.service.name }}
+    - port: {{ .Values.appealReplyServiceApi.service.port }}
+      targetPort: {{.Values.appealReplyServiceApi.service.name }}
+      protocol: TCP
+      name: {{.Values.appealReplyServiceApi.service.name }}
+    - port: {{ .Values.documentServiceApi.service.port }}
+      targetPort: {{ .Values.documentServiceApi.service.name }}
+      protocol: TCP
+      name: {{ .Values.documentServiceApi.service.name }}
+    - port: {{ .Values.pdfServiceApi.service.port }}
+      targetPort: {{ .Values.pdfServiceApi.service.name }}
+      protocol: TCP
+      name: {{ .Values.pdfServiceApi.service.name }}
+    - port: {{ .Values.gotenberg.service.port }}
+      targetPort: {{ .Values.gotenberg.service.name }}
+      protocol: TCP
+      name: {{ .Values.gotenberg.service.name }}
+    - port: {{ .Values.formsWebApp.service.port }}
+      targetPort: {{.Values.formsWebApp.service.name }}
+      protocol: TCP
+      name: {{.Values.formsWebApp.service.name }}
+    - port: {{ .Values.lpaQuestionnaireWebApp.service.port }}
+      targetPort: {{ .Values.lpaQuestionnaireWebApp.service.name }}
+      protocol: TCP
+      name: {{ .Values.lpaQuestionnaireWebApp.service.name }}
+    - port: {{ .Values.clamav.service.port }}
+      targetPort: {{ .Values.clamav.service.name }}
+      protocol: TCP
+      name: {{ .Values.clamav.service.name }}
+  selector:
+    {{- include "app.selectorLabels" . | nindent 4 }}

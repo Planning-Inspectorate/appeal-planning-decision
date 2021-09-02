@@ -1,0 +1,157 @@
+{{ $queueConfig := index .Values "horizon-householder-appeal-publish" }}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "app.fullname" . }}-appeals-service-api
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.appealsServiceApi.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: {{ .Values.appealsServiceApi.config.port | quote }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "app.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "app.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.appealsServiceApi.image.repository }}:{{ .Values.appealsServiceApi.image.tag }}"
+          imagePullPolicy: {{ .Values.appealsServiceApi.image.pullPolicy }}
+          ports:
+            - name: {{.Values.appealsServiceApi.service.name }}
+              containerPort: {{ .Values.appealsServiceApi.config.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.appealsServiceApi.service.name }}
+            initialDelaySeconds: 45
+            periodSeconds: 5
+            failureThreshold: 30
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{.Values.appealsServiceApi.service.name }}
+            initialDelaySeconds: 45
+            periodSeconds: 5
+            failureThreshold: 30
+            successThreshold: 1
+            timeoutSeconds: 1
+          env:
+            - name: APP_APPEALS_BASE_URL
+              value: "https://{{ .Values.globals.domainNames.appealsWebApp }}"
+            - name: APP_LPA_QUESTIONNAIRE_BASE_URL
+              value: "https://{{ .Values.globals.domainNames.lpaQuestionnaireWebApp }}"
+            - name: DOCUMENTS_SERVICE_API_URL
+              value: "http://{{ include "app.fullname" . }}:{{ .Values.documentServiceApi.service.port }}"
+            - name: HORIZON_HAS_PUBLISHER_HOST
+              value: {{ $queueConfig.amqp.connection.host | quote }}
+            - name: HORIZON_HAS_PUBLISHER_HOSTNAME
+              value: {{ $queueConfig.amqp.connection.hostname | quote }}
+            - name: HORIZON_HAS_PUBLISHER_RECONNECT_LIMIT
+              value: {{ $queueConfig.amqp.connection.reconnectLimit | quote }}
+            - name: HORIZON_HAS_PUBLISHER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: {{ $queueConfig.amqp.connection.existingPasswordSecret | quote }}
+            - name: HORIZON_HAS_PUBLISHER_PORT
+              value: {{ $queueConfig.amqp.connection.port | quote }}
+            - name: HORIZON_HAS_PUBLISHER_ATTEMPT_RECONNECTION
+              value: {{ $queueConfig.amqp.connection.reconnect | quote }}
+            - name: HORIZON_HAS_PUBLISHER_TRANSPORT
+              value: {{ $queueConfig.amqp.connection.transport | quote }}
+            - name: HORIZON_HAS_PUBLISHER_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: {{ $queueConfig.amqp.connection.existingUsernameSecret | quote }}
+            - name: HORIZON_HAS_PUBLISHER_QUEUE
+              value: {{ $queueConfig.amqp.receiver.source | quote }}
+            - name: LOGGER_LEVEL
+              value: {{ .Values.appealsServiceApi.config.logLevel }}
+            - name: LPA_DATA_PATH
+              value: /data/lpa/lpa-list.csv
+            - name: LPA_TRIALIST_DATA_PATH
+              value: /data/lpa-trialists/lpa-trialists.json
+            - name: MONGODB_DB_NAME
+              value: appeals-service-api
+            - name: MONGODB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: value
+                  name: akv-mongodb-connection-url
+            - name: SERVER_PORT
+              value: {{ .Values.appealsServiceApi.config.port | quote }}
+            - name: SERVER_TERMINATION_GRACE_PERIOD_SECONDS
+              value: {{ 10 | quote }} # Same as "periodSeconds" for readinessProbe
+            - name: SRV_NOTIFY_BASE_URL
+              value: {{ .Values.appealsServiceApi.config.notify.baseUrl | quote }}
+            - name: SRV_NOTIFY_SERVICE_ID
+              value: {{ .Values.appealsServiceApi.config.notify.serviceId | quote }}
+            - name: SRV_NOTIFY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: value
+                  name: {{ .Values.appealsServiceApi.config.notify.secretName }}
+            - name: SRV_NOTIFY_TEMPLATE_ID
+              value: {{ .Values.appealsServiceApi.config.notify.templateId | quote }}
+            - name: SRV_NOTIFY_APPEAL_SUBMISSION_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID
+              value: {{ .Values.appealsServiceApi.config.notify.templates.appealNotificationEmailToLpa | quote }}
+            - name: SRV_NOTIFY_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID
+              value: {{ .Values.appealsServiceApi.config.notify.templates.appealSubmissionConfirmationEmailToAppellant | quote }}
+            - name: SRV_NOTIFY_START_EMAIL_TO_LPA_TEMPLATE_ID
+              value: {{ .Values.appealsServiceApi.config.notify.templates.startEmailToLpa | quote }}
+            - name: SRV_NOTIFY_EMAIL_REPLYTO_ID_START_EMAIL_TO_LPA
+              value: {{ .Values.appealReplyServiceApi.config.notify.emailReplyToId.startEmailToLpa | quote }}
+          volumeMounts:
+            - name: lpa-data-volume
+              mountPath: /data/lpa
+              readOnly: true
+            - name: lpa-trialists-volume
+              mountPath: /data/lpa-trialists
+              readOnly: true
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: lpa-data-volume
+          configMap:
+            name: {{ include "app.fullname" . }}-lpa-data
+        - name: lpa-trialists-volume
+          configMap:
+            name: {{ include "app.fullname" . }}-lpa-trialists

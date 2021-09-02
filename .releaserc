@@ -1,0 +1,33 @@
+{
+  "extends": [
+    "semantic-release-monorepo"
+  ],
+  "branches": [
+    "+([0-9])?(.{+([0-9]),x}).x",
+    "master",
+    {
+      "name": "develop",
+      "prerelease": "rc"
+    }
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/github"
+  ],
+  "verifyConditions": [
+    {
+      "path": "@semantic-release/github",
+      "githubUrl": "https://api.github.com"
+    }
+  ],
+  "publish": [
+    {
+      "path": "@semantic-release/github",
+      "githubUrl": "https://api.github.com"
+    }
+  ],
+  "success": false,
+  "fail": false,
+  "npmPublish": false
+}

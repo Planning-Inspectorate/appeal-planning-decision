@@ -1,0 +1,36 @@
+# This enforced conformity with our Branching Strategy
+# @link https://pins-ds.atlassian.net/wiki/spaces/AAPDS/pages/425132090/Branching+strategy
+
+name: Check branch name
+
+on:
+  push:
+    branches-ignore:
+      - master
+      - develop
+      - release # Exists for legacy reasons
+      - 'releases/**' # Exists for legacy reasons
+      - 'dependabot/**' # Automatic dependabot updates
+      - 'feature/**'
+      - 'subtask/**'
+      - 'fix/**'
+  pull_request:
+    branches-ignore:
+      - master
+      - develop
+      - release # Exists for legacy reasons
+      - 'releases/**' # Exists for legacy reasons
+      - 'dependabot/**' # Automatic dependabot updates
+      - 'feature/**'
+      - 'subtask/**'
+      - 'fix/**'
+
+jobs:
+  branchName:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Error
+        run: |
+          BRANCH=${GITHUB_REF#refs/heads/}
+          echo "Cannot use branch: ${BRANCH}"
+          exit 1

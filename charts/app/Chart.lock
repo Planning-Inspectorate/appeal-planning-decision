@@ -1,0 +1,6 @@
+dependencies:
+- name: openfaas-amqp1-0-connector
+  repository: file://../openfaas-amqp1.0-connector
+  version: 1.1.1
+digest: sha256:aee8de7837924b2df2a1ea50fc8473f56696ad324f60243046125001f205a24f
+generated: "2021-03-29T10:46:16.942128064+01:00"
