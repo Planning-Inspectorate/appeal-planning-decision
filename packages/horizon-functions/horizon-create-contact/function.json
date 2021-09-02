@@ -1,0 +1,12 @@
+{
+    "bindings": [
+      {
+        "name": "sbMSG",
+        "type": "serviceBusTrigger",
+        "direction": "in",
+        "queueName": "create-contact",
+        "connection": "pinsuksmessagequeuedev_SERVICEBUS"
+      }
+    ]
+  }
+  

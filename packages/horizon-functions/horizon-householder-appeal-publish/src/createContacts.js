@@ -1,5 +1,6 @@
 const axios = require('axios');
 const config = require('./config');
+const rabbitmq = require('./lib/rabbitmq')
 
 /**
  * Create Contacts
@@ -49,20 +50,7 @@ const createContacts = async (log, body) => {
       const [firstName, ...lastName] = name.split(' ');
 
       log.info('Inserting contact into Horizon');
-
-      const {
-        data: { id: contactId },
-      } = await axios.post(
-        '/function/horizon-create-contact',
-        {
-          firstName,
-          lastName: lastName.join(' '), // Treat multiple spaces as part of last name
-          email,
-        },
-        {
-          baseURL: config.openfaas.gatewayUrl,
-        }
-      );
+      await rabbitmq.publisher('create-contact', { firstName, lastName: lastName.join(' '), email })
 
       return {
         /* Add user contact details */
