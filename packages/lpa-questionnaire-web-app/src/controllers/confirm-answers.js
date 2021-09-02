@@ -1,6 +1,5 @@
 const { VIEW } = require('../lib/views');
 const checkAnswersSections = require('../lib/check-answers-sections');
-const { renderView } = require('../util/render');
 
 module.exports = (req, res) => {
   const { appealReply } = req.session;
@@ -12,7 +11,7 @@ module.exports = (req, res) => {
   renderView(res, VIEW.CONFIRM_ANSWERS, {
     prefix: 'appeal-questionnaire',
     submissionLink: `/appeal-questionnaire/${req.params.id}/${VIEW.INFORMATION_SUBMITTED}`,
-    taskListLink: '/appeal-questionnaire/mock-id/task-list',
+    taskListLink: `/appeal-questionnaire/${req.params.id}/task-list`,
     sections,
   });
 };

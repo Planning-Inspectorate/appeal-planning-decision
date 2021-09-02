@@ -1,9 +1,9 @@
 jest.mock('../../../src/lib/notify-validation');
 jest.mock('../../../src/services/lpa.service');
 
-const config = require('.../../../src/lib/config');
+const config = require('../../../src/lib/config');
 
-const { APPEAL_DOCUMENT } = require('../../../../forms-web-app/src/lib/empty-appeal');
+const { APPEAL_DOCUMENT } = require('../../../src/lib/empty-appeal');
 const {
   isValidAppealForSubmissionReceivedNotificationEmail,
   isValidAppealForSendStartEmailToLPAEmail,
