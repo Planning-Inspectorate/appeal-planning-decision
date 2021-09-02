@@ -1,668 +1,435 @@
-jest.mock('multer');
-jest.mock('../schemas/documents');
-jest.mock('../services/upload.service');
-
-const multer = require('multer');
-const { when } = require('jest-when');
 const {
-  uploadDocumentsToBlobStorage,
-  deleteFromBlobStorageByLocation,
-} = require('../services/upload.service');
+  getDocumentsForApplication,
+  getDocumentById,
+  serveDocumentById,
+  uploadDocument,
+  deleteDocument,
+} = require('./documents');
+const BlobStorage = require('../lib/blobStorage');
+const deleteLocalFile = require('../lib/deleteLocalFile');
+const { mockReq, mockRes } = require('../../test/utils/mocks');
 
-const controller = require('./documents');
-const Documents = require('../schemas/documents');
-const config = require('../lib/config');
+const containerClient = () => 'mock-container-client';
+const uploadDate = new Date().toISOString();
+const applicationId = 'be046963-6cdd-4958-bd58-11be56304329';
+const documentId = '72c188c7-d034-48a9-b712-c94a1c571f9d';
+const fileOne = {
+  metadata: {
+    name: 'document-one.pdf',
+    location: `${applicationId}/${documentId}/document-one.pdf`,
+    mime_type: 'application/pdf',
+    size: 1000,
+  },
+};
+const fileTwo = {
+  metadata: {
+    name: 'document-two.pdf',
+    location: `${applicationId}/${documentId}/document-two.pdf`,
+    mime_type: 'application/pdf',
+    size: 2000,
+  },
+};
+const multipleFilesReturnValue = [fileOne, fileTwo];
+const singleFileReturnValue = fileOne;
+const uploadedFileReturnValue = {
+  application_id: applicationId,
+  name: fileOne.metadata.name,
+  upload_date: uploadDate,
+  mime_type: fileOne.metadata.mime_type,
+  location: `${applicationId}/${documentId}/${fileOne.metadata.name}`,
+  size: String(fileOne.metadata.size),
+  id: documentId,
+};
 
-describe('Documents controller', () => {
-  let res = {};
+jest.mock('../lib/blobStorage', () => ({
+  initContainerClient: containerClient,
+  getMetadataForAllFiles: jest.fn(),
+  getMetadataForSingleFile: jest.fn(),
+  downloadFile: jest.fn(),
+  uploadFile: jest.fn(),
+  deleteFile: jest.fn(),
+}));
+
+jest.mock('../lib/deleteLocalFile');
+
+describe('controllers/documents', () => {
+  const res = mockRes();
+
+  let req;
+
   beforeEach(() => {
-    res = {
-      status: jest.fn(),
-      send: jest.fn(),
-      set: jest.fn(),
+    req = {
+      ...mockReq,
+      query: {
+        base64: 'false',
+      },
     };
-
-    res.status.mockReturnValue(res);
   });
 
-  describe('#getDocsForApplication', () => {
-    it('should return an empty array if zero documents', async () => {
-      const applicationId = 'some-app-id';
-      const req = {
-        log: {
-          debug: jest.fn(),
-        },
-        params: {
-          applicationId,
-        },
-      };
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-      Documents.find.mockResolvedValue([]);
+  describe('getDocumentsForApplication', () => {
+    it('should return documents when given a valid application id', async () => {
+      req.params.applicationId = applicationId;
 
-      expect(await controller.getDocsForApplication(req, res)).toBe(undefined);
+      BlobStorage.getMetadataForAllFiles.mockReturnValue(multipleFilesReturnValue);
 
+      await getDocumentsForApplication(req, res);
+
+      expect(BlobStorage.getMetadataForAllFiles).toBeCalledTimes(1);
+      expect(BlobStorage.getMetadataForAllFiles).toBeCalledWith(containerClient(), applicationId);
+      expect(res.send).toBeCalledTimes(1);
+      expect(res.send).toBeCalledWith(multipleFilesReturnValue);
+    });
+
+    it('should return an error when given an invalid application id', async () => {
+      req.params.applicationId = undefined;
+
+      BlobStorage.getMetadataForAllFiles.mockReturnValue([]);
+
+      await getDocumentsForApplication(req, res);
+
+      expect(BlobStorage.getMetadataForAllFiles).toBeCalledTimes(1);
+      expect(BlobStorage.getMetadataForAllFiles).toBeCalledWith(containerClient(), undefined);
+      expect(res.status).toBeCalledTimes(1);
       expect(res.status).toBeCalledWith(404);
+      expect(res.send).toBeCalledTimes(1);
       expect(res.send).toBeCalledWith({
-        message: 'Unknown application ID',
-      });
-
-      expect(Documents.find).toBeCalledWith({
-        applicationId,
+        message: 'Invalid application id',
       });
     });
 
-    it('should return the mapped DTOs if documents found', async () => {
-      const applicationId = 'some-app-id2';
-      const req = {
-        params: {
-          applicationId,
-        },
-      };
+    it('should return an error when an error is thrown getting all documents', async () => {
+      BlobStorage.getMetadataForAllFiles.mockImplementation(() => {
+        throw new Error('Internal Server Error');
+      });
 
-      const mockedValue = [
-        {
-          toDTO: () => 'dto1',
-        },
-        {
-          toDTO: () => 'dto2',
-        },
-      ];
+      await getDocumentsForApplication(req, res);
 
-      Documents.find.mockResolvedValue(mockedValue);
-
-      expect(await controller.getDocsForApplication(req, res)).toBe(undefined);
-
-      expect(res.send).toBeCalledWith(mockedValue.map((item) => item.toDTO()));
+      expect(res.status).toBeCalledTimes(1);
+      expect(res.status).toBeCalledWith(500);
+      expect(res.send).toBeCalledTimes(1);
+      expect(res.send).toBeCalledWith({
+        message: 'Internal Server Error',
+      });
     });
   });
 
-  describe('#getDocumentById', () => {
-    it('should return a 404 error if no document found', async () => {
-      const applicationId = 'some-app-id';
-      const documentId = 'some-doc-id';
-      const req = {
-        log: {
-          debug: jest.fn(),
-        },
-        params: {
-          applicationId,
-          documentId,
-        },
-      };
+  describe('getDocumentById', () => {
+    it('should return a document when given a valid application and document id', async () => {
+      req.params.applicationId = applicationId;
+      req.params.documentId = documentId;
 
-      Documents.findOne.mockResolvedValue(null);
+      BlobStorage.getMetadataForSingleFile.mockReturnValue(singleFileReturnValue);
 
-      expect(await controller.getDocumentById(req, res)).toBe(undefined);
+      await getDocumentById(req, res);
 
-      expect(Documents.findOne).toBeCalledWith({
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledTimes(1);
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledWith(
+        containerClient(),
         applicationId,
-        id: documentId,
-      });
+        documentId
+      );
+      expect(res.send).toBeCalledTimes(1);
+      expect(res.send).toBeCalledWith(singleFileReturnValue);
+    });
 
+    it('should return an error when given an invalid application id', async () => {
+      req.params.applicationId = undefined;
+      req.params.documentId = documentId;
+
+      BlobStorage.getMetadataForSingleFile.mockReturnValue(null);
+
+      await getDocumentById(req, res);
+
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledTimes(1);
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledWith(
+        containerClient(),
+        undefined,
+        documentId
+      );
+      expect(res.status).toBeCalledTimes(1);
       expect(res.status).toBeCalledWith(404);
+      expect(res.send).toBeCalledTimes(1);
       expect(res.send).toBeCalledWith({
-        message: 'Unknown document ID',
+        message: 'Invalid application or document id',
       });
     });
 
-    it('should return the document if found', async () => {
-      const applicationId = 'some-app-id2';
-      const documentId = 'some-doc-id2';
-      const doc = 'some-doc-obj';
-      const req = {
-        params: {
-          applicationId,
-          documentId,
-        },
-      };
+    it('should return an error when given an invalid document id', async () => {
+      req.params.applicationId = applicationId;
+      req.params.documentId = undefined;
 
-      Documents.findOne.mockResolvedValue(doc);
+      BlobStorage.getMetadataForSingleFile.mockReturnValue(null);
 
-      expect(await controller.getDocumentById(req, res)).toBe(undefined);
+      await getDocumentById(req, res);
 
-      expect(Documents.findOne).toBeCalledWith({
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledTimes(1);
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledWith(
+        containerClient(),
         applicationId,
-        id: documentId,
-      });
-
-      expect(res.send).toBeCalledWith(doc);
-    });
-  });
-
-  describe('#serveDocumentById', () => {
-    it('should return a 404 error if no document found', async () => {
-      const applicationId = 'some-app-id';
-      const documentId = 'some-doc-id';
-      const req = {
-        log: {
-          debug: jest.fn(),
-        },
-        params: {
-          applicationId,
-          documentId,
-        },
-      };
-
-      Documents.findOne.mockResolvedValue(null);
-
-      expect(await controller.serveDocumentById(req, res)).toBe(undefined);
-
-      expect(Documents.findOne).toBeCalledWith({
-        applicationId,
-        id: documentId,
-      });
-
+        undefined
+      );
+      expect(res.status).toBeCalledTimes(1);
       expect(res.status).toBeCalledWith(404);
+      expect(res.send).toBeCalledTimes(1);
       expect(res.send).toBeCalledWith({
-        message: 'Unknown document ID',
+        message: 'Invalid application or document id',
       });
     });
 
-    it('should return the document in base64 format if found and query string is true', async () => {
-      const applicationId = 'some-app-id2';
-      const documentId = 'some-doc-id2';
-      const buffer = Buffer.from('hello world');
-      const doc = {
-        get: jest.fn(),
-        downloadFileBuffer: jest.fn().mockResolvedValue(buffer),
-        toDTO: jest.fn(),
-      };
-      const req = {
-        log: {
-          info: jest.fn(),
-        },
-        params: {
-          applicationId,
-          documentId,
-        },
-        query: {
-          base64: 'true',
-        },
-      };
-
-      Documents.findOne.mockResolvedValue(doc);
-      const dto = {
-        some: 'param',
-      };
-
-      doc.toDTO.mockReturnValue(dto);
-
-      expect(await controller.serveDocumentById(req, res)).toBe(undefined);
-
-      expect(Documents.findOne).toBeCalledWith({
-        applicationId,
-        id: documentId,
+    it('should return an error when an error is thrown getting the document', async () => {
+      BlobStorage.getMetadataForSingleFile.mockImplementation(() => {
+        throw new Error('Internal Server Error');
       });
 
+      await getDocumentById(req, res);
+
+      expect(res.status).toBeCalledTimes(1);
+      expect(res.status).toBeCalledWith(500);
+      expect(res.send).toBeCalledTimes(1);
       expect(res.send).toBeCalledWith({
-        ...dto,
-        dataSize: buffer.toString('base64').length,
-        data: buffer.toString('base64'),
-      });
-    });
-
-    it('should return the document as file if found and query string is false', async () => {
-      const applicationId = 'some-app-id3';
-      const documentId = 'some-doc-id3';
-      const buffer = Buffer.from('hello world2');
-      const doc = {
-        get: jest.fn(),
-        downloadFileBuffer: jest.fn().mockResolvedValue(buffer),
-      };
-      const mimeType = 'some-mime-type';
-      const req = {
-        log: {
-          info: jest.fn(),
-        },
-        params: {
-          applicationId,
-          documentId,
-        },
-        query: {
-          base64: 'false',
-        },
-      };
-
-      Documents.findOne.mockResolvedValue(doc);
-
-      when(doc.get).calledWith('mimeType').mockReturnValue(mimeType);
-
-      expect(await controller.serveDocumentById(req, res)).toBe(undefined);
-
-      expect(Documents.findOne).toBeCalledWith({
-        applicationId,
-        id: documentId,
-      });
-
-      expect(res.set('content-type', mimeType));
-
-      expect(res.send).toBeCalledWith(buffer);
-    });
-
-    it('should return the document as file if found and query string is not set', async () => {
-      const applicationId = 'some-app-id4';
-      const documentId = 'some-doc-id4';
-      const buffer = Buffer.from('hello world3');
-      const doc = {
-        get: jest.fn(),
-        downloadFileBuffer: jest.fn().mockResolvedValue(buffer),
-      };
-      const mimeType = 'some-mime-type2';
-      const req = {
-        log: {
-          info: jest.fn(),
-        },
-        params: {
-          applicationId,
-          documentId,
-        },
-        query: {},
-      };
-
-      Documents.findOne.mockResolvedValue(doc);
-
-      when(doc.get).calledWith('mimeType').mockReturnValue(mimeType);
-
-      expect(await controller.serveDocumentById(req, res)).toBe(undefined);
-
-      expect(Documents.findOne).toBeCalledWith({
-        applicationId,
-        id: documentId,
-      });
-
-      expect(res.set('content-type', mimeType));
-
-      expect(res.send).toBeCalledWith(buffer);
-    });
-  });
-
-  describe('#uploadDocument', () => {
-    describe('multer middleware', () => {
-      let multerClosure;
-      let multerRes;
-      let req;
-      beforeEach(() => {
-        req = {
-          log: {
-            warn: jest.fn(),
-          },
-        };
-        multerClosure = jest.fn();
-        multerRes = {
-          single: jest.fn().mockReturnValue(multerClosure),
-        };
-        multer.mockReturnValue(multerRes);
-        multer.diskStorage.mockReturnValue('diskStorageConfig');
-      });
-
-      afterEach(() => {
-        expect(multer).toBeCalledWith({
-          limits: {
-            fileSize: config.fileUpload.maxSizeInBytes,
-          },
-          storage: 'diskStorageConfig',
-        });
-
-        expect(
-          multer.diskStorage({
-            destination: config.fileUpload.path,
-          })
-        );
-
-        expect(multerRes.single).toBeCalledWith('file');
-      });
-
-      it('should return a LIMIT_FILE_SIZE as a 422 error', () => {
-        multerClosure.mockImplementation((request, response, next) => {
-          expect(request).toBe(req);
-          expect(response).toBe(res);
-          next({
-            code: 'LIMIT_FILE_SIZE',
-          });
-        });
-
-        expect(controller.uploadDocument[0](req, res)).toBe(undefined);
-
-        expect(res.status).toBeCalledWith(422);
-        expect(res.send).toBeCalledWith({
-          message: 'File too large',
-          maxSize: config.fileUpload.maxSizeInBytes,
-        });
-      });
-
-      it('should trigger a next error if a multer error', (cb) => {
-        const err = 'some-error';
-        multerClosure.mockImplementation((request, response, next) => {
-          expect(request).toBe(req);
-          expect(response).toBe(res);
-          next(err);
-        });
-
-        controller.uploadDocument[0](req, res, (error) => {
-          expect(error).toBe(err);
-          cb();
-        });
-      });
-
-      it('should return next if no error', (cb) => {
-        multerClosure.mockImplementation((request, response, next) => {
-          expect(request).toBe(req);
-          expect(response).toBe(res);
-          next();
-        });
-
-        controller.uploadDocument[0](req, res, cb);
-      });
-    });
-
-    describe('upload middleware', () => {
-      it('should return error if no file uploaded', async () => {
-        const req = {
-          file: null,
-          params: {},
-          log: {
-            debug: jest.fn(),
-            info: jest.fn(),
-          },
-        };
-
-        expect(await controller.uploadDocument[1](req, res)).toBe(undefined);
-
-        expect(res.status).toBeCalledWith(400);
-        expect(res.send).toBeCalledWith({
-          message: 'No file uploaded',
-        });
-      });
-
-      it('should return error if invalid mime type uploaded', async () => {
-        const req = {
-          file: {
-            mimetype: 'some-mime-type',
-          },
-          params: {},
-          log: {
-            debug: jest.fn(),
-            info: jest.fn(),
-          },
-        };
-
-        expect(await controller.uploadDocument[1](req, res)).toBe(undefined);
-
-        expect(res.status).toBeCalledWith(400);
-        expect(res.send).toBeCalledWith({
-          message: 'Invalid mime type',
-          mimeType: req.file.mimetype,
-          allowed: config.fileUpload.mimeTypes,
-        });
-      });
-
-      it('should return error if Document fails validation', async () => {
-        const req = {
-          file: {
-            mimetype: 'application/pdf',
-          },
-          params: {},
-          log: {
-            debug: jest.fn(),
-            info: jest.fn(),
-            warn: jest.fn(),
-          },
-        };
-
-        const err = 'some-err';
-
-        const doc = {
-          generateId: jest.fn(),
-          generateLocation: jest.fn(),
-          validate: jest.fn().mockRejectedValue(err),
-        };
-        doc.generateId.mockReturnValue(doc);
-
-        Documents.mockReturnValue(doc);
-
-        expect(await controller.uploadDocument[1](req, res)).toBe(undefined);
-
-        expect(doc.validate).toBeCalled();
-
-        expect(res.status).toBeCalledWith(400);
-        expect(res.send).toBeCalledWith(err);
-      });
-
-      it('should return error if the upload in the blob storage failed', async () => {
-        const req = {
-          file: {
-            mimetype: 'application/pdf',
-          },
-          params: {},
-          log: {
-            debug: jest.fn(),
-            info: jest.fn(),
-            warn: jest.fn(),
-            error: jest.fn(),
-          },
-        };
-
-        const error = new Error('Some error');
-
-        const doc = {
-          generateId: jest.fn(),
-          get: jest.fn(),
-          save: jest.fn().mockResolvedValue(),
-          toDTO: jest.fn().mockReturnValue({}),
-          validate: jest.fn().mockResolvedValue(),
-          generateLocation: jest.fn(),
-        };
-        doc.generateId.mockReturnValue(doc);
-
-        Documents.mockReturnValue(doc);
-
-        uploadDocumentsToBlobStorage.mockImplementation(() => Promise.reject(error));
-
-        expect(await controller.uploadDocument[1](req, res)).toBe(undefined);
-
-        expect(doc.validate).toBeCalled();
-
-        expect(uploadDocumentsToBlobStorage).toBeCalledWith([doc]);
-
-        expect(res.status).toBeCalledWith(400);
-        expect(res.send).toBeCalledWith(error);
-      });
-
-      it('should save document and return a 202 response with DTO', async () => {
-        const req = {
-          file: {
-            mimetype: 'application/pdf',
-          },
-          params: {},
-          log: {
-            debug: jest.fn(),
-            info: jest.fn(),
-            warn: jest.fn(),
-          },
-        };
-
-        const dtoValue = 'some-dto';
-
-        const doc = {
-          generateId: jest.fn(),
-          generateLocation: jest.fn(),
-          get: jest.fn(),
-          save: jest.fn().mockResolvedValue(),
-          toDTO: jest.fn().mockReturnValue(dtoValue),
-          validate: jest.fn().mockResolvedValue(),
-        };
-        doc.generateId.mockReturnValue(doc);
-
-        uploadDocumentsToBlobStorage.mockReturnValue(doc);
-
-        Documents.mockReturnValue(doc);
-
-        expect(await controller.uploadDocument[1](req, res)).toBe(undefined);
-
-        expect(doc.validate).toBeCalled();
-        expect(uploadDocumentsToBlobStorage).toBeCalledWith([doc]);
-        expect(doc.save).toBeCalled();
-        expect(res.status).toBeCalledWith(202);
-        expect(res.send).toBeCalledWith(dtoValue);
+        message: 'Internal Server Error',
       });
     });
   });
 
-  describe('#deleteDocument', () => {
-    it('should return a 404 error if no document found', async () => {
-      const applicationId = 'some-app-id';
-      const documentId = 'some-doc-id';
-      const req = {
-        log: {
-          debug: jest.fn(),
-        },
-        params: {
-          applicationId,
-          documentId,
-        },
-      };
+  describe('serveDocumentById', () => {
+    it('should return a document when given a valid application and document id', async () => {
+      const fileBuffer = 'file-buffer';
 
-      Documents.findOne.mockResolvedValue(null);
+      req.params.applicationId = applicationId;
+      req.params.documentId = documentId;
 
-      expect(await controller.deleteDocument(req, res)).toBe(undefined);
+      BlobStorage.getMetadataForSingleFile.mockReturnValue(singleFileReturnValue);
+      BlobStorage.downloadFile.mockReturnValue(fileBuffer);
 
-      expect(Documents.findOne).toBeCalledWith({
+      await serveDocumentById(req, res);
+
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledTimes(1);
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledWith(
+        containerClient(),
         applicationId,
-        id: documentId,
-      });
+        documentId
+      );
+      expect(BlobStorage.downloadFile).toBeCalledTimes(1);
+      expect(BlobStorage.downloadFile).toBeCalledWith(
+        containerClient(),
+        singleFileReturnValue.metadata.location
+      );
+      expect(res.set).toBeCalledTimes(1);
+      expect(res.set).toBeCalledWith('content-type', fileOne.metadata.mime_type);
+      expect(res.send).toBeCalledTimes(1);
+      expect(res.send).toBeCalledWith(fileBuffer);
+    });
 
+    it('should return a document in base64 when given a valid application and document id and base64 flag is true', async () => {
+      const fileBuffer = 'file-buffer';
+      const base64FileBuffer = fileBuffer.toString('base64');
+
+      req.params.applicationId = applicationId;
+      req.params.documentId = documentId;
+      req.query.base64 = 'true';
+
+      BlobStorage.getMetadataForSingleFile.mockReturnValue(singleFileReturnValue);
+      BlobStorage.downloadFile.mockReturnValue(fileBuffer);
+
+      await serveDocumentById(req, res);
+
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledTimes(1);
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledWith(
+        containerClient(),
+        applicationId,
+        documentId
+      );
+      expect(BlobStorage.downloadFile).toBeCalledTimes(1);
+      expect(BlobStorage.downloadFile).toBeCalledWith(
+        containerClient(),
+        singleFileReturnValue.metadata.location
+      );
+      expect(res.send).toBeCalledTimes(1);
+      expect(res.send).toBeCalledWith({
+        ...singleFileReturnValue.metadata,
+        dataSize: base64FileBuffer.length,
+        data: base64FileBuffer,
+      });
+    });
+
+    it('should return an error when no metadata is returned for the given document', async () => {
+      req.params.applicationId = applicationId;
+      req.params.documentId = documentId;
+
+      BlobStorage.getMetadataForSingleFile.mockReturnValue(null);
+
+      await serveDocumentById(req, res);
+
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledTimes(1);
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledWith(
+        containerClient(),
+        applicationId,
+        documentId
+      );
+      expect(res.status).toBeCalledTimes(1);
       expect(res.status).toBeCalledWith(404);
+      expect(res.send).toBeCalledTimes(1);
       expect(res.send).toBeCalledWith({
-        message: 'Unknown document ID',
+        message: 'Invalid application or document id',
+      });
+    });
+
+    it('should return an error when an error is thrown getting the document', async () => {
+      BlobStorage.getMetadataForSingleFile.mockImplementation(() => {
+        throw new Error('Internal Server Error');
+      });
+
+      await serveDocumentById(req, res);
+
+      expect(res.status).toBeCalledTimes(1);
+      expect(res.status).toBeCalledWith(500);
+      expect(res.send).toBeCalledTimes(1);
+      expect(res.send).toBeCalledWith({
+        message: 'Internal Server Error',
       });
     });
   });
 
-  it('Should return an 404 if document wasnt there to delete', async () => {
-    const applicationId = 'some-app-id';
-    const documentId = 'some-doc-id';
-    const req = {
-      log: {
-        debug: jest.fn(),
-        error: jest.fn(),
-      },
-      params: {
-        applicationId,
-        documentId,
-      },
-    };
+  describe('uploadDocument', () => {
+    it('should return the metadata when a file is uploaded successfully', async () => {
+      req.file = {
+        mimetype: fileOne.metadata.mime_type,
+        originalname: fileOne.metadata.name,
+        filename: fileOne.metadata.name,
+        size: 1000,
+        id: documentId,
+        uploadDate,
+      };
+      req.params.applicationId = applicationId;
 
-    const doc = {
-      generateId: jest.fn(),
-      generateLocation: jest.fn(),
-      get: jest.fn(),
-      save: jest.fn().mockResolvedValue(),
-      validate: jest.fn().mockResolvedValue(),
-    };
+      BlobStorage.uploadFile.mockReturnValue(uploadedFileReturnValue);
 
-    doc.generateId.mockReturnValue(doc);
+      await uploadDocument(req, res);
 
-    Documents.findOne.mockResolvedValue(doc);
-    Documents.deleteOne.mockResolvedValue({ deletedCount: 0 });
+      expect(BlobStorage.uploadFile).toBeCalledTimes(1);
+      expect(BlobStorage.uploadFile).toBeCalledWith(containerClient(), {
+        ...uploadedFileReturnValue,
+        filename: req.file.filename,
+      });
+      expect(deleteLocalFile).toBeCalledTimes(1);
+      expect(deleteLocalFile).toBeCalledWith(req.file);
+      expect(res.status).toBeCalledTimes(1);
+      expect(res.status).toBeCalledWith(202);
+      expect(res.send).toBeCalledTimes(1);
+      expect(res.send).toBeCalledWith(uploadedFileReturnValue);
+    });
 
-    expect(await controller.deleteDocument(req, res)).toBe(undefined);
+    it('should return an error when an error is thrown uploading the document', async () => {
+      BlobStorage.uploadFile.mockImplementation(() => {
+        throw new Error('Internal Server Error');
+      });
 
-    expect(res.status).toBeCalledWith(404);
+      await uploadDocument(req, res);
+
+      expect(res.status).toBeCalledTimes(1);
+      expect(res.status).toBeCalledWith(500);
+      expect(res.send).toBeCalledTimes(1);
+      expect(res.send).toBeCalledWith({
+        message: 'Internal Server Error',
+      });
+    });
   });
 
-  it('Should return a 500 if delete from database fails', async () => {
-    const applicationId = 'some-app-id';
-    const documentId = 'some-doc-id';
-    const req = {
-      log: {
-        debug: jest.fn(),
-        error: jest.fn(),
-      },
-      params: {
+  describe('deleteDocument', () => {
+    it('should return the correct status when a document is deleted successfully', async () => {
+      req.params.applicationId = applicationId;
+      req.params.documentId = documentId;
+
+      BlobStorage.getMetadataForSingleFile.mockReturnValue(singleFileReturnValue);
+      BlobStorage.deleteFile.mockReturnValue(true);
+
+      await deleteDocument(req, res);
+
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledTimes(1);
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledWith(
+        containerClient(),
         applicationId,
-        documentId,
-      },
-    };
+        documentId
+      );
+      expect(BlobStorage.deleteFile).toBeCalledTimes(1);
+      expect(BlobStorage.deleteFile).toBeCalledWith(
+        containerClient(),
+        singleFileReturnValue.metadata.location
+      );
+      expect(res.status).toBeCalledTimes(1);
+      expect(res.status).toBeCalledWith(204);
+      expect(res.send).toBeCalledTimes(1);
+      expect(res.send).toBeCalledWith();
+    });
 
-    const doc = {
-      generateId: jest.fn(),
-      generateLocation: jest.fn(),
-      get: jest.fn(),
-      save: jest.fn().mockResolvedValue(),
-      validate: jest.fn().mockResolvedValue(),
-    };
+    it('should return an error when no metadata is returned for the given document', async () => {
+      req.params.applicationId = undefined;
+      req.params.documentId = documentId;
 
-    doc.generateId.mockReturnValue(doc);
+      BlobStorage.getMetadataForSingleFile.mockReturnValue(null);
 
-    Documents.findOne.mockResolvedValue(doc);
-    Documents.deleteOne.mockRejectedValue(new Error('Computer says no'));
+      await deleteDocument(req, res);
 
-    expect(await controller.deleteDocument(req, res)).toBe(undefined);
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledTimes(1);
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledWith(
+        containerClient(),
+        undefined,
+        documentId
+      );
+      expect(res.status).toBeCalledTimes(1);
+      expect(res.status).toBeCalledWith(404);
+      expect(res.send).toBeCalledTimes(1);
+      expect(res.send).toBeCalledWith({
+        message: 'Invalid application or document id',
+      });
+    });
 
-    expect(res.status).toBeCalledWith(500);
-  });
+    it('should return an error when the document is not deleted', async () => {
+      req.params.applicationId = applicationId;
+      req.params.documentId = documentId;
 
-  it('Should return an error if delete from blob storage fails', async () => {
-    const applicationId = 'some-app-id';
-    const documentId = 'some-doc-id';
-    const req = {
-      log: {
-        error: jest.fn(),
-      },
-      params: {
+      BlobStorage.getMetadataForSingleFile.mockReturnValue(singleFileReturnValue);
+      BlobStorage.deleteFile.mockReturnValue(false);
+
+      await deleteDocument(req, res);
+
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledTimes(1);
+      expect(BlobStorage.getMetadataForSingleFile).toBeCalledWith(
+        containerClient(),
         applicationId,
-        documentId,
-      },
-    };
+        documentId
+      );
+      expect(BlobStorage.deleteFile).toBeCalledTimes(1);
+      expect(BlobStorage.deleteFile).toBeCalledWith(
+        containerClient(),
+        singleFileReturnValue.metadata.location
+      );
+      expect(res.status).toBeCalledTimes(1);
+      expect(res.status).toBeCalledWith(500);
+      expect(res.send).toBeCalledTimes(1);
+      expect(res.send).toBeCalledWith({
+        message: 'Failed to delete document',
+      });
+    });
 
-    const doc = {
-      generateId: jest.fn(),
-      generateLocation: jest.fn(),
-      get: jest.fn(),
-      save: jest.fn().mockResolvedValue(),
-      validate: jest.fn().mockResolvedValue(),
-    };
+    it('should return an error when an error is thrown deleting the document', async () => {
+      BlobStorage.getMetadataForSingleFile.mockImplementation(() => {
+        throw new Error('Internal Server Error');
+      });
 
-    doc.generateId.mockReturnValue(doc);
+      await deleteDocument(req, res);
 
-    Documents.findOne.mockResolvedValue(doc);
-    Documents.deleteOne.mockResolvedValue({ deletedCount: 1 });
-    deleteFromBlobStorageByLocation.mockResolvedValue(false);
-
-    expect(await controller.deleteDocument(req, res)).toBe(undefined);
-    expect(req.log.error).toHaveBeenCalled();
-    expect(res.status).toBeCalledWith(500);
-  });
-
-  it('Should return 204 when document deletion succeeds', async () => {
-    const applicationId = 'some-app-id';
-    const documentId = 'some-doc-id';
-    const req = {
-      log: {
-        debug: jest.fn(),
-        error: jest.fn(),
-      },
-      params: {
-        applicationId,
-        documentId,
-      },
-    };
-
-    const doc = {
-      generateId: jest.fn(),
-      generateLocation: jest.fn(),
-      get: jest.fn(),
-      save: jest.fn().mockResolvedValue(),
-      validate: jest.fn().mockResolvedValue(),
-    };
-
-    doc.generateId.mockReturnValue(doc);
-
-    Documents.findOne.mockResolvedValue(doc);
-    Documents.deleteOne.mockResolvedValue({ deletedCount: 1 });
-    deleteFromBlobStorageByLocation.mockResolvedValue(true);
-
-    expect(await controller.deleteDocument(req, res)).toBe(undefined);
-    expect(res.status).toBeCalledWith(204);
+      expect(res.status).toBeCalledTimes(1);
+      expect(res.status).toBeCalledWith(500);
+      expect(res.send).toBeCalledTimes(1);
+      expect(res.send).toBeCalledWith({
+        message: 'Internal Server Error',
+      });
+    });
   });
 });

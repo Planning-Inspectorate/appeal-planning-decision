@@ -1,13 +1,20 @@
 const { Router } = require('express');
-const documentController = require('../controllers/documents');
+const {
+  getDocumentsForApplication,
+  getDocumentById,
+  serveDocumentById,
+  uploadDocument,
+  deleteDocument,
+} = require('../controllers/documents');
+const uploadLocalFile = require('../lib/uploadLocalFile');
+const addFileMetadata = require('../lib/addFileMetadata');
 
-const routes = Router({ mergeParams: true });
+const router = Router({ mergeParams: true });
 
-routes
-  .get('/', documentController.getDocsForApplication)
-  .post('/', ...documentController.uploadDocument)
-  .get('/:documentId', documentController.getDocumentById)
-  .get('/:documentId/file', documentController.serveDocumentById)
-  .delete('/:documentId', documentController.deleteDocument);
+router.get('/', getDocumentsForApplication);
+router.post('/', uploadLocalFile, addFileMetadata, uploadDocument);
+router.get('/:documentId', getDocumentById);
+router.get('/:documentId/file', serveDocumentById);
+router.delete('/:documentId', deleteDocument);
 
-module.exports = routes;
+module.exports = router;
