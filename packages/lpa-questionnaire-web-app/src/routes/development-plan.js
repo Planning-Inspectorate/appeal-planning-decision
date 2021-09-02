@@ -8,13 +8,13 @@ const { rules: developmentPlanValidationRules } = require('../validators/develop
 const router = express.Router();
 
 router.get(
-  '/appeal-questionnaire/:id/development-plan',
+  '/:id/development-plan',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
   developmentPlanController.getDevelopmentPlan
 );
 
 router.post(
-  '/appeal-questionnaire/:id/development-plan',
+  '/:id/development-plan',
   developmentPlanValidationRules(),
   validationErrorHandler,
   developmentPlanController.postDevelopmentPlan

@@ -8,13 +8,13 @@ const { rules: accuracySubmissionValidationRules } = require('../validators/accu
 const router = express.Router();
 
 router.get(
-  '/appeal-questionnaire/:id/accuracy-submission',
+  '/:id/accuracy-submission',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
   accuracySubmissionController.getAccuracySubmission
 );
 
 router.post(
-  '/appeal-questionnaire/:id/accuracy-submission',
+  '/:id/accuracy-submission',
   accuracySubmissionValidationRules(),
   validationErrorHandler,
   accuracySubmissionController.postAccuracySubmission

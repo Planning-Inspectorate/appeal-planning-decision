@@ -8,13 +8,13 @@ const { rules: otherAppealsValidationRules } = require('../validators/other-appe
 const router = express.Router();
 
 router.get(
-  '/appeal-questionnaire/:id/other-appeals',
+  '/:id/other-appeals',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
   otherAppealsController.getOtherAppeals
 );
 
 router.post(
-  '/appeal-questionnaire/:id/other-appeals',
+  '/:id/other-appeals',
   otherAppealsValidationRules(),
   validationErrorHandler,
   otherAppealsController.postOtherAppeals

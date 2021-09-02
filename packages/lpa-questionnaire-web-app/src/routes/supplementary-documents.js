@@ -1,7 +1,5 @@
 const express = require('express');
-const addSupplementaryDocumentController = require('../controllers/supplementary-documents/add-supplementary-document');
-const uploadedDocumentsController = require('../controllers/supplementary-documents/uploaded-documents');
-const deleteSupplementaryDocumentController = require('../controllers/supplementary-documents/delete-supplementary-document');
+const supplementaryDocumentsController = require('../controllers/supplementary-documents');
 const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing-appeal-reply');
 const fetchAppealMiddleware = require('../middleware/fetch-appeal');
 const reqFilesToReqBodyFilesMiddleware = require('../middleware/req-files-to-req-body-files');
@@ -12,36 +10,18 @@ const supplementaryDocumentsValidationRules = require('../validators/supplementa
 const router = express.Router();
 
 router.get(
-  '/appeal-questionnaire/:id/supplementary-documents',
+  '/:id/supplementary-documents/add-document',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
-  addSupplementaryDocumentController.getAddDocument
+  supplementaryDocumentsController.getAddDocument
 );
 
 router.post(
-  '/appeal-questionnaire/:id/supplementary-documents',
+  '/:id/supplementary-documents/add-document',
   reqFilesToReqBodyFilesMiddleware('documents'),
   combineDateInputsMiddleware,
   supplementaryDocumentsValidationRules(),
   validationErrorHandler,
-  addSupplementaryDocumentController.postAddDocument
-);
-
-router.get(
-  '/appeal-questionnaire/:id/supplementary-documents/uploaded-documents',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
-  uploadedDocumentsController.getUploadedDocuments
-);
-
-router.get(
-  '/appeal-questionnaire/:id/supplementary-documents/delete-document',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
-  deleteSupplementaryDocumentController.getDeleteDocument
-);
-
-router.post(
-  '/appeal-questionnaire/:id/supplementary-documents/delete-document',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
-  deleteSupplementaryDocumentController.postDeleteDocument
+  supplementaryDocumentsController.postAddDocument
 );
 
 module.exports = router;

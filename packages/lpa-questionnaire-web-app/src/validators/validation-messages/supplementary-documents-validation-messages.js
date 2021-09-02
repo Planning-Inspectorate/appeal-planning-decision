@@ -6,7 +6,8 @@ const sectionErrorTexts = {
 
 const dateErrorTexts = {
   enterDate: 'Tell us the date the supplementary planning document was adopted',
-  dateErrorTemplate: 'Date of adoption must include a',
+  monthYear: 'Date of adoption must include a month and year',
+  month: 'Date of adoption must include a year',
 };
 
 module.exports = { sectionErrorTexts, dateErrorTexts };

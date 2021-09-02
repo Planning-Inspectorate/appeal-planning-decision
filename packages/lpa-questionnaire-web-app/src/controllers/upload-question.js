@@ -8,7 +8,6 @@ const { deleteDocument } = require('../lib/documents-api-wrapper');
 const getAppealSideBarDetails = require('../lib/appeal-sidebar-details');
 const { getTaskStatus } = require('../services/task.service');
 const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
-const { renderView, redirect } = require('../util/render');
 
 const docArrayFromInputString = (tempDocsString) => {
   return tempDocsString && typeof tempDocsString === 'string'
@@ -29,10 +28,9 @@ exports.getUpload = (req, res) => {
     appealReplyId = req.session.appealReply.id;
   }
 
-  renderView(res, view, {
-    prefix: 'appeal-questionnaire',
+  res.render(view, {
     appeal: getAppealSideBarDetails(req.session.appeal),
-    backLink: req.session.backLink ? req.session.backLink : `/${req.params.id}/${VIEW.TASK_LIST}`,
+    backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
     ...fileUploadNunjucksVariables(null, null, uploadedFiles),
     appealReplyId,
   });
@@ -44,8 +42,7 @@ exports.postUpload = async (req, res) => {
   const { appealReplyId } = appealReply;
   const documents = req.body?.files?.documents || [];
   const { delete: deleteId = '', errors = {}, submit = '' } = req.body;
-  const backLink =
-    req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`;
+  const backLink = req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`;
 
   const uploadedFiles = docArrayFromInputString(req.body.tempDocs);
   let validFiles = [];
@@ -120,28 +117,21 @@ exports.postUpload = async (req, res) => {
     req.session.appealReply = await createOrUpdateAppealReply(appealReply);
 
     if (!submit || constructedErrorSummary?.length) {
-      renderView(res, view, {
-        prefix: 'appeal-questionnaire',
+      res.render(view, {
         ...fileUploadNunjucksVariables(errorMessage, constructedErrorSummary, validFiles),
         appeal: getAppealSideBarDetails(req.session.appeal),
         backLink,
         appealReplyId,
       });
     } else {
-      redirect(
-        res,
-        'appeal-questionnaire',
-        `${req.params.id}/${VIEW.TASK_LIST}`,
-        req.session.backLink
-      );
+      res.redirect(req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`);
     }
     // If it gets this far there are no errors and files must exist
   } catch (err) {
     req.log.error({ err }, `Error adding files to ${name} question`);
 
-    renderView(res, view, {
-      prefix: 'appeal-questionnaire',
-      ...fileUploadNunjucksVariables(errorMessage, constructedErrorSummary, validFiles),
+    res.render(view, {
+      ...fileUploadNunjucksVariables(err, fileErrorSummary(err, req), validFiles),
       appeal: getAppealSideBarDetails(req.session.appeal),
       backLink,
       appealReplyId,

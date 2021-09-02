@@ -22,14 +22,14 @@ const getConfig = (_, res, next) => {
 };
 
 router.get(
-  '/appeal-questionnaire/:id/plans',
+  '/:id/plans',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
   getConfig,
   uploadQuestionController.getUpload
 );
 
 router.post(
-  '/appeal-questionnaire/:id/plans',
+  '/:id/plans',
   [
     reqFilesToReqBodyFilesMiddleware('documents'),
     uploadValidationRules('Upload plans used to reach the decision'),

@@ -5,7 +5,6 @@ const VIEW = {
   ACCURACY_SUBMISSION: 'accuracy-submission',
   EXTRA_CONDITIONS: 'extra-conditions',
   INTERESTED_PARTIES: 'interested-parties',
-  HEALTH_SAFETY: 'health-safety',
   REPRESENTATIONS: 'representations',
   NOTIFYING_PARTIES: 'notifying-parties',
   DEVELOPMENT_PLAN: 'development-plan',
@@ -17,17 +16,12 @@ const VIEW = {
   OTHER_POLICIES: 'other-policies',
   STATUTORY_DEVELOPMENT: 'statutory-development',
   SUPPLEMENTARY_DOCUMENTS: {
-    UPLOADED_DOCUMENTS: 'supplementary-documents/uploaded-documents',
+    LIST: 'supplementary-documents/list',
     ADD_DOCUMENT: 'supplementary-documents/add-document',
-    DELETE_DOCUMENT: 'supplementary-documents/delete-document',
   },
   INFORMATION_SUBMITTED: 'information-submitted',
   CONFIRM_ANSWERS: 'confirm-answers',
   PDF_GENERATION: 'pdf-generation',
-  ERROR: {
-    NOT_FOUND: 'error/not-found',
-    UNHANDLED_EXCEPTION: 'error/unhandled-exception',
-  },
 };
 
 module.exports = {

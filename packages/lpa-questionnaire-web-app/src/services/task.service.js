@@ -2,20 +2,17 @@ const {
   accuracySubmissionCompletion,
   otherAppealsCompletion,
   extraConditionsCompletion,
-  healthSafetyCompletion,
   developmentPlanCompletion,
   uploadPlansCompletion,
   officersReportCompletion,
   booleanCompletion,
   fileUploadCompletion,
-  supplementaryPlanningDocumentsCompletion,
 } = require('./task-status');
 const checkYourAnswerCompletion = require('./task-status/check-your-answers');
 
 const SECTIONS = [
   {
     sectionId: 'aboutAppealSection',
-    prefix: '/appeal-questionnaire',
     tasks: [
       {
         taskId: 'submissionAccuracy',
@@ -36,7 +33,6 @@ const SECTIONS = [
   },
   {
     sectionId: 'aboutSiteSection',
-    prefix: '/appeal-questionnaire',
     tasks: [
       {
         taskId: 'siteSeenPublicLand',
@@ -52,11 +48,6 @@ const SECTIONS = [
         taskId: 'accessNeighboursLand',
         href: '/neighbours-land',
         rule: booleanCompletion,
-      },
-      {
-        taskId: 'healthSafety',
-        href: '/health-safety',
-        rule: healthSafetyCompletion,
       },
       {
         taskId: 'listedBuilding',
@@ -77,7 +68,6 @@ const SECTIONS = [
   },
   {
     sectionId: 'requiredDocumentsSection',
-    prefix: '/appeal-questionnaire',
     tasks: [
       {
         taskId: 'plansDecision',
@@ -93,7 +83,6 @@ const SECTIONS = [
   },
   {
     sectionId: 'optionalDocumentsSection',
-    prefix: '/appeal-questionnaire',
     tasks: [
       {
         taskId: 'interestedPartiesApplication',
@@ -141,11 +130,6 @@ const SECTIONS = [
         rule: fileUploadCompletion,
       },
       {
-        taskId: 'supplementaryPlanningDocuments',
-        href: '/supplementary-documents/uploaded-documents',
-        rule: supplementaryPlanningDocumentsCompletion,
-      },
-      {
         taskId: 'developmentOrNeighbourhood',
         href: '/development-plan',
         rule: developmentPlanCompletion,
@@ -154,7 +138,6 @@ const SECTIONS = [
   },
   {
     sectionId: 'submitQuestionnaireSection',
-    prefix: '/appeal-questionnaire',
     tasks: [
       {
         taskId: 'checkYourAnswers',
@@ -175,7 +158,6 @@ const HEADERS = {
     'Can the Inspector see the relevant parts of the appeal site from public land?',
   enterAppealSite: 'Would the Inspector need to enter the appeal site?',
   accessNeighboursLand: "Would the Inspector need access to a neighbour's land?",
-  healthSafety: 'Are there any health and safety issues on the appeal site?',
   listedBuilding: 'Would the development affect the setting of a listed building?',
   greenBelt: 'Is the appeal site in a green belt?',
   nearConservationArea: 'Is the appeal site in or near a conservation area?',
@@ -191,7 +173,6 @@ const HEADERS = {
   conservationAreaMap: 'Conservation area map and guidance',
   planningHistory: 'Planning history',
   otherPolicies: 'Other relevant policies',
-  supplementaryPlanningDocuments: 'Supplementary planning documents',
   statutoryDevelopment: 'Statutory development plan policy',
   developmentOrNeighbourhood: 'Development Plan Document or Neighbourhood Plan',
   submitQuestionnaireSection: 'Before you submit',

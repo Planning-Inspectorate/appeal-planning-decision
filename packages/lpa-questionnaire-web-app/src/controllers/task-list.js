@@ -1,6 +1,5 @@
 const { HEADERS, SECTIONS, DESCRIPTIONS } = require('../services/task.service');
 const { VIEW } = require('../lib/views');
-const { renderView } = require('../util/render');
 
 /**
  * @name buildTaskLists
@@ -9,7 +8,7 @@ const { renderView } = require('../util/render');
  * @return {array} Array of section objects
  */
 function buildTaskLists(appealReply, appealId) {
-  return SECTIONS.map(({ sectionId, prefix, tasks }) => {
+  return SECTIONS.map(({ sectionId, tasks }) => {
     return {
       heading: {
         text: HEADERS[sectionId],
@@ -23,7 +22,7 @@ function buildTaskLists(appealReply, appealId) {
 
         return {
           text: HEADERS[taskId],
-          href: `${prefix}/${appealId}${href}`,
+          href: `/${appealId}${href}`,
           attributes: {
             name: taskId,
             [`${taskId}-status`]: status,
@@ -41,10 +40,9 @@ exports.getTaskList = (req, res) => {
   const applicationStatus = 'Application incomplete';
 
   // Set backLink property in session
-  req.session.backLink = `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`;
+  req.session.backLink = `/${req.params.id}/${VIEW.TASK_LIST}`;
 
-  renderView(res, VIEW.TASK_LIST, {
-    prefix: 'appeal-questionnaire',
+  res.render(VIEW.TASK_LIST, {
     applicationStatus,
     sections,
   });

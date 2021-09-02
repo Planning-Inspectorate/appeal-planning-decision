@@ -4,7 +4,6 @@ const { VIEW } = require('../lib/views');
 const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
 const logger = require('../lib/logger');
 const { createPdf } = require('../services/pdf.service');
-const { renderView, redirect } = require('../util/render');
 
 exports.getInformationSubmitted = async (req, res) => {
   const { lpaCode } = req.session.appeal;
@@ -21,8 +20,7 @@ exports.getInformationSubmitted = async (req, res) => {
     req.log.error({ error }, 'Get LPA Email failed');
   }
 
-  renderView(res, VIEW.INFORMATION_SUBMITTED, {
-    prefix: 'appeal-questionnaire',
+  res.render(VIEW.INFORMATION_SUBMITTED, {
     lpaEmailString,
   });
 };
@@ -34,7 +32,6 @@ exports.postInformationSubmitted = async (req, res) => {
   log.info('Submitting the appeal reply');
 
   try {
-    appealReply.submissionDate = new Date();
     const { id, name } = await createPdf(appealReply, appeal);
 
     appealReply.state = 'SUBMITTED';
@@ -58,5 +55,5 @@ exports.postInformationSubmitted = async (req, res) => {
   }
 
   // redirect ensures any custom handling in get runs as expected
-  redirect(res, 'appeal-questionnaire', `${req.params.id}/${VIEW.INFORMATION_SUBMITTED}`);
+  res.redirect(`/${req.params.id}/${VIEW.INFORMATION_SUBMITTED}`);
 };

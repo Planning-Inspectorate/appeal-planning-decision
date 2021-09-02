@@ -42,10 +42,6 @@ const replySchema = new Mongoose.Schema({
     needsAccess: { type: Boolean, default: null },
     addressAndReason: { type: String, default: '' },
   },
-  healthSafety: {
-    hasHealthSafety: { type: Boolean, default: null },
-    healthSafetyIssues: { type: String, default: '' },
-  },
   listedBuilding: {
     affectSetting: { type: Boolean, default: null },
     buildingDetails: { type: String, default: '' },

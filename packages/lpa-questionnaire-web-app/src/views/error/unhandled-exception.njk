@@ -1,32 +1,15 @@
 {% extends "layouts/main.njk" %}
 
-{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
-
-
-{% block beforeContent %}
-  {{ govukBackLink({
-    text: "Back",
-    href: backLink,
-    attributes: {
-      'data-cy': 'back'
-    }
-  }) }}
-{% endblock %}
-
-{% block pageTitle %}
-  Sorry, there is a problem with the service - Appeal questionnaire - Appeal a householder planning decision - GOV.UK
-{% endblock %}
-
 {% block content %}
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l">Sorry, there is a problem with the service</h1>
+      <h1>Sorry, there is a problem with the service</h1>
 
       <p>Try again later</p>
 
       <p>
-        <a href="/appeal-questionnaire/help/contact" class="govuk-link">Contact the Planning Inspectorate Customer Support</a> if the problem persists.
+        <a href="/help/contact" class="govuk-link">Contact the Planning Inspectorate Customer Support</a> if the problem persists.
       </p>
     </div>
   </div>

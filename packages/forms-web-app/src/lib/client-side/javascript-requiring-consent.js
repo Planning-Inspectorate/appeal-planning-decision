@@ -1,10 +1,8 @@
 /* eslint-env browser */
-/* istanbul ignore file */
 
 const { readCookie } = require('./cookie/cookie-jar');
 const cookieConfig = require('./cookie/cookie-config');
 const { initialiseGoogleAnalytics } = require('./google-analytics');
-const googleTagManager = require('./google-tag-manager');
 
 const initialiseOptionalJavaScripts = (document) => {
   const cookie = readCookie(document, cookieConfig.COOKIE_POLICY_KEY);
@@ -25,21 +23,13 @@ const initialiseOptionalJavaScripts = (document) => {
     if (parsed.usage === false) {
       // eslint-disable-next-line no-console
       console.log('Declined consent. Third party cookies are not enabled.');
-
-      if (process.env.googleTagManager && process.env.googleTagManagerId) {
-        googleTagManager.denyConsent();
-      }
       return;
     }
 
-    if (process.env.googleTagManager && process.env.googleTagManagerId) {
-      googleTagManager.grantConsent();
-    } else {
-      initialiseGoogleAnalytics(document);
-    }
+    initialiseGoogleAnalytics(document);
   } catch (e) {
     // eslint-disable-next-line no-console
-    console.error('Unable to decode the value of cookie', e);
+    console.error(`Unable to decode the value of cookie: ${cookieConfig.COOKIE_POLICY_KEY}`, e);
   }
 };
 

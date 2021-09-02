@@ -17,7 +17,6 @@ require('express-async-errors');
 const config = require('./config');
 const logger = require('./lib/logger');
 const routes = require('./routes');
-const { VIEW } = require('./lib/views');
 
 const app = express();
 
@@ -72,15 +71,13 @@ app.set('view engine', 'njk');
 // Error handling
 app
   .use((req, res, next) => {
-    res.status(404).render(VIEW.ERROR.NOT_FOUND);
+    res.status(404).render('error/not-found');
     next();
   })
   .use((err, req, res, next) => {
     logger.error({ err }, 'Unhandled exception');
 
-    res.status(500).render(VIEW.ERROR.UNHANDLED_EXCEPTION, {
-      backLink: req.session.backLink,
-    });
+    res.status(500).render('error/unhandled-exception');
     next();
   });
 
