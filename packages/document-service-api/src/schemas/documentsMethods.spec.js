@@ -3,16 +3,16 @@ jest.mock('../lib/blobStorage');
 
 const uuid = require('uuid');
 const DocumentsMethods = require('./documentsMethods');
-const { connectToBlobStorage, downloadFromBlobStorage } = require('../lib/blobStorage');
+const { initContainerClient, downloadFile } = require('../lib/blobStorage');
 
 describe('Documents methods', () => {
   describe('#downloadFileBuffer', () => {
     it('should download a file buffer', async () => {
       const connection = 'some-connection';
-      connectToBlobStorage.mockResolvedValue(connection);
+      initContainerClient.mockResolvedValue(connection);
 
       const fileBuffer = Buffer.from('hello world');
-      downloadFromBlobStorage.mockResolvedValue(fileBuffer);
+      downloadFile.mockResolvedValue(fileBuffer);
 
       const location = 'some-location';
       const obj = new DocumentsMethods();
@@ -20,7 +20,7 @@ describe('Documents methods', () => {
 
       expect(await obj.downloadFileBuffer()).toBe(fileBuffer);
 
-      expect(downloadFromBlobStorage).toBeCalledWith(location, connection);
+      expect(downloadFile).toBeCalledWith(location, connection);
     });
   });
 
