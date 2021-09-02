@@ -1,0 +1,74 @@
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+  branches:
+    include:
+      - feature/3074b-appeal-service-api-pipeline-tests
+  #    - master
+  paths:
+    include:
+      - packages/business-rules
+
+resources:
+  - repo: self
+
+name: '0.0.0' # set dynamically below in a task
+
+variables:
+  # VERSION INFO ----------------------------------------------------------
+  version.MajorMinor: '1.0' # Manually adjust the version number as needed for semantic versioning. Revision is auto-incremented.
+  version.Revision: $[counter(variables['version.MajorMinor'], 0)]
+  versionNumber: '$(version.MajorMinor).$(version.Revision)'
+  # -----------------------------------------------------------------------
+
+  # Container registry service connection established during pipeline creation
+  businessRulesDockerfilePath: '$(Build.SourcesDirectory)/packages/business-rules/Dockerfile'
+  imageRepository: 'business-rules' # this might not work if the repository doesnt exist
+  containerRegistry: 'pinscommonukscontainers3887default.azurecr.io'
+  dockerRegistryServiceConnection: 'appeals-service-api-registry-connection'
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+stages:
+  - stage: Increment_Version
+    displayName: Increment Version Number
+    jobs:
+      - job: Set_Version
+        displayName: Set Version Number
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: PowerShell@2
+            displayName: Set the name of the build (i.e. the Build.BuildNumber)
+            inputs:
+              targetType: 'inline'
+              script: |
+                [string] $buildName = "$(versionNumber)_$(Build.BuildId)"
+                Write-Host "Setting the name of the build to '$buildName'."
+                Write-Host "##vso[build.updatebuildnumber]$buildName"
+
+  # THERE ARE NO TESTS ON THIS
+
+  - stage: Build_Business_Rules_Package
+    displayName: Build and Push Business Rules
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build and push an image to container registry
+            inputs:
+              command: buildAndPush
+              repository: $(imageRepository)
+              dockerfile: $(businessRulesDockerfilePath)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(versionNumber)
+                business-rules
+                latest
+
+# TODO add Jest tests
