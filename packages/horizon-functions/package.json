@@ -1,26 +1,30 @@
 {
-  "name": "horizon-add-document",
+  "name": "horizon-householder-appeal-publish",
   "version": "0.0.0",
   "private": true,
   "engines": {
     "node": ">=14.0.0 <15.0.0",
     "npm": ">=6.0.0 <7.0.0"
   },
-  "description": "OpenFaaS Function",
+  "description": "Publish appeal to Horizon",
   "main": "handler.js",
   "scripts": {
     "format": "prettier --write './**/*.js'",
     "lint": "eslint ./",
+    "start": "func start",
     "test": "jest",
     "test:cov": "jest --coverage",
     "test:watch": "jest --watch",
     "documentation": "jest --coverage --reporters jest-html-reporters --coverageReporters html"
   },
-  "keywords": [],
   "author": "Foundry4 <www.foundry4.com>",
-  "license": "MIT",
+  "lint-staged": {
+    "./**/*.js": "npm run lint -- --fix",
+    "./**/*.{js, json}": "npm run format"
+  },
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "pino": "^6.11.3"
   },
   "devDependencies": {
     "eslint": "^7.12.1",
@@ -30,12 +34,11 @@
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-prettier": "^3.1.4",
     "jest": "^26.6.3",
+    "jest-date-mock": "^1.0.8",
     "jest-html-reporters": "^2.1.2",
+    "jest-when": "^3.2.0",
+    "pino-pretty": "^4.3.0",
     "prettier": "^2.1.2"
-  },
-  "lint-staged": {
-    "./**/*.js": "npm run lint -- --fix",
-    "./**/*.{js, json}": "npm run format"
   },
   "jest": {
     "coverageThreshold": {
@@ -53,6 +56,9 @@
     "rootDir": ".",
     "testRegex": ".spec.js$",
     "coverageDirectory": "./coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "setupFiles": [
+      "./__setups__/date.js"
+    ]
   }
 }

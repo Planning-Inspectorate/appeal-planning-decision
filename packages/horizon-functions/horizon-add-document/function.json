@@ -1,0 +1,12 @@
+{
+    "bindings": [
+      {
+        "name": "sbMSG",
+        "type": "serviceBusTrigger",
+        "direction": "in",
+        "queueName": "add-document",
+        "connection": "pinsuksmessagequeuedev_SERVICEBUS"
+      }
+    ]
+  }
+  

@@ -8,8 +8,8 @@ module.exports = {
   horizon: {
     url: process.env.HORIZON_URL,
   },
-  openfaas: {
-    gatewayUrl: process.env.GATEWAY_URL,
+  amqp: {
+    url: process.env.AMQPLIB_URL,
   },
   logger: {
     level: process.env.LOGGER_LEVEL || 'info',
