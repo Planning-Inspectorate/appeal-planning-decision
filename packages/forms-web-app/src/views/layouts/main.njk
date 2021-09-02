@@ -38,6 +38,10 @@
         }) }}
       {% endblock %}
 
+      {%if userName %}
+        <p> Logged in as: {{userName}} <span style="float:right"><a class="govuk-link" href='/logout'>Log out</a></p>
+      {% endif %}
+
       {% block backButton %}
         {{ govukBackLink({
           text: "Back",

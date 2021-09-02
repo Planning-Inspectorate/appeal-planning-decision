@@ -1,0 +1,56 @@
+diff a/packages/forms-web-app/src/routes/index.js b/packages/forms-web-app/src/routes/index.js	(rejected hunks)
+@@ -9,6 +10,13 @@ const cookieRouter = require('./cookies');
+ const guidancePagesRouter = require('./guidance-pages');
+ const yourPlanningAppealRouter = require('./your-planning-appeal');
+ 
++router.all('*', (req, res, next) => {
++  const userName = req?.user?._json.preferred_username;
++  if (userName) res.locals.userName = userName;
++
++  return next();
++});
++
+ router.use('/', homeRouter);
+ router.use(guidancePagesRouter);
+ router.use('/cookies', cookieRouter);
+@@ -16,4 +24,40 @@ router.use('/appellant-submission', appellantSubmissionRouter);
+ router.use('/eligibility', eligibilityRouter);
+ router.use('/your-planning-appeal', yourPlanningAppealRouter);
+ 
++router.all(
++  '/authenticate',
++  passport.authenticate('azuread-openidconnect', { failureRedirect: '/' }),
++  (req, res) => {
++    if (req.user) return res.redirect('/logged-in');
++
++    return res.redirect('https://login.microsoftonline.com/');
++  },
++
++  (req, res) => {
++    res.render('check-your-inbox', { token: JSON.stringify(req) });
++  }
++);
++
++router.get('/logout', (req, res) => {
++  req.logout();
++  res.redirect('/');
++});
++
++router.get('/logged-in', (req, res) => {
++  res.render('logged-in');
++});
++
++router.post(
++  '/token',
++  passport.authenticate('azuread-openidconnect', { failureRedirect: '/' }),
++  (req, res) => {
++    const dest = req.session.postLoginDestination;
++    if (dest) {
++      delete req.session.postLoginDestination;
++      res.redirect(req.session.postLoginDestination);
++    }
++    res.redirect('/logged-in');
++  }
++);
++
+ module.exports = router;

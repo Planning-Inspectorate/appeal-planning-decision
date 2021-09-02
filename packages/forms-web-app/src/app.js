@@ -3,6 +3,8 @@ const compression = require('compression');
 const lusca = require('lusca');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const passport = require('passport');
+const { OIDCStrategy } = require('passport-azure-ad');
 const nunjucks = require('nunjucks');
 const dateFilter = require('nunjucks-date-filter');
 const session = require('express-session');
@@ -26,6 +28,7 @@ require('express-async-errors');
 const config = require('./config');
 const logger = require('./lib/logger');
 const routes = require('./routes');
+const { profile } = require('console');
 
 const app = express();
 
@@ -96,6 +99,65 @@ app.use(flashMessageCleanupMiddleware);
 app.use(flashMessageToNunjucks(env));
 app.use(navigationHistoryMiddleware());
 app.use(navigationHistoryToNunjucksMiddleware(env));
+
+const users = [];
+
+const findByOid = function (oid, fn) {
+  for (var i = 0, len = users.length; i < len; i++) {
+    var user = users[i];
+    if (user.oid === oid) {
+      return fn(null, user);
+    }
+  }
+  return fn(null, null);
+};
+
+passport.use(
+  new OIDCStrategy(
+    {
+      identityMetadata:
+        'https://login.microsoftonline.com/5878df98-6f88-48ab-9322-998ce557088d/v2.0/.well-known/openid-configuration',
+      clientID: 'cfbeda8b-8a44-443f-be26-59b180dd01c1',
+      responseType: 'code',
+      responseMode: 'form_post',
+      redirectUrl: 'http://localhost:9003/token',
+      allowHttpForRedirectUrl: true,
+      clientSecret: '6z.-X917186mYC~Kjs3_3kYyROJD81I3kq',
+      validateIssuer: false,
+      loggingLevel: 'info',
+      scope: 'profile',
+    },
+    (iss, sub, profile, accessToken, refreshToken, done) => {
+      if (!profile.oid) {
+        return done(new Error('No oid found'), null);
+      }
+
+      process.nextTick(() => {
+        findByOid(profile.oid, (err, user) => {
+          if (err) {
+            return done(err);
+          }
+          if (!user) {
+            users.push(profile);
+            return done(null, profile);
+          }
+          return done(null, user);
+        });
+      });
+    }
+  )
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
 
 // Routes
 app.use('/', routes);
