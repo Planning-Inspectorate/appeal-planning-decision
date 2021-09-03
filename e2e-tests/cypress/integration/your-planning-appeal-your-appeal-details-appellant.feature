@@ -10,11 +10,12 @@ Feature: Your Appeal Details
     When the appellant is on the ‘Your planning appeal’ page
     Then the page will contain a link to ‘View your appeal details’
 
-  @as-1607 @as-1607-ac2 @as-1607-ac2-1
+  @as-1607 @as-1607-ac2 @as-1607-ac2-1 @as-2307
   Scenario: An appellant views the appeal details
     Given an appellant is on the 'Your planning appeal' page
     When the appellant selects the 'View your appeal details' link
     Then the appeal details will be shown - appellant, without files
+    And the user sees the label for appellant name as "Your name"
 
   @as-1607 @as-1607-ac3 @as-1607-ac3-1
   Scenario: An appellant decides to open all sections
