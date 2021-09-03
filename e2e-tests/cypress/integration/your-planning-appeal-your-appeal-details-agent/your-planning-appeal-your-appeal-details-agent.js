@@ -561,3 +561,10 @@ Then('a count for each document type will be displayed on the page - agent', () 
   });
 });
 // -----------------------------------------------------------------------------------
+
+Then('the user sees the label for appellant name as {string}', (label) => {
+  cy.get('[class=govuk-summary-list__key]').first().should(
+    'contain',
+    label,
+  );
+});
