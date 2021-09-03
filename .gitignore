@@ -163,7 +163,6 @@ dist
 Thumbs.db
 
 # VSCode
-.vscode
 
 .envrc*
 tmp

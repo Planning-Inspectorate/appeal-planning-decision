@@ -17,9 +17,9 @@
     "lint:fix": "eslint ./ --fix",
     "format": "prettier --write './**/*.js'",
     "postinstall": "patch-package",
-    "test": "jest --coverage --verbose false ",
+    "test": "jest --coverage ",
     "test:watch": "jest --watchAll --runInBand --coverage",
-    "documentation": "jest --coverage --reporters jest-html-reporters --coverageReporters html"
+    "documentation": "jest --bail --coverage --coverageReporters=cobertura --reporters=default --reporters=jest-junit"
   },
   "lint-staged": {
     "./**/*.js": "npm run lint:fix",
@@ -38,10 +38,13 @@
     "express-pino-logger": "^5.0.0",
     "express-session": "^1.17.1",
     "express-validator": "^6.6.1",
-    "file-type": "^16.0.1",
+    "file-type": "^16.4.0",
     "form-data": "^3.0.0",
     "govuk-frontend": "^3.12.0",
     "http-errors": "~1.6.3",
+    "jest": "^26.6.3",
+    "jest-fetch-mock": "^3.0.3",
+    "jest-junit": "^12.2.0",
     "jquery": "^3.6.0",
     "lusca": "^1.6.1",
     "node-fetch": "^2.6.1",
@@ -50,9 +53,8 @@
     "nunjucks-date-filter": "^0.1.1",
     "pino": "^6.7.0",
     "pino-http": "^5.3.0",
-    "pins-clamav": "^1.0.0",
-    "pins-mime-validation": "^1.0.0",
     "sass": "^1.32.12",
+    "util": "^0.12.4",
     "uuid": "^8.3.1"
   },
   "devDependencies": {
@@ -62,9 +64,6 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "jest": "^26.6.1",
-    "jest-fetch-mock": "^3.0.3",
-    "jest-html-reporters": "^2.1.2",
     "nodemon": "^2.0.6",
     "patch-package": "^6.2.2",
     "pino-pretty": "^4.3.0",
