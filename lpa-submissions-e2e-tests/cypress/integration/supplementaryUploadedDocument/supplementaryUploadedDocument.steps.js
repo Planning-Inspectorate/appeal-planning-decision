@@ -55,7 +55,6 @@ When('continue is selected', () => {
 });
 
 When('an answer is saved', () => {
-  addAnother().click();
   supplementaryAddNewDocument('upload-file-valid.docx', 'New Mock Document Name');
   continueButton().click();
 });
