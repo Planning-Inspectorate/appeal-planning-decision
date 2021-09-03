@@ -24,7 +24,7 @@
     "postinstall": "patch-package",
     "test": "jest --coverage --maxWorkers=4",
     "test:watch": "jest --watchAll --runInBand --coverage",
-    "documentation": "jest --coverage --reporters jest-html-reporters --coverageReporters html"
+    "documentation": "jest --bail --coverage --coverageReporters=cobertura --reporters=default --reporters=jest-junit"
   },
   "lint-staged": {
     "./**/*.js": "npm run lint:fix",
@@ -33,8 +33,10 @@
   "dependencies": {
     "@ministryofjustice/frontend": "0.2.0",
     "@pins/business-rules": "file:../business-rules",
+    "@testing-library/jest-dom": "^5.11.9",
     "@pins/common": "file:../common",
     "accessible-autocomplete": "^2.0.3",
+    "clamscan": "^1.4.2",
     "compression": "^1.7.4",
     "connect-mongodb-session": "^2.4.1",
     "cookie-parser": "~1.4.4",
@@ -56,25 +58,23 @@
     "nunjucks-date-filter": "^0.1.1",
     "pino": "^6.7.0",
     "pino-http": "^5.3.0",
-    "pins-clamav": "^1.0.0",
-    "pins-mime-validation": "^1.0.0",
     "sass": "^1.32.12",
-    "uuid": "^8.3.1"
+    "uuid": "^8.3.1",
+    "jest": "^26.6.3",
+    "jest-junit": "^12.2.0",
+    "jest-when": "^3.0.1",
+    "jest-fetch-mock": "^3.0.3",
+    "@testing-library/dom": "^7.29.6",
+    "@testing-library/user-event": "^12.8.1",
+    "cross-blob": "^2.0.0"
   },
   "devDependencies": {
-    "@testing-library/dom": "^7.29.6",
-    "@testing-library/jest-dom": "^5.11.9",
-    "@testing-library/user-event": "^12.8.1",
-    "cross-blob": "^2.0.0",
     "eslint": "^7.11.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.14.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "jest": "^26.6.1",
-    "jest-fetch-mock": "^3.0.3",
-    "jest-html-reporters": "^2.1.2",
     "nodemon": "^2.0.6",
     "npm-run-all": "^4.1.5",
     "patch-package": "^6.2.2",
