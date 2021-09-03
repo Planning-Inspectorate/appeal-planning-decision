@@ -68,5 +68,5 @@ exports.postHouseholderPlanningPermission = async (req, res) => {
     return;
   }
 
-  res.redirect(`/${VIEW.ELIGIBILITY.DECISION_DATE}`);
+  res.redirect(`/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION}`);
 };
