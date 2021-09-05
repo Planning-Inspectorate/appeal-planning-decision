@@ -13,4 +13,6 @@ const routes = Router({ mergeParams: true });
 routes.use('/api-docs', apidocs);
 routes.use('/api/v1/:applicationId', application);
 
+console.log(process.env);
+
 module.exports = routes;

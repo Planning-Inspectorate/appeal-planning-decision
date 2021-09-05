@@ -15,4 +15,6 @@ router.use('/api/v1/appeals', appealsRouter);
 router.use('/api/v1/local-planning-authorities', localPlanningAuthoritiesRouter);
 router.use('/api-docs', apiDocsRouter);
 
+console.log(process.env);
+
 module.exports = router;

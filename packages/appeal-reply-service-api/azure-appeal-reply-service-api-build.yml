@@ -5,7 +5,7 @@
 trigger:
   branches:
     include:
-      - feature/3074b-appeal-service-api-pipeline-tests
+      - feature/as-3074-override
   #    - master
   paths:
     include:
@@ -82,7 +82,7 @@ stages:
 
                 Write-Host "Setting the imageId to '${imageId}'."
 
-                Write-Host "Running Docker..."            
+                Write-Host "Running Docker..."
                 $containerId = docker run -d ${imageId}
                 Write-Host "Setting the containerId to '${containerId}'."
 
