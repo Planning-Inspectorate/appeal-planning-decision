@@ -33,18 +33,30 @@ This application is built to the [12 Factor App](https://12factor.net/)
 standards. This means that there is a single configuration file and any specific
 variables required are declared as environment variables.
 
-### Accessing local blob storage.
+### Accessing local blob storage
 
-The document service has a local container that mimics the same functionality the Azure blob storage provides, to browse the storage you need to download Azure Storage browser from [here](https://azure.microsoft.com/en-gb/features/storage-explorer/).
+The document service has a local container that mimics the same functionality the Azure blob storage provides, to browse the storage you need to [download Azure Storage browser](https://azure.microsoft.com/en-gb/features/storage-explorer/).
 
-You then need to retrieve the BLOB_STORAGE_CONNECTION_STRING from docker-compose.yml at the project root. At the time of writing it is:
+First you'll need to [configure and run the development stack](https://github.com/Planning-Inspectorate/appeal-planning-decision/blob/master/README.md) and then find the BLOB_STORAGE_CONNECTION_STRING from the [docker-compose.yml](https://github.com/Planning-Inspectorate/appeal-planning-decision/blob/master/docker-compose.yml) file in the project root.
 
-```DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blob-storage:10000/devstoreaccount1;QueueEndpoint=http://blob-storage:10001/devstoreaccount1;```
-
-Simply replace the host in the connection string with 'localhost' like so and the port numbers to the correct one for the dockerized service:
+Go into Azure Storage Browser, select the connection icon from the bar on the left, select `Local storage emulator` and enter the following:
 
 ```
-DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://localhost:4002/devstoreaccount1;QueueEndpoint=http://localhost:4003/devstoreaccount1;
+Account name: <Use the AccountName param from the connection string>
+Account key: <Use the AccountKey param from the connection string>
+Blobs port: <Use the port from the BlobEndpoint param in the connection string>
+Queues port: <Use the port from the QueuesEndpoint param in the connection string>
+Tables port: 10002
 ```
 
-Go into Azure Storage Browser select the connection icon from the bar on the left, select "Storage Account", "Shared Access signature" then give your connection a name and paste in your connection string.
+Then click Next then Connect.
+
+To see the documents, in the Explorer select `Storage Accounts`, then the connection you just set up (probably `local-1`), then `Blob Containers`, then `document-service-uploads`.
+
+Within `document-service-uploads` the document hierarchy is structured as follows:
+
+- Application UUID folder
+  - Document UUID folder
+    - Document file
+
+To see the metadata for a document, navigate to the desired document, right click the document and select `Properties`.

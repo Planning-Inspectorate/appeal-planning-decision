@@ -1,137 +1,111 @@
-/* istanbul ignore file */
-
 const { BlobServiceClient } = require('@azure/storage-blob');
 const fs = require('fs');
 const path = require('path');
 const logger = require('./logger');
 const config = require('./config');
 
-let containerClient;
-let blobClient;
-
-/**
- * Connect To Blob Storage
- *
- * Connects the blob storage
- *
- * @returns {Promise<{blobClient: BlobServiceClient, containerClient: ContainerClient}>}
- */
-const connectToBlobStorage = async () => {
+const initContainerClient = async () => {
   logger.info('Connecting to blob storage');
 
-  if (!containerClient) {
-    try {
-      /* Configure Blob Storage client */
-      blobClient = BlobServiceClient.fromConnectionString(config.storage.connectionString);
-      containerClient = blobClient.getContainerClient(config.storage.container);
-      logger.info({ container: config.storage.container }, 'Creating container if not present');
-      await containerClient.createIfNotExists();
-      logger.info('Successfully connected to blob storage');
-    } catch (err) {
-      logger.error({ err }, 'Failed to connect to blob storage');
-      /* Preserve the error */
-      throw err;
-    }
+  const { connectionString, container } = config.storage;
+
+  let containerClient;
+
+  try {
+    const blobClient = BlobServiceClient.fromConnectionString(connectionString);
+    containerClient = blobClient.getContainerClient(container);
+    logger.info({ container }, 'Creating container if not present');
+    await containerClient.createIfNotExists();
+    logger.info('Successfully connected to blob storage');
+  } catch (err) {
+    logger.error({ err }, 'Failed to connect to blob storage');
+    throw err;
   }
-  return { blobClient, containerClient };
+
+  return containerClient;
 };
 
-/**
- * Download From Blob Storage
- *
- * Downloads a file from the blob storage. Return data in buffer
- * format.
- *
- * @param blobStorageLocation
- * @param blobStorageClient
- * @returns {Promise<Buffer>}
- */
-const downloadFromBlobStorage = async (blobStorageLocation, blobStorageClient) => {
+const downloadFile = async (containerClient, location) => {
   try {
-    logger.info({ blobStorageLocation }, 'Downloading file from blob storage');
-
-    const client = blobStorageClient.containerClient.getBlobClient(blobStorageLocation);
-    return await client.downloadToBuffer();
+    logger.info({ location }, 'Downloading file from blob storage');
+    return containerClient.getBlobClient(location).downloadToBuffer();
   } catch (err) {
     logger.error({ err }, 'Failed to download file from blob storage');
     throw err;
   }
 };
 
-/**
- * Upload To Blob Storage
- *
- * Uploads each of the selected documents to blob storage
- *
- * @param blobStorageClient
- * @returns {function(*): Promise<unknown[]>}
- */
-const uploadToBlobStorage = (blobStorageClient) => {
-  return (docs) =>
-    Promise.all(
-      docs.map(async (doc) => {
-        let uploaded = false;
-        const filePath = path.join(config.fileUpload.path, doc.location);
+const uploadFile = async (containerClient, document) => {
+  const metadata = { ...document };
+  const filePath = path.join(config.fileUpload.path, metadata.filename);
+  const blobName = metadata.location;
 
-        try {
-          const blobName = doc.blobStorageLocation;
-          logger.info({ blobName, doc, filePath }, 'Uploading file to blob storage');
-
-          const blockBlobClient = blobStorageClient.getBlockBlobClient(blobName);
-          const readableStream = fs.createReadStream(filePath);
-          const uploadStatus = await blockBlobClient.uploadStream(
-            readableStream,
-            undefined,
-            undefined,
-            {
-              blobHTTPHeaders: {
-                blobContentType: doc.mimeType,
-              },
-            }
-          );
-
-          uploaded = true;
-          logger.info({ doc, uploadStatus }, 'File successfully uploaded');
-        } catch (err) {
-          logger.error({ err, doc }, 'File upload failed');
-        }
-
-        /* Housekeeping job - this doesn't affect the process */
-        try {
-          logger.info({ doc, filePath }, 'Deleting local document');
-
-          await fs.promises.unlink(filePath);
-
-          logger.info({ doc, filePath }, 'Deleted uploaded document');
-        } catch (err) {
-          logger.error({ err, doc }, 'Error deleting document');
-        }
-
-        return {
-          uploaded,
-          doc,
-        };
-      })
-    );
-};
-
-const deleteFromBlobStorage = async (location) => {
-  connectToBlobStorage();
-
-  const doc = containerClient.getBlockBlobClient(location);
+  delete metadata.filename;
 
   try {
-    await doc.delete();
+    logger.info({ blobName, metadata, filePath }, 'Uploading file to blob storage');
+
+    const readableStream = fs.createReadStream(filePath);
+    const uploadStatus = await containerClient
+      .getBlockBlobClient(blobName)
+      .uploadStream(readableStream, undefined, undefined, {
+        blobHTTPHeaders: {
+          blobContentType: metadata.mime_type,
+        },
+        metadata,
+      });
+
+    logger.info({ metadata, uploadStatus }, 'File successfully uploaded');
+
+    return metadata;
+  } catch (err) {
+    logger.error({ err, metadata }, 'File upload failed');
+    throw err;
+  }
+};
+
+const deleteFile = async (containerClient, location) => {
+  try {
+    await containerClient.getBlockBlobClient(location).delete();
     return true;
-  } catch (e) {
-    logger.error({ error: e.details }, `Error deleting document from blob storage.`);
-    return false;
+  } catch (err) {
+    logger.error({ err }, 'Error deleting document from blob storage');
+    throw err;
+  }
+};
+
+const getMetadataForAllFiles = async (containerClient, applicationId) => {
+  try {
+    const blobs = [];
+
+    // eslint-disable-next-line no-restricted-syntax
+    for await (const blob of containerClient.listBlobsFlat({ prefix: applicationId })) {
+      blobs.push(blob);
+    }
+
+    return blobs;
+  } catch (err) {
+    logger.error({ err }, 'Error listing blobs');
+    throw err;
+  }
+};
+
+const getMetadataForSingleFile = async (containerClient, applicationId, documentId) => {
+  try {
+    const blobs = await getMetadataForAllFiles(containerClient, applicationId);
+    const files = blobs.filter(({ metadata = {} }) => metadata.id === documentId);
+    return files.length ? files[0] : null;
+  } catch (err) {
+    logger.error({ err }, 'Error getting blob');
+    throw err;
   }
 };
 
 module.exports = {
-  connectToBlobStorage,
-  downloadFromBlobStorage,
-  deleteFromBlobStorage,
-  uploadToBlobStorage,
+  initContainerClient,
+  downloadFile,
+  uploadFile,
+  deleteFile,
+  getMetadataForAllFiles,
+  getMetadataForSingleFile,
 };

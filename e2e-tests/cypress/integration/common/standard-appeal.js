@@ -136,6 +136,19 @@ const STANDARD_APPEAL = {
   },
 };
 
+
+const STANDARD_AGENT_APPEAL = {
+  ...STANDARD_APPEAL,
+  aboutYouSection: {
+    yourDetails: {
+      isOriginalApplicant: false,
+      name: 'Agent Name',
+      email: 'valid@email.com',
+      appealingOnBehalfOf: "Valid Name",
+    },
+  },
+};
+
 const APPEAL_NOT_OWNER_OTHERS_NOT_INFORMED = {
   decisionDate: dateForXDaysAgo(30),
   eligibility: {
@@ -265,6 +278,7 @@ const APPEAL_NOT_OWNER_OTHERS_INFORMED = {
 module.exports = {
   matchWhatWeCanFrom,
   STANDARD_APPEAL,
+  STANDARD_AGENT_APPEAL,
   APPEAL_NOT_OWNER_OTHERS_INFORMED,
   APPEAL_NOT_OWNER_OTHERS_NOT_INFORMED,
 };

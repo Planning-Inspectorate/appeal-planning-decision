@@ -18,7 +18,7 @@ jest.mock('../../../src/services/task.service');
 jest.mock('../../../src/lib/logger');
 
 describe('controllers/upload-question', () => {
-  const backLinkUrl = '/mock-id/mock-back-link';
+  const backLinkUrl = '/appeal-questionnaire/mock-id/mock-back-link';
   let req;
   let res;
   let mockAppealReply;
@@ -85,7 +85,7 @@ describe('controllers/upload-question', () => {
 
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         appealReplyId: 'mock-id',
       });
     });
@@ -102,7 +102,7 @@ describe('controllers/upload-question', () => {
 
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         uploadedFiles,
         appealReplyId: 'mock-id',
       });
@@ -128,7 +128,7 @@ describe('controllers/upload-question', () => {
       expect(deleteDocument).toHaveBeenCalledWith('mock-id', 'some-file');
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
-        backLink: '/mock-id/task-list',
+        backLink: '/appeal-questionnaire/mock-id/task-list',
         uploadedFiles: [{ name: 'another-file' }],
       });
     });
@@ -150,7 +150,7 @@ describe('controllers/upload-question', () => {
 
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
-        backLink: '/mock-id/task-list',
+        backLink: '/appeal-questionnaire/mock-id/task-list',
         uploadedFiles: [{ name: 'another-file' }],
       });
     });
@@ -200,7 +200,7 @@ describe('controllers/upload-question', () => {
 
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
-        backLink: '/mock-id/task-list',
+        backLink: '/appeal-questionnaire/mock-id/task-list',
         uploadedFiles: [{ name: 'some-file' }],
       });
     });
@@ -226,7 +226,7 @@ describe('controllers/upload-question', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
-        backLink: '/mock-id/task-list',
+        backLink: '/appeal-questionnaire/mock-id/task-list',
       });
     });
 
@@ -244,7 +244,7 @@ describe('controllers/upload-question', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
-        backLink: '/mock-id/task-list',
+        backLink: '/appeal-questionnaire/mock-id/task-list',
       });
     });
 
@@ -269,7 +269,7 @@ describe('controllers/upload-question', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
-        backLink: '/mock-id/task-list',
+        backLink: '/appeal-questionnaire/mock-id/task-list',
       });
     });
 
@@ -290,7 +290,7 @@ describe('controllers/upload-question', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
-        backLink: '/mock-id/task-list',
+        backLink: '/appeal-questionnaire/mock-id/task-list',
       });
     });
 
@@ -309,7 +309,7 @@ describe('controllers/upload-question', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith('mock-view', {
         appeal: null,
-        backLink: '/mock-id/task-list',
+        backLink: '/appeal-questionnaire/mock-id/task-list',
       });
     });
 
@@ -332,7 +332,7 @@ describe('controllers/upload-question', () => {
 
       expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
     });
   });
 });

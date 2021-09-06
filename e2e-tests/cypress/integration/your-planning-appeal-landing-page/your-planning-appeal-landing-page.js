@@ -1,6 +1,17 @@
 import { When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { STANDARD_APPEAL } from '../common/standard-appeal';
+import {
+  STANDARD_AGENT_APPEAL,
+  STANDARD_APPEAL,
+} from '../common/standard-appeal';
 import format from 'date-fns/format'
+
+Given('an {string} has submitted an appeal', (appellantOrAgent) => {
+  const appeal = appellantOrAgent === 'appellant' ? STANDARD_APPEAL : STANDARD_AGENT_APPEAL;
+  cy.provideCompleteAppeal(appeal);
+  cy.clickCheckYourAnswers();
+  cy.clickSaveAndContinue();
+  cy.agreeToTheDeclaration();
+});
 
 Given('an agent or appellant has submitted an appeal', () => {
   cy.provideCompleteAppeal(STANDARD_APPEAL);
@@ -32,18 +43,28 @@ When('your planning appeal page is viewed with an incorrect appealId', () => {
   });
 });
 
-Then('the user sees the appropriate general data along with data for step 1', () => {
+Then('the user sees the appropriate general data for {string} along with data for step 1', (appellantOrAgent) => {
+  let isAppellant = appellantOrAgent === 'appellant';
+  const appeal = isAppellant ? STANDARD_APPEAL : STANDARD_AGENT_APPEAL;
+  const appellantName = isAppellant ? appeal.aboutYouSection.yourDetails.name : appeal.aboutYouSection.yourDetails.appealingOnBehalfOf;
   cy.get('[data-cy="appellant-name"]').should(
     'have.text',
-    STANDARD_APPEAL.aboutYouSection.yourDetails.name,
+    appellantName,
   );
   cy.get('[data-cy="appellant-address"]').should(
     'have.text',
-    `${STANDARD_APPEAL.appealSiteSection.siteAddress.addressLine1}${STANDARD_APPEAL.appealSiteSection.siteAddress.addressLine2}${STANDARD_APPEAL.appealSiteSection.siteAddress.town}${STANDARD_APPEAL.appealSiteSection.siteAddress.county}${STANDARD_APPEAL.appealSiteSection.siteAddress.postcode}`,
+    `${appeal.appealSiteSection.siteAddress.addressLine1}${appeal.appealSiteSection.siteAddress.addressLine2}${appeal.appealSiteSection.siteAddress.town}${appeal.appealSiteSection.siteAddress.county}${appeal.appealSiteSection.siteAddress.postcode}`,
   );
   cy.get('[data-cy="appeal-submission-date"]').should(
     'have.text',
     format(new Date(), 'D MMMM YYYY')
+  );
+});
+
+Then('the user sees the label for appellant name as {string}', (label) => {
+  cy.get('[class=govuk-summary-list__key]').first().should(
+    'contain',
+    label,
   );
 });
 

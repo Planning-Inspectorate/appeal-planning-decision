@@ -1,6 +1,7 @@
 const { format } = require('date-fns');
 const { VIEW } = require('../../lib/views');
 const getAppealSideBarDetails = require('../../lib/appeal-sidebar-details');
+const { renderView } = require('../../util/render');
 
 const question = {
   heading: 'Supplementary planning documents',
@@ -28,16 +29,22 @@ const populateUploadedFiles = (req) => {
 
 exports.getUploadedDocuments = (req, res) => {
   const backLink = res.locals.backLink || req.session.backLink;
+  const continueLink =
+    req.session.isCheckingAnswers === true
+      ? `/${req.session.appealReply.appealId}/confirm-answers`
+      : backLink;
   const uploadedDocumentsUrl = `${req.protocol}://${req.headers.host}${req.url}`.replace(
     '/uploaded-documents',
     ''
   );
 
-  res.render(VIEW.SUPPLEMENTARY_DOCUMENTS.UPLOADED_DOCUMENTS, {
+  renderView(res, VIEW.SUPPLEMENTARY_DOCUMENTS.UPLOADED_DOCUMENTS, {
+    prefix: 'appeal-questionnaire',
     uploadedDocumentsUrl,
     uploadedFiles: populateUploadedFiles(req),
     appeal: getAppealSideBarDetails(req.session.appeal),
     backLink: backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
     question,
+    continueLink,
   });
 };

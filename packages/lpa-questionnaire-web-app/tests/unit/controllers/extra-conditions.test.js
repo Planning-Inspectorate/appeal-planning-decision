@@ -12,7 +12,7 @@ jest.mock('../../../src/lib/logger');
 
 describe('controllers/extra-conditions', () => {
   const mockTaskStatus = 'MOCK_STATUS';
-  const backLinkUrl = '/mock-id/mock-back-link';
+  const backLinkUrl = '/appeal-questionnaire/mock-id/mock-back-link';
 
   let req;
   let res;
@@ -48,7 +48,7 @@ describe('controllers/extra-conditions', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.EXTRA_CONDITIONS, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         values,
       });
     });
@@ -70,7 +70,7 @@ describe('controllers/extra-conditions', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.EXTRA_CONDITIONS, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         values: {
           'has-extra-conditions': 'yes',
           'extra-conditions-text': 'some-text',
@@ -94,7 +94,7 @@ describe('controllers/extra-conditions', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.EXTRA_CONDITIONS, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         values: {
           'has-extra-conditions': 'no',
           'extra-conditions-text': undefined,
@@ -120,7 +120,7 @@ describe('controllers/extra-conditions', () => {
 
       expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should redirect to the back link specified', async () => {
@@ -134,11 +134,11 @@ describe('controllers/extra-conditions', () => {
           'has-extra-conditions': 'no',
         },
       };
-      mockRequest.session.backLink = backLinkUrl;
+      mockRequest.session.backLink = '/appeal-questionnaire/mock-id/task-list';
 
       await extraConditionsController.postExtraConditions(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith(backLinkUrl);
+      expect(res.redirect).toHaveBeenCalledWith('/appeal-questionnaire/mock-id/task-list');
     });
 
     it('should redirect with extra-conditions set to true and extra-conditions-text passed', async () => {
@@ -157,13 +157,12 @@ describe('controllers/extra-conditions', () => {
           'extra-conditions-text': 'some-text',
         },
       };
-      mockRequest.session.backLink = `/mock-id/${VIEW.TASK_LIST}`;
 
       await extraConditionsController.postExtraConditions(mockRequest, res);
 
       expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/mock-id/${VIEW.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
     });
 
     it('should re-render the template with errors if there is any validator error', async () => {
@@ -181,7 +180,7 @@ describe('controllers/extra-conditions', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.EXTRA_CONDITIONS, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
         values: {
@@ -211,7 +210,7 @@ describe('controllers/extra-conditions', () => {
       expect(logger.error).toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.EXTRA_CONDITIONS, {
         appeal: null,
-        backLink: `/mock-id/${VIEW.TASK_LIST}`,
+        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
         errorSummary: [{ text: 'mock api error' }],
         errors: {},
         values: {

@@ -2,6 +2,7 @@ const { VIEW } = require('../lib/views');
 const getAppealSideBarDetails = require('../lib/appeal-sidebar-details');
 const { getTaskStatus } = require('../services/task.service');
 const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
+const { renderView, redirect } = require('../util/render');
 
 const sectionName = 'optionalDocumentsSection';
 const taskName = 'developmentOrNeighbourhood';
@@ -21,9 +22,10 @@ exports.getDevelopmentPlan = (req, res) => {
     'plan-changes-text': developmentPlanSection.planChanges,
   };
 
-  res.render(VIEW.DEVELOPMENT_PLAN, {
+  renderView(res, VIEW.DEVELOPMENT_PLAN, {
+    prefix: 'appeal-questionnaire',
     appeal: getAppealSideBarDetails(req.session.appeal),
-    backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
+    backLink: req.session.backLink ? req.session.backLink : `/${req.params.id}/${VIEW.TASK_LIST}`,
     values,
   });
 };
@@ -41,13 +43,15 @@ exports.postDevelopmentPlan = async (req, res) => {
   };
 
   if (Object.keys(errors).length > 0) {
-    res.render(VIEW.DEVELOPMENT_PLAN, {
+    renderView(res, VIEW.DEVELOPMENT_PLAN, {
+      prefix: 'appeal-questionnaire',
       appeal: getAppealSideBarDetails(req.session.appeal),
       backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary,
       values,
     });
+
     return;
   }
 
@@ -65,7 +69,8 @@ exports.postDevelopmentPlan = async (req, res) => {
   } catch (err) {
     req.log.error({ err }, 'Error creating or updating appeal');
 
-    res.render(VIEW.DEVELOPMENT_PLAN, {
+    renderView(res, VIEW.DEVELOPMENT_PLAN, {
+      prefix: 'appeal-questionnaire',
       appeal: getAppealSideBarDetails(req.session.appeal),
       backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
@@ -76,5 +81,5 @@ exports.postDevelopmentPlan = async (req, res) => {
     return;
   }
 
-  res.redirect(req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`);
+  redirect(res, 'appeal-questionnaire', `${req.params.id}/${VIEW.TASK_LIST}`, req.session.backLink);
 };

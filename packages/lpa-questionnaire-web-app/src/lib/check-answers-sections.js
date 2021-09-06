@@ -45,7 +45,7 @@ const getAnswer = (id, sectionId, appealReply) => {
  * @returns array of grouped subtasks that are structured for nunjucks component
  */
 module.exports = (appealReply, appealId, showActions = true) => {
-  return SECTIONS.map(({ sectionId, tasks }) => {
+  return SECTIONS.map(({ sectionId, prefix, tasks }) => {
     return {
       id: sectionId,
       heading: HEADERS[sectionId],
@@ -61,7 +61,7 @@ module.exports = (appealReply, appealId, showActions = true) => {
             ? {
                 items: [
                   {
-                    href: `/${appealId}${href}`,
+                    href: `${prefix}/${appealId}${href}`,
                     text: 'Change',
                     visuallyHiddenText: name,
                     attributes: {

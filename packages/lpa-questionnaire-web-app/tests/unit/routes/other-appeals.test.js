@@ -20,12 +20,12 @@ describe('routes/other-appeals', () => {
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      `/:id/${VIEW.OTHER_APPEALS}`,
+      `/appeal-questionnaire/:id/${VIEW.OTHER_APPEALS}`,
       [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
       otherAppealsController.getOtherAppeals
     );
     expect(post).toHaveBeenCalledWith(
-      `/:id/${VIEW.OTHER_APPEALS}`,
+      `/appeal-questionnaire/:id/${VIEW.OTHER_APPEALS}`,
       otherAppealsValidationRules(),
       validationErrorHandler,
       otherAppealsController.postOtherAppeals
