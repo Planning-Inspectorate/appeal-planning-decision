@@ -24,7 +24,7 @@
     "postinstall": "patch-package",
     "test": "jest --coverage --maxWorkers=4",
     "test:watch": "jest --watchAll --runInBand --coverage",
-    "documentation": "jest --coverage --reporters jest-html-reporters --coverageReporters html"
+    "documentation": "jest --bail --coverage --coverageReporters=cobertura --reporters=default --reporters=jest-junit"
   },
   "lint-staged": {
     "./**/*.js": "npm run lint:fix",
