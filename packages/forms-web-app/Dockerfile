@@ -24,7 +24,7 @@ RUN npm prune --production \
   && npm rebuild \
   && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
 
-RUN npm run documentation; echo $? > /npm.exitcode
+# RUN npm run documentation; echo $? > /npm.exitcode
 EXPOSE 3000
 
 CMD [ "npm", "run", "start" ]
