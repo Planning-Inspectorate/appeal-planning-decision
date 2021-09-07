@@ -23,6 +23,7 @@
     "./**/*.{js, json}": "npm run format"
   },
   "dependencies": {
+    "amqplib": "^0.8.0",
     "axios": "^0.21.1",
     "pino": "^6.11.3"
   },

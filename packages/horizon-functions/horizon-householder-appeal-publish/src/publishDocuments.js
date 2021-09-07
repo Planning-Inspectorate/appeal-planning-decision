@@ -1,5 +1,4 @@
-const axios = require('axios');
-const config = require('./config');
+const rabbitmq = require('./lib/rabbitmq');
 
 /**
  * Publish Documents
@@ -28,19 +27,12 @@ const publishDocuments = async (log, documents, serviceId, horizonId) => {
           'Publish document to Horizon'
         );
 
-        await axios.post(
-          '/async-function/horizon-add-document',
-          {
-            documentId,
-            documentType,
-            // These are named as-per Horizon keys
-            caseReference: horizonId,
-            applicationId: serviceId,
-          },
-          {
-            baseURL: config.openfaas.gatewayUrl,
-          }
-        );
+        await rabbitmq.publisher('create-contact', {
+          documentId,
+          documentType,
+          caseReference: horizonId,
+          applicationId: serviceId,
+        });
 
         log.debug('Publish document request accepted');
       })
