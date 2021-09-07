@@ -1,6 +1,7 @@
 const mockGet = jest.fn();
 const mockPost = jest.fn();
 const mockDelete = jest.fn();
+const mockUse = jest.fn();
 const mockReq = {
   params: {},
   log: {
@@ -24,6 +25,7 @@ jest.doMock('express', () => ({
     get: mockGet,
     post: mockPost,
     delete: mockDelete,
+    use: mockUse,
   }),
 }));
 
@@ -31,6 +33,7 @@ module.exports = {
   mockGet,
   mockPost,
   mockDelete,
+  mockUse,
   mockReq,
   mockRes,
   mockNext,
