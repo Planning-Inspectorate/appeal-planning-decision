@@ -7,6 +7,7 @@ const {
   deleteFile,
   getMetadataForAllFiles,
   getMetadataForSingleFile,
+  saveMetadata,
 } = require('./blobStorage');
 
 const document = {
@@ -61,6 +62,7 @@ describe('lib/blobStorage', () => {
     containerClient = {
       getBlobClient: () => ({
         downloadToBuffer: () => true,
+        setMetadata: () => true,
       }),
       getBlockBlobClient: () => ({
         uploadStream: jest.fn(),
@@ -224,6 +226,29 @@ describe('lib/blobStorage', () => {
         throw new Error('Expected error not thrown');
       } catch (err) {
         expect(err.message).toEqual('Internal Server Error');
+      }
+    });
+  });
+
+  describe('saveMetadata', () => {
+    it('should return true when the metadata is saved successfully', async () => {
+      const result = await saveMetadata(containerClient, fileOne);
+
+      expect(result).toBeTruthy();
+    });
+
+    it('should throw an error when an error occurs', async () => {
+      containerClient.getBlobClient = jest.fn().mockImplementation(() => {
+        throw new Error('Internal Server Error');
+      });
+
+      try {
+        await saveMetadata(containerClient, fileOne);
+        throw new Error('Expected error not thrown');
+      } catch (err) {
+        expect(err.message).toEqual(
+          `Failed to migrate document ${fileOne.id} - Internal Server Error`
+        );
       }
     });
   });
