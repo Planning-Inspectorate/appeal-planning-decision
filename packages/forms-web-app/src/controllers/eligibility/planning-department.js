@@ -9,11 +9,8 @@ const { getRefreshedDepartmentData } = require('../../services/department.servic
 const { VIEW } = require('../../lib/views');
 
 exports.getPlanningDepartment = async (req, res) => {
-  const {
-    departments,
-    eligibleDepartments,
-    ineligibleDepartments,
-  } = await getRefreshedDepartmentData();
+  const { departments, eligibleDepartments, ineligibleDepartments } =
+    await getRefreshedDepartmentData();
   const { appeal } = req.session;
   let appealLPD = '';
   if (appeal.lpaCode) {
