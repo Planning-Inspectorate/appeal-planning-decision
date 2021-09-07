@@ -5,12 +5,14 @@
  */
 
 const { Router } = require('express');
-const apidocs = require('./api-docs');
+const apiDocs = require('./apiDocs');
 const application = require('./application');
+const migrateMetadata = require('./migrateMetadata');
 
-const routes = Router({ mergeParams: true });
+const router = Router();
 
-routes.use('/api-docs', apidocs);
-routes.use('/api/v1/:applicationId', application);
+router.use('/api-docs', apiDocs);
+router.use('/api/v1/migrate-metadata', migrateMetadata);
+router.use('/api/v1/:applicationId', application);
 
-module.exports = routes;
+module.exports = router;
