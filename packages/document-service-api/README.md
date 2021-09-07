@@ -60,3 +60,21 @@ Within `document-service-uploads` the document hierarchy is structured as follow
     - Document file
 
 To see the metadata for a document, navigate to the desired document, right click the document and select `Properties`.
+
+### Metadata migration tool
+
+Document metadata is now being stored as attributes of the document in Blob Storage instead of in Cosmos DB. This tool provides a way to migrate the existing document metadata from Cosmos DB to Blob Storage.
+
+The tool gets the metadata records from Cosmos DB, formats them and saves them to the corresponding document in Blob Storage. This way the metadata for the documents in Blob Storage is overwritten each time the tool is run so it can be run multiple times without duplicating any metadata and any documents that already have metadata in Blob Storage and don't have an associated Cosmos DB record will be ignored.
+
+To use, [configure and run the development stack](https://github.com/Planning-Inspectorate/appeal-planning-decision/blob/master/README.md) and go to http://localhost:3001/api/v1/migrate-metadata.
+
+The output will include the following:
+
+- Number of documents found
+- Number of documents migrated
+- Old and new metadata for each migrated document
+
+In the event of an error, a message will be returned with the id of the document that failed and a reason for the failure. Once the data has been fixed the tool can be run again.
+
+See http://localhost:3001/api-docs/#/Document/migrateMetadata for more information, including examples of the output and error message.

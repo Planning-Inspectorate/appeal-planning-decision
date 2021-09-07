@@ -14,10 +14,10 @@ describe('routes/application', () => {
     // eslint-disable-next-line global-require
     require('./application');
 
-    expect(mockGet).toHaveBeenCalledWith('/', getDocumentsForApplication);
-    expect(mockPost).toHaveBeenCalledWith('/', uploadLocalFile, addFileMetadata, uploadDocument);
-    expect(mockGet).toHaveBeenCalledWith('/:documentId', getDocumentById);
-    expect(mockGet).toHaveBeenCalledWith('/:documentId/file', serveDocumentById);
-    expect(mockDelete).toHaveBeenCalledWith('/:documentId', deleteDocument);
+    expect(mockGet).toBeCalledWith('/', getDocumentsForApplication);
+    expect(mockPost).toBeCalledWith('/', uploadLocalFile, addFileMetadata, uploadDocument);
+    expect(mockGet).toBeCalledWith('/:documentId', getDocumentById);
+    expect(mockGet).toBeCalledWith('/:documentId/file', serveDocumentById);
+    expect(mockDelete).toBeCalledWith('/:documentId', deleteDocument);
   });
 });

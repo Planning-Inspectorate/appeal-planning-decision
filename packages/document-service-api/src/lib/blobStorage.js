@@ -25,7 +25,7 @@ const initContainerClient = async () => {
   return containerClient;
 };
 
-const downloadFile = async (containerClient, location) => {
+const downloadFile = (containerClient, location) => {
   try {
     logger.info({ location }, 'Downloading file from blob storage');
     return containerClient.getBlobClient(location).downloadToBuffer();
@@ -101,6 +101,21 @@ const getMetadataForSingleFile = async (containerClient, applicationId, document
   }
 };
 
+const saveMetadata = async (containerClient, metadata) => {
+  try {
+    logger.info({ metadata }, 'Setting file metadata');
+    await containerClient.getBlobClient(metadata.location).setMetadata(metadata);
+    return true;
+  } catch (err) {
+    logger.error({ err }, 'Failed to set file metadata');
+    const migrateError = {
+      ...err,
+      message: `Failed to migrate document ${metadata.id} - ${err.message}`,
+    };
+    throw migrateError;
+  }
+};
+
 module.exports = {
   initContainerClient,
   downloadFile,
@@ -108,4 +123,5 @@ module.exports = {
   deleteFile,
   getMetadataForAllFiles,
   getMetadataForSingleFile,
+  saveMetadata,
 };

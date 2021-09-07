@@ -98,6 +98,27 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/Error"
+    delete:
+      tags:
+        - Document
+      operationId: deleteDocument
+      description: Deletes a document by ID
+      parameters:
+        - "$ref": "#/components/parameters/applicationId"
+        - "$ref": "#/components/parameters/documentId"
+      responses:
+        '204':
+          description: Successfully deleted this document
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/DocumentDownload"
+        '404':
+          description: Document could be found for this Id
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
   "/api/v1/{applicationId}/{documentId}/file":
     description: Retrieves a specific documents meta-data
     get:
@@ -135,30 +156,27 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/Error"
-  "/api/v1/{applicationId}/{documentId}":
-    description: Retrieves a specific documents meta-data
-    delete:
+  "/api/v1/migrate-metadata":
+    description: Migrates the existing document metadata from Cosmos DB to Blob Storage
+    get:
       tags:
         - Document
-      operationId: deleteDocument
-      description: Deletes a document by ID
-      parameters:
-        - "$ref": "#/components/parameters/applicationId"
-        - "$ref": "#/components/parameters/documentId"
+      operationId: migrateMetadata
+      description: Migrates the existing document metadata from Cosmos DB to Blob Storage
+      parameters: []
       responses:
-        '204':
-          description: Successfully deleted this document
+        '200':
+          description: Metadata migration was successful
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/DocumentDownload"
-        '404':
-          description: Document could be found for this Id
+                "$ref": "#/components/schemas/MigrateMetadata"
+        '500':
+          description: Internal Server Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Error"
-
+                "$ref": "#/components/schemas/MigrateMetadataError"
 components:
   parameters:
     applicationId:
@@ -255,12 +273,107 @@ components:
             data:
               type: string
               format: byte
+    MigrateMetadata:
+      type: object
+      properties:
+        documentsFound:
+          type: integer
+          description: The number of documents found that can be migrated
+          example: 1
+        documentsMigrated:
+          type: integer
+          description: The number of documents that were migrated
+          example: 1
+        migratedDocuments:
+          type: array
+          items:
+            type: object
+            properties:
+              cosmosDbMetadata:
+                type: object
+                properties:
+                  upload:
+                    type: object
+                    properties:
+                      processed:
+                        type: boolean
+                        example: true
+                      processAttempts:
+                        type: integer
+                        example: 1
+                  _id:
+                    type: string
+                    example: 6135ed925ea4be0106eb4f31
+                  applicationId:
+                    type: string
+                    example: 6e60a67e-8941-4e20-b580-8dbd69096ee5
+                  name:
+                    type: string
+                    example: test-pdf.pdf
+                  uploadDate:
+                    type: string
+                    example: 2021-09-06T10:29:38.386Z
+                  mimeType:
+                    type: string
+                    example: application/pdf
+                  location:
+                    type: string
+                    example: 5daa6bd935fe6d260fb694cadb58d94a
+                  size:
+                    type: integer
+                    example: 8334
+                  id:
+                    type: string
+                    example: 62494719-48e2-4615-9541-48634a940a36
+                  createdAt:
+                    type: string
+                    example: 2021-09-06T10:29:38.393Z
+                  updatedAt:
+                    type: string
+                    example: 2021-09-06T10:29:38.500Z
+                  __v:
+                    type: integer
+                    example: 0
+                  blobStorageLocation:
+                    type: string
+                    example: 6e60a67e-8941-4e20-b580-8dbd69096ee5/62494719-48e2-4615-9541-48634a940a36/test-pdf.pdf
+              blobStorageMetadata:
+                type: object
+                properties:
+                  application_id:
+                    type: string
+                    example: 6e60a67e-8941-4e20-b580-8dbd69096ee5
+                  name:
+                    type: string
+                    example: test-pdf.pdf
+                  upload_date:
+                    type: string
+                    example: 2021-09-06T10:29:38.386Z
+                  mime_type:
+                    type: string
+                    example: application/pdf
+                  location:
+                    type: string
+                    example: 6e60a67e-8941-4e20-b580-8dbd69096ee5/62494719-48e2-4615-9541-48634a940a36/test-pdf.pdf
+                  size:
+                    type: string
+                    example: '8334'
+                  id:
+                    type: string
+                    example: 62494719-48e2-4615-9541-48634a940a36
+
     Error:
       type: object
       properties:
         message:
           type: string
           description: Meaningful error description
+    MigrateMetadataError:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Failed to migrate document ab575383-5c51-42d7-9c56-d2d21313d4fe - The specified blob does not exist.\nRequestId:112b0a60-1530-497e-8c9c-5b1a4519543c\nTime:2021-09-06T15:45:50.636Z
   responses:
     Error:
       description: Error
