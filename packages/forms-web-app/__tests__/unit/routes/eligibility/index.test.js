@@ -13,6 +13,6 @@ describe('routes/eligibility/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(7);
+    expect(use.mock.calls.length).toBe(8);
   });
 });

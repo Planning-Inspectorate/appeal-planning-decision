@@ -99,7 +99,7 @@ describe('controllers/eligibility/householder-planning-permission', () => {
       });
     });
 
-    it(`'should redirect to '/${VIEW.ELIGIBILITY.DECISION_DATE}' if 'householder-planning-permission' is 'yes'`, async () => {
+    it(`'should redirect to '/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION}' if 'householder-planning-permission' is 'yes'`, async () => {
       const mockRequest = {
         ...req,
         body: {
@@ -119,7 +119,7 @@ describe('controllers/eligibility/householder-planning-permission', () => {
         },
       });
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.DECISION_DATE}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION}`);
     });
 
     it(`'should redirect to '/${VIEW.ELIGIBILITY.HOUSEHOLDER_PLANNING_PERMISSION_OUT}' if 'householder-planning-permission' is 'no'`, async () => {

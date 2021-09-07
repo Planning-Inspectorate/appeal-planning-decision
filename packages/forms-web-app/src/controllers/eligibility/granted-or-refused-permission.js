@@ -3,10 +3,6 @@ const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 
 exports.getGrantedOrRefusedPermission = async (req, res) => {
-  logger.info(
-    `Des - getGrantedOrRefusedPermission - Session - ${JSON.stringify(req.session.appeal)}`
-  );
-
   res.render(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION, {
     appeal: req.session.appeal,
   });
@@ -16,9 +12,6 @@ exports.postGrantedOrRefusedPermission = async (req, res) => {
   const { body } = req;
   const { appeal } = req.session;
   const { errors = {}, errorSummary = [] } = body;
-
-  logger.info(`Des - postGrantedOrRefusedPermission - req - ${JSON.stringify(req.session)}`);
-  logger.info(`Des - postGrantedOrRefusedPermission - Session - ${JSON.stringify(body)}`);
 
   const planningPermissionStatus = body['granted-or-refused-permission'];
 
@@ -48,14 +41,13 @@ exports.postGrantedOrRefusedPermission = async (req, res) => {
   } catch (e) {
     logger.error(e);
 
-    res.render(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION, {});
+    res.render(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION, {
+      appeal,
+      errors,
+      errorSummary: [{ text: e.toString(), href: '#' }],
+    });
     return;
   }
-
-  // res.render(
-  //     VIEW.ELIGIBILITY.DECISION_DATE, {
-  //         appeal: req.session.appeal,
-  // });
 
   res.redirect(`/${VIEW.ELIGIBILITY.DECISION_DATE}`);
 };
