@@ -6,7 +6,7 @@ module.exports = {
     defaultDisplayDateFormat: 'DD MMMM YYYY',
   },
   appeals: {
-    startingPoint: '/before-you-appeal',
+    startingPoint: '/before-you-appeal1',
     timeout: Number(process.env.APPEALS_SERVICE_API_TIMEOUT || 10000),
     url: process.env.APPEALS_SERVICE_API_URL,
   },
