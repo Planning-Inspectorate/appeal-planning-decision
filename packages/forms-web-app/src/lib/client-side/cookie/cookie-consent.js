@@ -59,11 +59,8 @@ const addRejectCookieConsentListener = (document, rejectCookieConsentButton) => 
 };
 
 const cookieConsentHandler = (document) => {
-  const {
-    allConsentButtons,
-    acceptCookieConsentButton,
-    rejectCookieConsentButton,
-  } = getConsentButtons(document);
+  const { allConsentButtons, acceptCookieConsentButton, rejectCookieConsentButton } =
+    getConsentButtons(document);
 
   if (!acceptCookieConsentButton || !rejectCookieConsentButton) {
     return;
