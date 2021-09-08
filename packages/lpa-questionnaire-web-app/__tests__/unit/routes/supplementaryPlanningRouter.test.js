@@ -9,7 +9,6 @@ const combineDateInputsMiddleware = require('../../../src/middleware/combine-dat
 const reqFilesToReqBodyFilesMiddleware = require('../../../src/middleware/req-files-to-req-body-files');
 const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
 const supplementaryDocumentsValidationRules = require('../../../src/validators/supplementary-documents');
-const checkIfSupplementaryDocuments = require('../../../src/middleware/check-if-supplementary-documents');
 
 jest.mock('../../../src/middleware/req-files-to-req-body-files');
 jest.mock('../../../src/validators/supplementary-documents');
@@ -44,7 +43,6 @@ describe('routes/supplementary-documents', () => {
       expect(get).toHaveBeenCalledWith(
         '/appeal-questionnaire/:id/supplementary-documents/uploaded-documents',
         [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
-        checkIfSupplementaryDocuments,
         uploadedDocumentsController.getUploadedDocuments
       );
     });
