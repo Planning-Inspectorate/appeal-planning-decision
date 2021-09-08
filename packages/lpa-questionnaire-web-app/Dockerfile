@@ -11,10 +11,11 @@ ENV NODE_ENV=production
 ENV PORT=3000
 # This must be built locally from the common package
 COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
-ADD dist dist
-ADD node_modules node_modules
 ADD package.json package.json
 ADD package-lock.json package-lock.json
+ADD __tests__ __tests__
+ADD jest.config.js jest.config.js
+
 RUN npm prune --production \
   && npm rebuild \
   && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
