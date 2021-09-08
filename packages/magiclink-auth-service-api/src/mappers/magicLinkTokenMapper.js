@@ -12,9 +12,8 @@ const dateUtils = require('../util/dateUtil');
 function magicLinkDataToToken(magicLinkData) {
   logger.debug('Create magic link token data from magicLinkData');
 
-  const encryptedData = cryptoUtils.encrypt(JSON.stringify(magicLinkData));
   return {
-    data: encryptedData,
+    data: cryptoUtils.encrypt(JSON.stringify(magicLinkData)),
     exp: dateUtils.addMillisToCurrentDate(config.magicLinkValidityTimeMillis).getTime(),
   };
 }
