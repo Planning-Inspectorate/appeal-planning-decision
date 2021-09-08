@@ -85,8 +85,8 @@ components:
               type: string
               description: The user information that will be stored inside the JWT token cookie.
             tokenValidity:
-              type: string
-              description: The JWT token validity time in miliseconds.
+              type: number
+              description: The JWT token validity time in milliseconds.
           required:
             - cookieName
             - userInformation
