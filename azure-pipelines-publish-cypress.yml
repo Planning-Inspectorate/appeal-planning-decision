@@ -1,5 +1,5 @@
 trigger:
-  - feature/3074b-appeal-service-api-pipeline-tests
+  - master
 
 resources:
   - repo: self
