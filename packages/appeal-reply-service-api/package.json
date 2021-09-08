@@ -15,7 +15,8 @@
     "test": "jest",
     "test:cov": "jest --coverage",
     "test:watch": "jest --watch",
-    "test:tdd": "jest --watchAll --verbose"
+    "test:tdd": "jest --watchAll --verbose",
+    "documentation": "jest --bail --coverage --coverageReporters=cobertura --reporters=default --reporters=jest-junit"
   },
   "author": "Foundry4 <www.foundry4.com>",
   "lint-staged": {
@@ -24,54 +25,36 @@
   },
   "dependencies": {
     "@pins/common": "file:../common",
-    "axios": "^0.21.1",
+    "@shelf/jest-mongodb": "^1.3.4",
+    "axios": "^0.21.4",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "express-pino-logger": "^5.0.0",
+    "jest": "^26.6.3",
+    "jest-junit": "^12.2.0",
+    "jest-when": "^3.3.1",
     "js-yaml": "^3.14.0",
-    "mongodb": "^3.6.3",
-    "mongoose": "^5.11.15",
+    "mongodb": "^3.7.0",
+    "mongoose": "^5.13.9",
     "neat-csv": "^5.2.0",
     "notifications-node-client": "^5.1.0",
-    "pino": "^6.7.0",
-    "rhea": "^2.0.0",
-    "swagger-ui-express": "^4.1.4",
+    "pino": "^6.13.2",
+    "rhea": "^2.0.4",
+    "supertest": "^6.1.6",
+    "swagger-ui-express": "^4.1.6",
     "uuid": "^8.3.1"
   },
   "devDependencies": {
-    "@shelf/jest-mongodb": "^1.2.3",
-    "eslint": "^7.13.0",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jest": "^24.1.3",
-    "eslint-plugin-prettier": "^3.1.4",
-    "jest": "^26.6.3",
-    "jest-html-reporters": "^2.1.2",
-    "jest-when": "^3.0.1",
-    "nodemon": "^2.0.6",
-    "pino-pretty": "^4.3.0",
-    "prettier": "^2.1.2",
-    "supertest": "^6.0.1"
-  },
-  "jest": {
-    "coverageThreshold": {
-      "global": {
-        "branches": 100,
-        "functions": 100,
-        "lines": 100,
-        "statements": 100
-      }
-    },
-    "moduleFileExtensions": [
-      "js",
-      "json"
-    ],
-    "rootDir": "src",
-    "testRegex": ".spec.js$",
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jest": "^24.4.0",
+    "eslint-plugin-prettier": "^3.4.1",
+    "nodemon": "^2.0.12",
+    "pino-pretty": "^4.8.0",
+    "prettier": "^2.3.2"
   }
 }
