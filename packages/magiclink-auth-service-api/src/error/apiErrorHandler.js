@@ -1,7 +1,6 @@
 const ApiError = require('./apiError');
 
-// eslint-disable-next-line no-unused-vars
-function apiErrorHandler(err, req, res, next) {
+function apiErrorHandler(err, req, res, _) {
   if (err instanceof ApiError) {
     const errorMessage = {
       code: err.code,
