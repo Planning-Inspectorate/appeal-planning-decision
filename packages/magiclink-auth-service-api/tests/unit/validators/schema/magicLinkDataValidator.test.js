@@ -24,7 +24,6 @@ describe('validators.schema.magicLinkDataValidator', () => {
       try {
         await magicLinkDataValidator.validate(magicLinkData);
       } catch (result) {
-        console.log(result);
         expect(result.errors.length).toEqual(4);
         expect(result.errors).toEqual(
           expect.arrayContaining([

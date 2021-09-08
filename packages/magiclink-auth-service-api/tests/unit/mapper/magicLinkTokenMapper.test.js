@@ -15,14 +15,15 @@ describe('mapper.magicLinkTokenMapper', () => {
 
   describe('magicLinkDataToToken', () => {
     it('should create the token payload that has the encrypted magicLinkData as payload', () => {
-      mockCryptoUtils.encrypt.mockReturnValue('mockEncryptedData');
+      mockCryptoUtils.encrypt.mockReturnValue('magicLinkDataEncrypted');
 
       const tokenPayload = magicLinkTokenMapper.magicLinkDataToToken(mockMagicLinkData);
 
-      expect(tokenPayload).toEqual({
-        data: 'mockEncryptedData',
+      const expectedTokenPayload = {
+        data: 'magicLinkDataEncrypted',
         exp: 1630200347,
-      });
+      };
+      expect(tokenPayload).toEqual(expectedTokenPayload);
     });
   });
 
@@ -30,10 +31,11 @@ describe('mapper.magicLinkTokenMapper', () => {
     it('should returned the decrypted data attribute from the token payload', () => {
       mockCryptoUtils.decrypt.mockReturnValue(JSON.stringify(mockMagicLinkData));
 
-      const magicLinkData = magicLinkTokenMapper.tokenToMagicLinkData({
-        data: 'mockEncryptedData',
+      const tokenPayload = {
+        data: 'mockMagicLinkDataEncrypted',
         exp: 1630200347,
-      });
+      };
+      const magicLinkData = magicLinkTokenMapper.tokenToMagicLinkData(tokenPayload);
 
       expect(magicLinkData).toEqual(mockMagicLinkData);
     });

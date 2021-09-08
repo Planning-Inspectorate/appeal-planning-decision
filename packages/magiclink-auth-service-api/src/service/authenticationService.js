@@ -8,6 +8,7 @@ const AUTH_STRATEGY_NAME = 'JWT';
 /**
  * Configuration function that sets up the passport library strategy.
  */
+/* istanbul ignore next */
 function setUpStrategy() {
   const jwtStrategy = new JwtStrategy(
     {
