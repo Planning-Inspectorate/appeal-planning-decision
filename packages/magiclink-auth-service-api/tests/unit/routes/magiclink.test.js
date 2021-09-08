@@ -18,7 +18,7 @@ describe('routes/magiclink', () => {
     expect(post).toHaveBeenCalledWith(
       '/magiclink',
       validatePayloadMiddleware,
-      magicLinkController.create,
+      magicLinkController.initiateMagicLinkFlow,
     );
   });
 });

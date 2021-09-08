@@ -22,7 +22,7 @@ describe('controllers.magiclink', () => {
       const mockMagicLink = 'http://localhost:3005/magiclink/JWT';
       mockCreateMagicLinkInteractor.mockReturnValue(mockMagicLink);
 
-      await magiclinkController.create(req, res);
+      await magiclinkController.initiateMagicLinkFlow(req, res);
 
       expect(mockSendMagicLinkEmailInteractor).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(201);
