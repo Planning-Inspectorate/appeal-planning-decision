@@ -28,7 +28,7 @@ const dateUtils = require('../util/dateUtil');
  * @param res HTTP response object.
  * @returns magicLink URL in case of success
  */
-function create(req, res) {
+function initiateMagicLinkFlow(req, res) {
   logger.debug('Enter magic link controller');
 
   const magicLinkData = req.body;
@@ -51,8 +51,6 @@ function setCookie(res, name, token) {
  * Authenticates user by creating a signed JWT token and setting it inside a cookie. The JWT token payload contains
  * the 'magicLinkData.auth' object received in the request payload.
  *
- * @param req HTTP request object that contains magicLinkData.
- * @param res HTTP response object.
  * @returns redirects to the 'redirectURL' attribute value in case of success.
  */
 function login(req, res) {
@@ -68,6 +66,6 @@ function login(req, res) {
 }
 
 module.exports = {
-  create,
+  initiateMagicLinkFlow,
   login,
 };

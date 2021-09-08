@@ -5,9 +5,6 @@ const logger = require('../util/logger');
 /**
  * Validates the magic link request body payload.
  *
- * @param req
- * @param res
- * @param next
  * @returns {Promise<*>}
  */
 module.exports = async (req, res, next) => {
