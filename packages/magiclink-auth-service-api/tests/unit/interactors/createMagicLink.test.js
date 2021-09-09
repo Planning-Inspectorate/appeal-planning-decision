@@ -17,7 +17,7 @@ describe('interactors.createMagicLink', () => {
       });
       mockJWTUtil.sign.mockReturnValue('mockJWT');
 
-      const magicLink = createMagicLink('https', 'localhost:3009', mockMagicLinkData);
+      const magicLink = createMagicLink('https://localhost:3009', mockMagicLinkData);
 
       expect(magicLink).toEqual('https://localhost:3009/magiclink/mockJWT');
     });
@@ -30,7 +30,7 @@ describe('interactors.createMagicLink', () => {
       });
 
       try {
-        createMagicLink('https', 'localhost:3009', mockMagicLinkData);
+        createMagicLink('https://localhost:3009', mockMagicLinkData);
       } catch (err) {
         expect(mockLogger.error).toHaveBeenCalled();
         expect(err.message).toEqual('An error occurred while trying to create magic link token');
