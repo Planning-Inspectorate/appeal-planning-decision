@@ -15,15 +15,14 @@ function createMagicLinkToken(magicLinkData) {
  * Creates a magic link URL that has a signed JWT token embedded.
  * The JWT contains the encrypted input magicLinkData and has an expiration time.
  *
- * @param protocol the magic link URL protocol
- * @param hostname the magic link URL hostname
+ * @param magicLinkURL the magic link URL
  * @param magicLinkData data used for the magic link token payload.
  * @returns {string} magic link URL.
  */
-module.exports = (protocol, hostname, magicLinkData) => {
+module.exports = (magicLinkURL, magicLinkData) => {
   try {
     const magicLinkToken = createMagicLinkToken(magicLinkData);
-    return `${protocol}://${hostname}/magiclink/${magicLinkToken}`;
+    return `${magicLinkURL}/magiclink/${magicLinkToken}`;
   } catch (error) {
     logger.error(
       { err: { message: error.message, stacktrace: error.stack } },
