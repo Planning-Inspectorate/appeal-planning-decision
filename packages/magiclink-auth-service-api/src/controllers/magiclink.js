@@ -5,6 +5,10 @@ const createAuthToken = require('../interactors/createAuthToken');
 const logger = require('../util/logger');
 const dateUtils = require('../util/dateUtil');
 
+function getMagicLinkURL(req) {
+  return config.magicLinkURL ? config.magicLinkURL : `${req.protocol}://${req.get('host')}`;
+}
+
 /**
  * Creates a magic link URL that has a signed JWT token embedded and sends it via email to the given 'destinationEmail'.
  * The JWT contains the encrypted request body data and has an expiration time.
@@ -32,7 +36,8 @@ function initiateMagicLinkFlow(req, res) {
   logger.debug('Enter magic link controller');
 
   const magicLinkData = req.body;
-  const magicLinkEndpoint = createMagicLink(req.protocol, req.get('host'), magicLinkData);
+  const magicLinkURL = getMagicLinkURL(req);
+  const magicLinkEndpoint = createMagicLink(magicLinkURL, magicLinkData);
 
   // we don't need to wait for the response
   sendMagicLinkEmail(magicLinkData.magicLink.destinationEmail, magicLinkEndpoint);
