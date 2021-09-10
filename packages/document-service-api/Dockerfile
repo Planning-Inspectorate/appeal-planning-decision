@@ -15,11 +15,12 @@ ADD jest.config.js jest.config.js
 ADD package.json package.json
 ADD package-lock.json package-lock.json
 
-EXPOSE 4000
-RUN npm i
-RUN npm prune --production \
-  && npm rebuild \
-  && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
+#EXPOSE 4000
+#RUN npm i
+RUN npm i --production
+#RUN npm prune --production \
+#  && npm rebuild \
+#  && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
 RUN npm run documentation; echo $? > /npm.exitcode
 EXPOSE 4000
 USER node
