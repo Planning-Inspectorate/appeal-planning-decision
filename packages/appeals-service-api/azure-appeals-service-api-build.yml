@@ -5,10 +5,11 @@
 trigger:
   branches:
     include:
-      - feature/*
-      - fix/*
-      - subtask/*
-      - master
+      - fix/as-3074
+  #      - feature/*
+  #      - fix/*
+  #      - subtask/*
+  #      - master
   paths:
     include:
       - packages/appeals-service-api
