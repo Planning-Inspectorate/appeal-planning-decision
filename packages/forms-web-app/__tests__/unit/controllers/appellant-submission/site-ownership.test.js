@@ -189,7 +189,8 @@ describe('controllers/appellant-submission/site-ownership', () => {
         },
       };
 
-      mockRequest.session.appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold = haveOtherOwnersBeenTold;
+      mockRequest.session.appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold =
+        haveOtherOwnersBeenTold;
 
       await siteOwnershipController.postSiteOwnership(mockRequest, res);
 
@@ -229,7 +230,8 @@ describe('controllers/appellant-submission/site-ownership', () => {
         },
       };
 
-      mockRequest.session.appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold = haveOtherOwnersBeenTold;
+      mockRequest.session.appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold =
+        haveOtherOwnersBeenTold;
 
       await siteOwnershipController.postSiteOwnership(mockRequest, res);
 

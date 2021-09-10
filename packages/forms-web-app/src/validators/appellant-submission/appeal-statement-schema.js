@@ -1,4 +1,4 @@
-const validAV = require('pins-clamav');
+// const validAV = require('pins-clamav');
 const { validMimeType, validateMimeBinaryType } = require('pins-mime-validation');
 const config = require('../../config');
 const validateFileSize = require('../custom/file-size');

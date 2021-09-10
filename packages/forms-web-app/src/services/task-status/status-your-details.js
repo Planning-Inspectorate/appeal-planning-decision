@@ -1,12 +1,8 @@
 const TASK_STATUS = require('./task-statuses');
 
 exports.statusYourDetails = (appeal) => {
-  const {
-    isOriginalApplicant,
-    name,
-    email,
-    appealingOnBehalfOf,
-  } = appeal.aboutYouSection.yourDetails;
+  const { isOriginalApplicant, name, email, appealingOnBehalfOf } =
+    appeal.aboutYouSection.yourDetails;
 
   const isStarted = isOriginalApplicant !== null || name || email || appealingOnBehalfOf;
 
