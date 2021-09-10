@@ -16,10 +16,9 @@ ADD package.json package.json
 ADD package-lock.json package-lock.json
 
 RUN npm i
-RUN npm prune --production \
-  && npm rebuild \
-  && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
+
 RUN npm run documentation; echo $? > /npm.exitcode
+
 EXPOSE 4000
 USER node
 CMD [ "npm", "start" ]
