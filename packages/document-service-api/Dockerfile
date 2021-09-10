@@ -17,9 +17,7 @@ ADD package-lock.json package-lock.json
 
 EXPOSE 4000
 RUN npm i --production
-# RUN npm prune --production \
-#  && npm rebuild \
-#  && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
+
 RUN npm run documentation; echo $? > /npm.exitcode
 EXPOSE 4000
 USER node
