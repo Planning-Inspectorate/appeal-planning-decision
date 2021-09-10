@@ -17,11 +17,8 @@ describe('services/department.service', () => {
     it('should  give empty result ', async () => {
       await getLPAList.mockResolvedValue({ data: [] });
 
-      const {
-        departments,
-        eligibleDepartments,
-        ineligibleDepartments,
-      } = await getRefreshedDepartmentData();
+      const { departments, eligibleDepartments, ineligibleDepartments } =
+        await getRefreshedDepartmentData();
 
       expect(departments).toEqual([]);
       expect(eligibleDepartments).toEqual([]);
@@ -44,11 +41,8 @@ describe('services/department.service', () => {
       };
       await getLPAList.mockResolvedValue(mockData);
 
-      const {
-        departments,
-        eligibleDepartments,
-        ineligibleDepartments,
-      } = await getRefreshedDepartmentData();
+      const { departments, eligibleDepartments, ineligibleDepartments } =
+        await getRefreshedDepartmentData();
 
       expect(departments).toEqual(['lpa1', 'lpa2']);
       expect(eligibleDepartments).toEqual(['lpa1']);

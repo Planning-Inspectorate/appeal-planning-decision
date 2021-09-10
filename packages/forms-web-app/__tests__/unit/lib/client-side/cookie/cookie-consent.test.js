@@ -110,11 +110,8 @@ describe('lib/client-side/cookie/cookie-consent', () => {
   });
 
   test('getConsentButtons', () => {
-    const {
-      allConsentButtons,
-      acceptCookieConsentButton,
-      rejectCookieConsentButton,
-    } = getConsentButtons(document);
+    const { allConsentButtons, acceptCookieConsentButton, rejectCookieConsentButton } =
+      getConsentButtons(document);
 
     expect(acceptCookieConsentButton).toBe(acceptButton);
     expect(rejectCookieConsentButton).toBe(rejectButton);

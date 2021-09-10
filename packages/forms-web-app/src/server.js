@@ -4,8 +4,8 @@
  * Module dependencies.
  */
 const http = require('http');
-const config = require('./config.js');
-const app = require('./app.js');
+const config = require('./config');
+const app = require('./app');
 const logger = require('./lib/logger');
 const healthChecks = require('./lib/healthchecks');
 
