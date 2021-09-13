@@ -51,7 +51,7 @@
             "id": "e4cb9e13-90ad-4c1e-b339-fb0803c2b064",
             "name": "Birthday-Quiz.pdf",
             "location": "e8e8124217d256a7cb03a6410f9f3d10",
-            "size": 429927
+            "size": "429927"
           },
           "hasSensitiveInformation": false
         },
@@ -70,7 +70,7 @@
             "id": "61024954-2dd7-41c2-95ea-0fc2e35fa9bb",
             "name": "attinghamparkbees.jpg",
             "location": "0d6f62cf1fa8d0797060e5eb6b8dad8f",
-            "size": 189549
+            "size": "189549:
           }
         },
         "decisionLetter": {
@@ -78,7 +78,7 @@
             "id": "59c55221-ddaa-4ef8-ba48-c2570b3418e8",
             "name": "attinghamparkbees.jpg",
             "location": "36d62a0dcb32c3648c8b0f023383464f",
-            "size": 189549
+            "size": "189549"
           }
         }
       },
