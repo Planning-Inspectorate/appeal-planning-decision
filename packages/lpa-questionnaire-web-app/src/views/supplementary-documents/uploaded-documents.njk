@@ -20,7 +20,7 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <form action="" method="POST" novalidate{% if hasFileUpload %} encType="multipart/form-data"{% endif %}>
+      <form action="" method="post" novalidate{% if hasFileUpload %} encType="multipart/form-data"{% endif %}>
         <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>{{ question.section }}</span>
         <h1 class="govuk-heading-l">{{ question.heading }}</h1>
 
@@ -47,6 +47,7 @@
         <div class="govuk-form-group">
           {{ govukButton({
             text: "Continue",
+            type: "submit",            
             href: continueLink,
             classes: "govuk-button--before",
             attributes: {
