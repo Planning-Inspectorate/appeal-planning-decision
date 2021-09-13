@@ -23,14 +23,14 @@
       "uploadedFile": {
         "name": "appeal-statement-valid.doc",
         "id": "7e9cf5db-8ec6-4e4d-a10d-cafec3030ec2",
-        "size": 22528
+        "size": "22528"
       }
     },
     "decisionLetter": {
       "uploadedFile": {
         "name": "appeal-statement-valid.doc",
         "id": "7e9cf5db-8ec6-4e4d-a10d-cafec3030ec2",
-        "size": 22528
+        "size": "22528"
       }
     }
   },
@@ -39,7 +39,7 @@
       "uploadedFile": {
         "name": "appeal-statement-valid.doc",
         "id": "7e9cf5db-8ec6-4e4d-a10d-cafec3030ec2",
-        "size": 22528
+        "size": "22528"
       },
       "hasSensitiveInformation": false
     },

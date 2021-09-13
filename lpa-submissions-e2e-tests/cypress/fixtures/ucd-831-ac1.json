@@ -23,13 +23,13 @@
       "originalApplication": {
         "uploadedFile": {
           "name": "appeal-statement-valid.doc",
-          "size": 22528
+          "size": "22528"
         }
       },
       "decisionLetter": {
         "uploadedFile": {
           "name": "appeal-statement-valid.doc",
-          "size": 22528
+          "size": "22528"
         }
       }
     },
@@ -37,7 +37,7 @@
       "appealStatement": {
         "uploadedFile": {
           "name": "appeal-statement-valid.doc",
-          "size": 22528
+          "size": "22528"
         },
         "hasSensitiveInformation": false
       },
