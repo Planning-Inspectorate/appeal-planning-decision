@@ -27,7 +27,7 @@ module.exports = (on, config) => {
   on('file:preprocessor', cucumber());
 
   htmlvalidate.install(on, null, {
-    exclude: [],
+    exclude: ["title", "link","script",".govuk-header",".govuk-footer"],
     include: [],
   });
 
