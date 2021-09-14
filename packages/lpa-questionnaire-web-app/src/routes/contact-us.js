@@ -3,6 +3,6 @@ const contactUsController = require('../controllers/contact-us');
 
 const router = express.Router();
 
-router.get('/contact-us', contactUsController.modules.renderContactUs);
+router.get('/appeal-questionnaire/contact-us', contactUsController.renderContactUs);
 
 module.exports = router;

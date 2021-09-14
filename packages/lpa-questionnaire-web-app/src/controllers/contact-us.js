@@ -6,6 +6,6 @@ async function renderContactUs(req, res) {
   });
 }
 
-exports.modules = {
+module.exports = {
   renderContactUs,
 };
