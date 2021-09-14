@@ -160,6 +160,11 @@ Cypress.Commands.add(
   require('../eligibility-householder/provideHouseholderAnswerYes'),
 );
 
+Cypress.Commands.add(
+  'provideHouseholderPlanningPermissionStatusRefused',
+  require('../eligibility-granted-or-refused-permission/provideHouseholderPlanningPermissionStatusRefused'),
+);
+
 Cypress.Commands.add('accessDetails', require('../eligibility-householder/accessDetails'));
 
 Cypress.Commands.add(

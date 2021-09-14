@@ -11,6 +11,7 @@ Feature: Common link in header section
       | "Start your appeal"                                                    |
       | "Eligibility - House holder planning permission"                       |
       | "Eligibility - Householder planning permission out"                    |
+      | "Eligibility - Granted Or Refused Permission"                          |      
       | "Eligibility - Decision date"                                          |
       | "Eligibility - Decision date expired"                                  |
       | "Eligibility - No decision date"                                       |
@@ -49,6 +50,7 @@ Feature: Common link in header section
       | page                                                                   |
       | "Eligibility - House holder planning permission"                       |
       | "Eligibility - Householder planning permission out"                    |
+      | "Eligibility - Granted Or Refused Permission"                          |      
       | "Eligibility - Decision date"                                          |
       | "Eligibility - No decision date"                                       |
       | "Eligibility - Planning department"                                    |

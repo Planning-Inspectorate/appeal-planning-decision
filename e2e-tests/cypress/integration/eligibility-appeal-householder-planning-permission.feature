@@ -18,7 +18,7 @@ Feature: Eligibility - Appeal Householder Planning Permission Question
   Scenario: Prospective appellant selects yes and proceeds through eligibility checker
     Given the appeals householder planning permission question is requested
     When confirmation is provided for householder planning permission question
-    Then progress is made to the eligibility decision date question
+    Then progress is made to the eligibility granted or refused permission status question
 
   @ucd-1209 @ucd-1209-ac4
   Scenario: Prospective appellant selects no and is taken to kick-out page

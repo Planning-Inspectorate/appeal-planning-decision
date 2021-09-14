@@ -3,6 +3,7 @@ module.exports = () => {
 
   [
     /\/eligibility\/decision-date$/,
+    /\/eligibility\/granted-or-refused-permission$/,
     /\/eligibility\/householder-planning-permission$/,
     /\/start-your-appeal$/,
   ].forEach((expectedUrl) => {

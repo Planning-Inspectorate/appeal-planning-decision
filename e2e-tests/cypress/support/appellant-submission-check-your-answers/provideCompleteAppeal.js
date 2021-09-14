@@ -8,6 +8,10 @@ module.exports = (appeal, options = {}) => {
   }
   cy.clickSaveAndContinue();
 
+  cy.goToGrantedOrRefusedPermissionPage();
+
+  cy.provideHouseholderPlanningPermissionStatusRefused();
+
   cy.goToDecisionDatePage();
 
   cy.provideDecisionDate(appeal.decisionDate);
