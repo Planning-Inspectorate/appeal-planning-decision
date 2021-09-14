@@ -32,7 +32,7 @@ Then('the appellant is able to create a new appeal without any error message', (
   cy.get('#error-summary-title').should('not.exist');
   cy.provideHouseholderAnswerYes();
   cy.clickSaveAndContinue();
-  cy.userIsNavigatedToPage('/eligibility/decision-date');
+  cy.userIsNavigatedToPage('/eligibility/granted-or-refused-permission');
 });
 
 
@@ -73,5 +73,5 @@ Then('the agent is able to create a new appeal without any error message', () =>
   cy.get('#error-summary-title').should('not.exist');
   cy.provideHouseholderAnswerYes();
   cy.clickSaveAndContinue();
-  cy.userIsNavigatedToPage('/eligibility/decision-date');
+  cy.userIsNavigatedToPage('/eligibility/granted-or-refused-permission');
 });
