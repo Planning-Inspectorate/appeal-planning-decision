@@ -44,8 +44,8 @@ Then('progress is halted with a message that a householder planning permission i
   });
 });
 
-Then('progress is made to the eligibility decision date question', () => {
-  cy.confirmNavigationDecisionDatePage();
+Then('progress is made to the eligibility granted or refused permission status question', () => {
+  cy.confirmNavigationGrantedOrRefusedPermissionPage();
 });
 
 Then('the user is navigated to the \'This service is only for householder planning appeals\' page', () => {

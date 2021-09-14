@@ -13,6 +13,9 @@ When('the {string} page is presented', (page) => {
     case 'Eligibility - Householder planning permission out':
       cy.goToHouseholderQuestionOutPage();
       break;
+    case 'Eligibility - Granted Or Refused Permission':
+        cy.goToGrantedOrRefusedPermissionPage();
+        break;
     case 'Eligibility - Decision date':
       cy.goToDecisionDatePage();
       break;

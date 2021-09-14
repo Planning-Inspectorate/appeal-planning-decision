@@ -12,6 +12,7 @@ Feature: Common links in footer section
        | "Start your appeal"                                                    |
        | "Eligibility - House holder planning permission"                       |
        | "Eligibility - Householder planning permission out"                    |
+       | "Eligibility - Granted Or Refused Permission"                          |       
        | "Eligibility - Decision date"                                          |
        | "Eligibility - Decision date expired"                                  |
        | "Eligibility - No decision date"                                       |
@@ -43,6 +44,7 @@ Feature: Common links in footer section
        | "Appeal submission - Confirmation"                                     |
 #    Examples:
 #      | page                                                                   |
+#      | "Eligibility - Granted Or Refused Permission"                          |
 #      | "Eligibility - Decision date"                                          |
 #      | "Eligibility - Decision date expired"                                  |
 #      | "Eligibility - No decision date"                                       |

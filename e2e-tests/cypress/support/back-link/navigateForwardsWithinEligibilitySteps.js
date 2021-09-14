@@ -7,5 +7,8 @@ module.exports = () => {
   cy.provideHouseholderAnswerYes();
   cy.clickSaveAndContinue();
 
+  cy.provideHouseholderPlanningPermissionStatusRefused();
+  cy.clickSaveAndContinue();
+
   cy.provideDecisionDate(eligibleDate);
 };
