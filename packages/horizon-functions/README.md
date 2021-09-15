@@ -1,7 +1,6 @@
-# Horizon Householder Appeal Publisher
+# Horizon Functions
 
-Publishes a Householder Appeal to Horizon. This uses
-[OpenFaaS](https://docs.openfaas.com) as a serverless function. This is 
+Publishes a Householder Appeal to Horizon. This is 
 invoked via sending a message to an Azure Service Bus queue.
 
 ## Configuration
