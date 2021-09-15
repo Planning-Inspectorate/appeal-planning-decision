@@ -1,5 +1,5 @@
 const { generatePdf } = require('../src/controllers/pdf');
-const { mockReq, mockRes } = require('../mocks/mocks');
+const { mockReq, mockRes } = require('./mocks/mocks');
 
 jest.mock('../src/lib/pdfUtils', () => {
   const toPDF = {
