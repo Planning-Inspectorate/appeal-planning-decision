@@ -5,8 +5,7 @@
 trigger:
   branches:
     include:
-      - feature/as-3301
-      - subtask/as-3374-horizon-householder-appeal-publish
+      - subtask/*
   paths:
     include:
       - packages/horizon-functions
