@@ -11,6 +11,7 @@ jest.mock('./config', () => ({
 }));
 
 jest.mock('fs', () => ({
+  writeSync: jest.fn().mockReturnValue(1),
   promises: {
     unlink: jest.fn(),
   },

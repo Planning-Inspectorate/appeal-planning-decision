@@ -88,9 +88,11 @@ const serveDocumentById = async (req, res) => {
       return;
     }
 
+    const fileName = metadata.name;
     const mimeType = metadata.mime_type;
     req.log.info({ mimeType }, 'Displaying file');
     res.set('content-type', mimeType);
+    res.set('x-original-file-name', fileName);
     res.send(fileBuffer);
   } catch (err) {
     req.log.error({ err }, 'Failed to get document');

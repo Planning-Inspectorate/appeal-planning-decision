@@ -219,8 +219,9 @@ describe('controllers/documents', () => {
         containerClient(),
         singleFileReturnValue.metadata.location
       );
-      expect(res.set).toBeCalledTimes(1);
+      expect(res.set).toBeCalledTimes(2);
       expect(res.set).toBeCalledWith('content-type', fileOne.metadata.mime_type);
+      expect(res.set).toBeCalledWith('x-original-file-name', fileOne.metadata.name);
       expect(res.send).toBeCalledTimes(1);
       expect(res.send).toBeCalledWith(fileBuffer);
     });
