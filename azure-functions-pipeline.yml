@@ -6,9 +6,6 @@ trigger:
   branches:
     include:
       - subtask/*
-  paths:
-    include:
-      - packages/horizon-functions
 
 resources:
   - repo: self
