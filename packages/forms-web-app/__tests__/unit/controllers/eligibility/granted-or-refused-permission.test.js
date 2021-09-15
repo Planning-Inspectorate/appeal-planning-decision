@@ -70,7 +70,7 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
         body: {},
       };
 
-      const error = new Error('Cheers');
+      const error = new Error('Api call error');
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
       await grantedOrRefusedPlanningPermissionController.postGrantedOrRefusedPermission(
