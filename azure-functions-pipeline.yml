@@ -7,7 +7,6 @@ trigger:
     include:
       - feature/as-3301
       - subtask/as-3374-horizon-householder-appeal-publish
-  #   - master
   paths:
     include:
       - packages/horizon-functions
