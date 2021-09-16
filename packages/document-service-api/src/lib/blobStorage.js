@@ -1,5 +1,5 @@
 const { BlobServiceClient } = require('@azure/storage-blob');
-const fs = require('fs');
+const streams = require('memory-streams');
 const path = require('path');
 const logger = require('./logger');
 const config = require('./config');
@@ -44,11 +44,11 @@ const uploadFile = async (containerClient, document) => {
 
   try {
     logger.info({ blobName, metadata, filePath }, 'Uploading file to blob storage');
+    const reader = new streams.ReadableStream(document.buffer.toString('base64'));
 
-    const readableStream = fs.createReadStream(filePath);
     const uploadStatus = await containerClient
       .getBlockBlobClient(blobName)
-      .uploadStream(readableStream, undefined, undefined, {
+      .uploadStream(reader, undefined, undefined, {
         blobHTTPHeaders: {
           blobContentType: metadata.mime_type,
         },

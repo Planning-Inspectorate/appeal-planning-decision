@@ -2,16 +2,14 @@ const multer = require('multer');
 const config = require('./config');
 
 const {
-  fileUpload: { maxSizeInBytes, path, mimeTypes },
+  fileUpload: { maxSizeInBytes, mimeTypes },
 } = config;
 
 const multerConfig = {
   limits: {
     fileSize: maxSizeInBytes,
   },
-  storage: multer.diskStorage({
-    destination: path,
-  }),
+  storage: multer.memoryStorage(),
 };
 
 const uploadLocalFile = (req, res, next) => {
