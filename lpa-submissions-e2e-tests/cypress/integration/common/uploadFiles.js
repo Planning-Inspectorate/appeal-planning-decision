@@ -70,7 +70,7 @@ const documentsFor = (appealReplyId) => {
 };
 
 const scanDocumentsForOurFile = (documents, fileName) => {
-  return documents && documents.length && documents.find((document) => document.name === fileName);
+  return documents && documents.length && documents.find((document) => document.metadata.name === fileName);
 };
 
 const fileIsInDocumentService = (appealReplyId, fileName) => {
