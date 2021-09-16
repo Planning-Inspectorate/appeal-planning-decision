@@ -8,7 +8,7 @@ exports[`views/macros/cookie-banner-rejected should allow setting a custom cooki
 
   
 
-  <div class=\\"govuk-cookie-banner govuk-!-display-none\\" role=\\"region\\" aria-label=\\"Cookies on appeal a householder planning decision service\\" data-cy=\\"cookie-banner-rejected\\" id=\\"cookie-banner-rejected\\">
+  <div class=\\"govuk-cookie-banner govuk-!-display-none\\" data-nosnippet role=\\"region\\" aria-label=\\"Cookies on appeal a householder planning decision service\\" data-cy=\\"cookie-banner-rejected\\" id=\\"cookie-banner-rejected\\">
     
     
 
@@ -50,7 +50,7 @@ exports[`views/macros/cookie-banner-rejected should allow setting a custom servi
 
   
 
-  <div class=\\"govuk-cookie-banner govuk-!-display-none\\" role=\\"region\\" aria-label=\\"Cookies on test service name here\\" data-cy=\\"cookie-banner-rejected\\" id=\\"cookie-banner-rejected\\">
+  <div class=\\"govuk-cookie-banner govuk-!-display-none\\" data-nosnippet role=\\"region\\" aria-label=\\"Cookies on test service name here\\" data-cy=\\"cookie-banner-rejected\\" id=\\"cookie-banner-rejected\\">
     
     
 
@@ -92,7 +92,7 @@ exports[`views/macros/cookie-banner-rejected should allow setting all custom att
 
   
 
-  <div class=\\"govuk-cookie-banner govuk-!-display-none\\" role=\\"region\\" aria-label=\\"Cookies on custom service name\\" data-cy=\\"cookie-banner-rejected\\" id=\\"cookie-banner-rejected\\">
+  <div class=\\"govuk-cookie-banner govuk-!-display-none\\" data-nosnippet role=\\"region\\" aria-label=\\"Cookies on custom service name\\" data-cy=\\"cookie-banner-rejected\\" id=\\"cookie-banner-rejected\\">
     
     
 
@@ -134,7 +134,7 @@ exports[`views/macros/cookie-banner-rejected should have sensible default attrib
 
   
 
-  <div class=\\"govuk-cookie-banner govuk-!-display-none\\" role=\\"region\\" aria-label=\\"Cookies on appeal a householder planning decision service\\" data-cy=\\"cookie-banner-rejected\\" id=\\"cookie-banner-rejected\\">
+  <div class=\\"govuk-cookie-banner govuk-!-display-none\\" data-nosnippet role=\\"region\\" aria-label=\\"Cookies on appeal a householder planning decision service\\" data-cy=\\"cookie-banner-rejected\\" id=\\"cookie-banner-rejected\\">
     
     
 
