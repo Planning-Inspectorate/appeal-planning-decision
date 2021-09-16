@@ -10,7 +10,7 @@ exports[`views/macros/cookie-banner should allow setting a custom cookiePagePath
 
   
 
-  <div class=\\"govuk-cookie-banner \\" role=\\"region\\" aria-label=\\"Cookies on appeal a householder planning decision service\\" data-cy=\\"cookie-banner\\" id=\\"cookie-banner-consent\\">
+  <div class=\\"govuk-cookie-banner \\" data-nosnippet role=\\"region\\" aria-label=\\"Cookies on appeal a householder planning decision service\\" data-cy=\\"cookie-banner\\" id=\\"cookie-banner-consent\\">
     
     
 
@@ -47,8 +47,10 @@ exports[`views/macros/cookie-banner should allow setting a custom cookiePagePath
         
           
             
+              
+              
+              <a class=\\"govuk-link\\" href=\\"/some/path/here\\" data-cy=\\"cookie-banner-view-cookies\\">View cookies</a>
             
-            <a class=\\"govuk-link\\" href=\\"/some/path/here\\" data-cy=\\"cookie-banner-view-cookies\\">View cookies</a>
           
         
       </div>
@@ -69,7 +71,7 @@ exports[`views/macros/cookie-banner should allow setting a custom serviceName 1`
 
   
 
-  <div class=\\"govuk-cookie-banner \\" role=\\"region\\" aria-label=\\"Cookies on test service name here\\" data-cy=\\"cookie-banner\\" id=\\"cookie-banner-consent\\">
+  <div class=\\"govuk-cookie-banner \\" data-nosnippet role=\\"region\\" aria-label=\\"Cookies on test service name here\\" data-cy=\\"cookie-banner\\" id=\\"cookie-banner-consent\\">
     
     
 
@@ -106,8 +108,10 @@ exports[`views/macros/cookie-banner should allow setting a custom serviceName 1`
         
           
             
+              
+              
+              <a class=\\"govuk-link\\" href=\\"/cookies\\" data-cy=\\"cookie-banner-view-cookies\\">View cookies</a>
             
-            <a class=\\"govuk-link\\" href=\\"/cookies\\" data-cy=\\"cookie-banner-view-cookies\\">View cookies</a>
           
         
       </div>
@@ -128,7 +132,7 @@ exports[`views/macros/cookie-banner should allow setting all custom attributes 1
 
   
 
-  <div class=\\"govuk-cookie-banner \\" role=\\"region\\" aria-label=\\"Cookies on custom service name\\" data-cy=\\"cookie-banner\\" id=\\"cookie-banner-consent\\">
+  <div class=\\"govuk-cookie-banner \\" data-nosnippet role=\\"region\\" aria-label=\\"Cookies on custom service name\\" data-cy=\\"cookie-banner\\" id=\\"cookie-banner-consent\\">
     
     
 
@@ -165,8 +169,10 @@ exports[`views/macros/cookie-banner should allow setting all custom attributes 1
         
           
             
+              
+              
+              <a class=\\"govuk-link\\" href=\\"/a/b/c\\" data-cy=\\"cookie-banner-view-cookies\\">View cookies</a>
             
-            <a class=\\"govuk-link\\" href=\\"/a/b/c\\" data-cy=\\"cookie-banner-view-cookies\\">View cookies</a>
           
         
       </div>
@@ -187,7 +193,7 @@ exports[`views/macros/cookie-banner should have sensible default attributes 1`] 
 
   
 
-  <div class=\\"govuk-cookie-banner \\" role=\\"region\\" aria-label=\\"Cookies on appeal a householder planning decision service\\" data-cy=\\"cookie-banner\\" id=\\"cookie-banner-consent\\">
+  <div class=\\"govuk-cookie-banner \\" data-nosnippet role=\\"region\\" aria-label=\\"Cookies on appeal a householder planning decision service\\" data-cy=\\"cookie-banner\\" id=\\"cookie-banner-consent\\">
     
     
 
@@ -224,8 +230,10 @@ exports[`views/macros/cookie-banner should have sensible default attributes 1`] 
         
           
             
+              
+              
+              <a class=\\"govuk-link\\" href=\\"/cookies\\" data-cy=\\"cookie-banner-view-cookies\\">View cookies</a>
             
-            <a class=\\"govuk-link\\" href=\\"/cookies\\" data-cy=\\"cookie-banner-view-cookies\\">View cookies</a>
           
         
       </div>
