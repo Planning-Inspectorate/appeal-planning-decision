@@ -28,6 +28,7 @@ describe('lib/views', () => {
       INFORMATION_SUBMITTED: 'information-submitted',
       CONFIRM_ANSWERS: 'confirm-answers',
       PDF_GENERATION: 'pdf-generation',
+      CONTACT_US: 'contact-us',
       ERROR: {
         NOT_FOUND: 'error/not-found',
         UNHANDLED_EXCEPTION: 'error/unhandled-exception',
