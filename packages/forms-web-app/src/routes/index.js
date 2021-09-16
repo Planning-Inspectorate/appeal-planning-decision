@@ -17,6 +17,4 @@ router.use('/appellant-submission', checkDecisionDateDeadline, appellantSubmissi
 router.use('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
 router.use('/your-planning-appeal', yourPlanningAppealRouter);
 
-console.log(process.env);
-
 module.exports = router;
