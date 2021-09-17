@@ -1,6 +1,5 @@
+/* eslint-disable no-throw-literal */
 const { BlobServiceClient } = require('@azure/storage-blob');
-const streams = require('memory-streams');
-const path = require('path');
 const logger = require('./logger');
 const config = require('./config');
 
@@ -35,32 +34,33 @@ const downloadFile = (containerClient, location) => {
   }
 };
 
-const uploadFile = async (containerClient, document) => {
+const uploadFile = async (document) => {
   const metadata = { ...document };
-  const filePath = path.join(config.fileUpload.path, metadata.filename);
   const blobName = metadata.location;
 
+  const containerClient = await initContainerClient();
+
   delete metadata.filename;
+  delete metadata.buffer;
+
 
   try {
-    logger.info({ blobName, metadata, filePath }, 'Uploading file to blob storage');
-    const reader = new streams.ReadableStream(document.buffer.toString('base64'));
-
+    logger.info({ blobName }, 'Uploading file to blob storage');
     const uploadStatus = await containerClient
       .getBlockBlobClient(blobName)
-      .uploadStream(reader, undefined, undefined, {
+      .uploadData(document.buffer, {
         blobHTTPHeaders: {
           blobContentType: metadata.mime_type,
         },
         metadata,
       });
 
-    logger.info({ metadata, uploadStatus }, 'File successfully uploaded');
+    logger.info({ uploadStatus }, 'File successfully uploaded');
 
     return metadata;
   } catch (err) {
     logger.error({ err, metadata }, 'File upload failed');
-    throw err;
+    throw { err };
   }
 };
 

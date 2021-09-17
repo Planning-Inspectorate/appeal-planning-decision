@@ -104,19 +104,17 @@ const serveDocumentById = async (req, res) => {
 
 const uploadDocument = async (req, res) => {
   const {
-    file,
-    file: { mimetype, originalname, filename, size, id, uploadDate } = {},
+    file: { mimetype, originalname, filename, size, id, uploadDate, buffer } = {},
     params: { applicationId },
   } = req;
 
   try {
-    const containerClient = await initContainerClient();
-
-    req.log.info({ file, applicationId }, 'Uploading new file');
+    req.log.info({ applicationId }, 'Uploading new file');
 
     const document = {
       application_id: applicationId,
       name: originalname,
+      buffer,
       filename,
       upload_date: uploadDate,
       mime_type: mimetype,
@@ -133,8 +131,7 @@ const uploadDocument = async (req, res) => {
       'Uploading document'
     );
 
-    const metadata = await uploadFile(containerClient, document);
-    await deleteLocalFile(file);
+    const metadata = await uploadFile(document);
 
     res.status(202).send(metadata);
   } catch (err) {
