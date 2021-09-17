@@ -52,6 +52,7 @@ describe('controllers/uploaded-documents', () => {
       };
 
       req.session.backLink = '/appeal-questionnaire/mock-id/mock-back-link';
+      renderObject.continueLink = '/appeal-questionnaire/mock-id/mock-back-link';
       uploadedDocumentsController.getUploadedDocuments(mockRequest, res);
 
       expect(res.render).toHaveBeenCalledWith(view, renderObject);
@@ -68,6 +69,7 @@ describe('controllers/uploaded-documents', () => {
       req.session.backLink = '/appeal-questionnaire/mock-id/mock-back-link';
       res.locals.backLink = '/appeal-questionnaire/some/other/backlink';
       renderObject.backLink = '/appeal-questionnaire/some/other/backlink';
+      renderObject.continueLink = '/appeal-questionnaire/some/other/backlink';
 
       uploadedDocumentsController.getUploadedDocuments(req, res);
 
@@ -113,8 +115,7 @@ describe('controllers/uploaded-documents', () => {
           { class: 'govuk-link', html: '<a href="delete-document?row=1">Delete</a>' },
         ],
       ];
-
-      // console.log({ mockRequest });
+      renderObject.continueLink = '/appeal-questionnaire/mock-id/mock-back-link';
 
       uploadedDocumentsController.getUploadedDocuments(mockRequest, res);
       expect(res.render).toHaveBeenCalledWith(view, renderObject);
