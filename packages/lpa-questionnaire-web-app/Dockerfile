@@ -16,6 +16,7 @@ COPY --from=pinscommonukscontainers3887default.azurecr.io/business-rules:latest 
 
 ADD package.json package.json
 ADD package-lock.json package-lock.json
+ADD src src
 ADD __tests__ __tests__
 ADD jest.config.js jest.config.js
 
