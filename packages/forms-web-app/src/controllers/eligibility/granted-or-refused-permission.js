@@ -87,6 +87,11 @@ exports.postGrantedOrRefusedPermission = async (req, res) => {
     });
     return;
   }
+  
+  if(!isPlanningPermissionRefused){
+    res.redirect(`/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT}`);
+    return;
+  }
 
   if (!isPlanningPermissionRefused) {
     res.redirect(`/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT}`);
