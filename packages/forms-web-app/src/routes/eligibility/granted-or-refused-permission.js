@@ -9,6 +9,12 @@ const {
 
 const router = express.Router();
 
+/* Get eligibility granted-or-refused-permission out page */
+router.get(
+  '/granted-or-refused-permission-out',
+  grantedOrRefusedPermissionController.getGrantedOrRefusedPermissionOut
+);
+
 /* Get eligibility granted-or-refused-permission input page */
 router.get(
   '/granted-or-refused-permission',

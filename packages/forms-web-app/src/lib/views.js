@@ -19,6 +19,7 @@ const VIEW = {
     HOUSEHOLDER_PLANNING_PERMISSION: 'eligibility/householder-planning-permission',
     HOUSEHOLDER_PLANNING_PERMISSION_OUT: 'eligibility/householder-planning-permission-out',
     GRANTED_REFUSED_PERMISSION: 'eligibility/granted-or-refused-permission',
+    GRANTED_REFUSED_PERMISSION_OUT: 'eligibility/granted-or-refused-permission-out'
   },
 
   APPELLANT_SUBMISSION: {
