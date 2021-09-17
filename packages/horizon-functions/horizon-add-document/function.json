@@ -2,7 +2,7 @@
     "bindings": [
       {
         "name": "documentfunction",
-        "type": "serviceBusTrigger",
+        "type": "httpTrigger",
         "direction": "in",
         "queueName": "add-document",
         "connection": "pinsuksmessagequeuedev_SERVICEBUS"

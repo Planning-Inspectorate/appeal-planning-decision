@@ -65,6 +65,11 @@ uninstall:
   	done
 .PHONY: uninstall
 
+
+azure-functions:
+	cd packages/horizon-functions
+	func start --functions horizon-householder-appeal-publish horizon-create-contact horizon-add-document --javascript
+
 update-functions:
 	faas-cli remove -f functions.yml
 	faas-cli up -f functions.yml --tag sha \

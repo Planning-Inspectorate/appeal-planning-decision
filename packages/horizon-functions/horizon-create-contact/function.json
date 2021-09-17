@@ -2,7 +2,7 @@
     "bindings": [
       {
         "name": "contactfunction",
-        "type": "serviceBusTrigger",
+        "type": "httpTrigger",
         "direction": "in",
         "queueName": "create-contact",
         "connection": "pinsuksmessagequeuedev_SERVICEBUS"
