@@ -60,6 +60,7 @@ const createContacts = async (log, body) => {
         },
         {
           baseURL: config.azure.url,
+          params: { code: config.azure.create_contact.key },
         }
       );
 

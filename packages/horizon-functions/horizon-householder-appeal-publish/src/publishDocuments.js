@@ -38,6 +38,7 @@ const publishDocuments = async (log, documents, serviceId, horizonId) => {
           },
           {
             baseURL: config.azure.url,
+            params: { code: config.azure.add_document.key },
           }
         );
 

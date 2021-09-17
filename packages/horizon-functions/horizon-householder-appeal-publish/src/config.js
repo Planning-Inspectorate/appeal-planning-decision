@@ -12,7 +12,14 @@ module.exports = {
     gatewayUrl: process.env.GATEWAY_URL,
   },
   azure: {
-    url: process.env.AZURE_FUNCTION_URL,
+    create_contact: {
+      url: process.env.AZURE_CREATE_CONTACT_FUNCTION_URL,
+      key: process.env.AZURE_CREATE_CONTACT_FUNCTION_KEY,
+    },
+    add_document: {
+      url: process.env.AZURE_ADD_DOCUMENT_FUNCTION_URL,
+      key: process.env.AZURE_ADD_DOCUMENT_FUNCTION_KEY,
+    },
   },
   logger: {
     level: process.env.LOGGER_LEVEL || 'info',
