@@ -7,7 +7,7 @@ process.env.GATEWAY_URL = 'openfaas-gateway';
 const axios = require('axios');
 const { advanceTo, clear: clearDateMocks } = require('jest-date-mock');
 const { when } = require('jest-when');
-const handler = require('../handler');
+const handler = require('../index');
 const { handlerReply } = require('../handler-reply');
 
 describe('handler', () => {
