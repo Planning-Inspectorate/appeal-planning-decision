@@ -61,6 +61,12 @@ exports.postGrantedOrRefusedPermission = async (req, res) => {
     return;
   }
 
+  let isPlanningPermissionRefused = null;
+
+  if(validHouseholderPlanningPermissionStatusOptions.includes(planningPermissionStatus)){
+    isPlanningPermissionRefused = planningPermissionStatus.toLowerCase() === 'refused';
+  }
+  
   try {
     req.session.appeal = await createOrUpdateAppeal({
       ...appeal,
@@ -77,6 +83,11 @@ exports.postGrantedOrRefusedPermission = async (req, res) => {
       errors,
       errorSummary: [{ text: e.toString(), href: '#' }],
     });
+    return;
+  }
+  
+  if(!isPlanningPermissionRefused){
+    res.redirect(`/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT}`);
     return;
   }
 
