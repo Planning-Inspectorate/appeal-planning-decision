@@ -1,4 +1,5 @@
-const rabbitmq = require('./lib/rabbitmq');
+const axios = require('axios');
+const config = require('./config');
 
 /**
  * Create Contacts
@@ -46,15 +47,21 @@ const createContacts = async (log, body) => {
     contacts.map(async ({ name, email, type }) => {
       /* Create the user in Horizon */
       const [firstName, ...lastName] = name.split(' ');
-      let contactId;
 
       log.info('Inserting contact into Horizon');
-
-      await rabbitmq.publisher('create-contact', {
-        firstName,
-        lastName: lastName.join(' '),
-        email,
-      });
+      const {
+        data: { id: contactId },
+      } = await axios.post(
+        '/api/horizon-create-contact',
+        {
+          firstName,
+          lastName: lastName.join(' '), // Treat multiple spaces as part of last name
+          email,
+        },
+        {
+          baseURL: config.azure.url,
+        }
+      );
 
       return {
         /* Add user contact details */

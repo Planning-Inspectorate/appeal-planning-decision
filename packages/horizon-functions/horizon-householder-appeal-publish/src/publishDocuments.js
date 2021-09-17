@@ -1,4 +1,5 @@
-const rabbitmq = require('./lib/rabbitmq');
+const axios = require('axios');
+const config = require('./config');
 
 /**
  * Publish Documents
@@ -27,12 +28,18 @@ const publishDocuments = async (log, documents, serviceId, horizonId) => {
           'Publish document to Horizon'
         );
 
-        await rabbitmq.publisher('create-contact', {
-          documentId,
-          documentType,
-          caseReference: horizonId,
-          applicationId: serviceId,
-        });
+        await axios.post(
+          '/api/horizon-add-document',
+          {
+            documentId,
+            documentType,
+            caseReference: horizonId,
+            applicationId: serviceId,
+          },
+          {
+            baseURL: config.azure.url,
+          }
+        );
 
         log.debug('Publish document request accepted');
       })

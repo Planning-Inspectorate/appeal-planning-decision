@@ -11,6 +11,9 @@ module.exports = {
   openfaas: {
     gatewayUrl: process.env.GATEWAY_URL,
   },
+  azure: {
+    url: process.env.AZURE_FUNCTION_URL,
+  },
   logger: {
     level: process.env.LOGGER_LEVEL || 'info',
   },
