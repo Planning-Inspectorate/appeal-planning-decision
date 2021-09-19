@@ -17,6 +17,8 @@ function isTheFormDataBuffer(data) {
 exports.createDocument = async (appeal, data, fileName) => {
   const path = `/api/v1/${appeal.id}`;
 
+  console.log(path);
+
   const correlationId = uuid.v4();
   const url = `${config.documents.url}${path}`;
 
