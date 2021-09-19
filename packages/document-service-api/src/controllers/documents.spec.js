@@ -296,7 +296,7 @@ describe('controllers/documents', () => {
     });
   });
 
-  describe.skip('uploadDocument', () => {
+  describe('uploadDocument', () => {
     it('should return the metadata when a file is uploaded successfully', async () => {
       req.file = {
         mimetype: fileOne.metadata.mime_type,

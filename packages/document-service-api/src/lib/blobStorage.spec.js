@@ -72,7 +72,7 @@ describe('lib/blobStorage', () => {
     };
   });
 
-  describe.skip('initContainerClient', () => {
+  describe('initContainerClient', () => {
     it('should return containerClient when the connection is initialised successfully', async () => {
       const result = await initContainerClient();
 
@@ -93,7 +93,7 @@ describe('lib/blobStorage', () => {
     });
   });
 
-  describe.skip('downloadFile', () => {
+  describe('downloadFile', () => {
     it('should return the file when the file is downloaded successfully', async () => {
       const file = await downloadFile(containerClient, document);
 
@@ -114,7 +114,7 @@ describe('lib/blobStorage', () => {
     });
   });
 
-  describe.skip('uploadFile', () => {
+  describe('uploadFile', () => {
     it('should return the metadata when the file is uploaded successfully', async () => {
       const result = await uploadFile(containerClient, document);
 
