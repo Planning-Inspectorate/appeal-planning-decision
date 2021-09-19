@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="65" failures="0" errors="0" time="1.813">
+  <testsuite name="lib/migrateMetadata" errors="0" failures="0" skipped="0" timestamp="2021-09-19T18:17:32" time="0.623" tests="6">
+    <testcase classname="lib/migrateMetadata getDocuments should return the documents from Cosmos DB" name="lib/migrateMetadata getDocuments should return the documents from Cosmos DB" time="0.001">
+    </testcase>
+    <testcase classname="lib/migrateMetadata mapMetadata should return metadata formatted for Blob Storage when given metadata from Cosmos DB" name="lib/migrateMetadata mapMetadata should return metadata formatted for Blob Storage when given metadata from Cosmos DB" time="0.001">
+    </testcase>
+    <testcase classname="lib/migrateMetadata saveMetadata should return true when the metadata is saved successfully" name="lib/migrateMetadata saveMetadata should return true when the metadata is saved successfully" time="0">
+    </testcase>
+    <testcase classname="lib/migrateMetadata saveMetadata should throw an error when an error occurs" name="lib/migrateMetadata saveMetadata should throw an error when an error occurs" time="0.002">
+    </testcase>
+    <testcase classname="lib/migrateMetadata migrateMetadata should return a summary of the migrated documents when the migration is successful" name="lib/migrateMetadata migrateMetadata should return a summary of the migrated documents when the migration is successful" time="0">
+    </testcase>
+    <testcase classname="lib/migrateMetadata migrateMetadata should throw an error when an error occurs" name="lib/migrateMetadata migrateMetadata should throw an error when an error occurs" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="controllers/migrateMetadata" errors="0" failures="0" skipped="0" timestamp="2021-09-19T18:17:32" time="0.566" tests="2">
+    <testcase classname="controllers/migrateMetadata migrate should return a summary of the migrated metadata when the migration is successful" name="controllers/migrateMetadata migrate should return a summary of the migrated metadata when the migration is successful" time="0.001">
+    </testcase>
+    <testcase classname="controllers/migrateMetadata migrate should return an error when an error is thrown migrating the metadata" name="controllers/migrateMetadata migrate should return an error when an error is thrown migrating the metadata" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="lib/uploadLocalFile" errors="0" failures="0" skipped="0" timestamp="2021-09-19T18:17:32" time="0.714" tests="5">
+    <testcase classname="lib/uploadLocalFile should return next if no error" name="lib/uploadLocalFile should return next if no error" time="0">
+    </testcase>
+    <testcase classname="lib/uploadLocalFile should return a LIMIT_FILE_SIZE as a 422 error" name="lib/uploadLocalFile should return a LIMIT_FILE_SIZE as a 422 error" time="0.006">
+    </testcase>
+    <testcase classname="lib/uploadLocalFile should trigger a next error if a multer error" name="lib/uploadLocalFile should trigger a next error if a multer error" time="0">
+    </testcase>
+    <testcase classname="lib/uploadLocalFile should return an error when a file is not uploaded" name="lib/uploadLocalFile should return an error when a file is not uploaded" time="0.002">
+    </testcase>
+    <testcase classname="lib/uploadLocalFile should return an error when given a file with an invalid mime type" name="lib/uploadLocalFile should return an error when given a file with an invalid mime type" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="lib/getYamlAsJson" errors="0" failures="0" skipped="0" timestamp="2021-09-19T18:17:32" time="0.12" tests="2">
+    <testcase classname="lib/getYamlAsJson should return the file data" name="lib/getYamlAsJson should return the file data" time="0.003">
+    </testcase>
+    <testcase classname="lib/getYamlAsJson should return null when the file cannot be loaded" name="lib/getYamlAsJson should return null when the file cannot be loaded" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="lib/deleteLocalFile" errors="0" failures="0" skipped="0" timestamp="2021-09-19T18:17:32" time="0.128" tests="2">
+    <testcase classname="lib/deleteLocalFile should delete the local file" name="lib/deleteLocalFile should delete the local file" time="0.003">
+    </testcase>
+    <testcase classname="lib/deleteLocalFile should throw an error when an error occurs" name="lib/deleteLocalFile should throw an error when an error occurs" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="lib/blobStorage" errors="0" failures="0" skipped="0" timestamp="2021-09-19T18:17:32" time="0.82" tests="16">
+    <testcase classname="lib/blobStorage initContainerClient should return containerClient when the connection is initialised successfully" name="lib/blobStorage initContainerClient should return containerClient when the connection is initialised successfully" time="0.01">
+    </testcase>
+    <testcase classname="lib/blobStorage initContainerClient should throw an error when an error occurs" name="lib/blobStorage initContainerClient should throw an error when an error occurs" time="0.005">
+    </testcase>
+    <testcase classname="lib/blobStorage downloadFile should return the file when the file is downloaded successfully" name="lib/blobStorage downloadFile should return the file when the file is downloaded successfully" time="0.001">
+    </testcase>
+    <testcase classname="lib/blobStorage downloadFile should throw an error when an error occurs" name="lib/blobStorage downloadFile should throw an error when an error occurs" time="0">
+    </testcase>
+    <testcase classname="lib/blobStorage uploadFile should return the metadata when the file is uploaded successfully" name="lib/blobStorage uploadFile should return the metadata when the file is uploaded successfully" time="0.002">
+    </testcase>
+    <testcase classname="lib/blobStorage uploadFile should throw an error when an error occurs" name="lib/blobStorage uploadFile should throw an error when an error occurs" time="0.001">
+    </testcase>
+    <testcase classname="lib/blobStorage deleteFile should return true when the file is deleted successfully" name="lib/blobStorage deleteFile should return true when the file is deleted successfully" time="0">
+    </testcase>
+    <testcase classname="lib/blobStorage deleteFile should throw an error when an error occurs" name="lib/blobStorage deleteFile should throw an error when an error occurs" time="0.001">
+    </testcase>
+    <testcase classname="lib/blobStorage getMetadataForAllFiles should return an array of metadata when the metadata is fetched successfully" name="lib/blobStorage getMetadataForAllFiles should return an array of metadata when the metadata is fetched successfully" time="0">
+    </testcase>
+    <testcase classname="lib/blobStorage getMetadataForAllFiles should throw an error when an error occurs" name="lib/blobStorage getMetadataForAllFiles should throw an error when an error occurs" time="0">
+    </testcase>
+    <testcase classname="lib/blobStorage getMetadataForSingleFile should return the metadata when the metadata is fetched successfully" name="lib/blobStorage getMetadataForSingleFile should return the metadata when the metadata is fetched successfully" time="0.001">
+    </testcase>
+    <testcase classname="lib/blobStorage getMetadataForSingleFile should return null when the metadata cannot be fetched" name="lib/blobStorage getMetadataForSingleFile should return null when the metadata cannot be fetched" time="0">
+    </testcase>
+    <testcase classname="lib/blobStorage getMetadataForSingleFile should return null when the files contain no metadata" name="lib/blobStorage getMetadataForSingleFile should return null when the files contain no metadata" time="0.001">
+    </testcase>
+    <testcase classname="lib/blobStorage getMetadataForSingleFile should throw an error when an error occurs" name="lib/blobStorage getMetadataForSingleFile should throw an error when an error occurs" time="0.001">
+    </testcase>
+    <testcase classname="lib/blobStorage saveMetadata should return true when the metadata is saved successfully" name="lib/blobStorage saveMetadata should return true when the metadata is saved successfully" time="0">
+    </testcase>
+    <testcase classname="lib/blobStorage saveMetadata should throw an error when an error occurs" name="lib/blobStorage saveMetadata should throw an error when an error occurs" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="lib/addFileMetadata" errors="0" failures="0" skipped="0" timestamp="2021-09-19T18:17:32" time="0.075" tests="2">
+    <testcase classname="lib/addFileMetadata should add the file metadata when req.file exists" name="lib/addFileMetadata should add the file metadata when req.file exists" time="0">
+    </testcase>
+    <testcase classname="lib/addFileMetadata should add the file metadata when req.file does not exist" name="lib/addFileMetadata should add the file metadata when req.file does not exist" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Documents methods" errors="0" failures="0" skipped="0" timestamp="2021-09-19T18:17:32" time="0.877" tests="3">
+    <testcase classname="Documents methods #downloadFileBuffer should download a file buffer" name="Documents methods #downloadFileBuffer should download a file buffer" time="0.009">
+    </testcase>
+    <testcase classname="Documents methods #generateId should add a uuid.v4" name="Documents methods #generateId should add a uuid.v4" time="0">
+    </testcase>
+    <testcase classname="Documents methods #toDTO should return the DTO with an undefined _id" name="Documents methods #toDTO should return the DTO with an undefined _id" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Documents Schema" errors="0" failures="0" skipped="0" timestamp="2021-09-19T18:17:32" time="0.983" tests="6">
+    <testcase classname="Documents Schema indices should create an index on applicationId and id" name="Documents Schema indices should create an index on applicationId and id" time="0.002">
+    </testcase>
+    <testcase classname="Documents Schema indices should create an index on createdAt" name="Documents Schema indices should create an index on createdAt" time="0">
+    </testcase>
+    <testcase classname="Documents Schema indices should create an index on upload.processed and upload.processAttempted" name="Documents Schema indices should create an index on upload.processed and upload.processAttempted" time="0">
+    </testcase>
+    <testcase classname="Documents Schema virtuals should have virtuals enabled by default on toObject" name="Documents Schema virtuals should have virtuals enabled by default on toObject" time="0.001">
+    </testcase>
+    <testcase classname="Documents Schema virtuals should have virtuals enabled by default on toJSON" name="Documents Schema virtuals should have virtuals enabled by default on toJSON" time="0">
+    </testcase>
+    <testcase classname="Documents Schema virtuals #blobStorageLocation should output the blob storage location from the appId, id and name fields" name="Documents Schema virtuals #blobStorageLocation should output the blob storage location from the appId, id and name fields" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="controllers/documents" errors="0" failures="0" skipped="0" timestamp="2021-09-19T18:17:32" time="1.031" tests="17">
+    <testcase classname="controllers/documents getDocumentsForApplication should return documents when given a valid application id" name="controllers/documents getDocumentsForApplication should return documents when given a valid application id" time="0.007">
+    </testcase>
+    <testcase classname="controllers/documents getDocumentsForApplication should return an error when given an invalid application id" name="controllers/documents getDocumentsForApplication should return an error when given an invalid application id" time="0.002">
+    </testcase>
+    <testcase classname="controllers/documents getDocumentsForApplication should return an error when an error is thrown getting all documents" name="controllers/documents getDocumentsForApplication should return an error when an error is thrown getting all documents" time="0">
+    </testcase>
+    <testcase classname="controllers/documents getDocumentById should return a document when given a valid application and document id" name="controllers/documents getDocumentById should return a document when given a valid application and document id" time="0">
+    </testcase>
+    <testcase classname="controllers/documents getDocumentById should return an error when given an invalid application id" name="controllers/documents getDocumentById should return an error when given an invalid application id" time="0.001">
+    </testcase>
+    <testcase classname="controllers/documents getDocumentById should return an error when given an invalid document id" name="controllers/documents getDocumentById should return an error when given an invalid document id" time="0.001">
+    </testcase>
+    <testcase classname="controllers/documents getDocumentById should return an error when an error is thrown getting the document" name="controllers/documents getDocumentById should return an error when an error is thrown getting the document" time="0.001">
+    </testcase>
+    <testcase classname="controllers/documents serveDocumentById should return a document when given a valid application and document id" name="controllers/documents serveDocumentById should return a document when given a valid application and document id" time="0.002">
+    </testcase>
+    <testcase classname="controllers/documents serveDocumentById should return a document in base64 when given a valid application and document id and base64 flag is true" name="controllers/documents serveDocumentById should return a document in base64 when given a valid application and document id and base64 flag is true" time="0">
+    </testcase>
+    <testcase classname="controllers/documents serveDocumentById should return an error when no metadata is returned for the given document" name="controllers/documents serveDocumentById should return an error when no metadata is returned for the given document" time="0.001">
+    </testcase>
+    <testcase classname="controllers/documents serveDocumentById should return an error when an error is thrown getting the document" name="controllers/documents serveDocumentById should return an error when an error is thrown getting the document" time="0">
+    </testcase>
+    <testcase classname="controllers/documents uploadDocument should return the metadata when a file is uploaded successfully" name="controllers/documents uploadDocument should return the metadata when a file is uploaded successfully" time="0.004">
+    </testcase>
+    <testcase classname="controllers/documents uploadDocument should return an error when an error is thrown uploading the document" name="controllers/documents uploadDocument should return an error when an error is thrown uploading the document" time="0.001">
+    </testcase>
+    <testcase classname="controllers/documents deleteDocument should return the correct status when a document is deleted successfully" name="controllers/documents deleteDocument should return the correct status when a document is deleted successfully" time="0">
+    </testcase>
+    <testcase classname="controllers/documents deleteDocument should return an error when no metadata is returned for the given document" name="controllers/documents deleteDocument should return an error when no metadata is returned for the given document" time="0.002">
+    </testcase>
+    <testcase classname="controllers/documents deleteDocument should return an error when the document is not deleted" name="controllers/documents deleteDocument should return an error when the document is not deleted" time="0">
+    </testcase>
+    <testcase classname="controllers/documents deleteDocument should return an error when an error is thrown deleting the document" name="controllers/documents deleteDocument should return an error when an error is thrown deleting the document" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="routes/appeal" errors="0" failures="0" skipped="0" timestamp="2021-09-19T18:17:32" time="0.245" tests="1">
+    <testcase classname="routes/appeal should define the expected routes" name="routes/appeal should define the expected routes" time="0.031">
+    </testcase>
+  </testsuite>
+  <testsuite name="routes/application" errors="0" failures="0" skipped="0" timestamp="2021-09-19T18:17:32" time="0.38" tests="1">
+    <testcase classname="routes/application should define the expected routes" name="routes/application should define the expected routes" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="routes/migrateMetadata" errors="0" failures="0" skipped="0" timestamp="2021-09-19T18:17:32" time="0.448" tests="1">
+    <testcase classname="routes/migrateMetadata should define the expected routes" name="routes/migrateMetadata should define the expected routes" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="routes/index" errors="0" failures="0" skipped="0" timestamp="2021-09-19T18:17:32" time="0.58" tests="1">
+    <testcase classname="routes/index should define the expected routes" name="routes/index should define the expected routes" time="0.002">
+    </testcase>
+  </testsuite>
+</testsuites>
