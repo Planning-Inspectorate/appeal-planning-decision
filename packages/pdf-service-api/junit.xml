@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="1" failures="1" errors="0" time="0.949">
+  <testsuite name="Pdf API - successful response" errors="0" failures="1" skipped="0" timestamp="2021-09-19T22:40:02" time="0.363" tests="1">
+    <testcase classname="Pdf API - successful response POST /api/v1/pdf - It responds with a pdf file" name="Pdf API - successful response POST /api/v1/pdf - It responds with a pdf file" time="0.007">
+      <failure>Error: expect(jest.fn()).not.toHaveBeenCalled()
+
+Expected number of calls: 0
+Received number of calls: 1
+
+1: 400
+    at Object.&lt;anonymous&gt; (/Users/ray/WebstormProjects/appeal-planning-decision/packages/pdf-service-api/__tests__/pdf-success.test.js:31:28)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

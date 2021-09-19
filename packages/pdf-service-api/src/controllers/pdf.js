@@ -1,3 +1,4 @@
+const wkhtmltopdf = require('wkhtmltopdf');
 const logger = require('../lib/logger');
 const toPDF = require('../lib/pdfUtils');
 
@@ -7,7 +8,8 @@ module.exports = {
     try {
       const { htmlFile } = req.files;
       const buffer = htmlFile.data;
-      const pdf = await toPDF(buffer.toString());
+      // const pdf = await toPDF(buffer.toString());
+      const pdf = await wkhtmltopdf(buffer);
       logger.debug(`Sending pdf file ${htmlFile.name}.pdf generated from html file ${htmlFile.name}`);
       res.setHeader('Content-Type', 'application/pdf');
       res.setHeader('Content-Disposition', `attachment; filename="${htmlFile.name}.pdf"`);
