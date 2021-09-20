@@ -32,6 +32,14 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
     });
   });
 
+  describe('getGrantedOrRefusedPlanningPermissionOut', () => {
+    it('should call the permission out template', () => {
+      grantedOrRefusedPlanningPermissionController.getGrantedOrRefusedPermissionOut(req, res);
+
+      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT);
+    });
+  });
+
   describe('postGrantedOrRefusedPlanningPermission', () => {
     it('should re-render the template with errors if there is any validation error', async () => {
       const mockRequest = {
@@ -110,6 +118,30 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
       });
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.DECISION_DATE}`);
+    });
+
+    it(`should redirect to '/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT}' if planniong PermissionStatus is 'granted'`, async () => {
+      const planningPermissionStatusGranted = 'granted';
+      const mockRequest = {
+        ...req,
+        body: { 'granted-or-refused-permission': planningPermissionStatusGranted },
+      };
+      await grantedOrRefusedPlanningPermissionController.postGrantedOrRefusedPermission(
+        mockRequest,
+        res
+      );
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...appeal,
+        eligibility: {
+          ...appeal.eligibility,
+          planningPermissionStatus: planningPermissionStatusGranted,
+        },
+      });
+
+      expect(res.redirect).toHaveBeenCalledWith(
+        `/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT}`
+      );
     });
   });
 });

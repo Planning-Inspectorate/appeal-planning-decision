@@ -12,6 +12,7 @@ Cypress.Commands.add(
   require('../go-to-page/goToHouseholderQuestionOutPage'),
 );
 Cypress.Commands.add('goToGrantedOrRefusedPermissionPage', require('../go-to-page/goToGrantedOrRefusedPermissionPage'));
+Cypress.Commands.add('goToGrantedOrRefusedPermissionOutPage', require('../go-to-page/goToGrantedOrRefusedPermissionOutPage'));
 Cypress.Commands.add('goToDecisionDatePage', require('../go-to-page/goToDecisionDatePage'));
 Cypress.Commands.add(
   'goToDecisionDateExpiredPage',
@@ -145,6 +146,11 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmNavigationDecisionDatePage',
   require('../appeal-navigation-confirmation/eligibility/confirmNavigationDecisionDatePage'),
+);
+
+Cypress.Commands.add(
+  'confirmNavigationGrantedRefusedKickoutPage',
+  require('../appeal-navigation-confirmation/eligibility/confirmNavigationGrantedRefusedKickoutPage')
 );
 
 Cypress.Commands.add(

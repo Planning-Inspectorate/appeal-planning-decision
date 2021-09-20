@@ -13,6 +13,16 @@ Then('progress is made to the eligibility Decision Date question', () => {
     cy.confirmNavigationDecisionDatePage();
 })
 
+When('Householder Planning Permission Status is set to Granted', () => {
+  cy.provideHouseholderPlanningPermissionStatusGranted();
+  cy.clickSaveAndContinue();
+})
+
+Then('User is navigated to kick-out page', () => {
+  cy.confirmNavigationGrantedRefusedKickoutPage();
+  cy.validateBackLinkIsNotAvailable();
+})
+
 When('No Householder Planning Permission Status is not selected', () => {
     cy.clickSaveAndContinue();
 })
