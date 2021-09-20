@@ -11,3 +11,8 @@ Feature: Eligibility - Appeal Householder Planning Permission Status Question
   Given Householder Planning Permission Status is requested
   When No Householder Planning Permission Status is not selected
   Then Progress is halted with a message that a Householder Planning Permission Status is required
+
+   Scenario: Prospective appellant selects Granted Householder Planning Permission Status and is taken to kick-out page
+     Given Householder Planning Permission Status is requested
+     When Householder Planning Permission Status is set to Granted
+     Then User is navigated to kick-out page
