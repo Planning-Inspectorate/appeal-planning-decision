@@ -16,6 +16,9 @@ When('the {string} page is presented', (page) => {
     case 'Eligibility - Granted Or Refused Permission':
         cy.goToGrantedOrRefusedPermissionPage();
         break;
+    case 'Eligibility - Granted Or Refused Permission Out':
+      cy.goToGrantedOrRefusedPermissionOutPage();
+      break;
     case 'Eligibility - Decision date':
       cy.goToDecisionDatePage();
       break;
