@@ -1,7 +1,7 @@
 const { VIEW } = require('../lib/views');
 const { renderView } = require('../util/render');
 
-async function renderContactUs(req, res) {
+async function getContactUs(req, res) {
   return renderView(res, VIEW.CONTACT_US, {
     prefix: 'appeal-questionnaire',
     backLink: req?.session?.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
@@ -9,5 +9,5 @@ async function renderContactUs(req, res) {
 }
 
 module.exports = {
-  renderContactUs,
+  getContactUs,
 };
