@@ -23,6 +23,7 @@ on:
       - 'dependabot/**' # Automatic dependabot updates
       - 'feature/**'
       - 'subtask/**'
+      - 'bugfix/**'
       - 'fix/**'
 
 jobs:
