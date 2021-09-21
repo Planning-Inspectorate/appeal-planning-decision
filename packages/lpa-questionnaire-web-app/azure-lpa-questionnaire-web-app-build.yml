@@ -27,6 +27,7 @@ variables:
 
   # Container registry service connection established during pipeline creation
   lpaQuestionnaireWebAppDockerfilePath: '$(Build.SourcesDirectory)/packages/lpa-questionnaire-web-app/Dockerfile'
+  lpaQuestionnaireWebAppContext: '$(Build.SourcesDirectory)/packages/lpa-questionnaire-web-app'
   imageRepository: 'lpa-questionnaire-web-app'
   containerRegistry: 'pinscommonukscontainers3887default.azurecr.io'
   dockerRegistryServiceConnection: 'appeals-service-api-registry-connection' ## this needs renamed
@@ -66,6 +67,7 @@ stages:
               repository: $(imageRepository)
               dockerfile: $(lpaQuestionnaireWebAppDockerfilePath)
               containerRegistry: $(dockerRegistryServiceConnection)
+              buildContext: ${lpaQuestionnaireWebAppContext}
               arguments: >
                 --build-arg APP_NAME=lpa-questionnaire-web-app
                 --build-arg BUILD_ID=$(Build.BuildNumber)
