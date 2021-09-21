@@ -1,7 +1,7 @@
 const logger = require('../../lib/logger');
 const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
-const { eligibility } = require('../../constants');
+const { ELIGIBILITY } = require('../../constants');
 const {
   validHouseholderPlanningPermissionStatusOptions,
 } = require('../../validators/eligibility/granted-or-refused-permission');
@@ -66,7 +66,7 @@ exports.postGrantedOrRefusedPermission = async (req, res) => {
 
   if (validHouseholderPlanningPermissionStatusOptions.includes(planningPermissionStatus)) {
     isPlanningPermissionRefused =
-      planningPermissionStatus.toLowerCase() === eligibility.planningPermissionStatus.REFUSED;
+      planningPermissionStatus.toLowerCase() === ELIGIBILITY.PLANNING_PERMISSION_STATUS.REFUSED;
   }
 
   try {
