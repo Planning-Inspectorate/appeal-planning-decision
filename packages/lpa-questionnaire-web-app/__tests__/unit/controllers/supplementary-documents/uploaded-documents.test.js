@@ -61,6 +61,7 @@ describe('controllers/uploaded-documents', () => {
     it.only('should call task-list as a default back link if nothing set in session', () => {
       uploadedDocumentsController.getUploadedDocuments(req, res);
       renderObject.backLink = `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`;
+      renderObject.continueLink = '/appeal-questionnaire/mock-id/task-list';
 
       expect(res.render).toHaveBeenCalledWith(view, renderObject);
     });
