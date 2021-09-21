@@ -13,7 +13,7 @@ module.exports = (req, res) => {
   renderView(res, VIEW.CONFIRM_ANSWERS, {
     prefix: 'appeal-questionnaire',
     submissionLink: `/appeal-questionnaire/${req.params.id}/${VIEW.INFORMATION_SUBMITTED}`,
-    taskListLink: '/appeal-questionnaire/mock-id/task-list',
+    taskListLink: `/appeal-questionnaire/${req.params.id}/task-list`,
     sections,
   });
 };
