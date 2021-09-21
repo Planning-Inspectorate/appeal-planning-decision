@@ -120,7 +120,7 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.DECISION_DATE}`);
     });
 
-    it(`should redirect to '/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT}' if planniong PermissionStatus is 'granted'`, async () => {
+    it(`should redirect to '/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT}' if 'planningPermissionStatus' is 'granted'`, async () => {
       const planningPermissionStatusGranted = 'granted';
       const mockRequest = {
         ...req,
