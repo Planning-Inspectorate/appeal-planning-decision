@@ -67,7 +67,7 @@ stages:
               repository: $(imageRepository)
               dockerfile: $(lpaQuestionnaireWebAppDockerfilePath)
               containerRegistry: $(dockerRegistryServiceConnection)
-              buildContext: ${lpaQuestionnaireWebAppContext}
+              buildContext: $(lpaQuestionnaireWebAppContext)
               arguments: >
                 --build-arg APP_NAME=lpa-questionnaire-web-app
                 --build-arg BUILD_ID=$(Build.BuildNumber)
