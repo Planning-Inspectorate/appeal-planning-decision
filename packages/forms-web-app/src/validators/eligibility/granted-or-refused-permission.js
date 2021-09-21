@@ -1,9 +1,10 @@
 const { body } = require('express-validator');
+const { constants } = require('../../constants');
 
 const validHouseholderPlanningPermissionStatusOptions = [
-  'granted',
-  'refused',
-  'nodecisionreceived',
+  constants.eligibility.planningPermissionStatus.GRANTED,
+  constants.eligibility.planningPermissionStatus.REFUSED,
+  constants.eligibility.planningPermissionStatus.NODECISION,
 ];
 
 const ruleHouseholderPlanningPermissionStatus = () => 

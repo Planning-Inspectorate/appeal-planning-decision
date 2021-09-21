@@ -24,6 +24,10 @@ describe('routes/eligibility/granted-or-refused-permission', () => {
       fetchExistingAppealMiddleware,
       grantedOrRefusedPermissionController.getGrantedOrRefusedPermission
     );
+    expect(get).toHaveBeenCalledWith(
+      '/granted-or-refused-permission-out',
+      grantedOrRefusedPermissionController.getGrantedOrRefusedPermissionOut
+    );
     expect(post).toHaveBeenCalledWith(
       '/granted-or-refused-permission',
       householderPlanningPermissionStatusValidationRules(),
