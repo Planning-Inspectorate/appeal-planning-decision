@@ -1,31 +1,28 @@
-FROM node:14-alpine
-ARG APP_NAME
-ARG BUILD_ID
-ARG VERSION
-WORKDIR /opt/app
-ENV APP_NAME="${APP_NAME}"
-ENV BUILD_ID="${BUILD_ID}"
-ENV VERSION="${VERSION}"
-# Do not rely on NODE_ENV - exists for performance reasons only
-ENV NODE_ENV=production
-ENV PORT=3000
-# This must be built locally from the common package
+FROM ubuntu:14.04 AS build
+RUN apt-get install --yes curl
+RUN curl --silent --location https://deb.nodesource.com/setup_14.x | sudo bash -
+RUN apt-get install --yes --force-yes nodejs
+RUN apt-get install --yes --force-yes build-essential
 COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
-ADD package.json package.json
-ADD package-lock.json package-lock.json
-RUN npm build
+COPY package*.json ./
+RUN npm i
+COPY . ./
+RUN npm run build
 
-ADD src src
-ADD __tests__ __tests__
-ADD jest.config.js jest.config.js
-ADD dist dist
+FROM ubuntu:14.04 AS dependencies
+RUN apt-get install --yes curl
+RUN curl --silent --location https://deb.nodesource.com/setup_14.x | sudo bash -
+RUN apt-get install --yes --force-yes nodejs
+RUN apt-get install --yes --force-yes build-essential
+COPY package*.json ./
+RUN npm i --only=production
 
-RUN npm prune --production \
-  && npm rebuild \
-  && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
-
+FROM node:12.18.1-alpine3.11 AS release
+COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../app/common
+COPY --from=build /dist /app
+COPY --from=dependencies /node_modules /app/node_modules
+WORKDIR /app
+ENV NODE_ENV=production
 RUN npm run documentation; echo $? > /npm.exitcode
+CMD ["node", "server.js"]
 
-EXPOSE 3000
-USER node
-CMD [ "npm", "start" ]
