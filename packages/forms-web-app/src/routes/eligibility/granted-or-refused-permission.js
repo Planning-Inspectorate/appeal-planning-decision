@@ -9,20 +9,17 @@ const {
 
 const router = express.Router();
 
-/* Get eligibility granted-or-refused-permission out page */
 router.get(
   '/granted-or-refused-permission-out',
   grantedOrRefusedPermissionController.getGrantedOrRefusedPermissionOut
 );
 
-/* Get eligibility granted-or-refused-permission input page */
 router.get(
   '/granted-or-refused-permission',
   fetchExistingAppealMiddleware,
   grantedOrRefusedPermissionController.getGrantedOrRefusedPermission
 );
 
-/* Post eligibility granted-or-refused-permission */
 router.post(
   '/granted-or-refused-permission',
   householderPlanningPermissionStatusRules(),
