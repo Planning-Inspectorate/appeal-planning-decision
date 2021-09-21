@@ -7,18 +7,13 @@ const gbLocale = require('date-fns/locale/en-GB');
 
 const checkAnswersSections = require('../lib/check-answers-sections');
 const appealSidebarDetails = require('../lib/appeal-sidebar-details');
-// const { generatePDF } = require('../lib/pdf-api-wrapper');
-// const { createDocument } = require('../lib/documents-api-wrapper');
+const { createDocument } = require('../lib/documents-api-wrapper');
 const logger = require('../lib/logger');
-
-// *****CONFIG***** \\
 
 nunjucks.configure([
   path.join(__dirname, '../..', 'node_modules', 'govuk-frontend'),
   path.join(__dirname, '../views'),
 ]);
-
-// *****FUNCTIONALITY***** \\
 
 const getAppealDetails = (appeal) => {
   const sidebarDetails = appealSidebarDetails(appeal);
@@ -67,28 +62,20 @@ const createPdf = async (appealReply) => {
 
   const log = logger.child({ appealReplyId: id, uuid: uuid.v4() });
 
-  log.info('PDF Service currently disabled');
+  log.info('Creating PDF appeal document');
 
-  return { id: 'placeholder-pdf-id', name: 'placeholder-pdf-name' };
+  const renderedHtml = convertToHtml(appealReply, appeal);
 
-  // try {
-  //   log.info('Creating PDF appeal document');
+  // Replacing functionality here
 
-  //   const renderedHtml = convertToHtml(appealReply, appeal);
-  //   const pdfBuffer = await generatePDF('lpa-questionnaire.pdf', renderedHtml);
+  log.debug('Creating document from PDF buffer');
 
-  //   log.debug('Creating document from PDF buffer');
-  //   const document = await createDocument(id, pdfBuffer, 'lpa-questionnaire.pdf');
+  const document = await createDocument(id, 'mock-pdf', 'lpa-questionnaire.pdf');
 
-  //   log.debug('PDF document successfully created');
+  log.debug('PDF document successfully created');
 
-  //   return document;
-  // } catch (err) {
-  //   const msg = 'Error generating PDF';
-  //   log.error({ err }, msg);
-
-  //   throw new Error(msg);
-  // }
+  // return document;
+  return document;
 };
 
 module.exports = {
