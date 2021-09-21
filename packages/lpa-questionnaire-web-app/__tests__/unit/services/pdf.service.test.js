@@ -1,10 +1,8 @@
 const { convertToHtml, createPdf } = require('../../../src/services/pdf.service');
 const originalMockAppeal = require('../mockAppeal');
 const originalMockAppealReply = require('../mockAppealReply');
-const { generatePDF } = require('../../../src/lib/pdf-api-wrapper');
 const { createDocument } = require('../../../src/lib/documents-api-wrapper');
 
-jest.mock('../../../src/lib/pdf-api-wrapper');
 jest.mock('../../../src/lib/documents-api-wrapper');
 jest.mock('../../../src/lib/logger', () => ({
   child: () => ({
@@ -50,7 +48,6 @@ describe('services/pdf.service', () => {
 
       const document = await createPdf(mockAppealReply, mockAppeal);
 
-      expect(generatePDF).toHaveBeenCalledWith('lpa-questionnaire.pdf', html);
       expect(createDocument).toHaveBeenCalledWith('mock-id', 'mock-pdf', 'lpa-questionnaire.pdf');
       expect(document).toEqual('mock-document');
     });

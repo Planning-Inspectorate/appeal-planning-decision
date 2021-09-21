@@ -48,9 +48,7 @@ const buildAppealDetailsRows = (appealData) => {
 
 const convertToHtml = (appealReply, appeal) => {
   const submissionDate = format(appealReply.submissionDate, 'dd MMMM yyyy', gbLocale);
-
   const sections = checkAnswersSections(appealReply, null, false);
-
   const appealDetails = getAppealDetails(appeal);
   const appealDetailsRows = buildAppealDetailsRows(appealDetails);
   sections.unshift(appealDetailsRows);
