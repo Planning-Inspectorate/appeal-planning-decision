@@ -123,7 +123,6 @@ services:
     environment:
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
-      PDF_SERVICE_API_URL: http://pdf-service-api:3000
       FILE_UPLOAD_DEBUG: 'false'
       FILE_UPLOAD_MAX_FILE_SIZE_BYTES: 15000000
       FILE_UPLOAD_USE_TEMP_FILES: 'true'
@@ -162,7 +161,6 @@ services:
     environment:
       ALLOW_APPEAL_REPLY_CREATE: "true"
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
-      PDF_SERVICE_API_URL: http://pdf-service-api:3000
       APPEAL_REPLY_SERVICE_API_URL: http://appeal-reply-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FILE_UPLOAD_DEBUG: 'false'
@@ -255,22 +253,6 @@ services:
       - ./docs/swagger/horizon/create_case_openapi.yaml:/app/swagger.yaml
     ports:
       - 7000:8080
-
-  pdf-service-api:
-    image: node:14-alpine
-    environment:
-      GOTENBERG_URL: http://gotenberg:4000
-      LOGGER_LEVEL: 'debug'
-      SERVER_SHOW_ERRORS: 'true'
-    ports:
-      - 3003:3000
-    working_dir: /opt/app
-    links:
-      - gotenberg
-    volumes:
-      - ./packages/common:/opt/app/node_modules/@pins/common:ro # Replace the module to avoid symlink errors
-      - ./packages/pdf-service-api:/opt/app:ro
-    command: npm run start:dev
 
   # Third-party services
   blob-storage:

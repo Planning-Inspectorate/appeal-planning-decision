@@ -7,7 +7,6 @@ const gbLocale = require('date-fns/locale/en-GB');
 
 const checkAnswersSections = require('../lib/check-answers-sections');
 const appealSidebarDetails = require('../lib/appeal-sidebar-details');
-const { generatePDF } = require('../lib/pdf-api-wrapper');
 const { createDocument } = require('../lib/documents-api-wrapper');
 const logger = require('../lib/logger');
 
@@ -48,9 +47,7 @@ const buildAppealDetailsRows = (appealData) => {
 
 const convertToHtml = (appealReply, appeal) => {
   const submissionDate = format(appealReply.submissionDate, 'dd MMMM yyyy', gbLocale);
-
   const sections = checkAnswersSections(appealReply, null, false);
-
   const appealDetails = getAppealDetails(appeal);
   const appealDetailsRows = buildAppealDetailsRows(appealDetails);
   sections.unshift(appealDetailsRows);
@@ -69,24 +66,20 @@ const createPdf = async (appealReply, appeal) => {
 
   const log = logger.child({ appealReplyId: id, uuid: uuid.v4() });
 
-  try {
-    log.info('Creating PDF appeal document');
+  log.info('Creating PDF appeal document');
 
-    const renderedHtml = convertToHtml(appealReply, appeal);
-    const pdfBuffer = await generatePDF('lpa-questionnaire.pdf', renderedHtml);
+  const renderedHtml = convertToHtml(appealReply, appeal);
 
-    log.debug('Creating document from PDF buffer');
-    const document = await createDocument(id, pdfBuffer, 'lpa-questionnaire.pdf');
+  // Replacing functionality here
 
-    log.debug('PDF document successfully created');
+  log.debug('Creating document from PDF buffer');
 
-    return document;
-  } catch (err) {
-    const msg = 'Error generating PDF';
-    log.error({ err }, msg);
+  const document = await createDocument(id, 'mock-pdf', 'lpa-questionnaire.pdf');
 
-    throw new Error(msg);
-  }
+  log.debug('PDF document successfully created');
+
+  // return document;
+  return document;
 };
 
 module.exports = {

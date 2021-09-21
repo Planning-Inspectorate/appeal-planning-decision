@@ -48,7 +48,4 @@ module.exports = {
     useSecureSessionCookie: process.env.USE_SECURE_SESSION_COOKIES === 'true',
     googleAnalyticsId: '',
   },
-  pdf: {
-    url: process.env.PDF_SERVICE_API_URL,
-  },
 };
