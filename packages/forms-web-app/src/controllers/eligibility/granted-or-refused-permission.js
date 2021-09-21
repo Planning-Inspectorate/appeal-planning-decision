@@ -1,6 +1,7 @@
 const logger = require('../../lib/logger');
 const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
+const { constants } = require('../../constants');
 const {
   validHouseholderPlanningPermissionStatusOptions,
 } = require('../../validators/eligibility/granted-or-refused-permission');
@@ -63,10 +64,12 @@ exports.postGrantedOrRefusedPermission = async (req, res) => {
 
   let isPlanningPermissionRefused = null;
 
-  if(validHouseholderPlanningPermissionStatusOptions.includes(planningPermissionStatus)){
-    isPlanningPermissionRefused = planningPermissionStatus.toLowerCase() === 'refused';
+  if (validHouseholderPlanningPermissionStatusOptions.includes(planningPermissionStatus)) {
+    isPlanningPermissionRefused =
+      planningPermissionStatus.toLowerCase() ===
+      constants.eligibility.planningPermissionStatus.REFUSED;
   }
-  
+
   try {
     req.session.appeal = await createOrUpdateAppeal({
       ...appeal,
@@ -85,8 +88,8 @@ exports.postGrantedOrRefusedPermission = async (req, res) => {
     });
     return;
   }
-  
-  if(!isPlanningPermissionRefused){
+
+  if (!isPlanningPermissionRefused) {
     res.redirect(`/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT}`);
     return;
   }

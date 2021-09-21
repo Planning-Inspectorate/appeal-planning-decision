@@ -4,8 +4,6 @@
 {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 
-{% set showBackLink = showBackLink | default(true) %}
-
 {% block head %}
   {% include "includes/head.njk" %}
 {% endblock %}
@@ -40,17 +38,15 @@
         }) }}
       {% endblock %}
 
-      {% if showBackLink %}
-        {% block backButton %}
-          {{ govukBackLink({
-            text: "Back",
-            href: navigation[1],
-            attributes: {
-              'data-cy': 'back'
-            }
-          }) }}
-        {% endblock %}
-      {% endif %}
+      {% block backButton %}
+        {{ govukBackLink({
+          text: "Back",
+          href: navigation[1],
+          attributes: {
+            'data-cy': 'back'
+          }
+        }) }}
+      {% endblock %}
 
       <div class="govuk-main-wrapper {{ mainClasses }}">
         {% block content %}{% endblock %}
