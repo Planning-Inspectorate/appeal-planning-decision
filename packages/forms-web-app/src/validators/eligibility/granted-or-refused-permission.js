@@ -1,13 +1,13 @@
 const { body } = require('express-validator');
-const { constants } = require('../../constants');
+const { eligibility } = require('../../constants');
 
 const validHouseholderPlanningPermissionStatusOptions = [
-  constants.eligibility.planningPermissionStatus.GRANTED,
-  constants.eligibility.planningPermissionStatus.REFUSED,
-  constants.eligibility.planningPermissionStatus.NODECISION,
+  eligibility.planningPermissionStatus.GRANTED,
+  eligibility.planningPermissionStatus.REFUSED,
+  eligibility.planningPermissionStatus.NODECISION,
 ];
 
-const ruleHouseholderPlanningPermissionStatus = () => 
+const ruleHouseholderPlanningPermissionStatus = () =>
   body('granted-or-refused-permission')
     .notEmpty()
     .withMessage(
