@@ -31,8 +31,8 @@ exports.getUploadedDocuments = (req, res) => {
   const backLink = res.locals.backLink || req.session.backLink;
   const continueLink =
     req.session.isCheckingAnswers === true
-      ? `/${req.session.appealReply.appealId}/confirm-answers`
-      : backLink;
+      ? `/appeal-questionnaire/${req.session.appealReply.appealId}/confirm-answers`
+      : `${backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`}`;
   const uploadedDocumentsUrl = `${req.protocol}://${req.headers.host}${req.url}`.replace(
     '/uploaded-documents',
     ''

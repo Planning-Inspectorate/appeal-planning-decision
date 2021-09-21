@@ -40,7 +40,7 @@ exports.getDeleteDocument = (req, res) => {
     cancelLink,
     fileToDelete,
     appeal: getAppealSideBarDetails(req.session.appeal),
-    backLink: backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
+    backLink: backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
     question,
   });
 };

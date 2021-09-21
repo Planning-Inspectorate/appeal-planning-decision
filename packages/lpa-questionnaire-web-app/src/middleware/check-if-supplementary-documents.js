@@ -10,7 +10,9 @@ module.exports = async (req, res, next) => {
   } = req.session.appealReply.optionalDocumentsSection.supplementaryPlanningDocuments;
 
   if (uploadedFiles.length < 1) {
-    res.redirect(`/${req.session.appealReply.appealId}/supplementary-documents`);
+    res.redirect(
+      `/appeal-questionnaire/${req.session.appealReply.appealId}/supplementary-documents`
+    );
     return false;
   }
 
