@@ -1,12 +1,10 @@
 {
-    "bindings": [
-      {
-        "name": "sbMSG",
-        "type": "serviceBusTrigger",
-        "direction": "in",
-        "queueName": "horizon-householder-appeal-publish",
-        "connection": "pinsuksmessagequeuedev_SERVICEBUS"
-      }
-    ]
-  }
-  
+  "bindings": [
+    {
+      "name": "documentfunction",
+      "type": "httpTrigger",
+      "direction": "in",
+      "connection": "pinsuksmessagequeuedev_SERVICEBUS"
+    }
+  ]
+}
