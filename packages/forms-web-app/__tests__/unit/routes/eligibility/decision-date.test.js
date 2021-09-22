@@ -20,7 +20,6 @@ describe('routes/eligibility/decision-date', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith('/no-decision', decisionDateController.getNoDecision);
     expect(get).toHaveBeenCalledWith(
       '/decision-date',
       [fetchExistingAppealMiddleware],
@@ -38,7 +37,7 @@ describe('routes/eligibility/decision-date', () => {
       [fetchExistingAppealMiddleware],
       decisionDateController.getDecisionDatePassed
     );
-    expect(get.mock.calls.length).toBe(3);
+    expect(get.mock.calls.length).toBe(2);
     expect(post.mock.calls.length).toBe(1);
   });
 });
