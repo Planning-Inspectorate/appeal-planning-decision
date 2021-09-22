@@ -7,8 +7,8 @@ const gbLocale = require('date-fns/locale/en-GB');
 
 const checkAnswersSections = require('../lib/check-answers-sections');
 const appealSidebarDetails = require('../lib/appeal-sidebar-details');
-const { generatePDF } = require('../lib/pdf-api-wrapper');
-const { createDocument } = require('../lib/documents-api-wrapper');
+// const { generatePDF } = require('../lib/pdf-api-wrapper');
+// const { createDocument } = require('../lib/documents-api-wrapper');
 const logger = require('../lib/logger');
 
 // *****CONFIG***** \\
@@ -64,29 +64,33 @@ const convertToHtml = (appealReply, appeal) => {
   });
 };
 
-const createPdf = async (appealReply, appeal) => {
+const createPdf = async (appealReply) => {
   const { id } = appealReply;
 
   const log = logger.child({ appealReplyId: id, uuid: uuid.v4() });
 
-  try {
-    log.info('Creating PDF appeal document');
+  log.info('PDF Service currently disabled');
 
-    const renderedHtml = convertToHtml(appealReply, appeal);
-    const pdfBuffer = await generatePDF('lpa-questionnaire.pdf', renderedHtml);
+  return { id: 'placeholder-pdf-id', name: 'placeholder-pdf-name' };
 
-    log.debug('Creating document from PDF buffer');
-    const document = await createDocument(id, pdfBuffer, 'lpa-questionnaire.pdf');
+  // try {
+  //   log.info('Creating PDF appeal document');
 
-    log.debug('PDF document successfully created');
+  //   const renderedHtml = convertToHtml(appealReply, appeal);
+  //   const pdfBuffer = await generatePDF('lpa-questionnaire.pdf', renderedHtml);
 
-    return document;
-  } catch (err) {
-    const msg = 'Error generating PDF';
-    log.error({ err }, msg);
+  //   log.debug('Creating document from PDF buffer');
+  //   const document = await createDocument(id, pdfBuffer, 'lpa-questionnaire.pdf');
 
-    throw new Error(msg);
-  }
+  //   log.debug('PDF document successfully created');
+
+  //   return document;
+  // } catch (err) {
+  //   const msg = 'Error generating PDF';
+  //   log.error({ err }, msg);
+
+  //   throw new Error(msg);
+  // }
 };
 
 module.exports = {
