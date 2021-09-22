@@ -8,8 +8,12 @@ module.exports = {
   horizon: {
     url: process.env.HORIZON_URL,
   },
-  openfaas: {
-    gatewayUrl: process.env.GATEWAY_URL,
+  azure: {
+    host: process.env.HORIZON_AZURE_HOST_URL,
+    functions: {
+      contact: process.env.HORIZON_CONTACT_CODE_KEY,
+      document: process.env.HORIZON_DOCUMENT_CODE_KEY,
+    },
   },
   azure: {
     create_contact: {
