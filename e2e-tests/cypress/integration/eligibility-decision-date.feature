@@ -20,11 +20,6 @@ Feature: Decision Date eligibility check
     And navigate to the Householder Planning Permission question
     Then progress is halted with a message that the Decision Date is ineligible because it is beyond the deadline for an appeal
 
-  Scenario: Absence of Decision Date prevents progress
-    Given a Decision Date is requested
-    When absence of Decision Date is confirmed
-    Then progress is halted with a message that a Decision Date is required
-
   @as-1666
   Scenario Outline: Invalid Decision Date of <day>-<month>-<year> is rejected
     Given a Decision Date is requested

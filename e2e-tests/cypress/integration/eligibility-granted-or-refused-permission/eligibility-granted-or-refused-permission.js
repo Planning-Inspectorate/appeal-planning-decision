@@ -23,6 +23,16 @@ Then('User is navigated to kick-out page', () => {
   cy.validateBackLinkIsNotAvailable();
 })
 
+When('Householder Planning Permission Status is set to I have not received a decision', () => {
+  cy.provideHouseholderPlanningPermissionStatusNoDecision();
+  cy.clickSaveAndContinue();
+})
+
+Then('User is navigated to no-decision page', () => {
+  cy.confirmNavigationNoDecisionDatePage();
+  cy.validateBackLinkIsNotAvailable();
+})
+
 When('No Householder Planning Permission Status is not selected', () => {
     cy.clickSaveAndContinue();
 })

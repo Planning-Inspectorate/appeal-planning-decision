@@ -9,11 +9,6 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'accessConfirmHavingNoDecisionDate',
-  require('../eligibility-decision-date/accessConfirmHavingNoDecisionDate'),
-);
-
-Cypress.Commands.add(
   'confirmProvidedDecisionDateWasAccepted',
   require('../eligibility-decision-date/confirmProvidedDecisionDateWasAccepted'),
 );
@@ -168,6 +163,11 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'provideHouseholderPlanningPermissionStatusGranted',
   require('../eligibility-granted-or-refused-permission/provideHouseholderPlanningPermissionStatusGranted')
+);
+
+Cypress.Commands.add(
+  'provideHouseholderPlanningPermissionStatusNoDecision',
+  require('../eligibility-granted-or-refused-permission/provideHouseholderPlanningPermissionStatusNoDecision')
 );
 
 Cypress.Commands.add('accessDetails', require('../eligibility-householder/accessDetails'));
