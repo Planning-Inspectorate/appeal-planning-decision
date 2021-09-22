@@ -10,9 +10,6 @@ const {
 
 const router = express.Router();
 
-/* GET eligibility no decision page. */
-router.get('/no-decision', decisionDateController.getNoDecision);
-
 /* GET eligibility decision date input page. */
 router.get(
   '/decision-date',
