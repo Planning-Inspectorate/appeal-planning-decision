@@ -1,10 +1,9 @@
 {
     "bindings": [
       {
-        "name": "sbMSG",
-        "type": "serviceBusTrigger",
+        "name": "contactfunction",
+        "type": "httpTrigger",
         "direction": "in",
-        "queueName": "horizon-householder-appeal-publish",
         "connection": "pinsuksmessagequeuedev_SERVICEBUS"
       }
     ]
