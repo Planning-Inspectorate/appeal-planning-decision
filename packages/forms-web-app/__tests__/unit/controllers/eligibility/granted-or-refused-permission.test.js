@@ -22,6 +22,13 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
     jest.resetAllMocks();
   });
 
+  describe('getNoDecision', () => {
+    it('should call the correct template', () => {
+      grantedOrRefusedPlanningPermissionController.getNoDecision(req, res);
+      expect(res.render).toHaveBeenCalledWith('eligibility/no-decision');
+    });
+  });
+
   describe('getGrantedOrRefusedPlanningPermission', () => {
     it('should call the correct template', () => {
       grantedOrRefusedPlanningPermissionController.getGrantedOrRefusedPermission(req, res);

@@ -19,6 +19,7 @@ describe('routes/eligibility/granted-or-refused-permission', () => {
   });
 
   it('should define the expected routes', () => {
+    expect(get).toHaveBeenCalledWith('/no-decision', grantedOrRefusedPermissionController.getNoDecision);
     expect(get).toHaveBeenCalledWith(
       '/granted-or-refused-permission',
       fetchExistingAppealMiddleware,
@@ -34,5 +35,7 @@ describe('routes/eligibility/granted-or-refused-permission', () => {
       validationErrorHandler,
       grantedOrRefusedPermissionController.postGrantedOrRefusedPermission
     );
+    expect(get.mock.calls.length).toBe(3);
+    expect(post.mock.calls.length).toBe(1);
   });
 });
