@@ -4,6 +4,7 @@
  * @param res
  * @param next
  */
+/* istanbul ignore next */
 module.exports = async (req, res, next) => {
   const {
     uploadedFiles,
