@@ -1,8 +1,4 @@
 class PO_EligibilityNoDecision {
-  navigateToNoDecisionPage() {
-    const eligDateURL = cy.visit('/eligibility/no-decision');
-  }
-
   serviceText() {
     cy.wait(2000);
     const heading =

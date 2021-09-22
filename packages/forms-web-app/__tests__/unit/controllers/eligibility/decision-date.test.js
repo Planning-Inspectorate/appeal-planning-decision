@@ -35,13 +35,6 @@ describe('controllers/eligibility/decision-date', () => {
     jest.resetAllMocks();
   });
 
-  describe('getNoDecision', () => {
-    it('should call the correct template', () => {
-      decisionDateController.getNoDecision(req, res);
-      expect(res.render).toHaveBeenCalledWith('eligibility/no-decision');
-    });
-  });
-
   describe('getDecisionDate', () => {
     it('should call the correct template decision date unevaluated', () => {
       decisionDateController.getDecisionDate(req, res);

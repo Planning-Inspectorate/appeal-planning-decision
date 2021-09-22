@@ -22,6 +22,13 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
     jest.resetAllMocks();
   });
 
+  describe('getNoDecision', () => {
+    it('should call the correct template', () => {
+      grantedOrRefusedPlanningPermissionController.getNoDecision(req, res);
+      expect(res.render).toHaveBeenCalledWith('eligibility/no-decision');
+    });
+  });
+
   describe('getGrantedOrRefusedPlanningPermission', () => {
     it('should call the correct template', () => {
       grantedOrRefusedPlanningPermissionController.getGrantedOrRefusedPermission(req, res);
@@ -37,6 +44,39 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
       grantedOrRefusedPlanningPermissionController.getGrantedOrRefusedPermissionOut(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT);
+    });
+  });
+
+  describe('forwardPage', () => {
+    it(`should return '/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT}' if passed 'permissionStatus' is 'granted'`, async () => {
+      const pageRedirect = grantedOrRefusedPlanningPermissionController.forwardPage('granted');
+
+      expect(pageRedirect).toEqual(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT);
+    });
+
+    it(`should return '/${VIEW.ELIGIBILITY.DECISION_DATE}' if passed 'permissionStatus' is 'refused'`, async () => {
+      const pageRedirect = grantedOrRefusedPlanningPermissionController.forwardPage('refused');
+
+      expect(pageRedirect).toEqual(VIEW.ELIGIBILITY.DECISION_DATE);
+    });
+
+    it(`should return '/${VIEW.ELIGIBILITY.NO_DECISION}' if passed 'permissionStatus' is 'nodecisionreceived'`, async () => {
+      const pageRedirect =
+        grantedOrRefusedPlanningPermissionController.forwardPage('nodecisionreceived');
+
+      expect(pageRedirect).toEqual(VIEW.ELIGIBILITY.NO_DECISION);
+    });
+
+    it(`should return '/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION}' if passed 'permissionStatus' is 'default'`, async () => {
+      const pageRedirect = grantedOrRefusedPlanningPermissionController.forwardPage('default');
+
+      expect(pageRedirect).toEqual(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION);
+    });
+
+    it(`should return '/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION}' if 'permissionStatus' is not passed`, async () => {
+      const pageRedirect = grantedOrRefusedPlanningPermissionController.forwardPage();
+
+      expect(pageRedirect).toEqual(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION);
     });
   });
 
@@ -98,10 +138,11 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
     });
 
     it(`'should redirect to '/${VIEW.ELIGIBILITY.DECISION_DATE}' if 'planningPermissionStatus' is 'refused'`, async () => {
+      const planningPermissionStatus = 'refused';
       const mockRequest = {
         ...req,
         body: {
-          'granted-or-refused-permission': 'refused',
+          'granted-or-refused-permission': planningPermissionStatus,
         },
       };
       await grantedOrRefusedPlanningPermissionController.postGrantedOrRefusedPermission(
@@ -113,7 +154,7 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
         ...appeal,
         eligibility: {
           ...appeal.eligibility,
-          planningPermissionStatus: 'refused',
+          planningPermissionStatus,
         },
       });
 
@@ -121,10 +162,10 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
     });
 
     it(`should redirect to '/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT}' if 'planningPermissionStatus' is 'granted'`, async () => {
-      const planningPermissionStatusGranted = 'granted';
+      const planningPermissionStatus = 'granted';
       const mockRequest = {
         ...req,
-        body: { 'granted-or-refused-permission': planningPermissionStatusGranted },
+        body: { 'granted-or-refused-permission': planningPermissionStatus },
       };
       await grantedOrRefusedPlanningPermissionController.postGrantedOrRefusedPermission(
         mockRequest,
@@ -135,13 +176,35 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
         ...appeal,
         eligibility: {
           ...appeal.eligibility,
-          planningPermissionStatus: planningPermissionStatusGranted,
+          planningPermissionStatus,
         },
       });
 
       expect(res.redirect).toHaveBeenCalledWith(
         `/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT}`
       );
+    });
+
+    it(`should redirect to '/${VIEW.ELIGIBILITY.NO_DECISION}' if 'planningPermissionStatus' is 'nodecisionreceived'`, async () => {
+      const planningPermissionStatus = 'nodecisionreceived';
+      const mockRequest = {
+        ...req,
+        body: { 'granted-or-refused-permission': planningPermissionStatus },
+      };
+      await grantedOrRefusedPlanningPermissionController.postGrantedOrRefusedPermission(
+        mockRequest,
+        res
+      );
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...appeal,
+        eligibility: {
+          ...appeal.eligibility,
+          planningPermissionStatus,
+        },
+      });
+
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.NO_DECISION}`);
     });
   });
 });
