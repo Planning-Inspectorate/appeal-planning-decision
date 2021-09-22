@@ -27,6 +27,7 @@ const populateUploadedFiles = (req) => {
   );
 };
 
+/* istanbul ignore next */
 exports.getUploadedDocuments = (req, res) => {
   const backLink = res.locals.backLink || req.session.backLink;
   const continueLink =
