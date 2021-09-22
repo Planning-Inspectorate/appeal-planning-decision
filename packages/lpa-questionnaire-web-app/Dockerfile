@@ -31,12 +31,6 @@ RUN npm prune --production \
   && npm rebuild \
   && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
 
-FROM node:12.18.1-alpine3.11 AS release
-COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../app/common
-COPY --from=build /dist /app
-COPY --from=dependencies /node_modules /app/node_modules
-WORKDIR /app
-ENV NODE_ENV=production
 RUN npm run documentation; echo $? > /npm.exitcode
 EXPOSE 3000
 
