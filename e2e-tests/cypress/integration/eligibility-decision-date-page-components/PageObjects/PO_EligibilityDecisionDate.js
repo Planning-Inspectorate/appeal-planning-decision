@@ -12,12 +12,12 @@ class PO_EligibilityDecisionDate {
     assert.exists(headerLogo, 'GOV UK Logo exists');
   }
 
-    pageHeaderlink() {
-        //const headerLink = cy.get('a[href="Appeal a householder planning decision"]')
-        const headerLink = cy.get('.govuk-header__content > .govuk-header__link')
-        assert.exists(headerLink, 'Appeal a householder planning decision exists')
-        headerLink.should('have.attr', 'href').and('eq', '/');
-    }
+  pageHeaderlink() {
+    //const headerLink = cy.get('a[href="Appeal a householder planning decision"]')
+    const headerLink = cy.get('.govuk-header__content > .govuk-header__link')
+    assert.exists(headerLink, 'Appeal a householder planning decision exists')
+    headerLink.should('have.attr', 'href').and('eq', '/');
+  }
 
   bannerText() {
     cy.get('.govuk-tag govuk-phase-banner__content__tag'), should('eq', 'beta');
@@ -44,19 +44,6 @@ class PO_EligibilityDecisionDate {
     assert.exists(monthText, 'Month text field exists');
     const yearText = cy.get('#decision-date-year');
     assert.exists(yearText, 'Year text field exists');
-  }
-
-  notreceivedDecisionLink() {
-    const notReceivedlinkText = cy.get('a[href*="eligibility/no-decision"]');
-    assert.exists(
-      notReceivedlinkText,
-      'I have not received a decision from the local planning dept link exist',
-    );
-  }
-
-  notreceivedDecisionLinkSelect() {
-    const notReceivedLink = cy.get('a[href*="eligibility/no-decision"]').click();
-    cy.wait(2000);
   }
 
   valdiatePageFooter() {

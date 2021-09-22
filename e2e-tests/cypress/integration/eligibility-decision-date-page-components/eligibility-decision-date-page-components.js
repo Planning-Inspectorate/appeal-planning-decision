@@ -31,18 +31,6 @@ When('I enter today minus {int} days', (x) => {
   eligPage.dateFields(day, month, year);
 });
 
-When('I select the I have not received a decision from the local planning dept link', () => {
-  cy.get('[data-cy="no-decision-received"]').click();
-
-});
-
-Then('I can see the link Appeal a Planning Decision service and it links to {string}', (url) => {
-  cy.get('[data-cy="appeal-decision-service"]').invoke('attr', 'href').then((href) => {
-    expect(href).to.contain(url);
-  });
-});
-
-
 Given('I navigate to the Eligibility checker page', () => {
     eligPage.navigatetoEligDatePageURL()
 })
@@ -96,18 +84,6 @@ And('I click on Continue button', () => {
     eligPage.continueBtn()
 })
 
-Then('I can see the link is displayed', () => {
-    eligPage.notreceivedDecisionLink()
-})
-
-When('I select the link', () => {
-    eligPage.notreceivedDecisionLinkSelect()
-})
-
-Then('I am on the not received a decision date page', () => {
-    eligPage.serviceText()
-})
-
 Then('I am the local planning department page', () => {
    eligPage.localPlanDeptText()
 })
@@ -115,11 +91,6 @@ Then('I am the local planning department page', () => {
 Then('I am the deadline for appeal has passed page', () => {
     eligPage.deadlinePassedPageText()
  })
-
-
-Given('I navigate to not received a decision page', () => {
-     eligNoDecPage.navigateToNoDecisionPage()
-  })
 
 And('I can see the text This service is only for householder planning applications', () => {
     eligNoDecPage.serviceText()
@@ -141,5 +112,4 @@ And('I am on the decision date page', () => {
     eligPage.validateHeaderLogo()
     eligPage.validatePageTitle()
     eligPage.validateText()
-    eligPage.notreceivedDecisionLink()
 })
