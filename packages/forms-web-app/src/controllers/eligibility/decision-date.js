@@ -4,10 +4,6 @@ const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 const { VIEW } = require('../../lib/views');
 
-exports.getNoDecision = (req, res) => {
-  res.render(VIEW.ELIGIBILITY.NO_DECISION);
-};
-
 exports.getDecisionDate = (req, res) => {
   const { appeal } = req.session;
 

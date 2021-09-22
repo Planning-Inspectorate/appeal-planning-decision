@@ -9,6 +9,8 @@ const {
 
 const router = express.Router();
 
+router.get('/no-decision', grantedOrRefusedPermissionController.getNoDecision);
+
 router.get(
   '/granted-or-refused-permission-out',
   grantedOrRefusedPermissionController.getGrantedOrRefusedPermissionOut
