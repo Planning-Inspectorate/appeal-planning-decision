@@ -40,6 +40,7 @@
     "neat-csv": "^5.2.0",
     "node-fetch": "^2.6.2",
     "pino": "^6.13.2",
+    "puppeteer": "^10.4.0",
     "supertest": "^6.1.6",
     "swagger-ui-express": "^4.1.6",
     "uuid": "^8.3.1",
