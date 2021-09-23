@@ -61,7 +61,8 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
     });
 
     it(`should return '/${VIEW.ELIGIBILITY.NO_DECISION}' if passed 'permissionStatus' is 'nodecisionreceived'`, async () => {
-      const pageRedirect = grantedOrRefusedPlanningPermissionController.forwardPage('nodecisionreceived');
+      const pageRedirect =
+        grantedOrRefusedPlanningPermissionController.forwardPage('nodecisionreceived');
 
       expect(pageRedirect).toEqual(VIEW.ELIGIBILITY.NO_DECISION);
     });
