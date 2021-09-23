@@ -18,7 +18,7 @@ Cypress.Commands.add(
   'goToDecisionDateExpiredPage',
   require('../go-to-page/goToDecisionDateExpiredPage'),
 );
-Cypress.Commands.add('goToNoDecisionDatePage', require('../go-to-page/goToNoDecisionDatePage'));
+Cypress.Commands.add('goToNoDecisionOnPermissionPage', require('../go-to-page/goToNoDecisionOnPermissionPage'));
 Cypress.Commands.add(
   'goToPlanningDepartmentPage',
   require('../go-to-page/goToPlanningDepartmentPage'),
@@ -166,11 +166,6 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'confirmNavigationDecisionDateExpiredPage',
   require('../appeal-navigation-confirmation/eligibility/confirmNavigationDecisionDateExpiredPage'),
-);
-
-Cypress.Commands.add(
-  'confirmNavigationDecisionDateAbsentPage',
-  require('../appeal-navigation-confirmation/eligibility/confirmNavigationDecisionDateAbsentPage'),
 );
 
 Cypress.Commands.add(
