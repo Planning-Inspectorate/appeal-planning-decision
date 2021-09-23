@@ -1,3 +1,4 @@
+@wip
 @UI-ONLY
 Feature: Declaration must be agreed before a submission can be made
 
