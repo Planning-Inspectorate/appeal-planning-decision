@@ -143,12 +143,10 @@ services:
       - appeals-service-api
       - document-service-api
       - mongodb
-      - clamav
     depends_on:
       - appeals-service-api
       - document-service-api
       - mongodb
-      - clamav
     volumes:
       - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
       - ./packages/common:/opt/app/node_modules/@pins/common
@@ -313,11 +311,6 @@ services:
       - mongodb
     ports:
       - "5003:8081"
-
-  clamav:
-    image: mkodockx/docker-clamav
-    ports:
-      - 3310:3310
 
   redis:
     image: "redis:alpine"
