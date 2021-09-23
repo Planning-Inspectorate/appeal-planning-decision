@@ -14,9 +14,9 @@ Feature: Common links in footer section
        | "Eligibility - Householder planning permission out"                    |
        | "Eligibility - Granted Or Refused Permission"                          |
        | "Eligibility - Granted Or Refused Permission Out"                      |
+       | "Eligibility - No decision on Permission"                              |
        | "Eligibility - Decision date"                                          |
        | "Eligibility - Decision date expired"                                  |
-       | "Eligibility - No decision date"                                       |
        | "Eligibility - Planning department"                                    |
        | "Eligibility - Planning department out"                                |
        | "Enforcement - Notice"                                                 |
@@ -47,9 +47,9 @@ Feature: Common links in footer section
 #      | page                                                                   |
 #      | "Eligibility - Granted Or Refused Permission"                          |
 #      | "Eligibility - Granted Or Refused Permission out"                      |
+#      | "Eligibility - No decision on Permission"                              |
 #      | "Eligibility - Decision date"                                          |
 #      | "Eligibility - Decision date expired"                                  |
-#      | "Eligibility - No decision date"                                       |
 #      | "Eligibility - Planning department"                                    |
 #      | "Eligibility - Planning department out"                                |
 #      | "Eligibility - Listed building"                                        |
