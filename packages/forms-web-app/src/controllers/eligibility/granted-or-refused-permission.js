@@ -42,9 +42,8 @@ exports.postGrantedOrRefusedPermission = async (req, res) => {
     selectedPermissionStatus = planningPermissionStatus.toLowerCase();
   }
 
-
   if (Object.keys(errors).length > 0) {
-    res.render(forwardPage(selectedPermissionStatus), {
+    res.render(forwardPage('default'), {
       appeal: {
         ...appeal,
         eligibility: {
@@ -69,7 +68,7 @@ exports.postGrantedOrRefusedPermission = async (req, res) => {
   } catch (e) {
     logger.error(e);
 
-    res.render(forwardPage(selectedPermissionStatus), {
+    res.render(forwardPage('default'), {
       appeal,
       errors,
       errorSummary: [{ text: e.toString(), href: '#' }],
