@@ -47,6 +47,38 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
     });
   });
 
+  describe('forwardPage', () => {
+    it(`should return '/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT}' if passed 'permissionStatus' is 'granted'`, async () => {
+      const pageRedirect = grantedOrRefusedPlanningPermissionController.forwardPage('granted');
+
+      expect(pageRedirect).toEqual(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT);
+    });
+
+    it(`should return '/${VIEW.ELIGIBILITY.DECISION_DATE}' if passed 'permissionStatus' is 'refused'`, async () => {
+      const pageRedirect = grantedOrRefusedPlanningPermissionController.forwardPage('refused');
+
+      expect(pageRedirect).toEqual(VIEW.ELIGIBILITY.DECISION_DATE);
+    });
+
+    it(`should return '/${VIEW.ELIGIBILITY.NO_DECISION}' if passed 'permissionStatus' is 'nodecisionreceived'`, async () => {
+      const pageRedirect = grantedOrRefusedPlanningPermissionController.forwardPage('nodecisionreceived');
+
+      expect(pageRedirect).toEqual(VIEW.ELIGIBILITY.NO_DECISION);
+    });
+
+    it(`should return '/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION}' if passed 'permissionStatus' is 'default'`, async () => {
+      const pageRedirect = grantedOrRefusedPlanningPermissionController.forwardPage('default');
+
+      expect(pageRedirect).toEqual(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION);
+    });
+
+    it(`should return '/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION}' if 'permissionStatus' is not passed`, async () => {
+      const pageRedirect = grantedOrRefusedPlanningPermissionController.forwardPage();
+
+      expect(pageRedirect).toEqual(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION);
+    });
+  });
+
   describe('postGrantedOrRefusedPlanningPermission', () => {
     it('should re-render the template with errors if there is any validation error', async () => {
       const mockRequest = {
