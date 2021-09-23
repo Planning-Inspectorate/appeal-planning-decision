@@ -20,4 +20,4 @@ Feature: Eligibility - Appeal Householder Planning Permission Status Question
   Scenario: Prospective appellant selects 'I have not received a decision' Householder Planning Permission Status and is taken to no-decision page
     Given Householder Planning Permission Status is requested
     When Householder Planning Permission Status is set to I have not received a decision
-    Then User is navigated to no-decision page    
+    Then User is navigated to no-decision page
