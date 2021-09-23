@@ -189,33 +189,33 @@ describe('services/validation.service', () => {
       );
     });
 
-    test('appeal statement pdf upload file cannot have name without id', async () => {
-      appeal.appealSubmission.appealPDFStatement.uploadedFile.name =
-        'c9ce252a-9843-45d9-ab3c-a80590a38282.pdf';
-      appeal.appealSubmission.appealPDFStatement.uploadedFile.originalFileName =
-        'c9ce252a-9843-45d9-ab3c-a80590a38282.pdf';
-      appeal.appealSubmission.appealPDFStatement.uploadedFile.id = null;
-
-      const errors = validateAppeal(appeal);
-
-      expect(errors).toContain(
-        'The appeal statement pdf uploaded file must have an id for the file when it has a name'
-      );
-    });
-
-    test('appeal statement pdf upload file cannot have id without name', async () => {
-      appeal.appealSubmission.appealPDFStatement.uploadedFile = {
-        id: 'c9ce252a-9843-45d9-ab3c-a80590a38282',
-        name: '',
-        originalFileName: '',
-      };
-
-      const errors = validateAppeal(appeal);
-
-      expect(errors).toContain(
-        'The appeal statement pdf uploaded file must have a name for the file when it has an id'
-      );
-    });
+    // test('appeal statement pdf upload file cannot have name without id', async () => {
+    //   appeal.appealSubmission.appealPDFStatement.uploadedFile.name =
+    //     'c9ce252a-9843-45d9-ab3c-a80590a38282.pdf';
+    //   appeal.appealSubmission.appealPDFStatement.uploadedFile.originalFileName =
+    //     'c9ce252a-9843-45d9-ab3c-a80590a38282.pdf';
+    //   appeal.appealSubmission.appealPDFStatement.uploadedFile.id = null;
+    //
+    //   const errors = validateAppeal(appeal);
+    //
+    //   expect(errors).toContain(
+    //     'The appeal statement pdf uploaded file must have an id for the file when it has a name'
+    //   );
+    // });
+    //
+    // test('appeal statement pdf upload file cannot have id without name', async () => {
+    //   appeal.appealSubmission.appealPDFStatement.uploadedFile = {
+    //     id: 'c9ce252a-9843-45d9-ab3c-a80590a38282',
+    //     name: '',
+    //     originalFileName: '',
+    //   };
+    //
+    //   const errors = validateAppeal(appeal);
+    //
+    //   expect(errors).toContain(
+    //     'The appeal statement pdf uploaded file must have a name for the file when it has an id'
+    //   );
+    // });
 
     [
       {
