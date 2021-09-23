@@ -1,5 +1,5 @@
 const uuid = require('uuid');
-const { storePdfAppeal } = require('../../services/pdf.service');
+// const { storePdfAppeal } = require('../../services/pdf.service');
 
 const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
@@ -28,22 +28,22 @@ exports.postSubmission = async (req, res) => {
 
   if (body['appellant-confirmation'] === 'i-agree') {
     try {
-      const { id, name, location, size } = await storePdfAppeal(appeal);
+      // const { id, name, location, size } = await storePdfAppeal(appeal);
 
       appeal.state = 'SUBMITTED';
 
-      appeal.appealSubmission = {
-        appealPDFStatement: {
-          uploadedFile: {
-            id,
-            name,
-            fileName: name,
-            originalFileName: name,
-            location,
-            size,
-          },
-        },
-      };
+      // appeal.appealSubmission = {
+      //   appealPDFStatement: {
+      //     uploadedFile: {
+      //       id,
+      //       name,
+      //       fileName: name,
+      //       originalFileName: name,
+      //       location,
+      //       size,
+      //     },
+      //   },
+      // };
 
       req.session.appeal = await createOrUpdateAppeal(appeal);
       log.debug('Appeal successfully submitted');
