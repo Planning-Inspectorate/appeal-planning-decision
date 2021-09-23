@@ -63,7 +63,7 @@ Feature: Access neighbours land
     And the updated yes or no answer is displayed
     Then 'Access neighbours land' answer should be blank
 
-  Scenario: AC11 PDF
-    Given the questionnaire has been completed
-    When the LPA Questionnaire is submitted
-    Then data from check your answer page for a yes or no question is displayed on the PDF
+#  Scenario: AC11 PDF
+#    Given the questionnaire has been completed
+#    When the LPA Questionnaire is submitted
+#    Then data from check your answer page for a yes or no question is displayed on the PDF
