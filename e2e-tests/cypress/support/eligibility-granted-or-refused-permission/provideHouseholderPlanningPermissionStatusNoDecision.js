@@ -1,4 +1,4 @@
 module.exports = () => {
-  cy.get(`[data-cy="no-decision-received"]`).click();
+  cy.get('[data-cy="answer-nodecisionreceived"]').click();
   cy.wait(Cypress.env('demoDelay'));
-};
+}

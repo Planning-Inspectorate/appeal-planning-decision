@@ -19,14 +19,14 @@ When('the {string} page is presented', (page) => {
     case 'Eligibility - Granted Or Refused Permission Out':
       cy.goToGrantedOrRefusedPermissionOutPage();
       break;
+    case 'Eligibility - No decision on Permission':
+      cy.goToNoDecisionOnPermissionPage();
+      break;
     case 'Eligibility - Decision date':
       cy.goToDecisionDatePage();
       break;
     case 'Eligibility - Decision date expired':
       cy.goToDecisionDateExpiredPage();
-      break;
-    case 'Eligibility - No decision date':
-      cy.goToNoDecisionDatePage();
       break;
     case 'Eligibility - Planning department':
       cy.goToPlanningDepartmentPage();
