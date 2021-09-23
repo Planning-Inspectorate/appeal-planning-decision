@@ -155,22 +155,22 @@ const validateAppeal = (appeal) => {
   }
 
   // Appeal PDF Submission File Upload
-  if (
-    appeal.appealSubmission.appealPDFStatement.uploadedFile.id !== null &&
-    appeal.appealSubmission.appealPDFStatement.uploadedFile.name === ''
-  ) {
-    errors.push(
-      'The appeal statement pdf uploaded file must have a name for the file when it has an id'
-    );
-  }
-  if (
-    appeal.appealSubmission.appealPDFStatement.uploadedFile.name !== '' &&
-    appeal.appealSubmission.appealPDFStatement.uploadedFile.id === null
-  ) {
-    errors.push(
-      'The appeal statement pdf uploaded file must have an id for the file when it has a name'
-    );
-  }
+  // if (
+  //   appeal.appealSubmission.appealPDFStatement.uploadedFile.id !== null &&
+  //   appeal.appealSubmission.appealPDFStatement.uploadedFile.name === ''
+  // ) {
+  //   errors.push(
+  //     'The appeal statement pdf uploaded file must have a name for the file when it has an id'
+  //   );
+  // }
+  // if (
+  //   appeal.appealSubmission.appealPDFStatement.uploadedFile.name !== '' &&
+  //   appeal.appealSubmission.appealPDFStatement.uploadedFile.id === null
+  // ) {
+  //   errors.push(
+  //     'The appeal statement pdf uploaded file must have an id for the file when it has a name'
+  //   );
+  // }
   // Validate supporting documents
   appeal.yourAppealSection.otherDocuments.uploadedFiles.forEach((supportingDocument) => {
     const { id, name } = supportingDocument;
