@@ -93,8 +93,9 @@ const getMetadataForAllFiles = async (containerClient, applicationId) => {
 const getMetadataForSingleFile = async (containerClient, applicationId, documentId) => {
   try {
     const blobs = await getMetadataForAllFiles(containerClient, applicationId);
-    const files = blobs.filter(({ metadata = {} }) => metadata.id === documentId);
-    return files.length ? files[0] : null;
+    const files = blobs.filter((blob) => blob.name.includes(`${applicationId}/${documentId}`));
+    const [file] = files;
+    return file;
   } catch (err) {
     logger.error({ err }, 'Error getting blob');
     throw err;
