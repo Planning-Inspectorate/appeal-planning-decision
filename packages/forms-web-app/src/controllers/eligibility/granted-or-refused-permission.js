@@ -30,6 +30,8 @@ const forwardPage = (permissionStatus) => {
   return status[permissionStatus] || status.default;
 };
 
+exports.forwardPage = forwardPage;
+
 exports.postGrantedOrRefusedPermission = async (req, res) => {
   const { body } = req;
   const { appeal } = req.session;
