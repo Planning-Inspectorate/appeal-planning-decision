@@ -27,10 +27,6 @@ When('an ineligible Decision Date is provided', () => {
   cy.provideDecisionDate(ineligibleDate);
 });
 
-When('absence of Decision Date is confirmed', () => {
-  cy.accessConfirmHavingNoDecisionDate();
-});
-
 When('a Decision Date of {string}-{string}-{string} is provided', (day, month, year) => {
   cy.provideDecisionDate({ day, month, year });
 });
@@ -58,15 +54,6 @@ Then('progress is made to the Decision Date question', () => {
 
 Then('navigate to the Householder Planning Permission question', () => {
   cy.goToHouseholderQuestionPage();
-});
-
-Then('progress is halted with a message that a Decision Date is required', () => {
-  cy.confirmNavigationDecisionDateAbsentPage();
-  cy.confirmDecisionDate({ day: '', month: '', year: '' });
-  cy.checkPageA11y({
-    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
-    exclude: ['.govuk-radios__input'],
-  });
 });
 
 Then('progress is halted with an error: {string}', (error) => {
