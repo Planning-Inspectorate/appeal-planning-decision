@@ -46,6 +46,7 @@ const createContacts = async (log, body) => {
     contacts.map(async ({ name, email, type }) => {
       /* Create the user in Horizon */
       const [firstName, ...lastName] = name.split(' ');
+      let contactId;
 
       log('Inserting contact into Horizon');
 
