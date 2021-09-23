@@ -3,7 +3,7 @@ const uuid = require('uuid');
 
 const config = require('../config');
 const { createDocument } = require('../lib/documents-api-wrapper');
-const { generatePDF } = require('../lib/pdf-api-wrapper');
+//const { generatePDF } = require('../lib/pdf-api-wrapper');
 const { VIEW } = require('../lib/views');
 const logger = require('../lib/logger');
 
