@@ -19,7 +19,10 @@ describe('routes/eligibility/granted-or-refused-permission', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith('/no-decision', grantedOrRefusedPermissionController.getNoDecision);
+    expect(get).toHaveBeenCalledWith(
+      '/no-decision',
+      grantedOrRefusedPermissionController.getNoDecision
+    );
     expect(get).toHaveBeenCalledWith(
       '/granted-or-refused-permission',
       fetchExistingAppealMiddleware,
