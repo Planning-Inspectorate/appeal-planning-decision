@@ -57,7 +57,7 @@ Feature: Original planning application publicised
     Then progress is made to the Check Your Answers page
     And the updated yes or no answer is displayed
 
-  Scenario: AC010 PDF
-    Given the questionnaire has been completed
-    When the LPA Questionnaire is submitted
-    Then data from check your answer page for a yes or no question is displayed on the PDF
+#  Scenario: AC010 PDF
+#    Given the questionnaire has been completed
+#    When the LPA Questionnaire is submitted
+#    Then data from check your answer page for a yes or no question is displayed on the PDF
