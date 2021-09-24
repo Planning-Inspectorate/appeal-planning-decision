@@ -74,68 +74,68 @@ stages:
                 $(versionNumber)
                 appeals-service-api
                 latest
-          - task: PowerShell@2
-            displayName: Copy Test Results
-            inputs:
-              targetType: 'inline'
-              script: |
-                Write-Host "Looking for images with tag $(versionNumber)"
-                $imageId = (docker images ***/$(imageRepository):$(versionNumber) --quiet)
-
-                Write-Host "Setting the imageId to '${imageId}'."
-
-                Write-Host "Running Docker..."
-                $containerId = docker run -d ${imageId}
-                Write-Host "Setting the containerId to '${containerId}'."
-
-                # I found that is was sometimes necessary to have a delay before attempting the copy
-                # A more elegant retry solution would be better
-                Start-Sleep -Seconds 2
-
-                $testLocation = "${containerId}:/opt/app/junit.xml"
-                $coverageLocation = "${containerId}:/opt/app/coverage"
-                $exitCodeLocation = "${containerId}:/npm.exitcode"
-
-                Write-Host "Copying test results from '$testLocation'"
-                docker cp "${testLocation}" "$(Pipeline.Workspace)/junit.xml"
-
-                Write-Host "Copying coverage results from '$coverageLocation'"
-                docker cp "${coverageLocation}" "$(Pipeline.Workspace)/coverage"
-
-                Write-Host "Copying exit code from '$exitCodeLocation'."
-                docker cp "${exitCodeLocation}" "$(Pipeline.Workspace)/npm.exitcode"
-          - task: PublishTestResults@2
-            displayName: Publish Test Results
-            condition: succeededOrFailed()
-            inputs:
-              testResultsFormat: 'JUnit'
-              testResultsFiles: 'junit.xml'
-              searchFolder: $(Pipeline.Workspace)
-              mergeTestResults: true
-              failTaskOnFailedTests: true
-              testRunTitle: 'Appeal Service API Jest Tests'
-          - task: PublishCodeCoverageResults@1
-            displayName: Publish Code Coverage Results
-            inputs:
-              codeCoverageTool: Cobertura
-              summaryFileLocation: $(Pipeline.Workspace)/coverage/cobertura-coverage.xml
-          - task: PowerShell@2
-            displayName: Verify Tests Passed
-            inputs:
-              targetType: 'inline'
-              script: |
-                # Check exitcode file exists
-                  If("$(Test-Path $(Pipeline.Workspace)/npm.exitcode))" -eq "False") {
-                      Write-Host "Exit code for test run not found"
-                      exit 9
-                  }
-
-                  $exitCode = cat $(Pipeline.Workspace)/npm.exitcode
-
-                  If($exitCode -ne "0") {
-                      Write-Host "Tests failed"
-                      exit $exitCode
-                  }
+#          - task: PowerShell@2
+#            displayName: Copy Test Results
+#            inputs:
+#              targetType: 'inline'
+#              script: |
+#                Write-Host "Looking for images with tag $(versionNumber)"
+#                $imageId = (docker images ***/$(imageRepository):$(versionNumber) --quiet)
+#
+#                Write-Host "Setting the imageId to '${imageId}'."
+#
+#                Write-Host "Running Docker..."
+#                $containerId = docker run -d ${imageId}
+#                Write-Host "Setting the containerId to '${containerId}'."
+#
+#                # I found that is was sometimes necessary to have a delay before attempting the copy
+#                # A more elegant retry solution would be better
+#                Start-Sleep -Seconds 2
+#
+#                $testLocation = "${containerId}:/opt/app/junit.xml"
+#                $coverageLocation = "${containerId}:/opt/app/coverage"
+#                $exitCodeLocation = "${containerId}:/npm.exitcode"
+#
+#                Write-Host "Copying test results from '$testLocation'"
+#                docker cp "${testLocation}" "$(Pipeline.Workspace)/junit.xml"
+#
+#                Write-Host "Copying coverage results from '$coverageLocation'"
+#                docker cp "${coverageLocation}" "$(Pipeline.Workspace)/coverage"
+#
+#                Write-Host "Copying exit code from '$exitCodeLocation'."
+#                docker cp "${exitCodeLocation}" "$(Pipeline.Workspace)/npm.exitcode"
+#          - task: PublishTestResults@2
+#            displayName: Publish Test Results
+#            condition: succeededOrFailed()
+#            inputs:
+#              testResultsFormat: 'JUnit'
+#              testResultsFiles: 'junit.xml'
+#              searchFolder: $(Pipeline.Workspace)
+#              mergeTestResults: true
+#              failTaskOnFailedTests: true
+#              testRunTitle: 'Appeal Service API Jest Tests'
+#          - task: PublishCodeCoverageResults@1
+#            displayName: Publish Code Coverage Results
+#            inputs:
+#              codeCoverageTool: Cobertura
+#              summaryFileLocation: $(Pipeline.Workspace)/coverage/cobertura-coverage.xml
+#          - task: PowerShell@2
+#            displayName: Verify Tests Passed
+#            inputs:
+#              targetType: 'inline'
+#              script: |
+#                # Check exitcode file exists
+#                  If("$(Test-Path $(Pipeline.Workspace)/npm.exitcode))" -eq "False") {
+#                      Write-Host "Exit code for test run not found"
+#                      exit 9
+#                  }
+#
+#                  $exitCode = cat $(Pipeline.Workspace)/npm.exitcode
+#
+#                  If($exitCode -ne "0") {
+#                      Write-Host "Tests failed"
+#                      exit $exitCode
+#                  }
           - task: Docker@2
             displayName: Push Image
             inputs:
