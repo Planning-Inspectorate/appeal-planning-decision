@@ -9,6 +9,18 @@
 
 version: '3.7'
 services:
+  pdf-service:
+    image: node:14-alpine
+    environment:
+      SERVER_SHOW_ERRORS: 'true'
+      LOGGER_LEVEL: 'debug'
+    ports:
+      - 4006:3000
+    working_dir: /opt/app
+    volumes:
+      - ./packages/pdf-service:/opt/app:ro
+    command: npm run start:dev
+
   appeal-reply-service-api:
     image: node:14-alpine
     environment:
@@ -276,14 +288,6 @@ services:
       - 4005:15672
     volumes:
       - .rabbitmq_plugins:/etc/rabbitmq/enabled_plugins
-
-  gotenberg:
-    image: thecodingmachine/gotenberg:6
-    environment:
-      DEFAULT_LISTEN_PORT: '4000'
-      DISABLE_UNOCONV: '1'
-    ports:
-      - 4006:4000
 
   mongoExpress:
     image: mongo-express
