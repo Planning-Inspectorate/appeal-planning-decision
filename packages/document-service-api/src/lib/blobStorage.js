@@ -90,9 +90,17 @@ const getMetadataForAllFiles = async (containerClient, applicationId) => {
   }
 };
 
-const getMetadataForSingleFile = async (containerClient, applicationId, documentId, filename) => {
+const getMetadataForSingleFile = async (containerClient, applicationId, documentId) => {
   try {
-    const blob = await containerClient.getBlobClient(`${applicationId}/${documentId}/${filename}`);
+    const blobs = await getMetadataForAllFiles(containerClient, applicationId);
+    const files = blobs.filter((blob) => blob.name.includes(`${applicationId}/${documentId}`));
+    const [file] = files;
+
+    if (typeof file === 'undefined') {
+      return undefined;
+    }
+
+    const blob = await containerClient.getBlobClient(file.name);
     const { metadata } = await blob.getProperties();
     return metadata;
   } catch (err) {

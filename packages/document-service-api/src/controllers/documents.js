@@ -150,8 +150,7 @@ const deleteDocument = async (req, res) => {
 
   try {
     const containerClient = await initContainerClient();
-    const metadata =
-      (await getMetadataForSingleFile(containerClient, applicationId, documentId)) || {};
+    const metadata = await getMetadataForSingleFile(containerClient, applicationId, documentId);
 
     if (!metadata) {
       req.log.debug({ applicationId, documentId }, 'Invalid application or document id');
@@ -163,7 +162,7 @@ const deleteDocument = async (req, res) => {
 
     req.log.info('Deleting file');
 
-    const success = await deleteFile(containerClient, metadata.name);
+    const success = await deleteFile(containerClient, metadata.location);
 
     if (success) {
       res.status(204).send();
