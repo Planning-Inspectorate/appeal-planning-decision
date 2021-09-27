@@ -5,6 +5,8 @@ const {
   validHouseholderPlanningPermissionStatusOptions,
 } = require('../../validators/eligibility/granted-or-refused-permission');
 
+const { ELIGIBILITY } = require('../../constants');
+
 exports.getNoDecision = async (req, res) => {
   res.render(VIEW.ELIGIBILITY.NO_DECISION);
 };
@@ -21,9 +23,9 @@ exports.getGrantedOrRefusedPermission = async (req, res) => {
 
 const forwardPage = (permissionStatus) => {
   const status = {
-    granted: VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT,
-    refused: VIEW.ELIGIBILITY.DECISION_DATE,
-    nodecisionreceived: VIEW.ELIGIBILITY.NO_DECISION,
+    [ELIGIBILITY.PLANNING_PERMISSION_STATUS.GRANTED]: VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT,
+    [ELIGIBILITY.PLANNING_PERMISSION_STATUS.REFUSED]: VIEW.ELIGIBILITY.DECISION_DATE,
+    [ELIGIBILITY.PLANNING_PERMISSION_STATUS.NODECISION]: VIEW.ELIGIBILITY.NO_DECISION,
     default: VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION,
   };
 
