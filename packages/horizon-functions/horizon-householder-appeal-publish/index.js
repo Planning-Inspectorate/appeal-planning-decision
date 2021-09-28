@@ -8,7 +8,7 @@ const { getLpaData } = require('./src/getLpaData');
 const { publishDocuments } = require('./src/publishDocuments');
 const { catchErrorHandling } = require('./src/catchErrorHandling');
 
-module.exports = async (event, context) => {
+module.exports = async (context, event) => {
   if (!event.body.appeal) return handlerReply(event, context);
 
   event.log.info({ config }, 'Received householder appeal publish request');

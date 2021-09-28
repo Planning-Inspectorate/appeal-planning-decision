@@ -83,7 +83,7 @@ async function parseFile({ log, body }) {
   return object;
 }
 
-module.exports = async (event, context) => {
+module.exports = async (context, event) => {
   event.log.info({ config }, 'Receiving add document request');
 
   try {

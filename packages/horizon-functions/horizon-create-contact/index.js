@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-module.exports = async (event, context) => {
+module.exports = async (context, event) => {
   const config = {
     horizon: {
       url: process.env.HORIZON_URL,
