@@ -7,6 +7,7 @@
         "queueName": "horizon-householder-appeal-publish",
         "connection": "pinsuksmessagequeuedev_SERVICEBUS"
       }
-    ]
+    ],
+    "disabled": true
   }
   
