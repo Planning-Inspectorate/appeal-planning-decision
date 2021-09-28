@@ -10,8 +10,6 @@ const { catchErrorHandling } = require('./src/catchErrorHandling');
 
 module.exports = async (context, event) => {
   if (!event.appeal) return handlerReply(context, event);
-
-  event.log.info({ config }, 'Received householder appeal publish request');
   context.log('Received householder appeal publish request', event);
 
   try {
@@ -20,7 +18,7 @@ module.exports = async (context, event) => {
     /* Get the LPA associated with this appeal */
     const lpa = await getLpaData(event.log, event.appeal.lpaCode);
 
-    event.log.info({ lpa }, 'LPA detail');
+    context.log({ lpa }, 'LPA detail');
 
     let location;
     /* PINS only supports England and Wales */
@@ -107,15 +105,14 @@ module.exports = async (context, event) => {
           '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business',
           '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
           'a:Attributes': attributeData.map(({ key, value }) =>
-            convertToSoapKVPair(event.log, key, value)
+            convertToSoapKVPair(context.log, key, value)
           ),
         },
       },
     };
 
-    const horizonCaseId = await callHorizon(event.log, input);
-
-    event.log.info({ horizonId: horizonCaseId }, 'Adding Horizon ID to Appeal');
+    const horizonCaseId = await callHorizon(context.log, input);
+    context.log({ horizonId: horizonCaseId }, 'Adding Horizon ID to Appeal');
 
     await axios.patch(
       `/api/v1/appeals/${appealId}`,
@@ -164,16 +161,14 @@ module.exports = async (context, event) => {
       );
     }
 
-    await publishDocuments(event.log, documents, appealId, horizonCaseId);
-
-    event.log.info({ horizonCaseId }, 'Successful call to Horizon');
-    context.done();
+    await publishDocuments(context.log, documents, appealId, horizonCaseId);
+    context.log({ horizonCaseId }, 'Successful call to Horizon');
 
     return {
       id: horizonCaseId,
     };
   } catch (err) {
-    const [message, httpStatus] = catchErrorHandling(event, err);
+    const [message, httpStatus] = catchErrorHandling(context, err);
     context.httpStatus = httpStatus;
 
     return {

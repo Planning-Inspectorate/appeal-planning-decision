@@ -18,7 +18,7 @@ const publishDocuments = async (log, documents, serviceId, horizonId) => {
       /* Remove any undefined keys */
       .filter(({ id }) => id)
       .map(async ({ id: documentId, type: documentType }) => {
-        log.info(
+        log(
           {
             documentId,
             documentType,
@@ -42,7 +42,7 @@ const publishDocuments = async (log, documents, serviceId, horizonId) => {
           }
         );
 
-        log.debug('Publish document request accepted');
+        log('Publish document request accepted');
       })
   );
 };
