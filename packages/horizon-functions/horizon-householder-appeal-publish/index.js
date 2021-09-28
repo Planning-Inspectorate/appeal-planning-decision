@@ -9,7 +9,7 @@ const { publishDocuments } = require('./src/publishDocuments');
 const { catchErrorHandling } = require('./src/catchErrorHandling');
 
 module.exports = async (context, event) => {
-  if (!event.appeal) return handlerReply(event, context);
+  if (!event.appeal) return handlerReply(context, event);
 
   event.log.info({ config }, 'Received householder appeal publish request');
   context.log('Received householder appeal publish request', event);
