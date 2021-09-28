@@ -9,18 +9,16 @@ const { publishDocuments } = require('./src/publishDocuments');
 const { catchErrorHandling } = require('./src/catchErrorHandling');
 
 module.exports = async (context, event) => {
-  if (!event.body.appeal) return handlerReply(event, context);
+  if (!event.event.appeal) return handlerReply(event, context);
 
   event.log.info({ config }, 'Received householder appeal publish request');
   context.log('Received householder appeal publish request', event);
 
   try {
-    const { body } = event;
-
-    const { _id: appealId } = body;
+    const { _id: appealId } = event;
 
     /* Get the LPA associated with this appeal */
-    const lpa = await getLpaData(event.log, body.appeal.lpaCode);
+    const lpa = await getLpaData(event.log, event.appeal.lpaCode);
 
     event.log.info({ lpa }, 'LPA detail');
 
@@ -38,7 +36,7 @@ module.exports = async (context, event) => {
       {
         key: 'Case Dates:Receipt Date',
         // This is the last time the record was updated
-        value: new Date(body.appeal.updatedAt),
+        value: new Date(event.appeal.updatedAt),
       },
       {
         key: 'Case:Source Indicator',
@@ -50,7 +48,7 @@ module.exports = async (context, event) => {
       },
       {
         key: 'Planning Application:Date Of LPA Decision',
-        value: new Date(body.appeal.decisionDate),
+        value: new Date(event.appeal.decisionDate),
       },
       {
         key: 'Case:Procedure (Appellant)',
@@ -58,44 +56,44 @@ module.exports = async (context, event) => {
       },
       {
         key: 'Planning Application:LPA Application Reference',
-        value: body.appeal.requiredDocumentsSection.applicationNumber,
+        value: event.appeal.requiredDocumentsSection.applicationNumber,
       },
       {
         key: 'Case Site:Site Address Line 1',
-        value: body.appeal.appealSiteSection.siteAddress.addressLine1,
+        value: event.appeal.appealSiteSection.siteAddress.addressLine1,
       },
       {
         key: 'Case Site:Site Address Line 2',
-        value: body.appeal.appealSiteSection.siteAddress.addressLine2,
+        value: event.appeal.appealSiteSection.siteAddress.addressLine2,
       },
       {
         key: 'Case Site:Site Address Town',
-        value: body.appeal.appealSiteSection.siteAddress.town,
+        value: event.appeal.appealSiteSection.siteAddress.town,
       },
       {
         key: 'Case Site:Site Address County',
-        value: body.appeal.appealSiteSection.siteAddress.county,
+        value: event.appeal.appealSiteSection.siteAddress.county,
       },
       {
         key: 'Case Site:Site Address Postcode',
-        value: body.appeal.appealSiteSection.siteAddress.postcode,
+        value: event.appeal.appealSiteSection.siteAddress.postcode,
       },
       {
         key: 'Case Site:Ownership Certificate',
-        value: body.appeal.appealSiteSection.siteOwnership.ownsWholeSite ? 'Certificate A' : null,
+        value: event.appeal.appealSiteSection.siteOwnership.ownsWholeSite ? 'Certificate A' : null,
       },
       {
         key: 'Case Site:Site Viewable From Road',
-        value: body.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
+        value: event.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
       },
       {
         key: 'Case Site:Inspector Need To Enter Site',
-        value: !body.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
+        value: !event.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
       },
     ];
 
     /* Create the contacts and add to attribute data */
-    attributeData.push(...(await createContacts(event.log, body)));
+    attributeData.push(...(await createContacts(event.log, event)));
 
     const input = {
       CreateCase: {
@@ -138,25 +136,25 @@ module.exports = async (context, event) => {
     */
     const documents = [
       {
-        id: body?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
+        id: event?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
         type: 'Appellant Grounds of Appeal',
       },
       {
-        id: body?.appeal?.requiredDocumentsSection?.originalApplication?.uploadedFile?.id,
+        id: event?.appeal?.requiredDocumentsSection?.originalApplication?.uploadedFile?.id,
         type: 'Appellant Initial Documents',
       },
       {
-        id: body?.appeal?.requiredDocumentsSection?.decisionLetter?.uploadedFile?.id,
+        id: event?.appeal?.requiredDocumentsSection?.decisionLetter?.uploadedFile?.id,
         type: 'LPA Decision Notice',
       },
       {
-        id: body?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id,
+        id: event?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id,
         type: 'Appellant Initial Documents',
       },
     ];
 
     /* Add optional docs to the list */
-    const optionalFiles = body?.appeal?.yourAppealSection?.otherDocuments?.uploadedFiles;
+    const optionalFiles = event?.appeal?.yourAppealSection?.otherDocuments?.uploadedFiles;
     if (Array.isArray(optionalFiles)) {
       documents.push(
         ...optionalFiles.map(({ id }) => ({
