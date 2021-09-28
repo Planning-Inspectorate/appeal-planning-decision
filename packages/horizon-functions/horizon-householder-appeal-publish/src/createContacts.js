@@ -41,14 +41,14 @@ const createContacts = async (log, body) => {
     );
   }
 
-  log.info(contacts, logMessage);
+  log(contacts, logMessage);
 
   return Promise.all(
     contacts.map(async ({ name, email, type }) => {
       /* Create the user in Horizon */
       const [firstName, ...lastName] = name.split(' ');
 
-      log.info('Inserting contact into Horizon');
+      log('Inserting contact into Horizon');
       const {
         data: { id: contactId },
       } = await axios.post(
