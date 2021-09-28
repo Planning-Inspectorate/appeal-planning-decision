@@ -51,7 +51,7 @@ const populateDocuments = (body) => {
     if (body[documentsSections[key]] !== undefined) {
       documents.push(
         convertDocumentArray(
-          body[documentsSections[key]][key].uploadedFiles,
+          body[documentsSections[key]][key]?.uploadedFiles,
           sectionTypes[`${key}Type`]
         )
       );
