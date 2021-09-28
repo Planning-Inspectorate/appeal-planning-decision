@@ -118,7 +118,7 @@ const handlerReply = async (context, event) => {
       id: horizonId,
     };
   } catch (err) {
-    const [message, httpStatus] = catchErrorHandling(event, err);
+    const [message, httpStatus] = catchErrorHandling(context.log, err);
     context.httpStatus = httpStatus;
     return {
       message,

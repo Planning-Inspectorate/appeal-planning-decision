@@ -168,7 +168,7 @@ module.exports = async (context, event) => {
       id: horizonCaseId,
     };
   } catch (err) {
-    const [message, httpStatus] = catchErrorHandling(context, err);
+    const [message, httpStatus] = catchErrorHandling(context.log, err);
     context.httpStatus = httpStatus;
 
     return {
