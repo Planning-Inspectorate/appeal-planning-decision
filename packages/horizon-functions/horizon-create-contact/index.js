@@ -1,15 +1,15 @@
 const axios = require('axios');
 
-module.exports = async (context, event) => {
+module.exports = async (context, req) => {
   const config = {
     horizon: {
       url: process.env.HORIZON_URL,
     },
   };
 
-  event.log.info(config, 'Receiving create contact request');
+  context.log('Receiving create contact request');
 
-  const { body } = event;
+  const { body } = req;
 
   /* The order of this appears to be important - first and last name's are required by Horizon */
   const contactData = [
@@ -47,12 +47,12 @@ module.exports = async (context, event) => {
     },
   };
 
-  event.log.info({ input }, 'Adding contact in Horizon');
+  context.log('Adding contact in Horizon');
 
   try {
     const { data } = await axios.post(`${config.horizon.url}/contacts`, input);
 
-    event.log.info({ data }, 'Contact added to Horizon');
+    context.log('Contact added to Horizon');
 
     return {
       id: data?.Envelope?.Body?.AddContactResponse?.AddContactResult?.value,
@@ -62,34 +62,14 @@ module.exports = async (context, event) => {
     let httpStatus = 500;
     if (err.response) {
       message = 'No response received from Horizon';
-      event.log.error(
-        {
-          message: err.message,
-          data: err.response.data,
-          status: err.response.status,
-          headers: err.response.headers,
-        },
-        message
-      );
+      context.log(message);
     } else if (err.request) {
       message = 'Error sending to Horizon';
       httpStatus = 400;
-      event.log.error(
-        {
-          message: err.message,
-          request: err.request,
-        },
-        message
-      );
+      context.log(message);
     } else {
       message = 'General error';
-      event.log.error(
-        {
-          message: err?.message,
-          stack: err?.stack,
-        },
-        message
-      );
+      context.log(message);
     }
 
     context.httpStatus = httpStatus;

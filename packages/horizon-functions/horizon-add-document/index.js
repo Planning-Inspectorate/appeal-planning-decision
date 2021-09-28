@@ -67,9 +67,8 @@ function createDataObject(data, body) {
   };
 }
 
-async function parseFile({ log, body }) {
-  const { documentId, applicationId, documentType } = body;
-  log.info({ applicationId, documentId, documentType }, 'Downloading document');
+async function parseFile({ body }) {
+  const { documentId, applicationId } = body;
 
   const { data } = await axios.get(`/api/v1/${applicationId}/${documentId}/file`, {
     baseURL: config.documents.url,
@@ -83,11 +82,11 @@ async function parseFile({ log, body }) {
   return object;
 }
 
-module.exports = async (context, event) => {
-  event.log.info({ config }, 'Receiving add document request');
+module.exports = async (context, req) => {
+  context.log('Receiving add document request');
 
   try {
-    const { caseReference } = event.body;
+    const { caseReference } = req.body;
 
     const input = {
       AddDocuments: {
@@ -97,12 +96,12 @@ module.exports = async (context, event) => {
         documents: [
           { '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business' },
           { '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance' },
-          await parseFile(event),
+          await parseFile(req),
         ],
       },
     };
 
-    event.log.info('Uploading documents to Horizon');
+    context.log('Uploading documents to Horizon');
 
     const { data } = await axios.post('/horizon', input, {
       baseURL: config.horizon.url,
@@ -115,35 +114,21 @@ module.exports = async (context, event) => {
       data,
     };
   } catch (err) {
-    event.log.info(err, 'Error');
+    context.log(err, 'Error');
     let message;
     let httpStatus = 500;
 
     /* istanbul ignore else */
     if (err.response) {
       message = err.message;
-      event.log.error(
-        {
-          message: err.message,
-          data: err.response.data,
-          status: err.response.status,
-          headers: err.response.headers,
-        },
-        message
-      );
+      context.log(message);
     } else if (err.request) {
       message = err.message;
       httpStatus = 400;
-      event.log.error(
-        {
-          message: err.message,
-          request: err.request,
-        },
-        message
-      );
+      context.log(message);
     } else {
       message = 'General error';
-      event.log.error(
+      context.log(
         {
           message: err?.message,
           stack: err?.stack,

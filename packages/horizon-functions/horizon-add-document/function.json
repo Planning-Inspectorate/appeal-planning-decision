@@ -1,12 +1,16 @@
 {
     "bindings": [
       {
-        "name": "documentfunction",
+        "authLevel": "function",
         "type": "httpTrigger",
         "direction": "in",
-        "queueName": "add-document",
-        "connection": "pinsuksmessagequeuedev_SERVICEBUS"
-      }
+        "name": "req"
+    },
+    {
+        "type": "http",
+        "direction": "out",
+        "name": "res"
+    }
     ]
   }
   
