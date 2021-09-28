@@ -14,11 +14,11 @@ const config = require('./config');
  */
 const createContacts = async (log, body) => {
   const contacts = [];
-  // let logMessage;
+  let logMessage;
 
   if (body.appeal.aboutYouSection.yourDetails.isOriginalApplicant) {
     /* User is original applicant - just add appellant */
-    // logMessage = 'User is original applicant';
+    logMessage = 'User is original applicant';
     contacts.push({
       type: 'Appellant',
       email: body.appeal.aboutYouSection.yourDetails.email,
@@ -26,7 +26,7 @@ const createContacts = async (log, body) => {
     });
   } else {
     /* User is agent - add both agent and OP */
-    // logMessage = 'User is agent';
+    logMessage = 'User is agent';
     contacts.push(
       {
         type: 'Agent',
@@ -41,14 +41,14 @@ const createContacts = async (log, body) => {
     );
   }
 
-  // log(contacts, logMessage);
+  log(contacts, logMessage);
 
   return Promise.all(
     contacts.map(async ({ name, email, type }) => {
       /* Create the user in Horizon */
       const [firstName, ...lastName] = name.split(' ');
 
-      // log('Inserting contact into Horizon');
+      log('Inserting contact into Horizon');
       const {
         data: { id: contactId },
       } = await axios.post(
