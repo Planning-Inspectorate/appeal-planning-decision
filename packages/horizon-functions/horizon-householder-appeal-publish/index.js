@@ -9,7 +9,7 @@ const { publishDocuments } = require('./src/publishDocuments');
 const { catchErrorHandling } = require('./src/catchErrorHandling');
 
 module.exports = async (context, event) => {
-  if (!event.event.appeal) return handlerReply(event, context);
+  if (!event.appeal) return handlerReply(event, context);
 
   event.log.info({ config }, 'Received householder appeal publish request');
   context.log('Received householder appeal publish request', event);
@@ -167,6 +167,8 @@ module.exports = async (context, event) => {
     await publishDocuments(event.log, documents, appealId, horizonCaseId);
 
     event.log.info({ horizonCaseId }, 'Successful call to Horizon');
+    context.done();
+
     return {
       id: horizonCaseId,
     };
