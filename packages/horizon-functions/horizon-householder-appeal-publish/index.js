@@ -91,7 +91,7 @@ module.exports = async (context, event) => {
     ];
 
     /* Create the contacts and add to attribute data */
-    attributeData.push(...(await createContacts(event.log, event)));
+    attributeData.push(...(await createContacts(context.log, event)));
 
     const input = {
       CreateCase: {
