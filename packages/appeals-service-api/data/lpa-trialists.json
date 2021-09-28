@@ -1,18 +1,17 @@
-[
-  {
-    "id": "E60000059",
-    "inTrial": true
-  },
-  {
-    "id": "E60000068",
-    "inTrial": true
-  },
-  {
-    "id": "E60000213",
-    "inTrial": true
-  },
-  {
-    "id": "E69999999",
-    "inTrial": true
-  }
-]
+[{
+  "id": "E60000059",
+  "inTrial": true,
+  "horizonId": "E2734"
+},{
+  "id": "E60000068",
+  "inTrial": true,
+  "horizonId": "W4705"
+},{
+  "id": "E60000213",
+  "inTrial": true,
+  "horizonId": "R5510"
+},{
+  "id": "E69999999",
+  "inTrial": true,
+  "horizonId": "Q9999"
+}]
