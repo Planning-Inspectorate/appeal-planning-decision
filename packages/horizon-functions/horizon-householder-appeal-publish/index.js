@@ -12,6 +12,8 @@ module.exports = async (context, event) => {
   if (!event.body.appeal) return handlerReply(event, context);
 
   event.log.info({ config }, 'Received householder appeal publish request');
+  context.log('Received householder appeal publish request', event);
+
   try {
     const { body } = event;
 
