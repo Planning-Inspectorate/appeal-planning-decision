@@ -16,7 +16,7 @@ module.exports = async (context, event) => {
     const { _id: appealId } = event;
 
     /* Get the LPA associated with this appeal */
-    const lpa = await getLpaData(event.log, event.appeal.lpaCode);
+    const lpa = await getLpaData(context.log, event.appeal.lpaCode);
 
     context.log({ lpa }, 'LPA detail');
 
