@@ -45,6 +45,7 @@ describe('controllers/uploaded-documents', () => {
       const mockRequest = {
         ...req,
         protocol: 'mock-protocol',
+        backLink: '/appeal-questionnaire/mock-id/mock-back-link',
         headers: {
           host: 'mock-host',
         },
@@ -55,7 +56,10 @@ describe('controllers/uploaded-documents', () => {
       renderObject.continueLink = '/appeal-questionnaire/mock-id/mock-back-link';
       uploadedDocumentsController.getUploadedDocuments(mockRequest, res);
 
-      expect(res.render).toHaveBeenCalledWith(view, renderObject);
+      expect(res.render).toHaveBeenCalledWith(view, {
+        continueLink: '/appeal-questionnaire/mock-id/mock-back-link',
+        ...renderObject,
+      });
     });
 
     it.only('should call task-list as a default back link if nothing set in session', () => {
@@ -74,7 +78,10 @@ describe('controllers/uploaded-documents', () => {
 
       uploadedDocumentsController.getUploadedDocuments(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(view, renderObject);
+      expect(res.render).toHaveBeenCalledWith(view, {
+        continueLink: '/appeal-questionnaire/some/other/backlink',
+        ...renderObject,
+      });
     });
 
     it.only('should be called with the correct uploadedFiles structure', () => {
@@ -119,7 +126,10 @@ describe('controllers/uploaded-documents', () => {
       renderObject.continueLink = '/appeal-questionnaire/mock-id/mock-back-link';
 
       uploadedDocumentsController.getUploadedDocuments(mockRequest, res);
-      expect(res.render).toHaveBeenCalledWith(view, renderObject);
+      expect(res.render).toHaveBeenCalledWith(view, {
+        ...renderObject,
+        continueLink: '/appeal-questionnaire/mock-id/mock-back-link',
+      });
     });
   });
 });
