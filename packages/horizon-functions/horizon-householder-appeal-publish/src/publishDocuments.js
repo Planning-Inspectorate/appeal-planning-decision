@@ -1,5 +1,4 @@
-const axios = require('axios');
-const config = require('./config');
+const addDocument = require('./logic/addDocument');
 
 /**
  * Publish Documents
@@ -28,19 +27,12 @@ const publishDocuments = async (log, documents, serviceId, horizonId) => {
           'Publish document to Horizon'
         );
 
-        await axios.post(
-          '/api/horizon-add-document',
-          {
-            documentId,
-            documentType,
-            caseReference: horizonId,
-            applicationId: serviceId,
-          },
-          {
-            baseURL: config.azure.url,
-            params: { code: config.azure.add_document.key },
-          }
-        );
+        await addDocument(log, {
+          documentId,
+          documentType,
+          caseReference: horizonId,
+          applicationId: serviceId,
+        });
 
         log('Publish document request accepted');
       })

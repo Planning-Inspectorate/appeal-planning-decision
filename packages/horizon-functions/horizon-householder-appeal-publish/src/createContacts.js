@@ -1,5 +1,4 @@
-const axios = require('axios');
-const config = require('./config');
+const createContact = require('./logic/createContact');
 
 /**
  * Create Contacts
@@ -49,20 +48,12 @@ const createContacts = async (log, body) => {
       const [firstName, ...lastName] = name.split(' ');
 
       log('Inserting contact into Horizon');
-      const {
-        data: { id: contactId },
-      } = await axios.post(
-        '/api/horizon-create-contact',
-        {
-          firstName,
-          lastName: lastName.join(' '), // Treat multiple spaces as part of last name
-          email,
-        },
-        {
-          baseURL: config.azure.url,
-          params: { code: config.azure.create_contact.key },
-        }
-      );
+
+      const contactId = await createContact(log, {
+        firstName,
+        lastName: lastName.join(' '), // Treat multiple spaces as part of last name
+        email,
+      });
 
       return {
         /* Add user contact details */
