@@ -30,29 +30,34 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <form action="" method="POST" novalidate{% if hasFileUpload %} encType="multipart/form-data"{% endif %}>
+      <form action="" method="post" novalidate{% if hasFileUpload %} encType="multipart/form-data"{% endif %}>
         <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>{{ question.section }}</span>
         {% block question %}{% endblock %}
 
         <div class="govuk-button-group">
           {{ govukButton({
           text: "Save and continue",
+          type: "submit",
           attributes: {
             'data-cy': 'save'
           }
         }) }}
 
+
           {% if showCancel %}
             {{ govukButton({
-            text: "Cancel",
-            href: backLink,
-            classes: "govuk-button--secondary",
-            attributes: {
-              'data-cy': 'cancel'
-            }
-          }) }}
+              text: "Cancel",
+              type: "button",
+              classes: "govuk-button--secondary",
+              attributes: {
+                'data-cy': 'cancel',
+			          'id': 'cancelButton'
+              }
+            }) }}
           {% endif %}
         </div>
+
+        <input id="backLinkPath" type="hidden" name="backLinkPath" value="{{ backLink }}">
       </form>
     </div>
 
@@ -62,4 +67,16 @@
       })
     }}
   </div>
+{% endblock %}
+
+
+{% block pageScripts %}
+  <script src="/assets/jquery/jquery.min.js"></script>
+  <script>
+    var backLinkPath = $("#backLinkPath");
+
+    $("#cancelButton").on("click", function() {
+      window.location.href = backLinkPath.val();
+    });
+  </script>
 {% endblock %}

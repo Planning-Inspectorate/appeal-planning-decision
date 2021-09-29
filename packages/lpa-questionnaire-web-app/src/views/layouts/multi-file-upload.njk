@@ -29,7 +29,7 @@
         }) }}
       {% endif %}
 
-      <form action="" method="POST" novalidate encType="multipart/form-data">
+      <form action="" method="post" novalidate encType="multipart/form-data">
         <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>{% block sectionName %}{% endblock %}</span>
         <h1 class="govuk-heading-l">{% block pageHeading %}{% endblock %}</h1>
 
@@ -56,6 +56,7 @@
 
           {{govukButton({
             text: 'Upload file',
+            type: 'submit',
             classes: 'govuk-button--secondary moj-multi-file-upload__button',
             name: 'upload',
             value: 'upload',
@@ -79,6 +80,7 @@
 
         {{ govukButton({
           text: 'Save and continue',
+          type: 'submit',
           name: 'submit',
           value: 'save',
           attributes: {

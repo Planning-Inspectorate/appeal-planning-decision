@@ -32,7 +32,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <form action="" method="POST" novalidate>
+      <form action="" method="post" novalidate>
         <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>About the appeal</span>
 
         {% set appealRefHtml %}
@@ -107,6 +107,7 @@
 
         {{ govukButton({
           text: "Save and continue",
+          type: "submit",
           attributes: {
             'data-cy': 'save'
           }
