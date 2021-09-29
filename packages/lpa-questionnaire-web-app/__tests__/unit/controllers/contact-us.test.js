@@ -20,7 +20,7 @@ describe('controllers/contact-us', () => {
         ...mockReq(),
       };
 
-      contactUsController.renderContactUs(mockRequest, res);
+      contactUsController.getContactUs(mockRequest, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.CONTACT_US, {
         backLink: `/appeal-questionnaire/mock-id/task-list`,
@@ -33,7 +33,7 @@ describe('controllers/contact-us', () => {
       };
 
       mockRequest.session.backLink = '/appeal-questionnaire/mock-id/mock-back-link';
-      contactUsController.renderContactUs(mockRequest, res);
+      contactUsController.getContactUs(mockRequest, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.CONTACT_US, {
         backLink: `/appeal-questionnaire/mock-id/mock-back-link`,
