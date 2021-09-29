@@ -1,4 +1,4 @@
-const { post } = require('./router-mock');
+const { get } = require('./router-mock');
 const contactUsController = require('../../../src/controllers/contact-us');
 
 describe('routes/contact-us', () => {
@@ -12,9 +12,9 @@ describe('routes/contact-us', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(post).toHaveBeenCalledWith(
-      `/appeal-questionnaire/contact-us`,
-      contactUsController.renderContactUs
+    expect(get).toHaveBeenCalledWith(
+      '/appeal-questionnaire/contact-us',
+      contactUsController.getContactUs
     );
   });
 });
