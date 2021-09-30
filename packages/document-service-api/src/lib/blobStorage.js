@@ -79,7 +79,10 @@ const getMetadataForAllFiles = async (containerClient, applicationId) => {
     const blobs = [];
 
     // eslint-disable-next-line no-restricted-syntax
-    for await (const blob of containerClient.listBlobsFlat({ prefix: applicationId })) {
+    for await (const blob of containerClient.listBlobsFlat({
+      prefix: applicationId,
+      includeMetadata: true,
+    })) {
       blobs.push(blob);
     }
 
