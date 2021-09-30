@@ -57,7 +57,7 @@ function createDataObject(data, body) {
             'a:AttributeValue': {
               '__i:type': 'a:DateAttributeValue',
               'a:Name': 'Document:Received/Sent Date',
-              'a:Value': data.createdAt,
+              'a:Value': data?.upload_date,
             },
           },
         ],
