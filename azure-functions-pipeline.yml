@@ -50,7 +50,7 @@ stages:
           - task: AzureFunctionApp@1
             inputs:
               azureSubscription: 'PINS ODTDEV (38602df9-8f79-41d1-a971-50c7672ba6f1)'
-              appType: functionAppLinux
-              appName: 'horizon-poc'
+              appType: functionApp
+              appName: 'pins-dev-fn'
               package: $(System.DefaultWorkingDirectory)/build/horizon-functions.zip
               deploymentMethod: zipDeploy
