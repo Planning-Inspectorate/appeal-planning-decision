@@ -9,17 +9,15 @@
 
 version: '3.7'
 services:
-  pdf-service:
-    image: node:14-alpine
+  pdf-service-api:
+    build: './packages/pdf-service-api'
     environment:
       SERVER_SHOW_ERRORS: 'true'
       LOGGER_LEVEL: 'debug'
     ports:
-      - 4006:3000
-    working_dir: /opt/app
-    volumes:
-      - ./packages/pdf-service:/opt/app:ro
-    command: npm run start:dev
+      - 3003:3000
+    # volumes:
+    #   - ./packages/common:/opt/app/node_modules/@pins/common:ro
 
   appeal-reply-service-api:
     image: node:14-alpine
@@ -145,6 +143,7 @@ services:
       # please override this locally if using not using localhost or ip address to browse the site in dev.
       SUBDOMAIN_OFFSET: 0
       USE_SECURE_SESSION_COOKIES: 'false'
+      PDF_SERVICE_API_URL: 'http://pdf-service-api:3000'
     ports:
       - 9003:3000
       # node debugger
@@ -154,10 +153,12 @@ services:
       - appeals-service-api
       - document-service-api
       - mongodb
+      - pdf-service-api
     depends_on:
       - appeals-service-api
       - document-service-api
       - mongodb
+      - pdf-service-api
     volumes:
       - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
       - ./packages/common:/opt/app/node_modules/@pins/common
@@ -180,6 +181,7 @@ services:
       SESSION_MONGODB_URL: mongodb://mongodb:27017/lpa-sessions
       SESSION_KEY: some_secure_key_goes_here
       USE_SECURE_SESSION_COOKIES: 'false'
+      PDF_SERVICE_API_URL: 'http://pdf-service-api:3000'
     ports:
       - 9001:3000
     working_dir: /opt/app
@@ -187,10 +189,12 @@ services:
       - appeals-service-api
       - document-service-api
       - mongodb
+      - pdf-service-api
     depends_on:
       - appeals-service-api
       - document-service-api
       - mongodb
+      - pdf-service-api
     volumes:
       - ./packages/common:/opt/app/node_modules/@pins/common
       - ./packages/lpa-questionnaire-web-app:/opt/app

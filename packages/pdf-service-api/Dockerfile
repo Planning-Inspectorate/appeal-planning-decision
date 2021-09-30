@@ -8,14 +8,18 @@ RUN apt-get update && \
     libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 \
     libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 xdg-utils
 WORKDIR /opt/app
-ENV APP_NAME="pdf-service"
+ENV APP_NAME="pdf-service-api"
 ENV BUILD_ID="1"
 ENV VERSION="1.0.0"
+# # This must be built locally from the common package
+# COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
 ADD src src
+ADD test test
 ADD package.json package.json
 ADD package-lock.json package-lock.json
 RUN npm i
 RUN chmod -R o+rwx node_modules/puppeteer/.local-chromium
+RUN npm run documentation; echo $? > /npm.exitcode
 EXPOSE 3000
 USER node
 CMD [ "npm", "start" ]

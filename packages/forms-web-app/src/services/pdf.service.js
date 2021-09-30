@@ -58,7 +58,7 @@ const storePdfAppeal = async (appeal) => {
 
     log.debug('Generating PDF of appeal');
 
-    const pdfBuffer = await generatePDF(FILE_NAME, htmlContent);
+    const pdfBuffer = await generatePDF(htmlContent);
 
     log.debug('Creating document from PDF buffer');
 

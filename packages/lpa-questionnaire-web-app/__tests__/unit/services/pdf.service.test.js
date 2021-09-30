@@ -42,6 +42,7 @@ describe('services/pdf.service', () => {
       );
     });
   });
+
   describe('createPdf', () => {
     it('should contain text included in the mock reply', async () => {
       generatePDF.mockResolvedValueOnce('mock-pdf');
@@ -50,7 +51,7 @@ describe('services/pdf.service', () => {
 
       const document = await createPdf(mockAppealReply, mockAppeal);
 
-      expect(generatePDF).toHaveBeenCalledWith('lpa-questionnaire.pdf', html);
+      expect(generatePDF).toHaveBeenCalledWith(html);
       expect(createDocument).toHaveBeenCalledWith('mock-id', 'mock-pdf', 'lpa-questionnaire.pdf');
       expect(document).toEqual('mock-document');
     });
