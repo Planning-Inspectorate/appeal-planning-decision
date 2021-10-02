@@ -25,6 +25,7 @@ const {
   router: supplementaryDocumentsRouter,
 } = require('../../../src/routes/supplementary-documents');
 const contactUsRouter = require('../../../src/routes/contact-us');
+const authenticationRouter = require('../../../src/routes/auth/authentication');
 
 describe('routes/index', () => {
   beforeEach(() => {
@@ -60,5 +61,6 @@ describe('routes/index', () => {
     expect(use).toHaveBeenCalledWith(booleanQuestionRouter);
     expect(use).toHaveBeenCalledWith(supplementaryDocumentsRouter);
     expect(use).toHaveBeenCalledWith(contactUsRouter);
+    expect(use).toHaveBeenCalledWith(authenticationRouter);
   });
 });
