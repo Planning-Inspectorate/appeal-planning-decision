@@ -43,29 +43,3 @@ Feature: Common links in footer section
        | "Appellant submission - Check your answers"                            |
        | "Appeal submission - Declaration"                                      |
        | "Appeal submission - Confirmation"                                     |
-#    Examples:
-#      | page                                                                   |
-#      | "Eligibility - Granted Or Refused Permission"                          |
-#      | "Eligibility - Granted Or Refused Permission out"                      |
-#      | "Eligibility - No decision on Permission"                              |
-#      | "Eligibility - Decision date"                                          |
-#      | "Eligibility - Decision date expired"                                  |
-#      | "Eligibility - Planning department"                                    |
-#      | "Eligibility - Planning department out"                                |
-#      | "Eligibility - Listed building"                                        |
-#      | "Eligibility - Listed building out"                                    |
-#      | "Eligibility - Appeal statement info"                                  |
-#      | "Appellant submission - Appeal tasks"                                  |
-#      | "Appellant submission - Your details - Who are you"                    |
-#      | "Appellant submission - Your details - Your details"                   |
-#      | "Appellant submission - Your details - Applicant name"                 |
-#      | "Appellant submission - Planning application - Application number"     |
-#      | "Appellant submission - Planning application - Upload application"     |
-#      | "Appellant submission - Planning application - Upload decision letter" |
-#      | "Appellant submission - Your appeal - Appeal statement"                |
-#      | "Appellant submission - Appeal site - Site location"                   |
-#      | "Appellant submission - Appeal site - Site ownership"                  |
-#      | "Appellant submission - Appeal site - Site access"                     |
-#      | "Appellant submission - Appeal site - Site safety"                     |
-#      | "Appellant submission - Appeal answers"                                |
-#      | "Appeal submission"                                                    |

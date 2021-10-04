@@ -50,17 +50,12 @@ Feature: Common link in header section
     Examples:
       | page                                                                   |
       | "Eligibility - House holder planning permission"                       |
-      | "Eligibility - Householder planning permission out"                    |
       | "Eligibility - Granted Or Refused Permission"                          |
       | "Eligibility - Decision date"                                          |
       | "Eligibility - Planning department"                                    |
-      | "Eligibility - Planning department out"                                |
       | "Enforcement - Notice"                                                 |
-      | "Enforcement - Notice out"                                             |
       | "Eligibility - Listed building"                                        |
-      | "Eligibility - Listed building out"                                    |
       | "Eligibility - Costs"                                                  |
-      | "Eligibility - Costs out"                                              |
       | "Eligibility - Appeal statement info"                                  |
       | "Appellant submission - Your details - Who are you"                    |
       | "Appellant submission - Your details - Your details"                   |
