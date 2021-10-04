@@ -44,8 +44,7 @@ exports.postUpload = async (req, res) => {
   const { appealReplyId } = appealReply;
   const documents = req.body?.files?.documents || [];
   const { delete: deleteId = '', errors = {}, submit = '' } = req.body;
-  const backLink =
-    req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`;
+  const backLink = req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`;
 
   const uploadedFiles = docArrayFromInputString(req.body.tempDocs);
   let validFiles = [];
