@@ -76,10 +76,5 @@ exports.postHealthSafety = async (req, res) => {
     return;
   }
 
-  redirect(
-    res,
-    'appeal-questionnaire',
-    req.session.backLink || `${req.params.id}/${VIEW.TASK_LIST}`,
-    req.session.backLink
-  );
+  redirect(res, 'appeal-questionnaire', `${req.params.id}/${VIEW.TASK_LIST}`, req.session.backLink);
 };
