@@ -32,6 +32,7 @@ function handleTokenExpired(req, res, err) {
     return res.status(404).send();
   }
 
+  req.session.redirectURL = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
   return res.redirect(`/${userInformation.lpaCode}/authentication/your-email/session-expired`);
 }
 

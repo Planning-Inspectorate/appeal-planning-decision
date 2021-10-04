@@ -86,6 +86,34 @@ describe('authentication controller', () => {
       expect(req.session.email).toEqual('test.address@test.co.uk');
       expect(res.redirect).toHaveBeenCalledWith('/E69999999/authentication/confirm-email');
     });
+
+    it('should re-render the template with errors if there is any validation error', async () => {
+      const mockRequest = {
+        ...req,
+        body: {
+          isSessionExpired: false,
+          isLinkedExpired: false,
+          lpaName: 'System Test Borough Council',
+          enterEmailLink: `/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
+          email: null,
+          errors: { a: 'b' },
+          errorSummary: [{ text: 'There were errors here', href: '#' }],
+        },
+      };
+      await authenticationController.processEmailAddress(mockRequest, res);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+
+      expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
+        isSessionExpired: false,
+        isLinkedExpired: false,
+        lpaName: 'System Test Borough Council',
+        enterEmailLink: `/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
+        email: null,
+        errors: { a: 'b' },
+        errorSummary: [{ text: 'There were errors here', href: '#' }],
+      });
+    });
   });
 
   describe('GET /:lpaCode/authentication/confirm-email', () => {

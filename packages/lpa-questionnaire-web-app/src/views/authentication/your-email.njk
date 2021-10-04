@@ -19,9 +19,6 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">
-        Householder planning appeal questionnaire
-      </h1>
 
       {% if isLinkedExpired %}
         {% set html %}
@@ -55,7 +52,13 @@
             'data-cy': 'session-expired-notification'
           }
         }) }}
-      {% else %}
+      {% endif %}
+      
+      <h1 class="govuk-heading-xl">
+        Householder planning appeal questionnaire
+      </h1>
+
+      {% if not isLinkedExpired and not isSessionExpired %}
         <p>Before you can access this questionnaire, we need to check you work at {{ lpaName }}.</p>
       {% endif %}
 
