@@ -1,5 +1,5 @@
 const convertToSoapKVPair = (log, key, value) => {
-  log.debug(
+  log(
     {
       key,
       value,
@@ -8,7 +8,7 @@ const convertToSoapKVPair = (log, key, value) => {
   );
 
   if (Array.isArray(value)) {
-    log.debug('Parsing as array');
+    log('Parsing as array');
     return {
       'a:AttributeValue': {
         '__i:type': 'a:SetAttributeValue',
@@ -19,7 +19,7 @@ const convertToSoapKVPair = (log, key, value) => {
   }
 
   if (value == null) {
-    log.debug('Parsing as null');
+    log('Parsing as null');
     return {
       'a:AttributeValue': {
         '__i:type': 'a:StringAttributeValue',
@@ -31,7 +31,7 @@ const convertToSoapKVPair = (log, key, value) => {
 
   if (value.toISOString) {
     /* Value is a date */
-    log.debug('Parsing as date');
+    log('Parsing as date');
     return {
       'a:AttributeValue': {
         '__i:type': 'a:DateAttributeValue',
@@ -51,7 +51,7 @@ const convertToSoapKVPair = (log, key, value) => {
   }
 
   /* Everything else is a string */
-  log.debug('Parsing as string');
+  log('Parsing as string');
   return {
     'a:AttributeValue': {
       '__i:type': 'a:StringAttributeValue',

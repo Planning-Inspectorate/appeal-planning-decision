@@ -1,7 +1,7 @@
 {
     "bindings": [
       {
-        "name": "sbMSG",
+        "name": "publishfunction",
         "type": "serviceBusTrigger",
         "direction": "in",
         "queueName": "horizon-householder-appeal-publish",

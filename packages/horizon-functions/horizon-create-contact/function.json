@@ -1,11 +1,15 @@
 {
-    "bindings": [
-      {
-        "name": "contactfunction",
-        "type": "httpTrigger",
-        "direction": "in",
-        "connection": "pinsuksmessagequeuedev_SERVICEBUS"
-      }
-    ]
-  }
-  
+  "bindings": [
+    {
+      "authLevel": "function",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req"
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    }
+  ]
+}

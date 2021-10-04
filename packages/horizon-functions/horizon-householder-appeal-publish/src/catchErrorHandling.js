@@ -5,13 +5,13 @@
  * @param err
  * @returns [message, httpStatus]
  */
-const catchErrorHandling = (event, err) => {
+const catchErrorHandling = (log, err) => {
   let message;
   let httpStatus = 500;
 
   if (err.response) {
     message = 'No response received from Horizon';
-    event.log.error(
+    log(
       {
         message: err.message,
         data: err.response.data,
@@ -23,7 +23,7 @@ const catchErrorHandling = (event, err) => {
   } else if (err.request) {
     message = 'Error sending to Horizon';
     httpStatus = 400;
-    event.log.error(
+    log(
       {
         message: err.message,
         request: err.request,
@@ -33,7 +33,7 @@ const catchErrorHandling = (event, err) => {
   } else {
     /* istanbul ignore next */
     message = err.message ?? 'General error';
-    event.log.error(
+    log(
       {
         message: err.message,
         stack: err.stack,

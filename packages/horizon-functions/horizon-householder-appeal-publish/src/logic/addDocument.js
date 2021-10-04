@@ -57,7 +57,7 @@ function createDataObject(data, body) {
             'a:AttributeValue': {
               '__i:type': 'a:DateAttributeValue',
               'a:Name': 'Document:Received/Sent Date',
-              'a:Value': data.createdAt,
+              'a:Value': data?.upload_date,
             },
           },
         ],
@@ -82,11 +82,11 @@ async function parseFile({ body }) {
   return object;
 }
 
-module.exports = async (context, req) => {
-  context.log('Receiving add document request');
+module.exports = async (log, body) => {
+  log('Receiving add document request');
 
   try {
-    const { caseReference } = req.body;
+    const { caseReference } = body;
 
     const input = {
       AddDocuments: {
@@ -96,12 +96,12 @@ module.exports = async (context, req) => {
         documents: [
           { '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business' },
           { '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance' },
-          await parseFile(req),
+          await parseFile({ body }),
         ],
       },
     };
 
-    context.log('Uploading documents to Horizon');
+    log('Uploading documents to Horizon');
 
     const { data } = await axios.post('/horizon', input, {
       baseURL: config.horizon.url,
@@ -114,21 +114,18 @@ module.exports = async (context, req) => {
       data,
     };
   } catch (err) {
-    context.log(err, 'Error');
+    log(err, 'Error');
     let message;
-    let httpStatus = 500;
 
     /* istanbul ignore else */
     if (err.response) {
       message = err.message;
-      context.log(message);
     } else if (err.request) {
       message = err.message;
-      httpStatus = 400;
-      context.log(message);
+      log(message);
     } else {
       message = 'General error';
-      context.log(
+      log(
         {
           message: err?.message,
           stack: err?.stack,
@@ -137,8 +134,6 @@ module.exports = async (context, req) => {
       );
     }
 
-    context.httpStatus = httpStatus;
-
     return {
       message,
     };
@@ -146,4 +141,3 @@ module.exports = async (context, req) => {
 };
 
 module.exports.createDataObject = createDataObject;
-// module.exports.getCaseReferenceFromAPI = getCaseReferenceFromAPI;

@@ -3,7 +3,7 @@ process.env.DOCUMENT_SERVICE_URL = 'document-url';
 process.env.HORIZON_URL = 'horizon-url';
 
 const axios = require('axios');
-const handler = require('./handler');
+const handler = require('./index');
 
 const { createDataObject } = handler;
 

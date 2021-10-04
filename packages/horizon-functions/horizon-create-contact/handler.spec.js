@@ -1,7 +1,7 @@
 jest.mock('axios');
 
 const axios = require('axios');
-const handler = require('./handler');
+const handler = require('./index');
 
 describe('handler', () => {
   const envvars = process.env;

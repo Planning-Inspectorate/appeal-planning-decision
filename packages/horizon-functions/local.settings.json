@@ -2,6 +2,7 @@
   "IsEncrypted": false,
   "Values": {
     "AzureWebJobsStorage": "",
-    "FUNCTIONS_WORKER_RUNTIME": "node"
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "pinsuksmessagequeuedev_SERVICEBUS":"Endpoint=sb://pins-uks-message-queue-dev.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=5RnT8GSCIGIQHXVbbTfNQWxmKXVYzOOVUgFhaqy31tw=" 
   }
 }

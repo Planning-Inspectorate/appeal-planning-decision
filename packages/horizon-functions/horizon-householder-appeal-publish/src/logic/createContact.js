@@ -1,15 +1,13 @@
 const axios = require('axios');
 
-module.exports = async (context, req) => {
+module.exports = async (log, body) => {
   const config = {
     horizon: {
       url: process.env.HORIZON_URL,
     },
   };
 
-  context.log('Receiving create contact request');
-
-  const { body } = req;
+  log('Receiving create contact request');
 
   /* The order of this appears to be important - first and last name's are required by Horizon */
   const contactData = [
@@ -47,32 +45,28 @@ module.exports = async (context, req) => {
     },
   };
 
-  context.log('Adding contact in Horizon');
+  log('Adding contact in Horizon');
 
   try {
     const { data } = await axios.post(`${config.horizon.url}/contacts`, input);
 
-    context.log('Contact added to Horizon');
+    log('Contact added to Horizon');
 
     return {
       id: data?.Envelope?.Body?.AddContactResponse?.AddContactResult?.value,
     };
   } catch (err) {
     let message;
-    let httpStatus = 500;
     if (err.response) {
       message = 'No response received from Horizon';
-      context.log(message);
+      log(message);
     } else if (err.request) {
       message = 'Error sending to Horizon';
-      httpStatus = 400;
-      context.log(message);
+      log(message);
     } else {
       message = 'General error';
-      context.log(message);
+      log(message);
     }
-
-    context.httpStatus = httpStatus;
 
     return {
       message,
