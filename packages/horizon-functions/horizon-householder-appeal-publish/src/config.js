@@ -15,6 +15,16 @@ module.exports = {
       document: process.env.HORIZON_DOCUMENT_CODE_KEY,
     },
   },
+  azure: {
+    create_contact: {
+      url: process.env.AZURE_CREATE_CONTACT_FUNCTION_URL,
+      key: process.env.AZURE_CREATE_CONTACT_FUNCTION_KEY,
+    },
+    add_document: {
+      url: process.env.AZURE_ADD_DOCUMENT_FUNCTION_URL,
+      key: process.env.AZURE_ADD_DOCUMENT_FUNCTION_KEY,
+    },
+  },
   logger: {
     level: process.env.LOGGER_LEVEL || 'info',
   },

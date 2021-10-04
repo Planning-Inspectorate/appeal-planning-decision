@@ -51,7 +51,7 @@ const populateDocuments = (body) => {
     if (body[documentsSections[key]] !== undefined) {
       documents.push(
         convertDocumentArray(
-          body[documentsSections[key]][key].uploadedFiles,
+          body[documentsSections[key]][key]?.uploadedFiles || [],
           sectionTypes[`${key}Type`]
         )
       );
@@ -76,38 +76,49 @@ const populateDocuments = (body) => {
  *
  * @returns {horizonCaseId | errorMessage}
  */
-const handlerReply = async (event, context) => {
-  event.log.info({ config }, 'Received householder reply publish request');
+const handlerReply = async (context, event) => {
+  context.log({ config }, 'Received householder reply publish request');
   let horizonId;
 
   try {
-    horizonId = await getHorizonId(event.body.appealId);
+    horizonId = await getHorizonId(event?.appealId);
   } catch (err) {
     const message = 'Horizon failed due to non-existant horizonId';
     context.httpStatus = 500;
-    event.log.error(
+    context.log(
       {
         message,
-        data: event.body.appealId,
+        data: event?.appealId,
         status: 500,
         headers: null,
       },
       message
     );
+    context.log(
+      {
+        message,
+        data: event?.appealId,
+        status: 500,
+        headers: null,
+      },
+      message
+    );
+    context.done();
     return {
       message,
     };
   }
 
   try {
-    const { body } = event;
-    const replyId = body.id;
-    await publishDocuments(event.log, populateDocuments(body), replyId, horizonId);
+    const replyId = event.id;
+    context.log(`publishing documents with reply id: ${replyId}`);
+    await publishDocuments(context.log, populateDocuments(event), replyId, horizonId);
+    context.done();
     return {
       id: horizonId,
     };
   } catch (err) {
-    const [message, httpStatus] = catchErrorHandling(event, err);
+    const [message, httpStatus] = catchErrorHandling(context.log, err);
     context.httpStatus = httpStatus;
     return {
       message,

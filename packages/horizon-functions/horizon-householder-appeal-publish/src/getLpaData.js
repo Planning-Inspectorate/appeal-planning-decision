@@ -12,14 +12,14 @@ const config = require('./config');
  */
 
 const getLpaData = async (log, code) => {
-  log.info({ code }, 'Getting LPA data from Appeals Service API');
+  log({ code }, 'Getting LPA data from Appeals Service API');
 
   const { data } = await axios.get(`/api/v1/local-planning-authorities/${code}`, {
     baseURL: config.appealsService.url,
   });
 
   if (!data?.horizonId) {
-    log.error({ data }, 'LPA not found');
+    log({ data }, 'LPA not found');
     throw new Error('Unknown LPA');
   }
 

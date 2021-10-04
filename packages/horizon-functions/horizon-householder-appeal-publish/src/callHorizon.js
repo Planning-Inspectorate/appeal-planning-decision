@@ -12,19 +12,19 @@ const config = require('./config');
  * @returns {Promise<string>}
  */
 const callHorizon = async (log, input) => {
-  log.info(input, 'Calling Horizon');
+  log(input, 'Calling Horizon');
 
   const { data } = await axios.post('/horizon', input, {
     baseURL: config.horizon.url,
   });
 
-  log.info({ data }, 'Horizon response');
+  log({ data }, 'Horizon response');
 
   // case IDs are in format APP/W4705/D/21/3218521 - we need last 7 digits or numbers after final slash (always the same)
   const horizonFullCaseId = data?.Envelope?.Body?.CreateCaseResponse?.CreateCaseResult?.value;
 
   if (!horizonFullCaseId) {
-    log.error(
+    log(
       { input: data?.Envelope?.Body?.CreateCaseResponse?.CreateCaseResult },
       'Horizon ID malformed'
     );
@@ -33,7 +33,7 @@ const callHorizon = async (log, input) => {
 
   const parsedHorizonId = horizonFullCaseId.split('/').slice(-1).pop();
 
-  log.debug({ parsedHorizonId, horizonFullCaseId }, 'Horizon ID parsed');
+  log({ parsedHorizonId, horizonFullCaseId }, 'Horizon ID parsed');
 
   return parsedHorizonId;
 };

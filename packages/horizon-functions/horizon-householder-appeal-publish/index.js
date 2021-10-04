@@ -8,19 +8,17 @@ const { getLpaData } = require('./src/getLpaData');
 const { publishDocuments } = require('./src/publishDocuments');
 const { catchErrorHandling } = require('./src/catchErrorHandling');
 
-module.exports = async (event, context) => {
-  if (!event.body.appeal) return handlerReply(event, context);
+module.exports = async (context, event) => {
+  if (!event.appeal) return handlerReply(context, event);
+  context.log('Received householder appeal publish request', event);
 
-  event.log.info({ config }, 'Received householder appeal publish request');
   try {
-    const { body } = event;
-
-    const { _id: appealId } = body;
+    const { _id: appealId } = event;
 
     /* Get the LPA associated with this appeal */
-    const lpa = await getLpaData(event.log, body.appeal.lpaCode);
+    const lpa = await getLpaData(context.log, event.appeal.lpaCode);
 
-    event.log.info({ lpa }, 'LPA detail');
+    context.log({ lpa }, 'LPA detail');
 
     let location;
     /* PINS only supports England and Wales */
@@ -36,7 +34,7 @@ module.exports = async (event, context) => {
       {
         key: 'Case Dates:Receipt Date',
         // This is the last time the record was updated
-        value: new Date(body.appeal.updatedAt),
+        value: new Date(event.appeal.updatedAt),
       },
       {
         key: 'Case:Source Indicator',
@@ -48,7 +46,7 @@ module.exports = async (event, context) => {
       },
       {
         key: 'Planning Application:Date Of LPA Decision',
-        value: new Date(body.appeal.decisionDate),
+        value: new Date(event.appeal.decisionDate),
       },
       {
         key: 'Case:Procedure (Appellant)',
@@ -56,44 +54,44 @@ module.exports = async (event, context) => {
       },
       {
         key: 'Planning Application:LPA Application Reference',
-        value: body.appeal.requiredDocumentsSection.applicationNumber,
+        value: event.appeal.requiredDocumentsSection.applicationNumber,
       },
       {
         key: 'Case Site:Site Address Line 1',
-        value: body.appeal.appealSiteSection.siteAddress.addressLine1,
+        value: event.appeal.appealSiteSection.siteAddress.addressLine1,
       },
       {
         key: 'Case Site:Site Address Line 2',
-        value: body.appeal.appealSiteSection.siteAddress.addressLine2,
+        value: event.appeal.appealSiteSection.siteAddress.addressLine2,
       },
       {
         key: 'Case Site:Site Address Town',
-        value: body.appeal.appealSiteSection.siteAddress.town,
+        value: event.appeal.appealSiteSection.siteAddress.town,
       },
       {
         key: 'Case Site:Site Address County',
-        value: body.appeal.appealSiteSection.siteAddress.county,
+        value: event.appeal.appealSiteSection.siteAddress.county,
       },
       {
         key: 'Case Site:Site Address Postcode',
-        value: body.appeal.appealSiteSection.siteAddress.postcode,
+        value: event.appeal.appealSiteSection.siteAddress.postcode,
       },
       {
         key: 'Case Site:Ownership Certificate',
-        value: body.appeal.appealSiteSection.siteOwnership.ownsWholeSite ? 'Certificate A' : null,
+        value: event.appeal.appealSiteSection.siteOwnership.ownsWholeSite ? 'Certificate A' : null,
       },
       {
         key: 'Case Site:Site Viewable From Road',
-        value: body.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
+        value: event.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
       },
       {
         key: 'Case Site:Inspector Need To Enter Site',
-        value: !body.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
+        value: !event.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
       },
     ];
 
     /* Create the contacts and add to attribute data */
-    attributeData.push(...(await createContacts(event.log, body)));
+    attributeData.push(...(await createContacts(context.log, event)));
 
     const input = {
       CreateCase: {
@@ -107,15 +105,14 @@ module.exports = async (event, context) => {
           '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business',
           '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
           'a:Attributes': attributeData.map(({ key, value }) =>
-            convertToSoapKVPair(event.log, key, value)
+            convertToSoapKVPair(context.log, key, value)
           ),
         },
       },
     };
 
-    const horizonCaseId = await callHorizon(event.log, input);
-
-    event.log.info({ horizonId: horizonCaseId }, 'Adding Horizon ID to Appeal');
+    const horizonCaseId = await callHorizon(context.log, input);
+    context.log({ horizonId: horizonCaseId }, 'Adding Horizon ID to Appeal');
 
     await axios.patch(
       `/api/v1/appeals/${appealId}`,
@@ -136,25 +133,25 @@ module.exports = async (event, context) => {
     */
     const documents = [
       {
-        id: body?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
+        id: event?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
         type: 'Appellant Grounds of Appeal',
       },
       {
-        id: body?.appeal?.requiredDocumentsSection?.originalApplication?.uploadedFile?.id,
+        id: event?.appeal?.requiredDocumentsSection?.originalApplication?.uploadedFile?.id,
         type: 'Appellant Initial Documents',
       },
       {
-        id: body?.appeal?.requiredDocumentsSection?.decisionLetter?.uploadedFile?.id,
+        id: event?.appeal?.requiredDocumentsSection?.decisionLetter?.uploadedFile?.id,
         type: 'LPA Decision Notice',
       },
       {
-        id: body?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id,
+        id: event?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id,
         type: 'Appellant Initial Documents',
       },
     ];
 
     /* Add optional docs to the list */
-    const optionalFiles = body?.appeal?.yourAppealSection?.otherDocuments?.uploadedFiles;
+    const optionalFiles = event?.appeal?.yourAppealSection?.otherDocuments?.uploadedFiles;
     if (Array.isArray(optionalFiles)) {
       documents.push(
         ...optionalFiles.map(({ id }) => ({
@@ -164,14 +161,14 @@ module.exports = async (event, context) => {
       );
     }
 
-    await publishDocuments(event.log, documents, appealId, horizonCaseId);
+    await publishDocuments(context.log, documents, appealId, horizonCaseId);
+    context.log({ horizonCaseId }, 'Successful call to Horizon');
 
-    event.log.info({ horizonCaseId }, 'Successful call to Horizon');
     return {
       id: horizonCaseId,
     };
   } catch (err) {
-    const [message, httpStatus] = catchErrorHandling(event, err);
+    const [message, httpStatus] = catchErrorHandling(context.log, err);
     context.httpStatus = httpStatus;
 
     return {
