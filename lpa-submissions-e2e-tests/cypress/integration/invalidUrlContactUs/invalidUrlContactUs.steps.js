@@ -20,6 +20,9 @@ Given('user has navigated to an invalid page',()=>{
 });
 
 Given('user has navigated to contact us page',()=>{
+
+  cy.goToPage(invalidUrl, {failOnStatusCode:false});
+  getContactUsLink().click();
   cy.verifyPageTitle(contactUsPageTitle);
   cy.verifyPageHeading(contactUsPageHeading);
 });
@@ -32,8 +35,8 @@ When('user selects to find out about call charges',()=>{
   getFindAboutCallChargesLink().click();
 });
 
-When('user selects to email planning inspectorate',()=>{
-  getEmailLink().click();
+Then('user selects to email planning inspectorate',()=>{
+  getEmailLink().click({multiple:true});
 });
 
 Then('the contact us page will be displayed',()=>{
