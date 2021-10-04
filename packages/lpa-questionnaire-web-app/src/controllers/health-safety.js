@@ -45,7 +45,7 @@ exports.postHealthSafety = async (req, res) => {
     renderView(res, VIEW.HEALTH_SAFETY, {
       prefix: 'appeal-questionnaire',
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary,
       values,
@@ -67,7 +67,7 @@ exports.postHealthSafety = async (req, res) => {
     renderView(res, VIEW.HEALTH_SAFETY, {
       prefix: 'appeal-questionnaire',
       appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink || `/appeal-questionnaire/${req.params.id}/${VIEW.TASK_LIST}`,
+      backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
       errors,
       errorSummary: [{ text: err.toString() }],
       values,
