@@ -1,8 +1,12 @@
 const { get, post } = require('../router-mock');
 const authenticationController = require('../../../../src/controllers/authentication');
 const fetchLPA = require('../../../../src/middleware/fetch-lpa');
+const { rules: yourEmailValidatorRules } = require('../../../../src/validators/email');
+const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 
-describe('routes/extra-conditions', () => {
+jest.mock('../../../../src/validators/email');
+
+describe('routes/authentication', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
     require('../../../../src/routes/auth/authentication');
@@ -16,6 +20,8 @@ describe('routes/extra-conditions', () => {
     );
     expect(post).toHaveBeenCalledWith(
       '/:lpaCode/authentication/your-email',
+      yourEmailValidatorRules(),
+      validationErrorHandler,
       fetchLPA,
       authenticationController.processEmailAddress
     );
