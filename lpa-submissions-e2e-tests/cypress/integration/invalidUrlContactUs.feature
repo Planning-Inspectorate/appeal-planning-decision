@@ -9,12 +9,12 @@ Feature: Interested Parties Application
   Then the contact us page will be displayed
 
 
- Scenario: AS-02User selects to find out about call charges
+ Scenario: AS-02 User selects to find out about call charges
   Given user has navigated to contact us page
   When user selects to find out about call charges
   Then user is navigated to call charges page
 
   Scenario: AS-03 User selects to email Planning Inspectorate
   Given user has navigated to contact us page
-  When user selects to email planning inspectorate
-  Then user is able to send an email
+  Then user selects to email planning inspectorate
+
