@@ -1,6 +1,8 @@
 const express = require('express');
 const authenticationController = require('../../controllers/authentication');
 const fetchLPA = require('../../middleware/fetch-lpa');
+const { validationErrorHandler } = require('../../validators/validation-error-handler');
+const { rules: yourEmailValidatorRules } = require('../../validators/email');
 
 const router = express.Router();
 
@@ -11,6 +13,8 @@ router.get(
 );
 router.post(
   '/:lpaCode/authentication/your-email',
+  yourEmailValidatorRules(),
+  validationErrorHandler,
   fetchLPA,
   authenticationController.processEmailAddress
 );

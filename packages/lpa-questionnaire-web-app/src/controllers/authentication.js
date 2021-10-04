@@ -3,6 +3,7 @@ const config = require('../config');
 const { VIEW } = require('../lib/views');
 const magicLinkAPIWrapper = require('../lib/magiclink-api-wrapper');
 const { isEmailWithinDomain } = require('../lib/email-validation');
+const { renderView } = require('../util/render');
 
 function createMagicLinkAPIPayload(req) {
   const email = req.body?.email;
@@ -46,11 +47,32 @@ async function processEmailAddress(req, res) {
   req.log.debug('Enter process email address controller');
   const email = req.body?.email;
   const { lpa } = req;
+  const { errors = {}, errorSummary = [] } = req.body;
+
+  const isSessionExpired = req.body?.hidIsSessionExpired === 'true';
+  const isLinkedExpired = req.body?.hidIsLinkedExpired === 'true';
+  const lpaName = req.lpa.name;
+
+  if (Object.keys(errors).length > 0) {
+    renderView(res, VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
+      isSessionExpired,
+      isLinkedExpired,
+      lpaName,
+      enterEmailLink: `/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
+      email,
+      errors,
+      errorSummary,
+    });
+
+    return;
+  }
 
   if (isEmailWithinDomain(email, lpa.domain)) {
     const magicLinkPayload = createMagicLinkAPIPayload(req);
     await magicLinkAPIWrapper.createMagicLink(magicLinkPayload);
     req.log.debug(`Magic link authentication request executed with success.`);
+  } else {
+    req.log.debug(`Email provided does not belong to the lpa ${lpa.domain}.`);
   }
 
   req.session.email = email;
