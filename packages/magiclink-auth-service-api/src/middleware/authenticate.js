@@ -5,7 +5,12 @@ const mapper = require('../mappers/magicLinkTokenMapper');
 function handleTokenExpiredError(req, res, err) {
   req.log.debug('MagicLink token is expired.');
   const magicLinkData = mapper.tokenToMagicLinkData(err.tokenPayload);
-  return res.redirect(`${magicLinkData.magicLink.expiredLinkRedirectURL}`);
+
+  return res.redirect(
+    `${magicLinkData.magicLink.expiredLinkRedirectURL}?redirectURL=${encodeURIComponent(
+      magicLinkData.magicLink.redirectURL,
+    )}`,
+  );
 }
 
 function handleInvalidTokenError(req, res, err) {
