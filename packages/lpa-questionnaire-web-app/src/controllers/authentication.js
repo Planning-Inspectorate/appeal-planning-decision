@@ -35,6 +35,9 @@ function showEnterEmailAddress(req, res) {
   const isLinkedExpired = req.params.error === 'link-expired';
   const lpaName = req.lpa.name;
 
+  req.session = req.session || {};
+  req.session.redirectURL = req.session.redirectURL || req.query.redirectURL;
+
   return res.render(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
     isSessionExpired,
     isLinkedExpired,
