@@ -10,6 +10,9 @@ function createMagicLinkAPIPayload(req) {
   const lpaCode = req.lpa.id;
   const redirectURL = req.session?.redirectURL;
 
+  req.log.debug(`Des - req.session - ${JSON.stringify(req.session)}`);
+  req.log.debug(`Des - redirectURL - ${redirectURL}`);
+
   return {
     magicLink: {
       redirectURL,
