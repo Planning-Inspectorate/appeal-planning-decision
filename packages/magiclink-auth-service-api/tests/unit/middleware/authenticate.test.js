@@ -32,7 +32,11 @@ describe('middleware.authenticate', () => {
 
       await authenticate(req, res, next);
 
-      expect(res.redirect).toHaveBeenCalledWith(mockMagicLinkData.magicLink.expiredLinkRedirectURL);
+      expect(res.redirect).toHaveBeenCalledWith(
+        `${mockMagicLinkData.magicLink.expiredLinkRedirectURL}?redirectURL=${encodeURIComponent(
+          mockMagicLinkData.magicLink.redirectURL,
+        )}`,
+      );
     });
   });
 

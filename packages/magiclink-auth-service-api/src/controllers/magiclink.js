@@ -16,8 +16,8 @@ function getMagicLinkURL(req) {
  * @param req HTTP request object that contains the data required for the magic link authentication flow.
  * Request body payload example: {
  *  "magicLink": {
- *    "redirectURL": "http://localhost:9001/89aa8504-773c-42be-bb68-029716ad9756/task-list",
- *    "expiredLinkRedirectURL": "http://localhost:9001/E69999999/authentication/your-email/link-expired",
+ *    "redirectURL": "http://localhost:9001/appeal-questionnaire/89aa8504-773c-42be-bb68-029716ad9756/task-list",
+ *    "expiredLinkRedirectURL": "http://localhost:9001/appeal-questionnaire/E69999999/authentication/your-email/link-expired",
  *    "destinationEmail": "email.test@test.com"
  *  },
  * "auth": {

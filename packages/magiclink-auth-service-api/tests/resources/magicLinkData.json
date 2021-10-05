@@ -1,7 +1,7 @@
 {
   "magicLink": {
-    "redirectURL": "http://localhost:9001/89aa8504-773c-42be-bb68-029716ad9756/task-list",
-    "expiredLinkRedirectURL": "http://localhost:9001/E69999999/authentication/your-email/link-expired",
+    "redirectURL": "http://localhost:9001/appeal-questionnaire/89aa8504-773c-42be-bb68-029716ad9756/task-list",
+    "expiredLinkRedirectURL": "http://localhost:9001/appeal-questionnaire/E69999999/authentication/your-email/link-expired",
     "destinationEmail": "adriana.test@gmail.com"
   },
   "auth": {

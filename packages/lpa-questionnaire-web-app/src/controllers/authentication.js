@@ -10,12 +10,15 @@ function createMagicLinkAPIPayload(req) {
   const lpaCode = req.lpa.id;
   const redirectURL = req.session?.redirectURL;
 
+  req.log.debug(`Des - req.session - ${JSON.stringify(req.session)}`);
+  req.log.debug(`Des - redirectURL - ${redirectURL}`);
+
   return {
     magicLink: {
       redirectURL,
       expiredLinkRedirectURL: `${req.protocol}://${req.get(
         'host'
-      )}/${lpaCode}/authentication/your-email/link-expired`,
+      )}/appeal-questionnaire/${lpaCode}/authentication/your-email/link-expired`,
       destinationEmail: email,
     },
     auth: {
@@ -36,13 +39,13 @@ function showEnterEmailAddress(req, res) {
   const lpaName = req.lpa.name;
 
   req.session = req.session || {};
-  req.session.redirectURL = req.session.redirectURL || req.query.redirectURL;
+  req.session.redirectURL = req.session.redirectURL || req.query?.redirectURL;
 
   return res.render(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
     isSessionExpired,
     isLinkedExpired,
     lpaName,
-    enterEmailLink: `/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
+    enterEmailLink: `/appeal-questionnaire/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
   });
 }
 
@@ -61,7 +64,7 @@ async function processEmailAddress(req, res) {
       isSessionExpired,
       isLinkedExpired,
       lpaName,
-      enterEmailLink: `/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
+      enterEmailLink: `/appeal-questionnaire/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
       email,
       errors,
       errorSummary,
@@ -79,7 +82,9 @@ async function processEmailAddress(req, res) {
   }
 
   req.session.email = email;
-  res.redirect(`/${req.params.lpaCode}/${VIEW.AUTHENTICATION.EMAIL_ADDRESS_CONFIRMATION}`);
+  res.redirect(
+    `/appeal-questionnaire/${req.params.lpaCode}/${VIEW.AUTHENTICATION.EMAIL_ADDRESS_CONFIRMATION}`
+  );
 }
 
 function showEmailConfirmation(req, res) {
@@ -87,7 +92,7 @@ function showEmailConfirmation(req, res) {
 
   return res.render(VIEW.AUTHENTICATION.EMAIL_ADDRESS_CONFIRMATION, {
     email: req.session?.email,
-    enterEmailLink: `/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
+    enterEmailLink: `/appeal-questionnaire/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
   });
 }
 
