@@ -32,7 +32,14 @@ function handleTokenExpired(req, res, err) {
     return res.status(404).send();
   }
 
-  return res.redirect(`/${userInformation.lpaCode}/authentication/your-email/session-expired`);
+  req.log.debug(`Des - handleTokenExpired - req.protocol - ${req.protocol}`);
+  req.log.debug(`Des - handleTokenExpired - req.get('host') - ${req.get('host')}`);
+  req.log.debug(`Des - handleTokenExpired - req.originalUrl - ${req.originalUrl}`);
+
+  req.session.redirectURL = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+  return res.redirect(
+    `/appeal-questionnaire/${userInformation.lpaCode}/authentication/your-email/session-expired`
+  );
 }
 
 async function handleTokenInvalidError(req, res, err) {
@@ -41,13 +48,17 @@ async function handleTokenInvalidError(req, res, err) {
   const lpaCode = await getLPACode(req.params?.id);
   if (!lpaCode) {
     req.log.error(
-      `LPA code not found. Failure occurred while trying to redirect user to /:lpaCode/authentication/your-email page.`
+      `LPA code not found. Failure occurred while trying to redirect user to /appeal-questionnaire/:lpaCode/authentication/your-email page.`
     );
     return res.status(404).send();
   }
 
   req.session.redirectURL = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
-  return res.redirect(`/${lpaCode}/authentication/your-email`);
+  req.log.debug(
+    `Des - handleTokenInvalidError - req.session.redirectURL - ${req.session.redirectURL}`
+  );
+
+  return res.redirect(`/appeal-questionnaire/${lpaCode}/authentication/your-email`);
 }
 
 module.exports = async (req, res, next) => {

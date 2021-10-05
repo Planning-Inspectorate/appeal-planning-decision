@@ -34,13 +34,13 @@ describe('middleware/authenticate', () => {
     };
   });
 
-  it('should redirect user to :lpaCode/authentication/your-email page if jwtToken is expired', async () => {
+  it('should redirect user to appeal-questionnaire:lpaCode/authentication/your-email page if jwtToken is expired', async () => {
     mockAuthenticationService.authenticate.mockRejectedValue(new ExpiredTokenError('', jwtPayload));
 
     await authenticate(req, res, next);
 
     expect(res.redirect).toHaveBeenCalledWith(
-      '/E69999999/authentication/your-email/session-expired'
+      '/appeal-questionnaire/E69999999/authentication/your-email/session-expired'
     );
   });
 
@@ -62,14 +62,14 @@ describe('middleware/authenticate', () => {
   });
 
   describe('with InvalidTokenError error', () => {
-    it('should redirect to /:lpaCode/authentication/your-email page if req has an existing appealId path param', async () => {
+    it('should redirect to /appeal-questionnaire/:lpaCode/authentication/your-email page if req has an existing appealId path param', async () => {
       mockAppealsApiWrapper.getAppeal.mockResolvedValue(mockAppealReply);
       mockAuthenticationService.authenticate.mockRejectedValue(new InvalidTokenError());
 
       await authenticate(req, res, next);
 
       expect(res.redirect).toHaveBeenCalledWith(
-        `/${mockAppealReply.lpaCode}/authentication/your-email`
+        `/appeal-questionnaire/${mockAppealReply.lpaCode}/authentication/your-email`
       );
     });
 
