@@ -1,7 +1,7 @@
+const httpPort = Number(process.env.PORT || 3009);
+
 module.exports = {
-  server: {
-    port: Number(process.env.SERVER_PORT || 3009),
-  },
+  server: { port: httpPort },
   logger: {
     level: process.env.LOGGER_LEVEL || 'debug',
     redact: ['opts.body', 'config.db.session.uri', 'config.server.sessionSecret'],
