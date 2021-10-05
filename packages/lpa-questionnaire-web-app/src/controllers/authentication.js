@@ -10,6 +10,9 @@ function createMagicLinkAPIPayload(req) {
   const lpaCode = req.lpa.id;
   const redirectURL = req.session?.redirectURL;
 
+  req.log.debug(`Des - req.session - ${JSON.stringify(req.session)}`);
+  req.log.debug(`Des - redirectURL - ${redirectURL}`);
+
   return {
     magicLink: {
       redirectURL,
@@ -88,11 +91,7 @@ function showEmailConfirmation(req, res) {
 
   return res.render(VIEW.AUTHENTICATION.EMAIL_ADDRESS_CONFIRMATION, {
     email: req.session?.email,
-<<<<<<< HEAD
     enterEmailLink: `/appeal-questionnaire/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
-=======
-    enterEmailLink: `/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
->>>>>>> 41abe96e3 (feat(lpa-questionnaire-web-app): integrate lpa-questionnaire-web-app with magiclink-auth-service-api)
   });
 }
 
