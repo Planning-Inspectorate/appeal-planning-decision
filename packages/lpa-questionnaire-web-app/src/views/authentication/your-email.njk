@@ -19,9 +19,6 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">
-        Householder planning appeal questionnaire
-      </h1>
 
       {% if isLinkedExpired %}
         {% set html %}
@@ -55,34 +52,56 @@
             'data-cy': 'session-expired-notification'
           }
         }) }}
-      {% else %}
+      {% endif %}
+      
+      <h1 class="govuk-heading-xl">
+        Householder planning appeal questionnaire
+      </h1>
+
+      {% if not isLinkedExpired and not isSessionExpired %}
         <p>Before you can access this questionnaire, we need to check you work at {{ lpaName }}.</p>
       {% endif %}
 
-      <form action="{{ enterEmailLink }}" method="POST" novalidate>
+      <form action="{{ enterEmailLink }}" method="post" novalidate>
         {{ govukInput({
+            id: "email",
+            name: "email",
+            type: "text",
+            spellcheck: false,
+            value: email,
+            attributes: {
+               'data-cy': 'lpa-authentication-email'
+            },
             label: {
               text: "Your email address",
+              attributes: {
+                'data-cy': 'lpa-authentication-email-label'
+              },
               classes: "govuk-label--l",
               isPageHeading: true
             },
             hint: {
               text: ["Enter your ", lpaName, " email address"] | join
             },
-            id: "email",
-            name: "email",
-            attributes: {
-               'data-cy': 'lpa-authentication-email'
+            errorMessage: errors['email'] and {
+                text: errors['email'].msg,
+                attributes: {
+                  'data-cy': 'email-error'
+                }
             }
           })
         }}
         {{ govukButton({
               text: "Continue",
+              type: "submit",
               attributes: {
                 'data-cy': 'submit'
               }
            })
         }}
+
+        <input id="hidIsSessionExpired" type="hidden" name="hidIsSessionExpired" value="{{ isSessionExpired }}">
+        <input id="hidIsLinkedExpired" type="hidden" name="hidIsLinkedExpired" value="{{ isLinkedExpired }}">
       </form>
     </div>
   </div>
