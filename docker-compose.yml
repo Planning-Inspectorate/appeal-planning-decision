@@ -16,8 +16,6 @@ services:
       LOGGER_LEVEL: 'debug'
     ports:
       - 3003:3000
-    volumes:
-      - ./packages/common:/opt/app/node_modules/@pins/common:ro
 
   appeal-reply-service-api:
     image: node:14-alpine
