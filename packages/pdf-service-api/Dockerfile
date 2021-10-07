@@ -11,8 +11,6 @@ WORKDIR /opt/app
 ENV APP_NAME="pdf-service-api"
 ENV BUILD_ID="1"
 ENV VERSION="1.0.0"
-# This must be built locally from the common package
-COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
 ADD src src
 ADD test test
 ADD package.json package.json
