@@ -5,6 +5,7 @@ Feature: Appeals Development Plan
   Background:
     Given an appeal has been created
     And a questionnaire has been created
+    And the LPA Planning Officer is authenticated
 
   Scenario: AC01 - The LPA Planning Officer navigates to the Development Plan Document and Neighbourhood Plan question
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list

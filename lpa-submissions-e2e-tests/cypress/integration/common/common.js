@@ -1,12 +1,17 @@
 import { Given, When } from 'cypress-cucumber-preprocessor/steps';
+import authenticateLPA from '../../support/magic-link/authenticateLPA';
 
 Given('an appeal has been created', () => {
   cy.completeAppeal();
-})
+});
 
 Given('a questionnaire has been created', () => {
   cy.generateQuestionnaire();
-})
+});
+
+Given('the LPA Planning Officer is authenticated', () => {
+  authenticateLPA();
+});
 
 Given('all the mandatory questions for the questionnaire have been completed', () => {
   cy.completeQuestionnaire();

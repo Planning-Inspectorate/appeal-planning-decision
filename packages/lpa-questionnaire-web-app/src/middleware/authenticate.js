@@ -32,10 +32,6 @@ function handleTokenExpired(req, res, err) {
     return res.status(404).send();
   }
 
-  req.log.debug(`Des - handleTokenExpired - req.protocol - ${req.protocol}`);
-  req.log.debug(`Des - handleTokenExpired - req.get('host') - ${req.get('host')}`);
-  req.log.debug(`Des - handleTokenExpired - req.originalUrl - ${req.originalUrl}`);
-
   req.session.redirectURL = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
   return res.redirect(
     `/appeal-questionnaire/${userInformation.lpaCode}/authentication/your-email/session-expired`
@@ -54,10 +50,6 @@ async function handleTokenInvalidError(req, res, err) {
   }
 
   req.session.redirectURL = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
-  req.log.debug(
-    `Des - handleTokenInvalidError - req.session.redirectURL - ${req.session.redirectURL}`
-  );
-
   return res.redirect(`/appeal-questionnaire/${lpaCode}/authentication/your-email`);
 }
 

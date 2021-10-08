@@ -6,6 +6,7 @@ Feature: Statutory Development Plan Policy
   Background:
     Given an appeal has been created
     And a questionnaire has been created
+    And the LPA Planning Officer is authenticated
 
   Scenario: AC1 LPA Planning Officer navigations to Statutory development plan policy question
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list
