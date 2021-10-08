@@ -11,6 +11,7 @@ Feature: Check Your Answers
   Background:
     Given an appeal has been created
     And a questionnaire has been created
+    And the LPA Planning Officer is authenticated
 
   Scenario: AC01 - Accessing 'Check Your Answers' from the task list
     Given all the mandatory questions for the questionnaire have been completed

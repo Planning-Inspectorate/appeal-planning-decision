@@ -5,6 +5,7 @@ Feature: As a planning officer
   Background:
     Given an appeal has been created
     And a questionnaire has been created
+    And the LPA Planning Officer is authenticated
 
   @wip
   Scenario: AC01 Send email confirmation to LPA

@@ -4,6 +4,7 @@ Feature: Creation of a PDF file containing the LPA Questionnaires submission inf
   Background:
     Given an appeal has been created
     And a questionnaire has been created
+    And the LPA Planning Officer is authenticated
 
     @wip
   Scenario: AC01 - PLA Planing officer submits their answers and pdf should generate

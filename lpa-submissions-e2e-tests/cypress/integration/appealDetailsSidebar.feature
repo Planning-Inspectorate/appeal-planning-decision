@@ -11,6 +11,7 @@ Feature: appealDetailsSidebar:
   Background:
     Given an appeal has been created
     And a questionnaire has been created
+    And the LPA Planning Officer is authenticated
 
   Scenario: AC1-Appeal details sidebar is displayed with the correct information
     Given A subsection page is presented
