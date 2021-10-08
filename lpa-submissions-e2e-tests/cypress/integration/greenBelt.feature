@@ -6,6 +6,7 @@ Feature: Green belt
   Background:
     Given an appeal has been created
     And a questionnaire has been created
+    And the LPA Planning Officer is authenticated
 
   Scenario: AC01 LPA Officer navigates to Green belt
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list

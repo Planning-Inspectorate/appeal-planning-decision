@@ -5,6 +5,7 @@ Feature: Appeals Questionnaire Submitted Confirmation
   Background:
     Given an appeal has been created
     And a questionnaire has been created
+    And the LPA Planning Officer is authenticated
 
   Scenario: AC01 - LPA Planning Officer submits finished LPA Questionnaire
     Given the Information Submitted page is requested

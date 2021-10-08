@@ -9,6 +9,7 @@ Feature: Task lists
   Background:
     Given an appeal has been created
     And a questionnaire has been created
+    And the LPA Planning Officer is authenticated
 
   Scenario: LPA Questionnaire task list page is displayed with static text
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list

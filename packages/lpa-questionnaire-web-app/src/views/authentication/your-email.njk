@@ -78,7 +78,7 @@
                 'data-cy': 'lpa-authentication-email-label'
               },
               classes: "govuk-label--l",
-              isPageHeading: true
+              isPageHeading: false
             },
             hint: {
               text: ["Enter your ", lpaName, " email address"] | join
@@ -100,8 +100,6 @@
            })
         }}
 
-        <input id="hidIsSessionExpired" type="hidden" name="hidIsSessionExpired" value="{{ isSessionExpired }}">
-        <input id="hidIsLinkedExpired" type="hidden" name="hidIsLinkedExpired" value="{{ isLinkedExpired }}">
       </form>
     </div>
   </div>

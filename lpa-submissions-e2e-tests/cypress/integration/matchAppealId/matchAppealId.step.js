@@ -1,5 +1,6 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { input } from '../../support/PageObjects/common-page-objects';
+import authenticateLPA from '../../support/magic-link/authenticateLPA';
 
 Given('answers have been saved to the questionnaire', () => {
   cy.completeQuestionnaire();
@@ -12,6 +13,9 @@ When('the questionnaire is revisited in a new session', () => {
 
   // Clear cookies to remove tie to session
   cy.clearCookies();
+
+  // authenticate again to have access to the LPA Questionnaire page
+  authenticateLPA();
 
   // Reloading the page will generate a new session
   cy.reload();
