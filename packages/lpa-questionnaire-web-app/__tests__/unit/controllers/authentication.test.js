@@ -29,7 +29,7 @@ describe('authentication controller', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
         isSessionExpired: false,
-        isLinkedExpired: false,
+        isLinkExpired: false,
         lpaName: 'System Test Borough Council',
         enterEmailLink: '/appeal-questionnaire/E69999999/authentication/your-email',
       });
@@ -45,7 +45,7 @@ describe('authentication controller', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
         isSessionExpired: true,
-        isLinkedExpired: false,
+        isLinkExpired: false,
         lpaName: 'System Test Borough Council',
         enterEmailLink: '/appeal-questionnaire/E69999999/authentication/your-email',
       });
@@ -53,7 +53,7 @@ describe('authentication controller', () => {
   });
 
   describe('GET /appeal-questionnaire/:lpaCode/authentication/your-email/link-expired', () => {
-    it('should call the correct template and the attribute "isLinkedExpired" set true', () => {
+    it('should call the correct template and the attribute "isLinkExpired" set true', () => {
       req.session = null;
       req.params.error = 'link-expired';
 
@@ -61,7 +61,7 @@ describe('authentication controller', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
         isSessionExpired: false,
-        isLinkedExpired: true,
+        isLinkExpired: true,
         lpaName: 'System Test Borough Council',
         enterEmailLink: '/appeal-questionnaire/E69999999/authentication/your-email',
       });
@@ -100,10 +100,9 @@ describe('authentication controller', () => {
         ...req,
         body: {
           isSessionExpired: false,
-          isLinkedExpired: false,
+          isLinkExpired: false,
           lpaName: 'System Test Borough Council',
           enterEmailLink: `/appeal-questionnaire/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
-          email: null,
           errors: { a: 'b' },
           errorSummary: [{ text: 'There were errors here', href: '#' }],
         },
@@ -114,10 +113,9 @@ describe('authentication controller', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
         isSessionExpired: false,
-        isLinkedExpired: false,
+        isLinkExpired: false,
         lpaName: 'System Test Borough Council',
         enterEmailLink: `/appeal-questionnaire/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
-        email: null,
         errors: { a: 'b' },
         errorSummary: [{ text: 'There were errors here', href: '#' }],
       });
