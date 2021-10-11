@@ -32,7 +32,7 @@ function createMagicLinkAPIPayload(req) {
 function showEnterEmailAddress(req, res) {
   req.log.debug('Enter show email address controller');
   const isSessionExpired = req.params.error === 'session-expired';
-  const isLinkedExpired = req.params.error === 'link-expired';
+  const isLinkExpired = req.params.error === 'link-expired';
   const lpaName = req.lpa.name;
 
   req.session = req.session || {};
@@ -40,7 +40,7 @@ function showEnterEmailAddress(req, res) {
 
   return res.render(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
     isSessionExpired,
-    isLinkedExpired,
+    isLinkExpired,
     lpaName,
     enterEmailLink: `/appeal-questionnaire/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
   });
@@ -53,16 +53,15 @@ async function processEmailAddress(req, res) {
   const { errors = {}, errorSummary = [] } = req.body;
 
   const isSessionExpired = req.body?.hidIsSessionExpired === 'true';
-  const isLinkedExpired = req.body?.hidIsLinkedExpired === 'true';
+  const isLinkExpired = req.body?.hidIsLinkedExpired === 'true';
   const lpaName = req.lpa.name;
 
   if (Object.keys(errors).length > 0) {
     renderView(res, VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
       isSessionExpired,
-      isLinkedExpired,
+      isLinkExpired,
       lpaName,
       enterEmailLink: `/appeal-questionnaire/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
-      email,
       errors,
       errorSummary,
     });
