@@ -20,8 +20,7 @@ Given('user has navigated to an invalid page',()=>{
 });
 
 Given('user has navigated to contact us page',()=>{
-
-  cy.goToPage(invalidUrl, {failOnStatusCode:false});
+  cy.goToPage(contactUsPageUrl, {failOnStatusCode:false});
   getContactUsLink().click();
   cy.verifyPageTitle(contactUsPageTitle);
   cy.verifyPageHeading(contactUsPageHeading);
