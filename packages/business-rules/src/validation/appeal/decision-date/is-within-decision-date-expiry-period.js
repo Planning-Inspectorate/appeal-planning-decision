@@ -1,4 +1,4 @@
-const { isBefore, endOfDay } = require('date-fns');
+const { isBefore, endOfDay, sub } = require('date-fns');
 const businessRules = require('../../../rules');
 const isValid = require('../../generic/date/is-valid');
 
@@ -13,8 +13,10 @@ const isValid = require('../../generic/date/is-valid');
 module.exports = (givenDate, now = new Date()) => {
   [givenDate, now].forEach(isValid);
 
-  const today = endOfDay(now);
+  const yesterday = sub(endOfDay(now), {
+    days: 1,
+  });
   const deadlineDate = businessRules.appeal.deadlineDate(givenDate);
 
-  return isBefore(today, deadlineDate);
+  return isBefore(yesterday, deadlineDate);
 };
