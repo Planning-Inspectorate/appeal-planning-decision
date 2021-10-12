@@ -58,8 +58,9 @@ const populateDocuments = (log, body) => {
     }
   });
 
-  const id = body.submission.pdfStatement?.uploadedFile?.id;
+  // const id = body.submission.pdfStatement?.uploadedFile?.id;
 
+  /*
   if (typeof id === 'undefined') {
     const message = 'PDF not present in submission';
     log.error(
@@ -71,7 +72,7 @@ const populateDocuments = (log, body) => {
     );
   } else {
     documents.push({ id, type: sectionTypes.pdfType });
-  }
+  } */
 
   return documents.flat();
 };
