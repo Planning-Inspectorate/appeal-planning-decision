@@ -37,14 +37,6 @@ describe('handlerReply', () => {
         reply: {
           lpaCode,
         },
-        submission: {
-          pdfStatement: {
-            uploadedFile: {
-              name: 'mock-name.pdf',
-              id: 'mock-id',
-            },
-          },
-        },
       },
     };
   });

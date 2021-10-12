@@ -150,14 +150,6 @@ const getMockAppealReply = () => {
         developmentOrNeighbourhood: 'COMPLETED',
       },
     },
-    submission: {
-      pdfStatement: {
-        uploadedFile: {
-          name: 'upload-file-valid.pdf',
-          id: '843dd1fc-6cd9-451f-a2a1-9107a85528e2',
-        },
-      },
-    },
   };
 };
 
