@@ -4,6 +4,7 @@ const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetc
 const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
 const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
 const { rules: healthSafetyValidationRules } = require('../../../src/validators/health-safety');
+const alreadySubmittedMiddleware = require('../../../src/middleware/already-submitted');
 
 jest.mock('../../../src/validators/health-safety');
 
@@ -20,7 +21,7 @@ describe('routes/health-safety', () => {
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
       `/appeal-questionnaire/:id/health-safety`,
-      [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+      [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
       healthSafetyController.getHealthSafety
     );
     expect(post).toHaveBeenCalledWith(

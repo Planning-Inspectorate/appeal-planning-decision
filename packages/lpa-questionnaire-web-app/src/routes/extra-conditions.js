@@ -4,12 +4,13 @@ const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing
 const fetchAppealMiddleware = require('../middleware/fetch-appeal');
 const { validationErrorHandler } = require('../validators/validation-error-handler');
 const { rules: extraConditionsValidationRules } = require('../validators/extra-conditions');
+const alreadySubmittedMiddleware = require('../middleware/already-submitted');
 
 const router = express.Router();
 
 router.get(
   '/appeal-questionnaire/:id/extra-conditions',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
   extraConditionsController.getExtraConditions
 );
 

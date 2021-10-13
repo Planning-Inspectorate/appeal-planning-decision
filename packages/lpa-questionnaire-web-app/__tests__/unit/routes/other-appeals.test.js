@@ -3,6 +3,7 @@ const { VIEW } = require('../../../src/lib/views');
 const otherAppealsController = require('../../../src/controllers/other-appeals');
 const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
 const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
+const alreadySubmittedMiddleware = require('../../../src/middleware/already-submitted');
 const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
 const { rules: otherAppealsValidationRules } = require('../../../src/validators/other-appeals');
 
@@ -21,7 +22,7 @@ describe('routes/other-appeals', () => {
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
       `/appeal-questionnaire/:id/${VIEW.OTHER_APPEALS}`,
-      [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+      [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
       otherAppealsController.getOtherAppeals
     );
     expect(post).toHaveBeenCalledWith(
