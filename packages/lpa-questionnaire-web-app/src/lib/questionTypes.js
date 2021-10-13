@@ -61,6 +61,7 @@ exports.booleanQuestions = [
       emptyError: "Enter the reasons the Inspector would need to enter a neighbour's land",
       parentValue: true,
       label: 'Tell us the full address and why you think a visit is required',
+      textarea: true,
     },
   },
   {
