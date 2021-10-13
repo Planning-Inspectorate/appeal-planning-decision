@@ -170,7 +170,7 @@ const HEADERS = {
   submissionAccuracy: "Review accuracy of the appellant's submission",
   extraConditions: 'Do you have any extra conditions?',
   otherAppeals: 'Tell us about any appeals in the immediate area',
-  aboutSiteSection: 'About the Appeal Site',
+  aboutSiteSection: 'About the appeal site',
   siteSeenPublicLand:
     'Can the Inspector see the relevant parts of the appeal site from public land?',
   enterAppealSite: 'Would the Inspector need to enter the appeal site?',

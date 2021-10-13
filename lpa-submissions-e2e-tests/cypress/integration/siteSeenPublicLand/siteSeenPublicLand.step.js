@@ -3,7 +3,7 @@ import { Before } from 'cypress-cucumber-preprocessor/steps';
 const page = {
   id: 'siteSeenPublicLand',
   heading: 'Can the Inspector see the relevant parts of the appeal site from public land?',
-  section: 'About the Appeal Site',
+  section: 'About the appeal site',
   title:
     'Can the Inspector see the relevant parts of the appeal site from public land? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
   url: 'public-land',
