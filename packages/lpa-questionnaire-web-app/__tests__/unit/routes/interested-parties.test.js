@@ -7,6 +7,7 @@ const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetc
 const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
 const clearUploadedFilesMiddleware = require('../../../src/middleware/clear-uploaded-files');
 const reqFilesToReqBodyFilesMiddleware = require('../../../src/middleware/req-files-to-req-body-files');
+const alreadySubmittedMiddleware = require('../../../src/middleware/already-submitted');
 
 const uploadTasksValidationRules = require('../../../src/validators/upload-tasks');
 const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
@@ -33,7 +34,12 @@ describe('routes/interested-parties', () => {
 
       expect(get).toHaveBeenCalledWith(
         '/appeal-questionnaire/:id/interested-parties',
-        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, clearUploadedFilesMiddleware],
+        [
+          fetchAppealMiddleware,
+          fetchExistingAppealReplyMiddleware,
+          clearUploadedFilesMiddleware,
+          alreadySubmittedMiddleware,
+        ],
         getConfig,
         uploadQuestionController.getUpload
       );

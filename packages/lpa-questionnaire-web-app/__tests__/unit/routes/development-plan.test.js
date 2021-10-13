@@ -2,6 +2,7 @@ const { get, post } = require('./router-mock');
 const developmentPlanController = require('../../../src/controllers/development-plan');
 const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
 const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
+const alreadySubmittedMiddleware = require('../../../src/middleware/already-submitted');
 const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
 const {
   rules: developmentPlanValidationRules,
@@ -22,7 +23,7 @@ describe('routes/development-plan', () => {
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
       `/appeal-questionnaire/:id/development-plan`,
-      [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+      [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
       developmentPlanController.getDevelopmentPlan
     );
     expect(post).toHaveBeenCalledWith(
