@@ -1,0 +1,22 @@
+{% extends "layouts/main.njk" %}
+
+{% block pageTitle %}
+    Questionnaire already submitted - Appeal questionnaire - Appeal a householder planning decision - GOV.UK
+{% endblock %}
+
+{% block content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-1">
+                Questionnaire already submitted
+            </h1>
+            
+            <p class="govuk-body">The questionnaire for appeal {{ horizonId }} was submitted on {{submissionDate}}. You can no longer access it or update the information provided.</p>
+            <p class="govuk-body">If you think the questionnaire has been submitted in error or you have missed information, you can contact out customer support team:</p>
+            <p class="govuk-body">Email: <a href="mailto:enquiries@planninginspectorate.gov.uk" class="govuk-link" data-cy="customer-support-mailto-link">enquiries@planninginspectorate.gov.uk</a>
+            <br class="govuk-body">Telephone: 0303 444 5000
+            <br class="govuk-body">Monday to Friday, 9am to 5pm (except public holidays)</br>
+            <p class="govuk-body"><a class="govuk-link" data-cy="call-charges" href="https://www.gov.uk/call-charges">Find out about call charges</a></p>
+        </div>
+    </div>
+{% endblock %}
