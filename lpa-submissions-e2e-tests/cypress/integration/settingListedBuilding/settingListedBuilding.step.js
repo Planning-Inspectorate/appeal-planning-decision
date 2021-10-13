@@ -3,7 +3,7 @@ import { Before } from 'cypress-cucumber-preprocessor/steps';
 const page = {
   id: 'listedBuilding',
   heading: "Would the development affect the setting of a listed building?",
-  section: 'About the Appeal Site',
+  section: 'About the appeal site',
   title:
     "Would the development affect the setting of a listed building? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK",
   url: 'listed-building',
