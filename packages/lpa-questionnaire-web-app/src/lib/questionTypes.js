@@ -24,7 +24,7 @@ exports.booleanQuestions = [
   {
     id: 'siteSeenPublicLand',
     heading: 'Can the Inspector see the relevant parts of the appeal site from public land?',
-    section: 'About the Appeal Site',
+    section: 'About the appeal site',
     title:
       'Can the Inspector see the relevant parts of the appeal site from public land? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
     emptyError: 'Select yes if relevant parts of the site can be seen from public land',
@@ -33,7 +33,7 @@ exports.booleanQuestions = [
   {
     id: 'enterAppealSite',
     heading: 'Would the Inspector need to enter the appeal site?',
-    section: 'About the Appeal Site',
+    section: 'About the appeal site',
     title:
       'Would the Inspector need to enter the appeal site? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
     emptyError: 'Select yes if the Inspector would need to enter the appeal site',
@@ -50,7 +50,7 @@ exports.booleanQuestions = [
   {
     id: 'accessNeighboursLand',
     heading: "Would the Inspector need access to a neighbour's land?",
-    section: 'About the Appeal Site',
+    section: 'About the appeal site',
     title:
       "Would the Inspector need access to a neighbour's land? - Appeal questionnaire - Appeal a householder planning decision - GOV.UK",
     emptyError: 'Select yes if the Inspector needs access to a neighbour’s land',
@@ -66,7 +66,7 @@ exports.booleanQuestions = [
   {
     id: 'listedBuilding',
     heading: 'Would the development affect the setting of a listed building?',
-    section: 'About the Appeal Site',
+    section: 'About the appeal site',
     title:
       'Would the development affect the setting of a listed building? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
     emptyError: 'Select yes if the development affects the setting of a listed building',
@@ -84,7 +84,7 @@ exports.booleanQuestions = [
   {
     id: 'greenBelt',
     heading: 'Is the appeal site in a green belt?',
-    section: 'About the Appeal Site',
+    section: 'About the appeal site',
     title:
       'Is the appeal site in a greenbelt? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
     url: 'green-belt',
@@ -93,7 +93,7 @@ exports.booleanQuestions = [
   {
     id: 'nearConservationArea',
     heading: 'Is the appeal site in or near a conservation area?',
-    section: 'About the Appeal Site',
+    section: 'About the appeal site',
     title:
       'Is the appeal site in or near a conservation area? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
     url: 'conservation-area',
