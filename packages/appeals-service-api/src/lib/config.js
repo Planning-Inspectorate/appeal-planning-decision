@@ -56,6 +56,19 @@ module.exports = {
       },
       queue: process.env.HORIZON_HAS_PUBLISHER_QUEUE,
     },
+    sqlHASAppealsPublisher: {
+      connection: {
+        host: process.env.SQL_HASAPPEALS_PUBLISHER_HOST,
+        hostname: process.env.SQL_HASAPPEALS_PUBLISHER_HOSTNAME,
+        reconnect_limit: Number(process.env.SQL_HASAPPEALS_PUBLISHER_RECONNECT_LIMIT || 1),
+        password: process.env.SQL_HASAPPEALS_PUBLISHER_PASSWORD,
+        port: Number(process.env.SQL_HASAPPEALS_PUBLISHER_PORT || 5672),
+        reconnect: process.env.SQL_HASAPPEALS_PUBLISHER_ATTEMPT_RECONNECTION !== 'false',
+        transport: process.env.SQL_HASAPPEALS_PUBLISHER_TRANSPORT,
+        username: process.env.SQL_HASAPPEALS_PUBLISHER_USERNAME,
+      },
+      queue: process.env.SQL_HASAPPEALS_PUBLISHER_QUEUE,
+    },
   },
   server: {
     port: Number(process.env.SERVER_PORT || 3000),
