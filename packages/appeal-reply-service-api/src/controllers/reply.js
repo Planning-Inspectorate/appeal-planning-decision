@@ -4,6 +4,7 @@ const mongodb = require('../db/db');
 const ReplyModel = require('../models/replySchema');
 const notify = require('../lib/notify');
 const queue = require('../lib/queue');
+const sqlQueue = require('../lib/sql-lpa-queue');
 
 const dbId = 'reply';
 
@@ -114,6 +115,7 @@ module.exports = {
 
             if (isFirstSubmission) {
               logger.info({ newDoc }, 'First submission for questionnaire');
+              await sqlQueue.addAppealReply(newDoc);
               await queue.addAppealReply(newDoc);
               try {
                 await notify.sendAppealReplySubmissionConfirmationEmailToLpa(req.body);
