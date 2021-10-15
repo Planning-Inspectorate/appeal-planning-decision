@@ -2,5 +2,5 @@ export const getContactUsLink = () => {
   return cy.findByRole('link',{name:'Contact the Planning Inspectorate Customer Support'});
 }
 
-export const getFindAboutCallChargesLink = () => cy.get('a[href="https://www.gov.uk/call-charges"]');
-export const getEmailLink = () => cy.get('a[href="mailto:enquiries@planninginspectorate.gov.uk"]');
+export const getFindAboutCallChargesLink = () => cy.findAllByRole('link',{name:'Find out about call charges'});
+export const getEmailLink = () => cy.findAllByRole('link',{name:'enquiries@planninginspectorate.gov.uk'});

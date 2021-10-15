@@ -30,12 +30,15 @@ When('user selects to contact the Planning Inspectorate',()=>{
   getContactUsLink().click();
 });
 
-When('user selects to find out about call charges',()=>{
-  getFindAboutCallChargesLink().click();
+Then('user selects to find out about call charges',()=>{
+  getFindAboutCallChargesLink()
+    .should('have.attr','href','https://www.gov.uk/call-charges')
+    .should('have.attr','target','_blank')
+    .should('have.attr','rel','noreferrer noopener');
 });
 
 Then('user selects to email planning inspectorate',()=>{
-  getEmailLink().click({multiple:true});
+  getEmailLink().should('have.attr','href','mailto:enquiries@planninginspectorate.gov.uk');
 });
 
 Then('the contact us page will be displayed',()=>{
@@ -44,10 +47,10 @@ Then('the contact us page will be displayed',()=>{
   cy.verifyPageHeading(contactUsPageHeading);
 });
 
-Then('user is navigated to call charges page',()=>{
-  cy.verifyPageTitle('Call charges and phone numbers - GOV.UK');
-  cy.verifyPageHeading('Call charges and phone numbers');
-});
+// Then('user is navigated to call charges page',()=>{
+//   cy.verifyPageTitle('Call charges and phone numbers - GOV.UK');
+//   cy.verifyPageHeading('Call charges and phone numbers');
+// });
 
 Then('user is able to send an email',()=>{
  getEmailLink()
