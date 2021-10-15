@@ -5,7 +5,7 @@
 trigger:
   branches:
     include:
-      - master/*
+      - master
   paths:
     include:
       - packages/appeals-service-api
