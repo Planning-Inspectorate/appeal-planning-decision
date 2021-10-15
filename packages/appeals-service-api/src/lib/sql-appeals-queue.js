@@ -7,6 +7,8 @@ const options = config.messageQueue.sqlHASAppealsPublisher.connection;
 function addAppeal(message) {
   container.connect(options).open_sender(config.messageQueue.sqlHASAppealsPublisher.queue);
 
+  logger.info({ message }, 'SQL HAS queue');
+
   container.once('sendable', (context) => {
     context.sender.send({
       body: container.message.data_section(Buffer.from(JSON.stringify(message), 'utf-8')),
