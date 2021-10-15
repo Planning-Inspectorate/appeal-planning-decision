@@ -297,10 +297,13 @@ const updateAppeal = async (appeal, isFirstSubmission = false) => {
     const updatedDocument = await replaceAppeal(appeal);
 
     if (isFirstSubmission) {
+      await appealsQueue.addAppeal(updatedDocument.value);
+
       await notify.sendAppealSubmissionConfirmationEmailToAppellant(updatedDocument.value.appeal);
+
       await notify.sendAppealSubmissionReceivedNotificationEmailToLpa(updatedDocument.value.appeal);
-      appealsQueue.addAppeal(updatedDocument.value);
-      queue.addAppeal(updatedDocument.value);
+
+      await queue.addAppeal(updatedDocument.value);
     }
 
     logger.debug(`Updated appeal ${appeal.id}\n`);
