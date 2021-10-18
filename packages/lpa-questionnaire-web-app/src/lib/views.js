@@ -29,6 +29,7 @@ const VIEW = {
     NOT_FOUND: 'error/not-found',
     UNHANDLED_EXCEPTION: 'error/unhandled-exception',
   },
+  CONTACT_US: 'contact-us',
 };
 
 module.exports = {

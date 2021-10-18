@@ -25,7 +25,9 @@ const informationSubmittedRouter = require('./information-submitted');
 const booleanQuestionRouter = require('./question-type/boolean');
 const supplementaryDocumentsRouter = require('./supplementary-documents');
 const alreadySubmittedRouter = require('./already-submitted');
+const contactUsRouter = require('./contact-us');
 
+router.use(contactUsRouter);
 router.use(homeRouter);
 router.use(filesRouter);
 router.use(taskListRouter);
