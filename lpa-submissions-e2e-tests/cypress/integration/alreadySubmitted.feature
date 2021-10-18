@@ -10,10 +10,10 @@ Feature:
 
    Scenario Outline: LPA Officer navigates to any page of submitted questionnaire
       Given the LPA Questionnaire is submitted
-      When LPA Planning Officer is trying to access <page> of already submitted questionnaire
-      Then LPA Planning Officer is presented with already submitted page
-      And Already Submitted page should have PINS Enquiries Email link
-      And Already Submitted page should have link to Call charges
+      When the LPA Planning Officer is trying to access <page> of already submitted questionnaire
+      Then the LPA Planning Officer is presented with already submitted page
+      And the Already Submitted page should have Enquiries Email link
+      And the Already Submitted page should have link to Call charges
       Examples:
         | page                                              |
         | "task list"                                       |

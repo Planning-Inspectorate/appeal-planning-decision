@@ -55,9 +55,9 @@ exports.summaryFileUploadErrorMessage = () => {
 };
 
 exports.findoutAboutCallCharges = () => {
-  return cy.findAllByRole('link', {name: /Find out about call charges/i});
+  return cy.findAllByRole('link', {name: 'Find out about call charges (opens in new tab)'});
 }
 
-exports.pinsEnquiriesEmailLink = () => {
-  return cy.findAllByRole('link', {name: /enquiries@planninginspectorate.gov.uk/i});
+exports.enquiriesEmailLink = () => {
+  return cy.findAllByRole('link', {name: 'enquiries@planninginspectorate.gov.uk'});
 }
