@@ -59,6 +59,9 @@ stages:
         pool:
           vmImage: $(vmImageName)
         steps:
+          - task: CmdLine@2
+            inputs:
+              script: 'sudo service docker restart'
           - task: Docker@2
             displayName: Build and Test Image
             inputs:
