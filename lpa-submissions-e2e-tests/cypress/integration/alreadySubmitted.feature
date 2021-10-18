@@ -12,6 +12,8 @@ Feature:
       Given the LPA Questionnaire is submitted
       When LPA Planning Officer is trying to access <page> of already submitted questionnaire
       Then LPA Planning Officer is presented with already submitted page
+      And Already Submitted page should have PINS Enquiries Email link
+      And Already Submitted page should have link to Call charges
       Examples:
         | page                                              |
         | "task list"                                       |
