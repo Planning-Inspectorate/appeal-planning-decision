@@ -16,9 +16,6 @@ Then('LPA Planning Officer is presented with already submitted page', () => {
   cy.verifyPage(page.url);
   cy.verifyPageTitle(page.title);
   cy.verifyPageHeading(page.heading);
-  cy.get('[data-cy="call-charges"]').invoke('attr', 'href').then((href) => {
-    expect(href).to.contain("https://www.gov.uk/call-charges");
-  });
 });
 
 Then('Already Submitted page should have PINS Enquiries Email link', () => {
@@ -30,6 +27,9 @@ Then('Already Submitted page should have link to Call charges', () => {
   findoutAboutCallCharges()
     .should('have.attr','href','https://www.gov.uk/call-charges')
     .should('have.attr','target','_blank')
-    .should('have.attr','rel','noreferrer noopener');
+    .should('have.attr','rel','noreferrer noopener external')
+    .invoke('attr', 'href').then((href) => {
+      expect(href).to.contain("https://www.gov.uk/call-charges");
+    });
 });
 
