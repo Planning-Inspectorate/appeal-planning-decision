@@ -1,3 +1,4 @@
+import '@testing-library/cypress/add-commands';
 require('cypress-file-upload');
 require('./visit-without-javascript-enabled');
 require('./accessibility');
