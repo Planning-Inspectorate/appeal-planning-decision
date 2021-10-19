@@ -12,7 +12,7 @@ RUN mkdir -p /opt/app/data
 COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
 # This must be built locally from the common package
 COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
-ADD api api
+ADD api-new api
 ADD src src
 ADD __tests__ __tests__
 ADD jest.config.js jest.config.js
