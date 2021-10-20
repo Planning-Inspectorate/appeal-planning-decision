@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
     return;
   }
 
-  if (questionnaire.state.toUpperCase() === 'SUBMITTED') {
+  if (questionnaire.state === 'SUBMITTED') {
     res.redirect(`/appeal-questionnaire/${appealId}/${VIEW.ALREADY_SUBMITTED}`);
     return;
   }
