@@ -27,9 +27,6 @@ Then('the Already Submitted page should have link to Call charges', () => {
   findoutAboutCallCharges()
     .should('have.attr','href','https://www.gov.uk/call-charges')
     .should('have.attr','target','_blank')
-    .should('have.attr','rel','noreferrer noopener external')
-    .invoke('attr', 'href').then((href) => {
-      expect(href).to.contain("https://www.gov.uk/call-charges");
-    });
+    .should('have.attr','rel','noreferrer noopener external');
 });
 
