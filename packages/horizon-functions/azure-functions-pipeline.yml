@@ -6,6 +6,7 @@ trigger:
   branches:
     include:
       - master
+      - fix/*
 
 resources:
   - repo: self
@@ -23,7 +24,7 @@ variables:
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
-stages:                                                     
+stages:
   - stage: Build_Horizon_Functions
     displayName: Build and Deploy Horizon Functions
     jobs:
@@ -34,7 +35,7 @@ stages:
         steps:
           - bash: |
               cd packages/horizon-functions
-              npm install 
+              npm install
               npm run build --if-present
               npm prune --production
           - task: ArchiveFiles@2
