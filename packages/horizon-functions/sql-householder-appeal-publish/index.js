@@ -4,7 +4,7 @@
 // const { convertToSoapKVPair } = require('./src/convertToSoapKVPair');
 // const { callHorizon } = require('./src/callHorizon');
 // const { createContacts } = require('./src/createContacts');
-const { getLpaData } = require('./src/getLpaData');
+// const { getLpaData } = require('./src/getLpaData');
 // const { publishDocuments } = require('./src/publishDocuments');
 const { catchErrorHandling } = require('./src/catchErrorHandling');
 
@@ -16,9 +16,9 @@ module.exports = async (context, event) => {
     // const { _id: appealId } = event;
 
     /* Get the LPA associated with this appeal */
-    const lpa = await getLpaData(context.log, event.appeal.lpaCode);
+    // const lpa = await getLpaData(context.log, event.appeal.lpaCode);
 
-    context.log({ lpa }, 'LPA detail');
+    context.log('LPA detail');
 
     // let location;
     /* PINS only supports England and Wales */
