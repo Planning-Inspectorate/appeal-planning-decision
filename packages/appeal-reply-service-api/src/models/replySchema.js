@@ -50,7 +50,7 @@ const replySchema = new Mongoose.Schema({
     affectSetting: { type: Boolean, default: null },
     buildingDetails: { type: String, default: '' },
   },
-  greenBelt: { type: Boolean, default: null },
+    greenBelt: { type: Boolean, default: null },
   nearConservationArea: { type: Boolean, default: null },
   requiredDocumentsSection: {
     plansDecision: {
