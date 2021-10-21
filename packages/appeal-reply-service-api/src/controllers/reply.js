@@ -115,8 +115,8 @@ module.exports = {
 
             if (isFirstSubmission) {
               logger.info({ newDoc }, 'First submission for questionnaire');
-              await sqlQueue.addAppealReply(newDoc);
               await queue.addAppealReply(newDoc);
+              await sqlQueue.addAppealReply(newDoc);
               try {
                 await notify.sendAppealReplySubmissionConfirmationEmailToLpa(req.body);
                 res.status(200).send(req.body);
