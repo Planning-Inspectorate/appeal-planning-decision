@@ -9,12 +9,13 @@ const combineDateInputsMiddleware = require('../middleware/combine-date-inputs')
 const { validationErrorHandler } = require('../validators/validation-error-handler');
 const supplementaryDocumentsValidationRules = require('../validators/supplementary-documents');
 const checkIfSupplementaryDocuments = require('../middleware/check-if-supplementary-documents');
+const alreadySubmittedMiddleware = require('../middleware/already-submitted');
 
 const router = express.Router();
 
 router.get(
   '/appeal-questionnaire/:id/supplementary-documents',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
   addSupplementaryDocumentController.getAddDocument
 );
 
@@ -29,20 +30,20 @@ router.post(
 
 router.get(
   '/appeal-questionnaire/:id/supplementary-documents/uploaded-documents',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
   checkIfSupplementaryDocuments,
   uploadedDocumentsController.getUploadedDocuments
 );
 
 router.get(
   '/appeal-questionnaire/:id/supplementary-documents/delete-document',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
   deleteSupplementaryDocumentController.getDeleteDocument
 );
 
 router.post(
   '/appeal-questionnaire/:id/supplementary-documents/delete-document',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
   deleteSupplementaryDocumentController.postDeleteDocument
 );
 
