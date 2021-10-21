@@ -5,6 +5,7 @@ const fetchExistingAppealReplyMiddleware = require('../../middleware/fetch-exist
 const fetchAppealMiddleware = require('../../middleware/fetch-appeal');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const booleanQuestionRules = require('../../validators/question-type/boolean');
+const alreadySubmittedMiddleware = require('../../middleware/already-submitted');
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ booleanQuestions.forEach((question) => {
 
   router.get(
     `/appeal-questionnaire/:id/${question.url}`,
-    [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+    [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
     getConfig,
     booleanQuestionController.getBooleanQuestion
   );

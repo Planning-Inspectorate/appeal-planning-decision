@@ -4,12 +4,13 @@ const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing
 const fetchAppealMiddleware = require('../middleware/fetch-appeal');
 const { validationErrorHandler } = require('../validators/validation-error-handler');
 const { rules: accuracySubmissionValidationRules } = require('../validators/accuracy-submission');
+const alreadySubmittedMiddleware = require('../middleware/already-submitted');
 
 const router = express.Router();
 
 router.get(
   '/appeal-questionnaire/:id/accuracy-submission',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
   accuracySubmissionController.getAccuracySubmission
 );
 

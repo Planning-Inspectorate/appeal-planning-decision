@@ -9,6 +9,7 @@ const { validationErrorHandler } = require('../../../src/validators/validation-e
 const supplementaryDocumentsValidationRules = require('../../../src/validators/supplementary-documents');
 const checkIfSupplementaryDocuments = require('../../../src/middleware/check-if-supplementary-documents');
 const deleteSupplementaryDocumentController = require('../../../src/controllers/supplementary-documents/delete-supplementary-document');
+const alreadySubmittedMiddleware = require('../../../src/middleware/already-submitted');
 
 jest.mock('../../../src/middleware/req-files-to-req-body-files');
 jest.mock('../../../src/validators/supplementary-documents');
@@ -27,7 +28,7 @@ describe('routes/supplementary-documents', () => {
     it('should define the expected routes', () => {
       expect(get).toHaveBeenCalledWith(
         '/appeal-questionnaire/:id/supplementary-documents',
-        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
         supplementaryDocumentsController.getAddDocument
       );
 
@@ -42,14 +43,14 @@ describe('routes/supplementary-documents', () => {
 
       expect(get).toHaveBeenCalledWith(
         '/appeal-questionnaire/:id/supplementary-documents/uploaded-documents',
-        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
         checkIfSupplementaryDocuments,
         uploadedDocumentsController.getUploadedDocuments
       );
 
       expect(get).toHaveBeenCalledWith(
         '/appeal-questionnaire/:id/supplementary-documents/delete-document',
-        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
         deleteSupplementaryDocumentController.getDeleteDocument
       );
     });

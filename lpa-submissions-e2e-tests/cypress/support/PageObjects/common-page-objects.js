@@ -49,6 +49,15 @@ exports.errorMessage = (errorMessageId) => {
 exports.summaryErrorMessage = (summaryErrorMessageId) => {
   return cy.get(`a[href="#${summaryErrorMessageId}"]`);
 };
+
 exports.summaryFileUploadErrorMessage = () => {
   return cy.get(`a[href="#documents"]`);
 };
+
+exports.findoutAboutCallCharges = () => {
+  return cy.findAllByRole('link', {name: 'Find out about call charges (opens in new tab)'});
+}
+
+exports.enquiriesEmailLink = () => {
+  return cy.findAllByRole('link', {name: 'enquiries@planninginspectorate.gov.uk'});
+}
