@@ -7,9 +7,7 @@ const options = config.messageQueue.sqlHASAppealsPublisher.connection;
 function addAppeal(message) {
   container.connect(options).open_sender(config.messageQueue.sqlHASAppealsPublisher.queue);
 
-  logger.info({ message }, 'SQL HAS queue');
-
-  logger.info(JSON.stringify(message));
+  logger.info({ message }, 'SQL HAS queue initialisation');
 
   container.once('sendable', (context) => {
     context.sender.send({
