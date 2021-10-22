@@ -9,6 +9,7 @@ info:
     url: 'https://opensource.org/licenses/MIT'
 servers:
   - url: 'http://localhost:3000/'
+  - url: 'https://dev-appealsserviceapi.azurewebsites.net/'
 paths:
   '/api/v1/appeals':
     post:
