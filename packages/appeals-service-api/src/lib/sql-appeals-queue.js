@@ -9,6 +9,8 @@ function addAppeal(message) {
 
   logger.info({ message }, 'SQL HAS queue');
 
+  logger.info(JSON.stringify(message));
+
   container.once('sendable', (context) => {
     context.sender.send({
       body: container.message.data_section(Buffer.from(JSON.stringify(message), 'utf-8')),
