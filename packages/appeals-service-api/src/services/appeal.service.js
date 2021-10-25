@@ -305,7 +305,7 @@ const updateAppeal = async (appeal, isFirstSubmission = false) => {
 
       await notify.sendAppealSubmissionReceivedNotificationEmailToLpa(updatedDocument.value.appeal);
 
-      // await appealsQueue.addAppeal(updatedDocument.value);
+      await appealsQueue.addAppeal(updatedDocument.value);
     }
 
     logger.debug(`Updated appeal ${appeal.id}\n`);
