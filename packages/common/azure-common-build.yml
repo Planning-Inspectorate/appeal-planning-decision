@@ -5,8 +5,7 @@
 trigger:
   branches:
     include:
-      - feature/3074b-appeal-service-api-pipeline-tests
-  #    - master
+      - master
   paths:
     include:
       - packages/common
