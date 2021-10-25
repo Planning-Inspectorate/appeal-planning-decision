@@ -13,7 +13,7 @@ trigger:
 resources:
   - repo: self
 
-name: '0.0.0' # set dynamically below in a task.
+name: '0.0.0' # set dynamically below in a task
 
 variables:
   # VERSION INFO ----------------------------------------------------------
