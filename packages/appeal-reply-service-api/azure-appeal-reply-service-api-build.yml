@@ -66,6 +66,7 @@ stages:
             displayName: Build and Test Image
             inputs:
               command: build
+              buildContext: '$(Build.SourcesDirectory)/packages/appeal-reply-service-api'
               repository: $(imageRepository)
               dockerfile: $(appealsReplyApiDockerfilePath)
               containerRegistry: $(dockerRegistryServiceConnection)
