@@ -10,8 +10,6 @@ RUN mkdir -p /opt/app/data
 
 # This must be built locally from the common package
 COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
-# This must be built locally from the common package
-COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
 ADD api api
 ADD src src
 ADD __tests__ __tests__
