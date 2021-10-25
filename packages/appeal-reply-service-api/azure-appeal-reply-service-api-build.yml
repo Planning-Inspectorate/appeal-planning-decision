@@ -5,9 +5,8 @@
 trigger:
   branches:
     include:
-#      - feature/*
-#      - subtask/*
-      - fix/build-context
+#     - feature/*
+#     - subtask/*
       - master
   paths:
     include:
