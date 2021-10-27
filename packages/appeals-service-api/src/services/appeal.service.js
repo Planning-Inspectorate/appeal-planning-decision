@@ -1,6 +1,6 @@
 const mongodb = require('../db/db');
 const queue = require('../lib/queue');
-// const appealsQueue = require('../lib/sql-appeals-queue');
+const appealsQueue = require('../lib/sql-appeals-queue');
 const logger = require('../lib/logger');
 const ApiError = require('../error/apiError');
 const notify = require('../lib/notify');
@@ -299,7 +299,7 @@ const updateAppeal = async (appeal, isFirstSubmission = false) => {
     if (isFirstSubmission) {
       await queue.addAppeal(updatedDocument.value);
 
-      // await appealsQueue.addAppeal(updatedDocument.value);
+      await appealsQueue.addAppeal(updatedDocument.value);
 
       await notify.sendAppealSubmissionConfirmationEmailToAppellant(updatedDocument.value.appeal);
 
