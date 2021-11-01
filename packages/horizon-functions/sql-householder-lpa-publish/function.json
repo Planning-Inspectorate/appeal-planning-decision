@@ -1,12 +1,12 @@
 {
-    "bindings": [
-      {
-        "name": "publishfunction",
-        "type": "serviceBusTrigger",
-        "direction": "in",
-        "queueName": "horizon-householder-appeal-publish",
-        "connection": "pinsuksmessagequeuedev_SERVICEBUS"
-      }
-    ]
-  }
-  
+  "bindings": [
+    {
+      "name": "publishfunction",
+      "type": "serviceBusTrigger",
+      "direction": "in",
+      "queueName": "sql-householder-lpa-publish",
+      "connection": "pinsuksmessagequeuedev_SERVICEBUS"
+    }
+  ]
+}
+

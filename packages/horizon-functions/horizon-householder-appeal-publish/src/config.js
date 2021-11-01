@@ -1,4 +1,11 @@
 module.exports = {
+  sqlServer: {
+    username: process.env.SQLSERVER_USERNAME,
+    password: process.env.SQLSERVER_PASSWORD,
+    database: process.env.SQLSERVER_DATABASE,
+    server: process.env.SQLSERVER_NAME,
+    port: process.env.SQLSERVER_PORT,
+  },
   appealsService: {
     url: process.env.APPEALS_SERVICE_URL,
   },
@@ -8,8 +15,12 @@ module.exports = {
   horizon: {
     url: process.env.HORIZON_URL,
   },
-  openfaas: {
-    gatewayUrl: process.env.GATEWAY_URL,
+  azure: {
+    host: process.env.HORIZON_AZURE_HOST_URL,
+    functions: {
+      contact: process.env.HORIZON_CONTACT_CODE_KEY,
+      document: process.env.HORIZON_DOCUMENT_CODE_KEY,
+    },
   },
   azure: {
     create_contact: {

@@ -5,6 +5,7 @@ const { convertToSoapKVPair } = require('./src/convertToSoapKVPair');
 const { callHorizon } = require('./src/callHorizon');
 const { createContacts } = require('./src/createContacts');
 const { getLpaData } = require('./src/getLpaData');
+const { transmitAppealData } = require('./src/transmitAppealData');
 const { publishDocuments } = require('./src/publishDocuments');
 const { catchErrorHandling } = require('./src/catchErrorHandling');
 
@@ -29,6 +30,10 @@ module.exports = async (context, event) => {
     } else {
       throw new Error('LPA neither English nor Welsh');
     }
+
+    context.log({ appealId }, 'Transmit initial appeal');
+
+    await transmitAppealData(context.log, appealId);
 
     const attributeData = [
       {
@@ -123,6 +128,10 @@ module.exports = async (context, event) => {
         baseURL: config.appealsService.url,
       }
     );
+
+    context.log({ appealId }, 'Transmit finalised appeal');
+
+    await transmitAppealData(context.log, appealId);
 
     /*
       Finally, publish the documents to Horizon
