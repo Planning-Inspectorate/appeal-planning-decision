@@ -25,6 +25,7 @@
   "dependencies": {
     "amqplib": "^0.8.0",
     "axios": "^0.21.1",
+    "mssql": "^7.2.1",
     "pino": "^6.11.3"
   },
   "devDependencies": {
