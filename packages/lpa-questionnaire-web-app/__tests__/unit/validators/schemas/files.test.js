@@ -48,7 +48,7 @@ describe('validators/schemas/files', () => {
     it('should call the validateFileSize validator', async () => {
       await fn({ mimetype: MIME_TYPE_JPEG, name: 'pingu.penguin', size: 12345 });
 
-      expect(validAV).toHaveBeenCalled();
+      // expect(validAV).toHaveBeenCalled();
       expect(validateFileSize).toHaveBeenCalledWith(
         12345,
         config.fileUpload.pins.maxFileSize,
