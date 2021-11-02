@@ -22,7 +22,7 @@ function getMagicLinkURL(req) {
  *  },
  * "auth": {
  *    "userInformation": {
- *      "email": "adriana.test@gmail.com",
+ *      "email": "test.address@planninginspectorate.gov.uk",
  *      "lpaCode": "E69999999"
  *    },
  *    "tokenValidity": 400000,

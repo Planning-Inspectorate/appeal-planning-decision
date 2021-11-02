@@ -8,11 +8,11 @@ Feature: LPA Questionnaire Access - Authentication: Magic Link
     And a questionnaire has been created
 
   Scenario: LPA selects the link in the start email and LPA is asked to provide email address
-    Given LPA Planning Officer wants to complete a questionnaire
-    When they click on the link in the start email
+    Given LPA Planning Officer wants to access a questionnaire
+    When they click on the start questionnaire link in the initial email
     Then enter email address page will be opened in the browser
 
-  Scenario: LPA enters email address not matched with the LPA domain -
+  Scenario: LPA enters email address not matched with the LPA domain
     Given access to the questionnaire is requested
     When the email address does not match the domain of the LPA from the appeal
     Then progress is made to the confirm your email address page
@@ -21,7 +21,7 @@ Feature: LPA Questionnaire Access - Authentication: Magic Link
   Scenario: LPA does not enter an email address
     Given access to the questionnaire is requested
     When an email address is not provided
-    Then progress is halted with an error message to 'Enter an email address'
+    Then progress is halted with an error message to 'Enter an email address in the correct format, like name@example.com'
 
   Scenario: LPA enters email address in invalid format
     Given access to the questionnaire is requested
@@ -50,9 +50,9 @@ Feature: LPA Questionnaire Access - Authentication: Magic Link
     When they select a valid link
     Then they are redirected to the questionnaire page
 
-  Scenario: LPA selects an expired magic link
+  Scenario: LPA selects the expired magic link
     Given LPA user receives a magic link for accessing the questionnaire
-    When they select an expired magic link
+    When they select the expired magic link
     Then enter email address page will be displayed
     And a link expired notification banner is displayed on the page
 

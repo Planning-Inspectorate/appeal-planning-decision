@@ -2,11 +2,11 @@
   "magicLink": {
     "redirectURL": "http://localhost:9001/appeal-questionnaire/89aa8504-773c-42be-bb68-029716ad9756/task-list",
     "expiredLinkRedirectURL": "http://localhost:9001/appeal-questionnaire/E69999999/authentication/your-email/link-expired",
-    "destinationEmail": "adriana.test@gmail.com"
+    "destinationEmail": "test.address@planninginspectorate.gov.uk"
   },
   "auth": {
     "userInformation": {
-      "email": "adriana.test@gmail.com",
+      "email": "test.address@planninginspectorate.gov.uk",
       "lpaCode": "E69999999"
     },
     "tokenValidity": 400000,

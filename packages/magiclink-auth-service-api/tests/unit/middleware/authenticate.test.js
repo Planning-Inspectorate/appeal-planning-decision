@@ -3,11 +3,11 @@ jest.mock('../../../src/mappers/magicLinkTokenMapper');
 
 const ExpiredTokenError = require('../../../src/service/error/ExpiredTokenError');
 const InvalidTokenError = require('../../../src/service/error/InvalidTokenError');
-const mockAuthenticationService = require('../../../src/service/authenticationService');
-const mockMagicLinkTokenMapper = require('../../../src/mappers/magicLinkTokenMapper');
+const authenticationService = require('../../../src/service/authenticationService');
+const magicLinkTokenMapper = require('../../../src/mappers/magicLinkTokenMapper');
 const authenticate = require('../../../src/middleware/authenticate');
 
-const mockMagicLinkData = require('../../resources/magicLinkData.json');
+const magicLinkData = require('../../resources/magicLinkData.json');
 const { mockReq, mockRes } = require('../mocks');
 
 describe('middleware.authenticate', () => {
@@ -15,26 +15,26 @@ describe('middleware.authenticate', () => {
   let res;
 
   const next = jest.fn();
-  const mockTokenPayload = { exp: 12434, data: 'mockEncryptedData' };
+  const tokenPayload = { exp: 12434, data: 'mockEncryptedData' };
 
   beforeEach(() => {
     req = mockReq();
     res = mockRes();
 
-    mockMagicLinkTokenMapper.tokenToMagicLinkData.mockReturnValue(mockMagicLinkData);
+    magicLinkTokenMapper.tokenToMagicLinkData.mockReturnValue(magicLinkData);
   });
 
   describe('with expired jwtToken', () => {
     it('should redirect user to token payload attribute value "expiredLinkRedirectURL"', async () => {
-      mockAuthenticationService.authenticate.mockRejectedValue(
-        new ExpiredTokenError('', mockTokenPayload),
+      authenticationService.authenticate.mockRejectedValue(
+        new ExpiredTokenError('', tokenPayload),
       );
 
       await authenticate(req, res, next);
 
       expect(res.redirect).toHaveBeenCalledWith(
-        `${mockMagicLinkData.magicLink.expiredLinkRedirectURL}?redirectURL=${encodeURIComponent(
-          mockMagicLinkData.magicLink.redirectURL,
+        `${magicLinkData.magicLink.expiredLinkRedirectURL}?redirectURL=${encodeURIComponent(
+          magicLinkData.magicLink.redirectURL,
         )}`,
       );
     });
@@ -42,17 +42,17 @@ describe('middleware.authenticate', () => {
 
   describe('with valid jwtToken', () => {
     it('should set the decoded jwt user data on the request', async () => {
-      mockAuthenticationService.authenticate.mockResolvedValue(mockTokenPayload);
+      authenticationService.authenticate.mockResolvedValue(tokenPayload);
 
       await authenticate(req, res, next);
 
-      expect(req.magicLinkData).toEqual(mockMagicLinkData);
+      expect(req.magicLinkData).toEqual(magicLinkData);
     });
   });
 
   describe('with invalid token', () => {
     it('should redirect to error page', async () => {
-      mockAuthenticationService.authenticate.mockRejectedValue(new InvalidTokenError());
+      authenticationService.authenticate.mockRejectedValue(new InvalidTokenError());
 
       await authenticate(req, res, next);
 

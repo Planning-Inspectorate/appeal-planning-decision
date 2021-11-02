@@ -1,10 +1,10 @@
 const crypto = require('../../../src/util/crypto');
 
-const mockData = JSON.stringify({
+const data = JSON.stringify({
   attribute: 'value',
 });
 
-const mockEncryptedData = {
+const encryptedData = {
   content: 'fb07c8062a2ec2175d58b9946f793a6f3887290a80',
   iv: 'ffa5698984618699479f1a592a039e46',
 };
@@ -12,18 +12,18 @@ const mockEncryptedData = {
 describe('util.crypto', () => {
   describe('encrypt text', () => {
     test('should encrypt with success', () => {
-      const encryptedData = crypto.encrypt(mockData);
+      const expectedEncryptedData = crypto.encrypt(data);
 
-      expect(encryptedData).toHaveProperty('content');
-      expect(encryptedData).toHaveProperty('iv');
+      expect(expectedEncryptedData).toHaveProperty('content');
+      expect(expectedEncryptedData).toHaveProperty('iv');
     });
   });
 
   describe('decrypt text', () => {
     test('should decrypt with success', () => {
-      const encryptedData = crypto.decrypt(mockEncryptedData);
+      const expectedEncryptedData = crypto.decrypt(encryptedData);
 
-      expect(encryptedData).toEqual(mockData);
+      expect(expectedEncryptedData).toEqual(data);
     });
   });
 });

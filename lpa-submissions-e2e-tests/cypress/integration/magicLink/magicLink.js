@@ -14,7 +14,7 @@ import createAuthToken from '../../support/magic-link/createAuthToken';
 const lpaCode = 'E69999999';
 const enterEmailAddressLink = 'authentication/your-email';
 const confirmEmailAddressLink = 'authentication/confirm-email';
-const questionnairePage = 'task-list';
+const questionnaireTaskListPage = 'task-list';
 const lpaName = 'System Test Borough Council';
 
 Given('LPA wants to access a questionnaire', () => {
@@ -26,17 +26,17 @@ Given('the LPA is on the confirm your email page', () => {
 });
 
 Given('LPA user receives a magic link for accessing the questionnaire', () => {
-  goToPage(questionnairePage);
+  goToPage(questionnaireTaskListPage);
   inputEmailAddress();
   clickSubmit();
 });
 
 And('is trying to access the LPA questionnaire', () => {
-  // nothing to do here
+  // This is for information purpose only
 });
 
 Given('access to the questionnaire is requested', () => {
-  goToPage(questionnairePage);
+  goToPage(questionnaireTaskListPage);
 });
 
 Given('LPA user wants to have the magic link resent to them', () => {
@@ -51,7 +51,7 @@ Given('the session has timed out', () => {
   cy.setCookie(Cypress.env('AUTH_COOKIE_NAME'), expiredAuthToken);
 });
 
-Given('LPA Planning Officer wants to complete a questionnaire', () => {
+Given('LPA Planning Officer wants to access a questionnaire', () => {
   // nothing to do here
 });
 
@@ -63,8 +63,8 @@ Given('the LPA Planning Officer is authenticated', () => {
   authenticateLPA();
 });
 
-When('they click on the link in the start email', () => {
-  goToPage(questionnairePage);
+When('they click on the start questionnaire link in the initial email', () => {
+  goToPage(questionnaireTaskListPage);
 });
 
 When('the email address does not match the domain of the LPA from the appeal', () => {
@@ -95,7 +95,7 @@ When('they select a valid link', () => {
   getMagicLink().then((magicLink) => cy.wrap(magicLink).as('magicLink'));
 });
 
-When('they select an expired magic link', () => {
+When('they select the expired magic link', () => {
   goToPage(`${enterEmailAddressLink}/link-expired`, lpaCode);
 });
 
@@ -104,7 +104,7 @@ When('they select ‘resend the email’', () => {
 });
 
 When('the LPA tries to access the questionnaire', () => {
-  goToPage(questionnairePage);
+  goToPage(questionnaireTaskListPage);
 });
 
 Then('enter email address page will be opened in the browser', () => {
@@ -129,7 +129,7 @@ Then('a mailto link will be provided', () => {
 });
 
 Then('the questionnaire page is presented', () => {
-  verifyPage(questionnairePage);
+  verifyPage(questionnaireTaskListPage);
 });
 
 Then('they are redirected to the questionnaire page', () => {
@@ -139,7 +139,7 @@ Then('they are redirected to the questionnaire page', () => {
       followRedirect: false,
     }).then((resp) => {
       expect(resp.status).to.eq(302);
-      expect(resp.redirectedToUrl).to.contain(questionnairePage);
+      expect(resp.redirectedToUrl).to.contain(questionnaireTaskListPage);
     });
   });
 });
