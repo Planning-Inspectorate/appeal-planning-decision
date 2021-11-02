@@ -93,7 +93,7 @@ jobs:
         run: make install
 
       - name: Start the world
-        run: docker-compose up -d --build
+        run: docker-compose up -d --force-recreate 
 
       - name: Run the tests against LPA questionaire in parallel
         uses: cypress-io/github-action@v2
@@ -179,7 +179,7 @@ jobs:
         run: make install
 
       - name: Start the world
-        run: docker-compose up -d --build
+        run: docker-compose up -d --force-recreate 
 
       - name: Run the tests in parallel
         uses: cypress-io/github-action@v2
