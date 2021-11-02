@@ -94,8 +94,7 @@ jobs:
 
       - name: Start the world
         run: |
-          docker-compose rm -f
-          docker-compose up -d --force-recreate 
+          docker-compose -f "docker-compose.yml" up -d --build
 
       - name: Run the tests against LPA questionaire in parallel
         uses: cypress-io/github-action@v2
@@ -182,8 +181,7 @@ jobs:
 
       - name: Start the world
         run: |
-          docker-compose rm -f
-          docker-compose up -d --force-recreate 
+          docker-compose -f "docker-compose.yml" up -d --build
 
       - name: Run the tests in parallel
         uses: cypress-io/github-action@v2
