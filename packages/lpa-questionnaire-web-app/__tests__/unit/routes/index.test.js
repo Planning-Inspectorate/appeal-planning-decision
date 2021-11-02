@@ -33,10 +33,6 @@ describe('routes/index', () => {
     require('../../../src/routes');
   });
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
   it('should define the expected routes', () => {
     expect(use).toHaveBeenCalledWith(homeRouter);
     expect(use).toHaveBeenCalledWith(filesRouter);

@@ -1,11 +1,8 @@
-const swaggerUi = require('swagger-ui-express');
-const { use } = require('./router-mock');
+const { use, serve } = require('./router-mock');
+require('../../../src/routes/api-docs');
 
 describe('routes/api-docs', () => {
   it('should define the expected routes', () => {
-    // eslint-disable-next-line global-require
-    require('../../../src/routes/api-docs');
-
-    expect(use).toHaveBeenCalledWith('/', swaggerUi.serve);
+    expect(use).toHaveBeenCalledWith('/', serve);
   });
 });

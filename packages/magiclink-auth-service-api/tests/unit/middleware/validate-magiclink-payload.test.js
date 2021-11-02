@@ -1,6 +1,6 @@
 jest.mock('../../../src/validators/schema/magiclinkDataValidator');
 
-const mockMagicLinkDataValidator = require('../../../src/validators/schema/magiclinkDataValidator');
+const magicLinkDataValidator = require('../../../src/validators/schema/magiclinkDataValidator');
 const validateMagicLinkPayload = require('../../../src/middleware/validate-magiclink-payload');
 const { mockReq, mockRes } = require('../mocks');
 const magicLinkData = require('../../resources/magicLinkData.json');
@@ -14,7 +14,7 @@ const next = jest.fn();
 describe('middleware.validate-magiclink-payload', () => {
   describe('with valid payload', () => {
     it('should call the next function', async () => {
-      mockMagicLinkDataValidator.validate.mockResolvedValue(magicLinkData);
+      magicLinkDataValidator.validate.mockResolvedValue(magicLinkData);
 
       await validateMagicLinkPayload(req, res, next);
 
@@ -24,12 +24,12 @@ describe('middleware.validate-magiclink-payload', () => {
 
   describe('with invalid payload', () => {
     it('should call the next function with ApiError', async () => {
-      const mockValidationError = new Error('ValidationError');
-      mockMagicLinkDataValidator.validate.mockRejectedValue(mockValidationError);
+      const validationError = new Error('ValidationError');
+      magicLinkDataValidator.validate.mockRejectedValue(validationError);
 
       await validateMagicLinkPayload(req, res, next);
 
-      expect(next).toHaveBeenCalledWith(ApiError.badRequest(mockValidationError));
+      expect(next).toHaveBeenCalledWith(ApiError.badRequest(validationError));
     });
   });
 });

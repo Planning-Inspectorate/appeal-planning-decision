@@ -1,6 +1,6 @@
 require('express-async-errors');
-// eslint-disable-next-line no-unused-vars
-const notifyBuilderMock = jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
+
+jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
   const mock = {
     reset: jest.fn(() => mock),
     setNotifyClient: jest.fn(() => mock),
@@ -48,7 +48,7 @@ describe('magiclink-auth-service-api - integration tests', () => {
         const response = await request(app).get(`/magiclink/${magicLinkToken}`);
 
         expect(response.headers['set-cookie']).toEqual([
-          'authCookie=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiZW1haWwiOiJhZHJpYW5hLnRlc3RAZ21haWwuY29tIiwibHBhQ29kZSI6IkU2OTk5OTk5OSJ9LCJleHAiOjE2Mjk3MDAzNDcsImlhdCI6MTYyOTMwMH0.astXlNOn6JIpQySOwTwW6AeBn81WQAVzZrRlp1s9MQ4; Path=/; Expires=Tue, 20 Jan 1970 04:35:00 GMT; HttpOnly',
+          'authCookie=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiZW1haWwiOiJ0ZXN0LmFkZHJlc3NAcGxhbm5pbmdpbnNwZWN0b3JhdGUuZ292LnVrIiwibHBhQ29kZSI6IkU2OTk5OTk5OSJ9LCJleHAiOjE2Mjk3MDAzNDcsImlhdCI6MTYyOTMwMH0.NsevUdME4Q3iCwRbTCcwPUiNVuTCHa81uz1B8v60_3A; Path=/; Expires=Tue, 20 Jan 1970 04:35:00 GMT; HttpOnly',
         ]);
         expect(response.statusCode).toBe(302);
       });

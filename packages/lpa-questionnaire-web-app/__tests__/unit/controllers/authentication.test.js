@@ -1,7 +1,8 @@
 jest.mock('../../../src/lib/magiclink-api-wrapper');
 const authenticationController = require('../../../src/controllers/authentication');
-const mockMagicLinkAPIWrapper = require('../../../src/lib/magiclink-api-wrapper');
+const magicLinkAPIWrapper = require('../../../src/lib/magiclink-api-wrapper');
 const { mockReq, mockRes } = require('../mocks');
+const mockAppeal = require('../mockAppeal');
 const { VIEW } = require('../../../src/lib/views');
 
 const mockEmail = 'test.address@planninginspectorate.gov.uk';
@@ -23,8 +24,7 @@ describe('authentication controller', () => {
 
   describe('GET /appeal-questionnaire/:lpaCode/authentication/your-email', () => {
     it('should call the correct template', () => {
-      req.session.redirectURL =
-        'http://localhost:9001/appeal-questionnaire/89aa8504-773c-42be-bb68-029716ad9756/task-list';
+      req.session.redirectURL = `http://localhost:9001/appeal-questionnaire/${mockAppeal.id}/task-list`;
       authenticationController.showEnterEmailAddress(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
@@ -71,11 +71,11 @@ describe('authentication controller', () => {
   describe('POST /appeal-questionnaire/:lpaCode/authentication/your-email', () => {
     it('should call magic link API and redirect user to confirm email page if user email address is within lpa domain', async () => {
       req.body = { email: mockEmail };
-      mockMagicLinkAPIWrapper.createMagicLink.mockResolvedValue();
+      magicLinkAPIWrapper.createMagicLink.mockResolvedValue();
 
       await authenticationController.processEmailAddress(req, res);
 
-      expect(mockMagicLinkAPIWrapper.createMagicLink).toHaveBeenCalledTimes(1);
+      expect(magicLinkAPIWrapper.createMagicLink).toHaveBeenCalledTimes(1);
       expect(req.session.email).toEqual(mockEmail);
       expect(res.redirect).toHaveBeenCalledWith(
         '/appeal-questionnaire/E69999999/authentication/confirm-email'
@@ -83,13 +83,13 @@ describe('authentication controller', () => {
     });
 
     it('should redirect to confirm email page if user email address not within lpa domain', async () => {
-      req.body = { email: 'test.address@test.co.uk' };
-      mockMagicLinkAPIWrapper.createMagicLink.mockResolvedValue();
+      req.body = { email: 'test.address@test.gov.uk' };
+      magicLinkAPIWrapper.createMagicLink.mockResolvedValue();
 
       await authenticationController.processEmailAddress(req, res);
 
-      expect(mockMagicLinkAPIWrapper.createMagicLink).toHaveBeenCalledTimes(0);
-      expect(req.session.email).toEqual('test.address@test.co.uk');
+      expect(magicLinkAPIWrapper.createMagicLink).toHaveBeenCalledTimes(0);
+      expect(req.session.email).toEqual('test.address@test.gov.uk');
       expect(res.redirect).toHaveBeenCalledWith(
         '/appeal-questionnaire/E69999999/authentication/confirm-email'
       );

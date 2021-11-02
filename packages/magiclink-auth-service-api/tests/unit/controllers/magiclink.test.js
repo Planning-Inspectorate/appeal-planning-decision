@@ -6,19 +6,19 @@ jest.mock('../../../src/util/dateUtil');
 const magiclinkController = require('../../../src/controllers/magiclink');
 const config = require('../../../src/config');
 
-const mockCreateMagicLinkInteractor = require('../../../src/interactors/createMagicLink');
-const mockSendMagicLinkEmailInteractor = require('../../../src/interactors/sendMagicLinkEmail');
-const mockCreateAuthTokenInteractor = require('../../../src/interactors/createAuthToken');
-const mockDateUtils = require('../../../src/util/dateUtil');
+const createMagicLinkInteractor = require('../../../src/interactors/createMagicLink');
+const sendMagicLinkEmailInteractor = require('../../../src/interactors/sendMagicLinkEmail');
+const createAuthTokenInteractor = require('../../../src/interactors/createAuthToken');
+const dateUtils = require('../../../src/util/dateUtil');
 const { mockReq, mockRes } = require('../mocks');
-const mockMagicLinkData = require('../../resources/magicLinkData.json');
+const magicLinkData = require('../../resources/magicLinkData.json');
 
 const req = mockReq();
 const res = mockRes();
 
 describe('controllers.magiclink', () => {
   describe('initiateMagicLinkFlow', () => {
-    let mockMagicLink;
+    let magicLink;
 
     beforeEach(() => {
       const apiProtocol = 'http';
@@ -26,26 +26,26 @@ describe('controllers.magiclink', () => {
       req.get.mockReturnValue(apiHost);
       req.protocol = apiProtocol;
 
-      req.body = mockMagicLinkData;
+      req.body = magicLinkData;
 
-      mockMagicLink = 'http://localhost:3005/magiclink/JWT';
-      mockCreateMagicLinkInteractor.mockReturnValue(mockMagicLink);
+      magicLink = 'http://localhost:3005/magiclink/JWT';
+      createMagicLinkInteractor.mockReturnValue(magicLink);
     });
 
     it('should create a magic link, send it via email and return it on the response', async () => {
       await magiclinkController.initiateMagicLinkFlow(req, res);
 
-      expect(mockSendMagicLinkEmailInteractor).toHaveBeenCalled();
+      expect(sendMagicLinkEmailInteractor).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(201);
-      expect(res.send).toHaveBeenCalledWith({ magicLink: mockMagicLink });
+      expect(res.send).toHaveBeenCalledWith({ magicLink });
     });
 
     it('should use the API host and protocol for the creation of magic link URL if config value `magicLinkURL` is undefined', async () => {
       await magiclinkController.initiateMagicLinkFlow(req, res);
 
-      expect(mockCreateMagicLinkInteractor).toHaveBeenCalledWith(
+      expect(createMagicLinkInteractor).toHaveBeenCalledWith(
         'http://localhost:3005',
-        mockMagicLinkData,
+        magicLinkData,
       );
     });
 
@@ -55,24 +55,24 @@ describe('controllers.magiclink', () => {
 
       await magiclinkController.initiateMagicLinkFlow(req, res);
 
-      expect(mockCreateMagicLinkInteractor).toHaveBeenCalledWith(magicLinkURL, mockMagicLinkData);
+      expect(createMagicLinkInteractor).toHaveBeenCalledWith(magicLinkURL, magicLinkData);
     });
   });
 
   describe('login', () => {
     it('should create and set a new JWT cookie', async () => {
-      req.magicLinkData = mockMagicLinkData;
-      const mockJWT = 'mockJWT';
-      mockCreateAuthTokenInteractor.mockReturnValue(mockJWT);
-      mockDateUtils.addMillisToCurrentDate.mockReturnValue('2021-08-19T14:19:40.406Z');
+      req.magicLinkData = magicLinkData;
+      const jwt = 'jwt';
+      createAuthTokenInteractor.mockReturnValue(jwt);
+      dateUtils.addMillisToCurrentDate.mockReturnValue('2021-08-19T14:19:40.406Z');
 
       await magiclinkController.login(req, res);
 
-      expect(res.cookie).toHaveBeenCalledWith(mockMagicLinkData.auth.cookieName, mockJWT, {
+      expect(res.cookie).toHaveBeenCalledWith(magicLinkData.auth.cookieName, jwt, {
         expires: '2021-08-19T14:19:40.406Z',
         httpOnly: true,
       });
-      expect(res.redirect).toHaveBeenCalledWith(mockMagicLinkData.magicLink.redirectURL);
+      expect(res.redirect).toHaveBeenCalledWith(magicLinkData.magicLink.redirectURL);
     });
   });
 });
