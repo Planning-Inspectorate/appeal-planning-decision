@@ -5,7 +5,7 @@ const DEFAULT_EXP_TIME = new Date(Date.now() + FOUR_HOURS).getTime();
 const JWT_PAYLOAD = {
   userInformation: {
     lpaCode: 'E69999999',
-    email: 'test@@planninginspectorate.gov.uk',
+    email: 'test@planninginspectorate.gov.uk',
   },
 };
 
