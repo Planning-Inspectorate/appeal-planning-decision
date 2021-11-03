@@ -7,10 +7,6 @@ describe('routes/index', () => {
     require('../../../../src/routes/auth/index');
   });
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
   it('should define the expected routes', () => {
     expect(use).toHaveBeenCalledWith(authenticationRouter);
   });
