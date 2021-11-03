@@ -26,7 +26,7 @@ const booleanQuestionRouter = require('./question-type/boolean');
 const { router: supplementaryDocumentsRouter } = require('./supplementary-documents');
 const alreadySubmittedRouter = require('./already-submitted');
 const contactUsRouter = require('./contact-us');
-const authenticationRouter = require('./authentication');
+const authenticationRouter = require('./auth/authentication');
 
 router.use(contactUsRouter);
 router.use(homeRouter);

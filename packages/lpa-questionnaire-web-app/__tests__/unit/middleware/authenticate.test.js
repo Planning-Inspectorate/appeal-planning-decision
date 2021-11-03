@@ -36,7 +36,7 @@ describe('middleware/authenticate', () => {
   });
 
   it('should redirect user to /appeal-questionnaire/:lpaCode/authentication/your-email page if jwtToken is expired', async () => {
-    mockAuthenticationService.authenticate.mockRejectedValue(new ExpiredTokenError('', jwtPayload));
+    authenticationService.authenticate.mockRejectedValue(new ExpiredTokenError('', jwtPayload));
 
     await authenticate(req, res, next);
 
