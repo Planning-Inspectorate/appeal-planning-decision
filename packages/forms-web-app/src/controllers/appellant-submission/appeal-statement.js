@@ -1,3 +1,4 @@
+const { documentTypes } = require('@pins/common');
 const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const { createDocument } = require('../../lib/documents-api-wrapper');
@@ -38,7 +39,12 @@ exports.postAppealStatement = async (req, res) => {
     appeal.yourAppealSection.appealStatement.hasSensitiveInformation = false;
     if ('files' in req && req.files !== null) {
       if ('appeal-upload' in req.files) {
-        const document = await createDocument(appeal, req.files['appeal-upload']);
+        const document = await createDocument(
+          appeal,
+          req.files['appeal-upload'],
+          null,
+          documentTypes.appealStatement.name
+        );
 
         appeal[sectionName][taskName].uploadedFile = {
           id: document.id,

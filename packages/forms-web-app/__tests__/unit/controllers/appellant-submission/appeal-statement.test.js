@@ -1,3 +1,4 @@
+const { documentTypes } = require('@pins/common');
 const appealStatementController = require('../../../../src/controllers/appellant-submission/appeal-statement');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { createDocument } = require('../../../../src/lib/documents-api-wrapper');
@@ -189,7 +190,12 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 
       expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
-      expect(createDocument).toHaveBeenCalledWith(appeal, { name: fakeFileName });
+      expect(createDocument).toHaveBeenCalledWith(
+        appeal,
+        { name: fakeFileName },
+        null,
+        documentTypes.appealStatement.name
+      );
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,

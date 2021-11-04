@@ -1,3 +1,4 @@
+const { documentTypes } = require('@pins/common');
 const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
@@ -39,7 +40,12 @@ exports.postSupportingDocuments = async (req, res) => {
 
       // eslint-disable-next-line no-restricted-syntax
       for await (const file of validFiles) {
-        const document = await createDocument(appeal, file);
+        const document = await createDocument(
+          appeal,
+          file,
+          null,
+          documentTypes.otherDocuments.name
+        );
 
         appeal[sectionName][taskName].uploadedFiles.push({
           id: document.id,

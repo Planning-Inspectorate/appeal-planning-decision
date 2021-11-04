@@ -14,7 +14,7 @@ function isTheFormDataBuffer(data) {
   return isDataBuffer(data) && data.tempFilePath;
 }
 
-exports.createDocument = async (appeal, data, fileName) => {
+exports.createDocument = async (appeal, data, fileName, documentType) => {
   const path = `/api/v1/${appeal.id}`;
 
   const correlationId = uuid.v4();
@@ -37,6 +37,8 @@ exports.createDocument = async (appeal, data, fileName) => {
     } else {
       throw new Error('The type of provided data to create a document with is wrong');
     }
+
+    fd.append('documentType', documentType);
 
     apiResponse = await fetch(url, {
       method: 'POST',

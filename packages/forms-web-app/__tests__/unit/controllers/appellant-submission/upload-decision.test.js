@@ -1,3 +1,4 @@
+const { documentTypes } = require('@pins/common');
 const uploadDecisionController = require('../../../../src/controllers/appellant-submission/upload-decision');
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
@@ -191,7 +192,12 @@ describe('controllers/appellant-submission/upload-decision', () => {
         },
       });
 
-      expect(createDocument).toHaveBeenCalledWith(appeal, { name: fakeFileName });
+      expect(createDocument).toHaveBeenCalledWith(
+        appeal,
+        { name: fakeFileName },
+        null,
+        documentTypes.decisionLetter.name
+      );
 
       expect(res.redirect).toHaveBeenCalledWith(fakeNextUrl);
     });
