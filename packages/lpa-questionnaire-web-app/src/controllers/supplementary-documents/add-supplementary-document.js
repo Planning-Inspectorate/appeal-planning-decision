@@ -85,6 +85,7 @@ const createErrorSummary = (rawErrorSummary) => {
 };
 
 exports.postAddDocument = async (req, res) => {
+  const { documentType } = req;
   const backLink = res.locals.backLink || req.session.backLink;
 
   const {
@@ -124,7 +125,7 @@ exports.postAddDocument = async (req, res) => {
   try {
     if (Object.keys(errors).length > 0) throw new Error('Validation failed');
 
-    const uploadedFile = await uploadFiles(files.documents, appealReply.id);
+    const uploadedFile = await uploadFiles(files.documents, appealReply.id, documentType);
 
     const { name, id } = uploadedFile[0];
 

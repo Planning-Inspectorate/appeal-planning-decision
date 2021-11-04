@@ -1,5 +1,6 @@
+const { documentTypes } = require('@pins/common');
 const { get, post } = require('./router-mock');
-const { mockRes } = require('../mocks');
+const { mockRes, mockReq } = require('../mocks');
 
 const uploadQuestionController = require('../../../src/controllers/upload-question');
 
@@ -59,10 +60,11 @@ describe('routes/conservation-area-map', () => {
       // eslint-disable-next-line global-require
       const { getConfig } = require('../../../src/routes/conservation-area-map');
 
+      const req = mockReq();
       const res = mockRes();
       const next = jest.fn();
 
-      getConfig(undefined, res, next);
+      getConfig(req, res, next);
 
       expect(next).toHaveBeenCalled();
       expect(res.locals.routeInfo).toEqual({
@@ -71,6 +73,7 @@ describe('routes/conservation-area-map', () => {
         view: VIEW.CONSERVATION_AREA_MAP,
         name: 'Conservation area map and guidance',
       });
+      expect(req.documentType).toEqual(documentTypes.conservationAreaMap.name);
     });
   });
 });

@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const { documentTypes } = require('@pins/common');
 const { createDocument, deleteDocument } = require('../../../src/lib/documents-api-wrapper');
 
 const mockLogger = jest.fn();
@@ -39,7 +40,7 @@ describe('lib/documents-api-wrapper', () => {
     it('should throw if the remote API response is not ok', async () => {
       fetch.mockResponse('fake response body', { status: 400 });
       try {
-        await createDocument(mockId, data);
+        await createDocument(mockId, data, null, documentTypes.officersReport.name);
         expect('to be').not.toBe('to be');
       } catch (e) {
         expect(e.message).toBe('Bad Request');
@@ -49,7 +50,7 @@ describe('lib/documents-api-wrapper', () => {
     it('should throw if the response code is anything other than a 202', async () => {
       fetch.mockResponse('a response body', { status: 204 });
       try {
-        await createDocument(mockId, data);
+        await createDocument(mockId, data, null, documentTypes.officersReport.name);
         expect('to be').not.toBe('to be');
       } catch (e) {
         expect(e.message).toBe('No Content');
@@ -64,7 +65,7 @@ describe('lib/documents-api-wrapper', () => {
         { status: 202 }
       );
       try {
-        await createDocument(mockId, data);
+        await createDocument(mockId, data, null, documentTypes.officersReport.name);
         expect('to be').not.toBe('to be');
       } catch (e) {
         expect(e.message).toBe('Document had no ID');
@@ -82,7 +83,7 @@ describe('lib/documents-api-wrapper', () => {
         );
 
         try {
-          await createDocument(mockId, data);
+          await createDocument(mockId, data, null, documentTypes.officersReport.name);
           expect('to be').not.toBe('to be');
         } catch (e) {
           expect(e.message).toBe('Document had no ID');
@@ -112,7 +113,7 @@ describe('lib/documents-api-wrapper', () => {
         }),
         { status: 202 }
       );
-      expect(await createDocument(mockId, data)).toEqual({
+      expect(await createDocument(mockId, data, null, documentTypes.officersReport.name)).toEqual({
         applicationId: 123,
         id: '123-abc-456-xyz',
         name: 'tmp-2-1607684291243',
@@ -129,7 +130,9 @@ describe('lib/documents-api-wrapper', () => {
         { status: 202 }
       );
 
-      expect(await createDocument(mockId, data, 'namePreferred.pdf')).toEqual({
+      expect(
+        await createDocument(mockId, data, 'namePreferred.pdf', documentTypes.officersReport.name)
+      ).toEqual({
         applicationId: 123,
         id: '123-abc-456-xyz',
         name: 'namePreferred.pdf',
@@ -145,7 +148,9 @@ describe('lib/documents-api-wrapper', () => {
         }),
         { status: 202 }
       );
-      expect(await createDocument(mockId, Buffer.from('data'))).toEqual({
+      expect(
+        await createDocument(mockId, Buffer.from('data'), null, documentTypes.officersReport.name)
+      ).toEqual({
         applicationId: 123,
         id: '123-abc-456-xyz',
         name: 'tmp-2-1607684291243',

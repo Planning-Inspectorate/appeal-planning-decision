@@ -75,6 +75,7 @@
         }) }}
 
         <input type="hidden" id="tempDocs" name="tempDocs" value="{{ documentList }}" />
+        <input type="hidden" id="documentType" name="documentType" value="{{ documentType }}" />
 
         {{ acceptedDocumentFormats({}) }}
 
@@ -106,6 +107,7 @@ window.MOJFrontend.initAll();
 
 if (typeof MOJFrontend.MultiFileUpload !== 'undefined') {
   var temporaryDocInput = document.getElementById('tempDocs');
+  var documentType = document.getElementById('documentType').value;
 
   function onFileUpload(context, file, response) {
     var upload = {
@@ -129,7 +131,7 @@ if (typeof MOJFrontend.MultiFileUpload !== 'undefined') {
 
   new MOJFrontend.MultiFileUpload({
     container: $('.moj-multi-file-upload'),
-    uploadUrl: '/upload',
+    uploadUrl: `/upload/${documentType}`,
     deleteUrl: '/delete',
     uploadFileExitHook: onFileUpload,
     fileDeleteHook: onFileDelete,

@@ -18,6 +18,7 @@ const docArrayFromInputString = (tempDocsString) => {
 
 exports.getUpload = (req, res) => {
   const { sectionName, taskName, view } = res.locals.routeInfo;
+  const { documentType } = req;
 
   let uploadedFiles;
   let appealReplyId;
@@ -35,11 +36,13 @@ exports.getUpload = (req, res) => {
     backLink: req.session.backLink ? req.session.backLink : `/${req.params.id}/${VIEW.TASK_LIST}`,
     ...fileUploadNunjucksVariables(null, null, uploadedFiles),
     appealReplyId,
+    documentType,
   });
 };
 
 exports.postUpload = async (req, res) => {
   const { sectionName, taskName, view, name } = res.locals.routeInfo;
+  const { documentType } = req;
   const { appealReply } = req.session;
   const { appealReplyId } = appealReply;
   const documents = req.body?.files?.documents || [];
@@ -80,7 +83,8 @@ exports.postUpload = async (req, res) => {
           // current validation will return errors in this format
           error: errors[`files.documents[${index}]`]?.msg,
         })),
-        req.session?.appealReply?.id
+        req.session?.appealReply?.id,
+        documentType
       );
 
       validFiles = [

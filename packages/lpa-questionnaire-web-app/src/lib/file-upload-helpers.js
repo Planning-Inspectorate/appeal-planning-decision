@@ -96,12 +96,15 @@ exports.fileUploadNunjucksVariables = (errorMessage, errorSummary, files) => ({
  * @param {String} appealReplyId UUID string for appeal reply
  * @returns {Promise} array of files with IDs and data for DB
  */
-exports.uploadFiles = async (files, appealReplyId) => {
+exports.uploadFiles = async (files, appealReplyId, documentType) => {
   try {
     return await Promise.all(
       files.map(async (file) => {
         // skip file if it has an error (keep it in array though)
-        const document = file.id || file.error ? file : await createDocument(appealReplyId, file);
+        const document =
+          file.id || file.error
+            ? file
+            : await createDocument(appealReplyId, file, null, documentType);
 
         // eslint-disable-next-line consistent-return
         return {

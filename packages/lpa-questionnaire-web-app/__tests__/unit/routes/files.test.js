@@ -3,6 +3,7 @@ const filesController = require('../../../src/controllers/files');
 const reqFilesToReqBodyFilesMiddleware = require('../../../src/middleware/req-files-to-req-body-files');
 const filesValidationRules = require('../../../src/validators/files');
 const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
+const documentTypeValidator = require('../../../src/validators/document-type');
 
 jest.mock('../../../src/middleware/req-files-to-req-body-files');
 jest.mock('../../../src/validators/files');
@@ -19,9 +20,10 @@ describe('routes/placeholder', () => {
 
   it('should define the expected routes', () => {
     expect(post).toHaveBeenCalledWith(
-      '/upload',
+      '/upload/:documentType',
       [reqFilesToReqBodyFilesMiddleware('documents'), filesValidationRules()],
       validationErrorHandler,
+      documentTypeValidator,
       filesController.uploadFile
     );
 

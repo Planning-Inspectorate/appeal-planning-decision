@@ -23,7 +23,7 @@ const { router: otherPoliciesRouter } = require('./other-policies');
 const { router: statutoryDevelopmentRouter } = require('./statutory-development');
 const informationSubmittedRouter = require('./information-submitted');
 const booleanQuestionRouter = require('./question-type/boolean');
-const supplementaryDocumentsRouter = require('./supplementary-documents');
+const { router: supplementaryDocumentsRouter } = require('./supplementary-documents');
 const alreadySubmittedRouter = require('./already-submitted');
 const contactUsRouter = require('./contact-us');
 

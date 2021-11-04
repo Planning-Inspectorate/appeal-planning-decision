@@ -1,3 +1,4 @@
+const { documentTypes } = require('@pins/common');
 const { convertToHtml, createPdf } = require('../../../src/services/pdf.service');
 const originalMockAppeal = require('../mockAppeal');
 const originalMockAppealReply = require('../mockAppealReply');
@@ -52,7 +53,12 @@ describe('services/pdf.service', () => {
       const document = await createPdf(mockAppealReply, mockAppeal);
 
       expect(generatePDF).toHaveBeenCalledWith(html);
-      expect(createDocument).toHaveBeenCalledWith('mock-id', 'mock-pdf', 'lpa-questionnaire.pdf');
+      expect(createDocument).toHaveBeenCalledWith(
+        'mock-id',
+        'mock-pdf',
+        'lpa-questionnaire.pdf',
+        documentTypes.questionnairePdf.name
+      );
       expect(document).toEqual('mock-document');
     });
   });

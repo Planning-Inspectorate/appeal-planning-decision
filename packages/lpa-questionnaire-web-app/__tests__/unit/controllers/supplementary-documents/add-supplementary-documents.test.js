@@ -1,3 +1,4 @@
+const { documentTypes } = require('@pins/common');
 const supplementaryDocumentsController = require('../../../../src/controllers/supplementary-documents/add-supplementary-document');
 const { VIEW } = require('../../../../src/lib/views');
 const { uploadFiles } = require('../../../../src/lib/file-upload-helpers');
@@ -19,7 +20,10 @@ describe('controllers/add-supplementary-documents', () => {
   };
 
   beforeEach(() => {
-    req = mockReq(mockAppealReply);
+    req = {
+      ...mockReq(mockAppealReply),
+      documentType: documentTypes.officersReport.name,
+    };
     res = mockRes();
 
     jest.resetAllMocks();
@@ -177,7 +181,11 @@ describe('controllers/add-supplementary-documents', () => {
 
       await supplementaryDocumentsController.postAddDocument(mockRequest, res);
 
-      expect(uploadFiles).toHaveBeenCalledWith([{ name: 'some-file' }], 'mock-id');
+      expect(uploadFiles).toHaveBeenCalledWith(
+        [{ name: 'some-file' }],
+        'mock-id',
+        documentTypes.officersReport.name
+      );
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.SUPPLEMENTARY_DOCUMENTS.ADD_DOCUMENT, {
         appeal: null,
@@ -206,7 +214,11 @@ describe('controllers/add-supplementary-documents', () => {
 
       await supplementaryDocumentsController.postAddDocument(mockRequest, res);
 
-      expect(uploadFiles).toHaveBeenCalledWith([{ name: 'some-file' }], 'mock-id');
+      expect(uploadFiles).toHaveBeenCalledWith(
+        [{ name: 'some-file' }],
+        'mock-id',
+        documentTypes.officersReport.name
+      );
       expect(createOrUpdateAppealReply).toHaveBeenCalledWith({
         ...mockAppealReply,
         optionalDocumentsSection: {

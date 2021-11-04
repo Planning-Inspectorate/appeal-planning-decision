@@ -2,7 +2,10 @@ const { uploadFiles } = require('../lib/file-upload-helpers');
 const { deleteDocument } = require('../lib/documents-api-wrapper');
 
 exports.uploadFile = async (req, res) => {
-  const { body } = req;
+  const {
+    body,
+    params: { documentType },
+  } = req;
   const { errors = {}, files = {} } = body;
 
   if (!files.documents || !files.documents.length) {
@@ -16,7 +19,7 @@ exports.uploadFile = async (req, res) => {
   let document = { ...files.documents[0], error };
 
   if (!error) {
-    [document] = await uploadFiles(files.documents, req.session?.appealReply?.id);
+    [document] = await uploadFiles(files.documents, req.session?.appealReply?.id, documentType);
   }
 
   const { name: fileName } = document;
