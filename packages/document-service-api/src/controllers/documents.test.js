@@ -1,3 +1,4 @@
+const { documentTypes } = require('@pins/common');
 const {
   getDocumentsForApplication,
   getDocumentById,
@@ -39,6 +40,7 @@ const uploadedFileReturnValue = {
   location: `${applicationId}/${documentId}/${fileOne.metadata.name}`,
   size: String(fileOne.metadata.size),
   id: documentId,
+  document_type: documentTypes.appealPdf.name,
 };
 
 jest.mock('../lib/blobStorage', () => ({
@@ -297,6 +299,12 @@ describe('controllers/documents', () => {
   });
 
   describe('uploadDocument', () => {
+    beforeEach(() => {
+      req.body = {
+        documentType: documentTypes.appealPdf.name,
+      };
+    });
+
     it('should return the metadata when a file is uploaded successfully', async () => {
       req.file = {
         mimetype: fileOne.metadata.mime_type,
