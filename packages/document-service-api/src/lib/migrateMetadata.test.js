@@ -18,6 +18,13 @@ const documentTwo = {
   size: 2000,
   mimeType: 'application/pdf',
 };
+const documentWithoutUploadDate = {
+  applicationId: '567637a5-e2e5-4dc3-a560-6ff37556c0bd',
+  name: 'test-pdf-3.pdf',
+  id: '6fe7f93c-0976-4f52-b674-2826e11bd98f',
+  size: 1000,
+  mimeType: 'application/pdf',
+};
 const documentOneMetadata = {
   application_id: documentOne.applicationId,
   name: documentOne.name,
@@ -36,7 +43,7 @@ const documentTwoMetadata = {
   size: String(documentTwo.size),
   id: documentTwo.id,
 };
-const documents = [documentOne, documentTwo];
+const documents = [documentOne, documentTwo, documentWithoutUploadDate];
 
 jest.mock('../schemas/documents', () => ({
   find: jest.fn(),
@@ -102,15 +109,16 @@ describe('lib/migrateMetadata', () => {
   });
 
   describe('migrateMetadata', () => {
-    it('should return a summary of the migrated documents when the migration is successful', async () => {
+    it('should return a summary of the migrated/failed documents when the migration completed', async () => {
       Documents.find.mockReturnValue(documents);
       blobStorage.saveMetadata.mockReturnValue(true);
 
       const result = await migrateMetadata();
 
-      expect(result).toEqual({
-        documentsFound: 2,
+      expect(result).toMatchObject({
+        documentsFound: 3,
         documentsMigrated: 2,
+        documentsFailed: 1,
         migratedDocuments: [
           {
             cosmosDbMetadata: documentOne,
@@ -119,6 +127,12 @@ describe('lib/migrateMetadata', () => {
           {
             cosmosDbMetadata: documentTwo,
             blobStorageMetadata: documentTwoMetadata,
+          },
+        ],
+        failedDocuments: [
+          {
+            documentId: documentWithoutUploadDate.id,
+            message: expect.any(String),
           },
         ],
       });
