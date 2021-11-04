@@ -1,5 +1,6 @@
+const { documentTypes } = require('@pins/common');
 const { get, post } = require('./router-mock');
-const { mockRes } = require('../mocks');
+const { mockRes, mockReq } = require('../mocks');
 
 const uploadQuestionController = require('../../../src/controllers/upload-question');
 
@@ -59,10 +60,11 @@ describe('routes/planning-history', () => {
       // eslint-disable-next-line global-require
       const { getConfig } = require('../../../src/routes/planning-history');
 
+      const req = mockReq();
       const res = mockRes();
       const next = jest.fn();
 
-      getConfig(undefined, res, next);
+      getConfig(req, res, next);
 
       expect(next).toHaveBeenCalled();
       expect(res.locals.routeInfo).toEqual({
@@ -71,6 +73,7 @@ describe('routes/planning-history', () => {
         view: VIEW.PLANNING_HISTORY,
         name: 'Planning history',
       });
+      expect(req.documentType).toEqual(documentTypes.planningHistory.name);
     });
   });
 });

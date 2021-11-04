@@ -4,7 +4,7 @@ const path = require('path');
 const uuid = require('uuid');
 const { format } = require('date-fns');
 const gbLocale = require('date-fns/locale/en-GB');
-
+const { documentTypes } = require('@pins/common');
 const checkAnswersSections = require('../lib/check-answers-sections');
 const appealSidebarDetails = require('../lib/appeal-sidebar-details');
 const { generatePDF } = require('../lib/pdf-api-wrapper');
@@ -70,7 +70,12 @@ const createPdf = async (appealReply, appeal) => {
     const pdfBuffer = await generatePDF(renderedHtml);
 
     log.debug('Creating document from PDF buffer');
-    const document = await createDocument(id, pdfBuffer, 'lpa-questionnaire.pdf');
+    const document = await createDocument(
+      id,
+      pdfBuffer,
+      'lpa-questionnaire.pdf',
+      documentTypes.questionnairePdf.name
+    );
 
     log.debug('PDF document successfully created');
 

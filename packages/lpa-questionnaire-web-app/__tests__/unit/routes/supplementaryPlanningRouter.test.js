@@ -1,4 +1,6 @@
+const { documentTypes } = require('@pins/common');
 const { get, post } = require('./router-mock');
+const { mockRes, mockReq } = require('../mocks');
 const supplementaryDocumentsController = require('../../../src/controllers/supplementary-documents/add-supplementary-document');
 const uploadedDocumentsController = require('../../../src/controllers/supplementary-documents/uploaded-documents');
 const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
@@ -26,6 +28,9 @@ describe('routes/supplementary-documents', () => {
     });
 
     it('should define the expected routes', () => {
+      // eslint-disable-next-line global-require
+      const { getConfig } = require('../../../src/routes/supplementary-documents');
+
       expect(get).toHaveBeenCalledWith(
         '/appeal-questionnaire/:id/supplementary-documents',
         [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
@@ -38,6 +43,7 @@ describe('routes/supplementary-documents', () => {
         combineDateInputsMiddleware,
         supplementaryDocumentsValidationRules(),
         validationErrorHandler,
+        getConfig,
         supplementaryDocumentsController.postAddDocument
       );
 
@@ -53,6 +59,22 @@ describe('routes/supplementary-documents', () => {
         [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
         deleteSupplementaryDocumentController.getDeleteDocument
       );
+    });
+  });
+
+  describe('getConfig', () => {
+    it('should define the expected config', () => {
+      // eslint-disable-next-line global-require
+      const { getConfig } = require('../../../src/routes/supplementary-documents');
+
+      const req = mockReq();
+      const res = mockRes();
+      const next = jest.fn();
+
+      getConfig(req, res, next);
+
+      expect(next).toHaveBeenCalled();
+      expect(req.documentType).toEqual(documentTypes.supplementaryDocuments.name);
     });
   });
 });

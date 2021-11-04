@@ -1,4 +1,5 @@
 const express = require('express');
+const { documentTypes } = require('@pins/common');
 const addSupplementaryDocumentController = require('../controllers/supplementary-documents/add-supplementary-document');
 const uploadedDocumentsController = require('../controllers/supplementary-documents/uploaded-documents');
 const deleteSupplementaryDocumentController = require('../controllers/supplementary-documents/delete-supplementary-document');
@@ -13,6 +14,12 @@ const alreadySubmittedMiddleware = require('../middleware/already-submitted');
 
 const router = express.Router();
 
+const getConfig = (req, res, next) => {
+  req.documentType = documentTypes.supplementaryDocuments.name;
+
+  next();
+};
+
 router.get(
   '/appeal-questionnaire/:id/supplementary-documents',
   [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
@@ -25,6 +32,7 @@ router.post(
   combineDateInputsMiddleware,
   supplementaryDocumentsValidationRules(),
   validationErrorHandler,
+  getConfig,
   addSupplementaryDocumentController.postAddDocument
 );
 
@@ -47,4 +55,7 @@ router.post(
   deleteSupplementaryDocumentController.postDeleteDocument
 );
 
-module.exports = router;
+module.exports = {
+  router,
+  getConfig,
+};

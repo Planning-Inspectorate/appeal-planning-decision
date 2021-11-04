@@ -1,5 +1,6 @@
+const { documentTypes } = require('@pins/common');
 const { get, post } = require('./router-mock');
-const { mockRes } = require('../mocks');
+const { mockRes, mockReq } = require('../mocks');
 
 const uploadQuestionController = require('../../../src/controllers/upload-question');
 
@@ -59,10 +60,11 @@ describe('routes/other-policies', () => {
       // eslint-disable-next-line global-require
       const { getConfig } = require('../../../src/routes/other-policies');
 
+      const req = mockReq();
       const res = mockRes();
       const next = jest.fn();
 
-      getConfig(undefined, res, next);
+      getConfig(req, res, next);
 
       expect(next).toHaveBeenCalled();
       expect(res.locals.routeInfo).toEqual({
@@ -71,6 +73,7 @@ describe('routes/other-policies', () => {
         view: VIEW.OTHER_POLICIES,
         name: 'Other relevant policies',
       });
+      expect(req.documentType).toEqual(documentTypes.otherPolicies.name);
     });
   });
 });

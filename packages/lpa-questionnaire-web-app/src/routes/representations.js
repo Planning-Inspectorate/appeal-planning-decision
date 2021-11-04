@@ -1,4 +1,5 @@
 const express = require('express');
+const { documentTypes } = require('@pins/common');
 const { VIEW } = require('../lib/views');
 const uploadQuestionController = require('../controllers/upload-question');
 const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing-appeal-reply');
@@ -11,13 +12,14 @@ const { validationErrorHandler } = require('../validators/validation-error-handl
 
 const router = express.Router();
 
-const getConfig = (_, res, next) => {
+const getConfig = (req, res, next) => {
   res.locals.routeInfo = {
     sectionName: 'optionalDocumentsSection',
     taskName: 'representationsInterestedParties',
     view: VIEW.REPRESENTATIONS,
     name: 'Representations from interested parties',
   };
+  req.documentType = documentTypes.representations.name;
 
   next();
 };

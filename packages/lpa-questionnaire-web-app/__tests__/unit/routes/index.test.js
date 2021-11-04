@@ -21,7 +21,9 @@ const { router: planningHistoryRouter } = require('../../../src/routes/planning-
 const { router: otherPoliciesRouter } = require('../../../src/routes/other-policies');
 const { router: statutoryDevelopmentRouter } = require('../../../src/routes/statutory-development');
 const booleanQuestionRouter = require('../../../src/routes/question-type/boolean');
-const supplementaryDocumentsRouter = require('../../../src/routes/supplementary-documents');
+const {
+  router: supplementaryDocumentsRouter,
+} = require('../../../src/routes/supplementary-documents');
 const contactUsRouter = require('../../../src/routes/contact-us');
 
 describe('routes/index', () => {
