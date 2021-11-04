@@ -106,6 +106,7 @@ const uploadDocument = async (req, res) => {
   const {
     file,
     file: { mimetype, originalname, filename, size, id, uploadDate } = {},
+    body: { documentType },
     params: { applicationId },
   } = req;
 
@@ -123,6 +124,7 @@ const uploadDocument = async (req, res) => {
       location: `${applicationId}/${id}/${originalname}`,
       size: String(size),
       id,
+      document_type: documentType,
     };
 
     req.log.info(
