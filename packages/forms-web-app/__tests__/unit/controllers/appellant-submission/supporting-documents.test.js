@@ -1,3 +1,4 @@
+const { documentTypes } = require('@pins/common');
 const supportingDocumentsController = require('../../../../src/controllers/appellant-submission/supporting-documents');
 const { mockReq, mockRes } = require('../../mocks');
 const logger = require('../../../../src/lib/logger');
@@ -225,7 +226,12 @@ describe('controllers/appellant-submission/supporting-documents', () => {
 
           expect(createOrUpdateAppeal).toHaveBeenCalledWith(updatedAppeal);
 
-          expect(createDocument).toHaveBeenCalledWith(updatedAppeal, { name: fakeFile1Name });
+          expect(createDocument).toHaveBeenCalledWith(
+            updatedAppeal,
+            { name: fakeFile1Name },
+            null,
+            documentTypes.otherDocuments.name
+          );
 
           expect(res.redirect).toHaveBeenCalledWith(expectedNextUrl());
         });

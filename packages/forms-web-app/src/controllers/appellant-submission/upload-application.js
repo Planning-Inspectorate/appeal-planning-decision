@@ -1,3 +1,4 @@
+const { documentTypes } = require('@pins/common');
 const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
@@ -32,7 +33,12 @@ exports.postUploadApplication = async (req, res) => {
   try {
     if ('files' in req && req.files !== null) {
       if ('application-upload' in req.files) {
-        const document = await createDocument(appeal, req.files['application-upload']);
+        const document = await createDocument(
+          appeal,
+          req.files['application-upload'],
+          null,
+          documentTypes.originalApplication.name
+        );
 
         appeal[sectionName][taskName].uploadedFile = {
           id: document.id,

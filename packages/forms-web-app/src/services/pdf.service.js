@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const uuid = require('uuid');
-
+const { documentTypes } = require('@pins/common');
 const config = require('../config');
 const { createDocument } = require('../lib/documents-api-wrapper');
 const { generatePDF } = require('../lib/pdf-api-wrapper');
@@ -62,7 +62,12 @@ const storePdfAppeal = async (appeal) => {
 
     log.debug('Creating document from PDF buffer');
 
-    const document = await createDocument(appeal, pdfBuffer, `${FILE_NAME}.pdf`);
+    const document = await createDocument(
+      appeal,
+      pdfBuffer,
+      `${FILE_NAME}.pdf`,
+      documentTypes.appealPdf.name
+    );
 
     log.debug('PDF document successfully created');
 
