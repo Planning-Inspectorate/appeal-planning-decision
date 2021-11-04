@@ -27,26 +27,37 @@ const saveMetadata = async (metadata) => {
 
 const migrateMetadata = async () => {
   const migratedDocuments = [];
+  const failedDocuments = [];
 
   try {
     const documents = await getDocuments();
 
     for (let inc = 0; inc < documents.length; inc += 1) {
       const cosmosDbMetadata = documents[inc];
-      const blobStorageMetadata = mapMetadata(cosmosDbMetadata);
-      // eslint-disable-next-line no-await-in-loop
-      await saveMetadata(blobStorageMetadata);
 
-      migratedDocuments.push({
-        cosmosDbMetadata,
-        blobStorageMetadata,
-      });
+      try {
+        const blobStorageMetadata = mapMetadata(cosmosDbMetadata);
+        // eslint-disable-next-line no-await-in-loop
+        await saveMetadata(blobStorageMetadata);
+
+        migratedDocuments.push({
+          cosmosDbMetadata,
+          blobStorageMetadata,
+        });
+      } catch (err) {
+        failedDocuments.push({
+          documentId: cosmosDbMetadata.id,
+          message: err.message,
+        });
+      }
     }
 
     return {
       documentsFound: documents.length,
       documentsMigrated: migratedDocuments.length,
+      documentsFailed: failedDocuments.length,
       migratedDocuments,
+      failedDocuments,
     };
   } catch (err) {
     logger.error({ err }, 'Error migrating metadata');
