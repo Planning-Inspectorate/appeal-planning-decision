@@ -14,11 +14,13 @@
     "test": "jest",
     "test:cov": "jest --coverage",
     "test:watch": "jest --watchAll --runInBand --coverage",
-    "documentation": "jest --coverage --reporters jest-html-reporters --coverageReporters html"
+    "documentation": "jest --bail --coverage --coverageReporters=cobertura --reporters=default --reporters=jest-junit"
   },
   "author": "",
   "dependencies": {
     "@godaddy/terminus": "^4.7.1",
+    "jest": "^26.6.3",
+    "jest-junit": "^13.0.0",
     "notifications-node-client": "^5.1.0",
     "pino": "^6.11.3",
     "prom-client": "^13.0.0"
@@ -30,8 +32,6 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "jest": "^26.6.3",
-    "jest-html-reporters": "^2.1.2",
     "prettier": "^2.1.2"
   }
 }

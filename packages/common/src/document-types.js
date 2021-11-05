@@ -21,47 +21,47 @@ const documentTypes = {
   },
   decisionPlans: {
     name: 'decisionPlans',
-    multiple: false,
+    multiple: true,
   },
   officersReport: {
     name: 'officersReport',
-    multiple: false,
+    multiple: true,
   },
   interestedParties: {
     name: 'interestedParties',
-    multiple: false,
+    multiple: true,
   },
   representations: {
     name: 'representations',
-    multiple: false,
+    multiple: true,
   },
   notifyingParties: {
     name: 'notifyingParties',
-    multiple: false,
+    multiple: true,
   },
   siteNotices: {
     name: 'siteNotices',
-    multiple: false,
+    multiple: true,
   },
   conservationAreaMap: {
     name: 'conservationAreaMap',
-    multiple: false,
+    multiple: true,
   },
   planningHistory: {
     name: 'planningHistory',
-    multiple: false,
+    multiple: true,
   },
   otherPolicies: {
     name: 'otherPolicies',
-    multiple: false,
+    multiple: true,
   },
   statutoryDevelopment: {
     name: 'statutoryDevelopment',
-    multiple: false,
+    multiple: true,
   },
   supplementaryDocuments: {
     name: 'supplementaryDocuments',
-    multiple: false,
+    multiple: true,
   },
   questionnairePdf: {
     name: 'questionnairePdf',
