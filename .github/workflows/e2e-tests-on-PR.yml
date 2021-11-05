@@ -94,7 +94,7 @@ jobs:
 
       - name: Start the world
         run: |
-          docker-compose -f "docker-compose.yml" up -d --build
+          make serve
 
       - name: Run the tests against LPA questionaire in parallel
         uses: cypress-io/github-action@v2
