@@ -7,7 +7,6 @@ Feature: As a planning officer
     And a questionnaire has been created
     And the LPA Planning Officer is authenticated
 
-  @wip
   Scenario: AC01 Send email confirmation to LPA
     Given the questionnaire has been completed
     When the LPA Questionnaire is submitted
