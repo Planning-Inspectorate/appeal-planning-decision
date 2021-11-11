@@ -21,13 +21,13 @@ const validateFileNotPresent = (fileName) => {
   cy.visibleWithoutText(fileName, '.moj-multi-file-upload__list');
 };
 
-const uploadFiles = (fileName, dropZone) => {
+const uploadFiles = (fileName, documentType, dropZone) => {
   cy.get('@page').then(({ url }) => {
     // start watching the POST requests
     cy.server({ method: 'POST' });
     cy.route({
       method: 'POST',
-      url: disableJs ? url : 'upload',
+      url: disableJs ? url : `upload/${documentType}`,
     }).as('upload');
 
     const target = () => {
@@ -118,40 +118,40 @@ After({ tags: '@nojs' }, () => {
   disableJs = false;
 });
 
-Given('a file has been uploaded', () => {
+Given('a file has been uploaded for {string}', (documentType) => {
   goToUploadPage();
-  uploadFiles('upload-file-valid.pdf');
+  uploadFiles('upload-file-valid.pdf',documentType);
 });
 
-Given('a file has been uploaded and confirmed', () => {
+Given('a file has been uploaded and confirmed for {string}', (documentType) => {
   goToUploadPage();
-  uploadFiles('upload-file-valid.pdf');
+  uploadFiles('upload-file-valid.pdf',documentType);
   validateFileUpload('upload-file-valid.pdf');
   cy.clickSaveAndContinue();
   goToUploadPage();
 });
 
-Given('The question {string} has been completed', () => {
+Given('The question {string} has been completed for {string}', (questionnairePage, documentType) => {
   goToUploadPage();
-  uploadFiles('upload-file-valid.pdf');
+  uploadFiles('upload-file-valid.pdf',documentType);
   validateFileUpload('upload-file-valid.pdf');
   cy.clickSaveAndContinue();
 });
 
-When('valid file {string} is successfully uploaded', (fileName) => {
-  uploadFiles(fileName);
+When('valid file {string} is successfully uploaded for {string}', (fileName,documentType) => {
+  uploadFiles(fileName,documentType);
   validateFileUpload(fileName);
   cy.clickSaveAndContinue();
 });
 
-When('valid file {string} is uploaded via drag and drop', (fileName) => {
-  uploadFiles(fileName, true);
+When('valid file {string} is uploaded via drag and drop for {string}', (fileName,documentType) => {
+  uploadFiles(fileName, documentType,true);
   validateFileUpload(fileName);
   cy.clickSaveAndContinue();
 });
 
-When('valid multiple files {string} are uploaded', (fileNames) => {
-  uploadFiles(fileNames.split(', '));
+When('valid multiple files {string} are uploaded for {string}', (fileNames,documentType) => {
+  uploadFiles(fileNames.split(', '),documentType);
   cy.clickSaveAndContinue();
 });
 
@@ -159,8 +159,8 @@ When('no file has been uploaded', () => {
   cy.clickSaveAndContinue();
 });
 
-When('invalid files {string} have been selected', (fileName) => {
-  uploadFiles(fileName);
+When('invalid files {string} have been selected for {string}', (fileName, documentType) => {
+  uploadFiles(fileName,documentType);
   validateFileUpload(fileName);
   cy.clickSaveAndContinue();
 });
@@ -169,9 +169,9 @@ When('LPA Planning Officer deletes the file', () => {
   deleteFile();
 });
 
-When('an answer is saved', () => {
+When('an answer is saved for {string}', (documentType) => {
   const fileName = 'upload-file-valid.docx';
-  uploadFiles(fileName);
+  uploadFiles(fileName,documentType);
   validateFileUpload(fileName);
   cy.clickSaveAndContinue();
 });
