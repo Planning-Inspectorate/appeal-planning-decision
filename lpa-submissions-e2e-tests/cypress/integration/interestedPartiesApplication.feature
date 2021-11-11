@@ -20,7 +20,7 @@ Feature: Interested Parties Application
 
   Scenario Outline: AC3 LPA Planning Officer successfully uploads file via upload button
     Given interested parties application question is requested
-    When valid file '<valid_file>' is successfully uploaded
+    When valid file '<valid_file>' is successfully uploaded for 'interestedParties'
     Then progress is made to the task list
     And interested parties application subsection is shown as completed
     Examples:
@@ -36,7 +36,7 @@ Feature: Interested Parties Application
 
   Scenario Outline: AC4 LPA Planning Officer successfully uploads file via Drag and Drop
     Given interested parties application question is requested
-    When valid file '<valid_file>' is uploaded via drag and drop
+    When valid file '<valid_file>' is uploaded via drag and drop for 'interestedParties'
     Then progress is made to the task list
     And interested parties application subsection is shown as completed
     Examples:
@@ -52,7 +52,7 @@ Feature: Interested Parties Application
 
   Scenario Outline: AC5 LPA Planning Officer successfully uploads multiple files
     Given interested parties application question is requested
-    When valid multiple files '<multiple_files>' are uploaded
+    When valid multiple files '<multiple_files>' are uploaded for 'interestedParties'
     Then progress is made to the task list
     And interested parties application subsection is shown as completed
     Examples:
@@ -63,7 +63,7 @@ Feature: Interested Parties Application
 
   Scenario Outline: AC6 LPA Planning Officer selects invalid file size
     Given interested parties application question is requested
-    When invalid files '<invalid_file_size>' have been selected
+    When invalid files '<invalid_file_size>' have been selected for 'interestedParties'
     Then progress is halted with a message the file '<invalid_file_size>' 'is too big'
     Examples:
       | invalid_file_size      |
@@ -71,7 +71,7 @@ Feature: Interested Parties Application
 
   Scenario Outline: AC7 LPA Planning Officer selects Invalid file format
     Given interested parties application question is requested
-    When invalid files '<invalid_format>' have been selected
+    When invalid files '<invalid_format>' have been selected for 'interestedParties'
     Then progress is halted with a message the file '<invalid_format>' 'format is incorrect'
     Examples:
       | invalid_format                     |
@@ -79,24 +79,24 @@ Feature: Interested Parties Application
 
   Scenario: AC8 LPA Planning Officer selects to return to previous page
     Given interested parties application question is requested
-    And a file has been uploaded
+    And a file has been uploaded for 'interestedParties'
     When Back is then requested
     Then the LPA Planning Officer is taken to the Task List
     And any document uploaded will not be saved
 
   Scenario: AC9 LPA Planning Officer deletes a file prior to save and continue
-    Given a file has been uploaded
+    Given a file has been uploaded for 'interestedParties'
     When LPA Planning Officer deletes the file
     Then the file is removed
 
   Scenario: AC10 LPA Planning Officer deletes a file after save and continue
-    Given a file has been uploaded and confirmed
+    Given a file has been uploaded and confirmed for 'interestedParties'
     And interested parties application question is requested
     When LPA Planning Officer deletes the file
     Then the file is removed
 
   Scenario: AC11 LPA Planning Officer returns to the completed Interested Parties Application question
-    Given The question 'Telling interested parties about the application' has been completed
+    Given The question 'Telling interested parties about the application' has been completed for 'interestedParties'
     When interested parties application question is requested
     Then the information they previously entered is still populated
 
@@ -107,7 +107,7 @@ Feature: Interested Parties Application
   @nojs
   Scenario Outline: AC13 JavaScript Disabled
     Given interested parties application question is requested
-    When valid file '<valid_file>' is successfully uploaded
+    When valid file '<valid_file>' is successfully uploaded for 'interestedParties'
     Then progress is made to the task list
     And interested parties application subsection is shown as completed
     Examples:
@@ -121,7 +121,7 @@ Feature: Interested Parties Application
 
   Scenario: AC15 Change answers
     Given a change to answer 'Telling interested parties about the application' is requested from Change your answers page
-    When an answer is saved
+    When an answer is saved for 'interestedParties'
     Then progress is made to the Check Your Answers page
     And the updated answer is displayed
 
