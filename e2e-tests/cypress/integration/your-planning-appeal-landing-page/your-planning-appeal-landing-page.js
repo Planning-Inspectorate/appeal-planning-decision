@@ -57,7 +57,7 @@ Then('the user sees the appropriate general data for {string} along with data fo
   );
   cy.get('[data-cy="appeal-submission-date"]').should(
     'have.text',
-    format(new Date(), 'd MMMM YYYY')
+    format(new Date(), 'd MMMM yyyy')
   );
 });
 
