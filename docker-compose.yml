@@ -10,7 +10,7 @@
 version: '3.7'
 services:
   pdf-service-api:
-    image: appeal-planning-decision_pdf-service-api:latest
+    build: './packages/pdf-service-api'
     environment:
       SERVER_SHOW_ERRORS: 'true'
       LOGGER_LEVEL: 'debug'

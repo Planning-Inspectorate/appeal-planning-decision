@@ -42,7 +42,6 @@ run:
 .PHONY: run
 
 serve:
-	docker buildx build packages/pdf-service-api --platform=linux/amd64 --tag appeal-planning-decision_pdf-service-api:latest && \
 	docker-compose up
 .PHONY: serve
 
