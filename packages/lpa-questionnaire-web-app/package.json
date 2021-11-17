@@ -50,7 +50,6 @@
     "lusca": "^1.6.1",
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
-    "notifications-node-client": "^5.1.0",
     "nunjucks": "^3.2.2",
     "nunjucks-date-filter": "^0.1.1",
     "passport": "^0.4.1",
