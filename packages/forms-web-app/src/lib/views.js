@@ -43,6 +43,12 @@ const VIEW = {
     SUBMISSION_INFORMATION: 'appellant-submission/submission-information',
   },
 
+  BEFORE_YOU_START: {
+    ANY_OF_FOLLOWING: 'before-you-start/any-of-following',
+    ENFORCEMENT_NOTICE: 'before-you-start/enforcement-notice',
+    SHUTTER: 'before-you-start/shutter',
+  },
+
   GUIDANCE_PAGES: {
     BEFORE_APPEAL: 'guidance-pages/before-appeal',
     WHEN_APPEAL: 'guidance-pages/when-appeal',
