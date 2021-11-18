@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "engines": {
-    "node": ">=14.0.0 <15.0.0",
-    "npm": ">=6.0.0 <7.0.0"
+    "node": ">=14.0.0 <15.0.0"
   },
   "description": "Appeal a planning decision - these are utility scripts for the whole repo",
   "main": "index.js",

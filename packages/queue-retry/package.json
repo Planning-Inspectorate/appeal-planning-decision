@@ -5,7 +5,7 @@
   "main": "src/app",
   "engines": {
     "node": ">=14.0.0 <15.0.0",
-    "npm": ">=6.0.0 <7.0.0"
+    "npm": ">=6.0.0 <=8.2.0"
   },
   "scripts": {
     "format": "prettier --write './**/*.js'",
