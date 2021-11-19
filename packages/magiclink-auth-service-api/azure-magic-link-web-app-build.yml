@@ -6,6 +6,7 @@ trigger:
   branches:
     include:
       - master
+      - releases/as-3867-magic-link
   paths:
     include:
       - packages/magiclink-auth-service-api
