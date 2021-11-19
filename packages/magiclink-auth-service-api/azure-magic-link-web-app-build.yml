@@ -23,7 +23,7 @@ variables:
   # -----------------------------------------------------------------------
 
   # Container registry service connection established during pipeline creation
-  lpaQuestionnaireWebAppDockerfilePath: '$(Build.SourcesDirectory)/packages/magiclink-auth-service-api/Dockerfile'
+  magicLinkApiServiceDockerfilePath: '$(Build.SourcesDirectory)/packages/magiclink-auth-service-api/Dockerfile'
   lpaQuestionnaireWebAppContext: '$(Build.SourcesDirectory)/packages/magiclink-auth-service-api'
   imageRepository: 'magiclink-auth-service-api'
   containerRegistry: 'pinscommonukscontainers3887default.azurecr.io'
@@ -62,16 +62,16 @@ stages:
             inputs:
               command: build
               repository: $(imageRepository)
-              dockerfile: $(lpaQuestionnaireWebAppDockerfilePath)
+              dockerfile: $(magicLinkApiServiceDockerfilePath)
               containerRegistry: $(dockerRegistryServiceConnection)
               buildContext: $(lpaQuestionnaireWebAppContext)
               arguments: >
-                --build-arg APP_NAME=lpa-questionnaire-web-app
+                --build-arg APP_NAME=magic-link-service-api
                 --build-arg BUILD_ID=$(Build.BuildNumber)
                 --build-arg VERSION=$(versionNumber)
               tags: |
                 $(versionNumber)
-                lpa-questionnaire-web-app
+                magic-link-service-api
                 latest
           - task: PowerShell@2
             displayName: Copy Test Results
