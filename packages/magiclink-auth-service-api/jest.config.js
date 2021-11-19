@@ -16,5 +16,5 @@ module.exports = {
   moduleFileExtensions: ['js', 'json'],
   testMatch: ['**/?(*.)+(spec|test).js?(x)'],
   testEnvironment: 'node',
-  setupFiles: ['./tests/setup-jest.js'],
+  setupFiles: ['./__tests__/setup-jest.js'],
 };
