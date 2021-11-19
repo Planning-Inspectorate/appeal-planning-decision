@@ -24,7 +24,7 @@ variables:
 
   # Container registry service connection established during pipeline creation
   magicLinkApiServiceDockerfilePath: '$(Build.SourcesDirectory)/packages/magiclink-auth-service-api/Dockerfile'
-  lpaQuestionnaireWebAppContext: '$(Build.SourcesDirectory)/packages/magiclink-auth-service-api'
+  magicLinkApiServiceWebAppContext: '$(Build.SourcesDirectory)/packages/magiclink-auth-service-api'
   imageRepository: 'magiclink-auth-service-api'
   containerRegistry: 'pinscommonukscontainers3887default.azurecr.io'
   dockerRegistryServiceConnection: 'appeals-service-api-registry-connection' ## this needs renamed
