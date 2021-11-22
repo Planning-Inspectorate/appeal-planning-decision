@@ -1,5 +1,5 @@
 import {Given, When,Then} from 'cypress-cucumber-preprocessor/steps';
-import { goToLocalPlanningDepartment } from '../../support/go-to-page/goToLocalPlanningDepartment';
+import { goToLocalPlanningDepartment, goToPage } from '../../support/go-to-page/goToPage';
 import { enterLocalPlanningDepart } from '../../support/before-you-start-local-planning-depart/enter-local-planning-depart';
 import { getContinueButton, getErrorMessageSummary, getPageTitle } from '../../support/page-objects/common-po';
 import { verifyPageHeading } from '../../support/common/verify-page-heading';
@@ -9,8 +9,9 @@ import { getLocalPlanningDepartmentError } from '../../support/page-objects/loca
 
 const pageTitle = 'Which local planning department dealt with your planning application? - Before you start - Appeal a householder planning decision - GOV.UK';
 const pageHeading = 'Which local planning department dealt with your planning application?';
+const url = '/before-you-start/local-planning-depart';
 Given('appellant is on the Local Planning Authority Page',()=> {
-  goToLocalPlanningDepartment();
+  goToPage(url);
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading)
 });
@@ -32,7 +33,7 @@ Then('appellant is navigated to the planning application decision type page',()=
 });
 
 Then('appellant sees an error message {string}',(errorMessage)=>{
-verifyErrorMessage(errorMessage, getLocalPlanningDepartmentError(),getErrorMessageSummary());
+verifyErrorMessage(errorMessage, getLocalPlanningDepartmentError,getErrorMessageSummary);
 });
 
 Then('an appellants gets routed to shutter page which notifies them to use a different service',()=>{

@@ -1,7 +1,7 @@
 import { acceptCookiesBanner } from '../common/accept-cookies-banner';
 
-export const goToLocalPlanningDepartment = () =>{
-  cy.visit('/before-you-start/local-planning-depart');
+export const goToPage = (url) =>{
+  cy.visit(url);
   acceptCookiesBanner();
   cy.checkPageA11y({
     exclude: ['.govuk-radios__input'],

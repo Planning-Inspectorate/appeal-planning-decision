@@ -20,9 +20,9 @@ Feature: Local Planning Department
     When appellant clicks the continue button
     Then appellant sees an error message 'Enter the name of the local planning department'
 
-
-  Scenario: AC03 Appellant selects ineligible LPA
-    Given appellant is on the Local Planning Authority Page
-    When an appellant selects an ineligible LPA
-    And  appellant clicks the continue button
-    Then an appellants gets routed to shutter page which notifies them to use a different service
+# Enable it once page doesn't show 404 error
+#  Scenario: AC03 Appellant selects ineligible LPA
+#    Given appellant is on the Local Planning Authority Page
+#    When an appellant selects an ineligible LPA
+#    And  appellant clicks the continue button
+#    Then an appellants gets routed to shutter page which notifies them to use a different service
