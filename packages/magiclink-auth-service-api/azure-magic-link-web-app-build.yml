@@ -64,7 +64,7 @@ stages:
               repository: $(imageRepository)
               dockerfile: $(magicLinkApiServiceDockerfilePath)
               containerRegistry: $(dockerRegistryServiceConnection)
-              buildContext: $(lpaQuestionnaireWebAppContext)
+              buildContext: $(magicLinkApiServiceWebAppContext)
               arguments: >
                 --build-arg APP_NAME=magic-link-service-api
                 --build-arg BUILD_ID=$(Build.BuildNumber)
