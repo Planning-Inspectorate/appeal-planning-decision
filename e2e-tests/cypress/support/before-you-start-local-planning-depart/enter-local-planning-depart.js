@@ -1,4 +1,4 @@
-import { getLocalPlanningDepart } from '../page-objects/local-planning-depart';
+import { getLocalPlanningDepart } from '../page-objects/local-planning-department-po';
 
 export const enterLocalPlanningDepart = (departmentName) =>{
   getLocalPlanningDepart().type(departmentName);
