@@ -1,6 +1,6 @@
 export const verifyErrorMessage = (errorMessage, errorMessageObjectId, summaryErrorMessage) => {
   summaryErrorMessage().should('be.visible');
-  cy.title().should('match', /^Error: /);
+  cy.title().should('contain', 'Error:');
   cy.checkPageA11y();
 
   summaryErrorMessage()

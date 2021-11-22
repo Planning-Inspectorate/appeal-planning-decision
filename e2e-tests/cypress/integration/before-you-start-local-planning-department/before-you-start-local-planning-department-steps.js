@@ -5,7 +5,7 @@ import { getContinueButton, getErrorMessageSummary, getPageTitle } from '../../s
 import { verifyPageHeading } from '../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../support/common/verify-page-title';
 import { verifyErrorMessage } from '../../support/common/verify-error-message';
-import { getLocalPlanningDepartmentError } from '../../support/page-objects/local-planning-depart';
+import { getLocalPlanningDepartmentError } from '../../support/page-objects/local-planning-department-po';
 
 const pageTitle = 'Which local planning department dealt with your planning application? - Before you start - Appeal a householder planning decision - GOV.UK';
 const pageHeading = 'Which local planning department dealt with your planning application?';
