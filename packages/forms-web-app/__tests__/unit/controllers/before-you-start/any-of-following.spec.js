@@ -2,9 +2,6 @@ const anyOfFollowingController = require('../../../../src/controllers/before-you
 const { mockReq, mockRes } = require('../../mocks');
 const { VIEW } = require('../../../../src/lib/views');
 
-jest.mock('../../../../src/lib/appeals-api-wrapper');
-jest.mock('../../../../src/lib/documents-api-wrapper');
-jest.mock('../../../../src/services/task.service');
 jest.mock('../../../../src/lib/logger');
 
 describe('controllers/before-you-start/any-of-following', () => {
