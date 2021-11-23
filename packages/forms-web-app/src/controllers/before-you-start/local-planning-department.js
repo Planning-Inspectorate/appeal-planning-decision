@@ -50,6 +50,7 @@ exports.postPlanningDepartment = async (req, res) => {
     }
 
     res.redirect(`/shutter/lpa-ineligible`); // TBC
+    return;
   }
 
   const lpaName = body['local-planning-department'];
@@ -71,4 +72,6 @@ exports.postPlanningDepartment = async (req, res) => {
   }
 
   res.redirect(`/what-are-you-appealing`); // Future Planning Application Decision Page
+  // eslint-disable-next-line no-useless-return
+  return;
 };
