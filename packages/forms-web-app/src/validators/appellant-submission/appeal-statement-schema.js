@@ -49,7 +49,7 @@ module.exports = {
           'The selected file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
         );
 
-        // check file for Virus
+        // check file for virus
         // const { name } = req.files[path];
         // await validAV(req.files['appeal-upload'], name);
 
