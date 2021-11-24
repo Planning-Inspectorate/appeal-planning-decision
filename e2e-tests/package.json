@@ -26,7 +26,8 @@
     "date-fns": "^2.25.0",
     "moment": "^2.29.1",
     "multiple-cucumber-html-reporter": "^1.18.0",
-    "rhea": "^1.0.24"
+    "rhea": "^1.0.24",
+    "@testing-library/cypress": "^8.0.0"
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true,
