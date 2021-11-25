@@ -8,6 +8,4 @@ router.use(localPlanningDepartmentRouter);
 router.use(typeOfPlanningApplicationRouter);
 router.use(enforcementNotice);
 
-const router = express.Router();
-
 module.exports = router;
