@@ -133,7 +133,7 @@ describe('controllers/before-you-start/local-planning-department', () => {
 
       await localPlanningDepartmentController.postPlanningDepartment(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith('/shutter/lpa-ineligible');
+      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/use-a-different-service');
     });
 
     it('Test the postPlanningDepartment method call on error', async () => {
@@ -180,7 +180,7 @@ describe('controllers/before-you-start/local-planning-department', () => {
           },
           departmentList[2],
         ],
-        errorSummary: [{ text: error.toString(), href: '#' }],
+        errorSummary: [{ text: error.toString(), href: 'local-planning-department' }],
         errors: {},
       });
     });

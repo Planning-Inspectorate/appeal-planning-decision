@@ -4,7 +4,9 @@ const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../lib/views');
 
 exports.getTypeOfPlanningApplication = async (req, res) => {
-  res.render(VIEW.BEFORE_YOU_START.TYPE_OF_PLANNING_APPLICATION);
+  res.render(VIEW.BEFORE_YOU_START.TYPE_OF_PLANNING_APPLICATION, {
+    backLink: `${VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT}`,
+  });
 };
 
 const redirect = (selection, res) => {
@@ -14,11 +16,11 @@ const redirect = (selection, res) => {
   }
 
   if (selection === 'something-else' || selection === 'i-have-not-made-a-planning-application') {
-    res.redirect(`/before-you-start/not-made-an-application`);
+    res.redirect(`/before-you-start/use-a-different-service`);
     return;
   }
 
-  res.redirect(`/before-you-start/appeal-about`);
+  res.redirect(`/before-you-start/any-of-following`);
 };
 
 exports.postTypeOfPlanningApplication = async (req, res) => {
@@ -34,6 +36,7 @@ exports.postTypeOfPlanningApplication = async (req, res) => {
       appeal,
       errors,
       errorSummary,
+      backLink: `${VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT}`,
     });
   }
 
@@ -47,7 +50,8 @@ exports.postTypeOfPlanningApplication = async (req, res) => {
       res.render(VIEW.BEFORE_YOU_START.TYPE_OF_PLANNING_APPLICATION, {
         appeal,
         errors,
-        errorSummary: [{ text: e.toString(), href: '#' }],
+        errorSummary: [{ text: e.toString(), href: 'pageId' }],
+        backLink: `${VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT}`,
       });
     }
   }
