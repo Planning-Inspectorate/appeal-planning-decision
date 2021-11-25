@@ -57,6 +57,7 @@ describe('lib/views', () => {
 
       BEFORE_YOU_START: {
         LOCAL_PLANNING_DEPARTMENT: 'before-you-start/local-planning-department',
+        TYPE_OF_PLANNING_APPLICATION: 'before-you-start/type-of-planning-application',
       },
 
       YOUR_PLANNING_APPEAL: {
