@@ -28,7 +28,9 @@ describe('controllers/before-you-start/type-of-planning-application', () => {
     it('should call the correct template on getTypeOfPlanningApplication', async () => {
       await typeOfPlanningApplicationController.getTypeOfPlanningApplication(req, res);
 
-      expect(res.render).toBeCalledWith(VIEW.BEFORE_YOU_START.TYPE_OF_PLANNING_APPLICATION);
+      expect(res.render).toBeCalledWith(VIEW.BEFORE_YOU_START.TYPE_OF_PLANNING_APPLICATION, {
+        backLink: `${VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT}`,
+      });
     });
 
     it('should redirect to the listed building page', async () => {
@@ -58,7 +60,7 @@ describe('controllers/before-you-start/type-of-planning-application', () => {
         ...appeal,
       });
 
-      expect(res.redirect).toBeCalledWith(`/before-you-start/not-made-an-application`); // Future Planning Application Decision Page
+      expect(res.redirect).toBeCalledWith(`/before-you-start/use-a-different-service`); // Future Planning Application Decision Page
     });
 
     it('should redirect to the shutter page', async () => {
@@ -73,7 +75,7 @@ describe('controllers/before-you-start/type-of-planning-application', () => {
         ...appeal,
       });
 
-      expect(res.redirect).toBeCalledWith(`/before-you-start/not-made-an-application`); // Future Planning Application Decision Page
+      expect(res.redirect).toBeCalledWith(`/before-you-start/use-a-different-service`); // Future Planning Application Decision Page
     });
 
     it('should redirect to the about appeal page', async () => {
@@ -88,7 +90,7 @@ describe('controllers/before-you-start/type-of-planning-application', () => {
         ...appeal,
       });
 
-      expect(res.redirect).toBeCalledWith(`/before-you-start/appeal-about`); // Future Planning Application Decision Page
+      expect(res.redirect).toBeCalledWith(`/before-you-start/any-of-following`); // Future Planning Application Decision Page
     });
 
     it('should render errors on the page', async () => {
@@ -115,6 +117,7 @@ describe('controllers/before-you-start/type-of-planning-application', () => {
           },
         },
         errorSummary: [],
+        backLink: `${VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT}`,
       });
     });
 
@@ -136,7 +139,8 @@ describe('controllers/before-you-start/type-of-planning-application', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.BEFORE_YOU_START.TYPE_OF_PLANNING_APPLICATION, {
         appeal,
         errors: {},
-        errorSummary: [{ text: error.toString(), href: '#' }],
+        errorSummary: [{ text: error.toString(), href: 'pageId' }],
+        backLink: `${VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT}`,
       });
     });
   });
