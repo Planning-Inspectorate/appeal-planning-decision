@@ -13,6 +13,13 @@
   {{ title }}
 {% endblock %}
 
+{% block backButton %}
+    {{ govukBackLink({
+    text: "Back",
+    href: "/before-you-start/local-planning-depart"
+ })}}
+{% endblock %}
+
 {% block content %}
 
   {% if errorSummary %}
@@ -29,13 +36,13 @@
           <span class="govuk-caption-l">Before you start</span>
 
           {{ govukRadios({
-            idPrefix: "type-of-planning-application",
+            id: "type-of-planning-application",
             name: "type-of-planning-application",
             fieldset: {
               legend: {
                 html: '<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                         <h1 class="govuk-fieldset__heading">
-                          What type of planning application did you make?
+                          What type of planning application is your appeal about?
                         </h1>
                       </legend>
                       <div id="eligibility-v9-whatareyouappealing-hint" class="govuk-hint">
@@ -45,7 +52,9 @@
                 classes: "govuk-fieldset__legend--l"
               }
             },
-
+            errorMessage: errors['type-of-planning-application'] and {
+              text: errors['type-of-planning-application'].msg
+            },
             items: [
               {
                 value: "full-planning",
@@ -113,15 +122,4 @@
     </div>
   </div>
 
-{% endblock %}
-
-{% block footer %}
-  {{ super() }}
-  <script src="/assets/accessible-autocomplete.min.js"></script>
-  <script>
-    accessibleAutocomplete.enhanceSelectElement({
-      selectElement: document.querySelector('#type-of-planning-application'),
-      defaultValue: '',
-    })
-  </script>
 {% endblock %}
