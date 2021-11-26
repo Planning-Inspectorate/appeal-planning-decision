@@ -4,6 +4,7 @@ import { verifyPageHeading } from '../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../support/common/verify-page-title';
 import { selectSiteOption } from '../../support/before-you-start-appellant-selects-the-site/select-site-option';
 import { getBackLink, getContinueButton } from '../../support/page-objects/common-po';
+import { deselectSiteOption } from '../../support/before-you-start-appellant-selects-the-site/deselect-site-option';
 const pageHeading = 'Is your appeal about any of the following?';
 const url = '/before-you-start/any-of-following';
 const pageTitle = 'Is your appeal about any of the following? - Before you start - Appeal a householder planning decision - GOV.UK';
@@ -37,6 +38,6 @@ Then('an appellant is taken back to the what type of planning application did yo
 });
 
 Then('{string} gets deselected',(option)=>{
-
+deselectSiteOption(option);
 });
 
