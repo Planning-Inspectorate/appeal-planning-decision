@@ -39,3 +39,4 @@ verifyErrorMessage(errorMessage, getLocalPlanningDepartmentError,getErrorMessage
 Then('an appellants gets routed to shutter page which notifies them to use a different service',()=>{
 cy.url().should('contain', '/shutter/lpa-ineligible');
 });
+
