@@ -7,8 +7,8 @@ const { renderView } = require('../util/render');
 
 function createMagicLinkAPIPayload(req) {
   const email = req.body?.email;
-  const lpaCode = req.lpa.id;
-  const redirectURL = req.session?.redirectURL;
+  const { id: lpaCode, name: lpaName } = req.lpa;
+  const { redirectURL, planningApplicationNumber } = req.session;
 
   return {
     magicLink: {
@@ -22,6 +22,8 @@ function createMagicLinkAPIPayload(req) {
       userInformation: {
         email,
         lpaCode,
+        lpaName,
+        planningApplicationNumber,
       },
       tokenValidity: config.auth.tokenValidityMillis,
       cookieName: config.auth.tokenCookieName,
@@ -37,6 +39,8 @@ function showEnterEmailAddress(req, res) {
 
   req.session = req.session || {};
   req.session.redirectURL = req.session.redirectURL || req.query?.redirectURL;
+  req.session.planningApplicationNumber =
+    req.session.planningApplicationNumber || req.query?.applNo;
 
   return res.render(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
     isSessionExpired,
