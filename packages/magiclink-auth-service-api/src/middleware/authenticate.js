@@ -9,7 +9,7 @@ function handleTokenExpiredError(req, res, err) {
   return res.redirect(
     `${magicLinkData.magicLink.expiredLinkRedirectURL}?redirectURL=${encodeURIComponent(
       magicLinkData.magicLink.redirectURL,
-    )}`,
+    )}&applNo=${encodeURIComponent(magicLinkData.auth.userInformation.planningApplicationNumber)}`,
   );
 }
 
