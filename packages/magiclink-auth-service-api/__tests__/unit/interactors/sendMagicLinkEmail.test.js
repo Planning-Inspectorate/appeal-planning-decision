@@ -23,11 +23,18 @@ const sendMagicLinkEmail = require('../../../src/interactors/sendMagicLinkEmail'
 describe('interactors.sendMagicLinkEmail', () => {
   describe('with notify service up and running', () => {
     it('should send email using the notify builder', async () => {
-      await sendMagicLinkEmail('mock.email@test.com', 'https://localhost:9003/magiclink/mockJWT');
+      await sendMagicLinkEmail(
+        'mock.email@test.com',
+        'https://localhost:9003/magiclink/mockJWT',
+        'System Test',
+        'ABC/123',
+      );
 
       expect(notifyBuilder.setTemplateId).toHaveBeenCalledWith('mockTemplateId');
       expect(notifyBuilder.setTemplateVariablesFromObject).toHaveBeenCalledWith({
-        magicLinkURL: 'https://localhost:9003/magiclink/mockJWT',
+        LPA: 'System Test',
+        'magic link': 'https://localhost:9003/magiclink/mockJWT',
+        'planning application number': 'ABC/123',
       });
       expect(notifyBuilder.setDestinationEmailAddress).toHaveBeenCalledWith('mock.email@test.com');
       expect(notifyBuilder.sendEmail).toHaveBeenCalled();

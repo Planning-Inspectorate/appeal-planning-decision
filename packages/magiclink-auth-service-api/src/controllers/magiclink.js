@@ -40,7 +40,12 @@ function initiateMagicLinkFlow(req, res) {
   const magicLinkEndpoint = createMagicLink(magicLinkURL, magicLinkData);
 
   // we don't need to wait for the response
-  sendMagicLinkEmail(magicLinkData.magicLink.destinationEmail, magicLinkEndpoint);
+  sendMagicLinkEmail(
+    magicLinkData.magicLink.destinationEmail,
+    magicLinkEndpoint,
+    magicLinkData.auth.userInformation.lpaName,
+    magicLinkData.auth.userInformation.planningApplicationNumber,
+  );
 
   return res.status(201).send({ magicLink: magicLinkEndpoint });
 }
