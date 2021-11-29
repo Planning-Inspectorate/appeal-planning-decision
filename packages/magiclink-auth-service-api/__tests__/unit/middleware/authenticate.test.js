@@ -26,15 +26,15 @@ describe('middleware.authenticate', () => {
 
   describe('with expired jwtToken', () => {
     it('should redirect user to token payload attribute value "expiredLinkRedirectURL"', async () => {
-      authenticationService.authenticate.mockRejectedValue(
-        new ExpiredTokenError('', tokenPayload),
-      );
+      authenticationService.authenticate.mockRejectedValue(new ExpiredTokenError('', tokenPayload));
 
       await authenticate(req, res, next);
 
       expect(res.redirect).toHaveBeenCalledWith(
         `${magicLinkData.magicLink.expiredLinkRedirectURL}?redirectURL=${encodeURIComponent(
           magicLinkData.magicLink.redirectURL,
+        )}&applNo=${encodeURIComponent(
+          magicLinkData.auth.userInformation.planningApplicationNumber,
         )}`,
       );
     });

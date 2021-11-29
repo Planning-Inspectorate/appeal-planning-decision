@@ -10,20 +10,22 @@ const config = require('../config');
  * @param magicLinkURL variable used inside the email template.
  * @returns {Promise<void|any>}
  */
-module.exports = async (destinationEmailAddress, magicLinkURL) => {
+module.exports = async (destinationEmailAddress, magicLinkURL, lpaName, applNo) => {
   logger.debug('Start sending magic link email');
-  return NotifyBuilder.reset()
-    .setTemplateId(config.notify.templateId)
-    .setDestinationEmailAddress(destinationEmailAddress)
-    .setTemplateVariablesFromObject({
-      magicLinkURL,
-    })
-    .setReference(uuid.v4())
-    .sendEmail()
-    .then(() => {
-      logger.debug('Magic link email was sent with success.');
-    })
-    .catch((err) => {
-      logger.error({ err }, 'Error occurred while trying to send magic link email.');
-    });
+  try {
+    await NotifyBuilder.reset()
+      .setTemplateId(config.notify.templateId)
+      .setDestinationEmailAddress(destinationEmailAddress)
+      .setTemplateVariablesFromObject({
+        LPA: lpaName,
+        'planning application number': applNo,
+        'magic link': magicLinkURL,
+      })
+      .setReference(uuid.v4())
+      .sendEmail();
+
+    logger.debug('Magic link email was sent with success.');
+  } catch (err) {
+    logger.error({ err, lpaName, applNo }, 'Error occurred while trying to send magic link email.');
+  }
 };
