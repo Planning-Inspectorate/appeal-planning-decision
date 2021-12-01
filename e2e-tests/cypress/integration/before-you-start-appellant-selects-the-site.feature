@@ -25,7 +25,7 @@ Scenario: AC02 An error message is displayed when no selection is made
    Given an appellant is on the is your appeal about any of the following page
    When appellant selects '<Option1>' from the list of options
    And appellant selects '<option2>' from the list of options
-   Then '<Option1>' gets deselected
+   Then '<Option2>' gets deselected
     Examples:
     |Option1|Option2|
     |None of these|A listed building|
