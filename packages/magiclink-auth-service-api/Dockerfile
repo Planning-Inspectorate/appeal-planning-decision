@@ -7,6 +7,7 @@ ENV APP_NAME="${APP_NAME}"
 ENV BUILD_ID="${BUILD_ID}"
 ENV VERSION="${VERSION}"
 RUN mkdir -p /opt/app/data
+RUN npm install -g jest
 
 # This must be built locally from the common package
 COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
@@ -20,9 +21,6 @@ ADD jest.config.js jest.config.js
 ADD package.json package.json
 ADD package-lock.json package-lock.json
 RUN npm i --production
-RUN npm prune --production \
-  && npm rebuild \
-  && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
 RUN npm run documentation; echo $? > /npm.exitcode
 EXPOSE 3000
 USER node
