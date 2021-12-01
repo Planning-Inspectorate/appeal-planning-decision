@@ -5,6 +5,7 @@ import { verifyPageTitle } from '../../support/common/verify-page-title';
 import { selectSiteOption } from '../../support/before-you-start-appellant-selects-the-site/select-site-option';
 import { getBackLink, getContinueButton } from '../../support/page-objects/common-po';
 import { deselectSiteOption } from '../../support/before-you-start-appellant-selects-the-site/deselect-site-option';
+import { getNoneOfTheseOption } from '../../support/page-objects/appellant-selects-the-site-po';
 const pageHeading = 'Is your appeal about any of the following?';
 const url = '/before-you-start/any-of-following';
 const pageTitle = 'Is your appeal about any of the following? - Before you start - Appeal a householder planning decision - GOV.UK';
@@ -41,3 +42,11 @@ Then('{string} gets deselected',(option)=>{
 deselectSiteOption(option);
 });
 
+Then('appellant sees an error message {string}',(errorMessage)=>{
+
+});
+
+Then('any information they have inputted will not be saved',()=>{
+  cy.visit(url);
+  getNoneOfTheseOption().should('not.be.checked');
+})
