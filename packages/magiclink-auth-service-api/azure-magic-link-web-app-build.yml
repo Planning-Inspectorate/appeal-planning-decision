@@ -6,6 +6,7 @@ trigger:
   branches:
     include:
       - master
+      
   paths:
     include:
       - packages/magiclink-auth-service-api
