@@ -7,7 +7,7 @@ import {
   getNoneOfTheseOption,
 } from '../page-objects/appellant-selects-the-site-po';
 
-export const deselectSiteOption = (option)=>{
+export const verifyDeselectSiteOption = (option)=>{
   switch (option){
     case 'None of these':
       getNoneOfTheseOption().should('not.be.checked');

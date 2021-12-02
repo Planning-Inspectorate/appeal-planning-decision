@@ -4,7 +4,7 @@ import { verifyPageHeading } from '../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../support/common/verify-page-title';
 import { selectSiteOption } from '../../support/before-you-start-appellant-selects-the-site/select-site-option';
 import { getBackLink, getContinueButton } from '../../support/page-objects/common-po';
-import { deselectSiteOption } from '../../support/before-you-start-appellant-selects-the-site/deselect-site-option';
+import { verifyDeselectSiteOption } from '../../support/before-you-start-appellant-selects-the-site/verify-deselect-site-option';
 import { getNoneOfTheseOption } from '../../support/page-objects/appellant-selects-the-site-po';
 const pageHeading = 'Is your appeal about any of the following?';
 const url = '/before-you-start/any-of-following';
@@ -39,7 +39,7 @@ Then('an appellant is taken back to the what type of planning application did yo
 });
 
 Then('{string} gets deselected',(option)=>{
-deselectSiteOption(option);
+verifyDeselectSiteOption(option);
 });
 
 Then('appellant sees an error message {string}',(errorMessage)=>{
