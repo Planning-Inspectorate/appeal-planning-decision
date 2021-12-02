@@ -10,22 +10,22 @@ import {
 export const selectSiteOption = (option) =>{
    switch (option){
      case 'None of these':
-       getNoneOfTheseOption().click();
+       getNoneOfTheseOption().check();
        break;
      case 'A listed building':
-       getListedBuildingOption().click();
+       getListedBuildingOption().check();
        break;
      case 'Major dwellings':
-        getMajorDwellingsOption().click();
+        getMajorDwellingsOption().check();
         break;
      case 'Major general industry, storage or warehousing':
-       getMajorGeneralIndustryStorageOrWarehousingOption().click();
+       getMajorGeneralIndustryStorageOrWarehousingOption().check();
        break;
      case 'Major retail and services':
-       getMajorRetailAndServicesOption().click();
+       getMajorRetailAndServicesOption().check();
        break;
      case 'Major travelling and caravan pitches':
-       getMajorTravellingAndCaravanPitchesOption().click();
+       getMajorTravellingAndCaravanPitchesOption().check();
        break;
    }
 }
