@@ -3,9 +3,13 @@ import { goToPage } from '../../support/go-to-page/goToPage';
 import { verifyPageHeading } from '../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../support/common/verify-page-title';
 import { selectSiteOption } from '../../support/before-you-start-appellant-selects-the-site/select-site-option';
-import { getBackLink, getContinueButton } from '../../support/page-objects/common-po';
+import { getBackLink, getContinueButton, getErrorMessageSummary } from '../../support/page-objects/common-po';
 import { verifyDeselectSiteOption } from '../../support/before-you-start-appellant-selects-the-site/verify-deselect-site-option';
-import { getNoneOfTheseOption } from '../../support/page-objects/appellant-selects-the-site-po';
+import {
+  getNoneOfTheseOption,
+  getSelectSiteErrorMessage,
+} from '../../support/page-objects/appellant-selects-the-site-po';
+import { verifyErrorMessage } from '../../support/common/verify-error-message';
 const pageHeading = 'Is your appeal about any of the following?';
 const url = '/before-you-start/any-of-following';
 const pageTitle = 'Is your appeal about any of the following? - Before you start - Appeal a householder planning decision - GOV.UK';
@@ -43,7 +47,7 @@ verifyDeselectSiteOption(option);
 });
 
 Then('appellant sees an error message {string}',(errorMessage)=>{
-
+  verifyErrorMessage(errorMessage, getSelectSiteErrorMessage ,getErrorMessageSummary);
 });
 
 Then('any information they have inputted will not be saved',()=>{
