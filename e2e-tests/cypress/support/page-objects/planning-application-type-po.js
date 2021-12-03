@@ -6,4 +6,5 @@ export const getReservedMattersPlanningRadio = () => cy.get('input[data-cy="answ
 export const getRemovalOrVariationOfConditionsRadio = () => cy.get('input[data-cy="answer-removal-or-variation-of-conditions"]');
 export const getSomethingElseRadio = () => cy.get('input[data-cy="answer-something-else"]');
 export const getNoApplicationMadeRadio = () => cy.get('input[data-cy="answer-i-have-not-made-a-planning-application"]');
+export const getTypeOfPlanningApplicationError = () => cy.get('#type-of-planning-application-error');
 

@@ -37,6 +37,7 @@ Feature: Planning Application Type
   Scenario Outline:AC05 - Appellants selects Something else or I have Not Made An Appeal
     Given an appellant is on the select the type of planning application you made page
     When appellant selects '<invalid_planning_type>' planning application type
+    And appellant clicks on the continue button
     Then an appellants gets routed to shutter page which notifies them to use a different service
     Examples:
     |invalid_planning_type|
