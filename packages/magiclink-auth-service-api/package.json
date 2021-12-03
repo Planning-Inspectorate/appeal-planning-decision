@@ -15,7 +15,8 @@
     "format": "prettier --write './**/*.js'",
     "postinstall": "patch-package",
     "test": "jest --coverage ",
-    "test:watch": "jest --watchAll --runInBand --coverage"
+    "test:watch": "jest --watchAll --runInBand --coverage",
+    "documentation": "jest --bail --coverage --coverageReporters=cobertura --reporters=default --reporters=jest-junit"
   },
   "lint-staged": {
     "./**/*.js": "npm run lint:fix",
@@ -23,10 +24,14 @@
   },
   "dependencies": {
     "@pins/common": "file:../common",
+    "body-parser": "^1.19.0",
     "express": "~4.16.1",
     "express-async-errors": "^3.1.1",
     "express-pino-logger": "^5.0.0",
-    "js-yaml": "^3.14.0",
+    "jest-junit": "^13.0.0",
+    "jest-unit": "0.0.1",
+    "jest-when": "^3.4.2",
+    "js-yaml": "^3.14.1",
     "jsonwebtoken": "^8.5.1",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
@@ -35,7 +40,7 @@
     "swagger-ui-express": "^4.1.4",
     "uuid": "^8.3.1",
     "yup": "^0.32.9",
-    "body-parser": "^1.19.0"
+    "supertest": "^6.1.6"
   },
   "devDependencies": {
     "eslint": "^7.11.0",
@@ -44,14 +49,13 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "jest": "^26.6.1",
+    "jest": "^26.6.3",
     "jest-fetch-mock": "^3.0.3",
     "jest-html-reporters": "^2.1.2",
     "nodemon": "^2.0.6",
     "patch-package": "^6.2.2",
     "pino-pretty": "^4.3.0",
-    "prettier": "^2.1.2",
-    "supertest": "^6.0.1"
+    "prettier": "^2.1.2"
   },
   "author": "",
   "license": "ISC"

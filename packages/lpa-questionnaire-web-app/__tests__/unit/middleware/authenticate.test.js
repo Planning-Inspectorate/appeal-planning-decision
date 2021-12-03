@@ -20,6 +20,8 @@ describe('middleware/authenticate', () => {
   const userInformation = {
     lpaCode: 'E69999999',
     email: 'test@test.com',
+    lpaName: 'System Test Borough Council',
+    planningApplicationNumber: 'ABC/123',
   };
 
   beforeEach(() => {
@@ -37,6 +39,7 @@ describe('middleware/authenticate', () => {
 
   it('should redirect user to /appeal-questionnaire/:lpaCode/authentication/your-email page if jwtToken is expired', async () => {
     authenticationService.authenticate.mockRejectedValue(new ExpiredTokenError('', jwtPayload));
+    appealsApiWrapper.getAppeal.mockResolvedValue(mockAppealReply);
 
     await authenticate(req, res, next);
 
