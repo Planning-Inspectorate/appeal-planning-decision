@@ -2,8 +2,13 @@ import {Given } from 'cypress-cucumber-preprocessor/steps';
 import { goToPage } from '../../support/go-to-page/goToPage';
 import { verifyPageHeading } from '../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../support/common/verify-page-title';
-import { getEnforcementNoticeNo, getEnforcementNoticeYes } from '../../support/page-objects/enforcement-notice-po';
-import { getContinueButton } from '../../support/page-objects/common-po';
+import {
+  getEnforcementNoticeErrorMessage,
+  getEnforcementNoticeNo,
+  getEnforcementNoticeYes,
+} from '../../support/page-objects/enforcement-notice-po';
+import { getContinueButton, getErrorMessageSummary } from '../../support/page-objects/common-po';
+import { verifyErrorMessage } from '../../support/common/verify-error-message';
 const pageHeading = 'Have you received an enforcement notice?';
 const pageTitle = 'Have you received an enforcement notice? - Before you start - Appeal a householder planning decision - GOV.UK';
 const url = '/before-you-start/enforcement-notice';
@@ -41,6 +46,9 @@ Then('appellant is navigated to the type of planning application page',()=>{
   cy.url().should('contain','/before-you-start/type-of-planning-application');
 });
 
+Then('appellant sees an error message {string}',(errorMessage)=>{
+  verifyErrorMessage(errorMessage,getEnforcementNoticeErrorMessage, getErrorMessageSummary);
+})
 Then('information they have inputted will not be saved',()=>{
   goToPage(url);
   getEnforcementNoticeYes().should('not.be.checked');
