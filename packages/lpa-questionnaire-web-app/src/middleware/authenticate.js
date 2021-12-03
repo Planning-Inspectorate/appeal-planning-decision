@@ -67,6 +67,7 @@ module.exports = async (req, res, next) => {
       return next();
     })
     .catch((err) => {
+      logger.error({ err }, 'lpaQuestionnaire - authenticate');
       if (err instanceof ExpiredTokenError) {
         return handleTokenExpired(req, res, err);
       }

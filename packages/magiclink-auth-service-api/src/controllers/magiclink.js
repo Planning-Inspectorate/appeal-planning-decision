@@ -51,7 +51,9 @@ function initiateMagicLinkFlow(req, res) {
 }
 
 function setCookie(res, name, token) {
+  logger.debug({ authCookieDomain: config.authCookieDomain }, 'authCookieDomain');
   res.cookie(name, token, {
+    domain: config.authCookieDomain,
     expires: dateUtils.addMillisToCurrentDate(config.cookieValidityTimeMillis),
     httpOnly: true,
   });

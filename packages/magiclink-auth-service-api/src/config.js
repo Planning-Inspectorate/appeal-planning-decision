@@ -24,4 +24,5 @@ module.exports = {
    * the API host name is not 'localhost' but the name of the container which is accessible only from the docker compose network.
    */
   magicLinkURL: process.env.MAGIC_LINK_API_URL,
+  authCookieDomain: process.env.AUTH_COOKIE_DOMAIN,
 };
