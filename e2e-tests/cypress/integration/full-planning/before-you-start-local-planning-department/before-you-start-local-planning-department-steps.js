@@ -1,11 +1,11 @@
 import {Given, When,Then} from 'cypress-cucumber-preprocessor/steps';
-import { goToLocalPlanningDepartment, goToPage } from '../../support/go-to-page/goToPage';
-import { enterLocalPlanningDepart } from '../../support/before-you-start-local-planning-depart/enter-local-planning-depart';
-import { getContinueButton, getErrorMessageSummary, getPageTitle } from '../../support/page-objects/common-po';
-import { verifyPageHeading } from '../../support/common/verify-page-heading';
-import { verifyPageTitle } from '../../support/common/verify-page-title';
-import { verifyErrorMessage } from '../../support/common/verify-error-message';
-import { getLocalPlanningDepartmentError } from '../../support/page-objects/local-planning-department-po';
+import { goToLocalPlanningDepartment, goToPage } from '../../../support/go-to-page/goToPage';
+import { enterLocalPlanningDepart } from '../../../support/full-planning/before-you-start-local-planning-depart/enter-local-planning-depart';
+import { getContinueButton, getErrorMessageSummary, getPageTitle } from '../../../support/page-objects/common-po';
+import { verifyPageHeading } from '../../../support/common/verify-page-heading';
+import { verifyPageTitle } from '../../../support/common/verify-page-title';
+import { verifyErrorMessage } from '../../../support/common/verify-error-message';
+import { getLocalPlanningDepartmentError } from '../../../support/page-objects/full-planning/local-planning-department-po';
 
 const pageTitle = 'Which local planning department dealt with your planning application? - Before you start - Appeal a householder planning decision - GOV.UK';
 const pageHeading = 'Which local planning department dealt with your planning application?';
