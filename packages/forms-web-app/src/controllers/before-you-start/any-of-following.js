@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const { VIEW } = require('../../lib/views');
 
 const routingOptions = (option) => {
@@ -29,23 +30,22 @@ const routeUserOption = (options) => {
 const getAnyOfFollowing = async (req, res) => {
   res.render(VIEW.BEFORE_YOU_START.ANY_OF_FOLLOWING, {
     errors: {},
+    errorSummary: [],
   });
 };
 
 const postAnyOfFollowing = async (req, res) => {
-  const { option } = req.body;
+  const { option, errors = {}, errorSummary = [] } = req.body;
 
-  if (typeof option === 'undefined') {
-    return res.render(VIEW.BEFORE_YOU_START.ANY_OF_FOLLOWING, {
-      errorSummary: [
-        { text: 'Select if your appeal is about any of the following', href: '#gds_checkbox-1' },
-      ],
-      errors: {
-        'any-of-following': {
-          msg: 'Select if your appeal is about any of the following',
-        },
-      },
-    });
+  if (errors.option) {
+    const errorMessage = errors.option.msg;
+
+    if (errorMessage) {
+      return res.render(VIEW.BEFORE_YOU_START.ANY_OF_FOLLOWING, {
+        errors,
+        errorSummary,
+      });
+    }
   }
 
   if (routeUserOption(option) === true) {

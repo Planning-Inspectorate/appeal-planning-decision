@@ -37,7 +37,7 @@ describe('controllers/before-you-start/any-of-following', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.BEFORE_YOU_START.ANY_OF_FOLLOWING, {
         errorSummary: [
-          { text: 'Select if your appeal is about any of the following', href: '#checkbox' },
+          { text: 'Select if your appeal is about any of the following', href: '#gds_checkbox-1' },
         ],
         errors: {
           'any-of-following': {

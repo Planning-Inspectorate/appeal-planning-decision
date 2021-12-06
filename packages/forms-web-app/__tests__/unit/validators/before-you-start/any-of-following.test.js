@@ -5,7 +5,7 @@ const { rules } = require('../../../../src/validators/before-you-start/any-of-fo
 describe('validators/before-you-start/any-of-following', () => {
   describe('rules', () => {
     it('has a rule for `option`', () => {
-      const rule = rules()[1].builder.build();
+      const rule = rules()[0].builder.build();
 
       expect(rule.fields).toEqual(['option']);
       expect(rule.locations).toEqual(['body']);
