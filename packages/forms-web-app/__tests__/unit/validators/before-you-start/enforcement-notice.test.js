@@ -23,7 +23,7 @@ describe('validators/before-you-start/enforcement-notice', () => {
         expect(rule.stack[0].negated).toBeTruthy();
         expect(rule.stack[0].validator.name).toEqual('isEmpty');
         expect(rule.stack[0].message).toEqual(
-          'Select Yes if you have received an enforcement notice'
+          'Select Yes if you’ve received an enforcement notice'
         );
 
         expect(rule.stack[2].negated).toBeFalsy();
@@ -44,7 +44,7 @@ describe('validators/before-you-start/enforcement-notice', () => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
           expect(result.errors[0].msg).toEqual(
-            'Select Yes if you have received an enforcement notice'
+            'Select Yes if you’ve received an enforcement notice'
           );
           expect(result.errors[0].param).toEqual('enforcement-notice');
           expect(result.errors[0].value).toEqual(undefined);
