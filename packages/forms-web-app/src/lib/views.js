@@ -54,6 +54,7 @@ const VIEW = {
   BEFORE_YOU_START: {
     LOCAL_PLANNING_DEPARTMENT: 'before-you-start/local-planning-department',
     TYPE_OF_PLANNING_APPLICATION: 'before-you-start/type-of-planning-application',
+    USE_A_DIFFERENT_SERVICE: 'before-you-start/use-a-different-service',
   },
 
   YOUR_PLANNING_APPEAL: {
