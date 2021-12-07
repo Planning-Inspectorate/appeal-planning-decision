@@ -10,7 +10,7 @@
 version: '3.7'
 services:
   pdf-service-api:
-    build: './packages/pdf-service-api'
+    image: appeal-planning-decision_pdf-service-api:latest
     environment:
       SERVER_SHOW_ERRORS: 'true'
       LOGGER_LEVEL: 'debug'
@@ -180,11 +180,6 @@ services:
       SESSION_KEY: some_secure_key_goes_here
       USE_SECURE_SESSION_COOKIES: 'false'
       PDF_SERVICE_API_URL: 'http://pdf-service-api:3000'
-      JWT_SIGNING_KEY: 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3'
-      TOKEN_COOKIE_NAME: 'authCookie'
-      TOKEN_VALIDITY_MILLIS: 14400000 # 4h
-      LOGGER_LEVEL: 'debug'
-      MAGIC_LINK_API_URL: http://magiclink-service-api:3009/magiclink
     ports:
       - 9001:3000
     working_dir: /opt/app
@@ -201,26 +196,6 @@ services:
     volumes:
       - ./packages/common:/opt/app/node_modules/@pins/common
       - ./packages/lpa-questionnaire-web-app:/opt/app
-    command: npm run start:dev
-
-  magiclink-service-api:
-    image: node:14-alpine
-    environment:
-      SRV_NOTIFY_BASE_URL: http://mock-notify:3000
-      SRV_NOTIFY_SERVICE_ID: 'dummy-service-id-for-notify'
-      SRV_NOTIFY_API_KEY: 'dummy-api-key-for-notify'
-      MAGIC_LINK_TEMPLATE_ID: '1cd00f93-9814-44b5-99db-97382b38cf13'
-      DATA_ENCRYPTION_KEY: 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3'
-      JWT_SIGNING_KEY: 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3'
-      MAGIC_LINK_VALIDITY_TIME_MILLIS: '900000' # 15 min
-      COOKIE_VALIDITY_TIME_MILLIS: '14400000' # 4h
-      MAGIC_LINK_API_URL: 'http://localhost:3009'
-    ports:
-      - 3009:3009
-    working_dir: /opt/app
-    volumes:
-      - ./packages/common:/opt/app/node_modules/@pins/common
-      - ./packages/magiclink-auth-service-api:/opt/app
     command: npm run start:dev
 
   # This does not work locally with RabbitMQ
@@ -264,21 +239,21 @@ services:
       context: ./mocked-services/horizon
       dockerfile: ../Dockerfile
     ports:
-      - 5000:3000
+      - 5500:3000
 
   mock-notify:
     build:
       context: ./mocked-services/notify
       dockerfile: ../Dockerfile
     ports:
-      - 5001:3000
+      - 5501:3000
 
   mock-os-places:
     build:
       context: ./mocked-services/os-places
       dockerfile: ../Dockerfile
     ports:
-      - 5002:3000
+      - 5502:3000
 
   docs-horizon:
     image: swaggerapi/swagger-ui
@@ -289,7 +264,7 @@ services:
     volumes:
       - ./docs/swagger/horizon/create_case_openapi.yaml:/app/swagger.yaml
     ports:
-      - 7000:8080
+      - 7500:8080
 
   # Third-party services
   blob-storage:
