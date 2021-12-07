@@ -1,0 +1,85 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% block pageTitle %}
+    Is your appeal about any of the following? - Before you start - Appeal a householder planning decision - GOV.UK
+{% endblock %}
+
+{% block backButton %}
+    {{ govukBackLink({
+    text: "Back",
+    href: "/before-you-start/type-of-planning-application"
+ })}}
+{% endblock %}
+
+{% block content %}
+
+    {% if errorSummary %}
+        {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: errorSummary
+        }) }}
+    {% endif %}
+
+    <form action="" method="post" novalidate>
+    <span class="govuk-caption-l"> Before you start </span>
+    {{ govukCheckboxes({
+        idPrefix: "site-selection",
+        name: "option",
+        fieldset: {
+            legend: {
+                text: "Is your appeal about any of the following?",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+            }
+        },
+        hint: {
+            text: "Select all that apply."
+        },
+        items: [
+            {
+                value: "a_listed_building",
+                text: "A listed building"
+            },
+            {
+                value: "major_dwellings",
+                text: "Major dwellings"
+            },
+            {
+                value: "major_general_industry_storage_warehousing",
+                text: "Major general industry, storage or warehousing"
+            },
+            {
+                value: "major_retail_and_services",
+                text: "Major retail and services"
+            },
+            {
+                value: "major_travelling_and_caravan_pitches",
+                text: "Major travelling and caravan pitches"
+            },
+            {
+                divider: "or"
+            },
+            {
+                value: "none_of_these",
+                text: "None of these",
+                behaviour: "exclusive"      
+            }
+        ],
+        errorMessage: errors['option'] and {
+            text: errors['option'].msg
+        }
+        }) }}
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+    </form>
+
+{% endblock %}
