@@ -5,7 +5,6 @@ const promClient = require('prom-client');
 const uuid = require('uuid');
 
 const { register } = promClient;
-const { register1 } = promClient;
 
 const config = {
   metrics: {
