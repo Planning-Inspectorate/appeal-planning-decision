@@ -40,6 +40,7 @@ jobs:
     name: "Cypress- LPA questionnaire"
     if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
+    
     strategy:
       # when one test fails, DO NOT cancel the other
       # containers, because this will kill Cypress processes
@@ -52,6 +53,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.18.2'
 
       - name: Cache central NPM modules
         uses: actions/cache@v2
@@ -138,6 +142,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.18.2'
 
       - name: Cache central NPM modules
         uses: actions/cache@v2
