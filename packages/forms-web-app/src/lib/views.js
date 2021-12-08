@@ -43,17 +43,18 @@ const VIEW = {
     SUBMISSION_INFORMATION: 'appellant-submission/submission-information',
   },
 
+  BEFORE_YOU_START: {
+    ANY_OF_FOLLOWING: 'before-you-start/any-of-following',
+    LOCAL_PLANNING_DEPARTMENT: 'before-you-start/local-planning-department',
+    TYPE_OF_PLANNING_APPLICATION: 'before-you-start/type-of-planning-application',
+  },
+
   GUIDANCE_PAGES: {
     BEFORE_APPEAL: 'guidance-pages/before-appeal',
     WHEN_APPEAL: 'guidance-pages/when-appeal',
     AFTER_APPEAL: 'guidance-pages/after-appeal',
     START_APPEAL: 'guidance-pages/start-appeal',
     STAGES_APPEAL: 'guidance-pages/stages-appeal',
-  },
-
-  BEFORE_YOU_START: {
-    LOCAL_PLANNING_DEPARTMENT: 'before-you-start/local-planning-department',
-    TYPE_OF_PLANNING_APPLICATION: 'before-you-start/type-of-planning-application',
   },
 
   YOUR_PLANNING_APPEAL: {
