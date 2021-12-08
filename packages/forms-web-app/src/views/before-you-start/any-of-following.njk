@@ -5,8 +5,13 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
+{% set title="Is your appeal about any of the following? - Before you start - Appeal a householder planning decision - GOV.UK" %}
+
 {% block pageTitle %}
-    Is your appeal about any of the following? - Before you start - Appeal a householder planning decision - GOV.UK
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
 {% endblock %}
 
 {% block backButton %}
