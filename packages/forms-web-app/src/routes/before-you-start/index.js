@@ -6,6 +6,8 @@ const enforcementNoticeRouter = require('./enforcement-notice');
 const anyOfFollowingRouter = require('./any-of-following');
 const useADifferentServiceRouter = require('./use-a-different-service');
 const enforcementNotice = require('./enforcement-notice');
+const anyOfFollowingRouter = require('./any-of-following');
+const useADifferentServiceRouter = require('./use-a-different-service');
 
 const router = express.Router();
 
@@ -15,5 +17,6 @@ router.use('/any-of-following', anyOfFollowingRouter);
 router.use(enforcementNoticeRouter);
 router.use(useADifferentServiceRouter);
 router.use(enforcementNotice);
+router.use(useADifferentServiceRouter);
 
 module.exports = router;
