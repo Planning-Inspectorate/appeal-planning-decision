@@ -6,12 +6,19 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {% set title="Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK" %}
-
+ 
 {% block pageTitle %}
   {% if errors %}
     {% set title="Error: " + title %}
   {% endif %}
   {{ title }}
+{% endblock %}
+
+{% block backButton %}
+    {{ govukBackLink({
+    text: "Back",
+    href: previousPage
+ })}}
 {% endblock %}
 
 {% block content %}
