@@ -1,0 +1,513 @@
+[
+  {
+    "description": "  As an appellant\n  I want to select the type of planning Application I made\n  So that I can raise appropriate appeal",
+    "keyword": "Feature",
+    "name": "Planning Application Type",
+    "line": 1,
+    "id": "planning-application-type",
+    "tags": [],
+    "uri": "planning-application-type.feature",
+    "elements": [
+      {
+        "id": "planning-application-type;ac01-appellant-selects-householder-application-type",
+        "keyword": "Scenario",
+        "line": 6,
+        "name": "AC01 Appellant selects Householder application type",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appellant is on the select the type of planning application you made page",
+            "result": {
+              "status": "passed",
+              "duration": 821000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "appellant selects 'Householder' planning application type",
+            "result": {
+              "status": "passed",
+              "duration": 89000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "appellant clicks on the continue button",
+            "result": {
+              "status": "passed",
+              "duration": 335000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "appellant is navigated to the About A Listed Building Page",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-type;ac02-appellant-selects-application-type-other-that-house-holder-planning",
+        "keyword": "Scenario",
+        "line": 19,
+        "name": "AC02 Appellant selects application type other that house holder planning",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "an appellant is on the select the type of planning application you made page",
+            "result": {
+              "status": "passed",
+              "duration": 661000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "appellant selects 'Full planning' planning application type",
+            "result": {
+              "status": "passed",
+              "duration": 95000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "appellant clicks on the continue button",
+            "result": {
+              "status": "passed",
+              "duration": 429000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 16,
+            "name": "appellant is navigated to the is your planning application about any of the following page",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-type;ac02-appellant-selects-application-type-other-that-house-holder-planning",
+        "keyword": "Scenario",
+        "line": 20,
+        "name": "AC02 Appellant selects application type other that house holder planning",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "an appellant is on the select the type of planning application you made page",
+            "result": {
+              "status": "passed",
+              "duration": 639000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "appellant selects 'Outline planning' planning application type",
+            "result": {
+              "status": "passed",
+              "duration": 92000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "appellant clicks on the continue button",
+            "result": {
+              "status": "passed",
+              "duration": 426000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 16,
+            "name": "appellant is navigated to the is your planning application about any of the following page",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-type;ac02-appellant-selects-application-type-other-that-house-holder-planning",
+        "keyword": "Scenario",
+        "line": 21,
+        "name": "AC02 Appellant selects application type other that house holder planning",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "an appellant is on the select the type of planning application you made page",
+            "result": {
+              "status": "passed",
+              "duration": 675000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "appellant selects 'Prior approval' planning application type",
+            "result": {
+              "status": "passed",
+              "duration": 88000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "appellant clicks on the continue button",
+            "result": {
+              "status": "passed",
+              "duration": 473000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 16,
+            "name": "appellant is navigated to the is your planning application about any of the following page",
+            "result": {
+              "status": "passed",
+              "duration": 6000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-type;ac02-appellant-selects-application-type-other-that-house-holder-planning",
+        "keyword": "Scenario",
+        "line": 22,
+        "name": "AC02 Appellant selects application type other that house holder planning",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "an appellant is on the select the type of planning application you made page",
+            "result": {
+              "status": "passed",
+              "duration": 686000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "appellant selects 'Reserved matters' planning application type",
+            "result": {
+              "status": "passed",
+              "duration": 88000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "appellant clicks on the continue button",
+            "result": {
+              "status": "passed",
+              "duration": 468000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 16,
+            "name": "appellant is navigated to the is your planning application about any of the following page",
+            "result": {
+              "status": "passed",
+              "duration": 8000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-type;ac02-appellant-selects-application-type-other-that-house-holder-planning",
+        "keyword": "Scenario",
+        "line": 23,
+        "name": "AC02 Appellant selects application type other that house holder planning",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "an appellant is on the select the type of planning application you made page",
+            "result": {
+              "status": "passed",
+              "duration": 664000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "appellant selects 'Removal or variation of conditions' planning application type",
+            "result": {
+              "status": "passed",
+              "duration": 86000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "appellant clicks on the continue button",
+            "result": {
+              "status": "passed",
+              "duration": 458000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 16,
+            "name": "appellant is navigated to the is your planning application about any of the following page",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-type;ac03-appellant-has-not-selected-any-of-planning-application-types",
+        "keyword": "Scenario",
+        "line": 25,
+        "name": "AC03 appellant has not selected any of planning application types",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 26,
+            "name": "an appellant is on the select the type of planning application you made page",
+            "result": {
+              "status": "passed",
+              "duration": 667000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "appellant clicks on the continue button",
+            "result": {
+              "status": "passed",
+              "duration": 457000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "appellant sees an error message 'Select which type of planning application your appeal is about, or if you have not made a planning application'",
+            "result": {
+              "status": "passed",
+              "duration": 59000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-type;ac04---back-link",
+        "keyword": "Scenario",
+        "line": 30,
+        "name": "AC04 - Back link",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 31,
+            "name": "an appellant is on the select the type of planning application you made page",
+            "result": {
+              "status": "passed",
+              "duration": 659000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 32,
+            "name": "appellant selects 'Householder' planning application type",
+            "result": {
+              "status": "passed",
+              "duration": 88000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 33,
+            "name": "an appellant selects the back button",
+            "result": {
+              "status": "passed",
+              "duration": 433000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 34,
+            "name": "an appellant is navigated to the what local planning department did you submit your application to page",
+            "result": {
+              "status": "passed",
+              "duration": 9000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 35,
+            "name": "any information they have inputted for planning type will not be saved",
+            "result": {
+              "status": "passed",
+              "duration": 429000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-type;ac05---appellants-selects-something-else-or-i-have-not-made-an-appeal",
+        "keyword": "Scenario",
+        "line": 44,
+        "name": "AC05 - Appellants selects Something else or I have Not Made An Appeal",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 38,
+            "name": "an appellant is on the select the type of planning application you made page",
+            "result": {
+              "status": "passed",
+              "duration": 659000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 39,
+            "name": "appellant selects 'Something else' planning application type",
+            "result": {
+              "status": "passed",
+              "duration": 88000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 40,
+            "name": "appellant clicks on the continue button",
+            "result": {
+              "status": "passed",
+              "duration": 360000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 41,
+            "name": "an appellants gets routed to shutter page which notifies them to use a different service",
+            "result": {
+              "status": "passed",
+              "duration": 4000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-type;ac05---appellants-selects-something-else-or-i-have-not-made-an-appeal",
+        "keyword": "Scenario",
+        "line": 45,
+        "name": "AC05 - Appellants selects Something else or I have Not Made An Appeal",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 38,
+            "name": "an appellant is on the select the type of planning application you made page",
+            "result": {
+              "status": "passed",
+              "duration": 659000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 39,
+            "name": "appellant selects 'I have not made a planning application' planning application type",
+            "result": {
+              "status": "passed",
+              "duration": 90000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 40,
+            "name": "appellant clicks on the continue button",
+            "result": {
+              "status": "passed",
+              "duration": 379000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 41,
+            "name": "an appellants gets routed to shutter page which notifies them to use a different service",
+            "result": {
+              "status": "passed",
+              "duration": 4000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
