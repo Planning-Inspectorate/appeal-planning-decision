@@ -5,10 +5,6 @@ const {
   validEnforcementNoticeOptions,
 } = require('../../validators/before-you-start/enforcement-notice');
 
-exports.getServiceNotAvailableWhenReceivedEnforcementNotice = (req, res) => {
-  res.render(VIEW.BEFORE_YOU_START.USE_A_DIFFERENT_SERVICE);
-};
-
 exports.getEnforcementNotice = (req, res) => {
   res.render(VIEW.BEFORE_YOU_START.ENFORCEMENT_NOTICE, {
     appeal: req.session.appeal,
@@ -18,7 +14,6 @@ exports.getEnforcementNotice = (req, res) => {
 exports.postEnforcementNotice = async (req, res) => {
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
-
   const { appeal } = req.session;
 
   let hasReceivedEnforcementNotice = null;

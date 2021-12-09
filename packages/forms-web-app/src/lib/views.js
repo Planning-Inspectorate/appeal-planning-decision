@@ -42,7 +42,7 @@ const VIEW = {
     CONFIRMATION: 'appellant-submission/confirmation',
     SUBMISSION_INFORMATION: 'appellant-submission/submission-information',
   },
-  
+
   GUIDANCE_PAGES: {
     BEFORE_APPEAL: 'guidance-pages/before-appeal',
     WHEN_APPEAL: 'guidance-pages/when-appeal',

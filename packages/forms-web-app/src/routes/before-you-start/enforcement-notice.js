@@ -10,10 +10,6 @@ const {
 const router = express.Router();
 
 router.get(
-  '/use-a-different-service',
-  enforcementNoticeController.getServiceNotAvailableWhenReceivedEnforcementNotice
-);
-router.get(
   '/enforcement-notice',
   [fetchExistingAppealMiddleware],
   enforcementNoticeController.getEnforcementNotice

@@ -22,14 +22,6 @@ describe('controllers/before-you-start/enforcement-notice', () => {
     jest.resetAllMocks();
   });
 
-  describe('getServiceNotAvailableWhenReceivedEnforcementNotice', () => {
-    it('calls the correct template', () => {
-      enforcementNoticeController.getServiceNotAvailableWhenReceivedEnforcementNotice(req, res);
-
-      expect(res.render).toHaveBeenCalledWith(VIEW.BEFORE_YOU_START.USE_A_DIFFERENT_SERVICE);
-    });
-  });
-
   describe('getEnforcementNotice', () => {
     it('should call the correct template', () => {
       enforcementNoticeController.getEnforcementNotice(req, res);

@@ -16,10 +16,6 @@ describe('routes/before-you-start/enforcement-notice', () => {
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      '/use-a-different-service',
-      enforcementNoticeController.getServiceNotAvailableWhenReceivedEnforcementNotice
-    );
-    expect(get).toHaveBeenCalledWith(
       '/enforcement-notice',
       [fetchExistingAppealMiddleware],
       enforcementNoticeController.getEnforcementNotice

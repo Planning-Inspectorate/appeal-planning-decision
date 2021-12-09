@@ -5,7 +5,7 @@ const validEnforcementNoticeOptions = ['yes', 'no'];
 const ruleEnforcementNotice = () =>
   body('enforcement-notice')
     .notEmpty()
-    .withMessage('Select Yes if you have received an enforcement notice')
+    .withMessage('Select yes if you have received an enforcement notice')
     .bail()
     .isIn(validEnforcementNoticeOptions);
 
