@@ -33,10 +33,7 @@ module.exports = {
         validateFileSize(size, config.fileUpload.pins.maxFileSize, name);
 
         // check file for Virus
-        const virusResult = await validAV(value, name);
-        if (virusResult === true) {
-          throw new Error(`${name} contains a virus.`);
-        }
+        await validAV(value, name);
 
         return false;
       },
