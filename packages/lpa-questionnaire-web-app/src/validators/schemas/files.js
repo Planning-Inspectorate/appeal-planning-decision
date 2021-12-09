@@ -27,14 +27,18 @@ module.exports = {
             MIME_TYPE_TIF,
             MIME_TYPE_PNG,
           ],
-          `${name} is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG`
+          `${name} is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG.`
         );
 
         validateFileSize(size, config.fileUpload.pins.maxFileSize, name);
 
         // check file for Virus
         const virusResult = await validAV(value, name);
-        return virusResult;
+        if (virusResult === true) {
+          throw new Error(`${name} contains a virus.`);
+        }
+
+        return false;
       },
     },
   },
