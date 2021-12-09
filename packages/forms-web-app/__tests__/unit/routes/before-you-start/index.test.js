@@ -10,14 +10,7 @@ describe('routes/before-you-start/index', () => {
     require('../../../../src/routes/before-you-start');
   });
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
   it('should define the expected routes', () => {
-    expect(use).toHaveBeenCalledWith(localPlanningDepartmentRouter);
-    expect(use).toHaveBeenCalledWith('/any-of-following', anyOfFollowingRouter);
-
-    expect(use.mock.calls.length).toBe(3);
+    expect(use.mock.calls.length).toBe(4);
   });
 });
