@@ -4,6 +4,7 @@ const localPlanningDepartmentRouter = require('../../../../src/routes/before-you
 const typeOfPlanningRouter = require('../../../../src/routes/before-you-start/type-of-planning-application');
 const anyOfFollowingRouter = require('../../../../src/routes/before-you-start/any-of-following');
 const useADifferentServiceRouter = require('../../../../src/routes/before-you-start/use-a-different-service');
+const enforcementNoticeRouter = require('../../../../src/routes/before-you-start/enforcement-notice');
 
 describe('routes/before-you-start/index', () => {
   beforeEach(() => {
@@ -13,16 +14,13 @@ describe('routes/before-you-start/index', () => {
     require('../../../../src/routes/before-you-start');
   });
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
   it('should define the expected routes', () => {
     expect(use).toHaveBeenCalledWith(localPlanningDepartmentRouter);
     expect(use).toHaveBeenCalledWith(typeOfPlanningRouter);
     expect(use).toHaveBeenCalledWith('/any-of-following', anyOfFollowingRouter);
     expect(use).toHaveBeenCalledWith(useADifferentServiceRouter);
+    expect(use).toHaveBeenCalledWith(enforcementNoticeRouter);
 
-    expect(use.mock.calls.length).toBe(4);
+    expect(use.mock.calls.length).toBe(5);
   });
 });
