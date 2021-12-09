@@ -142,6 +142,7 @@ services:
       SUBDOMAIN_OFFSET: 0
       USE_SECURE_SESSION_COOKIES: 'false'
       PDF_SERVICE_API_URL: 'http://pdf-service-api:3000'
+      LOGGER_LEVEL: 'debug'
     ports:
       - 9003:3000
       # node debugger

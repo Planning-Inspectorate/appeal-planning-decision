@@ -4,6 +4,9 @@ module.exports.APPEAL_DOCUMENT = {
     decisionDate: null,
     submissionDate: null,
     state: 'DRAFT',
+    beforeYourStart: {
+      enforcementNotice: null,
+    },
     eligibility: {
       enforcementNotice: null,
       isClaimingCosts: null,
