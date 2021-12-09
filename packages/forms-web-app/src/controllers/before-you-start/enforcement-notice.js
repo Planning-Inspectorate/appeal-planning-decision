@@ -1,13 +1,23 @@
 const logger = require('../../lib/logger');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
-const { VIEW } = require('../../lib/views');
+const {
+  VIEW: {
+    BEFORE_YOU_START: {
+      ENFORCEMENT_NOTICE: currentPage,
+      GRANTED_REFUSED_PERMISSION: nextPage,
+      TYPE_OF_PLANNING_APPLICATION: previousPage,
+      USE_A_DIFFERENT_SERVICE: shutterPage,
+    },
+  },
+} = require('../../lib/views');
 const {
   validEnforcementNoticeOptions,
 } = require('../../validators/before-you-start/enforcement-notice');
 
 exports.getEnforcementNotice = (req, res) => {
-  res.render(VIEW.BEFORE_YOU_START.ENFORCEMENT_NOTICE, {
+  res.render(currentPage, {
     appeal: req.session.appeal,
+    previousPage: `/${previousPage}`,
   });
 };
 
@@ -22,7 +32,7 @@ exports.postEnforcementNotice = async (req, res) => {
   }
 
   if (Object.keys(errors).length > 0) {
-    res.render(VIEW.BEFORE_YOU_START.ENFORCEMENT_NOTICE, {
+    res.render(currentPage, {
       appeal: {
         ...appeal,
         beforeYouStart: {
@@ -32,6 +42,7 @@ exports.postEnforcementNotice = async (req, res) => {
       },
       errors,
       errorSummary,
+      previousPage: `/${previousPage}`,
     });
     return;
   }
@@ -47,18 +58,19 @@ exports.postEnforcementNotice = async (req, res) => {
   } catch (e) {
     logger.error(e);
 
-    res.render(VIEW.BEFORE_YOU_START.ENFORCEMENT_NOTICE, {
+    res.render(currentPage, {
       appeal,
       errors,
       errorSummary: [{ text: e.toString(), href: '#' }],
+      previousPage: `/${previousPage}`,
     });
     return;
   }
 
   if (hasReceivedEnforcementNotice) {
-    res.redirect(`/${VIEW.BEFORE_YOU_START.USE_A_DIFFERENT_SERVICE}`);
+    res.redirect(`/${shutterPage}`);
     return;
   }
 
-  res.redirect(`/${VIEW.BEFORE_YOU_START.GRANTED_REFUSED_PERMISSION}`);
+  res.redirect(`/${nextPage}`);
 };

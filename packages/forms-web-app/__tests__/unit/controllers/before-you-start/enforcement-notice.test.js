@@ -1,6 +1,15 @@
 const enforcementNoticeController = require('../../../../src/controllers/before-you-start/enforcement-notice');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
-const { VIEW } = require('../../../../src/lib/views');
+const {
+  VIEW: {
+    BEFORE_YOU_START: {
+      ENFORCEMENT_NOTICE: currentPage,
+      GRANTED_REFUSED_PERMISSION: nextPage,
+      TYPE_OF_PLANNING_APPLICATION: previousPage,
+      USE_A_DIFFERENT_SERVICE: shutterPage,
+    },
+  },
+} = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { mockReq, mockRes } = require('../../mocks');
@@ -26,8 +35,9 @@ describe('controllers/before-you-start/enforcement-notice', () => {
     it('should call the correct template', () => {
       enforcementNoticeController.getEnforcementNotice(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.BEFORE_YOU_START.ENFORCEMENT_NOTICE, {
+      expect(res.render).toHaveBeenCalledWith(currentPage, {
         appeal: req.session.appeal,
+        previousPage: `/${previousPage}`,
       });
     });
   });
@@ -47,7 +57,7 @@ describe('controllers/before-you-start/enforcement-notice', () => {
       expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
       expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith(VIEW.BEFORE_YOU_START.ENFORCEMENT_NOTICE, {
+      expect(res.render).toHaveBeenCalledWith(currentPage, {
         appeal: {
           ...req.session.appeal,
           beforeYouStart: {
@@ -57,6 +67,7 @@ describe('controllers/before-you-start/enforcement-notice', () => {
         },
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
+        previousPage: `/${previousPage}`,
       });
     });
 
@@ -75,10 +86,11 @@ describe('controllers/before-you-start/enforcement-notice', () => {
 
       expect(logger.error).toHaveBeenCalledWith(error);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.BEFORE_YOU_START.ENFORCEMENT_NOTICE, {
+      expect(res.render).toHaveBeenCalledWith(currentPage, {
         appeal: req.session.appeal,
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
+        previousPage: `/${previousPage}`,
       });
     });
 
@@ -99,9 +111,7 @@ describe('controllers/before-you-start/enforcement-notice', () => {
         },
       });
 
-      expect(res.redirect).toHaveBeenCalledWith(
-        `/${VIEW.BEFORE_YOU_START.USE_A_DIFFERENT_SERVICE}`
-      );
+      expect(res.redirect).toHaveBeenCalledWith(`/${shutterPage}`);
     });
 
     it('should redirect to `/before-you-start/granted-or-refused-permission` if `enforcement-notice` is `no`', async () => {
@@ -121,9 +131,7 @@ describe('controllers/before-you-start/enforcement-notice', () => {
         },
       });
 
-      expect(res.redirect).toHaveBeenCalledWith(
-        `/${VIEW.BEFORE_YOU_START.GRANTED_REFUSED_PERMISSION}`
-      );
+      expect(res.redirect).toHaveBeenCalledWith(`/${nextPage}`);
     });
   });
 });
