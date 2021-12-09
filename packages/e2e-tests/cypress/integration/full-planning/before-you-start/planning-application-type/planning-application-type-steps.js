@@ -1,15 +1,15 @@
 import {Given} from 'cypress-cucumber-preprocessor/steps';
-import { goToPage } from '../../support/go-to-page/goToPage';
-import { verifyPageTitle } from '../../support/common/verify-page-title';
-import { verifyPageHeading } from '../../support/common/verify-page-heading';
-import { selectPlanningApplicationType } from '../../support/before-you-start-planning-application-type/select-planning-application-type';
-import { getBackLink, getContinueButton, getErrorMessageSummary } from '../../support/page-objects/common-po';
+import { goToPage } from '../../../../../../../e2e-tests/cypress/support/go-to-page/goToPage';
+import { verifyPageTitle } from '../../../../../../../e2e-tests/cypress/support/common/verify-page-title';
+import { verifyPageHeading } from '../../../../../../../e2e-tests/cypress/support/common/verify-page-heading';
+import { selectPlanningApplicationType } from '../../../../support/full-planning/before-you-start/planning-application-type/select-planning-application-type';
+import { getBackLink, getContinueButton, getErrorMessageSummary } from '../../../../../../../e2e-tests/cypress/support/page-objects/common-po';
 import {
   getHouseHolderPlanningRadio,
   getTypeOfPlanningApplicationError,
-} from '../../support/page-objects/planning-application-type-po';
-import { verifyErrorMessage } from '../../support/common/verify-error-message';
-import { acceptCookiesBanner } from '../../support/common/accept-cookies-banner';
+} from '../../../../support/full-planning/before-you-start/page-objects/planning-application-type-po';
+import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 
 const pageTitle = 'What type of planning application is your appeal about? - Before you start - Appeal a householder planning decision - GOV.UK';
 const pageHeading = 'What type of planning application is your appeal about?';
