@@ -1,0 +1,213 @@
+[
+  {
+    "description": "  As an appellant\n  I want to select whether or not I have received an enforcement notice\n  So that I can make an appeal",
+    "keyword": "Feature",
+    "name": "Enforcement notice",
+    "line": 1,
+    "id": "enforcement-notice",
+    "tags": [],
+    "uri": "enforcement-notice.feature",
+    "elements": [
+      {
+        "id": "enforcement-notice;ac01-appellant-has-not-received-an-enforcement-notice",
+        "keyword": "Scenario",
+        "line": 6,
+        "name": "AC01 Appellant has not received an enforcement notice",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "appellant is on the enforcement notice page",
+            "result": {
+              "status": "passed",
+              "duration": 800000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "appellant selects 'No' from the options",
+            "result": {
+              "status": "passed",
+              "duration": 89000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "appellant clicks on the continue button",
+            "result": {
+              "status": "passed",
+              "duration": 397000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "appellant gets navigated to the was your planning application granted or refused page",
+            "result": {
+              "status": "passed",
+              "duration": 4000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "enforcement-notice;ac02-appellant-has-received-an-enforcement-notice",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "AC02 Appellant has received an enforcement notice",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "appellant is on the enforcement notice page",
+            "result": {
+              "status": "passed",
+              "duration": 382000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "appellant selects 'Yes' from the options",
+            "result": {
+              "status": "passed",
+              "duration": 86000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "appellant clicks on the continue button",
+            "result": {
+              "status": "passed",
+              "duration": 289000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 16,
+            "name": "appellant is navigated to the shutter page",
+            "result": {
+              "status": "passed",
+              "duration": 4000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "enforcement-notice;ac03-appellant-has-not-made-any-selection-and-they-get-an-error-message",
+        "keyword": "Scenario",
+        "line": 18,
+        "name": "AC03 appellant has not made any selection and they get an error message",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 19,
+            "name": "appellant is on the enforcement notice page",
+            "result": {
+              "status": "passed",
+              "duration": 365000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 20,
+            "name": "appellant clicks on the continue button",
+            "result": {
+              "status": "passed",
+              "duration": 339000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 21,
+            "name": "appellant sees an error message 'Select yes if you have received an enforcement notice'",
+            "result": {
+              "status": "passed",
+              "duration": 51000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "enforcement-notice;ac04-back-link",
+        "keyword": "Scenario",
+        "line": 23,
+        "name": "AC04 Back Link",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 24,
+            "name": "appellant is on the enforcement notice page",
+            "result": {
+              "status": "passed",
+              "duration": 355000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 25,
+            "name": "appellant selects 'Yes' from the options",
+            "result": {
+              "status": "passed",
+              "duration": 85000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 26,
+            "name": "appellant selects the back button",
+            "result": {
+              "status": "passed",
+              "duration": 334000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 27,
+            "name": "appellant is navigated to the type of planning application page",
+            "result": {
+              "status": "passed",
+              "duration": 4000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 28,
+            "name": "information they have inputted will not be saved",
+            "result": {
+              "status": "passed",
+              "duration": 328000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
