@@ -1,14 +1,13 @@
-import {
-  getPlanningApplicationAddress, getPlanningApplicationAppellant,
-  getPlanningApplicationNumber,
-} from '../householder-planning/lpa-questionnaire/PageObjects/AppealDetailsPageObjects';
+import AppealDetails from '../householder-planning/lpa-questionnaire/PageObjects/AppealDetailsPageObjects';
 
-export const verifyAppealDetailsSidebar = ({
+const appealDetails = new AppealDetails();
+
+module.exports = ({
   applicationNumber = 'ABC/123',
   applicationAddress = '999 Letsby Avenue, Sheffield, South Yorkshire, S9 1XY',
   apellantName = 'Bob Smith',
 }) => {
-  getPlanningApplicationNumber().contains(applicationNumber);
-  getPlanningApplicationAddress().contains(applicationAddress);
-  getPlanningApplicationAppellant().contains(apellantName);
+  appealDetails.getPlanningApplicationNumber().contains(applicationNumber);
+  appealDetails.getPlanningApplicationAddress().contains(applicationAddress);
+  appealDetails.getPlanningApplicationAppellant().contains(apellantName);
 };

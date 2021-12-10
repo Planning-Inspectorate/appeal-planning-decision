@@ -1,5 +1,3 @@
-import { goToPage } from '../../../common/go-to-page/goToPage';
-
-export const goToCheckYourAnswersPage = () => {
-  goToPage('confirm-answers');
+module.exports = () => {
+  cy.goToPage('confirm-answers');
 };

@@ -1,24 +1,15 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { input } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
-import {authenticateLPA} from '../../../../support/householder-planning/lpa-questionnaire/magic-link/authenticateLPA';
-import { completeQuestionnaire } from '../../../../support/common/completeQuestionnaire';
-import {
-  goToTaskListPage
-} from '../../../../support/householder-planning/lpa-questionnaire/appeals-questionnaire-tasklist/goToTaskListPage';
-import {
-  verifyCompletedStatus
-} from '../../../../support/householder-planning/lpa-questionnaire/appeals-questionnaire-tasklist/verifyCompletedStatus';
-import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
-import { goToPage } from '../../../../support/common/go-to-page/goToPage';
+import authenticateLPA from '../../../../support/householder-planning/lpa-questionnaire/magic-link/authenticateLPA';
 
 Given('answers have been saved to the questionnaire', () => {
- completeQuestionnaire();
+  cy.completeQuestionnaire();
 });
 
 When('the questionnaire is revisited in a new session', () => {
   // First go to a page to create an initial session
-  goToTaskListPage();
-  verifyCompletedStatus('submissionAccuracy');
+  cy.goToTaskListPage();
+  cy.verifyCompletedStatus('submissionAccuracy');
 
   // Clear cookies to remove tie to session
   cy.clearCookies();
@@ -31,16 +22,16 @@ When('the questionnaire is revisited in a new session', () => {
 });
 
 When('changes are made to the questions', () => {
-  goToPage('accuracy-submission');
+  cy.goToPage('accuracy-submission');
   input('accurate-submission-yes').check();
-  clickSaveAndContinue();
+  cy.clickSaveAndContinue();
 });
 
 Then('previously entered data will be visible', () => {
-  verifyCompletedStatus('submissionAccuracy');
+  cy.verifyCompletedStatus('submissionAccuracy');
 });
 
 Then('the changes over write the previously saved answers', () => {
-  goToPage('accuracy-submission');
+  cy.goToPage('accuracy-submission');
   input('accurate-submission-yes').should('be.checked');
 });
