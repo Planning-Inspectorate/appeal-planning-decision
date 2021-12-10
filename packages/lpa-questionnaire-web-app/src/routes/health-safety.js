@@ -5,24 +5,17 @@ const fetchAppealMiddleware = require('../middleware/fetch-appeal');
 const { validationErrorHandler } = require('../validators/validation-error-handler');
 const { rules: healthSafetyValidationRules } = require('../validators/health-safety');
 const alreadySubmittedMiddleware = require('../middleware/already-submitted');
-const authenticate = require('../middleware/authenticate');
 
 const router = express.Router();
 
 router.get(
   '/appeal-questionnaire/:id/health-safety',
-  [
-    authenticate,
-    fetchAppealMiddleware,
-    fetchExistingAppealReplyMiddleware,
-    alreadySubmittedMiddleware,
-  ],
+  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
   healthSafetyController.getHealthSafety
 );
 
 router.post(
   '/appeal-questionnaire/:id/health-safety',
-  authenticate,
   healthSafetyValidationRules(),
   validationErrorHandler,
   healthSafetyController.postHealthSafety
