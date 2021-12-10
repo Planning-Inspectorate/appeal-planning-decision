@@ -1,12 +1,9 @@
-const { hasLink } = require('../../../../support/common/hasLink');
-const { goToTaskListPage } = require('../../../../support/householder-planning/lpa-questionnaire/appeals-questionnaire-tasklist/goToTaskListPage');
-const { verifyPage } = require('../../../../support/common/verifyPage');
 const link = 'https://www.smartsurvey.co.uk/s/GHUFVZ/'
 const selector = '[data-cy="Feedback"]';
 
 Given('the LPA Questionnaire is accessed', () => {
-  goToTaskListPage();
-  hasLink(selector, link);
+  cy.goToTaskListPage();
+  cy.hasLink(selector, link);
 });
 
 When('the feedback link is selected', () => {
@@ -14,5 +11,5 @@ When('the feedback link is selected', () => {
 });
 
 Then('the feedback survey is presented', () => {
-  verifyPage(link)
+  cy.verifyPage(link)
 });

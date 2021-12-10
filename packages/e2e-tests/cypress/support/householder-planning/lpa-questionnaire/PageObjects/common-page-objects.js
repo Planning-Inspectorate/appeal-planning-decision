@@ -1,16 +1,63 @@
-export const sectionName = () => cy.get('.govuk-caption-l');
-export const saveAndContinueButton = () => cy.get('[data-cy="save"]');
-export const backButton = () => cy.get('[data-cy="back"]');
-export const pageHeading = () => cy.get('h1');
-export const textArea = (textAreaId) => cy.get(`textarea[data-cy="${textAreaId}"]`);
-export const textBox = (textBoxId) => cy.get(`[data-cy="${textBoxId}"]`);
-export const labelText = (labelTextId) => cy.get(`[data-cy="${labelTextId}"]`);
-export const label = (labelId) => cy.get(`label[data-cy="${labelId}"]`);
-export const labelLegend = (labelLegendId) => cy.get(`[data-cy="${labelLegendId}"] legend`);
-export const labelHint = (labelHintId) => cy.get(`div[data-cy="${labelHintId}"]`);
-export const input = (inputId) => cy.get(`input[data-cy="${inputId}"]`);
-export const errorMessage = (errorMessageId) => cy.get(`[data-cy="${errorMessageId}"]`);
-export const summaryErrorMessage = (summaryErrorMessageId) => cy.get(`a[href="#${summaryErrorMessageId}"]`);
-export const summaryFileUploadErrorMessage = () => cy.get(`a[href="#documents"]`);
-export const findoutAboutCallCharges = () => cy.findAllByRole('link', {name: 'Find out about call charges (opens in new tab)'});
-export const enquiriesEmailLink = () => cy.findAllByRole('link', {name: 'enquiries@planninginspectorate.gov.uk'});
+exports.sectionName = () => {
+  return cy.get('.govuk-caption-l');
+};
+
+exports.saveAndContinueButton = () => {
+  return cy.get('[data-cy="save"]');
+};
+
+exports.backButton = () => {
+  return cy.get('[data-cy="back"]');
+};
+
+exports.pageHeading = () => {
+  return cy.get('h1');
+};
+
+exports.textArea = (textAreaId) => {
+  return cy.get(`textarea[data-cy="${textAreaId}"]`);
+};
+
+exports.textBox = (textBoxId) => {
+  return cy.get(`[data-cy="${textBoxId}"]`);
+};
+
+exports.labelText = (labelTextId) => {
+  return cy.get(`[data-cy="${labelTextId}"]`);
+};
+
+exports.label = (labelId) => {
+  return cy.get(`label[data-cy="${labelId}"]`);
+};
+
+exports.labelLegend = (labelLegendId) => {
+  return cy.get(`[data-cy="${labelLegendId}"] legend`);
+};
+
+exports.labelHint = (labelHintId) => {
+  return cy.get(`div[data-cy="${labelHintId}"]`);
+};
+
+exports.input = (inputId) => {
+  return cy.get(`input[data-cy="${inputId}"]`);
+};
+
+exports.errorMessage = (errorMessageId) => {
+  return cy.get(`[data-cy="${errorMessageId}"]`);
+};
+
+exports.summaryErrorMessage = (summaryErrorMessageId) => {
+  return cy.get(`a[href="#${summaryErrorMessageId}"]`);
+};
+
+exports.summaryFileUploadErrorMessage = () => {
+  return cy.get(`a[href="#documents"]`);
+};
+
+exports.findoutAboutCallCharges = () => {
+  return cy.findAllByRole('link', {name: 'Find out about call charges (opens in new tab)'});
+}
+
+exports.enquiriesEmailLink = () => {
+  return cy.findAllByRole('link', {name: 'enquiries@planninginspectorate.gov.uk'});
+}
