@@ -1,5 +1,3 @@
-const ignoreAddedFormatting = (content) => {
+export const ignoreAddedFormatting = (content) => {
   return content.replace(/\n/g, ' ');
 };
-
-export default ignoreAddedFormatting;
