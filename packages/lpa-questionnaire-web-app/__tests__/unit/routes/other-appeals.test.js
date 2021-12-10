@@ -6,7 +6,6 @@ const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
 const alreadySubmittedMiddleware = require('../../../src/middleware/already-submitted');
 const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
 const { rules: otherAppealsValidationRules } = require('../../../src/validators/other-appeals');
-const authenticateMiddleware = require('../../../src/middleware/authenticate');
 
 jest.mock('../../../src/validators/other-appeals');
 
@@ -23,18 +22,12 @@ describe('routes/other-appeals', () => {
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
       `/appeal-questionnaire/:id/${VIEW.OTHER_APPEALS}`,
-      [
-        authenticateMiddleware,
-        fetchAppealMiddleware,
-        fetchExistingAppealReplyMiddleware,
-        alreadySubmittedMiddleware,
-      ],
+      [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
       otherAppealsController.getOtherAppeals
     );
 
     expect(post).toHaveBeenCalledWith(
       `/appeal-questionnaire/:id/${VIEW.OTHER_APPEALS}`,
-      authenticateMiddleware,
       otherAppealsValidationRules(),
       validationErrorHandler,
       otherAppealsController.postOtherAppeals

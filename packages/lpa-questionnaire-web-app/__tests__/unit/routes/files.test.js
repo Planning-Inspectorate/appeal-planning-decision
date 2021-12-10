@@ -4,7 +4,6 @@ const reqFilesToReqBodyFilesMiddleware = require('../../../src/middleware/req-fi
 const filesValidationRules = require('../../../src/validators/files');
 const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
 const documentTypeValidator = require('../../../src/validators/document-type');
-const authenticateMiddleware = require('../../../src/middleware/authenticate');
 
 jest.mock('../../../src/middleware/req-files-to-req-body-files');
 jest.mock('../../../src/validators/files');
@@ -22,20 +21,12 @@ describe('routes/placeholder', () => {
   it('should define the expected routes', () => {
     expect(post).toHaveBeenCalledWith(
       '/upload/:documentType',
-      [
-        authenticateMiddleware,
-        reqFilesToReqBodyFilesMiddleware('documents'),
-        filesValidationRules(),
-      ],
+      [reqFilesToReqBodyFilesMiddleware('documents'), filesValidationRules()],
       validationErrorHandler,
       documentTypeValidator,
       filesController.uploadFile
     );
 
-    expect(post).toHaveBeenCalledWith(
-      '/delete',
-      authenticateMiddleware,
-      filesController.deleteFile
-    );
+    expect(post).toHaveBeenCalledWith('/delete', filesController.deleteFile);
   });
 });

@@ -7,7 +7,6 @@ const {
   rules: extraConditionsValidationRules,
 } = require('../../../src/validators/extra-conditions');
 const alreadySubmittedMiddleware = require('../../../src/middleware/already-submitted');
-const authenticateMiddleware = require('../../../src/middleware/authenticate');
 
 jest.mock('../../../src/validators/extra-conditions');
 
@@ -24,18 +23,12 @@ describe('routes/extra-conditions', () => {
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
       `/appeal-questionnaire/:id/extra-conditions`,
-      [
-        authenticateMiddleware,
-        fetchAppealMiddleware,
-        fetchExistingAppealReplyMiddleware,
-        alreadySubmittedMiddleware,
-      ],
+      [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
       extraConditionsController.getExtraConditions
     );
 
     expect(post).toHaveBeenCalledWith(
       '/appeal-questionnaire/:id/extra-conditions',
-      authenticateMiddleware,
       extraConditionsValidationRules(),
       validationErrorHandler,
       extraConditionsController.postExtraConditions

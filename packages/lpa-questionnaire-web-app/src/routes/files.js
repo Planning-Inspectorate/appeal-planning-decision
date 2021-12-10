@@ -4,17 +4,16 @@ const reqFilesToReqBodyFilesMiddleware = require('../middleware/req-files-to-req
 const fileValidationRules = require('../validators/files');
 const { validationErrorHandler } = require('../validators/validation-error-handler');
 const documentTypeValidator = require('../validators/document-type');
-const authenticate = require('../middleware/authenticate');
 
 const router = express.Router();
 
 router.post(
   '/upload/:documentType',
-  [authenticate, reqFilesToReqBodyFilesMiddleware('documents'), fileValidationRules()],
+  [reqFilesToReqBodyFilesMiddleware('documents'), fileValidationRules()],
   validationErrorHandler,
   documentTypeValidator,
   filesController.uploadFile
 );
-router.post('/delete', authenticate, filesController.deleteFile);
+router.post('/delete', filesController.deleteFile);
 
 module.exports = router;
