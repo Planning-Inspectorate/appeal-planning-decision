@@ -1,20 +1,20 @@
-const localPlanningDepartmentController = require('../../../../src/controllers/before-you-start/local-planning-department');
-const { getDepartmentFromId } = require('../../../../src/services/department.service');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
-const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
-const { getDepartmentFromName } = require('../../../../src/services/department.service');
-const { getRefreshedDepartmentData } = require('../../../../src/services/department.service');
-const logger = require('../../../../src/lib/logger');
+const localPlanningDepartmentController = require('./local-planning-department');
+const { getDepartmentFromId } = require('../../services/department.service');
+const { APPEAL_DOCUMENT } = require('../../lib/empty-appeal');
+const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
+const { getDepartmentFromName } = require('../../services/department.service');
+const { getRefreshedDepartmentData } = require('../../services/department.service');
+const logger = require('../../lib/logger');
 
-const { VIEW } = require('../../../../src/lib/views');
-const { mockReq, mockRes } = require('../../mocks');
+const { VIEW } = require('../../lib/views');
+const { mockReq, mockRes } = require('../../../__tests__/unit/mocks');
 
-jest.mock('../../../../src/services/department.service');
-jest.mock('../../../../src/lib/empty-appeal');
-jest.mock('../../../../src/lib/appeals-api-wrapper');
-jest.mock('../../../../src/lib/logger');
+jest.mock('../../services/department.service');
+jest.mock('../../lib/empty-appeal');
+jest.mock('../../lib/appeals-api-wrapper');
+jest.mock('../../lib/logger');
 
-describe('controllers/before-you-start/local-planning-department', () => {
+describe('controllers/full-planning/local-planning-department', () => {
   let req;
   let res;
   let appeal;
@@ -63,7 +63,7 @@ describe('controllers/before-you-start/local-planning-department', () => {
 
       const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
-      expect(res.render).toBeCalledWith(VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT, {
+      expect(res.render).toBeCalledWith(VIEW.FULL_PLANNING.LOCAL_PLANNING_DEPARTMENT, {
         appealLPD: '',
         departments: departmentList,
         eligibleDepartments,
@@ -80,7 +80,7 @@ describe('controllers/before-you-start/local-planning-department', () => {
 
       const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
-      expect(res.render).toBeCalledWith(VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT, {
+      expect(res.render).toBeCalledWith(VIEW.FULL_PLANNING.LOCAL_PLANNING_DEPARTMENT, {
         appealLPD: '',
         departments: departmentList,
         eligibleDepartments,
@@ -97,7 +97,7 @@ describe('controllers/before-you-start/local-planning-department', () => {
 
       const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
-      expect(res.render).toBeCalledWith(VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT, {
+      expect(res.render).toBeCalledWith(VIEW.FULL_PLANNING.LOCAL_PLANNING_DEPARTMENT, {
         appealLPD: 'lpdName',
         departments: departmentList,
         eligibleDepartments,
@@ -147,7 +147,7 @@ describe('controllers/before-you-start/local-planning-department', () => {
       await localPlanningDepartmentController.postPlanningDepartment(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith(VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_PLANNING.LOCAL_PLANNING_DEPARTMENT, {
         appealLPD: '',
         departments: departmentList,
         errors: { 'local-planning-department': { msg: 'Invalid Value' } },
@@ -170,7 +170,7 @@ describe('controllers/before-you-start/local-planning-department', () => {
 
       expect(logger.error).toHaveBeenCalledWith(error);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_PLANNING.LOCAL_PLANNING_DEPARTMENT, {
         appeal,
         departments: [
           departmentList[0],

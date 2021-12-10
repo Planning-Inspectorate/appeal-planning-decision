@@ -1,6 +1,6 @@
 const express = require('express');
 
-const useADifferentServiceController = require('../../controllers/before-you-start/use-a-different-service');
+const useADifferentServiceController = require('../../controllers/full-planning/use-a-different-service');
 
 const router = express.Router();
 

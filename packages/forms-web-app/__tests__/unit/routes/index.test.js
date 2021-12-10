@@ -5,8 +5,8 @@ const homeRouter = require('../../../src/routes/home');
 const cookieRouter = require('../../../src/routes/cookies');
 const guidancePagesRouter = require('../../../src/routes/guidance-pages');
 const yourPlanningAppealRouter = require('../../../src/routes/your-planning-appeal');
-const beforeYouStartRouter = require('../../../src/routes/before-you-start');
 const fullPlanningAppellantSubmissionRouter = require('../../../src/routes/full-planning/full-appeal');
+const fullPlanningRouter = require('../../../src/routes/full-planning/index');
 
 const checkDecisionDateDeadline = require('../../../src/middleware/check-decision-date-deadline');
 
@@ -36,7 +36,7 @@ describe('routes/index', () => {
     );
     expect(use).toHaveBeenCalledWith('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
     expect(use).toHaveBeenCalledWith('/your-planning-appeal', yourPlanningAppealRouter);
-    expect(use).toHaveBeenCalledWith('/before-you-start', beforeYouStartRouter);
+    expect(use).toHaveBeenCalledWith('/before-you-start', fullPlanningRouter);
 
     expect(use.mock.calls.length).toBe(8);
   });
