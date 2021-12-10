@@ -5,7 +5,6 @@ Feature: Appeals in immediate area
   Background:
     Given an appeal has been created
     And a questionnaire has been created
-    And the LPA Planning Officer is authenticated
 
   Scenario: Verify The Tell us about any appeals in the immediate area page
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list

@@ -5,7 +5,6 @@ Feature: As a LPA Planning officer
   Background:
     Given an appeal has been created
     And a questionnaire has been created
-    And the LPA Planning Officer is authenticated
 
   Scenario Outline: AC-01 LPA taken to correct page when accessed links in the footer
     Given LPA planning officer accesses the LPA Questionnaire

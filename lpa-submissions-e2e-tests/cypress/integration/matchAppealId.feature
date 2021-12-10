@@ -6,7 +6,6 @@ Feature: Associate Appeal ID with a single Reply
   Background:
     Given an appeal has been created
     And a questionnaire has been created
-    And the LPA Planning Officer is authenticated
 
   Scenario: Viewing saved information
     Given answers have been saved to the questionnaire
