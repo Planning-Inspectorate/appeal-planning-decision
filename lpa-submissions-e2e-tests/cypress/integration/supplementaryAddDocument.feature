@@ -6,7 +6,6 @@ Feature: Supplementary Planning Documents - Add Document
   Background:
     Given an appeal has been created
     And a questionnaire has been created
-    And the LPA Planning Officer is authenticated
 
   Scenario: AC1 LPA Planning Officer navigates to Add Supplementary planning document questions
     Given Add supplementary document is requested

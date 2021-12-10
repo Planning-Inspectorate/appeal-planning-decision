@@ -7,7 +7,6 @@ Feature:
       Given an appeal has been created
       And a questionnaire has been created
       And the questionnaire has been completed
-      And the LPA Planning Officer is authenticated
 
    Scenario Outline: LPA Officer navigates to any page of submitted questionnaire
       Given the LPA Questionnaire is submitted
