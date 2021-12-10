@@ -1,4 +1,4 @@
-APPS = data e2e-tests lpa-submissions-e2e-tests packages/*
+APPS = data packages/*
 STACKS = common environments
 SSH_KEY ?= ~/.ssh/id_rsa.pub
 PUB_KEY = $(shell cat $(SSH_KEY))
@@ -17,7 +17,7 @@ install:
   	done
 
 	echo "-- Creating large test files for e2e tests --"
-	(cd e2e-tests && ./create-large-test-files.sh)
+	(cd packages/e2e-tests && ./create-large-test-files.sh)
 	echo "-- Complete --"
 .PHONY: install
 

@@ -1,4 +1,4 @@
-module.exports = ({ cyTag, href, title, text }) => {
+export const assertLink = ({ cyTag, href, title, text }) => {
   cy.get(`[data-cy="${cyTag}"]`)
     .should('have.attr', 'href')
     .should('not.be.empty')

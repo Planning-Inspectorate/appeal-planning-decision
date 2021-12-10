@@ -17,6 +17,12 @@ import './commands';
 
 import 'cypress-ntlm-auth/dist/commands';
 import 'cypress-jest-adapter';
+import 'cypress-axe';
+
+import 'cypress-downloadfile/lib/downloadFileCommand';
+
+import 'cypress-html-validate/dist/commands';
+
 
 
 // Alternatively you can use CommonJS syntax:

@@ -23,7 +23,7 @@
             "name": "an appellant is on the is your appeal about any of the following page",
             "result": {
               "status": "passed",
-              "duration": 691000000
+              "duration": 594000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "appellant selects 'None of these' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 91000000
+              "duration": 101000000
             }
           },
           {
@@ -43,14 +43,14 @@
             "name": "appellant clicks the continue button",
             "result": {
               "status": "passed",
-              "duration": 317000000
+              "duration": 516000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 10,
-            "name": "appellant gets routed to the have you received an enforcement notice page",
+            "name": "appellant gets routed to the have you received an granted or refused page",
             "result": {
               "status": "passed",
               "duration": 4000000
@@ -73,7 +73,7 @@
             "name": "an appellant is on the is your appeal about any of the following page",
             "result": {
               "status": "passed",
-              "duration": 397000000
+              "duration": 446000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "appellant clicks the continue button",
             "result": {
               "status": "passed",
-              "duration": 389000000
+              "duration": 416000000
             }
           },
           {
@@ -93,7 +93,7 @@
             "name": "appellant sees an error message 'Select if your appeal is about any of the following'",
             "result": {
               "status": "passed",
-              "duration": 47000000
+              "duration": 45000000
             }
           }
         ]
@@ -113,7 +113,7 @@
             "name": "an appellant is on the is your appeal about any of the following page",
             "result": {
               "status": "passed",
-              "duration": 355000000
+              "duration": 411000000
             }
           },
           {
@@ -123,7 +123,7 @@
             "name": "appellant selects 'None of these' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 85000000
+              "duration": 91000000
             }
           },
           {
@@ -133,7 +133,7 @@
             "name": "an appellant selects the back button",
             "result": {
               "status": "passed",
-              "duration": 384000000
+              "duration": 427000000
             }
           },
           {
@@ -143,7 +143,7 @@
             "name": "an appellant is taken back to the what type of planning application did you make page",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 5000000
             }
           },
           {
@@ -153,7 +153,7 @@
             "name": "any information they have inputted will not be saved",
             "result": {
               "status": "passed",
-              "duration": 322000000
+              "duration": 389000000
             }
           }
         ]
@@ -173,7 +173,7 @@
             "name": "an appellant is on the is your appeal about any of the following page",
             "result": {
               "status": "passed",
-              "duration": 348000000
+              "duration": 396000000
             }
           },
           {
@@ -183,7 +183,7 @@
             "name": "appellant selects 'None of these' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 90000000
+              "duration": 88000000
             }
           },
           {
@@ -223,7 +223,7 @@
             "name": "an appellant is on the is your appeal about any of the following page",
             "result": {
               "status": "passed",
-              "duration": 340000000
+              "duration": 415000000
             }
           },
           {
@@ -233,7 +233,7 @@
             "name": "appellant selects 'None of these' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 89000000
+              "duration": 91000000
             }
           },
           {
@@ -243,7 +243,7 @@
             "name": "appellant selects '<option2>' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 2000000
+              "duration": 1000000
             }
           },
           {
@@ -273,7 +273,7 @@
             "name": "an appellant is on the is your appeal about any of the following page",
             "result": {
               "status": "passed",
-              "duration": 344000000
+              "duration": 407000000
             }
           },
           {
@@ -283,7 +283,7 @@
             "name": "appellant selects 'None of these' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 86000000
+              "duration": 89000000
             }
           },
           {
@@ -293,7 +293,7 @@
             "name": "appellant selects '<option2>' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 2000000
             }
           },
           {
@@ -303,7 +303,7 @@
             "name": "'Major general industry, storage or warehousing' gets deselected",
             "result": {
               "status": "passed",
-              "duration": 15000000
+              "duration": 3000000
             }
           }
         ]
@@ -323,57 +323,7 @@
             "name": "an appellant is on the is your appeal about any of the following page",
             "result": {
               "status": "passed",
-              "duration": 344000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 26,
-            "name": "appellant selects 'None of these' from the list of options",
-            "result": {
-              "status": "passed",
-              "duration": 129000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 27,
-            "name": "appellant selects '<option2>' from the list of options",
-            "result": {
-              "status": "passed",
-              "duration": 6000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 28,
-            "name": "'Major retail and services' gets deselected",
-            "result": {
-              "status": "passed",
-              "duration": 18000000
-            }
-          }
-        ]
-      },
-      {
-        "id": "appellant-selects-the-site;ac04---unable-to-select-none-of-these-and-other-options",
-        "keyword": "Scenario",
-        "line": 35,
-        "name": "AC04 - Unable to select None of these and other options",
-        "tags": [],
-        "type": "scenario",
-        "steps": [
-          {
-            "arguments": [],
-            "keyword": "Given ",
-            "line": 25,
-            "name": "an appellant is on the is your appeal about any of the following page",
-            "result": {
-              "status": "passed",
-              "duration": 404000000
+              "duration": 427000000
             }
           },
           {
@@ -400,10 +350,60 @@
             "arguments": [],
             "keyword": "Then ",
             "line": 28,
+            "name": "'Major retail and services' gets deselected",
+            "result": {
+              "status": "passed",
+              "duration": 4000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-selects-the-site;ac04---unable-to-select-none-of-these-and-other-options",
+        "keyword": "Scenario",
+        "line": 35,
+        "name": "AC04 - Unable to select None of these and other options",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 25,
+            "name": "an appellant is on the is your appeal about any of the following page",
+            "result": {
+              "status": "passed",
+              "duration": 380000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 26,
+            "name": "appellant selects 'None of these' from the list of options",
+            "result": {
+              "status": "passed",
+              "duration": 87000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 27,
+            "name": "appellant selects '<option2>' from the list of options",
+            "result": {
+              "status": "passed",
+              "duration": 1000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
             "name": "'Major travelling and caravan pitches' gets deselected",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 4000000
             }
           }
         ]
@@ -423,7 +423,7 @@
             "name": "an appellant is on the is your appeal about any of the following page",
             "result": {
               "status": "passed",
-              "duration": 348000000
+              "duration": 427000000
             }
           },
           {
@@ -433,7 +433,7 @@
             "name": "appellant selects 'A listed building' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 88000000
+              "duration": 97000000
             }
           },
           {
@@ -443,7 +443,7 @@
             "name": "appellant selects '<option2>' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 2000000
+              "duration": 1000000
             }
           },
           {
@@ -453,7 +453,7 @@
             "name": "'None of these' gets deselected",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 3000000
             }
           }
         ]
@@ -473,7 +473,7 @@
             "name": "an appellant is on the is your appeal about any of the following page",
             "result": {
               "status": "passed",
-              "duration": 373000000
+              "duration": 412000000
             }
           },
           {
@@ -483,7 +483,7 @@
             "name": "appellant selects 'Major dwellings' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 91000000
+              "duration": 86000000
             }
           },
           {
@@ -492,8 +492,7 @@
             "line": 27,
             "name": "appellant selects '<option2>' from the list of options",
             "result": {
-              "status": "passed",
-              "duration": 5000000
+              "status": "passed"
             }
           },
           {
@@ -503,7 +502,7 @@
             "name": "'None of these' gets deselected",
             "result": {
               "status": "passed",
-              "duration": 13000000
+              "duration": 5000000
             }
           }
         ]
@@ -523,7 +522,7 @@
             "name": "an appellant is on the is your appeal about any of the following page",
             "result": {
               "status": "passed",
-              "duration": 355000000
+              "duration": 414000000
             }
           },
           {
@@ -533,7 +532,7 @@
             "name": "appellant selects 'Major general industry, storage or warehousing' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 90000000
+              "duration": 84000000
             }
           },
           {
@@ -543,7 +542,7 @@
             "name": "appellant selects '<option2>' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 2000000
+              "duration": 1000000
             }
           },
           {
@@ -573,7 +572,7 @@
             "name": "an appellant is on the is your appeal about any of the following page",
             "result": {
               "status": "passed",
-              "duration": 298000000
+              "duration": 426000000
             }
           },
           {
@@ -583,7 +582,7 @@
             "name": "appellant selects 'Major retail and services' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 85000000
+              "duration": 88000000
             }
           },
           {
@@ -593,7 +592,7 @@
             "name": "appellant selects '<option2>' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 2000000
+              "duration": 1000000
             }
           },
           {
@@ -623,7 +622,7 @@
             "name": "an appellant is on the is your appeal about any of the following page",
             "result": {
               "status": "passed",
-              "duration": 320000000
+              "duration": 401000000
             }
           },
           {
@@ -633,7 +632,7 @@
             "name": "appellant selects 'Major travelling and caravan pitches' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 84000000
+              "duration": 86000000
             }
           },
           {
@@ -643,7 +642,7 @@
             "name": "appellant selects '<option2>' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 5000000
+              "duration": 1000000
             }
           },
           {
@@ -653,7 +652,7 @@
             "name": "'None of these' gets deselected",
             "result": {
               "status": "passed",
-              "duration": 13000000
+              "duration": 3000000
             }
           }
         ]
@@ -673,7 +672,7 @@
             "name": "an appellant is on the is your appeal about any of the following page",
             "result": {
               "status": "passed",
-              "duration": 381000000
+              "duration": 402000000
             }
           },
           {
@@ -683,7 +682,7 @@
             "name": "appellant selects 'A listed building' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 82000000
+              "duration": 84000000
             }
           },
           {
@@ -693,7 +692,7 @@
             "name": "appellant clicks the continue button",
             "result": {
               "status": "passed",
-              "duration": 258000000
+              "duration": 322000000
             }
           },
           {
@@ -703,7 +702,7 @@
             "name": "an appellants gets routed to shutter page which notifies them to use a different service",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 5000000
             }
           }
         ]
@@ -723,7 +722,7 @@
             "name": "an appellant is on the is your appeal about any of the following page",
             "result": {
               "status": "passed",
-              "duration": 361000000
+              "duration": 486000000
             }
           },
           {
@@ -733,7 +732,7 @@
             "name": "appellant selects 'Major dwellings' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 84000000
+              "duration": 83000000
             }
           },
           {
@@ -743,7 +742,7 @@
             "name": "appellant clicks the continue button",
             "result": {
               "status": "passed",
-              "duration": 304000000
+              "duration": 308000000
             }
           },
           {
@@ -753,7 +752,7 @@
             "name": "an appellants gets routed to shutter page which notifies them to use a different service",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 3000000
             }
           }
         ]
@@ -773,7 +772,7 @@
             "name": "an appellant is on the is your appeal about any of the following page",
             "result": {
               "status": "passed",
-              "duration": 313000000
+              "duration": 442000000
             }
           },
           {
@@ -783,7 +782,7 @@
             "name": "appellant selects 'Major general industry, storage or warehousing' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 82000000
+              "duration": 84000000
             }
           },
           {
@@ -793,7 +792,7 @@
             "name": "appellant clicks the continue button",
             "result": {
               "status": "passed",
-              "duration": 243000000
+              "duration": 294000000
             }
           },
           {
@@ -803,7 +802,7 @@
             "name": "an appellants gets routed to shutter page which notifies them to use a different service",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 3000000
             }
           }
         ]
@@ -823,7 +822,7 @@
             "name": "an appellant is on the is your appeal about any of the following page",
             "result": {
               "status": "passed",
-              "duration": 314000000
+              "duration": 402000000
             }
           },
           {
@@ -833,7 +832,7 @@
             "name": "appellant selects 'Major retail and services' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 100000000
+              "duration": 85000000
             }
           },
           {
@@ -843,7 +842,7 @@
             "name": "appellant clicks the continue button",
             "result": {
               "status": "passed",
-              "duration": 258000000
+              "duration": 306000000
             }
           },
           {
@@ -853,7 +852,7 @@
             "name": "an appellants gets routed to shutter page which notifies them to use a different service",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 4000000
             }
           }
         ]
@@ -873,7 +872,7 @@
             "name": "an appellant is on the is your appeal about any of the following page",
             "result": {
               "status": "passed",
-              "duration": 324000000
+              "duration": 421000000
             }
           },
           {
@@ -883,7 +882,7 @@
             "name": "appellant selects 'Major travelling and caravan pitches' from the list of options",
             "result": {
               "status": "passed",
-              "duration": 86000000
+              "duration": 92000000
             }
           },
           {
@@ -893,7 +892,7 @@
             "name": "appellant clicks the continue button",
             "result": {
               "status": "passed",
-              "duration": 264000000
+              "duration": 285000000
             }
           },
           {
@@ -903,7 +902,7 @@
             "name": "an appellants gets routed to shutter page which notifies them to use a different service",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 3000000
             }
           }
         ]
