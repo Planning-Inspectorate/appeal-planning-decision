@@ -1,4 +1,4 @@
-module.exports = (emailAddress) => {
+export const getNotificationEmail = (emailAddress) => {
   let qs = {};
   if (emailAddress) qs.email_address = emailAddress;
 

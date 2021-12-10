@@ -1,4 +1,15 @@
 import { Given, When, Then, Before, After } from 'cypress-cucumber-preprocessor/steps';
+import { visibleWithText } from '../../../../support/common/visibleWithText';
+import { visibleWithoutText } from '../../../../support/common/visibleWithoutText';
+import { goToPage } from '../../../../support/common/go-to-page/goToPage';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { getAppealReplyId } from '../../../../support/common/getAppealReplyId';
+import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
+import { validateErrorMessage } from '../../../../support/common/validateErrorMessage';
+import { validateFileUploadErrorMessage } from '../../../../support/common/validateFileUploadErrorMessage';
+import {
+  confirmCheckYourAnswersDisplayed
+} from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/confirmCheckYourAnswersDisplayed';
 
 const documentServiceBaseURL = Cypress.env('DOCUMENT_SERVICE_BASE_URL');
 const assumeLimitedAccess = Cypress.env('ASSUME_LIMITED_ACCESS');
@@ -14,11 +25,11 @@ const deleteFile = () => {
 };
 
 const validateFileUpload = (fileName) => {
-  cy.visibleWithText(fileName, '.govuk-summary-list__row');
+  visibleWithText(fileName, '.govuk-summary-list__row');
 };
 
 const validateFileNotPresent = (fileName) => {
-  cy.visibleWithoutText(fileName, '.moj-multi-file-upload__list');
+  visibleWithoutText(fileName, '.moj-multi-file-upload__list');
 };
 
 const uploadFiles = (fileName, documentType, dropZone) => {
@@ -50,13 +61,13 @@ const uploadFiles = (fileName, documentType, dropZone) => {
 
 const goToUploadPage = () => {
   cy.get('@page').then(({ url }) => {
-    cy.goToPage(url, undefined, disableJs);
+    goToPage(url, undefined, disableJs);
   });
 };
 
 const verifyUploadPageTitleError = () => {
   cy.get('@page').then(({ title }) => {
-    cy.verifyPageTitle(`Error: ${title}`);
+    verifyPageTitle(`Error: ${title}`);
   });
 };
 
@@ -94,13 +105,13 @@ const fileIsNotInDocumentService = (appealReplyId, fileName) => {
 };
 
 const expectFileToBeInDocumentService = (fileName) => {
-  cy.getAppealReplyId().then((id) => {
+  getAppealReplyId().then((id) => {
     fileIsInDocumentService(id, fileName);
   });
 };
 
 const expectFileNotToBeInDocumentService = (fileName) => {
-  cy.getAppealReplyId().then((id) => {
+  getAppealReplyId().then((id) => {
     fileIsNotInDocumentService(id, fileName);
   });
 };
@@ -127,7 +138,7 @@ Given('a file has been uploaded and confirmed for {string}', (documentType) => {
   goToUploadPage();
   uploadFiles('upload-file-valid.pdf',documentType);
   validateFileUpload('upload-file-valid.pdf');
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
   goToUploadPage();
 });
 
@@ -135,34 +146,34 @@ Given('The question {string} has been completed for {string}', (questionnairePag
   goToUploadPage();
   uploadFiles('upload-file-valid.pdf',documentType);
   validateFileUpload('upload-file-valid.pdf');
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 When('valid file {string} is successfully uploaded for {string}', (fileName,documentType) => {
   uploadFiles(fileName,documentType);
   validateFileUpload(fileName);
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 When('valid file {string} is uploaded via drag and drop for {string}', (fileName,documentType) => {
   uploadFiles(fileName, documentType,true);
   validateFileUpload(fileName);
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 When('valid multiple files {string} are uploaded for {string}', (fileNames,documentType) => {
   uploadFiles(fileNames.split(', '),documentType);
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 When('no file has been uploaded', () => {
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 When('invalid files {string} have been selected for {string}', (fileName, documentType) => {
   uploadFiles(fileName,documentType);
   validateFileUpload(fileName);
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 When('LPA Planning Officer deletes the file', () => {
@@ -173,11 +184,11 @@ When('an answer is saved for {string}', (documentType) => {
   const fileName = 'upload-file-valid.docx';
   uploadFiles(fileName,documentType);
   validateFileUpload(fileName);
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 Then('progress is halted with a message to {string}', (errorMessage) => {
-  cy.validateErrorMessage(errorMessage, '#documents-error', 'documents');
+  validateErrorMessage(errorMessage, '#documents-error', 'documents');
   verifyUploadPageTitleError();
 });
 
@@ -193,7 +204,7 @@ Then('progress is halted with a message the file {string} {string}', (fileName, 
       break;
   }
 
-  cy.validateFileUploadErrorMessage(errorMessage, null);
+  validateFileUploadErrorMessage(errorMessage, null);
 });
 
 Then('any document uploaded will not be saved', () => {
@@ -218,7 +229,7 @@ Then('the information they previously entered is still populated', () => {
 
 Then('the updated answer is displayed', () => {
   cy.get('@page').then(({ id }) => {
-    cy.confirmCheckYourAnswersDisplayed(id, 'upload-file-valid.docx');
+    confirmCheckYourAnswersDisplayed(id, 'upload-file-valid.docx');
   });
 });
 

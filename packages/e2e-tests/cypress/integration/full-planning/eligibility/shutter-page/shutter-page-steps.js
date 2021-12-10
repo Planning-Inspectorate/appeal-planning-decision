@@ -3,8 +3,8 @@ import {Given} from 'cypress-cucumber-preprocessor/steps';
 import { goToPage } from '../../../../support/common/go-to-page/goToPage';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
-import { getACPLink } from '../../../../support/full-planning/before-you-start/page-objects/shutter-page-po';
-const url = '/before-you-start/use-a-different-service';
+import { getACPLink } from '../../../../support/full-planning/eligibility/page-objects/shutter-page-po';
+const url = `${Cypress.env('APPEALS_BASE_URL')}/before-you-start/use-a-different-service`;
 const pageHeading = 'You need to use a different service';
 const pageTitle = 'You need to use a different service - Before you start - Appeal a planning decision - GOV.UK';
 Given('an appellant is on the shutter page',()=>{

@@ -1,4 +1,4 @@
-module.exports = (url, id, disableJs) => {
+export const goToPage = (url, id, disableJs) => {
 
   if (id) {
     cy.visit(`/${id}/${url}`, {

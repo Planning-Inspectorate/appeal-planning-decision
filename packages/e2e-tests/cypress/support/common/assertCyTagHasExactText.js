@@ -1,4 +1,4 @@
-module.exports = (expectations) => {
+export const assertCyTagHasExactText = (expectations) => {
   Object.entries(expectations).forEach(([key, expectedValue]) => {
     cy.log({ key, expectedValue });
     cy.get(`[data-cy='${key}']`)

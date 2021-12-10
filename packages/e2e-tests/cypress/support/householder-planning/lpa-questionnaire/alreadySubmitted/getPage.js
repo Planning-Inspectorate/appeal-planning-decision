@@ -1,4 +1,4 @@
-function getPage(page){
+export const getPage = (page)=>{
   let name = '';
   switch (page){
     case 'task list':
@@ -84,6 +84,3 @@ function getPage(page){
   return name;
 }
 
-module.exports =  {
-  getPage
-}

@@ -24,10 +24,10 @@ const postAnyOfFollowing = async (req, res) => {
   }
 
   if (routeUserOption(option) === true) {
-    return res.redirect('/before-you-start/enforcement-notice');
+    return res.redirect('/eligibility/enforcement-notice');
   }
 
-  return res.redirect('/before-you-start/use-a-different-service');
+  return res.redirect('/eligibility/use-a-different-service');
 };
 
 module.exports = {

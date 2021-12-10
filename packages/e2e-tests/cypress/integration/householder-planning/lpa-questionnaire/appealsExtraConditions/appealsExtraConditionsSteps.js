@@ -1,5 +1,15 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { textArea, input } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
+import { getBackLink } from '../../../../support/common-page-objects/common-po';
+import { goToPage } from '../../../../support/common/go-to-page/goToPage';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
+import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
+import { validateErrorMessage } from '../../../../support/common/validateErrorMessage';
+import {
+  verifyCompletedStatus
+} from '../../../../support/householder-planning/lpa-questionnaire/appeals-questionnaire-tasklist/verifyCompletedStatus';
+import { clickOnSubTaskLink } from '../../../../support/common/clickOnSubTaskLink';
 
 const pageId = 'extra-conditions';
 const pageTitle =
@@ -11,43 +21,43 @@ const noButtonId = 'has-extra-conditions-no';
 const yesButtonId = 'has-extra-conditions-yes';
 
 When(`the user selects the link 'Do you have any extra conditions?'`, () => {
-  cy.goToPage(pageId);
-  cy.verifyPageTitle(pageTitle);
+  goToPage(pageId);
+  verifyPageTitle(pageTitle);
 });
 
 Then(`the user is presented with the 'Do you have any extra conditions?' page`, () => {
-  cy.verifyPageHeading(pageHeading);
+  verifyPageHeading(pageHeading);
   cy.checkPageA11y(pageId);
 });
 
 Then(
   `the Page title is 'Do you have any extra conditions? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK'`,
   () => {
-    cy.verifyPageTitle(pageTitle);
+    verifyPageTitle(pageTitle);
   },
 );
 
 Given(`user is in the extra conditions page`, () => {
-  cy.goToPage(pageId);
-  cy.verifyPageTitle(pageTitle);
+  goToPage(pageId);
+  verifyPageTitle(pageTitle);
 });
 
 When(`user does not select an option`, () => {
-  cy.verifyPageHeading(pageHeading);
+  verifyPageHeading(pageHeading);
 });
 
 When(`user selects Save and Continue`, () => {
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 Then(`user is shown an error message {string}`, (errorMessage) => {
   errorMessage === 'Select yes if you have extra conditions'
-    ? cy.validateErrorMessage(
+    ? validateErrorMessage(
         errorMessage,
         '[data-cy="extra-conditions-error"]',
         'has-extra-conditions',
       )
-    : cy.validateErrorMessage(
+    : validateErrorMessage(
         errorMessage,
         '[data-cy="extra-conditions-text-error"]',
         'extra-conditions-text',
@@ -59,7 +69,7 @@ When(`user selects the option {string}`, (option) => {
 });
 
 Then('a Completed status is populated for the task', () => {
-  cy.verifyCompletedStatus(taskListId);
+  verifyCompletedStatus(taskListId);
 });
 
 When(`user enters {string}`, (extra_information) => {
@@ -71,24 +81,24 @@ Given('user does not provide extra information', () => {
 });
 
 When('user selects the back link', () => {
-  cy.clickBackButton();
+  getBackLink().click();
 });
 
 Then('any information they have entered will not be saved', () => {
-  cy.clickOnSubTaskLink(taskListId);
-  cy.verifyPageTitle(pageTitle);
+  clickOnSubTaskLink(taskListId);
+  verifyPageTitle(pageTitle);
   input(noButtonId).should('not.be.checked');
 });
 
 Given('a user has completed the information needed on the extra conditions page', () => {
-  cy.goToPage(pageId);
+  goToPage(pageId);
   input(noButtonId).check();
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 When('the user returns to the extra conditions page from the Task List', () => {
-  cy.clickOnSubTaskLink(taskListId);
-  cy.verifyPageTitle(pageTitle);
+  clickOnSubTaskLink(taskListId);
+  verifyPageTitle(pageTitle);
 });
 
 Then('the information they previously entered is still populated', () => {
@@ -97,9 +107,9 @@ Then('the information they previously entered is still populated', () => {
 
 When('an answer is saved', () => {
   input(noButtonId).check();
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 Then('the updated answer is displayed', () => {
-  cy.confirmCheckYourAnswersDisplayed('extraConditions', 'No');
+  confirmCheckYourAnswersDisplayed('extraConditions', 'No');
 });

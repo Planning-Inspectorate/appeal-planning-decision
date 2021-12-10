@@ -1,4 +1,4 @@
-module.exports = (id, answer) => {
+export const confirmCheckYourAnswersDisplayed = (id, answer) => {
   cy.get(`.test__${id}--answer`)
     .invoke('text')
     .then((text) => {

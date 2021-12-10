@@ -1,7 +1,6 @@
-/// <reference types = "Cypress"/>
 import { summaryErrorMessage as summaryErrorMessageObject } from '../householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
 
-module.exports = (errorMessage, errorMessageObjectId, summaryErrorMessageObjectId) => {
+export const validateErrorMessage = (errorMessage, errorMessageObjectId, summaryErrorMessageObjectId) => {
   summaryErrorMessageObject(summaryErrorMessageObjectId).should('be.visible');
   cy.title().should('match', /^Error: /);
   cy.checkPageA11y();

@@ -1,5 +1,16 @@
-import { When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { input } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
+import { goToPage } from '../../../../support/common/go-to-page/goToPage';
+import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
+import { verifyPage } from '../../../../support/common/verifyPage';
+import { validateErrorMessage } from '../../../../support/common/validateErrorMessage';
+import {
+  confirmCheckYourAnswersDisplayed
+} from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/confirmCheckYourAnswersDisplayed';
+import {
+  confirmCheckYourAnswersDisplayedTextIsBlank
+} from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/confirmCheckYourAnswersDisplayedTextIsBlank';
+import { checkSubmissionPdfContent } from '../../../../support/common/pdfFunctions';
 
 const QUESTION_ID = 'booleanInput';
 const YES_ID = 'booleanInput-yes';
@@ -33,10 +44,10 @@ const fillAnswer = () => {
 
 Given('The yes or no question {string} has been completed', () => {
   cy.get('@page').then(({ url }) => {
-    cy.goToPage(url);
+    goToPage(url);
   });
   fillAnswer();
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 When('an answer to the question is not provided', () => {
@@ -64,31 +75,31 @@ When('a yes or no answer is saved', () => {
       completeBoolean(NO_ID);
     }
   });
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 Then('officer progresses to the task list from yes no question', () => {
-  cy.clickSaveAndContinue();
-  cy.verifyPage('task-list');
+  clickSaveAndContinue();
+  verifyPage('task-list');
 });
 
 Then('progress is halted with an error message to select an answer', () => {
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
   cy.get('@page').then(({ emptyError }) => {
-    cy.validateErrorMessage(emptyError, `[data-cy="${QUESTION_ID}-error"]`, QUESTION_ID);
+    validateErrorMessage(emptyError, `[data-cy="${QUESTION_ID}-error"]`, QUESTION_ID);
   });
 });
 
 Then('progress is halted with an error message to enter details', () => {
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
   cy.get('@page').then(({ textEmptyError }) => {
-    cy.validateErrorMessage(textEmptyError, `[data-cy="${TEXT_ID}-error"]`, TEXT_ID);
+    validateErrorMessage(textEmptyError, `[data-cy="${TEXT_ID}-error"]`, TEXT_ID);
   });
 });
 
 Then('any data inputted will not be saved', () => {
   cy.get('@page').then(({ url, textChildOf }) => {
-    cy.goToPage(url);
+    goToPage(url);
     input(YES_ID).should('not.be.checked');
     input(NO_ID).should('not.be.checked');
     if (textChildOf) getTextBox().should('have.value', '');
@@ -113,26 +124,26 @@ Then('the yes or no information they previously entered is still populated', () 
 Then('{string} yes or no question and answer should be displayed', () => {
   cy.get('@page').then(({ id, textChildOf, textMock }) => {
     if (textChildOf) {
-      cy.confirmCheckYourAnswersDisplayed(id, textChildOf);
-      cy.confirmCheckYourAnswersDisplayed(id, textMock);
+      confirmCheckYourAnswersDisplayed(id, textChildOf);
+      confirmCheckYourAnswersDisplayed(id, textMock);
     } else {
-      cy.confirmCheckYourAnswersDisplayed(id, 'Yes');
+      confirmCheckYourAnswersDisplayed(id, 'Yes');
     }
   });
 });
 
 Then('{string} answer should be blank', () => {
   cy.get('@page').then(({ id, textChildOf, textMock }) => {
-    cy.confirmCheckYourAnswersDisplayedTextIsBlank(id, '');
+    confirmCheckYourAnswersDisplayedTextIsBlank(id, '');
   });
 });
 
 Then('the updated yes or no answer is displayed', () => {
   cy.get('@page').then(({ id, textChildOf }) => {
     if (textChildOf) {
-      cy.confirmCheckYourAnswersDisplayed(id, textChildOf ? 'No' : 'Yes');
+      confirmCheckYourAnswersDisplayed(id, textChildOf ? 'No' : 'Yes');
     } else {
-      cy.confirmCheckYourAnswersDisplayed(id, 'No');
+      confirmCheckYourAnswersDisplayed(id, 'No');
     }
   });
 });
@@ -140,11 +151,11 @@ Then('the updated yes or no answer is displayed', () => {
 Then('data from check your answer page for a yes or no question is displayed on the PDF', () => {
   if (!Cypress.env('ASSUME_LIMITED_ACCESS')) {
     cy.get('@page').then(({ heading, textChildOf, textMock }) => {
-      cy.downloadSubmissionPdf().then(() => {
+      downloadSubmissionPdf().then(() => {
         if (textChildOf) {
-          cy.checkSubmissionPdfContent(`${heading} ${textChildOf} ${textMock}`);
+          checkSubmissionPdfContent(`${heading} ${textChildOf} ${textMock}`);
         } else {
-          cy.checkSubmissionPdfContent(`${heading} Yes`);
+          checkSubmissionPdfContent(`${heading} Yes`);
         }
       });
     });

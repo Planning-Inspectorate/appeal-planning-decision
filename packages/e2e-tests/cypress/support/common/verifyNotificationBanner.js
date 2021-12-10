@@ -1,4 +1,4 @@
-module.exports = (id, title, heading, body) => {
+export const verifyNotificationBanner = (id, title, heading, body) => {
   cy.get(`[data-cy="${id}"]`).should('have.class', 'govuk-notification-banner');
 
   cy.get('#govuk-notification-banner-title').should('include.text', title);

@@ -1,13 +1,18 @@
 import { Given, Then } from 'cypress-cucumber-preprocessor/steps';
+import { goToPage } from '../../../../support/common/go-to-page/goToPage';
+import {
+  getAppealDetailsSidebar
+} from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/AppealDetailsPageObjects';
+import { verifyAppealDetailsSidebar } from '../../../../support/common/verifyAppealDetailsSidebar';
 
 Given('A subsection page is presented', () => {
-  cy.goToPage('other-appeals');
+  goToPage('other-appeals');
 });
 
 Then(
   'The appeal details sidebar is displayed with the correct information',
   () => {
-    cy.getAppealDetailsSidebar().then((text) => {
+    getAppealDetailsSidebar().then((text) => {
       expect(text).to.contain('Planning application number');
       expect(text).to.contain('Site address');
       expect(text).to.contain('Appellant Name');
@@ -16,7 +21,7 @@ Then(
     cy.get('@appeal').then((appeal) => {
       const address = Object.values(appeal.appealSiteSection.siteAddress).filter((value) => !!value);
 
-      cy.verifyAppealDetailsSidebar({
+      verifyAppealDetailsSidebar({
         applicationNumber: appeal.requiredDocumentsSection.applicationNumber,
         applicationAddress: address.join(', '),
         apellantName: appeal.aboutYouSection.yourDetails.name,

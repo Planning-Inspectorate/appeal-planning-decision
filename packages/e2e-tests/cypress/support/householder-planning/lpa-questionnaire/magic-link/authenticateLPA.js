@@ -1,6 +1,6 @@
 import createAuthToken from './createAuthToken';
 
-module.exports = () => {
+export const authenticateLPA = () => {
   const token = createAuthToken();
   cy.setCookie(Cypress.env('AUTH_COOKIE_NAME'), token);
 };

@@ -1,6 +1,6 @@
 import { confirmationMessage } from '../PageObjects/SupplementaryAddDocumentsPageObjects';
 
-module.exports = () => {
+export const verifyDeleteConfirmationText = () => {
   confirmationMessage()
     .invoke('text')
     .then((text) => {

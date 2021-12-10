@@ -1,5 +1,5 @@
 import { Given, When, Then, Before } from 'cypress-cucumber-preprocessor/steps';
-import verifyDeleteConfirmationText from '../../../../support/householder-planning/lpa-questionnaire/supplementary-add-document/verifyDeleteConfirmationText';
+import {verifyDeleteConfirmationText} from '../../../../support/householder-planning/lpa-questionnaire/supplementary-add-document/verifyDeleteConfirmationText';
 import {
   addAnother,
   adoptedRadioYes,
@@ -11,9 +11,14 @@ import {
   getDocumentName,
   uploadFile,
 } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/SupplementaryAddDocumentsPageObjects';
-import fillAdoptedDate from '../../../../support/householder-planning/lpa-questionnaire/supplementary-add-document/fillAdoptedDate';
-import verifySupplementaryDocumentList from '../../../../support/householder-planning/lpa-questionnaire/supplementary-add-document/verifySupplementaryDocumentList';
-
+import {fillAdoptedDate} from '../../../../support/householder-planning/lpa-questionnaire/supplementary-add-document/fillAdoptedDate';
+import {verifySupplementaryDocumentList} from '../../../../support/householder-planning/lpa-questionnaire/supplementary-add-document/verifySupplementaryDocumentList';
+import { goToPage } from '../../../../support/common/go-to-page/goToPage';
+import { verifyPage } from '../../../../support/common/verifyPage';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
+import { verifySectionName } from '../../../../support/common/verifySectionName';
+import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
 const page = {
   heading: 'Delete a supplementary planning document',
   section: 'Optional supporting documents',
@@ -28,17 +33,17 @@ Before(() => {
 });
 
 const supplementaryAddNewDocument = (uploadFileName, fileNameInputValue) => {
-  cy.goToPage('supplementary-documents');
+  goToPage('supplementary-documents');
   uploadFile().attachFile(uploadFileName);
   fileNameInput().type(fileNameInputValue);
   adoptedRadioYes().check();
   fillAdoptedDate('12', '06', '2021');
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 };
 
 Given('progress is made to supplementary document list', () => {
-  cy.verifyPage('supplementary-documents/uploaded-documents');
-  cy.verifyPageTitle(
+  verifyPage('supplementary-documents/uploaded-documents');
+  verifyPageTitle(
     'Supplementary planning documents - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
   );
 });
@@ -54,10 +59,10 @@ Given('progress is made to delete supplementary page', () => {
   getDocumentName().should('be.visible');
   getDeleteLink().click();
   getDocumentName().should('be.visible');
-  cy.verifyPage(page.url);
-  cy.verifyPageTitle(page.title);
-  cy.verifyPageHeading(page.heading);
-  cy.verifySectionName(page.section);
+  verifyPage(page.url);
+  verifyPageTitle(page.title);
+  verifyPageHeading(page.heading);
+  verifySectionName(page.section);
   cy.checkPageA11y();
 });
 
@@ -97,16 +102,16 @@ Then('LPA is not able to delete a file', () => {
 
 Then('delete supplementary planning page is presented', () => {
   getDocumentName().should('be.visible');
-  cy.verifyPage(page.url);
-  cy.verifyPageTitle(page.title);
-  cy.verifyPageHeading(page.heading);
-  cy.verifySectionName(page.section);
+  verifyPage(page.url);
+  verifyPageTitle(page.title);
+  verifyPageHeading(page.heading);
+  verifySectionName(page.section);
   cy.checkPageA11y();
 });
 
 Then('progress is made to supplementary planning add document page', () => {
-  cy.verifyPage('supplementary-documents');
-  cy.verifyPageTitle(
+  verifyPage('supplementary-documents');
+  verifyPageTitle(
     'Supplementary planning documents - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
   );
 });

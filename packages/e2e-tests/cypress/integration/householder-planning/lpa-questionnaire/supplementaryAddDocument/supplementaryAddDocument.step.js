@@ -6,7 +6,14 @@ import {
   stageReachedInput,
   uploadFile,
 } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/SupplementaryAddDocumentsPageObjects';
-import fillAdoptedDate from '../../../../support/householder-planning/lpa-questionnaire/supplementary-add-document/fillAdoptedDate';
+import {fillAdoptedDate} from '../../../../support/householder-planning/lpa-questionnaire/supplementary-add-document/fillAdoptedDate';
+import { goToPage } from '../../../../support/common/go-to-page/goToPage';
+import { verifyPage } from '../../../../support/common/verifyPage';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
+import { verifySectionName } from '../../../../support/common/verifySectionName';
+import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
+import { validateErrorMessage } from '../../../../support/common/validateErrorMessage';
 const page = {
   heading: 'Supplementary planning document',
   section: 'Optional supporting documents',
@@ -14,10 +21,11 @@ const page = {
     'Supplementary planning documents - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
   url: 'supplementary-documents',
 };
+
 let disableJs = false;
 
 Given('Add supplementary document is requested', () => {
-  cy.goToPage(page.url);
+  goToPage(page.url);
 });
 
 When('a document has been uploaded', () => {
@@ -39,12 +47,12 @@ When('the meta data is completed for {string}', (docType) => {
 
 When('no file has been selected', () => {
   uploadFile().should('have.value', '');
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 When('invalid file {string} has been selected', (doc) => {
   uploadFile().attachFile(doc);
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 When('file name has been entered', () => {
@@ -52,13 +60,13 @@ When('file name has been entered', () => {
 });
 When('no file name has been entered', () => {
   fileNameInput().should('have.value', '');
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 When('formally adopted has not been selected', () => {
   adoptedRadioYes().should('not.be.checked');
   adoptedRadioNo().should('not.be.checked');
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 When('formally adopted is selected as {string}', (value) => {
@@ -71,12 +79,12 @@ When('formally adopted is selected as {string}', (value) => {
 
 When('an invalid date of {string}-{string}-{string} is provided', (day, month, year) => {
   fillAdoptedDate(day, month, year);
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 When('stage reached is not completed', () => {
   stageReachedInput().should('have.value', '');
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 When('stage reached is completed', () => {
@@ -84,21 +92,21 @@ When('stage reached is completed', () => {
 });
 
 Then('the LPA Planning Officer is presented with add supplementary document questions', () => {
-  cy.verifyPage(page.url);
-  cy.verifyPageTitle(page.title);
-  cy.verifyPageHeading(page.heading);
-  cy.verifySectionName(page.section);
+  verifyPage(page.url);
+  verifyPageTitle(page.title);
+  verifyPageHeading(page.heading);
+  verifySectionName(page.section);
   cy.checkPageA11y();
 });
 
 Then('progress is made to the supplementary document list', () => {
-  cy.clickSaveAndContinue();
-  cy.verifyPage('supplementary-documents/uploaded-documents');
+  clickSaveAndContinue();
+  verifyPage('supplementary-documents/uploaded-documents');
 });
 
 Then('progress is halted with a message {string}', (message) => {
-  cy.clickSaveAndContinue();
-  cy.verifyPage(page.url);
+  clickSaveAndContinue();
+  verifyPage(page.url);
 
   let errorInput;
   let errorMessage;
@@ -123,7 +131,7 @@ Then('progress is halted with a message {string}', (message) => {
       throw new Error(`Error ${message} not found`);
   }
 
-  cy.validateErrorMessage(errorMessage, `[data-cy="${errorInput}-error"]`, errorInput);
+  validateErrorMessage(errorMessage, `[data-cy="${errorInput}-error"]`, errorInput);
 });
 
 Then('progress is halted with a message the file {string} {string}', (fileName, errorType) => {
@@ -138,7 +146,7 @@ Then('progress is halted with a message the file {string} {string}', (fileName, 
       break;
   }
 
-  cy.validateErrorMessage(errorMessage, `[data-cy="documents-error"]`, 'documents');
+  validateErrorMessage(errorMessage, `[data-cy="documents-error"]`, 'documents');
 });
 
 Then('progress is halted with an error {string} which highlights {string}', (error, highlights) => {
@@ -146,9 +154,9 @@ Then('progress is halted with an error {string} which highlights {string}', (err
   // Will link to first highlighted input
   const linkedInput = `adoptedDate-${highlightsList[0]}`;
 
-  cy.validateErrorMessage(error, `[data-cy="adoptedDate-error"]`, linkedInput);
+  validateErrorMessage(error, `[data-cy="adoptedDate-error"]`, linkedInput);
 
   highlightsList.forEach((input) => {
-    cy.get(`#adoptedDate-${input}`).should('have.class', 'govuk-input--error');
+    get(`#adoptedDate-${input}`).should('have.class', 'govuk-input--error');
   });
 });

@@ -12,7 +12,7 @@ const getExpectedHeadingText = (expectedFileNames) => {
   }
 };
 
-module.exports = (cyTag, expectedFileNames) => {
+export const assertMultifileUploadDisplay = (cyTag, expectedFileNames) => {
   if (!Array.isArray(expectedFileNames)) {
     throw new Error('expectedFileNames must be an array.');
   }

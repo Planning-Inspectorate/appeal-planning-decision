@@ -6,8 +6,17 @@ import {
   fileNameInput,
   uploadFile,
 } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/SupplementaryAddDocumentsPageObjects';
-import fillAdoptedDate from '../../../../support/householder-planning/lpa-questionnaire/supplementary-add-document/fillAdoptedDate';
-import verifySupplementaryDocumentList from '../../../../support/householder-planning/lpa-questionnaire/supplementary-add-document/verifySupplementaryDocumentList';
+import {fillAdoptedDate} from '../../../../support/householder-planning/lpa-questionnaire/supplementary-add-document/fillAdoptedDate';
+import {verifySupplementaryDocumentList} from '../../../../support/householder-planning/lpa-questionnaire/supplementary-add-document/verifySupplementaryDocumentList';
+import { goToPage } from '../../../../support/common/go-to-page/goToPage';
+import { verifyPage } from '../../../../support/common/verifyPage';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
+import { verifySectionName } from '../../../../support/common/verifySectionName';
+import {
+  confirmCheckYourAnswersDisplayed
+} from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/confirmCheckYourAnswersDisplayed';
+import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
 
 const page = {
   heading: 'Supplementary planning documents',
@@ -19,12 +28,12 @@ const page = {
 };
 
 const supplementaryAddNewDocument = (uploadFileName, fileNameInputValue) => {
-  cy.goToPage('supplementary-documents');
+  goToPage('supplementary-documents');
   uploadFile().attachFile(uploadFileName);
   fileNameInput().type(fileNameInputValue);
   adoptedRadioYes().check();
   fillAdoptedDate('12', '06', '2021');
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 };
 
 Before(() => {
@@ -39,10 +48,10 @@ Given(
 );
 
 When('progress is made to supplementary document list', () => {
-  cy.verifyPage(page.url);
-  cy.verifyPageTitle(page.title);
-  cy.verifyPageHeading(page.heading);
-  cy.verifySectionName(page.section);
+  verifyPage(page.url);
+  verifyPageTitle(page.title);
+  verifyPageHeading(page.heading);
+  verifySectionName(page.section);
   cy.checkPageA11y();
 });
 
@@ -60,8 +69,8 @@ When('an answer is saved', () => {
 });
 
 Then('supplementary add document page is presented', () => {
-  cy.verifyPage('supplementary-documents');
-  cy.verifyPageTitle(
+  verifyPage('supplementary-documents');
+  verifyPageTitle(
     'Supplementary planning documents - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
   );
 });
@@ -75,8 +84,8 @@ Then('supplementary document is displayed with name {string}', (documentName) =>
 });
 
 Then('the LPA Planning Officer is taken to the add document page', () => {
-  cy.verifyPage('supplementary-documents');
-  cy.verifyPageTitle(
+  verifyPage('supplementary-documents');
+  verifyPageTitle(
     'Supplementary planning documents - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
   );
 });
@@ -87,6 +96,6 @@ Then('the file list with the the previously entered information is presented', (
 Then(
   'Supplementary planning documents heading is shown and the uploaded file name should be displayed',
   () => {
-    cy.confirmCheckYourAnswersDisplayed(page.id, 'upload-file-valid.pdf');
+    confirmCheckYourAnswersDisplayed(page.id, 'upload-file-valid.pdf');
   },
 );

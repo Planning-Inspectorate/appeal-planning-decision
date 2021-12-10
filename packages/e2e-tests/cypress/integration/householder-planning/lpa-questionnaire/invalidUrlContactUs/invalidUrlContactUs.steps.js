@@ -4,6 +4,10 @@ import {
   getEmailLink,
   getFindAboutCallChargesLink,
 } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/invalidUrlPage-PageObjects';
+import { goToPage } from '../../../../support/common/go-to-page/goToPage';
+import { verifyPage } from '../../../../support/common/verifyPage';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 
 const invalidUrl = '/invalid-url';
 const invalidPageTitle = 'Page not found - Appeal questionnaire - Appeal a householder planning decision - GOV.UK';
@@ -13,17 +17,17 @@ const contactUsPageTitle = 'Contact us - Appeal questionnaire - Appeal a househo
 const contactUsPageHeading = 'Contact us';
 
 Given('user has navigated to an invalid page',()=>{
-  cy.goToPage(invalidUrl, {failOnStatusCode:false});
-  cy.verifyPage(invalidUrl);
-  cy.verifyPageTitle(invalidPageTitle);
-  cy.verifyPageHeading(invalidPageHeading);
+  goToPage(invalidUrl, {failOnStatusCode:false});
+  verifyPage(invalidUrl);
+  verifyPageTitle(invalidPageTitle);
+  verifyPageHeading(invalidPageHeading);
 });
 
 Given('user has navigated to contact us page',()=>{
-  cy.goToPage(contactUsPageUrl, {failOnStatusCode:false});
+  goToPage(contactUsPageUrl, {failOnStatusCode:false});
   getContactUsLink().click();
-  cy.verifyPageTitle(contactUsPageTitle);
-  cy.verifyPageHeading(contactUsPageHeading);
+  verifyPageTitle(contactUsPageTitle);
+  verifyPageHeading(contactUsPageHeading);
 });
 
 When('user selects to contact the Planning Inspectorate',()=>{
@@ -42,14 +46,14 @@ Then('user selects to email planning inspectorate',()=>{
 });
 
 Then('the contact us page will be displayed',()=>{
-  cy.verifyPage(contactUsPageUrl);
-  cy.verifyPageTitle(contactUsPageTitle);
-  cy.verifyPageHeading(contactUsPageHeading);
+  verifyPage(contactUsPageUrl);
+  verifyPageTitle(contactUsPageTitle);
+  verifyPageHeading(contactUsPageHeading);
 });
 
 // Then('user is navigated to call charges page',()=>{
-//   cy.verifyPageTitle('Call charges and phone numbers - GOV.UK');
-//   cy.verifyPageHeading('Call charges and phone numbers');
+//   verifyPageTitle('Call charges and phone numbers - GOV.UK');
+//   verifyPageHeading('Call charges and phone numbers');
 // });
 
 Then('user is able to send an email',()=>{

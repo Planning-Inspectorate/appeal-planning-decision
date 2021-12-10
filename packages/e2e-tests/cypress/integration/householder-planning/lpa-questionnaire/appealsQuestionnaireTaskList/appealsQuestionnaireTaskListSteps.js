@@ -1,5 +1,10 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { clickOnSubTaskLink } from '../../../../support/common/clickOnSubTaskLink';
+import { verifyPage } from '../../../../support/common/verifyPage';
 import { getSubTaskInfo } from '../../../../support/common/subTasks';
+import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { visibleWithText } from '../../../../support/common/visibleWithText';
 
 const title =
   'Householder planning appeal questionnaire - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK';
@@ -20,8 +25,8 @@ const verifyNotStartedStatus = (taskName) => {
 Given(`The User clicks on {string}`, (taskRef) => {
   const { id, url } = getSubTaskInfo(taskRef) || {};
 
-  cy.clickOnSubTaskLink(id);
-  cy.verifyPage(url);
+  clickOnSubTaskLink(id);
+  verifyPage(url);
 });
 
 //When User clicks on Back button
@@ -32,7 +37,7 @@ When(`User clicks on Back button`, () => {
 Then(`The task {string} is available for selection`, (taskRef) => {
   const { id } = getSubTaskInfo(taskRef) || {};
 
-  cy.clickOnSubTaskLink(id);
+  clickOnSubTaskLink(id);
 });
 
 Then(`The state for {string} is displayed to be "NOT STARTED"`, (taskRef) => {
@@ -42,15 +47,15 @@ Then(`The state for {string} is displayed to be "NOT STARTED"`, (taskRef) => {
 });
 
 Then('the LPA Planning Officer is taken to the Task List', () => {
-  cy.verifyPage(url);
-  cy.verifyPageTitle(title);
-  cy.verifyPageHeading(heading);
+  verifyPage(url);
+  verifyPageTitle(title);
+  verifyPageHeading(heading);
   cy.checkPageA11y();
-  cy.visibleWithText(
+  visibleWithText(
     'Use the links below to submit your information. You can complete the sections in any order.',
     '.govuk-body-l',
   );
-  cy.visibleWithText(
+  visibleWithText(
     'Only include documents that were considered when making a decision on the application.',
     '[data-cy="task-list--optionalDocumentsSection"]',
   );
@@ -68,7 +73,7 @@ Then(
 Then(
   'The "Only include documents that were considered when making a decision on the application." is displayed in Optional Supporting Documents',
   () => {
-    cy.visibleWithText(
+    visibleWithText(
       'Only include documents that were considered when making a decision on the application.',
       '[data-cy="task-list--optionalDocumentsSection"]',
     );
