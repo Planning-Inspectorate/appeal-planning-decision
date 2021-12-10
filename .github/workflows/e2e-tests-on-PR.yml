@@ -1,10 +1,9 @@
 name: Cypress
 
 env:
-  CYPRESS_SCREENSHOTS: ./e2e-tests/cypress/screenshots
-  CYPRESS_REPORTS: ./e2e-tests/cypress/cucumber-report
-  LPA_CYPRESS_SCREENSHOTS: ./lpa-submissions-e2e-tests/cypress/screenshots
-  LPA_CYPRESS_REPORTS: ./lpa-submissions-e2e-tests/cypress/cucumber-report
+  CYPRESS_SCREENSHOTS: ./packages/e2e-tests/cypress/screenshots
+  CYPRESS_REPORTS: ./packages/e2e-tests/cypress/cucumber-report
+
 
 on:
   pull_request:
@@ -24,107 +23,6 @@ jobs:
         id: uuid
         run: echo "::set-output name=value::$GITHUB_SHA-$(date +"%s")"
 
-  context-LPA:
-    name: "Build ID LPA"
-    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
-    runs-on: ubuntu-latest
-    outputs:
-      uuid: ${{ steps.uuid.outputs.value }}
-    steps:
-      - name: 'uuid'
-        id: uuid
-        run: echo "::set-output name=value::$GITHUB_SHA-$(date +"%s")"
-
-  cypress-LPA:
-    needs: ['context-LPA']
-    name: "Cypress- LPA questionnaire"
-    if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
-    runs-on: ubuntu-latest
-    
-    strategy:
-      # when one test fails, DO NOT cancel the other
-      # containers, because this will kill Cypress processes
-      # leaving the Dashboard hanging ...
-      # https://github.com/cypress-io/github-action/issues/48
-      fail-fast: false
-      matrix:
-        # run 3 copies of the job in parallel
-        machines: [ 1, 2, 3 ]
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14.18.2'
-
-      - name: Cache central NPM modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-lpa-central-npm-modules
-        with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: ~/.npm
-          key: lpa-${{ runner.os }}-node-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            lpa-${{ runner.os }}-node-${{ github.ref }}-
-            lpa-${{ runner.os }}-node-
-            lpa-${{ runner.os }}-
-      - name: Cache Cypress binary
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-lpa-cypress-binary
-        with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: ~/.cache/Cypress
-          key: lpa-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/package.json') }}
-          restore-keys: |
-            lpa-${{ runner.os }}-cypress-${{ github.ref }}-
-            lpa-${{ runner.os }}-cypress-
-            lpa-${{ runner.os }}-
-      - name: Cache local node_modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-lpa-local-node-modules
-        with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: node_modules
-          key: lpa-${{ runner.os }}-node-modules-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            lpa-${{ runner.os }}-node-modules-${{ github.ref }}-
-            lpa-${{ runner.os }}-node-modules-
-            lpa-${{ runner.os }}-
-      - name: Install the world
-        run: make install
-
-      - name: Start the world
-        run: docker-compose up -d
-
-      - name: Run the tests against LPA questionaire in parallel
-        uses: cypress-io/github-action@v2
-        env:
-          # pass the Dashboard record key as an environment variable
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          # Pass the Github token lets this action correctly
-          # determine the unique run id necessary to re-run the checks
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          working-directory: ./lpa-submissions-e2e-tests
-          record: true
-          parallel: true
-          ci-build-id: ${{ needs.context.outputs.uuid }}
-          group: 'LPA Questionnaire'
-
-      - name: Post-process results
-        if: ${{ always() }}
-        run: npm run test:e2e:lpa:postprocess
-
-      - name: Archive screenshots
-        if: ${{ always() }}
-        uses: actions/upload-artifact@main
-        with:
-          name: screenshots-lpa
-          path: ${{ env.LPA_CYPRESS_SCREENSHOTS }}
-
   cypress-default:
     needs: ['context']
     name: "Cypress- default"
@@ -137,8 +35,8 @@ jobs:
       # https://github.com/cypress-io/github-action/issues/48
       fail-fast: false
       matrix:
-        # run 7 copies of the job in parallel
-        machines: [ 1, 2, 3, 4, 5, 6, 7 ]
+        # run 10 copies of the job in parallel
+        machines: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 
     steps:
       - uses: actions/checkout@v2
@@ -197,11 +95,11 @@ jobs:
           # determine the unique run id necessary to re-run the checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          working-directory: ./e2e-tests
+          working-directory: ./packages/e2e-tests
           record: true
           parallel: true
           ci-build-id: ${{ needs.context.outputs.uuid }}
-          group: 'Appeals Service'
+          group: 'Appeals and LPA Service'
 
       - name: Post-process results
         if: ${{ always() }}
