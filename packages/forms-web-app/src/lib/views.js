@@ -42,7 +42,7 @@ const VIEW = {
     CONFIRMATION: 'appellant-submission/confirmation',
     SUBMISSION_INFORMATION: 'appellant-submission/submission-information',
   },
-  
+
   GUIDANCE_PAGES: {
     BEFORE_APPEAL: 'guidance-pages/before-appeal',
     WHEN_APPEAL: 'guidance-pages/when-appeal',
@@ -51,11 +51,11 @@ const VIEW = {
     STAGES_APPEAL: 'guidance-pages/stages-appeal',
   },
 
-  BEFORE_YOU_START: {
-    ANY_OF_FOLLOWING: 'before-you-start/any-of-following',
-    LOCAL_PLANNING_DEPARTMENT: 'before-you-start/local-planning-department',
-    TYPE_OF_PLANNING_APPLICATION: 'before-you-start/type-of-planning-application',
-    USE_A_DIFFERENT_SERVICE: 'before-you-start/use-a-different-service',
+  FULL_PLANNING: {
+    ANY_OF_FOLLOWING: 'full-planning/any-of-following',
+    LOCAL_PLANNING_DEPARTMENT: 'full-planning/local-planning-department',
+    TYPE_OF_PLANNING_APPLICATION: 'full-planning/type-of-planning-application',
+    USE_A_DIFFERENT_SERVICE: 'full-planning/use-a-different-service',
   },
 
   YOUR_PLANNING_APPEAL: {

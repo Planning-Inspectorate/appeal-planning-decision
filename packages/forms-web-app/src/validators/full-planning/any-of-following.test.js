@@ -1,8 +1,10 @@
 const { validationResult } = require('express-validator');
-const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
-const { rules } = require('../../../../src/validators/before-you-start/any-of-following');
+const {
+  testExpressValidatorMiddleware,
+} = require('../../../__tests__/unit/validators/validation-middleware-helper');
+const { rules } = require('./any-of-following');
 
-describe('validators/before-you-start/any-of-following', () => {
+describe('validators/full-planning/any-of-following', () => {
   describe('rules', () => {
     it('has a rule for `option`', () => {
       const rule = rules()[0].builder.build();
@@ -16,7 +18,7 @@ describe('validators/before-you-start/any-of-following', () => {
   describe('validator', () => {
     [
       {
-        title: 'undefined - empty',
+        title: 'undefined - error',
         given: () => ({
           body: {
             option: undefined,
@@ -27,6 +29,17 @@ describe('validators/before-you-start/any-of-following', () => {
           expect(result.errors[0].location).toEqual('body');
           expect(result.errors[0].param).toEqual('option');
           expect(result.errors[0].value).toEqual(undefined);
+        },
+      },
+      {
+        title: 'defined - no error',
+        given: () => ({
+          body: {
+            option: 'none_of_above',
+          },
+        }),
+        expected: (result) => {
+          expect(result.errors).toHaveLength(0);
         },
       },
     ].forEach(({ title, given, expected }) => {

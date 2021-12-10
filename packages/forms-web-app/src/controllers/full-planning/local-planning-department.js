@@ -22,7 +22,7 @@ exports.getPlanningDepartment = async (req, res) => {
     }
   }
 
-  res.render(VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT, {
+  res.render(VIEW.FULL_PLANNING.LOCAL_PLANNING_DEPARTMENT, {
     appealLPD,
     departments: departmentsToNunjucksItems(departments, appealLPD),
     eligibleDepartments,
@@ -40,7 +40,7 @@ exports.postPlanningDepartment = async (req, res) => {
     const errorMessage = errors['local-planning-department'].msg;
 
     if (errorMessage !== 'Ineligible Department') {
-      res.render(VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT, {
+      res.render(VIEW.FULL_PLANNING.LOCAL_PLANNING_DEPARTMENT, {
         appealLPD: '',
         departments: departmentsToNunjucksItems(departments),
         errors,
@@ -62,7 +62,7 @@ exports.postPlanningDepartment = async (req, res) => {
   } catch (e) {
     logger.error(e);
 
-    res.render(VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT, {
+    res.render(VIEW.FULL_PLANNING.LOCAL_PLANNING_DEPARTMENT, {
       appeal,
       departments: departmentsToNunjucksItems(departments, lpaName),
       errors,

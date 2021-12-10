@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.use(localPlanningDepartmentRouter);
 router.use(typeOfPlanningApplicationRouter);
-router.use('/any-of-following', anyOfFollowingRouter);
+router.use(anyOfFollowingRouter);
 router.use(useADifferentServiceRouter);
 
 module.exports = router;

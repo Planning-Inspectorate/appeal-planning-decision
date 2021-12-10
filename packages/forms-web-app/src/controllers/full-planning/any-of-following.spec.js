@@ -1,10 +1,10 @@
-const anyOfFollowingController = require('../../../../src/controllers/before-you-start/any-of-following');
-const { mockReq, mockRes } = require('../../mocks');
-const { VIEW } = require('../../../../src/lib/views');
+const anyOfFollowingController = require('./any-of-following');
+const { mockReq, mockRes } = require('../../../__tests__/unit/mocks');
+const { VIEW } = require('../../lib/views');
 
-jest.mock('../../../../src/lib/logger');
+jest.mock('../../lib/logger');
 
-describe('controllers/before-you-start/any-of-following', () => {
+describe('controllers/full-planning/any-of-following', () => {
   let req;
   let res;
 
@@ -18,7 +18,7 @@ describe('controllers/before-you-start/any-of-following', () => {
   describe('getAnyOfFollowing', () => {
     it('should render any of following page', async () => {
       await anyOfFollowingController.getAnyOfFollowing(req, res);
-      expect(res.render).toHaveBeenCalledWith(VIEW.BEFORE_YOU_START.ANY_OF_FOLLOWING);
+      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_PLANNING.ANY_OF_FOLLOWING);
     });
   });
 
@@ -38,7 +38,7 @@ describe('controllers/before-you-start/any-of-following', () => {
 
       await anyOfFollowingController.postAnyOfFollowing(mockRequest, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.BEFORE_YOU_START.ANY_OF_FOLLOWING, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_PLANNING.ANY_OF_FOLLOWING, {
         errorSummary: [{ text: 'Select if your appeal is about any of the following' }],
         errors: {
           option: {

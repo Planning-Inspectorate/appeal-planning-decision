@@ -1,16 +1,16 @@
-const typeOfPlanningApplicationController = require('../../../../src/controllers/before-you-start/type-of-planning-application');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
-const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
-const logger = require('../../../../src/lib/logger');
+const typeOfPlanningApplicationController = require('./type-of-planning-application');
+const { APPEAL_DOCUMENT } = require('../../lib/empty-appeal');
+const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
+const logger = require('../../lib/logger');
 
-const { VIEW } = require('../../../../src/lib/views');
-const { mockReq, mockRes } = require('../../mocks');
+const { VIEW } = require('../../lib/views');
+const { mockReq, mockRes } = require('../../../__tests__/unit/mocks');
 
-jest.mock('../../../../src/lib/empty-appeal');
-jest.mock('../../../../src/lib/appeals-api-wrapper');
-jest.mock('../../../../src/lib/logger');
+jest.mock('../../lib/empty-appeal');
+jest.mock('../../lib/appeals-api-wrapper');
+jest.mock('../../lib/logger');
 
-describe('controllers/before-you-start/type-of-planning-application', () => {
+describe('controllers/full-planning/type-of-planning-application', () => {
   let req;
   let res;
   let appeal;
@@ -28,8 +28,8 @@ describe('controllers/before-you-start/type-of-planning-application', () => {
     it('should call the correct template on getTypeOfPlanningApplication', async () => {
       await typeOfPlanningApplicationController.getTypeOfPlanningApplication(req, res);
 
-      expect(res.render).toBeCalledWith(VIEW.BEFORE_YOU_START.TYPE_OF_PLANNING_APPLICATION, {
-        backLink: `${VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT}`,
+      expect(res.render).toBeCalledWith(VIEW.FULL_PLANNING.TYPE_OF_PLANNING_APPLICATION, {
+        backLink: `${VIEW.FULL_PLANNING.LOCAL_PLANNING_DEPARTMENT}`,
       });
     });
 
@@ -109,7 +109,7 @@ describe('controllers/before-you-start/type-of-planning-application', () => {
 
       expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
-      expect(res.render).toBeCalledWith(VIEW.BEFORE_YOU_START.TYPE_OF_PLANNING_APPLICATION, {
+      expect(res.render).toBeCalledWith(VIEW.FULL_PLANNING.TYPE_OF_PLANNING_APPLICATION, {
         appeal,
         errors: {
           'type-of-planning-application': {
@@ -117,7 +117,7 @@ describe('controllers/before-you-start/type-of-planning-application', () => {
           },
         },
         errorSummary: [],
-        backLink: `${VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT}`,
+        backLink: `${VIEW.FULL_PLANNING.LOCAL_PLANNING_DEPARTMENT}`,
       });
     });
 
@@ -136,11 +136,11 @@ describe('controllers/before-you-start/type-of-planning-application', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(logger.error).toHaveBeenCalledWith(error);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.BEFORE_YOU_START.TYPE_OF_PLANNING_APPLICATION, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_PLANNING.TYPE_OF_PLANNING_APPLICATION, {
         appeal,
         errors: {},
         errorSummary: [{ text: error.toString(), href: 'pageId' }],
-        backLink: `${VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT}`,
+        backLink: `${VIEW.FULL_PLANNING.LOCAL_PLANNING_DEPARTMENT}`,
       });
     });
   });

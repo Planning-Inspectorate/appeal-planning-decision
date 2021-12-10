@@ -1,10 +1,10 @@
 const express = require('express');
 
 const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
-const localPlanningDepartmentController = require('../../controllers/before-you-start/local-planning-department');
+const localPlanningDepartmentController = require('../../controllers/full-planning/local-planning-department');
 const {
   rules: localPlanningDepartmentValidationRules,
-} = require('../../validators/before-you-start/local-planning-department');
+} = require('../../validators/full-planning/local-planning-department');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 
 const router = express.Router();
