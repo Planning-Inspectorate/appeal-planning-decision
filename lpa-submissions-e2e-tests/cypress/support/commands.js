@@ -1,81 +1,73 @@
 import '@testing-library/cypress/add-commands';
 require('cypress-file-upload');
-require('./visit-without-javascript-enabled');
+require('../../../packages/e2e-tests/cypress/support/householder-planning/lpa-questionnaire/visit-without-javascript-enabled');
 require('./accessibility');
 
-Cypress.Commands.add('goToPage', require('./common/goToPage'));
+Cypress.Commands.add('goToPage', require('../../../packages/e2e-tests/cypress/support/common/goToPage'));
 
-Cypress.Commands.add('verifyPage', require('./common/verifyPage'));
+Cypress.Commands.add('verifySectionName', require('../../../packages/e2e-tests/cypress/support/common/verifySectionName'));
 
-Cypress.Commands.add('verifyPageHeading', require('./common/verifyPageHeading'));
+Cypress.Commands.add('visibleWithText', require('../../../packages/e2e-tests/cypress/support/common/visibleWithText'));
 
-Cypress.Commands.add('verifyPageTitle', require('./common/verifyPageTitle'));
+Cypress.Commands.add('visibleWithoutText', require('../../../packages/e2e-tests/cypress/support/common/visibleWithoutText'));
 
-Cypress.Commands.add('verifySectionName', require('./common/verifySectionName'));
-
-Cypress.Commands.add('visibleWithText', require('./common/visibleWithText'));
-
-Cypress.Commands.add('visibleWithoutText', require('./common/visibleWithoutText'));
-
-Cypress.Commands.add('getAppealReplyId', require('./common/getAppealReplyId'));
+Cypress.Commands.add('getAppealReplyId', require('../../../packages/e2e-tests/cypress/support/common/getAppealReplyId'));
 
 Cypress.Commands.add(
   'goToTaskListPage',
-  require('./appeals-questionnaire-tasklist/goToTaskListPage'),
+  require('../../../packages/e2e-tests/cypress/support/householder-planning/lpa-questionnaire/appeals-questionnaire-tasklist/goToTaskListPage'),
 );
 
-Cypress.Commands.add('clickOnSubTaskLink', require('./common/clickOnSubTaskLink'));
+Cypress.Commands.add('clickOnSubTaskLink', require('../../../packages/e2e-tests/cypress/support/common/clickOnSubTaskLink'));
 
 Cypress.Commands.add(
   'verifyCompletedStatus',
-  require('./appeals-questionnaire-tasklist/verifyCompletedStatus'),
+  require('../../../packages/e2e-tests/cypress/support/householder-planning/lpa-questionnaire/appeals-questionnaire-tasklist/verifyCompletedStatus'),
 );
 
 Cypress.Commands.add(
   'goToCheckYourAnswersPage',
-  require('./check-your-answers/goToCheckYourAnswersPage'),
+  require('../../../packages/e2e-tests/cypress/support/householder-planning/lpa-questionnaire/check-your-answers/goToCheckYourAnswersPage'),
 );
 
 Cypress.Commands.add(
   'confirmCheckYourAnswersDisplayed',
-  require('./check-your-answers/confirmCheckYourAnswersDisplayed'),
+  require('../../../packages/e2e-tests/cypress/support/householder-planning/lpa-questionnaire/check-your-answers/confirmCheckYourAnswersDisplayed'),
 );
 
 Cypress.Commands.add(
   'confirmCheckYourAnswersDisplayedTextIsBlank',
-  require('./check-your-answers/confirmCheckYourAnswersDisplayedTextIsBlank'),
+  require('../../../packages/e2e-tests/cypress/support/householder-planning/lpa-questionnaire/check-your-answers/confirmCheckYourAnswersDisplayedTextIsBlank'),
 );
 
-Cypress.Commands.add('verifyAppealDetailsSidebar', require('./common/verifyAppealDetailsSidebar'));
+Cypress.Commands.add('verifyAppealDetailsSidebar', require('../../../packages/e2e-tests/cypress/support/common/verifyAppealDetailsSidebar'));
 
-Cypress.Commands.add('getAppealDetailsSidebar', require('./common/getAppealDetailsSidebar'));
+Cypress.Commands.add('getAppealDetailsSidebar', require('../../../packages/e2e-tests/cypress/support/common/getAppealDetailsSidebar'));
 
-Cypress.Commands.add('clickSaveAndContinue', require('./common/clickSaveAndContinue'));
+Cypress.Commands.add('clickSaveAndContinue', require('../../../packages/e2e-tests/cypress/support/common/clickSaveAndContinue'));
 
-Cypress.Commands.add('clickSubmitButton', require('./common/clickSubmitButton'));
+Cypress.Commands.add('clickSubmitButton', require('../../../packages/e2e-tests/cypress/support/common/clickSubmitButton'));
 
-Cypress.Commands.add('clickBackButton', require('./common/clickBackButton'));
+Cypress.Commands.add('clickBackButton', require('../../../packages/e2e-tests/cypress/support/common/clickBackButton'));
 
-Cypress.Commands.add('validateErrorMessage', require('./common/validateErrorMessage'));
+Cypress.Commands.add('validateErrorMessage', require('../../../packages/e2e-tests/cypress/support/common/validateErrorMessage'));
 Cypress.Commands.add(
   'validateFileUploadErrorMessage',
-  require('./common/validateFileUploadErrorMessage'),
+  require('../../../packages/e2e-tests/cypress/support/common/validateFileUploadErrorMessage'),
 );
 
-Cypress.Commands.add('generateQuestionnaire', require('./common/generateQuestionnaire'));
+Cypress.Commands.add('generateQuestionnaire', require('../../../packages/e2e-tests/cypress/support/common/generateQuestionnaire'));
 
-Cypress.Commands.add('completeQuestionnaire', require('./common/completeQuestionnaire'));
+Cypress.Commands.add('completeQuestionnaire', require('../../../packages/e2e-tests/cypress/support/common/completeQuestionnaire'));
 
-Cypress.Commands.add('hasLink', require('./common/hasLink'));
+Cypress.Commands.add('hasLink', require('../../../packages/e2e-tests/cypress/support/common/hasLink'));
 
 Cypress.Commands.add(
   'downloadSubmissionPdf',
-  require('./common/pdfFunctions').downloadSubmissionPdf,
+  require('../../../packages/e2e-tests/cypress/support/common/pdfFunctions').downloadSubmissionPdf,
 );
 
 Cypress.Commands.add(
   'checkSubmissionPdfContent',
-  require('./common/pdfFunctions').checkSubmissionPdfContent,
+  require('../../../packages/e2e-tests/cypress/support/common/pdfFunctions').checkSubmissionPdfContent,
 );
-
-Cypress.Commands.add('completeAppeal', require('./common/completeAppeal'));
