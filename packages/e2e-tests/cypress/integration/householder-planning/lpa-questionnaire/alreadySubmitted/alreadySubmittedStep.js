@@ -1,6 +1,10 @@
 import { When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { getPage } from '../../../../support/householder-planning/lpa-questionnaire/alreadySubmitted/getPage';
 import{ findoutAboutCallCharges, enquiriesEmailLink} from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
+import { verifyPage } from '../../../../support/common/verifyPage';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { goToPage } from '../../../../support/common/go-to-page/goToPage';
+import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 
 const page = {
   heading: 'Questionnaire already submitted',
@@ -9,13 +13,13 @@ const page = {
 }
 
 When('the LPA Planning Officer is trying to access {string} of already submitted questionnaire', (page) => {
-  cy.goToPage(getPage(page));
+  goToPage(getPage(page));
 });
 
 Then('the LPA Planning Officer is presented with already submitted page', () => {
-  cy.verifyPage(page.url);
-  cy.verifyPageTitle(page.title);
-  cy.verifyPageHeading(page.heading);
+  verifyPage(page.url);
+  verifyPageTitle(page.title);
+  verifyPageHeading(page.heading);
 });
 
 Then('the Already Submitted page should have Enquiries Email link', () => {

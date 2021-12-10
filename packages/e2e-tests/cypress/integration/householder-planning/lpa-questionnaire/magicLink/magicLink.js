@@ -1,15 +1,18 @@
 import { And, Given, Then, When } from 'cypress-cucumber-preprocessor/steps';
-import verifyPage from '../../../../support/common/verifyPage';
-import verifyNotificationBanner from '../../../../support/common/verifyNotificationBanner';
-import validateErrorMessage from '../../../../support/common/validateErrorMessage';
-import goToPage from '../../../../support/common/goToPage';
-import clickLink from '../../../../support/common/clickLink';
-import clickSubmit from '../../../../support/common/clickSubmitButton';
-import hasLink from '../../../../support/common/hasLink';
-import inputEmailAddress from '../../../../support/householder-planning/lpa-questionnaire/magic-link/inputEmailAddress';
-import authenticateLPA from '../../../../support/householder-planning/lpa-questionnaire/magic-link/authenticateLPA';
-import getMagicLink from '../../../../support/householder-planning/lpa-questionnaire/magic-link/getMagicLink';
-import createAuthToken from '../../../../support/householder-planning/lpa-questionnaire/magic-link/createAuthToken';
+import {verifyPage} from '../../../../support/common/verifyPage';
+import { goToPage } from '../../../../support/common/go-to-page/goToPage';
+import {
+  inputEmailAddress
+} from '../../../../support/householder-planning/lpa-questionnaire/magic-link/inputEmailAddress';
+import { clickSubmitButton } from '../../../../support/common/clickSubmitButton';
+import { createAuthToken } from '../../../../support/householder-planning/lpa-questionnaire/magic-link/createAuthToken';
+import { authenticateLPA } from '../../../../support/householder-planning/lpa-questionnaire/magic-link/authenticateLPA';
+import { getMagicLink } from '../../../../support/householder-planning/lpa-questionnaire/magic-link/getMagicLink';
+import { clickLink } from '../../../../support/common/clickLink';
+import { hasLink } from '../../../../support/common/hasLink';
+import { verifyNotificationBanner } from '../../../../support/common/verifyNotificationBanner';
+import { validateErrorMessage } from '../../../../support/common/validateErrorMessage';
+
 
 const lpaCode = 'E69999999';
 const enterEmailAddressLink = 'authentication/your-email';
@@ -28,7 +31,7 @@ Given('the LPA is on the confirm your email page', () => {
 Given('LPA user receives a magic link for accessing the questionnaire', () => {
   goToPage(questionnaireTaskListPage);
   inputEmailAddress();
-  clickSubmit();
+  clickSubmitButton();
 });
 
 And('is trying to access the LPA questionnaire', () => {
@@ -69,22 +72,22 @@ When('they click on the start questionnaire link in the initial email', () => {
 
 When('the email address does not match the domain of the LPA from the appeal', () => {
   inputEmailAddress('test@test.gov.uk');
-  clickSubmit();
+  clickSubmitButton();
 });
 
 When('an email address is not provided', () => {
   inputEmailAddress('');
-  clickSubmit();
+  clickSubmitButton();
 });
 
 When('the email address provided in not in the correct format', () => {
   inputEmailAddress('invalidEmailAddress');
-  clickSubmit();
+  clickSubmitButton();
 });
 
 When('a valid email address is provided matching the domain of the LPA', () => {
   inputEmailAddress();
-  clickSubmit();
+  clickSubmitButton();
 });
 
 When('they select to email the customer support team', () => {

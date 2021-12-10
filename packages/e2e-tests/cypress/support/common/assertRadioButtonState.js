@@ -1,4 +1,4 @@
-module.exports = (cyTags, { isChecked }) => {
+export const assertRadioButtonState = (cyTags, { isChecked }) => {
   const matchAssertion = isChecked ? 'be.checked' : 'not.be.checked';
 
   const interestingTags = Array.isArray(cyTags) ? cyTags : [cyTags];

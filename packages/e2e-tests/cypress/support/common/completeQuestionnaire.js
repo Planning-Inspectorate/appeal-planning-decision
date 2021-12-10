@@ -1,4 +1,4 @@
-const completeQuestionnaire = () => {
+export const completeQuestionnaire = () => {
   cy.get('@appealReply').then((appealReply) => {
     cy.fixture('completedAppealReply.json').then((reply) => {
       reply.id = appealReply.id;
@@ -16,5 +16,3 @@ const completeQuestionnaire = () => {
     });
   });
 };
-
-export default completeQuestionnaire;

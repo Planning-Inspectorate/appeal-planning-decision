@@ -1,4 +1,4 @@
-const generateQuestionnaire = () => {
+export const generateQuestionnaire = () => {
   cy.get('@appeal').then((appeal) => {
     cy.request(
       'POST',
@@ -13,5 +13,3 @@ const generateQuestionnaire = () => {
     });
   });
 };
-
-export default generateQuestionnaire;

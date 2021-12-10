@@ -1,3 +1,5 @@
-module.exports = () => {
-  cy.goToPage('task-list');
+import { goToPage } from '../../../common/go-to-page/goToPage';
+
+export const goToTaskListPage = () => {
+  goToPage('task-list');
 };

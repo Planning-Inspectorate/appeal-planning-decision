@@ -1,9 +1,9 @@
 import {
-  summaryErrorMessage as summaryErrorMessageObject,
   summaryFileUploadErrorMessage,
 } from '../householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
+import { clickSaveAndContinue } from './clickSaveAndContinue';
 
-module.exports = (errorMessage, errorMessageObjectId) => {
+export const validateFileUploadErrorMessage = (errorMessage, errorMessageObjectId) => {
   summaryFileUploadErrorMessage().should('be.visible');
   cy.title().should('match', /^Error: /);
   cy.checkPageA11y();
@@ -22,5 +22,5 @@ module.exports = (errorMessage, errorMessageObjectId) => {
       expect(text).to.contain(errorMessage);
     });
   }
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 };

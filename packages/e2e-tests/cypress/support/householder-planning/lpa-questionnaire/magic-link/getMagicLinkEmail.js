@@ -1,6 +1,6 @@
 import getNotificationEmail from '../../../common/getNotificationEmail';
 
-module.exports = () => {
+export const getMagicLinkEmail = () => {
   return cy.get('@lpaEmail').then((lpaEmail) => {
     return getNotificationEmail(lpaEmail).then((response) => {
       const emails = response?.body;

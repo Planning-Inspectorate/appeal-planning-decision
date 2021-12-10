@@ -1,7 +1,8 @@
-import ignoreAddedFormatting from './ignoreAddedFormatting';
+import {ignoreAddedFormatting} from './ignoreAddedFormatting';
+import { getAppealReplyId } from './getAppealReplyId';
 
-exports.downloadSubmissionPdf = () => {
-  cy.getAppealReplyId().then((replyId) => {
+export const downloadSubmissionPdf = () => {
+  getAppealReplyId().then((replyId) => {
     cy.request('GET', `${Cypress.env('APPEAL_REPLY_SERVICE_BASE_URL')}/reply/${replyId}`).then(
       (response) => {
         const pdfId = response.body.submission.pdfStatement.uploadedFile.id;
@@ -19,7 +20,7 @@ exports.downloadSubmissionPdf = () => {
   });
 };
 
-exports.checkSubmissionPdfContent = (contentToFind) => {
+export const checkSubmissionPdfContent = (contentToFind) => {
   cy.get('@submissionPdf').then((fileName) => {
     cy.task('getPdfContent', `cypress/fixtures/downloads/${fileName}`).then((content) => {
       expect(ignoreAddedFormatting(content)).to.contain(contentToFind);

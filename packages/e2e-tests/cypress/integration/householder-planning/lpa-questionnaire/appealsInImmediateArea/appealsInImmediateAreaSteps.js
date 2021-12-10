@@ -5,6 +5,23 @@ import {
   labelHint,
   input,
 } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
+import { clickOnSubTaskLink } from '../../../../support/common/clickOnSubTaskLink';
+import { verifyPage } from '../../../../support/common/verifyPage';
+import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
+import { goToPage } from '../../../../support/common/go-to-page/goToPage';
+import { getBackLink } from '../../../../support/common-page-objects/common-po';
+import {
+  confirmCheckYourAnswersDisplayed
+} from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/confirmCheckYourAnswersDisplayed';
+import { validateErrorMessage } from '../../../../support/common/validateErrorMessage';
+import {
+  verifyCompletedStatus
+} from '../../../../support/householder-planning/lpa-questionnaire/appeals-questionnaire-tasklist/verifyCompletedStatus';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import {
+  goToTaskListPage
+} from '../../../../support/householder-planning/lpa-questionnaire/appeals-questionnaire-tasklist/goToTaskListPage';
+import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 
 const pageId = 'other-appeals';
 const pageTitle =
@@ -19,27 +36,27 @@ const noButtonId = 'adjacent-appeals-no';
 const yesButtonId = 'adjacent-appeals-yes';
 
 Given('the user is on the Tell us about any appeals in the immediate area page', () => {
-  cy.goToPage(pageId);
-  cy.verifyPageTitle(pageTitle);
-  cy.verifyPageHeading(pageHeading);
+  goToPage(pageId);
+  verifyPageTitle(pageTitle);
+  verifyPageHeading(pageHeading);
 });
 
 When(`the user selects the link Tell us about any appeals in the immediate area`, () => {
-  cy.goToTaskListPage();
-  cy.clickOnSubTaskLink(taskListId);
+  goToTaskListPage();
+  clickOnSubTaskLink(taskListId);
 });
 
 When(`the user selects Save and Continue`, () => {
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 Then('the user is presented with the Immediate Area page', () => {
-  cy.verifyPageTitle(pageTitle);
+  verifyPageTitle(pageTitle);
   cy.checkPageA11y(pageId);
 });
 
 Then(`the user remains on 'Tell us about any appeals in the immediate area' page`, () => {
-  cy.verifyPage(pageId);
+  verifyPage(pageId);
 });
 
 When('the user selects the option {string}', (option) => {
@@ -47,7 +64,7 @@ When('the user selects the option {string}', (option) => {
 });
 
 Then('a Completed status is populated for the task', () => {
-  cy.verifyCompletedStatus(taskListId);
+  verifyCompletedStatus(taskListId);
 });
 
 Then('the user is provided with a free text field to input the appeal reference numbers', () => {
@@ -74,12 +91,12 @@ When('user does not provide appeal reference numbers', () => {
 
 Then('the user is shown the error message {string}', (errorMessage) => {
   errorMessage === 'Select yes if there are other appeals still being considered'
-    ? cy.validateErrorMessage(
+    ? validateErrorMessage(
         errorMessage,
         '[data-cy="adjacent-appeals-error"]',
         'adjacent-appeals',
       )
-    : cy.validateErrorMessage(
+    : validateErrorMessage(
         errorMessage,
         '[data-cy="appeal-reference-numbers-error"]',
         'appeal-reference-numbers',
@@ -87,16 +104,16 @@ Then('the user is shown the error message {string}', (errorMessage) => {
 });
 
 Given('a user has completed the information needed on the appeals in immediate area page', () => {
-  cy.goToPage(pageId);
+  goToPage(pageId);
   input(noButtonId).check();
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 When(
   `the user returns to the 'Tell us about any appeals in the immediate area' page from the Task List`,
   () => {
-    cy.clickOnSubTaskLink(taskListId);
-    cy.verifyPage(pageId);
+    clickOnSubTaskLink(taskListId);
+    verifyPage(pageId);
   },
 );
 
@@ -105,20 +122,20 @@ Then('the information they previously entered is still populated', () => {
 });
 
 When('the user selects the back link', () => {
-  cy.clickBackButton();
+  getBackLink().click();
 });
 
 Then('any information they have entered will not be saved', () => {
-  cy.clickOnSubTaskLink(taskListId);
-  cy.verifyPage(pageId);
+  clickOnSubTaskLink(taskListId);
+  verifyPage(pageId);
   input(noButtonId).should('not.be.checked');
 });
 
 When('an answer is saved', () => {
   input(noButtonId).check();
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 Then('the updated answer is displayed', () => {
-  cy.confirmCheckYourAnswersDisplayed('otherAppeals', 'No');
+  confirmCheckYourAnswersDisplayed('otherAppeals', 'No');
 });

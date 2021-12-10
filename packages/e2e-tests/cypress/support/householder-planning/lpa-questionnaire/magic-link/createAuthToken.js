@@ -9,7 +9,7 @@ const JWT_PAYLOAD = {
   },
 };
 
-module.exports = (expDateInMillis = DEFAULT_EXP_TIME) => {
+export const createAuthToken = (expDateInMillis = DEFAULT_EXP_TIME) => {
   return jwt.sign(
     {
       ...JWT_PAYLOAD,

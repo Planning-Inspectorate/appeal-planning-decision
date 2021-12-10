@@ -1,4 +1,4 @@
-module.exports = (textToFind, selector) => {
+export const visibleWithoutText = (textToFind, selector) => {
   cy.get(selector)
     .invoke('text')
     .then((text) => {

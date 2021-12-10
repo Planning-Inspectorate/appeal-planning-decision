@@ -1,4 +1,9 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import {
+  goToTaskListPage
+} from '../../../../support/householder-planning/lpa-questionnaire/appeals-questionnaire-tasklist/goToTaskListPage';
+import { verifyPage } from '../../../../support/common/verifyPage';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 
 const clickFooterLink = (footerLink) => {
   if (footerLink === 'Privacy') {
@@ -13,16 +18,16 @@ const clickFooterLink = (footerLink) => {
 };
 
 Given('LPA planning officer accesses the LPA Questionnaire', () => {
-  cy.goToTaskListPage();
+  goToTaskListPage();
 });
 
 When('they click on the {string} in the footer', (footerLink) => {
   clickFooterLink(footerLink);
 });
 Then('the {string} correct page should be displayed', (pageUrl) => {
-  cy.verifyPage(pageUrl);
+  verifyPage(pageUrl);
 });
 
 Then('the page title should be {string}', (pageTitle) => {
-  cy.verifyPageTitle(pageTitle);
+  verifyPageTitle(pageTitle);
 });

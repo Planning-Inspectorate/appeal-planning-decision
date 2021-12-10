@@ -1,7 +1,17 @@
 import { Given, When, Then, Before } from 'cypress-cucumber-preprocessor/steps';
-import defaultPathId from '../../../../../../../lpa-submissions-e2e-tests/cypress/utils/defaultPathId';
-const documentServiceBaseURL = Cypress.env('DOCUMENT_SERVICE_BASE_URL');
-const assumeLimitedAccess = Cypress.env('ASSUME_LIMITED_ACCESS');
+import {defaultPathId} from '../../../../utils/defaultPathId';
+import { goToPage } from '../../../../support/common/go-to-page/goToPage';
+import { clickOnSubTaskLink } from '../../../../support/common/clickOnSubTaskLink';
+import { verifyPage } from '../../../../support/common/verifyPage';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
+import { verifySectionName } from '../../../../support/common/verifySectionName';
+import {
+  verifyCompletedStatus
+} from '../../../../support/householder-planning/lpa-questionnaire/appeals-questionnaire-tasklist/verifyCompletedStatus';
+import {
+  confirmCheckYourAnswersDisplayed
+} from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/confirmCheckYourAnswersDisplayed';
 
 const page = {
   id: 'plansDecision',
@@ -14,7 +24,7 @@ const page = {
 let disableJs = false;
 
 const goToUploadDecisionPage = () => {
-  cy.goToPage(page.url, undefined, disableJs);
+  goToPage(page.url, undefined, disableJs);
 };
 
 /**
@@ -36,8 +46,8 @@ Given('Upload the plans used to reach the decision question is requested', () =>
 });
 
 When('LPA Planning Officer chooses to upload plans used to reach the decision', () => {
-  cy.clickOnSubTaskLink(page.id);
-  cy.verifyPage(page.url);
+  clickOnSubTaskLink(page.id);
+  verifyPage(page.url);
 });
 
 When('the plans used to reach the decision question is requested', () => {
@@ -45,13 +55,13 @@ When('the plans used to reach the decision question is requested', () => {
 });
 
 Then('LPA Planning Officer is presented with the ability to upload plans', () => {
-  cy.verifyPage(page.url);
-  cy.verifyPageTitle(page.title);
-  cy.verifyPageHeading(page.heading);
-  cy.verifySectionName(page.section);
+  verifyPage(page.url);
+  verifyPageTitle(page.title);
+  verifyPageHeading(page.heading);
+  verifySectionName(page.section);
   cy.checkPageA11y(`/${defaultPathId}/${page.url}`);
 });
 
 Then('Upload the plans used to reach the decision subsection is shown as completed', () => {
-  cy.verifyCompletedStatus(page.id);
+  verifyCompletedStatus(page.id);
 });

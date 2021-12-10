@@ -1,6 +1,6 @@
 import getMagicLinkEmail from './getMagicLinkEmail';
 
-module.exports = () => {
+export const getMagicLink = () => {
   return getMagicLinkEmail().then((email) => {
     if (email) {
       return email?.personalisation?.['magic link'];

@@ -1,5 +1,19 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { input, labelText, labelLegend } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
+import { goToPage } from '../../../../support/common/go-to-page/goToPage';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
+import { clickOnSubTaskLink } from '../../../../support/common/clickOnSubTaskLink';
+import { getBackLink } from '../../../../support/common-page-objects/common-po';
+import { verifyPage } from '../../../../support/common/verifyPage';
+import { verifySectionName } from '../../../../support/common/verifySectionName';
+import { validateErrorMessage } from '../../../../support/common/validateErrorMessage';
+import {
+  verifyCompletedStatus
+} from '../../../../support/householder-planning/lpa-questionnaire/appeals-questionnaire-tasklist/verifyCompletedStatus';
+import {
+  confirmCheckYourAnswersDisplayed
+} from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/confirmCheckYourAnswersDisplayed';
 
 const pageId = 'accuracy-submission';
 const pageTitle =
@@ -13,21 +27,21 @@ const accurateSubmissionLabelId = 'accurate-submission-label';
 const sectionName = 'About the appeal';
 
 Given(`the user is in the Review accuracy of the appellant's submission page`, () => {
-  cy.goToPage(pageId);
-  cy.verifyPageTitle(pageTitle);
+ goToPage(pageId);
+  verifyPageTitle(pageTitle);
 });
 
 Given(
   `a user has completed the information needed on the accuracy of the appellant's submission page`,
   () => {
-    cy.goToPage(pageId);
+    goToPage(pageId);
     input(yesButtonId).check();
-    cy.clickSaveAndContinue();
+    clickSaveAndContinue();
   },
 );
 
 When(`the user selects the link "Review accuracy of the appellant's submission"`, () => {
-  cy.clickOnSubTaskLink(taskListId);
+  clickOnSubTaskLink(taskListId);
 });
 
 When('the user does not select an option', () => {
@@ -36,7 +50,7 @@ When('the user does not select an option', () => {
 });
 
 When(`the user selects Save and Continue`, () => {
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 When('the user selects {string}', (radioValue) => {
@@ -52,23 +66,23 @@ When('the user has not provided further information as text regarding their reas
 });
 
 When('the user selects the back link', () => {
-  cy.clickBackButton();
+  getBackLink().click();
 });
 
 When('the user returns to the submission accuracy page from the Task List', () => {
-  cy.verifyPage(taskListUrl);
-  cy.clickOnSubTaskLink(taskListId);
-  cy.verifyPage(pageId);
+  verifyPage(taskListUrl);
+  clickOnSubTaskLink(taskListId);
+  verifyPage(pageId);
 });
 
 When('an answer is saved', () => {
   input(yesButtonId).check();
-  cy.clickSaveAndContinue();
+  clickSaveAndContinue();
 });
 
 Then('the user is presented with the correct page', () => {
-  cy.verifySectionName(sectionName);
-  cy.verifyPageTitle(pageTitle);
+  verifySectionName(sectionName);
+  verifyPageTitle(pageTitle);
   cy.checkPageA11y(pageId);
 });
 
@@ -82,12 +96,12 @@ Then('the radio group label is {string}', (label) => {
 
 Then('the user is shown the error message {string}', (errorMessage) => {
   errorMessage === 'Select yes if the information accurately reflects the planning application'
-    ? cy.validateErrorMessage(
+    ? validateErrorMessage(
         errorMessage,
         '[data-cy="accurate-submission-error"]',
         'accurate-submission',
       )
-    : cy.validateErrorMessage(
+    : validateErrorMessage(
         errorMessage,
         '[data-cy="inaccuracy-reason-error"]',
         'inaccuracy-reason',
@@ -95,7 +109,7 @@ Then('the user is shown the error message {string}', (errorMessage) => {
 });
 
 Then('a Completed status is populated on that sub-section of the task list', () => {
-  cy.verifyCompletedStatus(taskListId);
+  verifyCompletedStatus(taskListId);
 });
 
 Then('the user is provided with a free text field to input their reasons', () => {
@@ -103,8 +117,8 @@ Then('the user is provided with a free text field to input their reasons', () =>
 });
 
 Then('any information they have inputted will not be saved', () => {
-  cy.clickOnSubTaskLink(taskListId);
-  cy.verifyPageTitle(pageTitle);
+  clickOnSubTaskLink(taskListId);
+  verifyPageTitle(pageTitle);
   input(noButtonId).should('not.be.checked');
 });
 
@@ -113,5 +127,5 @@ Then('the information they previously entered is still populated', () => {
 });
 
 Then('the updated answer is displayed', () => {
-  cy.confirmCheckYourAnswersDisplayed('submissionAccuracy', 'Yes');
+  confirmCheckYourAnswersDisplayed('submissionAccuracy', 'Yes');
 });

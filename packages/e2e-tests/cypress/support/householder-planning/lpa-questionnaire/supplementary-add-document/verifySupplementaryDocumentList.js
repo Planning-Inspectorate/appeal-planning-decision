@@ -1,7 +1,7 @@
 const {
   supplementaryDocumentList,
 } = require('../PageObjects/SupplementaryAddDocumentsPageObjects');
-module.exports = (documentName) => {
+export const verifySupplementaryDocumentList = (documentName) => {
   supplementaryDocumentList()
     .invoke('text')
     .then((text) => {

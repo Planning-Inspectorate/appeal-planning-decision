@@ -1,5 +1,18 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { subTasks } from '../../../../support/common/subTasks';
+import { completeQuestionnaire } from '../../../../support/common/completeQuestionnaire';
+import {
+  goToCheckYourAnswersPage
+} from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/goToCheckYourAnswersPage';
+import { clickSubmitButton } from '../../../../support/common/clickSubmitButton';
+import { clickOnSubTaskLink } from '../../../../support/common/clickOnSubTaskLink';
+import { getBackLink } from '../../../../support/common-page-objects/common-po';
+import { verifyPage } from '../../../../support/common/verifyPage';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
+import {
+  confirmCheckYourAnswersDisplayed
+} from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/confirmCheckYourAnswersDisplayed';
 
 const id = 'confirm-answers'
 const title =
@@ -7,25 +20,25 @@ const title =
 const heading = 'Check your answers';
 
 Given('Check Your Answers is presented', () => {
-  cy.completeQuestionnaire();
-  cy.goToCheckYourAnswersPage();
+  completeQuestionnaire();
+  goToCheckYourAnswersPage();
 });
 
 When('Check Your Answers page is displayed', () => {
-  cy.completeQuestionnaire();
-  cy.goToCheckYourAnswersPage();
+  completeQuestionnaire();
+  goToCheckYourAnswersPage();
 });
 
 When('the answers are completed', () => {
-  cy.clickSubmitButton();
+  clickSubmitButton();
 });
 
 When('the LPA Planning Officer selects a question', () => {
-  cy.clickOnSubTaskLink(subTasks[0].id);
+  clickOnSubTaskLink(subTasks[0].id);
 });
 
 When('the LPA Planning Officer chooses to go to the previous page', () => {
-  cy.clickBackButton();
+  getBackLink().click();
 });
 
 Then('Check Your Answers sub section has a status of NOT STARTED', () => {
@@ -35,31 +48,31 @@ Then('Check Your Answers sub section has a status of NOT STARTED', () => {
 });
 
 Then('the LPA is able to proceed to Check Your Answers', () => {
-  cy.clickOnSubTaskLink('checkYourAnswers');
-  cy.verifyPage(id);
+  clickOnSubTaskLink('checkYourAnswers');
+  verifyPage(id);
 })
 
 Then('a summary of questions and answers is provided', () => {
-  cy.verifyPage(id);
-  cy.verifyPageTitle(title);
-  cy.verifyPageHeading(heading);
+  verifyPage(id);
+  verifyPageTitle(title);
+  verifyPageHeading(heading);
   cy.checkPageA11y();
 
-  cy.confirmCheckYourAnswersDisplayed('submissionAccuracy', 'No');
-  cy.confirmCheckYourAnswersDisplayed('submissionAccuracy', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero.');
-  cy.confirmCheckYourAnswersDisplayed('extraConditions', 'Yes');
-  cy.confirmCheckYourAnswersDisplayed('extraConditions', 'Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis.\n\nSed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh.');
-  cy.confirmCheckYourAnswersDisplayed('otherAppeals', 'Yes');
-  cy.confirmCheckYourAnswersDisplayed('otherAppeals', 'abc-123, def-456');
-  cy.confirmCheckYourAnswersDisplayed('plansDecision', 'upload-file-valid.pdf');
-  cy.confirmCheckYourAnswersDisplayed('developmentOrNeighbourhood', 'Yes');
-  cy.confirmCheckYourAnswersDisplayed('developmentOrNeighbourhood', 'mock plan changes');
+  confirmCheckYourAnswersDisplayed('submissionAccuracy', 'No');
+  confirmCheckYourAnswersDisplayed('submissionAccuracy', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero.');
+  confirmCheckYourAnswersDisplayed('extraConditions', 'Yes');
+  confirmCheckYourAnswersDisplayed('extraConditions', 'Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis.\n\nSed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh.');
+  confirmCheckYourAnswersDisplayed('otherAppeals', 'Yes');
+  confirmCheckYourAnswersDisplayed('otherAppeals', 'abc-123, def-456');
+  confirmCheckYourAnswersDisplayed('plansDecision', 'upload-file-valid.pdf');
+  confirmCheckYourAnswersDisplayed('developmentOrNeighbourhood', 'Yes');
+  confirmCheckYourAnswersDisplayed('developmentOrNeighbourhood', 'mock plan changes');
 });
 
 Then('progress is made to the submission confirmation page', () => {
-  cy.verifyPage('information-submitted');
+  verifyPage('information-submitted');
 });
 
 Then('user is returned to the Check your answers page', () => {
-  cy.verifyPage(id);
+  verifyPage(id);
 })

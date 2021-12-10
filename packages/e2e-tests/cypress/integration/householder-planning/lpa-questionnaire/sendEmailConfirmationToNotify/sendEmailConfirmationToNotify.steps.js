@@ -1,8 +1,9 @@
 import { Then } from 'cypress-cucumber-preprocessor/steps';
-import getNotificationEmail from '../../../../support/common/getNotificationEmail';
+import {getNotificationEmail} from '../../../../support/common/getNotificationEmail';
+import { verifyPage } from '../../../../support/common/verifyPage';
 
 Then('a confirmation email is sent to the LPA', () => {
-  cy.verifyPage('information-submitted');
+  verifyPage('information-submitted');
   cy.get('@appeal').then((appeal) => {
     getNotificationEmail().then((response) => {
       const lastEmailNotificationOnTheStack = response.body.length - 1;
