@@ -10,7 +10,7 @@ const routeUserOption = (options) => {
 };
 
 const getAnyOfFollowing = async (req, res) => {
-  res.render(VIEW.BEFORE_YOU_START.ANY_OF_FOLLOWING);
+  res.render(VIEW.FULL_PLANNING.ANY_OF_FOLLOWING);
 };
 
 const postAnyOfFollowing = async (req, res) => {
@@ -20,7 +20,7 @@ const postAnyOfFollowing = async (req, res) => {
     const errorMessage = errors.option.msg;
 
     if (errorMessage) {
-      return res.render(VIEW.BEFORE_YOU_START.ANY_OF_FOLLOWING, {
+      return res.render(VIEW.FULL_PLANNING.ANY_OF_FOLLOWING, {
         errors,
         errorSummary,
       });

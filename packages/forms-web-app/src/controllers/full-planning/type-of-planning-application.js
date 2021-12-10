@@ -4,8 +4,8 @@ const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../lib/views');
 
 exports.getTypeOfPlanningApplication = async (req, res) => {
-  res.render(VIEW.BEFORE_YOU_START.TYPE_OF_PLANNING_APPLICATION, {
-    backLink: `${VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT}`,
+  res.render(VIEW.FULL_PLANNING.TYPE_OF_PLANNING_APPLICATION, {
+    backLink: `${VIEW.FULL_PLANNING.LOCAL_PLANNING_DEPARTMENT}`,
   });
 };
 
@@ -32,11 +32,11 @@ exports.postTypeOfPlanningApplication = async (req, res) => {
   appeal.beforeYouStartSection = { typeOfPlanningApplication: selection };
 
   if (errors['type-of-planning-application']) {
-    res.render(VIEW.BEFORE_YOU_START.TYPE_OF_PLANNING_APPLICATION, {
+    res.render(VIEW.FULL_PLANNING.TYPE_OF_PLANNING_APPLICATION, {
       appeal,
       errors,
       errorSummary,
-      backLink: `${VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT}`,
+      backLink: `${VIEW.FULL_PLANNING.LOCAL_PLANNING_DEPARTMENT}`,
     });
   }
 
@@ -47,11 +47,11 @@ exports.postTypeOfPlanningApplication = async (req, res) => {
     } catch (e) {
       logger.error(e);
 
-      res.render(VIEW.BEFORE_YOU_START.TYPE_OF_PLANNING_APPLICATION, {
+      res.render(VIEW.FULL_PLANNING.TYPE_OF_PLANNING_APPLICATION, {
         appeal,
         errors,
         errorSummary: [{ text: e.toString(), href: 'pageId' }],
-        backLink: `${VIEW.BEFORE_YOU_START.LOCAL_PLANNING_DEPARTMENT}`,
+        backLink: `${VIEW.FULL_PLANNING.LOCAL_PLANNING_DEPARTMENT}`,
       });
     }
   }
