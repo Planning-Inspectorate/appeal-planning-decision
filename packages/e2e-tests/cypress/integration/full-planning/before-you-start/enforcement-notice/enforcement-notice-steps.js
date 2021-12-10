@@ -1,13 +1,13 @@
-import {Given } from 'cypress-cucumber-preprocessor/steps';
-import { goToPage } from '../../../../../../../e2e-tests/cypress/support/go-to-page/goToPage';
-import { verifyPageHeading } from '../../../../../../../e2e-tests/cypress/support/common/verify-page-heading';
-import { verifyPageTitle } from '../../../../../../../e2e-tests/cypress/support/common/verify-page-title';
+import {Given,When,Then } from 'cypress-cucumber-preprocessor/steps';
+import { goToPage } from '../../../../support/common/go-to-page/goToPage';
+import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import {
   getEnforcementNoticeErrorMessage,
   getEnforcementNoticeNo, getEnforcementNoticeYes,
 } from '../../../../support/full-planning/before-you-start/page-objects/enforcement-notice-po';
-import { getContinueButton, getErrorMessageSummary } from '../../../../../../../e2e-tests/cypress/support/page-objects/common-po';
-import { verifyErrorMessage } from '../../../../../../../e2e-tests/cypress/support/common/verify-error-message';
+import { getContinueButton, getErrorMessageSummary } from '../../../../support/common-page-objects/common-po';
+import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
 import { getBackLink } from '../../../../support/common-page-objects/common-po';
 const pageHeading = 'Have you received an enforcement notice?';
 const pageTitle = 'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK';
@@ -42,7 +42,7 @@ Then('appellant is navigated to the shutter page',()=>{
   cy.url().should('contain','/before-you-start/use-a-different-service');
 });
 
-Then('appellant is navigated to the type of planning application page',()=>{
+Then('appellant is navigated to the any of the following page',()=>{
   cy.url().should('contain','/before-you-start/any-of-following');
 });
 

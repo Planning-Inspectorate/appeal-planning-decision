@@ -24,7 +24,7 @@ Feature: Enforcement notice
     Given appellant is on the enforcement notice page
     When appellant selects 'Yes' from the options
     And appellant selects the back button
-    Then appellant is navigated to the type of planning application page
+    Then appellant is navigated to the any of the following page
     And information they have inputted will not be saved
 
 
