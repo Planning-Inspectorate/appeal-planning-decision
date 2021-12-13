@@ -9,7 +9,7 @@
   "scripts": {
     "prebuild": "rm -Rf ./dist",
     "build": "npm run build:client && npm run build:sass && npm run build:app",
-    "build:app": "cp -Rf ./src ./dist",
+    "build:app": "cp -Rf ./src ./dist && find ./dist -name '*.test.js' -delete",
     "build:client": "webpack --config webpack.prod.js",
     "build:sass": "sass src/sass/main.scss:src/public/stylesheets/main.css --style=compressed --load-path=./ --no-source-map",
     "start": "node dist/server.js",
