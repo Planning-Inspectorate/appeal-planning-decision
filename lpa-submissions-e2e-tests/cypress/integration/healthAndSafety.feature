@@ -5,7 +5,6 @@ Feature: Appeals Extra Conditions
   Background:
     Given an appeal has been created
     And a questionnaire has been created
-    And the LPA Planning Officer is authenticated
 
   Scenario: AC01 - User navigates to 'Are there any health and safety issues on the appeal site?' page
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list

@@ -12,7 +12,6 @@ const supplementaryDocumentsValidationRules = require('../../../src/validators/s
 const checkIfSupplementaryDocuments = require('../../../src/middleware/check-if-supplementary-documents');
 const deleteSupplementaryDocumentController = require('../../../src/controllers/supplementary-documents/delete-supplementary-document');
 const alreadySubmittedMiddleware = require('../../../src/middleware/already-submitted');
-const authenticateMiddleware = require('../../../src/middleware/authenticate');
 
 jest.mock('../../../src/middleware/req-files-to-req-body-files');
 jest.mock('../../../src/validators/supplementary-documents');
@@ -34,18 +33,12 @@ describe('routes/supplementary-documents', () => {
 
       expect(get).toHaveBeenCalledWith(
         '/appeal-questionnaire/:id/supplementary-documents',
-        [
-          authenticateMiddleware,
-          fetchAppealMiddleware,
-          fetchExistingAppealReplyMiddleware,
-          alreadySubmittedMiddleware,
-        ],
+        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
         supplementaryDocumentsController.getAddDocument
       );
 
       expect(post).toHaveBeenCalledWith(
         '/appeal-questionnaire/:id/supplementary-documents',
-        authenticateMiddleware,
         reqFilesToReqBodyFilesMiddleware('documents'),
         combineDateInputsMiddleware,
         supplementaryDocumentsValidationRules(),
@@ -56,24 +49,14 @@ describe('routes/supplementary-documents', () => {
 
       expect(get).toHaveBeenCalledWith(
         '/appeal-questionnaire/:id/supplementary-documents/uploaded-documents',
-        [
-          authenticateMiddleware,
-          fetchAppealMiddleware,
-          fetchExistingAppealReplyMiddleware,
-          alreadySubmittedMiddleware,
-        ],
+        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
         checkIfSupplementaryDocuments,
         uploadedDocumentsController.getUploadedDocuments
       );
 
       expect(get).toHaveBeenCalledWith(
         '/appeal-questionnaire/:id/supplementary-documents/delete-document',
-        [
-          authenticateMiddleware,
-          fetchAppealMiddleware,
-          fetchExistingAppealReplyMiddleware,
-          alreadySubmittedMiddleware,
-        ],
+        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
         deleteSupplementaryDocumentController.getDeleteDocument
       );
     });

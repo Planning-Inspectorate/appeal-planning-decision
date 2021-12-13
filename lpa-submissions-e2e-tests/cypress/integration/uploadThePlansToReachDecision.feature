@@ -6,7 +6,6 @@ Feature: Upload the plans used to reach the LPA decision
   Background:
     Given an appeal has been created
     And a questionnaire has been created
-    And the LPA Planning Officer is authenticated
 
   Scenario: AC1 LPA Planning Officer navigates to 'Upload the plans used to reach the decision' question
     Given a LPA Planning Officer is reviewing their LPA Questionnaire task list

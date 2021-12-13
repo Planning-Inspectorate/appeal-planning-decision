@@ -5,7 +5,6 @@ Feature: As a LPA Planning Officer
   Background:
     Given an appeal has been created
     And a questionnaire has been created
-    And the LPA Planning Officer is authenticated
     And Add supplementary document is completed for 'upload-file-valid.jpeg' and document name 'Mock document name'
 
   Scenario: AC01 LPA planning officer deletes a file and file data

@@ -6,7 +6,6 @@ Feature: Beta Service feedback Link
   Background:
     Given an appeal has been created
     And a questionnaire has been created
-    And the LPA Planning Officer is authenticated
 
   Scenario: AC01 - Access to the feedback survey from the Beta banner
     Given the LPA Questionnaire is accessed
