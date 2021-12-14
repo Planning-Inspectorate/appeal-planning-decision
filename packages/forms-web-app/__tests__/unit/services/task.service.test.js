@@ -7,7 +7,11 @@ const {
   NOT_STARTED,
 } = require('../../../src/services/task-status/task-statuses');
 
-const { SECTIONS, getNextTask } = require('../../../src/services/task.service');
+const { SECTIONS, getNextTask, getTaskStatus } = require('../../../src/services/task.service');
+
+beforeEach(() => {
+  jest.resetAllMocks();
+});
 
 describe('services/task.service', () => {
   describe('getNextTask', () => {
@@ -172,6 +176,41 @@ describe('services/task.service', () => {
         status: NOT_STARTED,
         taskName: 'originalApplication',
       });
+    });
+  });
+
+  describe('#getTaskStatus', () => {
+    const ruleUnderTask = jest.fn();
+    const ruleUnderSection = jest.fn();
+
+    const sections = {
+      section1: {
+        task1: {
+          rule: ruleUnderTask,
+        },
+        rule: ruleUnderSection,
+      },
+    };
+
+    it('should find the rule in the task object if there is a taskName', () => {
+      getTaskStatus({}, 'section1', 'task1', sections);
+      expect(ruleUnderTask).toBeCalledTimes(1);
+      expect(ruleUnderSection).toBeCalledTimes(0);
+    });
+
+    it('should find the rule in the section object if there is not a taskName', () => {
+      getTaskStatus({}, 'section1', undefined, sections);
+      expect(ruleUnderSection).toBeCalledTimes(1);
+      expect(ruleUnderTask).toBeCalledTimes(0);
+    });
+
+    it('should return null if there is an error', () => {
+      const taskStatus = getTaskStatus({}, 'section1', undefined, sections);
+      ruleUnderSection.mockImplementation(() => {
+        throw new Error('Mock Error');
+      });
+      expect(ruleUnderSection).toBeCalledTimes(1);
+      expect(taskStatus).toBeUndefined();
     });
   });
 });
