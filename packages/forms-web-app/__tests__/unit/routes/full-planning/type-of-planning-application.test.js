@@ -1,17 +1,17 @@
-const { get, post } = require('../../../__tests__/unit/routes/router-mock');
-const typeOfPlanningController = require('../../controllers/full-planning/type-of-planning-application');
-const { validationErrorHandler } = require('../../validators/validation-error-handler');
-const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
+const { get, post } = require('../router-mock');
+const typeOfPlanningController = require('../../../../src/controllers/full-planning/type-of-planning-application');
+const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
+const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 const {
   rules: typeOfPlanningValidationRules,
-} = require('../../validators/full-planning/type-of-planning-application');
+} = require('../../../../src/validators/full-planning/type-of-planning-application');
 
-jest.mock('../../validators/full-planning/type-of-planning-application');
+jest.mock('../../../../src/validators/full-planning/type-of-planning-application');
 
 describe('routes/eligibility/planning-department', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
-    require('./type-of-planning-application');
+    require('../../../../src/routes/full-planning/type-of-planning-application');
   });
 
   it('should define the expected routes', () => {

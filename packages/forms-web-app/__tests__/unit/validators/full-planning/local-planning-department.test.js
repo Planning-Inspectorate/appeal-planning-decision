@@ -1,8 +1,8 @@
-jest.mock('../../services/department.service');
+jest.mock('../../../../src/services/department.service');
 const { validationResult } = require('express-validator');
-const { getDepartmentData } = require('../../services/department.service');
-const { rules } = require('./local-planning-department');
-const { testExpressValidatorMiddleware } = require('../../../__tests__/unit/validators/validation-middleware-helper');
+const { getDepartmentData } = require('../../../../src/services/department.service');
+const { rules } = require('../../../../src/validators/full-planning/local-planning-department');
+const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
 
 const departmentsData = {
   departments: ['lpa1', 'lpa2'],

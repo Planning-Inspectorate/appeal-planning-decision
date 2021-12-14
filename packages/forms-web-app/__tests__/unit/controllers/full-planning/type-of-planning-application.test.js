@@ -1,14 +1,14 @@
-const typeOfPlanningApplicationController = require('./type-of-planning-application');
-const { APPEAL_DOCUMENT } = require('../../lib/empty-appeal');
-const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
-const logger = require('../../lib/logger');
+const typeOfPlanningApplicationController = require('../../../../src/controllers/full-planning/type-of-planning-application');
+const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
+const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
+const logger = require('../../../../src/lib/logger');
 
-const { VIEW } = require('../../lib/views');
-const { mockReq, mockRes } = require('../../../__tests__/unit/mocks');
+const { VIEW } = require('../../../../src/lib/views');
+const { mockReq, mockRes } = require('../../mocks');
 
-jest.mock('../../lib/empty-appeal');
-jest.mock('../../lib/appeals-api-wrapper');
-jest.mock('../../lib/logger');
+jest.mock('../../../../src/lib/empty-appeal');
+jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/lib/logger');
 
 describe('controllers/full-planning/type-of-planning-application', () => {
   let req;

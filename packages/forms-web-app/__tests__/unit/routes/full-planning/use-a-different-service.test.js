@@ -1,10 +1,10 @@
-const { get } = require('../../../__tests__/unit/routes/router-mock');
-const useADifferentServiceController = require('../../controllers/full-planning/use-a-different-service');
+const { get } = require('../router-mock');
+const useADifferentServiceController = require('../../../../src/controllers/full-planning/use-a-different-service');
 
 describe('routes/full-planning/use-a-different-service', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
-    require('./use-a-different-service');
+    require('../../../../src/routes/full-planning/use-a-different-service');
   });
 
   it('should define the expected routes', () => {

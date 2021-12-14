@@ -1,18 +1,18 @@
-const localPlanningDepartmentController = require('./local-planning-department');
-const { getDepartmentFromId } = require('../../services/department.service');
-const { APPEAL_DOCUMENT } = require('../../lib/empty-appeal');
-const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
-const { getDepartmentFromName } = require('../../services/department.service');
-const { getRefreshedDepartmentData } = require('../../services/department.service');
-const logger = require('../../lib/logger');
+const localPlanningDepartmentController = require('../../../../src/controllers/full-planning/local-planning-department');
+const { getDepartmentFromId } = require('../../../../src/services/department.service');
+const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
+const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
+const { getDepartmentFromName } = require('../../../../src/services/department.service');
+const { getRefreshedDepartmentData } = require('../../../../src/services/department.service');
+const logger = require('../../../../src/lib/logger');
 
-const { VIEW } = require('../../lib/views');
-const { mockReq, mockRes } = require('../../../__tests__/unit/mocks');
+const { VIEW } = require('../../../../src/lib/views');
+const { mockReq, mockRes } = require('../../mocks');
 
-jest.mock('../../services/department.service');
-jest.mock('../../lib/empty-appeal');
-jest.mock('../../lib/appeals-api-wrapper');
-jest.mock('../../lib/logger');
+jest.mock('../../../../src/services/department.service');
+jest.mock('../../../../src/lib/empty-appeal');
+jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/lib/logger');
 
 describe('controllers/full-planning/local-planning-department', () => {
   let req;

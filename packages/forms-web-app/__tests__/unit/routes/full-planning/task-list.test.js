@@ -1,11 +1,11 @@
-const { get } = require('../../router-mock');
-const taskListController = require('../../../../../src/controllers/full-planning/full-appeal/task-list');
-const fetchExistingAppealMiddleware = require('../../../../../src/middleware/fetch-existing-appeal');
+const { get } = require('../router-mock');
+const taskListController = require('../../../../src/controllers/full-planning/full-appeal/task-list');
+const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 
 describe('routes/full-planning/full-appeal/task-list', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
-    require('../../../../../src/routes/full-planning/full-appeal/task-list');
+    require('../../../../src/routes/full-planning/full-appeal/task-list');
   });
 
   afterEach(() => {

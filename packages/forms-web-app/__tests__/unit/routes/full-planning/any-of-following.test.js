@@ -1,16 +1,16 @@
-const { get, post } = require('../../../__tests__/unit/routes/router-mock');
-const anyOfFollowingController = require('../../controllers/full-planning/any-of-following');
-const { validationErrorHandler } = require('../../validators/validation-error-handler');
+const { get, post } = require('../router-mock');
+const anyOfFollowingController = require('../../../../src/controllers/full-planning/any-of-following');
+const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const {
   rules: anyOfFollowingValidationRules,
-} = require('../../validators/full-planning/any-of-following');
+} = require('../../../../src/validators/full-planning/any-of-following');
 
-jest.mock('../../validators/full-planning/any-of-following');
+jest.mock('../../../../src/validators/full-planning/any-of-following');
 
 describe('routes/full-planning/any-of-following', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
-    require('./any-of-following');
+    require('../../../../src/routes/full-planning/any-of-following');
   });
 
   it('should define the expected routes', () => {
