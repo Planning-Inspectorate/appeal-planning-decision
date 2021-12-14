@@ -94,5 +94,9 @@ exports.appealDocument = {
       siteOwnership: 'NOT STARTED',
       healthAndSafety: 'NOT STARTED',
     },
+    contactDetailsSection: 'NOT_STARTED',
+    aboutAppealSiteSection: 'NOT_STARTED',
+    planningApplicationDocumentsSection: 'NOT_STARTED',
+    appealDocumentsSection: 'NOT_STARTED',
   },
 };

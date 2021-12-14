@@ -127,9 +127,35 @@ const SECTIONS = {
   },
 };
 
+function notStartedRule() {
+  return TASK_STATUS.NOT_STARTED;
+}
+
+const FULL_APPEAL_SECTIONS = {
+  contactDetailsSection: {
+    href: `/`,
+    rule: notStartedRule,
+  },
+  aboutAppealSiteSection: {
+    href: `/`,
+    rule: notStartedRule,
+  },
+  planningApplicationDocumentsSection: {
+    href: `/`,
+    rule: notStartedRule,
+  },
+  appealDocumentsSection: {
+    href: `/`,
+    rule: notStartedRule,
+  },
+  submitYourAppealSection: {
+    rule: () => TASK_STATUS.CANNOT_START_YET,
+  },
+};
+
 const getTaskStatus = (appeal, sectionName, taskName, sections = SECTIONS) => {
   try {
-    const { rule } = sections[sectionName][taskName];
+    const { rule } = taskName ? sections[sectionName][taskName] : sections[sectionName];
     return rule(appeal);
   } catch (e) {
     return null;
@@ -171,6 +197,7 @@ const getNextTask = (appeal, currentTask, sections = SECTIONS) => {
 
 module.exports = {
   SECTIONS,
+  FULL_APPEAL_SECTIONS,
   getTaskStatus,
   getNextTask,
 };
