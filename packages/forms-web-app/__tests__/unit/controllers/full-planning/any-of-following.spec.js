@@ -1,8 +1,8 @@
-const anyOfFollowingController = require('./any-of-following');
-const { mockReq, mockRes } = require('../../../__tests__/unit/mocks');
-const { VIEW } = require('../../lib/views');
+const anyOfFollowingController = require('../../../../src/controllers/full-planning/any-of-following');
+const { mockReq, mockRes } = require('../../mocks');
+const { VIEW } = require('../../../../src/lib/views');
 
-jest.mock('../../lib/logger');
+jest.mock('../../../../src/lib/logger');
 
 describe('controllers/full-planning/any-of-following', () => {
   let req;

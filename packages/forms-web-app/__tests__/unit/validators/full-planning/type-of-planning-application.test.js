@@ -1,8 +1,6 @@
 const { validationResult } = require('express-validator');
-const {
-  rules,
-} = require('./type-of-planning-application');
-const { testExpressValidatorMiddleware } = require('../../../__tests__/unit/validators/validation-middleware-helper');
+const { rules } = require('../../../../src/validators/full-planning/type-of-planning-application');
+const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
 
 describe('validators/planning-department', () => {
   describe('rules', () => {

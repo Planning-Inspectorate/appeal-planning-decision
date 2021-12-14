@@ -1,7 +1,7 @@
-const useADifferentServiceController = require('./use-a-different-service');
+const useADifferentServiceController = require('../../../../src/controllers/full-planning/use-a-different-service');
 
-const { VIEW } = require('../../lib/views');
-const { mockReq, mockRes } = require('../../../__tests__/unit/mocks');
+const { VIEW } = require('../../../../src/lib/views');
+const { mockReq, mockRes } = require('../../mocks');
 
 describe('controllers/full-planning/use-a-different-service', () => {
   const req = mockReq();
