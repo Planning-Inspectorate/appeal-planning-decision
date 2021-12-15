@@ -34,13 +34,16 @@ const validateFileNotPresent = (fileName) => {
 
 const uploadFiles = (fileName, documentType, dropZone) => {
   cy.get('@page').then(({ url }) => {
-    // start watching the POST requests
-    cy.server({ method: 'POST' });
-    cy.route({
-      method: 'POST',
-      url: disableJs ? url : `upload/${documentType}`,
-    }).as('upload');
-
+    cy.get('@appeal').then((appeal) => {
+      cy.wrap(`${Cypress.env('LPA_BASE_URL')}/${appeal.id}/${url}`).then((url) => {
+        // start watching the POST requests
+        cy.server({ method: 'POST' });
+        cy.route({
+          method: 'POST',
+          url: disableJs ? url : `/upload/${documentType}`,
+        }).as('upload');
+      });
+    });
     const target = () => {
       return dropZone ? cy.get('.moj-multi-file-upload__dropzone') : cy.get('input#documents');
     };

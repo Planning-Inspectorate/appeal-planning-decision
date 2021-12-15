@@ -103,7 +103,7 @@ Feature: Planning History
     Given planning history question is requested
     Then the appeal details sidebar is displayed with the correct information
 
-  @nojs
+  @nojs @wip
   Scenario Outline: AC13 JavaScript Disabled
     Given planning history question is requested
     When valid file '<valid_file>' is successfully uploaded for 'planningHistory'

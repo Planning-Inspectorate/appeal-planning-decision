@@ -103,7 +103,7 @@ Feature: Representations from interested parties
     Given Representations from interested parties question is requested
     Then the appeal details sidebar is displayed with the correct information
 
-  @nojs
+  @nojs @wip
   Scenario Outline: AC13 JavaScript Disabled
     Given Representations from interested parties question is requested
     When valid file '<valid_file>' is successfully uploaded for 'representations'

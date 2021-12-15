@@ -103,7 +103,7 @@ Feature: Notifying interested parties of the appeal
     Given Notifying interested parties of the appeal is requested
     Then the appeal details sidebar is displayed with the correct information
 
-  @nojs
+  @nojs @wip
   Scenario Outline: AC13 JavaScript Disabled
     Given Notifying interested parties of the appeal is requested
     When valid file '<valid_file>' is successfully uploaded for 'notifyingParties'

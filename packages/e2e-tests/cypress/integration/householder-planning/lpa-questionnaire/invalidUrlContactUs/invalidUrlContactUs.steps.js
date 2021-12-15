@@ -26,7 +26,6 @@ Given('user has navigated to an invalid page',()=>{
 
 Given('user has navigated to contact us page',()=>{
   cy.visit(contactUsPageUrl, {failOnStatusCode:false});
-  getContactUsLink().click();
   verifyPageTitle(contactUsPageTitle);
   verifyPageHeading(contactUsPageHeading);
 });

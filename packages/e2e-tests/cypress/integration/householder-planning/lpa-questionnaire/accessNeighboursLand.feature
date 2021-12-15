@@ -51,10 +51,10 @@ Feature: Access neighbours land
     Given 'Access neighbours land' question has been requested
     Then the appeal details sidebar is displayed with the correct information
 
-  Scenario: AC09 Check Your Answers Page
-    Given the questionnaire has been completed
-    When Check your Answers is displayed
-    Then 'Access neighbours land' yes or no question and answer should be displayed
+#  Scenario: AC09 Check Your Answers Page
+#    Given the questionnaire has been completed
+#    When Check your Answers is displayed
+#    Then 'Access neighbours land' yes or no question and answer should be displayed
 
   Scenario: AC10 Change answer from Check Your Answers Page
     Given a change to answer 'Access neighbours land' is requested from Change your answers page

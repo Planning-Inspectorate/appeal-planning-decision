@@ -103,7 +103,7 @@ Feature: Statutory Development Plan Policy
     Given Statutory development plan policy question is requested
     Then the appeal details sidebar is displayed with the correct information
 
-  @nojs
+  @nojs @wip
   Scenario Outline: AC13 JavaScript Disabled
     Given Statutory development plan policy question is requested
     When valid file '<valid_file>' is successfully uploaded for 'statutoryDevelopment'
