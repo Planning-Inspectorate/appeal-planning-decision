@@ -1,15 +1,15 @@
 import { Given, Then } from 'cypress-cucumber-preprocessor/steps';
-import { goToPage } from '../../../../support/common/go-to-page/goToPage';
 import { verifyPage } from '../../../../support/common/verifyPage';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { visibleWithText } from '../../../../support/common/visibleWithText';
+import { goToLPAPage } from '../../../../support/common/go-to-page/goToLPAPage';
 
 const informationSubmittedUrl = 'information-submitted';
 const informationSubmittedPageTitle =
   'Information submitted - Appeal questionnaire - Appeal a householder planning decision - GOV.UK';
 
 Given(`the Information Submitted page is requested`, () => {
-  goToPage(informationSubmittedUrl);
+  goToLPAPage(informationSubmittedUrl);
 });
 
 Then(`the Information Submitted page will be shown`, () => {

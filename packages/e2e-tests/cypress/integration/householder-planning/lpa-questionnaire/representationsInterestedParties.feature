@@ -101,7 +101,7 @@ Feature: Representations from interested parties
 
   Scenario: AC12 Appeal details side panel
     Given Representations from interested parties question is requested
-    Then the appeal details panel is displayed on the right hand side of the page
+    Then the appeal details sidebar is displayed with the correct information
 
   @nojs
   Scenario Outline: AC13 JavaScript Disabled

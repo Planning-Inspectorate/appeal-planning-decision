@@ -14,4 +14,4 @@ Feature: appealDetailsSidebar:
 
   Scenario: AC1-Appeal details sidebar is displayed with the correct information
     Given A subsection page is presented
-    Then The appeal details sidebar is displayed with the correct information
+    Then the appeal details sidebar is displayed with the correct information

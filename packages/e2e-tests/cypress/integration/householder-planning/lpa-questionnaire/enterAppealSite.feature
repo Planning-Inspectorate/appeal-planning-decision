@@ -49,7 +49,7 @@ Feature: Enter Appeal Site
 
   Scenario: AC08 Appeal details side panel
     Given 'Enter the appeal site' question has been requested
-    Then the appeal details panel is displayed on the right hand side of the page
+    Then the appeal details sidebar is displayed with the correct information
 
   Scenario: AC09 Check Your Answers Page
     Given the questionnaire has been completed

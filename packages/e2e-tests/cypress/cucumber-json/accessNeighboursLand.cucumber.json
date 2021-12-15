@@ -11,7 +11,7 @@
       {
         "id": "access-neighbours-land;ac01-lpa-officer-navigates-to-access-neighbours-land",
         "keyword": "Scenario",
-        "line": 11,
+        "line": 10,
         "name": "AC01 LPA Officer navigates to Access neighbours land",
         "tags": [],
         "type": "scenario",
@@ -20,10 +20,10 @@
             "arguments": [],
             "keyword": "Given ",
             "line": 7,
-            "name": "an appeal has been created",
+            "name": "an appeal has been created for Access neighbours land",
             "result": {
-              "status": "undefined",
-              "duration": 64000000
+              "status": "passed",
+              "duration": 2207000000
             }
           },
           {
@@ -32,43 +32,38 @@
             "line": 8,
             "name": "a questionnaire has been created",
             "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 9,
-            "name": "the LPA Planning Officer is authenticated",
-            "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 29000000
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 12,
+            "line": 11,
             "name": "a LPA Planning Officer is reviewing their LPA Questionnaire task list",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 378000000
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 13,
+            "line": 12,
             "name": "LPA Planning Officer chooses to provide information about 'Access neighbours land'",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 458000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 14,
+            "line": 13,
             "name": "LPA Planning Officer is presented with ability to add this information",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 449000000
             }
           }
         ]
@@ -76,7 +71,7 @@
       {
         "id": "access-neighbours-land;ac02-the-lpa-does-not-provide-an-answer-to-access-neighbours-land",
         "keyword": "Scenario",
-        "line": 16,
+        "line": 15,
         "name": "AC02 The LPA does not provide an answer to Access neighbours land",
         "tags": [],
         "type": "scenario",
@@ -85,9 +80,10 @@
             "arguments": [],
             "keyword": "Given ",
             "line": 7,
-            "name": "an appeal has been created",
+            "name": "an appeal has been created for Access neighbours land",
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 1672000000
             }
           },
           {
@@ -96,43 +92,38 @@
             "line": 8,
             "name": "a questionnaire has been created",
             "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 9,
-            "name": "the LPA Planning Officer is authenticated",
-            "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 31000000
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 17,
+            "line": 16,
             "name": "'Access neighbours land' question has been requested",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 330000000
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 18,
+            "line": 17,
             "name": "an answer to the question is not provided",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 29000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 19,
+            "line": 18,
             "name": "progress is halted with an error message to select an answer",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 903000000
             }
           }
         ]
@@ -140,7 +131,7 @@
       {
         "id": "access-neighbours-land;ac03-lpa-officer-selects-yes-to-access-neighbours-land-and-enters-details-why-the-inspector-needs-to-access-neighbours-land",
         "keyword": "Scenario",
-        "line": 21,
+        "line": 20,
         "name": "AC03 LPA Officer selects Yes to Access neighbours land and enters details why the inspector needs to Access neighbours land",
         "tags": [],
         "type": "scenario",
@@ -149,9 +140,10 @@
             "arguments": [],
             "keyword": "Given ",
             "line": 7,
-            "name": "an appeal has been created",
+            "name": "an appeal has been created for Access neighbours land",
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 481000000
             }
           },
           {
@@ -160,61 +152,58 @@
             "line": 8,
             "name": "a questionnaire has been created",
             "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 9,
-            "name": "the LPA Planning Officer is authenticated",
-            "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 20000000
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 22,
+            "line": 21,
             "name": "'Access neighbours land' question has been requested",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 367000000
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 23,
+            "line": 22,
             "name": "the answer is 'yes'",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 99000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
-            "line": 24,
+            "line": 23,
             "name": "the officer enters 'why the inspector will need access' in the text box that appears",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 1358000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 25,
+            "line": 24,
             "name": "officer progresses to the task list from yes no question",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 415000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
-            "line": 26,
+            "line": 25,
             "name": "the 'Access neighbours land' subsection is shown as completed",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 46000000
             }
           }
         ]
@@ -222,7 +211,7 @@
       {
         "id": "access-neighbours-land;ac04-lpa-officer-selects-yes-to-access-neighbours-land-but-does-not-enter-details-why-the-inspector-needs-to-access-neighbours-land",
         "keyword": "Scenario",
-        "line": 28,
+        "line": 27,
         "name": "AC04 LPA Officer selects Yes to Access neighbours land but does not enter details why the inspector needs to Access neighbours land",
         "tags": [],
         "type": "scenario",
@@ -231,9 +220,10 @@
             "arguments": [],
             "keyword": "Given ",
             "line": 7,
-            "name": "an appeal has been created",
+            "name": "an appeal has been created for Access neighbours land",
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 604000000
             }
           },
           {
@@ -242,43 +232,38 @@
             "line": 8,
             "name": "a questionnaire has been created",
             "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 9,
-            "name": "the LPA Planning Officer is authenticated",
-            "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 16000000
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 29,
+            "line": 28,
             "name": "'Access neighbours land' question has been requested",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 342000000
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 30,
+            "line": 29,
             "name": "the answer is 'yes'",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 101000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 31,
+            "line": 30,
             "name": "progress is halted with an error message to enter details",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 673000000
             }
           }
         ]
@@ -286,7 +271,7 @@
       {
         "id": "access-neighbours-land;ac05-lpa-officer-selects-no-to-access-neighbours-land",
         "keyword": "Scenario",
-        "line": 33,
+        "line": 32,
         "name": "AC05 LPA Officer selects No to Access neighbours land",
         "tags": [],
         "type": "scenario",
@@ -295,9 +280,10 @@
             "arguments": [],
             "keyword": "Given ",
             "line": 7,
-            "name": "an appeal has been created",
+            "name": "an appeal has been created for Access neighbours land",
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 2654000000
             }
           },
           {
@@ -306,52 +292,48 @@
             "line": 8,
             "name": "a questionnaire has been created",
             "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 9,
-            "name": "the LPA Planning Officer is authenticated",
-            "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 25000000
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 34,
+            "line": 33,
             "name": "'Access neighbours land' question has been requested",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 334000000
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 35,
+            "line": 34,
             "name": "the answer is 'no'",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 100000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 36,
+            "line": 35,
             "name": "officer progresses to the task list from yes no question",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 397000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
-            "line": 37,
+            "line": 36,
             "name": "the 'Access neighbours land' subsection is shown as completed",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 45000000
             }
           }
         ]
@@ -359,7 +341,7 @@
       {
         "id": "access-neighbours-land;ac06-lpa-officer-selects-to-return-to-the-previous-page",
         "keyword": "Scenario",
-        "line": 39,
+        "line": 38,
         "name": "AC06 LPA Officer selects to return to the previous page",
         "tags": [],
         "type": "scenario",
@@ -368,9 +350,10 @@
             "arguments": [],
             "keyword": "Given ",
             "line": 7,
-            "name": "an appeal has been created",
+            "name": "an appeal has been created for Access neighbours land",
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 611000000
             }
           },
           {
@@ -379,61 +362,58 @@
             "line": 8,
             "name": "a questionnaire has been created",
             "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 9,
-            "name": "the LPA Planning Officer is authenticated",
-            "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 17000000
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 40,
+            "line": 39,
             "name": "'Access neighbours land' question has been requested",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 756000000
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 41,
+            "line": 40,
             "name": "an answer is given but not submitted",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 1424000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
-            "line": 42,
+            "line": 41,
             "name": "Back is then requested",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 335000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 43,
+            "line": 42,
             "name": "the LPA Planning Officer is taken to the Task List",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 8000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
-            "line": 44,
+            "line": 43,
             "name": "any data inputted will not be saved",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 448000000
             }
           }
         ]
@@ -441,7 +421,7 @@
       {
         "id": "access-neighbours-land;ac07-lpa-officer-returns-to-the-completed-access-neighbours-land-question",
         "keyword": "Scenario",
-        "line": 46,
+        "line": 45,
         "name": "AC07 LPA Officer returns to the completed Access neighbours land question",
         "tags": [],
         "type": "scenario",
@@ -450,9 +430,10 @@
             "arguments": [],
             "keyword": "Given ",
             "line": 7,
-            "name": "an appeal has been created",
+            "name": "an appeal has been created for Access neighbours land",
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 479000000
             }
           },
           {
@@ -461,43 +442,38 @@
             "line": 8,
             "name": "a questionnaire has been created",
             "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 9,
-            "name": "the LPA Planning Officer is authenticated",
-            "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 16000000
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 47,
+            "line": 46,
             "name": "The yes or no question 'Access neighbours land' has been completed",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 2103000000
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 48,
+            "line": 47,
             "name": "the inspector returns to the question",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 549000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 49,
+            "line": 48,
             "name": "the yes or no information they previously entered is still populated",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 59000000
             }
           }
         ]
@@ -505,7 +481,7 @@
       {
         "id": "access-neighbours-land;ac08-appeal-details-side-panel",
         "keyword": "Scenario",
-        "line": 51,
+        "line": 50,
         "name": "AC08 Appeal details side panel",
         "tags": [],
         "type": "scenario",
@@ -514,9 +490,10 @@
             "arguments": [],
             "keyword": "Given ",
             "line": 7,
-            "name": "an appeal has been created",
+            "name": "an appeal has been created for Access neighbours land",
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 1447000000
             }
           },
           {
@@ -525,34 +502,28 @@
             "line": 8,
             "name": "a questionnaire has been created",
             "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 9,
-            "name": "the LPA Planning Officer is authenticated",
-            "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 20000000
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 52,
+            "line": 51,
             "name": "'Access neighbours land' question has been requested",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 337000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 53,
-            "name": "the appeal details panel is displayed on the right hand side of the page",
+            "line": 52,
+            "name": "the appeal details sidebar is displayed with the correct information",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 91000000
             }
           }
         ]
@@ -560,7 +531,7 @@
       {
         "id": "access-neighbours-land;ac09-check-your-answers-page",
         "keyword": "Scenario",
-        "line": 55,
+        "line": 54,
         "name": "AC09 Check Your Answers Page",
         "tags": [],
         "type": "scenario",
@@ -569,9 +540,10 @@
             "arguments": [],
             "keyword": "Given ",
             "line": 7,
-            "name": "an appeal has been created",
+            "name": "an appeal has been created for Access neighbours land",
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 456000000
             }
           },
           {
@@ -580,43 +552,38 @@
             "line": 8,
             "name": "a questionnaire has been created",
             "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 9,
-            "name": "the LPA Planning Officer is authenticated",
-            "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 14000000
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 56,
+            "line": 55,
             "name": "the questionnaire has been completed",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 22000000
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 57,
+            "line": 56,
             "name": "Check your Answers is displayed",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 246000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 58,
+            "line": 57,
             "name": "'Access neighbours land' yes or no question and answer should be displayed",
             "result": {
-              "status": "skipped"
+              "status": "failed",
+              "error_message": "AssertionError: expected '' to include 'Yes'\n    at Context.eval (http://localhost:9001/__cypress/tests?p=cypress\\integration\\householder-planning\\lpa-questionnaire\\accessNeighboursLand.feature:1267:42)"
             }
           }
         ]
@@ -624,7 +591,7 @@
       {
         "id": "access-neighbours-land;ac10-change-answer-from-check-your-answers-page",
         "keyword": "Scenario",
-        "line": 60,
+        "line": 59,
         "name": "AC10 Change answer from Check Your Answers Page",
         "tags": [],
         "type": "scenario",
@@ -633,9 +600,10 @@
             "arguments": [],
             "keyword": "Given ",
             "line": 7,
-            "name": "an appeal has been created",
+            "name": "an appeal has been created for Access neighbours land",
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 457000000
             }
           },
           {
@@ -644,61 +612,58 @@
             "line": 8,
             "name": "a questionnaire has been created",
             "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 9,
-            "name": "the LPA Planning Officer is authenticated",
-            "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 14000000
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 61,
+            "line": 60,
             "name": "a change to answer 'Access neighbours land' is requested from Change your answers page",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 2625000000
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 62,
+            "line": 61,
             "name": "a yes or no answer is saved",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 484000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 63,
+            "line": 62,
             "name": "progress is made to the Check Your Answers page",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 7000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
-            "line": 64,
+            "line": 63,
             "name": "the updated yes or no answer is displayed",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 35000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 65,
+            "line": 64,
             "name": "'Access neighbours land' answer should be blank",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 30000000
             }
           }
         ]

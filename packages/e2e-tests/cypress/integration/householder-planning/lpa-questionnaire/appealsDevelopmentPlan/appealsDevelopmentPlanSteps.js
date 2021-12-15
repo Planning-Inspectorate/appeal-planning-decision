@@ -1,6 +1,5 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { textArea, input } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
-import { goToPage } from '../../../../support/common/go-to-page/goToPage';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
@@ -13,6 +12,7 @@ import {
 } from '../../../../support/householder-planning/lpa-questionnaire/appeals-questionnaire-tasklist/verifyCompletedStatus';
 import { validateErrorMessage } from '../../../../support/common/validateErrorMessage';
 import { getBackLink } from '../../../../support/common-page-objects/common-po';
+import { goToLPAPage } from '../../../../support/common/go-to-page/goToLPAPage';
 
 const pageId = 'development-plan';
 const pageTitle =
@@ -24,12 +24,12 @@ const noButtonId = 'has-plan-submitted-no';
 const yesButtonId = 'has-plan-submitted-yes';
 
 Given(`the Development Plan Document and Neighbourhood Plan question is requested`, () => {
-  goToPage(pageId);
+  goToLPAPage(pageId);
   verifyPageTitle(pageTitle);
 });
 
 Given(`there is a Development Plan Document and Neighbourhood Plan`, () => {
-  goToPage(pageId);
+  goToLPAPage(pageId);
   verifyPageTitle(pageTitle);
   input(yesButtonId).check();
 });
@@ -37,7 +37,7 @@ Given(`there is a Development Plan Document and Neighbourhood Plan`, () => {
 Given(
   'the LPA Planning Officer has selected no and completed the Development Plan Document and Neighbourhood Plan question',
   () => {
-    goToPage(pageId);
+    goToLPAPage(pageId);
     verifyPageTitle(pageTitle);
     input(noButtonId).check();
     clickSaveAndContinue();
@@ -47,7 +47,7 @@ Given(
 Given(
   'the LPA Planning Officer has selected yes, entered plan details, and completed the Development Plan Document and Neighbourhood Plan question',
   () => {
-    goToPage(pageId);
+    goToLPAPage(pageId);
     verifyPageTitle(pageTitle);
     input(yesButtonId).check();
     textArea(textAreaId).type('some_text');
@@ -58,7 +58,7 @@ Given(
 When(
   'the LPA Planning Officer chooses to provide information regarding the Development Plan and Neighbourhood Plan',
   () => {
-    goToPage(pageId);
+    goToLPAPage(pageId);
     verifyPageTitle(pageTitle);
   },
 );

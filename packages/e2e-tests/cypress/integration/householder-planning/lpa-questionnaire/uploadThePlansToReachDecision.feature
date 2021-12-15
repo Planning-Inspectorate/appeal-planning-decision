@@ -99,7 +99,7 @@ Feature: Upload the plans used to reach the LPA decision
 
   Scenario: AC12 Appeal details side panel
     Given Upload the plans used to reach the decision question is requested
-    Then the appeal details panel is displayed on the right hand side of the page
+    Then the appeal details sidebar is displayed with the correct information
 
   @nojs
   Scenario Outline: AC13 JavaScript Disabled

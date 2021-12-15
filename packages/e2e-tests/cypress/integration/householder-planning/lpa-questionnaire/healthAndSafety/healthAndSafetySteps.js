@@ -1,6 +1,5 @@
 import { Given, When, Then, Before } from 'cypress-cucumber-preprocessor/steps';
 import { textArea, input } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
-import { goToPage } from '../../../../support/common/go-to-page/goToPage';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
@@ -13,6 +12,7 @@ import { clickOnSubTaskLink } from '../../../../support/common/clickOnSubTaskLin
 import {
   confirmCheckYourAnswersDisplayed
 } from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/confirmCheckYourAnswersDisplayed';
+import { goToLPAPage } from '../../../../support/common/go-to-page/goToLPAPage';
 
 const page = {
   url: 'health-safety',
@@ -32,7 +32,7 @@ Before(() => {
 When(
   `the user selects the link 'Are there any health and safety issues on the appeal site?'`,
   () => {
-    goToPage(page.url);
+    goToLPAPage(page.url);
     verifyPageTitle(page.title);
   },
 );
@@ -50,7 +50,7 @@ Then(`the Page title is {string}`, (title) => {
 });
 
 Given(`user is in the health and safety page`, () => {
-  goToPage(page.url);
+  goToLPAPage(page.url);
   verifyPageTitle(page.title);
 });
 
@@ -99,7 +99,7 @@ Then('any information they have entered will not be saved', () => {
 });
 
 Given('a user has completed the information needed on the health and safety page', () => {
-  goToPage(page.url);
+  goToLPAPage(page.url);
   input(page.noButtonId).check();
   clickSaveAndContinue();
 });

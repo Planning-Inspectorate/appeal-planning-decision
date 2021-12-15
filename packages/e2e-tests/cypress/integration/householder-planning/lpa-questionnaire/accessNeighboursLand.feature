@@ -4,7 +4,7 @@ Feature: Access neighbours land
   So that the Planning Inspectorate has the information it needs to decide the appeal.
 
   Background:
-    Given an appeal has been created
+    Given an appeal has been created for Access neighbours land
     And a questionnaire has been created
 
   Scenario: AC01 LPA Officer navigates to Access neighbours land
@@ -49,7 +49,7 @@ Feature: Access neighbours land
 
   Scenario: AC08 Appeal details side panel
     Given 'Access neighbours land' question has been requested
-    Then the appeal details panel is displayed on the right hand side of the page
+    Then the appeal details sidebar is displayed with the correct information
 
   Scenario: AC09 Check Your Answers Page
     Given the questionnaire has been completed

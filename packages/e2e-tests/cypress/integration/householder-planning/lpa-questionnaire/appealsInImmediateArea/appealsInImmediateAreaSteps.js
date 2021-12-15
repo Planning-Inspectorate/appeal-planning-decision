@@ -8,7 +8,6 @@ import {
 import { clickOnSubTaskLink } from '../../../../support/common/clickOnSubTaskLink';
 import { verifyPage } from '../../../../support/common/verifyPage';
 import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
-import { goToPage } from '../../../../support/common/go-to-page/goToPage';
 import { getBackLink } from '../../../../support/common-page-objects/common-po';
 import {
   confirmCheckYourAnswersDisplayed
@@ -22,6 +21,7 @@ import {
   goToTaskListPage
 } from '../../../../support/householder-planning/lpa-questionnaire/appeals-questionnaire-tasklist/goToTaskListPage';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
+import { goToLPAPage } from '../../../../support/common/go-to-page/goToLPAPage';
 
 const pageId = 'other-appeals';
 const pageTitle =
@@ -36,13 +36,13 @@ const noButtonId = 'adjacent-appeals-no';
 const yesButtonId = 'adjacent-appeals-yes';
 
 Given('the user is on the Tell us about any appeals in the immediate area page', () => {
-  goToPage(pageId);
+  goToLPAPage(pageId);
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading);
 });
 
 When(`the user selects the link Tell us about any appeals in the immediate area`, () => {
-  goToTaskListPage();
+  goToTaskListPage('task-list');
   clickOnSubTaskLink(taskListId);
 });
 
@@ -104,7 +104,7 @@ Then('the user is shown the error message {string}', (errorMessage) => {
 });
 
 Given('a user has completed the information needed on the appeals in immediate area page', () => {
-  goToPage(pageId);
+  goToLPAPage(pageId);
   input(noButtonId).check();
   clickSaveAndContinue();
 });

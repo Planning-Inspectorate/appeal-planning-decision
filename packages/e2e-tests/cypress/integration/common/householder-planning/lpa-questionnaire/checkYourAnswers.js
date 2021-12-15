@@ -1,10 +1,8 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { getSubTaskInfo } from '../../../../support/common/subTasks';
-import {
-  goToCheckYourAnswersPage
-} from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/goToCheckYourAnswersPage';
-import { clickOnSubTaskLink } from '../../../../support/common/clickOnSubTaskLink';
 import { verifyPage } from '../../../../support/common/verifyPage';
+import { clickOnSubTaskLink } from '../../../../support/common/clickOnSubTaskLink';
+import {goToCheckYourAnswersPage} from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/goToCheckYourAnswersPage';
 
 const pageId = 'confirm-answers';
 

@@ -43,7 +43,7 @@ Feature: Site seen from public land
 
   Scenario: AC07 Appeal details side panel
     Given 'Site seen from public land' question has been requested
-    Then the appeal details panel is displayed on the right hand side of the page
+    Then the appeal details sidebar is displayed with the correct information
 
   Scenario: AC08 Check Your Answers Page
     Given the questionnaire has been completed

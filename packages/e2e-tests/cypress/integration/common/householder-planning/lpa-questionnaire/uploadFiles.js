@@ -1,15 +1,15 @@
 import { Given, When, Then, Before, After } from 'cypress-cucumber-preprocessor/steps';
 import { visibleWithText } from '../../../../support/common/visibleWithText';
 import { visibleWithoutText } from '../../../../support/common/visibleWithoutText';
-import { goToPage } from '../../../../support/common/go-to-page/goToPage';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
-import { getAppealReplyId } from '../../../../support/common/getAppealReplyId';
+import { getAppealReplyId } from '../../../../support/householder-planning/lpa-questionnaire/getAppealReplyId';
 import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
 import { validateErrorMessage } from '../../../../support/common/validateErrorMessage';
 import { validateFileUploadErrorMessage } from '../../../../support/common/validateFileUploadErrorMessage';
 import {
   confirmCheckYourAnswersDisplayed
 } from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/confirmCheckYourAnswersDisplayed';
+import { goToLPAPage } from '../../../../support/common/go-to-page/goToLPAPage';
 
 const documentServiceBaseURL = Cypress.env('DOCUMENT_SERVICE_BASE_URL');
 const assumeLimitedAccess = Cypress.env('ASSUME_LIMITED_ACCESS');
@@ -61,7 +61,7 @@ const uploadFiles = (fileName, documentType, dropZone) => {
 
 const goToUploadPage = () => {
   cy.get('@page').then(({ url }) => {
-    goToPage(url, undefined, disableJs);
+    goToLPAPage(url, undefined, disableJs);
   });
 };
 

@@ -1,4 +1,6 @@
 import { Before } from 'cypress-cucumber-preprocessor/steps';
+import { completeAppeal } from '../../../../support/householder-planning/lpa-questionnaire/completeAppeal';
+
 
 const page = {
   id: 'accessNeighboursLand',
@@ -17,3 +19,13 @@ const page = {
 Before(() => {
   cy.wrap(page).as('page');
 });
+
+Given('an appeal has been created for Access neighbours land',()=>{
+  completeAppeal();
+  cy.get('@appeal').then((appeal)=>{
+    cy.wrap(`${Cypress.env('LPA_BASE_URL')}/${appeal.id}/${page.url}`).then((url)=>{
+      cy.visit(url);
+    });
+
+  });
+})

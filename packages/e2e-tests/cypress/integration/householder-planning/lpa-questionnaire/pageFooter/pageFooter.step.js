@@ -18,7 +18,7 @@ const clickFooterLink = (footerLink) => {
 };
 
 Given('LPA planning officer accesses the LPA Questionnaire', () => {
-  goToTaskListPage();
+  goToTaskListPage('task-list');
 });
 
 When('they click on the {string} in the footer', (footerLink) => {

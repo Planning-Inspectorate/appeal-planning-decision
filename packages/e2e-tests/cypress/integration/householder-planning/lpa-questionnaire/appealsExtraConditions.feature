@@ -49,7 +49,7 @@ Feature: Appeals Extra Conditions
 
   Scenario: AC06 - user can see the Appeal details side panel
     Given user is in the extra conditions page
-    Then the appeal details panel is displayed on the right hand side of the page
+    Then the appeal details sidebar is displayed with the correct information
 
   Scenario: AC07 - Back link
     Given user is in the extra conditions page

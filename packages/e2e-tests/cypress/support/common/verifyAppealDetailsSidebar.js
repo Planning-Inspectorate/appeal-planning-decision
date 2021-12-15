@@ -2,7 +2,7 @@ import AppealDetails from '../householder-planning/lpa-questionnaire/PageObjects
 
 const appealDetails = new AppealDetails();
 
-module.exports = ({
+export const verifyAppealDetailsSidebar = ({
   applicationNumber = 'ABC/123',
   applicationAddress = '999 Letsby Avenue, Sheffield, South Yorkshire, S9 1XY',
   apellantName = 'Bob Smith',
