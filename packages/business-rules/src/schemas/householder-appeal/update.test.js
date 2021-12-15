@@ -1,6 +1,6 @@
 const { subYears, addYears } = require('date-fns');
 const v8 = require('v8');
-const appealData = require('../../../test/data/appeal');
+const appealData = require('../../../test/data/householder-appeal');
 const update = require('./update');
 const { APPEAL_STATE, SECTION_STATE } = require('../../constants');
 
