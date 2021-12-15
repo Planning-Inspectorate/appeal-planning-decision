@@ -24,6 +24,7 @@ const page = {
 let disableJs = false;
 
 const goToOtherRelevantPoliciesPage = () => {
+  cy.log(disableJs);
   goToLPAPage(page.url, undefined, disableJs);
 };
 
