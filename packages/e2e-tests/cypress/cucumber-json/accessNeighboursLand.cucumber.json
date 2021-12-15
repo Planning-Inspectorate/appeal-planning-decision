@@ -23,7 +23,7 @@
             "name": "an appeal has been created for Access neighbours land",
             "result": {
               "status": "passed",
-              "duration": 2207000000
+              "duration": 5926000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "a LPA Planning Officer is reviewing their LPA Questionnaire task list",
             "result": {
               "status": "passed",
-              "duration": 378000000
+              "duration": 440000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "LPA Planning Officer chooses to provide information about 'Access neighbours land'",
             "result": {
               "status": "passed",
-              "duration": 458000000
+              "duration": 354000000
             }
           },
           {
@@ -63,7 +63,7 @@
             "name": "LPA Planning Officer is presented with ability to add this information",
             "result": {
               "status": "passed",
-              "duration": 449000000
+              "duration": 257000000
             }
           }
         ]
@@ -83,7 +83,7 @@
             "name": "an appeal has been created for Access neighbours land",
             "result": {
               "status": "passed",
-              "duration": 1672000000
+              "duration": 8664000000
             }
           },
           {
@@ -93,7 +93,7 @@
             "name": "a questionnaire has been created",
             "result": {
               "status": "passed",
-              "duration": 31000000
+              "duration": 25000000
             }
           },
           {
@@ -103,7 +103,7 @@
             "name": "'Access neighbours land' question has been requested",
             "result": {
               "status": "passed",
-              "duration": 330000000
+              "duration": 389000000
             }
           },
           {
@@ -113,7 +113,7 @@
             "name": "an answer to the question is not provided",
             "result": {
               "status": "passed",
-              "duration": 29000000
+              "duration": 26000000
             }
           },
           {
@@ -123,7 +123,7 @@
             "name": "progress is halted with an error message to select an answer",
             "result": {
               "status": "passed",
-              "duration": 903000000
+              "duration": 616000000
             }
           }
         ]
@@ -143,7 +143,7 @@
             "name": "an appeal has been created for Access neighbours land",
             "result": {
               "status": "passed",
-              "duration": 481000000
+              "duration": 9660000000
             }
           },
           {
@@ -153,7 +153,7 @@
             "name": "a questionnaire has been created",
             "result": {
               "status": "passed",
-              "duration": 20000000
+              "duration": 29000000
             }
           },
           {
@@ -163,7 +163,7 @@
             "name": "'Access neighbours land' question has been requested",
             "result": {
               "status": "passed",
-              "duration": 367000000
+              "duration": 410000000
             }
           },
           {
@@ -173,7 +173,7 @@
             "name": "the answer is 'yes'",
             "result": {
               "status": "passed",
-              "duration": 99000000
+              "duration": 114000000
             }
           },
           {
@@ -183,7 +183,7 @@
             "name": "the officer enters 'why the inspector will need access' in the text box that appears",
             "result": {
               "status": "passed",
-              "duration": 1358000000
+              "duration": 1273000000
             }
           },
           {
@@ -193,7 +193,7 @@
             "name": "officer progresses to the task list from yes no question",
             "result": {
               "status": "passed",
-              "duration": 415000000
+              "duration": 340000000
             }
           },
           {
@@ -203,7 +203,7 @@
             "name": "the 'Access neighbours land' subsection is shown as completed",
             "result": {
               "status": "passed",
-              "duration": 46000000
+              "duration": 36000000
             }
           }
         ]
@@ -223,7 +223,7 @@
             "name": "an appeal has been created for Access neighbours land",
             "result": {
               "status": "passed",
-              "duration": 604000000
+              "duration": 7265000000
             }
           },
           {
@@ -233,7 +233,7 @@
             "name": "a questionnaire has been created",
             "result": {
               "status": "passed",
-              "duration": 16000000
+              "duration": 22000000
             }
           },
           {
@@ -243,7 +243,7 @@
             "name": "'Access neighbours land' question has been requested",
             "result": {
               "status": "passed",
-              "duration": 342000000
+              "duration": 378000000
             }
           },
           {
@@ -253,7 +253,7 @@
             "name": "the answer is 'yes'",
             "result": {
               "status": "passed",
-              "duration": 101000000
+              "duration": 110000000
             }
           },
           {
@@ -263,7 +263,7 @@
             "name": "progress is halted with an error message to enter details",
             "result": {
               "status": "passed",
-              "duration": 673000000
+              "duration": 548000000
             }
           }
         ]
@@ -283,7 +283,7 @@
             "name": "an appeal has been created for Access neighbours land",
             "result": {
               "status": "passed",
-              "duration": 2654000000
+              "duration": 9725000000
             }
           },
           {
@@ -293,7 +293,7 @@
             "name": "a questionnaire has been created",
             "result": {
               "status": "passed",
-              "duration": 25000000
+              "duration": 24000000
             }
           },
           {
@@ -303,7 +303,7 @@
             "name": "'Access neighbours land' question has been requested",
             "result": {
               "status": "passed",
-              "duration": 334000000
+              "duration": 401000000
             }
           },
           {
@@ -313,7 +313,7 @@
             "name": "the answer is 'no'",
             "result": {
               "status": "passed",
-              "duration": 100000000
+              "duration": 111000000
             }
           },
           {
@@ -323,7 +323,7 @@
             "name": "officer progresses to the task list from yes no question",
             "result": {
               "status": "passed",
-              "duration": 397000000
+              "duration": 314000000
             }
           },
           {
@@ -333,7 +333,7 @@
             "name": "the 'Access neighbours land' subsection is shown as completed",
             "result": {
               "status": "passed",
-              "duration": 45000000
+              "duration": 31000000
             }
           }
         ]
@@ -353,7 +353,7 @@
             "name": "an appeal has been created for Access neighbours land",
             "result": {
               "status": "passed",
-              "duration": 611000000
+              "duration": 8586000000
             }
           },
           {
@@ -373,7 +373,7 @@
             "name": "'Access neighbours land' question has been requested",
             "result": {
               "status": "passed",
-              "duration": 756000000
+              "duration": 409000000
             }
           },
           {
@@ -383,7 +383,7 @@
             "name": "an answer is given but not submitted",
             "result": {
               "status": "passed",
-              "duration": 1424000000
+              "duration": 1406000000
             }
           },
           {
@@ -393,7 +393,7 @@
             "name": "Back is then requested",
             "result": {
               "status": "passed",
-              "duration": 335000000
+              "duration": 319000000
             }
           },
           {
@@ -403,7 +403,7 @@
             "name": "the LPA Planning Officer is taken to the Task List",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 5000000
             }
           },
           {
@@ -413,7 +413,7 @@
             "name": "any data inputted will not be saved",
             "result": {
               "status": "passed",
-              "duration": 448000000
+              "duration": 432000000
             }
           }
         ]
@@ -433,7 +433,7 @@
             "name": "an appeal has been created for Access neighbours land",
             "result": {
               "status": "passed",
-              "duration": 479000000
+              "duration": 8117000000
             }
           },
           {
@@ -443,7 +443,7 @@
             "name": "a questionnaire has been created",
             "result": {
               "status": "passed",
-              "duration": 16000000
+              "duration": 29000000
             }
           },
           {
@@ -453,7 +453,7 @@
             "name": "The yes or no question 'Access neighbours land' has been completed",
             "result": {
               "status": "passed",
-              "duration": 2103000000
+              "duration": 2171000000
             }
           },
           {
@@ -463,7 +463,7 @@
             "name": "the inspector returns to the question",
             "result": {
               "status": "passed",
-              "duration": 549000000
+              "duration": 339000000
             }
           },
           {
@@ -473,7 +473,7 @@
             "name": "the yes or no information they previously entered is still populated",
             "result": {
               "status": "passed",
-              "duration": 59000000
+              "duration": 24000000
             }
           }
         ]
@@ -493,7 +493,7 @@
             "name": "an appeal has been created for Access neighbours land",
             "result": {
               "status": "passed",
-              "duration": 1447000000
+              "duration": 6933000000
             }
           },
           {
@@ -503,7 +503,7 @@
             "name": "a questionnaire has been created",
             "result": {
               "status": "passed",
-              "duration": 20000000
+              "duration": 19000000
             }
           },
           {
@@ -513,7 +513,7 @@
             "name": "'Access neighbours land' question has been requested",
             "result": {
               "status": "passed",
-              "duration": 337000000
+              "duration": 387000000
             }
           },
           {
@@ -523,67 +523,7 @@
             "name": "the appeal details sidebar is displayed with the correct information",
             "result": {
               "status": "passed",
-              "duration": 91000000
-            }
-          }
-        ]
-      },
-      {
-        "id": "access-neighbours-land;ac09-check-your-answers-page",
-        "keyword": "Scenario",
-        "line": 54,
-        "name": "AC09 Check Your Answers Page",
-        "tags": [],
-        "type": "scenario",
-        "steps": [
-          {
-            "arguments": [],
-            "keyword": "Given ",
-            "line": 7,
-            "name": "an appeal has been created for Access neighbours land",
-            "result": {
-              "status": "passed",
-              "duration": 456000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 8,
-            "name": "a questionnaire has been created",
-            "result": {
-              "status": "passed",
-              "duration": 14000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Given ",
-            "line": 55,
-            "name": "the questionnaire has been completed",
-            "result": {
-              "status": "passed",
-              "duration": 22000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 56,
-            "name": "Check your Answers is displayed",
-            "result": {
-              "status": "passed",
-              "duration": 246000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 57,
-            "name": "'Access neighbours land' yes or no question and answer should be displayed",
-            "result": {
-              "status": "failed",
-              "error_message": "AssertionError: expected '' to include 'Yes'\n    at Context.eval (http://localhost:9001/__cypress/tests?p=cypress\\integration\\householder-planning\\lpa-questionnaire\\accessNeighboursLand.feature:1267:42)"
+              "duration": 67000000
             }
           }
         ]
@@ -603,7 +543,7 @@
             "name": "an appeal has been created for Access neighbours land",
             "result": {
               "status": "passed",
-              "duration": 457000000
+              "duration": 9999000000
             }
           },
           {
@@ -613,7 +553,7 @@
             "name": "a questionnaire has been created",
             "result": {
               "status": "passed",
-              "duration": 14000000
+              "duration": 26000000
             }
           },
           {
@@ -623,7 +563,7 @@
             "name": "a change to answer 'Access neighbours land' is requested from Change your answers page",
             "result": {
               "status": "passed",
-              "duration": 2625000000
+              "duration": 717000000
             }
           },
           {
@@ -633,7 +573,7 @@
             "name": "a yes or no answer is saved",
             "result": {
               "status": "passed",
-              "duration": 484000000
+              "duration": 374000000
             }
           },
           {
@@ -643,7 +583,7 @@
             "name": "progress is made to the Check Your Answers page",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 6000000
             }
           },
           {
@@ -653,7 +593,7 @@
             "name": "the updated yes or no answer is displayed",
             "result": {
               "status": "passed",
-              "duration": 35000000
+              "duration": 20000000
             }
           },
           {
@@ -663,7 +603,7 @@
             "name": "'Access neighbours land' answer should be blank",
             "result": {
               "status": "passed",
-              "duration": 30000000
+              "duration": 18000000
             }
           }
         ]

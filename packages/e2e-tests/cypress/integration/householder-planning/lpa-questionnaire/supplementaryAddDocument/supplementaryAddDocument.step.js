@@ -157,6 +157,6 @@ Then('progress is halted with an error {string} which highlights {string}', (err
   validateErrorMessage(error, `[data-cy="adoptedDate-error"]`, linkedInput);
 
   highlightsList.forEach((input) => {
-    get(`#adoptedDate-${input}`).should('have.class', 'govuk-input--error');
+    cy.get(`#adoptedDate-${input}`).should('have.class', 'govuk-input--error');
   });
 });

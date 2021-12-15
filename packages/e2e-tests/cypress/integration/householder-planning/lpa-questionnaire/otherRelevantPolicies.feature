@@ -103,7 +103,7 @@ Feature: Other Relevant Policies
     Given other relevant policies question is requested
     Then the appeal details sidebar is displayed with the correct information
 
-  @nojs
+  @nojs @wip
   Scenario Outline: AC13 JavaScript Disabled
     Given other relevant policies question is requested
     When valid file '<valid_file>' is successfully uploaded for 'otherPolicies'
