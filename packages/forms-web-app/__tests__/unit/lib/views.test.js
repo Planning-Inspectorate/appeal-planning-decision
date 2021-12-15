@@ -57,6 +57,9 @@ describe('lib/views', () => {
 
       FULL_PLANNING: {
         ANY_OF_FOLLOWING: 'full-planning/any-of-following',
+        DATE_DECISION_DUE: 'full-planning/date-decision-due',
+        DECISION_DATE: 'full-planning/decision-date',
+        GRANTED_OR_REFUSED: 'full-planning/granted-or-refused',
         LOCAL_PLANNING_DEPARTMENT: 'full-planning/local-planning-department',
         TYPE_OF_PLANNING_APPLICATION: 'full-planning/type-of-planning-application',
         USE_A_DIFFERENT_SERVICE: 'full-planning/use-a-different-service',
