@@ -13,16 +13,14 @@
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "axe-core": "^4.3.5",
     "cypress": "^7.7.0",
     "cypress-axe": "^0.13.0",
     "cypress-downloadfile": "^1.2.0",
     "cypress-file-upload": "5.0.2",
     "multiple-cucumber-html-reporter": "1.18.0",
-    "@testing-library/cypress": "^8.0.0"
-  },
-  "dependencies": {
+    "@testing-library/cypress": "^8.0.0",
     "cypress-html-validate": "2.0.1",
     "cypress-ntlm-auth": "^3.1.5",
     "datatables.net": "1.11.3",
@@ -30,7 +28,7 @@
     "pdf-parse": "^1.1.1",
     "jsonwebtoken": "^8.5.1",
     "uuid": "^8.3.1",
-    "cypress-cucumber-preprocessor": "^4.2.0",
+    "cypress-cucumber-preprocessor": "^4.0.3",
     "cypress-jest-adapter": "^0.1.1",
     "cypress-wait-until": "^1.7.1",
     "date-fns": "^2.25.0",

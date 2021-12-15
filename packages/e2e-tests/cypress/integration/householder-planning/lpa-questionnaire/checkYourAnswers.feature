@@ -23,12 +23,12 @@ Feature: Check Your Answers
     Then a summary of questions and answers is provided
 
   Scenario: AC03 - Submit answers
-    Given Check Your Answers is presented
+    Given Check Your Answers is presented for LPA Questionnaire
     When the answers are completed
     Then progress is made to the submission confirmation page
 
   Scenario: AC04 - Back Link
-    Given Check Your Answers is presented
+    Given Check Your Answers is presented for LPA Questionnaire
     When the LPA Planning Officer selects a question
     And the LPA Planning Officer chooses to go to the previous page
     Then user is returned to the Check your answers page

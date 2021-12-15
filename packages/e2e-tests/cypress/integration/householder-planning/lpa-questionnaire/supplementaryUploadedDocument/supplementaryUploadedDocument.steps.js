@@ -8,7 +8,6 @@ import {
 } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/SupplementaryAddDocumentsPageObjects';
 import {fillAdoptedDate} from '../../../../support/householder-planning/lpa-questionnaire/supplementary-add-document/fillAdoptedDate';
 import {verifySupplementaryDocumentList} from '../../../../support/householder-planning/lpa-questionnaire/supplementary-add-document/verifySupplementaryDocumentList';
-import { goToPage } from '../../../../support/common/go-to-page/goToPage';
 import { verifyPage } from '../../../../support/common/verifyPage';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
@@ -17,6 +16,7 @@ import {
   confirmCheckYourAnswersDisplayed
 } from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/confirmCheckYourAnswersDisplayed';
 import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
+import { goToLPAPage } from '../../../../support/common/go-to-page/goToLPAPage';
 
 const page = {
   heading: 'Supplementary planning documents',
@@ -28,7 +28,7 @@ const page = {
 };
 
 const supplementaryAddNewDocument = (uploadFileName, fileNameInputValue) => {
-  goToPage('supplementary-documents');
+  goToLPAPage('supplementary-documents');
   uploadFile().attachFile(uploadFileName);
   fileNameInput().type(fileNameInputValue);
   adoptedRadioYes().check();

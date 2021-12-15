@@ -1,7 +1,6 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { textArea, input } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
 import { getBackLink } from '../../../../support/common-page-objects/common-po';
-import { goToPage } from '../../../../support/common/go-to-page/goToPage';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
@@ -10,6 +9,10 @@ import {
   verifyCompletedStatus
 } from '../../../../support/householder-planning/lpa-questionnaire/appeals-questionnaire-tasklist/verifyCompletedStatus';
 import { clickOnSubTaskLink } from '../../../../support/common/clickOnSubTaskLink';
+import {
+  confirmCheckYourAnswersDisplayed
+} from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/confirmCheckYourAnswersDisplayed';
+import { goToLPAPage } from '../../../../support/common/go-to-page/goToLPAPage';
 
 const pageId = 'extra-conditions';
 const pageTitle =
@@ -21,7 +24,7 @@ const noButtonId = 'has-extra-conditions-no';
 const yesButtonId = 'has-extra-conditions-yes';
 
 When(`the user selects the link 'Do you have any extra conditions?'`, () => {
-  goToPage(pageId);
+  goToLPAPage(pageId);
   verifyPageTitle(pageTitle);
 });
 
@@ -38,7 +41,7 @@ Then(
 );
 
 Given(`user is in the extra conditions page`, () => {
-  goToPage(pageId);
+  goToLPAPage(pageId);
   verifyPageTitle(pageTitle);
 });
 
@@ -91,7 +94,7 @@ Then('any information they have entered will not be saved', () => {
 });
 
 Given('a user has completed the information needed on the extra conditions page', () => {
-  goToPage(pageId);
+  goToLPAPage(pageId);
   input(noButtonId).check();
   clickSaveAndContinue();
 });

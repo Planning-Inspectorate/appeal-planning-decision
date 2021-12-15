@@ -1,6 +1,5 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { input } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
-import { goToPage } from '../../../../support/common/go-to-page/goToPage';
 import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
 import { verifyPage } from '../../../../support/common/verifyPage';
 import { validateErrorMessage } from '../../../../support/common/validateErrorMessage';
@@ -11,6 +10,7 @@ import {
   confirmCheckYourAnswersDisplayedTextIsBlank
 } from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/confirmCheckYourAnswersDisplayedTextIsBlank';
 import { checkSubmissionPdfContent } from '../../../../support/common/pdfFunctions';
+import { goToLPAPage } from '../../../../support/common/go-to-page/goToLPAPage';
 
 const QUESTION_ID = 'booleanInput';
 const YES_ID = 'booleanInput-yes';
@@ -44,7 +44,7 @@ const fillAnswer = () => {
 
 Given('The yes or no question {string} has been completed', () => {
   cy.get('@page').then(({ url }) => {
-    goToPage(url);
+    goToLPAPage(url);
   });
   fillAnswer();
   clickSaveAndContinue();
@@ -99,7 +99,7 @@ Then('progress is halted with an error message to enter details', () => {
 
 Then('any data inputted will not be saved', () => {
   cy.get('@page').then(({ url, textChildOf }) => {
-    goToPage(url);
+    goToLPAPage(url);
     input(YES_ID).should('not.be.checked');
     input(NO_ID).should('not.be.checked');
     if (textChildOf) getTextBox().should('have.value', '');

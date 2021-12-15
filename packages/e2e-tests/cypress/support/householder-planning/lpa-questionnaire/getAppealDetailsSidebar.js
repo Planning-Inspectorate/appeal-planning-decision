@@ -1,4 +1,4 @@
-import AppealDetails from '../householder-planning/lpa-questionnaire/PageObjects/AppealDetailsPageObjects';
+import AppealDetails from './PageObjects/AppealDetailsPageObjects';
 
 const appealDetails = new AppealDetails()
 

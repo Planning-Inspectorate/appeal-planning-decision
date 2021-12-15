@@ -4,27 +4,28 @@ import {
   getEmailLink,
   getFindAboutCallChargesLink,
 } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/invalidUrlPage-PageObjects';
-import { goToPage } from '../../../../support/common/go-to-page/goToPage';
 import { verifyPage } from '../../../../support/common/verifyPage';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
+import { goToLPAPage } from '../../../../support/common/go-to-page/goToLPAPage';
 
-const invalidUrl = '/invalid-url';
+const invalidUrl = `${Cypress.env('LPA_BASE_URL')}/invalid-url`;
 const invalidPageTitle = 'Page not found - Appeal questionnaire - Appeal a householder planning decision - GOV.UK';
 const invalidPageHeading = 'Page not found';
-const contactUsPageUrl = '/contact-us';
+const contactUsPageUrl = `${Cypress.env('LPA_BASE_URL')}/contact-us`;
 const contactUsPageTitle = 'Contact us - Appeal questionnaire - Appeal a householder planning decision - GOV.UK';
 const contactUsPageHeading = 'Contact us';
 
 Given('user has navigated to an invalid page',()=>{
-  goToPage(invalidUrl, {failOnStatusCode:false});
+  cy.visit(invalidUrl,{failOnStatusCode:false});
+
   verifyPage(invalidUrl);
   verifyPageTitle(invalidPageTitle);
   verifyPageHeading(invalidPageHeading);
 });
 
 Given('user has navigated to contact us page',()=>{
-  goToPage(contactUsPageUrl, {failOnStatusCode:false});
+  cy.visit(contactUsPageUrl, {failOnStatusCode:false});
   getContactUsLink().click();
   verifyPageTitle(contactUsPageTitle);
   verifyPageHeading(contactUsPageHeading);

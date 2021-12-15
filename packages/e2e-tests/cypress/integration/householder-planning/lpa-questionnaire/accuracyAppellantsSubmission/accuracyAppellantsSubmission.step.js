@@ -1,6 +1,5 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { input, labelText, labelLegend } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
-import { goToPage } from '../../../../support/common/go-to-page/goToPage';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
 import { clickOnSubTaskLink } from '../../../../support/common/clickOnSubTaskLink';
@@ -14,6 +13,7 @@ import {
 import {
   confirmCheckYourAnswersDisplayed
 } from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/confirmCheckYourAnswersDisplayed';
+import { goToLPAPage } from '../../../../support/common/go-to-page/goToLPAPage';
 
 const pageId = 'accuracy-submission';
 const pageTitle =
@@ -27,14 +27,14 @@ const accurateSubmissionLabelId = 'accurate-submission-label';
 const sectionName = 'About the appeal';
 
 Given(`the user is in the Review accuracy of the appellant's submission page`, () => {
- goToPage(pageId);
+ goToLPAPage(pageId);
   verifyPageTitle(pageTitle);
 });
 
 Given(
   `a user has completed the information needed on the accuracy of the appellant's submission page`,
   () => {
-    goToPage(pageId);
+    goToLPAPage(pageId);
     input(yesButtonId).check();
     clickSaveAndContinue();
   },

@@ -51,4 +51,4 @@ Feature: As a LPA Planning Officer
   Scenario: AC07 Appeal Details side panel
     Given Add supplementary document is completed for 'upload-file-valid.jpeg' and document name 'Mock document name'
     And progress is made to delete supplementary page
-    Then the appeal details panel is displayed on the right hand side of the page
+    Then the appeal details sidebar is displayed with the correct information

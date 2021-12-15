@@ -7,13 +7,13 @@ import {
   uploadFile,
 } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/SupplementaryAddDocumentsPageObjects';
 import {fillAdoptedDate} from '../../../../support/householder-planning/lpa-questionnaire/supplementary-add-document/fillAdoptedDate';
-import { goToPage } from '../../../../support/common/go-to-page/goToPage';
 import { verifyPage } from '../../../../support/common/verifyPage';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { verifySectionName } from '../../../../support/common/verifySectionName';
 import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
 import { validateErrorMessage } from '../../../../support/common/validateErrorMessage';
+import { goToLPAPage } from '../../../../support/common/go-to-page/goToLPAPage';
 const page = {
   heading: 'Supplementary planning document',
   section: 'Optional supporting documents',
@@ -25,7 +25,7 @@ const page = {
 let disableJs = false;
 
 Given('Add supplementary document is requested', () => {
-  goToPage(page.url);
+  goToLPAPage(page.url);
 });
 
 When('a document has been uploaded', () => {

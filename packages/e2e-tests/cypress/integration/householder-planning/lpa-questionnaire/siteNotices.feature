@@ -101,7 +101,7 @@
 
   Scenario: AC12 Appeal details side panel
     Given site notices question is requested
-    Then the appeal details panel is displayed on the right hand side of the page
+    Then the appeal details sidebar is displayed with the correct information
 
   @nojs
   Scenario Outline: AC13 JavaScript Disabled

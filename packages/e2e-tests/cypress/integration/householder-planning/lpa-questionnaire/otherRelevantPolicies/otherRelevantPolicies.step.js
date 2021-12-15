@@ -1,5 +1,4 @@
 import { Given, When, Then, Before } from 'cypress-cucumber-preprocessor/steps';
-import { goToPage } from '../../../../support/common/go-to-page/goToPage';
 import { clickOnSubTaskLink } from '../../../../support/common/clickOnSubTaskLink';
 import { verifyPage } from '../../../../support/common/verifyPage';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
@@ -11,6 +10,7 @@ import {
 import {
   confirmCheckYourAnswersDisplayed
 } from '../../../../support/householder-planning/lpa-questionnaire/check-your-answers/confirmCheckYourAnswersDisplayed';
+import { goToLPAPage } from '../../../../support/common/go-to-page/goToLPAPage';
 
 const page = {
   id: 'otherPolicies',
@@ -24,7 +24,7 @@ const page = {
 let disableJs = false;
 
 const goToOtherRelevantPoliciesPage = () => {
-  goToPage(page.url, undefined, disableJs);
+  goToLPAPage(page.url, undefined, disableJs);
 };
 
 Before(() => {

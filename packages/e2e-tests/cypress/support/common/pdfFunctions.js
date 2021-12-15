@@ -1,5 +1,5 @@
 import {ignoreAddedFormatting} from './ignoreAddedFormatting';
-import { getAppealReplyId } from './getAppealReplyId';
+import { getAppealReplyId } from '../householder-planning/lpa-questionnaire/getAppealReplyId';
 
 export const downloadSubmissionPdf = () => {
   getAppealReplyId().then((replyId) => {

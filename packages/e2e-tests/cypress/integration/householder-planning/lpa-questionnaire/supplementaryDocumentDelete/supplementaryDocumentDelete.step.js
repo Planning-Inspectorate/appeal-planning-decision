@@ -13,12 +13,12 @@ import {
 } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/SupplementaryAddDocumentsPageObjects';
 import {fillAdoptedDate} from '../../../../support/householder-planning/lpa-questionnaire/supplementary-add-document/fillAdoptedDate';
 import {verifySupplementaryDocumentList} from '../../../../support/householder-planning/lpa-questionnaire/supplementary-add-document/verifySupplementaryDocumentList';
-import { goToPage } from '../../../../support/common/go-to-page/goToPage';
 import { verifyPage } from '../../../../support/common/verifyPage';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { verifySectionName } from '../../../../support/common/verifySectionName';
 import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
+import { goToLPAPage } from '../../../../support/common/go-to-page/goToLPAPage';
 const page = {
   heading: 'Delete a supplementary planning document',
   section: 'Optional supporting documents',
@@ -33,7 +33,7 @@ Before(() => {
 });
 
 const supplementaryAddNewDocument = (uploadFileName, fileNameInputValue) => {
-  goToPage('supplementary-documents');
+  goToLPAPage('supplementary-documents');
   uploadFile().attachFile(uploadFileName);
   fileNameInput().type(fileNameInputValue);
   adoptedRadioYes().check();
