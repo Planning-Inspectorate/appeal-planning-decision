@@ -149,6 +149,7 @@ const FULL_APPEAL_SECTIONS = {
     rule: notStartedRule,
   },
   submitYourAppealSection: {
+    href: `/full-appeal/check-answers`,
     rule: () => TASK_STATUS.CANNOT_START_YET,
   },
 };
