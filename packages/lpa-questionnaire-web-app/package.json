@@ -28,6 +28,7 @@
   "dependencies": {
     "@ministryofjustice/frontend": "0.2.0",
     "@pins/common": "file:../common",
+    "@planning-inspectorate/pins-clamav-rest-client-rest-client": "^1.0.0",
     "compression": "^1.7.4",
     "connect-mongodb-session": "^2.4.1",
     "cookie-parser": "~1.4.4",
@@ -57,7 +58,6 @@
     "passport-jwt": "^4.0.0",
     "pino": "^6.7.0",
     "pino-http": "^5.3.0",
-    "pins-clamav": "^1.0.0",
     "pins-mime-validation": "^1.0.0",
     "sass": "^1.32.12",
     "util": "^0.12.4",
