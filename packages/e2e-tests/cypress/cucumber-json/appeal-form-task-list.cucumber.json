@@ -13,7 +13,12 @@
         "keyword": "Scenario",
         "line": 6,
         "name": "Appellant has been successful through the Eligibility and they are now able to continue to start their appeal",
-        "tags": [],
+        "tags": [
+          {
+            "name": "@smoke",
+            "line": 5
+          }
+        ],
         "type": "scenario",
         "steps": [
           {
@@ -23,7 +28,7 @@
             "name": "Appellant has been successful on their eligibility",
             "result": {
               "status": "passed",
-              "duration": 3539000000
+              "duration": 1155000000
             }
           },
           {
@@ -33,7 +38,7 @@
             "name": "they are on the 'Appeal a Planning Decision' page",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 20000000
             }
           },
           {
@@ -43,7 +48,7 @@
             "name": "they are presented with the list of tasks that they are required to complete in order to submit their appeal",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 266000000
             }
           },
           {
@@ -53,7 +58,7 @@
             "name": "when a section has been completed they are able to see what has been completed or incompleted",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 51000000
             }
           }
         ]
