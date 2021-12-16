@@ -17,7 +17,7 @@
       Appeal a planning decision
     </h1>
     <h2 data-cy="application-status" class="govuk-heading-s govuk-!-margin-bottom-2">{{ applicationStatus }}</h2>
-    <p data-cy="application-status-detailed" class="govuk-body govuk-!-margin-bottom-7">You have completed {{ sectionInfo.nbCompleted }} of {{sectionInfo.nbTasks}} sections.</p>
+    <p data-cy="application-status-detailed" class="govuk-body govuk-!-margin-bottom-7">You have completed {{ sectionInfo.nbCompleted }} of {{sectionInfo.nbTasks}} tasks.</p>
 
     <ol data-cy="task-list"
       class="moj-task-list {{- ' ' + classes if classes }}" {% for attribute, value in attributes %} {{ attribute }}="{{ value }}"{% endfor %}>
