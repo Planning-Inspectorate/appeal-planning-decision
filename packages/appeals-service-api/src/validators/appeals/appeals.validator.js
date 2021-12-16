@@ -12,8 +12,6 @@ const appealUpdateValidationRules = async (req, res, next) => {
       req.body.appealType = APPEAL_ID.HOUSEHOLDER;
     }
 
-    console.log('req.body =', req.body);
-
     req.body = await validate.update(req.body);
     logger.debug('Valid input format');
 
