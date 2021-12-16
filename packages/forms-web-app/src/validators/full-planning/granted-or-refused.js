@@ -3,24 +3,24 @@ const {
   FULL_PLANNING: { PLANNING_APPLICATION_STATUS },
 } = require('../../constants');
 
-const validFullPlanningApplicationStatusOptions = [
+const validApplicationDecisionOptions = [
   PLANNING_APPLICATION_STATUS.GRANTED,
   PLANNING_APPLICATION_STATUS.REFUSED,
   PLANNING_APPLICATION_STATUS.NODECISION,
 ];
 
-const ruleFullPlanningApplicationStatus = () =>
+const ruleApplicationDecision = () =>
   body('granted-or-refused')
     .notEmpty()
     .withMessage(
       'Select if your planning application was granted or refused, or if you have not received a decision'
     )
     .bail()
-    .isIn(validFullPlanningApplicationStatusOptions);
+    .isIn(validApplicationDecisionOptions);
 
-const rules = () => [ruleFullPlanningApplicationStatus()];
+const rules = () => [ruleApplicationDecision()];
 
 module.exports = {
   rules,
-  validFullPlanningApplicationStatusOptions,
+  validApplicationDecisionOptions,
 };
