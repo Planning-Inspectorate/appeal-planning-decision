@@ -1,9 +1,15 @@
-export const pageHeadingTaskListH2 = () => cy.findAllByText("Appeal Complete/incomplete");
-//You have completed 0 of 5 tasks.
+export const applicationStatusText = () => cy.get('[data-cy=application-status]');
+//status text for You have completed 0 of 5 tasks
+export const applicationStatusDetailedText = () => cy.get('[data-cy=application-status-detailed]');
+export const linkProvideYourContactDetails = () => cy.get('[data-cy=contactDetailsSection]');
+export const statusProvideYourContactDetails = () => cy.get('[data-cy=task-list-item-contactDetailsSection] > .govuk-tag');
+export const linkTellAboutTheAppealSite = () => cy.get('[data-cy=aboutAppealSiteSection]');
+export const statusTellAboutTheAppealSite = () => cy.get('[data-cy=task-list-item-aboutAppealSiteSection] > .govuk-tag');
+export const linkUploadDocsFromPlanningApplication = () => cy.get('[data-cy=task-list-item-planningApplicationDocumentsSection] > .govuk-tag');
+export const statusUploadDocsFromPlanningApplication = () => cy.get('[data-cy=task-list-item-planningApplicationDocumentsSection] > .govuk-tag');
+export const linkUploadDocsForYourAppeal = () => cy.get('[data-cy=appealDocumentsSection]');
+export const statusUploadDocsForYourAppeal = () => cy.get('[data-cy=task-list-item-appealDocumentsSection] > .govuk-tag');
+export const linkCheckYourAnswers = () => cy.get('[data-cy=submitYourAppealSection]')
+export const statusCheckYourAnswers = () => cy.get('[data-cy=task-list-item-submitYourAppealSection] > .govuk-tag');
 
-export const linkProvideYourContactDetails = cy.findByText('Provide your contact details');
-export const linkTellAboutTheAppealSite = cy.findByText('Tell us about the appeal site');
-export const linkUploadDocsFromPlanningApplication = cy.findByText('Upload documents from your planning application');
-export const linkUploadDocsForYourAppeal = cy.findByText('Upload documents for your appeal');
-export const linkCheckYourAnswers = cy.findByText('Check your answers and submit your appeal');
 
