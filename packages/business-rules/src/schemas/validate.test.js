@@ -40,9 +40,7 @@ describe('schemas/validate', () => {
     it('should throw an error if no schema is found', () => {
       appeal.appealType = APPEAL_ID.ENFORCEMENT_NOTICE;
 
-      expect(() => validate(action, appeal)).toThrow(
-        'No schema found for appeal type 1000',
-      );
+      expect(() => validate(action, appeal)).toThrow('No schema found for appeal type 1000');
     });
 
     it('should throw an error for an appeal type when the data fails validation', () => {

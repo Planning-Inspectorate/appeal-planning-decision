@@ -1,7 +1,7 @@
 const v8 = require('v8');
 const appealData = require('../../../test/data/full-planning');
 const update = require('./update');
-const { APPEAL_ID, APPEAL_STATE } = require('../../constants');
+const { APPEAL_ID, APPEAL_STATE, TYPE_OF_PLANNING_APPLICATION } = require('../../constants');
 
 describe('schemas/full-planning/update', () => {
   const config = {};
@@ -80,6 +80,42 @@ describe('schemas/full-planning/update', () => {
       });
     });
 
+    describe('lpaCode', () => {
+      it('should throw an error when given a value with more than 20 characters', async () => {
+        appeal.lpaCode = 'a'.repeat(21);
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'lpaCode must be at most 20 characters',
+        );
+      });
+
+      it('should strip leading/trailing spaces', async () => {
+        appeal.lpaCode = '  abc123  ';
+
+        const result = await update.validate(appeal, config);
+        expect(result).toEqual({
+          ...appeal,
+          lpaCode: 'abc123',
+        });
+      });
+
+      it('should throw an error when given a null value', async () => {
+        appeal.lpaCode = null;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'lpaCode must be a `string` type, but the final value was: `null`',
+        );
+      });
+
+      it('should throw an error when not given a value', async () => {
+        delete appeal.lpaCode;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'lpaCode is a required field',
+        );
+      });
+    });
+
     describe('state', () => {
       it('should throw an error when given an invalid value', async () => {
         appeal.state = 'PENDING';
@@ -120,6 +156,26 @@ describe('schemas/full-planning/update', () => {
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
           'appealType is a required field',
+        );
+      });
+    });
+
+    describe('beforeYouStartSection.typeOfPlanningApplication', () => {
+      it('should throw an error when given an invalid value', async () => {
+        appeal.beforeYouStartSection.typeOfPlanningApplication = 'appeal';
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          `beforeYouStartSection.typeOfPlanningApplication must be one of the following values: ${Object.values(
+            TYPE_OF_PLANNING_APPLICATION,
+          ).join(', ')}`,
+        );
+      });
+
+      it('should throw an error when not given a value', async () => {
+        delete appeal.beforeYouStartSection.typeOfPlanningApplication;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'beforeYouStartSection.typeOfPlanningApplication is a required field',
         );
       });
     });

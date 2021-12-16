@@ -1,7 +1,7 @@
 const v8 = require('v8');
 const appealData = require('../../../test/data/full-planning');
 const insert = require('./insert');
-const { APPEAL_STATE, APPEAL_ID } = require('../../constants');
+const { APPEAL_STATE, APPEAL_ID, TYPE_OF_PLANNING_APPLICATION } = require('../../constants');
 
 describe('schemas/full-planning/insert', () => {
   const config = {};
@@ -80,6 +80,33 @@ describe('schemas/full-planning/insert', () => {
       });
     });
 
+    describe('lpaCode', () => {
+      it('should throw an error when given a value with more than 20 characters', async () => {
+        appeal.lpaCode = 'a'.repeat(21);
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          'lpaCode must be at most 20 characters',
+        );
+      });
+
+      it('should strip leading/trailing spaces', async () => {
+        appeal.lpaCode = '  abc123  ';
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual({
+          ...appeal,
+          lpaCode: 'abc123',
+        });
+      });
+
+      it('should not throw an error when not given a value', async () => {
+        delete appeal.lpaCode;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+    });
+
     describe('state', () => {
       it('should throw an error when given an invalid value', async () => {
         appeal.state = 'PENDING';
@@ -119,6 +146,42 @@ describe('schemas/full-planning/insert', () => {
 
       it('should not throw an error when not given a value', async () => {
         delete appeal.appealType;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+    });
+
+    describe('beforeYouStartSection', () => {
+      it('should remove unknown fields', async () => {
+        appeal2.beforeYouStartSection.unknownField = 'unknown field';
+
+        const result = await insert.validate(appeal2, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should throw an error when given a null value', async () => {
+        appeal.beforeYouStartSection = null;
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          'beforeYouStartSection must be a `object` type, but the final value was: `null`',
+        );
+      });
+    });
+
+    describe('beforeYouStartSection.typeOfPlanningApplication', () => {
+      it('should throw an error when given an invalid value', async () => {
+        appeal.beforeYouStartSection.typeOfPlanningApplication = 'appeal';
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          `beforeYouStartSection.typeOfPlanningApplication must be one of the following values: ${Object.values(
+            TYPE_OF_PLANNING_APPLICATION,
+          ).join(', ')}`,
+        );
+      });
+
+      it('should not throw an error when not given a value', async () => {
+        delete appeal.beforeYouStartSection.typeOfPlanningApplication;
 
         const result = await insert.validate(appeal, config);
         expect(result).toEqual(appeal);
