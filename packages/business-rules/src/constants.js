@@ -30,9 +30,21 @@ const SECTION_STATE = {
   COMPLETED: 'COMPLETED',
 };
 
+const TYPE_OF_PLANNING_APPLICATION = {
+  FULL_PLANNING: 'full-planning',
+  HOUSEHOLDER_PLANNING: 'householder-planning',
+  OUTLINE_PLANNING: 'outline-planning',
+  PRIOR_APPROVAL: 'prior-approval',
+  RESERVED_MATTERS: 'reserved-matters',
+  REMOVAL_OR_VARIATION_OF_CONDITIONS: 'removal-or-variation-of-conditions',
+  SOMETHING_ELSE: 'something-else',
+  I_HAVE_NOT_MADE_A_PLANNING_APPLICATION: 'i-have-not-made-a-planning-application',
+};
+
 module.exports = {
   APPEAL_ID,
   APPEAL_STATE,
   PROCEDURE_TYPE,
   SECTION_STATE,
+  TYPE_OF_PLANNING_APPLICATION,
 };
