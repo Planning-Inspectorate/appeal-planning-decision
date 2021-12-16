@@ -84,7 +84,7 @@ describe('validators/upload-plans', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].msg).toBe(
-            'mock-file is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
+            'mock-file is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG.'
           );
         },
       },
