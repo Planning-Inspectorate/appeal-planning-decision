@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
 const {
   rules,
-  validFullPlanningApplicationStatusOptions,
+  validApplicationDecisionOptions,
 } = require('../../../../src/validators/full-planning/granted-or-refused');
 const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
 
@@ -73,13 +73,9 @@ describe('validators/full-planning/granted-or-refused', () => {
     });
   });
 
-  describe('validFullPlanningApplicationStatusOptions', () => {
+  describe('validApplicationDecisionOptions', () => {
     it('should define the expected valid full planning application status options', () => {
-      expect(validFullPlanningApplicationStatusOptions).toEqual([
-        'granted',
-        'refused',
-        'nodecisionreceived',
-      ]);
+      expect(validApplicationDecisionOptions).toEqual(['granted', 'refused', 'nodecisionreceived']);
     });
   });
 });
