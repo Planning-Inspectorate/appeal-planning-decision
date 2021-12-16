@@ -5,6 +5,7 @@ const appeal = {
   decisionDate: new Date(),
   submissionDate: new Date(),
   state: 'SUBMITTED',
+  appealType: '1001',
   eligibility: {
     enforcementNotice: false,
     householderPlanningPermission: true,
