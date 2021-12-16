@@ -51,7 +51,7 @@ describe('validators/full-planning/granted-or-refused', () => {
         },
       },
       {
-        title: 'User selected `refused` on the full planning applicaxtion question',
+        title: 'User selected `refused` on the full planning application question',
         given: () => ({
           body: {
             'granted-or-refused': 'refused',
