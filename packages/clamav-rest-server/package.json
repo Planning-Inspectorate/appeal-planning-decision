@@ -1,0 +1,64 @@
+{
+  "name": "clamav-rest-server",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=14.0.0 <15.0.0",
+    "npm": ">=6.0.0 <7.0.0"
+  },
+  "main": "src/main.js",
+  "scripts": {
+    "format": "prettier --write './**/*.js'",
+    "lint": "eslint ./",
+    "lint:fix": "eslint ./ --fix",
+    "start": "node ./",
+    "start:dev": "nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
+    "test": "jest",
+    "test:cov": "jest --coverage",
+    "test:watch": "jest --watchAll --runInBand --coverage",
+    "test:tdd": "jest --watchAll --verbose",
+    "documentation": "jest --bail --coverage --coverageReporters=cobertura --reporters=default --reporters=jest-junit"
+  },
+  "lint-staged": {
+    "./**/*.js": "npm run lint:fix",
+    "./**/*.{js, json}": "npm run format"
+  },
+  "dependencies": {
+    "@pins/common": "file:../common",
+    "@shelf/jest-mongodb": "^1.3.4",
+    "body-parser": "^1.19.0",
+    "clamscan": "^2.0.1",
+    "compression": "^1.7.4",
+    "date-fns": "^2.23.0",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "express-pino-logger": "^5.0.0",
+    "jest": "^26.6.3",
+    "jest-junit": "^12.2.0",
+    "jest-when": "^3.5.0",
+    "js-yaml": "^3.14.0",
+    "lodash": "^4.17.21",
+    "mongodb": "^3.7.0",
+    "multer": "^1.4.4",
+    "neat-csv": "^5.2.0",
+    "node-fetch": "^2.6.2",
+    "notifications-node-client": "^5.1.0",
+    "pino": "^6.13.2",
+    "rhea": "^1.0.24",
+    "supertest": "^6.1.5",
+    "swagger-ui-express": "^4.3.0",
+    "uuid": "^8.3.1",
+    "yup": "^0.31.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.14.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jest": "^24.4.0",
+    "eslint-plugin-prettier": "^3.4.1",
+    "nodemon": "^2.0.12",
+    "pino-pretty": "^4.8.0",
+    "prettier": "^2.3.2"
+  }
+}

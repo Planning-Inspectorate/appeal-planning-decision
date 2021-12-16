@@ -17,6 +17,22 @@ services:
     ports:
       - 3003:3000
 
+  clamav-rest-server: 
+    image: node:14-alpine
+    ports: 
+      - 3100:3000
+    links: 
+      - clamav-server
+    environment: 
+      CLAMAV_HOST: clamav-server
+      CLAMAV_PORT: 3310
+    working_dir: /opt/app
+    volumes:
+      - ./packages/common:/opt/app/node_modules/@pins/common:ro # Replace the module to avoid symlink errors
+      - ./packages/clamav-rest-server:/opt/app:ro
+    restart: on-failure
+    command: npm run start:dev
+
   appeal-reply-service-api:
     image: node:14-alpine
     environment:
@@ -130,6 +146,7 @@ services:
   forms-web-app:
     image: node:14-alpine
     environment:
+      CLAM_AV_HOST: http://clamav-rest-server:3000
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FILE_UPLOAD_DEBUG: 'false'
@@ -170,6 +187,7 @@ services:
   lpa-questionnaire-web-app:
     image: node:14-alpine
     environment:
+      CLAM_AV_HOST: http://clamav-rest-server:3000
       ALLOW_APPEAL_REPLY_CREATE: "true"
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       APPEAL_REPLY_SERVICE_API_URL: http://appeal-reply-service-api:3000
@@ -281,6 +299,13 @@ services:
       dockerfile: ../Dockerfile
     ports:
       - 5002:3000
+
+  
+
+  clamav-server:
+    image: clamav/clamav
+    ports:
+      - 3310:3310
 
   docs-horizon:
     image: swaggerapi/swagger-ui

@@ -86,6 +86,9 @@ jobs:
       - name: Start the world
         run: docker-compose up -d
 
+      - name: Verify running services
+        run: docker container ls -a
+
       - name: Run the tests in parallel
         uses: cypress-io/github-action@v2
         env:
@@ -100,6 +103,8 @@ jobs:
           parallel: true
           ci-build-id: ${{ needs.context.outputs.uuid }}
           group: 'Appeals and LPA Service'
+          wait-on-timeout: 300
+
 
       - name: Post-process results
         if: ${{ always() }}
