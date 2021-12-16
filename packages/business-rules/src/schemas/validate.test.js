@@ -1,15 +1,19 @@
-const { insert, update, validate } = require('./validate');
-const householderAppeal = require('./householder-appeal');
-const { APPEAL_ID } = require('../constants');
-
-jest.mock('./householder-appeal', () => ({
+const mockAppeal = {
   insert: {
     validate: jest.fn(),
   },
   update: {
     validate: jest.fn(),
   },
-}));
+};
+
+jest.mock('./householder-appeal', () => mockAppeal);
+jest.mock('./full-planning', () => mockAppeal);
+
+const { insert, update, validate } = require('./validate');
+const householderAppeal = require('./householder-appeal');
+const fullPlanning = require('./full-planning');
+const { APPEAL_ID } = require('../constants');
 
 describe('schemas/validate', () => {
   let appeal;
@@ -17,7 +21,7 @@ describe('schemas/validate', () => {
   let action;
 
   beforeEach(() => {
-    appeal = { appealType: APPEAL_ID.HOUSEHOLDER };
+    appeal = { id: 'c6065a85-f8a6-418e-b3ea-6395d8372c39' };
     config = { abortEarly: false };
     action = 'insert';
   });
@@ -37,33 +41,13 @@ describe('schemas/validate', () => {
       appeal.appealType = APPEAL_ID.ENFORCEMENT_NOTICE;
 
       expect(() => validate(action, appeal)).toThrow(
-        'No business rules schema found for appeal type 1000',
+        'No schema found for appeal type 1000',
       );
     });
 
-    it('should return the correct data for an appeal type when not given config and the data passes validation', () => {
-      householderAppeal.insert.validate.mockReturnValue(appeal);
-
-      const result = validate(action, appeal);
-
-      expect(householderAppeal.insert.validate).toHaveBeenCalledTimes(1);
-      expect(householderAppeal.insert.validate).toHaveBeenCalledWith(appeal, config);
-      expect(result).toEqual(appeal);
-    });
-
-    it('should return the correct data for an appeal type when given config and the data passes validation', () => {
-      householderAppeal.insert.validate.mockReturnValue(appeal);
-
-      const differentConfig = { abortEarly: true };
-
-      const result = validate(action, appeal, differentConfig);
-
-      expect(householderAppeal.insert.validate).toHaveBeenCalledTimes(1);
-      expect(householderAppeal.insert.validate).toHaveBeenCalledWith(appeal, differentConfig);
-      expect(result).toEqual(appeal);
-    });
-
     it('should throw an error for an appeal type when the data fails validation', () => {
+      appeal = { appealType: APPEAL_ID.HOUSEHOLDER };
+
       householderAppeal.insert.validate.mockImplementation(() => {
         throw new Error('id is a required field');
       });
@@ -73,7 +57,9 @@ describe('schemas/validate', () => {
   });
 
   describe('insert', () => {
-    it('should return the correct data for an appeal type', () => {
+    it('should return the correct data for a householder appeal insert', () => {
+      appeal.appealType = APPEAL_ID.HOUSEHOLDER;
+
       householderAppeal.insert.validate.mockReturnValue(appeal);
 
       const result = insert(appeal);
@@ -82,16 +68,42 @@ describe('schemas/validate', () => {
       expect(householderAppeal.insert.validate).toHaveBeenCalledWith(appeal, config);
       expect(result).toEqual(appeal);
     });
+
+    it('should return the correct data for a full planning insert', () => {
+      appeal.appealType = APPEAL_ID.PLANNING_SECTION_78;
+
+      fullPlanning.insert.validate.mockReturnValue(appeal);
+
+      const result = insert(appeal);
+
+      expect(fullPlanning.insert.validate).toHaveBeenCalledTimes(1);
+      expect(fullPlanning.insert.validate).toHaveBeenCalledWith(appeal, config);
+      expect(result).toEqual(appeal);
+    });
   });
 
   describe('update', () => {
-    it('should return the correct data for an appeal type', () => {
+    it('should return the correct data for a householder appeal update', () => {
+      appeal.appealType = APPEAL_ID.HOUSEHOLDER;
+
       householderAppeal.update.validate.mockReturnValue(appeal);
 
       const result = update(appeal);
 
       expect(householderAppeal.update.validate).toHaveBeenCalledTimes(1);
       expect(householderAppeal.update.validate).toHaveBeenCalledWith(appeal, config);
+      expect(result).toEqual(appeal);
+    });
+
+    it('should return the correct data for a full planning update', () => {
+      appeal.appealType = APPEAL_ID.PLANNING_SECTION_78;
+
+      fullPlanning.update.validate.mockReturnValue(appeal);
+
+      const result = update(appeal);
+
+      expect(fullPlanning.update.validate).toHaveBeenCalledTimes(1);
+      expect(fullPlanning.update.validate).toHaveBeenCalledWith(appeal, config);
       expect(result).toEqual(appeal);
     });
   });
