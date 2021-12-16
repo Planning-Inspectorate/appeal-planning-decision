@@ -1,3 +1,12 @@
+const {
+  constants: {
+    TYPE_OF_PLANNING_APPLICATION: {
+      HOUSEHOLDER_PLANNING,
+      SOMETHING_ELSE,
+      I_HAVE_NOT_MADE_A_PLANNING_APPLICATION,
+    },
+  },
+} = require('@pins/business-rules');
 const logger = require('../../lib/logger');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 
@@ -10,12 +19,12 @@ exports.getTypeOfPlanningApplication = async (req, res) => {
 };
 
 const redirect = (selection, res) => {
-  if (selection === 'householder-planning') {
+  if (selection === HOUSEHOLDER_PLANNING) {
     res.redirect(`/before-you-start/listed-building`);
     return;
   }
 
-  if (selection === 'something-else' || selection === 'i-have-not-made-a-planning-application') {
+  if (selection === SOMETHING_ELSE || selection === I_HAVE_NOT_MADE_A_PLANNING_APPLICATION) {
     res.redirect(`/before-you-start/use-a-different-service`);
     return;
   }
@@ -32,7 +41,7 @@ exports.postTypeOfPlanningApplication = async (req, res) => {
   appeal.beforeYouStartSection = { typeOfPlanningApplication: selection };
 
   if (errors['type-of-planning-application']) {
-    res.render(VIEW.FULL_PLANNING.TYPE_OF_PLANNING_APPLICATION, {
+    return res.render(VIEW.FULL_PLANNING.TYPE_OF_PLANNING_APPLICATION, {
       appeal,
       errors,
       errorSummary,
@@ -40,19 +49,17 @@ exports.postTypeOfPlanningApplication = async (req, res) => {
     });
   }
 
-  if (!errors['type-of-planning-application']) {
-    try {
-      req.session.appeal = await createOrUpdateAppeal(appeal);
-      redirect(selection, res);
-    } catch (e) {
-      logger.error(e);
+  try {
+    req.session.appeal = await createOrUpdateAppeal(appeal);
+    return redirect(selection, res);
+  } catch (e) {
+    logger.error(e);
 
-      res.render(VIEW.FULL_PLANNING.TYPE_OF_PLANNING_APPLICATION, {
-        appeal,
-        errors,
-        errorSummary: [{ text: e.toString(), href: 'pageId' }],
-        backLink: `${VIEW.FULL_PLANNING.LOCAL_PLANNING_DEPARTMENT}`,
-      });
-    }
+    return res.render(VIEW.FULL_PLANNING.TYPE_OF_PLANNING_APPLICATION, {
+      appeal,
+      errors,
+      errorSummary: [{ text: e.toString(), href: 'pageId' }],
+      backLink: `${VIEW.FULL_PLANNING.LOCAL_PLANNING_DEPARTMENT}`,
+    });
   }
 };
