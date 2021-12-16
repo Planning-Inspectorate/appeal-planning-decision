@@ -1,0 +1,243 @@
+[
+  {
+    "description": "  As an appellant\n  I want to select the planning application status type of planning Application I made\n  So that I can proceed to raise an appeal",
+    "keyword": "Feature",
+    "name": "Appeal Full Planning Application Status Question",
+    "line": 1,
+    "id": "appeal-full-planning-application-status-question",
+    "tags": [],
+    "uri": "granted-or-refused-application.feature",
+    "elements": [
+      {
+        "id": "appeal-full-planning-application-status-question;ac01-1-appellant-selects-granted-planning-application-status-and-proceeds-through-to-\"decision-date\"-page",
+        "keyword": "Scenario",
+        "line": 6,
+        "name": "AC01-1 Appellant selects Granted Planning Application Status and proceeds through to \"Decision Date\" page",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appellant is on the \"was your planning application granted or refused\" page",
+            "result": {
+              "status": "passed",
+              "duration": 1588000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "the appellant selects the option as 'Granted'",
+            "result": {
+              "status": "passed",
+              "duration": 168000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the appellant clicks on the \"continue\" button",
+            "result": {
+              "status": "passed",
+              "duration": 889000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "the appellant gets navigated to the \"What’s the decision date on the letter from the local planning department?\"",
+            "result": {
+              "status": "passed",
+              "duration": 11000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appeal-full-planning-application-status-question;ac01-2-appellant-selects-refused-planning-application-status-and-proceeds-through-to-\"decision-date\"-page",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "AC01-2 Appellant selects Refused Planning Application Status and proceeds through to \"Decision Date\" page",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "an appellant is on the \"was your planning application granted or refused\" page",
+            "result": {
+              "status": "passed",
+              "duration": 1094000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "the appellant selects the option as 'Refused'",
+            "result": {
+              "status": "passed",
+              "duration": 120000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "the appellant clicks on the \"continue\" button",
+            "result": {
+              "status": "passed",
+              "duration": 500000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 16,
+            "name": "the appellant gets navigated to the \"What’s the decision date on the letter from the local planning department?\"",
+            "result": {
+              "status": "passed",
+              "duration": 4000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appeal-full-planning-application-status-question;ac02-appellant-selects-'i-have-not-received-a-decision'-splanning-application-status-and-proceeds-through-to-\"decision-date-due\"-page",
+        "keyword": "Scenario",
+        "line": 18,
+        "name": "AC02 Appellant selects 'I have not received a decision' sPlanning Application Status and proceeds through to \"Decision Date Due\" page",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 19,
+            "name": "an appellant is on the \"was your planning application granted or refused\" page",
+            "result": {
+              "status": "passed",
+              "duration": 859000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 20,
+            "name": "the appellant selects the option as 'I have Not Received a Decision'",
+            "result": {
+              "status": "passed",
+              "duration": 133000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 21,
+            "name": "the appellant clicks on the \"continue\" button",
+            "result": {
+              "status": "passed",
+              "duration": 486000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 22,
+            "name": "the appellant gets navigated to the \"What date was your decision due?”",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appeal-full-planning-application-status-question;ac-03-appellant-does-not-select-any-planning-application-status-and-is-provided-an-error",
+        "keyword": "Scenario",
+        "line": 24,
+        "name": "AC-03 Appellant does not select any Planning Application Status and is provided an error",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 25,
+            "name": "an appellant is on the \"was your planning application granted or refused\" page",
+            "result": {
+              "status": "passed",
+              "duration": 743000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 26,
+            "name": "the appellant clicks on the \"continue\" button",
+            "result": {
+              "status": "passed",
+              "duration": 543000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 27,
+            "name": "the appellant sees an error message 'Select if your planning application was granted or refused, or if you have not received a decision'",
+            "result": {
+              "status": "passed",
+              "duration": 51000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appeal-full-planning-application-status-question;ac-04-appellant-clicks-back-link-and-proceeds-through-to-\"any-of-following\"-page",
+        "keyword": "Scenario",
+        "line": 29,
+        "name": "AC-04 Appellant clicks back link and proceeds through to \"Any of Following\" page",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 30,
+            "name": "an appellant is on the \"was your planning application granted or refused\" page",
+            "result": {
+              "status": "passed",
+              "duration": 780000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 31,
+            "name": "the appellant clicks the back button",
+            "result": {
+              "status": "passed",
+              "duration": 578000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 32,
+            "name": "the appellant is taken back to “Was your planning application about any of the following?”",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
