@@ -3,7 +3,7 @@ const parseDateString = require('../../utils/parse-date-string');
 const singleDocumentInsert = require('../components/insert/single-document');
 const multiDocumentInsert = require('../components/insert/multi-document');
 const sectionState = require('../components/section-state');
-const { APPEAL_STATE } = require('../../constants');
+const { APPEAL_ID, APPEAL_STATE } = require('../../constants');
 
 const insert = pinsYup
   .object()
@@ -14,7 +14,8 @@ const insert = pinsYup
     lpaCode: pinsYup.string().trim().max(20).nullable(),
     decisionDate: pinsYup.date().transform(parseDateString).nullable(),
     submissionDate: pinsYup.date().transform(parseDateString).nullable(),
-    state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).default('DRAFT'),
+    state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).default(APPEAL_STATE.DRAFT),
+    appealType: pinsYup.string().oneOf(Object.values(APPEAL_ID)),
     eligibility: pinsYup
       .object()
       .shape({

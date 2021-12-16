@@ -2,7 +2,7 @@ const { subYears, addYears } = require('date-fns');
 const v8 = require('v8');
 const appealData = require('../../../test/data/householder-appeal');
 const insert = require('./insert');
-const { APPEAL_STATE, SECTION_STATE } = require('../../constants');
+const { APPEAL_ID, APPEAL_STATE, SECTION_STATE } = require('../../constants');
 
 describe('schemas/householder-appeal/insert', () => {
   const config = {};
@@ -167,6 +167,23 @@ describe('schemas/householder-appeal/insert', () => {
           ...appeal,
           state: 'DRAFT',
         });
+      });
+    });
+
+    describe('appealType', () => {
+      it('should throw an error when given an invalid value', async () => {
+        appeal.appealType = '0001';
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          `appealType must be one of the following values: ${Object.values(APPEAL_ID).join(', ')}`,
+        );
+      });
+
+      it('should not throw an error when not given a value', async () => {
+        delete appeal.appealType;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
       });
     });
 

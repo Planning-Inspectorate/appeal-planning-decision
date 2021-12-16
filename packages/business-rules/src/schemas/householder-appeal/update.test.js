@@ -2,7 +2,7 @@ const { subYears, addYears } = require('date-fns');
 const v8 = require('v8');
 const appealData = require('../../../test/data/householder-appeal');
 const update = require('./update');
-const { APPEAL_STATE, SECTION_STATE } = require('../../constants');
+const { APPEAL_ID, APPEAL_STATE, SECTION_STATE } = require('../../constants');
 
 describe('schemas/householder-appeal/update', () => {
   const config = {};
@@ -197,6 +197,24 @@ describe('schemas/householder-appeal/update', () => {
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
           'state is a required field',
+        );
+      });
+    });
+
+    describe('appealType', () => {
+      it('should throw an error when given an invalid value', async () => {
+        appeal.appealType = '0001';
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          `appealType must be one of the following values: ${Object.values(APPEAL_ID).join(', ')}`,
+        );
+      });
+
+      it('should throw an error when not given a value', async () => {
+        delete appeal.appealType;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'appealType is a required field',
         );
       });
     });

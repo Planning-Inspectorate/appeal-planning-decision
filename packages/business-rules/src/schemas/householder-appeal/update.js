@@ -3,7 +3,7 @@ const parseDateString = require('../../utils/parse-date-string');
 const singleDocumentUpdate = require('../components/update/single-document');
 const multiDocumentUpdate = require('../components/update/multi-document');
 const sectionState = require('../components/section-state');
-const { APPEAL_STATE } = require('../../constants');
+const { APPEAL_ID, APPEAL_STATE } = require('../../constants');
 
 const update = pinsYup
   .object()
@@ -22,6 +22,7 @@ const update = pinsYup
     }),
     submissionDate: pinsYup.date().transform(parseDateString).nullable(),
     state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).required(),
+    appealType: pinsYup.string().oneOf(Object.values(APPEAL_ID)).required(),
     eligibility: pinsYup
       .object()
       .shape({
