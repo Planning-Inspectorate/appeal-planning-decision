@@ -2,6 +2,7 @@ const VIEW = {
   APPLICATION_NUMBER: 'application-number',
 
   COOKIES: 'cookies',
+  OUT_OF_TIME_SHUTTER_PAGE: 'full-planning/out-of-time-shutter-page',
 
   ELIGIBILITY: {
     LISTED_BUILDING: 'eligibility/listed-building',

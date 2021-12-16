@@ -5,6 +5,7 @@ describe('lib/views', () => {
     expect(VIEW).toEqual({
       APPLICATION_NUMBER: 'application-number',
 
+      OUT_OF_TIME_SHUTTER_PAGE: 'full-planning/out-of-time-shutter-page',
       COOKIES: 'cookies',
 
       ELIGIBILITY: {
