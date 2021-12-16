@@ -37,20 +37,20 @@ describe('controllers/full-planning/granted-or-refused', () => {
     it(`should return '/${VIEW.FULL_PLANNING.DECISION_DATE}' if passed 'permissionStatus' is 'granted'`, async () => {
       const pageRedirect = grantedOrRefusedPlanningApplicationController.forwardPage('granted');
 
-      expect(pageRedirect).toEqual(VIEW.FULL_PLANNING.DECISION_DATE);
+      expect(pageRedirect).toEqual('/before-you-start/decision-date');
     });
 
     it(`should return '/${VIEW.FULL_PLANNING.DECISION_DATE}' if passed 'permissionStatus' is 'refused'`, async () => {
       const pageRedirect = grantedOrRefusedPlanningApplicationController.forwardPage('refused');
 
-      expect(pageRedirect).toEqual(VIEW.FULL_PLANNING.DECISION_DATE);
+      expect(pageRedirect).toEqual('/before-you-start/decision-date');
     });
 
     it(`should return '/${VIEW.FULL_PLANNING.DATE_DECISION_DUE}' if passed 'permissionStatus' is 'nodecisionreceived'`, async () => {
       const pageRedirect =
         grantedOrRefusedPlanningApplicationController.forwardPage('nodecisionreceived');
 
-      expect(pageRedirect).toEqual(VIEW.FULL_PLANNING.DATE_DECISION_DUE);
+      expect(pageRedirect).toEqual('/before-you-start/decision-date-due');
     });
 
     it(`should return '/${VIEW.FULL_PLANNING.ANY_OF_FOLLOWING}' if passed 'permissionStatus' is 'previousPage'`, async () => {
@@ -94,7 +94,7 @@ describe('controllers/full-planning/granted-or-refused', () => {
           ...req.session.appeal,
           eligibility: {
             ...req.session.appeal.eligibility,
-            planningApplicationStatus: null,
+            applicationDecision: null,
           },
         },
         errorSummary: [{ text: 'There were errors here', href: '#' }],
@@ -126,12 +126,12 @@ describe('controllers/full-planning/granted-or-refused', () => {
       });
     });
 
-    it(`'should redirect to '/${VIEW.FULL_PLANNING.DECISION_DATE}' if 'planningApplicationStatus' is 'refused'`, async () => {
-      const planningApplicationStatus = 'refused';
+    it(`'should redirect to '/${VIEW.FULL_PLANNING.DECISION_DATE}' if 'applicationDecision' is 'refused'`, async () => {
+      const applicationDecision = 'refused';
       const mockRequest = {
         ...req,
         body: {
-          'granted-or-refused': planningApplicationStatus,
+          'granted-or-refused': applicationDecision,
         },
       };
       await grantedOrRefusedPlanningApplicationController.postGrantedOrRefused(mockRequest, res);
@@ -140,19 +140,19 @@ describe('controllers/full-planning/granted-or-refused', () => {
         ...appeal,
         eligibility: {
           ...appeal.eligibility,
-          planningApplicationStatus,
+          applicationDecision,
         },
         previousPage: '/before-you-start/any-of-following',
       });
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_PLANNING.DECISION_DATE}`);
+      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
     });
 
-    it(`should redirect to '/${VIEW.FULL_PLANNING.DECISION_DATE}' if 'planningApplicationStatus' is 'granted'`, async () => {
-      const planningApplicationStatus = 'granted';
+    it(`should redirect to '/${VIEW.FULL_PLANNING.DECISION_DATE}' if 'applicationDecision' is 'granted'`, async () => {
+      const applicationDecision = 'granted';
       const mockRequest = {
         ...req,
-        body: { 'granted-or-refused': planningApplicationStatus },
+        body: { 'granted-or-refused': applicationDecision },
       };
       await grantedOrRefusedPlanningApplicationController.postGrantedOrRefused(mockRequest, res);
 
@@ -160,19 +160,19 @@ describe('controllers/full-planning/granted-or-refused', () => {
         ...appeal,
         eligibility: {
           ...appeal.eligibility,
-          planningApplicationStatus,
+          applicationDecision,
         },
         previousPage: '/before-you-start/any-of-following',
       });
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_PLANNING.DECISION_DATE}`);
+      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
     });
 
-    it(`should redirect to '/${VIEW.FULL_PLANNING.DATE_DECISION_DUE}' if 'planningApplicationStatus' is 'nodecisionreceived'`, async () => {
-      const planningApplicationStatus = 'nodecisionreceived';
+    it(`should redirect to '/${VIEW.FULL_PLANNING.DATE_DECISION_DUE}' if 'applicationDecision' is 'nodecisionreceived'`, async () => {
+      const applicationDecision = 'nodecisionreceived';
       const mockRequest = {
         ...req,
-        body: { 'granted-or-refused': planningApplicationStatus },
+        body: { 'granted-or-refused': applicationDecision },
       };
       await grantedOrRefusedPlanningApplicationController.postGrantedOrRefused(mockRequest, res);
 
@@ -180,12 +180,12 @@ describe('controllers/full-planning/granted-or-refused', () => {
         ...appeal,
         eligibility: {
           ...appeal.eligibility,
-          planningApplicationStatus,
+          applicationDecision,
         },
         previousPage: '/before-you-start/any-of-following',
       });
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_PLANNING.DATE_DECISION_DUE}`);
+      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date-due');
     });
   });
 });

@@ -4,7 +4,7 @@ const {
 } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const {
-  validFullPlanningApplicationStatusOptions,
+  validApplicationDecisionOptions,
 } = require('../../validators/full-planning/granted-or-refused');
 
 const {
@@ -13,9 +13,9 @@ const {
 
 exports.forwardPage = (status) => {
   const statuses = {
-    [applicationStatus.GRANTED]: fullPlanningView.DECISION_DATE,
-    [applicationStatus.NODECISION]: fullPlanningView.DATE_DECISION_DUE,
-    [applicationStatus.REFUSED]: fullPlanningView.DECISION_DATE,
+    [applicationStatus.GRANTED]: '/before-you-start/decision-date',
+    [applicationStatus.NODECISION]: '/before-you-start/decision-date-due',
+    [applicationStatus.REFUSED]: '/before-you-start/decision-date',
     previousPage: '/before-you-start/any-of-following',
 
     default: fullPlanningView.GRANTED_OR_REFUSED,
@@ -36,11 +36,11 @@ exports.postGrantedOrRefused = async (req, res) => {
   const { appeal } = req.session;
   const { errors = {}, errorSummary = [] } = body;
 
-  const planningApplicationStatus = body['granted-or-refused'];
+  const applicationDecision = body['granted-or-refused'];
   let selectedApplicationStatus = null;
 
-  if (validFullPlanningApplicationStatusOptions.includes(planningApplicationStatus)) {
-    selectedApplicationStatus = planningApplicationStatus.toLowerCase();
+  if (validApplicationDecisionOptions.includes(applicationDecision)) {
+    selectedApplicationStatus = applicationDecision.toLowerCase();
   }
 
   if (Object.keys(errors).length > 0) {
@@ -49,7 +49,7 @@ exports.postGrantedOrRefused = async (req, res) => {
         ...appeal,
         eligibility: {
           ...appeal.eligibility,
-          planningApplicationStatus: selectedApplicationStatus,
+          applicationDecision: selectedApplicationStatus,
         },
       },
       errors,
@@ -64,7 +64,7 @@ exports.postGrantedOrRefused = async (req, res) => {
       ...appeal,
       eligibility: {
         ...appeal.eligibility,
-        planningApplicationStatus: selectedApplicationStatus,
+        applicationDecision: selectedApplicationStatus,
       },
       previousPage: this.forwardPage('previousPage'),
     });
@@ -80,5 +80,5 @@ exports.postGrantedOrRefused = async (req, res) => {
     return;
   }
 
-  res.redirect(`/${this.forwardPage(selectedApplicationStatus)}`);
+  res.redirect(`${this.forwardPage(selectedApplicationStatus)}`);
 };
