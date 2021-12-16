@@ -5,6 +5,7 @@ exports.appealDocument = {
   decisionDate: null,
   submissionDate: null,
   state: 'DRAFT',
+  appealType: '1001',
   eligibility: {
     enforcementNotice: null,
     householderPlanningPermission: null,
