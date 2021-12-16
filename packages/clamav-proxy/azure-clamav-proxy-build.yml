@@ -1,0 +1,83 @@
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - packages/clamav-proxy
+
+resources:
+  - repo: self
+
+name: '0.0.0' # set dynamically below in a task
+
+variables:
+  # VERSION INFO ----------------------------------------------------------
+  version.MajorMinor: '1.0' # Manually adjust the version number as needed for semantic versioning. Revision is auto-incremented.
+  version.Revision: $[counter(variables['version.MajorMinor'], 0)]
+  versionNumber: '$(version.MajorMinor).$(version.Revision)'
+  # -----------------------------------------------------------------------
+
+  # Container registry service connection established during pipeline creation
+  clamAVProxyDockerfile: '$(Build.SourcesDirectory)/packages/clamav-proxy/Dockerfile'
+  imageRepository: 'clamav-proxy'
+  containerRegistry: 'pinscommonukscontainers3887default.azurecr.io'
+  dockerRegistryServiceConnection: 'appeals-service-api-registry-connection'
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+stages:
+  - stage: Increment_Version
+    displayName: Increment Version Number
+    jobs:
+      - job: Set_Version
+        displayName: Set Version Number
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: PowerShell@2
+            displayName: Set the name of the build (i.e. the Build.BuildNumber)
+            inputs:
+              targetType: 'inline'
+              script: |
+                [string] $buildName = "$(versionNumber)_$(Build.BuildId)"
+                Write-Host "Setting the name of the build to '$buildName'."
+                Write-Host "##vso[build.updatebuildnumber]$buildName"
+
+  - stage: Build_and_Push_Clam_AV_Proxy
+    displayName: Build, Test and Push Clam AV Proxy
+    jobs:
+      - job: Build_Push_Clam_AV_API
+        displayName: Build Clam AV Proxy
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build Image
+            inputs:
+              command: build
+              repository: $(imageRepository)
+              dockerfile: $(clamAVProxyDockerfile)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              arguments: >
+                --build-arg APP_NAME=clamav-proxy
+                --build-arg BUILD_ID=$(Build.BuildNumber)
+                --build-arg VERSION=$(versionNumber)
+              tags: |
+                $(versionNumber)
+                clamav-proxy
+                latest
+          - task: Docker@2
+            displayName: Push Image
+            inputs:
+              command: push
+              repository: $(imageRepository)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(versionNumber)
+                clamav-proxy
+                latest
