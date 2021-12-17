@@ -29,17 +29,5 @@ describe('controllers/full-planning/out-of-time-shutter-page', () => {
       await outOfTimeShutterPageController.getOutOfTimeShutterPage(mockRequest, res);
       expect(res.render).toHaveBeenCalledWith(VIEW.OUT_OF_TIME_SHUTTER_PAGE, { appealDeadline });
     });
-
-    it('should not render page with missing appeal deadline', async () => {
-      const mockRequest = {
-        ...req,
-        session: {
-          appealDeadline: undefined,
-        },
-      };
-
-      await outOfTimeShutterPageController.getOutOfTimeShutterPage(mockRequest, res);
-      expect(res.redirect).toHaveBeenCalledWith('/page-error');
-    });
   });
 });
