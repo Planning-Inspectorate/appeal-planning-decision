@@ -150,7 +150,7 @@ const FULL_APPEAL_SECTIONS = {
   },
   submitYourAppealSection: {
     href: `/full-appeal/check-answers`,
-    rule: () => TASK_STATUS.CANNOT_START_YET,
+    rule: () => TASK_STATUS.NOT_STARTED,
   },
 };
 
