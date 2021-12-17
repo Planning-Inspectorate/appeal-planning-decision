@@ -16,7 +16,7 @@ const decisionDatePageUrl = '/before-you-start/decision-date';
 const decisionDateDuePageUrl = '/before-you-start/decision-date-due';
 const previousPageUrl = '/before-you-start/any-of-following';
 
-Given('an appellant is on the "was your planning application granted or refused" page', () => {
+Given('appellant is on the was your planning application granted or refused page', () => {
     goToPage(url);
     acceptCookiesBanner();
     verifyPageTitle(pageTitle);
@@ -27,15 +27,18 @@ When('the appellant selects the option as {string}', (decision) => {
     selectPlanningApplicationDecision(decision);
 });
 
-When('the appellant clicks on the "continue" button', () => {
+When('appellant clicks on the continue button',()=>{
   getContinueButton().click();
 });
 
-Then('the appellant gets navigated to the "What’s the decision date on the letter from the local planning department?"', () => {
+When('an appellant selects the back button',()=>{
+  getBackLink().click();
+});
+Then('appellant gets navigated to the What’s the decision date on the letter from the local planning department?', () => {
   cy.url().should('contain', decisionDatePageUrl);
 });
 
-Then('the appellant gets navigated to the "What date was your decision due?”', () => {
+Then('the appellant gets navigated to the decision due page', () => {
   cy.url().should('contain', decisionDateDuePageUrl);
 });
 
@@ -47,6 +50,6 @@ When('the appellant clicks the back button', () => {
   getBackLink().click();
 });
 
-Then('the appellant is taken back to “Was your planning application about any of the following?”', () => {
+Then('the appellant is navigated to Was your planning application about any of the following?', () => {
   cy.url().should('contain',previousPageUrl);
 });
