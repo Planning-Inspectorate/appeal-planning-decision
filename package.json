@@ -14,7 +14,7 @@
     "format": "prettier --write \"*.js\" \"data/*.js\"",
     "semantic-release": "semantic-release",
     "test:e2e": "cd ./packages/e2e-tests && npm run test:e2e",
-    "test:e2e:lpa": "cd ./lpa-submissions-e2e-tests && npm run test:e2e",
+    "test:e2e:lpa": "cd ./packages/lpa-submissions-e2e-tests && npm run test:e2e",
     "test:e2e:demo": "cd ./packages/e2e-tests && npm run test:e2e:demo",
     "test:e2e:postprocess": "cd ./packages/e2e-tests && npm run test:e2e:postprocess",
     "test:e2e:lpa:postprocess": "cd ./packages/lpa-submissions-e2e-tests && npm run test:e2e:postprocess",
