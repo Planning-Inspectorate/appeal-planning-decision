@@ -7,7 +7,7 @@ Scenario: AC01 Appellant selects None of these from the list option
   Given an appellant is on the is your appeal about any of the following page
   When appellant selects 'None of these' from the list of options
   And appellant clicks the continue button
-  Then appellant gets routed to the have you received an enforcement notice page
+  Then appellant gets routed to the have you received an granted or refused page
 
 Scenario: AC02 An error message is displayed when no selection is made
     Given an appellant is on the is your appeal about any of the following page

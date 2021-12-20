@@ -50,7 +50,7 @@ describe('controllers/full-planning/granted-or-refused', () => {
       const pageRedirect =
         grantedOrRefusedPlanningApplicationController.forwardPage('nodecisionreceived');
 
-      expect(pageRedirect).toEqual('/before-you-start/decision-date-due');
+      expect(pageRedirect).toEqual('/before-you-start/date-decision-due');
     });
 
     it(`should return '/${VIEW.FULL_PLANNING.ANY_OF_FOLLOWING}' if passed 'permissionStatus' is 'previousPage'`, async () => {
@@ -185,7 +185,7 @@ describe('controllers/full-planning/granted-or-refused', () => {
         previousPage: '/before-you-start/any-of-following',
       });
 
-      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date-due');
+      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/date-decision-due');
     });
   });
 });
