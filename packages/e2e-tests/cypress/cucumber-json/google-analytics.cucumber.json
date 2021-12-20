@@ -1,0 +1,942 @@
+[
+  {
+    "description": "  Each of the Eligibility and Appellant Submission webpages needs to send data to Google Analytics platform",
+    "keyword": "Feature",
+    "name": "Google Analytics",
+    "line": 2,
+    "id": "google-analytics",
+    "tags": [
+      {
+        "name": "@wip",
+        "line": 1
+      }
+    ],
+    "uri": "google-analytics.feature",
+    "elements": [
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Eligibility - Decision date\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Eligibility - Decision date expired\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 13,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Eligibility - No decision date\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 14,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Eligibility - Planning department\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 15,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Eligibility - Planning department out\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 16,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Eligibility - Listed building\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 17,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Eligibility - Listed building out\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 18,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Eligibility - Appeal statement info\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 19,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Appellant submission - Appeal tasks\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 20,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Appellant submission - Your details - Who are you\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 21,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Appellant submission - Your details - Your details\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 22,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Appellant submission - Your details - Applicant name\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 23,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Appellant submission - Planning application - Application number\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 24,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Appellant submission - Planning application - Upload application\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 25,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Appellant submission - Planning application - Upload decision letter\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 26,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Appellant submission - Your appeal - Appeal statement\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 27,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Appellant submission - Appeal site - Site location\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 28,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Appellant submission - Appeal site - Site ownership\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 29,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Appellant submission - Appeal site - Site access\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 30,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Appellant submission - Appeal site - Site safety\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 31,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Appellant submission - Appeal answers\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "google-analytics;required-ga-script-is-present",
+        "keyword": "Scenario",
+        "line": 32,
+        "name": "Required GA script is present",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the \"Appeal submission\" page is presented",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the required GA script is present",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

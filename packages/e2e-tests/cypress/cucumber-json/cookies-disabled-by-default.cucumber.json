@@ -1,0 +1,62 @@
+[
+  {
+    "description": "  As a PO on the appeal service\n  I want the not necessary cookies to be off by default\n  So that the service is compliant with the latest cookie legislation",
+    "keyword": "Feature",
+    "name": "Not necessary cookies to be disabled by default",
+    "line": 1,
+    "id": "not-necessary-cookies-to-be-disabled-by-default",
+    "tags": [],
+    "uri": "cookies-disabled-by-default.feature",
+    "elements": [
+      {
+        "id": "not-necessary-cookies-to-be-disabled-by-default;not-necessary-cookies-disabled-by-default",
+        "keyword": "Scenario",
+        "line": 8,
+        "name": "Not necessary cookies disabled by default",
+        "tags": [
+          {
+            "name": "@as-1193",
+            "line": 7
+          },
+          {
+            "name": "@as-1193-1",
+            "line": 7
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 9,
+            "name": "a user has not previously submitted cookie preferences",
+            "result": {
+              "status": "passed",
+              "duration": 302000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 10,
+            "name": "the user visits the service",
+            "result": {
+              "status": "passed",
+              "duration": 1617000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "not necessary cookies are disabled",
+            "result": {
+              "status": "passed",
+              "duration": 78000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

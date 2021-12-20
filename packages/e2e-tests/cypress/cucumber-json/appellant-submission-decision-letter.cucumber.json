@@ -1,0 +1,627 @@
+[
+  {
+    "description": "  As an appellant\n  I need to be informed when I need to upload my decision letter\n  So that I complete my appeal correctly\n\n  An appeal must include an uploaded decision letter file.\n  Valid decision letter files must:\n  * be one of the white-listed types (doc, docx, pdf, tif, tiff, jpg, jpeg and png) and\n  * not exceed a size limit.\n  The latest successfully uploaded decision letter file replaces any previously uploaded file.",
+    "keyword": "Feature",
+    "name": "Appellant submission - decision letter",
+    "line": 1,
+    "id": "appellant-submission---decision-letter",
+    "tags": [],
+    "uri": "appellant-submission-decision-letter.feature",
+    "elements": [
+      {
+        "id": "appellant-submission---decision-letter;prospective-applicant-do-not-upload-a-decision-letter-file",
+        "keyword": "Scenario",
+        "line": 14,
+        "name": "Prospective applicant do not upload a decision letter file",
+        "tags": [
+          {
+            "name": "@as-119",
+            "line": 13
+          },
+          {
+            "name": "@ac-1-1",
+            "line": 13
+          },
+          {
+            "name": "@as-1677",
+            "line": 13
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 15,
+            "name": "user did not previously submitted a decision letter file",
+            "result": {
+              "status": "passed",
+              "duration": 96000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 16,
+            "name": "user does not submit a decision letter file",
+            "result": {
+              "status": "passed",
+              "duration": 1598000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 17,
+            "name": "user is informed that he needs to upload a decision letter file",
+            "result": {
+              "status": "passed",
+              "duration": 34000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---decision-letter;prospective-applicant-do-not-upload-a-planning-application-file",
+        "keyword": "Scenario",
+        "line": 20,
+        "name": "Prospective applicant do not upload a planning application file",
+        "tags": [
+          {
+            "name": "@as-119",
+            "line": 19
+          },
+          {
+            "name": "@ac-1-2",
+            "line": 19
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 21,
+            "name": "user has previously submitted a decision letter file \"appeal-statement-valid.pdf\"",
+            "result": {
+              "status": "passed",
+              "duration": 1768000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 22,
+            "name": "user does not submit a decision letter file",
+            "result": {
+              "status": "passed",
+              "duration": 1687000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "decision letter file \"appeal-statement-valid.pdf\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 739000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---decision-letter;prospective-appellant-submits-valid-decision-letter-file",
+        "keyword": "Scenario",
+        "line": 31,
+        "name": "Prospective appellant submits valid decision letter file",
+        "tags": [
+          {
+            "name": "@as-119",
+            "line": 25
+          },
+          {
+            "name": "@ac-2",
+            "line": 25
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "user submits a decision letter file \"appeal-statement-valid.doc\"",
+            "result": {
+              "status": "passed",
+              "duration": 1381000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "decision letter file \"appeal-statement-valid.doc\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 519000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---decision-letter;prospective-appellant-submits-valid-decision-letter-file",
+        "keyword": "Scenario",
+        "line": 32,
+        "name": "Prospective appellant submits valid decision letter file",
+        "tags": [
+          {
+            "name": "@as-119",
+            "line": 25
+          },
+          {
+            "name": "@ac-2",
+            "line": 25
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "user submits a decision letter file \"appeal-statement-valid.docx\"",
+            "result": {
+              "status": "passed",
+              "duration": 1468000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "decision letter file \"appeal-statement-valid.docx\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 568000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---decision-letter;prospective-appellant-submits-valid-decision-letter-file",
+        "keyword": "Scenario",
+        "line": 33,
+        "name": "Prospective appellant submits valid decision letter file",
+        "tags": [
+          {
+            "name": "@as-119",
+            "line": 25
+          },
+          {
+            "name": "@ac-2",
+            "line": 25
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "user submits a decision letter file \"appeal-statement-valid.pdf\"",
+            "result": {
+              "status": "passed",
+              "duration": 1892000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "decision letter file \"appeal-statement-valid.pdf\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 734000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---decision-letter;prospective-appellant-submits-valid-decision-letter-file",
+        "keyword": "Scenario",
+        "line": 34,
+        "name": "Prospective appellant submits valid decision letter file",
+        "tags": [
+          {
+            "name": "@as-119",
+            "line": 25
+          },
+          {
+            "name": "@ac-2",
+            "line": 25
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "user submits a decision letter file \"appeal-statement-valid.tif\"",
+            "result": {
+              "status": "passed",
+              "duration": 4435000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "decision letter file \"appeal-statement-valid.tif\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 607000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---decision-letter;prospective-appellant-submits-valid-decision-letter-file",
+        "keyword": "Scenario",
+        "line": 35,
+        "name": "Prospective appellant submits valid decision letter file",
+        "tags": [
+          {
+            "name": "@as-119",
+            "line": 25
+          },
+          {
+            "name": "@ac-2",
+            "line": 25
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "user submits a decision letter file \"appeal-statement-valid.tiff\"",
+            "result": {
+              "status": "passed",
+              "duration": 3979000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "decision letter file \"appeal-statement-valid.tiff\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 671000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---decision-letter;prospective-appellant-submits-valid-decision-letter-file",
+        "keyword": "Scenario",
+        "line": 36,
+        "name": "Prospective appellant submits valid decision letter file",
+        "tags": [
+          {
+            "name": "@as-119",
+            "line": 25
+          },
+          {
+            "name": "@ac-2",
+            "line": 25
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "user submits a decision letter file \"appeal-statement-valid.jpg\"",
+            "result": {
+              "status": "passed",
+              "duration": 2205000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "decision letter file \"appeal-statement-valid.jpg\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 586000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---decision-letter;prospective-appellant-submits-valid-decision-letter-file",
+        "keyword": "Scenario",
+        "line": 37,
+        "name": "Prospective appellant submits valid decision letter file",
+        "tags": [
+          {
+            "name": "@as-119",
+            "line": 25
+          },
+          {
+            "name": "@ac-2",
+            "line": 25
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "user submits a decision letter file \"appeal-statement-valid.jpeg\"",
+            "result": {
+              "status": "passed",
+              "duration": 1285000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "decision letter file \"appeal-statement-valid.jpeg\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 521000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---decision-letter;prospective-appellant-submits-valid-decision-letter-file",
+        "keyword": "Scenario",
+        "line": 38,
+        "name": "Prospective appellant submits valid decision letter file",
+        "tags": [
+          {
+            "name": "@as-119",
+            "line": 25
+          },
+          {
+            "name": "@ac-2",
+            "line": 25
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "user submits a decision letter file \"appeal-statement-valid.png\"",
+            "result": {
+              "status": "passed",
+              "duration": 1297000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "decision letter file \"appeal-statement-valid.png\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 537000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---decision-letter;prospective-appellant-submits-valid-decision-letter-file-replaces-previous-file",
+        "keyword": "Scenario",
+        "line": 42,
+        "name": "Prospective appellant submits valid decision letter file replaces previous file",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 43,
+            "name": "user has previously submitted a decision letter file \"appeal-statement-valid.pdf\"",
+            "result": {
+              "status": "passed",
+              "duration": 1336000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 44,
+            "name": "user submits a decision letter file \"appeal-statement-valid.doc\"",
+            "result": {
+              "status": "passed",
+              "duration": 1206000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 45,
+            "name": "user can see that the decision letter file \"appeal-statement-valid.doc\" \"is\" submitted",
+            "result": {
+              "status": "passed",
+              "duration": 1265000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---decision-letter;prospective-appellant-submits-invalid-decision-letter-file-does-not-replace-previous-file",
+        "keyword": "Scenario",
+        "line": 54,
+        "name": "Prospective appellant submits invalid decision letter file does not replace previous file",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 48,
+            "name": "user has previously submitted a decision letter file \"appeal-statement-valid.pdf\"",
+            "result": {
+              "status": "passed",
+              "duration": 1548000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 49,
+            "name": "user submits a decision letter file \"appeal-statement-invalid-wrong-type.csv\"",
+            "result": {
+              "status": "passed",
+              "duration": 1115000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 50,
+            "name": "user is informed that the decision letter file is not submitted because \"file type is invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 22000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 51,
+            "name": "user can see that the decision letter file \"appeal-statement-valid.pdf\" \"is\" submitted",
+            "result": {
+              "status": "passed",
+              "duration": 1007000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---decision-letter;prospective-appellant-submits-invalid-decision-letter-file",
+        "keyword": "Scenario",
+        "line": 62,
+        "name": "Prospective appellant submits invalid decision letter file",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 58,
+            "name": "user submits a decision letter file \"appeal-statement-invalid-wrong-type.csv\"",
+            "result": {
+              "status": "passed",
+              "duration": 1194000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 59,
+            "name": "user is informed that the decision letter file is not submitted because \"file type is invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 24000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---decision-letter;prospective-appellant-successfully-submits-valid-decision-letter-file-followed-by-invalid-file-that-is-rejected-before-successfully-submitting-another-valid-file",
+        "keyword": "Scenario",
+        "line": 71,
+        "name": "Prospective appellant successfully submits valid decision letter file followed by invalid file that is rejected before successfully submitting another valid file",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 66,
+            "name": "user has previously submitted a valid decision letter file \"appeal-statement-valid.pdf\" followed by an invalid file \"appeal-statement-invalid-wrong-type.csv\" that was rejected because \"file type is invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 2480000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 67,
+            "name": "user submits a decision letter file \"appeal-statement-valid.doc\"",
+            "result": {
+              "status": "passed",
+              "duration": 1227000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 68,
+            "name": "user can see that the decision letter file \"appeal-statement-valid.doc\" \"is\" submitted",
+            "result": {
+              "status": "passed",
+              "duration": 1028000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---decision-letter;prospective-appellant-successfully-submits-valid-decision-letter-file-followed-by-invalid-file-that-is-rejected-before-proceeding-without-selecting-a-new-file",
+        "keyword": "Scenario",
+        "line": 80,
+        "name": "Prospective appellant successfully submits valid decision letter file followed by invalid file that is rejected before proceeding without selecting a new file",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 75,
+            "name": "user has previously submitted a valid decision letter file \"appeal-statement-valid.doc\" followed by an invalid file \"appeal-statement-invalid-wrong-type.csv\" that was rejected because \"file type is invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 2571000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 76,
+            "name": "user does not submit a decision letter file",
+            "result": {
+              "status": "passed",
+              "duration": 1120000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 77,
+            "name": "user can see that the decision letter file \"appeal-statement-valid.doc\" \"is\" submitted",
+            "result": {
+              "status": "passed",
+              "duration": 1043000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

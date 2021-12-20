@@ -1,0 +1,1754 @@
+[
+  {
+    "description": "  Note: This feature describes behaviour for a newly created appeal",
+    "keyword": "Feature",
+    "name": "Name and email provided after being previously provided",
+    "line": 2,
+    "id": "name-and-email-provided-after-being-previously-provided",
+    "tags": [
+      {
+        "name": "@smoketest",
+        "line": 1
+      }
+    ],
+    "uri": "appellant-submission-your-details-your-details-previously-submitted.feature",
+    "elements": [
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;section-status-update---original-applicant---valid-name-and-email",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Section status update - original applicant - valid name and email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "name and email are requested again where appellant is the original applicant",
+            "result": {
+              "status": "passed",
+              "duration": 10688000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "new valid name and email are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 5212000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "Your Details section is \"COMPLETED\"",
+            "result": {
+              "status": "passed",
+              "duration": 1635000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;section-status-update---original-applicant---invalid-name-and-email",
+        "keyword": "Scenario",
+        "line": 10,
+        "name": "Section status update - original applicant - invalid name and email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "name and email are requested again where appellant is the original applicant",
+            "result": {
+              "status": "passed",
+              "duration": 8475000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "new invalid name and email are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 4089000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "Your Details section is \"COMPLETED\"",
+            "result": {
+              "status": "passed",
+              "duration": 901000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;section-status-update---not-original-applicant---valid-name-and-email",
+        "keyword": "Scenario",
+        "line": 15,
+        "name": "Section status update - not original applicant - valid name and email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 16,
+            "name": "name and email are requested again where appellant is not the original applicant",
+            "result": {
+              "status": "passed",
+              "duration": 7589000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 17,
+            "name": "new valid name and email are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 3515000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 18,
+            "name": "Your Details section is \"IN PROGRESS\"",
+            "result": {
+              "status": "passed",
+              "duration": 1007000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;section-status-update---not-original-applicant---invalid-name-and-email",
+        "keyword": "Scenario",
+        "line": 20,
+        "name": "Section status update - not original applicant - invalid name and email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 21,
+            "name": "name and email are requested again where appellant is not the original applicant",
+            "result": {
+              "status": "passed",
+              "duration": 7380000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 22,
+            "name": "new invalid name and email are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 5205000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "Your Details section is \"IN PROGRESS\"",
+            "result": {
+              "status": "passed",
+              "duration": 1560000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;valid-name-and-email---original-applicant",
+        "keyword": "Scenario",
+        "line": 32,
+        "name": "Valid name and email - original applicant",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 26,
+            "name": "name and email are requested again where appellant is the original applicant",
+            "result": {
+              "status": "passed",
+              "duration": 9223000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "\"Good\" and \"abc@mail.com\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 4249000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 39000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 29,
+            "name": "appeal is updated with \"Good\" and \"abc@mail.com\"",
+            "result": {
+              "status": "passed",
+              "duration": 1188000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;valid-name-and-email---original-applicant",
+        "keyword": "Scenario",
+        "line": 33,
+        "name": "Valid name and email - original applicant",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 26,
+            "name": "name and email are requested again where appellant is the original applicant",
+            "result": {
+              "status": "passed",
+              "duration": 8854000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "\"Good Name\" and \"abc.def@mail.fr\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 4400000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 36000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 29,
+            "name": "appeal is updated with \"Good Name\" and \"abc.def@mail.fr\"",
+            "result": {
+              "status": "passed",
+              "duration": 1402000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;valid-name-and-email---original-applicant",
+        "keyword": "Scenario",
+        "line": 34,
+        "name": "Valid name and email - original applicant",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 26,
+            "name": "name and email are requested again where appellant is the original applicant",
+            "result": {
+              "status": "passed",
+              "duration": 6541000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "\"Good-Name\" and \"abc_def@mail.com\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 3709000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 13000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 29,
+            "name": "appeal is updated with \"Good-Name\" and \"abc_def@mail.com\"",
+            "result": {
+              "status": "passed",
+              "duration": 669000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;valid-name-and-email---original-applicant",
+        "keyword": "Scenario",
+        "line": 35,
+        "name": "Valid name and email - original applicant",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 26,
+            "name": "name and email are requested again where appellant is the original applicant",
+            "result": {
+              "status": "passed",
+              "duration": 6442000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "\"Also' Good\" and \"abc.def2@mail.com\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 4906000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 19000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 29,
+            "name": "appeal is updated with \"Also' Good\" and \"abc.def2@mail.com\"",
+            "result": {
+              "status": "passed",
+              "duration": 1653000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;valid-name-and-email---original-applicant",
+        "keyword": "Scenario",
+        "line": 36,
+        "name": "Valid name and email - original applicant",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 26,
+            "name": "name and email are requested again where appellant is the original applicant",
+            "result": {
+              "status": "passed",
+              "duration": 9240000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "\"Valid name because it is eighty characters long ----- abcdefghijklmnopqrstuvwxyz\" and \"abc.def2@mail.com\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 5303000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 29,
+            "name": "appeal is updated with \"Valid name because it is eighty characters long ----- abcdefghijklmnopqrstuvwxyz\" and \"abc.def2@mail.com\"",
+            "result": {
+              "status": "passed",
+              "duration": 2083000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;valid-name-and-email---not-original-applicant",
+        "keyword": "Scenario",
+        "line": 38,
+        "name": "Valid name and email - not original applicant",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 39,
+            "name": "name and email are requested again where appellant is not the original applicant",
+            "result": {
+              "status": "passed",
+              "duration": 8146000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 40,
+            "name": "confirmation provided that appellant is not original applicant",
+            "result": {
+              "status": "passed",
+              "duration": 3156000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 41,
+            "name": "new valid name and email are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2832000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 42,
+            "name": "applicant name is presented",
+            "result": {
+              "status": "passed",
+              "duration": 15000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 43,
+            "name": "appeal is updated with new valid name and email",
+            "result": {
+              "status": "passed",
+              "duration": 754000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;invalid-name-and-valid-email",
+        "keyword": "Scenario",
+        "line": 54,
+        "name": "Invalid name and valid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          },
+          {
+            "name": "@as-1673",
+            "line": 45
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 47,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 3392000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 48,
+            "name": "\"\" and \"valid@email.com\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2318000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 49,
+            "name": "name \"\" is invalid because \"name missing\"",
+            "result": {
+              "status": "passed",
+              "duration": 71000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 50,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 13000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 51,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 776000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;invalid-name-and-valid-email",
+        "keyword": "Scenario",
+        "line": 55,
+        "name": "Invalid name and valid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          },
+          {
+            "name": "@as-1673",
+            "line": 45
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 47,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 3120000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 48,
+            "name": "\"A\" and \"valid@email.com\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2114000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 49,
+            "name": "name \"A\" is invalid because \"name outside size constraints\"",
+            "result": {
+              "status": "passed",
+              "duration": 26000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 50,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 8000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 51,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 833000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;invalid-name-and-valid-email",
+        "keyword": "Scenario",
+        "line": 56,
+        "name": "Invalid name and valid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          },
+          {
+            "name": "@as-1673",
+            "line": 45
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 47,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 3325000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 48,
+            "name": "\"Invalid name because it is eighty-one characters long  abcdefghijklmnopqrstuvwxyz\" and \"valid@email.com\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 3595000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 49,
+            "name": "name \"Invalid name because it is eighty-one characters long  abcdefghijklmnopqrstuvwxyz\" is invalid because \"name outside size constraints\"",
+            "result": {
+              "status": "passed",
+              "duration": 60000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 50,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 14000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 51,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 826000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;invalid-name-and-valid-email",
+        "keyword": "Scenario",
+        "line": 57,
+        "name": "Invalid name and valid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          },
+          {
+            "name": "@as-1673",
+            "line": 45
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 47,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 3035000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 48,
+            "name": "\"Invalid name with prohibited characters *3(/+\" and \"valid@email.com\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2622000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 49,
+            "name": "name \"Invalid name with prohibited characters *3(/+\" is invalid because \"name with prohibited characters\"",
+            "result": {
+              "status": "passed",
+              "duration": 29000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 50,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 9000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 51,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 721000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;valid-name-and-invalid-email",
+        "keyword": "Scenario",
+        "line": 67,
+        "name": "Valid name and invalid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 3488000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "\"Valid Name\" and \"\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2277000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "email \"\" is invalid because \"email missing\"",
+            "result": {
+              "status": "passed",
+              "duration": 47000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 63,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 10000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 64,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 1219000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;valid-name-and-invalid-email",
+        "keyword": "Scenario",
+        "line": 68,
+        "name": "Valid name and invalid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 4319000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "\"Valid Name\" and \"invalid email\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2383000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "email \"invalid email\" is invalid because \"email invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 108000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 63,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 26000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 64,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 1792000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;valid-name-and-invalid-email",
+        "keyword": "Scenario",
+        "line": 69,
+        "name": "Valid name and invalid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 5851000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "\"Valid Name\" and \"abc-@mail.com\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 3534000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "email \"abc-@mail.com\" is invalid because \"email invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 83000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 63,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 25000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 64,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 1828000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;valid-name-and-invalid-email",
+        "keyword": "Scenario",
+        "line": 70,
+        "name": "Valid name and invalid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 3977000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "\"Valid Name\" and \"abc..def@mail.com\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 3715000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "email \"abc..def@mail.com\" is invalid because \"email invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 69000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 63,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 14000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 64,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 1303000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;valid-name-and-invalid-email",
+        "keyword": "Scenario",
+        "line": 71,
+        "name": "Valid name and invalid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 4974000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "\"Valid Name\" and \".abc@mail.com\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 3188000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "email \".abc@mail.com\" is invalid because \"email invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 94000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 63,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 19000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 64,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 1661000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;valid-name-and-invalid-email",
+        "keyword": "Scenario",
+        "line": 72,
+        "name": "Valid name and invalid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 4711000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "\"Valid Name\" and \"abc#def@mail.com\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 4112000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "email \"abc#def@mail.com\" is invalid because \"email invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 120000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 63,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 26000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 64,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 1056000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;valid-name-and-invalid-email",
+        "keyword": "Scenario",
+        "line": 73,
+        "name": "Valid name and invalid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 5117000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "\"Valid Name\" and \"abc=@mail.com\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2907000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "email \"abc=@mail.com\" is invalid because \"email invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 73000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 63,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 64,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 1256000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;valid-name-and-invalid-email",
+        "keyword": "Scenario",
+        "line": 74,
+        "name": "Valid name and invalid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 4140000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "\"Valid Name\" and \"abc@mail.c\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2652000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "email \"abc@mail.c\" is invalid because \"email invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 63000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 63,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 15000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 64,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 898000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;valid-name-and-invalid-email",
+        "keyword": "Scenario",
+        "line": 75,
+        "name": "Valid name and invalid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 4917000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "\"Valid Name\" and \"abc.def@mail#archive.com\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 4361000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "email \"abc.def@mail#archive.com\" is invalid because \"email invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 326000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 63,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 19000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 64,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 1822000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;valid-name-and-invalid-email",
+        "keyword": "Scenario",
+        "line": 76,
+        "name": "Valid name and invalid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 6594000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "\"Valid Name\" and \"abc#def@mail\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 3413000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "email \"abc#def@mail\" is invalid because \"email invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 76000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 63,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 24000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 64,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 1292000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;valid-name-and-invalid-email",
+        "keyword": "Scenario",
+        "line": 77,
+        "name": "Valid name and invalid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 60,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 5372000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 61,
+            "name": "\"Valid Name\" and \"abc#def@mail..com\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2697000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 62,
+            "name": "email \"abc#def@mail..com\" is invalid because \"email invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 54000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 63,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 9000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 64,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 772000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;invalid-name-and-invalid-email",
+        "keyword": "Scenario",
+        "line": 88,
+        "name": "Invalid name and invalid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 80,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 5018000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 81,
+            "name": "\"\" and \"\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 3701000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 82,
+            "name": "name \"\" is invalid because \"name missing\"",
+            "result": {
+              "status": "passed",
+              "duration": 63000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 83,
+            "name": "email \"\" is invalid because \"email missing\"",
+            "result": {
+              "status": "passed",
+              "duration": 103000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 84,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 21000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 85,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 1651000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;invalid-name-and-invalid-email",
+        "keyword": "Scenario",
+        "line": 89,
+        "name": "Invalid name and invalid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 80,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 5451000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 81,
+            "name": "\"A\" and \"invalid email\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 4247000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 82,
+            "name": "name \"A\" is invalid because \"name outside size constraints\"",
+            "result": {
+              "status": "passed",
+              "duration": 82000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 83,
+            "name": "email \"invalid email\" is invalid because \"email invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 157000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 84,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 39000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 85,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 1687000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-and-email-provided-after-being-previously-provided;invalid-name-and-invalid-email",
+        "keyword": "Scenario",
+        "line": 90,
+        "name": "Invalid name and invalid email",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 80,
+            "name": "name and email are requested again",
+            "result": {
+              "status": "passed",
+              "duration": 5621000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 81,
+            "name": "\"Invalid name with prohibited characters *3(/+\" and \"\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 4563000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 82,
+            "name": "name \"Invalid name with prohibited characters *3(/+\" is invalid because \"name with prohibited characters\"",
+            "result": {
+              "status": "passed",
+              "duration": 110000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 83,
+            "name": "email \"\" is invalid because \"email missing\"",
+            "result": {
+              "status": "passed",
+              "duration": 92000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 84,
+            "name": "name and email are presented",
+            "result": {
+              "status": "passed",
+              "duration": 23000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 85,
+            "name": "appeal is not updated again",
+            "result": {
+              "status": "passed",
+              "duration": 1418000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

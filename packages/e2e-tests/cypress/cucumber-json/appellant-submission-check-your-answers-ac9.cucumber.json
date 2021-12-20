@@ -1,0 +1,67 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "A user checks their answers and wants to submit their appeal",
+    "line": 1,
+    "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal",
+    "tags": [],
+    "uri": "appellant-submission-check-your-answers-ac9.feature",
+    "elements": [
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;change-link-navigates-to-the-other-owner-notification-page",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "Change link navigates to the other owner notification page",
+        "tags": [
+          {
+            "name": "@AS-121",
+            "line": 3
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "an agent or appellant has provided information where they have not informed the other owners",
+            "result": {
+              "status": "passed",
+              "duration": 41649000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 6,
+            "name": "Check Your Answers is presented",
+            "result": {
+              "status": "passed",
+              "duration": 1115000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 7,
+            "name": "agent or appellant decide to change their other owner notification answer from no to yes",
+            "result": {
+              "status": "passed",
+              "duration": 2981000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the positive answer for other owner notification is displayed with a change link",
+            "result": {
+              "status": "passed",
+              "duration": 68000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

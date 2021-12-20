@@ -1,0 +1,572 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "A user checks their answers and wants to submit their appeal",
+    "line": 1,
+    "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal",
+    "tags": [],
+    "uri": "appellant-submission-check-your-answers-ac2.feature",
+    "elements": [
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;ac2a---accessing-an-appeal-section-from-check-your-answers",
+        "keyword": "Scenario",
+        "line": 9,
+        "name": "AC2a - Accessing an appeal section from check your answers",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
+            "result": {
+              "status": "passed",
+              "duration": 35863000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "section \"About you - Who are you Section\" is accessed",
+            "result": {
+              "status": "passed",
+              "duration": 847000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 6,
+            "name": "the \"About you - Who are you Section\" is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;ac2a---accessing-an-appeal-section-from-check-your-answers",
+        "keyword": "Scenario",
+        "line": 10,
+        "name": "AC2a - Accessing an appeal section from check your answers",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
+            "result": {
+              "status": "passed",
+              "duration": 26324000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "section \"About you - Your details Section\" is accessed",
+            "result": {
+              "status": "passed",
+              "duration": 649000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 6,
+            "name": "the \"About you - Your details Section\" is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 13000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;ac2a---accessing-an-appeal-section-from-check-your-answers",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "AC2a - Accessing an appeal section from check your answers",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
+            "result": {
+              "status": "passed",
+              "duration": 29884000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "section \"Planning application - Application number\" is accessed",
+            "result": {
+              "status": "passed",
+              "duration": 858000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 6,
+            "name": "the \"Planning application - Application number\" is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 24000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;ac2a---accessing-an-appeal-section-from-check-your-answers",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "AC2a - Accessing an appeal section from check your answers",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
+            "result": {
+              "status": "passed",
+              "duration": 28289000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "section \"Planning application - Upload application\" is accessed",
+            "result": {
+              "status": "passed",
+              "duration": 605000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 6,
+            "name": "the \"Planning application - Upload application\" is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 9000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;ac2a---accessing-an-appeal-section-from-check-your-answers",
+        "keyword": "Scenario",
+        "line": 13,
+        "name": "AC2a - Accessing an appeal section from check your answers",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
+            "result": {
+              "status": "passed",
+              "duration": 28092000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "section \"Planning application - Upload decision letter\" is accessed",
+            "result": {
+              "status": "passed",
+              "duration": 565000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 6,
+            "name": "the \"Planning application - Upload decision letter\" is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 11000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;ac2a---accessing-an-appeal-section-from-check-your-answers",
+        "keyword": "Scenario",
+        "line": 14,
+        "name": "AC2a - Accessing an appeal section from check your answers",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
+            "result": {
+              "status": "passed",
+              "duration": 35299000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "section \"Your appeal - Appeal statement\" is accessed",
+            "result": {
+              "status": "passed",
+              "duration": 1000000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 6,
+            "name": "the \"Your appeal - Appeal statement\" is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 32000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;ac2a---accessing-an-appeal-section-from-check-your-answers",
+        "keyword": "Scenario",
+        "line": 15,
+        "name": "AC2a - Accessing an appeal section from check your answers",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
+            "result": {
+              "status": "passed",
+              "duration": 28522000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "section \"Your appeal - Supporting documents\" is accessed",
+            "result": {
+              "status": "passed",
+              "duration": 687000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 6,
+            "name": "the \"Your appeal - Supporting documents\" is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 11000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;ac2a---accessing-an-appeal-section-from-check-your-answers",
+        "keyword": "Scenario",
+        "line": 16,
+        "name": "AC2a - Accessing an appeal section from check your answers",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
+            "result": {
+              "status": "passed",
+              "duration": 28026000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "section \"Appeal site - Site location\" is accessed",
+            "result": {
+              "status": "passed",
+              "duration": 869000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 6,
+            "name": "the \"Appeal site - Site location\" is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 6000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;ac2a---accessing-an-appeal-section-from-check-your-answers",
+        "keyword": "Scenario",
+        "line": 17,
+        "name": "AC2a - Accessing an appeal section from check your answers",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
+            "result": {
+              "status": "passed",
+              "duration": 28341000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "section \"Appeal site - Site ownership\" is accessed",
+            "result": {
+              "status": "passed",
+              "duration": 827000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 6,
+            "name": "the \"Appeal site - Site ownership\" is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 14000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;ac2a---accessing-an-appeal-section-from-check-your-answers",
+        "keyword": "Scenario",
+        "line": 18,
+        "name": "AC2a - Accessing an appeal section from check your answers",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
+            "result": {
+              "status": "passed",
+              "duration": 28871000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "section \"Appeal site - Site access\" is accessed",
+            "result": {
+              "status": "passed",
+              "duration": 796000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 6,
+            "name": "the \"Appeal site - Site access\" is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 11000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;ac2a---accessing-an-appeal-section-from-check-your-answers",
+        "keyword": "Scenario",
+        "line": 19,
+        "name": "AC2a - Accessing an appeal section from check your answers",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
+            "result": {
+              "status": "passed",
+              "duration": 28841000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "section \"Appeal site - Site safety\" is accessed",
+            "result": {
+              "status": "passed",
+              "duration": 750000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 6,
+            "name": "the \"Appeal site - Site safety\" is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 8000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;ac2b---accessing-an-appeal-section-from-check-your-answers",
+        "keyword": "Scenario",
+        "line": 27,
+        "name": "AC2b - Accessing an appeal section from check your answers",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 22,
+            "name": "the check your answers page is displayed for Person Appealing is not Original Applicant",
+            "result": {
+              "status": "passed",
+              "duration": 38201000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 23,
+            "name": "section \"About you - Who are you Section\" is accessed",
+            "result": {
+              "status": "passed",
+              "duration": 947000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "the \"About you - Who are you Section\" is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;ac2b---accessing-an-appeal-section-from-check-your-answers",
+        "keyword": "Scenario",
+        "line": 28,
+        "name": "AC2b - Accessing an appeal section from check your answers",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 22,
+            "name": "the check your answers page is displayed for Person Appealing is not Original Applicant",
+            "result": {
+              "status": "passed",
+              "duration": 41580000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 23,
+            "name": "section \"About you - Your details Section\" is accessed",
+            "result": {
+              "status": "passed",
+              "duration": 974000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "the \"About you - Your details Section\" is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 16000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;ac2b---accessing-an-appeal-section-from-check-your-answers",
+        "keyword": "Scenario",
+        "line": 29,
+        "name": "AC2b - Accessing an appeal section from check your answers",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 22,
+            "name": "the check your answers page is displayed for Person Appealing is not Original Applicant",
+            "result": {
+              "status": "passed",
+              "duration": 43867000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 23,
+            "name": "section \"About you - Appealing of behalf of Section\" is accessed",
+            "result": {
+              "status": "passed",
+              "duration": 907000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "the \"About you - Appealing of behalf of Section\" is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 16000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

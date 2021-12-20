@@ -1,0 +1,483 @@
+[
+  {
+    "description": "  Prospective appellant asked to notify the owners of the appeal site where necessary\n  Note: This feature describes behaviour for a newly created appeal",
+    "keyword": "Feature",
+    "name": "Prospective Appellant provides the Appeal Site Ownership",
+    "line": 1,
+    "id": "prospective-appellant-provides-the-appeal-site-ownership",
+    "tags": [],
+    "uri": "appeal-submission-appeal-site-ownership.feature",
+    "elements": [
+      {
+        "id": "prospective-appellant-provides-the-appeal-site-ownership;no-confirmation-of-ownership-of-the-whole-site-provided",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "No confirmation of ownership of the whole site provided",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "the site ownership is presented for the first time",
+            "result": {
+              "status": "passed",
+              "duration": 1674000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "no confirmation is provided that the whole site is owned",
+            "result": {
+              "status": "passed",
+              "duration": 2101000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "confirmation of whole site ownership is requested",
+            "result": {
+              "status": "passed",
+              "duration": 1502000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "Ownership of the appeal site section is \"NOT STARTED\"",
+            "result": {
+              "status": "passed",
+              "duration": 1713000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "prospective-appellant-provides-the-appeal-site-ownership;confirmation-that-the-whole-site-is-owned",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "Confirmation that the whole site is owned",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 12,
+            "name": "the site ownership is presented for the first time",
+            "result": {
+              "status": "passed",
+              "duration": 1368000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 13,
+            "name": "it is confirmed that the whole site is owned",
+            "result": {
+              "status": "passed",
+              "duration": 2452000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 14,
+            "name": "a request to confirm access to the site is presented",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "the site is updated to be wholly owned on the appeal",
+            "result": {
+              "status": "passed",
+              "duration": 3366000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "Ownership of the appeal site section is \"COMPLETED\"",
+            "result": {
+              "status": "passed",
+              "duration": 1576000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "prospective-appellant-provides-the-appeal-site-ownership;confirmation-that-the-whole-site-is-not-owned",
+        "keyword": "Scenario",
+        "line": 18,
+        "name": "Confirmation that the whole site is not owned",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 19,
+            "name": "the site ownership is presented for the first time",
+            "result": {
+              "status": "passed",
+              "duration": 1584000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 20,
+            "name": "it is confirmed that the whole site is not owned",
+            "result": {
+              "status": "passed",
+              "duration": 2120000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 21,
+            "name": "a request to notify additional owners is presented",
+            "result": {
+              "status": "passed",
+              "duration": 29000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 22,
+            "name": "the site is updated to not be wholly owned on the appeal",
+            "result": {
+              "status": "passed",
+              "duration": 1775000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 23,
+            "name": "Ownership of the appeal site section is \"IN PROGRESS\"",
+            "result": {
+              "status": "passed",
+              "duration": 1596000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "prospective-appellant-provides-the-appeal-site-ownership;no-confirmation-of-additional-site-owners-notification",
+        "keyword": "Scenario",
+        "line": 25,
+        "name": "No confirmation of additional site owners notification",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 26,
+            "name": "confirmation of additional site owners notification is requested",
+            "result": {
+              "status": "passed",
+              "duration": 7052000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "no confirmation of notification of additional site owners is provided",
+            "result": {
+              "status": "passed",
+              "duration": 2185000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "confirmation of notification of additional site owners is requested",
+            "result": {
+              "status": "passed",
+              "duration": 1740000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 29,
+            "name": "Ownership of the appeal site section is \"IN PROGRESS\"",
+            "result": {
+              "status": "passed",
+              "duration": 1805000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "prospective-appellant-provides-the-appeal-site-ownership;confirmation-that-additional-site-owners-have-been-notified",
+        "keyword": "Scenario",
+        "line": 31,
+        "name": "Confirmation that additional site owners have been notified",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 32,
+            "name": "confirmation of additional site owners notification is requested",
+            "result": {
+              "status": "passed",
+              "duration": 7612000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 33,
+            "name": "it is confirmed that additional site owners have been notified",
+            "result": {
+              "status": "passed",
+              "duration": 2637000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 34,
+            "name": "a request to confirm access to the site is presented",
+            "result": {
+              "status": "passed",
+              "duration": 23000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 35,
+            "name": "the site is updated so that other owners been notified on the appeal",
+            "result": {
+              "status": "passed",
+              "duration": 1855000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 36,
+            "name": "Ownership of the appeal site section is \"COMPLETED\"",
+            "result": {
+              "status": "passed",
+              "duration": 1733000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "prospective-appellant-provides-the-appeal-site-ownership;confirmation-that-additional-site-owners-have-not-been-notified",
+        "keyword": "Scenario",
+        "line": 38,
+        "name": "Confirmation that additional site owners have not been notified",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 39,
+            "name": "confirmation of additional site owners notification is requested",
+            "result": {
+              "status": "passed",
+              "duration": 7858000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 40,
+            "name": "it is confirmed that additional site owners have not been notified",
+            "result": {
+              "status": "passed",
+              "duration": 2289000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 41,
+            "name": "a request to confirm access to the site is presented",
+            "result": {
+              "status": "passed",
+              "duration": 17000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 42,
+            "name": "the site is updated to not be wholly owned on the appeal",
+            "result": {
+              "status": "passed",
+              "duration": 1635000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 43,
+            "name": "the site is updated so that other owners have not been notified on the appeal",
+            "result": {
+              "status": "passed",
+              "duration": 1966000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 44,
+            "name": "Ownership of the appeal site section is \"COMPLETED\"",
+            "result": {
+              "status": "passed",
+              "duration": 1768000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "prospective-appellant-provides-the-appeal-site-ownership;confirmation-that-the-whole-site-is-owned-when-previously-identified-as-not-owned",
+        "keyword": "Scenario",
+        "line": 46,
+        "name": "Confirmation that the whole site is owned when previously identified as not owned",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 47,
+            "name": "the whole site had previously been confirmed as not owned",
+            "result": {
+              "status": "passed",
+              "duration": 5334000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 48,
+            "name": "it is confirmed that the whole site is owned",
+            "result": {
+              "status": "passed",
+              "duration": 2457000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 49,
+            "name": "a request to notify additional owners is not presented",
+            "result": {
+              "status": "passed",
+              "duration": 19000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 50,
+            "name": "the site is updated to be wholly owned on the appeal",
+            "result": {
+              "status": "passed",
+              "duration": 3811000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 51,
+            "name": "Ownership of the appeal site section is \"COMPLETED\"",
+            "result": {
+              "status": "passed",
+              "duration": 1519000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "prospective-appellant-provides-the-appeal-site-ownership;confirmation-that-the-whole-site-is-not-owned-when-previously-identified-as-owned",
+        "keyword": "Scenario",
+        "line": 53,
+        "name": "Confirmation that the whole site is not owned when previously identified as owned",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 54,
+            "name": "the whole site had previously been confirmed as owned",
+            "result": {
+              "status": "passed",
+              "duration": 5824000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 55,
+            "name": "it is confirmed that the whole site is not owned",
+            "result": {
+              "status": "passed",
+              "duration": 2495000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 56,
+            "name": "a request to notify additional owners is presented",
+            "result": {
+              "status": "passed",
+              "duration": 14000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 57,
+            "name": "the site is updated to not be wholly owned on the appeal",
+            "result": {
+              "status": "passed",
+              "duration": 1802000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 58,
+            "name": "Ownership of the appeal site section is \"IN PROGRESS\"",
+            "result": {
+              "status": "passed",
+              "duration": 1755000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,175 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "A user has submitted an appeal and at a later date views the appeal status",
+    "line": 1,
+    "id": "a-user-has-submitted-an-appeal-and-at-a-later-date-views-the-appeal-status",
+    "tags": [],
+    "uri": "your-planning-appeal-landing-page.feature",
+    "elements": [
+      {
+        "id": "a-user-has-submitted-an-appeal-and-at-a-later-date-views-the-appeal-status;the-appellant-views-the-appeal",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "the appellant views the appeal",
+        "tags": [
+          {
+            "name": "@AS-1606",
+            "line": 3
+          },
+          {
+            "name": "@as-2307",
+            "line": 3
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "an \"appellant\" has submitted an appeal",
+            "result": {
+              "status": "passed",
+              "duration": 56642000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 6,
+            "name": "your planning appeal page is viewed with a valid appealId",
+            "result": {
+              "status": "passed",
+              "duration": 857000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 7,
+            "name": "the user sees the appropriate general data for \"appellant\" along with data for step 1",
+            "result": {
+              "status": "passed",
+              "duration": 162000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the user sees the label for appellant name as \"Your name\"",
+            "result": {
+              "status": "passed",
+              "duration": 110000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-user-has-submitted-an-appeal-and-at-a-later-date-views-the-appeal-status;the-agent-views-the-appeal",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "the agent views the appeal",
+        "tags": [
+          {
+            "name": "@AS-1606",
+            "line": 10
+          },
+          {
+            "name": "@as-2307",
+            "line": 10
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 12,
+            "name": "an \"agent\" has submitted an appeal",
+            "result": {
+              "status": "passed",
+              "duration": 66495000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 13,
+            "name": "your planning appeal page is viewed with a valid appealId",
+            "result": {
+              "status": "passed",
+              "duration": 1308000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 14,
+            "name": "the user sees the appropriate general data for \"agent\" along with data for step 1",
+            "result": {
+              "status": "passed",
+              "duration": 184000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "the user sees the label for appellant name as \"Appellant name\"",
+            "result": {
+              "status": "passed",
+              "duration": 100000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-user-has-submitted-an-appeal-and-at-a-later-date-views-the-appeal-status;the-appellant-or-agent-visits-a-url-with-an-invalid-appealid",
+        "keyword": "Scenario",
+        "line": 18,
+        "name": "the appellant or agent visits a url with an invalid appealId",
+        "tags": [
+          {
+            "name": "@AS-1606",
+            "line": 17
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 19,
+            "name": "an agent or appellant has submitted an appeal",
+            "result": {
+              "status": "passed",
+              "duration": 59971000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 20,
+            "name": "your planning appeal page is viewed with an incorrect appealId",
+            "result": {
+              "status": "passed",
+              "duration": 617000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 21,
+            "name": "the user sees the 404 page",
+            "result": {
+              "status": "passed",
+              "duration": 137000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

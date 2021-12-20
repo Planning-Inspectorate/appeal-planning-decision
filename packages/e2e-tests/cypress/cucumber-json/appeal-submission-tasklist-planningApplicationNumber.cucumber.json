@@ -1,0 +1,52 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "User chooses to provide their planning application number",
+    "line": 1,
+    "id": "user-chooses-to-provide-their-planning-application-number",
+    "tags": [],
+    "uri": "appeal-submission-tasklist-planningApplicationNumber.feature",
+    "elements": [
+      {
+        "id": "user-chooses-to-provide-their-planning-application-number;the-user-needs-to-provide-their-planning-application-number",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "The user needs to provide their planning application number",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "the user checks the status of their appeal",
+            "result": {
+              "status": "passed",
+              "duration": 1070000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "the user selects to provide their planning application number",
+            "result": {
+              "status": "passed",
+              "duration": 719000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 6,
+            "name": "the user should be presented with opportunity to provide their planning application number",
+            "result": {
+              "status": "passed",
+              "duration": 24000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

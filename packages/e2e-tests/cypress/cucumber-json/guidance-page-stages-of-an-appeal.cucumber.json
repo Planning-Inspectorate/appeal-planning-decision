@@ -1,0 +1,253 @@
+[
+  {
+    "description": "  As a PO on the appeal service\n  I want prospective appellants to be aware of who the service is for\n  So that only those who need to appeal through the new appeal service do so",
+    "keyword": "Feature",
+    "name": "Guidance Page - Stages of an appeal",
+    "line": 1,
+    "id": "guidance-page---stages-of-an-appeal",
+    "tags": [],
+    "uri": "guidance-page-stages-of-an-appeal.feature",
+    "elements": [
+      {
+        "id": "guidance-page---stages-of-an-appeal;ac1:-appellant-selects-\"before-you-appeal\"-page-from-the-content-list",
+        "keyword": "Scenario",
+        "line": 13,
+        "name": "AC1: Appellant selects \"Before you appeal\" page from the Content list",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "the appellant is on the stages of an appeal page",
+            "result": {
+              "status": "passed",
+              "duration": 1290000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "the appellant select a link from the content list: \"Before you appeal\"",
+            "result": {
+              "status": "passed",
+              "duration": 743000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "the appellant is navigated to that page: \"/before-you-appeal\"",
+            "result": {
+              "status": "passed",
+              "duration": 19000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "guidance-page---stages-of-an-appeal;ac1:-appellant-selects-\"when-you-can-appeal\"-page-from-the-content-list",
+        "keyword": "Scenario",
+        "line": 14,
+        "name": "AC1: Appellant selects \"When you can appeal\" page from the Content list",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "the appellant is on the stages of an appeal page",
+            "result": {
+              "status": "passed",
+              "duration": 698000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "the appellant select a link from the content list: \"When you can appeal\"",
+            "result": {
+              "status": "passed",
+              "duration": 768000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "the appellant is navigated to that page: \"/when-you-can-appeal\"",
+            "result": {
+              "status": "passed",
+              "duration": 19000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "guidance-page---stages-of-an-appeal;ac1:-appellant-selects-\"after-you-appeal\"-page-from-the-content-list",
+        "keyword": "Scenario",
+        "line": 15,
+        "name": "AC1: Appellant selects \"After you appeal\" page from the Content list",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "the appellant is on the stages of an appeal page",
+            "result": {
+              "status": "passed",
+              "duration": 669000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "the appellant select a link from the content list: \"After you appeal\"",
+            "result": {
+              "status": "passed",
+              "duration": 646000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "the appellant is navigated to that page: \"/after-you-appeal\"",
+            "result": {
+              "status": "passed",
+              "duration": 11000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "guidance-page---stages-of-an-appeal;ac1:-appellant-selects-\"start-your-appeal\"-page-from-the-content-list",
+        "keyword": "Scenario",
+        "line": 16,
+        "name": "AC1: Appellant selects \"Start your appeal\" page from the Content list",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "the appellant is on the stages of an appeal page",
+            "result": {
+              "status": "passed",
+              "duration": 694000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "the appellant select a link from the content list: \"Start your appeal\"",
+            "result": {
+              "status": "passed",
+              "duration": 765000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "the appellant is navigated to that page: \"/start-your-appeal\"",
+            "result": {
+              "status": "passed",
+              "duration": 12000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "guidance-page---stages-of-an-appeal;ac2:-appellant-navigates-to-next-page",
+        "keyword": "Scenario",
+        "line": 18,
+        "name": "AC2: Appellant navigates to next page",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 19,
+            "name": "the appellant is on the stages of an appeal page",
+            "result": {
+              "status": "passed",
+              "duration": 771000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 20,
+            "name": "the appellant navigates to the next page",
+            "result": {
+              "status": "passed",
+              "duration": 681000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 21,
+            "name": "information about after you appeal is provided",
+            "result": {
+              "status": "passed",
+              "duration": 9000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "guidance-page---stages-of-an-appeal;ac3:-appellant-navigates-to-previous-page",
+        "keyword": "Scenario",
+        "line": 23,
+        "name": "AC3: Appellant navigates to previous page",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 24,
+            "name": "the appellant is on the stages of an appeal page",
+            "result": {
+              "status": "passed",
+              "duration": 671000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 25,
+            "name": "the appellant navigates to the previous page",
+            "result": {
+              "status": "passed",
+              "duration": 671000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 26,
+            "name": "information about when you can appeal is provided",
+            "result": {
+              "status": "passed",
+              "duration": 8000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

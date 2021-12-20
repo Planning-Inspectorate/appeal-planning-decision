@@ -1,0 +1,92 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "A user checks their answers and wants to submit their appeal",
+    "line": 1,
+    "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal",
+    "tags": [],
+    "uri": "appellant-submission-check-your-answers.feature",
+    "elements": [
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;the-user-has-valid-data-and-wants-to-submit-their-appeal",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "The user has valid data and wants to submit their appeal",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "the user is presented with the answers they had provided",
+            "result": {
+              "status": "passed",
+              "duration": 27403000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "the user confirms their answers",
+            "result": {
+              "status": "passed",
+              "duration": 648000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 6,
+            "name": "the user should be presented with the Terms and Conditions of the service",
+            "result": {
+              "status": "passed",
+              "duration": 23000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;ac1---accessing-check-your-answers-from-the-task-list",
+        "keyword": "Scenario",
+        "line": 8,
+        "name": "AC1 - Accessing check your answers from the task list",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 9,
+            "name": "the completed task list page is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 32684000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 10,
+            "name": "Check Your Answers is accessed",
+            "result": {
+              "status": "passed",
+              "duration": 962000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "the appeal information is presented",
+            "result": {
+              "status": "passed",
+              "duration": 2849000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

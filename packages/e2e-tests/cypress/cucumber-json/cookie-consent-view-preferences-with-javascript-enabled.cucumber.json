@@ -1,0 +1,62 @@
+[
+  {
+    "description": "  As a PO for the appeals service\n  I want the service users to be able to view their cookie preferences\n  So that the service adheres to the latest cookie legislation",
+    "keyword": "Feature",
+    "name": "Cookie Consent - View Preferences with JavaScript enabled",
+    "line": 1,
+    "id": "cookie-consent---view-preferences-with-javascript-enabled",
+    "tags": [],
+    "uri": "cookie-consent-view-preferences-with-javascript-enabled.feature",
+    "elements": [
+      {
+        "id": "cookie-consent---view-preferences-with-javascript-enabled;cookie-information",
+        "keyword": "Scenario",
+        "line": 8,
+        "name": "Cookie information",
+        "tags": [
+          {
+            "name": "@as-100",
+            "line": 7
+          },
+          {
+            "name": "@as-100-1",
+            "line": 7
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 9,
+            "name": "a user has elected to manage their cookie preference",
+            "result": {
+              "status": "passed",
+              "duration": 1635000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 10,
+            "name": "the user views the Cookie Preferences service",
+            "result": {
+              "status": "passed",
+              "duration": 669000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "the user is provided information of what task each cookie is performing",
+            "result": {
+              "status": "passed",
+              "duration": 190000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

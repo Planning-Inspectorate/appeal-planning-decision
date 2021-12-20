@@ -1,0 +1,93 @@
+[
+  {
+    "description": "  As an appellant/agent\n  I want to receive confirmation of my appeal by email\n  So that I have a copy for my records",
+    "keyword": "Feature",
+    "name": "Send email notification",
+    "line": 1,
+    "id": "send-email-notification",
+    "tags": [],
+    "uri": "appeal-submisssion-email-notification.feature",
+    "elements": [
+      {
+        "id": "send-email-notification;send-email-confirmation-to-appellant",
+        "keyword": "Scenario",
+        "line": 6,
+        "name": "Send email confirmation to appellant",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appellant has prepared an appeal",
+            "result": {
+              "status": "passed",
+              "duration": 41244000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "the appeal is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2542000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "a confirmation email containing a link to the your-planning-appeal page is sent to the appellant",
+            "result": {
+              "status": "passed",
+              "duration": 148000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "send-email-notification;send-email-confirmation-to-agent",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "Send email confirmation to agent",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 12,
+            "name": "an agent has prepared an appeal",
+            "result": {
+              "status": "passed",
+              "duration": 30633000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 13,
+            "name": "the appeal is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 1882000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 14,
+            "name": "a confirmation email containing a link to the your-planning-appeal page is sent to the agent",
+            "result": {
+              "status": "passed",
+              "duration": 124000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

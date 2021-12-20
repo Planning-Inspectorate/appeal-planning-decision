@@ -1,0 +1,173 @@
+[
+  {
+    "description": "  I want to be able to review and change my answers\n  So that my appeal is accurate",
+    "keyword": "Feature",
+    "name": "As an Appellant/Agent",
+    "line": 1,
+    "id": "as-an-appellant/agent",
+    "tags": [],
+    "uri": "check-your-answers.feature",
+    "elements": [
+      {
+        "id": "as-an-appellant/agent;appellant-has-provided-their-appeal-details-and-is-ready-to-check-their-answers-before-they-submit-their-appeal",
+        "keyword": "Scenario",
+        "line": 6,
+        "name": "Appellant has provided their appeal details and is ready to check their answers before they submit their appeal",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "the appellant is on the 'Appeal a planning decision' page",
+            "result": {
+              "status": "passed",
+              "duration": 1266000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "they click on 'Check your answers and submit your appeal' link",
+            "result": {
+              "status": "passed",
+              "duration": 1440000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "the information they have inputted will be displayed",
+            "result": {
+              "status": "passed",
+              "duration": 138000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "as-an-appellant/agent;agent-has-provided-their-appeal-details-and-is-ready-to-check-their-answers-before-they-submit-their-appeal",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "Agent has provided their appeal details and is ready to check their answers before they submit their appeal",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 12,
+            "name": "the agent is on the 'Appeal a planning decision' page",
+            "result": {
+              "status": "passed",
+              "duration": 1747000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 13,
+            "name": "they click on 'Check your answers and submit your appeal' link",
+            "result": {
+              "status": "passed",
+              "duration": 1673000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 14,
+            "name": "the information they have inputted will be displayed",
+            "result": {
+              "status": "passed",
+              "duration": 136000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "as-an-appellant/agent;agent-or-appellant-select-the-back-link",
+        "keyword": "Scenario",
+        "line": 23,
+        "name": "Agent or Appellant select the back link",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 17,
+            "name": "the 'agent' is on the 'Check your answers' page",
+            "result": {
+              "status": "passed",
+              "duration": 3414000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 18,
+            "name": "they select the 'Back' link",
+            "result": {
+              "status": "passed",
+              "duration": 1396000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 19,
+            "name": "the 'agent' is on the 'Appeal a planning decision' page",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "as-an-appellant/agent;agent-or-appellant-select-the-back-link",
+        "keyword": "Scenario",
+        "line": 24,
+        "name": "Agent or Appellant select the back link",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 17,
+            "name": "the 'appellant' is on the 'Check your answers' page",
+            "result": {
+              "status": "passed",
+              "duration": 3110000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 18,
+            "name": "they select the 'Back' link",
+            "result": {
+              "status": "passed",
+              "duration": 1619000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 19,
+            "name": "the 'appellant' is on the 'Appeal a planning decision' page",
+            "result": {
+              "status": "passed",
+              "duration": 16000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

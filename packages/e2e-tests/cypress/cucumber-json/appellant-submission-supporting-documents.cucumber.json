@@ -1,0 +1,743 @@
+[
+  {
+    "description": "  An appeal can include zero to many uploaded supporting documents.\n  Valid supporting documents files must:\n  * be one of the white-listed types (doc, docx, pdf, tif, tiff, jpg, jpeg and png) and\n  * not exceed a size limit.\n  Multiple supporting documents file can been added at the same time.\n  A valid uploaded document submitted is added to any previously submitted file.",
+    "keyword": "Feature",
+    "name": "Appellant submission - Supporting documents",
+    "line": 1,
+    "id": "appellant-submission---supporting-documents",
+    "tags": [],
+    "uri": "appellant-submission-supporting-documents.feature",
+    "elements": [
+      {
+        "id": "appellant-submission---supporting-documents;when-no-document-is-uploaded,-then-the-appeal-is-not-updated",
+        "keyword": "Scenario",
+        "line": 10,
+        "name": "When no document is uploaded, then the appeal is not updated",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "the supporting document page is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 2932000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "no document is uploaded",
+            "result": {
+              "status": "passed",
+              "duration": 163000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "no document are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 1813000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---supporting-documents;ac3.1:-when-no-new-document-is-uploaded,-then-previous-documents-uploaded-remains-unaltered",
+        "keyword": "Scenario",
+        "line": 15,
+        "name": "AC3.1: When no new document is uploaded, then previous documents uploaded remains unaltered",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 16,
+            "name": "supporting document \"appeal-statement-valid.pdf\" being submitted",
+            "result": {
+              "status": "passed",
+              "duration": 5462000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 17,
+            "name": "no document is uploaded",
+            "result": {
+              "status": "passed",
+              "duration": 2321000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 18,
+            "name": "document \"appeal-statement-valid.pdf\" is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2714000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---supporting-documents;ac1:-when-a-valid-document-is-uploaded,-then-it-is-successfully-submitted",
+        "keyword": "Scenario",
+        "line": 26,
+        "name": "AC1: When a valid document is uploaded, then it is successfully submitted",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 21,
+            "name": "the supporting document page is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 1587000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 22,
+            "name": "a valid document \"appeal-statement-valid.doc\" is uploaded",
+            "result": {
+              "status": "passed",
+              "duration": 1935000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "document \"appeal-statement-valid.doc\" is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 1332000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---supporting-documents;ac1:-when-a-valid-document-is-uploaded,-then-it-is-successfully-submitted",
+        "keyword": "Scenario",
+        "line": 27,
+        "name": "AC1: When a valid document is uploaded, then it is successfully submitted",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 21,
+            "name": "the supporting document page is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 1304000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 22,
+            "name": "a valid document \"appeal-statement-valid.docx\" is uploaded",
+            "result": {
+              "status": "passed",
+              "duration": 7242000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "document \"appeal-statement-valid.docx\" is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2848000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---supporting-documents;ac1:-when-a-valid-document-is-uploaded,-then-it-is-successfully-submitted",
+        "keyword": "Scenario",
+        "line": 28,
+        "name": "AC1: When a valid document is uploaded, then it is successfully submitted",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 21,
+            "name": "the supporting document page is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 8132000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 22,
+            "name": "a valid document \"appeal-statement-valid.pdf\" is uploaded",
+            "result": {
+              "status": "passed",
+              "duration": 1751000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "document \"appeal-statement-valid.pdf\" is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 1416000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---supporting-documents;ac1:-when-a-valid-document-is-uploaded,-then-it-is-successfully-submitted",
+        "keyword": "Scenario",
+        "line": 29,
+        "name": "AC1: When a valid document is uploaded, then it is successfully submitted",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 21,
+            "name": "the supporting document page is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 1130000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 22,
+            "name": "a valid document \"appeal-statement-valid.tif\" is uploaded",
+            "result": {
+              "status": "passed",
+              "duration": 7965000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "document \"appeal-statement-valid.tif\" is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 1305000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---supporting-documents;ac1:-when-a-valid-document-is-uploaded,-then-it-is-successfully-submitted",
+        "keyword": "Scenario",
+        "line": 30,
+        "name": "AC1: When a valid document is uploaded, then it is successfully submitted",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 21,
+            "name": "the supporting document page is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 1720000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 22,
+            "name": "a valid document \"appeal-statement-valid.tiff\" is uploaded",
+            "result": {
+              "status": "passed",
+              "duration": 6173000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "document \"appeal-statement-valid.tiff\" is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 1499000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---supporting-documents;ac1:-when-a-valid-document-is-uploaded,-then-it-is-successfully-submitted",
+        "keyword": "Scenario",
+        "line": 31,
+        "name": "AC1: When a valid document is uploaded, then it is successfully submitted",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 21,
+            "name": "the supporting document page is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 1624000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 22,
+            "name": "a valid document \"appeal-statement-valid.jpg\" is uploaded",
+            "result": {
+              "status": "passed",
+              "duration": 1765000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "document \"appeal-statement-valid.jpg\" is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 1500000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---supporting-documents;ac1:-when-a-valid-document-is-uploaded,-then-it-is-successfully-submitted",
+        "keyword": "Scenario",
+        "line": 32,
+        "name": "AC1: When a valid document is uploaded, then it is successfully submitted",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 21,
+            "name": "the supporting document page is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 1703000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 22,
+            "name": "a valid document \"appeal-statement-valid.jpeg\" is uploaded",
+            "result": {
+              "status": "passed",
+              "duration": 1769000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "document \"appeal-statement-valid.jpeg\" is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 1203000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---supporting-documents;ac1:-when-a-valid-document-is-uploaded,-then-it-is-successfully-submitted",
+        "keyword": "Scenario",
+        "line": 33,
+        "name": "AC1: When a valid document is uploaded, then it is successfully submitted",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 21,
+            "name": "the supporting document page is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 1474000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 22,
+            "name": "a valid document \"appeal-statement-valid.png\" is uploaded",
+            "result": {
+              "status": "passed",
+              "duration": 1637000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "document \"appeal-statement-valid.png\" is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 1514000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---supporting-documents;ac3:-when-a-valid-document-is-uploaded,--they-it's-added-to-existing-documents",
+        "keyword": "Scenario",
+        "line": 36,
+        "name": "AC3: When a valid document is uploaded,  they it's added to existing documents",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 37,
+            "name": "supporting document \"appeal-statement-valid.pdf\" being submitted",
+            "result": {
+              "status": "passed",
+              "duration": 8130000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 38,
+            "name": "a valid document \"appeal-statement-valid.doc\" is uploaded",
+            "result": {
+              "status": "passed",
+              "duration": 4592000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 39,
+            "name": "both document \"appeal-statement-valid.pdf\" and \"appeal-statement-valid.doc\" are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 7191000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---supporting-documents;ac2:-when-an-invalid-document-is-uploaded,-then-the-submission-is-denied",
+        "keyword": "Scenario",
+        "line": 47,
+        "name": "AC2: When an invalid document is uploaded, then the submission is denied",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 42,
+            "name": "the supporting document page is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 1500000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 43,
+            "name": "an invalid document \"appeal-statement-invalid-wrong-type.csv\" is uploaded",
+            "result": {
+              "status": "passed",
+              "duration": 2178000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 44,
+            "name": "document \"appeal-statement-invalid-wrong-type.csv\" is not submitted because \"file type is invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 151000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---supporting-documents;ac4:-when-an-invalid-document-is-uploaded,-then-previous-documents-uploaded-remains-unaltered",
+        "keyword": "Scenario",
+        "line": 57,
+        "name": "AC4: When an invalid document is uploaded, then previous documents uploaded remains unaltered",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 51,
+            "name": "supporting document \"appeal-statement-valid.pdf\" being submitted",
+            "result": {
+              "status": "passed",
+              "duration": 3382000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 52,
+            "name": "an invalid document \"appeal-statement-invalid-wrong-type.csv\" is uploaded",
+            "result": {
+              "status": "passed",
+              "duration": 1940000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 53,
+            "name": "document \"appeal-statement-invalid-wrong-type.csv\" is not submitted because \"file type is invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 159000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 54,
+            "name": "document \"appeal-statement-valid.pdf\" is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 1182000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---supporting-documents;when-multiple-valid-documents-simultaneously-uploaded,-then-they-are-successfully-submitted",
+        "keyword": "Scenario",
+        "line": 60,
+        "name": "When multiple valid documents simultaneously uploaded, then they are successfully submitted",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 61,
+            "name": "the supporting document page is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 1825000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 62,
+            "name": "multiple valid documents are uploaded simultaneously",
+            "result": {
+              "status": "passed",
+              "duration": 10346000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 63,
+            "name": "all the documents are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2572000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---supporting-documents;when-multiple-valid-documents-simultaneously-uploaded,-they-are-added-to-existing-documents",
+        "keyword": "Scenario",
+        "line": 65,
+        "name": "When multiple valid documents simultaneously uploaded, they are added to existing documents",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 66,
+            "name": "multiple documents were previously submitted",
+            "result": {
+              "status": "passed",
+              "duration": 3597000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 67,
+            "name": "multiple valid documents are uploaded simultaneously",
+            "result": {
+              "status": "passed",
+              "duration": 7308000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 68,
+            "name": "the documents are added to the previous ones",
+            "result": {
+              "status": "passed",
+              "duration": 5345000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---supporting-documents;when-multiple-invalid-documents-are-uploaded,-then-all-of-them-are-denied-submission",
+        "keyword": "Scenario",
+        "line": 70,
+        "name": "When multiple invalid documents are uploaded, then all of them are denied submission",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 71,
+            "name": "the supporting document page is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 1452000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 72,
+            "name": "multiple invalid documents are uploaded simultaneously",
+            "result": {
+              "status": "passed",
+              "duration": 1573000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 73,
+            "name": "none of them is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 1593000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---supporting-documents;when-a-mix-of-valid-and-invalid-documents-is-uploaded,-then-only-valid-files-are-submitted",
+        "keyword": "Scenario",
+        "line": 76,
+        "name": "When a mix of valid and invalid documents is uploaded, then only valid files are submitted",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 77,
+            "name": "the supporting document page is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 1696000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 78,
+            "name": "mix of valid and invalid documents are uploaded simultaneously",
+            "result": {
+              "status": "passed",
+              "duration": 4928000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 79,
+            "name": "only valid document are submitted",
+            "result": {
+              "status": "passed",
+              "duration": 3290000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submission---supporting-documents;when-multiple-valid-documents-are-uploaded-after-some-documents-being-denied,-they-are-added-to-existing-documents",
+        "keyword": "Scenario",
+        "line": 81,
+        "name": "When multiple valid documents are uploaded after some documents being denied, they are added to existing documents",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 82,
+            "name": "multiple valid and invalid documents were previously uploaded",
+            "result": {
+              "status": "passed",
+              "duration": 4124000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 83,
+            "name": "multiple valid documents are uploaded simultaneously",
+            "result": {
+              "status": "passed",
+              "duration": 6434000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 84,
+            "name": "the documents are added to the previous ones",
+            "result": {
+              "status": "passed",
+              "duration": 3406000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

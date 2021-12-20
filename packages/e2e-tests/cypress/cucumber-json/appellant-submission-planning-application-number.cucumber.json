@@ -1,0 +1,292 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "Appellant submits a planning application reference number so that the planning inspectorate can refer to their appeal",
+    "line": 1,
+    "id": "appellant-submits-a-planning-application-reference-number-so-that-the-planning-inspectorate-can-refer-to-their-appeal",
+    "tags": [],
+    "uri": "appellant-submission-planning-application-number.feature",
+    "elements": [
+      {
+        "id": "appellant-submits-a-planning-application-reference-number-so-that-the-planning-inspectorate-can-refer-to-their-appeal;prospective-appellant-provides-a-valid-planning-application-number",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "Prospective appellant provides a valid planning application number",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "user has not previously provided a planning application number",
+            "result": {
+              "status": "passed",
+              "duration": 924000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "the user provides a planning application number \"ValidNumber/12345\"",
+            "result": {
+              "status": "passed",
+              "duration": 1430000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 6,
+            "name": "the planning application number in the appeal will be \"ValidNumber/12345\"",
+            "result": {
+              "status": "passed",
+              "duration": 465000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submits-a-planning-application-reference-number-so-that-the-planning-inspectorate-can-refer-to-their-appeal;prospective-appellant-provides-an-invalid-planning-application-number",
+        "keyword": "Scenario",
+        "line": 16,
+        "name": "Prospective appellant provides an invalid planning application number",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 9,
+            "name": "user has not previously provided a planning application number",
+            "result": {
+              "status": "passed",
+              "duration": 476000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 10,
+            "name": "the user provides a planning application number \"\"",
+            "result": {
+              "status": "passed",
+              "duration": 999000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "the user is informed that the application number is not valid because \"mandatory field\"",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "the appeal is not updated with the provided planning application number",
+            "result": {
+              "status": "passed",
+              "duration": 366000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submits-a-planning-application-reference-number-so-that-the-planning-inspectorate-can-refer-to-their-appeal;prospective-appellant-provides-an-invalid-planning-application-number",
+        "keyword": "Scenario",
+        "line": 17,
+        "name": "Prospective appellant provides an invalid planning application number",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 9,
+            "name": "user has not previously provided a planning application number",
+            "result": {
+              "status": "passed",
+              "duration": 435000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 10,
+            "name": "the user provides a planning application number \"1234567890123456789012345678901\"",
+            "result": {
+              "status": "passed",
+              "duration": 1435000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "the user is informed that the application number is not valid because \"exceeds max characters\"",
+            "result": {
+              "status": "passed",
+              "duration": 12000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "the appeal is not updated with the provided planning application number",
+            "result": {
+              "status": "passed",
+              "duration": 372000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submits-a-planning-application-reference-number-so-that-the-planning-inspectorate-can-refer-to-their-appeal;prospective-appellant-provides-a-valid-planning-application-number-that-replaces-previous-value",
+        "keyword": "Scenario",
+        "line": 19,
+        "name": "Prospective appellant provides a valid planning application number that replaces previous value",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 20,
+            "name": "user has previously provided a planning application number \"FirstNumber/12345\"",
+            "result": {
+              "status": "passed",
+              "duration": 1299000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 21,
+            "name": "the user provides a planning application number \"SecondNumber/54321\"",
+            "result": {
+              "status": "passed",
+              "duration": 1286000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 22,
+            "name": "the planning application number in the appeal will be \"SecondNumber/54321\"",
+            "result": {
+              "status": "passed",
+              "duration": 572000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submits-a-planning-application-reference-number-so-that-the-planning-inspectorate-can-refer-to-their-appeal;prospective-appellant-provides-an-invalid-planning-application-number-that-does-not-replace-previous-value",
+        "keyword": "Scenario",
+        "line": 32,
+        "name": "Prospective appellant provides an invalid planning application number that does not replace previous value",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 25,
+            "name": "user has previously provided a planning application number \"FirstNumber/12345\"",
+            "result": {
+              "status": "passed",
+              "duration": 1838000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 26,
+            "name": "the user provides a planning application number \"\"",
+            "result": {
+              "status": "passed",
+              "duration": 1311000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 27,
+            "name": "the user is informed that the application number is not valid because \"mandatory field\"",
+            "result": {
+              "status": "passed",
+              "duration": 24000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 28,
+            "name": "the planning application number in the appeal will be \"FirstNumber/12345\"",
+            "result": {
+              "status": "passed",
+              "duration": 531000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appellant-submits-a-planning-application-reference-number-so-that-the-planning-inspectorate-can-refer-to-their-appeal;prospective-appellant-provides-an-invalid-planning-application-number-that-does-not-replace-previous-value",
+        "keyword": "Scenario",
+        "line": 33,
+        "name": "Prospective appellant provides an invalid planning application number that does not replace previous value",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 25,
+            "name": "user has previously provided a planning application number \"FirstNumber/12345\"",
+            "result": {
+              "status": "passed",
+              "duration": 1451000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 26,
+            "name": "the user provides a planning application number \"1234567890123456789012345678901\"",
+            "result": {
+              "status": "passed",
+              "duration": 1520000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 27,
+            "name": "the user is informed that the application number is not valid because \"exceeds max characters\"",
+            "result": {
+              "status": "passed",
+              "duration": 17000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 28,
+            "name": "the planning application number in the appeal will be \"FirstNumber/12345\"",
+            "result": {
+              "status": "passed",
+              "duration": 491000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "A user checks their answers and wants to submit their appeal",
+    "line": 1,
+    "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal",
+    "tags": [],
+    "uri": "appellant-submission-check-your-answers-ac4.feature",
+    "elements": [
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;ac4a---multiple-document-upload-section---multiple-documents-are-correctly-displayed",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "AC4a - Multiple document upload section - multiple documents are correctly displayed",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "the appeal has more than one other documents",
+            "result": {
+              "status": "passed",
+              "duration": 43120000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "Check Your Answers is presented",
+            "result": {
+              "status": "passed",
+              "duration": 1196000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 6,
+            "name": "the multiple other documents are correctly displayed",
+            "result": {
+              "status": "passed",
+              "duration": 296000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;ac4b---multiple-document-upload-section---absence-of-document-is-correctly-displayed",
+        "keyword": "Scenario",
+        "line": 8,
+        "name": "AC4b - Multiple document upload section - absence of document is correctly displayed",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 9,
+            "name": "the appeal has no other documents",
+            "result": {
+              "status": "passed",
+              "duration": 28618000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 10,
+            "name": "Check Your Answers is presented",
+            "result": {
+              "status": "passed",
+              "duration": 758000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "the absence of other document is correctly displayed",
+            "result": {
+              "status": "passed",
+              "duration": 17000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
