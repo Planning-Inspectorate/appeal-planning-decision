@@ -17,7 +17,7 @@ install:
   	done
 
 	echo "-- Creating large test files for e2e tests --"
-	(cd packages/e2e-tests && ./create-large-test-files.sh)
+	./packages/e2e-tests/create-large-test-files.sh
 	echo "-- Complete --"
 .PHONY: install
 
