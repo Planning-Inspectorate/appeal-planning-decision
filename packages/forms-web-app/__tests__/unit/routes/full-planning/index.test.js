@@ -23,6 +23,6 @@ describe('routes/full-planning/index', () => {
     expect(use).toHaveBeenCalledWith(useADifferentServiceRouter);
     expect(use).toHaveBeenCalledWith(outOfTimeRouter);
 
-    expect(use.mock.calls.length).toBe(5);
+    expect(use.mock.calls.length).toBe(6);
   });
 });
