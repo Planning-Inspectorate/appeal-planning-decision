@@ -27,8 +27,8 @@ When('appellant clicks the continue button',()=>{
   getContinueButton().click();
 });
 
-Then('appellant gets routed to the have you received an enforcement notice page',()=>{
-  cy.url().should('contain','/before-you-start/enforcement-notice');
+Then('appellant gets routed to the have you received an granted or refused page',()=>{
+  cy.url().should('contain','/before-you-start/granted-or-refused');
 });
 
 When('an appellant selects the back button',()=>{

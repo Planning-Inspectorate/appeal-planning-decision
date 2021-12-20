@@ -93,7 +93,7 @@ describe('controllers/full-planning/any-of-following', () => {
       };
 
       await anyOfFollowingController.postAnyOfFollowing(mockRequest, res);
-      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/enforcement-notice');
+      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
     });
   });
 });

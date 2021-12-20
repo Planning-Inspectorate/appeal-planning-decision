@@ -24,7 +24,7 @@ const postAnyOfFollowing = async (req, res) => {
   }
 
   if (routeUserOption(option) === true) {
-    return res.redirect('/before-you-start/enforcement-notice');
+    return res.redirect('/before-you-start/granted-or-refused');
   }
 
   return res.redirect('/before-you-start/use-a-different-service');

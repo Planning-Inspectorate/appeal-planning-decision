@@ -14,7 +14,7 @@ const {
 exports.forwardPage = (status) => {
   const statuses = {
     [applicationStatus.GRANTED]: '/before-you-start/decision-date',
-    [applicationStatus.NODECISION]: '/before-you-start/decision-date-due',
+    [applicationStatus.NODECISION]: '/before-you-start/date-decision-due',
     [applicationStatus.REFUSED]: '/before-you-start/decision-date',
     previousPage: '/before-you-start/any-of-following',
 
