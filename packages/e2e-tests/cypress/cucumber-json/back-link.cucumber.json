@@ -1,0 +1,613 @@
+[
+  {
+    "description": "  As an appellant creating an appeal\n  I need to be able to navigate back to my previous page within the appeal service\n  So that I can change or review my previous answer",
+    "keyword": "Feature",
+    "name": "Back link",
+    "line": 1,
+    "id": "back-link",
+    "tags": [],
+    "uri": "back-link.feature",
+    "elements": [
+      {
+        "id": "back-link;appellant-or-agent-can-navigate-back-to-previous-page-when-javascript-is-turned-off---eligiblity",
+        "keyword": "Scenario",
+        "line": 7,
+        "name": "Appellant or agent can navigate back to previous page when javascript is turned off - eligiblity",
+        "tags": [
+          {
+            "name": "@as-115",
+            "line": 6
+          },
+          {
+            "name": "@as-115-1-1",
+            "line": 6
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "an appellant or agent is checking their eligibility with JavaScript disabled",
+            "result": {
+              "status": "passed",
+              "duration": 2114000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 9,
+            "name": "they navigate forwards within the eligibility steps",
+            "result": {
+              "status": "passed",
+              "duration": 11994000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "they will be able to navigate back to the previous page within the eligibility steps",
+            "result": {
+              "status": "passed",
+              "duration": 6610000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "back-link;appellant-or-agent-can-navigate-back-to-previous-page-when-javascript-is-turned-off---appeal",
+        "keyword": "Scenario",
+        "line": 13,
+        "name": "Appellant or agent can navigate back to previous page when javascript is turned off - appeal",
+        "tags": [
+          {
+            "name": "@as-115",
+            "line": 12
+          },
+          {
+            "name": "@as-115-1-2",
+            "line": 12
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 14,
+            "name": "an appellant or agent is creating an appeal with JavaScript disabled",
+            "result": {
+              "status": "passed",
+              "duration": 2300000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 15,
+            "name": "they navigate forwards within the appeal steps",
+            "result": {
+              "status": "passed",
+              "duration": 7993000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 16,
+            "name": "they will be able to navigate back to the previous page within the appeal steps",
+            "result": {
+              "status": "passed",
+              "duration": 5989000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "back-link;appellant-or-agent-can-navigate-back-to-previous-page-when-javascript-is-turned-off---appeal-back-to-task-list",
+        "keyword": "Scenario",
+        "line": 19,
+        "name": "Appellant or agent can navigate back to previous page when javascript is turned off - appeal back to task list",
+        "tags": [
+          {
+            "name": "@as-115",
+            "line": 18
+          },
+          {
+            "name": "@as-115-1-3",
+            "line": 18
+          },
+          {
+            "name": "@as-115-5",
+            "line": 18
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 20,
+            "name": "an appellant or agent is on the task list with JavaScript disabled",
+            "result": {
+              "status": "passed",
+              "duration": 1228000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 21,
+            "name": "they provide details about the original planning application",
+            "result": {
+              "status": "passed",
+              "duration": 5575000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 22,
+            "name": "they will be able to navigate back from the original planning application steps to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 4108000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "back-link;appellant-or-agent-can-navigate-back-to-previous-page-when-javascript-is-turned-off---check-your-answers",
+        "keyword": "Scenario",
+        "line": 25,
+        "name": "Appellant or agent can navigate back to previous page when javascript is turned off - check your answers",
+        "tags": [
+          {
+            "name": "@as-115",
+            "line": 24
+          },
+          {
+            "name": "@as-115-1-4",
+            "line": 24
+          },
+          {
+            "name": "@as-115-6",
+            "line": 24
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 26,
+            "name": "an appellant or agent is on check your answers with JavaScript disabled",
+            "result": {
+              "status": "passed",
+              "duration": 1761000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 27,
+            "name": "they alter details about visiting the appeal site",
+            "result": {
+              "status": "passed",
+              "duration": 4577000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "they will be able to navigate back from the visiting the appeal site steps to check your answers",
+            "result": {
+              "status": "passed",
+              "duration": 3947000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "back-link;appellant-or-agent-can-navigate-back-to-previous-page-when-javascript-is-enabled---eligiblity",
+        "keyword": "Scenario",
+        "line": 31,
+        "name": "Appellant or agent can navigate back to previous page when javascript is enabled - eligiblity",
+        "tags": [
+          {
+            "name": "@as-115",
+            "line": 30
+          },
+          {
+            "name": "@as-115-1-5",
+            "line": 30
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 32,
+            "name": "an appellant or agent is checking their eligibility with JavaScript enabled",
+            "result": {
+              "status": "passed",
+              "duration": 1414000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 33,
+            "name": "they navigate forwards within the eligibility steps",
+            "result": {
+              "status": "passed",
+              "duration": 8480000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 34,
+            "name": "they will be able to navigate back to the previous page within the eligibility steps",
+            "result": {
+              "status": "passed",
+              "duration": 5784000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "back-link;appellant-or-agent-can-navigate-back-to-previous-page-when-javascript-is-enabled---appeal",
+        "keyword": "Scenario",
+        "line": 37,
+        "name": "Appellant or agent can navigate back to previous page when javascript is enabled - appeal",
+        "tags": [
+          {
+            "name": "@as-115",
+            "line": 36
+          },
+          {
+            "name": "@as-115-1-6",
+            "line": 36
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 38,
+            "name": "an appellant or agent is creating an appeal with JavaScript enabled",
+            "result": {
+              "status": "passed",
+              "duration": 1699000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 39,
+            "name": "they navigate forwards within the appeal steps",
+            "result": {
+              "status": "passed",
+              "duration": 7120000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 40,
+            "name": "they will be able to navigate back to the previous page within the appeal steps",
+            "result": {
+              "status": "passed",
+              "duration": 5698000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "back-link;appellant-or-agent-can-navigate-back-to-previous-page-when-javascript-is-enabled---appeal-back-to-task-list",
+        "keyword": "Scenario",
+        "line": 43,
+        "name": "Appellant or agent can navigate back to previous page when javascript is enabled - appeal back to task list",
+        "tags": [
+          {
+            "name": "@as-115",
+            "line": 42
+          },
+          {
+            "name": "@as-115-1-7",
+            "line": 42
+          },
+          {
+            "name": "@as-115-5",
+            "line": 42
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 44,
+            "name": "an appellant or agent is on the task list with JavaScript enabled",
+            "result": {
+              "status": "passed",
+              "duration": 1801000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 45,
+            "name": "they provide details about the original planning application",
+            "result": {
+              "status": "passed",
+              "duration": 6243000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 46,
+            "name": "they will be able to navigate back from the original planning application steps to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 4443000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "back-link;appellant-or-agent-can-navigate-back-to-previous-page-when-javascript-is-enabled---check-your-answers",
+        "keyword": "Scenario",
+        "line": 49,
+        "name": "Appellant or agent can navigate back to previous page when javascript is enabled - check your answers",
+        "tags": [
+          {
+            "name": "@as-115",
+            "line": 48
+          },
+          {
+            "name": "@as-115-1-8",
+            "line": 48
+          },
+          {
+            "name": "@as-115-6",
+            "line": 48
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 50,
+            "name": "an appellant or agent is on check your answers with JavaScript enabled",
+            "result": {
+              "status": "passed",
+              "duration": 1520000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 51,
+            "name": "they alter details about visiting the appeal site",
+            "result": {
+              "status": "passed",
+              "duration": 5248000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 52,
+            "name": "they will be able to navigate back from the visiting the appeal site steps to check your answers",
+            "result": {
+              "status": "passed",
+              "duration": 4529000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "back-link;when-an-error-occurred-on-the-previous-page-using-the-‘back’-link-will-return-to-that-page-without-an-error-being-displayed",
+        "keyword": "Scenario",
+        "line": 55,
+        "name": "When an error occurred on the previous page using the ‘Back’ link will return to that page without an error being displayed",
+        "tags": [
+          {
+            "name": "@as-115",
+            "line": 54
+          },
+          {
+            "name": "@as-115-2",
+            "line": 54
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 56,
+            "name": "an appellant or agent had an error on the previous page",
+            "result": {
+              "status": "passed",
+              "duration": 6392000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 57,
+            "name": "the appellant or agent uses the back link",
+            "result": {
+              "status": "passed",
+              "duration": 1463000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 58,
+            "name": "the page will be displayed without the error",
+            "result": {
+              "status": "passed",
+              "duration": 49000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "back-link;when-an-error-occurs-on-the-current-page-using-the-'back'-link-will-return-to-the-previous-page-without-refreshing-the-current-page",
+        "keyword": "Scenario",
+        "line": 61,
+        "name": "When an error occurs on the current page using the 'Back' link will return to the previous page without refreshing the current page",
+        "tags": [
+          {
+            "name": "@as-115",
+            "line": 60
+          },
+          {
+            "name": "@as-115-3",
+            "line": 60
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 62,
+            "name": "an appellant or agent has an error on the current page",
+            "result": {
+              "status": "passed",
+              "duration": 2642000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 63,
+            "name": "the appellant or agent selects to go back",
+            "result": {
+              "status": "passed",
+              "duration": 1514000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 64,
+            "name": "the previous page will be displayed without the current page being refreshed",
+            "result": {
+              "status": "passed",
+              "duration": 25000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "back-link;when-the-previous-page-was-not-in-the-appeal-service.-it-will-go-back-to-the-service-‘start'-page￼",
+        "keyword": "Scenario",
+        "line": 67,
+        "name": "When the previous page was not in the appeal service. It will go back to the service ‘Start' page￼",
+        "tags": [
+          {
+            "name": "@as-115",
+            "line": 66
+          },
+          {
+            "name": "@as-115-4",
+            "line": 66
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 68,
+            "name": "an appellant or Agent didn’t come from a previous page in the service",
+            "result": {
+              "status": "passed",
+              "duration": 1983000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 69,
+            "name": "the appellant or agent selects to go back",
+            "result": {
+              "status": "passed",
+              "duration": 1170000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 70,
+            "name": "they will be taken to the ‘Start’ page of the service",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "back-link;we-do-not-display-a-back-button-on-the-service-'start'-page",
+        "keyword": "Scenario",
+        "line": 73,
+        "name": "We do not display a back button on the service 'Start' page",
+        "tags": [
+          {
+            "name": "@as-115",
+            "line": 72
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 74,
+            "name": "an appellant or Agent visits the ‘Start’ page of the service",
+            "result": {
+              "status": "passed",
+              "duration": 1235000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 75,
+            "name": "the appellant or agent wishes to go back",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 76,
+            "name": "they must use breadcrumbs or browser back button",
+            "result": {
+              "status": "passed",
+              "duration": 35000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,173 @@
+[
+  {
+    "description": "    Prospective appellant states whether their planning permission application has been Granted, or Refused,\n    or they don't have received the decision yet",
+    "keyword": "Feature",
+    "name": "Eligibility - Appeal Householder Planning Permission Status Question",
+    "line": 1,
+    "id": "eligibility---appeal-householder-planning-permission-status-question",
+    "tags": [],
+    "uri": "eligibility-granted-or-refused-permission.feature",
+    "elements": [
+      {
+        "id": "eligibility---appeal-householder-planning-permission-status-question;prospective-appellant-selects-refused-householder-planning-permission-status-and-proceeds-through-to-decision-date-page",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Prospective appellant selects Refused Householder Planning Permission Status and proceeds through to Decision Date page",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "Householder Planning Permission Status is requested",
+            "result": {
+              "status": "passed",
+              "duration": 1331000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "Householder Planning Permission Status is set to Refused",
+            "result": {
+              "status": "passed",
+              "duration": 1913000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "progress is made to the eligibility Decision Date question",
+            "result": {
+              "status": "passed",
+              "duration": 26000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "eligibility---appeal-householder-planning-permission-status-question;prospective-appellant-does-not-select-any-householder-planning-permission-status-and-is-provided-an-error",
+        "keyword": "Scenario",
+        "line": 10,
+        "name": "Prospective appellant does not select any Householder Planning Permission Status and is provided an error",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "Householder Planning Permission Status is requested",
+            "result": {
+              "status": "passed",
+              "duration": 1327000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "No Householder Planning Permission Status is not selected",
+            "result": {
+              "status": "passed",
+              "duration": 1366000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "Progress is halted with a message that a Householder Planning Permission Status is required",
+            "result": {
+              "status": "passed",
+              "duration": 58000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "eligibility---appeal-householder-planning-permission-status-question;prospective-appellant-selects-granted-householder-planning-permission-status-and-is-taken-to-kick-out-page",
+        "keyword": "Scenario",
+        "line": 15,
+        "name": "Prospective appellant selects Granted Householder Planning Permission Status and is taken to kick-out page",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 16,
+            "name": "Householder Planning Permission Status is requested",
+            "result": {
+              "status": "passed",
+              "duration": 1734000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 17,
+            "name": "Householder Planning Permission Status is set to Granted",
+            "result": {
+              "status": "passed",
+              "duration": 1041000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 18,
+            "name": "User is navigated to kick-out page",
+            "result": {
+              "status": "passed",
+              "duration": 29000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "eligibility---appeal-householder-planning-permission-status-question;prospective-appellant-selects-'i-have-not-received-a-decision'-householder-planning-permission-status-and-is-taken-to-no-decision-page",
+        "keyword": "Scenario",
+        "line": 20,
+        "name": "Prospective appellant selects 'I have not received a decision' Householder Planning Permission Status and is taken to no-decision page",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 21,
+            "name": "Householder Planning Permission Status is requested",
+            "result": {
+              "status": "passed",
+              "duration": 968000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 22,
+            "name": "Householder Planning Permission Status is set to I have not received a decision",
+            "result": {
+              "status": "passed",
+              "duration": 781000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "User is navigated to no-decision page",
+            "result": {
+              "status": "passed",
+              "duration": 2096000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

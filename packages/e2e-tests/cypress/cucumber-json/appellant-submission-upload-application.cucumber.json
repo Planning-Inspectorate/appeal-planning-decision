@@ -1,0 +1,654 @@
+[
+  {
+    "description": "  As an appellant\n  I need to be informed when I need to upload my planning application form\n  So that I complete my appeal correctly\n\n  An appeal must include an uploaded planning application file.\n  Valid planning application files must:\n  * be one of the white-listed types (doc, docx, pdf, tif, tiff, jpg, jpeg and png) and\n  * not exceed a size limit.\n  The latest successfully uploaded planning application file replaces any previously uploaded file.",
+    "keyword": "Feature",
+    "name": "Planning Application file submission",
+    "line": 1,
+    "id": "planning-application-file-submission",
+    "tags": [],
+    "uri": "appellant-submission-upload-application.feature",
+    "elements": [
+      {
+        "id": "planning-application-file-submission;prospective-applicant-do-not-upload-a-planning-application-file",
+        "keyword": "Scenario",
+        "line": 20,
+        "name": "Prospective applicant do not upload a planning application file",
+        "tags": [
+          {
+            "name": "@as-118",
+            "line": 19
+          },
+          {
+            "name": "@ac-1-2",
+            "line": 19
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 21,
+            "name": "user has previously submitted a planning application file \"appeal-statement-valid.pdf\"",
+            "result": {
+              "status": "passed",
+              "duration": 2759000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 22,
+            "name": "user does not submit a planning application file",
+            "result": {
+              "status": "passed",
+              "duration": 2357000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "application file \"appeal-statement-valid.pdf\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 1179000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-file-submission;prospective-appellant-submits-valid-planning-application-file",
+        "keyword": "Scenario",
+        "line": 32,
+        "name": "Prospective appellant submits valid planning application file",
+        "tags": [
+          {
+            "name": "@as-118",
+            "line": 25
+          },
+          {
+            "name": "@ac-2",
+            "line": 25
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 27,
+            "name": "user did not previously submitted a planning application file",
+            "result": {
+              "status": "passed",
+              "duration": 72000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 28,
+            "name": "user submits a planning application file \"appeal-statement-valid.doc\"",
+            "result": {
+              "status": "passed",
+              "duration": 2475000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 29,
+            "name": "application file \"appeal-statement-valid.doc\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 1139000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-file-submission;prospective-appellant-submits-valid-planning-application-file",
+        "keyword": "Scenario",
+        "line": 33,
+        "name": "Prospective appellant submits valid planning application file",
+        "tags": [
+          {
+            "name": "@as-118",
+            "line": 25
+          },
+          {
+            "name": "@ac-2",
+            "line": 25
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 27,
+            "name": "user did not previously submitted a planning application file",
+            "result": {
+              "status": "passed",
+              "duration": 61000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 28,
+            "name": "user submits a planning application file \"appeal-statement-valid.docx\"",
+            "result": {
+              "status": "passed",
+              "duration": 2308000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 29,
+            "name": "application file \"appeal-statement-valid.docx\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 1230000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-file-submission;prospective-appellant-submits-valid-planning-application-file",
+        "keyword": "Scenario",
+        "line": 34,
+        "name": "Prospective appellant submits valid planning application file",
+        "tags": [
+          {
+            "name": "@as-118",
+            "line": 25
+          },
+          {
+            "name": "@ac-2",
+            "line": 25
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 27,
+            "name": "user did not previously submitted a planning application file",
+            "result": {
+              "status": "passed",
+              "duration": 111000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 28,
+            "name": "user submits a planning application file \"appeal-statement-valid.pdf\"",
+            "result": {
+              "status": "passed",
+              "duration": 2273000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 29,
+            "name": "application file \"appeal-statement-valid.pdf\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 1225000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-file-submission;prospective-appellant-submits-valid-planning-application-file",
+        "keyword": "Scenario",
+        "line": 35,
+        "name": "Prospective appellant submits valid planning application file",
+        "tags": [
+          {
+            "name": "@as-118",
+            "line": 25
+          },
+          {
+            "name": "@ac-2",
+            "line": 25
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 27,
+            "name": "user did not previously submitted a planning application file",
+            "result": {
+              "status": "passed",
+              "duration": 110000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 28,
+            "name": "user submits a planning application file \"appeal-statement-valid.tif\"",
+            "result": {
+              "status": "passed",
+              "duration": 6982000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 29,
+            "name": "application file \"appeal-statement-valid.tif\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 1216000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-file-submission;prospective-appellant-submits-valid-planning-application-file",
+        "keyword": "Scenario",
+        "line": 36,
+        "name": "Prospective appellant submits valid planning application file",
+        "tags": [
+          {
+            "name": "@as-118",
+            "line": 25
+          },
+          {
+            "name": "@ac-2",
+            "line": 25
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 27,
+            "name": "user did not previously submitted a planning application file",
+            "result": {
+              "status": "passed",
+              "duration": 132000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 28,
+            "name": "user submits a planning application file \"appeal-statement-valid.tiff\"",
+            "result": {
+              "status": "passed",
+              "duration": 6253000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 29,
+            "name": "application file \"appeal-statement-valid.tiff\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 1264000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-file-submission;prospective-appellant-submits-valid-planning-application-file",
+        "keyword": "Scenario",
+        "line": 37,
+        "name": "Prospective appellant submits valid planning application file",
+        "tags": [
+          {
+            "name": "@as-118",
+            "line": 25
+          },
+          {
+            "name": "@ac-2",
+            "line": 25
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 27,
+            "name": "user did not previously submitted a planning application file",
+            "result": {
+              "status": "passed",
+              "duration": 141000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 28,
+            "name": "user submits a planning application file \"appeal-statement-valid.jpg\"",
+            "result": {
+              "status": "passed",
+              "duration": 2324000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 29,
+            "name": "application file \"appeal-statement-valid.jpg\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 1195000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-file-submission;prospective-appellant-submits-valid-planning-application-file",
+        "keyword": "Scenario",
+        "line": 38,
+        "name": "Prospective appellant submits valid planning application file",
+        "tags": [
+          {
+            "name": "@as-118",
+            "line": 25
+          },
+          {
+            "name": "@ac-2",
+            "line": 25
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 27,
+            "name": "user did not previously submitted a planning application file",
+            "result": {
+              "status": "passed",
+              "duration": 263000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 28,
+            "name": "user submits a planning application file \"appeal-statement-valid.jpeg\"",
+            "result": {
+              "status": "passed",
+              "duration": 2491000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 29,
+            "name": "application file \"appeal-statement-valid.jpeg\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 1084000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-file-submission;prospective-appellant-submits-valid-planning-application-file",
+        "keyword": "Scenario",
+        "line": 39,
+        "name": "Prospective appellant submits valid planning application file",
+        "tags": [
+          {
+            "name": "@as-118",
+            "line": 25
+          },
+          {
+            "name": "@ac-2",
+            "line": 25
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 27,
+            "name": "user did not previously submitted a planning application file",
+            "result": {
+              "status": "passed",
+              "duration": 93000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 28,
+            "name": "user submits a planning application file \"appeal-statement-valid.png\"",
+            "result": {
+              "status": "passed",
+              "duration": 2506000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 29,
+            "name": "application file \"appeal-statement-valid.png\" is submitted and user can proceed",
+            "result": {
+              "status": "passed",
+              "duration": 1210000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-file-submission;prospective-appellant-submits-valid-planning-application-file-replaces-previous-file",
+        "keyword": "Scenario",
+        "line": 42,
+        "name": "Prospective appellant submits valid planning application file replaces previous file",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 43,
+            "name": "user has previously submitted a planning application file \"appeal-statement-valid.pdf\"",
+            "result": {
+              "status": "passed",
+              "duration": 2431000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 44,
+            "name": "user submits a planning application file \"appeal-statement-valid.doc\"",
+            "result": {
+              "status": "passed",
+              "duration": 2568000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 45,
+            "name": "user can see that the planning application file \"appeal-statement-valid.doc\" \"is\" submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2684000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-file-submission;prospective-appellant-submits-invalid-planning-application-file-does-not-replace-previous-file",
+        "keyword": "Scenario",
+        "line": 54,
+        "name": "Prospective appellant submits invalid planning application file does not replace previous file",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 48,
+            "name": "user has previously submitted a planning application file \"appeal-statement-valid.pdf\"",
+            "result": {
+              "status": "passed",
+              "duration": 2288000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 49,
+            "name": "user submits a planning application file \"appeal-statement-invalid-wrong-type.csv\"",
+            "result": {
+              "status": "passed",
+              "duration": 2301000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 50,
+            "name": "user is informed that the planning application file is not submitted because \"file type is invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 161000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 51,
+            "name": "user can see that the planning application file \"appeal-statement-valid.pdf\" \"is\" submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2083000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-file-submission;prospective-appellant-submits-invalid-planning-application-file",
+        "keyword": "Scenario",
+        "line": 63,
+        "name": "Prospective appellant submits invalid planning application file",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 59,
+            "name": "user submits a planning application file \"appeal-statement-invalid-wrong-type.csv\"",
+            "result": {
+              "status": "passed",
+              "duration": 2554000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 60,
+            "name": "user is informed that the planning application file is not submitted because \"file type is invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 134000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-file-submission;prospective-appellant-successfully-submits-valid-planning-application-file-followed-by-invalid-file-that-is-rejected-before-successfully-submitting-another-valid-file",
+        "keyword": "Scenario",
+        "line": 73,
+        "name": "Prospective appellant successfully submits valid planning application file followed by invalid file that is rejected before successfully submitting another valid file",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 68,
+            "name": "user has previously submitted a valid planning application file \"appeal-statement-valid.pdf\" followed by an invalid file \"appeal-statement-invalid-wrong-type.csv\" that was rejected because \"file type is invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 5193000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 69,
+            "name": "user submits a planning application file \"appeal-statement-valid.doc\"",
+            "result": {
+              "status": "passed",
+              "duration": 2255000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 70,
+            "name": "user can see that the planning application file \"appeal-statement-valid.doc\" \"is\" submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2205000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "planning-application-file-submission;prospective-appellant-successfully-submits-valid-planning-application-file-followed-by-invalid-file-that-is-rejected-before-proceeding-without-selecting-a-new-file",
+        "keyword": "Scenario",
+        "line": 82,
+        "name": "Prospective appellant successfully submits valid planning application file followed by invalid file that is rejected before proceeding without selecting a new file",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 77,
+            "name": "user has previously submitted a valid planning application file \"appeal-statement-valid.doc\" followed by an invalid file \"appeal-statement-invalid-wrong-type.csv\" that was rejected because \"file type is invalid\"",
+            "result": {
+              "status": "passed",
+              "duration": 5596000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 78,
+            "name": "user does not submit a planning application file",
+            "result": {
+              "status": "passed",
+              "duration": 2433000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 79,
+            "name": "user can see that the planning application file \"appeal-statement-valid.doc\" \"is\" submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2231000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

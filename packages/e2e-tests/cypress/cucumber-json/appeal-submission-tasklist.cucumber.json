@@ -1,0 +1,1293 @@
+[
+  {
+    "description": "  As a prospective appellant I want to clearly see which sections of the\n  appeal submission I have completed, so that I do not waste my time checking.\n\n  Initially all the tasks are \"NOT STARTED\", once the appellant has provided required information they are \"COMPLETED\"\n  Some tasks could be multi steps and if not all steps are completed, then the task is considered \"IN PROGRESS\"\n\n  The \"Check your answer\" task state should be \"CANNOT START YET\" until all mandatory tasks are \"COMPLETED\"",
+    "keyword": "Feature",
+    "name": "Task lists",
+    "line": 1,
+    "id": "task-lists",
+    "tags": [],
+    "uri": "appeal-submission-tasklist.feature",
+    "elements": [
+      {
+        "id": "task-lists;when-the-tasks-are-presented,-then-they-should-able-to-be-selected",
+        "keyword": "Scenario",
+        "line": 15,
+        "name": "When the tasks are presented, then they should able to be selected",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 834000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "the task \"About you - Your details\" is available for selection",
+            "result": {
+              "status": "passed",
+              "duration": 22000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-tasks-are-presented,-then-they-should-able-to-be-selected",
+        "keyword": "Scenario",
+        "line": 16,
+        "name": "When the tasks are presented, then they should able to be selected",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 847000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "the task \"Planning application - Application number\" is available for selection",
+            "result": {
+              "status": "passed",
+              "duration": 15000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-tasks-are-presented,-then-they-should-able-to-be-selected",
+        "keyword": "Scenario",
+        "line": 17,
+        "name": "When the tasks are presented, then they should able to be selected",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 1144000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "the task \"Planning application - Upload application\" is available for selection",
+            "result": {
+              "status": "passed",
+              "duration": 34000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-tasks-are-presented,-then-they-should-able-to-be-selected",
+        "keyword": "Scenario",
+        "line": 18,
+        "name": "When the tasks are presented, then they should able to be selected",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 962000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "the task \"Planning application - Upload decision letter\" is available for selection",
+            "result": {
+              "status": "passed",
+              "duration": 22000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-tasks-are-presented,-then-they-should-able-to-be-selected",
+        "keyword": "Scenario",
+        "line": 19,
+        "name": "When the tasks are presented, then they should able to be selected",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 803000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "the task \"Your appeal - Appeal statement\" is available for selection",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-tasks-are-presented,-then-they-should-able-to-be-selected",
+        "keyword": "Scenario",
+        "line": 20,
+        "name": "When the tasks are presented, then they should able to be selected",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 772000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "the task \"Your appeal - Supporting documents\" is available for selection",
+            "result": {
+              "status": "passed",
+              "duration": 16000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-tasks-are-presented,-then-they-should-able-to-be-selected",
+        "keyword": "Scenario",
+        "line": 21,
+        "name": "When the tasks are presented, then they should able to be selected",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 1026000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "the task \"Appeal site - Site location\" is available for selection",
+            "result": {
+              "status": "passed",
+              "duration": 32000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-tasks-are-presented,-then-they-should-able-to-be-selected",
+        "keyword": "Scenario",
+        "line": 22,
+        "name": "When the tasks are presented, then they should able to be selected",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 1790000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "the task \"Appeal site - Site ownership\" is available for selection",
+            "result": {
+              "status": "passed",
+              "duration": 78000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-tasks-are-presented,-then-they-should-able-to-be-selected",
+        "keyword": "Scenario",
+        "line": 23,
+        "name": "When the tasks are presented, then they should able to be selected",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 1302000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "the task \"Appeal site - Site access\" is available for selection",
+            "result": {
+              "status": "passed",
+              "duration": 40000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-tasks-are-presented,-then-they-should-able-to-be-selected",
+        "keyword": "Scenario",
+        "line": 24,
+        "name": "When the tasks are presented, then they should able to be selected",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 1401000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "the task \"Appeal site - Site safety\" is available for selection",
+            "result": {
+              "status": "passed",
+              "duration": 71000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-not-started,-then-the-tasks-are-in-\"not-started\"-state",
+        "keyword": "Scenario",
+        "line": 33,
+        "name": "When the appeal is not started, then the tasks are in \"NOT STARTED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 28,
+            "name": "the \"About you - Your details\" part of the appeal is not started",
+            "result": {
+              "status": "passed",
+              "duration": 164000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 1215000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "the state for \"About you - Your details\" is displayed to be \"NOT STARTED\"",
+            "result": {
+              "status": "passed",
+              "duration": 32000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-not-started,-then-the-tasks-are-in-\"not-started\"-state",
+        "keyword": "Scenario",
+        "line": 34,
+        "name": "When the appeal is not started, then the tasks are in \"NOT STARTED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 28,
+            "name": "the \"Planning application - Application number\" part of the appeal is not started",
+            "result": {
+              "status": "passed",
+              "duration": 81000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 808000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "the state for \"Planning application - Application number\" is displayed to be \"NOT STARTED\"",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-not-started,-then-the-tasks-are-in-\"not-started\"-state",
+        "keyword": "Scenario",
+        "line": 35,
+        "name": "When the appeal is not started, then the tasks are in \"NOT STARTED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 28,
+            "name": "the \"Planning application - Upload application\" part of the appeal is not started",
+            "result": {
+              "status": "passed",
+              "duration": 62000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 717000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "the state for \"Planning application - Upload application\" is displayed to be \"NOT STARTED\"",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-not-started,-then-the-tasks-are-in-\"not-started\"-state",
+        "keyword": "Scenario",
+        "line": 36,
+        "name": "When the appeal is not started, then the tasks are in \"NOT STARTED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 28,
+            "name": "the \"Planning application - Upload decision letter\" part of the appeal is not started",
+            "result": {
+              "status": "passed",
+              "duration": 58000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 727000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "the state for \"Planning application - Upload decision letter\" is displayed to be \"NOT STARTED\"",
+            "result": {
+              "status": "passed",
+              "duration": 12000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-not-started,-then-the-tasks-are-in-\"not-started\"-state",
+        "keyword": "Scenario",
+        "line": 37,
+        "name": "When the appeal is not started, then the tasks are in \"NOT STARTED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 28,
+            "name": "the \"Your appeal - Appeal statement\" part of the appeal is not started",
+            "result": {
+              "status": "passed",
+              "duration": 49000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 656000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "the state for \"Your appeal - Appeal statement\" is displayed to be \"NOT STARTED\"",
+            "result": {
+              "status": "passed",
+              "duration": 12000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-not-started,-then-the-tasks-are-in-\"not-started\"-state",
+        "keyword": "Scenario",
+        "line": 38,
+        "name": "When the appeal is not started, then the tasks are in \"NOT STARTED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 28,
+            "name": "the \"Your appeal - Supporting documents\" part of the appeal is not started",
+            "result": {
+              "status": "passed",
+              "duration": 55000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 684000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "the state for \"Your appeal - Supporting documents\" is displayed to be \"NOT STARTED\"",
+            "result": {
+              "status": "passed",
+              "duration": 13000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-not-started,-then-the-tasks-are-in-\"not-started\"-state",
+        "keyword": "Scenario",
+        "line": 39,
+        "name": "When the appeal is not started, then the tasks are in \"NOT STARTED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 28,
+            "name": "the \"Appeal site - Site location\" part of the appeal is not started",
+            "result": {
+              "status": "passed",
+              "duration": 49000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 652000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "the state for \"Appeal site - Site location\" is displayed to be \"NOT STARTED\"",
+            "result": {
+              "status": "passed",
+              "duration": 13000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-not-started,-then-the-tasks-are-in-\"not-started\"-state",
+        "keyword": "Scenario",
+        "line": 40,
+        "name": "When the appeal is not started, then the tasks are in \"NOT STARTED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 28,
+            "name": "the \"Appeal site - Site ownership\" part of the appeal is not started",
+            "result": {
+              "status": "passed",
+              "duration": 50000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 626000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "the state for \"Appeal site - Site ownership\" is displayed to be \"NOT STARTED\"",
+            "result": {
+              "status": "passed",
+              "duration": 17000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-not-started,-then-the-tasks-are-in-\"not-started\"-state",
+        "keyword": "Scenario",
+        "line": 41,
+        "name": "When the appeal is not started, then the tasks are in \"NOT STARTED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 28,
+            "name": "the \"Appeal site - Site access\" part of the appeal is not started",
+            "result": {
+              "status": "passed",
+              "duration": 54000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 656000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "the state for \"Appeal site - Site access\" is displayed to be \"NOT STARTED\"",
+            "result": {
+              "status": "passed",
+              "duration": 13000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-not-started,-then-the-tasks-are-in-\"not-started\"-state",
+        "keyword": "Scenario",
+        "line": 42,
+        "name": "When the appeal is not started, then the tasks are in \"NOT STARTED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 28,
+            "name": "the \"Appeal site - Site safety\" part of the appeal is not started",
+            "result": {
+              "status": "passed",
+              "duration": 61000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 788000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "the state for \"Appeal site - Site safety\" is displayed to be \"NOT STARTED\"",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-completed,-then-the-tasks-are-in-\"completed\"-state",
+        "keyword": "Scenario",
+        "line": 50,
+        "name": "When the appeal is completed, then the tasks are in \"COMPLETED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 45,
+            "name": "the \"About you - Your details\" part of the appeal are completed",
+            "result": {
+              "status": "passed",
+              "duration": 3386000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 46,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 700000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 47,
+            "name": "the state for \"About you - Your details\" is displayed to be \"COMPLETED\"",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-completed,-then-the-tasks-are-in-\"completed\"-state",
+        "keyword": "Scenario",
+        "line": 51,
+        "name": "When the appeal is completed, then the tasks are in \"COMPLETED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 45,
+            "name": "the \"Planning application - Application number\" part of the appeal are completed",
+            "result": {
+              "status": "passed",
+              "duration": 1784000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 46,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 651000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 47,
+            "name": "the state for \"Planning application - Application number\" is displayed to be \"COMPLETED\"",
+            "result": {
+              "status": "passed",
+              "duration": 17000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-completed,-then-the-tasks-are-in-\"completed\"-state",
+        "keyword": "Scenario",
+        "line": 52,
+        "name": "When the appeal is completed, then the tasks are in \"COMPLETED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 45,
+            "name": "the \"Planning application - Upload application\" part of the appeal are completed",
+            "result": {
+              "status": "passed",
+              "duration": 1490000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 46,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 643000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 47,
+            "name": "the state for \"Planning application - Upload application\" is displayed to be \"COMPLETED\"",
+            "result": {
+              "status": "passed",
+              "duration": 13000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-completed,-then-the-tasks-are-in-\"completed\"-state",
+        "keyword": "Scenario",
+        "line": 53,
+        "name": "When the appeal is completed, then the tasks are in \"COMPLETED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 45,
+            "name": "the \"Planning application - Upload decision letter\" part of the appeal are completed",
+            "result": {
+              "status": "passed",
+              "duration": 1443000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 46,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 675000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 47,
+            "name": "the state for \"Planning application - Upload decision letter\" is displayed to be \"COMPLETED\"",
+            "result": {
+              "status": "passed",
+              "duration": 13000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-completed,-then-the-tasks-are-in-\"completed\"-state",
+        "keyword": "Scenario",
+        "line": 54,
+        "name": "When the appeal is completed, then the tasks are in \"COMPLETED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 45,
+            "name": "the \"Your appeal - Appeal statement\" part of the appeal are completed",
+            "result": {
+              "status": "passed",
+              "duration": 2012000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 46,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 666000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 47,
+            "name": "the state for \"Your appeal - Appeal statement\" is displayed to be \"COMPLETED\"",
+            "result": {
+              "status": "passed",
+              "duration": 19000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-completed,-then-the-tasks-are-in-\"completed\"-state",
+        "keyword": "Scenario",
+        "line": 55,
+        "name": "When the appeal is completed, then the tasks are in \"COMPLETED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 45,
+            "name": "the \"Your appeal - Supporting documents\" part of the appeal are completed",
+            "result": {
+              "status": "passed",
+              "duration": 4948000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 46,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 847000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 47,
+            "name": "the state for \"Your appeal - Supporting documents\" is displayed to be \"COMPLETED\"",
+            "result": {
+              "status": "passed",
+              "duration": 33000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-completed,-then-the-tasks-are-in-\"completed\"-state",
+        "keyword": "Scenario",
+        "line": 56,
+        "name": "When the appeal is completed, then the tasks are in \"COMPLETED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 45,
+            "name": "the \"Appeal site - Site location\" part of the appeal are completed",
+            "result": {
+              "status": "passed",
+              "duration": 2922000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 46,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 566000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 47,
+            "name": "the state for \"Appeal site - Site location\" is displayed to be \"COMPLETED\"",
+            "result": {
+              "status": "passed",
+              "duration": 12000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-completed,-then-the-tasks-are-in-\"completed\"-state",
+        "keyword": "Scenario",
+        "line": 57,
+        "name": "When the appeal is completed, then the tasks are in \"COMPLETED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 45,
+            "name": "the \"Appeal site - Site ownership\" part of the appeal are completed",
+            "result": {
+              "status": "passed",
+              "duration": 1669000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 46,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 711000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 47,
+            "name": "the state for \"Appeal site - Site ownership\" is displayed to be \"COMPLETED\"",
+            "result": {
+              "status": "passed",
+              "duration": 26000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-completed,-then-the-tasks-are-in-\"completed\"-state",
+        "keyword": "Scenario",
+        "line": 58,
+        "name": "When the appeal is completed, then the tasks are in \"COMPLETED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 45,
+            "name": "the \"Appeal site - Site access\" part of the appeal are completed",
+            "result": {
+              "status": "passed",
+              "duration": 1724000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 46,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 635000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 47,
+            "name": "the state for \"Appeal site - Site access\" is displayed to be \"COMPLETED\"",
+            "result": {
+              "status": "passed",
+              "duration": 21000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-appeal-is-completed,-then-the-tasks-are-in-\"completed\"-state",
+        "keyword": "Scenario",
+        "line": 59,
+        "name": "When the appeal is completed, then the tasks are in \"COMPLETED\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 45,
+            "name": "the \"Appeal site - Site safety\" part of the appeal are completed",
+            "result": {
+              "status": "passed",
+              "duration": 1584000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 46,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 601000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 47,
+            "name": "the state for \"Appeal site - Site safety\" is displayed to be \"COMPLETED\"",
+            "result": {
+              "status": "passed",
+              "duration": 16000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-tasks-are-started-but-not-completed,-then-there-are-in-\"in-progress\"-state",
+        "keyword": "Scenario",
+        "line": 67,
+        "name": "When the tasks are started but not completed, then there are in \"IN PROGRESS\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 62,
+            "name": "the \"About you - Your details\" part of the appeal is started but not completed",
+            "result": {
+              "status": "passed",
+              "duration": 2626000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 63,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 578000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 64,
+            "name": "the state for \"About you - Your details\" is displayed to be \"IN PROGRESS\"",
+            "result": {
+              "status": "passed",
+              "duration": 15000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-the-tasks-are-started-but-not-completed,-then-there-are-in-\"in-progress\"-state",
+        "keyword": "Scenario",
+        "line": 68,
+        "name": "When the tasks are started but not completed, then there are in \"IN PROGRESS\" state",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 62,
+            "name": "the \"Appeal site - Site ownership\" part of the appeal is started but not completed",
+            "result": {
+              "status": "passed",
+              "duration": 1440000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 63,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 700000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 64,
+            "name": "the state for \"Appeal site - Site ownership\" is displayed to be \"IN PROGRESS\"",
+            "result": {
+              "status": "passed",
+              "duration": 17000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-mandatory-tasks-are-not-completed,-then-check-your-answers-task-is-not-available",
+        "keyword": "Scenario",
+        "line": 70,
+        "name": "When mandatory tasks are not completed, then Check your answers task is not available",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 71,
+            "name": "mandatory tasks are not completed",
+            "result": {
+              "status": "passed",
+              "duration": 60000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 72,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 675000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 73,
+            "name": "the state for \"Appeal submit - Check your answers\" is displayed to be \"CANNOT START YET\"",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 74,
+            "name": "the task \"Appeal submit - Check your answers\" is not available for selection",
+            "result": {
+              "status": "passed",
+              "duration": 23000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "task-lists;when-mandatory-tasks-are-completed,-then-check-your-answers-task-is-available",
+        "keyword": "Scenario",
+        "line": 76,
+        "name": "When mandatory tasks are completed, then Check your answers task is available",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 77,
+            "name": "mandatory tasks are completed",
+            "result": {
+              "status": "passed",
+              "duration": 18875000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 78,
+            "name": "the appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 637000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 79,
+            "name": "the state for \"Appeal submit - Check your answers\" is displayed to be \"NOT STARTED\"",
+            "result": {
+              "status": "passed",
+              "duration": 42000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 80,
+            "name": "the task \"Appeal submit - Check your answers\" is available for selection",
+            "result": {
+              "status": "passed",
+              "duration": 44000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

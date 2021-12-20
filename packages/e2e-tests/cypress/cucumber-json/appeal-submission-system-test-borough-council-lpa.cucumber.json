@@ -1,0 +1,58 @@
+[
+  {
+    "description": "  To be able to verify the deployment of the application to production we need the ability\n   to submit an appeal and create a case for it in Horizon with no negative impact",
+    "keyword": "Feature",
+    "name": "Submit an appeal using the System Test Borough Council LPA",
+    "line": 1,
+    "id": "submit-an-appeal-using-the-system-test-borough-council-lpa",
+    "tags": [],
+    "uri": "appeal-submission-system-test-borough-council-lpa.feature",
+    "elements": [
+      {
+        "id": "submit-an-appeal-using-the-system-test-borough-council-lpa;appeal-submission-using-the-system-test-borough-council-lpa-as-local-planning-department",
+        "keyword": "Scenario",
+        "line": 6,
+        "name": "Appeal submission using the System Test Borough Council LPA as local planning department",
+        "tags": [
+          {
+            "name": "@as-1576",
+            "line": 5
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal is ready to be submitted with System Test Borough Council LPA",
+            "result": {
+              "status": "passed",
+              "duration": 32902000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "the declaration is agreed",
+            "result": {
+              "status": "passed",
+              "duration": 2045000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "the submission confirmation is presented",
+            "result": {
+              "status": "passed",
+              "duration": 218000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,177 @@
+[
+  {
+    "description": "    Our service does not cover appellants who have received an Enforcement Notice",
+    "keyword": "Feature",
+    "name": "A prospective appellant states whether or not they have received an Enforcement Notice",
+    "line": 2,
+    "id": "a-prospective-appellant-states-whether-or-not-they-have-received-an-enforcement-notice",
+    "tags": [
+      {
+        "name": "@smoketest",
+        "line": 1
+      }
+    ],
+    "uri": "eligibility-enforcement-notice.feature",
+    "elements": [
+      {
+        "id": "a-prospective-appellant-states-whether-or-not-they-have-received-an-enforcement-notice;prospective-appellant-makes-no-selection-and-is-provided-an-error",
+        "keyword": "Scenario",
+        "line": 6,
+        "name": "Prospective appellant makes no selection and is provided an error",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          },
+          {
+            "name": "@ucd-998",
+            "line": 5
+          },
+          {
+            "name": "@ucd-998-ac2",
+            "line": 5
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "receipt of an Enforcement Notice is requested",
+            "result": {
+              "status": "passed",
+              "duration": 1207000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "receipt of an Enforcement Notice is not provided",
+            "result": {
+              "status": "passed",
+              "duration": 885000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "progress is halted with a message that the Enforcement Notice question is required",
+            "result": {
+              "status": "passed",
+              "duration": 35000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-prospective-appellant-states-whether-or-not-they-have-received-an-enforcement-notice;prospective-appellant-selects-no-and-proceeds-through-eligibility-checker",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "Prospective appellant selects no and proceeds through eligibility checker",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          },
+          {
+            "name": "@ucd-998",
+            "line": 11
+          },
+          {
+            "name": "@ucd-998-ac3",
+            "line": 11
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "receipt of an Enforcement Notice is requested",
+            "result": {
+              "status": "passed",
+              "duration": 740000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "the appellant has not received an Enforcement Notice",
+            "result": {
+              "status": "passed",
+              "duration": 899000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "progress is made to the Listed Building eligibility question",
+            "result": {
+              "status": "passed",
+              "duration": 13000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-prospective-appellant-states-whether-or-not-they-have-received-an-enforcement-notice;prospective-appellant-selects-yes-and-is-taken-to-kick-out-page",
+        "keyword": "Scenario",
+        "line": 18,
+        "name": "Prospective appellant selects yes and is taken to kick-out page",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          },
+          {
+            "name": "@ucd-998",
+            "line": 17
+          },
+          {
+            "name": "@ucd-998-ac4",
+            "line": 17
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 19,
+            "name": "receipt of an Enforcement Notice is requested",
+            "result": {
+              "status": "passed",
+              "duration": 720000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 20,
+            "name": "the appellant has received an Enforcement Notice",
+            "result": {
+              "status": "passed",
+              "duration": 907000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 21,
+            "name": "progress is halted with a message that this service is only for householder planning appeals",
+            "result": {
+              "status": "passed",
+              "duration": 56000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

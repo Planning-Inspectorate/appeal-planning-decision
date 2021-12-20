@@ -1,0 +1,107 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "Declaration must be agreed before a submission can be made",
+    "line": 2,
+    "id": "declaration-must-be-agreed-before-a-submission-can-be-made",
+    "tags": [
+      {
+        "name": "@UI-ONLY",
+        "line": 1
+      }
+    ],
+    "uri": "appellant-confirms-declaration.feature",
+    "elements": [
+      {
+        "id": "declaration-must-be-agreed-before-a-submission-can-be-made;prospective-appellant-does-not-agree-to-the-declaration",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "Prospective appellant does not agree to the declaration",
+        "tags": [
+          {
+            "name": "@UI-ONLY",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "an appeal is ready to be submitted",
+            "result": {
+              "status": "passed",
+              "duration": 36211000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 6,
+            "name": "the declaration is not agreed",
+            "result": {
+              "status": "passed",
+              "duration": 1778000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 7,
+            "name": "no submission confirmation is presented",
+            "result": {
+              "status": "passed",
+              "duration": 154000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "declaration-must-be-agreed-before-a-submission-can-be-made;prospective-appellant-agree-to-the-declaration",
+        "keyword": "Scenario",
+        "line": 9,
+        "name": "Prospective appellant agree to the declaration",
+        "tags": [
+          {
+            "name": "@UI-ONLY",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 10,
+            "name": "an appeal is ready to be submitted",
+            "result": {
+              "status": "passed",
+              "duration": 26184000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 11,
+            "name": "the declaration is agreed",
+            "result": {
+              "status": "passed",
+              "duration": 1817000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 12,
+            "name": "the submission confirmation is presented",
+            "result": {
+              "status": "passed",
+              "duration": 290000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

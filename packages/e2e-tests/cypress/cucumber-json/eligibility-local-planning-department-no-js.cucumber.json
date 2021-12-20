@@ -1,0 +1,196 @@
+[
+  {
+    "description": "    Not every LPA is taking part in this iteration of the service.\n    ** This is expected behaviour when JavaScript is disabled in the user's browser. **",
+    "keyword": "Feature",
+    "name": "A prospective appellant selects a Local Planning Department for the case they wish to appeal",
+    "line": 2,
+    "id": "a-prospective-appellant-selects-a-local-planning-department-for-the-case-they-wish-to-appeal",
+    "tags": [
+      {
+        "name": "@smoketest",
+        "line": 1
+      }
+    ],
+    "uri": "eligibility-local-planning-department-no-js.feature",
+    "elements": [
+      {
+        "id": "a-prospective-appellant-selects-a-local-planning-department-for-the-case-they-wish-to-appeal;no-local-planning-department-selected",
+        "keyword": "Scenario",
+        "line": 6,
+        "name": "No Local Planning Department selected",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "the user can select from a list of Local Planning Departments",
+            "result": {
+              "status": "passed",
+              "duration": 4329000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "the user does not select a Local Planning Department",
+            "result": {
+              "status": "passed",
+              "duration": 2850000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "the user is informed that a Local Planning Department in the provided list must be selected",
+            "result": {
+              "status": "passed",
+              "duration": 71000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-prospective-appellant-selects-a-local-planning-department-for-the-case-they-wish-to-appeal;selected-local-planning-department-not-in-the-list",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "Selected Local Planning Department not in the list",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 12,
+            "name": "the user can select from a list of Local Planning Departments",
+            "result": {
+              "status": "passed",
+              "duration": 1084000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 13,
+            "name": "the user selects the empty value from the list of Local Planning Departments",
+            "result": {
+              "status": "passed",
+              "duration": 3471000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 14,
+            "name": "the user is informed that a Local Planning Department in the provided list must be selected",
+            "result": {
+              "status": "passed",
+              "duration": 46000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-prospective-appellant-selects-a-local-planning-department-for-the-case-they-wish-to-appeal;selected-local-planning-department-is-not-participating-in-this-service",
+        "keyword": "Scenario",
+        "line": 16,
+        "name": "Selected Local Planning Department is not participating in this service",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 17,
+            "name": "the user can select from a list of Local Planning Departments",
+            "result": {
+              "status": "passed",
+              "duration": 782000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 18,
+            "name": "the user selects a Local Planning Department that is not participating in this service",
+            "result": {
+              "status": "failed",
+              "error_message": "CypressError: `cy.select()` can only be called on a `<select>`. Your subject is a: `<input aria-expanded=\"false\" aria-owns=\"local-planning-department__listbox\" aria-autocomplete=\"both\" aria-describedby=\"local-planning-department__assistiveHint\" autocomplete=\"off\" class=\"autocomplete__input autocomplete__input--default\" id=\"local-planning-department\" name=\"\" placeholder=\"\" type=\"text\" role=\"combobox\">`\n    at Context.select (http://localhost:9003/__cypress/runner/cypress_runner.js:135568:19)\n    at Context.<anonymous> (http://localhost:9003/__cypress/runner/cypress_runner.js:153308:21)\nFrom Your Spec Code:\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\eligibility-local-planning-department-no-js.feature:5463:42)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 19,
+            "name": "the user is informed that the selected Local Planning Department is not participating in the service",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-prospective-appellant-selects-a-local-planning-department-for-the-case-they-wish-to-appeal;selected-local-planning-department-is-participating-in-this-service",
+        "keyword": "Scenario",
+        "line": 21,
+        "name": "Selected Local Planning Department is participating in this service",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 22,
+            "name": "the user can select from a list of Local Planning Departments",
+            "result": {
+              "status": "passed",
+              "duration": 2937000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 23,
+            "name": "the user selects a Local Planning Department that is participating in this service",
+            "result": {
+              "status": "failed",
+              "error_message": "CypressError: `cy.select()` can only be called on a `<select>`. Your subject is a: `<input aria-expanded=\"false\" aria-owns=\"local-planning-department__listbox\" aria-autocomplete=\"both\" aria-describedby=\"local-planning-department__assistiveHint\" autocomplete=\"off\" class=\"autocomplete__input autocomplete__input--default\" id=\"local-planning-department\" name=\"\" placeholder=\"\" type=\"text\" role=\"combobox\">`\n    at Context.select (http://localhost:9003/__cypress/runner/cypress_runner.js:135568:19)\n    at Context.<anonymous> (http://localhost:9003/__cypress/runner/cypress_runner.js:153308:21)\nFrom Your Spec Code:\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\eligibility-local-planning-department-no-js.feature:5440:42)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "the user can proceed and the appeal is updated with the selected Local Planning Department",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

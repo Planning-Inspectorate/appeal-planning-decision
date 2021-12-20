@@ -1,0 +1,423 @@
+[
+  {
+    "description": "As a prospective appellant, I want to be taken through the submission process efficiently\nso that I do not get confused.\nThis feature file covers the navigation between the About-the-appeal-site to the task-list\nThe navigation does not depend on the status of a sub-section",
+    "keyword": "Feature",
+    "name": "Appeal Submission Save and Continue Navigation - About the appeal site",
+    "line": 2,
+    "id": "appeal-submission-save-and-continue-navigation---about-the-appeal-site",
+    "tags": [
+      {
+        "name": "@UI-ONLY",
+        "line": 1
+      }
+    ],
+    "uri": "appeal-submission-save-and-continue-navigation-appeal-site.feature",
+    "elements": [
+      {
+        "id": "appeal-submission-save-and-continue-navigation---about-the-appeal-site;navigation---about-the-appeal-site",
+        "keyword": "Scenario",
+        "line": 8,
+        "name": "Navigation - About the appeal site",
+        "tags": [
+          {
+            "name": "@UI-ONLY",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 9,
+            "name": "the \"Site location\" is presented",
+            "result": {
+              "status": "passed",
+              "duration": 2621000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 10,
+            "name": "the \"Site location\" is submitted with valid values",
+            "result": {
+              "status": "passed",
+              "duration": 3435000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "the user is navigated to \"Site ownership\"",
+            "result": {
+              "status": "passed",
+              "duration": 29000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appeal-submission-save-and-continue-navigation---about-the-appeal-site;navigation---site-ownership-with-yes-selected",
+        "keyword": "Scenario",
+        "line": 13,
+        "name": "Navigation - Site ownership with YES selected",
+        "tags": [
+          {
+            "name": "@UI-ONLY",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 14,
+            "name": "the \"Site ownership\" is presented",
+            "result": {
+              "status": "passed",
+              "duration": 1551000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 15,
+            "name": "the \"Site ownership\" is submitted with a YES value",
+            "result": {
+              "status": "passed",
+              "duration": 1537000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 16,
+            "name": "the user is navigated to \"Site access\"",
+            "result": {
+              "status": "passed",
+              "duration": 27000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appeal-submission-save-and-continue-navigation---about-the-appeal-site;navigation---site-ownership-with-no-selected",
+        "keyword": "Scenario",
+        "line": 18,
+        "name": "Navigation - Site ownership with NO selected",
+        "tags": [
+          {
+            "name": "@UI-ONLY",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 19,
+            "name": "the \"Site ownership\" is presented",
+            "result": {
+              "status": "passed",
+              "duration": 1192000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 20,
+            "name": "the \"Site ownership\" is submitted with a NO value",
+            "result": {
+              "status": "passed",
+              "duration": 1448000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 21,
+            "name": "the user is navigated to \"Site ownership certb\"",
+            "result": {
+              "status": "passed",
+              "duration": 25000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appeal-submission-save-and-continue-navigation---about-the-appeal-site;navigation---site-ownership-certb-with-yes-selected",
+        "keyword": "Scenario",
+        "line": 23,
+        "name": "Navigation - Site ownership certb with YES selected",
+        "tags": [
+          {
+            "name": "@UI-ONLY",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 24,
+            "name": "the \"Site ownership\" is not wholly owned",
+            "result": {
+              "status": "passed",
+              "duration": 2728000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 25,
+            "name": "the \"Site ownership certb\" is submitted with a YES value",
+            "result": {
+              "status": "passed",
+              "duration": 1666000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 26,
+            "name": "the user is navigated to \"Site access\"",
+            "result": {
+              "status": "passed",
+              "duration": 26000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appeal-submission-save-and-continue-navigation---about-the-appeal-site;navigation---site-ownership-certb-with-no-selected",
+        "keyword": "Scenario",
+        "line": 28,
+        "name": "Navigation - Site ownership certb with NO selected",
+        "tags": [
+          {
+            "name": "@UI-ONLY",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 29,
+            "name": "the \"Site ownership\" is not wholly owned",
+            "result": {
+              "status": "passed",
+              "duration": 2817000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 30,
+            "name": "the \"Site ownership certb\" is submitted with a NO value",
+            "result": {
+              "status": "passed",
+              "duration": 1684000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 31,
+            "name": "the user is navigated to \"Site access\"",
+            "result": {
+              "status": "passed",
+              "duration": 17000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appeal-submission-save-and-continue-navigation---about-the-appeal-site;navigation---site-access-with-yes-selected",
+        "keyword": "Scenario",
+        "line": 33,
+        "name": "Navigation - Site access with YES selected",
+        "tags": [
+          {
+            "name": "@UI-ONLY",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 34,
+            "name": "the \"Site access\" is presented",
+            "result": {
+              "status": "passed",
+              "duration": 1423000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 35,
+            "name": "the \"Site access\" is submitted with a YES value",
+            "result": {
+              "status": "passed",
+              "duration": 1695000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 36,
+            "name": "the user is navigated to \"Site safety\"",
+            "result": {
+              "status": "passed",
+              "duration": 16000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appeal-submission-save-and-continue-navigation---about-the-appeal-site;navigation---site-access-with-no-selected",
+        "keyword": "Scenario",
+        "line": 38,
+        "name": "Navigation - Site access with NO selected",
+        "tags": [
+          {
+            "name": "@UI-ONLY",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 39,
+            "name": "the \"Site access\" is presented",
+            "result": {
+              "status": "passed",
+              "duration": 1230000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 40,
+            "name": "the \"Site access\" is submitted with a NO value and text about how access is restricted",
+            "result": {
+              "status": "passed",
+              "duration": 2048000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 41,
+            "name": "the user is navigated to \"Site safety\"",
+            "result": {
+              "status": "passed",
+              "duration": 16000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appeal-submission-save-and-continue-navigation---about-the-appeal-site;navigation---site-access-safety-with-yes-selected",
+        "keyword": "Scenario",
+        "line": 43,
+        "name": "Navigation - Site access safety with YES selected",
+        "tags": [
+          {
+            "name": "@UI-ONLY",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 44,
+            "name": "the \"Site safety\" is presented",
+            "result": {
+              "status": "passed",
+              "duration": 1338000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 45,
+            "name": "the \"Site safety\" is submitted with a YES value and text about health and safety concerns",
+            "result": {
+              "status": "passed",
+              "duration": 1411000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 46,
+            "name": "the user is navigated to \"Appeal tasks\"",
+            "result": {
+              "status": "passed",
+              "duration": 27000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "appeal-submission-save-and-continue-navigation---about-the-appeal-site;navigation---site-access-safety-with-no-selected",
+        "keyword": "Scenario",
+        "line": 48,
+        "name": "Navigation - Site access safety with NO selected",
+        "tags": [
+          {
+            "name": "@UI-ONLY",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 49,
+            "name": "the \"Site safety\" is presented",
+            "result": {
+              "status": "passed",
+              "duration": 1352000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 50,
+            "name": "the \"Site safety\" is submitted with a NO value",
+            "result": {
+              "status": "passed",
+              "duration": 2297000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 51,
+            "name": "the user is navigated to \"Appeal tasks\"",
+            "result": {
+              "status": "passed",
+              "duration": 22000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

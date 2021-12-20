@@ -8,7 +8,6 @@ import {
   linkUploadDocsFromPlanningApplication,
   linkUploadDocsForYourAppeal,
   linkCheckYourAnswers,
-  var1,
   statusProvideYourContactDetails,
   statusTellAboutTheAppealSite,
   statusUploadDocsFromPlanningApplication,

@@ -1,0 +1,186 @@
+[
+  {
+    "description": "    Our service doesn't cover listed buildings.",
+    "keyword": "Feature",
+    "name": "A prospective appellant states whether or not their appeal covers a listed building",
+    "line": 2,
+    "id": "a-prospective-appellant-states-whether-or-not-their-appeal-covers-a-listed-building",
+    "tags": [
+      {
+        "name": "@smoketest",
+        "line": 1
+      }
+    ],
+    "uri": "eligibility-listed-building-status.feature",
+    "elements": [
+      {
+        "id": "a-prospective-appellant-states-whether-or-not-their-appeal-covers-a-listed-building;listed-building-statement-is-required",
+        "keyword": "Scenario",
+        "line": 6,
+        "name": "Listed Building statement is required",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          },
+          {
+            "name": "@as-1670",
+            "line": 5
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "the user does not provide a Listed Building statement",
+            "result": {
+              "status": "passed",
+              "duration": 2689000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "the user is informed that a Listed Building statement is required",
+            "result": {
+              "status": "passed",
+              "duration": 79000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-prospective-appellant-states-whether-or-not-their-appeal-covers-a-listed-building;user-selects-yes-option-in-the-is-your-appeal-about-a-listed-building-page",
+        "keyword": "Scenario",
+        "line": 10,
+        "name": "User selects yes option in the Is your appeal about a listed building page",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 11,
+            "name": "the user states that their case concerns a Listed Building",
+            "result": {
+              "status": "passed",
+              "duration": 1686000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 12,
+            "name": "the user is informed that cases concerning a Listed Building cannot be processed via this service",
+            "result": {
+              "status": "passed",
+              "duration": 25000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 13,
+            "name": "the user is directed to the Appeal a Planning Decision service",
+            "result": {
+              "status": "passed",
+              "duration": 16000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-prospective-appellant-states-whether-or-not-their-appeal-covers-a-listed-building;user-selects-no-option-in-the-is-your-appeal-about-a-listed-building-page",
+        "keyword": "Scenario",
+        "line": 15,
+        "name": "User selects no option in the Is your appeal about a listed building page",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 16,
+            "name": "the user states that their case does not concern a Listed Building",
+            "result": {
+              "status": "passed",
+              "duration": 1693000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 17,
+            "name": "the user can proceed to the claiming Costs eligibility check",
+            "result": {
+              "status": "passed",
+              "duration": 23000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "a-prospective-appellant-states-whether-or-not-their-appeal-covers-a-listed-building;should-retain-the-selected-answer-on-re-visiting-the-page",
+        "keyword": "Scenario",
+        "line": 20,
+        "name": "Should retain the selected answer on re-visiting the page",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          },
+          {
+            "name": "@as-1854",
+            "line": 19
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 21,
+            "name": "the user states that their case does not concern a Listed Building",
+            "result": {
+              "status": "passed",
+              "duration": 2293000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 22,
+            "name": "the user returns to the listed building page",
+            "result": {
+              "status": "passed",
+              "duration": 1250000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "the user sees their previous given answer is correctly displayed",
+            "result": {
+              "status": "passed",
+              "duration": 43000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,383 @@
+[
+  {
+    "description": "  Note: This feature describes behaviour for a newly created appeal",
+    "keyword": "Feature",
+    "name": "Name of original applicant",
+    "line": 2,
+    "id": "name-of-original-applicant",
+    "tags": [
+      {
+        "name": "@smoketest",
+        "line": 1
+      }
+    ],
+    "uri": "appellant-submission-your-details-applicant-name.feature",
+    "elements": [
+      {
+        "id": "name-of-original-applicant;valid-name",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Valid name",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "appeal is made on behalf of another applicant",
+            "result": {
+              "status": "passed",
+              "duration": 7032000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "original applicant name is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2550000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "appeal tasks are presented",
+            "result": {
+              "status": "passed",
+              "duration": 39000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "appeal is updated with the original applicant",
+            "result": {
+              "status": "passed",
+              "duration": 2031000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 10,
+            "name": "Your Details section is \"COMPLETED\"",
+            "result": {
+              "status": "passed",
+              "duration": 1314000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-of-original-applicant;invalid-name",
+        "keyword": "Scenario",
+        "line": 21,
+        "name": "Invalid name",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "appeal is made on behalf of another applicant",
+            "result": {
+              "status": "passed",
+              "duration": 7633000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "original applicant name \"\" is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2742000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "original applicant value \"\" is invalid because \"name missing\"",
+            "result": {
+              "status": "passed",
+              "duration": 97000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "applicant name is presented",
+            "result": {
+              "status": "passed",
+              "duration": 24000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "appeal is not updated with the original applicant \"\"",
+            "result": {
+              "status": "passed",
+              "duration": 1078000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 18,
+            "name": "Your Details section is \"IN PROGRESS\"",
+            "result": {
+              "status": "passed",
+              "duration": 1047000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-of-original-applicant;invalid-name",
+        "keyword": "Scenario",
+        "line": 22,
+        "name": "Invalid name",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "appeal is made on behalf of another applicant",
+            "result": {
+              "status": "passed",
+              "duration": 5211000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "original applicant name \"A\" is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 1943000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "original applicant value \"A\" is invalid because \"name outside size constraints\"",
+            "result": {
+              "status": "passed",
+              "duration": 24000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "applicant name is presented",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "appeal is not updated with the original applicant \"A\"",
+            "result": {
+              "status": "passed",
+              "duration": 1210000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 18,
+            "name": "Your Details section is \"IN PROGRESS\"",
+            "result": {
+              "status": "passed",
+              "duration": 1322000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-of-original-applicant;invalid-name",
+        "keyword": "Scenario",
+        "line": 23,
+        "name": "Invalid name",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "appeal is made on behalf of another applicant",
+            "result": {
+              "status": "passed",
+              "duration": 5224000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "original applicant name \"Invalid name because it is eighty-one characters long  abcdefghijklmnopqrstuvwxyz\" is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 3713000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "original applicant value \"Invalid name because it is eighty-one characters long  abcdefghijklmnopqrstuvwxyz\" is invalid because \"name outside size constraints\"",
+            "result": {
+              "status": "passed",
+              "duration": 90000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "applicant name is presented",
+            "result": {
+              "status": "passed",
+              "duration": 24000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "appeal is not updated with the original applicant \"Invalid name because it is eighty-one characters long  abcdefghijklmnopqrstuvwxyz\"",
+            "result": {
+              "status": "passed",
+              "duration": 1508000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 18,
+            "name": "Your Details section is \"IN PROGRESS\"",
+            "result": {
+              "status": "passed",
+              "duration": 1055000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "name-of-original-applicant;invalid-name",
+        "keyword": "Scenario",
+        "line": 24,
+        "name": "Invalid name",
+        "tags": [
+          {
+            "name": "@smoketest",
+            "line": 1
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "appeal is made on behalf of another applicant",
+            "result": {
+              "status": "passed",
+              "duration": 7788000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "original applicant name \"Invalid name with prohibited characters *3(/+\" is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 3493000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "original applicant value \"Invalid name with prohibited characters *3(/+\" is invalid because \"name with prohibited characters\"",
+            "result": {
+              "status": "passed",
+              "duration": 74000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "applicant name is presented",
+            "result": {
+              "status": "passed",
+              "duration": 16000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "appeal is not updated with the original applicant \"Invalid name with prohibited characters *3(/+\"",
+            "result": {
+              "status": "passed",
+              "duration": 815000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 18,
+            "name": "Your Details section is \"IN PROGRESS\"",
+            "result": {
+              "status": "passed",
+              "duration": 766000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

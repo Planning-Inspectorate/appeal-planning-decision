@@ -1,0 +1,63 @@
+[
+  {
+    "description": "  As a user of the appeal service\n  I need to be informed of cookies and the impact of javascript\n  So that I can enable the cookies if I want to",
+    "keyword": "Feature",
+    "name": "Cookie Consent - View Preferences without JavaScript enabled",
+    "line": 1,
+    "id": "cookie-consent---view-preferences-without-javascript-enabled",
+    "tags": [],
+    "uri": "cookie-consent-view-preferences-without-javascript-enabled.feature",
+    "elements": [
+      {
+        "id": "cookie-consent---view-preferences-without-javascript-enabled;make-the-content-of-the-cookie-preference-page-specific-to-the-use-of-javascript-when-the-user-has-javascript-turned-off",
+        "keyword": "Scenario",
+        "line": 8,
+        "name": "Make the content of the Cookie preference page specific to the use of Javascript when the user has Javascript turned off",
+        "tags": [
+          {
+            "name": "@as-1351",
+            "line": 7
+          },
+          {
+            "name": "@as-1351-1",
+            "line": 7
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 9,
+            "name": "a user has elected to manage their cookie preference without JavaScript enabled",
+            "result": {
+              "status": "passed",
+              "duration": 6345000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 10,
+            "name": "the user views the Cookie Preferences service page",
+            "result": {
+              "status": "passed",
+              "duration": 1104000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "the page content will mention about cookies requiring Javascript to be turned on",
+            "result": {
+              "status": "failed",
+              "duration": 4095000000,
+              "error_message": "AssertionError: Timed out retrying after 4000ms: expected '<h1.govuk-heading-l.cookie-settings__no-js.govuk-!-display-none>' to be 'visible'\n\nThis element `<h1.govuk-heading-l.cookie-settings__no-js.govuk-!-display-none>` is not visible because it has CSS property: `display: none`\n    at confirmPageHeadingWithoutJavaScriptEnabled (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\cookie-consent-view-preferences-without-javascript-enabled.feature:4820:54)\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\cookie-consent-view-preferences-without-javascript-enabled.feature:3235:94)\n    at Context.resolveAndRunStepDefinition (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\cookie-consent-view-preferences-without-javascript-enabled.feature:16587:29)\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\cookie-consent-view-preferences-without-javascript-enabled.feature:15908:35)"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

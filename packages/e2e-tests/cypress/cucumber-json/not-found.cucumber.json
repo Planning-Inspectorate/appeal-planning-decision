@@ -1,0 +1,59 @@
+[
+  {
+    "description": "  As a Service owner of the appeals service\n  I need the service to adhere to the GDS design standards\n  So that the service will pass the beta assessment",
+    "keyword": "Feature",
+    "name": "Page not found",
+    "line": 1,
+    "id": "page-not-found",
+    "tags": [],
+    "uri": "not-found.feature",
+    "elements": [
+      {
+        "id": "page-not-found;the-404-page-with-gds-standards",
+        "keyword": "Scenario",
+        "line": 8,
+        "name": "The 404 page with GDS standards",
+        "tags": [
+          {
+            "name": "@as-1198",
+            "line": 7
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 9,
+            "name": "an appeal is being made",
+            "result": {
+              "status": "passed",
+              "duration": 166000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 10,
+            "name": "an unknown url is requested",
+            "result": {
+              "status": "passed",
+              "duration": 966000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "the error page will be displayed",
+            "result": {
+              "status": "failed",
+              "duration": 24000000,
+              "error_message": "TypeError: cy.confirmNavigationPageNotFoundPage is not a function\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\not-found.feature:2646:6)\n    at Context.resolveAndRunStepDefinition (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\not-found.feature:15953:29)\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\not-found.feature:15274:35)\nFrom previous event:\n    at Context.thenFn (http://localhost:9003/__cypress/runner/cypress_runner.js:137744:23)\n    at Context.then (http://localhost:9003/__cypress/runner/cypress_runner.js:138183:21)\n    at Context.<anonymous> (http://localhost:9003/__cypress/runner/cypress_runner.js:153308:21)\n    at http://localhost:9003/__cypress/runner/cypress_runner.js:152716:15\nFrom previous event:\n    at runCommand (http://localhost:9003/__cypress/runner/cypress_runner.js:152695:8)\n    at next (http://localhost:9003/__cypress/runner/cypress_runner.js:152841:14)\n    at http://localhost:9003/__cypress/runner/cypress_runner.js:152869:16\nFrom previous event:\n    at next (http://localhost:9003/__cypress/runner/cypress_runner.js:152841:34)\nFrom previous event:\n    at http://localhost:9003/__cypress/runner/cypress_runner.js:152882:37\nFrom previous event:\n    at run (http://localhost:9003/__cypress/runner/cypress_runner.js:152875:21)\n    at $Cy.cy.<computed> [as then] (http://localhost:9003/__cypress/runner/cypress_runner.js:153348:11)\n    at Context.runnable.fn (http://localhost:9003/__cypress/runner/cypress_runner.js:153572:21)\n    at callFn (http://localhost:9003/__cypress/runner/cypress_runner.js:109330:21)\n    at Test.../driver/node_modules/mocha/lib/runnable.js.Runnable.run (http://localhost:9003/__cypress/runner/cypress_runner.js:109317:7)\n    at http://localhost:9003/__cypress/runner/cypress_runner.js:159577:28\nFrom previous event:\n    at Object.onRunnableRun (http://localhost:9003/__cypress/runner/cypress_runner.js:159565:17)\n    at $Cypress.action (http://localhost:9003/__cypress/runner/cypress_runner.js:149656:28)\n    at Test.Runnable.run (http://localhost:9003/__cypress/runner/cypress_runner.js:157707:13)\n    at Runner.../driver/node_modules/mocha/lib/runner.js.Runner.runTest (http://localhost:9003/__cypress/runner/cypress_runner.js:109989:10)\n    at http://localhost:9003/__cypress/runner/cypress_runner.js:110115:12\n    at next (http://localhost:9003/__cypress/runner/cypress_runner.js:109898:14)\n    at http://localhost:9003/__cypress/runner/cypress_runner.js:109908:7\n    at next (http://localhost:9003/__cypress/runner/cypress_runner.js:109810:14)\n    at Hook.<anonymous> (http://localhost:9003/__cypress/runner/cypress_runner.js:109871:7)\n    at next (http://localhost:9003/__cypress/runner/cypress_runner.js:159493:22)\n    at http://localhost:9003/__cypress/runner/cypress_runner.js:159520:11\nFrom previous event:\n    at onNext (http://localhost:9003/__cypress/runner/cypress_runner.js:159517:57)\n    at done (http://localhost:9003/__cypress/runner/cypress_runner.js:109270:5)\n    at callFn (http://localhost:9003/__cypress/runner/cypress_runner.js:109353:7)\n    at Hook.../driver/node_modules/mocha/lib/runnable.js.Runnable.run (http://localhost:9003/__cypress/runner/cypress_runner.js:109317:7)\n    at http://localhost:9003/__cypress/runner/cypress_runner.js:159577:28\nFrom previous event:\n    at Object.onRunnableRun (http://localhost:9003/__cypress/runner/cypress_runner.js:159565:17)\n    at $Cypress.action (http://localhost:9003/__cypress/runner/cypress_runner.js:149656:28)\n    at Hook.Runnable.run (http://localhost:9003/__cypress/runner/cypress_runner.js:157707:13)\n    at next (http://localhost:9003/__cypress/runner/cypress_runner.js:109832:10)\n    at http://localhost:9003/__cypress/runner/cypress_runner.js:109876:5\n    at timeslice (http://localhost:9003/__cypress/runner/cypress_runner.js:103802:27)"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

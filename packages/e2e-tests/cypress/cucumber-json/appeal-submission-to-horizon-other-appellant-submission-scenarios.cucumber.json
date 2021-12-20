@@ -1,0 +1,268 @@
+[
+  {
+    "description": "As a case officer\nI want an appeal to include details about site ownership and access\nso that I can book an appropriate site visit with a Planning Inspector and site owner",
+    "keyword": "Feature",
+    "name": "Appeal submission to Horizon - other Appellant submission scenarios",
+    "line": 2,
+    "id": "appeal-submission-to-horizon---other-appellant-submission-scenarios",
+    "tags": [
+      {
+        "name": "@wip",
+        "line": 1
+      }
+    ],
+    "uri": "appeal-submission-to-horizon-other-appellant-submission-scenarios.feature",
+    "elements": [
+      {
+        "id": "appeal-submission-to-horizon---other-appellant-submission-scenarios;ac1.1-appeal-information-submitted-where-the-whole-site-can-be-seen-from-a-public-road",
+        "keyword": "Scenario",
+        "line": 9,
+        "name": "AC1.1 Appeal information submitted where the whole site can be seen from a public road",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-105",
+            "line": 8
+          },
+          {
+            "name": "@as-105-ac1.1",
+            "line": 8
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 10,
+            "name": "a prospective appellant has provided appeal information where the whole site can be seen",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 11,
+            "name": "the appeal is submitted",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 12,
+            "name": "a case is created for a case officer where an inspector does not require site access",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "appeal-submission-to-horizon---other-appellant-submission-scenarios;ac1.2-appeal-information-submitted-where-the-whole-site-cannot-be-seen-from-a-public-road",
+        "keyword": "Scenario",
+        "line": 15,
+        "name": "AC1.2 Appeal information submitted where the whole site cannot be seen from a public road",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-105",
+            "line": 14
+          },
+          {
+            "name": "@as-105-ac1.2",
+            "line": 14
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 16,
+            "name": "a prospective appellant has provided appeal information where the whole site cannot be seen",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 17,
+            "name": "the appeal is submitted",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 18,
+            "name": "a case is created for a case officer where an inspector requires site access",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "appeal-submission-to-horizon---other-appellant-submission-scenarios;ac2.2-appellant-is-the-owner-of-the-whole-site",
+        "keyword": "Scenario",
+        "line": 21,
+        "name": "AC2.2 Appellant is the owner of the whole site",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-105",
+            "line": 20
+          },
+          {
+            "name": "@as-105-ac2.1",
+            "line": 20
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 22,
+            "name": "a prospective appellant has provided appeal information where they own the whole site",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 23,
+            "name": "the appeal is submitted",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "a case is created for a case officer with Certificate A",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "appeal-submission-to-horizon---other-appellant-submission-scenarios;ac2.2a-appellant-is-not-the-owner-of-the-whole-site---has-informed-owner",
+        "keyword": "Scenario",
+        "line": 27,
+        "name": "AC2.2a Appellant is not the owner of the whole site - has informed owner",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-105",
+            "line": 26
+          },
+          {
+            "name": "@as-105-ac2.2a",
+            "line": 26
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 28,
+            "name": "a prospective appellant has provided appeal information where they do not own the whole site while confirming owner has been informed",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "the appeal is submitted",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "a case without Certificate A is created for a case officer while recording that owner has been informed",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "appeal-submission-to-horizon---other-appellant-submission-scenarios;ac2.2b-appellant-is-not-the-owner-of-the-whole-site---has-not-informed-owner",
+        "keyword": "Scenario",
+        "line": 33,
+        "name": "AC2.2b Appellant is not the owner of the whole site - has not informed owner",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-105",
+            "line": 32
+          },
+          {
+            "name": "@as-105-ac2.2b",
+            "line": 32
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 34,
+            "name": "a prospective appellant has provided appeal information where they do not own the whole site while confirming owner has not been informed",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 35,
+            "name": "the appeal is submitted",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 36,
+            "name": "a case without Certificate A is created for a case officer while recording that owner has not been informed",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
