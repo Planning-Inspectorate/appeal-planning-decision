@@ -56,9 +56,9 @@ describe('controllers/full-planning/full-appeal/task-list', () => {
           {
             href: '/full-appeal/check-answers',
             text: 'Check your answers and submit your appeal',
-            status: 'CANNOT START YET',
+            status: 'NOT STARTED',
             attributes: {
-              'submitYourAppealSection-status': 'CANNOT START YET',
+              'submitYourAppealSection-status': 'NOT STARTED',
               name: 'submitYourAppealSection',
             },
           },
