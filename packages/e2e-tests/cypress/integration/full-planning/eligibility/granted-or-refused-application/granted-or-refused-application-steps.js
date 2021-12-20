@@ -3,11 +3,11 @@ import { goToPage } from '../../../../support/common/go-to-page/goToPage';
 import { verifyPageTitle } from '../../../../../../../e2e-tests/cypress/support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../../../../e2e-tests/cypress/support/common/verify-page-heading';
 
-import { selectPlanningApplicationDecision } from '../../../../support/full-planning/before-you-start/granted-or-refused-application/select-planning-application-decision';
+import { selectPlanningApplicationDecision } from '../../../../support/full-planning/eligibility/granted-or-refused-application/select-planning-application-decision';
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
 import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 import { getBackLink, getContinueButton, getErrorMessageSummary } from '../../../../../../../e2e-tests/cypress/support/page-objects/common-po';
-import { getPlanningApplicationDecisionError } from '../../../../support/full-planning/before-you-start/page-objects/granted-or-refused-application-po';
+import { getPlanningApplicationDecisionError } from '../../../../support/full-planning/eligibility/page-objects/granted-or-refused-application-po';
 
 const pageTitle = 'Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Was your planning application granted or refused?';

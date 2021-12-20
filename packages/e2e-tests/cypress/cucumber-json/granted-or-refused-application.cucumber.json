@@ -22,8 +22,7 @@
             "line": 7,
             "name": "appellant is on the was your planning application granted or refused page",
             "result": {
-              "status": "passed",
-              "duration": 1017000000
+              "status": "skipped"
             }
           },
           {
@@ -32,8 +31,7 @@
             "line": 8,
             "name": "the appellant selects the option as 'Granted'",
             "result": {
-              "status": "passed",
-              "duration": 83000000
+              "status": "skipped"
             }
           },
           {
@@ -42,8 +40,7 @@
             "line": 9,
             "name": "appellant clicks on the continue button",
             "result": {
-              "status": "passed",
-              "duration": 814000000
+              "status": "skipped"
             }
           },
           {
@@ -52,8 +49,7 @@
             "line": 10,
             "name": "appellant gets navigated to the What’s the decision date on the letter from the local planning department?",
             "result": {
-              "status": "passed",
-              "duration": 6000000
+              "status": "skipped"
             }
           }
         ]
@@ -72,8 +68,7 @@
             "line": 7,
             "name": "appellant is on the was your planning application granted or refused page",
             "result": {
-              "status": "passed",
-              "duration": 608000000
+              "status": "skipped"
             }
           },
           {
@@ -82,8 +77,7 @@
             "line": 8,
             "name": "the appellant selects the option as 'Refused'",
             "result": {
-              "status": "passed",
-              "duration": 92000000
+              "status": "skipped"
             }
           },
           {
@@ -92,8 +86,7 @@
             "line": 9,
             "name": "appellant clicks on the continue button",
             "result": {
-              "status": "passed",
-              "duration": 325000000
+              "status": "skipped"
             }
           },
           {
@@ -102,8 +95,7 @@
             "line": 10,
             "name": "appellant gets navigated to the What’s the decision date on the letter from the local planning department?",
             "result": {
-              "status": "passed",
-              "duration": 4000000
+              "status": "skipped"
             }
           }
         ]
@@ -122,8 +114,7 @@
             "line": 18,
             "name": "appellant is on the was your planning application granted or refused page",
             "result": {
-              "status": "passed",
-              "duration": 535000000
+              "status": "skipped"
             }
           },
           {
@@ -132,8 +123,7 @@
             "line": 19,
             "name": "the appellant selects the option as 'I have Not Received a Decision'",
             "result": {
-              "status": "passed",
-              "duration": 83000000
+              "status": "skipped"
             }
           },
           {
@@ -142,8 +132,7 @@
             "line": 20,
             "name": "appellant clicks on the continue button",
             "result": {
-              "status": "passed",
-              "duration": 309000000
+              "status": "skipped"
             }
           },
           {
@@ -152,8 +141,7 @@
             "line": 21,
             "name": "the appellant gets navigated to the decision due page",
             "result": {
-              "status": "passed",
-              "duration": 4000000
+              "status": "skipped"
             }
           }
         ]
@@ -172,8 +160,7 @@
             "line": 24,
             "name": "appellant is on the was your planning application granted or refused page",
             "result": {
-              "status": "passed",
-              "duration": 510000000
+              "status": "skipped"
             }
           },
           {
@@ -182,8 +169,7 @@
             "line": 25,
             "name": "appellant clicks on the continue button",
             "result": {
-              "status": "passed",
-              "duration": 354000000
+              "status": "skipped"
             }
           },
           {
@@ -192,8 +178,7 @@
             "line": 26,
             "name": "the appellant sees an error message 'Select if your planning application was granted or refused, or if you have not received a decision'",
             "result": {
-              "status": "passed",
-              "duration": 44000000
+              "status": "skipped"
             }
           }
         ]
@@ -212,8 +197,7 @@
             "line": 29,
             "name": "appellant is on the was your planning application granted or refused page",
             "result": {
-              "status": "passed",
-              "duration": 526000000
+              "status": "skipped"
             }
           },
           {
@@ -222,8 +206,7 @@
             "line": 30,
             "name": "an appellant selects the back button",
             "result": {
-              "status": "passed",
-              "duration": 345000000
+              "status": "skipped"
             }
           },
           {
@@ -232,8 +215,7 @@
             "line": 31,
             "name": "the appellant is navigated to Was your planning application about any of the following?",
             "result": {
-              "status": "passed",
-              "duration": 4000000
+              "status": "skipped"
             }
           }
         ]
