@@ -11,7 +11,7 @@ import { getPlanningApplicationDecisionError } from '../../../../support/full-pl
 
 const pageTitle = 'Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Was your planning application granted or refused?';
-const url = '/before-you-start/granted-or-refused';
+const url = `${Cypress.env('APPEALS_BASE_URL')}/before-you-start/granted-or-refused`;
 const decisionDatePageUrl = '/before-you-start/decision-date';
 const decisionDateDuePageUrl = '/before-you-start/date-decision-due';
 const previousPageUrl = '/before-you-start/any-of-following';

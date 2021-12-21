@@ -27,7 +27,8 @@
             "line": 7,
             "name": "Appellant has been successful on their eligibility",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 522000000
             }
           },
           {
@@ -36,7 +37,8 @@
             "line": 8,
             "name": "they are on the 'Appeal a Planning Decision' page",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 16000000
             }
           },
           {
@@ -45,7 +47,8 @@
             "line": 9,
             "name": "they are presented with the list of tasks that they are required to complete in order to submit their appeal",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 155000000
             }
           },
           {
@@ -54,7 +57,8 @@
             "line": 10,
             "name": "when a section has been completed they are able to see what has been completed or incompleted",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 38000000
             }
           }
         ]
