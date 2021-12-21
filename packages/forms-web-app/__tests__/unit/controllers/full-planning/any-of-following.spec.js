@@ -15,11 +15,9 @@ describe('controllers/full-planning/any-of-following', () => {
     jest.resetAllMocks();
   });
 
-  describe('getAnyOfFollowing', () => {
-    it('should render any of following page', async () => {
-      await anyOfFollowingController.getAnyOfFollowing(req, res);
-      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_PLANNING.ANY_OF_FOLLOWING);
-    });
+  it('should render any of following page', async () => {
+    await anyOfFollowingController.getAnyOfFollowing(req, res);
+    expect(res.render).toHaveBeenCalledWith(VIEW.FULL_PLANNING.ANY_OF_FOLLOWING);
   });
 
   describe('postAnyOfFollowing', () => {
