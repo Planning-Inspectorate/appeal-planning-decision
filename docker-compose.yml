@@ -131,6 +131,7 @@ services:
     environment:
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
+      CLAM_AV_HOST: https://dev-clamav.azurewebsites.net
       FILE_UPLOAD_DEBUG: 'false'
       FILE_UPLOAD_MAX_FILE_SIZE_BYTES: 15000000
       FILE_UPLOAD_USE_TEMP_FILES: 'true'
