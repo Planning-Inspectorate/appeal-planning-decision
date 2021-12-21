@@ -5,6 +5,7 @@ const grantedOrRefusedRouter = require('../../../../src/routes/full-planning/gra
 const localPlanningDepartmentRouter = require('../../../../src/routes/full-planning/local-planning-department');
 const typeOfPlanningRouter = require('../../../../src/routes/full-planning/type-of-planning-application');
 const useADifferentServiceRouter = require('../../../../src/routes/full-planning/use-a-different-service');
+const decisionDateRouter = require('../../../../src/routes/full-planning/decision-date');
 
 describe('routes/full-planning/index', () => {
   beforeEach(() => {
@@ -20,7 +21,8 @@ describe('routes/full-planning/index', () => {
     expect(use).toHaveBeenCalledWith(localPlanningDepartmentRouter);
     expect(use).toHaveBeenCalledWith(typeOfPlanningRouter);
     expect(use).toHaveBeenCalledWith(useADifferentServiceRouter);
+    expect(use).toHaveBeenCalledWith(decisionDateRouter);
 
-    expect(use.mock.calls.length).toBe(5);
+    expect(use.mock.calls.length).toBe(6);
   });
 });
