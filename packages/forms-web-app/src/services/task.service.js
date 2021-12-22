@@ -133,23 +133,23 @@ function notStartedRule() {
 
 const FULL_APPEAL_SECTIONS = {
   contactDetailsSection: {
-    href: `/full-appeal/contact-details`,
+    href: '/full-appeal/contact-details',
     rule: (appeal) => appeal.sectionStates.contactDetailsSection,
   },
   aboutAppealSiteSection: {
-    href: `/`,
+    href: '/',
     rule: notStartedRule,
   },
   planningApplicationDocumentsSection: {
-    href: `/`,
+    href: '/full-appeal/application-form',
     rule: notStartedRule,
   },
   appealDocumentsSection: {
-    href: `/`,
+    href: '/',
     rule: notStartedRule,
   },
   submitYourAppealSection: {
-    href: `/full-appeal/check-answers`,
+    href: '/full-appeal/check-answers',
     rule: () => TASK_STATUS.NOT_STARTED,
   },
 };

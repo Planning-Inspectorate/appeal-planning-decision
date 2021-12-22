@@ -18,7 +18,7 @@ describe('controllers/full-planning/full-appeal/task-list', () => {
         },
         sections: [
           {
-            href: `/full-appeal/contact-details`,
+            href: '/full-appeal/contact-details',
             text: 'Provide your contact details',
             status: 'NOT STARTED',
             attributes: {
@@ -27,7 +27,7 @@ describe('controllers/full-planning/full-appeal/task-list', () => {
             },
           },
           {
-            href: `/`,
+            href: '/',
             text: 'Tell us about the appeal site',
             status: 'NOT STARTED',
             attributes: {
@@ -36,7 +36,7 @@ describe('controllers/full-planning/full-appeal/task-list', () => {
             },
           },
           {
-            href: `/`,
+            href: '/full-appeal/application-form',
             text: 'Upload documents from your planning application',
             status: 'NOT STARTED',
             attributes: {
@@ -45,7 +45,7 @@ describe('controllers/full-planning/full-appeal/task-list', () => {
             },
           },
           {
-            href: `/`,
+            href: '/',
             text: 'Upload documents for your appeal',
             status: 'NOT STARTED',
             attributes: {
