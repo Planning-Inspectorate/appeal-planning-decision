@@ -60,6 +60,7 @@ describe('lib/views', () => {
         ANY_OF_FOLLOWING: 'full-planning/any-of-following',
         DATE_DECISION_DUE: 'full-planning/date-decision-due',
         DECISION_DATE: 'full-planning/decision-date',
+        ENFORCEMENT_NOTICE: 'full-planning/enforcement-notice',
         GRANTED_OR_REFUSED: 'full-planning/granted-or-refused',
         LOCAL_PLANNING_DEPARTMENT: 'full-planning/local-planning-department',
         TYPE_OF_PLANNING_APPLICATION: 'full-planning/type-of-planning-application',
