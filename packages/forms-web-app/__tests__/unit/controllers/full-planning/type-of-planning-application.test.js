@@ -41,6 +41,7 @@ describe('controllers/full-planning/type-of-planning-application', () => {
 
       await typeOfPlanningApplicationController.postTypeOfPlanningApplication(mockRequest, res);
 
+      expect(appeal.appealType).toEqual('1001');
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
       });
@@ -56,6 +57,7 @@ describe('controllers/full-planning/type-of-planning-application', () => {
 
       await typeOfPlanningApplicationController.postTypeOfPlanningApplication(mockRequest, res);
 
+      expect(appeal.appealType).toEqual('1001');
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
       });

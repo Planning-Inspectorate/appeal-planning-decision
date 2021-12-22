@@ -1,10 +1,12 @@
 const {
   constants: {
     TYPE_OF_PLANNING_APPLICATION: {
+      FULL_PLANNING,
       HOUSEHOLDER_PLANNING,
       SOMETHING_ELSE,
       I_HAVE_NOT_MADE_A_PLANNING_APPLICATION,
     },
+    APPEAL_ID: { PLANNING_SECTION_78, HOUSEHOLDER },
   },
 } = require('@pins/business-rules');
 const logger = require('../../lib/logger');
@@ -37,9 +39,6 @@ exports.postTypeOfPlanningApplication = async (req, res) => {
   const { errors = {}, errorSummary = [] } = body;
   const { appeal } = req.session;
 
-  const selection = body['type-of-planning-application'];
-  appeal.beforeYouStartSection = { typeOfPlanningApplication: selection };
-
   if (errors['type-of-planning-application']) {
     return res.render(VIEW.FULL_PLANNING.TYPE_OF_PLANNING_APPLICATION, {
       appeal,
@@ -48,6 +47,9 @@ exports.postTypeOfPlanningApplication = async (req, res) => {
       backLink: `${VIEW.FULL_PLANNING.LOCAL_PLANNING_DEPARTMENT}`,
     });
   }
+
+  const selection = body['type-of-planning-application'];
+  appeal.appealType = selection === FULL_PLANNING ? PLANNING_SECTION_78 : HOUSEHOLDER;
 
   try {
     req.session.appeal = await createOrUpdateAppeal(appeal);
