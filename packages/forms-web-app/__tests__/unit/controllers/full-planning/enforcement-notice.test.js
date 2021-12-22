@@ -69,8 +69,8 @@ describe('controllers/full-planning/enforcement-notice', () => {
       expect(res.render).toHaveBeenCalledWith(currentPage, {
         appeal: {
           ...req.session.appeal,
-          beforeYouStart: {
-            ...req.session.appeal.beforeYouStart,
+          eligibility: {
+            ...req.session.appeal.eligibility,
             enforcementNotice: null,
           },
         },
@@ -114,8 +114,8 @@ describe('controllers/full-planning/enforcement-notice', () => {
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
-        beforeYouStart: {
-          ...appeal.beforeYouStart,
+        eligibility: {
+          ...appeal.eligibility,
           enforcementNotice: true,
         },
       });
@@ -134,8 +134,8 @@ describe('controllers/full-planning/enforcement-notice', () => {
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
-        beforeYouStart: {
-          ...appeal.beforeYouStart,
+        eligibility: {
+          ...appeal.eligibility,
           enforcementNotice: false,
         },
       });
