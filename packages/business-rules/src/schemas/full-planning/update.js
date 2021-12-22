@@ -5,7 +5,7 @@ const update = pinsYup
   .object()
   .noUnknown(true)
   .shape({
-    id: pinsYup.string().uuid().required(),
+    id: pinsYup.string().trim().uuid().required(),
     horizonId: pinsYup.string().trim().max(20).nullable(),
     lpaCode: pinsYup.string().trim().max(20).required(),
     state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).required(),
@@ -17,6 +17,24 @@ const update = pinsYup
           .string()
           .oneOf(Object.values(TYPE_OF_PLANNING_APPLICATION))
           .required(),
+      })
+      .noUnknown(true),
+    requiredDocumentsSection: pinsYup
+      .object()
+      .shape({
+        originalApplication: pinsYup
+          .object()
+          .shape({
+            uploadedFile: pinsYup
+              .object()
+              .shape({
+                name: pinsYup.string().trim().max(255).required(),
+                originalFileName: pinsYup.string().trim().max(255).required(),
+                id: pinsYup.string().trim().uuid().required(),
+              })
+              .noUnknown(true),
+          })
+          .noUnknown(true),
       })
       .noUnknown(true),
     contactDetailsSection: pinsYup
