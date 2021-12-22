@@ -4,7 +4,7 @@ import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 const pageHeading = 'You cannot appeal.';
 const pageTitle = 'You cannot appeal - Before you start - Appeal a planning decision - GOV.UK';
-const pageUrl='${Cypress.env(\'APPEALS_BASE_URL\')}/before-you-start/you-cannot-appeal';
+const pageUrl=`${Cypress.env('APPEALS_BASE_URL')}/before-you-start/you-cannot-appeal`;
 Given('an appellant is on the shutter page for date passed for appeal',()=>{
   goToPage(pageUrl);
 });
