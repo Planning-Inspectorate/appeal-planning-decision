@@ -38,8 +38,8 @@ exports.postEnforcementNotice = async (req, res) => {
     res.render(currentPage, {
       appeal: {
         ...appeal,
-        beforeYouStart: {
-          ...appeal.beforeYouStart,
+        eligibility: {
+          ...appeal.eligibility,
           enforcementNotice: hasReceivedEnforcementNotice,
         },
       },
@@ -53,8 +53,8 @@ exports.postEnforcementNotice = async (req, res) => {
   try {
     req.session.appeal = await createOrUpdateAppeal({
       ...appeal,
-      beforeYouStart: {
-        ...appeal.beforeYouStart,
+      eligibility: {
+        ...appeal.eligibility,
         enforcementNotice: hasReceivedEnforcementNotice,
       },
     });
