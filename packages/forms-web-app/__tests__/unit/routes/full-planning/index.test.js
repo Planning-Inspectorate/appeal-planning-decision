@@ -6,6 +6,7 @@ const localPlanningDepartmentRouter = require('../../../../src/routes/full-plann
 const typeOfPlanningRouter = require('../../../../src/routes/full-planning/type-of-planning-application');
 const useADifferentServiceRouter = require('../../../../src/routes/full-planning/use-a-different-service');
 const outOfTimeRouter = require('../../../../src/routes/full-planning/out-of-time');
+const enforcementNoticeRouter = require('../../../../src/routes/full-planning/enforcement-notice');
 
 describe('routes/full-planning/index', () => {
   beforeEach(() => {
@@ -22,7 +23,8 @@ describe('routes/full-planning/index', () => {
     expect(use).toHaveBeenCalledWith(typeOfPlanningRouter);
     expect(use).toHaveBeenCalledWith(useADifferentServiceRouter);
     expect(use).toHaveBeenCalledWith(outOfTimeRouter);
+    expect(use).toHaveBeenCalledWith(enforcementNoticeRouter);
 
-    expect(use.mock.calls.length).toBe(6);
+    expect(use.mock.calls.length).toBe(7);
   });
 });
