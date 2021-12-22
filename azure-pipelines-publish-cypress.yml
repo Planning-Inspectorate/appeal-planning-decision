@@ -47,8 +47,3 @@ stages:
             inputs:
               targetPath: $(Build.SourcesDirectory)/e2e-tests
               artifactName: AppealsServiceTests
-          - task: PublishPipelineArtifact@1
-            displayName: Publish LPA Questionnaire e2e Tests
-            inputs:
-              targetPath: $(Build.SourcesDirectory)/lpa-submissions-e2e-tests
-              artifactName: LPASubmissionsTests
