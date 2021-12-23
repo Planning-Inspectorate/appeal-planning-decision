@@ -17,6 +17,7 @@ const navigationPages = {
 
 exports.getEnforcementNotice = (req, res) => {
   navigationPages.previousPage = getPreviousPagePath(req);
+  console.log('xxxxx', currentPage);
   res.render(currentPage, {
     appeal: req.session.appeal,
     previousPage: navigationPages.previousPage,

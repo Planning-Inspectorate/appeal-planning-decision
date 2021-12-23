@@ -11,6 +11,7 @@ const enforcementNoticeRouter = require('./enforcement-notice');
 const dateDecisionDueRouter = require('./date-decision-due');
 
 const router = express.Router();
+const decisionDateRouter = require('./decision-date');
 
 router.use(localPlanningDepartmentRouter);
 router.use(typeOfPlanningApplicationRouter);
@@ -19,6 +20,7 @@ router.use(grantedOrRefusedRouter);
 router.use(useADifferentServiceRouter);
 router.use(outOfTimeRouter);
 router.use(enforcementNoticeRouter);
+router.use(decisionDateRouter);
 router.use(dateDecisionDueRouter);
 
 module.exports = router;
