@@ -5,16 +5,16 @@ import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import {
   getEnforcementNoticeErrorMessage,
   getEnforcementNoticeNo, getEnforcementNoticeYes,
-} from '../../../../support/full-planning/before-you-start/page-objects/enforcement-notice-po';
+} from '../../../../support/full-planning/eligibility/page-objects/enforcement-notice-po';
 import { getContinueButton, getErrorMessageSummary } from '../../../../support/common-page-objects/common-po';
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
 import { getBackLink } from '../../../../support/common-page-objects/common-po';
 const pageHeading = 'Have you received an enforcement notice?';
 const pageTitle = 'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK';
-const url = '/before-you-start/enforcement-notice';
+const url = 'http://localhost:9003/before-you-start/enforcement-notice';
 
 Given('appellant is on the enforcement notice page',()=>{
-  goToPage(url, {headers: {'Referer': 'http://localhost:9003/before-you-appeal/before-you-start/decision-date'}});
+  goToPage(url, {headers: {'Referer': 'http://localhost:9003/before-you-start/decision-date'}});
   verifyPageHeading(pageHeading);
   verifyPageTitle(pageTitle);
 });
