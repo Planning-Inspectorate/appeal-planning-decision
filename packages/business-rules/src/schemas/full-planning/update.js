@@ -22,19 +22,14 @@ const update = pinsYup
     contactDetailsSection: pinsYup
       .object()
       .shape({
-        name: pinsYup.lazy((name) => {
-          if (name) {
-            return pinsYup
-              .string()
-              .min(2)
-              .max(80)
-              .matches(/^[a-z\-' ]+$/i)
-              .required();
-          }
-          return pinsYup.string().nullable();
-        }),
+        name: pinsYup
+          .string()
+          .min(2)
+          .max(80)
+          .matches(/^[a-z\-' ]+$/i)
+          .required(),
         companyName: pinsYup.string().max(50).nullable(),
-        email: pinsYup.string().email().max(255).nullable(),
+        email: pinsYup.string().email().max(255).required(),
       })
       .noUnknown(true),
     sectionStates: pinsYup.object().shape({}),
