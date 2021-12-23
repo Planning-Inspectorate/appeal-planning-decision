@@ -72,6 +72,11 @@ module.exports.APPEAL_DOCUMENT = {
         },
       },
     },
+    contactDetailsSection: {
+      name: null,
+      email: null,
+      companyName: null,
+    },
     sectionStates: {
       aboutYouSection: {
         yourDetails: 'NOT STARTED',
@@ -91,6 +96,7 @@ module.exports.APPEAL_DOCUMENT = {
         siteOwnership: 'NOT STARTED',
         healthAndSafety: 'NOT STARTED',
       },
+      contactDetailsSection: 'NOT STARTED',
     },
   },
 };

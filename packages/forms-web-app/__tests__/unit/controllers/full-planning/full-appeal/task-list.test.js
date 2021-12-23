@@ -18,7 +18,7 @@ describe('controllers/full-planning/full-appeal/task-list', () => {
         },
         sections: [
           {
-            href: `/`,
+            href: `/full-appeal/contact-details`,
             text: 'Provide your contact details',
             status: 'NOT STARTED',
             attributes: {

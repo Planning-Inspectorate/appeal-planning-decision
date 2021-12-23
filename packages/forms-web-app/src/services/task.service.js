@@ -133,8 +133,8 @@ function notStartedRule() {
 
 const FULL_APPEAL_SECTIONS = {
   contactDetailsSection: {
-    href: `/`,
-    rule: notStartedRule,
+    href: `/full-appeal/contact-details`,
+    rule: (appeal) => appeal.sectionStates.contactDetailsSection,
   },
   aboutAppealSiteSection: {
     href: `/`,

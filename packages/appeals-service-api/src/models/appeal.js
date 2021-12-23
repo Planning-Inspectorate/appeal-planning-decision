@@ -76,6 +76,11 @@ exports.appealDocument = {
       },
     },
   },
+  contactDetailsSection: {
+    name: null,
+    email: null,
+    companyName: null,
+  },
   sectionStates: {
     aboutYouSection: {
       yourDetails: 'NOT STARTED',
@@ -95,9 +100,9 @@ exports.appealDocument = {
       siteOwnership: 'NOT STARTED',
       healthAndSafety: 'NOT STARTED',
     },
-    contactDetailsSection: 'NOT_STARTED',
-    aboutAppealSiteSection: 'NOT_STARTED',
-    planningApplicationDocumentsSection: 'NOT_STARTED',
-    appealDocumentsSection: 'NOT_STARTED',
+    contactDetailsSection: 'NOT STARTED',
+    aboutAppealSiteSection: 'NOT STARTED',
+    planningApplicationDocumentsSection: 'NOT STARTED',
+    appealDocumentsSection: 'NOT STARTED',
   },
 };
