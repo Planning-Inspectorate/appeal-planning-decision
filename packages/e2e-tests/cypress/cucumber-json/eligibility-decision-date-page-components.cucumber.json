@@ -23,7 +23,7 @@
             "name": "I navigate to the Eligibility checker page",
             "result": {
               "status": "passed",
-              "duration": 1738000000
+              "duration": 437000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "I am on the decision date page",
             "result": {
               "status": "passed",
-              "duration": 303000000
+              "duration": 59000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "I can see the logo gov uk text",
             "result": {
               "status": "passed",
-              "duration": 32000000
+              "duration": 5000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "I can see the header link appeal a householder planning decision",
             "result": {
               "status": "passed",
-              "duration": 55000000
+              "duration": 7000000
             }
           },
           {
@@ -63,7 +63,7 @@
             "name": "I can verify the text what is the decision date on the letter",
             "result": {
               "status": "passed",
-              "duration": 249000000
+              "duration": 27000000
             }
           },
           {
@@ -73,7 +73,7 @@
             "name": "I can see the footer",
             "result": {
               "status": "passed",
-              "duration": 521000000
+              "duration": 36000000
             }
           }
         ]
@@ -90,10 +90,10 @@
             "arguments": [],
             "keyword": "Given ",
             "line": 16,
-            "name": "I navigate to \"/eligibility/planning-department\"",
+            "name": "I navigate to \"eligibility/planning-department\"",
             "result": {
               "status": "passed",
-              "duration": 2266000000
+              "duration": 329000000
             }
           },
           {
@@ -103,7 +103,7 @@
             "name": "I navigate to the Eligibility checker page",
             "result": {
               "status": "passed",
-              "duration": 2159000000
+              "duration": 305000000
             }
           },
           {
@@ -113,7 +113,7 @@
             "name": "I select the Back link",
             "result": {
               "status": "passed",
-              "duration": 1335000000
+              "duration": 275000000
             }
           },
           {
@@ -123,7 +123,7 @@
             "name": "I am on \"/eligibility/planning-department\"",
             "result": {
               "status": "passed",
-              "duration": 20000000
+              "duration": 4000000
             }
           }
         ]

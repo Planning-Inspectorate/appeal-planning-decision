@@ -32,7 +32,7 @@
             "name": "user has previously submitted a planning application file \"appeal-statement-valid.pdf\"",
             "result": {
               "status": "passed",
-              "duration": 2759000000
+              "duration": 679000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "user does not submit a planning application file",
             "result": {
               "status": "passed",
-              "duration": 2357000000
+              "duration": 547000000
             }
           },
           {
@@ -52,7 +52,7 @@
             "name": "application file \"appeal-statement-valid.pdf\" is submitted and user can proceed",
             "result": {
               "status": "passed",
-              "duration": 1179000000
+              "duration": 286000000
             }
           }
         ]
@@ -81,7 +81,7 @@
             "name": "user did not previously submitted a planning application file",
             "result": {
               "status": "passed",
-              "duration": 72000000
+              "duration": 19000000
             }
           },
           {
@@ -91,7 +91,7 @@
             "name": "user submits a planning application file \"appeal-statement-valid.doc\"",
             "result": {
               "status": "passed",
-              "duration": 2475000000
+              "duration": 627000000
             }
           },
           {
@@ -101,7 +101,7 @@
             "name": "application file \"appeal-statement-valid.doc\" is submitted and user can proceed",
             "result": {
               "status": "passed",
-              "duration": 1139000000
+              "duration": 249000000
             }
           }
         ]
@@ -130,7 +130,7 @@
             "name": "user did not previously submitted a planning application file",
             "result": {
               "status": "passed",
-              "duration": 61000000
+              "duration": 17000000
             }
           },
           {
@@ -140,7 +140,7 @@
             "name": "user submits a planning application file \"appeal-statement-valid.docx\"",
             "result": {
               "status": "passed",
-              "duration": 2308000000
+              "duration": 587000000
             }
           },
           {
@@ -150,7 +150,7 @@
             "name": "application file \"appeal-statement-valid.docx\" is submitted and user can proceed",
             "result": {
               "status": "passed",
-              "duration": 1230000000
+              "duration": 276000000
             }
           }
         ]
@@ -179,7 +179,7 @@
             "name": "user did not previously submitted a planning application file",
             "result": {
               "status": "passed",
-              "duration": 111000000
+              "duration": 22000000
             }
           },
           {
@@ -189,7 +189,7 @@
             "name": "user submits a planning application file \"appeal-statement-valid.pdf\"",
             "result": {
               "status": "passed",
-              "duration": 2273000000
+              "duration": 670000000
             }
           },
           {
@@ -199,7 +199,7 @@
             "name": "application file \"appeal-statement-valid.pdf\" is submitted and user can proceed",
             "result": {
               "status": "passed",
-              "duration": 1225000000
+              "duration": 245000000
             }
           }
         ]
@@ -228,7 +228,7 @@
             "name": "user did not previously submitted a planning application file",
             "result": {
               "status": "passed",
-              "duration": 110000000
+              "duration": 19000000
             }
           },
           {
@@ -238,7 +238,7 @@
             "name": "user submits a planning application file \"appeal-statement-valid.tif\"",
             "result": {
               "status": "passed",
-              "duration": 6982000000
+              "duration": 1923000000
             }
           },
           {
@@ -248,7 +248,7 @@
             "name": "application file \"appeal-statement-valid.tif\" is submitted and user can proceed",
             "result": {
               "status": "passed",
-              "duration": 1216000000
+              "duration": 262000000
             }
           }
         ]
@@ -277,7 +277,7 @@
             "name": "user did not previously submitted a planning application file",
             "result": {
               "status": "passed",
-              "duration": 132000000
+              "duration": 18000000
             }
           },
           {
@@ -287,7 +287,7 @@
             "name": "user submits a planning application file \"appeal-statement-valid.tiff\"",
             "result": {
               "status": "passed",
-              "duration": 6253000000
+              "duration": 1879000000
             }
           },
           {
@@ -297,7 +297,7 @@
             "name": "application file \"appeal-statement-valid.tiff\" is submitted and user can proceed",
             "result": {
               "status": "passed",
-              "duration": 1264000000
+              "duration": 247000000
             }
           }
         ]
@@ -326,7 +326,7 @@
             "name": "user did not previously submitted a planning application file",
             "result": {
               "status": "passed",
-              "duration": 141000000
+              "duration": 18000000
             }
           },
           {
@@ -336,7 +336,7 @@
             "name": "user submits a planning application file \"appeal-statement-valid.jpg\"",
             "result": {
               "status": "passed",
-              "duration": 2324000000
+              "duration": 585000000
             }
           },
           {
@@ -346,7 +346,7 @@
             "name": "application file \"appeal-statement-valid.jpg\" is submitted and user can proceed",
             "result": {
               "status": "passed",
-              "duration": 1195000000
+              "duration": 250000000
             }
           }
         ]
@@ -375,7 +375,7 @@
             "name": "user did not previously submitted a planning application file",
             "result": {
               "status": "passed",
-              "duration": 263000000
+              "duration": 18000000
             }
           },
           {
@@ -385,7 +385,7 @@
             "name": "user submits a planning application file \"appeal-statement-valid.jpeg\"",
             "result": {
               "status": "passed",
-              "duration": 2491000000
+              "duration": 614000000
             }
           },
           {
@@ -395,7 +395,7 @@
             "name": "application file \"appeal-statement-valid.jpeg\" is submitted and user can proceed",
             "result": {
               "status": "passed",
-              "duration": 1084000000
+              "duration": 235000000
             }
           }
         ]
@@ -424,7 +424,7 @@
             "name": "user did not previously submitted a planning application file",
             "result": {
               "status": "passed",
-              "duration": 93000000
+              "duration": 20000000
             }
           },
           {
@@ -434,7 +434,7 @@
             "name": "user submits a planning application file \"appeal-statement-valid.png\"",
             "result": {
               "status": "passed",
-              "duration": 2506000000
+              "duration": 580000000
             }
           },
           {
@@ -444,7 +444,7 @@
             "name": "application file \"appeal-statement-valid.png\" is submitted and user can proceed",
             "result": {
               "status": "passed",
-              "duration": 1210000000
+              "duration": 322000000
             }
           }
         ]
@@ -464,7 +464,7 @@
             "name": "user has previously submitted a planning application file \"appeal-statement-valid.pdf\"",
             "result": {
               "status": "passed",
-              "duration": 2431000000
+              "duration": 666000000
             }
           },
           {
@@ -474,7 +474,7 @@
             "name": "user submits a planning application file \"appeal-statement-valid.doc\"",
             "result": {
               "status": "passed",
-              "duration": 2568000000
+              "duration": 564000000
             }
           },
           {
@@ -484,7 +484,7 @@
             "name": "user can see that the planning application file \"appeal-statement-valid.doc\" \"is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 2684000000
+              "duration": 510000000
             }
           }
         ]
@@ -504,7 +504,7 @@
             "name": "user has previously submitted a planning application file \"appeal-statement-valid.pdf\"",
             "result": {
               "status": "passed",
-              "duration": 2288000000
+              "duration": 595000000
             }
           },
           {
@@ -514,7 +514,7 @@
             "name": "user submits a planning application file \"appeal-statement-invalid-wrong-type.csv\"",
             "result": {
               "status": "passed",
-              "duration": 2301000000
+              "duration": 689000000
             }
           },
           {
@@ -524,7 +524,7 @@
             "name": "user is informed that the planning application file is not submitted because \"file type is invalid\"",
             "result": {
               "status": "passed",
-              "duration": 161000000
+              "duration": 20000000
             }
           },
           {
@@ -534,7 +534,7 @@
             "name": "user can see that the planning application file \"appeal-statement-valid.pdf\" \"is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 2083000000
+              "duration": 630000000
             }
           }
         ]
@@ -554,7 +554,7 @@
             "name": "user submits a planning application file \"appeal-statement-invalid-wrong-type.csv\"",
             "result": {
               "status": "passed",
-              "duration": 2554000000
+              "duration": 646000000
             }
           },
           {
@@ -564,7 +564,7 @@
             "name": "user is informed that the planning application file is not submitted because \"file type is invalid\"",
             "result": {
               "status": "passed",
-              "duration": 134000000
+              "duration": 15000000
             }
           }
         ]
@@ -584,7 +584,7 @@
             "name": "user has previously submitted a valid planning application file \"appeal-statement-valid.pdf\" followed by an invalid file \"appeal-statement-invalid-wrong-type.csv\" that was rejected because \"file type is invalid\"",
             "result": {
               "status": "passed",
-              "duration": 5193000000
+              "duration": 1262000000
             }
           },
           {
@@ -594,7 +594,7 @@
             "name": "user submits a planning application file \"appeal-statement-valid.doc\"",
             "result": {
               "status": "passed",
-              "duration": 2255000000
+              "duration": 596000000
             }
           },
           {
@@ -604,7 +604,7 @@
             "name": "user can see that the planning application file \"appeal-statement-valid.doc\" \"is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 2205000000
+              "duration": 536000000
             }
           }
         ]
@@ -624,7 +624,7 @@
             "name": "user has previously submitted a valid planning application file \"appeal-statement-valid.doc\" followed by an invalid file \"appeal-statement-invalid-wrong-type.csv\" that was rejected because \"file type is invalid\"",
             "result": {
               "status": "passed",
-              "duration": 5596000000
+              "duration": 1192000000
             }
           },
           {
@@ -634,7 +634,7 @@
             "name": "user does not submit a planning application file",
             "result": {
               "status": "passed",
-              "duration": 2433000000
+              "duration": 547000000
             }
           },
           {
@@ -644,7 +644,7 @@
             "name": "user can see that the planning application file \"appeal-statement-valid.doc\" \"is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 2231000000
+              "duration": 513000000
             }
           }
         ]

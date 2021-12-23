@@ -7,7 +7,6 @@ const anyOfFollowingRouter = require('./any-of-following');
 const grantedOrRefusedRouter = require('./granted-or-refused');
 const useADifferentServiceRouter = require('./use-a-different-service');
 const outOfTimeRouter = require('./out-of-time');
-const enforcementNoticeRouter = require('./enforcement-notice');
 
 const router = express.Router();
 
@@ -17,6 +16,5 @@ router.use(anyOfFollowingRouter);
 router.use(grantedOrRefusedRouter);
 router.use(useADifferentServiceRouter);
 router.use(outOfTimeRouter);
-router.use(enforcementNoticeRouter);
 
 module.exports = router;

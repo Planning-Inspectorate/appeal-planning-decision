@@ -1,0 +1,333 @@
+[
+  {
+    "description": "  I want to access the Planning Inspectorates policies\n  So that I can see what they do with personal information when I’m using of the the Planning Inspectorate’s services",
+    "keyword": "Feature",
+    "name": "As a LPA Planning officer",
+    "line": 1,
+    "id": "as-a-lpa-planning-officer",
+    "tags": [],
+    "uri": "pageFooter.feature",
+    "elements": [
+      {
+        "id": "as-a-lpa-planning-officer;ac-01-lpa-taken-to-correct-page-when-accessed-links-in-the-footer",
+        "keyword": "Scenario",
+        "line": 17,
+        "name": "AC-01 LPA taken to correct page when accessed links in the footer",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 637000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 7,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 28000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 13000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "LPA planning officer accesses the LPA Questionnaire",
+            "result": {
+              "status": "passed",
+              "duration": 764000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "they click on the 'Privacy' in the footer",
+            "result": {
+              "status": "passed",
+              "duration": 1249000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "the 'appeals-casework-portal-privacy-cookies' correct page should be displayed",
+            "result": {
+              "status": "passed",
+              "duration": 21000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "the page title should be 'Appeals casework portal - Cookies - GOV.UK'",
+            "result": {
+              "status": "passed",
+              "duration": 13000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "as-a-lpa-planning-officer;ac-01-lpa-taken-to-correct-page-when-accessed-links-in-the-footer",
+        "keyword": "Scenario",
+        "line": 18,
+        "name": "AC-01 LPA taken to correct page when accessed links in the footer",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 576000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 7,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 23000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 9000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "LPA planning officer accesses the LPA Questionnaire",
+            "result": {
+              "status": "passed",
+              "duration": 471000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "they click on the 'Cookies' in the footer",
+            "result": {
+              "status": "passed",
+              "duration": 221000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "the 'appeals-casework-portal-privacy-cookies' correct page should be displayed",
+            "result": {
+              "status": "passed",
+              "duration": 11000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "the page title should be 'Appeals casework portal - Cookies - GOV.UK'",
+            "result": {
+              "status": "passed",
+              "duration": 6000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "as-a-lpa-planning-officer;ac-01-lpa-taken-to-correct-page-when-accessed-links-in-the-footer",
+        "keyword": "Scenario",
+        "line": 19,
+        "name": "AC-01 LPA taken to correct page when accessed links in the footer",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 586000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 7,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 25000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 8000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "LPA planning officer accesses the LPA Questionnaire",
+            "result": {
+              "status": "passed",
+              "duration": 391000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "they click on the 'Accessibility' in the footer",
+            "result": {
+              "status": "passed",
+              "duration": 291000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "the 'appeals-casework-portal-accessibility' correct page should be displayed",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "the page title should be 'Accessibility statement for the appeals casework portal - GOV.UK'",
+            "result": {
+              "status": "passed",
+              "duration": 4000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "as-a-lpa-planning-officer;ac-01-lpa-taken-to-correct-page-when-accessed-links-in-the-footer",
+        "keyword": "Scenario",
+        "line": 20,
+        "name": "AC-01 LPA taken to correct page when accessed links in the footer",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 572000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 7,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 21000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 8000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "LPA planning officer accesses the LPA Questionnaire",
+            "result": {
+              "status": "passed",
+              "duration": 366000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "they click on the 'Terms and Conditions' in the footer",
+            "result": {
+              "status": "passed",
+              "duration": 239000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "the 'appeals-casework-portal-terms-and-conditions' correct page should be displayed",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "the page title should be 'Appeals casework portal - Terms and Conditions - GOV.UK'",
+            "result": {
+              "status": "passed",
+              "duration": 4000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

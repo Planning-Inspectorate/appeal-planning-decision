@@ -1,0 +1,2418 @@
+[
+  {
+    "description": "  As a LPA Planning Officer\n  I want to provide the Planning Inspectorate with documents that was used to notify interested parties on the application.\n  So that it can form part of the evidence on which the Inspector makes a decision.",
+    "keyword": "Feature",
+    "name": "Interested Parties Application",
+    "line": 1,
+    "id": "interested-parties-application",
+    "tags": [],
+    "uri": "interestedPartiesApplication.feature",
+    "elements": [
+      {
+        "id": "interested-parties-application;ac1-lpa-planning-officer-navigates-to-interested-parties-application-question",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "AC1 LPA Planning Officer navigates to interested parties application question",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 624000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 26000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 23000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 12,
+            "name": "a LPA Planning Officer is reviewing their LPA Questionnaire task list",
+            "result": {
+              "status": "passed",
+              "duration": 911000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 13,
+            "name": "LPA Planning Officer chooses upload the interested parties application",
+            "result": {
+              "status": "passed",
+              "duration": 479000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 14,
+            "name": "LPA Planning Officer is presented with the ability to upload the interested parties application",
+            "result": {
+              "status": "passed",
+              "duration": 470000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac2-task-list-shows-the-correct-initial-status",
+        "keyword": "Scenario",
+        "line": 16,
+        "name": "AC2 Task list shows the correct initial status",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 352000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 17,
+            "name": "LPA Planning Officer has not added any data to the interested parties application question",
+            "result": {
+              "status": "passed",
+              "duration": 2000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 18,
+            "name": "LPA Planning Officer is reviewing the Task List",
+            "result": {
+              "status": "passed",
+              "duration": 404000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 19,
+            "name": "the status is not started",
+            "result": {
+              "status": "passed",
+              "duration": 24000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac3-lpa-planning-officer-successfully-uploads-file-via-upload-button",
+        "keyword": "Scenario",
+        "line": 28,
+        "name": "AC3 LPA Planning Officer successfully uploads file via upload button",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 318000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 22,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 432000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 23,
+            "name": "valid file 'upload-file-valid.tiff' is successfully uploaded for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 1780000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 25,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac3-lpa-planning-officer-successfully-uploads-file-via-upload-button",
+        "keyword": "Scenario",
+        "line": 29,
+        "name": "AC3 LPA Planning Officer successfully uploads file via upload button",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 400000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 22000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 9000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 22,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 401000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 23,
+            "name": "valid file 'upload-file-valid.tif' is successfully uploaded for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 1559000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 25,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 15000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac3-lpa-planning-officer-successfully-uploads-file-via-upload-button",
+        "keyword": "Scenario",
+        "line": 30,
+        "name": "AC3 LPA Planning Officer successfully uploads file via upload button",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 360000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 23000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 11000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 22,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 395000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 23,
+            "name": "valid file 'upload-file-valid.png' is successfully uploaded for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 586000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 25,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 24000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac3-lpa-planning-officer-successfully-uploads-file-via-upload-button",
+        "keyword": "Scenario",
+        "line": 31,
+        "name": "AC3 LPA Planning Officer successfully uploads file via upload button",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 417000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 9000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 22,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 425000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 23,
+            "name": "valid file 'upload-file-valid.pdf' is successfully uploaded for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 636000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 25,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac3-lpa-planning-officer-successfully-uploads-file-via-upload-button",
+        "keyword": "Scenario",
+        "line": 32,
+        "name": "AC3 LPA Planning Officer successfully uploads file via upload button",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 421000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 10000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 22,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 435000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 23,
+            "name": "valid file 'upload-file-valid.jpg' is successfully uploaded for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 583000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 4000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 25,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 17000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac3-lpa-planning-officer-successfully-uploads-file-via-upload-button",
+        "keyword": "Scenario",
+        "line": 33,
+        "name": "AC3 LPA Planning Officer successfully uploads file via upload button",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 318000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 6000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 22,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 405000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 23,
+            "name": "valid file 'upload-file-valid.jpeg' is successfully uploaded for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 595000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 4000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 25,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 16000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac3-lpa-planning-officer-successfully-uploads-file-via-upload-button",
+        "keyword": "Scenario",
+        "line": 34,
+        "name": "AC3 LPA Planning Officer successfully uploads file via upload button",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 400000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 16000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 6000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 22,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 368000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 23,
+            "name": "valid file 'upload-file-valid.doc' is successfully uploaded for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 1008000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 6000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 25,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac3-lpa-planning-officer-successfully-uploads-file-via-upload-button",
+        "keyword": "Scenario",
+        "line": 35,
+        "name": "AC3 LPA Planning Officer successfully uploads file via upload button",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 465000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 26000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 9000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 22,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 525000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 23,
+            "name": "valid file 'upload-file-valid.docx' is successfully uploaded for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 650000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 25,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac4-lpa-planning-officer-successfully-uploads-file-via-drag-and-drop",
+        "keyword": "Scenario",
+        "line": 44,
+        "name": "AC4 LPA Planning Officer successfully uploads file via Drag and Drop",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 142000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 23000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 8000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 38,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 467000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 39,
+            "name": "valid file 'upload-file-valid.tiff' is uploaded via drag and drop for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 1729000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 40,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 41,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac4-lpa-planning-officer-successfully-uploads-file-via-drag-and-drop",
+        "keyword": "Scenario",
+        "line": 45,
+        "name": "AC4 LPA Planning Officer successfully uploads file via Drag and Drop",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 426000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 19000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 38,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 383000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 39,
+            "name": "valid file 'upload-file-valid.tif' is uploaded via drag and drop for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 2007000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 40,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 13000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 41,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 62000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac4-lpa-planning-officer-successfully-uploads-file-via-drag-and-drop",
+        "keyword": "Scenario",
+        "line": 46,
+        "name": "AC4 LPA Planning Officer successfully uploads file via Drag and Drop",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 537000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 37000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 11000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 38,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 523000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 39,
+            "name": "valid file 'upload-file-valid.png' is uploaded via drag and drop for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 579000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 40,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 41,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac4-lpa-planning-officer-successfully-uploads-file-via-drag-and-drop",
+        "keyword": "Scenario",
+        "line": 47,
+        "name": "AC4 LPA Planning Officer successfully uploads file via Drag and Drop",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 466000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 38,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 367000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 39,
+            "name": "valid file 'upload-file-valid.pdf' is uploaded via drag and drop for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 549000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 40,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 41,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 17000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac4-lpa-planning-officer-successfully-uploads-file-via-drag-and-drop",
+        "keyword": "Scenario",
+        "line": 48,
+        "name": "AC4 LPA Planning Officer successfully uploads file via Drag and Drop",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 503000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 38,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 387000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 39,
+            "name": "valid file 'upload-file-valid.jpg' is uploaded via drag and drop for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 546000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 40,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 41,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 15000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac4-lpa-planning-officer-successfully-uploads-file-via-drag-and-drop",
+        "keyword": "Scenario",
+        "line": 49,
+        "name": "AC4 LPA Planning Officer successfully uploads file via Drag and Drop",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 362000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 23000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 10000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 38,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 443000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 39,
+            "name": "valid file 'upload-file-valid.jpeg' is uploaded via drag and drop for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 689000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 40,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 41,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 17000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac4-lpa-planning-officer-successfully-uploads-file-via-drag-and-drop",
+        "keyword": "Scenario",
+        "line": 50,
+        "name": "AC4 LPA Planning Officer successfully uploads file via Drag and Drop",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 462000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 17000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 38,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 402000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 39,
+            "name": "valid file 'upload-file-valid.doc' is uploaded via drag and drop for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 559000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 40,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 4000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 41,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 15000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac4-lpa-planning-officer-successfully-uploads-file-via-drag-and-drop",
+        "keyword": "Scenario",
+        "line": 51,
+        "name": "AC4 LPA Planning Officer successfully uploads file via Drag and Drop",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 448000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 26000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 38,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 406000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 39,
+            "name": "valid file 'upload-file-valid.docx' is uploaded via drag and drop for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 636000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 40,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 6000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 41,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac5-lpa-planning-officer-successfully-uploads-multiple-files",
+        "keyword": "Scenario",
+        "line": 60,
+        "name": "AC5 LPA Planning Officer successfully uploads multiple files",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 454000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 54,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 391000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 55,
+            "name": "valid multiple files 'upload-file-valid.tiff, upload-file-valid.tif, upload-file-valid.png' are uploaded for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 1201000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 56,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 6000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 57,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 17000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac5-lpa-planning-officer-successfully-uploads-multiple-files",
+        "keyword": "Scenario",
+        "line": 61,
+        "name": "AC5 LPA Planning Officer successfully uploads multiple files",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 188000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 23000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 54,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 666000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 55,
+            "name": "valid multiple files 'upload-file-valid.pdf, upload-file-valid.jpg, upload-file-valid.jpeg' are uploaded for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 623000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 56,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 4000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 57,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 12000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac5-lpa-planning-officer-successfully-uploads-multiple-files",
+        "keyword": "Scenario",
+        "line": 62,
+        "name": "AC5 LPA Planning Officer successfully uploads multiple files",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 338000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 19000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 6000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 54,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 426000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 55,
+            "name": "valid multiple files 'upload-file-valid.doc, upload-file-valid.docx' are uploaded for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 631000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 56,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 57,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 15000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac6-lpa-planning-officer-selects-invalid-file-size",
+        "keyword": "Scenario",
+        "line": 70,
+        "name": "AC6 LPA Planning Officer selects invalid file size",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 442000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 19000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 65,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 416000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 66,
+            "name": "invalid files 'upload_file_large.tiff' have been selected for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 4508000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 67,
+            "name": "progress is halted with a message the file 'upload_file_large.tiff' 'is too big'",
+            "result": {
+              "status": "passed",
+              "duration": 1101000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac7-lpa-planning-officer-selects-invalid-file-format",
+        "keyword": "Scenario",
+        "line": 78,
+        "name": "AC7 LPA Planning Officer selects Invalid file format",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 506000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 25000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 9000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 73,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 559000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 74,
+            "name": "invalid files 'upload-file-invalid-wrong-type.csv' have been selected for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 698000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 75,
+            "name": "progress is halted with a message the file 'upload-file-invalid-wrong-type.csv' 'format is incorrect'",
+            "result": {
+              "status": "passed",
+              "duration": 1172000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac8-lpa-planning-officer-selects-to-return-to-previous-page",
+        "keyword": "Scenario",
+        "line": 80,
+        "name": "AC8 LPA Planning Officer selects to return to previous page",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 427000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 81,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 439000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 82,
+            "name": "a file has been uploaded for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 543000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 83,
+            "name": "Back is then requested",
+            "result": {
+              "status": "passed",
+              "duration": 378000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 84,
+            "name": "the LPA Planning Officer is taken to the Task List",
+            "result": {
+              "status": "passed",
+              "duration": 4000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 85,
+            "name": "any document uploaded will not be saved",
+            "result": {
+              "status": "passed",
+              "duration": 437000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac9-lpa-planning-officer-deletes-a-file-prior-to-save-and-continue",
+        "keyword": "Scenario",
+        "line": 87,
+        "name": "AC9 LPA Planning Officer deletes a file prior to save and continue",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 343000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 6000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 88,
+            "name": "a file has been uploaded for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 495000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 89,
+            "name": "LPA Planning Officer deletes the file",
+            "result": {
+              "status": "passed",
+              "duration": 101000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 90,
+            "name": "the file is removed",
+            "result": {
+              "status": "passed",
+              "duration": 1128000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac10-lpa-planning-officer-deletes-a-file-after-save-and-continue",
+        "keyword": "Scenario",
+        "line": 92,
+        "name": "AC10 LPA Planning Officer deletes a file after save and continue",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 510000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 24000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 93,
+            "name": "a file has been uploaded and confirmed for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 1493000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 94,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 408000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 95,
+            "name": "LPA Planning Officer deletes the file",
+            "result": {
+              "status": "passed",
+              "duration": 100000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 96,
+            "name": "the file is removed",
+            "result": {
+              "status": "passed",
+              "duration": 1157000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac11-lpa-planning-officer-returns-to-the-completed-interested-parties-application-question",
+        "keyword": "Scenario",
+        "line": 98,
+        "name": "AC11 LPA Planning Officer returns to the completed Interested Parties Application question",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 539000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 32000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 8000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 99,
+            "name": "The question 'Telling interested parties about the application' has been completed for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 1021000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 100,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 502000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 101,
+            "name": "the information they previously entered is still populated",
+            "result": {
+              "status": "passed",
+              "duration": 75000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac12-appeal-details-side-panel",
+        "keyword": "Scenario",
+        "line": 103,
+        "name": "AC12 Appeal details side panel",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 478000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 38000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 8000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 104,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 622000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 105,
+            "name": "the appeal details panel is displayed on the right hand side of the page",
+            "result": {
+              "status": "passed",
+              "duration": 32000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac13-javascript-disabled",
+        "keyword": "Scenario",
+        "line": 115,
+        "name": "AC13 JavaScript Disabled",
+        "tags": [
+          {
+            "name": "@nojs",
+            "line": 107
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 534000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 8000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 109,
+            "name": "interested parties application question is requested",
+            "result": {
+              "status": "passed",
+              "duration": 520000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 110,
+            "name": "valid file 'upload-file-valid.tiff' is successfully uploaded for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 2101000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 111,
+            "name": "progress is made to the task list",
+            "result": {
+              "status": "passed",
+              "duration": 11000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 112,
+            "name": "interested parties application subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 58000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac14-check-your-answers",
+        "keyword": "Scenario",
+        "line": 117,
+        "name": "AC14 Check your answers",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 474000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 19000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 6000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 118,
+            "name": "all the mandatory questions for the questionnaire have been completed",
+            "result": {
+              "status": "passed",
+              "duration": 61000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 119,
+            "name": "Check your Answers is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 498000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 120,
+            "name": "interested parties application question heading is shown and the uploaded file name should be displayed",
+            "result": {
+              "status": "passed",
+              "duration": 11000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "interested-parties-application;ac15-change-answers",
+        "keyword": "Scenario",
+        "line": 122,
+        "name": "AC15 Change answers",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 412000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 123,
+            "name": "a change to answer 'Telling interested parties about the application' is requested from Change your answers page",
+            "result": {
+              "status": "passed",
+              "duration": 867000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 124,
+            "name": "an answer is saved for 'interestedParties'",
+            "result": {
+              "status": "passed",
+              "duration": 533000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 125,
+            "name": "progress is made to the Check Your Answers page",
+            "result": {
+              "status": "passed",
+              "duration": 6000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 126,
+            "name": "the updated answer is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 24000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

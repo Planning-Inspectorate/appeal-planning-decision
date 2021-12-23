@@ -10,7 +10,8 @@ const parsePdf = async (pdfBuffer) => {
   return await pdf(pdfBuffer);
 };
 
-module.exports = (on) => {
+module.exports = (on,config) => {
+  const queue = require('./queue')(config);
   on('file:preprocessor', cucumber());
   on('task', {
     log(message) {
@@ -21,7 +22,12 @@ module.exports = (on) => {
       const parsed = parsePdf(pdfBuffer);
       return parsed.text;
     },
-    downloadFile,
+      downloadFile,
+  });
+  on('task',  {
+    listenToQueue: queue.listenToQueue,
+      putOnQueue: queue.putOnQueue,
+    getLastFromQueue: queue.getLastFromQueue,
   });
   htmlvalidate.install(on, null, {
     exclude: ["title", "link","script",".govuk-header",".govuk-footer", "h1", "h2"],

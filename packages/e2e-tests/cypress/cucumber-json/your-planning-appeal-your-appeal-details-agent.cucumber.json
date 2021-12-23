@@ -1,0 +1,760 @@
+[
+  {
+    "description": "  As an agent\n  I want to be able to view the information I submitted to the Planning Inspectorate\n  So that I can review the information at anytime",
+    "keyword": "Feature",
+    "name": "Your Appeal Details",
+    "line": 2,
+    "id": "your-appeal-details",
+    "tags": [
+      {
+        "name": "@wip",
+        "line": 1
+      }
+    ],
+    "uri": "your-planning-appeal-your-appeal-details-agent.feature",
+    "elements": [
+      {
+        "id": "your-appeal-details;add-link-to-the-‘your-planning-appeal’-page---agent",
+        "keyword": "Scenario",
+        "line": 8,
+        "name": "Add link to the ‘Your planning appeal’ page - agent",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-1607",
+            "line": 7
+          },
+          {
+            "name": "@as-1607-ac1",
+            "line": 7
+          },
+          {
+            "name": "@as-1607-ac1-2",
+            "line": 7
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 9,
+            "name": "an agent has submitted an appeal",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 10,
+            "name": "the agent is on the ‘Your planning appeal’ page",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "the page will contain a link to ‘View your appeal details’",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "your-appeal-details;an-agent-views-the-appeal-details",
+        "keyword": "Scenario",
+        "line": 14,
+        "name": "An agent views the appeal details",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-1607",
+            "line": 13
+          },
+          {
+            "name": "@as-1607-ac2",
+            "line": 13
+          },
+          {
+            "name": "@as-1607-ac2-2",
+            "line": 13
+          },
+          {
+            "name": "@as-2307",
+            "line": 13
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 15,
+            "name": "an agent is on the 'Your planning appeal' page",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 16,
+            "name": "the agent selects the 'View your appeal details' link",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 17,
+            "name": "the appeal details will be shown - agent, without files",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 18,
+            "name": "the user sees the label for appellant name as \"Appellant name\"",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "your-appeal-details;an-agent-decides-to-open-all-sections",
+        "keyword": "Scenario",
+        "line": 21,
+        "name": "An agent decides to open all sections",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-1607",
+            "line": 20
+          },
+          {
+            "name": "@as-1607-ac3",
+            "line": 20
+          },
+          {
+            "name": "@as-1607-ac3-2",
+            "line": 20
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 22,
+            "name": "an agent is viewing a valid appeal with all sections closed",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 23,
+            "name": "they select to open all sections",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "all the sections are opened",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "your-appeal-details;an-agent-decides-to-close-all-sections",
+        "keyword": "Scenario",
+        "line": 27,
+        "name": "An agent decides to close all sections",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-1607",
+            "line": 26
+          },
+          {
+            "name": "@as-1607-ac4",
+            "line": 26
+          },
+          {
+            "name": "@as-1607-ac4-2",
+            "line": 26
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 28,
+            "name": "an agent is viewing a valid appeal with all sections open",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "they select to close all sections",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "all the sections are closed",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "your-appeal-details;an-agent-decides-to-open-a-specific-section",
+        "keyword": "Scenario",
+        "line": 40,
+        "name": "An agent decides to open a specific section",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-1607",
+            "line": 32
+          },
+          {
+            "name": "@as-1607-ac5",
+            "line": 32
+          },
+          {
+            "name": "@as-1607-ac5-1",
+            "line": 32
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 34,
+            "name": "an agent is viewing a valid appeal where at least one section is closed",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 35,
+            "name": "they select to open the \"About the original planning application\" section",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 36,
+            "name": "the \"About the original planning application\" section details are displayed",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "your-appeal-details;an-agent-decides-to-open-a-specific-section",
+        "keyword": "Scenario",
+        "line": 41,
+        "name": "An agent decides to open a specific section",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-1607",
+            "line": 32
+          },
+          {
+            "name": "@as-1607-ac5",
+            "line": 32
+          },
+          {
+            "name": "@as-1607-ac5-1",
+            "line": 32
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 34,
+            "name": "an agent is viewing a valid appeal where at least one section is closed",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 35,
+            "name": "they select to open the \"About your appeal\" section",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 36,
+            "name": "the \"About your appeal\" section details are displayed",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "your-appeal-details;an-agent-decides-to-open-a-specific-section",
+        "keyword": "Scenario",
+        "line": 42,
+        "name": "An agent decides to open a specific section",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-1607",
+            "line": 32
+          },
+          {
+            "name": "@as-1607-ac5",
+            "line": 32
+          },
+          {
+            "name": "@as-1607-ac5-1",
+            "line": 32
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 34,
+            "name": "an agent is viewing a valid appeal where at least one section is closed",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 35,
+            "name": "they select to open the \"Visiting the appeal site\" section",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 36,
+            "name": "the \"Visiting the appeal site\" section details are displayed",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "your-appeal-details;an-agent-decides-to-close-a-specific-section",
+        "keyword": "Scenario",
+        "line": 52,
+        "name": "An agent decides to close a specific section",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-1607",
+            "line": 44
+          },
+          {
+            "name": "@as-1607-ac6",
+            "line": 44
+          },
+          {
+            "name": "@as-1607-ac6-2",
+            "line": 44
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 46,
+            "name": "an agent is viewing an appeal where at least one section is open",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 47,
+            "name": "they select to close the \"About the original planning application\" section",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 48,
+            "name": "the \"About the original planning application\" section details are hidden",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "your-appeal-details;an-agent-decides-to-close-a-specific-section",
+        "keyword": "Scenario",
+        "line": 53,
+        "name": "An agent decides to close a specific section",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-1607",
+            "line": 44
+          },
+          {
+            "name": "@as-1607-ac6",
+            "line": 44
+          },
+          {
+            "name": "@as-1607-ac6-2",
+            "line": 44
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 46,
+            "name": "an agent is viewing an appeal where at least one section is open",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 47,
+            "name": "they select to close the \"About your appeal\" section",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 48,
+            "name": "the \"About your appeal\" section details are hidden",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "your-appeal-details;an-agent-decides-to-close-a-specific-section",
+        "keyword": "Scenario",
+        "line": 54,
+        "name": "An agent decides to close a specific section",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-1607",
+            "line": 44
+          },
+          {
+            "name": "@as-1607-ac6",
+            "line": 44
+          },
+          {
+            "name": "@as-1607-ac6-2",
+            "line": 44
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 46,
+            "name": "an agent is viewing an appeal where at least one section is open",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 47,
+            "name": "they select to close the \"Visiting the appeal site\" section",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 48,
+            "name": "the \"Visiting the appeal site\" section details are hidden",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "your-appeal-details;js---all-sections-will-be-closed-by-default---agent",
+        "keyword": "Scenario",
+        "line": 57,
+        "name": "JS - all sections will be closed by default - agent",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-1607",
+            "line": 56
+          },
+          {
+            "name": "@as-1607-ac7",
+            "line": 56
+          },
+          {
+            "name": "@as-1607-ac7-2",
+            "line": 56
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 58,
+            "name": "an agent is viewing a valid appeal with JavaScript enabled",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 59,
+            "name": "all the sections on the page will be closed by default",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "your-appeal-details;non-js---all-sections-will-be-open-by-default---agent",
+        "keyword": "Scenario",
+        "line": 62,
+        "name": "Non JS - all sections will be open by default - agent",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-1607",
+            "line": 61
+          },
+          {
+            "name": "@as-1607-ac8",
+            "line": 61
+          },
+          {
+            "name": "@as-1607-ac8-2",
+            "line": 61
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 63,
+            "name": "an agent is viewing the appeal details with Javascript disabled",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 64,
+            "name": "all the sections are opened",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "your-appeal-details;file-count-for-each-document-type---agent",
+        "keyword": "Scenario",
+        "line": 67,
+        "name": "File count for each document type - agent",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-1607",
+            "line": 66
+          },
+          {
+            "name": "@as-1607-ac9",
+            "line": 66
+          },
+          {
+            "name": "@as-1607-ac2",
+            "line": 66
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 68,
+            "name": "an agent has submitted an appeal that includes multiple documents",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 69,
+            "name": "a count for each document type will be displayed on the page - agent",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "your-appeal-details;‘back'-link-goes-back-to-the-previous-page￼--agent",
+        "keyword": "Scenario",
+        "line": 72,
+        "name": "‘Back' link goes back to the previous page￼- agent",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-1607",
+            "line": 71
+          },
+          {
+            "name": "@as-1607-ac10",
+            "line": 71
+          },
+          {
+            "name": "@as-1607-ac10-1",
+            "line": 71
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 73,
+            "name": "an agent is viewing a valid appeal",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 74,
+            "name": "the agent selects the ‘Back’ link",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 75,
+            "name": "the \"Your planning appeal\" page will be displayed for the current appeal - agent",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

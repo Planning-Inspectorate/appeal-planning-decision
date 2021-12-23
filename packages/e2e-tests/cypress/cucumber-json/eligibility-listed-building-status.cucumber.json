@@ -37,7 +37,7 @@
             "name": "the user does not provide a Listed Building statement",
             "result": {
               "status": "passed",
-              "duration": 2689000000
+              "duration": 739000000
             }
           },
           {
@@ -47,7 +47,7 @@
             "name": "the user is informed that a Listed Building statement is required",
             "result": {
               "status": "passed",
-              "duration": 79000000
+              "duration": 15000000
             }
           }
         ]
@@ -72,7 +72,7 @@
             "name": "the user states that their case concerns a Listed Building",
             "result": {
               "status": "passed",
-              "duration": 1686000000
+              "duration": 638000000
             }
           },
           {
@@ -82,7 +82,7 @@
             "name": "the user is informed that cases concerning a Listed Building cannot be processed via this service",
             "result": {
               "status": "passed",
-              "duration": 25000000
+              "duration": 9000000
             }
           },
           {
@@ -92,7 +92,7 @@
             "name": "the user is directed to the Appeal a Planning Decision service",
             "result": {
               "status": "passed",
-              "duration": 16000000
+              "duration": 6000000
             }
           }
         ]
@@ -117,7 +117,7 @@
             "name": "the user states that their case does not concern a Listed Building",
             "result": {
               "status": "passed",
-              "duration": 1693000000
+              "duration": 826000000
             }
           },
           {
@@ -127,7 +127,7 @@
             "name": "the user can proceed to the claiming Costs eligibility check",
             "result": {
               "status": "passed",
-              "duration": 23000000
+              "duration": 9000000
             }
           }
         ]
@@ -156,7 +156,7 @@
             "name": "the user states that their case does not concern a Listed Building",
             "result": {
               "status": "passed",
-              "duration": 2293000000
+              "duration": 736000000
             }
           },
           {
@@ -166,7 +166,7 @@
             "name": "the user returns to the listed building page",
             "result": {
               "status": "passed",
-              "duration": 1250000000
+              "duration": 380000000
             }
           },
           {
@@ -176,7 +176,7 @@
             "name": "the user sees their previous given answer is correctly displayed",
             "result": {
               "status": "passed",
-              "duration": 43000000
+              "duration": 7000000
             }
           }
         ]

@@ -1,0 +1,693 @@
+[
+  {
+    "description": "  As a LPA Planning Officer\n  I want to provide details about the appeal site\n  So that the Planning Inspectorate has the information it needs to decide the appeal.",
+    "keyword": "Feature",
+    "name": "Original planning application publicised",
+    "line": 1,
+    "id": "original-planning-application-publicised",
+    "tags": [],
+    "uri": "originalPlanningApplicationPublicised.feature",
+    "elements": [
+      {
+        "id": "original-planning-application-publicised;ac01-lpa-officer-navigates-to-original-planning-application-publicised",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "AC01 LPA Officer navigates to Original planning application publicised",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 661000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 27000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 14000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 12,
+            "name": "a LPA Planning Officer is reviewing their LPA Questionnaire task list",
+            "result": {
+              "status": "passed",
+              "duration": 515000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 13,
+            "name": "LPA Planning Officer chooses to provide information about 'Original planning application publicised'",
+            "result": {
+              "status": "passed",
+              "duration": 532000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 14,
+            "name": "LPA Planning Officer is presented with ability to add this information",
+            "result": {
+              "status": "passed",
+              "duration": 408000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "original-planning-application-publicised;ac02-the-lpa-does-not-provide-an-answer-to-original-planning-application-publicised",
+        "keyword": "Scenario",
+        "line": 16,
+        "name": "AC02 The LPA does not provide an answer to Original planning application publicised",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 563000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 24000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 17,
+            "name": "'Original planning application publicised' question has been requested",
+            "result": {
+              "status": "passed",
+              "duration": 483000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 18,
+            "name": "an answer to the question is not provided",
+            "result": {
+              "status": "passed",
+              "duration": 14000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 19,
+            "name": "progress is halted with an error message to select an answer",
+            "result": {
+              "status": "passed",
+              "duration": 812000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "original-planning-application-publicised;ac03-lpa-officer-selects-yes-to-original-planning-application-publicised",
+        "keyword": "Scenario",
+        "line": 21,
+        "name": "AC03 LPA Officer selects Yes to Original planning application publicised",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 471000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 19000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 22,
+            "name": "'Original planning application publicised' question has been requested",
+            "result": {
+              "status": "passed",
+              "duration": 422000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 23,
+            "name": "the answer is 'yes'",
+            "result": {
+              "status": "passed",
+              "duration": 103000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "officer progresses to the task list from yes no question",
+            "result": {
+              "status": "passed",
+              "duration": 467000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 25,
+            "name": "the 'Original planning application publicised' subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 24000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "original-planning-application-publicised;ac04-lpa-officer-selects-no-to-original-planning-application-publicised",
+        "keyword": "Scenario",
+        "line": 27,
+        "name": "AC04 LPA Officer selects No to Original planning application publicised",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 564000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 18000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 28,
+            "name": "'Original planning application publicised' question has been requested",
+            "result": {
+              "status": "passed",
+              "duration": 442000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 29,
+            "name": "the answer is 'no'",
+            "result": {
+              "status": "passed",
+              "duration": 109000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "officer progresses to the task list from yes no question",
+            "result": {
+              "status": "passed",
+              "duration": 450000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 31,
+            "name": "the 'Original planning application publicised' subsection is shown as completed",
+            "result": {
+              "status": "passed",
+              "duration": 19000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "original-planning-application-publicised;ac05-lpa-officer-selects-to-return-to-the-previous-page",
+        "keyword": "Scenario",
+        "line": 33,
+        "name": "AC05 LPA Officer selects to return to the previous page",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 426000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 19000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 10000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 34,
+            "name": "'Original planning application publicised' question has been requested",
+            "result": {
+              "status": "passed",
+              "duration": 800000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 35,
+            "name": "an answer is given but not submitted",
+            "result": {
+              "status": "passed",
+              "duration": 95000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 36,
+            "name": "Back is then requested",
+            "result": {
+              "status": "passed",
+              "duration": 378000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 37,
+            "name": "the LPA Planning Officer is taken to the Task List",
+            "result": {
+              "status": "passed",
+              "duration": 5000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 38,
+            "name": "any data inputted will not be saved",
+            "result": {
+              "status": "passed",
+              "duration": 404000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "original-planning-application-publicised;ac06-lpa-officer-returns-to-the-completed-original-planning-application-publicised-question",
+        "keyword": "Scenario",
+        "line": 40,
+        "name": "AC06 LPA Officer returns to the completed Original planning application publicised question",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 484000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 24000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 41,
+            "name": "The yes or no question 'Original planning application publicised' has been completed",
+            "result": {
+              "status": "passed",
+              "duration": 1057000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 42,
+            "name": "the inspector returns to the question",
+            "result": {
+              "status": "passed",
+              "duration": 496000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 43,
+            "name": "the yes or no information they previously entered is still populated",
+            "result": {
+              "status": "passed",
+              "duration": 13000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "original-planning-application-publicised;ac07-appeal-details-side-panel",
+        "keyword": "Scenario",
+        "line": 45,
+        "name": "AC07 Appeal details side panel",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 571000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 19000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 8000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 46,
+            "name": "'Original planning application publicised' question has been requested",
+            "result": {
+              "status": "passed",
+              "duration": 466000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 47,
+            "name": "the appeal details panel is displayed on the right hand side of the page",
+            "result": {
+              "status": "passed",
+              "duration": 35000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "original-planning-application-publicised;ac08-check-your-answers-page",
+        "keyword": "Scenario",
+        "line": 49,
+        "name": "AC08 Check Your Answers Page",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 519000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 8000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 50,
+            "name": "the questionnaire has been completed",
+            "result": {
+              "status": "passed",
+              "duration": 33000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 51,
+            "name": "Check your Answers is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 335000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 52,
+            "name": "'Original planning application publicised' yes or no question and answer should be displayed",
+            "result": {
+              "status": "passed",
+              "duration": 31000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "original-planning-application-publicised;ac09-change-answer-from-check-your-answers-page",
+        "keyword": "Scenario",
+        "line": 54,
+        "name": "AC09 Change answer from Check Your Answers Page",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 201000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 27000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 6000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 55,
+            "name": "the questionnaire has been completed",
+            "result": {
+              "status": "passed",
+              "duration": 26000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 56,
+            "name": "a change to answer 'Original planning application publicised' is requested from Change your answers page",
+            "result": {
+              "status": "passed",
+              "duration": 1313000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 57,
+            "name": "a yes or no answer is saved",
+            "result": {
+              "status": "passed",
+              "duration": 651000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 58,
+            "name": "progress is made to the Check Your Answers page",
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 59,
+            "name": "the updated yes or no answer is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 30000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

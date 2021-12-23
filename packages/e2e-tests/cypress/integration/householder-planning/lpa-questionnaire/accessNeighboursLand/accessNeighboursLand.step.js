@@ -2,6 +2,7 @@ import { Before } from 'cypress-cucumber-preprocessor/steps';
 import { completeAppeal } from '../../../../support/householder-planning/lpa-questionnaire/completeAppeal';
 
 
+
 const page = {
   id: 'accessNeighboursLand',
   heading: "Would the Inspector need access to a neighbour's land?",

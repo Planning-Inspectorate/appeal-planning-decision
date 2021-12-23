@@ -1,5 +1,4 @@
 {
-  "baseUrl": "http://localhost:9001/appeal-questionnaire",
   "testFiles": "**/*.feature",
   "chromeWebSecurity": false,
   "viewportWidth": 1024,

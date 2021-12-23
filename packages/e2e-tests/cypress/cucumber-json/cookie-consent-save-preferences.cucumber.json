@@ -1,0 +1,327 @@
+[
+  {
+    "description": "  As a PO for the appeals service\n  I want the service users to be able to view their cookie preferences\n  So that the service adheres to the latest cookie legislation",
+    "keyword": "Feature",
+    "name": "Cookie Consent - Save Preferences",
+    "line": 1,
+    "id": "cookie-consent---save-preferences",
+    "tags": [],
+    "uri": "cookie-consent-save-preferences.feature",
+    "elements": [
+      {
+        "id": "cookie-consent---save-preferences;initial-cookie-preference-view",
+        "keyword": "Scenario",
+        "line": 8,
+        "name": "Initial cookie preference view",
+        "tags": [
+          {
+            "name": "@as-1214",
+            "line": 7
+          },
+          {
+            "name": "@as-1214-1",
+            "line": 7
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 9,
+            "name": "a user has not previously submitted cookie preferences",
+            "result": {
+              "status": "passed",
+              "duration": 69000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 10,
+            "name": "a user is managing their cookie preference",
+            "result": {
+              "status": "passed",
+              "duration": 255000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "the not necessary cookies are shown as neither enabled or disabled",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "the cookie banner does not exist",
+            "result": {
+              "status": "passed",
+              "duration": 3000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "cookie-consent---save-preferences;manage-cookie-preference---disable",
+        "keyword": "Scenario",
+        "line": 15,
+        "name": "Manage Cookie preference - Disable",
+        "tags": [
+          {
+            "name": "@as-1214",
+            "line": 14
+          },
+          {
+            "name": "@as-1214-2",
+            "line": 14
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 16,
+            "name": "a user is managing their cookie preference",
+            "result": {
+              "status": "passed",
+              "duration": 241000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 17,
+            "name": "the user disables a not necessary cookie",
+            "result": {
+              "status": "passed",
+              "duration": 395000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 18,
+            "name": "the usage cookie is marked as inactive",
+            "result": {
+              "status": "passed",
+              "duration": 8000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 19,
+            "name": "any existing third party cookies have been deleted",
+            "result": {
+              "status": "passed",
+              "duration": 13000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "cookie-consent---save-preferences;manage-cookie-preferences---enable",
+        "keyword": "Scenario",
+        "line": 22,
+        "name": "Manage Cookie preferences - Enable",
+        "tags": [
+          {
+            "name": "@as-1214",
+            "line": 21
+          },
+          {
+            "name": "@as-1214-3",
+            "line": 21
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 23,
+            "name": "a user is managing their cookie preference",
+            "result": {
+              "status": "passed",
+              "duration": 215000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 24,
+            "name": "the user enables a not necessary cookie",
+            "result": {
+              "status": "passed",
+              "duration": 1067000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 25,
+            "name": "the not necessary cookie is active from that point onwards",
+            "result": {
+              "status": "passed",
+              "duration": 23000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "cookie-consent---save-preferences;display-a-confirmation-message-when-cookie-preferences-have-been-saved",
+        "keyword": "Scenario",
+        "line": 28,
+        "name": "Display a confirmation message when cookie preferences have been saved",
+        "tags": [
+          {
+            "name": "@as-1350",
+            "line": 27
+          },
+          {
+            "name": "@as-1350-1",
+            "line": 27
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 29,
+            "name": "a user is managing their cookie preference",
+            "result": {
+              "status": "passed",
+              "duration": 278000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 30,
+            "name": "the user saves their preferences",
+            "result": {
+              "status": "passed",
+              "duration": 372000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 31,
+            "name": "the user will receive a confirmation message",
+            "result": {
+              "status": "passed",
+              "duration": 32000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "cookie-consent---save-preferences;the-go-back-link-navigates-to-the-previous-page",
+        "keyword": "Scenario",
+        "line": 34,
+        "name": "The go back link navigates to the previous page",
+        "tags": [
+          {
+            "name": "@as-1350",
+            "line": 33
+          },
+          {
+            "name": "@as-1350-2",
+            "line": 33
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 35,
+            "name": "a user has saved their cookie preferences",
+            "result": {
+              "status": "passed",
+              "duration": 600000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 36,
+            "name": "they select to go back to their previous page",
+            "result": {
+              "status": "passed",
+              "duration": 282000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 37,
+            "name": "their previous page will be displayed",
+            "result": {
+              "status": "passed",
+              "duration": 4000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "cookie-consent---save-preferences;confirmation-message-is-not-displayed-when-the-page-is-refreshed",
+        "keyword": "Scenario",
+        "line": 40,
+        "name": "Confirmation message is not displayed when the page is refreshed",
+        "tags": [
+          {
+            "name": "@as-1350",
+            "line": 39
+          },
+          {
+            "name": "@as-1350-3",
+            "line": 39
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 41,
+            "name": "a user has saved their cookie preferences",
+            "result": {
+              "status": "passed",
+              "duration": 597000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 42,
+            "name": "the page is refreshed",
+            "result": {
+              "status": "passed",
+              "duration": 219000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 43,
+            "name": "the confirmation message is not displayed",
+            "result": {
+              "status": "passed",
+              "duration": 3000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -33,7 +33,7 @@
             "name": "the \"Who are you\" is presented",
             "result": {
               "status": "passed",
-              "duration": 1850000000
+              "duration": 391000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "the \"Who are you\" is submitted with valid values",
             "result": {
               "status": "passed",
-              "duration": 2389000000
+              "duration": 687000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "the user is navigated to \"Your details\"",
             "result": {
               "status": "passed",
-              "duration": 31000000
+              "duration": 6000000
             }
           }
         ]
@@ -78,7 +78,7 @@
             "name": "the \"Your details\" is presented for an original applicant",
             "result": {
               "status": "passed",
-              "duration": 3336000000
+              "duration": 955000000
             }
           },
           {
@@ -88,7 +88,7 @@
             "name": "the \"Your details\" is submitted with valid values",
             "result": {
               "status": "passed",
-              "duration": 2952000000
+              "duration": 1067000000
             }
           },
           {
@@ -98,7 +98,7 @@
             "name": "the user is navigated to \"Appeal tasks\"",
             "result": {
               "status": "passed",
-              "duration": 19000000
+              "duration": 3000000
             }
           }
         ]
@@ -123,7 +123,7 @@
             "name": "the \"Your details\" is presented for not the original applicant",
             "result": {
               "status": "passed",
-              "duration": 3167000000
+              "duration": 980000000
             }
           },
           {
@@ -133,7 +133,7 @@
             "name": "the \"Your details\" is submitted with valid values",
             "result": {
               "status": "passed",
-              "duration": 1945000000
+              "duration": 975000000
             }
           },
           {
@@ -143,7 +143,7 @@
             "name": "the user is navigated to \"Applicant name\"",
             "result": {
               "status": "passed",
-              "duration": 22000000
+              "duration": 5000000
             }
           }
         ]
@@ -168,7 +168,7 @@
             "name": "the \"Applicant name\" is presented",
             "result": {
               "status": "passed",
-              "duration": 2126000000
+              "duration": 638000000
             }
           },
           {
@@ -178,7 +178,7 @@
             "name": "the \"Applicant name\" is submitted with valid values",
             "result": {
               "status": "passed",
-              "duration": 2258000000
+              "duration": 604000000
             }
           },
           {
@@ -188,7 +188,7 @@
             "name": "the user is navigated to \"Appeal tasks\"",
             "result": {
               "status": "passed",
-              "duration": 28000000
+              "duration": 3000000
             }
           }
         ]

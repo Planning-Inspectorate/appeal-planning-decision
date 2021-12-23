@@ -1,0 +1,57 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "A user checks their answers and wants to submit their appeal",
+    "line": 1,
+    "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal",
+    "tags": [],
+    "uri": "appellant-submission-check-your-answers-ac7.feature",
+    "elements": [
+      {
+        "id": "a-user-checks-their-answers-and-wants-to-submit-their-appeal;show-other-owner-notification-question-and-answer-with-a-change-link-to-the-cya-page-when-the-appellant/agent-have-informed-the-other-owners",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "show other owner notification question and answer with a change link to the CYA page when the appellant/agent have informed the other owners",
+        "tags": [
+          {
+            "name": "@AS-121",
+            "line": 3
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "an agent or appellant has provided information where they have informed the other owners",
+            "result": {
+              "status": "passed",
+              "duration": 16620000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 6,
+            "name": "Check Your Answers is presented",
+            "result": {
+              "status": "passed",
+              "duration": 385000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 7,
+            "name": "the positive answer for other owner notification is displayed with a change link",
+            "result": {
+              "status": "passed",
+              "duration": 42000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
