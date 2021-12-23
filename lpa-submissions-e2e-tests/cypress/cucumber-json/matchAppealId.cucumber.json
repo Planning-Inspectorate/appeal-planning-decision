@@ -1,0 +1,163 @@
+[
+  {
+    "description": "  As an LPA Planning Officer\n  I want the questionnaire to be linked with a submitted appeal\n  So that I can ensure I am giving the information about the correct appeal and when I return to the same questionnaire it presents the previously entered data.",
+    "keyword": "Feature",
+    "name": "Associate Appeal ID with a single Reply",
+    "line": 1,
+    "id": "associate-appeal-id-with-a-single-reply",
+    "tags": [],
+    "uri": "matchAppealId.feature",
+    "elements": [
+      {
+        "id": "associate-appeal-id-with-a-single-reply;viewing-saved-information",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "Viewing saved information",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 531000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 24000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 14000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 12,
+            "name": "answers have been saved to the questionnaire",
+            "result": {
+              "status": "passed",
+              "duration": 36000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 13,
+            "name": "the questionnaire is revisited in a new session",
+            "result": {
+              "status": "passed",
+              "duration": 1020000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 14,
+            "name": "previously entered data will be visible",
+            "result": {
+              "status": "passed",
+              "duration": 22000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "associate-appeal-id-with-a-single-reply;changes-made-to-questionnaire",
+        "keyword": "Scenario",
+        "line": 16,
+        "name": "Changes made to questionnaire",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 449000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 23000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 9000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 17,
+            "name": "answers have been saved to the questionnaire",
+            "result": {
+              "status": "passed",
+              "duration": 25000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 18,
+            "name": "the questionnaire is revisited in a new session",
+            "result": {
+              "status": "passed",
+              "duration": 816000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 19,
+            "name": "changes are made to the questions",
+            "result": {
+              "status": "passed",
+              "duration": 982000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 20,
+            "name": "the changes over write the previously saved answers",
+            "result": {
+              "status": "passed",
+              "duration": 384000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

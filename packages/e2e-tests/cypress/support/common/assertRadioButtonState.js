@@ -5,6 +5,6 @@ export const assertRadioButtonState = (cyTags, { isChecked }) => {
 
   interestingTags.forEach((tag) => {
     cy.get(`[data-cy="${tag}"]`).should(matchAssertion);
-    cy.wait(Cypress.env('demoDelay'));
+    // cy.wait(Cypress.env('demoDelay'));
   });
 };

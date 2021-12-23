@@ -1,0 +1,113 @@
+[
+  {
+    "description": "  As a LPA Planning Officer\n  I want to be able to contact planning inspectorate\n  if I am navigated to invalid page",
+    "keyword": "Feature",
+    "name": "Invalid Url contact us",
+    "line": 1,
+    "id": "invalid-url-contact-us",
+    "tags": [],
+    "uri": "invalidUrlContactUs.feature",
+    "elements": [
+      {
+        "id": "invalid-url-contact-us;as-01-contact-us-page-displayed",
+        "keyword": "Scenario",
+        "line": 6,
+        "name": "AS-01 Contact us page displayed",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "user has navigated to an invalid page",
+            "result": {
+              "status": "passed",
+              "duration": 792000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "user selects to contact the Planning Inspectorate",
+            "result": {
+              "status": "passed",
+              "duration": 250000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "the contact us page will be displayed",
+            "result": {
+              "status": "passed",
+              "duration": 23000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "invalid-url-contact-us;as-02-user-selects-to-find-out-about-call-charges",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "AS-02 User selects to find out about call charges",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "user has navigated to contact us page",
+            "result": {
+              "status": "passed",
+              "duration": 503000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 14,
+            "name": "user selects to find out about call charges",
+            "result": {
+              "status": "passed",
+              "duration": 29000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "invalid-url-contact-us;as-03-user-selects-to-email-planning-inspectorate",
+        "keyword": "Scenario",
+        "line": 17,
+        "name": "AS-03 User selects to email Planning Inspectorate",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 18,
+            "name": "user has navigated to contact us page",
+            "result": {
+              "status": "passed",
+              "duration": 492000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 19,
+            "name": "user selects to email planning inspectorate",
+            "result": {
+              "status": "passed",
+              "duration": 19000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -33,7 +33,7 @@
             "name": "name and email are requested where appellant is the original applicant",
             "result": {
               "status": "passed",
-              "duration": 5558000000
+              "duration": 1186000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "new valid name and email are submitted",
             "result": {
               "status": "passed",
-              "duration": 4676000000
+              "duration": 1368000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "Your Details section is \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 1063000000
+              "duration": 268000000
             }
           }
         ]
@@ -78,7 +78,7 @@
             "name": "name and email are requested where appellant is the original applicant",
             "result": {
               "status": "passed",
-              "duration": 5618000000
+              "duration": 951000000
             }
           },
           {
@@ -88,7 +88,7 @@
             "name": "new invalid name and email are submitted",
             "result": {
               "status": "passed",
-              "duration": 4418000000
+              "duration": 1872000000
             }
           },
           {
@@ -98,7 +98,7 @@
             "name": "Your Details section is \"IN PROGRESS\"",
             "result": {
               "status": "passed",
-              "duration": 1171000000
+              "duration": 283000000
             }
           }
         ]
@@ -123,7 +123,7 @@
             "name": "name and email are requested where appellant is not the original applicant",
             "result": {
               "status": "passed",
-              "duration": 3938000000
+              "duration": 966000000
             }
           },
           {
@@ -133,7 +133,7 @@
             "name": "new valid name and email are submitted",
             "result": {
               "status": "passed",
-              "duration": 4064000000
+              "duration": 1445000000
             }
           },
           {
@@ -143,7 +143,7 @@
             "name": "Your Details section is \"IN PROGRESS\"",
             "result": {
               "status": "passed",
-              "duration": 1041000000
+              "duration": 241000000
             }
           }
         ]
@@ -168,7 +168,7 @@
             "name": "name and email are requested where appellant is not the original applicant",
             "result": {
               "status": "passed",
-              "duration": 4317000000
+              "duration": 1007000000
             }
           },
           {
@@ -178,7 +178,7 @@
             "name": "new invalid name and email are submitted",
             "result": {
               "status": "passed",
-              "duration": 3544000000
+              "duration": 1814000000
             }
           },
           {
@@ -188,7 +188,7 @@
             "name": "Your Details section is \"IN PROGRESS\"",
             "result": {
               "status": "passed",
-              "duration": 1304000000
+              "duration": 253000000
             }
           }
         ]
@@ -213,7 +213,7 @@
             "name": "name and email are requested where appellant is the original applicant",
             "result": {
               "status": "passed",
-              "duration": 2654000000
+              "duration": 945000000
             }
           },
           {
@@ -223,7 +223,7 @@
             "name": "\"Good\" and \"abc@mail.com\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 2392000000
+              "duration": 1230000000
             }
           },
           {
@@ -233,7 +233,7 @@
             "name": "appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 17000000
+              "duration": 6000000
             }
           },
           {
@@ -243,7 +243,7 @@
             "name": "appeal is updated with \"Good\" and \"abc@mail.com\"",
             "result": {
               "status": "passed",
-              "duration": 874000000
+              "duration": 290000000
             }
           }
         ]
@@ -268,7 +268,7 @@
             "name": "name and email are requested where appellant is the original applicant",
             "result": {
               "status": "passed",
-              "duration": 4327000000
+              "duration": 1225000000
             }
           },
           {
@@ -278,7 +278,7 @@
             "name": "\"Good Name\" and \"abc.def@mail.fr\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 3551000000
+              "duration": 1390000000
             }
           },
           {
@@ -288,7 +288,7 @@
             "name": "appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 38000000
+              "duration": 3000000
             }
           },
           {
@@ -298,7 +298,7 @@
             "name": "appeal is updated with \"Good Name\" and \"abc.def@mail.fr\"",
             "result": {
               "status": "passed",
-              "duration": 1059000000
+              "duration": 294000000
             }
           }
         ]
@@ -323,7 +323,7 @@
             "name": "name and email are requested where appellant is the original applicant",
             "result": {
               "status": "passed",
-              "duration": 3843000000
+              "duration": 995000000
             }
           },
           {
@@ -333,7 +333,7 @@
             "name": "\"Good-Name\" and \"abc_def@mail.com\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 3220000000
+              "duration": 1371000000
             }
           },
           {
@@ -343,7 +343,7 @@
             "name": "appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 14000000
+              "duration": 3000000
             }
           },
           {
@@ -353,7 +353,7 @@
             "name": "appeal is updated with \"Good-Name\" and \"abc_def@mail.com\"",
             "result": {
               "status": "passed",
-              "duration": 1128000000
+              "duration": 272000000
             }
           }
         ]
@@ -378,7 +378,7 @@
             "name": "name and email are requested where appellant is the original applicant",
             "result": {
               "status": "passed",
-              "duration": 4091000000
+              "duration": 988000000
             }
           },
           {
@@ -388,7 +388,7 @@
             "name": "\"Also' Good\" and \"abc.def2@mail.com\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 4493000000
+              "duration": 1368000000
             }
           },
           {
@@ -398,7 +398,7 @@
             "name": "appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 14000000
+              "duration": 3000000
             }
           },
           {
@@ -408,7 +408,7 @@
             "name": "appeal is updated with \"Also' Good\" and \"abc.def2@mail.com\"",
             "result": {
               "status": "passed",
-              "duration": 1161000000
+              "duration": 276000000
             }
           }
         ]
@@ -433,7 +433,7 @@
             "name": "name and email are requested where appellant is the original applicant",
             "result": {
               "status": "passed",
-              "duration": 4058000000
+              "duration": 1054000000
             }
           },
           {
@@ -443,7 +443,7 @@
             "name": "\"Valid name because it is eighty characters long ----- abcdefghijklmnopqrstuvwxyz\" and \"abc.def2@mail.com\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 5847000000
+              "duration": 2541000000
             }
           },
           {
@@ -453,7 +453,7 @@
             "name": "appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 35000000
+              "duration": 7000000
             }
           },
           {
@@ -463,7 +463,7 @@
             "name": "appeal is updated with \"Valid name because it is eighty characters long ----- abcdefghijklmnopqrstuvwxyz\" and \"abc.def2@mail.com\"",
             "result": {
               "status": "passed",
-              "duration": 1277000000
+              "duration": 306000000
             }
           }
         ]
@@ -488,7 +488,7 @@
             "name": "name and email are requested where appellant is not the original applicant",
             "result": {
               "status": "passed",
-              "duration": 8132000000
+              "duration": 967000000
             }
           },
           {
@@ -498,7 +498,7 @@
             "name": "confirmation provided that appellant is not original applicant",
             "result": {
               "status": "passed",
-              "duration": 2598000000
+              "duration": 565000000
             }
           },
           {
@@ -508,7 +508,7 @@
             "name": "new valid name and email are submitted",
             "result": {
               "status": "passed",
-              "duration": 3282000000
+              "duration": 1429000000
             }
           },
           {
@@ -518,7 +518,7 @@
             "name": "applicant name is presented",
             "result": {
               "status": "passed",
-              "duration": 48000000
+              "duration": 3000000
             }
           },
           {
@@ -528,7 +528,7 @@
             "name": "appeal is updated with new valid name and email",
             "result": {
               "status": "passed",
-              "duration": 1082000000
+              "duration": 291000000
             }
           }
         ]
@@ -557,7 +557,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 1707000000
+              "duration": 278000000
             }
           },
           {
@@ -567,7 +567,7 @@
             "name": "\"\" and \"valid@email.com\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 3464000000
+              "duration": 1168000000
             }
           },
           {
@@ -577,7 +577,7 @@
             "name": "name \"\" is invalid because \"name missing\"",
             "result": {
               "status": "passed",
-              "duration": 78000000
+              "duration": 9000000
             }
           },
           {
@@ -587,7 +587,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 22000000
+              "duration": 3000000
             }
           },
           {
@@ -597,7 +597,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 1536000000
+              "duration": 276000000
             }
           }
         ]
@@ -626,7 +626,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 1354000000
+              "duration": 312000000
             }
           },
           {
@@ -636,7 +636,7 @@
             "name": "\"A\" and \"valid@email.com\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 4961000000
+              "duration": 1162000000
             }
           },
           {
@@ -646,7 +646,7 @@
             "name": "name \"A\" is invalid because \"name outside size constraints\"",
             "result": {
               "status": "passed",
-              "duration": 116000000
+              "duration": 8000000
             }
           },
           {
@@ -656,7 +656,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 25000000
+              "duration": 2000000
             }
           },
           {
@@ -666,7 +666,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 2560000000
+              "duration": 264000000
             }
           }
         ]
@@ -695,7 +695,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 1705000000
+              "duration": 268000000
             }
           },
           {
@@ -705,7 +705,7 @@
             "name": "\"Invalid name because it is eighty-one characters long  abcdefghijklmnopqrstuvwxyz\" and \"valid@email.com\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 4185000000
+              "duration": 2493000000
             }
           },
           {
@@ -715,7 +715,7 @@
             "name": "name \"Invalid name because it is eighty-one characters long  abcdefghijklmnopqrstuvwxyz\" is invalid because \"name outside size constraints\"",
             "result": {
               "status": "passed",
-              "duration": 65000000
+              "duration": 19000000
             }
           },
           {
@@ -725,7 +725,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 4000000
             }
           },
           {
@@ -735,7 +735,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 897000000
+              "duration": 352000000
             }
           }
         ]
@@ -764,7 +764,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 2059000000
+              "duration": 266000000
             }
           },
           {
@@ -774,7 +774,7 @@
             "name": "\"Invalid name with prohibited characters *3(/+\" and \"valid@email.com\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 6011000000
+              "duration": 1851000000
             }
           },
           {
@@ -784,7 +784,7 @@
             "name": "name \"Invalid name with prohibited characters *3(/+\" is invalid because \"name with prohibited characters\"",
             "result": {
               "status": "passed",
-              "duration": 129000000
+              "duration": 9000000
             }
           },
           {
@@ -794,7 +794,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 162000000
+              "duration": 2000000
             }
           },
           {
@@ -804,7 +804,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 1542000000
+              "duration": 311000000
             }
           }
         ]
@@ -829,7 +829,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 1823000000
+              "duration": 299000000
             }
           },
           {
@@ -839,7 +839,7 @@
             "name": "\"Valid Name\" and \"\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 3617000000
+              "duration": 1043000000
             }
           },
           {
@@ -849,7 +849,7 @@
             "name": "email \"\" is invalid because \"email missing\"",
             "result": {
               "status": "passed",
-              "duration": 81000000
+              "duration": 8000000
             }
           },
           {
@@ -859,7 +859,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 25000000
+              "duration": 2000000
             }
           },
           {
@@ -869,7 +869,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 1159000000
+              "duration": 313000000
             }
           }
         ]
@@ -894,7 +894,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 941000000
+              "duration": 301000000
             }
           },
           {
@@ -904,7 +904,7 @@
             "name": "\"Valid Name\" and \"invalid email\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 2389000000
+              "duration": 1317000000
             }
           },
           {
@@ -914,7 +914,7 @@
             "name": "email \"invalid email\" is invalid because \"email invalid\"",
             "result": {
               "status": "passed",
-              "duration": 31000000
+              "duration": 9000000
             }
           },
           {
@@ -924,7 +924,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 10000000
+              "duration": 3000000
             }
           },
           {
@@ -934,7 +934,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 964000000
+              "duration": 280000000
             }
           }
         ]
@@ -959,7 +959,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 2067000000
+              "duration": 304000000
             }
           },
           {
@@ -969,7 +969,7 @@
             "name": "\"Valid Name\" and \"abc-@mail.com\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 3549000000
+              "duration": 1289000000
             }
           },
           {
@@ -979,7 +979,7 @@
             "name": "email \"abc-@mail.com\" is invalid because \"email invalid\"",
             "result": {
               "status": "passed",
-              "duration": 80000000
+              "duration": 10000000
             }
           },
           {
@@ -989,7 +989,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 22000000
+              "duration": 2000000
             }
           },
           {
@@ -999,7 +999,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 1086000000
+              "duration": 327000000
             }
           }
         ]
@@ -1024,7 +1024,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 1200000000
+              "duration": 283000000
             }
           },
           {
@@ -1034,7 +1034,7 @@
             "name": "\"Valid Name\" and \"abc..def@mail.com\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 3164000000
+              "duration": 1380000000
             }
           },
           {
@@ -1044,7 +1044,7 @@
             "name": "email \"abc..def@mail.com\" is invalid because \"email invalid\"",
             "result": {
               "status": "passed",
-              "duration": 81000000
+              "duration": 9000000
             }
           },
           {
@@ -1054,7 +1054,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 20000000
+              "duration": 2000000
             }
           },
           {
@@ -1064,7 +1064,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 1026000000
+              "duration": 287000000
             }
           }
         ]
@@ -1089,7 +1089,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 2868000000
+              "duration": 266000000
             }
           },
           {
@@ -1099,7 +1099,7 @@
             "name": "\"Valid Name\" and \".abc@mail.com\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 3114000000
+              "duration": 1236000000
             }
           },
           {
@@ -1109,7 +1109,7 @@
             "name": "email \".abc@mail.com\" is invalid because \"email invalid\"",
             "result": {
               "status": "passed",
-              "duration": 63000000
+              "duration": 9000000
             }
           },
           {
@@ -1119,7 +1119,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 14000000
+              "duration": 2000000
             }
           },
           {
@@ -1129,7 +1129,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 1011000000
+              "duration": 271000000
             }
           }
         ]
@@ -1154,7 +1154,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 2354000000
+              "duration": 315000000
             }
           },
           {
@@ -1164,7 +1164,7 @@
             "name": "\"Valid Name\" and \"abc#def@mail.com\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 3932000000
+              "duration": 1311000000
             }
           },
           {
@@ -1174,7 +1174,7 @@
             "name": "email \"abc#def@mail.com\" is invalid because \"email invalid\"",
             "result": {
               "status": "passed",
-              "duration": 146000000
+              "duration": 8000000
             }
           },
           {
@@ -1184,7 +1184,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 28000000
+              "duration": 2000000
             }
           },
           {
@@ -1194,7 +1194,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 2488000000
+              "duration": 273000000
             }
           }
         ]
@@ -1219,7 +1219,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 1739000000
+              "duration": 317000000
             }
           },
           {
@@ -1229,7 +1229,7 @@
             "name": "\"Valid Name\" and \"abc=@mail.com\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 5078000000
+              "duration": 1327000000
             }
           },
           {
@@ -1239,7 +1239,7 @@
             "name": "email \"abc=@mail.com\" is invalid because \"email invalid\"",
             "result": {
               "status": "passed",
-              "duration": 92000000
+              "duration": 9000000
             }
           },
           {
@@ -1249,7 +1249,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 16000000
+              "duration": 2000000
             }
           },
           {
@@ -1259,7 +1259,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 1463000000
+              "duration": 272000000
             }
           }
         ]
@@ -1284,7 +1284,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 1761000000
+              "duration": 279000000
             }
           },
           {
@@ -1294,7 +1294,7 @@
             "name": "\"Valid Name\" and \"abc@mail.c\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 4050000000
+              "duration": 1269000000
             }
           },
           {
@@ -1304,7 +1304,7 @@
             "name": "email \"abc@mail.c\" is invalid because \"email invalid\"",
             "result": {
               "status": "passed",
-              "duration": 86000000
+              "duration": 8000000
             }
           },
           {
@@ -1314,7 +1314,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 26000000
+              "duration": 2000000
             }
           },
           {
@@ -1324,7 +1324,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 1432000000
+              "duration": 335000000
             }
           }
         ]
@@ -1349,7 +1349,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 1774000000
+              "duration": 287000000
             }
           },
           {
@@ -1359,7 +1359,7 @@
             "name": "\"Valid Name\" and \"abc.def@mail#archive.com\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 4219000000
+              "duration": 1461000000
             }
           },
           {
@@ -1369,7 +1369,7 @@
             "name": "email \"abc.def@mail#archive.com\" is invalid because \"email invalid\"",
             "result": {
               "status": "passed",
-              "duration": 77000000
+              "duration": 8000000
             }
           },
           {
@@ -1379,7 +1379,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 22000000
+              "duration": 2000000
             }
           },
           {
@@ -1389,7 +1389,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 2108000000
+              "duration": 293000000
             }
           }
         ]
@@ -1414,7 +1414,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 1459000000
+              "duration": 305000000
             }
           },
           {
@@ -1424,7 +1424,7 @@
             "name": "\"Valid Name\" and \"abc#def@mail\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 3669000000
+              "duration": 1247000000
             }
           },
           {
@@ -1434,7 +1434,7 @@
             "name": "email \"abc#def@mail\" is invalid because \"email invalid\"",
             "result": {
               "status": "passed",
-              "duration": 56000000
+              "duration": 9000000
             }
           },
           {
@@ -1444,7 +1444,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 2000000
             }
           },
           {
@@ -1454,7 +1454,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 1533000000
+              "duration": 270000000
             }
           }
         ]
@@ -1479,7 +1479,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 2364000000
+              "duration": 277000000
             }
           },
           {
@@ -1489,7 +1489,7 @@
             "name": "\"Valid Name\" and \"abc#def@mail..com\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 4244000000
+              "duration": 1348000000
             }
           },
           {
@@ -1499,7 +1499,7 @@
             "name": "email \"abc#def@mail..com\" is invalid because \"email invalid\"",
             "result": {
               "status": "passed",
-              "duration": 88000000
+              "duration": 10000000
             }
           },
           {
@@ -1509,7 +1509,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 16000000
+              "duration": 2000000
             }
           },
           {
@@ -1519,7 +1519,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 1337000000
+              "duration": 320000000
             }
           }
         ]
@@ -1544,7 +1544,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 1342000000
+              "duration": 320000000
             }
           },
           {
@@ -1554,7 +1554,7 @@
             "name": "\"\" and \"\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 2183000000
+              "duration": 959000000
             }
           },
           {
@@ -1564,7 +1564,7 @@
             "name": "name \"\" is invalid because \"name missing\"",
             "result": {
               "status": "passed",
-              "duration": 64000000
+              "duration": 9000000
             }
           },
           {
@@ -1574,7 +1574,7 @@
             "name": "email \"\" is invalid because \"email missing\"",
             "result": {
               "status": "passed",
-              "duration": 60000000
+              "duration": 7000000
             }
           },
           {
@@ -1584,7 +1584,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 14000000
+              "duration": 3000000
             }
           },
           {
@@ -1594,7 +1594,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 1020000000
+              "duration": 292000000
             }
           }
         ]
@@ -1619,7 +1619,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 893000000
+              "duration": 300000000
             }
           },
           {
@@ -1629,7 +1629,7 @@
             "name": "\"A\" and \"invalid email\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 2136000000
+              "duration": 1142000000
             }
           },
           {
@@ -1639,7 +1639,7 @@
             "name": "name \"A\" is invalid because \"name outside size constraints\"",
             "result": {
               "status": "passed",
-              "duration": 43000000
+              "duration": 9000000
             }
           },
           {
@@ -1649,7 +1649,7 @@
             "name": "email \"invalid email\" is invalid because \"email invalid\"",
             "result": {
               "status": "passed",
-              "duration": 32000000
+              "duration": 7000000
             }
           },
           {
@@ -1659,7 +1659,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 5000000
+              "duration": 3000000
             }
           },
           {
@@ -1669,7 +1669,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 764000000
+              "duration": 297000000
             }
           }
         ]
@@ -1694,7 +1694,7 @@
             "name": "name and email are requested",
             "result": {
               "status": "passed",
-              "duration": 835000000
+              "duration": 291000000
             }
           },
           {
@@ -1704,7 +1704,7 @@
             "name": "\"Invalid name with prohibited characters *3(/+\" and \"\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 4145000000
+              "duration": 1644000000
             }
           },
           {
@@ -1714,7 +1714,7 @@
             "name": "name \"Invalid name with prohibited characters *3(/+\" is invalid because \"name with prohibited characters\"",
             "result": {
               "status": "passed",
-              "duration": 94000000
+              "duration": 8000000
             }
           },
           {
@@ -1724,7 +1724,7 @@
             "name": "email \"\" is invalid because \"email missing\"",
             "result": {
               "status": "passed",
-              "duration": 113000000
+              "duration": 9000000
             }
           },
           {
@@ -1734,7 +1734,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 19000000
+              "duration": 2000000
             }
           },
           {
@@ -1744,7 +1744,7 @@
             "name": "appeal is not updated",
             "result": {
               "status": "passed",
-              "duration": 1512000000
+              "duration": 293000000
             }
           }
         ]

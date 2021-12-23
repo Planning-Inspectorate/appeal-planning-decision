@@ -7,5 +7,5 @@ export const assertCyTagHasExactText = (expectations) => {
       .should('eq', expectedValue);
   });
 
-  cy.wait(Cypress.env('demoDelay'));
+  // cy.wait(Cypress.env('demoDelay'));
 };

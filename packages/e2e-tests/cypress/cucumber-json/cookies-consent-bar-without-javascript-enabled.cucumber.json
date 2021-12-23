@@ -32,7 +32,7 @@
             "name": "a user visits the site with JavaScript disabled",
             "result": {
               "status": "passed",
-              "duration": 1494000000
+              "duration": 343000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "the user navigates through the service",
             "result": {
               "status": "passed",
-              "duration": 958000000
+              "duration": 281000000
             }
           },
           {
@@ -52,7 +52,7 @@
             "name": "the cookie banner remains visible",
             "result": {
               "status": "passed",
-              "duration": 21000000
+              "duration": 6000000
             }
           }
         ]
@@ -81,7 +81,7 @@
             "name": "a user visits the site with JavaScript disabled",
             "result": {
               "status": "passed",
-              "duration": 1331000000
+              "duration": 249000000
             }
           },
           {
@@ -91,7 +91,7 @@
             "name": "the user views the cookie preferences page",
             "result": {
               "status": "passed",
-              "duration": 902000000
+              "duration": 252000000
             }
           },
           {
@@ -101,7 +101,7 @@
             "name": "the cookies page is presented",
             "result": {
               "status": "passed",
-              "duration": 28000000
+              "duration": 4000000
             }
           },
           {
@@ -111,7 +111,7 @@
             "name": "the cookie banner does not exist",
             "result": {
               "status": "passed",
-              "duration": 19000000
+              "duration": 3000000
             }
           }
         ]

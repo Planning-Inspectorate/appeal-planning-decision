@@ -1,0 +1,83 @@
+[
+  {
+    "description": "  As a LPA Planning Officer\n  I want to provide feedback about the service to the Planning Inspectorate\n  So that improvements can be made",
+    "keyword": "Feature",
+    "name": "Beta Service feedback Link",
+    "line": 1,
+    "id": "beta-service-feedback-link",
+    "tags": [],
+    "uri": "betaServiceFeedbackLink.feature",
+    "elements": [
+      {
+        "id": "beta-service-feedback-link;ac01---access-to-the-feedback-survey-from-the-beta-banner",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "AC01 - Access to the feedback survey from the Beta banner",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 372000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 43000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 20000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 12,
+            "name": "the LPA Questionnaire is accessed",
+            "result": {
+              "status": "passed",
+              "duration": 563000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 13,
+            "name": "the feedback link is selected",
+            "result": {
+              "status": "passed",
+              "duration": 2247000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 14,
+            "name": "the feedback survey is presented",
+            "result": {
+              "status": "passed",
+              "duration": 10000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

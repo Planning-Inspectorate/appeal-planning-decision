@@ -23,7 +23,7 @@
             "name": "Householder Planning Permission Status is requested",
             "result": {
               "status": "passed",
-              "duration": 1331000000
+              "duration": 422000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "Householder Planning Permission Status is set to Refused",
             "result": {
               "status": "passed",
-              "duration": 1913000000
+              "duration": 503000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "progress is made to the eligibility Decision Date question",
             "result": {
               "status": "passed",
-              "duration": 26000000
+              "duration": 6000000
             }
           }
         ]
@@ -63,7 +63,7 @@
             "name": "Householder Planning Permission Status is requested",
             "result": {
               "status": "passed",
-              "duration": 1327000000
+              "duration": 276000000
             }
           },
           {
@@ -73,7 +73,7 @@
             "name": "No Householder Planning Permission Status is not selected",
             "result": {
               "status": "passed",
-              "duration": 1366000000
+              "duration": 309000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "Progress is halted with a message that a Householder Planning Permission Status is required",
             "result": {
               "status": "passed",
-              "duration": 58000000
+              "duration": 17000000
             }
           }
         ]
@@ -103,7 +103,7 @@
             "name": "Householder Planning Permission Status is requested",
             "result": {
               "status": "passed",
-              "duration": 1734000000
+              "duration": 285000000
             }
           },
           {
@@ -113,7 +113,7 @@
             "name": "Householder Planning Permission Status is set to Granted",
             "result": {
               "status": "passed",
-              "duration": 1041000000
+              "duration": 371000000
             }
           },
           {
@@ -123,7 +123,7 @@
             "name": "User is navigated to kick-out page",
             "result": {
               "status": "passed",
-              "duration": 29000000
+              "duration": 5000000
             }
           }
         ]
@@ -143,7 +143,7 @@
             "name": "Householder Planning Permission Status is requested",
             "result": {
               "status": "passed",
-              "duration": 968000000
+              "duration": 267000000
             }
           },
           {
@@ -153,7 +153,7 @@
             "name": "Householder Planning Permission Status is set to I have not received a decision",
             "result": {
               "status": "passed",
-              "duration": 781000000
+              "duration": 379000000
             }
           },
           {
@@ -163,7 +163,7 @@
             "name": "User is navigated to no-decision page",
             "result": {
               "status": "passed",
-              "duration": 2096000000
+              "duration": 2044000000
             }
           }
         ]

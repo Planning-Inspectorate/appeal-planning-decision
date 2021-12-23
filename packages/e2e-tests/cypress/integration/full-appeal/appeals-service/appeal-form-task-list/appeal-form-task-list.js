@@ -1,5 +1,4 @@
 import { Given, Then } from 'cypress-cucumber-preprocessor/steps';
-import { verifyPageTitle } from '../../../../../../../e2e-tests/cypress/support/common/verify-page-title';
 import {
   applicationStatusDetailedText,
   applicationStatusText,
@@ -12,20 +11,22 @@ import {
   statusTellAboutTheAppealSite,
   statusUploadDocsFromPlanningApplication,
   statusUploadDocsForYourAppeal, statusCheckYourAnswers,
-} from '../../../../support/full-appeal/appeals-service/page-objects/appeal-form-task-list-po';
+} from '../../../../support/full-planning/appeals-service/page-objects/appeal-form-task-list-po';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 
 const pageHeading = 'Appeal a planning decision';
-const url = '/full-appeal/submit-appeal/task-list';
+const url = 'full-appeal/task-list';
 const pageTitle = 'Appeal a planning decision - Appeal a planning decision - GOV.UK';
 
-Given('Appellant has been successful on their eligibility', () => {
-  cy.visit('http://localhost:9003/full-appeal/submit-appeal/task-list');
+Given('Appellant has been successful on their eligibility',()=> {
+ goToAppealsPage(url);
 })
-When("they are on the 'Appeal a Planning Decision' page", () => {
+When("they are on the 'Appeal a Planning Decision' page",()=> {
   verifyPageTitle(pageTitle);
 
 })
-Then('they are presented with the list of tasks that they are required to complete in order to submit their appeal', () => {
+Then('they are presented with the list of tasks that they are required to complete in order to submit their appeal',()=> {
   linkProvideYourContactDetails().should('exist');
   statusProvideYourContactDetails().should('exist');
   linkTellAboutTheAppealSite().should('exist');
@@ -37,7 +38,7 @@ Then('they are presented with the list of tasks that they are required to comple
   linkCheckYourAnswers().should('exist');
   statusCheckYourAnswers().should('exist');
 })
-Then('when a section has been completed they are able to see what has been completed or incompleted', () => {
+Then('when a section has been completed they are able to see what has been completed or incompleted',()=> {
   applicationStatusText().should('exist');
   applicationStatusDetailedText().should('exist');
 })

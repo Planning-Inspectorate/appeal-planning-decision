@@ -1,0 +1,83 @@
+[
+  {
+    "description": "  I want to receive confirmation by email that the LPA questionnaire has been submitted\n  So that we have a copy for our records",
+    "keyword": "Feature",
+    "name": "As a planning officer",
+    "line": 1,
+    "id": "as-a-planning-officer",
+    "tags": [],
+    "uri": "sendEmailConfirmationToNotify.feature",
+    "elements": [
+      {
+        "id": "as-a-planning-officer;ac01-send-email-confirmation-to-lpa",
+        "keyword": "Scenario",
+        "line": 10,
+        "name": "AC01 Send email confirmation to LPA",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "an appeal has been created",
+            "result": {
+              "status": "passed",
+              "duration": 848000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 7,
+            "name": "a questionnaire has been created",
+            "result": {
+              "status": "passed",
+              "duration": 49000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the LPA Planning Officer is authenticated",
+            "result": {
+              "status": "passed",
+              "duration": 24000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "the questionnaire has been completed",
+            "result": {
+              "status": "passed",
+              "duration": 61000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "the LPA Questionnaire is submitted",
+            "result": {
+              "status": "passed",
+              "duration": 2024000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "a confirmation email is sent to the LPA",
+            "result": {
+              "status": "passed",
+              "duration": 235000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

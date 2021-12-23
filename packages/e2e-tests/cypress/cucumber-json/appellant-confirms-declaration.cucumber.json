@@ -2,57 +2,47 @@
   {
     "keyword": "Feature",
     "name": "Declaration must be agreed before a submission can be made",
-    "line": 2,
+    "line": 1,
     "id": "declaration-must-be-agreed-before-a-submission-can-be-made",
-    "tags": [
-      {
-        "name": "@UI-ONLY",
-        "line": 1
-      }
-    ],
+    "tags": [],
     "uri": "appellant-confirms-declaration.feature",
     "elements": [
       {
         "id": "declaration-must-be-agreed-before-a-submission-can-be-made;prospective-appellant-does-not-agree-to-the-declaration",
         "keyword": "Scenario",
-        "line": 4,
+        "line": 3,
         "name": "Prospective appellant does not agree to the declaration",
-        "tags": [
-          {
-            "name": "@UI-ONLY",
-            "line": 1
-          }
-        ],
+        "tags": [],
         "type": "scenario",
         "steps": [
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 5,
+            "line": 4,
             "name": "an appeal is ready to be submitted",
             "result": {
               "status": "passed",
-              "duration": 36211000000
+              "duration": 14204000000
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 6,
+            "line": 5,
             "name": "the declaration is not agreed",
             "result": {
               "status": "passed",
-              "duration": 1778000000
+              "duration": 563000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 7,
+            "line": 6,
             "name": "no submission confirmation is presented",
             "result": {
               "status": "passed",
-              "duration": 154000000
+              "duration": 11000000
             }
           }
         ]
@@ -60,44 +50,39 @@
       {
         "id": "declaration-must-be-agreed-before-a-submission-can-be-made;prospective-appellant-agree-to-the-declaration",
         "keyword": "Scenario",
-        "line": 9,
+        "line": 8,
         "name": "Prospective appellant agree to the declaration",
-        "tags": [
-          {
-            "name": "@UI-ONLY",
-            "line": 1
-          }
-        ],
+        "tags": [],
         "type": "scenario",
         "steps": [
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 10,
+            "line": 9,
             "name": "an appeal is ready to be submitted",
             "result": {
               "status": "passed",
-              "duration": 26184000000
+              "duration": 14507000000
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 11,
+            "line": 10,
             "name": "the declaration is agreed",
             "result": {
               "status": "passed",
-              "duration": 1817000000
+              "duration": 834000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 12,
+            "line": 11,
             "name": "the submission confirmation is presented",
             "result": {
               "status": "passed",
-              "duration": 290000000
+              "duration": 3000000
             }
           }
         ]
