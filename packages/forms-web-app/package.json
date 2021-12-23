@@ -34,7 +34,7 @@
     "@ministryofjustice/frontend": "0.2.0",
     "@pins/business-rules": "file:../business-rules",
     "@pins/common": "file:../common",
-    "@planning-inspectorate/pins-clamav-rest-client-rest-client": "^1.0.0",
+    "@planning-inspectorate/pins-clamav-rest-client": "^1.0.0",
     "@testing-library/dom": "^7.31.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/user-event": "^12.8.3",
