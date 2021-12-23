@@ -26,8 +26,9 @@
             "line": 5,
             "name": "an agent or appellant has submitted an appeal and they do not wholly own the site",
             "result": {
-              "status": "passed",
-              "duration": 27879000000
+              "status": "failed",
+              "duration": 68805000000,
+              "error_message": "CypressError: `cy.screenshot()` timed out waiting `30000ms` to complete.\n    at http://localhost:9003/__cypress/runner/cypress_runner.js:159546:81\n    at tryCatcher (http://localhost:9003/__cypress/runner/cypress_runner.js:13196:23)\n    at http://localhost:9003/__cypress/runner/cypress_runner.js:8318:41\n    at tryCatcher (http://localhost:9003/__cypress/runner/cypress_runner.js:13196:23)\n    at Promise._settlePromiseFromHandler (http://localhost:9003/__cypress/runner/cypress_runner.js:11131:31)\n    at Promise._settlePromise (http://localhost:9003/__cypress/runner/cypress_runner.js:11188:18)\n    at Promise._settlePromise0 (http://localhost:9003/__cypress/runner/cypress_runner.js:11233:10)\n    at Promise._settlePromises (http://localhost:9003/__cypress/runner/cypress_runner.js:11309:18)\n    at _drainQueueStep (http://localhost:9003/__cypress/runner/cypress_runner.js:7903:12)\n    at _drainQueue (http://localhost:9003/__cypress/runner/cypress_runner.js:7896:9)\n    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (http://localhost:9003/__cypress/runner/cypress_runner.js:7912:5)\n    at Async.drainQueues (http://localhost:9003/__cypress/runner/cypress_runner.js:7782:14)"
             }
           },
           {
@@ -36,8 +37,7 @@
             "line": 6,
             "name": "the pdf is viewed",
             "result": {
-              "status": "passed",
-              "duration": 3000000
+              "status": "skipped"
             }
           },
           {
@@ -46,8 +46,7 @@
             "line": 7,
             "name": "the answer for other owner notification is displayed as submitted",
             "result": {
-              "status": "passed",
-              "duration": 80000000
+              "status": "skipped"
             }
           }
         ]
