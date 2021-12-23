@@ -1,0 +1,83 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% set title = "Contact details - Appeal a planning decision - GOV.UK" %}
+{% if errors %}{% set title="Error: " + title %}{% endif %}
+{% block pageTitle %}{{ title }}{% endblock %}
+
+{% set section = appeal['contactDetailsSection'] %}
+
+{% block content %}
+
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST" novalidate>
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Provide your contact details</span>
+        <h1 class="govuk-heading-l">
+          Contact details
+        </h1>
+
+        {{ govukInput({
+          label: {
+            text: "Your full name",
+            classes: "govuk-label",
+            isPageHeading: false
+          },
+          id: "appellant-name",
+          name: "appellant-name",
+          value: section['name'],
+          errorMessage: errors['appellant-name'] and {
+            text: errors['appellant-name'].msg
+          }
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "Company name (optional)",
+            classes: "govuk-label",
+            isPageHeading: false
+          },
+          id: "appellant-company-name",
+          name: "appellant-company-name",
+          spellcheck: false,
+          value: section['companyName'],
+          errorMessage: errors['appellant-company-name'] and {
+            text: errors['appellant-company-name'].msg
+          }
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "Your email address",
+            classes: "govuk-label",
+            isPageHeading: false
+          },
+          id: "appellant-email",
+          name: "appellant-email",
+          spellcheck: false,
+          value: section['email'],
+          errorMessage: errors['appellant-email'] and {
+            text: errors['appellant-email'].msg
+          }
+        }) }}
+
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

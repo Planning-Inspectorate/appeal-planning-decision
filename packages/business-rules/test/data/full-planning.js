@@ -7,6 +7,11 @@ const appeal = {
   beforeYouStartSection: {
     typeOfPlanningApplication: 'full-planning',
   },
+  contactDetailsSection: {
+    name: 'a name',
+    email: 'anemail@gmail.com',
+    companyName: 'Test Company',
+  },
 };
 
 module.exports = appeal;
