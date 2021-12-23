@@ -23,7 +23,7 @@
             "name": "an appellant is on the shutter page for date passed for appeal",
             "result": {
               "status": "passed",
-              "duration": 512000000
+              "duration": 510000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "appellant is displayed details for  out of time shutter page",
             "result": {
               "status": "passed",
-              "duration": 52000000
+              "duration": 48000000
             }
           }
         ]

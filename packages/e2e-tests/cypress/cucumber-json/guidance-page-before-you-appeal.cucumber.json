@@ -23,7 +23,7 @@
             "name": "the appellant is on the before you appeal page",
             "result": {
               "status": "passed",
-              "duration": 626000000
+              "duration": 1273000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "the appellant navigates to the next page",
             "result": {
               "status": "passed",
-              "duration": 474000000
+              "duration": 874000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "information about when you can appeal is provided",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 27000000
             }
           }
         ]
@@ -63,7 +63,7 @@
             "name": "the appellant is on the before you appeal page",
             "result": {
               "status": "passed",
-              "duration": 461000000
+              "duration": 753000000
             }
           },
           {
@@ -73,7 +73,7 @@
             "name": "the appellant select a link from the content list: \"When you can appeal\"",
             "result": {
               "status": "passed",
-              "duration": 388000000
+              "duration": 747000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "the appellant is navigated to that page: \"/when-you-can-appeal\"",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 9000000
             }
           }
         ]
@@ -103,7 +103,7 @@
             "name": "the appellant is on the before you appeal page",
             "result": {
               "status": "passed",
-              "duration": 363000000
+              "duration": 774000000
             }
           },
           {
@@ -113,7 +113,7 @@
             "name": "the appellant select a link from the content list: \"The stages of an appeal\"",
             "result": {
               "status": "passed",
-              "duration": 379000000
+              "duration": 672000000
             }
           },
           {
@@ -123,7 +123,7 @@
             "name": "the appellant is navigated to that page: \"/stages-of-an-appeal\"",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 14000000
             }
           }
         ]
@@ -143,7 +143,7 @@
             "name": "the appellant is on the before you appeal page",
             "result": {
               "status": "passed",
-              "duration": 383000000
+              "duration": 750000000
             }
           },
           {
@@ -153,7 +153,7 @@
             "name": "the appellant select a link from the content list: \"After you appeal\"",
             "result": {
               "status": "passed",
-              "duration": 349000000
+              "duration": 810000000
             }
           },
           {
@@ -163,7 +163,7 @@
             "name": "the appellant is navigated to that page: \"/after-you-appeal\"",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 7000000
             }
           }
         ]
@@ -183,7 +183,7 @@
             "name": "the appellant is on the before you appeal page",
             "result": {
               "status": "passed",
-              "duration": 350000000
+              "duration": 893000000
             }
           },
           {
@@ -193,7 +193,7 @@
             "name": "the appellant select a link from the content list: \"Start your appeal\"",
             "result": {
               "status": "passed",
-              "duration": 443000000
+              "duration": 725000000
             }
           },
           {
@@ -203,7 +203,7 @@
             "name": "the appellant is navigated to that page: \"/start-your-appeal\"",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 7000000
             }
           }
         ]
