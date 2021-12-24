@@ -25,5 +25,6 @@ router.use('/your-planning-appeal', yourPlanningAppealRouter);
 router.use('/before-you-start', fullAppealRouter);
 router.use('/before-you-start', householderPlanningRouter);
 router.use('/document', documentRouter);
+router.use('/before-you-start', householderPlanningRouter);
 
 module.exports = router;

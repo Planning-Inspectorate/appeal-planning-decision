@@ -10,7 +10,7 @@ jest.mock('../../../../../src/lib/empty-appeal');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
 
-describe('controllers/householder-planning/eligibility/listed-building-householder', () => {
+describe('controllers/householder-planning/eligibilitylisted-building-householder', () => {
   let req;
   let res;
   let appeal;
@@ -28,12 +28,9 @@ describe('controllers/householder-planning/eligibility/listed-building-household
     it('should call the correct template on getListedBuildingHouseholder', async () => {
       await listedBuildingController.getListedBuildingHouseholder(req, res);
 
-      expect(res.render).toBeCalledWith(
-        VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER,
-        {
-          backLink: '/before-you-start/type-of-planning-application',
-        }
-      );
+      expect(res.render).toBeCalledWith(VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER, {
+        backLink: `/before-you-start/type-of-planning-application`,
+      });
     });
 
     it('should redirect to the use-a-different-service page', async () => {

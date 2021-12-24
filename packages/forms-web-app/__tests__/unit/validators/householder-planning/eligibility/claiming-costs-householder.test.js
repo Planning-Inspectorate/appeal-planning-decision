@@ -1,8 +1,8 @@
 const { validationResult } = require('express-validator');
 const {
   rules,
-} = require('../../../../src/validators/householder-planning/eligibility/claiming-costs-householder');
-const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
+} = require('../../../../../src/validators/householder-planning/eligibility/claiming-costs-householder');
+const { testExpressValidatorMiddleware } = require('../../validation-middleware-helper');
 
 describe('validators/planning-department', () => {
   describe('rules', () => {
