@@ -10,7 +10,7 @@ jest.mock('../../../../../src/lib/empty-appeal');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
 
-describe('controllers/householder-planning/eligibilitylisted-building-householder', () => {
+describe('controllers/householder-planning/eligibility/listed-building-householder', () => {
   let req;
   let res;
   let appeal;

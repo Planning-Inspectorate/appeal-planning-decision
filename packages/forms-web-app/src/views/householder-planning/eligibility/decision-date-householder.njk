@@ -4,7 +4,6 @@
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 
 {% set title="What's the decision date on the letter from the local planning department? - Before you start - Appeal a householder planning decision - GOV.UK" %}
-{% set selection = appeal.beforeYouStartSection.typeOfPlanningApplication %}
 
 {% block pageTitle %}
   {% if errors %}
@@ -80,7 +79,7 @@
 
         {{ govukButton({
           text: "Continue",
-          type: "Submit",
+          type: "submit",
           attributes: { "data-cy":"button-save-and-continue"}
         }) }}
 
