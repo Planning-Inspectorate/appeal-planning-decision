@@ -1,0 +1,91 @@
+{% extends "layouts/main.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %},
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+
+{% set title="What date was the decision due? - What date was the decision due? - Before you start - Appeal a planning decision - GOV.UK" %}
+{% set selection = appeal.beforeYouStartSection.typeOfPlanningApplication %}
+
+{% block pageTitle %}
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+
+{% block backButton %}
+    {{ govukBackLink({
+    text: "Back",
+    href: backLink
+ })}}
+{% endblock %}
+
+{% block content %}
+
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary and [
+        {
+          text: errorSummary[0].text,
+          href: "#decision-date-householder-day" if errorSummary[0].href === "#decision-date-householder" else errorSummary[0].href
+        }
+      ]
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST" novalidate>
+        <div class="govuk-form-group {{ 'govuk-form-group--error' if errors }}">
+          <span class="govuk-caption-l">Before you start</span>
+
+          {{ govukDateInput({
+            id: "decision-date-householder",
+            namePrefix: "decision-date-householder",
+            fieldset: {
+              legend: {
+                text: "What's the decision date on the letter from the local planning department?​",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+              }
+            },
+
+            errorMessage: errors['decision-date-householder'] and {
+              text: errors['decision-date-householder'].msg or errors['decision-date-householder-day'].msg or errors['decision-date-householder-month'].msg or errors['decision-date-householder-year'].msg
+            },
+
+            items: [
+              {
+                classes: "govuk-input--width-2 govuk-input--error" if errors['decision-date-householder'] or errors['decision-date-householder-day'] else "govuk-input--width-2",
+                name: "day",
+                id: "decision-date-householder-day",
+                value: decisionDateHouseholder.day
+              },
+              {
+                classes: "govuk-input--width-2 govuk-input--error" if errors['decision-date-householder'] or errors['decision-date-householder-day'] else "govuk-input--width-2",
+                name: "month",
+                id: "decision-date-householder-month",
+                value: decisionDateHouseholder.month
+              },
+              {
+                classes: "govuk-input--width-4 govuk-input--error" if errors['decision-date-householder'] or errors['decision-date-householder-day'] else "govuk-input--width-4",
+                name: "year",
+                id: "decision-date-householder-year",
+                value: decisionDateHouseholder.year
+              }
+            ]
+          }) }}
+        </div>
+
+        {{ govukButton({
+          text: "Continue",
+          type: "Submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
