@@ -8,6 +8,7 @@ const grantedOrRefusedRouter = require('./granted-or-refused');
 const useADifferentServiceRouter = require('./use-a-different-service');
 const outOfTimeRouter = require('./out-of-time');
 const enforcementNoticeRouter = require('./enforcement-notice');
+const listedBuildingRouter = require('./listed-building');
 
 const router = express.Router();
 
@@ -18,5 +19,6 @@ router.use(grantedOrRefusedRouter);
 router.use(useADifferentServiceRouter);
 router.use(outOfTimeRouter);
 router.use(enforcementNoticeRouter);
+router.use(listedBuildingRouter);
 
 module.exports = router;
