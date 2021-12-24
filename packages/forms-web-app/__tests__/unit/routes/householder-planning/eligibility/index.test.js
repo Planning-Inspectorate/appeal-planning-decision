@@ -5,6 +5,7 @@ const enforcementNoticeHouseholderRouter = require('../../../../../src/routes/ho
 const grantedOrRefusedHouseholderRouter = require('../../../../../src/routes/householder-planning/eligibility/granted-or-refused-householder');
 const listedBuildingHouseholderRouter = require('../../../../../src/routes/householder-planning/eligibility/listed-building-householder');
 const dateDecisionDueHouseholderRouter = require('../../../../../src/routes/householder-planning/eligibility/date-decision-due-householder');
+const decisionDateHouseholderRouter = require('../../../../../src/routes/householder-planning/eligibility/decision-date-householder');
 
 describe('routes/householder-planning/eligibility/index', () => {
   beforeEach(() => {
@@ -20,7 +21,8 @@ describe('routes/householder-planning/eligibility/index', () => {
     expect(use).toHaveBeenCalledWith(grantedOrRefusedHouseholderRouter);
     expect(use).toHaveBeenCalledWith(listedBuildingHouseholderRouter);
     expect(use).toHaveBeenCalledWith(dateDecisionDueHouseholderRouter);
+    expect(use).toHaveBeenCalledWith(decisionDateHouseholderRouter);
 
-    expect(use.mock.calls.length).toBe(5);
+    expect(use.mock.calls.length).toBe(6);
   });
 });

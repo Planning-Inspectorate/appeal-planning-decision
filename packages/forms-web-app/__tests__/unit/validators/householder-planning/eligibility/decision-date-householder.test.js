@@ -37,6 +37,20 @@ describe('validators/householder-planning/decision-date-householder', () => {
         },
       },
       {
+        title: 'valid date - same day - pass',
+        given: () => {
+          const now = new Date();
+          return {
+            body: {
+              'decision-date-householder': `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`,
+            },
+          };
+        },
+        expected: (result) => {
+          expect(result.errors).toHaveLength(0);
+        },
+      },
+      {
         title: 'valid date - pass',
         given: () => {
           const now = new Date();

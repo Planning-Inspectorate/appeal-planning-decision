@@ -17,7 +17,7 @@ const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wra
 const { VIEW } = require('../../../../../src/lib/householder-planning/views');
 const { APPEAL_DOCUMENT } = require('../../../../../src/lib/empty-appeal');
 
-describe('controllers/full-appeal/decision-date-householder', () => {
+describe('controllers/householder-planning/eligibility/decision-date-householder', () => {
   let req;
   let res;
   let appeal;
@@ -45,7 +45,7 @@ describe('controllers/full-appeal/decision-date-householder', () => {
   });
 
   describe('postDecisionDateHouseholder', () => {
-    it('should save the appeal and redirect to enforcement-notice if application decision is granted and date is within six months', async () => {
+    it('should save the appeal and redirect to enforcement-notice-householder if application decision is granted and date is within six months', async () => {
       const mockRequest = {
         ...req,
         body: {
@@ -62,13 +62,13 @@ describe('controllers/full-appeal/decision-date-householder', () => {
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
-        decisionDateHouseholder: '2021-01-01T00:00:00.000Z',
+        decisionDate: '2021-01-01T00:00:00.000Z',
       });
 
       expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/enforcement-notice-householder`);
     });
 
-    it('should save the appeal and redirect to enforcement-notice if application decision is refused and date is within twelve weeks', async () => {
+    it('should save the appeal and redirect to enforcement-notice-householder if application decision is refused and date is within twelve weeks', async () => {
       const mockRequest = {
         ...req,
         body: {
@@ -85,7 +85,7 @@ describe('controllers/full-appeal/decision-date-householder', () => {
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
-        decisionDateHouseholder: '2021-01-01T00:00:00.000Z',
+        decisionDate: '2021-01-01T00:00:00.000Z',
       });
 
       expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/enforcement-notice-householder`);

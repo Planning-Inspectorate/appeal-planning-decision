@@ -11,6 +11,6 @@ describe('routes/householder-planning/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(6);
+    expect(use.mock.calls.length).toBe(7);
   });
 });
