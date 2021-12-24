@@ -50,6 +50,6 @@ describe('routes/index', () => {
     );
     expect(use).toHaveBeenCalledWith('/document', documentRouter);
 
-    expect(use.mock.calls.length).toBe(11);
+    expect(use.mock.calls.length).toBe(10);
   });
 });
