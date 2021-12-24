@@ -24,5 +24,6 @@ router.use('/your-planning-appeal', yourPlanningAppealRouter);
 router.use('/before-you-start', checkDecisionDateDeadline, fullAppealRouter);
 router.use('/before-you-start', checkDecisionDateDeadline, householderPlanningRouter);
 router.use('/document', documentRouter);
+router.use('/before-you-start', householderPlanningRouter);
 
 module.exports = router;
