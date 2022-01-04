@@ -1,0 +1,125 @@
+{% extends "layouts/main.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %},
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set title="What type of planning application is your appeal about? - Before you start - Appeal a householder planning decision - GOV.UK" %}
+{% set selection = appeal.beforeYouStartSection.typeOfPlanningApplication %}
+
+{% block pageTitle %}
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+
+{% block backButton %}
+    {{ govukBackLink({
+    text: "Back",
+    href: "/before-you-start/local-planning-depart"
+ })}}
+{% endblock %}
+
+{% block content %}
+
+  {% if errorSummary %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST" novalidate>
+        <div class="govuk-form-group {{ 'govuk-form-group--error' if errors }}">
+          <span class="govuk-caption-l">Before you start</span>
+
+          {{ govukRadios({
+            id: "type-of-planning-application",
+            name: "type-of-planning-application",
+            fieldset: {
+              legend: {
+                html: '<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading">
+                          What type of planning application is your appeal about?
+                        </h1>
+                      </legend>
+                      <div id="eligibility-v9-whatareyouappealing-hint" class="govuk-hint">
+                        You can check this on your planning application form.
+                      </div>',
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+              }
+            },
+            errorMessage: errors['type-of-planning-application'] and {
+              text: errors['type-of-planning-application'].msg
+            },
+            items: [
+              {
+                value: "full-appeal",
+                text: 'Full planning',
+                attributes: { "data-cy":"answer-full-appeal"},
+                checked: selection === "full-appeal"
+              },
+              {
+                value: "householder-planning",
+                text: 'Householder planning',
+                attributes: { "data-cy":"answer-householder-planning"},
+                checked: selection === "householder-planning"
+              },
+              {
+                value: "outline-planning",
+                text: 'Outline planning',
+                attributes: { "data-cy":"answer-outline-planning"},
+                checked: selection === "outline-planning"
+              },
+              {
+                value: "prior-approval",
+                text: 'Prior approval',
+                attributes: { "data-cy":"answer-prior-approval"},
+                checked: selection === "prior-approval"
+              },
+              {
+                value: "reserved-matters",
+                text: 'Reserved matters',
+                attributes: { "data-cy":"answer-reserved-matters"},
+                checked: selection === "reserved-matters"
+              },
+              {
+                value: "removal-or-variation-of-conditions",
+                text: 'Removal or variation of conditions',
+                attributes: { "data-cy":"answer-removal-or-variation-of-conditions"},
+                checked: selection === "removal-or-variation-of-conditions"
+              },
+              {
+                value: "something-else",
+                text: 'Something else',
+                attributes: { "data-cy":"answer-something-else"},
+                checked: selection === "something-else"
+              },
+              {
+                divider: "or"
+              },
+              {
+                value: "i-have-not-made-a-planning-application",
+                text: 'I have not made a planning application',
+                attributes: { "data-cy":"answer-i-have-not-made-a-planning-application"},
+                checked: selection === "i-have-not-made-a-planning-application"
+              }
+            ]
+          }) }}
+
+        </div>
+
+        {{ govukButton({
+          text: "Continue",
+          type: "Submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

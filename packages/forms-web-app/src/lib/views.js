@@ -2,7 +2,7 @@ const VIEW = {
   APPLICATION_NUMBER: 'application-number',
 
   COOKIES: 'cookies',
-  OUT_OF_TIME_SHUTTER_PAGE: 'full-planning/out-of-time-shutter-page',
+  OUT_OF_TIME_SHUTTER_PAGE: 'full-appeal/out-of-time-shutter-page',
 
   ELIGIBILITY: {
     LISTED_BUILDING: 'eligibility/listed-building',
@@ -52,15 +52,15 @@ const VIEW = {
     STAGES_APPEAL: 'guidance-pages/stages-appeal',
   },
 
-  FULL_PLANNING: {
-    ANY_OF_FOLLOWING: 'full-planning/any-of-following',
-    DATE_DECISION_DUE: 'full-planning/date-decision-due',
-    DECISION_DATE: 'full-planning/decision-date',
-    ENFORCEMENT_NOTICE: 'full-planning/enforcement-notice',
-    GRANTED_OR_REFUSED: 'full-planning/granted-or-refused',
-    LOCAL_PLANNING_DEPARTMENT: 'full-planning/local-planning-department',
-    TYPE_OF_PLANNING_APPLICATION: 'full-planning/type-of-planning-application',
-    USE_A_DIFFERENT_SERVICE: 'full-planning/use-a-different-service',
+  FULL_APPEAL: {
+    ANY_OF_FOLLOWING: 'full-appeal/any-of-following',
+    DATE_DECISION_DUE: 'full-appeal/date-decision-due',
+    DECISION_DATE: 'full-appeal/decision-date',
+    ENFORCEMENT_NOTICE: 'full-appeal/enforcement-notice',
+    GRANTED_OR_REFUSED: 'full-appeal/granted-or-refused',
+    LOCAL_PLANNING_DEPARTMENT: 'full-appeal/local-planning-department',
+    TYPE_OF_PLANNING_APPLICATION: 'full-appeal/type-of-planning-application',
+    USE_A_DIFFERENT_SERVICE: 'full-appeal/use-a-different-service',
   },
 
   YOUR_PLANNING_APPEAL: {

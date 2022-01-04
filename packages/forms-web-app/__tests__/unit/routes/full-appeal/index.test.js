@@ -1,0 +1,30 @@
+const { use } = require('../router-mock');
+
+const anyOfFollowingRouter = require('../../../../src/routes/full-appeal/any-of-following');
+const grantedOrRefusedRouter = require('../../../../src/routes/full-appeal/granted-or-refused');
+const localPlanningDepartmentRouter = require('../../../../src/routes/full-appeal/local-planning-department');
+const typeOfPlanningRouter = require('../../../../src/routes/full-appeal/type-of-planning-application');
+const useADifferentServiceRouter = require('../../../../src/routes/full-appeal/use-a-different-service');
+const outOfTimeRouter = require('../../../../src/routes/full-appeal/out-of-time');
+const enforcementNoticeRouter = require('../../../../src/routes/full-appeal/enforcement-notice');
+
+describe('routes/full-appeal/index', () => {
+  beforeEach(() => {
+    jest.resetModules();
+
+    // eslint-disable-next-line global-require
+    require('../../../../src/routes/full-appeal/index');
+  });
+
+  it('should define the expected routes', () => {
+    expect(use).toHaveBeenCalledWith(anyOfFollowingRouter);
+    expect(use).toHaveBeenCalledWith(grantedOrRefusedRouter);
+    expect(use).toHaveBeenCalledWith(localPlanningDepartmentRouter);
+    expect(use).toHaveBeenCalledWith(typeOfPlanningRouter);
+    expect(use).toHaveBeenCalledWith(useADifferentServiceRouter);
+    expect(use).toHaveBeenCalledWith(outOfTimeRouter);
+    expect(use).toHaveBeenCalledWith(enforcementNoticeRouter);
+
+    expect(use.mock.calls.length).toBe(7);
+  });
+});

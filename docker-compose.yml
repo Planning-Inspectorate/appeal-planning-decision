@@ -17,13 +17,13 @@ services:
     ports:
       - 3003:3000
 
-  clamav-rest-server: 
+  clamav-rest-server:
     image: node:14-alpine
-    ports: 
+    ports:
       - 3100:3000
-    links: 
+    links:
       - clamav-server
-    environment: 
+    environment:
       CLAMAV_HOST: clamav-server
       CLAMAV_PORT: 3310
     working_dir: /opt/app
@@ -300,7 +300,7 @@ services:
     ports:
       - 5002:3000
 
-  
+
 
   clamav-server:
     image: clamav/clamav

@@ -1,0 +1,54 @@
+{% extends "../../layouts/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "../../macros/bool-to-sentence-case.njk" import boolToSentenceCaseField %}
+{% from "../../macros/multifile-upload-to-list.njk" import multifileUploadToList %}
+{% from "../../macros/contact-details.njk" import contactDetails %}
+
+{% block pageTitle %}
+  Check your answers - Appeal a householder planning decision - GOV.UK
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <span class="govuk-caption-l" data-cy="caption"><span class="govuk-visually-hidden">Section. </span>Check your answers and submit your appeal</span>
+      <h1 class="govuk-heading-l" data-cy="page-title">
+        Check your answers
+      </h1>
+
+      <h2 class="govuk-heading-m" data-cy="your-contact-details">Your contact details</h2>
+
+      {{ govukSummaryList({
+        classes: "govuk-summary-list govuk-!-margin-bottom-9",
+        rows: [
+          {
+            key: {
+              text: "Was the planning application made in your name?"
+            },
+            value: {
+              text: "Yes, the planning application was made in my name" if appeal.aboutYouSection.yourDetails.isOriginalApplicant === true else "No, I'm an agent acting on behalf of the applicant"
+            }
+          },
+          {
+            key: {
+              text: "Your contact details"
+            },
+            value: {
+              text: contactDetails(appeal.aboutYouSection.yourDetails)
+            }
+          }
+        ]
+      }) }}
+
+      <form action="/full-appeal/submit-appeal/declaration" method="get" novalidate>
+        {{ govukButton({
+          text: "Continue",
+          attributes: { "data-cy":"button-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -1,5 +1,7 @@
 const { VIEW } = require('../lib/views');
-
+const {
+  VIEW: { FULL_APPEAL },
+} = require('../lib/full-appeal/views');
 const TASK_STATUS = require('./task-status/task-statuses');
 const { statusAppealSiteAddress } = require('./task-status/status-appeal-site-address');
 const { statusSiteOwnership } = require('./task-status/status-site-ownership');
@@ -133,7 +135,7 @@ function notStartedRule() {
 
 const FULL_APPEAL_SECTIONS = {
   contactDetailsSection: {
-    href: '/full-appeal/contact-details',
+    href: `/${FULL_APPEAL.CONTACT_DETAILS}`,
     rule: (appeal) => appeal.sectionStates.contactDetailsSection,
   },
   aboutAppealSiteSection: {
@@ -141,7 +143,7 @@ const FULL_APPEAL_SECTIONS = {
     rule: notStartedRule,
   },
   planningApplicationDocumentsSection: {
-    href: '/full-appeal/application-form',
+    href: `/${FULL_APPEAL.APPLICATION_FORM}`,
     rule: notStartedRule,
   },
   appealDocumentsSection: {
@@ -149,7 +151,7 @@ const FULL_APPEAL_SECTIONS = {
     rule: notStartedRule,
   },
   submitYourAppealSection: {
-    href: '/full-appeal/check-answers',
+    href: `/${FULL_APPEAL.CHECK_ANSWERS}`,
     rule: () => TASK_STATUS.NOT_STARTED,
   },
 };
