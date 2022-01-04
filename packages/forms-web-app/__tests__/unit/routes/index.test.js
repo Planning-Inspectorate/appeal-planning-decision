@@ -38,6 +38,6 @@ describe('routes/index', () => {
     expect(use).toHaveBeenCalledWith('/your-planning-appeal', yourPlanningAppealRouter);
     expect(use).toHaveBeenCalledWith('/before-you-start', fullPlanningRouter);
 
-    expect(use.mock.calls.length).toBe(8);
+    expect(use.mock.calls.length).toBe(10);
   });
 });

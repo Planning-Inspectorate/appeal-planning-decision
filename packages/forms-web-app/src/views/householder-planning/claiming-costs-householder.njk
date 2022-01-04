@@ -1,0 +1,83 @@
+{% extends "layouts/main.njk" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %},
+
+{% set title="Are you claiming costs as part of your appeal? - Before you start - Appeal a householder planning decision - GOV.UK" %}
+{% set selection = appeal.eligibility.isClaimingCosts %}
+
+{% block pageTitle %}
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+
+{% block backButton %}
+    {{ govukBackLink({
+    text: "Back",
+    href: backLink
+ })}}
+{% endblock %}
+
+{% block content %}
+
+  {% if errorSummary %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST" novalidate>
+        <div class="govuk-form-group {{ 'govuk-form-group--error' if errors }}">
+          <span class="govuk-caption-l">Before you start</span>
+
+          {{ govukRadios({
+            id: "claiming-costs-householder",
+            name: "claiming-costs-householder",
+            fieldset: {
+              legend: {
+                html: '<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading">
+                          Are you claiming costs as part of your appeal?
+                        </h1>
+                      </legend>',
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+              }
+            },
+            errorMessage: errors['claiming-costs-householder'] and {
+              text: errors['claiming-costs-householder'].msg
+            },
+            items: [
+              {
+                value: "yes",
+                text: 'Yes',
+                attributes: { "data-cy":"answer-claiming-costs-householder"},
+                checked: selection === "full-planning"
+              },
+              {
+                value: "no",
+                text: 'No',
+                attributes: { "data-cy":"answer-claiming-costs-householder"},
+                checked: selection === "claiming-costs-householder"
+              }
+            ]
+          }) }}
+
+        </div>
+
+        {{ govukButton({
+          text: "Continue",
+          type: "Submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
