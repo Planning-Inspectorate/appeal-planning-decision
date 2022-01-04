@@ -1,0 +1,85 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% set title = "Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK" %}
+
+{% block pageTitle %}
+    {% if errors %}
+        {% set title = "Error: " + title %}
+    {% endif %}
+    {{ title }}
+{% endblock %}
+
+{% block backButton %}
+    {{ govukBackLink({
+    text: "Back",
+    href: previousPage
+ })}}
+{% endblock %}
+
+{% block content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {% if errors %}
+                {{ govukErrorSummary({
+                    titleText: "There is a problem",
+                    errorList: errorSummary
+                }) }}
+            {% endif %}
+
+            <form action="" method="post" novalidate>
+                <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Before you start</span>
+
+                {{ govukRadios({
+                    idPrefix: "granted-or-refused",
+                    name: "granted-or-refused",
+                    errorMessage: errors['granted-or-refused'] and {
+                        text: errors['granted-or-refused'].msg
+                    },
+                    fieldset: {
+                        legend: {
+                            text: "Was your planning application granted or refused?",
+                            isPageHeading: true,
+                            classes: "govuk-fieldset__legend--l"
+                        }
+                    },
+                    items: [
+                        {
+                            value: "granted",
+                            text: "Granted",
+                            attributes: { "data-cy": "answer-granted"},
+                            checked: appeal.eligibility.planningApplicationStatus === "granted"
+                        },
+                        {
+                            value: "refused",
+                            text: "Refused",
+                            attributes: { "data-cy": "answer-refused"},
+                            checked: appeal.eligibility.planningApplicationStatus === "refused"
+                        },
+                        {
+                            divider: "or"
+                        },
+                        {
+                            value: "nodecisionreceived",
+                            text: "I have not received a decision",
+                            attributes: { "data-cy": "answer-nodecisionreceived"},
+                            checked: appeal.eligibility.planningApplicationStatus === "nodecisionreceived"
+                        }
+                    ]
+                }) }}
+
+                {{ govukButton({
+                    text: "Continue",
+                    type: "submit",
+                    attributes: { "data-cy":"button-save-and-continue"}
+                }) }}
+            </form>
+        </div>
+    </div> 
+{% endblock %}
+
+  
+
