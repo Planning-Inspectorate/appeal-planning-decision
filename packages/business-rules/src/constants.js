@@ -31,7 +31,7 @@ const SECTION_STATE = {
 };
 
 const TYPE_OF_PLANNING_APPLICATION = {
-  FULL_PLANNING: 'full-planning',
+  FULL_APPEAL: 'full-appeal',
   HOUSEHOLDER_PLANNING: 'householder-planning',
   OUTLINE_PLANNING: 'outline-planning',
   PRIOR_APPROVAL: 'prior-approval',

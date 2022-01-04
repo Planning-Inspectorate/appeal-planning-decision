@@ -2,14 +2,14 @@
   {
     "description": "  As an appellant\n  I want to select the planning application status type of planning Application I made\n  So that I can proceed to raise an appeal",
     "keyword": "Feature",
-    "name": "Appeal Full Planning Application Status Question",
+    "name": "Appeal Full Appeal Application Status Question",
     "line": 1,
-    "id": "appeal-full-planning-application-status-question",
+    "id": "appeal-full-appeal-application-status-question",
     "tags": [],
     "uri": "granted-or-refused-application.feature",
     "elements": [
       {
-        "id": "appeal-full-planning-application-status-question;ac01-appellant-selects-granted-planning-application-status-and-proceeds-through-to-\"decision-date\"-page",
+        "id": "appeal-full-appeal-application-status-question;ac01-appellant-selects-granted-planning-application-status-and-proceeds-through-to-\"decision-date\"-page",
         "keyword": "Scenario",
         "line": 13,
         "name": "AC01 Appellant selects Granted Planning Application Status and proceeds through to \"Decision Date\" page",
@@ -23,7 +23,7 @@
             "name": "appellant is on the was your planning application granted or refused page",
             "result": {
               "status": "passed",
-              "duration": 751000000
+              "duration": 463000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "the appellant selects the option as 'Granted'",
             "result": {
               "status": "passed",
-              "duration": 85000000
+              "duration": 86000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "appellant clicks on the continue button",
             "result": {
               "status": "passed",
-              "duration": 506000000
+              "duration": 669000000
             }
           },
           {
@@ -53,13 +53,13 @@
             "name": "appellant gets navigated to the What’s the decision date on the letter from the local planning department?",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 4000000
             }
           }
         ]
       },
       {
-        "id": "appeal-full-planning-application-status-question;ac01-appellant-selects-granted-planning-application-status-and-proceeds-through-to-\"decision-date\"-page",
+        "id": "appeal-full-appeal-application-status-question;ac01-appellant-selects-granted-planning-application-status-and-proceeds-through-to-\"decision-date\"-page",
         "keyword": "Scenario",
         "line": 14,
         "name": "AC01 Appellant selects Granted Planning Application Status and proceeds through to \"Decision Date\" page",
@@ -73,7 +73,7 @@
             "name": "appellant is on the was your planning application granted or refused page",
             "result": {
               "status": "passed",
-              "duration": 629000000
+              "duration": 289000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "the appellant selects the option as 'Refused'",
             "result": {
               "status": "passed",
-              "duration": 89000000
+              "duration": 84000000
             }
           },
           {
@@ -93,7 +93,7 @@
             "name": "appellant clicks on the continue button",
             "result": {
               "status": "passed",
-              "duration": 325000000
+              "duration": 721000000
             }
           },
           {
@@ -103,13 +103,13 @@
             "name": "appellant gets navigated to the What’s the decision date on the letter from the local planning department?",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 4000000
             }
           }
         ]
       },
       {
-        "id": "appeal-full-planning-application-status-question;ac02-appellant-selects-'i-have-not-received-a-decision-for-planning-application",
+        "id": "appeal-full-appeal-application-status-question;ac02-appellant-selects-'i-have-not-received-a-decision-for-planning-application",
         "keyword": "Scenario",
         "line": 17,
         "name": "AC02 Appellant selects 'I have not received a decision for Planning Application",
@@ -123,7 +123,7 @@
             "name": "appellant is on the was your planning application granted or refused page",
             "result": {
               "status": "passed",
-              "duration": 597000000
+              "duration": 285000000
             }
           },
           {
@@ -133,7 +133,7 @@
             "name": "the appellant selects the option as 'I have Not Received a Decision'",
             "result": {
               "status": "passed",
-              "duration": 94000000
+              "duration": 84000000
             }
           },
           {
@@ -143,7 +143,7 @@
             "name": "appellant clicks on the continue button",
             "result": {
               "status": "passed",
-              "duration": 332000000
+              "duration": 674000000
             }
           },
           {
@@ -153,13 +153,13 @@
             "name": "the appellant gets navigated to the decision due page",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 3000000
             }
           }
         ]
       },
       {
-        "id": "appeal-full-planning-application-status-question;ac03-appellant-does-not-select-any-planning-application-status-and-is-provided-an-error",
+        "id": "appeal-full-appeal-application-status-question;ac03-appellant-does-not-select-any-planning-application-status-and-is-provided-an-error",
         "keyword": "Scenario",
         "line": 23,
         "name": "AC03 Appellant does not select any Planning Application Status and is provided an error",
@@ -173,7 +173,7 @@
             "name": "appellant is on the was your planning application granted or refused page",
             "result": {
               "status": "passed",
-              "duration": 571000000
+              "duration": 290000000
             }
           },
           {
@@ -183,7 +183,7 @@
             "name": "appellant clicks on the continue button",
             "result": {
               "status": "passed",
-              "duration": 424000000
+              "duration": 671000000
             }
           },
           {
@@ -193,13 +193,13 @@
             "name": "the appellant sees an error message 'Select if your planning application was granted or refused, or if you have not received a decision'",
             "result": {
               "status": "passed",
-              "duration": 46000000
+              "duration": 48000000
             }
           }
         ]
       },
       {
-        "id": "appeal-full-planning-application-status-question;ac04-appellant-clicks-back-link-and-proceeds-through-to-any-of-following-page",
+        "id": "appeal-full-appeal-application-status-question;ac04-appellant-clicks-back-link-and-proceeds-through-to-any-of-following-page",
         "keyword": "Scenario",
         "line": 28,
         "name": "AC04 Appellant clicks back link and proceeds through to Any of Following page",
@@ -213,7 +213,7 @@
             "name": "appellant is on the was your planning application granted or refused page",
             "result": {
               "status": "passed",
-              "duration": 563000000
+              "duration": 284000000
             }
           },
           {
@@ -223,7 +223,7 @@
             "name": "an appellant selects the back button",
             "result": {
               "status": "passed",
-              "duration": 421000000
+              "duration": 657000000
             }
           },
           {

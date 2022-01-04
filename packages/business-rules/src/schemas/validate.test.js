@@ -8,11 +8,11 @@ const mockAppeal = {
 };
 
 jest.mock('./householder-appeal', () => mockAppeal);
-jest.mock('./full-planning', () => mockAppeal);
+jest.mock('./full-appeal', () => mockAppeal);
 
 const { insert, update, validate } = require('./validate');
 const householderAppeal = require('./householder-appeal');
-const fullPlanning = require('./full-planning');
+const fullAppeal = require('./full-appeal');
 const { APPEAL_ID } = require('../constants');
 
 describe('schemas/validate', () => {
@@ -67,15 +67,15 @@ describe('schemas/validate', () => {
       expect(result).toEqual(appeal);
     });
 
-    it('should return the correct data for a full planning insert', () => {
+    it('should return the correct data for a full appeal insert', () => {
       appeal.appealType = APPEAL_ID.PLANNING_SECTION_78;
 
-      fullPlanning.insert.validate.mockReturnValue(appeal);
+      fullAppeal.insert.validate.mockReturnValue(appeal);
 
       const result = insert(appeal);
 
-      expect(fullPlanning.insert.validate).toHaveBeenCalledTimes(1);
-      expect(fullPlanning.insert.validate).toHaveBeenCalledWith(appeal, config);
+      expect(fullAppeal.insert.validate).toHaveBeenCalledTimes(1);
+      expect(fullAppeal.insert.validate).toHaveBeenCalledWith(appeal, config);
       expect(result).toEqual(appeal);
     });
   });
@@ -93,15 +93,15 @@ describe('schemas/validate', () => {
       expect(result).toEqual(appeal);
     });
 
-    it('should return the correct data for a full planning update', () => {
+    it('should return the correct data for a full appeal update', () => {
       appeal.appealType = APPEAL_ID.PLANNING_SECTION_78;
 
-      fullPlanning.update.validate.mockReturnValue(appeal);
+      fullAppeal.update.validate.mockReturnValue(appeal);
 
       const result = update(appeal);
 
-      expect(fullPlanning.update.validate).toHaveBeenCalledTimes(1);
-      expect(fullPlanning.update.validate).toHaveBeenCalledWith(appeal, config);
+      expect(fullAppeal.update.validate).toHaveBeenCalledTimes(1);
+      expect(fullAppeal.update.validate).toHaveBeenCalledWith(appeal, config);
       expect(result).toEqual(appeal);
     });
   });

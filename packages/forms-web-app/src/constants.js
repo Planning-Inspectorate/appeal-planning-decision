@@ -6,7 +6,7 @@ module.exports = {
       NODECISION: 'nodecisionreceived',
     },
   },
-  FULL_PLANNING: {
+  FULL_APPEAL: {
     PLANNING_APPLICATION_STATUS: {
       GRANTED: 'granted',
       REFUSED: 'refused',

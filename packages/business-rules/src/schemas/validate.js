@@ -1,5 +1,5 @@
 const householderAppeal = require('./householder-appeal');
-const fullPlanning = require('./full-planning');
+const fullAppeal = require('./full-appeal');
 const isValid = require('../validation/appeal/type/is-valid');
 const { APPEAL_ID } = require('../constants');
 const BusinessRulesError = require('../lib/business-rules-error');
@@ -15,7 +15,7 @@ const validate = (action, data, config = { abortEarly: false }) => {
     case APPEAL_ID.HOUSEHOLDER:
       return householderAppeal[action].validate(data, config);
     case APPEAL_ID.PLANNING_SECTION_78:
-      return fullPlanning[action].validate(data, config);
+      return fullAppeal[action].validate(data, config);
     default:
       throw new BusinessRulesError(`No schema found for appeal type ${appealType}`);
   }
