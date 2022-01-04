@@ -4,6 +4,8 @@ const VIEW = {
     ELIGIBILITY: {
       ENFORCEMENT_NOTICE_HOUSEHOLDER:
         'householder-planning/eligibility/enforcement-notice-householder',
+      GRANTED_OR_REFUSED_HOUSEHOLDER:
+        'householder-planning/eligibility/granted-or-refused-householder',
     },
   },
 };

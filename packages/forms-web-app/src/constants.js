@@ -13,4 +13,11 @@ module.exports = {
       NODECISION: 'nodecisionreceived',
     },
   },
+  HOUSEHOLDER_PLANNING: {
+    PLANNING_APPLICATION_STATUS: {
+      GRANTED: 'granted',
+      REFUSED: 'refused',
+      NODECISION: 'nodecisionreceived',
+    },
+  },
 };
