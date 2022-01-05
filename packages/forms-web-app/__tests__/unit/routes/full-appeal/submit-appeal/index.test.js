@@ -3,6 +3,7 @@ const taskListRouter = require('../../../../../src/routes/full-appeal/submit-app
 const checkAnswersRouter = require('../../../../../src/routes/full-appeal/submit-appeal/check-answers');
 const contactDetailsRouter = require('../../../../../src/routes/full-appeal/submit-appeal/contact-details');
 const applicationFormRouter = require('../../../../../src/routes/full-appeal/submit-appeal/application-form');
+const applicationNumberRouter = require('../../../../../src/routes/full-appeal/submit-appeal/application-number');
 
 describe('routes/full-appeal/submit-appeal/index', () => {
   beforeEach(() => {
@@ -11,10 +12,11 @@ describe('routes/full-appeal/submit-appeal/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(4);
+    expect(use.mock.calls.length).toBe(5);
     expect(use).toHaveBeenCalledWith(taskListRouter);
     expect(use).toHaveBeenCalledWith(checkAnswersRouter);
     expect(use).toHaveBeenCalledWith(contactDetailsRouter);
     expect(use).toHaveBeenCalledWith(applicationFormRouter);
+    expect(use).toHaveBeenCalledWith(applicationNumberRouter);
   });
 });
