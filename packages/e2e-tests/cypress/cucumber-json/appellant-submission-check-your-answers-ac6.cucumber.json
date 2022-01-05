@@ -27,7 +27,7 @@
             "name": "an agent or appellant is reviewing their answers and they wholly own the site",
             "result": {
               "status": "passed",
-              "duration": 17407000000
+              "duration": 19198000000
             }
           },
           {
@@ -37,7 +37,7 @@
             "name": "Check Your Answers is presented",
             "result": {
               "status": "passed",
-              "duration": 420000000
+              "duration": 538000000
             }
           },
           {
@@ -47,7 +47,7 @@
             "name": "the answer for other owner notification is not displayed",
             "result": {
               "status": "passed",
-              "duration": 30000000
+              "duration": 38000000
             }
           }
         ]
