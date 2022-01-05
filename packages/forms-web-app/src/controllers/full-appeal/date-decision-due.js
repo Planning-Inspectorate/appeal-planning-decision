@@ -30,11 +30,33 @@ exports.getDateDecisionDue = (req, res) => {
   });
 };
 
+const filteredErrorSummary = (errorSummary) => {
+  if (!errorSummary || errorSummary.length <= 1) return errorSummary;
+
+  const filteredErrors = [];
+  const texts = ['must include a'];
+  // Remove single date error if compound ones are present
+  const filtered = errorSummary.filter((e) => !e.text.includes(texts));
+
+  // Return first compound errors, if exists or return first of any error
+  if (filtered.length === 0) {
+    filteredErrors.push(errorSummary[0]);
+  } else {
+    filteredErrors.push(filtered[0]);
+  }
+
+  return filteredErrors;
+};
+
 exports.postDateDecisionDue = async (req, res) => {
   const { body } = req;
   /* istanbul ignore next */
   const { appeal } = req.session;
   const { errors = {}, errorSummary = [] } = body;
+
+  req.log.debug({ body }, 'Des:- body');
+  req.log.debug({ errors }, 'Des:- errors');
+  req.log.debug({ errorSummary }, 'Des:- errorSummary');
 
   if (Object.keys(errors).length > 0) {
     res.render(currentPage, {
@@ -44,7 +66,7 @@ exports.postDateDecisionDue = async (req, res) => {
         year: body['decision-date-year'],
       },
       errors,
-      errorSummary,
+      errorSummary: filteredErrorSummary(errorSummary),
       previousPage: navigationPage.previousPage,
     });
     return;

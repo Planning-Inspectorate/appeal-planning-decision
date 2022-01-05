@@ -148,6 +148,184 @@ describe('controllers/full-planning/date-decision-due', () => {
       });
     });
 
+    it('should display the date decision due template with errors if any field is invalid', async () => {
+      let mockRequest = {
+        ...req,
+        body: {
+          'decision-date-day': '45',
+          'decision-date-month': '15',
+          'decision-date-year': '2021',
+          errorSummary: [
+            {
+              text: 'The date the decision was due must be a real date',
+              href: '#decision-date-day',
+            },
+            {
+              text: 'The date the decision was due must be a real date',
+              href: '#decision-date-month',
+            },
+          ],
+          errors: {
+            'decision-date-day': {
+              value: '45',
+              msg: 'The date the decision was due must be a real date',
+              param: 'decision-date-day',
+              location: 'body',
+            },
+            'decision-date-month': {
+              value: '15',
+              msg: 'The date the decision was due must be a real date',
+              param: 'decision-date-month',
+              location: 'body',
+            },
+          },
+        },
+      };
+
+      await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
+
+      expect(res.render).toHaveBeenCalledWith(currentPage, {
+        decisionDate: {
+          day: '45',
+          month: '15',
+          year: '2021',
+        },
+        errorSummary: [
+          {
+            text: 'The date the decision was due must be a real date',
+            href: '#decision-date-day',
+          },
+        ],
+        errors: {
+          'decision-date-day': {
+            value: '45',
+            msg: 'The date the decision was due must be a real date',
+            param: 'decision-date-day',
+            location: 'body',
+          },
+          'decision-date-month': {
+            value: '15',
+            msg: 'The date the decision was due must be a real date',
+            param: 'decision-date-month',
+            location: 'body',
+          },
+        },
+        previousPage: navigationPage.previousPage,
+      });
+
+      mockRequest = {
+        ...req,
+        body: {
+          'decision-date-day': '45',
+          'decision-date-month': '01',
+          'decision-date-year': '2021',
+          errorSummary: [
+            {
+              text: 'The date the decision was due must be a real date',
+              href: '#decision-date-day',
+            },
+          ],
+          errors: {
+            'decision-date-day': {
+              value: '45',
+              msg: 'The date the decision was due must be a real date',
+              param: 'decision-date-day',
+              location: 'body',
+            },
+          },
+        },
+      };
+
+      await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
+
+      expect(res.render).toHaveBeenCalledWith(currentPage, {
+        decisionDate: {
+          day: '45',
+          month: '01',
+          year: '2021',
+        },
+        errorSummary: [
+          {
+            text: 'The date the decision was due must be a real date',
+            href: '#decision-date-day',
+          },
+        ],
+        errors: {
+          'decision-date-day': {
+            value: '45',
+            msg: 'The date the decision was due must be a real date',
+            param: 'decision-date-day',
+            location: 'body',
+          },
+        },
+        previousPage: navigationPage.previousPage,
+      });
+    });
+
+    it('should display the date decision due template with errors if any field is missing', async () => {
+      const mockRequest = {
+        ...req,
+        body: {
+          'decision-date-day': 1,
+          'decision-date-month': '',
+          'decision-date-year': '',
+          errorSummary: [
+            {
+              text: 'The date the decision was due must include a month and year',
+              href: '#decision-date-month',
+            },
+            {
+              text: 'The date the decision was due must include a year',
+              href: '#decision-date-year',
+            },
+          ],
+          errors: {
+            'decision-date-month': {
+              value: '',
+              msg: 'The date the decision was due must include a month and year',
+              param: 'decision-date-month',
+              location: 'body',
+            },
+            'decision-date-year': {
+              value: '',
+              msg: 'The date the decision was due must include a year',
+              param: 'decision-date-year',
+              location: 'body',
+            },
+          },
+        },
+      };
+      await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
+      expect(res.render).toHaveBeenCalledWith(currentPage, {
+        decisionDate: {
+          day: 1,
+          month: '',
+          year: '',
+        },
+        errorSummary: [
+          {
+            text: 'The date the decision was due must include a month and year',
+            href: '#decision-date-month',
+          },
+        ],
+        errors: {
+          'decision-date-month': {
+            value: '',
+            msg: 'The date the decision was due must include a month and year',
+            param: 'decision-date-month',
+            location: 'body',
+          },
+          'decision-date-year': {
+            value: '',
+            msg: 'The date the decision was due must include a year',
+            param: 'decision-date-year',
+            location: 'body',
+          },
+        },
+        previousPage: navigationPage.previousPage,
+      });
+    });
+
     it('should redirect to enforceent notice as deadline date is not passed', async () => {
       const decisionDate = addDays(subMonths(endOfDay(new Date()), 6), 1);
 
