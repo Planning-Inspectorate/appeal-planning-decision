@@ -14,12 +14,12 @@ jest.mock('../../../../src/config', () => ({
   },
 }));
 
-const dateDecisionDueController = require('../../../../src/controllers/full-planning/date-decision-due');
+const dateDecisionDueController = require('../../../../src/controllers/full-appeal/date-decision-due');
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const {
   VIEW: {
-    FULL_PLANNING: { DATE_DECISION_DUE: currentPage },
+    FULL_APPEAL: { DATE_DECISION_DUE: currentPage },
   },
 } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
@@ -31,7 +31,7 @@ const navigationPage = {
   shutterPage: '/before-you-start/you-cannot-appeal',
 };
 
-describe('controllers/full-planning/date-decision-due', () => {
+describe('controllers/full-appeal/date-decision-due', () => {
   let req;
   let res;
   let appeal;
