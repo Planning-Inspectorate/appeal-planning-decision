@@ -10,7 +10,7 @@ import {
   getSelectSiteErrorMessage,
 } from '../../../../support/full-appeal/eligibility/page-objects/appellant-selects-the-site-po';
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
-const pageHeading = 'Is your appeal about any of the following?';
+const pageHeading = "Was your planning application was about any of the following?";
 const url = `${Cypress.env('APPEALS_BASE_URL')}/before-you-start/any-of-following`;
 const pageTitle = 'Is your appeal about any of the following? - Before you start - Appeal a householder planning decision - GOV.UK';
 Given('an appellant is on the is your appeal about any of the following page', () => {
