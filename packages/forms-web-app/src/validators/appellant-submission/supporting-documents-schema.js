@@ -11,6 +11,7 @@ const {
   MIME_TYPE_JPEG,
   MIME_TYPE_TIF,
   MIME_TYPE_PNG,
+  MIME_TYPE_TXT,
 } = require('../../lib/mime-types');
 
 module.exports = {
@@ -29,12 +30,10 @@ module.exports = {
             MIME_TYPE_JPEG,
             MIME_TYPE_TIF,
             MIME_TYPE_PNG,
+            MIME_TYPE_TXT,
           ],
           `${name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`
         );
-
-        // check file for Virus
-        await validAV(value, name);
 
         // check binary mime type of file
         await validateMimeBinaryType(
@@ -46,9 +45,13 @@ module.exports = {
             MIME_TYPE_TIF,
             MIME_TYPE_JPEG,
             MIME_TYPE_PNG,
+            MIME_TYPE_TXT,
           ],
           `${name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`
         );
+
+        // check file for Virus
+        await validAV(value, name);
 
         // check file size
         validateFileSize(size, config.fileUpload.pins.uploadApplicationMaxFileSize, name);

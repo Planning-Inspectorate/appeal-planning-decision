@@ -9,6 +9,7 @@ const {
   MIME_TYPE_JPEG,
   MIME_TYPE_TIF,
   MIME_TYPE_PNG,
+  MIME_TYPE_TXT,
 } = require('../../../../src/lib/file-upload-helpers');
 const config = require('../../../../src/config');
 
@@ -40,6 +41,7 @@ describe('validators/schemas/files', () => {
           MIME_TYPE_JPEG,
           MIME_TYPE_TIF,
           MIME_TYPE_PNG,
+          MIME_TYPE_TXT,
         ],
         'pingu.penguin is the wrong file type: The file must be a DOC, DOCX, PDF, TIF, JPG or PNG.'
       );

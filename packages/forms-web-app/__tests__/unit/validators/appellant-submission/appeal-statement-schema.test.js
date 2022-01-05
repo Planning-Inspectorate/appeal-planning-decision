@@ -8,6 +8,7 @@ const {
   MIME_TYPE_JPEG,
   MIME_TYPE_TIF,
   MIME_TYPE_PNG,
+  MIME_TYPE_TXT,
 } = require('../../../../src/lib/mime-types');
 const config = require('../../../../src/config');
 
@@ -117,6 +118,7 @@ describe('validators/appellant-submission/appeal-statement-schema', () => {
           MIME_TYPE_JPEG,
           MIME_TYPE_TIF,
           MIME_TYPE_PNG,
+          MIME_TYPE_TXT,
         ],
         'The selected file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
       );

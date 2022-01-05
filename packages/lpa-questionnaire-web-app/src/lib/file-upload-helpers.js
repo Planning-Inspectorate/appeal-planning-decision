@@ -14,6 +14,7 @@ exports.MIME_TYPE_PDF = 'application/pdf';
 exports.MIME_TYPE_TIF = 'image/tiff';
 exports.MIME_TYPE_JPEG = 'image/jpeg';
 exports.MIME_TYPE_PNG = 'image/png';
+exports.MIME_TYPE_TXT = 'text/plain';
 
 /**
  * Constructs errorSummary for page with MOJ multi file upload

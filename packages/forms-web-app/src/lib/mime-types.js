@@ -6,4 +6,5 @@ module.exports = {
   MIME_TYPE_TIF: 'image/tiff',
   MIME_TYPE_JPEG: 'image/jpeg',
   MIME_TYPE_PNG: 'image/png',
+  MIME_TYPE_TXT: 'text/plain',
 };

@@ -8,6 +8,7 @@ const {
   MIME_TYPE_JPEG,
   MIME_TYPE_TIF,
   MIME_TYPE_PNG,
+  MIME_TYPE_TXT,
 } = require('../../../../src/lib/mime-types');
 const config = require('../../../../src/config');
 
@@ -38,6 +39,7 @@ describe('validators/appellant-submission/supporting-documents-schema', () => {
           MIME_TYPE_JPEG,
           MIME_TYPE_TIF,
           MIME_TYPE_PNG,
+          MIME_TYPE_TXT,
         ],
         'pingu.penguin must be a DOC, DOCX, PDF, TIF, JPG or PNG'
       );
