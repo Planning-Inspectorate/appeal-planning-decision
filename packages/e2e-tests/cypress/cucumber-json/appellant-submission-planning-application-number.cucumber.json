@@ -22,7 +22,7 @@
             "name": "user has not previously provided a planning application number",
             "result": {
               "status": "passed",
-              "duration": 586000000
+              "duration": 395000000
             }
           },
           {
@@ -32,7 +32,7 @@
             "name": "the user provides a planning application number \"ValidNumber/12345\"",
             "result": {
               "status": "passed",
-              "duration": 1505000000
+              "duration": 1036000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "the planning application number in the appeal will be \"ValidNumber/12345\"",
             "result": {
               "status": "passed",
-              "duration": 402000000
+              "duration": 317000000
             }
           }
         ]
@@ -62,7 +62,7 @@
             "name": "user has not previously provided a planning application number",
             "result": {
               "status": "passed",
-              "duration": 343000000
+              "duration": 300000000
             }
           },
           {
@@ -72,7 +72,7 @@
             "name": "the user provides a planning application number \"\"",
             "result": {
               "status": "passed",
-              "duration": 965000000
+              "duration": 872000000
             }
           },
           {
@@ -92,7 +92,7 @@
             "name": "the appeal is not updated with the provided planning application number",
             "result": {
               "status": "passed",
-              "duration": 295000000
+              "duration": 319000000
             }
           }
         ]
@@ -112,7 +112,7 @@
             "name": "user has not previously provided a planning application number",
             "result": {
               "status": "passed",
-              "duration": 404000000
+              "duration": 305000000
             }
           },
           {
@@ -122,7 +122,7 @@
             "name": "the user provides a planning application number \"1234567890123456789012345678901\"",
             "result": {
               "status": "passed",
-              "duration": 1455000000
+              "duration": 1188000000
             }
           },
           {
@@ -132,7 +132,7 @@
             "name": "the user is informed that the application number is not valid because \"exceeds max characters\"",
             "result": {
               "status": "passed",
-              "duration": 14000000
+              "duration": 10000000
             }
           },
           {
@@ -142,7 +142,7 @@
             "name": "the appeal is not updated with the provided planning application number",
             "result": {
               "status": "passed",
-              "duration": 305000000
+              "duration": 299000000
             }
           }
         ]
@@ -162,7 +162,7 @@
             "name": "user has previously provided a planning application number \"FirstNumber/12345\"",
             "result": {
               "status": "passed",
-              "duration": 1179000000
+              "duration": 1061000000
             }
           },
           {
@@ -172,7 +172,7 @@
             "name": "the user provides a planning application number \"SecondNumber/54321\"",
             "result": {
               "status": "passed",
-              "duration": 1249000000
+              "duration": 995000000
             }
           },
           {
@@ -182,7 +182,7 @@
             "name": "the planning application number in the appeal will be \"SecondNumber/54321\"",
             "result": {
               "status": "passed",
-              "duration": 493000000
+              "duration": 308000000
             }
           }
         ]
@@ -202,7 +202,7 @@
             "name": "user has previously provided a planning application number \"FirstNumber/12345\"",
             "result": {
               "status": "passed",
-              "duration": 1408000000
+              "duration": 1013000000
             }
           },
           {
@@ -212,7 +212,7 @@
             "name": "the user provides a planning application number \"\"",
             "result": {
               "status": "passed",
-              "duration": 978000000
+              "duration": 766000000
             }
           },
           {
@@ -222,7 +222,7 @@
             "name": "the user is informed that the application number is not valid because \"mandatory field\"",
             "result": {
               "status": "passed",
-              "duration": 11000000
+              "duration": 8000000
             }
           },
           {
@@ -232,7 +232,7 @@
             "name": "the planning application number in the appeal will be \"FirstNumber/12345\"",
             "result": {
               "status": "passed",
-              "duration": 346000000
+              "duration": 340000000
             }
           }
         ]
@@ -252,7 +252,7 @@
             "name": "user has previously provided a planning application number \"FirstNumber/12345\"",
             "result": {
               "status": "passed",
-              "duration": 1277000000
+              "duration": 1080000000
             }
           },
           {
@@ -262,7 +262,7 @@
             "name": "the user provides a planning application number \"1234567890123456789012345678901\"",
             "result": {
               "status": "passed",
-              "duration": 1461000000
+              "duration": 1193000000
             }
           },
           {
@@ -272,7 +272,7 @@
             "name": "the user is informed that the application number is not valid because \"exceeds max characters\"",
             "result": {
               "status": "passed",
-              "duration": 13000000
+              "duration": 9000000
             }
           },
           {
@@ -282,7 +282,7 @@
             "name": "the planning application number in the appeal will be \"FirstNumber/12345\"",
             "result": {
               "status": "passed",
-              "duration": 368000000
+              "duration": 331000000
             }
           }
         ]

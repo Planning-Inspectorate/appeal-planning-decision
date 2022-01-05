@@ -22,7 +22,7 @@
             "name": "the user checks the status of their appeal",
             "result": {
               "status": "passed",
-              "duration": 635000000
+              "duration": 453000000
             }
           },
           {
@@ -32,7 +32,7 @@
             "name": "the user selects to upload their appeal submission document",
             "result": {
               "status": "passed",
-              "duration": 443000000
+              "duration": 322000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "the user should be presented with opportunity to upload their appeal submission document",
             "result": {
               "status": "passed",
-              "duration": 12000000
+              "duration": 9000000
             }
           }
         ]

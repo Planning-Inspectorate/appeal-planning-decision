@@ -32,7 +32,7 @@
             "name": "a user visits the site with JavaScript disabled",
             "result": {
               "status": "passed",
-              "duration": 496000000
+              "duration": 464000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "the user navigates through the service",
             "result": {
               "status": "passed",
-              "duration": 402000000
+              "duration": 363000000
             }
           },
           {
@@ -52,7 +52,7 @@
             "name": "the cookie banner remains visible",
             "result": {
               "status": "passed",
-              "duration": 5000000
+              "duration": 3000000
             }
           }
         ]
@@ -81,7 +81,7 @@
             "name": "a user visits the site with JavaScript disabled",
             "result": {
               "status": "passed",
-              "duration": 390000000
+              "duration": 336000000
             }
           },
           {
@@ -91,7 +91,7 @@
             "name": "the user views the cookie preferences page",
             "result": {
               "status": "passed",
-              "duration": 372000000
+              "duration": 296000000
             }
           },
           {

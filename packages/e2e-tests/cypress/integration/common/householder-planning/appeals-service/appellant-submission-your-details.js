@@ -4,7 +4,6 @@ import { clickSaveAndContinue } from '../../../../support/householder-planning/a
 import { confirmApplicantNameWasAccepted } from '../../../../support/householder-planning/appeals-service/appellant-submission-your-details/confirmApplicantNameWasAccepted';
 import { confirmApplicantNameWasRejected } from '../../../../support/householder-planning/appeals-service/appellant-submission-your-details/confirmApplicantNameWasRejected';
 import { confirmApplicantNameValue } from '../../../../support/householder-planning/appeals-service/appellant-submission-your-details/confirmApplicantNameValue';
-import { provideAreYouOriginalApplicant } from '../../../../support/householder-planning/appeals-service/appellant-submission-your-details/provideAreYouOriginalApplicant';
 import { provideDetailsName } from '../../../../support/householder-planning/appeals-service/appellant-submission-your-details/provideDetailsName';
 import { provideDetailsEmail } from '../../../../support/householder-planning/appeals-service/appellant-submission-your-details/provideDetailsEmail';
 import { confirmYourDetailsStatus } from '../../../../support/householder-planning/appeals-service/appellant-submission-your-details/confirmYourDetailsStatus';
@@ -30,6 +29,9 @@ import { confirmNavigationApplicantNamePage } from '../../../../support/househol
 import { confirmAreYouOriginalApplicant } from '../../../../support/householder-planning/appeals-service/appellant-submission-your-details/confirmAreYouOriginalApplicant';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { pageURLAppeal } from './pageURLAppeal';
+import {
+  provideAreYouOriginalApplicant
+} from '../../../../support/householder-planning/appeals-service/appellant-submission-your-details/provideAreYouOriginalApplicant';
 
 When('the user provides the name {string}', (name) => {
   goToAppealsPage(pageURLAppeal.goToApplicantNamePage);

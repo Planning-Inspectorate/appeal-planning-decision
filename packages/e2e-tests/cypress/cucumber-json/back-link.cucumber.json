@@ -32,7 +32,7 @@
             "name": "an appellant or agent is checking their eligibility with JavaScript disabled",
             "result": {
               "status": "passed",
-              "duration": 922000000
+              "duration": 468000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "they navigate forwards within the eligibility steps",
             "result": {
               "status": "passed",
-              "duration": 4208000000
+              "duration": 2390000000
             }
           },
           {
@@ -52,7 +52,7 @@
             "name": "they will be able to navigate back to the previous page within the eligibility steps",
             "result": {
               "status": "passed",
-              "duration": 2632000000
+              "duration": 1485000000
             }
           }
         ]
@@ -81,7 +81,7 @@
             "name": "an appellant or agent is creating an appeal with JavaScript disabled",
             "result": {
               "status": "passed",
-              "duration": 816000000
+              "duration": 400000000
             }
           },
           {
@@ -91,7 +91,7 @@
             "name": "they navigate forwards within the appeal steps",
             "result": {
               "status": "passed",
-              "duration": 3891000000
+              "duration": 2750000000
             }
           },
           {
@@ -101,7 +101,7 @@
             "name": "they will be able to navigate back to the previous page within the appeal steps",
             "result": {
               "status": "passed",
-              "duration": 2506000000
+              "duration": 1440000000
             }
           }
         ]
@@ -134,7 +134,7 @@
             "name": "an appellant or agent is on the task list with JavaScript disabled",
             "result": {
               "status": "passed",
-              "duration": 705000000
+              "duration": 345000000
             }
           },
           {
@@ -144,7 +144,7 @@
             "name": "they provide details about the original planning application",
             "result": {
               "status": "passed",
-              "duration": 3174000000
+              "duration": 1727000000
             }
           },
           {
@@ -154,7 +154,7 @@
             "name": "they will be able to navigate back from the original planning application steps to the task list",
             "result": {
               "status": "passed",
-              "duration": 1954000000
+              "duration": 999000000
             }
           }
         ]
@@ -187,7 +187,7 @@
             "name": "an appellant or agent is on check your answers with JavaScript disabled",
             "result": {
               "status": "passed",
-              "duration": 648000000
+              "duration": 366000000
             }
           },
           {
@@ -197,7 +197,7 @@
             "name": "they alter details about visiting the appeal site",
             "result": {
               "status": "passed",
-              "duration": 2217000000
+              "duration": 1276000000
             }
           },
           {
@@ -207,7 +207,7 @@
             "name": "they will be able to navigate back from the visiting the appeal site steps to check your answers",
             "result": {
               "status": "passed",
-              "duration": 2115000000
+              "duration": 1025000000
             }
           }
         ]
@@ -236,7 +236,7 @@
             "name": "an appellant or agent is checking their eligibility with JavaScript enabled",
             "result": {
               "status": "passed",
-              "duration": 721000000
+              "duration": 345000000
             }
           },
           {
@@ -246,7 +246,7 @@
             "name": "they navigate forwards within the eligibility steps",
             "result": {
               "status": "passed",
-              "duration": 3709000000
+              "duration": 2378000000
             }
           },
           {
@@ -256,7 +256,7 @@
             "name": "they will be able to navigate back to the previous page within the eligibility steps",
             "result": {
               "status": "passed",
-              "duration": 2339000000
+              "duration": 1399000000
             }
           }
         ]
@@ -285,7 +285,7 @@
             "name": "an appellant or agent is creating an appeal with JavaScript enabled",
             "result": {
               "status": "passed",
-              "duration": 772000000
+              "duration": 436000000
             }
           },
           {
@@ -295,7 +295,7 @@
             "name": "they navigate forwards within the appeal steps",
             "result": {
               "status": "passed",
-              "duration": 3613000000
+              "duration": 2714000000
             }
           },
           {
@@ -305,7 +305,7 @@
             "name": "they will be able to navigate back to the previous page within the appeal steps",
             "result": {
               "status": "passed",
-              "duration": 2472000000
+              "duration": 1369000000
             }
           }
         ]
@@ -338,7 +338,7 @@
             "name": "an appellant or agent is on the task list with JavaScript enabled",
             "result": {
               "status": "passed",
-              "duration": 849000000
+              "duration": 353000000
             }
           },
           {
@@ -348,7 +348,7 @@
             "name": "they provide details about the original planning application",
             "result": {
               "status": "passed",
-              "duration": 2792000000
+              "duration": 1789000000
             }
           },
           {
@@ -358,7 +358,7 @@
             "name": "they will be able to navigate back from the original planning application steps to the task list",
             "result": {
               "status": "passed",
-              "duration": 1550000000
+              "duration": 1145000000
             }
           }
         ]
@@ -391,7 +391,7 @@
             "name": "an appellant or agent is on check your answers with JavaScript enabled",
             "result": {
               "status": "passed",
-              "duration": 626000000
+              "duration": 337000000
             }
           },
           {
@@ -401,7 +401,7 @@
             "name": "they alter details about visiting the appeal site",
             "result": {
               "status": "passed",
-              "duration": 1816000000
+              "duration": 1282000000
             }
           },
           {
@@ -411,7 +411,7 @@
             "name": "they will be able to navigate back from the visiting the appeal site steps to check your answers",
             "result": {
               "status": "passed",
-              "duration": 1803000000
+              "duration": 999000000
             }
           }
         ]
@@ -440,7 +440,7 @@
             "name": "an appellant or agent had an error on the previous page",
             "result": {
               "status": "passed",
-              "duration": 2625000000
+              "duration": 1636000000
             }
           },
           {
@@ -450,7 +450,7 @@
             "name": "the appellant or agent uses the back link",
             "result": {
               "status": "passed",
-              "duration": 537000000
+              "duration": 307000000
             }
           },
           {
@@ -460,7 +460,7 @@
             "name": "the page will be displayed without the error",
             "result": {
               "status": "passed",
-              "duration": 10000000
+              "duration": 4000000
             }
           }
         ]
@@ -489,7 +489,7 @@
             "name": "an appellant or agent has an error on the current page",
             "result": {
               "status": "passed",
-              "duration": 1216000000
+              "duration": 632000000
             }
           },
           {
@@ -499,7 +499,7 @@
             "name": "the appellant or agent selects to go back",
             "result": {
               "status": "passed",
-              "duration": 459000000
+              "duration": 289000000
             }
           },
           {
@@ -509,7 +509,7 @@
             "name": "the previous page will be displayed without the current page being refreshed",
             "result": {
               "status": "passed",
-              "duration": 5000000
+              "duration": 3000000
             }
           }
         ]
@@ -538,7 +538,7 @@
             "name": "an appellant or Agent didn’t come from a previous page in the service",
             "result": {
               "status": "passed",
-              "duration": 670000000
+              "duration": 419000000
             }
           },
           {
@@ -548,7 +548,7 @@
             "name": "the appellant or agent selects to go back",
             "result": {
               "status": "passed",
-              "duration": 632000000
+              "duration": 265000000
             }
           },
           {
@@ -558,7 +558,7 @@
             "name": "they will be taken to the ‘Start’ page of the service",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 3000000
             }
           }
         ]
@@ -583,7 +583,7 @@
             "name": "an appellant or Agent visits the ‘Start’ page of the service",
             "result": {
               "status": "passed",
-              "duration": 624000000
+              "duration": 285000000
             }
           },
           {
@@ -593,7 +593,7 @@
             "name": "the appellant or agent wishes to go back",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 2000000
             }
           },
           {
@@ -603,7 +603,7 @@
             "name": "they must use breadcrumbs or browser back button",
             "result": {
               "status": "passed",
-              "duration": 15000000
+              "duration": 6000000
             }
           }
         ]

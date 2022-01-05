@@ -1,10 +1,14 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { providePlanningApplicationNumber } from '../../../../support/householder-planning/appeals-service/appellant-submission-planning-application-number/providePlanningApplicationNumber';
-import { confirmPlanningApplicationNumberHasUpdated } from '../../../../support/householder-planning/appeals-service/appellant-submission-planning-application-number/confirmPlanningApplicationNumberHasUpdated';
 import { confirmPlanningApplicationNumberRejectedBecause } from '../../../../support/householder-planning/appeals-service/appellant-submission-planning-application-number/confirmPlanningApplicationNumberRejectedBecause';
-import { confirmPlanningApplicationNumberHasNotUpdated } from '../../../../support/householder-planning/appeals-service/appellant-submission-planning-application-number/confirmPlanningApplicationNumberHasNotUpdated';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { pageURLAppeal } from '../../../common/householder-planning/appeals-service/pageURLAppeal';
+import {
+  confirmPlanningApplicationNumberHasUpdated
+} from '../../../../support/householder-planning/appeals-service/appellant-submission-planning-application-number/confirmPlanningApplicationNumberHasUpdated';
+import {
+  confirmPlanningApplicationNumberHasNotUpdated
+} from '../../../../support/householder-planning/appeals-service/appellant-submission-planning-application-number/confirmPlanningApplicationNumberHasNotUpdated';
 
 Given('user has not previously provided a planning application number', () => {
   goToAppealsPage(pageURLAppeal.goToPlanningApplicationNumberPage);
