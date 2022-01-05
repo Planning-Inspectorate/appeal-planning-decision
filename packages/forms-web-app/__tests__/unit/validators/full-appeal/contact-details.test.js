@@ -14,7 +14,7 @@ describe('validators/contact-details', () => {
 
       expect(rule.stack[0].validator.name).toEqual('isEmpty');
       expect(rule.stack[0].negated).toBeTruthy();
-      expect(rule.stack[0].message).toEqual('Enter your name');
+      expect(rule.stack[0].message).toEqual('Enter your full name');
 
       expect(rule.stack[2].validator.name).toEqual('matches');
       expect(rule.stack[2].options[0]).toEqual(/^[a-z\-' ]+$/i);
@@ -54,7 +54,7 @@ describe('validators/contact-details', () => {
         expected: (result) => {
           expect(result.errors).toHaveLength(2);
           expect(result.errors[0].location).toEqual('body');
-          expect(result.errors[0].msg).toEqual('Enter your name');
+          expect(result.errors[0].msg).toEqual('Enter your full name');
           expect(result.errors[0].param).toEqual('appellant-name');
           expect(result.errors[0].value).toEqual(undefined);
           expect(result.errors[1].location).toEqual('body');
