@@ -11,7 +11,7 @@ const router = express.Router();
 router.get('/submit-appeal/application-form', getApplicationForm);
 router.post(
   '/submit-appeal/application-form',
-  fileUploadValidationRules(),
+  fileUploadValidationRules('Select your planning application form'),
   validationErrorHandler,
   postApplicationForm
 );

@@ -26,5 +26,6 @@ describe('routes/full-appeal/submit-appeal/index', () => {
       validationErrorHandler,
       postApplicationForm
     );
+    expect(fileUploadValidationRules).toHaveBeenCalledWith('Select your planning application form');
   });
 });
