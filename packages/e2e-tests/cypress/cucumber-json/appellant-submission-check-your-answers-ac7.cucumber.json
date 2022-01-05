@@ -27,7 +27,7 @@
             "name": "an agent or appellant has provided information where they have informed the other owners",
             "result": {
               "status": "passed",
-              "duration": 17778000000
+              "duration": 27380000000
             }
           },
           {
@@ -37,7 +37,7 @@
             "name": "Check Your Answers is presented",
             "result": {
               "status": "passed",
-              "duration": 511000000
+              "duration": 790000000
             }
           },
           {
@@ -47,7 +47,7 @@
             "name": "the positive answer for other owner notification is displayed with a change link",
             "result": {
               "status": "passed",
-              "duration": 44000000
+              "duration": 60000000
             }
           }
         ]

@@ -22,7 +22,7 @@
             "name": "an appeal is ready to be submitted",
             "result": {
               "status": "passed",
-              "duration": 15490000000
+              "duration": 20504000000
             }
           },
           {
@@ -32,7 +32,7 @@
             "name": "the declaration is not agreed",
             "result": {
               "status": "passed",
-              "duration": 620000000
+              "duration": 1034000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "no submission confirmation is presented",
             "result": {
               "status": "passed",
-              "duration": 11000000
+              "duration": 14000000
             }
           }
         ]
@@ -62,7 +62,7 @@
             "name": "an appeal is ready to be submitted",
             "result": {
               "status": "passed",
-              "duration": 15100000000
+              "duration": 23782000000
             }
           },
           {
@@ -72,7 +72,7 @@
             "name": "the declaration is agreed",
             "result": {
               "status": "passed",
-              "duration": 6179000000
+              "duration": 2146000000
             }
           },
           {
@@ -82,7 +82,7 @@
             "name": "the submission confirmation is presented",
             "result": {
               "status": "passed",
-              "duration": 11000000
+              "duration": 9000000
             }
           }
         ]

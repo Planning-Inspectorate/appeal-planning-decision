@@ -23,7 +23,7 @@
             "name": "the appellant is on the stages of an appeal page",
             "result": {
               "status": "passed",
-              "duration": 366000000
+              "duration": 560000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "the appellant select a link from the content list: \"Before you appeal\"",
             "result": {
               "status": "passed",
-              "duration": 306000000
+              "duration": 364000000
             }
           },
           {
@@ -63,7 +63,7 @@
             "name": "the appellant is on the stages of an appeal page",
             "result": {
               "status": "passed",
-              "duration": 262000000
+              "duration": 330000000
             }
           },
           {
@@ -73,7 +73,7 @@
             "name": "the appellant select a link from the content list: \"When you can appeal\"",
             "result": {
               "status": "passed",
-              "duration": 273000000
+              "duration": 336000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "the appellant is navigated to that page: \"/when-you-can-appeal\"",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 5000000
             }
           }
         ]
@@ -103,7 +103,7 @@
             "name": "the appellant is on the stages of an appeal page",
             "result": {
               "status": "passed",
-              "duration": 279000000
+              "duration": 365000000
             }
           },
           {
@@ -113,7 +113,7 @@
             "name": "the appellant select a link from the content list: \"After you appeal\"",
             "result": {
               "status": "passed",
-              "duration": 285000000
+              "duration": 467000000
             }
           },
           {
@@ -123,7 +123,7 @@
             "name": "the appellant is navigated to that page: \"/after-you-appeal\"",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 8000000
             }
           }
         ]
@@ -143,7 +143,7 @@
             "name": "the appellant is on the stages of an appeal page",
             "result": {
               "status": "passed",
-              "duration": 253000000
+              "duration": 402000000
             }
           },
           {
@@ -153,7 +153,7 @@
             "name": "the appellant select a link from the content list: \"Start your appeal\"",
             "result": {
               "status": "passed",
-              "duration": 320000000
+              "duration": 424000000
             }
           },
           {
@@ -163,7 +163,7 @@
             "name": "the appellant is navigated to that page: \"/start-your-appeal\"",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 5000000
             }
           }
         ]
@@ -183,7 +183,7 @@
             "name": "the appellant is on the stages of an appeal page",
             "result": {
               "status": "passed",
-              "duration": 261000000
+              "duration": 395000000
             }
           },
           {
@@ -193,7 +193,7 @@
             "name": "the appellant navigates to the next page",
             "result": {
               "status": "passed",
-              "duration": 259000000
+              "duration": 376000000
             }
           },
           {
@@ -223,7 +223,7 @@
             "name": "the appellant is on the stages of an appeal page",
             "result": {
               "status": "passed",
-              "duration": 265000000
+              "duration": 348000000
             }
           },
           {
@@ -233,7 +233,7 @@
             "name": "the appellant navigates to the previous page",
             "result": {
               "status": "passed",
-              "duration": 282000000
+              "duration": 320000000
             }
           },
           {
@@ -243,7 +243,7 @@
             "name": "information about when you can appeal is provided",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 3000000
             }
           }
         ]

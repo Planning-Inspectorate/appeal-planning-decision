@@ -28,7 +28,7 @@
             "name": "an appeal is ready to be submitted with System Test Borough Council LPA",
             "result": {
               "status": "passed",
-              "duration": 17697000000
+              "duration": 25539000000
             }
           },
           {
@@ -38,7 +38,7 @@
             "name": "the declaration is agreed",
             "result": {
               "status": "passed",
-              "duration": 6460000000
+              "duration": 1765000000
             }
           },
           {

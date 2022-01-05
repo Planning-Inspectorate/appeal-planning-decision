@@ -22,7 +22,7 @@
             "name": "user has not previously provided a planning application number",
             "result": {
               "status": "passed",
-              "duration": 395000000
+              "duration": 586000000
             }
           },
           {
@@ -32,7 +32,7 @@
             "name": "the user provides a planning application number \"ValidNumber/12345\"",
             "result": {
               "status": "passed",
-              "duration": 1012000000
+              "duration": 1505000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "the planning application number in the appeal will be \"ValidNumber/12345\"",
             "result": {
               "status": "passed",
-              "duration": 261000000
+              "duration": 402000000
             }
           }
         ]
@@ -62,7 +62,7 @@
             "name": "user has not previously provided a planning application number",
             "result": {
               "status": "passed",
-              "duration": 297000000
+              "duration": 343000000
             }
           },
           {
@@ -72,7 +72,7 @@
             "name": "the user provides a planning application number \"\"",
             "result": {
               "status": "passed",
-              "duration": 779000000
+              "duration": 965000000
             }
           },
           {
@@ -82,7 +82,7 @@
             "name": "the user is informed that the application number is not valid because \"mandatory field\"",
             "result": {
               "status": "passed",
-              "duration": 11000000
+              "duration": 12000000
             }
           },
           {
@@ -92,7 +92,7 @@
             "name": "the appeal is not updated with the provided planning application number",
             "result": {
               "status": "passed",
-              "duration": 276000000
+              "duration": 295000000
             }
           }
         ]
@@ -112,7 +112,7 @@
             "name": "user has not previously provided a planning application number",
             "result": {
               "status": "passed",
-              "duration": 277000000
+              "duration": 404000000
             }
           },
           {
@@ -122,7 +122,7 @@
             "name": "the user provides a planning application number \"1234567890123456789012345678901\"",
             "result": {
               "status": "passed",
-              "duration": 1105000000
+              "duration": 1455000000
             }
           },
           {
@@ -132,7 +132,7 @@
             "name": "the user is informed that the application number is not valid because \"exceeds max characters\"",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 14000000
             }
           },
           {
@@ -142,7 +142,7 @@
             "name": "the appeal is not updated with the provided planning application number",
             "result": {
               "status": "passed",
-              "duration": 277000000
+              "duration": 305000000
             }
           }
         ]
@@ -162,7 +162,7 @@
             "name": "user has previously provided a planning application number \"FirstNumber/12345\"",
             "result": {
               "status": "passed",
-              "duration": 1007000000
+              "duration": 1179000000
             }
           },
           {
@@ -172,7 +172,7 @@
             "name": "the user provides a planning application number \"SecondNumber/54321\"",
             "result": {
               "status": "passed",
-              "duration": 906000000
+              "duration": 1249000000
             }
           },
           {
@@ -182,7 +182,7 @@
             "name": "the planning application number in the appeal will be \"SecondNumber/54321\"",
             "result": {
               "status": "passed",
-              "duration": 293000000
+              "duration": 493000000
             }
           }
         ]
@@ -202,7 +202,7 @@
             "name": "user has previously provided a planning application number \"FirstNumber/12345\"",
             "result": {
               "status": "passed",
-              "duration": 909000000
+              "duration": 1408000000
             }
           },
           {
@@ -212,7 +212,7 @@
             "name": "the user provides a planning application number \"\"",
             "result": {
               "status": "passed",
-              "duration": 743000000
+              "duration": 978000000
             }
           },
           {
@@ -222,7 +222,7 @@
             "name": "the user is informed that the application number is not valid because \"mandatory field\"",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 11000000
             }
           },
           {
@@ -232,7 +232,7 @@
             "name": "the planning application number in the appeal will be \"FirstNumber/12345\"",
             "result": {
               "status": "passed",
-              "duration": 294000000
+              "duration": 346000000
             }
           }
         ]
@@ -252,7 +252,7 @@
             "name": "user has previously provided a planning application number \"FirstNumber/12345\"",
             "result": {
               "status": "passed",
-              "duration": 963000000
+              "duration": 1277000000
             }
           },
           {
@@ -262,7 +262,7 @@
             "name": "the user provides a planning application number \"1234567890123456789012345678901\"",
             "result": {
               "status": "passed",
-              "duration": 1095000000
+              "duration": 1461000000
             }
           },
           {
@@ -272,7 +272,7 @@
             "name": "the user is informed that the application number is not valid because \"exceeds max characters\"",
             "result": {
               "status": "passed",
-              "duration": 10000000
+              "duration": 13000000
             }
           },
           {
@@ -282,7 +282,7 @@
             "name": "the planning application number in the appeal will be \"FirstNumber/12345\"",
             "result": {
               "status": "passed",
-              "duration": 272000000
+              "duration": 368000000
             }
           }
         ]

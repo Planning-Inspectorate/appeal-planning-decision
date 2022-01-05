@@ -33,7 +33,7 @@
             "name": "the \"Appeal statement\" is presented",
             "result": {
               "status": "passed",
-              "duration": 384000000
+              "duration": 542000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "the \"Appeal statement\" is submitted with valid values",
             "result": {
               "status": "passed",
-              "duration": 543000000
+              "duration": 819000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "the user is navigated to \"Supporting documents\"",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 10000000
             }
           }
         ]
@@ -78,7 +78,7 @@
             "name": "the \"Supporting documents\" is presented",
             "result": {
               "status": "passed",
-              "duration": 305000000
+              "duration": 454000000
             }
           },
           {
@@ -88,7 +88,7 @@
             "name": "the \"Supporting documents\" is submitted with valid values",
             "result": {
               "status": "passed",
-              "duration": 412000000
+              "duration": 708000000
             }
           },
           {

@@ -1,7 +1,6 @@
 import { When, Then } from 'cypress-cucumber-preprocessor/steps';
 
 import format from 'date-fns/format'
-import { goToAppealsPage } from '../../../../support/householder-planning/appeals-service/go-to-page/goToAppealsPage';
 import {
   provideCompleteAppeal
 } from '../../../../support/householder-planning/appeals-service/appellant-submission-check-your-answers/provideCompleteAppeal';
@@ -22,6 +21,7 @@ import {
 import {
   confirmNavigationPageNotFoundPage
 } from '../../../../support/householder-planning/appeals-service/errors/confirmNavigationPageNotFoundPage';
+import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 
 Given('an {string} has submitted an appeal', (appellantOrAgent) => {
   const appeal = appellantOrAgent === 'appellant' ? STANDARD_APPEAL : STANDARD_AGENT_APPEAL;

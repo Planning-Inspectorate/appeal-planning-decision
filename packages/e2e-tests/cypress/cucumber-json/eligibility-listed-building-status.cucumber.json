@@ -37,7 +37,7 @@
             "name": "the user does not provide a Listed Building statement",
             "result": {
               "status": "passed",
-              "duration": 731000000
+              "duration": 1036000000
             }
           },
           {
@@ -47,7 +47,7 @@
             "name": "the user is informed that a Listed Building statement is required",
             "result": {
               "status": "passed",
-              "duration": 16000000
+              "duration": 22000000
             }
           }
         ]
@@ -72,7 +72,7 @@
             "name": "the user states that their case concerns a Listed Building",
             "result": {
               "status": "passed",
-              "duration": 692000000
+              "duration": 908000000
             }
           },
           {
@@ -82,7 +82,7 @@
             "name": "the user is informed that cases concerning a Listed Building cannot be processed via this service",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 11000000
             }
           },
           {
@@ -92,7 +92,7 @@
             "name": "the user is directed to the Appeal a Planning Decision service",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 8000000
             }
           }
         ]
@@ -117,7 +117,7 @@
             "name": "the user states that their case does not concern a Listed Building",
             "result": {
               "status": "passed",
-              "duration": 733000000
+              "duration": 972000000
             }
           },
           {
@@ -127,7 +127,7 @@
             "name": "the user can proceed to the claiming Costs eligibility check",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 10000000
             }
           }
         ]
@@ -156,7 +156,7 @@
             "name": "the user states that their case does not concern a Listed Building",
             "result": {
               "status": "passed",
-              "duration": 725000000
+              "duration": 1032000000
             }
           },
           {
@@ -166,7 +166,7 @@
             "name": "the user returns to the listed building page",
             "result": {
               "status": "passed",
-              "duration": 302000000
+              "duration": 381000000
             }
           },
           {

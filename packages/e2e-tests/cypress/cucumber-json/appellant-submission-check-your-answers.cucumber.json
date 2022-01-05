@@ -22,7 +22,7 @@
             "name": "the user is presented with the answers they had provided",
             "result": {
               "status": "passed",
-              "duration": 15523000000
+              "duration": 23367000000
             }
           },
           {
@@ -32,7 +32,7 @@
             "name": "the user confirms their answers",
             "result": {
               "status": "passed",
-              "duration": 326000000
+              "duration": 503000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "the user should be presented with the Terms and Conditions of the service",
             "result": {
               "status": "passed",
-              "duration": 14000000
+              "duration": 13000000
             }
           }
         ]
@@ -62,7 +62,7 @@
             "name": "the completed task list page is displayed",
             "result": {
               "status": "passed",
-              "duration": 14752000000
+              "duration": 23960000000
             }
           },
           {
@@ -72,7 +72,7 @@
             "name": "Check Your Answers is accessed",
             "result": {
               "status": "passed",
-              "duration": 309000000
+              "duration": 516000000
             }
           },
           {
@@ -82,7 +82,7 @@
             "name": "the appeal information is presented",
             "result": {
               "status": "passed",
-              "duration": 982000000
+              "duration": 1802000000
             }
           }
         ]
