@@ -1,0 +1,61 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% set title="What's the original planning application number? - Appeal a planning decision - GOV.UK" %}
+
+{% block pageTitle %}
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary,
+          attributes: {"data-cy": "error-wrapper"}
+        }) }}
+      {% endif %}
+
+      <form action="" method="post" novalidate>
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Upload documents from your planning application</span>
+
+        {{ govukInput({
+          label: {
+            text: "What is your planning application number?",
+            classes: "govuk-label govuk-label--l",
+            isPageHeading: true
+          },
+          id: "application-number",
+          name: "application-number",
+          attributes: {"data-cy": "application-number"},
+          classes: "govuk-!-width-one-half",
+          spellcheck: false,
+          hint: {
+            text: "You can find this on the decision letter from your local planning department"
+          },
+          value: appeal.requiredDocumentsSection.applicationNumber,
+          errorMessage: errors['application-number'] and {
+            text: errors['application-number'].msg
+          }
+        }) }}
+
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: {"data-cy": "button-save-and-continue"}
+        }) }}
+
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

@@ -134,6 +134,16 @@ function notStartedRule() {
 }
 
 const FULL_APPEAL_SECTIONS = {
+  requiredDocumentsSection: {
+    applicationNumber: {
+      href: `/full-appeal/submit-appeal/application-number`,
+      rule: statusApplicationNumber,
+    },
+    designAccessStatementSubmitted: {
+      href: `/full-appeal/submit-appeal/design-access-statement-submitted`,
+      rule: notStartedRule,
+    },
+  },
   contactDetailsSection: {
     href: `/${FULL_APPEAL.CONTACT_DETAILS}`,
     rule: (appeal) => appeal.sectionStates.contactDetailsSection,
