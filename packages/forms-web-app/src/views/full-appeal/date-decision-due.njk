@@ -23,12 +23,7 @@
       {% if errors %}
         {{ govukErrorSummary({
           titleText: "There is a problem",
-          errorList: errorSummary and [
-            {
-              text: errorSummary[0].text,
-              href: "#decision-date-day" if errorSummary[0].href === "#decision-date" else errorSummary[0].href
-            }
-          ]
+          errorList: errorSummary 
         }) }}
       {% endif %}
 
@@ -49,8 +44,8 @@
           hint: {
             text: "For example, 20 04 2020"
           },
-          errorMessage: errors and {
-            text: errors['decision-date'].msg or errors['decision-date-day'].msg or errors['decision-date-month'].msg or errors['decision-date-year'].msg
+          errorMessage: errorSummary and {
+            text: errorSummary[0].text
           },
           items: [
             {

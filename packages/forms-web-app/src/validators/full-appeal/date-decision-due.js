@@ -8,7 +8,7 @@ const rules = (controlName, validationMessage) => [
     const today = endOfDay(new Date());
 
     if (isAfter(new Date(value), today)) {
-      throw new Error('The date must be today or in the past');
+      throw new Error('The date the decision was due must be today or in the past');
     }
 
     return true;
