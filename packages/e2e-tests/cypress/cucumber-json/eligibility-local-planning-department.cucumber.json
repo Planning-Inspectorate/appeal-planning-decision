@@ -33,7 +33,7 @@
             "name": "the list of Local Planning Department is presented",
             "result": {
               "status": "passed",
-              "duration": 363000000
+              "duration": 458000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "the user does not provide a Local Planning Department",
             "result": {
               "status": "passed",
-              "duration": 530000000
+              "duration": 532000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "the user is informed that a Local Planning Department in the provided list is required",
             "result": {
               "status": "passed",
-              "duration": 12000000
+              "duration": 13000000
             }
           }
         ]
@@ -78,7 +78,7 @@
             "name": "the list of Local Planning Department is presented",
             "result": {
               "status": "passed",
-              "duration": 296000000
+              "duration": 333000000
             }
           },
           {
@@ -88,7 +88,7 @@
             "name": "the user provides a Local Planning Department not in the provided list",
             "result": {
               "status": "passed",
-              "duration": 675000000
+              "duration": 674000000
             }
           },
           {
@@ -98,7 +98,7 @@
             "name": "the user is informed that a Local Planning Department in the provided list is required",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 10000000
             }
           },
           {
@@ -108,7 +108,7 @@
             "name": "appeal is not updated with the unknown Local Planning Department",
             "result": {
               "status": "passed",
-              "duration": 563000000
+              "duration": 608000000
             }
           }
         ]
@@ -133,7 +133,7 @@
             "name": "the list of Local Planning Department is presented",
             "result": {
               "status": "passed",
-              "duration": 295000000
+              "duration": 312000000
             }
           },
           {
@@ -143,7 +143,7 @@
             "name": "the user provides a Local Planning Department that is not participating in this service",
             "result": {
               "status": "passed",
-              "duration": 602000000
+              "duration": 533000000
             }
           },
           {
@@ -153,7 +153,7 @@
             "name": "the user is informed that the selected Local Planning Department is not participating in the service",
             "result": {
               "status": "passed",
-              "duration": 17000000
+              "duration": 16000000
             }
           },
           {
@@ -163,7 +163,7 @@
             "name": "appeal is updated with the ineligible Local Planning Department",
             "result": {
               "status": "passed",
-              "duration": 1159000000
+              "duration": 879000000
             }
           }
         ]
@@ -188,7 +188,7 @@
             "name": "the list of Local Planning Department is presented",
             "result": {
               "status": "passed",
-              "duration": 395000000
+              "duration": 334000000
             }
           },
           {
@@ -198,7 +198,7 @@
             "name": "the user provides a Local Planning Department that is participating in this service",
             "result": {
               "status": "passed",
-              "duration": 985000000
+              "duration": 832000000
             }
           },
           {
@@ -208,7 +208,7 @@
             "name": "the user can proceed and the appeal is updated with the Local Planning Department",
             "result": {
               "status": "passed",
-              "duration": 861000000
+              "duration": 879000000
             }
           }
         ]
@@ -241,7 +241,7 @@
             "name": "LPD is requested",
             "result": {
               "status": "passed",
-              "duration": 314000000
+              "duration": 306000000
             }
           },
           {
@@ -251,7 +251,7 @@
             "name": "an eligible LPD is provided",
             "result": {
               "status": "passed",
-              "duration": 1046000000
+              "duration": 884000000
             }
           },
           {
@@ -261,7 +261,7 @@
             "name": "the user can proceed to the Enforcement Notice eligibility check",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 8000000
             }
           }
         ]
@@ -286,7 +286,7 @@
             "name": "LPD is requested",
             "result": {
               "status": "passed",
-              "duration": 335000000
+              "duration": 332000000
             }
           },
           {
@@ -296,7 +296,7 @@
             "name": "an ineligible LPD is provided",
             "result": {
               "status": "passed",
-              "duration": 501000000
+              "duration": 492000000
             }
           },
           {
@@ -306,7 +306,7 @@
             "name": "progress is halted with the message “This service is not available in your area”",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 10000000
             }
           }
         ]

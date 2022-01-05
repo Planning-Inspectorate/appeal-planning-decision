@@ -41,7 +41,7 @@
             "name": "receipt of an Enforcement Notice is requested",
             "result": {
               "status": "passed",
-              "duration": 403000000
+              "duration": 409000000
             }
           },
           {
@@ -51,7 +51,7 @@
             "name": "receipt of an Enforcement Notice is not provided",
             "result": {
               "status": "passed",
-              "duration": 311000000
+              "duration": 391000000
             }
           },
           {
@@ -94,7 +94,7 @@
             "name": "receipt of an Enforcement Notice is requested",
             "result": {
               "status": "passed",
-              "duration": 288000000
+              "duration": 337000000
             }
           },
           {
@@ -104,7 +104,7 @@
             "name": "the appellant has not received an Enforcement Notice",
             "result": {
               "status": "passed",
-              "duration": 467000000
+              "duration": 440000000
             }
           },
           {
@@ -147,7 +147,7 @@
             "name": "receipt of an Enforcement Notice is requested",
             "result": {
               "status": "passed",
-              "duration": 343000000
+              "duration": 321000000
             }
           },
           {
@@ -157,7 +157,7 @@
             "name": "the appellant has received an Enforcement Notice",
             "result": {
               "status": "passed",
-              "duration": 346000000
+              "duration": 385000000
             }
           },
           {
@@ -167,7 +167,7 @@
             "name": "progress is halted with a message that this service is only for householder planning appeals",
             "result": {
               "status": "passed",
-              "duration": 12000000
+              "duration": 11000000
             }
           }
         ]

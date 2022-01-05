@@ -23,7 +23,7 @@
             "name": "the appellant is on the start your appeal page",
             "result": {
               "status": "passed",
-              "duration": 460000000
+              "duration": 373000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "the appellant has selected to start the service",
             "result": {
               "status": "passed",
-              "duration": 409000000
+              "duration": 386000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "the appellant can begin an appeal",
             "result": {
               "status": "passed",
-              "duration": 13000000
+              "duration": 10000000
             }
           }
         ]

@@ -23,7 +23,7 @@
             "name": "the appellant is on the 'Appeal a planning decision' page",
             "result": {
               "status": "passed",
-              "duration": 360000000
+              "duration": 391000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "they click on 'Check your answers and submit your appeal' link",
             "result": {
               "status": "passed",
-              "duration": 348000000
+              "duration": 352000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "the information they have inputted will be displayed",
             "result": {
               "status": "passed",
-              "duration": 40000000
+              "duration": 43000000
             }
           }
         ]
@@ -63,7 +63,7 @@
             "name": "the agent is on the 'Appeal a planning decision' page",
             "result": {
               "status": "passed",
-              "duration": 289000000
+              "duration": 305000000
             }
           },
           {
@@ -73,7 +73,7 @@
             "name": "they click on 'Check your answers and submit your appeal' link",
             "result": {
               "status": "passed",
-              "duration": 321000000
+              "duration": 291000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "the information they have inputted will be displayed",
             "result": {
               "status": "passed",
-              "duration": 33000000
+              "duration": 34000000
             }
           }
         ]
@@ -103,7 +103,7 @@
             "name": "the 'agent' is on the 'Check your answers' page",
             "result": {
               "status": "passed",
-              "duration": 537000000
+              "duration": 581000000
             }
           },
           {
@@ -113,7 +113,7 @@
             "name": "they select the 'Back' link",
             "result": {
               "status": "passed",
-              "duration": 290000000
+              "duration": 297000000
             }
           },
           {
@@ -123,7 +123,7 @@
             "name": "the 'agent' is on the 'Appeal a planning decision' page",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 4000000
             }
           }
         ]
@@ -143,7 +143,7 @@
             "name": "the 'appellant' is on the 'Check your answers' page",
             "result": {
               "status": "passed",
-              "duration": 540000000
+              "duration": 606000000
             }
           },
           {
@@ -153,7 +153,7 @@
             "name": "they select the 'Back' link",
             "result": {
               "status": "passed",
-              "duration": 251000000
+              "duration": 277000000
             }
           },
           {

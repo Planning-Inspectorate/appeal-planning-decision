@@ -50,7 +50,7 @@ Feature: Decision Date eligibility check
       | "40" | "12"  | "2020" | "The Decision Date must be a real date"           | "day"            |
       | "05" | "14"  | "2025" | "The Decision Date must be a real date"           | "month"          |
       | "1"  | "5"   | "2027" | "Decision date must be today or in the past"           | "day,month,year" |
-      | "1"  | "1"   | "2022" | "Decision date must be today or in the past"           | "day,month,year" |
+      | "1"  | "1"   | "2025" | "Decision date must be today or in the past"           | "day,month,year" |
       | "32" | "13"  | "2020" | "The Decision Date must be a real date"           | "day,month"      |
       | "1a" | "0b"  | "2cde" | "The Decision Date must be a real date"           | "day,month,year" |
       | "aa" | "10"  | "2020" | "The Decision Date must be a real date"           | "day"            |
