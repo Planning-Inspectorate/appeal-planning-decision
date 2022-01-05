@@ -41,7 +41,7 @@
             "name": "receipt of an Enforcement Notice is requested",
             "result": {
               "status": "passed",
-              "duration": 455000000
+              "duration": 505000000
             }
           },
           {
@@ -51,7 +51,7 @@
             "name": "receipt of an Enforcement Notice is not provided",
             "result": {
               "status": "passed",
-              "duration": 391000000
+              "duration": 450000000
             }
           },
           {
@@ -61,7 +61,7 @@
             "name": "progress is halted with a message that the Enforcement Notice question is required",
             "result": {
               "status": "passed",
-              "duration": 17000000
+              "duration": 20000000
             }
           }
         ]
@@ -94,7 +94,7 @@
             "name": "receipt of an Enforcement Notice is requested",
             "result": {
               "status": "passed",
-              "duration": 369000000
+              "duration": 380000000
             }
           },
           {
@@ -104,7 +104,7 @@
             "name": "the appellant has not received an Enforcement Notice",
             "result": {
               "status": "passed",
-              "duration": 482000000
+              "duration": 495000000
             }
           },
           {
@@ -114,7 +114,7 @@
             "name": "progress is made to the Listed Building eligibility question",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 6000000
             }
           }
         ]
@@ -147,7 +147,7 @@
             "name": "receipt of an Enforcement Notice is requested",
             "result": {
               "status": "passed",
-              "duration": 451000000
+              "duration": 361000000
             }
           },
           {
@@ -157,7 +157,7 @@
             "name": "the appellant has received an Enforcement Notice",
             "result": {
               "status": "passed",
-              "duration": 370000000
+              "duration": 412000000
             }
           },
           {
@@ -167,7 +167,7 @@
             "name": "progress is halted with a message that this service is only for householder planning appeals",
             "result": {
               "status": "passed",
-              "duration": 11000000
+              "duration": 14000000
             }
           }
         ]

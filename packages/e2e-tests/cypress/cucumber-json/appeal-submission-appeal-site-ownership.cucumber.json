@@ -23,7 +23,7 @@
             "name": "the site ownership is presented for the first time",
             "result": {
               "status": "passed",
-              "duration": 414000000
+              "duration": 508000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "no confirmation is provided that the whole site is owned",
             "result": {
               "status": "passed",
-              "duration": 449000000
+              "duration": 487000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "confirmation of whole site ownership is requested",
             "result": {
               "status": "passed",
-              "duration": 381000000
+              "duration": 335000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "Ownership of the appeal site section is \"NOT STARTED\"",
             "result": {
               "status": "passed",
-              "duration": 336000000
+              "duration": 325000000
             }
           }
         ]
@@ -73,7 +73,7 @@
             "name": "the site ownership is presented for the first time",
             "result": {
               "status": "passed",
-              "duration": 305000000
+              "duration": 325000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "it is confirmed that the whole site is owned",
             "result": {
               "status": "passed",
-              "duration": 537000000
+              "duration": 519000000
             }
           },
           {
@@ -103,7 +103,7 @@
             "name": "the site is updated to be wholly owned on the appeal",
             "result": {
               "status": "passed",
-              "duration": 693000000
+              "duration": 683000000
             }
           },
           {
@@ -113,7 +113,7 @@
             "name": "Ownership of the appeal site section is \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 313000000
+              "duration": 352000000
             }
           }
         ]
@@ -133,7 +133,7 @@
             "name": "the site ownership is presented for the first time",
             "result": {
               "status": "passed",
-              "duration": 340000000
+              "duration": 414000000
             }
           },
           {
@@ -143,7 +143,7 @@
             "name": "it is confirmed that the whole site is not owned",
             "result": {
               "status": "passed",
-              "duration": 455000000
+              "duration": 502000000
             }
           },
           {
@@ -163,7 +163,7 @@
             "name": "the site is updated to not be wholly owned on the appeal",
             "result": {
               "status": "passed",
-              "duration": 362000000
+              "duration": 333000000
             }
           },
           {
@@ -173,7 +173,7 @@
             "name": "Ownership of the appeal site section is \"IN PROGRESS\"",
             "result": {
               "status": "passed",
-              "duration": 368000000
+              "duration": 341000000
             }
           }
         ]
@@ -193,7 +193,7 @@
             "name": "confirmation of additional site owners notification is requested",
             "result": {
               "status": "passed",
-              "duration": 1410000000
+              "duration": 1655000000
             }
           },
           {
@@ -203,7 +203,7 @@
             "name": "no confirmation of notification of additional site owners is provided",
             "result": {
               "status": "passed",
-              "duration": 443000000
+              "duration": 423000000
             }
           },
           {
@@ -213,7 +213,7 @@
             "name": "confirmation of notification of additional site owners is requested",
             "result": {
               "status": "passed",
-              "duration": 341000000
+              "duration": 365000000
             }
           },
           {
@@ -223,7 +223,7 @@
             "name": "Ownership of the appeal site section is \"IN PROGRESS\"",
             "result": {
               "status": "passed",
-              "duration": 351000000
+              "duration": 369000000
             }
           }
         ]
@@ -243,7 +243,7 @@
             "name": "confirmation of additional site owners notification is requested",
             "result": {
               "status": "passed",
-              "duration": 1428000000
+              "duration": 1499000000
             }
           },
           {
@@ -253,7 +253,7 @@
             "name": "it is confirmed that additional site owners have been notified",
             "result": {
               "status": "passed",
-              "duration": 526000000
+              "duration": 474000000
             }
           },
           {
@@ -273,7 +273,7 @@
             "name": "the site is updated so that other owners been notified on the appeal",
             "result": {
               "status": "passed",
-              "duration": 327000000
+              "duration": 342000000
             }
           },
           {
@@ -283,7 +283,7 @@
             "name": "Ownership of the appeal site section is \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 320000000
+              "duration": 340000000
             }
           }
         ]
@@ -303,7 +303,7 @@
             "name": "confirmation of additional site owners notification is requested",
             "result": {
               "status": "passed",
-              "duration": 1437000000
+              "duration": 1681000000
             }
           },
           {
@@ -313,7 +313,7 @@
             "name": "it is confirmed that additional site owners have not been notified",
             "result": {
               "status": "passed",
-              "duration": 461000000
+              "duration": 611000000
             }
           },
           {
@@ -333,7 +333,7 @@
             "name": "the site is updated to not be wholly owned on the appeal",
             "result": {
               "status": "passed",
-              "duration": 313000000
+              "duration": 334000000
             }
           },
           {
@@ -343,7 +343,7 @@
             "name": "the site is updated so that other owners have not been notified on the appeal",
             "result": {
               "status": "passed",
-              "duration": 331000000
+              "duration": 353000000
             }
           },
           {
@@ -353,7 +353,7 @@
             "name": "Ownership of the appeal site section is \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 317000000
+              "duration": 356000000
             }
           }
         ]
@@ -373,7 +373,7 @@
             "name": "the whole site had previously been confirmed as not owned",
             "result": {
               "status": "passed",
-              "duration": 1095000000
+              "duration": 1183000000
             }
           },
           {
@@ -383,7 +383,7 @@
             "name": "it is confirmed that the whole site is owned",
             "result": {
               "status": "passed",
-              "duration": 459000000
+              "duration": 493000000
             }
           },
           {
@@ -393,7 +393,7 @@
             "name": "a request to notify additional owners is not presented",
             "result": {
               "status": "passed",
-              "duration": 2000000
+              "duration": 3000000
             }
           },
           {
@@ -403,7 +403,7 @@
             "name": "the site is updated to be wholly owned on the appeal",
             "result": {
               "status": "passed",
-              "duration": 766000000
+              "duration": 753000000
             }
           },
           {
@@ -413,7 +413,7 @@
             "name": "Ownership of the appeal site section is \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 380000000
+              "duration": 367000000
             }
           }
         ]
@@ -433,7 +433,7 @@
             "name": "the whole site had previously been confirmed as owned",
             "result": {
               "status": "passed",
-              "duration": 1110000000
+              "duration": 1259000000
             }
           },
           {
@@ -443,7 +443,7 @@
             "name": "it is confirmed that the whole site is not owned",
             "result": {
               "status": "passed",
-              "duration": 503000000
+              "duration": 451000000
             }
           },
           {
@@ -463,7 +463,7 @@
             "name": "the site is updated to not be wholly owned on the appeal",
             "result": {
               "status": "passed",
-              "duration": 298000000
+              "duration": 309000000
             }
           },
           {
@@ -473,7 +473,7 @@
             "name": "Ownership of the appeal site section is \"IN PROGRESS\"",
             "result": {
               "status": "passed",
-              "duration": 366000000
+              "duration": 354000000
             }
           }
         ]

@@ -23,7 +23,7 @@
             "name": "I navigate to the Eligibility checker page",
             "result": {
               "status": "passed",
-              "duration": 518000000
+              "duration": 615000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "I am on the decision date page",
             "result": {
               "status": "passed",
-              "duration": 70000000
+              "duration": 73000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "I can see the header link appeal a householder planning decision",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 11000000
             }
           },
           {
@@ -63,7 +63,7 @@
             "name": "I can verify the text what is the decision date on the letter",
             "result": {
               "status": "passed",
-              "duration": 35000000
+              "duration": 37000000
             }
           },
           {
@@ -73,7 +73,7 @@
             "name": "I can see the footer",
             "result": {
               "status": "passed",
-              "duration": 44000000
+              "duration": 48000000
             }
           }
         ]
@@ -93,7 +93,7 @@
             "name": "I navigate to \"eligibility/planning-department\"",
             "result": {
               "status": "passed",
-              "duration": 381000000
+              "duration": 445000000
             }
           },
           {
@@ -103,7 +103,7 @@
             "name": "I navigate to the Eligibility checker page",
             "result": {
               "status": "passed",
-              "duration": 391000000
+              "duration": 414000000
             }
           },
           {
@@ -113,7 +113,7 @@
             "name": "I select the Back link",
             "result": {
               "status": "passed",
-              "duration": 373000000
+              "duration": 442000000
             }
           },
           {
@@ -123,7 +123,7 @@
             "name": "I am on \"/eligibility/planning-department\"",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 4000000
             }
           }
         ]
