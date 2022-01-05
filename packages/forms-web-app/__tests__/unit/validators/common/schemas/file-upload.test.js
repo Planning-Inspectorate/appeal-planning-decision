@@ -22,26 +22,43 @@ describe('validators/common/schemas/file-upload', () => {
   });
 
   it('has a defined custom schema object', () => {
-    expect(fileUploadSchema['file-upload'].custom.options).toBeDefined();
+    expect(fileUploadSchema()['file-upload'].custom.options).toBeDefined();
   });
 
   describe(`schema['file-upload'].custom.options`, () => {
+    const noFilesError = 'Select your planning application form';
+    const noFilesErrorDefault = 'Select a file to upload';
+
     let schema;
 
     beforeEach(() => {
-      schema = fileUploadSchema['file-upload'].custom.options;
+      schema = fileUploadSchema()['file-upload'].custom.options;
     });
 
-    it('should throw an error if req.files is null', () => {
+    it('should throw the correct error if req.files is null and noFilesError is not given', () => {
       req.files = null;
 
-      expect(() => schema(null, { req })).rejects.toThrow('Select a file to upload');
+      expect(() => schema(null, { req })).rejects.toThrow(noFilesErrorDefault);
     });
 
-    it('should throw an error if a file has not been uploaded', () => {
+    it('should throw the correct error if req.files is null and noFilesError is given', () => {
+      req.files = null;
+      schema = fileUploadSchema(noFilesError)['file-upload'].custom.options;
+
+      expect(() => schema(null, { req })).rejects.toThrow(noFilesError);
+    });
+
+    it('should throw the correct error if a file has not been uploaded and noFilesError is not given', () => {
       req.files = {};
 
-      expect(() => schema(null, { req })).rejects.toThrow('Select a file to upload');
+      expect(() => schema(null, { req })).rejects.toThrow(noFilesErrorDefault);
+    });
+
+    it('should throw the correct error if a file has not been uploaded and noFilesError is given', () => {
+      req.files = {};
+      schema = fileUploadSchema(noFilesError)['file-upload'].custom.options;
+
+      expect(() => schema(null, { req })).rejects.toThrow(noFilesError);
     });
 
     it('should call the validMimeType validator when given a single file', () => {

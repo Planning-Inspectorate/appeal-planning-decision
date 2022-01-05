@@ -8,14 +8,14 @@ const {
 const validateFileSize = require('../../custom/file-size');
 const mimeTypes = require('../../../lib/mime-types');
 
-module.exports = {
+const schema = (noFilesError) => ({
   'file-upload': {
     custom: {
       options: async (value, { req, path }) => {
         const { files } = req;
 
         if (files === null || (files && !files[path])) {
-          throw new Error('Select a file to upload');
+          throw new Error(noFilesError || 'Select a file to upload');
         }
 
         const uploadedFiles = !Array.isArray(files[path]) ? [files[path]] : files[path];
@@ -50,4 +50,6 @@ module.exports = {
       },
     },
   },
-};
+});
+
+module.exports = schema;
