@@ -37,7 +37,7 @@
             "name": "the user does not provide a Listed Building statement",
             "result": {
               "status": "passed",
-              "duration": 739000000
+              "duration": 731000000
             }
           },
           {
@@ -47,7 +47,7 @@
             "name": "the user is informed that a Listed Building statement is required",
             "result": {
               "status": "passed",
-              "duration": 15000000
+              "duration": 16000000
             }
           }
         ]
@@ -72,7 +72,7 @@
             "name": "the user states that their case concerns a Listed Building",
             "result": {
               "status": "passed",
-              "duration": 638000000
+              "duration": 692000000
             }
           },
           {
@@ -117,7 +117,7 @@
             "name": "the user states that their case does not concern a Listed Building",
             "result": {
               "status": "passed",
-              "duration": 826000000
+              "duration": 733000000
             }
           },
           {
@@ -127,7 +127,7 @@
             "name": "the user can proceed to the claiming Costs eligibility check",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 8000000
             }
           }
         ]
@@ -156,7 +156,7 @@
             "name": "the user states that their case does not concern a Listed Building",
             "result": {
               "status": "passed",
-              "duration": 736000000
+              "duration": 725000000
             }
           },
           {
@@ -166,7 +166,7 @@
             "name": "the user returns to the listed building page",
             "result": {
               "status": "passed",
-              "duration": 380000000
+              "duration": 302000000
             }
           },
           {
@@ -176,7 +176,7 @@
             "name": "the user sees their previous given answer is correctly displayed",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 8000000
             }
           }
         ]

@@ -23,7 +23,7 @@
             "name": "the supporting document page is displayed",
             "result": {
               "status": "passed",
-              "duration": 399000000
+              "duration": 448000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "no document is uploaded",
             "result": {
               "status": "passed",
-              "duration": 343000000
+              "duration": 358000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "no document are submitted",
             "result": {
               "status": "passed",
-              "duration": 270000000
+              "duration": 279000000
             }
           }
         ]
@@ -63,7 +63,7 @@
             "name": "supporting document \"appeal-statement-valid.pdf\" being submitted",
             "result": {
               "status": "passed",
-              "duration": 623000000
+              "duration": 736000000
             }
           },
           {
@@ -73,7 +73,7 @@
             "name": "no document is uploaded",
             "result": {
               "status": "passed",
-              "duration": 298000000
+              "duration": 321000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "document \"appeal-statement-valid.pdf\" is submitted",
             "result": {
               "status": "passed",
-              "duration": 263000000
+              "duration": 304000000
             }
           }
         ]
@@ -103,7 +103,7 @@
             "name": "the supporting document page is displayed",
             "result": {
               "status": "passed",
-              "duration": 287000000
+              "duration": 285000000
             }
           },
           {
@@ -113,7 +113,7 @@
             "name": "a valid document \"appeal-statement-valid.doc\" is uploaded",
             "result": {
               "status": "passed",
-              "duration": 368000000
+              "duration": 401000000
             }
           },
           {
@@ -123,7 +123,7 @@
             "name": "document \"appeal-statement-valid.doc\" is submitted",
             "result": {
               "status": "passed",
-              "duration": 259000000
+              "duration": 310000000
             }
           }
         ]
@@ -143,7 +143,7 @@
             "name": "the supporting document page is displayed",
             "result": {
               "status": "passed",
-              "duration": 272000000
+              "duration": 290000000
             }
           },
           {
@@ -153,7 +153,7 @@
             "name": "a valid document \"appeal-statement-valid.docx\" is uploaded",
             "result": {
               "status": "passed",
-              "duration": 377000000
+              "duration": 423000000
             }
           },
           {
@@ -163,7 +163,7 @@
             "name": "document \"appeal-statement-valid.docx\" is submitted",
             "result": {
               "status": "passed",
-              "duration": 268000000
+              "duration": 294000000
             }
           }
         ]
@@ -183,7 +183,7 @@
             "name": "the supporting document page is displayed",
             "result": {
               "status": "passed",
-              "duration": 265000000
+              "duration": 291000000
             }
           },
           {
@@ -193,7 +193,7 @@
             "name": "a valid document \"appeal-statement-valid.pdf\" is uploaded",
             "result": {
               "status": "passed",
-              "duration": 357000000
+              "duration": 433000000
             }
           },
           {
@@ -203,7 +203,7 @@
             "name": "document \"appeal-statement-valid.pdf\" is submitted",
             "result": {
               "status": "passed",
-              "duration": 246000000
+              "duration": 286000000
             }
           }
         ]
@@ -223,7 +223,7 @@
             "name": "the supporting document page is displayed",
             "result": {
               "status": "passed",
-              "duration": 283000000
+              "duration": 293000000
             }
           },
           {
@@ -233,7 +233,7 @@
             "name": "a valid document \"appeal-statement-valid.tif\" is uploaded",
             "result": {
               "status": "passed",
-              "duration": 1674000000
+              "duration": 1826000000
             }
           },
           {
@@ -243,7 +243,7 @@
             "name": "document \"appeal-statement-valid.tif\" is submitted",
             "result": {
               "status": "passed",
-              "duration": 298000000
+              "duration": 359000000
             }
           }
         ]
@@ -263,7 +263,7 @@
             "name": "the supporting document page is displayed",
             "result": {
               "status": "passed",
-              "duration": 266000000
+              "duration": 306000000
             }
           },
           {
@@ -273,7 +273,7 @@
             "name": "a valid document \"appeal-statement-valid.tiff\" is uploaded",
             "result": {
               "status": "passed",
-              "duration": 1728000000
+              "duration": 1670000000
             }
           },
           {
@@ -283,7 +283,7 @@
             "name": "document \"appeal-statement-valid.tiff\" is submitted",
             "result": {
               "status": "passed",
-              "duration": 305000000
+              "duration": 316000000
             }
           }
         ]
@@ -303,7 +303,7 @@
             "name": "the supporting document page is displayed",
             "result": {
               "status": "passed",
-              "duration": 301000000
+              "duration": 317000000
             }
           },
           {
@@ -313,7 +313,7 @@
             "name": "a valid document \"appeal-statement-valid.jpg\" is uploaded",
             "result": {
               "status": "passed",
-              "duration": 402000000
+              "duration": 390000000
             }
           },
           {
@@ -323,7 +323,7 @@
             "name": "document \"appeal-statement-valid.jpg\" is submitted",
             "result": {
               "status": "passed",
-              "duration": 295000000
+              "duration": 304000000
             }
           }
         ]
@@ -343,7 +343,7 @@
             "name": "the supporting document page is displayed",
             "result": {
               "status": "passed",
-              "duration": 286000000
+              "duration": 307000000
             }
           },
           {
@@ -353,7 +353,7 @@
             "name": "a valid document \"appeal-statement-valid.jpeg\" is uploaded",
             "result": {
               "status": "passed",
-              "duration": 425000000
+              "duration": 379000000
             }
           },
           {
@@ -363,7 +363,7 @@
             "name": "document \"appeal-statement-valid.jpeg\" is submitted",
             "result": {
               "status": "passed",
-              "duration": 324000000
+              "duration": 297000000
             }
           }
         ]
@@ -383,7 +383,7 @@
             "name": "the supporting document page is displayed",
             "result": {
               "status": "passed",
-              "duration": 296000000
+              "duration": 367000000
             }
           },
           {
@@ -393,7 +393,7 @@
             "name": "a valid document \"appeal-statement-valid.png\" is uploaded",
             "result": {
               "status": "passed",
-              "duration": 344000000
+              "duration": 400000000
             }
           },
           {
@@ -403,7 +403,7 @@
             "name": "document \"appeal-statement-valid.png\" is submitted",
             "result": {
               "status": "passed",
-              "duration": 272000000
+              "duration": 304000000
             }
           }
         ]
@@ -423,7 +423,7 @@
             "name": "supporting document \"appeal-statement-valid.pdf\" being submitted",
             "result": {
               "status": "passed",
-              "duration": 695000000
+              "duration": 721000000
             }
           },
           {
@@ -433,7 +433,7 @@
             "name": "a valid document \"appeal-statement-valid.doc\" is uploaded",
             "result": {
               "status": "passed",
-              "duration": 403000000
+              "duration": 388000000
             }
           },
           {
@@ -443,7 +443,7 @@
             "name": "both document \"appeal-statement-valid.pdf\" and \"appeal-statement-valid.doc\" are submitted",
             "result": {
               "status": "passed",
-              "duration": 882000000
+              "duration": 917000000
             }
           }
         ]
@@ -463,7 +463,7 @@
             "name": "the supporting document page is displayed",
             "result": {
               "status": "passed",
-              "duration": 292000000
+              "duration": 311000000
             }
           },
           {
@@ -473,7 +473,7 @@
             "name": "an invalid document \"appeal-statement-invalid-wrong-type.csv\" is uploaded",
             "result": {
               "status": "passed",
-              "duration": 311000000
+              "duration": 368000000
             }
           },
           {
@@ -483,7 +483,7 @@
             "name": "document \"appeal-statement-invalid-wrong-type.csv\" is not submitted because \"file type is invalid\"",
             "result": {
               "status": "passed",
-              "duration": 16000000
+              "duration": 20000000
             }
           }
         ]
@@ -503,7 +503,7 @@
             "name": "supporting document \"appeal-statement-valid.pdf\" being submitted",
             "result": {
               "status": "passed",
-              "duration": 696000000
+              "duration": 766000000
             }
           },
           {
@@ -513,7 +513,7 @@
             "name": "an invalid document \"appeal-statement-invalid-wrong-type.csv\" is uploaded",
             "result": {
               "status": "passed",
-              "duration": 310000000
+              "duration": 343000000
             }
           },
           {
@@ -523,7 +523,7 @@
             "name": "document \"appeal-statement-invalid-wrong-type.csv\" is not submitted because \"file type is invalid\"",
             "result": {
               "status": "passed",
-              "duration": 12000000
+              "duration": 18000000
             }
           },
           {
@@ -533,7 +533,7 @@
             "name": "document \"appeal-statement-valid.pdf\" is submitted",
             "result": {
               "status": "passed",
-              "duration": 290000000
+              "duration": 316000000
             }
           }
         ]

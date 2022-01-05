@@ -22,7 +22,7 @@
             "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
             "result": {
               "status": "passed",
-              "duration": 14433000000
+              "duration": 15427000000
             }
           },
           {
@@ -32,7 +32,7 @@
             "name": "section \"About you - Who are you Section\" is accessed",
             "result": {
               "status": "passed",
-              "duration": 284000000
+              "duration": 344000000
             }
           },
           {
@@ -62,7 +62,7 @@
             "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
             "result": {
               "status": "passed",
-              "duration": 14443000000
+              "duration": 15866000000
             }
           },
           {
@@ -72,7 +72,7 @@
             "name": "section \"About you - Your details Section\" is accessed",
             "result": {
               "status": "passed",
-              "duration": 298000000
+              "duration": 328000000
             }
           },
           {
@@ -82,7 +82,7 @@
             "name": "the \"About you - Your details Section\" is displayed",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 5000000
             }
           }
         ]
@@ -102,7 +102,7 @@
             "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
             "result": {
               "status": "passed",
-              "duration": 14264000000
+              "duration": 15158000000
             }
           },
           {
@@ -112,7 +112,7 @@
             "name": "section \"Planning application - Application number\" is accessed",
             "result": {
               "status": "passed",
-              "duration": 264000000
+              "duration": 301000000
             }
           },
           {
@@ -122,7 +122,7 @@
             "name": "the \"Planning application - Application number\" is displayed",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 5000000
             }
           }
         ]
@@ -142,7 +142,7 @@
             "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
             "result": {
               "status": "passed",
-              "duration": 14430000000
+              "duration": 14995000000
             }
           },
           {
@@ -152,7 +152,7 @@
             "name": "section \"Planning application - Upload application\" is accessed",
             "result": {
               "status": "passed",
-              "duration": 252000000
+              "duration": 269000000
             }
           },
           {
@@ -182,7 +182,7 @@
             "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
             "result": {
               "status": "passed",
-              "duration": 14853000000
+              "duration": 14958000000
             }
           },
           {
@@ -192,7 +192,7 @@
             "name": "section \"Planning application - Upload decision letter\" is accessed",
             "result": {
               "status": "passed",
-              "duration": 261000000
+              "duration": 313000000
             }
           },
           {
@@ -202,7 +202,7 @@
             "name": "the \"Planning application - Upload decision letter\" is displayed",
             "result": {
               "status": "passed",
-              "duration": 5000000
+              "duration": 7000000
             }
           }
         ]
@@ -222,7 +222,7 @@
             "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
             "result": {
               "status": "passed",
-              "duration": 14174000000
+              "duration": 15031000000
             }
           },
           {
@@ -232,7 +232,7 @@
             "name": "section \"Your appeal - Appeal statement\" is accessed",
             "result": {
               "status": "passed",
-              "duration": 288000000
+              "duration": 358000000
             }
           },
           {
@@ -242,7 +242,7 @@
             "name": "the \"Your appeal - Appeal statement\" is displayed",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 6000000
             }
           }
         ]
@@ -262,7 +262,7 @@
             "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
             "result": {
               "status": "passed",
-              "duration": 14269000000
+              "duration": 15455000000
             }
           },
           {
@@ -272,7 +272,7 @@
             "name": "section \"Your appeal - Supporting documents\" is accessed",
             "result": {
               "status": "passed",
-              "duration": 289000000
+              "duration": 321000000
             }
           },
           {
@@ -282,7 +282,7 @@
             "name": "the \"Your appeal - Supporting documents\" is displayed",
             "result": {
               "status": "passed",
-              "duration": 5000000
+              "duration": 6000000
             }
           }
         ]
@@ -302,7 +302,7 @@
             "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
             "result": {
               "status": "passed",
-              "duration": 14299000000
+              "duration": 15179000000
             }
           },
           {
@@ -312,7 +312,7 @@
             "name": "section \"Appeal site - Site location\" is accessed",
             "result": {
               "status": "passed",
-              "duration": 365000000
+              "duration": 406000000
             }
           },
           {
@@ -342,7 +342,7 @@
             "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
             "result": {
               "status": "passed",
-              "duration": 14320000000
+              "duration": 15239000000
             }
           },
           {
@@ -352,7 +352,7 @@
             "name": "section \"Appeal site - Site ownership\" is accessed",
             "result": {
               "status": "passed",
-              "duration": 291000000
+              "duration": 319000000
             }
           },
           {
@@ -362,7 +362,7 @@
             "name": "the \"Appeal site - Site ownership\" is displayed",
             "result": {
               "status": "passed",
-              "duration": 5000000
+              "duration": 11000000
             }
           }
         ]
@@ -382,7 +382,7 @@
             "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
             "result": {
               "status": "passed",
-              "duration": 14191000000
+              "duration": 14982000000
             }
           },
           {
@@ -392,7 +392,7 @@
             "name": "section \"Appeal site - Site access\" is accessed",
             "result": {
               "status": "passed",
-              "duration": 317000000
+              "duration": 352000000
             }
           },
           {
@@ -422,7 +422,7 @@
             "name": "the check your answers page is displayed for Person Appealing is Original Applicant",
             "result": {
               "status": "passed",
-              "duration": 14161000000
+              "duration": 15059000000
             }
           },
           {
@@ -432,7 +432,7 @@
             "name": "section \"Appeal site - Site safety\" is accessed",
             "result": {
               "status": "passed",
-              "duration": 328000000
+              "duration": 356000000
             }
           },
           {
@@ -442,7 +442,7 @@
             "name": "the \"Appeal site - Site safety\" is displayed",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 5000000
             }
           }
         ]
@@ -462,7 +462,7 @@
             "name": "the check your answers page is displayed for Person Appealing is not Original Applicant",
             "result": {
               "status": "passed",
-              "duration": 16669000000
+              "duration": 17358000000
             }
           },
           {
@@ -472,7 +472,7 @@
             "name": "section \"About you - Who are you Section\" is accessed",
             "result": {
               "status": "passed",
-              "duration": 309000000
+              "duration": 305000000
             }
           },
           {
@@ -502,7 +502,7 @@
             "name": "the check your answers page is displayed for Person Appealing is not Original Applicant",
             "result": {
               "status": "passed",
-              "duration": 16502000000
+              "duration": 17680000000
             }
           },
           {
@@ -512,7 +512,7 @@
             "name": "section \"About you - Your details Section\" is accessed",
             "result": {
               "status": "passed",
-              "duration": 276000000
+              "duration": 327000000
             }
           },
           {
@@ -542,7 +542,7 @@
             "name": "the check your answers page is displayed for Person Appealing is not Original Applicant",
             "result": {
               "status": "passed",
-              "duration": 16569000000
+              "duration": 17607000000
             }
           },
           {
@@ -552,7 +552,7 @@
             "name": "section \"About you - Appealing of behalf of Section\" is accessed",
             "result": {
               "status": "passed",
-              "duration": 277000000
+              "duration": 323000000
             }
           },
           {
@@ -562,7 +562,7 @@
             "name": "the \"About you - Appealing of behalf of Section\" is displayed",
             "result": {
               "status": "passed",
-              "duration": 5000000
+              "duration": 6000000
             }
           }
         ]

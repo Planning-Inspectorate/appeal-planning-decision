@@ -32,7 +32,7 @@
             "name": "user did not previously submitted an appeal statement file",
             "result": {
               "status": "passed",
-              "duration": 72000000
+              "duration": 80000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "user submits an appeal statement file \"appeal-statement-valid.doc\" confirming that it \"does not\" contain sensitive information",
             "result": {
               "status": "passed",
-              "duration": 869000000
+              "duration": 989000000
             }
           },
           {
@@ -52,7 +52,7 @@
             "name": "user can see that the appeal statement file \"appeal-statement-valid.doc\" \"is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 274000000
+              "duration": 320000000
             }
           }
         ]
@@ -81,7 +81,7 @@
             "name": "user did not previously submitted an appeal statement file",
             "result": {
               "status": "passed",
-              "duration": 21000000
+              "duration": 22000000
             }
           },
           {
@@ -91,7 +91,7 @@
             "name": "user submits an appeal statement file \"appeal-statement-valid.docx\" confirming that it \"does not\" contain sensitive information",
             "result": {
               "status": "passed",
-              "duration": 709000000
+              "duration": 815000000
             }
           },
           {
@@ -101,7 +101,7 @@
             "name": "user can see that the appeal statement file \"appeal-statement-valid.docx\" \"is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 271000000
+              "duration": 278000000
             }
           }
         ]
@@ -130,7 +130,7 @@
             "name": "user did not previously submitted an appeal statement file",
             "result": {
               "status": "passed",
-              "duration": 22000000
+              "duration": 18000000
             }
           },
           {
@@ -140,7 +140,7 @@
             "name": "user submits an appeal statement file \"appeal-statement-valid.pdf\" confirming that it \"does not\" contain sensitive information",
             "result": {
               "status": "passed",
-              "duration": 750000000
+              "duration": 833000000
             }
           },
           {
@@ -179,7 +179,7 @@
             "name": "user did not previously submitted an appeal statement file",
             "result": {
               "status": "passed",
-              "duration": 23000000
+              "duration": 21000000
             }
           },
           {
@@ -189,7 +189,7 @@
             "name": "user submits an appeal statement file \"appeal-statement-valid.tif\" confirming that it \"does not\" contain sensitive information",
             "result": {
               "status": "passed",
-              "duration": 2016000000
+              "duration": 2140000000
             }
           },
           {
@@ -199,7 +199,7 @@
             "name": "user can see that the appeal statement file \"appeal-statement-valid.tif\" \"is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 322000000
+              "duration": 319000000
             }
           }
         ]
@@ -238,7 +238,7 @@
             "name": "user submits an appeal statement file \"appeal-statement-valid.tiff\" confirming that it \"does not\" contain sensitive information",
             "result": {
               "status": "passed",
-              "duration": 2067000000
+              "duration": 2081000000
             }
           },
           {
@@ -248,7 +248,7 @@
             "name": "user can see that the appeal statement file \"appeal-statement-valid.tiff\" \"is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 301000000
+              "duration": 330000000
             }
           }
         ]
@@ -287,7 +287,7 @@
             "name": "user submits an appeal statement file \"appeal-statement-valid.jpg\" confirming that it \"does not\" contain sensitive information",
             "result": {
               "status": "passed",
-              "duration": 732000000
+              "duration": 803000000
             }
           },
           {
@@ -297,7 +297,7 @@
             "name": "user can see that the appeal statement file \"appeal-statement-valid.jpg\" \"is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 265000000
+              "duration": 278000000
             }
           }
         ]
@@ -326,7 +326,7 @@
             "name": "user did not previously submitted an appeal statement file",
             "result": {
               "status": "passed",
-              "duration": 22000000
+              "duration": 17000000
             }
           },
           {
@@ -336,7 +336,7 @@
             "name": "user submits an appeal statement file \"appeal-statement-valid.jpeg\" confirming that it \"does not\" contain sensitive information",
             "result": {
               "status": "passed",
-              "duration": 760000000
+              "duration": 771000000
             }
           },
           {
@@ -346,7 +346,7 @@
             "name": "user can see that the appeal statement file \"appeal-statement-valid.jpeg\" \"is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 261000000
+              "duration": 295000000
             }
           }
         ]
@@ -375,7 +375,7 @@
             "name": "user did not previously submitted an appeal statement file",
             "result": {
               "status": "passed",
-              "duration": 18000000
+              "duration": 16000000
             }
           },
           {
@@ -385,7 +385,7 @@
             "name": "user submits an appeal statement file \"appeal-statement-valid.png\" confirming that it \"does not\" contain sensitive information",
             "result": {
               "status": "passed",
-              "duration": 732000000
+              "duration": 791000000
             }
           },
           {
@@ -395,7 +395,7 @@
             "name": "user can see that the appeal statement file \"appeal-statement-valid.png\" \"is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 276000000
+              "duration": 287000000
             }
           }
         ]
@@ -424,7 +424,7 @@
             "name": "user did not previously submitted an appeal statement file",
             "result": {
               "status": "passed",
-              "duration": 21000000
+              "duration": 17000000
             }
           },
           {
@@ -434,7 +434,7 @@
             "name": "user confirms that there is no sensitive information without selecting an appeal statement file to upload",
             "result": {
               "status": "passed",
-              "duration": 664000000
+              "duration": 748000000
             }
           },
           {
@@ -444,7 +444,7 @@
             "name": "user is informed that he needs to select an appeal statement",
             "result": {
               "status": "passed",
-              "duration": 10000000
+              "duration": 12000000
             }
           }
         ]
@@ -473,7 +473,7 @@
             "name": "user has previously submitted an appeal statement file \"appeal-statement-valid.pdf\"",
             "result": {
               "status": "passed",
-              "duration": 729000000
+              "duration": 865000000
             }
           },
           {
@@ -483,7 +483,7 @@
             "name": "user submits an appeal statement file \"appeal-statement-valid.doc\" confirming that it \"does not\" contain sensitive information",
             "result": {
               "status": "passed",
-              "duration": 631000000
+              "duration": 673000000
             }
           },
           {
@@ -493,7 +493,7 @@
             "name": "user can see that the appeal statement file \"appeal-statement-valid.doc\" \"is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 263000000
+              "duration": 305000000
             }
           }
         ]
@@ -522,7 +522,7 @@
             "name": "user did not previously submitted an appeal statement file",
             "result": {
               "status": "passed",
-              "duration": 21000000
+              "duration": 20000000
             }
           },
           {
@@ -532,7 +532,7 @@
             "name": "user does not confirm that there is no sensitive information nor upload a statement",
             "result": {
               "status": "passed",
-              "duration": 561000000
+              "duration": 638000000
             }
           },
           {
@@ -542,7 +542,7 @@
             "name": "user is informed that he needs to select an appeal statement and confirms that it does not contain sensitive information",
             "result": {
               "status": "passed",
-              "duration": 12000000
+              "duration": 11000000
             }
           }
         ]
@@ -562,7 +562,7 @@
             "name": "user has previously submitted an appeal statement file \"appeal-statement-valid.pdf\"",
             "result": {
               "status": "passed",
-              "duration": 793000000
+              "duration": 786000000
             }
           },
           {
@@ -572,7 +572,7 @@
             "name": "user submits an appeal statement file \"appeal-statement-valid.doc\" confirming that it \"does not\" contain sensitive information",
             "result": {
               "status": "passed",
-              "duration": 609000000
+              "duration": 676000000
             }
           },
           {
@@ -582,7 +582,7 @@
             "name": "user can see that the appeal statement file \"appeal-statement-valid.doc\" \"is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 299000000
+              "duration": 290000000
             }
           }
         ]
@@ -611,7 +611,7 @@
             "name": "user has previously submitted an appeal statement file \"appeal-statement-valid.pdf\"",
             "result": {
               "status": "passed",
-              "duration": 774000000
+              "duration": 815000000
             }
           },
           {
@@ -621,7 +621,7 @@
             "name": "user submits an appeal statement file \"appeal-statement-valid.doc\" confirming that it \"does\" contain sensitive information",
             "result": {
               "status": "passed",
-              "duration": 643000000
+              "duration": 723000000
             }
           },
           {
@@ -631,7 +631,7 @@
             "name": "user is informed that the file is not submitted because \"file contains sensitive information\"",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 9000000
             }
           },
           {
@@ -641,7 +641,7 @@
             "name": "user can see that the appeal statement file \"appeal-statement-valid.pdf\" \"is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 249000000
+              "duration": 277000000
             }
           }
         ]
@@ -670,7 +670,7 @@
             "name": "user submits an appeal statement file \"appeal-statement-valid.doc\" confirming that it \"does\" contain sensitive information",
             "result": {
               "status": "passed",
-              "duration": 576000000
+              "duration": 633000000
             }
           },
           {
@@ -690,7 +690,7 @@
             "name": "user can see that the appeal statement file \"appeal-statement-valid.doc\" \"is not\" submitted",
             "result": {
               "status": "passed",
-              "duration": 275000000
+              "duration": 296000000
             }
           }
         ]
@@ -710,7 +710,7 @@
             "name": "user submits an appeal statement file \"appeal-statement-invalid-wrong-type.csv\" confirming that it \"does not\" contain sensitive information",
             "result": {
               "status": "passed",
-              "duration": 657000000
+              "duration": 690000000
             }
           },
           {
@@ -720,7 +720,7 @@
             "name": "user is informed that the file is not submitted because \"file type is invalid\"",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 7000000
             }
           },
           {
@@ -730,7 +730,7 @@
             "name": "user can see that the appeal statement file \"appeal-statement-invalid-wrong-type.csv\" \"is not\" submitted",
             "result": {
               "status": "passed",
-              "duration": 270000000
+              "duration": 301000000
             }
           }
         ]
@@ -750,7 +750,7 @@
             "name": "user has previously submitted an appeal statement file \"appeal-statement-valid.pdf\"",
             "result": {
               "status": "passed",
-              "duration": 765000000
+              "duration": 816000000
             }
           },
           {
@@ -760,7 +760,7 @@
             "name": "user submits an appeal statement file \"appeal-statement-invalid-wrong-type.csv\" confirming that it \"does not\" contain sensitive information",
             "result": {
               "status": "passed",
-              "duration": 553000000
+              "duration": 610000000
             }
           },
           {
@@ -770,7 +770,7 @@
             "name": "user is informed that the file is not submitted because \"file type is invalid\"",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 10000000
             }
           },
           {
@@ -780,7 +780,7 @@
             "name": "user can see that the appeal statement file \"appeal-statement-valid.pdf\" \"is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 248000000
+              "duration": 290000000
             }
           }
         ]
@@ -800,7 +800,7 @@
             "name": "user submits an appeal statement file \"appeal-statement-invalid-wrong-type.csv\" confirming that it \"does\" contain sensitive information",
             "result": {
               "status": "passed",
-              "duration": 555000000
+              "duration": 610000000
             }
           },
           {
@@ -810,7 +810,7 @@
             "name": "user is informed that the file is not submitted because \"file contains sensitive information\"",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 8000000
             }
           },
           {
@@ -830,7 +830,7 @@
             "name": "user can see that the appeal statement file \"appeal-statement-invalid-wrong-type.csv\" \"is not\" submitted",
             "result": {
               "status": "passed",
-              "duration": 271000000
+              "duration": 262000000
             }
           }
         ]
@@ -850,7 +850,7 @@
             "name": "user has previously submitted a valid appeal statement file \"appeal-statement-valid.pdf\" followed by an invalid file \"appeal-statement-invalid-wrong-type.csv\" that was rejected because \"file type is invalid\"",
             "result": {
               "status": "passed",
-              "duration": 1292000000
+              "duration": 1419000000
             }
           },
           {
@@ -860,7 +860,7 @@
             "name": "user submits an appeal statement file \"appeal-statement-valid.doc\" confirming that it \"does not\" contain sensitive information",
             "result": {
               "status": "passed",
-              "duration": 646000000
+              "duration": 657000000
             }
           },
           {
@@ -890,7 +890,7 @@
             "name": "user has previously submitted a valid appeal statement file \"appeal-statement-valid.doc\" followed by an invalid file \"appeal-statement-invalid-wrong-type.csv\" that was rejected because \"file type is invalid\"",
             "result": {
               "status": "passed",
-              "duration": 1304000000
+              "duration": 1386000000
             }
           },
           {
@@ -900,7 +900,7 @@
             "name": "user confirms that there is no sensitive information without selecting an appeal statement file to upload",
             "result": {
               "status": "passed",
-              "duration": 563000000
+              "duration": 592000000
             }
           },
           {
@@ -910,7 +910,7 @@
             "name": "user can see that the appeal statement file \"appeal-statement-valid.doc\" \"is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 261000000
+              "duration": 274000000
             }
           }
         ]
