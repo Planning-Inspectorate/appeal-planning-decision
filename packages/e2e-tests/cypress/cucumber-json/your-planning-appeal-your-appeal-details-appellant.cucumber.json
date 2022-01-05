@@ -3,28 +3,37 @@
     "description": "  As an appellant\n  I want to be able to view the information I submitted to the Planning Inspectorate\n  So that I can review the information at anytime",
     "keyword": "Feature",
     "name": "Your Appeal Details",
-    "line": 1,
+    "line": 2,
     "id": "your-appeal-details",
-    "tags": [],
+    "tags": [
+      {
+        "name": "@wip",
+        "line": 1
+      }
+    ],
     "uri": "your-planning-appeal-your-appeal-details-appellant.feature",
     "elements": [
       {
         "id": "your-appeal-details;add-link-to-the-‘your-planning-appeal’-page---appellant",
         "keyword": "Scenario",
-        "line": 8,
+        "line": 9,
         "name": "Add link to the ‘Your planning appeal’ page - appellant",
         "tags": [
           {
+            "name": "@wip",
+            "line": 1
+          },
+          {
             "name": "@as-1607",
-            "line": 7
+            "line": 8
           },
           {
             "name": "@as-1607-ac1",
-            "line": 7
+            "line": 8
           },
           {
             "name": "@as-1607-ac1-1",
-            "line": 7
+            "line": 8
           }
         ],
         "type": "scenario",
@@ -32,31 +41,28 @@
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 9,
+            "line": 10,
             "name": "an appellant has submitted an appeal",
             "result": {
-              "status": "passed",
-              "duration": 27548000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 10,
+            "line": 11,
             "name": "the appellant is on the ‘Your planning appeal’ page",
             "result": {
-              "status": "passed",
-              "duration": 21000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 11,
+            "line": 12,
             "name": "the page will contain a link to ‘View your appeal details’",
             "result": {
-              "status": "passed",
-              "duration": 210000000
+              "status": "skipped"
             }
           }
         ]
@@ -64,24 +70,28 @@
       {
         "id": "your-appeal-details;an-appellant-views-the-appeal-details",
         "keyword": "Scenario",
-        "line": 14,
+        "line": 15,
         "name": "An appellant views the appeal details",
         "tags": [
           {
+            "name": "@wip",
+            "line": 1
+          },
+          {
             "name": "@as-1607",
-            "line": 13
+            "line": 14
           },
           {
             "name": "@as-1607-ac2",
-            "line": 13
+            "line": 14
           },
           {
             "name": "@as-1607-ac2-1",
-            "line": 13
+            "line": 14
           },
           {
             "name": "@as-2307",
-            "line": 13
+            "line": 14
           }
         ],
         "type": "scenario",
@@ -89,41 +99,37 @@
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 15,
+            "line": 16,
             "name": "an appellant is on the 'Your planning appeal' page",
             "result": {
-              "status": "passed",
-              "duration": 37114000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 16,
+            "line": 17,
             "name": "the appellant selects the 'View your appeal details' link",
             "result": {
-              "status": "passed",
-              "duration": 801000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 17,
+            "line": 18,
             "name": "the appeal details will be shown - appellant, without files",
             "result": {
-              "status": "passed",
-              "duration": 958000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
-            "line": 18,
+            "line": 19,
             "name": "the user sees the label for appellant name as \"Your name\"",
             "result": {
-              "status": "passed",
-              "duration": 120000000
+              "status": "skipped"
             }
           }
         ]
@@ -131,20 +137,24 @@
       {
         "id": "your-appeal-details;an-appellant-decides-to-open-all-sections",
         "keyword": "Scenario",
-        "line": 21,
+        "line": 22,
         "name": "An appellant decides to open all sections",
         "tags": [
           {
+            "name": "@wip",
+            "line": 1
+          },
+          {
             "name": "@as-1607",
-            "line": 20
+            "line": 21
           },
           {
             "name": "@as-1607-ac3",
-            "line": 20
+            "line": 21
           },
           {
             "name": "@as-1607-ac3-1",
-            "line": 20
+            "line": 21
           }
         ],
         "type": "scenario",
@@ -152,17 +162,16 @@
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 22,
+            "line": 23,
             "name": "an appellant is viewing a valid appeal with all sections closed",
             "result": {
-              "status": "failed",
-              "error_message": "Error: Invalid state: undefined, valid states are: accordionState\n    at assertRequestedAccordionStateIsValid (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6193:11)\n    at assertYourAppealDetailsAccordionPanelStatus (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6215:82)\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:3322:98)"
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 23,
+            "line": 24,
             "name": "they select to open all sections",
             "result": {
               "status": "skipped"
@@ -171,7 +180,7 @@
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 24,
+            "line": 25,
             "name": "all the sections are opened",
             "result": {
               "status": "skipped"
@@ -182,20 +191,24 @@
       {
         "id": "your-appeal-details;an-appellant-decides-to-close-all-sections",
         "keyword": "Scenario",
-        "line": 27,
+        "line": 28,
         "name": "An appellant decides to close all sections",
         "tags": [
           {
+            "name": "@wip",
+            "line": 1
+          },
+          {
             "name": "@as-1607",
-            "line": 26
+            "line": 27
           },
           {
             "name": "@as-1607-ac4",
-            "line": 26
+            "line": 27
           },
           {
             "name": "@as-1607-ac4-1",
-            "line": 26
+            "line": 27
           }
         ],
         "type": "scenario",
@@ -203,17 +216,16 @@
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 28,
+            "line": 29,
             "name": "an appellant is viewing a valid appeal with all sections open",
             "result": {
-              "status": "failed",
-              "error_message": "Error: Invalid state: undefined, valid states are: accordionState\n    at assertRequestedAccordionStateIsValid (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6193:11)\n    at assertYourAppealDetailsAccordionPanelStatus (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6215:82)\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:3344:98)"
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 29,
+            "line": 30,
             "name": "they select to close all sections",
             "result": {
               "status": "skipped"
@@ -222,59 +234,8 @@
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 30,
+            "line": 31,
             "name": "all the sections are closed",
-            "result": {
-              "status": "skipped"
-            }
-          }
-        ]
-      },
-      {
-        "id": "your-appeal-details;an-appellant-decides-to-open-a-specific-section",
-        "keyword": "Scenario",
-        "line": 40,
-        "name": "An appellant decides to open a specific section",
-        "tags": [
-          {
-            "name": "@as-1607",
-            "line": 32
-          },
-          {
-            "name": "@as-1607-ac5",
-            "line": 32
-          },
-          {
-            "name": "@as-1607-ac5-1",
-            "line": 32
-          }
-        ],
-        "type": "scenario",
-        "steps": [
-          {
-            "arguments": [],
-            "keyword": "Given ",
-            "line": 34,
-            "name": "an appellant is viewing a valid appeal where at least one section is closed",
-            "result": {
-              "status": "failed",
-              "error_message": "Error: Invalid state: undefined, valid states are: accordionState\n    at assertRequestedAccordionStateIsValid (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6193:11)\n    at assertYourAppealDetailsAccordionPanelStatus (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6215:82)\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:3380:98)"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 35,
-            "name": "they select to open the \"About the original planning application\" section",
-            "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 36,
-            "name": "the \"About the original planning application\" section details are displayed",
             "result": {
               "status": "skipped"
             }
@@ -288,16 +249,20 @@
         "name": "An appellant decides to open a specific section",
         "tags": [
           {
+            "name": "@wip",
+            "line": 1
+          },
+          {
             "name": "@as-1607",
-            "line": 32
+            "line": 33
           },
           {
             "name": "@as-1607-ac5",
-            "line": 32
+            "line": 33
           },
           {
             "name": "@as-1607-ac5-1",
-            "line": 32
+            "line": 33
           }
         ],
         "type": "scenario",
@@ -305,18 +270,17 @@
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 34,
+            "line": 35,
             "name": "an appellant is viewing a valid appeal where at least one section is closed",
             "result": {
-              "status": "failed",
-              "error_message": "Error: Invalid state: undefined, valid states are: accordionState\n    at assertRequestedAccordionStateIsValid (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6193:11)\n    at assertYourAppealDetailsAccordionPanelStatus (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6215:82)\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:3380:98)"
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 35,
-            "name": "they select to open the \"About your appeal\" section",
+            "line": 36,
+            "name": "they select to open the \"About the original planning application\" section",
             "result": {
               "status": "skipped"
             }
@@ -324,8 +288,8 @@
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 36,
-            "name": "the \"About your appeal\" section details are displayed",
+            "line": 37,
+            "name": "the \"About the original planning application\" section details are displayed",
             "result": {
               "status": "skipped"
             }
@@ -339,16 +303,20 @@
         "name": "An appellant decides to open a specific section",
         "tags": [
           {
+            "name": "@wip",
+            "line": 1
+          },
+          {
             "name": "@as-1607",
-            "line": 32
+            "line": 33
           },
           {
             "name": "@as-1607-ac5",
-            "line": 32
+            "line": 33
           },
           {
             "name": "@as-1607-ac5-1",
-            "line": 32
+            "line": 33
           }
         ],
         "type": "scenario",
@@ -356,17 +324,70 @@
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 34,
+            "line": 35,
             "name": "an appellant is viewing a valid appeal where at least one section is closed",
             "result": {
-              "status": "failed",
-              "error_message": "Error: Invalid state: undefined, valid states are: accordionState\n    at assertRequestedAccordionStateIsValid (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6193:11)\n    at assertYourAppealDetailsAccordionPanelStatus (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6215:82)\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:3380:98)"
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
+            "line": 36,
+            "name": "they select to open the \"About your appeal\" section",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 37,
+            "name": "the \"About your appeal\" section details are displayed",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "your-appeal-details;an-appellant-decides-to-open-a-specific-section",
+        "keyword": "Scenario",
+        "line": 43,
+        "name": "An appellant decides to open a specific section",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-1607",
+            "line": 33
+          },
+          {
+            "name": "@as-1607-ac5",
+            "line": 33
+          },
+          {
+            "name": "@as-1607-ac5-1",
+            "line": 33
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
             "line": 35,
+            "name": "an appellant is viewing a valid appeal where at least one section is closed",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 36,
             "name": "they select to open the \"Visiting the appeal site\" section",
             "result": {
               "status": "skipped"
@@ -375,59 +396,8 @@
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 36,
+            "line": 37,
             "name": "the \"Visiting the appeal site\" section details are displayed",
-            "result": {
-              "status": "skipped"
-            }
-          }
-        ]
-      },
-      {
-        "id": "your-appeal-details;an-appellant-decides-to-close-a-specific-section",
-        "keyword": "Scenario",
-        "line": 52,
-        "name": "An appellant decides to close a specific section",
-        "tags": [
-          {
-            "name": "@as-1607",
-            "line": 44
-          },
-          {
-            "name": "@as-1607-ac6",
-            "line": 44
-          },
-          {
-            "name": "@as-1607-ac6-1",
-            "line": 44
-          }
-        ],
-        "type": "scenario",
-        "steps": [
-          {
-            "arguments": [],
-            "keyword": "Given ",
-            "line": 46,
-            "name": "an appellant is viewing an appeal where at least one section is open",
-            "result": {
-              "status": "failed",
-              "error_message": "Error: Invalid state: undefined, valid states are: accordionState\n    at assertRequestedAccordionStateIsValid (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6193:11)\n    at toggleAllYourAppealDetailsAccordionPanels (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6554:82)\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:3402:94)"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 47,
-            "name": "they select to close the \"About the original planning application\" section",
-            "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 48,
-            "name": "the \"About the original planning application\" section details are hidden",
             "result": {
               "status": "skipped"
             }
@@ -441,16 +411,20 @@
         "name": "An appellant decides to close a specific section",
         "tags": [
           {
+            "name": "@wip",
+            "line": 1
+          },
+          {
             "name": "@as-1607",
-            "line": 44
+            "line": 45
           },
           {
             "name": "@as-1607-ac6",
-            "line": 44
+            "line": 45
           },
           {
             "name": "@as-1607-ac6-1",
-            "line": 44
+            "line": 45
           }
         ],
         "type": "scenario",
@@ -458,18 +432,17 @@
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 46,
+            "line": 47,
             "name": "an appellant is viewing an appeal where at least one section is open",
             "result": {
-              "status": "failed",
-              "error_message": "Error: Invalid state: undefined, valid states are: accordionState\n    at assertRequestedAccordionStateIsValid (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6193:11)\n    at toggleAllYourAppealDetailsAccordionPanels (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6554:82)\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:3402:94)"
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 47,
-            "name": "they select to close the \"About your appeal\" section",
+            "line": 48,
+            "name": "they select to close the \"About the original planning application\" section",
             "result": {
               "status": "skipped"
             }
@@ -477,8 +450,8 @@
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 48,
-            "name": "the \"About your appeal\" section details are hidden",
+            "line": 49,
+            "name": "the \"About the original planning application\" section details are hidden",
             "result": {
               "status": "skipped"
             }
@@ -492,16 +465,20 @@
         "name": "An appellant decides to close a specific section",
         "tags": [
           {
+            "name": "@wip",
+            "line": 1
+          },
+          {
             "name": "@as-1607",
-            "line": 44
+            "line": 45
           },
           {
             "name": "@as-1607-ac6",
-            "line": 44
+            "line": 45
           },
           {
             "name": "@as-1607-ac6-1",
-            "line": 44
+            "line": 45
           }
         ],
         "type": "scenario",
@@ -509,17 +486,70 @@
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 46,
+            "line": 47,
             "name": "an appellant is viewing an appeal where at least one section is open",
             "result": {
-              "status": "failed",
-              "error_message": "Error: Invalid state: undefined, valid states are: accordionState\n    at assertRequestedAccordionStateIsValid (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6193:11)\n    at toggleAllYourAppealDetailsAccordionPanels (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6554:82)\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:3402:94)"
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
+            "line": 48,
+            "name": "they select to close the \"About your appeal\" section",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 49,
+            "name": "the \"About your appeal\" section details are hidden",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      },
+      {
+        "id": "your-appeal-details;an-appellant-decides-to-close-a-specific-section",
+        "keyword": "Scenario",
+        "line": 55,
+        "name": "An appellant decides to close a specific section",
+        "tags": [
+          {
+            "name": "@wip",
+            "line": 1
+          },
+          {
+            "name": "@as-1607",
+            "line": 45
+          },
+          {
+            "name": "@as-1607-ac6",
+            "line": 45
+          },
+          {
+            "name": "@as-1607-ac6-1",
+            "line": 45
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
             "line": 47,
+            "name": "an appellant is viewing an appeal where at least one section is open",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 48,
             "name": "they select to close the \"Visiting the appeal site\" section",
             "result": {
               "status": "skipped"
@@ -528,7 +558,7 @@
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 48,
+            "line": 49,
             "name": "the \"Visiting the appeal site\" section details are hidden",
             "result": {
               "status": "skipped"
@@ -539,20 +569,24 @@
       {
         "id": "your-appeal-details;js---all-sections-will-be-closed-by-default---appellant",
         "keyword": "Scenario",
-        "line": 57,
+        "line": 58,
         "name": "JS - all sections will be closed by default - appellant",
         "tags": [
           {
+            "name": "@wip",
+            "line": 1
+          },
+          {
             "name": "@as-1607",
-            "line": 56
+            "line": 57
           },
           {
             "name": "@as-1607-ac7",
-            "line": 56
+            "line": 57
           },
           {
             "name": "@as-1607-ac7-1",
-            "line": 56
+            "line": 57
           }
         ],
         "type": "scenario",
@@ -560,21 +594,19 @@
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 58,
+            "line": 59,
             "name": "an appellant is viewing a valid appeal with JavaScript enabled",
             "result": {
-              "status": "passed",
-              "duration": 32827000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 59,
+            "line": 60,
             "name": "all the sections on the page will be closed by default",
             "result": {
-              "status": "failed",
-              "error_message": "Error: Invalid state: undefined, valid states are: accordionState\n    at assertRequestedAccordionStateIsValid (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6193:11)\n    at assertYourAppealDetailsAccordionPanelStatus (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6215:82)\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:3519:96)\n    at Context.resolveAndRunStepDefinition (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:17178:9)\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:16496:35)"
+              "status": "skipped"
             }
           }
         ]
@@ -582,20 +614,24 @@
       {
         "id": "your-appeal-details;non-js---all-sections-will-be-open-by-default---appellant",
         "keyword": "Scenario",
-        "line": 62,
+        "line": 63,
         "name": "Non JS - all sections will be open by default - appellant",
         "tags": [
           {
+            "name": "@wip",
+            "line": 1
+          },
+          {
             "name": "@as-1607",
-            "line": 61
+            "line": 62
           },
           {
             "name": "@as-1607-ac8",
-            "line": 61
+            "line": 62
           },
           {
             "name": "@as-1607-ac8-1",
-            "line": 61
+            "line": 62
           }
         ],
         "type": "scenario",
@@ -603,21 +639,19 @@
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 63,
+            "line": 64,
             "name": "an appellant is viewing the appeal details with Javascript disabled",
             "result": {
-              "status": "passed",
-              "duration": 33630000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 64,
+            "line": 65,
             "name": "all the sections are opened",
             "result": {
-              "status": "failed",
-              "error_message": "Error: Invalid state: undefined, valid states are: accordionState\n    at assertRequestedAccordionStateIsValid (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6193:11)\n    at assertYourAppealDetailsAccordionPanelStatus (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:6215:82)\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:3495:96)\n    at Context.resolveAndRunStepDefinition (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:17178:9)\n    at Context.eval (http://localhost:9003/__cypress/tests?p=cypress\\integration\\householder-planning\\appeals-service\\your-planning-appeal-your-appeal-details-appellant.feature:16496:35)"
+              "status": "skipped"
             }
           }
         ]
@@ -625,20 +659,24 @@
       {
         "id": "your-appeal-details;file-count-for-each-document-type---appellant",
         "keyword": "Scenario",
-        "line": 67,
+        "line": 68,
         "name": "File count for each document type - appellant",
         "tags": [
           {
+            "name": "@wip",
+            "line": 1
+          },
+          {
             "name": "@as-1607",
-            "line": 66
+            "line": 67
           },
           {
             "name": "@as-1607-ac9",
-            "line": 66
+            "line": 67
           },
           {
             "name": "@as-1607-ac1",
-            "line": 66
+            "line": 67
           }
         ],
         "type": "scenario",
@@ -646,21 +684,19 @@
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 68,
+            "line": 69,
             "name": "an appellant has submitted an appeal that includes multiple documents",
             "result": {
-              "status": "passed",
-              "duration": 37282000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 69,
+            "line": 70,
             "name": "a count for each document type will be displayed on the page - appellant",
             "result": {
-              "status": "passed",
-              "duration": 6368000000
+              "status": "skipped"
             }
           }
         ]
@@ -668,20 +704,24 @@
       {
         "id": "your-appeal-details;‘back'-link-goes-back-to-the-previous-page￼--appellant",
         "keyword": "Scenario",
-        "line": 72,
+        "line": 73,
         "name": "‘Back' link goes back to the previous page￼- appellant",
         "tags": [
           {
+            "name": "@wip",
+            "line": 1
+          },
+          {
             "name": "@as-1607",
-            "line": 71
+            "line": 72
           },
           {
             "name": "@as-1607-ac10",
-            "line": 71
+            "line": 72
           },
           {
             "name": "@as-1607-ac10-1",
-            "line": 71
+            "line": 72
           }
         ],
         "type": "scenario",
@@ -689,31 +729,28 @@
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 73,
+            "line": 74,
             "name": "an appellant is viewing a valid appeal",
             "result": {
-              "status": "passed",
-              "duration": 37985000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "line": 74,
+            "line": 75,
             "name": "the appellant selects the ‘Back’ link",
             "result": {
-              "status": "passed",
-              "duration": 2808000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 75,
+            "line": 76,
             "name": "the \"Your planning appeal\" page will be displayed for the current appeal - appellant",
             "result": {
-              "status": "passed",
-              "duration": 420000000
+              "status": "skipped"
             }
           }
         ]
@@ -721,16 +758,20 @@
       {
         "id": "your-appeal-details;display-400-error-page-when-user-session-is-not-set-therefore-we-don’t-have-the-appeal-id",
         "keyword": "Scenario",
-        "line": 78,
+        "line": 79,
         "name": "Display 400 error page when user session is not set therefore we don’t have the appeal ID",
         "tags": [
           {
+            "name": "@wip",
+            "line": 1
+          },
+          {
             "name": "@as-1607",
-            "line": 77
+            "line": 78
           },
           {
             "name": "@as-1607-ac11",
-            "line": 77
+            "line": 78
           }
         ],
         "type": "scenario",
@@ -738,21 +779,19 @@
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 79,
+            "line": 80,
             "name": "an appellant or agent is viewing the appeal details for an invalid appeal ID",
             "result": {
-              "status": "passed",
-              "duration": 2176000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 80,
+            "line": 81,
             "name": "the 400 error page will be displayed",
             "result": {
-              "status": "passed",
-              "duration": 19000000
+              "status": "skipped"
             }
           }
         ]

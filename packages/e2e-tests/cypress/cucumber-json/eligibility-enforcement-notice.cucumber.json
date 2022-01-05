@@ -41,7 +41,7 @@
             "name": "receipt of an Enforcement Notice is requested",
             "result": {
               "status": "passed",
-              "duration": 592000000
+              "duration": 455000000
             }
           },
           {
@@ -51,7 +51,7 @@
             "name": "receipt of an Enforcement Notice is not provided",
             "result": {
               "status": "passed",
-              "duration": 465000000
+              "duration": 391000000
             }
           },
           {
@@ -61,7 +61,7 @@
             "name": "progress is halted with a message that the Enforcement Notice question is required",
             "result": {
               "status": "passed",
-              "duration": 19000000
+              "duration": 17000000
             }
           }
         ]
@@ -94,7 +94,7 @@
             "name": "receipt of an Enforcement Notice is requested",
             "result": {
               "status": "passed",
-              "duration": 402000000
+              "duration": 369000000
             }
           },
           {
@@ -104,7 +104,7 @@
             "name": "the appellant has not received an Enforcement Notice",
             "result": {
               "status": "passed",
-              "duration": 561000000
+              "duration": 482000000
             }
           },
           {
@@ -147,7 +147,7 @@
             "name": "receipt of an Enforcement Notice is requested",
             "result": {
               "status": "passed",
-              "duration": 392000000
+              "duration": 451000000
             }
           },
           {
@@ -157,7 +157,7 @@
             "name": "the appellant has received an Enforcement Notice",
             "result": {
               "status": "passed",
-              "duration": 582000000
+              "duration": 370000000
             }
           },
           {
@@ -167,7 +167,7 @@
             "name": "progress is halted with a message that this service is only for householder planning appeals",
             "result": {
               "status": "passed",
-              "duration": 25000000
+              "duration": 11000000
             }
           }
         ]

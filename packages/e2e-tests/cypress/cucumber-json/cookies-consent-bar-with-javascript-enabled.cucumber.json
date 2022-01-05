@@ -32,7 +32,7 @@
             "name": "a user has not previously submitted cookie preferences",
             "result": {
               "status": "passed",
-              "duration": 77000000
+              "duration": 73000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "the user neither accepts nor rejects not necessary cookies",
             "result": {
               "status": "passed",
-              "duration": 516000000
+              "duration": 361000000
             }
           },
           {
@@ -81,7 +81,7 @@
             "name": "a user has not previously submitted cookie preferences",
             "result": {
               "status": "passed",
-              "duration": 33000000
+              "duration": 30000000
             }
           },
           {
@@ -91,7 +91,7 @@
             "name": "the user accepts not necessary cookies",
             "result": {
               "status": "passed",
-              "duration": 618000000
+              "duration": 481000000
             }
           },
           {
@@ -101,7 +101,7 @@
             "name": "the accepted cookie banner becomes visible",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 4000000
             }
           }
         ]
@@ -130,7 +130,7 @@
             "name": "a user has not previously submitted cookie preferences",
             "result": {
               "status": "passed",
-              "duration": 55000000
+              "duration": 27000000
             }
           },
           {
@@ -140,7 +140,7 @@
             "name": "the user rejects not necessary cookies",
             "result": {
               "status": "passed",
-              "duration": 604000000
+              "duration": 402000000
             }
           },
           {
@@ -179,7 +179,7 @@
             "name": "a user has not previously submitted cookie preferences",
             "result": {
               "status": "passed",
-              "duration": 29000000
+              "duration": 24000000
             }
           },
           {
@@ -189,7 +189,7 @@
             "name": "the user accepts not necessary cookies",
             "result": {
               "status": "passed",
-              "duration": 452000000
+              "duration": 389000000
             }
           },
           {
@@ -199,7 +199,7 @@
             "name": "the GA cookies are enabled",
             "result": {
               "status": "passed",
-              "duration": 422000000
+              "duration": 680000000
             }
           }
         ]
@@ -228,7 +228,7 @@
             "name": "a user has not previously submitted cookie preferences",
             "result": {
               "status": "passed",
-              "duration": 47000000
+              "duration": 48000000
             }
           },
           {
@@ -238,7 +238,7 @@
             "name": "the user rejects not necessary cookies",
             "result": {
               "status": "passed",
-              "duration": 494000000
+              "duration": 397000000
             }
           },
           {
@@ -248,7 +248,7 @@
             "name": "the GA cookies remain disabled",
             "result": {
               "status": "passed",
-              "duration": 447000000
+              "duration": 358000000
             }
           }
         ]

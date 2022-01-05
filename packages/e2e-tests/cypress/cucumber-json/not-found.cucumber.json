@@ -28,7 +28,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 114000000
+              "duration": 73000000
             }
           },
           {
@@ -38,7 +38,7 @@
             "name": "an unknown url is requested",
             "result": {
               "status": "passed",
-              "duration": 716000000
+              "duration": 446000000
             }
           },
           {
@@ -48,7 +48,7 @@
             "name": "the error page will be displayed",
             "result": {
               "status": "passed",
-              "duration": 78000000
+              "duration": 55000000
             }
           }
         ]

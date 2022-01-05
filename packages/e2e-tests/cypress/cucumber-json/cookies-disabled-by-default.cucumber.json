@@ -32,7 +32,7 @@
             "name": "a user has not previously submitted cookie preferences",
             "result": {
               "status": "passed",
-              "duration": 86000000
+              "duration": 76000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "the user visits the service",
             "result": {
               "status": "passed",
-              "duration": 533000000
+              "duration": 428000000
             }
           },
           {
@@ -52,7 +52,7 @@
             "name": "not necessary cookies are disabled",
             "result": {
               "status": "passed",
-              "duration": 44000000
+              "duration": 30000000
             }
           }
         ]

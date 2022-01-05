@@ -1,4 +1,4 @@
-import { When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 
 import format from 'date-fns/format'
 import {
@@ -7,7 +7,6 @@ import {
 import {
   clickCheckYourAnswers
 } from '../../../../support/householder-planning/appeals-service/appeal-navigation/clickCheckYourAnswers';
-import { clickSaveAndContinue } from '../../../../support/common/clickSaveAndContinue';
 import {
   STANDARD_AGENT_APPEAL,
   STANDARD_APPEAL,
@@ -22,19 +21,22 @@ import {
   confirmNavigationPageNotFoundPage
 } from '../../../../support/householder-planning/appeals-service/errors/confirmNavigationPageNotFoundPage';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
+import {
+  getSaveAndContinueButton
+} from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
 
 Given('an {string} has submitted an appeal', (appellantOrAgent) => {
   const appeal = appellantOrAgent === 'appellant' ? STANDARD_APPEAL : STANDARD_AGENT_APPEAL;
   provideCompleteAppeal(appeal);
   clickCheckYourAnswers();
-  clickSaveAndContinue();
+  getSaveAndContinueButton().click();
   agreeToTheDeclaration();
 });
 
 Given('an agent or appellant has submitted an appeal', () => {
   provideCompleteAppeal(STANDARD_APPEAL);
   clickCheckYourAnswers();
-  clickSaveAndContinue();
+  getSaveAndContinueButton().click();
   agreeToTheDeclaration();
 });
 
@@ -43,12 +45,12 @@ When('your planning appeal page is viewed with a valid appealId', () => {
   cy.get('[data-cy="submission-information-appeal-id"]')
     .invoke('val')
     .then((appealId) => {
-      goToAppealsPage(`/your-planning-appeal/${appealId}`);
+      goToAppealsPage(`your-planning-appeal/${appealId}`);
     });
 });
 
 When('your planning appeal page is viewed with an incorrect appealId', () => {
-  goToAppealsPage('/your-planning-appeal/unknown-appeal-id', { failOnStatusCode: false });
+  goToAppealsPage('your-planning-appeal/unknown-appeal-id', { failOnStatusCode: false });
 });
 
 Then('the user sees the appropriate general data for {string} along with data for step 1', (appellantOrAgent) => {

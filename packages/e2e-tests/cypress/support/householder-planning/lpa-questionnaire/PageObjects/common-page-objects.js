@@ -1,5 +1,6 @@
 export const sectionName = () => cy.get('.govuk-caption-l');
 export const saveAndContinueButton = () => cy.get('[data-cy="save"]');
+export const getSaveAndContinueButton = () => cy.get('[data-cy="button-save-and-continue"]');
 export const backButton = () => cy.get('[data-cy="back"]');
 export const pageHeading = () => cy.get('h1');
 export const textArea = (textAreaId) => cy.get(`textarea[data-cy="${textAreaId}"]`);
