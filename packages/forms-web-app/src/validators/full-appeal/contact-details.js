@@ -3,7 +3,7 @@ const { body } = require('express-validator');
 const ruleYourName = () =>
   body('appellant-name')
     .notEmpty()
-    .withMessage('Enter your name')
+    .withMessage('Enter your full name')
     .bail()
     .matches(/^[a-z\-' ]+$/i)
     .withMessage('Name must only include letters a to z, hyphens, spaces and apostrophes')
