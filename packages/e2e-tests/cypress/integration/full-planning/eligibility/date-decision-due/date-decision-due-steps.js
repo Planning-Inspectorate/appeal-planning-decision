@@ -10,8 +10,8 @@ import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-b
 import {
   enterDateDecisionDue,
   verifyHighlights,
-} from '../../../../support/full-planning/eligibility/date-decision-due/enter-date-decision-due';
-import { getPlanningApplicationDecisionError } from '../../../../support/full-planning/eligibility/page-objects/date-decision-due-po';
+} from '../../../../support/full-appeal/eligibility/date-decision-due/enter-date-decision-due';
+import { getPlanningApplicationDecisionError } from '../../../../support/full-appeal/eligibility/page-objects/date-decision-due-po';
 const pageHeading = 'What date was the decision due?';
 const pageTitle = 'What date was the decision due? - Before you start - Appeal a planning decision - GOV.UK';
 const url = `${Cypress.env('APPEALS_BASE_URL')}/before-you-start/date-decision-due`;

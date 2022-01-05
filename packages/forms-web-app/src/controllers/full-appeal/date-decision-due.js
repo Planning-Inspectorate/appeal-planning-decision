@@ -4,7 +4,7 @@ const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 const {
   VIEW: {
-    FULL_PLANNING: { DATE_DECISION_DUE: currentPage },
+    FULL_APPEAL: { DATE_DECISION_DUE: currentPage },
   },
 } = require('../../lib/views');
 
@@ -53,10 +53,6 @@ exports.postDateDecisionDue = async (req, res) => {
   /* istanbul ignore next */
   const { appeal } = req.session;
   const { errors = {}, errorSummary = [] } = body;
-
-  req.log.debug({ body }, 'Des:- body');
-  req.log.debug({ errors }, 'Des:- errors');
-  req.log.debug({ errorSummary }, 'Des:- errorSummary');
 
   if (Object.keys(errors).length > 0) {
     res.render(currentPage, {

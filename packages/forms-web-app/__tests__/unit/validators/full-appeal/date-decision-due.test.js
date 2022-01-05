@@ -1,7 +1,7 @@
 jest.mock('../../../../src/validators/custom/date-input', () => jest.fn());
 
 const { validationResult } = require('express-validator');
-const { rules } = require('../../../../src/validators/full-planning/date-decision-due');
+const { rules } = require('../../../../src/validators/full-appeal/date-decision-due');
 const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
 
 describe('validators/full-planning/date-decision-due', () => {
