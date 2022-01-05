@@ -28,7 +28,7 @@
             "name": "a user is managing their cookie preference",
             "result": {
               "status": "passed",
-              "duration": 364000000
+              "duration": 509000000
             }
           },
           {
@@ -38,7 +38,7 @@
             "name": "the user disables a not necessary cookie",
             "result": {
               "status": "passed",
-              "duration": 407000000
+              "duration": 530000000
             }
           },
           {
@@ -48,7 +48,7 @@
             "name": "the user sees a one time message to denote action success",
             "result": {
               "status": "passed",
-              "duration": 272000000
+              "duration": 341000000
             }
           }
         ]

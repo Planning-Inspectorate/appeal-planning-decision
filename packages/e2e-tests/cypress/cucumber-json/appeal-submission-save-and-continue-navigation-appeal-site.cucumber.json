@@ -33,7 +33,7 @@
             "name": "the \"Site location\" is presented",
             "result": {
               "status": "passed",
-              "duration": 504000000
+              "duration": 707000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "the \"Site location\" is submitted with valid values",
             "result": {
               "status": "passed",
-              "duration": 1690000000
+              "duration": 1805000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "the user is navigated to \"Site ownership\"",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 8000000
             }
           }
         ]
@@ -78,7 +78,7 @@
             "name": "the \"Site ownership\" is presented",
             "result": {
               "status": "passed",
-              "duration": 292000000
+              "duration": 681000000
             }
           },
           {
@@ -88,7 +88,7 @@
             "name": "the \"Site ownership\" is submitted with a YES value",
             "result": {
               "status": "passed",
-              "duration": 423000000
+              "duration": 922000000
             }
           },
           {
@@ -98,7 +98,7 @@
             "name": "the user is navigated to \"Site access\"",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 6000000
             }
           }
         ]
@@ -123,7 +123,7 @@
             "name": "the \"Site ownership\" is presented",
             "result": {
               "status": "passed",
-              "duration": 307000000
+              "duration": 549000000
             }
           },
           {
@@ -133,7 +133,7 @@
             "name": "the \"Site ownership\" is submitted with a NO value",
             "result": {
               "status": "passed",
-              "duration": 420000000
+              "duration": 978000000
             }
           },
           {
@@ -143,7 +143,7 @@
             "name": "the user is navigated to \"Site ownership certb\"",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 12000000
             }
           }
         ]
@@ -168,7 +168,7 @@
             "name": "the \"Site ownership\" is not wholly owned",
             "result": {
               "status": "passed",
-              "duration": 787000000
+              "duration": 1831000000
             }
           },
           {
@@ -178,7 +178,7 @@
             "name": "the \"Site ownership certb\" is submitted with a YES value",
             "result": {
               "status": "passed",
-              "duration": 484000000
+              "duration": 811000000
             }
           },
           {
@@ -188,7 +188,7 @@
             "name": "the user is navigated to \"Site access\"",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 5000000
             }
           }
         ]
@@ -213,7 +213,7 @@
             "name": "the \"Site ownership\" is not wholly owned",
             "result": {
               "status": "passed",
-              "duration": 736000000
+              "duration": 1127000000
             }
           },
           {
@@ -223,7 +223,7 @@
             "name": "the \"Site ownership certb\" is submitted with a NO value",
             "result": {
               "status": "passed",
-              "duration": 419000000
+              "duration": 1103000000
             }
           },
           {
@@ -233,7 +233,7 @@
             "name": "the user is navigated to \"Site access\"",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 10000000
             }
           }
         ]
@@ -258,7 +258,7 @@
             "name": "the \"Site access\" is presented",
             "result": {
               "status": "passed",
-              "duration": 363000000
+              "duration": 931000000
             }
           },
           {
@@ -268,7 +268,7 @@
             "name": "the \"Site access\" is submitted with a YES value",
             "result": {
               "status": "passed",
-              "duration": 436000000
+              "duration": 1524000000
             }
           },
           {
@@ -278,7 +278,7 @@
             "name": "the user is navigated to \"Site safety\"",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 21000000
             }
           }
         ]
@@ -303,7 +303,7 @@
             "name": "the \"Site access\" is presented",
             "result": {
               "status": "passed",
-              "duration": 350000000
+              "duration": 1470000000
             }
           },
           {
@@ -313,7 +313,7 @@
             "name": "the \"Site access\" is submitted with a NO value and text about how access is restricted",
             "result": {
               "status": "passed",
-              "duration": 815000000
+              "duration": 1066000000
             }
           },
           {
@@ -323,7 +323,7 @@
             "name": "the user is navigated to \"Site safety\"",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 13000000
             }
           }
         ]
@@ -348,7 +348,7 @@
             "name": "the \"Site safety\" is presented",
             "result": {
               "status": "passed",
-              "duration": 335000000
+              "duration": 658000000
             }
           },
           {
@@ -358,7 +358,7 @@
             "name": "the \"Site safety\" is submitted with a YES value and text about health and safety concerns",
             "result": {
               "status": "passed",
-              "duration": 451000000
+              "duration": 615000000
             }
           },
           {
@@ -393,7 +393,7 @@
             "name": "the \"Site safety\" is presented",
             "result": {
               "status": "passed",
-              "duration": 334000000
+              "duration": 628000000
             }
           },
           {
@@ -403,7 +403,7 @@
             "name": "the \"Site safety\" is submitted with a NO value",
             "result": {
               "status": "passed",
-              "duration": 901000000
+              "duration": 1480000000
             }
           },
           {
@@ -413,7 +413,7 @@
             "name": "the user is navigated to \"Appeal tasks\"",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 10000000
             }
           }
         ]

@@ -33,7 +33,7 @@
             "name": "the \"Application number\" is presented",
             "result": {
               "status": "passed",
-              "duration": 403000000
+              "duration": 1381000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "the \"Application number\" is submitted with valid values",
             "result": {
               "status": "passed",
-              "duration": 709000000
+              "duration": 1434000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "the user is navigated to \"Upload application\"",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 31000000
             }
           }
         ]
@@ -78,7 +78,7 @@
             "name": "the \"Upload application\" is presented",
             "result": {
               "status": "passed",
-              "duration": 303000000
+              "duration": 1329000000
             }
           },
           {
@@ -88,7 +88,7 @@
             "name": "the \"Upload application\" is submitted with valid values",
             "result": {
               "status": "passed",
-              "duration": 377000000
+              "duration": 834000000
             }
           },
           {
@@ -98,7 +98,7 @@
             "name": "the user is navigated to \"Upload decision letter\"",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 8000000
             }
           }
         ]
@@ -123,7 +123,7 @@
             "name": "the \"Upload decision letter\" is presented",
             "result": {
               "status": "passed",
-              "duration": 266000000
+              "duration": 443000000
             }
           },
           {
@@ -133,7 +133,7 @@
             "name": "the \"Upload decision letter\" is submitted with valid values",
             "result": {
               "status": "passed",
-              "duration": 392000000
+              "duration": 573000000
             }
           },
           {
@@ -143,7 +143,7 @@
             "name": "the user is navigated to \"Appeal tasks\"",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 8000000
             }
           }
         ]
