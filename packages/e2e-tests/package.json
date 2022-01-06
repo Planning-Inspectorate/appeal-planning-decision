@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "axe-core": "^4.3.5",
-    "cypress": "^9.2.0",
+    "cypress": "8.5.0",
     "cypress-axe": "^0.13.0",
     "cypress-downloadfile": "^1.2.0",
     "cypress-file-upload": "5.0.2",
