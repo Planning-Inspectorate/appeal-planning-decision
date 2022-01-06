@@ -36,7 +36,7 @@
             "name": "an appellant has successfully submitted an appeal",
             "result": {
               "status": "passed",
-              "duration": 20986000000
+              "duration": 18572000000
             }
           },
           {
@@ -46,7 +46,7 @@
             "name": "the appellant starts a new appeal",
             "result": {
               "status": "passed",
-              "duration": 1714000000
+              "duration": 1457000000
             }
           },
           {
@@ -56,7 +56,7 @@
             "name": "the appellant is able to create a new appeal without any error message",
             "result": {
               "status": "passed",
-              "duration": 881000000
+              "duration": 866000000
             }
           }
         ]
@@ -89,7 +89,7 @@
             "name": "an agent has successfully submitted an appeal",
             "result": {
               "status": "passed",
-              "duration": 19304000000
+              "duration": 18933000000
             }
           },
           {
@@ -99,7 +99,7 @@
             "name": "the agent starts a new appeal",
             "result": {
               "status": "passed",
-              "duration": 1597000000
+              "duration": 1121000000
             }
           },
           {
@@ -109,7 +109,7 @@
             "name": "the agent is able to create a new appeal without any error message",
             "result": {
               "status": "passed",
-              "duration": 986000000
+              "duration": 426000000
             }
           }
         ]

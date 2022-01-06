@@ -23,7 +23,7 @@
             "name": "the user is prompted to provide access to the inspector visiting the appeal site",
             "result": {
               "status": "passed",
-              "duration": 650000000
+              "duration": 493000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "the user selects \"Yes\" to provide access",
             "result": {
               "status": "passed",
-              "duration": 552000000
+              "duration": 512000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "the user can see the selected option \"Yes is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 380000000
+              "duration": 358000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "Access to the appeal site section is \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 355000000
+              "duration": 312000000
             }
           }
         ]
@@ -78,7 +78,7 @@
             "name": "the user is prompted to provide access to the inspector visiting the appeal site",
             "result": {
               "status": "passed",
-              "duration": 376000000
+              "duration": 375000000
             }
           },
           {
@@ -88,7 +88,7 @@
             "name": "the user selects \"No\" to provide access",
             "result": {
               "status": "passed",
-              "duration": 89000000
+              "duration": 90000000
             }
           },
           {
@@ -98,7 +98,7 @@
             "name": "the user \"does not\" provide additional information",
             "result": {
               "status": "passed",
-              "duration": 444000000
+              "duration": 371000000
             }
           },
           {
@@ -108,7 +108,7 @@
             "name": "the user is informed that \"further information is required to gain access to the restricted site\"",
             "result": {
               "status": "passed",
-              "duration": 396000000
+              "duration": 384000000
             }
           },
           {
@@ -118,7 +118,7 @@
             "name": "the user can see that there is no option submitted",
             "result": {
               "status": "passed",
-              "duration": 398000000
+              "duration": 395000000
             }
           },
           {
@@ -128,7 +128,7 @@
             "name": "Access to the appeal site section is \"NOT STARTED\"",
             "result": {
               "status": "passed",
-              "duration": 314000000
+              "duration": 315000000
             }
           }
         ]
@@ -148,7 +148,7 @@
             "name": "the user is prompted to provide access to the inspector visiting the appeal site",
             "result": {
               "status": "passed",
-              "duration": 397000000
+              "duration": 357000000
             }
           },
           {
@@ -158,7 +158,7 @@
             "name": "the user selects \"No\" to provide access",
             "result": {
               "status": "passed",
-              "duration": 87000000
+              "duration": 93000000
             }
           },
           {
@@ -168,7 +168,7 @@
             "name": "the user \"does\" provide additional information",
             "result": {
               "status": "passed",
-              "duration": 754000000
+              "duration": 700000000
             }
           },
           {
@@ -178,7 +178,7 @@
             "name": "the user can see the selected option \"No is\" submitted",
             "result": {
               "status": "passed",
-              "duration": 347000000
+              "duration": 353000000
             }
           },
           {
@@ -188,7 +188,7 @@
             "name": "Access to the appeal site section is \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 354000000
+              "duration": 323000000
             }
           }
         ]
@@ -208,7 +208,7 @@
             "name": "the user is prompted to provide access to the inspector visiting the appeal site",
             "result": {
               "status": "passed",
-              "duration": 391000000
+              "duration": 360000000
             }
           },
           {
@@ -218,7 +218,7 @@
             "name": "the user selects \"No\" to provide access",
             "result": {
               "status": "passed",
-              "duration": 89000000
+              "duration": 86000000
             }
           },
           {
@@ -228,7 +228,7 @@
             "name": "the user does provide additional information with character length exceeding the limit",
             "result": {
               "status": "passed",
-              "duration": 3183000000
+              "duration": 3184000000
             }
           },
           {
@@ -238,7 +238,7 @@
             "name": "the user is told \"How access is restricted must be 255 characters or less\"",
             "result": {
               "status": "passed",
-              "duration": 497000000
+              "duration": 457000000
             }
           },
           {
@@ -248,7 +248,7 @@
             "name": "the user can see that there is no option submitted",
             "result": {
               "status": "passed",
-              "duration": 393000000
+              "duration": 369000000
             }
           },
           {
@@ -258,7 +258,7 @@
             "name": "Access to the appeal site section is \"NOT STARTED\"",
             "result": {
               "status": "passed",
-              "duration": 381000000
+              "duration": 343000000
             }
           }
         ]
@@ -283,7 +283,7 @@
             "name": "the user is prompted to provide access to the inspector visiting the appeal site",
             "result": {
               "status": "passed",
-              "duration": 431000000
+              "duration": 385000000
             }
           },
           {
@@ -303,7 +303,7 @@
             "name": "the user is told \"Select Yes if the appeal site can be seen from a public road\"",
             "result": {
               "status": "passed",
-              "duration": 417000000
+              "duration": 335000000
             }
           },
           {
@@ -313,7 +313,7 @@
             "name": "the user can see that there is no option submitted",
             "result": {
               "status": "passed",
-              "duration": 378000000
+              "duration": 332000000
             }
           },
           {
@@ -323,7 +323,7 @@
             "name": "Access to the appeal site section is \"NOT STARTED\"",
             "result": {
               "status": "passed",
-              "duration": 361000000
+              "duration": 359000000
             }
           }
         ]
