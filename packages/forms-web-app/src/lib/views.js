@@ -61,6 +61,12 @@ const VIEW = {
     LOCAL_PLANNING_DEPARTMENT: 'full-appeal/local-planning-department',
     TYPE_OF_PLANNING_APPLICATION: 'full-appeal/type-of-planning-application',
     USE_A_DIFFERENT_SERVICE: 'full-appeal/use-a-different-service',
+    YOU_CANNOT_APPEAL: 'full-appeal/you-cannot-appeal',
+  },
+
+  HOUSEHOLDER_PLANNING: {
+    GRANTED_OR_REFUSED: 'householder-planning/granted-or-refused',
+    DATE_DECISION_DUE_HOUSEHOLDER: 'householder-planning/date-decision-due-householder',
   },
 
   YOUR_PLANNING_APPEAL: {
