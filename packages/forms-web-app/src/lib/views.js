@@ -61,6 +61,7 @@ const VIEW = {
     LOCAL_PLANNING_DEPARTMENT: 'full-appeal/local-planning-department',
     TYPE_OF_PLANNING_APPLICATION: 'full-appeal/type-of-planning-application',
     USE_A_DIFFERENT_SERVICE: 'full-appeal/use-a-different-service',
+    YOU_CANNOT_APPEAL: 'full-appeal/you-cannot-appeal',
   },
 
   YOUR_PLANNING_APPEAL: {
