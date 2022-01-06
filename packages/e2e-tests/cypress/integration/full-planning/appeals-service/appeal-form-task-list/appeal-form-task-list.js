@@ -16,7 +16,7 @@ import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 
 const pageHeading = 'Appeal a planning decision';
-const url = 'full-appeal/task-list';
+const url = 'full-appeal/submit-appeal/task-list';
 const pageTitle = 'Appeal a planning decision - Appeal a planning decision - GOV.UK';
 
 Given('Appellant has been successful on their eligibility',()=> {

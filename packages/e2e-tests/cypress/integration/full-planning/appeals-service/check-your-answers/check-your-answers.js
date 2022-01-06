@@ -7,7 +7,7 @@ import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 
-const url = 'full-appeal/task-list';
+const url = 'full-appeal/submit-appeal/task-list';
 const pageTitle = 'Check your answers - Appeal a householder planning decision - GOV.UK';
 const pageHeading = 'Check your answers';
 
@@ -38,5 +38,5 @@ When("they select the 'Back' link",()=> {
   getBackLink().click();
 })
 Then("the {string} is on the 'Appeal a planning decision' page",()=> {
-  cy.url().should('contain','/full-appeal/task-list');
+  cy.url().should('contain','/full-appeal/submit-appeal/task-list');
 })

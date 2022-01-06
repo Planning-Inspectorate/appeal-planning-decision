@@ -27,7 +27,7 @@
             "name": "an agent or appellant has submitted an appeal and they do not wholly own the site",
             "result": {
               "status": "passed",
-              "duration": 23501000000
+              "duration": 29817000000
             }
           },
           {
@@ -37,7 +37,7 @@
             "name": "the pdf is viewed",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 7000000
             }
           },
           {
@@ -47,7 +47,7 @@
             "name": "the answer for other owner notification is displayed as submitted",
             "result": {
               "status": "passed",
-              "duration": 79000000
+              "duration": 138000000
             }
           }
         ]
