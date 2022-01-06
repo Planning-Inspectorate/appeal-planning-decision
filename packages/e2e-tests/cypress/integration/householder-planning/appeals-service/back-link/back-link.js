@@ -2,7 +2,6 @@ import { Given, When, Then, After } from 'cypress-cucumber-preprocessor/steps';
 import { hasErrorOnPreviousPage } from '../../../../support/householder-planning/appeals-service/back-link/hasErrorOnPreviousPage';
 import { hasErrorOnCurrentPage } from '../../../../support/householder-planning/appeals-service/back-link/hasErrorOnCurrentPage';
 import { visitServiceByDirectlyBrowsingToUnexpectedFirstPage } from '../../../../support/householder-planning/appeals-service/back-link/visitServiceByDirectlyBrowsingToUnexpectedFirstPage';
-import { visitServiceStartPage } from '../../../../support/householder-planning/appeals-service/back-link/visitServiceStartPage';
 import { navigateForwardsWithinEligibilitySteps } from '../../../../support/householder-planning/appeals-service/back-link/navigateForwardsWithinEligibilitySteps';
 import { navigateForwardsWithinAppealSteps } from '../../../../support/householder-planning/appeals-service/back-link/navigateForwardsWithinAppealSteps';
 import { provideDetailsAboutTheOriginalPlanningApplication } from '../../../../support/householder-planning/appeals-service/back-link/provideDetailsAboutTheOriginalPlanningApplication';

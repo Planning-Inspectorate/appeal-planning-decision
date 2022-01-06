@@ -23,7 +23,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 535000000
+              "duration": 543000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "the task \"About you - Your details\" is available for selection",
             "result": {
               "status": "passed",
-              "duration": 22000000
+              "duration": 19000000
             }
           }
         ]
@@ -53,7 +53,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 336000000
+              "duration": 294000000
             }
           },
           {
@@ -63,7 +63,7 @@
             "name": "the task \"Planning application - Application number\" is available for selection",
             "result": {
               "status": "passed",
-              "duration": 11000000
+              "duration": 8000000
             }
           }
         ]
@@ -83,7 +83,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 347000000
+              "duration": 321000000
             }
           },
           {
@@ -93,7 +93,7 @@
             "name": "the task \"Planning application - Upload application\" is available for selection",
             "result": {
               "status": "passed",
-              "duration": 12000000
+              "duration": 10000000
             }
           }
         ]
@@ -113,7 +113,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 367000000
+              "duration": 354000000
             }
           },
           {
@@ -123,7 +123,7 @@
             "name": "the task \"Planning application - Upload decision letter\" is available for selection",
             "result": {
               "status": "passed",
-              "duration": 10000000
+              "duration": 9000000
             }
           }
         ]
@@ -143,7 +143,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 365000000
+              "duration": 348000000
             }
           },
           {
@@ -153,7 +153,7 @@
             "name": "the task \"Your appeal - Appeal statement\" is available for selection",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 10000000
             }
           }
         ]
@@ -173,7 +173,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 333000000
+              "duration": 305000000
             }
           },
           {
@@ -203,7 +203,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 325000000
+              "duration": 337000000
             }
           },
           {
@@ -233,7 +233,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 372000000
+              "duration": 356000000
             }
           },
           {
@@ -243,7 +243,7 @@
             "name": "the task \"Appeal site - Site ownership\" is available for selection",
             "result": {
               "status": "passed",
-              "duration": 11000000
+              "duration": 9000000
             }
           }
         ]
@@ -263,7 +263,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 398000000
+              "duration": 321000000
             }
           },
           {
@@ -273,7 +273,7 @@
             "name": "the task \"Appeal site - Site access\" is available for selection",
             "result": {
               "status": "passed",
-              "duration": 11000000
+              "duration": 10000000
             }
           }
         ]
@@ -293,7 +293,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 366000000
+              "duration": 353000000
             }
           },
           {
@@ -323,7 +323,7 @@
             "name": "the \"About you - Your details\" part of the appeal is not started",
             "result": {
               "status": "passed",
-              "duration": 26000000
+              "duration": 17000000
             }
           },
           {
@@ -333,7 +333,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 323000000
+              "duration": 290000000
             }
           },
           {
@@ -363,7 +363,7 @@
             "name": "the \"Planning application - Application number\" part of the appeal is not started",
             "result": {
               "status": "passed",
-              "duration": 20000000
+              "duration": 16000000
             }
           },
           {
@@ -373,7 +373,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 335000000
+              "duration": 269000000
             }
           },
           {
@@ -383,7 +383,7 @@
             "name": "the state for \"Planning application - Application number\" is displayed to be \"NOT STARTED\"",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 9000000
             }
           }
         ]
@@ -403,7 +403,7 @@
             "name": "the \"Planning application - Upload application\" part of the appeal is not started",
             "result": {
               "status": "passed",
-              "duration": 21000000
+              "duration": 18000000
             }
           },
           {
@@ -413,7 +413,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 348000000
+              "duration": 329000000
             }
           },
           {
@@ -423,7 +423,7 @@
             "name": "the state for \"Planning application - Upload application\" is displayed to be \"NOT STARTED\"",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 8000000
             }
           }
         ]
@@ -443,7 +443,7 @@
             "name": "the \"Planning application - Upload decision letter\" part of the appeal is not started",
             "result": {
               "status": "passed",
-              "duration": 24000000
+              "duration": 19000000
             }
           },
           {
@@ -453,7 +453,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 356000000
+              "duration": 302000000
             }
           },
           {
@@ -483,7 +483,7 @@
             "name": "the \"Your appeal - Appeal statement\" part of the appeal is not started",
             "result": {
               "status": "passed",
-              "duration": 22000000
+              "duration": 21000000
             }
           },
           {
@@ -493,7 +493,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 339000000
+              "duration": 300000000
             }
           },
           {
@@ -503,7 +503,7 @@
             "name": "the state for \"Your appeal - Appeal statement\" is displayed to be \"NOT STARTED\"",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 6000000
             }
           }
         ]
@@ -523,7 +523,7 @@
             "name": "the \"Your appeal - Supporting documents\" part of the appeal is not started",
             "result": {
               "status": "passed",
-              "duration": 17000000
+              "duration": 14000000
             }
           },
           {
@@ -533,7 +533,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 318000000
+              "duration": 297000000
             }
           },
           {
@@ -543,7 +543,7 @@
             "name": "the state for \"Your appeal - Supporting documents\" is displayed to be \"NOT STARTED\"",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 8000000
             }
           }
         ]
@@ -563,7 +563,7 @@
             "name": "the \"Appeal site - Site location\" part of the appeal is not started",
             "result": {
               "status": "passed",
-              "duration": 18000000
+              "duration": 24000000
             }
           },
           {
@@ -573,7 +573,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 343000000
+              "duration": 329000000
             }
           },
           {
@@ -603,7 +603,7 @@
             "name": "the \"Appeal site - Site ownership\" part of the appeal is not started",
             "result": {
               "status": "passed",
-              "duration": 25000000
+              "duration": 16000000
             }
           },
           {
@@ -613,7 +613,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 352000000
+              "duration": 313000000
             }
           },
           {
@@ -643,7 +643,7 @@
             "name": "the \"Appeal site - Site access\" part of the appeal is not started",
             "result": {
               "status": "passed",
-              "duration": 24000000
+              "duration": 15000000
             }
           },
           {
@@ -653,7 +653,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 337000000
+              "duration": 321000000
             }
           },
           {
@@ -683,7 +683,7 @@
             "name": "the \"Appeal site - Site safety\" part of the appeal is not started",
             "result": {
               "status": "passed",
-              "duration": 19000000
+              "duration": 18000000
             }
           },
           {
@@ -693,7 +693,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 307000000
+              "duration": 285000000
             }
           },
           {
@@ -723,7 +723,7 @@
             "name": "the \"About you - Your details\" part of the appeal are completed",
             "result": {
               "status": "passed",
-              "duration": 1839000000
+              "duration": 1765000000
             }
           },
           {
@@ -733,7 +733,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 324000000
+              "duration": 327000000
             }
           },
           {
@@ -743,7 +743,7 @@
             "name": "the state for \"About you - Your details\" is displayed to be \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 11000000
+              "duration": 7000000
             }
           }
         ]
@@ -763,7 +763,7 @@
             "name": "the \"Planning application - Application number\" part of the appeal are completed",
             "result": {
               "status": "passed",
-              "duration": 1082000000
+              "duration": 981000000
             }
           },
           {
@@ -773,7 +773,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 389000000
+              "duration": 268000000
             }
           },
           {
@@ -783,7 +783,7 @@
             "name": "the state for \"Planning application - Application number\" is displayed to be \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 7000000
             }
           }
         ]
@@ -803,7 +803,7 @@
             "name": "the \"Planning application - Upload application\" part of the appeal are completed",
             "result": {
               "status": "passed",
-              "duration": 793000000
+              "duration": 702000000
             }
           },
           {
@@ -813,7 +813,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 389000000
+              "duration": 307000000
             }
           },
           {
@@ -823,7 +823,7 @@
             "name": "the state for \"Planning application - Upload application\" is displayed to be \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 11000000
+              "duration": 7000000
             }
           }
         ]
@@ -843,7 +843,7 @@
             "name": "the \"Planning application - Upload decision letter\" part of the appeal are completed",
             "result": {
               "status": "passed",
-              "duration": 802000000
+              "duration": 715000000
             }
           },
           {
@@ -853,7 +853,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 333000000
+              "duration": 294000000
             }
           },
           {
@@ -863,7 +863,7 @@
             "name": "the state for \"Planning application - Upload decision letter\" is displayed to be \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 6000000
             }
           }
         ]
@@ -883,7 +883,7 @@
             "name": "the \"Your appeal - Appeal statement\" part of the appeal are completed",
             "result": {
               "status": "passed",
-              "duration": 955000000
+              "duration": 845000000
             }
           },
           {
@@ -893,7 +893,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 335000000
+              "duration": 289000000
             }
           },
           {
@@ -903,7 +903,7 @@
             "name": "the state for \"Your appeal - Appeal statement\" is displayed to be \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 8000000
             }
           }
         ]
@@ -923,7 +923,7 @@
             "name": "the \"Your appeal - Supporting documents\" part of the appeal are completed",
             "result": {
               "status": "passed",
-              "duration": 2083000000
+              "duration": 2036000000
             }
           },
           {
@@ -933,7 +933,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 361000000
+              "duration": 369000000
             }
           },
           {
@@ -943,7 +943,7 @@
             "name": "the state for \"Your appeal - Supporting documents\" is displayed to be \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 7000000
             }
           }
         ]
@@ -963,7 +963,7 @@
             "name": "the \"Appeal site - Site location\" part of the appeal are completed",
             "result": {
               "status": "passed",
-              "duration": 2313000000
+              "duration": 2108000000
             }
           },
           {
@@ -973,7 +973,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 323000000
+              "duration": 338000000
             }
           },
           {
@@ -1003,7 +1003,7 @@
             "name": "the \"Appeal site - Site ownership\" part of the appeal are completed",
             "result": {
               "status": "passed",
-              "duration": 837000000
+              "duration": 862000000
             }
           },
           {
@@ -1013,7 +1013,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 357000000
+              "duration": 290000000
             }
           },
           {
@@ -1043,7 +1043,7 @@
             "name": "the \"Appeal site - Site access\" part of the appeal are completed",
             "result": {
               "status": "passed",
-              "duration": 884000000
+              "duration": 856000000
             }
           },
           {
@@ -1053,7 +1053,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 351000000
+              "duration": 335000000
             }
           },
           {
@@ -1063,7 +1063,7 @@
             "name": "the state for \"Appeal site - Site access\" is displayed to be \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 9000000
             }
           }
         ]
@@ -1083,7 +1083,7 @@
             "name": "the \"Appeal site - Site safety\" part of the appeal are completed",
             "result": {
               "status": "passed",
-              "duration": 834000000
+              "duration": 835000000
             }
           },
           {
@@ -1093,7 +1093,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 314000000
+              "duration": 301000000
             }
           },
           {
@@ -1123,7 +1123,7 @@
             "name": "the \"About you - Your details\" part of the appeal is started but not completed",
             "result": {
               "status": "passed",
-              "duration": 1794000000
+              "duration": 1716000000
             }
           },
           {
@@ -1133,7 +1133,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 351000000
+              "duration": 313000000
             }
           },
           {
@@ -1143,7 +1143,7 @@
             "name": "the state for \"About you - Your details\" is displayed to be \"IN PROGRESS\"",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 7000000
             }
           }
         ]
@@ -1163,7 +1163,7 @@
             "name": "the \"Appeal site - Site ownership\" part of the appeal is started but not completed",
             "result": {
               "status": "passed",
-              "duration": 831000000
+              "duration": 791000000
             }
           },
           {
@@ -1173,7 +1173,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 325000000
+              "duration": 301000000
             }
           },
           {
@@ -1203,7 +1203,7 @@
             "name": "mandatory tasks are not completed",
             "result": {
               "status": "passed",
-              "duration": 19000000
+              "duration": 17000000
             }
           },
           {
@@ -1213,7 +1213,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 329000000
+              "duration": 328000000
             }
           },
           {
@@ -1223,7 +1223,7 @@
             "name": "the state for \"Appeal submit - Check your answers\" is displayed to be \"CANNOT START YET\"",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 6000000
             }
           },
           {
@@ -1233,7 +1233,7 @@
             "name": "the task \"Appeal submit - Check your answers\" is not available for selection",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 8000000
             }
           }
         ]
@@ -1253,7 +1253,7 @@
             "name": "mandatory tasks are completed",
             "result": {
               "status": "passed",
-              "duration": 10041000000
+              "duration": 9375000000
             }
           },
           {
@@ -1263,7 +1263,7 @@
             "name": "the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 356000000
+              "duration": 287000000
             }
           },
           {
@@ -1273,7 +1273,7 @@
             "name": "the state for \"Appeal submit - Check your answers\" is displayed to be \"NOT STARTED\"",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 5000000
             }
           },
           {
@@ -1283,7 +1283,7 @@
             "name": "the task \"Appeal submit - Check your answers\" is available for selection",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 6000000
             }
           }
         ]

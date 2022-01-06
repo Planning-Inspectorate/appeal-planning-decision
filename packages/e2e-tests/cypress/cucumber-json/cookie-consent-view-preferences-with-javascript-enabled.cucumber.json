@@ -32,7 +32,7 @@
             "name": "a user has elected to manage their cookie preference",
             "result": {
               "status": "passed",
-              "duration": 526000000
+              "duration": 425000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "the user views the Cookie Preferences service",
             "result": {
               "status": "passed",
-              "duration": 336000000
+              "duration": 304000000
             }
           },
           {
@@ -52,7 +52,7 @@
             "name": "the user is provided information of what task each cookie is performing",
             "result": {
               "status": "passed",
-              "duration": 101000000
+              "duration": 92000000
             }
           }
         ]

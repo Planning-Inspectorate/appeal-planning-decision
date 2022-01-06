@@ -28,7 +28,7 @@
             "name": "an appeal exists",
             "result": {
               "status": "passed",
-              "duration": 18569000000
+              "duration": 16174000000
             }
           },
           {
@@ -38,7 +38,7 @@
             "name": "the appeal confirmation is presented",
             "result": {
               "status": "passed",
-              "duration": 1431000000
+              "duration": 1739000000
             }
           },
           {
@@ -68,7 +68,7 @@
             "name": "an appeal exists",
             "result": {
               "status": "passed",
-              "duration": 17413000000
+              "duration": 15868000000
             }
           },
           {
@@ -78,7 +78,7 @@
             "name": "the appeal confirmation is presented",
             "result": {
               "status": "passed",
-              "duration": 1056000000
+              "duration": 1034000000
             }
           },
           {
@@ -88,7 +88,7 @@
             "name": "the back button is not displayed",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 4000000
             }
           }
         ]

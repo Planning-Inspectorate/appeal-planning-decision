@@ -37,7 +37,7 @@
             "name": "confirmation of whether appellant is original applicant is requested",
             "result": {
               "status": "passed",
-              "duration": 390000000
+              "duration": 584000000
             }
           },
           {
@@ -47,7 +47,7 @@
             "name": "confirmation about original applicant is not provided",
             "result": {
               "status": "passed",
-              "duration": 395000000
+              "duration": 442000000
             }
           },
           {
@@ -57,7 +57,7 @@
             "name": "original applicant status is presented",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 16000000
             }
           },
           {
@@ -67,7 +67,7 @@
             "name": "appeal is not updated because confirmation of original applicant status is required",
             "result": {
               "status": "passed",
-              "duration": 16000000
+              "duration": 30000000
             }
           },
           {
@@ -77,7 +77,7 @@
             "name": "Your Details section is \"NOT STARTED\"",
             "result": {
               "status": "passed",
-              "duration": 319000000
+              "duration": 387000000
             }
           }
         ]
@@ -102,7 +102,7 @@
             "name": "confirmation of whether appellant is original applicant is requested",
             "result": {
               "status": "passed",
-              "duration": 312000000
+              "duration": 412000000
             }
           },
           {
@@ -112,7 +112,7 @@
             "name": "confirmation provided that appellant is original applicant",
             "result": {
               "status": "passed",
-              "duration": 755000000
+              "duration": 888000000
             }
           },
           {
@@ -122,7 +122,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 6000000
             }
           },
           {
@@ -132,7 +132,7 @@
             "name": "appeal is updated to show appellant is original applicant",
             "result": {
               "status": "passed",
-              "duration": 290000000
+              "duration": 359000000
             }
           },
           {
@@ -142,7 +142,7 @@
             "name": "Your Details section is \"IN PROGRESS\"",
             "result": {
               "status": "passed",
-              "duration": 286000000
+              "duration": 341000000
             }
           }
         ]
@@ -167,7 +167,7 @@
             "name": "confirmation of whether appellant is original applicant is requested",
             "result": {
               "status": "passed",
-              "duration": 334000000
+              "duration": 368000000
             }
           },
           {
@@ -177,7 +177,7 @@
             "name": "confirmation provided that appellant is not original applicant",
             "result": {
               "status": "passed",
-              "duration": 699000000
+              "duration": 842000000
             }
           },
           {
@@ -187,7 +187,7 @@
             "name": "name and email are presented",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 5000000
             }
           },
           {
@@ -197,7 +197,7 @@
             "name": "appeal is updated to show appellant is not original applicant",
             "result": {
               "status": "passed",
-              "duration": 284000000
+              "duration": 396000000
             }
           },
           {
@@ -207,7 +207,7 @@
             "name": "Your Details section is \"IN PROGRESS\"",
             "result": {
               "status": "passed",
-              "duration": 291000000
+              "duration": 371000000
             }
           }
         ]
