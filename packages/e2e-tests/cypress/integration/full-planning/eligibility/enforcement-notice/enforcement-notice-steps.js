@@ -1,20 +1,20 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { goToPage } from '../../../../support/common/go-to-page/goToPage';
+import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import {
   getEnforcementNoticeErrorMessage,
   getEnforcementNoticeNo, getEnforcementNoticeYes,
-} from '../../../../support/full-appeal/eligibility/page-objects/enforcement-notice-po';
+} from '../../../../support/full-planning/eligibility/page-objects/enforcement-notice-po';
 import { getContinueButton, getErrorMessageSummary } from '../../../../support/common-page-objects/common-po';
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
 import { getBackLink } from '../../../../support/common-page-objects/common-po';
 const pageHeading = 'Have you received an enforcement notice?';
 const pageTitle = 'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK';
-const url = `${Cypress.env('APPEALS_BASE_URL')}/before-you-start/enforcement-notice`;
+const url = `before-you-start/enforcement-notice`;
 
 Given('appellant is on the enforcement notice page', () => {
-  goToPage(url, { headers: { 'Referer': `${Cypress.env('APPEALS_BASE_URL')}/before-you-start/decision-date` } });
+  goToAppealsPage(url, { headers: { 'Referer': `${Cypress.env('APPEALS_BASE_URL')}/before-you-start/decision-date` } });
   verifyPageHeading(pageHeading);
   verifyPageTitle(pageTitle);
 });
@@ -50,6 +50,6 @@ Then('appellant sees an error message {string}', (errorMessage) => {
   verifyErrorMessage(errorMessage, getEnforcementNoticeErrorMessage, getErrorMessageSummary);
 })
 Then('information they have inputted will not be saved', () => {
-  goToPage(url);
+  goToAppealsPage(url);
   getEnforcementNoticeYes().should('not.be.checked');
 })

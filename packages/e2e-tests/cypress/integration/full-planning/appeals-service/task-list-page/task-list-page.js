@@ -1,6 +1,6 @@
 import { Given, Then } from 'cypress-cucumber-preprocessor/steps';
 
-let url = 'full-appeal/task-list';
+let url = 'full-appeal/submit-appeal/task-list';
 let pageTitle = 'Appeal a planning decision - Appeal a planning decision - GOV.UK';
 
 
