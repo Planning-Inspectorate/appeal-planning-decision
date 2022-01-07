@@ -19,7 +19,7 @@ router.get(
 router.post(
   '/date-decision-due',
   [fetchExistingAppealMiddleware, combineDateInputsMiddleware],
-  decisionDateDueValidationRules('decision-date', 'the date the decision was due'),
+  decisionDateDueValidationRules(),
   validationErrorHandler,
   dateDecisionDueController.postDateDecisionDue
 );

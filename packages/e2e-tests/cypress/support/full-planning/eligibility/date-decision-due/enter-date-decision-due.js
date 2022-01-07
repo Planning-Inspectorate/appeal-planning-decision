@@ -4,18 +4,10 @@ import {
   getDateDecisionDueYear
 } from '../page-objects/date-decision-due-po';
 
-export const enterDateDecisionDue = (option, elementValue) => {
-  switch (option){
-    case 'day':
-      getDateDecisionDueDay().clear().type(elementValue);
-      break;
-    case 'month':
-      getDateDecisionDueMonth().clear().type(elementValue);
-      break;
-    case 'year':
-      getDateDecisionDueYear().clear().type(elementValue);
-      break;
-  }
+export const enterDateDecisionDue = ({ day, month, year} ) => {
+  if(day) getDateDecisionDueDay().clear().type(day);
+  if(month) getDateDecisionDueMonth().clear().type(month);
+  if(year) getDateDecisionDueYear().clear().type(year);
 }
 
 export const verifyHighlights = (highlights) => {
