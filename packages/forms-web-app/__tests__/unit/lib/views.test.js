@@ -68,6 +68,10 @@ describe('lib/views', () => {
         YOU_CANNOT_APPEAL: 'full-appeal/you-cannot-appeal',
       },
 
+      HOUSEHOLDER_PLANNING: {
+        LISTED_BUILDING: 'householder-planning/listed-building',
+      },
+
       YOUR_PLANNING_APPEAL: {
         INDEX: 'your-planning-appeal/index',
         YOUR_APPEAL_DETAILS: 'your-planning-appeal/your-appeal-details',
