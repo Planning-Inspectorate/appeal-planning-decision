@@ -32,7 +32,7 @@
             "name": "a prospective appellant has provided valid appeal information",
             "result": {
               "status": "passed",
-              "duration": 18944000000
+              "duration": 18310000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "the appeal is submitted",
             "result": {
               "status": "passed",
-              "duration": 1364000000
+              "duration": 1183000000
             }
           },
           {
@@ -52,7 +52,7 @@
             "name": "a submission information file is created",
             "result": {
               "status": "passed",
-              "duration": 680000000
+              "duration": 596000000
             }
           },
           {
@@ -62,7 +62,7 @@
             "name": "the cookie banner does not exist",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 5000000
             }
           }
         ]

@@ -10,10 +10,10 @@ import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import {
   getBackLink,
-  getContinueButton,
   getErrorMessageSummary,
 } from '../../../../support/common-page-objects/common-po';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
+import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 
 const pageTitle = 'What type of planning application is your appeal about? - Before you start - Appeal a householder planning decision - GOV.UK';
 const pageHeading = 'What type of planning application is your appeal about?';

@@ -6,9 +6,10 @@ import {
   getEnforcementNoticeErrorMessage,
   getEnforcementNoticeNo, getEnforcementNoticeYes,
 } from '../../../../support/full-planning/eligibility/page-objects/enforcement-notice-po';
-import { getContinueButton, getErrorMessageSummary } from '../../../../support/common-page-objects/common-po';
+import { getErrorMessageSummary } from '../../../../support/common-page-objects/common-po';
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
 import { getBackLink } from '../../../../support/common-page-objects/common-po';
+import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 const pageHeading = 'Have you received an enforcement notice?';
 const pageTitle = 'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK';
 const url = `before-you-start/enforcement-notice`;
