@@ -1,7 +1,7 @@
 import {Given} from 'cypress-cucumber-preprocessor/steps';
-import { verifyPageTitle } from '../../../../support/common/verify-page-title';
-import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
-import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
+import { verifyPageTitle } from '../../../support/common/verify-page-title';
+import { verifyPageHeading } from '../../../support/common/verify-page-heading';
+import { goToAppealsPage } from '../../../support/common/go-to-page/goToAppealsPage';
 const pageHeading = 'You cannot appeal.';
 const pageTitle = 'You cannot appeal - Before you start - Appeal a planning decision - GOV.UK';
 const pageUrl='before-you-start/you-cannot-appeal';

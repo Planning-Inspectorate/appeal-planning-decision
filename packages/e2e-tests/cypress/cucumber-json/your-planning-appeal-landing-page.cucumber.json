@@ -31,7 +31,7 @@
             "name": "an \"appellant\" has submitted an appeal",
             "result": {
               "status": "passed",
-              "duration": 17531000000
+              "duration": 32407000000
             }
           },
           {
@@ -41,7 +41,7 @@
             "name": "your planning appeal page is viewed with a valid appealId",
             "result": {
               "status": "passed",
-              "duration": 349000000
+              "duration": 592000000
             }
           },
           {
@@ -51,7 +51,7 @@
             "name": "the user sees the appropriate general data for \"appellant\" along with data for step 1",
             "result": {
               "status": "passed",
-              "duration": 106000000
+              "duration": 148000000
             }
           },
           {
@@ -61,7 +61,7 @@
             "name": "the user sees the label for appellant name as \"Your name\"",
             "result": {
               "status": "passed",
-              "duration": 64000000
+              "duration": 98000000
             }
           }
         ]
@@ -90,7 +90,7 @@
             "name": "an \"agent\" has submitted an appeal",
             "result": {
               "status": "passed",
-              "duration": 17367000000
+              "duration": 30823000000
             }
           },
           {
@@ -100,7 +100,7 @@
             "name": "your planning appeal page is viewed with a valid appealId",
             "result": {
               "status": "passed",
-              "duration": 219000000
+              "duration": 546000000
             }
           },
           {
@@ -110,7 +110,7 @@
             "name": "the user sees the appropriate general data for \"agent\" along with data for step 1",
             "result": {
               "status": "passed",
-              "duration": 14000000
+              "duration": 144000000
             }
           },
           {
@@ -120,7 +120,7 @@
             "name": "the user sees the label for appellant name as \"Appellant name\"",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 81000000
             }
           }
         ]
@@ -145,7 +145,7 @@
             "name": "an agent or appellant has submitted an appeal",
             "result": {
               "status": "passed",
-              "duration": 17140000000
+              "duration": 27296000000
             }
           },
           {
@@ -155,7 +155,7 @@
             "name": "your planning appeal page is viewed with an incorrect appealId",
             "result": {
               "status": "passed",
-              "duration": 249000000
+              "duration": 815000000
             }
           },
           {
@@ -165,7 +165,7 @@
             "name": "the user sees the 404 page",
             "result": {
               "status": "passed",
-              "duration": 67000000
+              "duration": 81000000
             }
           }
         ]

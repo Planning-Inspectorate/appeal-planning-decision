@@ -1,7 +1,7 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import {
   CheckYourAnswersLink, getPageCaption, getPlanningAppMadeInYourName, getSectionHeading, yourContactDetails,
-} from '../../../../support/full-planning/appeals-service/page-objects/check-your-answers-po';
+} from '../../../../support/full-appeal/appeals-service/page-objects/check-your-answers-po';
 import { getBackLink } from '../../../../support/common-page-objects/common-po';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';

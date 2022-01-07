@@ -22,7 +22,7 @@
             "name": "changes are made for About you section",
             "result": {
               "status": "passed",
-              "duration": 18155000000
+              "duration": 26542000000
             }
           },
           {
@@ -32,7 +32,7 @@
             "name": "Check Your Answers is presented",
             "result": {
               "status": "passed",
-              "duration": 361000000
+              "duration": 529000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "the updated values for About you section are displayed",
             "result": {
               "status": "passed",
-              "duration": 30000000
+              "duration": 43000000
             }
           }
         ]
@@ -62,7 +62,7 @@
             "name": "changes are made for About the original planning application section",
             "result": {
               "status": "passed",
-              "duration": 18015000000
+              "duration": 26269000000
             }
           },
           {
@@ -72,7 +72,7 @@
             "name": "Check Your Answers is presented",
             "result": {
               "status": "passed",
-              "duration": 381000000
+              "duration": 653000000
             }
           },
           {
@@ -82,7 +82,7 @@
             "name": "the updated values for About the original planning application section are displayed",
             "result": {
               "status": "passed",
-              "duration": 21000000
+              "duration": 30000000
             }
           }
         ]
@@ -102,7 +102,7 @@
             "name": "changes are made for About your appeal section",
             "result": {
               "status": "passed",
-              "duration": 16727000000
+              "duration": 25001000000
             }
           },
           {
@@ -112,7 +112,7 @@
             "name": "Check Your Answers is presented",
             "result": {
               "status": "passed",
-              "duration": 340000000
+              "duration": 612000000
             }
           },
           {
@@ -122,7 +122,7 @@
             "name": "the updated values for About your appeal section are displayed",
             "result": {
               "status": "passed",
-              "duration": 17000000
+              "duration": 24000000
             }
           }
         ]
@@ -142,7 +142,7 @@
             "name": "changes are made for Visiting the appeal site section",
             "result": {
               "status": "passed",
-              "duration": 21090000000
+              "duration": 30607000000
             }
           },
           {
@@ -152,7 +152,7 @@
             "name": "Check Your Answers is presented",
             "result": {
               "status": "passed",
-              "duration": 351000000
+              "duration": 546000000
             }
           },
           {
@@ -162,7 +162,7 @@
             "name": "the updated values for Visiting the appeal site section are displayed",
             "result": {
               "status": "passed",
-              "duration": 29000000
+              "duration": 30000000
             }
           }
         ]

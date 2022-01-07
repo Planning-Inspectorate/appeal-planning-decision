@@ -11,7 +11,7 @@ import {
   statusTellAboutTheAppealSite,
   statusUploadDocsFromPlanningApplication,
   statusUploadDocsForYourAppeal, statusCheckYourAnswers,
-} from '../../../../support/full-planning/appeals-service/page-objects/appeal-form-task-list-po';
+} from '../../../../support/full-appeal/appeals-service/page-objects/appeal-form-task-list-po';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 
