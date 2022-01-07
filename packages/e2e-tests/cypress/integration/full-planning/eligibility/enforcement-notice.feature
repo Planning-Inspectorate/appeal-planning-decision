@@ -20,6 +20,7 @@ Feature: Enforcement notice
     When  appellant clicks on the continue button
    Then appellant sees an error message 'Select yes if you have received an enforcement notice'
 
+    @wip
   Scenario:AC04 Back Link
     Given appellant is on the enforcement notice page
     When appellant selects 'Yes' from the options

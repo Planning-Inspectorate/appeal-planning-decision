@@ -9,9 +9,9 @@ import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import {
   getBackLink,
-  getContinueButton,
   getErrorMessageSummary,
 } from '../../../../support/common-page-objects/common-po';
+import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 
 const pageTitle = 'Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Was your planning application granted or refused?';
