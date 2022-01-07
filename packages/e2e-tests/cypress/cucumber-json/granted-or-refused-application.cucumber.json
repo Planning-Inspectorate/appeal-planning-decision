@@ -23,7 +23,7 @@
             "name": "appellant is on the was your planning application granted or refused page",
             "result": {
               "status": "passed",
-              "duration": 625000000
+              "duration": 1082000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "the appellant selects the option as 'Granted'",
             "result": {
               "status": "passed",
-              "duration": 92000000
+              "duration": 109000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "appellant clicks on the continue button",
             "result": {
               "status": "passed",
-              "duration": 738000000
+              "duration": 578000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "appellant gets navigated to the What’s the decision date on the letter from the local planning department?",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 7000000
             }
           }
         ]
@@ -73,7 +73,7 @@
             "name": "appellant is on the was your planning application granted or refused page",
             "result": {
               "status": "passed",
-              "duration": 810000000
+              "duration": 977000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "the appellant selects the option as 'Refused'",
             "result": {
               "status": "passed",
-              "duration": 87000000
+              "duration": 106000000
             }
           },
           {
@@ -93,7 +93,7 @@
             "name": "appellant clicks on the continue button",
             "result": {
               "status": "passed",
-              "duration": 310000000
+              "duration": 424000000
             }
           },
           {
@@ -103,7 +103,7 @@
             "name": "appellant gets navigated to the What’s the decision date on the letter from the local planning department?",
             "result": {
               "status": "passed",
-              "duration": 5000000
+              "duration": 6000000
             }
           }
         ]
@@ -123,7 +123,7 @@
             "name": "appellant is on the was your planning application granted or refused page",
             "result": {
               "status": "passed",
-              "duration": 559000000
+              "duration": 811000000
             }
           },
           {
@@ -133,7 +133,7 @@
             "name": "the appellant selects the option as 'I have Not Received a Decision'",
             "result": {
               "status": "passed",
-              "duration": 97000000
+              "duration": 91000000
             }
           },
           {
@@ -143,7 +143,7 @@
             "name": "appellant clicks on the continue button",
             "result": {
               "status": "passed",
-              "duration": 297000000
+              "duration": 540000000
             }
           },
           {
@@ -153,7 +153,7 @@
             "name": "the appellant gets navigated to the decision due page",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 6000000
             }
           }
         ]
@@ -173,7 +173,7 @@
             "name": "appellant is on the was your planning application granted or refused page",
             "result": {
               "status": "passed",
-              "duration": 522000000
+              "duration": 967000000
             }
           },
           {
@@ -183,7 +183,7 @@
             "name": "appellant clicks on the continue button",
             "result": {
               "status": "passed",
-              "duration": 296000000
+              "duration": 792000000
             }
           },
           {
@@ -193,7 +193,7 @@
             "name": "the appellant sees an error message 'Select if your planning application was granted or refused, or if you have not received a decision'",
             "result": {
               "status": "passed",
-              "duration": 43000000
+              "duration": 87000000
             }
           }
         ]
@@ -213,7 +213,7 @@
             "name": "appellant is on the was your planning application granted or refused page",
             "result": {
               "status": "passed",
-              "duration": 526000000
+              "duration": 1083000000
             }
           },
           {
@@ -223,7 +223,7 @@
             "name": "an appellant selects the back button",
             "result": {
               "status": "passed",
-              "duration": 329000000
+              "duration": 1026000000
             }
           },
           {
@@ -233,7 +233,7 @@
             "name": "the appellant is navigated to Was your planning application about any of the following?",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 7000000
             }
           }
         ]

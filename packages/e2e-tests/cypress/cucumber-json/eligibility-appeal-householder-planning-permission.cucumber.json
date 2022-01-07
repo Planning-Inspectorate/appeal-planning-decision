@@ -32,7 +32,7 @@
             "name": "access to the appeals service eligibility is available",
             "result": {
               "status": "passed",
-              "duration": 365000000
+              "duration": 667000000
             }
           },
           {
@@ -42,7 +42,7 @@
             "name": "the appeal service eligibility is accessed",
             "result": {
               "status": "passed",
-              "duration": 332000000
+              "duration": 889000000
             }
           },
           {
@@ -52,7 +52,7 @@
             "name": "the appeals householder planning permission question is presented",
             "result": {
               "status": "passed",
-              "duration": 355000000
+              "duration": 557000000
             }
           }
         ]
@@ -81,7 +81,7 @@
             "name": "the appeals householder planning permission question is requested",
             "result": {
               "status": "passed",
-              "duration": 405000000
+              "duration": 664000000
             }
           },
           {
@@ -91,7 +91,7 @@
             "name": "no confirmation is provided for householder planning permission question",
             "result": {
               "status": "passed",
-              "duration": 374000000
+              "duration": 698000000
             }
           },
           {
@@ -101,7 +101,7 @@
             "name": "progress is halted with a message that a householder planning permission is required",
             "result": {
               "status": "passed",
-              "duration": 58000000
+              "duration": 73000000
             }
           }
         ]
@@ -130,7 +130,7 @@
             "name": "the appeals householder planning permission question is requested",
             "result": {
               "status": "passed",
-              "duration": 282000000
+              "duration": 652000000
             }
           },
           {
@@ -140,7 +140,7 @@
             "name": "confirmation is provided for householder planning permission question",
             "result": {
               "status": "passed",
-              "duration": 435000000
+              "duration": 777000000
             }
           },
           {
@@ -150,7 +150,7 @@
             "name": "progress is made to the eligibility granted or refused permission status question",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 5000000
             }
           }
         ]
@@ -179,7 +179,7 @@
             "name": "the appeals householder planning permission question is requested",
             "result": {
               "status": "passed",
-              "duration": 305000000
+              "duration": 630000000
             }
           },
           {
@@ -189,7 +189,7 @@
             "name": "confirmation is not provided for householder planning permission question",
             "result": {
               "status": "passed",
-              "duration": 365000000
+              "duration": 634000000
             }
           },
           {
@@ -199,7 +199,7 @@
             "name": "the user is navigated to the 'This service is only for householder planning appeals' page",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 7000000
             }
           }
         ]
@@ -228,7 +228,7 @@
             "name": "the appeals householder planning permission question is requested",
             "result": {
               "status": "passed",
-              "duration": 308000000
+              "duration": 680000000
             }
           },
           {
@@ -238,7 +238,7 @@
             "name": "confirmation is not provided for householder planning permission question",
             "result": {
               "status": "passed",
-              "duration": 407000000
+              "duration": 637000000
             }
           },
           {
@@ -248,7 +248,7 @@
             "name": "access is available to ACP service",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 11000000
             }
           }
         ]
@@ -273,7 +273,7 @@
             "name": "the appeals householder planning permission question is requested",
             "result": {
               "status": "passed",
-              "duration": 363000000
+              "duration": 648000000
             }
           },
           {
@@ -283,7 +283,7 @@
             "name": "the 'What is householder planning permission' additional information is accessed",
             "result": {
               "status": "passed",
-              "duration": 105000000
+              "duration": 119000000
             }
           },
           {
@@ -293,7 +293,7 @@
             "name": "the householder planning permission additional information is presented",
             "result": {
               "status": "passed",
-              "duration": 10000000
+              "duration": 18000000
             }
           }
         ]

@@ -23,7 +23,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 58000000
+              "duration": 90000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "the \"Eligibility - Granted Or Refused Permission\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 379000000
+              "duration": 655000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "the required links are displayed",
             "result": {
               "status": "passed",
-              "duration": 42000000
+              "duration": 82000000
             }
           }
         ]
@@ -63,7 +63,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 21000000
+              "duration": 34000000
             }
           },
           {
@@ -73,7 +73,7 @@
             "name": "the \"Eligibility - Granted Or Refused Permission Out\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 238000000
+              "duration": 441000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "the required links are displayed",
             "result": {
               "status": "passed",
-              "duration": 31000000
+              "duration": 49000000
             }
           }
         ]

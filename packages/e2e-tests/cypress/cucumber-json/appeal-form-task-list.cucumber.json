@@ -28,7 +28,7 @@
             "name": "Appellant has been successful on their eligibility",
             "result": {
               "status": "passed",
-              "duration": 419000000
+              "duration": 597000000
             }
           },
           {
@@ -38,7 +38,7 @@
             "name": "they are on the 'Appeal a Planning Decision' page",
             "result": {
               "status": "passed",
-              "duration": 13000000
+              "duration": 23000000
             }
           },
           {
@@ -48,7 +48,7 @@
             "name": "they are presented with the list of tasks that they are required to complete in order to submit their appeal",
             "result": {
               "status": "passed",
-              "duration": 126000000
+              "duration": 198000000
             }
           },
           {
@@ -58,7 +58,7 @@
             "name": "when a section has been completed they are able to see what has been completed or incompleted",
             "result": {
               "status": "passed",
-              "duration": 26000000
+              "duration": 41000000
             }
           }
         ]

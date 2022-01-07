@@ -23,7 +23,7 @@
             "name": "appeal site address is requested",
             "result": {
               "status": "passed",
-              "duration": 609000000
+              "duration": 895000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "valid appeal site address is submitted",
             "result": {
               "status": "passed",
-              "duration": 1892000000
+              "duration": 2149000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "Address of the appeal site section is \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 327000000
+              "duration": 440000000
             }
           }
         ]
@@ -63,7 +63,7 @@
             "name": "appeal site address is requested",
             "result": {
               "status": "passed",
-              "duration": 428000000
+              "duration": 682000000
             }
           },
           {
@@ -73,7 +73,7 @@
             "name": "invalid appeal site address is submitted",
             "result": {
               "status": "passed",
-              "duration": 1246000000
+              "duration": 1435000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "Address of the appeal site section is \"NOT STARTED\"",
             "result": {
               "status": "passed",
-              "duration": 287000000
+              "duration": 470000000
             }
           }
         ]
@@ -108,7 +108,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 405000000
+              "duration": 627000000
             }
           },
           {
@@ -118,7 +118,7 @@
             "name": "the user provides their appeal site address as \"1 Taylor Road\" and \"Clifton\" and \"Bristol\" and \"South Glos\" and \"BS8 1TG\"",
             "result": {
               "status": "passed",
-              "duration": 1768000000
+              "duration": 2204000000
             }
           },
           {
@@ -128,7 +128,7 @@
             "name": "the user is able to continue with the provided address",
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 5000000
             }
           },
           {
@@ -138,7 +138,7 @@
             "name": "the user can see that their appeal has been updated with the provided site address as \"1 Taylor Road\" and \"Clifton\" and \"Bristol\" and \"South Glos\" and \"BS8 1TG\"",
             "result": {
               "status": "passed",
-              "duration": 451000000
+              "duration": 570000000
             }
           }
         ]
@@ -163,7 +163,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 464000000
+              "duration": 597000000
             }
           },
           {
@@ -173,7 +173,7 @@
             "name": "the user provides their appeal site address as \"2 Taylor Road\" and \"\" and \"\" and \"\" and \"M1 1AA\"",
             "result": {
               "status": "passed",
-              "duration": 1455000000
+              "duration": 1607000000
             }
           },
           {
@@ -183,7 +183,7 @@
             "name": "the user is able to continue with the provided address",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 5000000
             }
           },
           {
@@ -193,7 +193,7 @@
             "name": "the user can see that their appeal has been updated with the provided site address as \"2 Taylor Road\" and \"\" and \"\" and \"\" and \"M1 1AA\"",
             "result": {
               "status": "passed",
-              "duration": 452000000
+              "duration": 715000000
             }
           }
         ]
@@ -218,7 +218,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 457000000
+              "duration": 620000000
             }
           },
           {
@@ -228,7 +228,7 @@
             "name": "the user provides their appeal site address as \"4 Taylor Road\" and \"\" and \"Bristol\" and \"South Glos\" and \"M60 1NW\"",
             "result": {
               "status": "passed",
-              "duration": 1634000000
+              "duration": 1895000000
             }
           },
           {
@@ -238,7 +238,7 @@
             "name": "the user is able to continue with the provided address",
             "result": {
               "status": "passed",
-              "duration": 2000000
+              "duration": 6000000
             }
           },
           {
@@ -248,7 +248,7 @@
             "name": "the user can see that their appeal has been updated with the provided site address as \"4 Taylor Road\" and \"\" and \"Bristol\" and \"South Glos\" and \"M60 1NW\"",
             "result": {
               "status": "passed",
-              "duration": 447000000
+              "duration": 602000000
             }
           }
         ]
@@ -273,7 +273,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 452000000
+              "duration": 608000000
             }
           },
           {
@@ -283,7 +283,7 @@
             "name": "the user provides their appeal site address as \"5 Taylor Road\" and \"Clifton\" and \"\" and \"South Glos\" and \"DN55 1PT\"",
             "result": {
               "status": "passed",
-              "duration": 1668000000
+              "duration": 1824000000
             }
           },
           {
@@ -303,7 +303,7 @@
             "name": "the user can see that their appeal has been updated with the provided site address as \"5 Taylor Road\" and \"Clifton\" and \"\" and \"South Glos\" and \"DN55 1PT\"",
             "result": {
               "status": "passed",
-              "duration": 467000000
+              "duration": 561000000
             }
           }
         ]
@@ -328,7 +328,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 452000000
+              "duration": 564000000
             }
           },
           {
@@ -338,7 +338,7 @@
             "name": "the user provides their appeal site address as \"5 Taylor Road\" and \"Clifton\" and \"Bristol\" and \"\" and \"DN55 1PT\"",
             "result": {
               "status": "passed",
-              "duration": 1632000000
+              "duration": 1795000000
             }
           },
           {
@@ -358,7 +358,7 @@
             "name": "the user can see that their appeal has been updated with the provided site address as \"5 Taylor Road\" and \"Clifton\" and \"Bristol\" and \"\" and \"DN55 1PT\"",
             "result": {
               "status": "passed",
-              "duration": 449000000
+              "duration": 511000000
             }
           }
         ]
@@ -383,7 +383,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 447000000
+              "duration": 679000000
             }
           },
           {
@@ -393,7 +393,7 @@
             "name": "the user provides their appeal site address as \"\" and \"\" and \"\" and \"South Glos\" and \"W1A 1HQ\"",
             "result": {
               "status": "passed",
-              "duration": 1469000000
+              "duration": 1625000000
             }
           },
           {
@@ -413,7 +413,7 @@
             "name": "the user can see that their appeal has not been updated with the provided address",
             "result": {
               "status": "passed",
-              "duration": 379000000
+              "duration": 557000000
             }
           }
         ]
@@ -438,7 +438,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 396000000
+              "duration": 603000000
             }
           },
           {
@@ -448,7 +448,7 @@
             "name": "the user provides their appeal site address as \"aaa\" and \"\" and \"\" and \"\" and \"\"",
             "result": {
               "status": "passed",
-              "duration": 1319000000
+              "duration": 1474000000
             }
           },
           {
@@ -458,7 +458,7 @@
             "name": "the user is informed that they cannot continue with the provided address because \"Postcode is required\"",
             "result": {
               "status": "passed",
-              "duration": 11000000
+              "duration": 12000000
             }
           },
           {
@@ -468,7 +468,7 @@
             "name": "the user can see that their appeal has not been updated with the provided address",
             "result": {
               "status": "passed",
-              "duration": 456000000
+              "duration": 653000000
             }
           }
         ]
@@ -497,7 +497,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 418000000
+              "duration": 678000000
             }
           },
           {
@@ -507,7 +507,7 @@
             "name": "the user provides their appeal site address as \"\" and \"\" and \"\" and \"\" and \"\"",
             "result": {
               "status": "passed",
-              "duration": 1291000000
+              "duration": 1488000000
             }
           },
           {
@@ -527,7 +527,7 @@
             "name": "the user is informed that \"Postcode is required\"",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 10000000
             }
           }
         ]
@@ -547,7 +547,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 489000000
+              "duration": 584000000
             }
           },
           {
@@ -557,7 +557,7 @@
             "name": "the user provides their appeal site address as \"\" and \"\" and \"\" and \"South Glos\" and \"\"",
             "result": {
               "status": "passed",
-              "duration": 1747000000
+              "duration": 1535000000
             }
           },
           {
@@ -567,7 +567,7 @@
             "name": "the user is informed that \"Address Line 1 is required\"",
             "result": {
               "status": "passed",
-              "duration": 16000000
+              "duration": 11000000
             }
           },
           {
@@ -577,7 +577,7 @@
             "name": "the user is informed that \"Postcode is required\"",
             "result": {
               "status": "passed",
-              "duration": 14000000
+              "duration": 10000000
             }
           }
         ]
@@ -602,7 +602,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 527000000
+              "duration": 594000000
             }
           },
           {
@@ -612,7 +612,7 @@
             "name": "the user provides a value which is too long - \"Address Line 1\" : 61",
             "result": {
               "status": "passed",
-              "duration": 1393000000
+              "duration": 1454000000
             }
           },
           {
@@ -622,7 +622,7 @@
             "name": "the user is informed that they cannot continue with the provided address because \"Address Line 1 has a limit of 60 characters\"",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 10000000
             }
           },
           {
@@ -632,7 +632,7 @@
             "name": "the user can see that their appeal has not been updated with the provided address",
             "result": {
               "status": "passed",
-              "duration": 411000000
+              "duration": 662000000
             }
           }
         ]
@@ -657,7 +657,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 415000000
+              "duration": 760000000
             }
           },
           {
@@ -667,7 +667,7 @@
             "name": "the user provides a value which is too long - \"Address Line 2\" : 61",
             "result": {
               "status": "passed",
-              "duration": 1323000000
+              "duration": 1618000000
             }
           },
           {
@@ -677,7 +677,7 @@
             "name": "the user is informed that they cannot continue with the provided address because \"Address Line 2 has a limit of 60 characters\"",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 14000000
             }
           },
           {
@@ -687,7 +687,7 @@
             "name": "the user can see that their appeal has not been updated with the provided address",
             "result": {
               "status": "passed",
-              "duration": 399000000
+              "duration": 747000000
             }
           }
         ]
@@ -712,7 +712,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 432000000
+              "duration": 738000000
             }
           },
           {
@@ -722,7 +722,7 @@
             "name": "the user provides a value which is too long - \"Town or City\" : 61",
             "result": {
               "status": "passed",
-              "duration": 1310000000
+              "duration": 1590000000
             }
           },
           {
@@ -732,7 +732,7 @@
             "name": "the user is informed that they cannot continue with the provided address because \"Town or City has a limit of 60 characters\"",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 11000000
             }
           },
           {
@@ -742,7 +742,7 @@
             "name": "the user can see that their appeal has not been updated with the provided address",
             "result": {
               "status": "passed",
-              "duration": 416000000
+              "duration": 587000000
             }
           }
         ]
@@ -767,7 +767,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 374000000
+              "duration": 644000000
             }
           },
           {
@@ -777,7 +777,7 @@
             "name": "the user provides a value which is too long - \"County\" : 61",
             "result": {
               "status": "passed",
-              "duration": 1309000000
+              "duration": 1578000000
             }
           },
           {
@@ -787,7 +787,7 @@
             "name": "the user is informed that they cannot continue with the provided address because \"County has a limit of 60 characters\"",
             "result": {
               "status": "passed",
-              "duration": 10000000
+              "duration": 11000000
             }
           },
           {
@@ -797,7 +797,7 @@
             "name": "the user can see that their appeal has not been updated with the provided address",
             "result": {
               "status": "passed",
-              "duration": 421000000
+              "duration": 699000000
             }
           }
         ]
@@ -822,7 +822,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 395000000
+              "duration": 825000000
             }
           },
           {
@@ -832,7 +832,7 @@
             "name": "the user provides a value which is too long - \"Postcode\" : 9",
             "result": {
               "status": "passed",
-              "duration": 670000000
+              "duration": 1115000000
             }
           },
           {
@@ -842,7 +842,7 @@
             "name": "the user is informed that they cannot continue with the provided address because \"Postcode has a limit of 8 characters\"",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 13000000
             }
           },
           {
@@ -852,7 +852,7 @@
             "name": "the user can see that their appeal has not been updated with the provided address",
             "result": {
               "status": "passed",
-              "duration": 385000000
+              "duration": 785000000
             }
           }
         ]
@@ -877,7 +877,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 414000000
+              "duration": 725000000
             }
           },
           {
@@ -887,7 +887,7 @@
             "name": "the user provides values that are too long for Address Line 1, Address Line 2, Town or City, County and Postcode",
             "result": {
               "status": "passed",
-              "duration": 5506000000
+              "duration": 6265000000
             }
           },
           {
@@ -897,7 +897,7 @@
             "name": "the user is informed that \"Address Line 1 has a limit of 60 characters\"",
             "result": {
               "status": "passed",
-              "duration": 31000000
+              "duration": 36000000
             }
           },
           {
@@ -907,7 +907,7 @@
             "name": "the user is informed that \"Address Line 2 has a limit of 60 characters\"",
             "result": {
               "status": "passed",
-              "duration": 33000000
+              "duration": 34000000
             }
           },
           {
@@ -917,7 +917,7 @@
             "name": "the user is informed that \"Town or City has a limit of 60 characters\"",
             "result": {
               "status": "passed",
-              "duration": 30000000
+              "duration": 27000000
             }
           },
           {
@@ -927,7 +927,7 @@
             "name": "the user is informed that \"County has a limit of 60 characters\"",
             "result": {
               "status": "passed",
-              "duration": 26000000
+              "duration": 25000000
             }
           },
           {
@@ -937,7 +937,7 @@
             "name": "the user is informed that \"Postcode has a limit of 8 characters\"",
             "result": {
               "status": "passed",
-              "duration": 31000000
+              "duration": 29000000
             }
           },
           {
@@ -947,7 +947,7 @@
             "name": "the user can see that their appeal has not been updated with the provided address",
             "result": {
               "status": "passed",
-              "duration": 520000000
+              "duration": 655000000
             }
           }
         ]
@@ -972,7 +972,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 498000000
+              "duration": 593000000
             }
           },
           {
@@ -982,7 +982,7 @@
             "name": "the user provides values that are too long for Address Line 2 and Town or City and provides no other data",
             "result": {
               "status": "passed",
-              "duration": 2409000000
+              "duration": 2687000000
             }
           },
           {
@@ -992,7 +992,7 @@
             "name": "the user is informed that \"Address Line 1 is required\"",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 28000000
             }
           },
           {
@@ -1002,7 +1002,7 @@
             "name": "the user is informed that \"Address Line 2 has a limit of 60 characters\"",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 24000000
             }
           },
           {
@@ -1012,7 +1012,7 @@
             "name": "the user is informed that \"Town or City has a limit of 60 characters\"",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 26000000
             }
           },
           {
@@ -1022,7 +1022,7 @@
             "name": "the user is informed that \"Postcode is required\"",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 23000000
             }
           },
           {
@@ -1032,7 +1032,7 @@
             "name": "the user can see that their appeal has not been updated with the provided address",
             "result": {
               "status": "passed",
-              "duration": 409000000
+              "duration": 635000000
             }
           }
         ]
@@ -1052,7 +1052,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 366000000
+              "duration": 576000000
             }
           },
           {
@@ -1062,7 +1062,7 @@
             "name": "the user provides their appeal site address with postcode as \"ZXAS SS\"",
             "result": {
               "status": "passed",
-              "duration": 667000000
+              "duration": 766000000
             }
           },
           {
@@ -1072,7 +1072,7 @@
             "name": "the user is informed that they cannot continue with the provided address because \"Postcodes can't be all letters\"",
             "result": {
               "status": "passed",
-              "duration": 11000000
+              "duration": 10000000
             }
           }
         ]
@@ -1092,7 +1092,7 @@
             "name": "the user is prompted for the site address",
             "result": {
               "status": "passed",
-              "duration": 408000000
+              "duration": 548000000
             }
           },
           {
@@ -1102,7 +1102,7 @@
             "name": "the user provides their appeal site address with postcode as \"1RG 4AX\"",
             "result": {
               "status": "passed",
-              "duration": 642000000
+              "duration": 842000000
             }
           },
           {
@@ -1112,7 +1112,7 @@
             "name": "the user is informed that they cannot continue with the provided address because \"Postcodes should begin with a letter\"",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 11000000
             }
           }
         ]

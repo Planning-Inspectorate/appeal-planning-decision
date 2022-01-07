@@ -23,7 +23,7 @@
             "name": "the status of the appeal section is displayed",
             "result": {
               "status": "passed",
-              "duration": 470000000
+              "duration": 654000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "health and safety issues is accessed",
             "result": {
               "status": "passed",
-              "duration": 388000000
+              "duration": 567000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "the opportunity to provide health and safety issues is presented",
             "result": {
               "status": "passed",
-              "duration": 351000000
+              "duration": 613000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "Health and Safety issues section is \"NOT STARTED\"",
             "result": {
               "status": "passed",
-              "duration": 331000000
+              "duration": 517000000
             }
           }
         ]
@@ -73,7 +73,7 @@
             "name": "the status of the appeal section is displayed with no health and safety issues previously reported",
             "result": {
               "status": "passed",
-              "duration": 1138000000
+              "duration": 1762000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "health and safety issues is accessed",
             "result": {
               "status": "passed",
-              "duration": 342000000
+              "duration": 592000000
             }
           },
           {
@@ -93,7 +93,7 @@
             "name": "no health and safety issues is presented",
             "result": {
               "status": "passed",
-              "duration": 355000000
+              "duration": 561000000
             }
           },
           {
@@ -103,7 +103,7 @@
             "name": "Health and Safety issues section is \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 360000000
+              "duration": 561000000
             }
           }
         ]
@@ -123,7 +123,7 @@
             "name": "the status of the appeal section is displayed with some health and safety issues previously reported",
             "result": {
               "status": "passed",
-              "duration": 1704000000
+              "duration": 2319000000
             }
           },
           {
@@ -133,7 +133,7 @@
             "name": "health and safety issues is accessed",
             "result": {
               "status": "passed",
-              "duration": 320000000
+              "duration": 568000000
             }
           },
           {
@@ -143,7 +143,7 @@
             "name": "health and safety issues along with concerns is presented",
             "result": {
               "status": "passed",
-              "duration": 338000000
+              "duration": 601000000
             }
           },
           {
@@ -153,7 +153,7 @@
             "name": "Health and Safety issues section is \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 327000000
+              "duration": 534000000
             }
           }
         ]
@@ -173,7 +173,7 @@
             "name": "confirmation of health and safety issues is requested",
             "result": {
               "status": "passed",
-              "duration": 362000000
+              "duration": 590000000
             }
           },
           {
@@ -183,7 +183,7 @@
             "name": "no confirmation of health and safety issues is provided",
             "result": {
               "status": "passed",
-              "duration": 343000000
+              "duration": 648000000
             }
           },
           {
@@ -193,7 +193,7 @@
             "name": "appeal is not updated because confirmation of health and safety issues is required",
             "result": {
               "status": "passed",
-              "duration": 303000000
+              "duration": 595000000
             }
           },
           {
@@ -203,7 +203,7 @@
             "name": "Health and Safety issues section is \"NOT STARTED\"",
             "result": {
               "status": "passed",
-              "duration": 325000000
+              "duration": 626000000
             }
           }
         ]
@@ -223,7 +223,7 @@
             "name": "confirmation of health and safety issues is requested",
             "result": {
               "status": "passed",
-              "duration": 351000000
+              "duration": 653000000
             }
           },
           {
@@ -233,7 +233,7 @@
             "name": "confirmation of health and safety issues is provided along with concerns exceeding the limit",
             "result": {
               "status": "passed",
-              "duration": 3728000000
+              "duration": 4087000000
             }
           },
           {
@@ -243,7 +243,7 @@
             "name": "appeal is not updated because the health and safety concerns exceed the limit",
             "result": {
               "status": "passed",
-              "duration": 402000000
+              "duration": 657000000
             }
           },
           {
@@ -253,7 +253,7 @@
             "name": "Health and Safety issues section is \"NOT STARTED\"",
             "result": {
               "status": "passed",
-              "duration": 327000000
+              "duration": 541000000
             }
           }
         ]
@@ -273,7 +273,7 @@
             "name": "confirmation of health and safety issues is requested",
             "result": {
               "status": "passed",
-              "duration": 391000000
+              "duration": 648000000
             }
           },
           {
@@ -283,7 +283,7 @@
             "name": "confirmation of health and safety issues is provided without concerns",
             "result": {
               "status": "passed",
-              "duration": 431000000
+              "duration": 750000000
             }
           },
           {
@@ -293,7 +293,7 @@
             "name": "appeal is not updated because health and safety concerns are required",
             "result": {
               "status": "passed",
-              "duration": 305000000
+              "duration": 617000000
             }
           },
           {
@@ -303,7 +303,7 @@
             "name": "Health and Safety issues section is \"NOT STARTED\"",
             "result": {
               "status": "passed",
-              "duration": 320000000
+              "duration": 572000000
             }
           }
         ]
@@ -323,7 +323,7 @@
             "name": "confirmation of health and safety issues is requested",
             "result": {
               "status": "passed",
-              "duration": 348000000
+              "duration": 620000000
             }
           },
           {
@@ -333,7 +333,7 @@
             "name": "confirmation of health and safety issues is provided along with concerns",
             "result": {
               "status": "passed",
-              "duration": 980000000
+              "duration": 1155000000
             }
           },
           {
@@ -343,7 +343,7 @@
             "name": "appeal is updated with health and safety issues and concerns and the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 988000000
+              "duration": 1609000000
             }
           },
           {
@@ -353,7 +353,7 @@
             "name": "Health and Safety issues section is \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 278000000
+              "duration": 521000000
             }
           }
         ]
@@ -373,7 +373,7 @@
             "name": "confirmation of health and safety issues is requested",
             "result": {
               "status": "passed",
-              "duration": 345000000
+              "duration": 592000000
             }
           },
           {
@@ -383,7 +383,7 @@
             "name": "confirmation of no health and safety issues is provided",
             "result": {
               "status": "passed",
-              "duration": 428000000
+              "duration": 666000000
             }
           },
           {
@@ -393,7 +393,7 @@
             "name": "appeal is updated with no health and safety issues and the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 991000000
+              "duration": 1630000000
             }
           },
           {
@@ -403,7 +403,7 @@
             "name": "Health and Safety issues section is \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 338000000
+              "duration": 509000000
             }
           }
         ]
@@ -423,7 +423,7 @@
             "name": "health and safety issues along with concerns have been indicated",
             "result": {
               "status": "passed",
-              "duration": 1035000000
+              "duration": 1273000000
             }
           },
           {
@@ -433,7 +433,7 @@
             "name": "confirmation of no health and safety issues is provided",
             "result": {
               "status": "passed",
-              "duration": 448000000
+              "duration": 570000000
             }
           },
           {
@@ -443,7 +443,7 @@
             "name": "appeal is updated with no health and safety issues and the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 990000000
+              "duration": 1606000000
             }
           },
           {
@@ -453,7 +453,7 @@
             "name": "Health and Safety issues section is \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 364000000
+              "duration": 538000000
             }
           }
         ]
@@ -473,7 +473,7 @@
             "name": "no health and safety concerns have been indicated",
             "result": {
               "status": "passed",
-              "duration": 450000000
+              "duration": 743000000
             }
           },
           {
@@ -483,7 +483,7 @@
             "name": "confirmation of health and safety issues is provided along with concerns",
             "result": {
               "status": "passed",
-              "duration": 980000000
+              "duration": 1161000000
             }
           },
           {
@@ -493,7 +493,7 @@
             "name": "appeal is updated with health and safety issues and concerns and the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 1001000000
+              "duration": 1486000000
             }
           },
           {
@@ -503,7 +503,7 @@
             "name": "Health and Safety issues section is \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 324000000
+              "duration": 503000000
             }
           }
         ]
@@ -523,7 +523,7 @@
             "name": "health and safety issues and concerns previously indicated followed by an indication of no issues",
             "result": {
               "status": "passed",
-              "duration": 1784000000
+              "duration": 2331000000
             }
           },
           {
@@ -533,7 +533,7 @@
             "name": "health and safety issues are indicated",
             "result": {
               "status": "passed",
-              "duration": 85000000
+              "duration": 98000000
             }
           },
           {
@@ -543,7 +543,7 @@
             "name": "health and safety issues along with concerns are presented",
             "result": {
               "status": "passed",
-              "duration": 5000000
+              "duration": 7000000
             }
           },
           {
@@ -553,7 +553,7 @@
             "name": "Health and Safety issues section is \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 321000000
+              "duration": 506000000
             }
           }
         ]
@@ -573,7 +573,7 @@
             "name": "health and safety issues along with concerns have been provided",
             "result": {
               "status": "passed",
-              "duration": 1713000000
+              "duration": 2242000000
             }
           },
           {
@@ -583,7 +583,7 @@
             "name": "confirmation of no health and safety issues is provided",
             "result": {
               "status": "passed",
-              "duration": 439000000
+              "duration": 652000000
             }
           },
           {
@@ -593,7 +593,7 @@
             "name": "appeal is updated with no health and safety issues and the appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 932000000
+              "duration": 1596000000
             }
           },
           {
@@ -603,7 +603,7 @@
             "name": "Health and Safety issues section is \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 313000000
+              "duration": 517000000
             }
           }
         ]
