@@ -7,6 +7,7 @@ const fullAppealAppellantSubmissionRouter = require('./full-appeal/submit-appeal
 const eligibilityRouter = require('./eligibility');
 const homeRouter = require('./home');
 const fullAppealRouter = require('./full-appeal');
+const householderPlanningRouter = require('./householder-planning');
 const cookieRouter = require('./cookies');
 const guidancePagesRouter = require('./guidance-pages');
 const yourPlanningAppealRouter = require('./your-planning-appeal');
