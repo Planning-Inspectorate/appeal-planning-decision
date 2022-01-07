@@ -162,9 +162,9 @@ const config = {
           duration: 'weeks',
         },
       },
-      [APPEAL_ID.FULL_PLANNING]: {
+      [APPEAL_ID.FULL_APPEAL]: {
         id: 'D',
-        name: 'Full-planning Appeal',
+        name: 'Full Appeal',
         procedureType: [WRITTEN_REPRESENTATION],
         appealDue: {
           time: 6,

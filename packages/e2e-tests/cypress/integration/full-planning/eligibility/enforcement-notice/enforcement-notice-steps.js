@@ -50,6 +50,7 @@ Then('appellant is navigated to the decision date page', () => {
 Then('appellant sees an error message {string}', (errorMessage) => {
   verifyErrorMessage(errorMessage, getEnforcementNoticeErrorMessage, getErrorMessageSummary);
 })
+
 Then('information they have inputted will not be saved', () => {
   goToAppealsPage(url);
   getEnforcementNoticeYes().should('not.be.checked');
