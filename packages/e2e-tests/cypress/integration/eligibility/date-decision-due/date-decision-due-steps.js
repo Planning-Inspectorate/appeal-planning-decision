@@ -1,25 +1,29 @@
 import { getDate, getMonth, getYear } from 'date-fns';
 import { Given,When,Then } from 'cypress-cucumber-preprocessor/steps';
-import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
-import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
-import { verifyPageTitle } from '../../../../support/common/verify-page-title';
-import { getErrorMessageSummary } from '../../../../support/common-page-objects/common-po';
-import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
-import { getBackLink } from '../../../../support/common-page-objects/common-po';
-import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
-import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
+import { verifyPageHeading } from '../../../support/common/verify-page-heading';
+import { verifyPageTitle } from '../../../support/common/verify-page-title';
+import { getErrorMessageSummary } from '../../../support/common-page-objects/common-po';
+import { verifyErrorMessage } from '../../../support/common/verify-error-message';
+import { getBackLink } from '../../../support/common-page-objects/common-po';
+import { acceptCookiesBanner } from '../../../support/common/accept-cookies-banner';
+import { getContinueButton } from '../../../support/householder-planning/appeals-service/page-objects/common-po';
+import { getFutureDate, getPastDate, allowedDatePart } from '../../../support/common/getDate';
+import { goToAppealsPage } from '../../../support/common/go-to-page/goToAppealsPage';
+import {
+  selectPlanningApplicationType
+} from '../../../support/eligibility/planning-application-type/select-planning-application-type';
+import { selectSiteOption } from '../../../support/eligibility/appellant-selects-the-site/select-site-option';
+import {
+  selectPlanningApplicationDecision
+} from '../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
 import {
   enterDateDecisionDue,
   verifyHighlights,
-} from '../../../../support/full-planning/eligibility/date-decision-due/enter-date-decision-due';
+} from '../../../support/eligibility/date-decision-due/enter-date-decision-due';
 import {
   getDateDecisionDueDay,
   getPlanningApplicationDecisionError,
-} from '../../../../support/full-planning/eligibility/page-objects/date-decision-due-po';
-import { getFutureDate, getPastDate, allowedDatePart } from '../../../../support/common/getDate';
-import { selectPlanningApplicationType } from '../../../../support/full-planning/eligibility/planning-application-type/select-planning-application-type';
-import { selectSiteOption } from '../../../../support/full-planning/eligibility/appellant-selects-the-site/select-site-option';
-import { selectPlanningApplicationDecision } from '../../../../support/full-planning/eligibility/granted-or-refused-application/select-planning-application-decision';
+} from '../../../support/eligibility/page-objects/date-decision-due-po';
 
 const pageHeading = 'What date was the decision due?';
 const pageTitle = 'What date was the decision due? - Before you start - Appeal a planning decision - GOV.UK';
