@@ -1,19 +1,19 @@
 import {Given} from 'cypress-cucumber-preprocessor/steps';
-import { selectPlanningApplicationType } from '../../../support/eligibility/planning-application-type/select-planning-application-type';
+import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
 import {
   getHouseHolderPlanningRadio,
   getTypeOfPlanningApplicationError,
-} from '../../../support/eligibility/page-objects/planning-application-type-po';
-import { verifyErrorMessage } from '../../../support/common/verify-error-message';
-import { acceptCookiesBanner } from '../../../support/common/accept-cookies-banner';
-import { verifyPageTitle } from '../../../support/common/verify-page-title';
-import { verifyPageHeading } from '../../../support/common/verify-page-heading';
+} from '../../../../support/eligibility/page-objects/planning-application-type-po';
+import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import {
   getBackLink,
   getErrorMessageSummary,
-} from '../../../support/common-page-objects/common-po';
-import { goToAppealsPage } from '../../../support/common/go-to-page/goToAppealsPage';
-import { getContinueButton } from '../../../support/householder-planning/appeals-service/page-objects/common-po';
+} from '../../../../support/common-page-objects/common-po';
+import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
+import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 
 const pageTitle = 'What type of planning application is your appeal about? - Before you start - Appeal a householder planning decision - GOV.UK';
 const pageHeading = 'What type of planning application is your appeal about?';

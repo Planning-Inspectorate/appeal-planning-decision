@@ -1,13 +1,13 @@
 import {Given, When,Then} from 'cypress-cucumber-preprocessor/steps';
-import { enterLocalPlanningDepart } from '../../../support/eligibility/local-planning-depart/enter-local-planning-depart';
-import { getErrorMessageSummary} from '../../../support/common-page-objects/common-po';
-import { verifyPageHeading } from '../../../support/common/verify-page-heading';
-import { verifyPageTitle } from '../../../support/common/verify-page-title';
-import { verifyErrorMessage } from '../../../support/common/verify-error-message';
-import { getLocalPlanningDepartmentError } from '../../../support/eligibility/page-objects/local-planning-department-po';
-import { acceptCookiesBanner } from '../../../support/common/accept-cookies-banner';
-import { goToAppealsPage } from '../../../support/common/go-to-page/goToAppealsPage';
-import { getContinueButton } from '../../../support/householder-planning/appeals-service/page-objects/common-po';
+import { enterLocalPlanningDepart } from '../../../../support/eligibility/local-planning-depart/enter-local-planning-depart';
+import { getErrorMessageSummary} from '../../../../support/common-page-objects/common-po';
+import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
+import { getLocalPlanningDepartmentError } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
+import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
+import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 
 const pageTitle = 'Which local planning department dealt with your planning application? - Before you start - Appeal a householder planning decision - GOV.UK';
 const pageHeading = 'Which local planning department dealt with your planning application?';
