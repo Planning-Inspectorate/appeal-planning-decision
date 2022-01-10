@@ -23,11 +23,19 @@ describe('controllers/full-appeal/submit-appeal/application-form', () => {
 
   const sectionName = 'requiredDocumentsSection';
   const taskName = 'originalApplication';
+  const appealId = 'da368e66-de7b-44c4-a403-36e5bf5b000b';
+  const errors = { 'file-upload': 'Select a file upload' };
+  const errorSummary = [{ text: 'There was an error', href: '#' }];
 
   beforeEach(() => {
     appeal = {
       ...APPEAL_DOCUMENT.empty,
-      id: 'da368e66-de7b-44c4-a403-36e5bf5b000b',
+      id: appealId,
+      [sectionName]: {
+        [taskName]: {
+          uploadedFile: file,
+        },
+      },
     };
     req = {
       ...mockReq(),
@@ -44,7 +52,10 @@ describe('controllers/full-appeal/submit-appeal/application-form', () => {
   describe('getApplicationForm', () => {
     it('should call the correct template', () => {
       getApplicationForm(req, res);
-      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPLICATION_FORM);
+      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPLICATION_FORM, {
+        appealId,
+        uploadedFile: file,
+      });
     });
   });
 
@@ -53,8 +64,8 @@ describe('controllers/full-appeal/submit-appeal/application-form', () => {
       req = {
         ...req,
         body: {
-          errors: { 'file-upload': 'Select a file upload' },
-          errorSummary: [{ text: 'There was an error', href: '#' }],
+          errors,
+          errorSummary,
         },
         files: {
           'file-upload': {},
@@ -65,9 +76,10 @@ describe('controllers/full-appeal/submit-appeal/application-form', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPLICATION_FORM, {
-        appeal,
-        errorSummary: [{ text: 'There was an error', href: '#' }],
-        errors: { 'file-upload': 'Select a file upload' },
+        appealId,
+        uploadedFile: file,
+        errors,
+        errorSummary,
       });
     });
 
@@ -80,8 +92,8 @@ describe('controllers/full-appeal/submit-appeal/application-form', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPLICATION_FORM, {
-        appeal: req.session.appeal,
-        errors: {},
+        appealId,
+        uploadedFile: file,
         errorSummary: [{ text: error.toString(), href: '#' }],
       });
     });
