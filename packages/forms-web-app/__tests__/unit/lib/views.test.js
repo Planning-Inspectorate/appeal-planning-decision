@@ -67,10 +67,6 @@ describe('lib/views', () => {
         USE_A_DIFFERENT_SERVICE: 'full-appeal/use-a-different-service',
       },
 
-      HOUSEHOLDER_PLANNING: {
-        LISTED_BUILDING: 'householder-planning/listed-building',
-      },
-
       YOUR_PLANNING_APPEAL: {
         INDEX: 'your-planning-appeal/index',
         YOUR_APPEAL_DETAILS: 'your-planning-appeal/your-appeal-details',
