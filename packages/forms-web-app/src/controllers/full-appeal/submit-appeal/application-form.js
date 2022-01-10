@@ -9,8 +9,20 @@ const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const { getTaskStatus } = require('../../../services/task.service');
 
+const sectionName = 'requiredDocumentsSection';
+const taskName = documentTypes.originalApplication.name;
+const viewData = (appeal, errorSummary, errors) => {
+  return {
+    appealId: appeal.id,
+    uploadedFile: appeal[sectionName][taskName] && appeal[sectionName][taskName].uploadedFile,
+    errorSummary,
+    errors,
+  };
+};
+
 const getApplicationForm = (req, res) => {
-  res.render(APPLICATION_FORM);
+  const { appeal } = req.session;
+  res.render(APPLICATION_FORM, viewData(appeal));
 };
 
 const postApplicationForm = async (req, res) => {
@@ -19,15 +31,9 @@ const postApplicationForm = async (req, res) => {
     files = {},
     session: { appeal },
   } = req;
-  const sectionName = 'requiredDocumentsSection';
-  const taskName = documentTypes.originalApplication.name;
 
   if (Object.keys(errors).length > 0) {
-    return res.render(APPLICATION_FORM, {
-      appeal,
-      errors,
-      errorSummary,
-    });
+    return res.render(APPLICATION_FORM, viewData(appeal, errorSummary, errors));
   }
 
   try {
@@ -43,13 +49,9 @@ const postApplicationForm = async (req, res) => {
     };
     appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     req.session.appeal = await createOrUpdateAppeal(appeal);
-  } catch (e) {
-    logger.error(e);
-    return res.render(APPLICATION_FORM, {
-      appeal,
-      errors,
-      errorSummary: [{ text: e.toString(), href: '#' }],
-    });
+  } catch (err) {
+    logger.error(err);
+    return res.render(APPLICATION_FORM, viewData(appeal, [{ text: err.toString(), href: '#' }]));
   }
 
   return res.redirect(`/${APPLICATION_NUMBER}`);
