@@ -99,8 +99,9 @@ Then('the correct input {string} is highlighted', (highlights) => {
 
 Then('appellant is navigated to the granted or refused page', () => {
   cy.url().should('contain', grantedOrRefusedPageUrl);
+
   selectPlanningApplicationDecision('I have Not Received a Decision');
-  getContinueButton().click();
+  clickContinueButton();
 });
 
 Then('decision due date they have inputted will not be saved', () => {
