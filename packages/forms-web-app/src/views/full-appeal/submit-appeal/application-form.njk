@@ -5,8 +5,18 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block pageTitle %}
-  Planning application form - Appeal a planning decision - GOV.UK
+{% set labelText = "Drag and drop or choose a file" %}
+{% set title = "Planning application form - Appeal a planning decision - GOV.UK" %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
+
+{% block backButton %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: '/full-appeal/submit-appeal/task-list',
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
 {% endblock %}
 
 {% block content %}
@@ -20,18 +30,22 @@
         }) }}
       {% endif %}
       <span class="govuk-caption-l">Upload documents from your planning application</span>
-      <h1 data-cy="heading" class="govuk-heading-xl">
-        Planning application form
-      </h1>
+      <h1 data-cy="heading" class="govuk-heading-l">Planning application form</h1>
       <p class="govuk-body">
         If you do not have your planning application form, you can find it by searching for your planning application on your local planning department's website.
       </p>
+      {% if uploadedFile.id %}
+        <h2 class="govuk-heading-m  govuk-!-margin-top-6">Uploaded file</h2>
+        <p class="govuk-body govuk-!-margin-bottom-8"><a href="/document/{{appealId}}/{{uploadedFile.id}}" class="govuk-link">{{ uploadedFile.name }}</a>
+        {% set labelText = "Replace the file" %}
+      {% endif %}
       <form action="" method="post" novalidate enctype="multipart/form-data">
         {{ govukFileUpload({
           id: "file-upload",
           name: "file-upload",
           label: {
-            text: "Drag and drop or choose a file"
+            text: labelText,
+            classes: "govuk-label--m"
           },
           classes: "pins-file-upload",
           errorMessage: errors['file-upload'] and { text: errors['file-upload'].msg }
@@ -55,7 +69,7 @@
         }) }}
 
         {{ govukButton({
-          text: "Save and continue",
+          text: "Continue",
           type: "submit",
           attributes: { "data-cy":"button-submit"}
         }) }}
