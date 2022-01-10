@@ -27,7 +27,7 @@ describe('controllers/full-appeal/submit-appeal/task-list', () => {
             },
           },
           {
-            href: '/',
+            href: '/full-appeal/submit-appeal/appeal-site-address',
             text: 'Tell us about the appeal site',
             status: 'NOT STARTED',
             attributes: {

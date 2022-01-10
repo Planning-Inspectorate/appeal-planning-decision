@@ -570,5 +570,111 @@ describe('schemas/full-appeal/insert', () => {
         });
       });
     });
+
+    describe('appealSiteSection', () => {
+      describe('appealSiteSection.siteAddress', () => {
+        describe('appealSiteSection.siteAddress', () => {
+          it('should remove unknown fields', async () => {
+            appeal2.appealSiteSection.siteAddress.unknownField = 'unknown field';
+
+            const result = await insert.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should throw an error when given a null value', async () => {
+            appeal.appealSiteSection.siteAddress = null;
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              'appealSiteSection.siteAddress must be a `object` type, but the final value was: `null`',
+            );
+          });
+        });
+
+        describe('appealSiteSection.siteAddress.addressLine1', () => {
+          it('should throw an error when given a value with more than 60 characters', async () => {
+            appeal.appealSiteSection.siteAddress.addressLine1 = 'a'.repeat(61);
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              'appealSiteSection.siteAddress.addressLine1 must be at most 60 characters',
+            );
+          });
+
+          it('should not throw an error when not given a value', async () => {
+            delete appeal.appealSiteSection.siteAddress.addressLine1;
+
+            const result = await insert.validate(appeal, config);
+            expect(result).toEqual(appeal);
+          });
+        });
+
+        describe('appealSiteSection.siteAddress.addressLine2', () => {
+          it('should throw an error when given a value with more than 60 characters', async () => {
+            appeal.appealSiteSection.siteAddress.addressLine2 = 'a'.repeat(61);
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              'appealSiteSection.siteAddress.addressLine2 must be at most 60 characters',
+            );
+          });
+
+          it('should not throw an error when not given a value', async () => {
+            delete appeal.appealSiteSection.siteAddress.addressLine2;
+
+            const result = await insert.validate(appeal, config);
+            expect(result).toEqual(appeal);
+          });
+        });
+
+        describe('appealSiteSection.siteAddress.town', () => {
+          it('should throw an error when given a value with more than 60 characters', async () => {
+            appeal.appealSiteSection.siteAddress.town = 'a'.repeat(61);
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              'appealSiteSection.siteAddress.town must be at most 60 characters',
+            );
+          });
+
+          it('should not throw an error when not given a value', async () => {
+            delete appeal.appealSiteSection.siteAddress.town;
+
+            const result = await insert.validate(appeal, config);
+            expect(result).toEqual(appeal);
+          });
+        });
+
+        describe('appealSiteSection.siteAddress.county', () => {
+          it('should throw an error when given a value with more than 60 characters', async () => {
+            appeal.appealSiteSection.siteAddress.county = 'a'.repeat(61);
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              'appealSiteSection.siteAddress.county must be at most 60 characters',
+            );
+          });
+
+          it('should not throw an error when not given a value', async () => {
+            delete appeal.appealSiteSection.siteAddress.county;
+
+            const result = await insert.validate(appeal, config);
+            expect(result).toEqual(appeal);
+          });
+        });
+
+        describe('appealSiteSection.siteAddress.postcode', () => {
+          it('should throw an error when given a value with more than 8 characters', async () => {
+            appeal.appealSiteSection.siteAddress.postcode = 'a'.repeat(9);
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              'appealSiteSection.siteAddress.postcode must be at most 8 characters',
+            );
+          });
+
+          it('should not throw an error when not given a value', async () => {
+            delete appeal.appealSiteSection.siteAddress.postcode;
+
+            const result = await insert.validate(appeal, config);
+            expect(result).toEqual(appeal);
+          });
+        });
+      });
+    });
   });
 });

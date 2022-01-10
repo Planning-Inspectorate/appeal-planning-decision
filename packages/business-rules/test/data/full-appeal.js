@@ -28,6 +28,15 @@ const appeal = {
     email: 'anemail@gmail.com',
     companyName: 'Test Company',
   },
+  appealSiteSection: {
+    siteAddress: {
+      addressLine1: 'Site Address 1',
+      addressLine2: 'Site Address 2',
+      town: 'Site Town',
+      county: 'Site County',
+      postcode: 'SW1 1AA',
+    },
+  },
 };
 
 module.exports = appeal;
