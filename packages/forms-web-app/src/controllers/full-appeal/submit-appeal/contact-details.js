@@ -10,14 +10,12 @@ const TASK_STATUS = require('../../../services/task-status/task-statuses');
 const sectionName = 'contactDetailsSection';
 
 exports.getContactDetails = (req, res) => {
-  req.session.appeal.appealType = '1005';
   res.render(CONTACT_DETAILS, {
     appeal: req.session.appeal,
   });
 };
 
 exports.postContactDetails = async (req, res) => {
-  req.session.appeal.appealType = '1005';
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
 
