@@ -1,5 +1,4 @@
-const { addMonths, subMonths, addDays, subDays, endOfDay, format, parseISO } = require('date-fns');
-const dateFilter = require('nunjucks-date-filter');
+const { subMonths, addDays, subDays, endOfDay, format } = require('date-fns');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
