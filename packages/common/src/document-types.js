@@ -19,6 +19,11 @@ const documentTypes = {
     multiple: true,
     displayName: 'Supporting Documents',
   },
+  designAccessStatement: {
+    name: 'designAccessStatement',
+    multiple: false,
+    displayName: 'Design and access statement',
+  },
   appealPdf: {
     name: 'appealPdf',
     multiple: false,

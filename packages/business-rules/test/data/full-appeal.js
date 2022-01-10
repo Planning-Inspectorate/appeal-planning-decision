@@ -15,6 +15,13 @@ const appeal = {
         id: '372c8ba6-dfa6-4bba-bf9c-b024e3d8c282',
       },
     },
+    designAccessStatement: {
+      uploadedFile: {
+        name: 'test-pdf.pdf',
+        originalFileName: 'test-pdf.pdf',
+        id: '372c8ba6-dfa6-4bba-bf9c-b024e3d8c282',
+      },
+    },
   },
   contactDetailsSection: {
     name: 'a name',

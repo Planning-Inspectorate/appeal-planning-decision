@@ -30,6 +30,12 @@ module.exports.APPEAL_DOCUMENT = {
           id: null,
         },
       },
+      designAccessStatement: {
+        uploadedFile: {
+          name: '',
+          id: null,
+        },
+      },
     },
     yourAppealSection: {
       appealStatement: {

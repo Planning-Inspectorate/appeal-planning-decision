@@ -34,6 +34,12 @@ exports.appealDocument = {
         id: null,
       },
     },
+    designAccessStatement: {
+      uploadedFile: {
+        name: '',
+        id: null,
+      },
+    },
   },
   yourAppealSection: {
     appealStatement: {
