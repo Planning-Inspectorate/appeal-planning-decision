@@ -10,6 +10,7 @@ const fullAppealRouter = require('./full-appeal');
 const cookieRouter = require('./cookies');
 const guidancePagesRouter = require('./guidance-pages');
 const yourPlanningAppealRouter = require('./your-planning-appeal');
+const documentRouter = require('./document');
 const checkDecisionDateDeadline = require('../middleware/check-decision-date-deadline');
 
 router.use('/', homeRouter);
@@ -20,5 +21,6 @@ router.use('/full-appeal', checkDecisionDateDeadline, fullAppealAppellantSubmiss
 router.use('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
 router.use('/your-planning-appeal', yourPlanningAppealRouter);
 router.use('/before-you-start', fullAppealRouter);
+router.use('/document', documentRouter);
 
 module.exports = router;
