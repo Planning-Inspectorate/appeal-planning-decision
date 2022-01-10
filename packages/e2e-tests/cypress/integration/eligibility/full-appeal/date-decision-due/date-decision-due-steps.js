@@ -24,6 +24,7 @@ import {
   getDateDecisionDueDay,
   getPlanningApplicationDecisionError,
 } from '../../../../support/eligibility/page-objects/date-decision-due-po';
+import {clickContinueButton} from "../../../../support/common/clickContinueButton";
 
 const pageHeading = 'What date was the decision due?';
 const pageTitle = 'What date was the decision due? - Before you start - Appeal a planning decision - GOV.UK';
@@ -36,11 +37,11 @@ const shutterPageUrl = '/before-you-start/you-cannot-appeal';
 Given('appellant navigates to decision date page for {string}',(application_type)=>{
   goToAppealsPage(typeOfPlanningPageUrl);
   selectPlanningApplicationType(application_type);
-  getContinueButton().click();
+  clickContinueButton();
   selectSiteOption('None of these');
-  getContinueButton().click();
-  selectPlanningApplicationDecision('I have not received a decision');
-  getContinueButton().click();
+  clickContinueButton();
+  selectPlanningApplicationDecision('I have Not Received a Decision');
+  clickContinueButton();
 });
 
 Given('appellant navigates to date decision due page', () =>{
@@ -64,7 +65,7 @@ When('appellant enters a past date of over 6 months', () => {
 });
 
 When('appellant clicks on continue', () => {
-  getContinueButton().click();
+ clickContinueButton();
 });
 
 When('appellant enters date decision due of {string}-{string}-{string}', (day, month, year) => {
@@ -99,8 +100,8 @@ Then('the correct input {string} is highlighted', (highlights) => {
 Then('appellant is navigated to the granted or refused page', () => {
   cy.url().should('contain', grantedOrRefusedPageUrl);
 
-  selectPlanningApplicationDecision('I have not received a decision');
-  getContinueButton().click();
+  selectPlanningApplicationDecision('I have Not Received a Decision');
+  clickContinueButton();
 });
 
 Then('decision due date they have inputted will not be saved', () => {
