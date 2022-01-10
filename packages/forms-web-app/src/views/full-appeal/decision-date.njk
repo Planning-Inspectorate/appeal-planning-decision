@@ -3,7 +3,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 
-{% set title="What's the decision date on the letter from the local planning department?​ - Before you start - Appeal a planning decision - GOV.UK" %}
+{% set title="What's the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK" %}
 {% set selection = appeal.beforeYouStartSection.typeOfPlanningApplication %}
 
 {% block pageTitle %}
@@ -63,13 +63,13 @@
                 value: decisionDate.day
               },
               {
-                classes: "govuk-input--width-2 govuk-input--error" if errors['decision-date'] or errors['decision-date-day'] else "govuk-input--width-2",
+                classes: "govuk-input--width-2 govuk-input--error" if errors['decision-date'] or errors['decision-date-month'] else "govuk-input--width-2",
                 name: "month",
                 id: "decision-date-month",
                 value: decisionDate.month
               },
               {
-                classes: "govuk-input--width-4 govuk-input--error" if errors['decision-date'] or errors['decision-date-day'] else "govuk-input--width-4",
+                classes: "govuk-input--width-4 govuk-input--error" if errors['decision-date'] or errors['decision-date-year'] else "govuk-input--width-4",
                 name: "year",
                 id: "decision-date-year",
                 value: decisionDate.year
