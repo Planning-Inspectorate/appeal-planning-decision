@@ -144,12 +144,22 @@ const FULL_APPEAL_SECTIONS = {
       rule: notStartedRule,
     },
   },
+  appealSiteSection: {
+    siteAddress: {
+      href: `/${FULL_APPEAL.APPEAL_SITE_ADDRESS}`,
+      rule: statusAppealSiteAddress,
+    },
+    ownAllTheLand: {
+      href: `/${FULL_APPEAL.OWN_ALL_THE_LAND}`,
+      rule: notStartedRule,
+    },
+  },
   contactDetailsSection: {
     href: `/${FULL_APPEAL.CONTACT_DETAILS}`,
     rule: (appeal) => appeal.sectionStates.contactDetailsSection,
   },
   aboutAppealSiteSection: {
-    href: '/',
+    href: `/${FULL_APPEAL.APPEAL_SITE_ADDRESS}`,
     rule: notStartedRule,
   },
   planningApplicationDocumentsSection: {

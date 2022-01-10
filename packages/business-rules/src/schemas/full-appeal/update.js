@@ -63,6 +63,18 @@ const update = pinsYup
         email: pinsYup.string().email().max(255).required(),
       })
       .noUnknown(true),
+    appealSiteSection: pinsYup.object().shape({
+      siteAddress: pinsYup
+        .object()
+        .shape({
+          addressLine1: pinsYup.string().max(60).required(),
+          addressLine2: pinsYup.string().max(60).nullable(),
+          town: pinsYup.string().max(60).nullable(),
+          county: pinsYup.string().max(60).nullable(),
+          postcode: pinsYup.string().max(8).required(),
+        })
+        .noUnknown(true),
+    }),
     sectionStates: pinsYup.object().shape({}),
   });
 
