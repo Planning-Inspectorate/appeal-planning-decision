@@ -1,17 +1,17 @@
 import {Given, When,Then} from 'cypress-cucumber-preprocessor/steps';
 
-import { selectPlanningApplicationDecision } from '../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
-import { verifyErrorMessage } from '../../../support/common/verify-error-message';
-import { acceptCookiesBanner } from '../../../support/common/accept-cookies-banner';
-import { getPlanningApplicationDecisionError } from '../../../support/eligibility/page-objects/granted-or-refused-application-po';
-import { goToAppealsPage } from '../../../support/common/go-to-page/goToAppealsPage';
-import { verifyPageTitle } from '../../../support/common/verify-page-title';
-import { verifyPageHeading } from '../../../support/common/verify-page-heading';
+import { selectPlanningApplicationDecision } from '../../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
+import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
+import { getPlanningApplicationDecisionError } from '../../../../support/eligibility/page-objects/granted-or-refused-application-po';
+import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import {
   getBackLink,
   getErrorMessageSummary,
-} from '../../../support/common-page-objects/common-po';
-import { getContinueButton } from '../../../support/householder-planning/appeals-service/page-objects/common-po';
+} from '../../../../support/common-page-objects/common-po';
+import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 
 const pageTitle = 'Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Was your planning application granted or refused?';
