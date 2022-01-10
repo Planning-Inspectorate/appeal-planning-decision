@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const { documentTypes } = require('@pins/common');
-const { createDocument } = require('../../../src/lib/documents-api-wrapper');
+const { createDocument, fetchDocument } = require('../../../src/lib/documents-api-wrapper');
+const config = require('../../../src/config');
 
 const mockLogger = jest.fn();
 
@@ -11,9 +12,13 @@ jest.mock('../../../src/lib/logger', () => ({
     warn: mockLogger,
   }),
 }));
-
 jest.mock('uuid', () => ({
   v4: jest.fn(() => '123-abc-456-xyz'),
+}));
+jest.mock('../../../src/config', () => ({
+  documents: {
+    url: 'http://localhost',
+  },
 }));
 
 describe('lib/documents-api-wrapper', () => {
@@ -49,7 +54,7 @@ describe('lib/documents-api-wrapper', () => {
       }
     });
 
-    it('should throw if the response code is anything other than a 202', async () => {
+    it('should throw if the response code is not 200 or 202', async () => {
       fetch.mockResponse('a response body', { status: 204 });
       try {
         await createDocument(mockAppeal, data, null, documentTypes.appealStatement.name);
@@ -99,9 +104,7 @@ describe('lib/documents-api-wrapper', () => {
           await createDocument(mockAppeal, given, null, documentTypes.appealStatement.name);
           expect('to be').not.toBe('to be');
         } catch (e) {
-          expect(e.message).toBe(
-            'Error: The type of provided data to create a document with is wrong'
-          );
+          expect(e.message).toBe('The type of provided data to create a document with is wrong');
         }
       });
     });
@@ -169,6 +172,29 @@ describe('lib/documents-api-wrapper', () => {
         id: '123-abc-456-xyz',
         name: 'tmp-2-1607684291243',
       });
+    });
+  });
+
+  describe('fetchDocument', () => {
+    it('should return the expected response if the fetch status is 200 with form data input', async () => {
+      const appealId = '0d108314-bb28-40e0-a502-c698e3767fd0';
+      const documentId = 'e24989aa-5868-4fb3-ba91-1caab83c72d3';
+      const documentBuffer = Buffer.from('a pdf document');
+
+      fetch.mockResponse(documentBuffer);
+
+      const res = await fetchDocument(appealId, documentId);
+
+      expect(fetch).toHaveBeenCalledWith(
+        `${config.documents.url}/api/v1/${appealId}/${documentId}/file`,
+        {
+          method: 'GET',
+          headers: {
+            'X-Correlation-ID': '123-abc-456-xyz',
+          },
+        }
+      );
+      expect(res).toEqual(new Response(documentBuffer));
     });
   });
 });
