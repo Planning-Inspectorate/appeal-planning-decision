@@ -40,6 +40,10 @@ const postDesignAccessStatement = async (req, res) => {
   try {
     const document = await createDocument(appeal, files['file-upload'], null, taskName);
 
+    if (!appeal[sectionName][taskName]) {
+      appeal[sectionName][taskName] = {};
+    }
+
     appeal[sectionName][taskName].uploadedFile = {
       id: document.id,
       name: files['file-upload'].name,

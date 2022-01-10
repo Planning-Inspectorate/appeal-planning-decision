@@ -137,5 +137,39 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement', () => 
       expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
+
+    it('should redirect to the correct page if valid if appeal.requiredDocumentsSection.designAccessStatement does not exist', async () => {
+      delete appeal.requiredDocumentsSection.designAccessStatement;
+
+      const submittedAppeal = {
+        ...appeal,
+        state: 'SUBMITTED',
+      };
+
+      createDocument.mockReturnValue(file);
+      getTaskStatus.mockReturnValue(TASK_STATUS.NOT_STARTED);
+      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+      req = {
+        ...req,
+        body: {},
+        files: {
+          'file-upload': file,
+        },
+      };
+
+      await postDesignAccessStatement(req, res);
+
+      expect(createDocument).toHaveBeenCalledWith(
+        appeal,
+        file,
+        null,
+        documentTypes.designAccessStatement.name
+      );
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
+      expect(req.session.appeal).toEqual(submittedAppeal);
+    });
   });
 });
