@@ -37,6 +37,19 @@ const insert = pinsYup
               .noUnknown(true),
           })
           .noUnknown(true),
+        designAccessStatement: pinsYup
+          .object()
+          .shape({
+            uploadedFile: pinsYup
+              .object()
+              .shape({
+                name: pinsYup.string().trim().max(255).ensure(),
+                originalFileName: pinsYup.string().trim().max(255).ensure(),
+                id: pinsYup.string().trim().uuid().nullable().default(null),
+              })
+              .noUnknown(true),
+          })
+          .noUnknown(true),
       })
       .noUnknown(true),
     contactDetailsSection: pinsYup
