@@ -22,13 +22,13 @@ describe('routes/householder-planning/eligibility/enforcement-notice', () => {
     expect(get).toHaveBeenCalledWith(
       '/enforcement-notice-householder',
       [fetchExistingAppealMiddleware],
-      enforcementNoticeController.getEnforcementNotice
+      enforcementNoticeController.getEnforcementNoticeHouseholder
     );
     expect(post).toHaveBeenCalledWith(
       '/enforcement-notice-householder',
       enforcementNoticeValidationRules(),
       validationErrorHandler,
-      enforcementNoticeController.postEnforcementNotice
+      enforcementNoticeController.postEnforcementNoticeHouseholder
     );
   });
 });

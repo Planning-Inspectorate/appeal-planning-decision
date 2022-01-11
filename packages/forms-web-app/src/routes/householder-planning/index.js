@@ -2,8 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
-const eligibility = require('./eligibility/index');
+const eligibilityRouter = require('./eligibility');
 
-router.use('/', eligibility);
+router.use('/', eligibilityRouter);
 
 module.exports = router;

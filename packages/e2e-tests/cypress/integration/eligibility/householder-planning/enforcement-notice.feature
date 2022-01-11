@@ -17,8 +17,8 @@ Feature: Enforcement notice
 
   Scenario: AC03 appellant has not made any selection and they get an error message
     Given appellant is on the enforcement notice page for householder planning
-    When  appellant clicks on the continue button on enforcement notice page
-   Then appellant sees an error message 'Select yes if you have received an enforcement notice'
+    When appellant clicks on the continue button on enforcement notice page
+    Then appellant sees an error message 'Select yes if you have received an enforcement notice'
 
   Scenario:AC04 Back Link
     Given appellant is on the enforcement notice page for householder planning

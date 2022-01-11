@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
 const {
   rules,
-  validEnforcementNoticeOptions,
+  validEnforcementNoticeHouseholderOptions,
 } = require('../../../../../src/validators/householder-planning/eligibility/enforcement-notice-householder');
 const { testExpressValidatorMiddleware } = require('../../validation-middleware-helper');
 
@@ -84,9 +84,9 @@ describe('validators/householder-planning/eligibility/enforcement-notice', () =>
     });
   });
 
-  describe('validEnforcementNoticeOptions', () => {
+  describe('validEnforcementNoticeHouseholderOptions', () => {
     it('should define the expected valid enforcement notice options', () => {
-      expect(validEnforcementNoticeOptions).toEqual(['yes', 'no']);
+      expect(validEnforcementNoticeHouseholderOptions).toEqual(['yes', 'no']);
     });
   });
 });
