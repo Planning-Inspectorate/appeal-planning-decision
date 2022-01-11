@@ -2,11 +2,10 @@ const { add, isBefore } = require('date-fns');
 const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../../lib/householder-planning/views');
-const { VIEW: FULL_APPEAL_VIEW } = require('../../../lib/views');
 
 exports.getDecisionDateHouseholder = async (req, res) => {
   res.render(VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.DECISION_DATE_HOUSEHOLDER, {
-    backLink: `${FULL_APPEAL_VIEW.FULL_APPEAL.GRANTED_OR_REFUSED}`,
+    backLink: `/before-you-start/granted-or-refused-householder`,
   });
 };
 
@@ -24,7 +23,7 @@ exports.postDecisionDateHouseholder = async (req, res) => {
       },
       errors,
       errorSummary,
-      backLink: `${FULL_APPEAL_VIEW.FULL_APPEAL.GRANTED_OR_REFUSED}`,
+      backLink: `/before-you-start/granted-or-refused-householder`,
     });
   }
 
@@ -41,14 +40,14 @@ exports.postDecisionDateHouseholder = async (req, res) => {
     appeal.eligibility.applicationDecision === 'granted' &&
     isBefore(enteredDate, add(new Date(todaysDate), { months: -6 }))
   ) {
-    return res.redirect(`/${FULL_APPEAL_VIEW.FULL_APPEAL.YOU_CANNOT_APPEAL}`);
+    return res.redirect(`/before-you-start/you-cannot-appeal`);
   }
 
   if (
     appeal.eligibility.applicationDecision === 'refused' &&
     isBefore(enteredDate, add(new Date(todaysDate), { weeks: -12 }))
   ) {
-    return res.redirect(`/${FULL_APPEAL_VIEW.FULL_APPEAL.YOU_CANNOT_APPEAL}`);
+    return res.redirect(`/before-you-start/you-cannot-appeal`);
   }
 
   try {
@@ -56,7 +55,7 @@ exports.postDecisionDateHouseholder = async (req, res) => {
       ...appeal,
       decisionDateHouseholder: enteredDate.toISOString(),
     });
-    return res.redirect(`/${FULL_APPEAL_VIEW.FULL_APPEAL.ENFORCEMENT_NOTICE}`);
+    return res.redirect(`/before-you-start/enforcement-notice-householder`);
   } catch (e) {
     logger.error(e);
 
@@ -64,7 +63,7 @@ exports.postDecisionDateHouseholder = async (req, res) => {
       appeal,
       errors,
       errorSummary: [{ text: e.toString(), href: 'decision-date-householder' }],
-      backLink: `${FULL_APPEAL_VIEW.FULL_APPEAL.GRANTED_OR_REFUSED}`,
+      backLink: `/before-you-start/granted-or-refused-householder`,
     });
   }
 };

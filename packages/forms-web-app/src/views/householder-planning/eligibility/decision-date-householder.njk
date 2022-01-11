@@ -3,7 +3,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 
-{% set title="What date was the decision due? - What date was the decision due? - Before you start - Appeal a planning decision - GOV.UK" %}
+{% set title="What's the decision date on the letter from the local planning department? - Before you start - Appeal a householder planning decision - GOV.UK" %}
 {% set selection = appeal.beforeYouStartSection.typeOfPlanningApplication %}
 
 {% block pageTitle %}
@@ -45,7 +45,7 @@
             namePrefix: "decision-date-householder",
             fieldset: {
               legend: {
-                text: "What's the decision date on the letter from the local planning department?​",
+                text: "What's the decision date on the letter from the local planning department?",
                 isPageHeading: true,
                 classes: "govuk-fieldset__legend--l"
               }
