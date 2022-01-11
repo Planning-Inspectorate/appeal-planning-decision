@@ -16,7 +16,7 @@ const redirect = (selection, res) => {
     return;
   }
 
-  res.redirect(`/${VIEW.HOUSEHOLDER_PLANNING.ENFORCEMENT_NOTICE}`);
+  res.redirect('/before-you-start/granted-or-refused-householder');
 };
 
 exports.postListedBuildingHouseholder = async (req, res) => {
