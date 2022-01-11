@@ -16,16 +16,23 @@ const appeal = {
   requiredDocumentsSection: {
     originalApplication: {
       uploadedFile: {
-        name: 'test-pdf.pdf',
-        originalFileName: 'test-pdf.pdf',
+        name: 'originalApplication.pdf',
+        originalFileName: 'originalApplication.pdf',
         id: '372c8ba6-dfa6-4bba-bf9c-b024e3d8c282',
       },
     },
     designAccessStatement: {
       uploadedFile: {
-        name: 'test-pdf.pdf',
-        originalFileName: 'test-pdf.pdf',
-        id: '372c8ba6-dfa6-4bba-bf9c-b024e3d8c282',
+        name: 'designAccessStatement',
+        originalFileName: 'designAccessStatement',
+        id: '4325a1bb-7bae-4d31-bdeb-8147248def03',
+      },
+    },
+    decisionLetter: {
+      uploadedFile: {
+        name: 'decisionLetter.pdf',
+        originalFileName: 'decisionLetter.pdf',
+        id: '89b73320-8165-43f9-83e8-43bc0d927140',
       },
     },
   },
