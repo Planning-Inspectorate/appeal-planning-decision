@@ -2,7 +2,7 @@ const { use } = require('../../router-mock');
 
 const listedBuildingHouseholderRouter = require('../../../../../src/routes/householder-planning/eligibility/listed-building-householder');
 const enforcementNoticeHouseholderRouter = require('../../../../../src/routes/householder-planning/eligibility/enforcement-notice-householder');
-const grantedOrRefusedRouter = require('../../../../../src/routes/householder-planning/eligibility/granted-or-refused');
+const grantedOrRefusedHouseholderRouter = require('../../../../../src/routes/householder-planning/eligibility/granted-or-refused-householder');
 
 describe('routes/householder-planning/eligibility/index', () => {
   beforeEach(() => {
@@ -15,7 +15,7 @@ describe('routes/householder-planning/eligibility/index', () => {
   it('should define the expected routes', () => {
     expect(use).toHaveBeenCalledWith(listedBuildingHouseholderRouter);
     expect(use).toHaveBeenCalledWith(enforcementNoticeHouseholderRouter);
-    expect(use).toHaveBeenCalledWith(grantedOrRefusedRouter);
+    expect(use).toHaveBeenCalledWith(grantedOrRefusedHouseholderRouter);
 
     expect(use.mock.calls.length).toBe(3);
   });
