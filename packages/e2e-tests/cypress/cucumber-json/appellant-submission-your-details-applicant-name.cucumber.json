@@ -33,7 +33,7 @@
             "name": "appeal is made on behalf of another applicant",
             "result": {
               "status": "passed",
-              "duration": 3785000000
+              "duration": 3862000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "original applicant name is submitted",
             "result": {
               "status": "passed",
-              "duration": 1560000000
+              "duration": 1653000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "appeal tasks are presented",
             "result": {
               "status": "passed",
-              "duration": 13000000
+              "duration": 12000000
             }
           },
           {
@@ -63,7 +63,7 @@
             "name": "appeal is updated with the original applicant",
             "result": {
               "status": "passed",
-              "duration": 529000000
+              "duration": 587000000
             }
           },
           {
@@ -73,7 +73,7 @@
             "name": "Your Details section is \"COMPLETED\"",
             "result": {
               "status": "passed",
-              "duration": 528000000
+              "duration": 708000000
             }
           }
         ]
@@ -98,7 +98,7 @@
             "name": "appeal is made on behalf of another applicant",
             "result": {
               "status": "passed",
-              "duration": 3557000000
+              "duration": 4129000000
             }
           },
           {
@@ -108,7 +108,7 @@
             "name": "original applicant name \"\" is submitted",
             "result": {
               "status": "passed",
-              "duration": 1231000000
+              "duration": 1409000000
             }
           },
           {
@@ -118,7 +118,7 @@
             "name": "original applicant value \"\" is invalid because \"name missing\"",
             "result": {
               "status": "passed",
-              "duration": 20000000
+              "duration": 27000000
             }
           },
           {
@@ -128,7 +128,7 @@
             "name": "applicant name is presented",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 7000000
             }
           },
           {
@@ -138,7 +138,7 @@
             "name": "appeal is not updated with the original applicant \"\"",
             "result": {
               "status": "passed",
-              "duration": 548000000
+              "duration": 554000000
             }
           },
           {
@@ -148,7 +148,7 @@
             "name": "Your Details section is \"IN PROGRESS\"",
             "result": {
               "status": "passed",
-              "duration": 564000000
+              "duration": 576000000
             }
           }
         ]
@@ -173,7 +173,7 @@
             "name": "appeal is made on behalf of another applicant",
             "result": {
               "status": "passed",
-              "duration": 3487000000
+              "duration": 3721000000
             }
           },
           {
@@ -183,7 +183,7 @@
             "name": "original applicant name \"A\" is submitted",
             "result": {
               "status": "passed",
-              "duration": 1107000000
+              "duration": 1198000000
             }
           },
           {
@@ -193,7 +193,7 @@
             "name": "original applicant value \"A\" is invalid because \"name outside size constraints\"",
             "result": {
               "status": "passed",
-              "duration": 14000000
+              "duration": 21000000
             }
           },
           {
@@ -203,7 +203,7 @@
             "name": "applicant name is presented",
             "result": {
               "status": "passed",
-              "duration": 4000000
+              "duration": 6000000
             }
           },
           {
@@ -213,7 +213,7 @@
             "name": "appeal is not updated with the original applicant \"A\"",
             "result": {
               "status": "passed",
-              "duration": 529000000
+              "duration": 528000000
             }
           },
           {
@@ -223,7 +223,7 @@
             "name": "Your Details section is \"IN PROGRESS\"",
             "result": {
               "status": "passed",
-              "duration": 538000000
+              "duration": 566000000
             }
           }
         ]
@@ -248,7 +248,7 @@
             "name": "appeal is made on behalf of another applicant",
             "result": {
               "status": "passed",
-              "duration": 3576000000
+              "duration": 3768000000
             }
           },
           {
@@ -258,7 +258,7 @@
             "name": "original applicant name \"Invalid name because it is eighty-one characters long  abcdefghijklmnopqrstuvwxyz\" is submitted",
             "result": {
               "status": "passed",
-              "duration": 2645000000
+              "duration": 2482000000
             }
           },
           {
@@ -268,7 +268,7 @@
             "name": "original applicant value \"Invalid name because it is eighty-one characters long  abcdefghijklmnopqrstuvwxyz\" is invalid because \"name outside size constraints\"",
             "result": {
               "status": "passed",
-              "duration": 54000000
+              "duration": 48000000
             }
           },
           {
@@ -278,7 +278,7 @@
             "name": "applicant name is presented",
             "result": {
               "status": "passed",
-              "duration": 12000000
+              "duration": 13000000
             }
           },
           {
@@ -288,7 +288,7 @@
             "name": "appeal is not updated with the original applicant \"Invalid name because it is eighty-one characters long  abcdefghijklmnopqrstuvwxyz\"",
             "result": {
               "status": "passed",
-              "duration": 531000000
+              "duration": 501000000
             }
           },
           {
@@ -298,7 +298,7 @@
             "name": "Your Details section is \"IN PROGRESS\"",
             "result": {
               "status": "passed",
-              "duration": 541000000
+              "duration": 568000000
             }
           }
         ]
@@ -323,7 +323,7 @@
             "name": "appeal is made on behalf of another applicant",
             "result": {
               "status": "passed",
-              "duration": 3566000000
+              "duration": 3958000000
             }
           },
           {
@@ -333,7 +333,7 @@
             "name": "original applicant name \"Invalid name with prohibited characters *3(/+\" is submitted",
             "result": {
               "status": "passed",
-              "duration": 1684000000
+              "duration": 1669000000
             }
           },
           {
@@ -343,7 +343,7 @@
             "name": "original applicant value \"Invalid name with prohibited characters *3(/+\" is invalid because \"name with prohibited characters\"",
             "result": {
               "status": "passed",
-              "duration": 12000000
+              "duration": 24000000
             }
           },
           {
@@ -353,7 +353,7 @@
             "name": "applicant name is presented",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 4000000
             }
           },
           {
@@ -363,7 +363,7 @@
             "name": "appeal is not updated with the original applicant \"Invalid name with prohibited characters *3(/+\"",
             "result": {
               "status": "passed",
-              "duration": 485000000
+              "duration": 430000000
             }
           },
           {
@@ -373,7 +373,7 @@
             "name": "Your Details section is \"IN PROGRESS\"",
             "result": {
               "status": "passed",
-              "duration": 515000000
+              "duration": 566000000
             }
           }
         ]
