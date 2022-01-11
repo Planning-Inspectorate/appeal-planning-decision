@@ -1,11 +1,11 @@
 import {
-  getDateHouseholderDecisionReceivedDay,
-  getDateHouseholderDecisionReceivedMonth,
-  getDateHouseholderDecisionReceivedYear
+  getDateDecisionReceivedDay,
+  getDateDecisionReceivedMonth,
+  getDateDecisionReceivedYear
 } from "../page-objects/date-decision-received-po";
 
 export const enterDateDecisionReceived = ({ day, month, year} ) => {
-  if(day) getDateHouseholderDecisionReceivedDay().clear().type(day);
-  if(month) getDateHouseholderDecisionReceivedMonth().clear().type(month);
-  if(year) getDateHouseholderDecisionReceivedYear().clear().type(year);
+  if(day) getDateDecisionReceivedDay().clear().type(day);
+  if(month) getDateDecisionReceivedMonth().clear().type(month);
+  if(year) getDateDecisionReceivedYear().clear().type(year);
 }
