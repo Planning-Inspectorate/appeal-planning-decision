@@ -7,6 +7,7 @@ const applicationNumberRouter = require('./application-number');
 const designAccessStatementRouter = require('./design-access-statement');
 const appealSiteAddressRouter = require('./appeal-site-address');
 const applicantNameRouter = require('./applicant-name');
+const decisionLetterRouter = require('./decision-letter');
 
 const router = express.Router();
 
@@ -18,5 +19,6 @@ router.use(applicationNumberRouter);
 router.use(designAccessStatementRouter);
 router.use(appealSiteAddressRouter);
 router.use(applicantNameRouter);
+router.use(decisionLetterRouter);
 
 module.exports = router;

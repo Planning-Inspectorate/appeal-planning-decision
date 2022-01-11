@@ -442,6 +442,124 @@ describe('schemas/full-appeal/update', () => {
       });
     });
 
+    describe('requiredDocumentsSection.decisionLetter', () => {
+      it('should remove unknown fields', async () => {
+        appeal2.requiredDocumentsSection.decisionLetter.unknownField = 'unknown field';
+
+        const result = await update.validate(appeal2, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should throw an error when given a null value', async () => {
+        appeal.requiredDocumentsSection.decisionLetter = null;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'requiredDocumentsSection.decisionLetter must be a `object` type, but the final value was: `null`',
+        );
+      });
+    });
+
+    describe('requiredDocumentsSection.decisionLetter.uploadedFile', () => {
+      it('should remove unknown fields', async () => {
+        appeal2.requiredDocumentsSection.decisionLetter.uploadedFile.unknownField = 'unknown field';
+
+        const result = await update.validate(appeal2, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should throw an error when given a null value', async () => {
+        appeal.requiredDocumentsSection.decisionLetter.uploadedFile = null;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'requiredDocumentsSection.decisionLetter.uploadedFile must be a `object` type, but the final value was: `null`',
+        );
+      });
+    });
+
+    describe('requiredDocumentsSection.decisionLetter.uploadedFile.name', () => {
+      it('should throw an error when given a value with more than 255 characters', async () => {
+        appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name = 'a'.repeat(256);
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'requiredDocumentsSection.decisionLetter.uploadedFile.name must be at most 255 characters',
+        );
+      });
+
+      it('should strip leading/trailing spaces', async () => {
+        appeal2.requiredDocumentsSection.decisionLetter.uploadedFile.name = '  test-pdf.pdf  ';
+        appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name = 'test-pdf.pdf';
+
+        const result = await update.validate(appeal2, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should throw an error when not given a value', async () => {
+        delete appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'requiredDocumentsSection.decisionLetter.uploadedFile.name is a required field',
+        );
+      });
+    });
+
+    describe('requiredDocumentsSection.decisionLetter.uploadedFile.originalFileName', () => {
+      it('should throw an error when given a value with more than 255 characters', async () => {
+        appeal.requiredDocumentsSection.decisionLetter.uploadedFile.originalFileName = 'a'.repeat(
+          256,
+        );
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'requiredDocumentsSection.decisionLetter.uploadedFile.originalFileName must be at most 255 characters',
+        );
+      });
+
+      it('should strip leading/trailing spaces', async () => {
+        appeal2.requiredDocumentsSection.decisionLetter.uploadedFile.originalFileName =
+          '  test-pdf.pdf  ';
+        appeal.requiredDocumentsSection.decisionLetter.uploadedFile.originalFileName =
+          'test-pdf.pdf';
+
+        const result = await update.validate(appeal2, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should throw an error when not given a value', async () => {
+        delete appeal.requiredDocumentsSection.decisionLetter.uploadedFile.originalFileName;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'requiredDocumentsSection.decisionLetter.uploadedFile.originalFileName is a required field',
+        );
+      });
+    });
+
+    describe('requiredDocumentsSection.decisionLetter.uploadedFile.id', () => {
+      it('should strip leading/trailing spaces', async () => {
+        appeal2.requiredDocumentsSection.decisionLetter.uploadedFile.id =
+          '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
+        appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id =
+          '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
+
+        const result = await update.validate(appeal2, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should throw an error when not given a UUID', async () => {
+        appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id = 'abc123';
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'requiredDocumentsSection.decisionLetter.uploadedFile.id must be a valid UUID',
+        );
+      });
+
+      it('should throw an error when not given a value', async () => {
+        delete appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'requiredDocumentsSection.decisionLetter.uploadedFile.id is a required field',
+        );
+      });
+    });
+
     describe('contactDetailsSection', () => {
       it('should remove unknown fields', async () => {
         appeal2.contactDetailsSection.unknownField = 'unknown field';
