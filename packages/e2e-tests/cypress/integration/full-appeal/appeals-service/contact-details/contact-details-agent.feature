@@ -1,3 +1,4 @@
+@wip
 Feature: As an appellant/agent
          I want to enter the LPA Application number
          So that all the necessary details needed for my appeal to be processed are provided
@@ -9,7 +10,6 @@ Feature: As an appellant/agent
 
 
   Scenario: 2 - Appellant/Agent enters letters/numbers into the text box
-
     Given an appellant or agent is on the 'What is your Planning Application number' page
     When they enter text into the box and click 'Continue'
     Then the page 'Did you submit a design and access statement with your application?' is displayed
