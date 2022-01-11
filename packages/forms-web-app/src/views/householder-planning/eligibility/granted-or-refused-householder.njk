@@ -51,13 +51,13 @@
                             value: "granted",
                             text: "Granted",
                             attributes: { "data-cy": "answer-granted"},
-                            checked: appeal.eligibility.planningApplicationStatus === "granted"
+                            checked: appeal.eligibility.applicationDecision === "granted"
                         },
                         {
                             value: "refused",
                             text: "Refused",
                             attributes: { "data-cy": "answer-refused"},
-                            checked: appeal.eligibility.planningApplicationStatus === "refused"
+                            checked: appeal.eligibility.applicationDecision === "refused"
                         },
                         {
                             divider: "or"
@@ -66,7 +66,7 @@
                             value: "nodecisionreceived",
                             text: "I have not received a decision",
                             attributes: { "data-cy": "answer-nodecisionreceived"},
-                            checked: appeal.eligibility.planningApplicationStatus === "nodecisionreceived"
+                            checked: appeal.eligibility.applicationDecision === "nodecisionreceived"
                         }
                     ]
                 }) }}

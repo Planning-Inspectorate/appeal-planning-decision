@@ -1,13 +1,15 @@
 const logger = require('../../../lib/logger');
 const {
   VIEW: {
-    HOUSEHOLDER_PLANNING: { ELIGIBILITY },
+    HOUSEHOLDER_PLANNING: {
+      ELIGIBILITY: { GRANTED_OR_REFUSED: currentPage },
+    },
   },
-} = require('../../../lib/views');
+} = require('../../../lib/householder-planning/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   validApplicationDecisionOptions,
-} = require('../../../validators/householder-planning/eligibility/granted-or-refused');
+} = require('../../../validators/householder-planning/eligibility/granted-or-refused-householder');
 
 const {
   HOUSEHOLDER_PLANNING: { PLANNING_APPLICATION_STATUS: applicationStatus },
@@ -20,20 +22,20 @@ exports.forwardPage = (status) => {
     [applicationStatus.REFUSED]: '/before-you-start/decision-date-householder',
     previousPage: '/before-you-start/listed-building-householder',
 
-    default: ELIGIBILITY.GRANTED_OR_REFUSED,
+    default: currentPage,
   };
 
   return statuses[status] || statuses.default;
 };
 
-exports.getGrantedOrRefused = async (req, res) => {
-  res.render(ELIGIBILITY.GRANTED_OR_REFUSED, {
+exports.getGrantedOrRefusedHouseholder = async (req, res) => {
+  res.render(currentPage, {
     appeal: req.session.appeal,
     previousPage: this.forwardPage('previousPage'),
   });
 };
 
-exports.postGrantedOrRefused = async (req, res) => {
+exports.postGrantedOrRefusedHouseholder = async (req, res) => {
   const { body } = req;
   const { appeal } = req.session;
   const { errors = {}, errorSummary = [] } = body;

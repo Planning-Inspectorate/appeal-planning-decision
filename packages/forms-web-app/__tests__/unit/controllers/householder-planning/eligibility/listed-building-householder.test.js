@@ -47,7 +47,7 @@ describe('controllers/householder-planning/listed-building-householder', () => {
       expect(res.redirect).toBeCalledWith(`/before-you-start/use-a-different-service`);
     });
 
-    it('should redirect to the enforecment-notice page', async () => {
+    it('should redirect to the granted-or-refused-householder page', async () => {
       const mockRequest = {
         ...req,
         body: { 'listed-building-householder': 'no' },
