@@ -22,7 +22,7 @@ const pageTitle =
 const pageHeading = 'Is your appeal about a listed building?';
 const errorMessage = 'Select yes if your appeal about a listed building';
 const url = 'before-you-start/listed-building-householder';
-const enforcementNoticePageUrl = '/enforcement-notice-householder';
+const grantedorrefusedPageUrl = '/granted-or-refused-householder';
 const useADifferentServicePageUrl = '/use-a-different-service'
 const typeOfPlanningApplicationPageUrl = '/type-of-planning-application';
 
@@ -47,8 +47,8 @@ When('appellant selects the back link', () => {
   getBackLink().click();
 });
 
-Then('appellant is navigated to the have you received an enforcement notice page', () => {
-  cy.url().should('contain', enforcementNoticePageUrl);
+Then('appellant is navigated to granted or refused householder page', () => {
+  cy.url().should('contain', grantedorrefusedPageUrl);
 });
 
 Then('appellant gets an error message on the same page', () => {

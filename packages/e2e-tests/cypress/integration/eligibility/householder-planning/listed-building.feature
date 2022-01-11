@@ -7,7 +7,7 @@ Scenario: AC01 Appeal against a non-listed Building
   Given appellant is on the is your application about a Listed Building Page
   When appellant selects the option as "No"
   And appellant clicks on the continue button
-  Then appellant is navigated to the have you received an enforcement notice page
+  Then appellant is navigated to granted or refused householder page
 
 Scenario: AC02 Appellant has not made any selection and they get an error message
   Given appellant is on the is your application about a Listed Building Page
