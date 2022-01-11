@@ -37,7 +37,7 @@
             "name": "the user does not provide a Listed Building statement",
             "result": {
               "status": "passed",
-              "duration": 1362000000
+              "duration": 1311000000
             }
           },
           {
@@ -47,7 +47,7 @@
             "name": "the user is informed that a Listed Building statement is required",
             "result": {
               "status": "passed",
-              "duration": 31000000
+              "duration": 27000000
             }
           }
         ]
@@ -72,7 +72,7 @@
             "name": "the user states that their case concerns a Listed Building",
             "result": {
               "status": "passed",
-              "duration": 1288000000
+              "duration": 1154000000
             }
           },
           {
@@ -82,7 +82,7 @@
             "name": "the user is informed that cases concerning a Listed Building cannot be processed via this service",
             "result": {
               "status": "passed",
-              "duration": 19000000
+              "duration": 10000000
             }
           },
           {
@@ -92,7 +92,7 @@
             "name": "the user is directed to the Appeal a Planning Decision service",
             "result": {
               "status": "passed",
-              "duration": 11000000
+              "duration": 9000000
             }
           }
         ]
@@ -117,7 +117,7 @@
             "name": "the user states that their case does not concern a Listed Building",
             "result": {
               "status": "passed",
-              "duration": 1368000000
+              "duration": 1209000000
             }
           },
           {
@@ -156,7 +156,7 @@
             "name": "the user states that their case does not concern a Listed Building",
             "result": {
               "status": "passed",
-              "duration": 1351000000
+              "duration": 1219000000
             }
           },
           {
@@ -166,7 +166,7 @@
             "name": "the user returns to the listed building page",
             "result": {
               "status": "passed",
-              "duration": 625000000
+              "duration": 521000000
             }
           },
           {
@@ -176,7 +176,7 @@
             "name": "the user sees their previous given answer is correctly displayed",
             "result": {
               "status": "passed",
-              "duration": 12000000
+              "duration": 11000000
             }
           }
         ]

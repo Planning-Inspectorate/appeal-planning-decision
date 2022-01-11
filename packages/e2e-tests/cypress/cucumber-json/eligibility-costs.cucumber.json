@@ -23,7 +23,7 @@
             "name": "an answer to the Costs question is requested",
             "result": {
               "status": "passed",
-              "duration": 670000000
+              "duration": 669000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "not claiming Costs is confirmed",
             "result": {
               "status": "passed",
-              "duration": 636000000
+              "duration": 585000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "progress is made to Your appeal statement",
             "result": {
               "status": "passed",
-              "duration": 12000000
+              "duration": 11000000
             }
           }
         ]
@@ -63,7 +63,7 @@
             "name": "an answer to the Costs question is requested",
             "result": {
               "status": "passed",
-              "duration": 571000000
+              "duration": 606000000
             }
           },
           {
@@ -73,7 +73,7 @@
             "name": "claiming Costs is confirmed",
             "result": {
               "status": "passed",
-              "duration": 631000000
+              "duration": 560000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "progress is halted with a message that claiming for Costs is not supported",
             "result": {
               "status": "passed",
-              "duration": 16000000
+              "duration": 13000000
             }
           }
         ]
@@ -103,7 +103,7 @@
             "name": "an answer to the Costs question is requested",
             "result": {
               "status": "passed",
-              "duration": 614000000
+              "duration": 528000000
             }
           },
           {
@@ -113,7 +113,7 @@
             "name": "the Costs question is not answered",
             "result": {
               "status": "passed",
-              "duration": 639000000
+              "duration": 609000000
             }
           },
           {
@@ -123,7 +123,7 @@
             "name": "progress is halted with a message that an answer to the Costs question is required",
             "result": {
               "status": "passed",
-              "duration": 24000000
+              "duration": 16000000
             }
           }
         ]
@@ -143,7 +143,7 @@
             "name": "an Appeal exists",
             "result": {
               "status": "passed",
-              "duration": 573000000
+              "duration": 534000000
             }
           },
           {
@@ -153,7 +153,7 @@
             "name": "an answer to the Costs question is requested",
             "result": {
               "status": "passed",
-              "duration": 546000000
+              "duration": 514000000
             }
           },
           {
@@ -163,7 +163,7 @@
             "name": "access is available to guidance while an answer to the Costs question is still requested",
             "result": {
               "status": "passed",
-              "duration": 14000000
+              "duration": 15000000
             }
           }
         ]
@@ -183,7 +183,7 @@
             "name": "an answer to the Costs question is requested",
             "result": {
               "status": "passed",
-              "duration": 595000000
+              "duration": 546000000
             }
           },
           {
@@ -193,7 +193,7 @@
             "name": "claiming Costs is confirmed",
             "result": {
               "status": "passed",
-              "duration": 597000000
+              "duration": 547000000
             }
           },
           {

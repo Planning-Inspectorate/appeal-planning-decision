@@ -1,5 +1,5 @@
 import { Then } from 'cypress-cucumber-preprocessor/steps';
-import '../cookie-consent-save-preferences/cookie-consent-save-preferences';
+import '../cookie-consent/save-preferences/save-preferences';
 import { confirmFlashMessageExists } from '../../../../support/householder-planning/appeals-service/flash-message/confirmFlashMessageExists';
 import { confirmFlashMessageContainerDoesNotExist } from '../../../../support/householder-planning/appeals-service/flash-message/confirmFlashMessageContainerDoesNotExist';
 

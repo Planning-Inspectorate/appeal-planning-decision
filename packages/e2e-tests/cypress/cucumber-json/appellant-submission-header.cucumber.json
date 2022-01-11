@@ -28,7 +28,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 231000000
+              "duration": 388000000
             }
           },
           {
@@ -38,7 +38,7 @@
             "name": "the \"Start your appeal\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 621000000
+              "duration": 885000000
             }
           },
           {
@@ -48,7 +48,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 145000000
+              "duration": 178000000
             }
           }
         ]
@@ -73,7 +73,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 32000000
+              "duration": 102000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "the \"Eligibility - House holder planning permission\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 623000000
+              "duration": 809000000
             }
           },
           {
@@ -93,7 +93,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 116000000
+              "duration": 127000000
             }
           }
         ]
@@ -118,7 +118,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 34000000
+              "duration": 54000000
             }
           },
           {
@@ -128,7 +128,7 @@
             "name": "the \"Eligibility - Householder planning permission out\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 420000000
+              "duration": 634000000
             }
           },
           {
@@ -138,7 +138,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 115000000
+              "duration": 131000000
             }
           }
         ]
@@ -163,7 +163,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 55000000
+              "duration": 93000000
             }
           },
           {
@@ -173,7 +173,7 @@
             "name": "the \"Eligibility - Granted Or Refused Permission\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 512000000
+              "duration": 885000000
             }
           },
           {
@@ -208,7 +208,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 70000000
+              "duration": 97000000
             }
           },
           {
@@ -218,7 +218,7 @@
             "name": "the \"Eligibility - Granted Or Refused Permission Out\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 432000000
+              "duration": 603000000
             }
           },
           {
@@ -228,7 +228,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 114000000
+              "duration": 117000000
             }
           }
         ]
@@ -253,7 +253,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 51000000
+              "duration": 64000000
             }
           },
           {
@@ -263,7 +263,7 @@
             "name": "the \"Eligibility - No decision on Permission\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 440000000
+              "duration": 694000000
             }
           },
           {
@@ -298,7 +298,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 54000000
+              "duration": 87000000
             }
           },
           {
@@ -308,7 +308,7 @@
             "name": "the \"Eligibility - Decision date\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 697000000
+              "duration": 1189000000
             }
           },
           {
@@ -318,7 +318,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 120000000
+              "duration": 178000000
             }
           }
         ]
@@ -343,7 +343,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 46000000
+              "duration": 64000000
             }
           },
           {
@@ -353,7 +353,7 @@
             "name": "the \"Eligibility - Decision date expired\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 420000000
+              "duration": 668000000
             }
           },
           {
@@ -363,7 +363,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 116000000
+              "duration": 127000000
             }
           }
         ]
@@ -388,7 +388,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 42000000
+              "duration": 106000000
             }
           },
           {
@@ -398,7 +398,7 @@
             "name": "the \"Eligibility - Planning department\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 590000000
+              "duration": 865000000
             }
           },
           {
@@ -408,7 +408,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 119000000
+              "duration": 124000000
             }
           }
         ]
@@ -433,7 +433,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 32000000
+              "duration": 113000000
             }
           },
           {
@@ -443,7 +443,7 @@
             "name": "the \"Eligibility - Planning department out\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 453000000
+              "duration": 611000000
             }
           },
           {
@@ -453,7 +453,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 115000000
+              "duration": 120000000
             }
           }
         ]
@@ -478,7 +478,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 40000000
+              "duration": 116000000
             }
           },
           {
@@ -488,7 +488,7 @@
             "name": "the \"Enforcement - Notice\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 588000000
+              "duration": 816000000
             }
           },
           {
@@ -498,7 +498,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 121000000
+              "duration": 115000000
             }
           }
         ]
@@ -523,7 +523,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 42000000
+              "duration": 110000000
             }
           },
           {
@@ -533,7 +533,7 @@
             "name": "the \"Enforcement - Notice out\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 405000000
+              "duration": 628000000
             }
           },
           {
@@ -543,7 +543,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 120000000
+              "duration": 118000000
             }
           }
         ]
@@ -568,7 +568,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 60000000
+              "duration": 102000000
             }
           },
           {
@@ -578,7 +578,7 @@
             "name": "the \"Eligibility - Listed building\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 536000000
+              "duration": 771000000
             }
           },
           {
@@ -588,7 +588,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 111000000
+              "duration": 116000000
             }
           }
         ]
@@ -613,7 +613,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 32000000
+              "duration": 143000000
             }
           },
           {
@@ -623,7 +623,7 @@
             "name": "the \"Eligibility - Listed building out\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 460000000
+              "duration": 680000000
             }
           },
           {
@@ -633,7 +633,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 115000000
+              "duration": 119000000
             }
           }
         ]
@@ -658,7 +658,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 65000000
+              "duration": 100000000
             }
           },
           {
@@ -668,7 +668,7 @@
             "name": "the \"Eligibility - Costs\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 588000000
+              "duration": 795000000
             }
           },
           {
@@ -678,7 +678,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 116000000
+              "duration": 117000000
             }
           }
         ]
@@ -703,7 +703,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 22000000
+              "duration": 50000000
             }
           },
           {
@@ -713,7 +713,7 @@
             "name": "the \"Eligibility - Costs out\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 459000000
+              "duration": 604000000
             }
           },
           {
@@ -723,7 +723,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 120000000
+              "duration": 127000000
             }
           }
         ]
@@ -748,7 +748,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 68000000
+              "duration": 106000000
             }
           },
           {
@@ -758,7 +758,7 @@
             "name": "the \"Eligibility - Appeal statement info\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 413000000
+              "duration": 640000000
             }
           },
           {
@@ -768,7 +768,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 119000000
+              "duration": 122000000
             }
           }
         ]
@@ -793,7 +793,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 87000000
+              "duration": 114000000
             }
           },
           {
@@ -803,7 +803,7 @@
             "name": "the \"Appellant submission - Appeal tasks\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 547000000
+              "duration": 812000000
             }
           },
           {
@@ -813,7 +813,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 117000000
+              "duration": 120000000
             }
           }
         ]
@@ -838,7 +838,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 62000000
+              "duration": 116000000
             }
           },
           {
@@ -848,7 +848,7 @@
             "name": "the \"Appellant submission - Your details - Who are you\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 488000000
+              "duration": 809000000
             }
           },
           {
@@ -858,7 +858,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 115000000
+              "duration": 123000000
             }
           }
         ]
@@ -883,7 +883,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 40000000
+              "duration": 108000000
             }
           },
           {
@@ -893,7 +893,7 @@
             "name": "the \"Appellant submission - Your details - Your details\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 561000000
+              "duration": 857000000
             }
           },
           {
@@ -903,7 +903,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 112000000
+              "duration": 143000000
             }
           }
         ]
@@ -928,7 +928,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 38000000
+              "duration": 93000000
             }
           },
           {
@@ -938,7 +938,7 @@
             "name": "the \"Appellant submission - Your details - Applicant name\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 477000000
+              "duration": 696000000
             }
           },
           {
@@ -973,7 +973,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 53000000
+              "duration": 95000000
             }
           },
           {
@@ -983,7 +983,7 @@
             "name": "the \"Appellant submission - Planning application - Application number\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 499000000
+              "duration": 819000000
             }
           },
           {
@@ -993,7 +993,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 112000000
+              "duration": 124000000
             }
           }
         ]
@@ -1018,7 +1018,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 34000000
+              "duration": 85000000
             }
           },
           {
@@ -1028,7 +1028,7 @@
             "name": "the \"Appellant submission - Planning application - Upload application\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 487000000
+              "duration": 703000000
             }
           },
           {
@@ -1038,7 +1038,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 115000000
+              "duration": 126000000
             }
           }
         ]
@@ -1063,7 +1063,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 19000000
+              "duration": 104000000
             }
           },
           {
@@ -1073,7 +1073,7 @@
             "name": "the \"Appellant submission - Planning application - Upload decision letter\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 511000000
+              "duration": 705000000
             }
           },
           {
@@ -1083,7 +1083,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 120000000
+              "duration": 126000000
             }
           }
         ]
@@ -1108,7 +1108,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 20000000
+              "duration": 56000000
             }
           },
           {
@@ -1118,7 +1118,7 @@
             "name": "the \"Appellant submission - Your appeal - Appeal statement\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 569000000
+              "duration": 857000000
             }
           },
           {
@@ -1128,7 +1128,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 116000000
+              "duration": 120000000
             }
           }
         ]
@@ -1153,7 +1153,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 58000000
+              "duration": 57000000
             }
           },
           {
@@ -1163,7 +1163,7 @@
             "name": "the \"Appellant submission - Your appeal - Supporting documents\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 548000000
+              "duration": 824000000
             }
           },
           {
@@ -1173,7 +1173,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 112000000
+              "duration": 115000000
             }
           }
         ]
@@ -1198,7 +1198,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 37000000
+              "duration": 99000000
             }
           },
           {
@@ -1208,7 +1208,7 @@
             "name": "the \"Appellant submission - Appeal site - Site location\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 673000000
+              "duration": 1105000000
             }
           },
           {
@@ -1218,7 +1218,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 117000000
+              "duration": 147000000
             }
           }
         ]
@@ -1243,7 +1243,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 41000000
+              "duration": 51000000
             }
           },
           {
@@ -1253,7 +1253,7 @@
             "name": "the \"Appellant submission - Appeal site - Site ownership\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 559000000
+              "duration": 826000000
             }
           },
           {
@@ -1263,7 +1263,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 117000000
+              "duration": 126000000
             }
           }
         ]
@@ -1288,7 +1288,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 56000000
+              "duration": 45000000
             }
           },
           {
@@ -1298,7 +1298,7 @@
             "name": "the \"Appellant submission - Appeal site - Site ownership certb\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 541000000
+              "duration": 763000000
             }
           },
           {
@@ -1308,7 +1308,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 120000000
+              "duration": 118000000
             }
           }
         ]
@@ -1333,7 +1333,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 64000000
+              "duration": 105000000
             }
           },
           {
@@ -1343,7 +1343,7 @@
             "name": "the \"Appellant submission - Appeal site - Site access\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 596000000
+              "duration": 808000000
             }
           },
           {
@@ -1353,7 +1353,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 112000000
+              "duration": 118000000
             }
           }
         ]
@@ -1378,7 +1378,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 47000000
+              "duration": 105000000
             }
           },
           {
@@ -1388,7 +1388,7 @@
             "name": "the \"Appellant submission - Appeal site - Site safety\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 512000000
+              "duration": 860000000
             }
           },
           {
@@ -1398,7 +1398,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 117000000
+              "duration": 116000000
             }
           }
         ]
@@ -1423,7 +1423,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 42000000
+              "duration": 104000000
             }
           },
           {
@@ -1433,7 +1433,7 @@
             "name": "the \"Appellant submission - Check your answers\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 575000000
+              "duration": 799000000
             }
           },
           {
@@ -1443,7 +1443,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 116000000
+              "duration": 126000000
             }
           }
         ]
@@ -1468,7 +1468,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 21000000
+              "duration": 116000000
             }
           },
           {
@@ -1478,7 +1478,7 @@
             "name": "the \"Appeal submission - Declaration\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 595000000
+              "duration": 805000000
             }
           },
           {
@@ -1488,7 +1488,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 119000000
+              "duration": 129000000
             }
           }
         ]
@@ -1513,7 +1513,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 56000000
+              "duration": 97000000
             }
           },
           {
@@ -1523,7 +1523,7 @@
             "name": "the \"Appeal submission - Confirmation\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 422000000
+              "duration": 673000000
             }
           },
           {
@@ -1533,7 +1533,7 @@
             "name": "the required header link is displayed",
             "result": {
               "status": "passed",
-              "duration": 117000000
+              "duration": 127000000
             }
           }
         ]
@@ -1553,7 +1553,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 21000000
+              "duration": 41000000
             }
           },
           {
@@ -1563,7 +1563,7 @@
             "name": "the \"Eligibility - House holder planning permission\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 545000000
+              "duration": 780000000
             }
           },
           {
@@ -1573,7 +1573,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 13000000
             }
           }
         ]
@@ -1593,7 +1593,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 33000000
+              "duration": 47000000
             }
           },
           {
@@ -1603,7 +1603,7 @@
             "name": "the \"Eligibility - Granted Or Refused Permission\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 578000000
+              "duration": 795000000
             }
           },
           {
@@ -1613,7 +1613,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 8000000
             }
           }
         ]
@@ -1633,7 +1633,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 37000000
+              "duration": 54000000
             }
           },
           {
@@ -1643,7 +1643,7 @@
             "name": "the \"Eligibility - Decision date\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 670000000
+              "duration": 888000000
             }
           },
           {
@@ -1653,7 +1653,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 10000000
             }
           }
         ]
@@ -1683,7 +1683,7 @@
             "name": "the \"Eligibility - Planning department\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 583000000
+              "duration": 782000000
             }
           },
           {
@@ -1693,7 +1693,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 13000000
             }
           }
         ]
@@ -1713,7 +1713,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 34000000
+              "duration": 32000000
             }
           },
           {
@@ -1723,7 +1723,7 @@
             "name": "the \"Enforcement - Notice\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 510000000
+              "duration": 763000000
             }
           },
           {
@@ -1733,7 +1733,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 12000000
             }
           }
         ]
@@ -1753,7 +1753,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 36000000
+              "duration": 80000000
             }
           },
           {
@@ -1763,7 +1763,7 @@
             "name": "the \"Eligibility - Listed building\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 556000000
+              "duration": 780000000
             }
           },
           {
@@ -1773,7 +1773,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 10000000
             }
           }
         ]
@@ -1793,7 +1793,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 33000000
+              "duration": 64000000
             }
           },
           {
@@ -1803,7 +1803,7 @@
             "name": "the \"Eligibility - Costs\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 560000000
+              "duration": 772000000
             }
           },
           {
@@ -1813,7 +1813,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 9000000
             }
           }
         ]
@@ -1833,7 +1833,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 33000000
+              "duration": 49000000
             }
           },
           {
@@ -1843,7 +1843,7 @@
             "name": "the \"Eligibility - Appeal statement info\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 419000000
+              "duration": 599000000
             }
           },
           {
@@ -1873,7 +1873,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 21000000
+              "duration": 46000000
             }
           },
           {
@@ -1883,7 +1883,7 @@
             "name": "the \"Appellant submission - Your details - Who are you\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 616000000
+              "duration": 773000000
             }
           },
           {
@@ -1893,7 +1893,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 8000000
             }
           }
         ]
@@ -1913,7 +1913,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 49000000
+              "duration": 62000000
             }
           },
           {
@@ -1923,7 +1923,7 @@
             "name": "the \"Appellant submission - Your details - Your details\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 604000000
+              "duration": 814000000
             }
           },
           {
@@ -1933,7 +1933,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 8000000
             }
           }
         ]
@@ -1953,7 +1953,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 33000000
+              "duration": 50000000
             }
           },
           {
@@ -1963,7 +1963,7 @@
             "name": "the \"Appellant submission - Your details - Applicant name\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 528000000
+              "duration": 744000000
             }
           },
           {
@@ -1973,7 +1973,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 8000000
             }
           }
         ]
@@ -1993,7 +1993,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 31000000
+              "duration": 53000000
             }
           },
           {
@@ -2003,7 +2003,7 @@
             "name": "the \"Appellant submission - Planning application - Application number\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 498000000
+              "duration": 754000000
             }
           },
           {
@@ -2013,7 +2013,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 11000000
             }
           }
         ]
@@ -2033,7 +2033,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 31000000
+              "duration": 52000000
             }
           },
           {
@@ -2043,7 +2043,7 @@
             "name": "the \"Appellant submission - Planning application - Upload application\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 529000000
+              "duration": 702000000
             }
           },
           {
@@ -2053,7 +2053,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 13000000
             }
           }
         ]
@@ -2073,7 +2073,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 33000000
+              "duration": 137000000
             }
           },
           {
@@ -2083,7 +2083,7 @@
             "name": "the \"Appellant submission - Planning application - Upload decision letter\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 506000000
+              "duration": 717000000
             }
           },
           {
@@ -2093,7 +2093,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 8000000
             }
           }
         ]
@@ -2113,7 +2113,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 34000000
+              "duration": 94000000
             }
           },
           {
@@ -2123,7 +2123,7 @@
             "name": "the \"Appellant submission - Your appeal - Appeal statement\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 550000000
+              "duration": 1118000000
             }
           },
           {
@@ -2133,7 +2133,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 53000000
             }
           }
         ]
@@ -2153,7 +2153,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 22000000
+              "duration": 138000000
             }
           },
           {
@@ -2163,7 +2163,7 @@
             "name": "the \"Appellant submission - Your appeal - Supporting documents\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 556000000
+              "duration": 914000000
             }
           },
           {
@@ -2173,7 +2173,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 10000000
+              "duration": 15000000
             }
           }
         ]
@@ -2193,7 +2193,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 23000000
+              "duration": 57000000
             }
           },
           {
@@ -2203,7 +2203,7 @@
             "name": "the \"Appellant submission - Appeal site - Site location\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 684000000
+              "duration": 1161000000
             }
           },
           {
@@ -2213,7 +2213,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 24000000
             }
           }
         ]
@@ -2233,7 +2233,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 26000000
+              "duration": 89000000
             }
           },
           {
@@ -2243,7 +2243,7 @@
             "name": "the \"Appellant submission - Appeal site - Site ownership\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 578000000
+              "duration": 793000000
             }
           },
           {
@@ -2253,7 +2253,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 9000000
             }
           }
         ]
@@ -2273,7 +2273,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 38000000
+              "duration": 26000000
             }
           },
           {
@@ -2283,7 +2283,7 @@
             "name": "the \"Appellant submission - Appeal site - Site ownership certb\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 591000000
+              "duration": 758000000
             }
           },
           {
@@ -2293,7 +2293,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 10000000
+              "duration": 18000000
             }
           }
         ]
@@ -2313,7 +2313,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 22000000
+              "duration": 67000000
             }
           },
           {
@@ -2323,7 +2323,7 @@
             "name": "the \"Appellant submission - Appeal site - Site access\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 647000000
+              "duration": 877000000
             }
           },
           {
@@ -2333,7 +2333,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 7000000
+              "duration": 9000000
             }
           }
         ]
@@ -2353,7 +2353,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 38000000
+              "duration": 43000000
             }
           },
           {
@@ -2363,7 +2363,7 @@
             "name": "the \"Appellant submission - Appeal site - Site safety\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 584000000
+              "duration": 892000000
             }
           },
           {
@@ -2373,7 +2373,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 7000000
             }
           }
         ]
@@ -2393,7 +2393,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 30000000
+              "duration": 52000000
             }
           },
           {
@@ -2403,7 +2403,7 @@
             "name": "the \"Appellant submission - Check your answers\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 555000000
+              "duration": 798000000
             }
           },
           {
@@ -2413,7 +2413,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 6000000
+              "duration": 10000000
             }
           }
         ]
@@ -2433,7 +2433,7 @@
             "name": "an appeal is being made",
             "result": {
               "status": "passed",
-              "duration": 24000000
+              "duration": 44000000
             }
           },
           {
@@ -2443,7 +2443,7 @@
             "name": "the \"Appeal submission - Declaration\" page is presented",
             "result": {
               "status": "passed",
-              "duration": 539000000
+              "duration": 906000000
             }
           },
           {
@@ -2453,7 +2453,7 @@
             "name": "the back button is displayed",
             "result": {
               "status": "passed",
-              "duration": 9000000
+              "duration": 11000000
             }
           }
         ]

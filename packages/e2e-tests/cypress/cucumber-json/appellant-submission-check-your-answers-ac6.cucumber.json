@@ -27,7 +27,7 @@
             "name": "an agent or appellant is reviewing their answers and they wholly own the site",
             "result": {
               "status": "passed",
-              "duration": 27935000000
+              "duration": 27619000000
             }
           },
           {
@@ -37,7 +37,7 @@
             "name": "Check Your Answers is presented",
             "result": {
               "status": "passed",
-              "duration": 962000000
+              "duration": 942000000
             }
           },
           {
