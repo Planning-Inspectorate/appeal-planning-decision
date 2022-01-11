@@ -8,7 +8,7 @@ const {
   },
 } = require('../../../lib/householder-planning/views');
 const {
-  validEnforcementNoticeOptions,
+  validEnforcementNoticeHouseholderOptions,
 } = require('../../../validators/householder-planning/eligibility/enforcement-notice-householder');
 const getPreviousPagePath = require('../../../lib/get-previous-page-path');
 
@@ -17,7 +17,7 @@ const navigationPages = {
   shutterPage: '/before-you-start/use-a-different-service',
 };
 
-exports.getEnforcementNotice = (req, res) => {
+exports.getEnforcementNoticeHouseholder = (req, res) => {
   navigationPages.previousPage = getPreviousPagePath(req);
   res.render(currentPage, {
     appeal: req.session.appeal,
@@ -25,15 +25,15 @@ exports.getEnforcementNotice = (req, res) => {
   });
 };
 
-exports.postEnforcementNotice = async (req, res) => {
+exports.postEnforcementNoticeHouseholder = async (req, res) => {
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
   const { appeal } = req.session;
   navigationPages.previousPage = getPreviousPagePath(req);
 
-  let hasReceivedEnforcementNotice = null;
-  if (validEnforcementNoticeOptions.includes(req.body['enforcement-notice'])) {
-    hasReceivedEnforcementNotice = req.body['enforcement-notice'] === 'yes';
+  let hasReceivedEnforcementNoticeHouseholder = null;
+  if (validEnforcementNoticeHouseholderOptions.includes(req.body['enforcement-notice'])) {
+    hasReceivedEnforcementNoticeHouseholder = req.body['enforcement-notice'] === 'yes';
   }
 
   if (Object.keys(errors).length > 0) {
@@ -42,7 +42,7 @@ exports.postEnforcementNotice = async (req, res) => {
         ...appeal,
         eligibility: {
           ...appeal.eligibility,
-          enforcementNotice: hasReceivedEnforcementNotice,
+          enforcementNotice: hasReceivedEnforcementNoticeHouseholder,
         },
       },
       errors,
@@ -57,7 +57,7 @@ exports.postEnforcementNotice = async (req, res) => {
       ...appeal,
       eligibility: {
         ...appeal.eligibility,
-        enforcementNotice: hasReceivedEnforcementNotice,
+        enforcementNotice: hasReceivedEnforcementNoticeHouseholder,
       },
     });
   } catch (e) {
@@ -72,7 +72,7 @@ exports.postEnforcementNotice = async (req, res) => {
     return;
   }
 
-  if (hasReceivedEnforcementNotice) {
+  if (hasReceivedEnforcementNoticeHouseholder) {
     res.redirect(navigationPages.shutterPage);
     return;
   }

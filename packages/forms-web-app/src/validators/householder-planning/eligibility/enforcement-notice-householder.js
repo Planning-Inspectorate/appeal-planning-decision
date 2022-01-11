@@ -1,17 +1,17 @@
 const { body } = require('express-validator');
 
-const validEnforcementNoticeOptions = ['yes', 'no'];
+const validEnforcementNoticeHouseholderOptions = ['yes', 'no'];
 
-const ruleEnforcementNotice = () =>
+const ruleEnforcementNoticeHouseholder = () =>
   body('enforcement-notice')
     .notEmpty()
     .withMessage('Select yes if you have received an enforcement notice')
     .bail()
-    .isIn(validEnforcementNoticeOptions);
+    .isIn(validEnforcementNoticeHouseholderOptions);
 
-const rules = () => [ruleEnforcementNotice()];
+const rules = () => [ruleEnforcementNoticeHouseholder()];
 
 module.exports = {
   rules,
-  validEnforcementNoticeOptions,
+  validEnforcementNoticeHouseholderOptions,
 };

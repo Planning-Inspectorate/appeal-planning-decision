@@ -1,9 +1,9 @@
 const express = require('express');
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
-const enforcementNoticeController = require('../../../controllers/householder-planning/eligibility/enforcement-notice-householder');
+const enforcementNoticeHouseholderController = require('../../../controllers/householder-planning/eligibility/enforcement-notice-householder');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
 const {
-  rules: enforcementNoticeValidationRules,
+  rules: enforcementNoticeHouseholderValidationRules,
 } = require('../../../validators/householder-planning/eligibility/enforcement-notice-householder');
 
 const router = express.Router();
@@ -11,13 +11,13 @@ const router = express.Router();
 router.get(
   '/enforcement-notice-householder',
   [fetchExistingAppealMiddleware],
-  enforcementNoticeController.getEnforcementNotice
+  enforcementNoticeHouseholderController.getEnforcementNoticeHouseholder
 );
 router.post(
   '/enforcement-notice-householder',
-  enforcementNoticeValidationRules(),
+  enforcementNoticeHouseholderValidationRules(),
   validationErrorHandler,
-  enforcementNoticeController.postEnforcementNotice
+  enforcementNoticeHouseholderController.postEnforcementNoticeHouseholder
 );
 
 module.exports = router;
