@@ -1,5 +1,11 @@
-export const goToAppealsPage = (url) =>{
+export const goToAppealsPage = (url, options) =>{
     cy.wrap(`${Cypress.env('APPEALS_BASE_URL')}/${url}`).then((url)=>{
-    cy.visit(url,{failOnStatusCode: false});
+    if(options){
+      options.failOnStatusCode = false;
+    }
+    else {
+      options = {failOnStatusCode: false};
+    }
+      cy.visit(url,options);
   });
 }
