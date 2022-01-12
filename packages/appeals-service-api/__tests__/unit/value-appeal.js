@@ -15,6 +15,7 @@ module.exports = (appeal) => {
     name: 'Ms Alison Khan',
     email: 'akhan123@email.com',
     appealingOnBehalfOf: 'Mr Josh Evans',
+    companyName: '',
   };
   appeal.requiredDocumentsSection.applicationNumber = 'S/35552';
   appeal.requiredDocumentsSection.originalApplication.uploadedFile = {

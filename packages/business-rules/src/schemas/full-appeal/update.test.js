@@ -675,5 +675,74 @@ describe('schemas/full-appeal/update', () => {
         });
       });
     });
+
+    describe('aboutYouSection', () => {
+      it('should remove unknown fields', async () => {
+        appeal2.aboutYouSection.unknownField = 'unknown field';
+
+        const result = await update.validate(appeal2, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should throw an error when given a null value', async () => {
+        appeal.aboutYouSection = null;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'aboutYouSection must be a `object` type, but the final value was: `null`',
+        );
+      });
+
+      describe('aboutYouSection.yourDetails', () => {
+        it('should throw an error when given a null value', async () => {
+          appeal.aboutYouSection.yourDetails = null;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'aboutYouSection.yourDetails must be a `object` type, but the final value was: `null`',
+          );
+        });
+
+        describe('aboutYouSection.yourDetails.appealingOnBehalfOf', () => {
+          it('should throw an error when not given a string value', async () => {
+            appeal.aboutYouSection.yourDetails.appealingOnBehalfOf = 123;
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              `aboutYouSection.yourDetails.appealingOnBehalfOf must match the following: "/^[a-z\\-' ]*$/i"`,
+            );
+          });
+
+          it('should throw an error when given a value with more than 80 characters', async () => {
+            appeal.aboutYouSection.yourDetails.appealingOnBehalfOf = 'a'.repeat(81);
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'aboutYouSection.yourDetails.appealingOnBehalfOf must be at most 80 characters',
+            );
+          });
+
+          it('should throw an error when given a value with invalid characters', async () => {
+            appeal.aboutYouSection.yourDetails.appealingOnBehalfOf = '!?<>';
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              `aboutYouSection.yourDetails.appealingOnBehalfOf must match the following: "/^[a-z\\-' ]*$/i"`,
+            );
+          });
+
+          it('should not throw an error when not given a value', async () => {
+            delete appeal.aboutYouSection.yourDetails.appealingOnBehalfOf;
+
+            const result = await update.validate(appeal, config);
+            expect(result).toEqual(appeal);
+          });
+        });
+
+        describe('aboutYouSection.yourDetails.companyName', () => {
+          it('should not throw an error when not given a value', async () => {
+            delete appeal.aboutYouSection.yourDetails.companyName;
+
+            const result = await update.validate(appeal, config);
+            expect(result).toEqual(appeal);
+          });
+        });
+      });
+    });
   });
 });

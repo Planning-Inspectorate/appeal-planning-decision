@@ -18,6 +18,7 @@ exports.appealDocument = {
       name: null,
       email: null,
       appealingOnBehalfOf: '',
+      companyName: '',
     },
   },
   requiredDocumentsSection: {

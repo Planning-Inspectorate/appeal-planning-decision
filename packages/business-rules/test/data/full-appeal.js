@@ -7,6 +7,12 @@ const appeal = {
   beforeYouStartSection: {
     typeOfPlanningApplication: 'full-appeal',
   },
+  aboutYouSection: {
+    yourDetails: {
+      appealingOnBehalfOf: '',
+      companyName: '',
+    },
+  },
   requiredDocumentsSection: {
     originalApplication: {
       uploadedFile: {

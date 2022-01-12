@@ -9,6 +9,7 @@ const VIEW = {
     DECISION_LETTER: 'full-appeal/submit-appeal/decision-letter',
     APPEAL_SITE_ADDRESS: 'full-appeal/submit-appeal/appeal-site-address',
     OWN_ALL_THE_LAND: 'full-appeal/submit-appeal/own-all-the-land',
+    APPLICANT_NAME: 'full-appeal/submit-appeal/applicant-name',
   },
 };
 
