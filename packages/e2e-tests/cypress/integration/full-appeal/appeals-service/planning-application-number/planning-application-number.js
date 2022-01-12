@@ -13,6 +13,7 @@ import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
+import { getSaveAndContinueButton } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
 
 const url = 'full-appeal/submit-appeal/application-number';
 const planningAppFormUrl = 'full-appeal/submit-appeal/application-form';
@@ -30,7 +31,7 @@ Given("an agent is on the 'Planning Application form' page",()=> {
   getFileUploadButton().attachFile('upload-file-valid.jpeg');
 })
 When("they click the 'Continue' on File upload page",()=> {
-  continueButtonFileUpload().click();
+  getSaveAndContinueButton().click();
 })
 When("they click the 'Continue'",()=> {
   getContinueButton().click();
@@ -49,7 +50,7 @@ Given("an agent is on the 'What is your Planning Application number' page",()=> 
 })
 When("they enter text into the box and click 'Continue'",()=> {
   planningApplicationNumber().type(textPlanningAppNumber);
-  getContinueButton().click();
+  getSaveAndContinueButton().click();
 })
 Then("the page 'Did you submit a design and access statement with your application?' is displayed",()=> {
   cy.url().should('contain', designAccessStatementUrl);
@@ -67,7 +68,7 @@ Given("an agent has entered more than 30 characters into the text box",()=> {
 Given("an agent is on the 'What is your planning application' page",()=> {
   goToAppealsPage(planningAppFormUrl)
   getFileUploadButton().attachFile('appeal-statement-valid.jpeg', { subjectType: 'drag-n-drop' });
-  continueButtonFileUpload().click();
+  getSaveAndContinueButton().click();
 })
 When("they click on the 'Back' link",()=> {
   getBackLink().click();
