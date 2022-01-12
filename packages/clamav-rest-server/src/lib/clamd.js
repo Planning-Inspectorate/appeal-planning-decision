@@ -3,7 +3,7 @@ const { Readable } = require('stream');
 const config = require('./config');
 
 const createClient = async () => {
-  return NodeClam.init({
+  return new NodeClam().init({
     removeInfected: true,
     clamdscan: {
       host: config.services.clamav.host || 'localhost',
