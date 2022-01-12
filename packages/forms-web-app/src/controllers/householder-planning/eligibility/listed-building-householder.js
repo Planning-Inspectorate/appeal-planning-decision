@@ -42,11 +42,11 @@ exports.postListedBuildingHouseholder = async (req, res) => {
 
   try {
     req.session.appeal = await createOrUpdateAppeal(appeal);
-    redirect(selection, res);
+    return redirect(selection, res);
   } catch (e) {
     logger.error(e);
 
-    res.render(listedBuilding, {
+    return res.render(listedBuilding, {
       appeal,
       errors,
       errorSummary: [{ text: e.toString(), href: 'pageId' }],
