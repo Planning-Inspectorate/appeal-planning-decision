@@ -16,7 +16,7 @@ Scenario Outline: AC01 Appellant selects Granted Planning Application Status and
 
 Scenario: AC02 Appellant selects 'I have not received a decision for Planning Application
   Given appellant is on the was your planning application granted or refused page
-  When the appellant selects the option as 'I have Not Received a Decision'
+  When the appellant selects the option as 'I have not received a decision'
   And appellant clicks on the continue button
   Then the appellant gets navigated to the decision due page
 
