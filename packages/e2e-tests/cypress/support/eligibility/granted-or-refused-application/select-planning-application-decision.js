@@ -8,7 +8,7 @@ export const selectPlanningApplicationDecision = (decision)=>{
         case 'Refused':
             getRefusedRadio().check();
             break;
-        case 'I have Not Received a Decision':
+        case 'I have not received a decision':
             getNoDecisionReceivedRadio().check();
             break;
     }
