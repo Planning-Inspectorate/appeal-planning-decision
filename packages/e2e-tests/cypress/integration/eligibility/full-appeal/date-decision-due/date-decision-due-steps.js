@@ -39,7 +39,7 @@ Given('appellant navigates to decision date page for {string}',(application_type
   getContinueButton().click();
   selectSiteOption('None of these');
   getContinueButton().click();
-  selectPlanningApplicationDecision('I have Not Received a Decision');
+  selectPlanningApplicationDecision('I have not received a decision');
   getContinueButton().click();
 });
 
@@ -99,7 +99,7 @@ Then('the correct input {string} is highlighted', (highlights) => {
 Then('appellant is navigated to the granted or refused page', () => {
   cy.url().should('contain', grantedOrRefusedPageUrl);
 
-  selectPlanningApplicationDecision('I have Not Received a Decision');
+  selectPlanningApplicationDecision('I have not received a decision');
   getContinueButton().click();
 });
 
