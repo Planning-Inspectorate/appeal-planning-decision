@@ -19,6 +19,19 @@ const update = pinsYup
           .required(),
       })
       .noUnknown(true),
+    aboutYouSection: pinsYup
+      .object()
+      .shape({
+        yourDetails: pinsYup.object().shape({
+          appealingOnBehalfOf: pinsYup
+            .string()
+            .max(80)
+            .matches(/^[a-z\-' ]*$/i)
+            .nullable(),
+          companyName: pinsYup.string().nullable(),
+        }),
+      })
+      .noUnknown(true),
     requiredDocumentsSection: pinsYup
       .object()
       .shape({
