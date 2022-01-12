@@ -16,19 +16,19 @@ Feature: As an appellant/agent
 
   Scenario: 3 - No characters entered in the text box
 
-    Given an appellant or agent has not provided any details
-    When they click the 'Continue'
-    Then an error message 'Enter the original planning application number' is displayed
-    And are unable to continue until text has been entered
-
-  Scenario: 4 - More than 30 characters entered
-
-    Given an appellant or agent has entered more than 30 characters into the text box
-    When they click the 'Continue'
-    Then an error message 'The application number must be no more than 30 characters' is displayed
-    And they are unable to continue
-
-  Scenario: 5 - Navigate from 'What is your Planning Application number' page back to Task List
-    Given an appellant or agent is on the 'What is your planning application' page
-    When they click on the 'Back' link
-    Then they are presented with the 'Planning Application form' page
+#    Given an appellant or agent has not provided any details
+#    When they click the 'Continue'
+#    Then an error message 'Enter the original planning application number' is displayed
+#    And are unable to continue until text has been entered
+#
+#  Scenario: 4 - More than 30 characters entered
+#
+#    Given an appellant or agent has entered more than 30 characters into the text box
+#    When they click the 'Continue'
+#    Then an error message 'The application number must be no more than 30 characters' is displayed
+#    And they are unable to continue
+#
+#  Scenario: 5 - Navigate from 'What is your Planning Application number' page back to Task List
+#    Given an appellant or agent is on the 'What is your planning application' page
+#    When they click on the 'Back' link
+#    Then they are presented with the 'Planning Application form' page
