@@ -1,3 +1,5 @@
-export const applicationStatus = cy.get('[data-cy=application-status]');
-export const applicationStatusDetailed = cy.get('[data-application-status-detailedcy=]');
+export const applicationStatus = () => cy.get('[data-cy=application-status]');
+export const applicationStatusDetailed = () => cy.get('[data-application-status-detailedcy=]');
+export const planningApplicationDocuments = () => cy.get('[data-cy="planningApplicationDocumentsSection"]');
+export const appealDocuments = () => cy.get('[data-cy="appealDocumentsSection"]');
 
