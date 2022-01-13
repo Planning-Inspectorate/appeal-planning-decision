@@ -54,7 +54,7 @@ Then('appellant is navigated to the enforcement notice page',()=>{
 });
 
 Then('information they have inputted will not be saved',()=>{
-  goToAppealsPage(url);
+  goToAppealsPage(pageUrl);
   getClaimingCostYes().should('not.be.checked');
 })
 
