@@ -2,7 +2,7 @@ const logger = require('../../../lib/logger');
 const {
   VIEW: {
     HOUSEHOLDER_PLANNING: {
-      ELIGIBILITY: { GRANTED_OR_REFUSED: currentPage },
+      ELIGIBILITY: { GRANTED_OR_REFUSED_HOUSEHOLDER: currentPage },
     },
   },
 } = require('../../../lib/householder-planning/views');
@@ -47,15 +47,11 @@ exports.postGrantedOrRefusedHouseholder = async (req, res) => {
     selectedApplicationStatus = applicationDecision.toLowerCase();
   }
 
+  appeal.eligibility.applicationDecision = selectedApplicationStatus;
+
   if (Object.keys(errors).length > 0) {
-    res.render(this.forwardPage('default'), {
-      appeal: {
-        ...appeal,
-        eligibility: {
-          ...appeal.eligibility,
-          applicationDecision: selectedApplicationStatus,
-        },
-      },
+    res.render(currentPage, {
+      appeal,
       errors,
       errorSummary,
       previousPage: this.forwardPage('previousPage'),
@@ -64,18 +60,11 @@ exports.postGrantedOrRefusedHouseholder = async (req, res) => {
   }
 
   try {
-    req.session.appeal = await createOrUpdateAppeal({
-      ...appeal,
-      eligibility: {
-        ...appeal.eligibility,
-        applicationDecision: selectedApplicationStatus,
-      },
-      previousPage: this.forwardPage('previousPage'),
-    });
+    req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);
 
-    res.render(this.forwardPage('default'), {
+    res.render(currentPage, {
       appeal,
       errors,
       errorSummary: [{ text: e.toString(), href: '#' }],

@@ -3,7 +3,7 @@ const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wra
 const {
   VIEW: {
     HOUSEHOLDER_PLANNING: {
-      ELIGIBILITY: { GRANTED_OR_REFUSED: currentPage },
+      ELIGIBILITY: { GRANTED_OR_REFUSED_HOUSEHOLDER: currentPage },
     },
   },
 } = require('../../../../../src/lib/householder-planning/views');
@@ -100,13 +100,7 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
       expect(res.redirect).not.toHaveBeenCalled();
 
       expect(res.render).toHaveBeenCalledWith(currentPage, {
-        appeal: {
-          ...req.session.appeal,
-          eligibility: {
-            ...req.session.appeal.eligibility,
-            applicationDecision: null,
-          },
-        },
+        appeal: req.session.appeal,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
         previousPage: forwardPage.previousPage,
@@ -129,7 +123,7 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
       expect(logger.error).toHaveBeenCalledWith(error);
 
       expect(res.render).toHaveBeenCalledWith(currentPage, {
-        appeal: req.session.appeal,
+        appeal,
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
         previousPage: forwardPage.previousPage,
@@ -146,14 +140,7 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
       };
       await grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder(mockRequest, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        ...appeal,
-        eligibility: {
-          ...appeal.eligibility,
-          applicationDecision,
-        },
-        previousPage: forwardPage.previousPage,
-      });
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 
       expect(res.redirect).toHaveBeenCalledWith(forwardPage.nextPageDateDecision);
     });
@@ -166,14 +153,7 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
       };
       await grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder(mockRequest, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        ...appeal,
-        eligibility: {
-          ...appeal.eligibility,
-          applicationDecision,
-        },
-        previousPage: forwardPage.previousPage,
-      });
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 
       expect(res.redirect).toHaveBeenCalledWith(forwardPage.nextPageDateDecision);
     });
@@ -186,16 +166,7 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
       };
       await grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder(mockRequest, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        ...appeal,
-        eligibility: {
-          ...appeal.eligibility,
-          applicationDecision,
-        },
-        previousPage: forwardPage.previousPage,
-      });
-
-      expect(res.redirect).toHaveBeenCalledWith(forwardPage.nextPageDateDecisionDue);
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
     });
   });
 });
