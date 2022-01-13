@@ -34,6 +34,25 @@ const insert = pinsYup
         }),
       })
       .noUnknown(true),
+    yourAppealSection: pinsYup
+      .object()
+      .shape({
+        appealStatement: pinsYup
+          .object()
+          .shape({
+            uploadedFile: pinsYup
+              .object()
+              .shape({
+                name: pinsYup.string().trim().max(255).ensure(),
+                originalFileName: pinsYup.string().trim().max(255).ensure(),
+                id: pinsYup.string().trim().uuid().nullable().default(null),
+              })
+              .noUnknown(true),
+            hasSensitiveInformation: pinsYup.bool().nullable().default(null),
+          })
+          .noUnknown(true),
+      })
+      .noUnknown(true),
     requiredDocumentsSection: pinsYup
       .object()
       .shape({
