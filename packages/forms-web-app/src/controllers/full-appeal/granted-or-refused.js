@@ -1,7 +1,7 @@
 const logger = require('../../lib/logger');
 const {
   VIEW: {
-    FULL_APPEAL: { GRANTED_OR_REFUSED },
+    FULL_APPEAL: { GRANTED_OR_REFUSED: currentPage },
   },
 } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
@@ -20,14 +20,14 @@ exports.forwardPage = (status) => {
     [PLANNING_APPLICATION_STATUS.REFUSED]: '/before-you-start/decision-date',
     previousPage: '/before-you-start/any-of-following',
 
-    default: GRANTED_OR_REFUSED,
+    default: currentPage,
   };
 
   return statuses[status] || statuses.default;
 };
 
 exports.getGrantedOrRefused = async (req, res) => {
-  res.render(GRANTED_OR_REFUSED, {
+  res.render(currentPage, {
     appeal: req.session.appeal,
     previousPage: this.forwardPage('previousPage'),
   });
@@ -45,15 +45,11 @@ exports.postGrantedOrRefused = async (req, res) => {
     selectedApplicationStatus = applicationDecision.toLowerCase();
   }
 
+  appeal.eligibility.applicationDecision = selectedApplicationStatus;
+
   if (Object.keys(errors).length > 0) {
-    res.render(this.forwardPage('default'), {
-      appeal: {
-        ...appeal,
-        eligibility: {
-          ...appeal.eligibility,
-          applicationDecision: selectedApplicationStatus,
-        },
-      },
+    res.render(currentPage, {
+      appeal,
       errors,
       errorSummary,
       previousPage: this.forwardPage('previousPage'),
@@ -62,18 +58,11 @@ exports.postGrantedOrRefused = async (req, res) => {
   }
 
   try {
-    req.session.appeal = await createOrUpdateAppeal({
-      ...appeal,
-      eligibility: {
-        ...appeal.eligibility,
-        applicationDecision: selectedApplicationStatus,
-      },
-      previousPage: this.forwardPage('previousPage'),
-    });
+    req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);
 
-    res.render(this.forwardPage('default'), {
+    res.render(currentPage, {
       appeal,
       errors,
       errorSummary: [{ text: e.toString(), href: '#' }],

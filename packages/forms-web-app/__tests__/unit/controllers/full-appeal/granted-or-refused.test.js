@@ -136,14 +136,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
       };
       await grantedOrRefusedPlanningApplicationController.postGrantedOrRefused(mockRequest, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        ...appeal,
-        eligibility: {
-          ...appeal.eligibility,
-          applicationDecision,
-        },
-        previousPage: '/before-you-start/any-of-following',
-      });
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 
       expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
     });
@@ -156,14 +149,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
       };
       await grantedOrRefusedPlanningApplicationController.postGrantedOrRefused(mockRequest, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        ...appeal,
-        eligibility: {
-          ...appeal.eligibility,
-          applicationDecision,
-        },
-        previousPage: '/before-you-start/any-of-following',
-      });
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 
       expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
     });
@@ -176,14 +162,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
       };
       await grantedOrRefusedPlanningApplicationController.postGrantedOrRefused(mockRequest, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        ...appeal,
-        eligibility: {
-          ...appeal.eligibility,
-          applicationDecision,
-        },
-        previousPage: '/before-you-start/any-of-following',
-      });
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 
       expect(res.redirect).toHaveBeenCalledWith('/before-you-start/date-decision-due');
     });
