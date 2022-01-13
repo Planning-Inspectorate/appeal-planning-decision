@@ -14,7 +14,12 @@ const mockFetchDocument = {
 };
 
 jest.mock('../../../src/lib/documents-api-wrapper', () => ({
-  fetchDocument: jest.fn().mockReturnValue(mockFetchDocument),
+  fetchDocument: jest
+    .fn()
+    .mockImplementationOnce(() => mockFetchDocument)
+    .mockImplementationOnce(() => {
+      throw new Error('Internal Server Error');
+    }),
 }));
 
 const { getDocument } = require('../../../src/controllers/document');
@@ -35,8 +40,8 @@ describe('controllers/document', () => {
     };
   });
 
-  describe('getApplicationForm', () => {
-    it('should call the correct template', async () => {
+  describe('getDocument', () => {
+    it('should return the document', async () => {
       await getDocument(req, res);
 
       expect(res.set).toHaveBeenCalledWith({
@@ -45,6 +50,12 @@ describe('controllers/document', () => {
         'content-type': 'application/pdf',
       });
       expect(mockFetchDocument.body.pipe).toHaveBeenCalledWith(res);
+    });
+
+    it('should return an error if an error is thrown', async () => {
+      await getDocument(req, res);
+
+      expect(res.sendStatus).toHaveBeenCalledWith(500);
     });
   });
 });
