@@ -13,6 +13,16 @@ const appeal = {
       companyName: '',
     },
   },
+  yourAppealSection: {
+    appealStatement: {
+      uploadedFile: {
+        name: 'appealStatement.pdf',
+        originalFileName: 'appealStatement.pdf',
+        id: '87e645e4-1050-458b-93df-1bff89b5b87c',
+      },
+      hasSensitiveInformation: false,
+    },
+  },
   requiredDocumentsSection: {
     originalApplication: {
       uploadedFile: {

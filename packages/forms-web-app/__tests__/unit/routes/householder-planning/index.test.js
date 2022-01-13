@@ -1,18 +1,14 @@
 const { use } = require('../router-mock');
 
-describe('routes/eligibility/index', () => {
+describe('routes/householder-planning', () => {
   beforeEach(() => {
     jest.resetModules();
 
     // eslint-disable-next-line global-require
-    require('../../../../src/routes/householder-planning/index');
-  });
-
-  afterEach(() => {
-    jest.resetAllMocks();
+    require('../../../../src/routes/householder-planning');
   });
 
   it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(2);
+    expect(use.mock.calls.length).toBe(3);
   });
 });

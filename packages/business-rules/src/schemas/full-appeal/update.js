@@ -32,6 +32,25 @@ const update = pinsYup
         }),
       })
       .noUnknown(true),
+    yourAppealSection: pinsYup
+      .object()
+      .shape({
+        appealStatement: pinsYup
+          .object()
+          .shape({
+            uploadedFile: pinsYup
+              .object()
+              .shape({
+                name: pinsYup.string().trim().max(255).required(),
+                originalFileName: pinsYup.string().trim().max(255).required(),
+                id: pinsYup.string().trim().uuid().required(),
+              })
+              .noUnknown(true),
+            hasSensitiveInformation: pinsYup.bool().required(),
+          })
+          .noUnknown(true),
+      })
+      .noUnknown(true),
     requiredDocumentsSection: pinsYup
       .object()
       .shape({
