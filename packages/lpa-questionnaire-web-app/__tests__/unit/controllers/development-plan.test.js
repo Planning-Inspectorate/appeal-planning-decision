@@ -146,7 +146,8 @@ describe('controllers/development-plan', () => {
         hasPlanSubmitted: true,
         planChanges: 'some-text',
       };
-      mockAppealReply.optionalDocumentsSection.developmentOrNeighbourhood.planChanges = mockTaskStatus;
+      mockAppealReply.optionalDocumentsSection.developmentOrNeighbourhood.planChanges =
+        mockTaskStatus;
 
       const mockRequest = {
         ...mockReq(),
