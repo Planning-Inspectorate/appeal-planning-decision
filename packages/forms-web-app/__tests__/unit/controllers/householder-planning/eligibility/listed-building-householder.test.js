@@ -28,7 +28,7 @@ describe('controllers/householder-planning/listed-building-householder', () => {
     it('should call the correct template on getListedBuildingHouseholder', async () => {
       await listedBuildingController.getListedBuildingHouseholder(req, res);
 
-      expect(res.render).toBeCalledWith(VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING, {
+      expect(res.render).toBeCalledWith(VIEW.HOUSEHOLDER_PLANNING.LISTED_BUILDING, {
         backLink: `/before-you-start/type-of-planning-application`,
       });
     });
@@ -79,19 +79,16 @@ describe('controllers/householder-planning/listed-building-householder', () => {
 
       expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
-      expect(res.render).toBeCalledWith(
-        `${VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING}`,
-        {
-          appeal,
-          errors: {
-            'listed-building-householder': {
-              msg: 'Select yes if your appeal about a listed building',
-            },
+      expect(res.render).toBeCalledWith(`${VIEW.HOUSEHOLDER_PLANNING.LISTED_BUILDING}`, {
+        appeal,
+        errors: {
+          'listed-building-householder': {
+            msg: 'Select yes if your appeal about a listed building',
           },
-          errorSummary: [],
-          backLink: `/before-you-start/type-of-planning-application`,
-        }
-      );
+        },
+        errorSummary: [],
+        backLink: `/before-you-start/type-of-planning-application`,
+      });
     });
 
     it('should render page with failed appeal update message', async () => {
@@ -109,15 +106,12 @@ describe('controllers/householder-planning/listed-building-householder', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(logger.error).toHaveBeenCalledWith(error);
 
-      expect(res.render).toHaveBeenCalledWith(
-        `${VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING}`,
-        {
-          appeal,
-          errors: {},
-          errorSummary: [{ text: error.toString(), href: 'pageId' }],
-          backLink: `/before-you-start/type-of-planning-application`,
-        }
-      );
+      expect(res.render).toHaveBeenCalledWith(`${VIEW.HOUSEHOLDER_PLANNING.LISTED_BUILDING}`, {
+        appeal,
+        errors: {},
+        errorSummary: [{ text: error.toString(), href: 'pageId' }],
+        backLink: `/before-you-start/type-of-planning-application`,
+      });
     });
   });
 });

@@ -3,7 +3,7 @@ const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 
 const { VIEW } = require('../../../lib/householder-planning/views');
 
-const listedBuilding = VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING;
+const listedBuilding = VIEW.HOUSEHOLDER_PLANNING.LISTED_BUILDING;
 const backLink = `/before-you-start/type-of-planning-application`;
 
 exports.getListedBuildingHouseholder = async (req, res) => {

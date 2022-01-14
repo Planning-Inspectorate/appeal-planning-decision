@@ -1,11 +1,16 @@
 const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 
-const { VIEW } = require('../../../lib/householder-planning/views');
+const {
+  VIEW: {
+    HOUSEHOLDER_PLANNING: {
+      ELIGIBILITY: { CLAIMING_COSTS: claimingCosts },
+    },
+  },
+} = require('../../../lib/householder-planning/views');
 
-const claimingCosts = VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.CLAIMING_COSTS;
-const backLink = `/${VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.ENFORCEMENT_NOTICE}`;
-const nextPage = `/${VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.HAS_APPEAL_FORM}`;
+const backLink = `/householder-planning/eligibility/enforcement-notice-householder`;
+const nextPage = `/householder-planning/eligibility/results-householder`;
 
 exports.getClaimingCostsHouseholder = async (req, res) => {
   res.render(claimingCosts, { backLink });
