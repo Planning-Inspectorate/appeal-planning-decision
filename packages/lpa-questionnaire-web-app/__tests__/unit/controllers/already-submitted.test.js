@@ -4,7 +4,6 @@ const moment = require('moment');
 const alreadySubmittedController = require('../../../src/controllers/already-submitted');
 const { getAppeal } = require('../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../src/lib/views');
-const { renderView } = require('../../../src/util/render');
 const { mockReq, mockRes } = require('../mocks');
 
 describe('controllers/already-submitted', () => {
