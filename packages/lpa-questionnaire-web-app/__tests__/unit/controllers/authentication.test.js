@@ -1,6 +1,6 @@
 jest.mock('../../../src/lib/magiclink-api-wrapper');
 const authenticationController = require('../../../src/controllers/authentication');
-const magicLinkAPIWrapper = require('../../../src/lib/magiclink-api-wrapper');
+const magicLinkAPIWrapper = require(  '../../../src/lib/magiclink-api-wrapper');
 const { mockReq, mockRes } = require('../mocks');
 const mockAppeal = require('../mockAppeal');
 const { VIEW } = require('../../../src/lib/views');
@@ -64,74 +64,6 @@ describe('authentication controller', () => {
         isLinkExpired: true,
         lpaName: 'System Test Borough Council',
         enterEmailLink: '/appeal-questionnaire/E69999999/authentication/your-email',
-      });
-    });
-  });
-
-  describe('POST /appeal-questionnaire/:lpaCode/authentication/your-email', () => {
-    it('should call magic link API and redirect user to confirm email page if user email address is within lpa domain', async () => {
-      req.body = { email: mockEmail };
-      magicLinkAPIWrapper.createMagicLink.mockResolvedValue();
-
-      await authenticationController.processEmailAddress(req, res);
-
-      expect(magicLinkAPIWrapper.createMagicLink).toHaveBeenCalledTimes(1);
-      expect(req.session.email).toEqual(mockEmail);
-      expect(res.redirect).toHaveBeenCalledWith(
-        '/appeal-questionnaire/E69999999/authentication/confirm-email'
-      );
-    });
-
-    it('should redirect to confirm email page if user email address not within lpa domain', async () => {
-      req.body = { email: 'test.address@test.gov.uk' };
-      magicLinkAPIWrapper.createMagicLink.mockResolvedValue();
-
-      await authenticationController.processEmailAddress(req, res);
-
-      expect(magicLinkAPIWrapper.createMagicLink).toHaveBeenCalledTimes(0);
-      expect(req.session.email).toEqual('test.address@test.gov.uk');
-      expect(res.redirect).toHaveBeenCalledWith(
-        '/appeal-questionnaire/E69999999/authentication/confirm-email'
-      );
-    });
-
-    it('should re-render the template with errors if there is any validation error', async () => {
-      const mockRequest = {
-        ...req,
-        body: {
-          isSessionExpired: false,
-          isLinkExpired: false,
-          lpaName: 'System Test Borough Council',
-          enterEmailLink: `/appeal-questionnaire/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
-          errors: { a: 'b' },
-          errorSummary: [{ text: 'There were errors here', href: '#' }],
-        },
-      };
-      await authenticationController.processEmailAddress(mockRequest, res);
-
-      expect(res.redirect).not.toHaveBeenCalled();
-
-      expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS, {
-        isSessionExpired: false,
-        isLinkExpired: false,
-        lpaName: 'System Test Borough Council',
-        enterEmailLink: `/appeal-questionnaire/${req.params.lpaCode}/${VIEW.AUTHENTICATION.ENTER_EMAIL_ADDRESS}`,
-        errors: { a: 'b' },
-        errorSummary: [{ text: 'There were errors here', href: '#' }],
-      });
-    });
-  });
-
-  describe('GET /appeal-questionnaire/:lpaCode/authentication/confirm-email', () => {
-    it('should call the correct template', () => {
-      req.session = {
-        email: mockEmail,
-      };
-      authenticationController.showEmailConfirmation(req, res);
-
-      expect(res.render).toHaveBeenCalledWith(VIEW.AUTHENTICATION.EMAIL_ADDRESS_CONFIRMATION, {
-        email: mockEmail,
-        enterEmailLink: `/appeal-questionnaire/E69999999/authentication/your-email`,
       });
     });
   });
