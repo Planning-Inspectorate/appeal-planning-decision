@@ -3,12 +3,20 @@ const { APPEAL_DOCUMENT } = require('../../../../../src/lib/empty-appeal');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../../src/lib/logger');
 
-const { VIEW } = require('../../../../../src/lib/householder-planning/views');
+const {
+  VIEW: {
+    HOUSEHOLDER_PLANNING: {
+      ELIGIBILITY: { CLAIMING_COSTS: claimingCosts },
+    },
+  },
+} = require('../../../../../src/lib/householder-planning/views');
 const { mockReq, mockRes } = require('../../../mocks');
 
 jest.mock('../../../../../src/lib/empty-appeal');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
+
+const backLink = '/householder-planning/eligibility/enforcement-notice-householder';
 
 describe('controllers/householder-planning/claiming-costs-householder', () => {
   let req;
@@ -28,8 +36,8 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
     it('should call the correct template on getClaimingCostsHouseholder', async () => {
       await claimingCostsController.getClaimingCostsHouseholder(req, res);
 
-      expect(res.render).toBeCalledWith(VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.CLAIMING_COSTS, {
-        backLink: `/${VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.ENFORCEMENT_NOTICE}`,
+      expect(res.render).toBeCalledWith(claimingCosts, {
+        backLink,
       });
     });
 
@@ -60,9 +68,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
         ...appeal,
       });
 
-      expect(res.redirect).toBeCalledWith(
-        `/${VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.HAS_APPEAL_FORM}`
-      ); // Future Planning Application Decision Page
+      expect(res.redirect).toBeCalledWith('/householder-planning/eligibility/results-householder');
     });
 
     it('should render errors on the page', async () => {
@@ -81,7 +87,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 
       expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
-      expect(res.render).toBeCalledWith(`${VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.CLAIMING_COSTS}`, {
+      expect(res.render).toBeCalledWith(`${claimingCosts}`, {
         appeal,
         errors: {
           'claiming-costs-householder': {
@@ -89,7 +95,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
           },
         },
         errorSummary: [],
-        backLink: `/${VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.ENFORCEMENT_NOTICE}`,
+        backLink,
       });
     });
 
@@ -108,15 +114,12 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(logger.error).toHaveBeenCalledWith(error);
 
-      expect(res.render).toHaveBeenCalledWith(
-        `${VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.CLAIMING_COSTS}`,
-        {
-          appeal,
-          errors: {},
-          errorSummary: [{ text: error.toString(), href: 'pageId' }],
-          backLink: `/${VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.ENFORCEMENT_NOTICE}`,
-        }
-      );
+      expect(res.render).toHaveBeenCalledWith(`${claimingCosts}`, {
+        appeal,
+        errors: {},
+        errorSummary: [{ text: error.toString(), href: 'pageId' }],
+        backLink,
+      });
     });
   });
 });
