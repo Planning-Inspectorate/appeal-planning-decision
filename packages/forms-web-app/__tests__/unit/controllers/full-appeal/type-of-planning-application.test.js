@@ -45,7 +45,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
         ...appeal,
       });
 
-      expect(res.redirect).toBeCalledWith(`/before-you-start/listed-building`); // Future Planning Application Decision Page
+      expect(res.redirect).toBeCalledWith(`/before-you-start/listed-building-householder`);
     });
 
     it('should redirect to the shutter page', async () => {

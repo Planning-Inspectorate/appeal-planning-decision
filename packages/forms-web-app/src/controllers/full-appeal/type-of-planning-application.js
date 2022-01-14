@@ -20,7 +20,7 @@ exports.getTypeOfPlanningApplication = async (req, res) => {
 
 const redirect = (selection, res) => {
   if (selection === HOUSEHOLDER_PLANNING) {
-    res.redirect(`/before-you-start/listed-building`);
+    res.redirect(`/before-you-start/listed-building-householder`);
     return;
   }
 

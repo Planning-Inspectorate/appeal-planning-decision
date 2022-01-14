@@ -18,6 +18,8 @@ import { getContinueButton } from '../../../../support/householder-planning/appe
 const pageTitle = 'What type of planning application is your appeal about? - Before you start - Appeal a householder planning decision - GOV.UK';
 const pageHeading = 'What type of planning application is your appeal about?';
 const url = 'before-you-start/type-of-planning-application';
+const listedBuildingHouseholderUrl = '/before-you-start/listed-building-householder';
+
 Given('an appellant is on the select the type of planning application you made page',()=>{
   goToAppealsPage(url);
   acceptCookiesBanner();
@@ -38,14 +40,14 @@ getBackLink().click();
 })
 
 Then('appellant is navigated to the About A Listed Building Page',()=>{
-  cy.url().should('contain','/before-you-start/listed-building');
+  cy.url().should('contain', listedBuildingHouseholderUrl);
 });
 
 Then('appellant is navigated to the is your planning application about any of the following page',()=>{
   cy.url().should('contain','/before-you-start/any-of-following');
 });
 Then('appellant sees an error message {string}',(errorMessage)=>{
-verifyErrorMessage(errorMessage,getTypeOfPlanningApplicationError,getErrorMessageSummary);
+  verifyErrorMessage(errorMessage, getTypeOfPlanningApplicationError, getErrorMessageSummary);
 });
 
 Then('an appellant is navigated to the what local planning department did you submit your application to page',()=>{
