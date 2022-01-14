@@ -5,6 +5,7 @@ const logger = require('../../../../src/lib/logger');
 
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
+const mapPlanningApplication = require('../../../../src/lib/full-appeal/map-planning-application');
 
 jest.mock('../../../../src/lib/empty-appeal');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -34,36 +35,57 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
     });
 
     it('should redirect to the listed building page', async () => {
+      const planningApplication = 'householder-planning';
       const mockRequest = {
         ...req,
-        body: { 'type-of-planning-application': 'householder-planning' },
+        body: { 'type-of-planning-application': planningApplication },
       };
 
       await typeOfPlanningApplicationController.postTypeOfPlanningApplication(mockRequest, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+      const updatedAppeal = {
         ...appeal,
+        appealType: mapPlanningApplication(planningApplication),
+        beforeYouStartSection: {
+          typeOfPlanningApplication: planningApplication,
+        },
+      };
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...updatedAppeal,
       });
 
       expect(res.redirect).toBeCalledWith(`/before-you-start/listed-building-householder`);
     });
 
     it('should redirect to the shutter page', async () => {
+      const planningApplication = 'something-else';
+
       const mockRequest = {
         ...req,
-        body: { 'type-of-planning-application': 'something-else' },
+        body: { 'type-of-planning-application': planningApplication },
       };
 
       await typeOfPlanningApplicationController.postTypeOfPlanningApplication(mockRequest, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+      const updatedAppeal = {
         ...appeal,
+        appealType: mapPlanningApplication(planningApplication),
+        beforeYouStartSection: {
+          typeOfPlanningApplication: planningApplication,
+        },
+      };
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...updatedAppeal,
       });
 
       expect(res.redirect).toBeCalledWith(`/before-you-start/use-a-different-service`); // Future Planning Application Decision Page
     });
 
     it('should redirect to the shutter page', async () => {
+      const planningApplication = 'i-have-not-made-a-planning-application';
+
       const mockRequest = {
         ...req,
         body: { 'type-of-planning-application': 'i-have-not-made-a-planning-application' },
@@ -71,23 +93,41 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 
       await typeOfPlanningApplicationController.postTypeOfPlanningApplication(mockRequest, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+      const updatedAppeal = {
         ...appeal,
+        appealType: mapPlanningApplication(planningApplication),
+        beforeYouStartSection: {
+          typeOfPlanningApplication: planningApplication,
+        },
+      };
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...updatedAppeal,
       });
 
       expect(res.redirect).toBeCalledWith(`/before-you-start/use-a-different-service`); // Future Planning Application Decision Page
     });
 
     it('should redirect to the about appeal page', async () => {
+      const planningApplication = 'outline-planning';
+
       const mockRequest = {
         ...req,
-        body: { 'type-of-planning-application': 'outline-planning' },
+        body: { 'type-of-planning-application': planningApplication },
       };
 
       await typeOfPlanningApplicationController.postTypeOfPlanningApplication(mockRequest, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+      const updatedAppeal = {
         ...appeal,
+        appealType: mapPlanningApplication(planningApplication),
+        beforeYouStartSection: {
+          typeOfPlanningApplication: planningApplication,
+        },
+      };
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...updatedAppeal,
       });
 
       expect(res.redirect).toBeCalledWith(`/before-you-start/any-of-following`); // Future Planning Application Decision Page
