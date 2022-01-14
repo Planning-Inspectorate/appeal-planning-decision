@@ -23,6 +23,7 @@ const update = pinsYup
       .object()
       .shape({
         yourDetails: pinsYup.object().shape({
+          isOriginalApplicant: pinsYup.bool().required(),
           appealingOnBehalfOf: pinsYup
             .string()
             .max(80)

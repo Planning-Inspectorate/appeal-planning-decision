@@ -1010,6 +1010,36 @@ describe('schemas/full-appeal/update', () => {
             expect(result).toEqual(appeal);
           });
         });
+
+        describe('aboutYouSection.yourDetails.isOriginalApplicant', () => {
+          it('should throw an error when not given a boolean value', async () => {
+            appeal.aboutYouSection = {
+              yourDetails: {
+                isOriginalApplicant: 'yes',
+              },
+            };
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'aboutYouSection.yourDetails.isOriginalApplicant must be a `boolean` type, but the final value was: `"yes"`',
+            );
+          });
+
+          it('should throw an error when given a null value', async () => {
+            appeal.aboutYouSection.yourDetails.isOriginalApplicant = null;
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'aboutYouSection.yourDetails.isOriginalApplicant must be a `boolean` type, but the final value was: `null`',
+            );
+          });
+
+          it('should throw an error when not given a value', async () => {
+            delete appeal.aboutYouSection.yourDetails.isOriginalApplicant;
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'aboutYouSection.yourDetails.isOriginalApplicant is a required field',
+            );
+          });
+        });
       });
     });
   });

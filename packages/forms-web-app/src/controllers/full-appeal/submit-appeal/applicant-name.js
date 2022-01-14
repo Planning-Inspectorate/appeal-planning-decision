@@ -1,15 +1,12 @@
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   VIEW: {
-    FULL_APPEAL: { APPLICANT_NAME: currentPage },
+    FULL_APPEAL: { APPLICANT_NAME: currentPage, TASK_LIST },
   },
 } = require('../../../lib/full-appeal/views');
 const logger = require('../../../lib/logger');
-const {
-  getNextTask,
-  getTaskStatus,
-  FULL_APPEAL_SECTIONS,
-} = require('../../../services/task.service');
+const { getTaskStatus, FULL_APPEAL_SECTIONS } = require('../../../services/task.service');
+const TASK_STATUS = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'aboutYouSection';
 const taskName = 'yourDetails';
@@ -48,6 +45,7 @@ exports.postApplicantName = async (req, res) => {
       taskName,
       FULL_APPEAL_SECTIONS
     );
+    appeal.sectionStates.contactDetailsSection = TASK_STATUS.COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);
@@ -59,5 +57,5 @@ exports.postApplicantName = async (req, res) => {
     return;
   }
 
-  res.redirect(getNextTask(appeal, { sectionName, taskName }, FULL_APPEAL_SECTIONS).href);
+  res.redirect(`/${TASK_LIST}`);
 };

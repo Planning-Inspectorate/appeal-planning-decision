@@ -12,6 +12,7 @@ const VIEW = {
     APPLICANT_NAME: 'full-appeal/submit-appeal/applicant-name',
     APPEAL_STATEMENT: 'full-appeal/submit-appeal/appeal-statement',
     PLANS_DRAWINGS: 'full-appeal/plans-drawings',
+    ORIGINAL_APPLICANT: 'full-appeal/submit-appeal/original-applicant',
   },
 };
 
