@@ -55,6 +55,5 @@ module.exports = {
     jwtSigningKey: process.env.JWT_SIGNING_KEY,
     tokenCookieName: process.env.TOKEN_COOKIE_NAME,
     tokenValidityMillis: Number(process.env.TOKEN_VALIDITY_MILLIS),
-    magiclinkApiUrl: process.env.MAGIC_LINK_API_URL,
   },
 };

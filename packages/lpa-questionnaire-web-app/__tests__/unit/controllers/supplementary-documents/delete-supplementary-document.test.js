@@ -151,18 +151,19 @@ describe('controllers/delete-supplementary-document', () => {
     });
 
     it('should redirect to uploaded-document as there are documents left to delete', async () => {
-      mockRequest.session.appealReply.optionalDocumentsSection.supplementaryPlanningDocuments.uploadedFiles = [
-        {
-          documentName: 'mock-document-name',
-          id: 'mock-id',
-          stageReached: 'mock-stage',
-        },
-        {
-          documentName: 'mock-document-name-2',
-          id: 'mock-id-2',
-          stageReached: 'mock-stage-2',
-        },
-      ];
+      mockRequest.session.appealReply.optionalDocumentsSection.supplementaryPlanningDocuments.uploadedFiles =
+        [
+          {
+            documentName: 'mock-document-name',
+            id: 'mock-id',
+            stageReached: 'mock-stage',
+          },
+          {
+            documentName: 'mock-document-name-2',
+            id: 'mock-id-2',
+            stageReached: 'mock-stage-2',
+          },
+        ];
 
       expectedAppealReply.optionalDocumentsSection.supplementaryPlanningDocuments.uploadedFiles = [
         {

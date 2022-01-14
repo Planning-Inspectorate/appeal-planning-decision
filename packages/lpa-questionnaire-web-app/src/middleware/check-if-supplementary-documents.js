@@ -6,9 +6,8 @@
  */
 /* istanbul ignore next */
 module.exports = async (req, res, next) => {
-  const {
-    uploadedFiles,
-  } = req.session.appealReply.optionalDocumentsSection.supplementaryPlanningDocuments;
+  const { uploadedFiles } =
+    req.session.appealReply.optionalDocumentsSection.supplementaryPlanningDocuments;
 
   if (uploadedFiles.length < 1) {
     res.redirect(
