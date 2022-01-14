@@ -18,7 +18,7 @@ describe('controllers/full-appeal/submit-appeal/task-list', () => {
         },
         sections: [
           {
-            href: `/${VIEW.FULL_APPEAL.CONTACT_DETAILS}`,
+            href: `/${VIEW.FULL_APPEAL.ORIGINAL_APPLICANT}`,
             text: 'Provide your contact details',
             status: 'NOT STARTED',
             attributes: {

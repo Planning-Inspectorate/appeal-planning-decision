@@ -137,7 +137,7 @@ const FULL_APPEAL_SECTIONS = {
   aboutYouSection: {
     yourDetails: {
       href: `/${FULL_APPEAL.APPLICANT_NAME}`,
-      rule: notStartedRule(),
+      rule: statusYourDetails,
     },
     contactDetails: {
       href: `/${FULL_APPEAL.CONTACT_DETAILS}`,
@@ -165,7 +165,7 @@ const FULL_APPEAL_SECTIONS = {
     },
   },
   contactDetailsSection: {
-    href: `/${FULL_APPEAL.CONTACT_DETAILS}`,
+    href: `/${FULL_APPEAL.ORIGINAL_APPLICANT}`,
     rule: (appeal) => appeal.sectionStates.contactDetailsSection,
   },
   aboutAppealSiteSection: {

@@ -9,6 +9,7 @@ const appeal = {
   },
   aboutYouSection: {
     yourDetails: {
+      isOriginalApplicant: true,
       appealingOnBehalfOf: '',
       companyName: '',
     },

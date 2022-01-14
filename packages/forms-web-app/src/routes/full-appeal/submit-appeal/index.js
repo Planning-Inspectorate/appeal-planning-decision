@@ -9,6 +9,7 @@ const appealSiteAddressRouter = require('./appeal-site-address');
 const applicantNameRouter = require('./applicant-name');
 const decisionLetterRouter = require('./decision-letter');
 const appealStatementRouter = require('./appeal-statement');
+const originalApplicantRouter = require('./original-applicant');
 
 const router = express.Router();
 
@@ -22,5 +23,6 @@ router.use(appealSiteAddressRouter);
 router.use(applicantNameRouter);
 router.use(decisionLetterRouter);
 router.use(appealStatementRouter);
+router.use(originalApplicantRouter);
 
 module.exports = router;

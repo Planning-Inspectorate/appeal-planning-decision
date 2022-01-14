@@ -1032,6 +1032,27 @@ describe('schemas/full-appeal/insert', () => {
             expect(result).toEqual(appeal);
           });
         });
+
+        describe('aboutYouSection.yourDetails.isOriginalApplicant', () => {
+          it('should throw an error when not given a boolean value', async () => {
+            appeal.aboutYouSection = {
+              yourDetails: {
+                isOriginalApplicant: 'yes',
+              },
+            };
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              'aboutYouSection.yourDetails.isOriginalApplicant must be a `boolean` type, but the final value was: `"yes"`',
+            );
+          });
+
+          it('should not throw an error when not given a value', async () => {
+            delete appeal.aboutYouSection.yourDetails.isOriginalApplicant;
+
+            const result = await insert.validate(appeal, config);
+            expect(result).toEqual(appeal);
+          });
+        });
       });
     });
   });
