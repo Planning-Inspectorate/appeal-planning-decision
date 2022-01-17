@@ -2,13 +2,13 @@ import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import {
   appealDocumentsSectionLink,
-  appealStatementBodyText, checkboxConfirmSensitiveInfo, sensitiveInfoLabel
+  appealStatementBodyText, checkboxConfirmSensitiveInfo, checkboxErrorMessage, sensitiveInfoLabel,
 } from '../../../../support/full-appeal/appeals-service/page-objects/your-appeal-statement-po';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import {
-  pageCaption
-  } from '../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
+  pageCaption, planningAppNumberErrorMessage,
+} from '../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
 import {
   dragAndDropAFile, errorFileUploadField, filesCanUploadHintText,
   filesYouCanUpload, uploadedFileLabel, uploadedFileName,
@@ -71,6 +71,9 @@ Given("an appellant has uploaded an invalid file {string}",(filename)=> {
 Then('an error message {string} is displayed',(errorMessage)=> {
   verifyErrorMessage(errorMessage,errorFileUploadField,getErrorMessageSummary);
 });
+Then("an error message {string} for checkbox is displayed", (errorMessage) => {
+  verifyErrorMessage(errorMessage,checkboxErrorMessage,getErrorMessageSummary);
+});
 Given("an appellant has not uploaded any document",()=> {
   goToAppealsPage(url);
 });
@@ -101,10 +104,13 @@ Given('an appellant is on the \'Your appeal statement\' page and have uploaded a
   getFileUploadButton().attachFile(filename);
   checkboxConfirmSensitiveInfo().click();
 });
-Then("the uploaded file {string} is displayed", (filename) => {
+Then("the uploaded file {string} is displayed and can be downloaded", (filename) => {
   uploadedFileLabel().should('exist');
   uploadedFileName().should('contain', filename);
+  cy.downloadFile(`${Cypress.env('APPEALS_BASE_URL')}/${url}`,'cypress/fixtures/Download', filename);
+  console.log(url);
 })
+
 
 
 

@@ -42,14 +42,13 @@ Feature: As an appellant/agent
   Scenario: 5. Appellant does not tick the box to confirm they have not included any sensitive information
     Given an appellant has not ticked the box to confirm they have not included any sensitive information
     When they select the 'Continue' button
-    Then an error message 'Select to confirm that you have not included any sensitive information in your appeal statement' is displayed
-
+    Then an error message 'Select to confirm that you have not included any sensitive information in your appeal statement' for checkbox is displayed
 
   Scenario: 6. Appellant does not upload any document or does not tick the box to confirm they have not included any sensitive information
     Given an appellant has not uploaded any document or ticked the box to confirm they have not included any sensitive information
     When they select the 'Continue' button
     Then an error message 'Select your appeal statement' is displayed
-    And an error message 'Select to confirm that you have not included any sensitive information in your appeal statement' is displayed
+    Then an error message 'Select to confirm that you have not included any sensitive information in your appeal statement' for checkbox is displayed
 
   Scenario: 7. Navigate from 'Your appeal statement' page back to Task List
     Given an appellant is on the 'Your appeal statement' page
@@ -61,8 +60,8 @@ Feature: As an appellant/agent
     When they select the 'Continue' button
     Then they are presented with the 'Plans and drawings' page
     When they click on the 'Back' link
-    Then the uploaded file 'upload-file-valid.jpeg' is displayed
-    #And the last task they are working on will show 'In progress'
+    Then the uploaded file 'upload-file-valid.jpeg' is displayed and can be downloaded
+     #And the last task they are working on will show 'In progress'
 
 
 
