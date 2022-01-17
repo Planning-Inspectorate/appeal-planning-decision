@@ -24,7 +24,7 @@ describe('validators/common/appeal-statement', () => {
       expect(rule.optional).toBeFalsy();
       expect(rule.stack).toHaveLength(3);
       expect(rule.stack[0].message).toEqual(
-        'Select to confirm you have not included sensitive information'
+        'Select to confirm that you have not included any sensitive information in your appeal statement'
       );
       expect(rule.stack[2].validator.name).toEqual('equals');
       expect(rule.stack[2].options).toEqual(['i-confirm']);
@@ -58,7 +58,7 @@ describe('validators/common/appeal-statement', () => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
           expect(result.errors[0].msg).toEqual(
-            'Select to confirm you have not included sensitive information'
+            'Select to confirm that you have not included any sensitive information in your appeal statement'
           );
           expect(result.errors[0].param).toEqual('does-not-include-sensitive-information');
           expect(result.errors[0].value).toEqual(undefined);
