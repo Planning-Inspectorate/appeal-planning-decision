@@ -9,8 +9,8 @@ const {
 } = require('@pins/business-rules');
 const logger = require('../../lib/logger');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
-
 const { VIEW } = require('../../lib/views');
+const mapPlanningApplication = require('../../lib/full-appeal/map-planning-application');
 
 exports.getTypeOfPlanningApplication = async (req, res) => {
   res.render(VIEW.FULL_APPEAL.TYPE_OF_PLANNING_APPLICATION, {
@@ -38,7 +38,15 @@ exports.postTypeOfPlanningApplication = async (req, res) => {
   const { appeal } = req.session;
 
   const selection = body['type-of-planning-application'];
-  appeal.beforeYouStartSection = { typeOfPlanningApplication: selection };
+
+  const updatedAppeal = {
+    ...appeal,
+    appealType: mapPlanningApplication(selection),
+    beforeYouStartSection: {
+      ...appeal?.beforeYouStartSection,
+      typeOfPlanningApplication: selection,
+    },
+  };
 
   if (errors['type-of-planning-application']) {
     return res.render(VIEW.FULL_APPEAL.TYPE_OF_PLANNING_APPLICATION, {
@@ -50,11 +58,10 @@ exports.postTypeOfPlanningApplication = async (req, res) => {
   }
 
   try {
-    req.session.appeal = await createOrUpdateAppeal(appeal);
+    req.session.appeal = await createOrUpdateAppeal(updatedAppeal);
     return redirect(selection, res);
   } catch (e) {
     logger.error(e);
-
     return res.render(VIEW.FULL_APPEAL.TYPE_OF_PLANNING_APPLICATION, {
       appeal,
       errors,
