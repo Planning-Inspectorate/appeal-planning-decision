@@ -164,6 +164,12 @@ const FULL_APPEAL_SECTIONS = {
       rule: notStartedRule,
     },
   },
+  yourAppealSection: {
+    appealStatement: {
+      href: `/${FULL_APPEAL.APPEAL_STATEMENT}`,
+      rule: statusAppealStatement,
+    },
+  },
   contactDetailsSection: {
     href: `/${FULL_APPEAL.ORIGINAL_APPLICANT}`,
     rule: (appeal) => appeal.sectionStates.contactDetailsSection,
@@ -177,8 +183,8 @@ const FULL_APPEAL_SECTIONS = {
     rule: notStartedRule,
   },
   appealDocumentsSection: {
-    href: '/',
-    rule: notStartedRule,
+    href: `/${FULL_APPEAL.APPEAL_STATEMENT}`,
+    rule: statusAppealStatement,
   },
   submitYourAppealSection: {
     href: `/${FULL_APPEAL.CHECK_ANSWERS}`,
