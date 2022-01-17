@@ -24,7 +24,8 @@ const decisionDateEnforcementNoticeMapper = (key) => {
   const pages = {
     [`${APPEAL_ID.PLANNING_SECTION_78}_${status.GRANTED}`]: '/before-you-start/decision-date',
     [`${APPEAL_ID.PLANNING_SECTION_78}_${status.REFUSED}`]: '/before-you-start/decision-date',
-    [`${APPEAL_ID.PLANNING_SECTION_78}_${status.NODECISION}`]: '/before-you-start/date-decision-due',
+    [`${APPEAL_ID.PLANNING_SECTION_78}_${status.NODECISION}`]:
+      '/before-you-start/date-decision-due',
   };
 
   return pages[key];

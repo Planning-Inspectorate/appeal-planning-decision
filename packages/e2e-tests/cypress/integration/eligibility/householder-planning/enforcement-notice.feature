@@ -20,9 +20,14 @@ Feature: Enforcement notice
     When appellant clicks on the continue button on enforcement notice page
     Then appellant sees an error message 'Select yes if you have received an enforcement notice'
 
-  Scenario:AC04 Back Link
-    Given appellant is on the enforcement notice page for householder planning
+  @wip
+  Scenario Outline:AC04 Back Link
+    Given appellant is on the enforcement notice page for '<application_type>'
     When appellant selects 'Yes' from the enforcement notice options
     And appellant clicks the back button
     Then appellant is navigated to the householder decision date page
     And information they have inputted will not be saved
+
+    Examples:
+      | application_type |
+      | Householder  |

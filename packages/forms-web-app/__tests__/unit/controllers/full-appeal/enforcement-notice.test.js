@@ -42,6 +42,7 @@ describe('controllers/full-appeal/enforcement-notice', () => {
 
   describe('getEnforcementNotice', () => {
     it('should call the correct template', () => {
+      req.session.appeal.eligibility.applicationDecision = 'granted';
       enforcementNoticeController.getEnforcementNotice(req, res);
 
       expect(res.render).toHaveBeenCalledWith(currentPage, {
@@ -61,6 +62,8 @@ describe('controllers/full-appeal/enforcement-notice', () => {
           errorSummary: [{ text: 'There were errors here', href: '#' }],
         },
       };
+      mockRequest.session.appeal.eligibility.applicationDecision = 'granted';
+
       await enforcementNoticeController.postEnforcementNotice(mockRequest, res);
 
       expect(createOrUpdateAppeal).not.toHaveBeenCalled();
@@ -86,6 +89,8 @@ describe('controllers/full-appeal/enforcement-notice', () => {
         body: {},
       };
 
+      mockRequest.session.appeal.appealType = '1005';
+      mockRequest.session.appeal.eligibility.applicationDecision = 'granted';
       const error = new Error('Cheers');
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
