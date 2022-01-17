@@ -48,7 +48,7 @@ Feature: As an appellant/agent
     Given an appellant has not uploaded any document or ticked the box to confirm they have not included any sensitive information
     When they select the 'Continue' button
     Then an error message 'Select your appeal statement' is displayed
-    Then an error message 'Select to confirm that you have not included any sensitive information in your appeal statement' for checkbox is displayed
+    And an error message 'Select to confirm that you have not included any sensitive information in your appeal statement' for checkbox is displayed
 
   Scenario: 7. Navigate from 'Your appeal statement' page back to Task List
     Given an appellant is on the 'Your appeal statement' page
