@@ -87,65 +87,58 @@ Then("the appellant remains on the 'What is the address of the appeal site?' pag
 
 And('the appellant is informed that {string}', (reason) => {
   switch (reason) {
-    case 'Address Line 1 is required':
+    case 'Enter the building and street':
       verifyErrorMessage(
-        'Enter the building and street',
+        reason,
         siteAddressLineOneErrorMessage,
         getErrorMessageSummary
       );
       break;
-    case 'Address Line 1 has a limit of 60 characters':
+    case 'The first line of the building and street must be 60 characters or fewer':
       verifyErrorMessage(
-        'The first line of the building and street must be 60 characters or fewer',
+        reason,
         siteAddressLineOneErrorMessage,
         getErrorMessageSummary
       );
       break;
-    case 'Address Line 2 has a limit of 60 characters':
+    case 'The second line of the building and street must be 60 characters or fewer':
       verifyErrorMessage(
-        'The second line of the building and street must be 60 characters or fewer',
+        reason,
         siteAddressLineTwoErrorMessage,
         getErrorMessageSummary
       );
       break;
-    case 'Town or City has a limit of 60 characters':
+    case 'Town or City must be 60 characters or fewer':
       verifyErrorMessage(
-        'Town or City must be 60 characters or fewer',
+        reason,
         siteTownCityErrorMessage,
         getErrorMessageSummary
       );
       break;
-    case 'County has a limit of 60 characters':
+    case 'County must be 60 characters or fewer':
       verifyErrorMessage(
-        'County must be 60 characters or fewer',
+        reason,
         siteCountyErrorMessage,
         getErrorMessageSummary
       );
       break;
-    case 'Postcode is required':
+    case 'Enter the postcode':
       verifyErrorMessage(
-        'Enter the postcode',
+        reason,
         sitePostcodeErrorMessage,
         getErrorMessageSummary
       );
       break;
-    case 'Postcode has a limit of 8 characters':
+    case 'Postcode must be 8 characters or fewer':
       verifyErrorMessage(
-        'Postcode must be 8 characters or fewer',
+        reason,
         sitePostcodeErrorMessage,
         getErrorMessageSummary
       );
       break;
-    case 'Postcodes cannot be all letters':
+    case 'Enter a real postcode':
       verifyErrorMessage(
-        'Enter a real postcode',
-        sitePostcodeErrorMessage,
-        getErrorMessageSummary
-      );
-      break;
-    case 'Postcodes should begin with a letter':
-      verifyErrorMessage(
-        'Enter a real postcode',
+        reason,
         sitePostcodeErrorMessage,
         getErrorMessageSummary
       );

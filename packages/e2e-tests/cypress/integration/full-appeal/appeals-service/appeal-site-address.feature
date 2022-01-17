@@ -26,25 +26,25 @@ Feature: Appellant provides the Appeal Site Address
     Then the appellant remains on the 'What is the address of the appeal site?' page
     And the appellant is informed that <Reason>
     Examples:
-      | Address Line 1 | Address Line 2 | Town or City | County       | Postcode   | Reason                       |
-      | ""             | ""             | ""           | "South Glos" | "W1A 1HQ"  | "Address Line 1 is required" |
-      | "aaa"          | ""             | ""           | ""           | ""         | "Postcode is required"       |
+      | Address Line 1 | Address Line 2 | Town or City | County       | Postcode  | Reason                       |
+      | ""             | ""             | ""           | "South Glos" | "W1A 1HQ" | "Enter the building and street" |
+      | "aaa"          | ""             | ""           | ""           | ""        | "Enter the postcode"         |
 
   Scenario: 4. The appellant fails to provide any address information
     Given an appellant is on the 'What is the address of the appeal site?' page
     When the appellant provides their appeal site address as '' and '' and '' and '' and ''
     And they click the 'Continue' button
     Then the appellant remains on the 'What is the address of the appeal site?' page
-    And the appellant is informed that "Address Line 1 is required"
-    And the appellant is informed that "Postcode is required"
+    And the appellant is informed that "Enter the building and street"
+    And the appellant is informed that "Enter the postcode"
 
   Scenario: 5. The appellant fails to provide first address line and postcode
     Given an appellant is on the 'What is the address of the appeal site?' page
     When the appellant provides their appeal site address as '' and '' and '' and 'South Glos' and ''
     And they click the 'Continue' button
     Then the appellant remains on the 'What is the address of the appeal site?' page
-    And the appellant is informed that "Address Line 1 is required"
-    And the appellant is informed that "Postcode is required"
+    And the appellant is informed that "Enter the building and street"
+    And the appellant is informed that "Enter the postcode"
 
   Scenario Outline: 6. The appellant provides address data that exceeds the maximum length constraint for each field
     Given an appellant is on the 'What is the address of the appeal site?' page
@@ -53,33 +53,33 @@ Feature: Appellant provides the Appeal Site Address
     Then the appellant remains on the 'What is the address of the appeal site?' page
     And the appellant is informed that <Reason>
     Examples:
-      | Component        | Count | Reason                                        |
-      | "Address Line 1" | 61    | "Address Line 1 has a limit of 60 characters" |
-      | "Address Line 2" | 61    | "Address Line 2 has a limit of 60 characters" |
-      | "Town or City"   | 61    | "Town or City has a limit of 60 characters"   |
-      | "County"         | 61    | "County has a limit of 60 characters"         |
-      | "Postcode"       | 9     | "Postcode has a limit of 8 characters"        |
+      | Component        | Count | Reason                                                                      |
+      | "Address Line 1" | 61    | "The first line of the building and street must be 60 characters or fewer"  |
+      | "Address Line 2" | 61    | "The second line of the building and street must be 60 characters or fewer" |
+      | "Town or City"   | 61    | "Town or City must be 60 characters or fewer"                               |
+      | "County"         | 61    | "County must be 60 characters or fewer"                                     |
+      | "Postcode"       | 9     | "Postcode must be 8 characters or fewer"                                    |
 
   Scenario: 7. The appellant provides address data that exceeds the maximum length constraint for multiple fields
     Given an appellant is on the 'What is the address of the appeal site?' page
     When the appellant provides values that are too long for Address Line 1, Address Line 2, Town or City, County and Postcode
     And they click the 'Continue' button
     Then the appellant remains on the 'What is the address of the appeal site?' page
-    And the appellant is informed that "Address Line 1 has a limit of 60 characters"
-    And the appellant is informed that "Address Line 2 has a limit of 60 characters"
-    And the appellant is informed that "Town or City has a limit of 60 characters"
-    And the appellant is informed that "County has a limit of 60 characters"
-    And the appellant is informed that "Postcode has a limit of 8 characters"
+    And the appellant is informed that "The first line of the building and street must be 60 characters or fewer"
+    And the appellant is informed that "The second line of the building and street must be 60 characters or fewer"
+    And the appellant is informed that "Town or City must be 60 characters or fewer"
+    And the appellant is informed that "County must be 60 characters or fewer"
+    And the appellant is informed that "Postcode must be 8 characters or fewer"
 
   Scenario: 8. The appellant provides invalid address data with some missing fields and others that exceed the maximum length constraint
     Given an appellant is on the 'What is the address of the appeal site?' page
     When the appellant provides values that are too long for Address Line 2 and Town or City and provides no other data
     And they click the 'Continue' button
     Then the appellant remains on the 'What is the address of the appeal site?' page
-    Then the appellant is informed that "Address Line 1 is required"
-    And the appellant is informed that "Address Line 2 has a limit of 60 characters"
-    And the appellant is informed that "Town or City has a limit of 60 characters"
-    And the appellant is informed that "Postcode is required"
+    Then the appellant is informed that "Enter the building and street"
+    And the appellant is informed that "The second line of the building and street must be 60 characters or fewer"
+    And the appellant is informed that "Town or City must be 60 characters or fewer"
+    And the appellant is informed that "Enter the postcode"
 
   Scenario Outline: 9. The appellant provides address data with invalid Postcode
     Given an appellant is on the 'What is the address of the appeal site?' page
@@ -88,9 +88,9 @@ Feature: Appellant provides the Appeal Site Address
     Then the appellant remains on the 'What is the address of the appeal site?' page
     And the appellant is informed that <Reason>
     Examples:
-      | Postcode  | Reason                                 |
-      | "ZXAS SS" | "Postcodes cannot be all letters"      |
-      | "1RG 4AX" | "Postcodes should begin with a letter" |
+      | Postcode  | Reason                  |
+      | "ZXAS SS" | "Enter a real postcode" |
+      | "1RG 4AX" | "Enter a real postcode" |
 
   Scenario: 10. Navigate from the 'What is the address of the appeal site?' page back to the 'Task List' page
     Given an appellant is on the 'What is the address of the appeal site?' page
