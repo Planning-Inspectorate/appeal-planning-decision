@@ -18,11 +18,11 @@ import { uploadDecisionLetterFile } from '../appellant-submission-decision-lette
 import { checkNoSensitiveInformation } from '../appeal-statement-submission/checkNoSensitiveInformation';
 import { uploadAppealStatementFile } from '../appeal-statement-submission/uploadAppealStatementFile';
 import { uploadSupportingDocuments } from '../appellant-submission-supporting-documents/uploadSupportingDocuments';
-import { provideAddressLine1 } from '../appeal-submission-appeal-site-address/provideAddressLine1';
-import { provideAddressLine2 } from '../appeal-submission-appeal-site-address/provideAddressLine2';
-import { provideTownOrCity } from '../appeal-submission-appeal-site-address/provideTownOrCity';
-import { provideCounty } from '../appeal-submission-appeal-site-address/provideCounty';
-import { providePostcode } from '../appeal-submission-appeal-site-address/providePostcode';
+import { provideAddressLine1 } from '../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine1';
+import { provideAddressLine2 } from '../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine2';
+import { provideTownOrCity } from '../../../../support/common/appeal-submission-appeal-site-address/provideTownOrCity';
+import { provideCounty } from '../../../../support/common/appeal-submission-appeal-site-address/provideCounty';
+import { providePostcode } from '../../../../support/common/appeal-submission-appeal-site-address/providePostcode';
 import { answerOwnsTheWholeAppeal } from '../appeal-submission-appeal-site-ownership/answerOwnsTheWholeAppeal';
 import { answerDoesNotOwnTheWholeAppeal } from '../appeal-submission-appeal-site-ownership/answerDoesNotOwnTheWholeAppeal';
 import { answerHaveToldOtherOwnersAppeal } from '../appeal-submission-appeal-site-ownership/answerHaveToldOtherOwnersAppeal';

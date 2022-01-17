@@ -45,7 +45,7 @@ describe('controllers/full-appeal/submit-appeal/task-list', () => {
             },
           },
           {
-            href: '/',
+            href: `/${VIEW.FULL_APPEAL.APPEAL_STATEMENT}`,
             text: 'Upload documents for your appeal',
             status: 'NOT STARTED',
             attributes: {

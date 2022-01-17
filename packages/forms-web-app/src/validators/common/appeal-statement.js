@@ -7,7 +7,9 @@ const rules = (noFilesError) => {
 
     body('does-not-include-sensitive-information')
       .notEmpty()
-      .withMessage('Select to confirm you have not included sensitive information')
+      .withMessage(
+        'Select to confirm that you have not included any sensitive information in your appeal statement'
+      )
       .bail()
       .equals('i-confirm'),
   ];

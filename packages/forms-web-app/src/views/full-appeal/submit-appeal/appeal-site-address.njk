@@ -5,13 +5,23 @@
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 
-{% set title="What is the address of the appeal site? - Appeal a householder planning decision - GOV.UK" %}
+{% set title="What is the address of the appeal site? - Appeal a planning decision - GOV.UK" %}
 
 {% block pageTitle %}
   {% if errors %}
     {% set title="Error: " + title %}
   {% endif %}
   {{ title }}
+{% endblock %}
+
+{% block backButton %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: '/full-appeal/submit-appeal/task-list',
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
 {% endblock %}
 
 {% block content %}
@@ -28,7 +38,7 @@
 
       <form action="" method="post" novalidate>
 
-        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Tell us about the appeal site</span>
+        <span class="govuk-caption-l" data-cy="caption"><span class="govuk-visually-hidden">Section. </span>Tell us about the appeal site</span>
 
         {% call govukFieldset({
           legend: {
@@ -38,7 +48,7 @@
           }
         }) %}
 
-          <p>The appeal site is the area of property or land that your planning application relates to.</p>
+          <p class="govuk-body" data-cy="text">The appeal site is the area of property or land that your planning application relates to.</p>
 
           {% set addressLine1Id = "site-address-line-one" %}
           {% set addressLine1LabelId = addressLine1Id + "-label" %}
@@ -56,7 +66,8 @@
             autocomplete: "address-line1",
             describedBy: addressLine1LabelId,
             attributes: {
-              title: addressLine1Text
+              title: addressLine1Text,
+              'data-cy': addressLine1Id
             },
             errorMessage: errors[addressLine1Id] and {
               text: errors[addressLine1Id].msg
@@ -79,7 +90,8 @@
             autocomplete: "address-line2",
             describedBy: addressLine2LabelId,
             attributes: {
-              title: addressLine2Text
+              title: addressLine2Text,
+              'data-cy': addressLine2Id
             },
             errorMessage: errors[addressLine2Id] and {
               text: errors[addressLine2Id].msg
@@ -103,7 +115,8 @@
             autocomplete: "address-level2",
             describedBy: townOrCityLabelId,
             attributes: {
-              title: townOrCityText
+              title: townOrCityText,
+              'data-cy': townOrCityId
             },
             errorMessage: errors[townOrCityId] and {
               text: errors[townOrCityId].msg
@@ -126,7 +139,8 @@
             name: countyId,
             describedBy: countyLabelId,
             attributes: {
-              title: countyText
+              title: countyText,
+              'data-cy': countyId
             },
             errorMessage: errors[countyId] and {
               text: errors[countyId].msg
@@ -150,7 +164,8 @@
             autocomplete: "postal-code",
             describedBy: postcodeLabelId,
             attributes: {
-              title: postcodeText
+              title: postcodeText,
+              'data-cy': postcodeId
             },
             errorMessage: errors[postcodeId] and {
               text: errors[postcodeId].msg

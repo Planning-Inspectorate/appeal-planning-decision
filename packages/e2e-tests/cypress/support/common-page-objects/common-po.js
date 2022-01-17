@@ -8,4 +8,4 @@ export const continueButton = () => cy.get('[data-cy=button-continue]');
 export const getAppealDetailsSidebar = () => cy.get('table[data-cy="appealDetails"]');
 export const continueButtonFileUpload = () => cy.get('[data-cy=button-submit]');
 export const getFileUploadButton = () => cy.get('#file-upload');
-
+export const getSaveAndContinueButton = () => cy.get('[data-cy="button-save-and-continue"]');
