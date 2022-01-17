@@ -1,9 +1,9 @@
 import { When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { provideAddressLine1 } from '../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/provideAddressLine1';
-import { provideAddressLine2 } from '../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/provideAddressLine2';
-import { provideCounty } from '../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/provideCounty';
-import { provideTownOrCity } from '../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/provideTownOrCity';
-import { providePostcode } from '../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/providePostcode';
+import { provideAddressLine1 } from '../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine1';
+import { provideAddressLine2 } from '../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine2';
+import { provideCounty } from '../../../../support/common/appeal-submission-appeal-site-address/provideCounty';
+import { provideTownOrCity } from '../../../../support/common/appeal-submission-appeal-site-address/provideTownOrCity';
+import { providePostcode } from '../../../../support/common/appeal-submission-appeal-site-address/providePostcode';
 import { clickSaveAndContinue } from '../../../../support/householder-planning/appeals-service/appeal-navigation/clickSaveAndContinue';
 import { checkStatusForTask } from '../../../../support/householder-planning/appeals-service/appeal-submission-tasklist/checkStatusForTask';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';

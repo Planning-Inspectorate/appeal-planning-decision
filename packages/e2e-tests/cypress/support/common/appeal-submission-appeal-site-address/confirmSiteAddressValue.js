@@ -1,5 +1,5 @@
-import { goToAppealsPage } from '../../../common/go-to-page/goToAppealsPage';
-import { pageURLAppeal } from '../../../../integration/common/householder-planning/appeals-service/pageURLAppeal';
+import { goToAppealsPage } from '../../../support/common/go-to-page/goToAppealsPage';
+import { pageURLAppeal } from '../../../integration/common/householder-planning/appeals-service/pageURLAppeal';
 
 export const confirmSiteAddressValue = (addressLine1, addressLine2, townCity, county, postcode) => {
   goToAppealsPage(pageURLAppeal.goToSiteAddressPage);

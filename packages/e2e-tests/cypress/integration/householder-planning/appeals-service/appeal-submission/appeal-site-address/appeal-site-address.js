@@ -1,13 +1,13 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { provideAddressLine1 } from '../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/provideAddressLine1';
-import { provideAddressLine2 } from '../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/provideAddressLine2';
-import { provideTownOrCity } from '../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/provideTownOrCity';
-import { provideCounty } from '../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/provideCounty';
-import { providePostcode } from '../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/providePostcode';
+import { provideAddressLine1 } from '../../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine1';
+import { provideAddressLine2 } from '../../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine2';
+import { provideTownOrCity } from '../../../../../support/common/appeal-submission-appeal-site-address/provideTownOrCity';
+import { provideCounty } from '../../../../../support/common/appeal-submission-appeal-site-address/provideCounty';
+import { providePostcode } from '../../../../../support/common/appeal-submission-appeal-site-address/providePostcode';
 import { clickSaveAndContinue } from '../../../../../support/householder-planning/appeals-service/appeal-navigation/clickSaveAndContinue';
-import { confirmSiteAddressWasAccepted } from '../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/confirmSiteAddressWasAccepted';
-import { confirmSiteAddressWasRejectedBecause } from '../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/confirmSiteAddressWasRejectedBecause';
-import { confirmSiteAddressValue } from '../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/confirmSiteAddressValue';
+import { confirmSiteAddressWasAccepted } from '../../../../../support/common/appeal-submission-appeal-site-address/confirmSiteAddressWasAccepted';
+import { confirmSiteAddressWasRejectedBecause } from '../../../../../support/common/appeal-submission-appeal-site-address/confirmSiteAddressWasRejectedBecause';
+import { confirmSiteAddressValue } from '../../../../../support/common/appeal-submission-appeal-site-address/confirmSiteAddressValue';
 import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import { pageURLAppeal } from '../../../../common/householder-planning/appeals-service/pageURLAppeal';
 

@@ -19,11 +19,11 @@ import { uploadPlanningApplicationFile } from '../../../../support/householder-p
 import { uploadDecisionLetterFile } from '../../../../support/householder-planning/appeals-service/appellant-submission-decision-letter/uploadDecisionLetterFile';
 import { checkNoSensitiveInformation } from '../../../../support/householder-planning/appeals-service/appeal-statement-submission/checkNoSensitiveInformation';
 import { uploadAppealStatementFile } from '../../../../support/householder-planning/appeals-service/appeal-statement-submission/uploadAppealStatementFile';
-import { provideAddressLine1 } from '../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/provideAddressLine1';
-import { provideAddressLine2 } from '../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/provideAddressLine2';
-import { provideTownOrCity } from '../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/provideTownOrCity';
-import { providePostcode } from '../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/providePostcode';
-import { provideCounty } from '../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-address/provideCounty';
+import { provideAddressLine1 } from '../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine1';
+import { provideAddressLine2 } from '../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine2';
+import { provideTownOrCity } from '../../../../support/common/appeal-submission-appeal-site-address/provideTownOrCity';
+import { providePostcode } from '../../../../support/common/appeal-submission-appeal-site-address/providePostcode';
+import { provideCounty } from '../../../../support/common/appeal-submission-appeal-site-address/provideCounty';
 import { answerDoesNotOwnTheWholeAppeal } from '../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-ownership/answerDoesNotOwnTheWholeAppeal';
 import { answerHaveToldOtherOwnersAppeal } from '../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-ownership/answerHaveToldOtherOwnersAppeal';
 import { answerCannotSeeTheWholeAppeal } from '../../../../support/householder-planning/appeals-service/appeal-submission-access-to-appeal-site/answerCannotSeeTheWholeAppeal';
