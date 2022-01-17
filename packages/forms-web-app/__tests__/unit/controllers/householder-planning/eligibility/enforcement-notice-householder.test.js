@@ -33,6 +33,9 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
 
     ({ empty: appeal } = APPEAL_DOCUMENT);
 
+    appeal.eligibility.appealType = '1001';
+    appeal.eligibility.applicationDecision = 'granted';
+
     getPreviousPagePath.mockImplementation(() => {
       return '/before-you-start/decision-date-householder';
     });
@@ -44,10 +47,13 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
 
   describe('getEnforcementNoticeHouseholder', () => {
     it('should call the correct template', () => {
+      req.session.appeal.appealType = '1001';
+      req.session.appeal.eligibility.applicationDecision = 'granted';
+
       enforcementNoticeController.getEnforcementNoticeHouseholder(req, res);
 
       expect(res.render).toHaveBeenCalledWith(currentPage, {
-        appeal: req.session.appeal,
+        appeal,
         previousPage: navigationPages.previousPage,
       });
     });
@@ -70,9 +76,9 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(currentPage, {
         appeal: {
-          ...req.session.appeal,
+          ...appeal,
           eligibility: {
-            ...req.session.appeal.eligibility,
+            ...appeal.eligibility,
             enforcementNotice: null,
           },
         },
@@ -88,6 +94,8 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
         body: {},
       };
 
+      mockRequest.session.appeal.appealType = '1001';
+      mockRequest.session.appeal.eligibility.applicationDecision = 'granted';
       const error = new Error('Cheers');
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
@@ -98,7 +106,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
       expect(logger.error).toHaveBeenCalledWith(error);
 
       expect(res.render).toHaveBeenCalledWith(currentPage, {
-        appeal: req.session.appeal,
+        appeal,
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
         previousPage: navigationPages.previousPage,
