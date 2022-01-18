@@ -88,6 +88,9 @@ exports.appealDocument = {
     email: null,
     companyName: null,
   },
+  planningApplicationDocumentsSection: {
+    isDesignAccessStatementSubmitted: null,
+  },
   sectionStates: {
     aboutYouSection: {
       yourDetails: 'NOT STARTED',
@@ -109,7 +112,8 @@ exports.appealDocument = {
     },
     contactDetailsSection: 'NOT STARTED',
     aboutAppealSiteSection: 'NOT STARTED',
-    planningApplicationDocumentsSection: 'NOT STARTED',
-    appealDocumentsSection: 'NOT STARTED',
+    planningApplicationDocumentsSection: {
+      isDesignAccessStatementSubmitted: 'NOT STARTED',
+    },
   },
 };

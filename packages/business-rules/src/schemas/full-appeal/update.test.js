@@ -1042,5 +1042,50 @@ describe('schemas/full-appeal/update', () => {
         });
       });
     });
+
+    describe('planningApplicationDocumentsSection', () => {
+      it('should remove unknown fields', async () => {
+        appeal2.planningApplicationDocumentsSection.unknownField = 'unknown field';
+
+        const result = await update.validate(appeal2, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should throw an error when given a null value', async () => {
+        appeal.planningApplicationDocumentsSection = null;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'planningApplicationDocumentsSection must be a `object` type, but the final value was: `null`',
+        );
+      });
+
+      describe('planningApplicationDocumentsSection.isDesignAccessStatementSubmitted', () => {
+        it('should throw an error when not given a boolean value', async () => {
+          appeal.planningApplicationDocumentsSection = {
+            isDesignAccessStatementSubmitted: 'yes',
+          };
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'planningApplicationDocumentsSection.isDesignAccessStatementSubmitted must be a `boolean` type, but the final value was: `"yes"`',
+          );
+        });
+
+        it('should throw an error when given a null value', async () => {
+          appeal.planningApplicationDocumentsSection.isDesignAccessStatementSubmitted = null;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'planningApplicationDocumentsSection.isDesignAccessStatementSubmitted must be a `boolean` type, but the final value was: `null`',
+          );
+        });
+
+        it('should throw an error when not given a value', async () => {
+          delete appeal.planningApplicationDocumentsSection.isDesignAccessStatementSubmitted;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'planningApplicationDocumentsSection.isDesignAccessStatementSubmitted is a required field',
+          );
+        });
+      });
+    });
   });
 });

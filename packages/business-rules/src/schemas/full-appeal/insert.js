@@ -128,6 +128,12 @@ const insert = pinsYup
         })
         .noUnknown(true),
     }),
+    planningApplicationDocumentsSection: pinsYup
+      .object()
+      .shape({
+        isDesignAccessStatementSubmitted: pinsYup.bool().nullable(),
+      })
+      .noUnknown(true),
     sectionStates: pinsYup.object().shape({}),
   });
 
