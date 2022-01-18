@@ -4,7 +4,9 @@ module.exports = (appeal) => {
   appeal.lpaCode = 'E60000281/new';
   appeal.decisionDate = new Date().toISOString();
   appeal.state = 'DRAFT';
+  appeal.appealType = '1001';
   appeal.eligibility = {
+    applicationDecision: 'granted',
     enforcementNotice: true,
     householderPlanningPermission: true,
     isClaimingCosts: false,

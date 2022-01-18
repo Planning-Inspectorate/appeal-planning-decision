@@ -15,8 +15,10 @@ async function createAppeal() {
   const appeal = JSON.parse(JSON.stringify(appealDocument));
   appeal.id = uuid.v4();
   const now = new Date(new Date().toISOString());
+  appeal.appealType = '1001';
   appeal.createdAt = now;
   appeal.updatedAt = now;
+  delete appeal.eligibility.applicationCategories;
 
   await mongodb.get().collection('appeals').insertOne({ _id: appeal.id, uuid: appeal.id, appeal });
   return appeal;
