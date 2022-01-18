@@ -42,9 +42,16 @@ const TYPE_OF_PLANNING_APPLICATION = {
   I_HAVE_NOT_MADE_A_PLANNING_APPLICATION: 'i-have-not-made-a-planning-application',
 };
 
+const APPLICATION_DECISION = {
+  GRANTED: 'granted',
+  REFUSED: 'refused',
+  NODECISIONRECEIVED: 'nodecisionreceived',
+};
+
 module.exports = {
   APPEAL_ID,
   APPEAL_STATE,
+  APPLICATION_DECISION,
   PROCEDURE_TYPE,
   SECTION_STATE,
   TYPE_OF_PLANNING_APPLICATION,

@@ -3,7 +3,7 @@ const parseDateString = require('../../utils/parse-date-string');
 const singleDocumentUpdate = require('../components/update/single-document');
 const multiDocumentUpdate = require('../components/update/multi-document');
 const sectionState = require('../components/section-state');
-const { APPEAL_ID, APPEAL_STATE } = require('../../constants');
+const { APPLICATION_DECISION, APPEAL_ID, APPEAL_STATE } = require('../../constants');
 
 const update = pinsYup
   .object()
@@ -26,6 +26,7 @@ const update = pinsYup
     eligibility: pinsYup
       .object()
       .shape({
+        applicationDecision: pinsYup.string().oneOf(Object.values(APPLICATION_DECISION)),
         enforcementNotice: pinsYup.bool().required(),
         householderPlanningPermission: pinsYup.bool().required(),
         isClaimingCosts: pinsYup.bool().required(),

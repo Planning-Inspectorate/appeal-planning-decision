@@ -2,7 +2,7 @@ const { subYears, addYears } = require('date-fns');
 const v8 = require('v8');
 const appealData = require('../../../test/data/householder-appeal');
 const update = require('./update');
-const { APPEAL_ID, APPEAL_STATE, SECTION_STATE } = require('../../constants');
+const { APPEAL_ID, APPEAL_STATE, APPLICATION_DECISION, SECTION_STATE } = require('../../constants');
 
 describe('schemas/householder-appeal/update', () => {
   const config = {};
@@ -241,6 +241,25 @@ describe('schemas/householder-appeal/update', () => {
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
           'eligibility.isListedBuilding is a required field',
         );
+      });
+    });
+
+    describe('eligibility.applicationDecision', () => {
+      it('should throw an error when given an invalid value', async () => {
+        appeal.eligibility.applicationDecision = 'appeal';
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          `eligibility.applicationDecision must be one of the following values: ${Object.values(
+            APPLICATION_DECISION,
+          ).join(', ')}`,
+        );
+      });
+
+      it('should not throw an error when not given a value', async () => {
+        delete appeal.eligibility.applicationDecision;
+
+        const result = await update.validate(appeal, config);
+        expect(result).toEqual(appeal);
       });
     });
 

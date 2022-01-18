@@ -5,8 +5,10 @@ exports.appealDocument = {
   decisionDate: null,
   submissionDate: null,
   state: 'DRAFT',
-  appealType: '1001',
+  appealType: null,
   eligibility: {
+    applicationDecision: null,
+    applicationCategories: null,
     enforcementNotice: null,
     householderPlanningPermission: null,
     isClaimingCosts: null,
