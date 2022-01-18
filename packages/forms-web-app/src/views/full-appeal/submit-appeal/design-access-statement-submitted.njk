@@ -1,0 +1,70 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set title = "Did you submit a design and access statement with your application? - Appeal a planning decision - GOV.UK" %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
+
+{% block backButton %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: '/full-appeal/submit-appeal/application-number',
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary,
+          attributes: {"data-cy": "error-wrapper"}
+        }) }}
+      {% endif %}
+      <form action="" method="post" novalidate>
+        <span class="govuk-caption-l">Upload documents from your planning application</span>
+        {{ govukRadios({
+          classes: "govuk-radios",
+          idPrefix: "design-access-statement-submitted",
+          name: "design-access-statement-submitted",
+          errorMessage: errors['design-access-statement-submitted'] and {
+            text: errors['design-access-statement-submitted'].msg
+          },
+          fieldset: {
+            legend: {
+              text: "Did you submit a design and access statement with your application?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              attributes: { "data-cy": "answer-yes" },
+              checked: isDesignAccessStatementSubmitted == true
+            },
+            {
+              value: "no",
+              text: "No",
+              attributes: { "data-cy": "answer-no" },
+              checked: isDesignAccessStatementSubmitted == false
+            }
+          ]
+        }) }}
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

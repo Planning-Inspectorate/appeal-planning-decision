@@ -61,6 +61,9 @@ const appeal = {
       postcode: 'SW1 1AA',
     },
   },
+  planningApplicationDocumentsSection: {
+    isDesignAccessStatementSubmitted: true,
+  },
 };
 
 module.exports = appeal;

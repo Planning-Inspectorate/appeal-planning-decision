@@ -121,6 +121,12 @@ const update = pinsYup
         })
         .noUnknown(true),
     }),
+    planningApplicationDocumentsSection: pinsYup
+      .object()
+      .shape({
+        isDesignAccessStatementSubmitted: pinsYup.bool().required(),
+      })
+      .noUnknown(true),
     sectionStates: pinsYup.object().shape({}),
   });
 
