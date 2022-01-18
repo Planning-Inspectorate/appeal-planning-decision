@@ -7,6 +7,7 @@ const appeal = {
   state: 'SUBMITTED',
   appealType: '1001',
   eligibility: {
+    applicationDecision: 'granted',
     enforcementNotice: false,
     householderPlanningPermission: true,
     isClaimingCosts: false,

@@ -1,7 +1,12 @@
 const v8 = require('v8');
 const appealData = require('../../../test/data/full-appeal');
 const insert = require('./insert');
-const { APPEAL_STATE, APPEAL_ID, TYPE_OF_PLANNING_APPLICATION } = require('../../constants');
+const {
+  APPEAL_STATE,
+  APPEAL_ID,
+  APPLICATION_DECISION,
+  TYPE_OF_PLANNING_APPLICATION,
+} = require('../../constants');
 
 describe('schemas/full-appeal/insert', () => {
   const config = {};
@@ -154,6 +159,109 @@ describe('schemas/full-appeal/insert', () => {
 
       it('should not throw an error when not given a value', async () => {
         delete appeal.appealType;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+    });
+
+    describe('decisionDate', () => {
+      it('should throw an error when given a value which is in an incorrect format', async () => {
+        appeal.decisionDate = '03/07/2021';
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          'Invalid Date or string not ISO format',
+        );
+      });
+
+      it('should not throw an error when not given a value', async () => {
+        delete appeal.decisionDate;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+    });
+
+    describe('eligibility', () => {
+      it('should remove unknown fields', async () => {
+        appeal2.eligibility.unknownField = 'unknown field';
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should throw an error when given a null value', async () => {
+        appeal.eligibility = null;
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          'eligibility must be a `object` type, but the final value was: `null`',
+        );
+      });
+    });
+
+    describe('eligibility.applicationCategories', () => {
+      it('should throw an error when given an invalid value', async () => {
+        appeal.eligibility.applicationCategories = 'appeal';
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          `eligibility.applicationCategories must be one of the following values: none_of_these, `,
+        );
+      });
+
+      it('should not throw an error when not given a value', async () => {
+        delete appeal.eligibility.applicationCategories;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should not throw an error when given a null value', async () => {
+        appeal.eligibility.applicationCategories = null;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+    });
+
+    describe('eligibility.applicationDecision', () => {
+      it('should throw an error when given an invalid value', async () => {
+        appeal.eligibility.applicationDecision = 'appeal';
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          `eligibility.applicationDecision must be one of the following values: ${Object.values(
+            APPLICATION_DECISION,
+          ).join(', ')}`,
+        );
+      });
+
+      it('should not throw an error when not given a value', async () => {
+        delete appeal.eligibility.applicationDecision;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should not throw an error when given a null value', async () => {
+        appeal.eligibility.applicationDecision = null;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+    });
+
+    describe('eligibility.enforcementNotice', () => {
+      it('should throw an error when not given a boolean value', async () => {
+        appeal.eligibility = {
+          enforcementNotice: 'yes',
+        };
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          'eligibility.enforcementNotice must be a `boolean` type, but the final value was: `"yes"`',
+        );
+      });
+
+      it('should not throw an error when not given a value', async () => {
+        delete appeal.eligibility.enforcementNotice;
 
         const result = await insert.validate(appeal, config);
         expect(result).toEqual(appeal);
