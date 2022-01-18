@@ -1,7 +1,7 @@
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   VIEW: {
-    FULL_APPEAL: { APPLICANT_NAME: currentPage, TASK_LIST },
+    FULL_APPEAL: { APPLICANT_NAME: currentPage, CONTACT_DETAILS },
   },
 } = require('../../../lib/full-appeal/views');
 const logger = require('../../../lib/logger');
@@ -57,5 +57,5 @@ exports.postApplicantName = async (req, res) => {
     return;
   }
 
-  res.redirect(`/${TASK_LIST}`);
+  res.redirect(`/${CONTACT_DETAILS}`);
 };

@@ -152,7 +152,7 @@ describe('controllers/full-appeal/submit-appeal/applicant-name', () => {
         },
       });
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.CONTACT_DETAILS}`);
     });
   });
 });
