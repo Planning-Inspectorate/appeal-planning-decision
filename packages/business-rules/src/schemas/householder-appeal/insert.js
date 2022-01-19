@@ -15,14 +15,19 @@ const insert = pinsYup
     decisionDate: pinsYup.date().transform(parseDateString).nullable(),
     submissionDate: pinsYup.date().transform(parseDateString).nullable(),
     state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).default(APPEAL_STATE.DRAFT),
-    appealType: pinsYup.string().oneOf(Object.values(APPEAL_ID)),
+    appealType: pinsYup
+      .string()
+      .oneOf([...Object.values(APPEAL_ID), null])
+      .nullable(),
     eligibility: pinsYup
       .object()
       .shape({
-        applicationDecision: pinsYup
-          .string()
-          .oneOf([...Object.values(APPLICATION_DECISION), null])
-          .nullable(),
+        applicationDecision: pinsYup.lazy((applicationDecision) => {
+          if (applicationDecision) {
+            return pinsYup.string().oneOf(Object.values(APPLICATION_DECISION));
+          }
+          return pinsYup.string().nullable();
+        }),
         enforcementNotice: pinsYup.bool().nullable(),
         householderPlanningPermission: pinsYup.bool().nullable(),
         isClaimingCosts: pinsYup.bool().nullable(),

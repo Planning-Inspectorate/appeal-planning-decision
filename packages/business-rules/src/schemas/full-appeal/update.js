@@ -23,7 +23,7 @@ const update = pinsYup
       .object()
       .shape({
         applicationCategories: pinsYup.string().matches('none_of_these').required(),
-        applicationDecision: pinsYup.string().oneOf(Object.values(APPLICATION_DECISION)),
+        applicationDecision: pinsYup.string().oneOf(Object.values(APPLICATION_DECISION)).required(),
         enforcementNotice: pinsYup.bool().required(),
       })
       .noUnknown(true),

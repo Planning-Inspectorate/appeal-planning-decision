@@ -26,7 +26,29 @@ const update = pinsYup
     eligibility: pinsYup
       .object()
       .shape({
-        applicationDecision: pinsYup.string().oneOf(Object.values(APPLICATION_DECISION)),
+        applicationDecision: pinsYup
+          .mixed()
+          .test(
+            'applicationDecision',
+            `eligibility.applicationDecision must be one of the following values: ${Object.values(
+              APPLICATION_DECISION,
+            ).join(', ')}`,
+            function (applicationDecision) {
+              if (applicationDecision) {
+                return pinsYup
+                  .string()
+                  .oneOf(Object.values(APPLICATION_DECISION))
+                  .isValidSync(applicationDecision);
+              }
+              if (this.options.parent.householderPlanningPermission) {
+                return pinsYup
+                  .bool()
+                  .required()
+                  .isValidSync(this.options.parent.householderPlanningPermission);
+              }
+              return false;
+            },
+          ),
         enforcementNotice: pinsYup.bool().required(),
         householderPlanningPermission: pinsYup.bool().required(),
         isClaimingCosts: pinsYup.bool().required(),

@@ -204,7 +204,7 @@ describe('schemas/full-appeal/insert', () => {
         appeal.eligibility.applicationCategories = 'appeal';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          `eligibility.applicationCategories must be one of the following values: none_of_these, `,
+          'eligibility.applicationCategories must match the following: "none_of_these"',
         );
       });
 

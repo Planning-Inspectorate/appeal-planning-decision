@@ -8,6 +8,10 @@ const ApiError = require('../../error/apiError');
 
 const appealUpdateValidationRules = async (req, res, next) => {
   try {
+    if (!req.body.appealType) {
+      req.body.appealType = APPEAL_ID.HOUSEHOLDER;
+    }
+
     req.body = await validate.update(req.body);
     logger.debug('Valid input format');
 
@@ -26,6 +30,10 @@ const appealUpdateValidationRules = async (req, res, next) => {
 
 const appealInsertValidationRules = async (req, res, next) => {
   try {
+    if (!req.body.appealType) {
+      req.body.appealType = APPEAL_ID.HOUSEHOLDER;
+    }
+
     req.body = await validate.insert(req.body);
     logger.debug('Valid input format');
 
