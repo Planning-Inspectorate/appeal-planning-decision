@@ -6,8 +6,8 @@ import { verifyPageHeading } from '../../../../../support/common/verify-page-hea
 import { pageURLAppeal } from '../../../../common/householder-planning/appeals-service/pageURLAppeal';
 
 
-const heading = 'Appeal a householder planning decision';
-const title = 'Before you appeal - Appeal a householder planning decision - GOV.UK';
+const heading = 'Appeal a planning decision';
+const title = 'Before you appeal - Appeal a planning decision - GOV.UK';
 //const  url = 'before-you-appeal';
 const  url = 'http://localhost:9003/before-you-appeal';
 let disableJs = false;
@@ -22,7 +22,7 @@ Given('the appellant is on the before you appeal page', () => {
   //goToBeforeYouAppealPage();
  // verifyPage(url);
   verifyPageTitle(title);
-  verifyPageHeading('Appeal a householder planning decision');
+  verifyPageHeading('Appeal a planning decision');
   // checkPageA11();
 });
 

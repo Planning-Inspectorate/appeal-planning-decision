@@ -9,7 +9,7 @@ import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-b
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 
-const pageTitle = 'Which local planning department dealt with your planning application? - Before you start - Appeal a householder planning decision - GOV.UK';
+const pageTitle = 'Which local planning department dealt with your planning application? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Which local planning department dealt with your planning application?';
 const url = 'before-you-start/local-planning-depart';
 Given('appellant is on the Local Planning Authority Page',()=> {

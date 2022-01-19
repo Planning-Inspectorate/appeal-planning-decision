@@ -7,7 +7,7 @@ class PO_EligibilityDecisionDate {
   }
 
   validatePageTitle() {
-    cy.title().should('eq', "What's the decision date on the letter from the local planning department? - Eligibility - Appeal a householder planning decision - GOV.UK");
+    cy.title().should('eq', "What's the decision date on the letter from the local planning department? - Eligibility - Appeal a planning decision - GOV.UK");
   }
 
   validateHeaderLogo() {
@@ -16,9 +16,9 @@ class PO_EligibilityDecisionDate {
   }
 
   pageHeaderlink() {
-    //const headerLink = cy.get('a[href="Appeal a householder planning decision"]')
+    //const headerLink = cy.get('a[href="Appeal a planning decision"]')
     const headerLink = cy.get('.govuk-header__content > .govuk-header__link')
-    assert.exists(headerLink, 'Appeal a householder planning decision exists')
+    assert.exists(headerLink, 'Appeal a planning decision exists')
     headerLink.should('have.attr', 'href').and('eq', '/');
   }
 

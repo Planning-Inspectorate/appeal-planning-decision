@@ -12,7 +12,7 @@ import {verifyPage} from "../../../../support/common/verifyPage";
 import {verifyErrorMessage} from "../../../../support/common/verify-error-message";
 import {getBackLink, getErrorMessageSummary} from "../../../../support/common-page-objects/common-po";
 const pageUrl = 'before-you-start/claiming-costs-householder';
-const pageTitle = 'Are you claiming costs as part of your appeal? - Before you start - Appeal a householder planning decision - GOV.UK';
+const pageTitle = 'Are you claiming costs as part of your appeal? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Are you claiming costs as part of your appeal?';
 
 Given('appellant is on the claiming cost page',()=>{

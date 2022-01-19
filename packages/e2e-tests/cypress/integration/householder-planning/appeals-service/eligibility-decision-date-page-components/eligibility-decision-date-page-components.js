@@ -45,7 +45,7 @@ Then('I can see the logo gov uk text', () => {
     eligPage.validateHeaderLogo()
 })
 
-And('I can see the header link appeal a householder planning decision', () => {
+And('I can see the header link appeal a planning decision', () => {
     eligPage.pageHeaderlink()
 })
 
