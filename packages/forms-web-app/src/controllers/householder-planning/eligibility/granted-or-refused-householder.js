@@ -45,7 +45,7 @@ exports.postGrantedOrRefusedHouseholder = async (req, res) => {
 
   if (validApplicationDecisionOptions.includes(applicationDecision)) {
     selectedApplicationStatus = applicationDecision;
-    appeal.eligibility.applicationDecision = selectedApplicationStatus.toUpperCase();
+    appeal.eligibility.applicationDecision = selectedApplicationStatus;
   }
 
   if (Object.keys(errors).length > 0) {
