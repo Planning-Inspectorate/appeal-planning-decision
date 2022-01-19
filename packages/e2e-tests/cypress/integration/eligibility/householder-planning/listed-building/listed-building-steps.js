@@ -18,7 +18,7 @@ import {
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 
 const pageTitle =
-  'Is your appeal about a listed building? - Before you start - Appeal a householder planning decision - GOV.UK';
+  'Is your appeal about a listed building? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Is your appeal about a listed building?';
 const errorMessage = 'Select yes if your appeal about a listed building';
 const url = 'before-you-start/listed-building-householder';

@@ -7,7 +7,7 @@ Feature: The Decision Date page has the right structure
         Given I navigate to the Eligibility checker page
         And I am on the decision date page
         Then I can see the logo gov uk text
-        And I can see the header link appeal a householder planning decision
+        And I can see the header link appeal a planning decision
         And I can verify the text what is the decision date on the letter
         And I can see the footer
 

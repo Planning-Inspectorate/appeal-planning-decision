@@ -15,7 +15,7 @@ import {
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 
-const pageTitle = 'What type of planning application is your appeal about? - Before you start - Appeal a householder planning decision - GOV.UK';
+const pageTitle = 'What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'What type of planning application is your appeal about?';
 const url = 'before-you-start/type-of-planning-application';
 const listedBuildingHouseholderUrl = '/before-you-start/listed-building-householder';

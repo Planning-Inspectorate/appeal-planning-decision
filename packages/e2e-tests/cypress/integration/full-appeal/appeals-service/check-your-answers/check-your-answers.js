@@ -8,7 +8,7 @@ import { verifyPageHeading } from '../../../../support/common/verify-page-headin
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 
 const url = 'full-appeal/submit-appeal/task-list';
-const pageTitle = 'Check your answers - Appeal a householder planning decision - GOV.UK';
+const pageTitle = 'Check your answers - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Check your answers';
 
 Given("the appellant is on the 'Appeal a planning decision' page",()=> {
