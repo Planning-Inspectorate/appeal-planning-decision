@@ -7,7 +7,7 @@
 {% from "../../macros/contact-details.njk" import contactDetails %}
 
 {% block pageTitle %}
-  Check your answers - Appeal a householder planning decision - GOV.UK
+  Check your answers - Appeal a planning decision - GOV.UK
 {% endblock %}
 
 {% block content %}
@@ -46,7 +46,7 @@
       <form action="/full-appeal/submit-appeal/declaration" method="get" novalidate>
         {{ govukButton({
           text: "Continue",
-          attributes: { "data-cy":"button-continue"}
+          attributes: { "data-cy":"button-save-and-continue"}
         }) }}
       </form>
     </div>

@@ -1,7 +1,7 @@
 {% from "govuk/components/cookie-banner/macro.njk" import govukCookieBanner %}
 
 {% macro cookieBanner(attributes = {}) -%}
-  {% set serviceName = attributes.serviceName | default('appeal a householder planning decision service', true) %}
+  {% set serviceName = attributes.serviceName | default('appeal a planning decision service', true) %}
   {% set cookiePagePath = attributes.cookiePagePath | default('/cookies', true) %}
 
   {% set headingText = 'Cookies on %serviceName%' | replace('%serviceName%', serviceName) %}

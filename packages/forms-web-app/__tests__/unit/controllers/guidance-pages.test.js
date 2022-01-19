@@ -22,7 +22,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
           text: 'When you can appeal',
           url: '/when-you-can-appeal',
         },
-        title: 'Before you appeal - Appeal a householder planning decision - GOV.UK',
+        title: 'Before you appeal - Appeal a planning decision - GOV.UK',
       });
     });
   });
@@ -41,7 +41,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
           text: 'The stages of an appeal',
           url: '/stages-of-an-appeal',
         },
-        title: 'When you can appeal - Appeal a householder planning decision - GOV.UK',
+        title: 'When you can appeal - Appeal a planning decision - GOV.UK',
       });
     });
   });
@@ -60,7 +60,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
           text: 'Start your appeal',
           url: '/start-your-appeal',
         },
-        title: 'After you appeal - Appeal a householder planning decision - GOV.UK',
+        title: 'After you appeal - Appeal a planning decision - GOV.UK',
       });
     });
   });
@@ -79,7 +79,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
           text: 'After you appeal',
           url: '/after-you-appeal',
         },
-        title: 'Stages of an appeal - Appeal a householder planning decision - GOV.UK',
+        title: 'Stages of an appeal - Appeal a planning decision - GOV.UK',
       });
     });
   });
@@ -90,7 +90,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.GUIDANCE_PAGES.START_APPEAL, {
         hideNavigation: true,
-        title: 'Start your appeal - Appeal a householder planning decision - GOV.UK',
+        title: 'Start your appeal - Appeal a planning decision - GOV.UK',
       });
     });
   });
