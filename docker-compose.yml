@@ -10,7 +10,7 @@
 version: '3.7'
 services:
   pdf-service-api:
-    build: './packages/pdf-service-api'
+    image: appeal-planning-decision_pdf-service-api:latest
     environment:
       SERVER_SHOW_ERRORS: 'true'
       LOGGER_LEVEL: 'debug'
@@ -263,21 +263,21 @@ services:
       context: ./mocked-services/horizon
       dockerfile: ../Dockerfile
     ports:
-      - 5000:3000
+      - 5500:3000
 
   mock-notify:
     build:
       context: ./mocked-services/notify
       dockerfile: ../Dockerfile
     ports:
-      - 5001:3000
+      - 5501:3000
 
   mock-os-places:
     build:
       context: ./mocked-services/os-places
       dockerfile: ../Dockerfile
     ports:
-      - 5002:3000
+      - 5502:3000
 
 
 
@@ -295,7 +295,7 @@ services:
     volumes:
       - ./docs/swagger/horizon/create_case_openapi.yaml:/app/swagger.yaml
     ports:
-      - 7000:8080
+      - 7500:8080
 
   # Third-party services
   blob-storage:
