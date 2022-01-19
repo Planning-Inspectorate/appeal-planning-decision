@@ -23,11 +23,18 @@ const insert = pinsYup
     eligibility: pinsYup
       .object()
       .shape({
-        applicationCategories: pinsYup.string().oneOf(['none_of_these', null]).nullable(),
-        applicationDecision: pinsYup
-          .string()
-          .oneOf([...Object.values(APPLICATION_DECISION), null])
-          .nullable(),
+        applicationCategories: pinsYup.lazy((applicationCategories) => {
+          if (applicationCategories) {
+            return pinsYup.string().matches('none_of_these');
+          }
+          return pinsYup.string().nullable();
+        }),
+        applicationDecision: pinsYup.lazy((applicationDecision) => {
+          if (applicationDecision) {
+            return pinsYup.string().oneOf(Object.values(APPLICATION_DECISION));
+          }
+          return pinsYup.string().nullable();
+        }),
         enforcementNotice: pinsYup.bool().nullable(),
       })
       .noUnknown(true),

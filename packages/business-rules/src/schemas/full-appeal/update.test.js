@@ -254,11 +254,12 @@ describe('schemas/full-appeal/update', () => {
         );
       });
 
-      it('should not throw an error when not given a value', async () => {
+      it('should throw an error when not given a value', async () => {
         delete appeal.eligibility.applicationDecision;
 
-        const result = await update.validate(appeal, config);
-        expect(result).toEqual(appeal);
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'eligibility.applicationDecision is a required field',
+        );
       });
     });
 
