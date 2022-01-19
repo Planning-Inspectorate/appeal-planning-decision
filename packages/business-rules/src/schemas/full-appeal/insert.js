@@ -15,10 +15,12 @@ const insert = pinsYup
     horizonId: pinsYup.string().trim().max(20).nullable(),
     lpaCode: pinsYup.string().trim().max(20).nullable(),
     state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).default(APPEAL_STATE.DRAFT),
-    appealType: pinsYup
-      .string()
-      .oneOf([...Object.values(APPEAL_ID), null])
-      .nullable(),
+    appealType: pinsYup.lazy((appealType) => {
+      if (appealType) {
+        return pinsYup.string().oneOf(Object.values(APPEAL_ID));
+      }
+      return pinsYup.string().nullable();
+    }),
     decisionDate: pinsYup.date().transform(parseDateString).nullable(),
     eligibility: pinsYup
       .object()
