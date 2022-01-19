@@ -12,9 +12,18 @@ const schema = (noFilesError) => ({
   'file-upload': {
     custom: {
       options: async (value, { req, path }) => {
-        const { files } = req;
+        const {
+          files,
+          session: { appeal },
+          sectionName,
+          taskName,
+        } = req;
 
-        if (files === null || (files && !files[path])) {
+        if (!files) {
+          if (appeal[sectionName] && appeal[sectionName][taskName]?.uploadedFile.id) {
+            return true;
+          }
+
           throw new Error(noFilesError || 'Select a file to upload');
         }
 

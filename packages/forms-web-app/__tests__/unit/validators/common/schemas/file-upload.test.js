@@ -15,9 +15,15 @@ jest.mock('../../../../../src/validators/custom/file-size');
 describe('validators/common/schemas/file-upload', () => {
   let req;
 
+  const sectionName = 'requiredDocumentsSection';
+  const taskName = 'originalApplication';
+
   beforeEach(() => {
     req = {
+      session: { appeal: {} },
       files: {},
+      sectionName,
+      taskName,
     };
   });
 
@@ -35,6 +41,23 @@ describe('validators/common/schemas/file-upload', () => {
       schema = fileUploadSchema()['file-upload'].custom.options;
     });
 
+    it('should return true if req.files is null and a file has already been uploaded', async () => {
+      req.files = null;
+      req.session = {
+        appeal: {
+          [sectionName]: {
+            [taskName]: {
+              uploadedFile: file,
+            },
+          },
+        },
+      };
+
+      const result = schema(null, { req });
+
+      expect(result).toBeTruthy();
+    });
+
     it('should throw the correct error if req.files is null and noFilesError is not given', () => {
       req.files = null;
 
@@ -49,13 +72,14 @@ describe('validators/common/schemas/file-upload', () => {
     });
 
     it('should throw the correct error if a file has not been uploaded and noFilesError is not given', () => {
-      req.files = {};
+      req.files = null;
 
       expect(() => schema(null, { req })).rejects.toThrow(noFilesErrorDefault);
     });
 
     it('should throw the correct error if a file has not been uploaded and noFilesError is given', () => {
-      req.files = {};
+      req.files = null;
+
       schema = fileUploadSchema(noFilesError)['file-upload'].custom.options;
 
       expect(() => schema(null, { req })).rejects.toThrow(noFilesError);
@@ -137,6 +161,22 @@ describe('validators/common/schemas/file-upload', () => {
         uploadApplicationMaxFileSize,
         file.name
       );
+    });
+
+    it('should return true when given a single valid file', async () => {
+      req.files = { 'file-upload': file };
+
+      const result = await schema(null, { req, path: 'file-upload' });
+
+      expect(result).toBeTruthy();
+    });
+
+    it('should return true when given a smultiple valid files', async () => {
+      req.files = { 'file-upload': [file, file, file] };
+
+      const result = await schema(null, { req, path: 'file-upload' });
+
+      expect(result).toBeTruthy();
     });
   });
 });
