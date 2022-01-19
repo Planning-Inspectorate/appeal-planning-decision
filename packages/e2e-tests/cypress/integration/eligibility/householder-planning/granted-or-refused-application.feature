@@ -1,4 +1,4 @@
-Feature: Appeal Full Appeal Application Status Question
+Feature: Appeal Householder Appeal Application Status Question
   As an appellant
   I want to select the planning application status type of planning Application I made
   So that I can proceed to raise an appeal
