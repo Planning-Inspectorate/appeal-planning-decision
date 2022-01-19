@@ -31,7 +31,7 @@ module.exports = async (context, event) => {
       throw new Error('LPA neither English nor Welsh');
     }
 
-    context.log({ appealId }, 'Transmit initial appeal');
+    // context.log({ appealId }, 'Transmit initial appeal');
 
     await transmitAppealData(context.log, appealId);
 
