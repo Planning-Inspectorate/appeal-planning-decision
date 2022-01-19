@@ -8,7 +8,7 @@ exports[`views/macros/cookie-banner-accepted should allow setting a custom cooki
 
   
 
-  <div class=\\"govuk-cookie-banner govuk-!-display-none\\" data-nosnippet role=\\"region\\" aria-label=\\"Cookies on appeal a householder planning decision service\\" data-cy=\\"cookie-banner-accepted\\" id=\\"cookie-banner-accepted\\">
+  <div class=\\"govuk-cookie-banner govuk-!-display-none\\" data-nosnippet role=\\"region\\" aria-label=\\"Cookies on appeal a planning decision service\\" data-cy=\\"cookie-banner-accepted\\" id=\\"cookie-banner-accepted\\">
     
     
 
@@ -134,7 +134,7 @@ exports[`views/macros/cookie-banner-accepted should have sensible default attrib
 
   
 
-  <div class=\\"govuk-cookie-banner govuk-!-display-none\\" data-nosnippet role=\\"region\\" aria-label=\\"Cookies on appeal a householder planning decision service\\" data-cy=\\"cookie-banner-accepted\\" id=\\"cookie-banner-accepted\\">
+  <div class=\\"govuk-cookie-banner govuk-!-display-none\\" data-nosnippet role=\\"region\\" aria-label=\\"Cookies on appeal a planning decision service\\" data-cy=\\"cookie-banner-accepted\\" id=\\"cookie-banner-accepted\\">
     
     
 
