@@ -73,6 +73,5 @@ Feature: Date Decision Due eligibility check for householder appeal
     When appellant enters date decision due of '25'-'10'-'2022'
     And appellant selects the back button
     Then appellant is navigated to the granted or refused page
-    Then appellant selects the granted or refused householder option as 'I have not received a decision'
     And appellant clicks on continue
     And decision due date they have inputted will not be saved
