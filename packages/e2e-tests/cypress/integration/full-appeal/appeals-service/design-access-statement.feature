@@ -44,10 +44,10 @@ Feature: As an appellant/agent
     Then an error message 'Select your design and access statement' is displayed
 
 
-#  Scenario: 6. Navigate from 'Design and access statement' page back to Task List
-#    Given an appellant is on the 'Design and access statement' page
-#    When they click on the 'Back' link
-#    Then they are presented with the 'Did you submit a design and access statement with your application?' page
-##And the last task they are working on will show 'In progress'
+ Scenario: 6. Navigate from 'Design and access statement' page back to Task List
+   Given an appellant is on the 'Design and access statement' page
+   When they click on the 'Back' link
+   Then they are presented with the 'Did you submit a design and access statement with your application?' page
+#And the last task they are working on will show 'In progress'
 
 
