@@ -11,7 +11,6 @@ const APPEAL_ID = {
   HEDGEROW: '1009',
   HIGH_HEDGES: '1010',
   FAST_TRACK_TREES: '1011',
-  FULL_APPEAL: '1012',
 };
 
 const APPEAL_STATE = {
