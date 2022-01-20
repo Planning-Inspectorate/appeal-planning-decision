@@ -1,3 +1,4 @@
+const { documentTypes } = require('@pins/common');
 const { get, post } = require('../../router-mock');
 const {
   getAppealStatement,
@@ -10,9 +11,11 @@ const {
 const {
   rules: appealStatementValidationRules,
 } = require('../../../../../src/validators/common/appeal-statement');
+const setSectionAndTaskNames = require('../../../../../src/middleware/set-section-and-task-names');
 
 jest.mock('../../../../../src/middleware/fetch-existing-appeal');
 jest.mock('../../../../../src/validators/common/appeal-statement');
+jest.mock('../../../../../src/middleware/set-section-and-task-names');
 
 describe('routes/full-appeal/submit-appeal/appeal-statement', () => {
   beforeEach(() => {
@@ -24,14 +27,20 @@ describe('routes/full-appeal/submit-appeal/appeal-statement', () => {
     expect(get).toHaveBeenCalledWith(
       '/submit-appeal/appeal-statement',
       [fetchExistingAppealMiddleware],
+      setSectionAndTaskNames(),
       getAppealStatement
     );
     expect(post).toHaveBeenCalledWith(
       '/submit-appeal/appeal-statement',
+      setSectionAndTaskNames(),
       appealStatementValidationRules(),
       validationErrorHandler,
       postAppealStatement
     );
     expect(appealStatementValidationRules).toHaveBeenCalledWith('Select your appeal statement');
+    expect(setSectionAndTaskNames).toHaveBeenCalledWith(
+      'yourAppealSection',
+      documentTypes.appealStatement.name
+    );
   });
 });

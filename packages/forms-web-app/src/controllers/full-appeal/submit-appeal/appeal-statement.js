@@ -1,4 +1,3 @@
-const { documentTypes } = require('@pins/common');
 const {
   VIEW: {
     FULL_APPEAL: { APPEAL_STATEMENT, PLANS_DRAWINGS },
@@ -9,30 +8,33 @@ const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const { getTaskStatus } = require('../../../services/task.service');
 
-const sectionName = 'yourAppealSection';
-const taskName = documentTypes.appealStatement.name;
-const viewData = (appeal, errorSummary, errors) => {
-  const section = appeal[sectionName][taskName];
-  return {
-    appealId: appeal.id,
-    uploadedFile: section && section.uploadedFile,
-    hasSensitiveInformation: section && section.hasSensitiveInformation,
-    errorSummary,
-    errors,
-  };
-};
-
 const getAppealStatement = (req, res) => {
-  const { appeal } = req.session;
-  res.render(APPEAL_STATEMENT, viewData(appeal));
+  const {
+    session: {
+      appeal,
+      appeal: { id: appealId },
+    },
+    sectionName,
+    taskName,
+  } = req;
+  res.render(APPEAL_STATEMENT, {
+    appealId,
+    uploadedFile: appeal[sectionName][taskName].uploadedFile,
+    hasSensitiveInformation: appeal[sectionName][taskName].hasSensitiveInformation,
+  });
 };
 
 const postAppealStatement = async (req, res) => {
   const {
     body,
     body: { errors = {}, errorSummary = [] },
-    files = {},
-    session: { appeal },
+    files,
+    session: {
+      appeal,
+      appeal: { id: appealId },
+    },
+    sectionName,
+    taskName,
   } = req;
 
   if (!appeal[sectionName][taskName]) {
@@ -43,25 +45,38 @@ const postAppealStatement = async (req, res) => {
     body['does-not-include-sensitive-information'] !== 'i-confirm';
 
   if (Object.keys(errors).length > 0) {
-    return res.render(APPEAL_STATEMENT, viewData(appeal, errorSummary, errors));
+    return res.render(APPEAL_STATEMENT, {
+      appealId,
+      uploadedFile: appeal[sectionName][taskName].uploadedFile,
+      hasSensitiveInformation: appeal[sectionName][taskName].hasSensitiveInformation,
+      errorSummary,
+      errors,
+    });
   }
 
   try {
-    const document = await createDocument(appeal, files['file-upload'], null, taskName);
+    if (files) {
+      const document = await createDocument(appeal, files['file-upload'], null, taskName);
+      appeal[sectionName][taskName].uploadedFile = {
+        id: document.id,
+        name: files['file-upload'].name,
+        fileName: files['file-upload'].name,
+        originalFileName: files['file-upload'].name,
+        location: document.location,
+        size: document.size,
+      };
+    }
 
-    appeal[sectionName][taskName].uploadedFile = {
-      id: document.id,
-      name: files['file-upload'].name,
-      fileName: files['file-upload'].name,
-      originalFileName: files['file-upload'].name,
-      location: document.location,
-      size: document.size,
-    };
     appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);
-    return res.render(APPEAL_STATEMENT, viewData(appeal, [{ text: err.toString(), href: '#' }]));
+    return res.render(APPEAL_STATEMENT, {
+      appealId,
+      uploadedFile: appeal[sectionName][taskName].uploadedFile,
+      hasSensitiveInformation: appeal[sectionName][taskName].hasSensitiveInformation,
+      errorSummary: [{ text: err.toString(), href: '#' }],
+    });
   }
 
   return res.redirect(`/${PLANS_DRAWINGS}`);
