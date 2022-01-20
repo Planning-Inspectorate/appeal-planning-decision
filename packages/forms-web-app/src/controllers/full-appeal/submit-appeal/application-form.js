@@ -1,4 +1,3 @@
-const { documentTypes } = require('@pins/common');
 const {
   VIEW: {
     FULL_APPEAL: { APPLICATION_FORM, APPLICATION_NUMBER },
@@ -9,49 +8,66 @@ const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const { getTaskStatus } = require('../../../services/task.service');
 
-const sectionName = 'requiredDocumentsSection';
-const taskName = documentTypes.originalApplication.name;
-const viewData = (appeal, errorSummary, errors) => {
-  return {
-    appealId: appeal.id,
-    uploadedFile: appeal[sectionName][taskName] && appeal[sectionName][taskName].uploadedFile,
-    errorSummary,
-    errors,
-  };
-};
-
 const getApplicationForm = (req, res) => {
-  const { appeal } = req.session;
-  res.render(APPLICATION_FORM, viewData(appeal));
+  const {
+    session: { appeal },
+    sectionName,
+    taskName,
+  } = req;
+  res.render(APPLICATION_FORM, {
+    appealId: appeal.id,
+    uploadedFile: appeal[sectionName][taskName]?.uploadedFile,
+  });
 };
 
 const postApplicationForm = async (req, res) => {
   const {
     body: { errors = {}, errorSummary = [] },
-    files = {},
-    session: { appeal },
+    files,
+    session: {
+      appeal,
+      appeal: { id: appealId },
+    },
+    sectionName,
+    taskName,
   } = req;
 
   if (Object.keys(errors).length > 0) {
-    return res.render(APPLICATION_FORM, viewData(appeal, errorSummary, errors));
+    return res.render(APPLICATION_FORM, {
+      appealId: appeal.id,
+      uploadedFile: appeal[sectionName][taskName]?.uploadedFile,
+      errorSummary,
+      errors,
+    });
   }
 
   try {
-    const document = await createDocument(appeal, files['file-upload'], null, taskName);
+    if (files) {
+      const document = await createDocument(appeal, files['file-upload'], null, taskName);
 
-    appeal[sectionName][taskName].uploadedFile = {
-      id: document.id,
-      name: files['file-upload'].name,
-      fileName: files['file-upload'].name,
-      originalFileName: files['file-upload'].name,
-      location: document.location,
-      size: document.size,
-    };
+      if (!appeal[sectionName][taskName]) {
+        appeal[sectionName][taskName] = {};
+      }
+
+      appeal[sectionName][taskName].uploadedFile = {
+        id: document.id,
+        name: files['file-upload'].name,
+        fileName: files['file-upload'].name,
+        originalFileName: files['file-upload'].name,
+        location: document.location,
+        size: document.size,
+      };
+    }
+
     appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);
-    return res.render(APPLICATION_FORM, viewData(appeal, [{ text: err.toString(), href: '#' }]));
+    return res.render(APPLICATION_FORM, {
+      appealId,
+      uploadedFile: appeal[sectionName][taskName]?.uploadedFile,
+      errorSummary: [{ text: err.toString(), href: '#' }],
+    });
   }
 
   return res.redirect(`/${APPLICATION_NUMBER}`);

@@ -1,3 +1,4 @@
+const { documentTypes } = require('@pins/common');
 const { get, post } = require('../../router-mock');
 const {
   getApplicationForm,
@@ -10,9 +11,11 @@ const {
 const {
   rules: fileUploadValidationRules,
 } = require('../../../../../src/validators/common/file-upload');
+const setSectionAndTaskNames = require('../../../../../src/middleware/set-section-and-task-names');
 
 jest.mock('../../../../../src/middleware/fetch-existing-appeal');
 jest.mock('../../../../../src/validators/common/file-upload');
+jest.mock('../../../../../src/middleware/set-section-and-task-names');
 
 describe('routes/full-appeal/submit-appeal/application-form', () => {
   beforeEach(() => {
@@ -24,14 +27,20 @@ describe('routes/full-appeal/submit-appeal/application-form', () => {
     expect(get).toHaveBeenCalledWith(
       '/submit-appeal/application-form',
       [fetchExistingAppealMiddleware],
+      setSectionAndTaskNames(),
       getApplicationForm
     );
     expect(post).toHaveBeenCalledWith(
       '/submit-appeal/application-form',
+      setSectionAndTaskNames(),
       fileUploadValidationRules(),
       validationErrorHandler,
       postApplicationForm
     );
     expect(fileUploadValidationRules).toHaveBeenCalledWith('Select your planning application form');
+    expect(setSectionAndTaskNames).toHaveBeenCalledWith(
+      'planningApplicationDocumentsSection',
+      documentTypes.originalApplication.name
+    );
   });
 });
