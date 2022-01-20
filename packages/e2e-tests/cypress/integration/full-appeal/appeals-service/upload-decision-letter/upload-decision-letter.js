@@ -75,8 +75,8 @@ Then( "an error message {string} is displayed", (errorMessage) => {
 Given("an appellant has not uploaded any document",()=> {
   goToAppealsPage(url);
 });
-Then("they are presented with the 'Appeal a planning decision' task list page", () => {
-  cy.url().should('contain',taskListUrl)
+Then("they are presented with the 'Design and access statement' page", () => {
+  cy.url().should('contain', designAccessStatementUrl);
 });
 When("they click on the 'Back' link",()=> {
   getBackLink().click();

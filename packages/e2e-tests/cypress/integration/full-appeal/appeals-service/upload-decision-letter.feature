@@ -11,18 +11,18 @@ Feature: As an appellant/agent
     Given an appellant is on the 'Decision Letter' page
     When they upload a file '<filename>' and click on Continue button
     Then 'Task list' page is displayed
-    When an appellant is on the 'Decision Letter' page
-    Then the uploaded file '<filename>' is displayed
-    Examples:
-      | filename               |
-      | upload-file-valid.doc  |
-      | upload-file-valid.docx |
-      | upload-file-valid.jpeg |
-      | upload-file-valid.jpg  |
-      | upload-file-valid.png  |
-      | upload-file-valid.tif  |
-      | upload-file-valid.tiff |
-      | upload-file-valid.pdf  |
+    # When an appellant is on the 'Decision Letter' page
+    # Then the uploaded file '<filename>' is displayed
+    # Examples:
+    #   | filename               |
+    #   | upload-file-valid.doc  |
+    #   | upload-file-valid.docx |
+    #   | upload-file-valid.jpeg |
+    #   | upload-file-valid.jpg  |
+    #   | upload-file-valid.png  |
+    #   | upload-file-valid.tif  |
+    #   | upload-file-valid.tiff |
+    #   | upload-file-valid.pdf  |
 
   Scenario: 3. Appellant/agent uploads valid file using Drag and Drop
     Given an appellant is on the 'Decision Letter' page
@@ -47,5 +47,5 @@ Feature: As an appellant/agent
   Scenario: 6. Navigate from 'Decision Letter' page back to Task List
     Given an appellant is on the 'Decision Letter' page
     When they click on the 'Back' link
-    Then they are presented with the 'Appeal a planning decision' task list page
+    Then they are presented with the 'Design and access statement' page
     #And the last task they are working on will show ‘In progress’

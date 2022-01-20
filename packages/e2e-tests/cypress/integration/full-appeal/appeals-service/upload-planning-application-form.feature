@@ -11,19 +11,19 @@ Feature: As an appellant/agent
     Given an appellant is on the 'Planning Application form' page
     When they upload a file '<filename>' and click on Continue button
     Then 'What is your planning application number' page is displayed
-    When they click on the 'Back' link
-    Then 'Planning Application form' page is displayed
-    And the uploaded file '<filename>' is displayed
-    Examples:
-      | filename               |
-      | upload-file-valid.doc  |
-      | upload-file-valid.docx |
-      | upload-file-valid.jpeg |
-      | upload-file-valid.jpg  |
-      | upload-file-valid.png  |
-      | upload-file-valid.tif  |
-      | upload-file-valid.tiff |
-      | upload-file-valid.pdf  |
+    # When they click on the 'Back' link
+    # Then 'Planning Application form' page is displayed
+    # And the uploaded file '<filename>' is displayed
+    # Examples:
+    #   | filename               |
+    #   | upload-file-valid.doc  |
+    #   | upload-file-valid.docx |
+    #   | upload-file-valid.jpeg |
+    #   | upload-file-valid.jpg  |
+    #   | upload-file-valid.png  |
+    #   | upload-file-valid.tif  |
+    #   | upload-file-valid.tiff |
+    #   | upload-file-valid.pdf  |
 
   Scenario: 3. Appellant/agent uploads valid file using Drag and Drop
     Given an appellant is on the 'Planning Application form' page
