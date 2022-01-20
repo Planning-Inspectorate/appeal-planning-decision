@@ -12,7 +12,10 @@ const getDecisionLetter = (req, res) => {
   const {
     session: {
       appeal,
-      appeal: { id: appealId },
+      appeal: {
+        id: appealId,
+        planningApplicationDocumentsSection: { isDesignAccessStatementSubmitted },
+      },
     },
     sectionName,
     taskName,
@@ -20,6 +23,7 @@ const getDecisionLetter = (req, res) => {
   res.render(DECISION_LETTER, {
     appealId,
     uploadedFile: appeal[sectionName][taskName]?.uploadedFile,
+    isDesignAccessStatementSubmitted,
   });
 };
 
@@ -29,7 +33,10 @@ const postDecisionLetter = async (req, res) => {
     files,
     session: {
       appeal,
-      appeal: { id: appealId },
+      appeal: {
+        id: appealId,
+        planningApplicationDocumentsSection: { isDesignAccessStatementSubmitted },
+      },
     },
     sectionName,
     taskName,
@@ -39,6 +46,7 @@ const postDecisionLetter = async (req, res) => {
     return res.render(DECISION_LETTER, {
       appealId,
       uploadedFile: appeal[sectionName][taskName]?.uploadedFile,
+      isDesignAccessStatementSubmitted,
       errorSummary,
       errors,
     });
@@ -69,6 +77,7 @@ const postDecisionLetter = async (req, res) => {
     return res.render(DECISION_LETTER, {
       appealId,
       uploadedFile: appeal[sectionName][taskName]?.uploadedFile,
+      isDesignAccessStatementSubmitted,
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
