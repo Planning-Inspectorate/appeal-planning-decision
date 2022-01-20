@@ -203,5 +203,55 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement-submitte
       expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
+
+    it('should redirect to the correct page if `yes` has been selected and appeal.sectionStates.planningApplicationDocumentsSection is not defined', async () => {
+      const submittedAppeal = {
+        ...appeal,
+        state: 'SUBMITTED',
+      };
+
+      delete appeal.sectionStates.planningApplicationDocumentsSection;
+
+      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+      req = {
+        ...req,
+        body: {
+          'design-access-statement-submitted': 'yes',
+        },
+      };
+
+      await postDesignAccessStatementSubmitted(req, res);
+
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(res.redirect).toHaveBeenCalledWith(`/${DESIGN_ACCESS_STATEMENT}`);
+      expect(req.session.appeal).toEqual(submittedAppeal);
+    });
+
+    it('should redirect to the correct page if `no` has been selected and appeal.sectionStates.planningApplicationDocumentsSection is not defined', async () => {
+      const submittedAppeal = {
+        ...appeal,
+        state: 'SUBMITTED',
+      };
+
+      delete appeal.sectionStates.planningApplicationDocumentsSection;
+
+      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+      req = {
+        ...req,
+        body: {
+          'design-access-statement-submitted': 'no',
+        },
+      };
+
+      await postDesignAccessStatementSubmitted(req, res);
+
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
+      expect(req.session.appeal).toEqual(submittedAppeal);
+    });
   });
 });
