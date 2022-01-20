@@ -55,7 +55,7 @@ Given('appellant is on the what date was the decision due page',()=>{
 
 When('appellant enters the date within 6 months when they were due a decision', () => {
   const validDate = getPastDate(allowedDatePart.MONTH, 3);
-  enterDateDecisionDue( {day: getDate(validDate), month: getMonth(validDate), year: getYear(validDate) } );
+  enterDateDecisionDue( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
 });
 
 When('appellant enters a past date of over 6 months', () => {

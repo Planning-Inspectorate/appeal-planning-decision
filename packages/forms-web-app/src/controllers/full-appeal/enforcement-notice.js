@@ -1,3 +1,9 @@
+const {
+  constants: { APPEAL_ID },
+} = require('@pins/business-rules');
+const {
+  FULL_APPEAL: { PLANNING_APPLICATION_STATUS: status },
+} = require('../../constants');
 const logger = require('../../lib/logger');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const {
@@ -8,17 +14,36 @@ const {
 const {
   validEnforcementNoticeOptions,
 } = require('../../validators/full-appeal/enforcement-notice');
-const getPreviousPagePath = require('../../lib/get-previous-page-path');
 
 const navigationPages = {
   nextPage: '/before-you-start/claiming-costs',
   shutterPage: '/before-you-start/use-a-different-service',
 };
 
+const decisionDateEnforcementNoticeMapper = (key) => {
+  const pages = {
+    [`${APPEAL_ID.PLANNING_SECTION_78}_${status.GRANTED}`]: '/before-you-start/decision-date',
+    [`${APPEAL_ID.PLANNING_SECTION_78}_${status.REFUSED}`]: '/before-you-start/decision-date',
+    [`${APPEAL_ID.PLANNING_SECTION_78}_${status.NODECISION}`]:
+      '/before-you-start/date-decision-due',
+  };
+
+  return pages[key];
+};
+
+const getPreviousPagePath = (appealType, applicationDecision) => {
+  return decisionDateEnforcementNoticeMapper(`${appealType}_${applicationDecision}`);
+};
+
 exports.getEnforcementNotice = (req, res) => {
-  navigationPages.previousPage = getPreviousPagePath(req);
+  const { appeal } = req.session;
+
+  navigationPages.previousPage = getPreviousPagePath(
+    appeal.appealType,
+    appeal.eligibility.applicationDecision
+  );
   res.render(currentPage, {
-    appeal: req.session.appeal,
+    appeal,
     previousPage: navigationPages.previousPage,
   });
 };
@@ -27,7 +52,11 @@ exports.postEnforcementNotice = async (req, res) => {
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
   const { appeal } = req.session;
-  navigationPages.previousPage = getPreviousPagePath(req);
+
+  navigationPages.previousPage = getPreviousPagePath(
+    appeal.appealType,
+    appeal.eligibility.applicationDecision
+  );
 
   let hasReceivedEnforcementNotice = null;
   if (validEnforcementNoticeOptions.includes(req.body['enforcement-notice'])) {

@@ -20,11 +20,14 @@ Feature: Enforcement notice
     When  appellant clicks on the continue button
    Then appellant sees an error message 'Select yes if you have received an enforcement notice'
 
-  Scenario:AC04 Back Link
-    Given appellant is on the enforcement notice page
+  Scenario Outline:AC04 Back Link
+    Given appellant is on the enforcement notice page for '<application_type>'
     When appellant selects 'Yes' from the options
     And appellant selects the back button
-    Then appellant is navigated to the decision date page
+    Then appellant is navigated to the date decision due page
     And information they have inputted will not be saved
 
-
+    Examples:
+      | application_type |
+      | Full planning  |
+      

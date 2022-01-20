@@ -10,12 +10,34 @@ import { getErrorMessageSummary } from '../../../../support/common-page-objects/
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
 import { getBackLink } from '../../../../support/common-page-objects/common-po';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
+import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
+import { selectPlanningApplicationDecision } from '../../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
+import { selectListedBuildingDecision } from '../../../../support/eligibility/listed-building/select-listed-building-decision';
+import { enterDateDecisionDue } from '../../../../support/eligibility/date-decision-due/enter-date-decision-due';
+import { getDate, getMonth, getYear } from 'date-fns';
+import { allowedDatePart, getPastDate } from '../../../../support/common/getDate';
 const pageHeading = 'Have you received an enforcement notice?';
 const pageTitle = 'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK';
 const url = `before-you-start/enforcement-notice-householder`;
+const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 
 Given('appellant is on the enforcement notice page for householder planning', () => {
-  goToAppealsPage(url, { headers: { 'Referer': `${Cypress.env('APPEALS_BASE_URL')}/before-you-start/decision-date-householder` } });
+  goToAppealsPage(url);
+  verifyPageHeading(pageHeading);
+  verifyPageTitle(pageTitle);
+});
+
+Given('appellant is on the enforcement notice page for {string}', (application_type) => {
+  goToAppealsPage(typeOfPlanningPageUrl);
+  selectPlanningApplicationType(application_type);
+  getContinueButton().click();
+  selectListedBuildingDecision('No');
+  getContinueButton().click();
+  selectPlanningApplicationDecision('Granted');
+  getContinueButton().click();
+  const validDate = getPastDate(allowedDatePart.MONTH, 3);
+  enterDateDecisionDue( {day: getDate(validDate), month: getMonth(validDate)+1, year: getYear(validDate) } );
+
   verifyPageHeading(pageHeading);
   verifyPageTitle(pageTitle);
 });
