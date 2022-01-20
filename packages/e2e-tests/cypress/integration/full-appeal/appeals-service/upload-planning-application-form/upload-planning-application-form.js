@@ -5,7 +5,9 @@ import {
   getErrorMessageSummary,
   getFileUploadButton,
 } from '../../../../support/common-page-objects/common-po';
-import { planningApplicationDocuments } from '../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
+import {
+  planningApplicationDocumentsLink,
+} from '../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 import { getSaveAndContinueButton } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
 import {
@@ -29,7 +31,7 @@ Given("an appellant is on the 'Appeal a Planning Decision page'",()=> {
   goToAppealsPage(taskListUrl);
  })
 When("they select 'Upload documents from your planning application'",()=> {
-  planningApplicationDocuments().click();
+  planningApplicationDocumentsLink().click();
 })
 Then("'Planning Application form' page is displayed",()=> {
   cy.url().should('contain', url);
@@ -73,7 +75,7 @@ Given("an appellant has not uploaded any document",()=> {
 
 Given("an appellant is on the 'Planning Application' page",()=> {
   goToAppealsPage(taskListUrl);
-  planningApplicationDocuments().click();
+  planningApplicationDocumentsLink().click();
 });
 When("they click on the 'Back' link",()=> {
   getBackLink().click();

@@ -1,6 +1,5 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
-import { appealDocumentsSectionLink } from '../../../../support/full-appeal/appeals-service/page-objects/your-appeal-statement-po';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { pageCaption } from '../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';

@@ -1,14 +1,12 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import {
-  appealDocumentsSectionLink,
-  appealStatementBodyText, checkboxConfirmSensitiveInfo, checkboxErrorMessage, sensitiveInfoLabel,
+    appealStatementBodyText, checkboxConfirmSensitiveInfo, checkboxErrorMessage, sensitiveInfoLabel,
 } from '../../../../support/full-appeal/appeals-service/page-objects/your-appeal-statement-po';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import {
-  pageCaption, planningAppNumberErrorMessage,
-} from '../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
+  pageCaption} from '../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
 import {
   dragAndDropAFile, errorFileUploadField, filesCanUploadHintText,
   filesYouCanUpload, uploadedFileLabel, uploadedFileName,
@@ -20,6 +18,7 @@ import {
   getFileUploadButton,
 } from '../../../../support/common-page-objects/common-po';
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
+import { appealDocumentsSectionLink } from '../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 
 const url = 'full-appeal/submit-appeal/appeal-statement';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
