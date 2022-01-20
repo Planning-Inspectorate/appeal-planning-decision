@@ -19,6 +19,7 @@ async function addInDatabase() {
   const now = new Date(new Date().toISOString());
   appeal.createdAt = now;
   appeal.updatedAt = now;
+  delete appeal.eligibility.applicationCategories;
 
   await mongodb.get().collection('appeals').insertOne({ _id: appeal.id, uuid: appeal.id, appeal });
   return appeal;

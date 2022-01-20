@@ -1,7 +1,13 @@
 const v8 = require('v8');
+const { addYears } = require('date-fns');
 const appealData = require('../../../test/data/full-appeal');
 const update = require('./update');
-const { APPEAL_ID, APPEAL_STATE, TYPE_OF_PLANNING_APPLICATION } = require('../../constants');
+const {
+  APPEAL_ID,
+  APPEAL_STATE,
+  APPLICATION_DECISION,
+  TYPE_OF_PLANNING_APPLICATION,
+} = require('../../constants');
 
 describe('schemas/full-appeal/update', () => {
   const config = {};
@@ -164,6 +170,123 @@ describe('schemas/full-appeal/update', () => {
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
           'appealType is a required field',
+        );
+      });
+    });
+
+    describe('decisionDate', () => {
+      it('should throw an error when given a value which is in an incorrect format', async () => {
+        appeal.decisionDate = '03/07/2021';
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'Invalid Date or string not ISO format',
+        );
+      });
+
+      it('should throw an error when given a date in the future', async () => {
+        appeal.decisionDate = addYears(new Date(), 1);
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'decisionDate must be in the past',
+        );
+      });
+
+      it('should throw an error when given a null value', async () => {
+        appeal.decisionDate = null;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'decisionDate must be a `date` type, but the final value was: `null`',
+        );
+      });
+
+      it('should throw an error when not given a value', async () => {
+        delete appeal.decisionDate;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'The given date must be a valid Date instance',
+        );
+      });
+    });
+
+    describe('eligibility', () => {
+      it('should remove unknown fields', async () => {
+        appeal2.eligibility.unknownField = 'unknown field';
+
+        const result = await update.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should throw an error when given a null value', async () => {
+        appeal.eligibility = null;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'eligibility must be a `object` type, but the final value was: `null`',
+        );
+      });
+    });
+
+    describe('eligibility.applicationCategories', () => {
+      it('should throw an error when given an invalid value', async () => {
+        appeal.eligibility.applicationCategories = 'appeal';
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'eligibility.applicationCategories must match the following: "none_of_these"',
+        );
+      });
+
+      it('should throw an error when not given a value', async () => {
+        delete appeal.eligibility.applicationCategories;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'eligibility.applicationCategories is a required field',
+        );
+      });
+    });
+
+    describe('eligibility.applicationDecision', () => {
+      it('should throw an error when given an invalid value', async () => {
+        appeal.eligibility.applicationDecision = 'appeal';
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          `eligibility.applicationDecision must be one of the following values: ${Object.values(
+            APPLICATION_DECISION,
+          ).join(', ')}`,
+        );
+      });
+
+      it('should throw an error when not given a value', async () => {
+        delete appeal.eligibility.applicationDecision;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'eligibility.applicationDecision is a required field',
+        );
+      });
+    });
+
+    describe('eligibility.enforcementNotice', () => {
+      it('should throw an error when not given a boolean value', async () => {
+        appeal.eligibility = {
+          enforcementNotice: 'yes',
+        };
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'eligibility.enforcementNotice must be a `boolean` type, but the final value was: `"yes"`',
+        );
+      });
+
+      it('should throw an error when given a null value', async () => {
+        appeal.eligibility.enforcementNotice = null;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'eligibility.enforcementNotice must be a `boolean` type, but the final value was: `null`',
+        );
+      });
+
+      it('should throw an error when not given a value', async () => {
+        delete appeal.eligibility.enforcementNotice;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'eligibility.enforcementNotice is a required field',
         );
       });
     });

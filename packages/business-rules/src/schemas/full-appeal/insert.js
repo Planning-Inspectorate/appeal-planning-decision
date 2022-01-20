@@ -1,5 +1,11 @@
 const pinsYup = require('../../lib/pins-yup');
-const { APPEAL_ID, APPEAL_STATE, TYPE_OF_PLANNING_APPLICATION } = require('../../constants');
+const parseDateString = require('../../utils/parse-date-string');
+const {
+  APPEAL_ID,
+  APPEAL_STATE,
+  APPLICATION_DECISION,
+  TYPE_OF_PLANNING_APPLICATION,
+} = require('../../constants');
 
 const insert = pinsYup
   .object()
@@ -9,7 +15,31 @@ const insert = pinsYup
     horizonId: pinsYup.string().trim().max(20).nullable(),
     lpaCode: pinsYup.string().trim().max(20).nullable(),
     state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).default(APPEAL_STATE.DRAFT),
-    appealType: pinsYup.string().oneOf(Object.values(APPEAL_ID)),
+    appealType: pinsYup.lazy((appealType) => {
+      if (appealType) {
+        return pinsYup.string().oneOf(Object.values(APPEAL_ID));
+      }
+      return pinsYup.string().nullable();
+    }),
+    decisionDate: pinsYup.date().transform(parseDateString).nullable(),
+    eligibility: pinsYup
+      .object()
+      .shape({
+        applicationCategories: pinsYup.lazy((applicationCategories) => {
+          if (applicationCategories) {
+            return pinsYup.string().matches('none_of_these');
+          }
+          return pinsYup.string().nullable();
+        }),
+        applicationDecision: pinsYup.lazy((applicationDecision) => {
+          if (applicationDecision) {
+            return pinsYup.string().oneOf(Object.values(APPLICATION_DECISION));
+          }
+          return pinsYup.string().nullable();
+        }),
+        enforcementNotice: pinsYup.bool().nullable(),
+      })
+      .noUnknown(true),
     beforeYouStartSection: pinsYup
       .object()
       .shape({

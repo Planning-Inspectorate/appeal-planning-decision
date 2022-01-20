@@ -3,7 +3,7 @@ const parseDateString = require('../../utils/parse-date-string');
 const singleDocumentInsert = require('../components/insert/single-document');
 const multiDocumentInsert = require('../components/insert/multi-document');
 const sectionState = require('../components/section-state');
-const { APPEAL_ID, APPEAL_STATE } = require('../../constants');
+const { APPEAL_ID, APPEAL_STATE, APPLICATION_DECISION } = require('../../constants');
 
 const insert = pinsYup
   .object()
@@ -15,10 +15,21 @@ const insert = pinsYup
     decisionDate: pinsYup.date().transform(parseDateString).nullable(),
     submissionDate: pinsYup.date().transform(parseDateString).nullable(),
     state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).default(APPEAL_STATE.DRAFT),
-    appealType: pinsYup.string().oneOf(Object.values(APPEAL_ID)),
+    appealType: pinsYup.lazy((appealType) => {
+      if (appealType) {
+        return pinsYup.string().oneOf(Object.values(APPEAL_ID));
+      }
+      return pinsYup.string().nullable();
+    }),
     eligibility: pinsYup
       .object()
       .shape({
+        applicationDecision: pinsYup.lazy((applicationDecision) => {
+          if (applicationDecision) {
+            return pinsYup.string().oneOf(Object.values(APPLICATION_DECISION));
+          }
+          return pinsYup.string().nullable();
+        }),
         enforcementNotice: pinsYup.bool().nullable(),
         householderPlanningPermission: pinsYup.bool().nullable(),
         isClaimingCosts: pinsYup.bool().nullable(),

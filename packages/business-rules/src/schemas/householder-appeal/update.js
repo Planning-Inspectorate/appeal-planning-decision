@@ -3,7 +3,7 @@ const parseDateString = require('../../utils/parse-date-string');
 const singleDocumentUpdate = require('../components/update/single-document');
 const multiDocumentUpdate = require('../components/update/multi-document');
 const sectionState = require('../components/section-state');
-const { APPEAL_ID, APPEAL_STATE } = require('../../constants');
+const { APPLICATION_DECISION, APPEAL_ID, APPEAL_STATE } = require('../../constants');
 
 const update = pinsYup
   .object()
@@ -26,6 +26,29 @@ const update = pinsYup
     eligibility: pinsYup
       .object()
       .shape({
+        applicationDecision: pinsYup
+          .mixed()
+          .test(
+            'applicationDecision',
+            `eligibility.applicationDecision must be one of the following values: ${Object.values(
+              APPLICATION_DECISION,
+            ).join(', ')}`,
+            function (applicationDecision) {
+              if (applicationDecision) {
+                return pinsYup
+                  .string()
+                  .oneOf(Object.values(APPLICATION_DECISION))
+                  .isValidSync(applicationDecision);
+              }
+              if (this.options.parent.householderPlanningPermission) {
+                return pinsYup
+                  .bool()
+                  .required()
+                  .isValidSync(this.options.parent.householderPlanningPermission);
+              }
+              return false;
+            },
+          ),
         enforcementNotice: pinsYup.bool().required(),
         householderPlanningPermission: pinsYup.bool().required(),
         isClaimingCosts: pinsYup.bool().required(),
