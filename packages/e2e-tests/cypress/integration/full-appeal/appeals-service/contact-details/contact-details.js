@@ -41,7 +41,7 @@ const AgentEmailText = 'agent-zoopla@hotmail.com';
 Given("an Appellant is on the 'Provide your contact details' page", () => {
  goToAppealsPage(originalApplicantUrl);
   originalApplicantYes().click();
-  continueButton().click();
+  getSaveAndContinueButton().click();
   cy.url().should('contain', url);
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading)
@@ -53,7 +53,7 @@ When("appellant enters their 'full name, company name, email address'", () => {
   contactDetailsEmail().clear().type(originalAppellantEmailText);
 });
 When("they select the 'Continue' button",()=> {
-  continueButton().click();
+  getSaveAndContinueButton().click();
 });
 Then("they return to the task list on the 'Appeal a planning decision' page", () => {
   cy.url().should('contain', taskListUrl);
@@ -61,11 +61,11 @@ Then("they return to the task list on the 'Appeal a planning decision' page", ()
 Given("an Agent is on the 'Provide your contact details' page", () => {
   goToAppealsPage(originalApplicantUrl);
   originalApplicantNo().click();
-  continueButton().click();
+  getSaveAndContinueButton().click();
   cy.url().should('contain',applicantNameUrl)
   originalApplicantName().clear().type(applicantName);
   applicantCompanyName().clear().type(companyName);
-  continueButton().click();
+  getSaveAndContinueButton().click();
 })
 
 When("agent enters their 'full name, company name, email address'", () => {
@@ -98,7 +98,7 @@ Then('they are presented with the error {string}', (errorMessage) => {
 Given("the appellant or agent is on the 'Provide your contact details' page", () => {
   goToAppealsPage(originalApplicantUrl);
   originalApplicantYes().click();
-  continueButton().click();
+  getSaveAndContinueButton().click();
   cy.url().should('contain', url);
 })
 
@@ -107,22 +107,22 @@ When( 'they have or have not provided {string} in the {string} text box', (value
    case 'Your full name':
       contactDetailsFullName().type(`{selectall}{backspace}${value}`);
       contactDetailsEmail().clear().type(AgentEmailText);
-      continueButton().click();
+      getSaveAndContinueButton().click();
       break;
     case 'Your full name':
       contactDetailsFullName().type(`{selectall}{backspace}${value}`);
       contactDetailsEmail().clear().type(AgentEmailText);
-      continueButton().click();
+      getSaveAndContinueButton().click();
       break;
     case 'Your email address':
       contactDetailsFullName().clear().type(AgentFullNameText);
       contactDetailsEmail().type(`{selectall}{backspace}${value}`);
-      continueButton().click();
+      getSaveAndContinueButton().click();
       break;
     case 'Your email address':
       contactDetailsFullName().clear().type(AgentFullNameText);
       contactDetailsEmail().type(`{selectall}{backspace}${value}`);
-      continueButton().click();
+      getSaveAndContinueButton().click();
       break;
       }
 } );
@@ -141,10 +141,10 @@ Then('an error message {string} is displayed', (errorMessage) => {
 Given("the Agent or Appellant is on the 'Provide your contact details' page", () => {
   goToAppealsPage(originalApplicantUrl);
   originalApplicantYes().click();
-  continueButton().click();
+  getSaveAndContinueButton().click();
   cy.url().should('contain', url);
   })
 When("they have not provided the applicant's name", () => {
   contactDetailsEmail().clear().type(AgentEmailText);
-  continueButton().click();
+  getSaveAndContinueButton().click();
 })

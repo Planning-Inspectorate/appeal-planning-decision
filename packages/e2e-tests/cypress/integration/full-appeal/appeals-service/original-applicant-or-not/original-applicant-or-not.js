@@ -34,9 +34,8 @@ Then("'Provide your contact details' page is displayed",() => {
   cy.url().should('contain', url);
 });
 When("they click the 'Continue'",() => {
-  //getSaveAndContinueButton().click();
-  buttonContinue().click();
-});
+  getSaveAndContinueButton().click();
+ });
 
 Given("an {string} is on the 'Was the planning application made in your name' page", () => {
   goToAppealsPage(taskListUrl);
@@ -44,14 +43,12 @@ Given("an {string} is on the 'Was the planning application made in your name' pa
 });
 When("the user select 'Yes, the planning application was made in my name' and continue", () => {
   originalApplicantYes().click();
-  //getSaveAndContinueButton().click();
-  buttonContinue().click();
-});
+  getSaveAndContinueButton().click();
+  });
 When("the user select 'No, I'm acting on behalf of the applicant' and continue", () => {
   originalApplicantNo().click();
-  //getSaveAndContinueButton().click();
-  buttonContinue().click();
-});
+  getSaveAndContinueButton().click();
+  });
 Then("the user is taken to the next page to provide their 'Contact Details'", () => {
   cy.url().should('contain', contactDetailsUrl);
 });
@@ -59,8 +56,7 @@ Then("are taken to the next page to provide the 'Applicant's name'", () => {
   cy.url().should('contain',applicantNameUrl);
 });
 When("no selection is made and they click Continue", () => {
-  //getSaveAndContinueButton().click();
-  buttonContinue().click();
+  getSaveAndContinueButton().click();
 });
 Then('an error message {string} is displayed',(errorMessage)=> {
   verifyErrorMessage(errorMessage,originalApplicationYourNameError,getErrorMessageSummary);
