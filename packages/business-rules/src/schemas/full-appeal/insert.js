@@ -102,18 +102,22 @@ const insert = pinsYup
         email: pinsYup.string().email().max(255).nullable(),
       })
       .noUnknown(true),
-    appealSiteSection: pinsYup.object().shape({
-      siteAddress: pinsYup
-        .object()
-        .shape({
-          addressLine1: pinsYup.string().max(60).nullable(),
-          addressLine2: pinsYup.string().max(60).nullable(),
-          town: pinsYup.string().max(60).nullable(),
-          county: pinsYup.string().max(60).nullable(),
-          postcode: pinsYup.string().max(8).nullable(),
-        })
-        .noUnknown(true),
-    }),
+    appealSiteSection: pinsYup
+      .object()
+      .shape({
+        siteAddress: pinsYup
+          .object()
+          .shape({
+            addressLine1: pinsYup.string().max(60).nullable(),
+            addressLine2: pinsYup.string().max(60).nullable(),
+            town: pinsYup.string().max(60).nullable(),
+            county: pinsYup.string().max(60).nullable(),
+            postcode: pinsYup.string().max(8).nullable(),
+          })
+          .noUnknown(true),
+        ownsSomeOfTheLand: pinsYup.bool().nullable(),
+      })
+      .noUnknown(true),
     planningApplicationDocumentsSection: pinsYup
       .object()
       .shape({

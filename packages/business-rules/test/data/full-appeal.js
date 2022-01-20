@@ -43,6 +43,7 @@ const appeal = {
       county: 'Site County',
       postcode: 'SW1 1AA',
     },
+    ownsSomeOfTheLand: false,
   },
   planningApplicationDocumentsSection: {
     applicationNumber: 'ABCDE12345',

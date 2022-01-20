@@ -11,6 +11,7 @@ const applicantNameRouter = require('./applicant-name');
 const decisionLetterRouter = require('./decision-letter');
 const appealStatementRouter = require('./appeal-statement');
 const originalApplicantRouter = require('./original-applicant');
+const ownSomeOfTheLandRouter = require('./own-some-of-the-land');
 
 const router = express.Router();
 
@@ -26,5 +27,6 @@ router.use(applicantNameRouter);
 router.use(decisionLetterRouter);
 router.use(appealStatementRouter);
 router.use(originalApplicantRouter);
+router.use(ownSomeOfTheLandRouter);
 
 module.exports = router;
