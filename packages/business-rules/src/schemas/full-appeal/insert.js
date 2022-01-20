@@ -117,6 +117,7 @@ const insert = pinsYup
     planningApplicationDocumentsSection: pinsYup
       .object()
       .shape({
+        applicationNumber: pinsYup.string().max(30).nullable(),
         isDesignAccessStatementSubmitted: pinsYup.bool().nullable(),
         originalApplication: pinsYup
           .object()

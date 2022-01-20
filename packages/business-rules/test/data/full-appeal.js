@@ -45,6 +45,7 @@ const appeal = {
     },
   },
   planningApplicationDocumentsSection: {
+    applicationNumber: 'ABCDE12345',
     isDesignAccessStatementSubmitted: true,
     originalApplication: {
       uploadedFile: {

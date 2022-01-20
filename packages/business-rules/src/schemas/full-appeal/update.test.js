@@ -810,6 +810,32 @@ describe('schemas/full-appeal/update', () => {
         );
       });
 
+      describe('planningApplicationDocumentsSection.applicationNumber', () => {
+        it('should throw an error when given a value with more than 30 characters', async () => {
+          appeal.planningApplicationDocumentsSection.applicationNumber = 'a'.repeat(31);
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'planningApplicationDocumentsSection.applicationNumber must be at most 30 characters',
+          );
+        });
+
+        it('should throw an error when given a null value', async () => {
+          appeal.planningApplicationDocumentsSection.applicationNumber = null;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'planningApplicationDocumentsSection.applicationNumber must be a `string` type, but the final value was: `null`',
+          );
+        });
+
+        it('should throw an error when not given a value', async () => {
+          delete appeal.planningApplicationDocumentsSection.applicationNumber;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'planningApplicationDocumentsSection.applicationNumber is a required field',
+          );
+        });
+      });
+
       describe('planningApplicationDocumentsSection.isDesignAccessStatementSubmitted', () => {
         it('should throw an error when not given a boolean value', async () => {
           appeal.planningApplicationDocumentsSection = {

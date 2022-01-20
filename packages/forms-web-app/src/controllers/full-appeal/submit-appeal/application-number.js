@@ -1,22 +1,19 @@
 const {
   VIEW: {
-    FULL_APPEAL: { APPLICATION_NUMBER },
+    FULL_APPEAL: { APPLICATION_NUMBER, DESIGN_ACCESS_STATEMENT_SUBMITTED },
   },
 } = require('../../../lib/full-appeal/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
-const {
-  getNextTask,
-  getTaskStatus,
-  FULL_APPEAL_SECTIONS,
-} = require('../../../services/task.service');
+const { getTaskStatus } = require('../../../services/task.service');
 
-const sectionName = 'requiredDocumentsSection';
+const sectionName = 'planningApplicationDocumentsSection';
 const taskName = 'applicationNumber';
 
 exports.getApplicationNumber = (req, res) => {
+  const { applicationNumber } = req.session.appeal.planningApplicationDocumentsSection;
   res.render(APPLICATION_NUMBER, {
-    appeal: req.session.appeal,
+    applicationNumber,
   });
 };
 
@@ -24,14 +21,19 @@ exports.postApplicationNumber = async (req, res) => {
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
 
-  const { appeal } = req.session;
+  const {
+    appeal,
+    appeal: {
+      planningApplicationDocumentsSection: { applicationNumber },
+    },
+  } = req.session;
   const task = appeal[sectionName];
 
   task.applicationNumber = body['application-number'];
 
   if (Object.keys(errors).length > 0) {
     res.render(APPLICATION_NUMBER, {
-      appeal,
+      applicationNumber,
       errors,
       errorSummary,
     });
@@ -44,12 +46,12 @@ exports.postApplicationNumber = async (req, res) => {
   } catch (e) {
     logger.error(e);
     res.render(APPLICATION_NUMBER, {
-      appeal,
+      applicationNumber,
       errors,
       errorSummary: [{ text: e.toString(), href: '#' }],
     });
     return;
   }
 
-  res.redirect(getNextTask(appeal, { sectionName, taskName }, FULL_APPEAL_SECTIONS).href);
+  res.redirect(`/${DESIGN_ACCESS_STATEMENT_SUBMITTED}`);
 };

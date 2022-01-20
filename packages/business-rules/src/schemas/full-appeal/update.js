@@ -97,6 +97,7 @@ const update = pinsYup
     planningApplicationDocumentsSection: pinsYup
       .object()
       .shape({
+        applicationNumber: pinsYup.string().max(30).required(),
         isDesignAccessStatementSubmitted: pinsYup.bool().required(),
         originalApplication: pinsYup
           .object()
