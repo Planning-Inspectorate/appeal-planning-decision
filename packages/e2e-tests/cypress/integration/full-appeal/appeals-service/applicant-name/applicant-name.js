@@ -44,7 +44,7 @@ Given("an agent is on the 'What is the applicant’s name' page", () => {
   goToAppealsPage(taskListUrl);
   contactDetailsLink().click();
   originalApplicantNo().click();
-  continueButton().click();
+  getSaveAndContinueButton().click();
   cy.url().should('contain', url);
 });
 
@@ -54,22 +54,22 @@ Then("the appellant’s details should be saved and the 'Contact details' page i
 When( "the Applicant’s name and Company name are provided and select 'Continue'", () => {
   originalApplicantName().clear().type(applicantName);
   applicantCompanyName().clear().type(companyName);
-  continueButton().click();
+  getSaveAndContinueButton().click();
 });
 When("they click on continue without enter any information", () => {
-  continueButton().click();
+  getSaveAndContinueButton().click();
 })
 Then('they are presented with the error {string}', (errorMessage) => {
   verifyErrorMessage(errorMessage, behalfApplicantNameErrorMessage, getErrorMessageSummary);
 })
 When("they enter only one letter and click continue", () => {
   originalApplicantName().clear().type('x');
-  continueButton().click();
+  getSaveAndContinueButton().click();
 })
 
 When("they enter {string} and click continue", (name) => {
   originalApplicantName().clear().type(name);
-  continueButton().click();
+  getSaveAndContinueButton().click();
 })
 When("they click on the 'Back' link",()=> {
   getBackLink().click();
