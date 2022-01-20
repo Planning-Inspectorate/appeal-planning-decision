@@ -4,7 +4,7 @@ export const confirmProgressHaltedAsServiceIsOnlyForHouseholderPlanningAppeals =
 
   cy.title().should(
     'eq',
-    'This service is only for appeals without an enforcement notice - Eligibility - Appeal a householder planning decision - GOV.UK',
+    'This service is only for appeals without an enforcement notice - Eligibility - Appeal a planning decision - GOV.UK',
   );
   cy.get('[data-cy="enforcement-notice-out"]').should('exist');
 

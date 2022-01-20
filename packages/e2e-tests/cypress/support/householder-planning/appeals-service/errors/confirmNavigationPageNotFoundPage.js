@@ -4,5 +4,5 @@ export const confirmNavigationPageNotFoundPage = () => {
     .should('have.attr', 'href')
     .and('include', 'mailto:enquiries@planninginspectorate.gov.uk');
 
-  cy.title().should('eq', 'Page not found - Appeal a householder planning decision - GOV.UK');
+  cy.title().should('eq', 'Page not found - Appeal a planning decision - GOV.UK');
 };
