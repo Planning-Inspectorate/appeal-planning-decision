@@ -59,7 +59,7 @@ exports.postDecisionDate = async (req, res) => {
     appeal.decisionDate
   );
 
-  const redirectTo = isWithinExpiryPeriodcy.re
+  const redirectTo = isWithinExpiryPeriod
     ? `/${VIEW.ELIGIBILITY.PLANNING_DEPARTMENT}`
     : `/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`;
 
