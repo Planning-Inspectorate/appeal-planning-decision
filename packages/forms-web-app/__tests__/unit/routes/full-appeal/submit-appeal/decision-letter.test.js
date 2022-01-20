@@ -1,3 +1,4 @@
+const { documentTypes } = require('@pins/common');
 const { get, post } = require('../../router-mock');
 const {
   getDecisionLetter,
@@ -10,9 +11,11 @@ const {
 const {
   rules: fileUploadValidationRules,
 } = require('../../../../../src/validators/common/file-upload');
+const setSectionAndTaskNames = require('../../../../../src/middleware/set-section-and-task-names');
 
 jest.mock('../../../../../src/middleware/fetch-existing-appeal');
 jest.mock('../../../../../src/validators/common/file-upload');
+jest.mock('../../../../../src/middleware/set-section-and-task-names');
 
 describe('routes/full-appeal/submit-appeal/decision-letter', () => {
   beforeEach(() => {
@@ -24,14 +27,20 @@ describe('routes/full-appeal/submit-appeal/decision-letter', () => {
     expect(get).toHaveBeenCalledWith(
       '/submit-appeal/decision-letter',
       [fetchExistingAppealMiddleware],
+      setSectionAndTaskNames(),
       getDecisionLetter
     );
     expect(post).toHaveBeenCalledWith(
       '/submit-appeal/decision-letter',
+      setSectionAndTaskNames(),
       fileUploadValidationRules(),
       validationErrorHandler,
       postDecisionLetter
     );
     expect(fileUploadValidationRules).toHaveBeenCalledWith('Select your decision letter');
+    expect(setSectionAndTaskNames).toHaveBeenCalledWith(
+      'planningApplicationDocumentsSection',
+      documentTypes.decisionLetter.name
+    );
   });
 });
