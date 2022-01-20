@@ -56,6 +56,8 @@ describe('controllers/full-appeal/submit-appeal/appeal-statement', () => {
       session: {
         appeal,
       },
+      sectionName,
+      taskName,
     };
     res = mockRes();
 
@@ -97,15 +99,15 @@ describe('controllers/full-appeal/submit-appeal/appeal-statement', () => {
         appealId,
         uploadedFile: file,
         hasSensitiveInformation: true,
-        errors,
         errorSummary,
+        errors,
       });
     });
 
     it('should re-render the template with errors if an error is thrown', async () => {
       const error = new Error('Internal Server Error');
 
-      createDocument.mockImplementation(() => Promise.reject(error));
+      createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
       await postAppealStatement(req, res);
 
@@ -119,7 +121,7 @@ describe('controllers/full-appeal/submit-appeal/appeal-statement', () => {
       });
     });
 
-    it('should redirect to the correct page if valid', async () => {
+    it('should redirect to the correct page if valid and a file is being uploaded', async () => {
       const submittedAppeal = {
         ...appeal,
         state: 'SUBMITTED',
@@ -140,12 +142,26 @@ describe('controllers/full-appeal/submit-appeal/appeal-statement', () => {
 
       await postAppealStatement(req, res);
 
-      expect(createDocument).toHaveBeenCalledWith(
-        appeal,
-        file,
-        null,
-        documentTypes.appealStatement.name
-      );
+      expect(createDocument).toHaveBeenCalledWith(appeal, file, null, taskName);
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(res.redirect).toHaveBeenCalledWith(`/${PLANS_DRAWINGS}`);
+      expect(req.session.appeal).toEqual(submittedAppeal);
+    });
+
+    it('should redirect to the correct page if valid and a file is not being uploaded', async () => {
+      const submittedAppeal = {
+        ...appeal,
+        state: 'SUBMITTED',
+      };
+
+      createDocument.mockReturnValue(file);
+      getTaskStatus.mockReturnValue(TASK_STATUS.NOT_STARTED);
+      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+      await postAppealStatement(req, res);
+
+      expect(createDocument).not.toHaveBeenCalled();
       expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${PLANS_DRAWINGS}`);
@@ -175,12 +191,7 @@ describe('controllers/full-appeal/submit-appeal/appeal-statement', () => {
 
       await postAppealStatement(req, res);
 
-      expect(createDocument).toHaveBeenCalledWith(
-        appeal,
-        file,
-        null,
-        documentTypes.appealStatement.name
-      );
+      expect(createDocument).toHaveBeenCalledWith(appeal, file, null, taskName);
       expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${PLANS_DRAWINGS}`);
