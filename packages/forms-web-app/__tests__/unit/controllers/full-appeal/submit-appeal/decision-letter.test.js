@@ -25,7 +25,7 @@ describe('controllers/full-appeal/submit-appeal/decision-letter', () => {
   let res;
   let appeal;
 
-  const sectionName = 'requiredDocumentsSection';
+  const sectionName = 'planningApplicationDocumentsSection';
   const taskName = documentTypes.decisionLetter.name;
   const appealId = 'da368e66-de7b-44c4-a403-36e5bf5b000b';
   const errors = { 'file-upload': 'Select a file upload' };
@@ -47,6 +47,8 @@ describe('controllers/full-appeal/submit-appeal/decision-letter', () => {
       session: {
         appeal,
       },
+      sectionName,
+      taskName,
     };
     res = mockRes();
 
@@ -93,7 +95,7 @@ describe('controllers/full-appeal/submit-appeal/decision-letter', () => {
     it('should re-render the template with errors if an error is thrown', async () => {
       const error = new Error('Internal Server Error');
 
-      createDocument.mockImplementation(() => Promise.reject(error));
+      createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
       await postDecisionLetter(req, res);
 
@@ -106,7 +108,7 @@ describe('controllers/full-appeal/submit-appeal/decision-letter', () => {
       });
     });
 
-    it('should redirect to the correct page if valid', async () => {
+    it('should redirect to the correct page if valid and a file is being uploaded', async () => {
       const submittedAppeal = {
         ...appeal,
         state: 'SUBMITTED',
@@ -138,8 +140,26 @@ describe('controllers/full-appeal/submit-appeal/decision-letter', () => {
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
-    it('should redirect to the correct page if valid if appeal.requiredDocumentsSection.decisionLetter does not exist', async () => {
-      delete appeal.requiredDocumentsSection.decisionLetter;
+    it('should redirect to the correct page if valid and a file is not being uploaded', async () => {
+      const submittedAppeal = {
+        ...appeal,
+        state: 'SUBMITTED',
+      };
+
+      getTaskStatus.mockReturnValue(TASK_STATUS.NOT_STARTED);
+      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+      await postDecisionLetter(req, res);
+
+      expect(createDocument).not.toHaveBeenCalled();
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
+      expect(req.session.appeal).toEqual(submittedAppeal);
+    });
+
+    it('should redirect to the correct page if valid if appeal.planningApplicationDocumentsSection.decisionLetter does not exist', async () => {
+      delete appeal.planningApplicationDocumentsSection.decisionLetter;
 
       const submittedAppeal = {
         ...appeal,
