@@ -25,7 +25,7 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement', () => 
   let res;
   let appeal;
 
-  const sectionName = 'requiredDocumentsSection';
+  const sectionName = 'planningApplicationDocumentsSection';
   const taskName = documentTypes.designAccessStatement.name;
   const appealId = 'da368e66-de7b-44c4-a403-36e5bf5b000b';
   const errors = { 'file-upload': 'Select a file upload' };
@@ -47,6 +47,8 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement', () => 
       session: {
         appeal,
       },
+      sectionName,
+      taskName,
     };
     res = mockRes();
 
@@ -85,15 +87,15 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement', () => 
       expect(res.render).toHaveBeenCalledWith(DESIGN_ACCESS_STATEMENT, {
         appealId,
         uploadedFile: file,
-        errors,
         errorSummary,
+        errors,
       });
     });
 
     it('should re-render the template with errors if an error is thrown', async () => {
       const error = new Error('Internal Server Error');
 
-      createDocument.mockImplementation(() => Promise.reject(error));
+      createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
       await postDesignAccessStatement(req, res);
 
@@ -106,7 +108,7 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement', () => 
       });
     });
 
-    it('should redirect to the correct page if valid', async () => {
+    it('should redirect to the correct page if valid and a file is being uploaded', async () => {
       const submittedAppeal = {
         ...appeal,
         state: 'SUBMITTED',
@@ -126,20 +128,34 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement', () => 
 
       await postDesignAccessStatement(req, res);
 
-      expect(createDocument).toHaveBeenCalledWith(
-        appeal,
-        file,
-        null,
-        documentTypes.designAccessStatement.name
-      );
+      expect(createDocument).toHaveBeenCalledWith(appeal, file, null, taskName);
       expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
-    it('should redirect to the correct page if valid if appeal.requiredDocumentsSection.designAccessStatement does not exist', async () => {
-      delete appeal.requiredDocumentsSection.designAccessStatement;
+    it('should redirect to the correct page if valid and a file is not being uploaded', async () => {
+      const submittedAppeal = {
+        ...appeal,
+        state: 'SUBMITTED',
+      };
+
+      createDocument.mockReturnValue(file);
+      getTaskStatus.mockReturnValue(TASK_STATUS.NOT_STARTED);
+      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+      await postDesignAccessStatement(req, res);
+
+      expect(createDocument).not.toHaveBeenCalled();
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
+      expect(req.session.appeal).toEqual(submittedAppeal);
+    });
+
+    it('should redirect to the correct page if valid if appeal.planningApplicationDocumentsSection.designAccessStatement does not exist', async () => {
+      delete appeal.planningApplicationDocumentsSection.designAccessStatement;
 
       const submittedAppeal = {
         ...appeal,
@@ -160,12 +176,7 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement', () => 
 
       await postDesignAccessStatement(req, res);
 
-      expect(createDocument).toHaveBeenCalledWith(
-        appeal,
-        file,
-        null,
-        documentTypes.designAccessStatement.name
-      );
+      expect(createDocument).toHaveBeenCalledWith(appeal, file, null, taskName);
       expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
