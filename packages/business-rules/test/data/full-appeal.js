@@ -30,7 +30,22 @@ const appeal = {
       hasSensitiveInformation: false,
     },
   },
-  requiredDocumentsSection: {
+  contactDetailsSection: {
+    name: 'a name',
+    email: 'anemail@gmail.com',
+    companyName: 'Test Company',
+  },
+  appealSiteSection: {
+    siteAddress: {
+      addressLine1: 'Site Address 1',
+      addressLine2: 'Site Address 2',
+      town: 'Site Town',
+      county: 'Site County',
+      postcode: 'SW1 1AA',
+    },
+  },
+  planningApplicationDocumentsSection: {
+    isDesignAccessStatementSubmitted: true,
     originalApplication: {
       uploadedFile: {
         name: 'originalApplication.pdf',
@@ -52,23 +67,6 @@ const appeal = {
         id: '89b73320-8165-43f9-83e8-43bc0d927140',
       },
     },
-  },
-  contactDetailsSection: {
-    name: 'a name',
-    email: 'anemail@gmail.com',
-    companyName: 'Test Company',
-  },
-  appealSiteSection: {
-    siteAddress: {
-      addressLine1: 'Site Address 1',
-      addressLine2: 'Site Address 2',
-      town: 'Site Town',
-      county: 'Site County',
-      postcode: 'SW1 1AA',
-    },
-  },
-  planningApplicationDocumentsSection: {
-    isDesignAccessStatementSubmitted: true,
   },
 };
 

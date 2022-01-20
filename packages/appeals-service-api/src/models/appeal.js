@@ -92,6 +92,24 @@ exports.appealDocument = {
   },
   planningApplicationDocumentsSection: {
     isDesignAccessStatementSubmitted: null,
+    originalApplication: {
+      uploadedFile: {
+        name: '',
+        id: null,
+      },
+    },
+    decisionLetter: {
+      uploadedFile: {
+        name: '',
+        id: null,
+      },
+    },
+    designAccessStatement: {
+      uploadedFile: {
+        name: '',
+        id: null,
+      },
+    },
   },
   sectionStates: {
     aboutYouSection: {
@@ -116,6 +134,9 @@ exports.appealDocument = {
     aboutAppealSiteSection: 'NOT STARTED',
     planningApplicationDocumentsSection: {
       isDesignAccessStatementSubmitted: 'NOT STARTED',
+      originalApplication: 'NOT STARTED',
+      decisionLetter: 'NOT STARTED',
+      designAccessStatement: 'NOT STARTED',
     },
   },
 };
