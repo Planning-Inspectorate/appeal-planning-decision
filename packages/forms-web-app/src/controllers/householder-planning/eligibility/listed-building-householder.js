@@ -1,13 +1,11 @@
 const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
-
 const { VIEW } = require('../../../lib/householder-planning/views');
 
-const listedBuilding = VIEW.HOUSEHOLDER_PLANNING.LISTED_BUILDING;
-const backLink = `/before-you-start/type-of-planning-application`;
+const backLink = '/before-you-start/type-of-planning-application';
 
 exports.getListedBuildingHouseholder = async (req, res) => {
-  res.render(listedBuilding, { backLink });
+  res.render(VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER, { backLink });
 };
 
 const redirect = (selection, res) => {
@@ -27,7 +25,7 @@ exports.postListedBuildingHouseholder = async (req, res) => {
   const selection = body['listed-building-householder'];
 
   if (errors['listed-building-householder']) {
-    return res.render(listedBuilding, {
+    return res.render(VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER, {
       appeal,
       errors,
       errorSummary,
@@ -46,7 +44,7 @@ exports.postListedBuildingHouseholder = async (req, res) => {
   } catch (e) {
     logger.error(e);
 
-    return res.render(listedBuilding, {
+    return res.render(VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER, {
       appeal,
       errors,
       errorSummary: [{ text: e.toString(), href: 'pageId' }],
