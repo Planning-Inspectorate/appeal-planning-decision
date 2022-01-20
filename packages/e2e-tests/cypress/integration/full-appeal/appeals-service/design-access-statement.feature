@@ -2,10 +2,10 @@ Feature: As an appellant/agent
   I want to add a copy of the Design and Access Statement
   So that the planning Inspectorate can have the necessary evidence to support my appeal
 
-# Scenario: 1. Navigate from 'Did you submit a design and access statement with your application? to 'Design and access statement' page
-#    Given an appellant is on the 'Did you submit a design and access statement with your application' page
-#    When they select the 'Yes' option
-#    Then the 'Design and access statement' page is displayed
+ Scenario: 1. Navigate from 'Did you submit a design and access statement with your application? to 'Design and access statement' page
+    Given an appellant is on the 'Did you submit a design and access statement with your application' page
+    When they select the 'Yes' option
+    Then the 'Design and access statement' page is displayed
 
   Scenario Outline: 2. Appellant/agent uploads valid file
     Given an appellant is on the 'Design and access statement' page
@@ -43,11 +43,11 @@ Feature: As an appellant/agent
     When they select the 'Continue' button
     Then an error message 'Select your design and access statement' is displayed
 
-  # This has to be revisited once the application flow is in place and the previous page has been built
+
 #  Scenario: 6. Navigate from 'Design and access statement' page back to Task List
 #    Given an appellant is on the 'Design and access statement' page
 #    When they click on the 'Back' link
-#    Then they are presented with the 'Appeal a planning decision' task list page
+#    Then they are presented with the 'Did you submit a design and access statement with your application?' page
 ##And the last task they are working on will show 'In progress'
 
 
