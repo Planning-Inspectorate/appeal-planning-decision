@@ -15,14 +15,12 @@ const sectionName = 'appealSiteSection';
 const taskName = 'siteAddress';
 
 exports.getAppealSiteAddress = (req, res) => {
-  req.session.appeal.appealType = '1005';
   res.render(currentPage, {
     appeal: req.session.appeal,
   });
 };
 
 exports.postAppealSiteAddress = async (req, res) => {
-  req.session.appeal.appealType = '1005';
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
 

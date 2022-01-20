@@ -29,7 +29,6 @@ const FORM_FIELD = {
 exports.FORM_FIELD = FORM_FIELD;
 
 exports.getOriginalApplicant = (req, res) => {
-  req.session.appeal.appealType = '1005';
   res.render(currentPage, {
     FORM_FIELD,
     appeal: req.session.appeal,
@@ -37,7 +36,6 @@ exports.getOriginalApplicant = (req, res) => {
 };
 
 exports.postOriginalApplicant = async (req, res) => {
-  req.session.appeal.appealType = '1005';
   const { body } = req;
 
   const { errors = {}, errorSummary = [] } = body;

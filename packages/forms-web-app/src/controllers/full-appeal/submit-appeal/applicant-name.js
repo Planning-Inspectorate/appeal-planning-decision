@@ -12,14 +12,12 @@ const sectionName = 'aboutYouSection';
 const taskName = 'yourDetails';
 
 exports.getApplicantName = (req, res) => {
-  req.session.appeal.appealType = '1005';
   res.render(currentPage, {
     appeal: req.session.appeal,
   });
 };
 
 exports.postApplicantName = async (req, res) => {
-  req.session.appeal.appealType = '1005';
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
 
