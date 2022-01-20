@@ -6,13 +6,15 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% set labelText = "Drag and drop or choose a file" %}
+{% set backLink = '/full-appeal/submit-appeal/' %}
+{% set backLink = backLink + 'design-access-statement' if isDesignAccessStatementSubmitted else backLink + 'design-access-statement-submitted' %}
 {% set title = "Decision letter - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% block backButton %}
   {{ govukBackLink({
     text: 'Back',
-    href: '/full-appeal/submit-appeal/task-list',
+    href: backLink,
     attributes: {
       'data-cy': 'back'
     }

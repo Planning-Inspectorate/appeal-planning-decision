@@ -30,12 +30,14 @@ describe('controllers/full-appeal/submit-appeal/decision-letter', () => {
   const appealId = 'da368e66-de7b-44c4-a403-36e5bf5b000b';
   const errors = { 'file-upload': 'Select a file upload' };
   const errorSummary = [{ text: 'There was an error', href: '#' }];
+  const isDesignAccessStatementSubmitted = true;
 
   beforeEach(() => {
     appeal = {
       ...APPEAL_DOCUMENT.empty,
       id: appealId,
       [sectionName]: {
+        isDesignAccessStatementSubmitted,
         [taskName]: {
           uploadedFile: file,
         },
@@ -63,6 +65,7 @@ describe('controllers/full-appeal/submit-appeal/decision-letter', () => {
       expect(res.render).toHaveBeenCalledWith(DECISION_LETTER, {
         appealId,
         uploadedFile: file,
+        isDesignAccessStatementSubmitted,
       });
     });
   });
@@ -87,6 +90,7 @@ describe('controllers/full-appeal/submit-appeal/decision-letter', () => {
       expect(res.render).toHaveBeenCalledWith(DECISION_LETTER, {
         appealId,
         uploadedFile: file,
+        isDesignAccessStatementSubmitted,
         errors,
         errorSummary,
       });
@@ -104,6 +108,7 @@ describe('controllers/full-appeal/submit-appeal/decision-letter', () => {
       expect(res.render).toHaveBeenCalledWith(DECISION_LETTER, {
         appealId,
         uploadedFile: file,
+        isDesignAccessStatementSubmitted,
         errorSummary: [{ text: error.toString(), href: '#' }],
       });
     });
