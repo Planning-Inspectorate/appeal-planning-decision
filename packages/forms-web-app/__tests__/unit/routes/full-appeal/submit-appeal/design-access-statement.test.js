@@ -1,3 +1,4 @@
+const { documentTypes } = require('@pins/common');
 const { get, post } = require('../../router-mock');
 const {
   getDesignAccessStatement,
@@ -10,9 +11,11 @@ const {
 const {
   rules: fileUploadValidationRules,
 } = require('../../../../../src/validators/common/file-upload');
+const setSectionAndTaskNames = require('../../../../../src/middleware/set-section-and-task-names');
 
 jest.mock('../../../../../src/middleware/fetch-existing-appeal');
 jest.mock('../../../../../src/validators/common/file-upload');
+jest.mock('../../../../../src/middleware/set-section-and-task-names');
 
 describe('routes/full-appeal/submit-appeal/design-access-statement', () => {
   beforeEach(() => {
@@ -24,16 +27,22 @@ describe('routes/full-appeal/submit-appeal/design-access-statement', () => {
     expect(get).toHaveBeenCalledWith(
       '/submit-appeal/design-access-statement',
       [fetchExistingAppealMiddleware],
+      setSectionAndTaskNames(),
       getDesignAccessStatement
     );
     expect(post).toHaveBeenCalledWith(
       '/submit-appeal/design-access-statement',
+      setSectionAndTaskNames(),
       fileUploadValidationRules(),
       validationErrorHandler,
       postDesignAccessStatement
     );
     expect(fileUploadValidationRules).toHaveBeenCalledWith(
       'Select your design and access statement'
+    );
+    expect(setSectionAndTaskNames).toHaveBeenCalledWith(
+      'planningApplicationDocumentsSection',
+      documentTypes.designAccessStatement.name
     );
   });
 });
