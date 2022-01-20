@@ -787,6 +787,23 @@ describe('schemas/full-appeal/insert', () => {
         );
       });
 
+      describe('planningApplicationDocumentsSection.applicationNumber', () => {
+        it('should throw an error when given a value with more than 30 characters', async () => {
+          appeal.planningApplicationDocumentsSection.applicationNumber = 'a'.repeat(31);
+
+          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+            'planningApplicationDocumentsSection.applicationNumber must be at most 30 characters',
+          );
+        });
+
+        it('should not throw an error when not given a value', async () => {
+          delete appeal.planningApplicationDocumentsSection.applicationNumber;
+
+          const result = await insert.validate(appeal, config);
+          expect(result).toEqual(appeal);
+        });
+      });
+
       describe('planningApplicationDocumentsSection.isDesignAccessStatementSubmitted', () => {
         it('should throw an error when not given a boolean value', async () => {
           appeal.planningApplicationDocumentsSection = {

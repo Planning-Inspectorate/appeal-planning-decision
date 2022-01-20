@@ -14,8 +14,9 @@ jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
 jest.mock('../../../../../src/lib/logger');
 
-const sectionName = 'requiredDocumentsSection';
+const sectionName = 'planningApplicationDocumentsSection';
 const taskName = 'applicationNumber';
+const applicationNumber = 'ABCDE12345';
 
 describe('controllers/full-appeal/submit-appeal/application-number', () => {
   let req;
@@ -28,6 +29,8 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
 
     ({ empty: appeal } = APPEAL_DOCUMENT);
 
+    appeal.planningApplicationDocumentsSection.applicationNumber = applicationNumber;
+
     jest.resetAllMocks();
   });
 
@@ -35,7 +38,7 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
     it('should call the correct template', () => {
       applicationNumberController.getApplicationNumber(req, res);
       expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
-        appeal: req.session.appeal,
+        applicationNumber,
       });
     });
   });
@@ -55,13 +58,7 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
-        appeal: {
-          ...req.session.appeal,
-          [sectionName]: {
-            ...req.session.appeal[sectionName],
-            [taskName]: undefined,
-          },
-        },
+        applicationNumber,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });
@@ -84,7 +81,7 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
       expect(res.redirect).not.toHaveBeenCalled();
 
       expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
-        appeal: req.session.appeal,
+        applicationNumber,
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
       });

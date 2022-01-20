@@ -80,6 +80,8 @@ module.exports.APPEAL_DOCUMENT = {
       companyName: null,
     },
     planningApplicationDocumentsSection: {
+      applicationNumber: null,
+      isDesignAccessStatementSubmitted: null,
       originalApplication: {
         uploadedFile: {
           name: '',
