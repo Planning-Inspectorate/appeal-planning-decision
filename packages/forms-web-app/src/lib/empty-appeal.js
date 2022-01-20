@@ -32,12 +32,6 @@ module.exports.APPEAL_DOCUMENT = {
           id: null,
         },
       },
-      designAccessStatement: {
-        uploadedFile: {
-          name: '',
-          id: null,
-        },
-      },
     },
     yourAppealSection: {
       appealStatement: {
@@ -85,6 +79,26 @@ module.exports.APPEAL_DOCUMENT = {
       email: null,
       companyName: null,
     },
+    planningApplicationDocumentsSection: {
+      originalApplication: {
+        uploadedFile: {
+          name: '',
+          id: null,
+        },
+      },
+      decisionLetter: {
+        uploadedFile: {
+          name: '',
+          id: null,
+        },
+      },
+      designAccessStatement: {
+        uploadedFile: {
+          name: '',
+          id: null,
+        },
+      },
+    },
     sectionStates: {
       aboutYouSection: {
         yourDetails: 'NOT STARTED',
@@ -105,6 +119,11 @@ module.exports.APPEAL_DOCUMENT = {
         healthAndSafety: 'NOT STARTED',
       },
       contactDetailsSection: 'NOT STARTED',
+      planningApplicationDocumentsSection: {
+        originalApplication: 'NOT STARTED',
+        decisionLetter: 'NOT STARTED',
+        designAccessStatement: 'NOT STARTED',
+      },
     },
   },
 };

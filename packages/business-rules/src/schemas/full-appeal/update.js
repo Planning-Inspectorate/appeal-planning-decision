@@ -69,9 +69,35 @@ const update = pinsYup
           .noUnknown(true),
       })
       .noUnknown(true),
-    requiredDocumentsSection: pinsYup
+    contactDetailsSection: pinsYup
       .object()
       .shape({
+        name: pinsYup
+          .string()
+          .min(2)
+          .max(80)
+          .matches(/^[a-z\-' ]+$/i)
+          .required(),
+        companyName: pinsYup.string().max(50).nullable(),
+        email: pinsYup.string().email().max(255).required(),
+      })
+      .noUnknown(true),
+    appealSiteSection: pinsYup.object().shape({
+      siteAddress: pinsYup
+        .object()
+        .shape({
+          addressLine1: pinsYup.string().max(60).required(),
+          addressLine2: pinsYup.string().max(60).nullable(),
+          town: pinsYup.string().max(60).nullable(),
+          county: pinsYup.string().max(60).nullable(),
+          postcode: pinsYup.string().max(8).required(),
+        })
+        .noUnknown(true),
+    }),
+    planningApplicationDocumentsSection: pinsYup
+      .object()
+      .shape({
+        isDesignAccessStatementSubmitted: pinsYup.bool().required(),
         originalApplication: pinsYup
           .object()
           .shape({
@@ -111,37 +137,6 @@ const update = pinsYup
               .noUnknown(true),
           })
           .noUnknown(true),
-      })
-      .noUnknown(true),
-    contactDetailsSection: pinsYup
-      .object()
-      .shape({
-        name: pinsYup
-          .string()
-          .min(2)
-          .max(80)
-          .matches(/^[a-z\-' ]+$/i)
-          .required(),
-        companyName: pinsYup.string().max(50).nullable(),
-        email: pinsYup.string().email().max(255).required(),
-      })
-      .noUnknown(true),
-    appealSiteSection: pinsYup.object().shape({
-      siteAddress: pinsYup
-        .object()
-        .shape({
-          addressLine1: pinsYup.string().max(60).required(),
-          addressLine2: pinsYup.string().max(60).nullable(),
-          town: pinsYup.string().max(60).nullable(),
-          county: pinsYup.string().max(60).nullable(),
-          postcode: pinsYup.string().max(8).required(),
-        })
-        .noUnknown(true),
-    }),
-    planningApplicationDocumentsSection: pinsYup
-      .object()
-      .shape({
-        isDesignAccessStatementSubmitted: pinsYup.bool().required(),
       })
       .noUnknown(true),
     sectionStates: pinsYup.object().shape({}),

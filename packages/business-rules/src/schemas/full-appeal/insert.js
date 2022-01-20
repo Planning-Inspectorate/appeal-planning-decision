@@ -84,9 +84,40 @@ const insert = pinsYup
           .noUnknown(true),
       })
       .noUnknown(true),
-    requiredDocumentsSection: pinsYup
+    contactDetailsSection: pinsYup
       .object()
       .shape({
+        name: pinsYup.lazy((name) => {
+          if (name) {
+            return pinsYup
+              .string()
+              .min(2)
+              .max(80)
+              .matches(/^[a-z\-' ]+$/i)
+              .required();
+          }
+          return pinsYup.string().nullable();
+        }),
+        companyName: pinsYup.string().max(50).nullable(),
+        email: pinsYup.string().email().max(255).nullable(),
+      })
+      .noUnknown(true),
+    appealSiteSection: pinsYup.object().shape({
+      siteAddress: pinsYup
+        .object()
+        .shape({
+          addressLine1: pinsYup.string().max(60).nullable(),
+          addressLine2: pinsYup.string().max(60).nullable(),
+          town: pinsYup.string().max(60).nullable(),
+          county: pinsYup.string().max(60).nullable(),
+          postcode: pinsYup.string().max(8).nullable(),
+        })
+        .noUnknown(true),
+    }),
+    planningApplicationDocumentsSection: pinsYup
+      .object()
+      .shape({
+        isDesignAccessStatementSubmitted: pinsYup.bool().nullable(),
         originalApplication: pinsYup
           .object()
           .shape({
@@ -126,42 +157,6 @@ const insert = pinsYup
               .noUnknown(true),
           })
           .noUnknown(true),
-      })
-      .noUnknown(true),
-    contactDetailsSection: pinsYup
-      .object()
-      .shape({
-        name: pinsYup.lazy((name) => {
-          if (name) {
-            return pinsYup
-              .string()
-              .min(2)
-              .max(80)
-              .matches(/^[a-z\-' ]+$/i)
-              .required();
-          }
-          return pinsYup.string().nullable();
-        }),
-        companyName: pinsYup.string().max(50).nullable(),
-        email: pinsYup.string().email().max(255).nullable(),
-      })
-      .noUnknown(true),
-    appealSiteSection: pinsYup.object().shape({
-      siteAddress: pinsYup
-        .object()
-        .shape({
-          addressLine1: pinsYup.string().max(60).nullable(),
-          addressLine2: pinsYup.string().max(60).nullable(),
-          town: pinsYup.string().max(60).nullable(),
-          county: pinsYup.string().max(60).nullable(),
-          postcode: pinsYup.string().max(8).nullable(),
-        })
-        .noUnknown(true),
-    }),
-    planningApplicationDocumentsSection: pinsYup
-      .object()
-      .shape({
-        isDesignAccessStatementSubmitted: pinsYup.bool().nullable(),
       })
       .noUnknown(true),
     sectionStates: pinsYup.object().shape({}),
