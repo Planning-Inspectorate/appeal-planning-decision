@@ -4,7 +4,7 @@ Feature: As an appellant/agent
 
   Scenario: 1. Navigate from 'Appeal a Planning Decision page' to 'Planning application from'
     Given an appellant is on the 'Appeal a Planning Decision page'
-    When they select 'Upload documents from your planning application'
+    When they select 'Upload documents from your planning application' link
     Then 'Planning Application form' page is displayed
 
   Scenario Outline: 2. Appellant/agent uploads valid file using File Upload
@@ -14,16 +14,16 @@ Feature: As an appellant/agent
     # When they click on the 'Back' link
     # Then 'Planning Application form' page is displayed
     # And the uploaded file '<filename>' is displayed
-    # Examples:
-    #   | filename               |
-    #   | upload-file-valid.doc  |
-    #   | upload-file-valid.docx |
-    #   | upload-file-valid.jpeg |
-    #   | upload-file-valid.jpg  |
-    #   | upload-file-valid.png  |
-    #   | upload-file-valid.tif  |
-    #   | upload-file-valid.tiff |
-    #   | upload-file-valid.pdf  |
+     Examples:
+       | filename               |
+       | upload-file-valid.doc  |
+       | upload-file-valid.docx |
+       | upload-file-valid.jpeg |
+       | upload-file-valid.jpg  |
+       | upload-file-valid.png  |
+       | upload-file-valid.tif  |
+       | upload-file-valid.tiff |
+       | upload-file-valid.pdf  |
 
   Scenario: 3. Appellant/agent uploads valid file using Drag and Drop
     Given an appellant is on the 'Planning Application form' page
@@ -32,12 +32,12 @@ Feature: As an appellant/agent
 
   Scenario: 4. Appellant does not upload any document
     Given an appellant has not uploaded any document
-    When they select 'Save and Continue'
+    When they select the 'Continue' button
     Then an error message 'Select your planning application form' is displayed
 
   Scenario Outline: 5. Appellant uploads a large file and an invalid file
     Given an appellant has uploaded a file '<filename>'
-    When they select 'Save and Continue'
+    When they select the 'Continue' button
     Then an error message '<error message>' is displayed
     Examples:
       | filename                                | error message                                                                     |
@@ -50,10 +50,9 @@ Feature: As an appellant/agent
     Then they are presented with the 'Appeal a planning decision' task list page
       #And the last task they are working on will show 'In progress'
 
-# The below scenario is failing - a new task has been raised to work on this AS-4346
-#  Scenario: 8. Navigate from Task List to 'Planning Application Form' page
-#    Given an appellant is on the 'Appeal a Planning Decision page'
-#    When they select 'Upload documents from your planning application'
-#    Then 'Planning Application form' page is displayed
-#    When they select 'Save and Continue'
-#    Then 'What is your planning application number' page is displayed
+  Scenario: 8. Navigate from Task List to 'Planning Application Form' page with an existing uploaded file
+    Given an appellant is on the 'Appeal a Planning Decision' task list page
+    When they select 'Upload documents from your planning application' link
+    Then 'Planning Application form' page is displayed
+    When they click on the 'Back' link
+    Then they are presented with the 'Appeal a planning decision' task list page

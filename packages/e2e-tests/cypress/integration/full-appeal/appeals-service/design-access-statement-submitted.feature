@@ -2,7 +2,7 @@ Feature: As an appellant/agent
   I want to provide the necessary details needed for my application to be submitted
   So that I am sure that the information provided are accurate
 
-  Scenario: 1 - Navigate from 'What is your planning application number /full-appeal/submit-appeal/application-number to 'Did you submit a design and access statement  with your application?
+  Scenario: 1 - Navigate from 'What is your planning application number' to 'Did you submit a design and access statement with your application?'
     Given an appellant or agent is on the 'What is your planning application number' page
     When they select the 'Continue' button
     Then they are presented with the 'Did you submit a design and access statement with your application?' page
