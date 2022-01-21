@@ -25,9 +25,9 @@ import {
   getPlanningApplicationDecisionHouseholderError,
 } from '../../../../support/eligibility/page-objects/date-decision-due-householder-po';
 
-const pageHeading = 'What date was the decision due?';
+const pageHeading = 'What date was your decision due?';
 const pageTitle =
-  'What date was the decision due? - Before you start - Appeal a householder planning decision - GOV.UK';
+  'What date was your decision due? - Before you start - Appeal a householder planning decision - GOV.UK';
 const url = `before-you-start/date-decision-due-householder`;
 const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 const enforcementNoticePageUrl = '/before-you-start/enforcement-notice-householder';
