@@ -21,6 +21,7 @@ describe('/lib/full-appeal/views', () => {
         ORIGINAL_APPLICANT: 'full-appeal/submit-appeal/original-applicant',
         OWN_SOME_OF_THE_LAND: 'full-appeal/submit-appeal/own-some-of-the-land',
         KNOW_THE_OWNERS: 'full-appeal/submit-appeal/know-the-owners',
+        AGRICULTURAL_HOLDING: 'full-appeal/submit-appeal/agricultural-holding',
       },
     });
   });

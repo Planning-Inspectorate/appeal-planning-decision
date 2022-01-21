@@ -726,6 +726,24 @@ describe('schemas/full-appeal/update', () => {
           );
         });
       });
+
+      describe('appealSiteSection.ownsAllTheLand', () => {
+        it('should throw an error when not given a boolean', async () => {
+          appeal.appealSiteSection.ownsAllTheLand = 'true ';
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'appealSiteSection.ownsAllTheLand must be a `boolean` type, but the final value was: `"true "` (cast from the value `true`).',
+          );
+        });
+
+        it('should throw an error when not given a value', async () => {
+          delete appeal.appealSiteSection.ownsAllTheLand;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'appealSiteSection.ownsAllTheLand is a required field',
+          );
+        });
+      });
     });
 
     describe('aboutYouSection', () => {
