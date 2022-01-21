@@ -26,7 +26,7 @@ const pageHeading = 'Was the planning application made in your name?';
 const applicantName = 'Original Applicant Teddy'
 const companyName = 'ABC company limited'
 
-Given("an Appellant or Agent is on the 'Was the original planning application made in your name?'",()=> {
+Given("Agent is on the 'Was the original planning application made in your name?'",()=> {
   goToAppealsPage(taskListUrl);
   contactDetailsLink().click();
 })
@@ -40,7 +40,7 @@ Then("the next page to provide the Applicant's name is displayed", () => {
   pageCaption().should('contain', textPageCaption);
 });
 
-Given("an agent is on the 'What is the applicant’s name' page", () => {
+Given("an Agent is on the 'What is the applicant’s name' page", () => {
   goToAppealsPage(taskListUrl);
   contactDetailsLink().click();
   originalApplicantNo().click();

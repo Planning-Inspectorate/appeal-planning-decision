@@ -43,3 +43,5 @@ Feature: As an appellant/agent
     Given an Agent is on the 'Provide your contact details' page
     When they click on the 'Back' link
     Then they are presented with the 'What is the applicant's name?' page
+    When they click on the 'Back' link
+    Then they are presented with the 'Was the planning application made in your name?' page

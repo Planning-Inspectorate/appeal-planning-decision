@@ -43,7 +43,6 @@ Feature: As an appellant/agent
     When they select the 'Continue' button
     Then an error message 'Select your design and access statement' is displayed
 
-
  Scenario: 6. Navigate from 'Design and access statement' page back to Task List
    Given an appellant is on the 'Design and access statement' page
    When they click on the 'Back' link

@@ -30,9 +30,15 @@ const pageHeadingText = "If you do not have your planning application form, you 
 Given("an appellant is on the 'Appeal a Planning Decision page'",()=> {
   goToAppealsPage(taskListUrl);
  })
-When("they select 'Upload documents from your planning application'",()=> {
+Given("an appellant is on the 'Appeal a Planning Decision' task list page",()=> {
+  goToAppealsPage(taskListUrl);
+})
+When("they select 'Upload documents from your planning application' link",()=> {
   planningApplicationDocumentsLink().click();
 })
+When("they select the 'Continue' button",()=> {
+  getSaveAndContinueButton().click();
+});
 Then("'Planning Application form' page is displayed",()=> {
   cy.url().should('contain', url);
 })
@@ -87,6 +93,9 @@ Then("they are presented with the 'Appeal a planning decision' task list page", 
 Given("an appellant has uploaded a file {string}", (filename) => {
   goToAppealsPage(url);
   getFileUploadButton().attachFile(filename);
+})
+Then("they are presented with the 'Appeal a planning decision' task list page", () => {
+  cy.url().should('contain', taskListUrl);
 })
 
 
