@@ -116,6 +116,7 @@ const insert = pinsYup
           })
           .noUnknown(true),
         ownsSomeOfTheLand: pinsYup.bool().nullable(),
+        ownsAllTheLand: pinsYup.bool().nullable(),
       })
       .noUnknown(true),
     planningApplicationDocumentsSection: pinsYup

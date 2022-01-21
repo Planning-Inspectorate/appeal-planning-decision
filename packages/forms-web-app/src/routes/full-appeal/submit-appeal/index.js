@@ -12,6 +12,7 @@ const decisionLetterRouter = require('./decision-letter');
 const appealStatementRouter = require('./appeal-statement');
 const originalApplicantRouter = require('./original-applicant');
 const ownSomeOfTheLandRouter = require('./own-some-of-the-land');
+const ownAllTheLandRouter = require('./own-all-the-land');
 
 const router = express.Router();
 
@@ -28,5 +29,6 @@ router.use(decisionLetterRouter);
 router.use(appealStatementRouter);
 router.use(originalApplicantRouter);
 router.use(ownSomeOfTheLandRouter);
+router.use(ownAllTheLandRouter);
 
 module.exports = router;

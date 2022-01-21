@@ -163,6 +163,10 @@ const FULL_APPEAL_SECTIONS = {
       href: `/${FULL_APPEAL.OWN_ALL_THE_LAND}`,
       rule: notStartedRule,
     },
+    ownSomeOfTheLand: {
+      href: `/${FULL_APPEAL.OWN_SOME_OF_THE_LAND}`,
+      rule: notStartedRule,
+    },
   },
   yourAppealSection: {
     appealStatement: {

@@ -96,6 +96,7 @@ const update = pinsYup
           })
           .noUnknown(true),
         ownsSomeOfTheLand: pinsYup.bool().required(),
+        ownsAllTheLand: pinsYup.bool().required(),
       })
       .noUnknown(true),
     planningApplicationDocumentsSection: pinsYup
