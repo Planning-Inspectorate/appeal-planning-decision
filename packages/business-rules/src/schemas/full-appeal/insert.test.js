@@ -718,6 +718,30 @@ describe('schemas/full-appeal/insert', () => {
           expect(result).toEqual(appeal);
         });
       });
+
+      describe('appealSiteSection.ownsAllTheLand', () => {
+        it('should throw an error when not given a boolean', async () => {
+          appeal.appealSiteSection.ownsAllTheLand = 'true ';
+
+          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+            'appealSiteSection.ownsAllTheLand must be a `boolean` type, but the final value was: `"true "` (cast from the value `true`).',
+          );
+        });
+
+        it('should not throw an error when given a null value', async () => {
+          appeal.appealSiteSection.ownsAllTheLand = null;
+
+          const result = await insert.validate(appeal, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should not throw an error when not given a value', async () => {
+          delete appeal.appealSiteSection.ownsAllTheLand;
+
+          const result = await insert.validate(appeal, config);
+          expect(result).toEqual(appeal);
+        });
+      });
     });
 
     describe('aboutYouSection', () => {

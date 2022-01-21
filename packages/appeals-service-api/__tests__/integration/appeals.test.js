@@ -20,6 +20,7 @@ async function createAppeal() {
   appeal.updatedAt = now;
   delete appeal.eligibility.applicationCategories;
   delete appeal.sectionStates.appealSiteSection.ownsSomeOfTheLand;
+  delete appeal.sectionStates.appealSiteSection.ownsAllTheLand;
 
   await mongodb.get().collection('appeals').insertOne({ _id: appeal.id, uuid: appeal.id, appeal });
   return appeal;
