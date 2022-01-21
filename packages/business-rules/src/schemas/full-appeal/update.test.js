@@ -564,6 +564,21 @@ describe('schemas/full-appeal/update', () => {
     });
 
     describe('appealSiteSection', () => {
+      it('should remove unknown fields', async () => {
+        appeal2.appealSiteSection.unknownField = 'unknown field';
+
+        const result = await update.validate(appeal2, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should throw an error when given a null value', async () => {
+        appeal.appealSiteSection = null;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'appealSiteSection must be a `object` type, but the final value was: `null`',
+        );
+      });
+
       describe('appealSiteSection.siteAddress', () => {
         describe('appealSiteSection.siteAddress', () => {
           it('should remove unknown fields', async () => {
@@ -691,6 +706,24 @@ describe('schemas/full-appeal/update', () => {
               'appealSiteSection.siteAddress.postcode is a required field',
             );
           });
+        });
+      });
+
+      describe('appealSiteSection.ownsSomeOfTheLand', () => {
+        it('should throw an error when not given a boolean', async () => {
+          appeal.appealSiteSection.ownsSomeOfTheLand = 'false ';
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'appealSiteSection.ownsSomeOfTheLand must be a `boolean` type, but the final value was: `"false "` (cast from the value `false`).',
+          );
+        });
+
+        it('should throw an error when not given a value', async () => {
+          delete appeal.appealSiteSection.ownsSomeOfTheLand;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'appealSiteSection.ownsSomeOfTheLand is a required field',
+          );
         });
       });
     });

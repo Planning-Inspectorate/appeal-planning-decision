@@ -76,6 +76,7 @@ exports.appealDocument = {
       hasIssues: null,
       healthAndSafetyIssues: '',
     },
+    ownsSomeOfTheLand: null,
   },
   appealSubmission: {
     appealPDFStatement: {
@@ -130,6 +131,7 @@ exports.appealDocument = {
       siteAccess: 'NOT STARTED',
       siteOwnership: 'NOT STARTED',
       healthAndSafety: 'NOT STARTED',
+      ownsSomeOfTheLand: 'NOT STARTED',
     },
     contactDetailsSection: 'NOT STARTED',
     aboutAppealSiteSection: 'NOT STARTED',

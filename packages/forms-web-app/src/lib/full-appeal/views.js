@@ -15,6 +15,8 @@ const VIEW = {
     APPEAL_STATEMENT: 'full-appeal/submit-appeal/appeal-statement',
     PLANS_DRAWINGS: 'full-appeal/plans-drawings',
     ORIGINAL_APPLICANT: 'full-appeal/submit-appeal/original-applicant',
+    OWN_SOME_OF_THE_LAND: 'full-appeal/submit-appeal/own-some-of-the-land',
+    KNOW_THE_OWNERS: 'full-appeal/submit-appeal/know-the-owners',
   },
 };
 
