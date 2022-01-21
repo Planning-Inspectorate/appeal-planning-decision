@@ -3,7 +3,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 
-{% set title="What date was the decision due? - Before you start - Appeal a householder planning decision - GOV.UK" %}
+{% set title="What date was your decision due? - Before you start - Appeal a householder planning decision - GOV.UK" %}
 {% set selection = appeal.beforeYouStartSection.typeOfPlanningApplication %}
 
 {% block pageTitle %}
@@ -45,7 +45,7 @@
             namePrefix: "date-decision-due-householder",
             fieldset: {
               legend: {
-                text: "What date was the decision due?​",
+                text: "What date was your decision due?​",
                 isPageHeading: true,
                 classes: "govuk-fieldset__legend--l"
               }
