@@ -12,6 +12,7 @@ import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppea
 import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
 import { selectSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/select-site-option';
 import { selectPlanningApplicationDecision } from '../../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
+import {clickContinueButton} from "../../../../support/common/clickContinueButton";
 import {
   getDateDecisionDueDay,
   getPlanningApplicationDecisionError,
@@ -29,7 +30,6 @@ import format from 'date-fns/format';
 import {
   selectListedBuildingDecision
 } from '../../../../support/eligibility/listed-building/select-listed-building-decision';
-import { clickContinueButton } from '../../../../support/common/clickContinueButton';
 
 const pageHeading = 'What date was your decision due?';
 const pageTitle =
@@ -117,9 +117,9 @@ Then(
 
 Then('appellant are navigated to the page which notifies them that they cannot appeal', () => {
   cy.url().should('contain', shutterPageUrl);
-  // pastDate = format(addMonths(pastDate, 6), 'dd MMMM yyyy');
+  pastDate = format(addMonths(pastDate, 6), 'dd MMMM yyyy');
   getAppealDeadline().should('contain', '6 months');
-  // getAppealDeadline().should('contain', pastDate);
+  getAppealDeadline().should('contain', pastDate);
 });
 
 Then('progress is halted with an error: {string}', (errorMessage) => {

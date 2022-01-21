@@ -1,3 +1,6 @@
+
+const { rules, constants, validation } = require('@pins/business-rules');
+
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
 jest.mock('../../../../src/config', () => ({
@@ -11,6 +14,7 @@ jest.mock('../../../../src/config', () => ({
   },
 }));
 
+const sinon = require('sinon')
 const decisionDateController = require('../../../../src/controllers/full-appeal/decision-date');
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
@@ -28,6 +32,7 @@ describe('controllers/full-appeal/decision-date', () => {
 
     ({ empty: appeal } = APPEAL_DOCUMENT);
 
+    sinon.restore()
     jest.resetAllMocks();
   });
 
@@ -56,10 +61,11 @@ describe('controllers/full-appeal/decision-date', () => {
 
       await decisionDateController.postDecisionDate(mockRequest, res);
 
+      
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
         decisionDate: '2021-01-01T00:00:00.000Z',
-      });
+      })
 
       expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/enforcement-notice`);
     });
@@ -112,10 +118,15 @@ describe('controllers/full-appeal/decision-date', () => {
       const mockRequest = {
         ...req,
         body: {},
-      };
+      };   
+      
+      sinon.replace(rules.appeal,  'deadlineDate' , () => new Date().toISOString())
+      sinon.replace(rules.appeal, 'deadlinePeriod', () => ({ time: 1, period: 'weeks' }))
+      sinon.replace(validation.appeal.decisionDate, 'isWithinDecisionDateExpiryPeriod', () => true)
 
       const error = 'RangeError: Invalid time value';
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
+   
 
       await decisionDateController.postDecisionDate(mockRequest, res);
 

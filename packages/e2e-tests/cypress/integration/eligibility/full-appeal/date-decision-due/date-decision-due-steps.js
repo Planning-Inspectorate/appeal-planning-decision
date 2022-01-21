@@ -1,4 +1,4 @@
-import { getDate, getMonth, getYear } from 'date-fns';
+import {addMonths, format, getDate, getMonth, getYear} from 'date-fns';
 import { Given,When,Then } from 'cypress-cucumber-preprocessor/steps';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
@@ -6,7 +6,6 @@ import { getErrorMessageSummary } from '../../../../support/common-page-objects/
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
 import { getBackLink } from '../../../../support/common-page-objects/common-po';
 import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
-import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 import { getFutureDate, getPastDate, allowedDatePart } from '../../../../support/common/getDate';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import {
@@ -25,6 +24,7 @@ import {
   getPlanningApplicationDecisionError,
 } from '../../../../support/eligibility/page-objects/date-decision-due-po';
 import {clickContinueButton} from "../../../../support/common/clickContinueButton";
+import {getAppealDeadline} from "../../../../support/eligibility/page-objects/shutter-page-po";
 
 const pageHeading = 'What date was your decision due?';
 const pageTitle = 'What date was your decision due? - Before you start - Appeal a planning decision - GOV.UK';
@@ -33,6 +33,7 @@ const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 const enforcementNoticePageUrl = '/before-you-start/enforcement-notice';
 const grantedOrRefusedPageUrl = '/before-you-start/granted-or-refused';
 const shutterPageUrl = '/before-you-start/you-cannot-appeal';
+let pastDate;
 
 Given('appellant navigates to decision date page for {string}',(application_type)=>{
   goToAppealsPage(typeOfPlanningPageUrl);
@@ -60,7 +61,7 @@ When('appellant enters the date within 6 months when they were due a decision', 
 });
 
 When('appellant enters a past date of over 6 months', () => {
-  const pastDate = getPastDate(allowedDatePart.MONTH, 7);
+  pastDate = getPastDate(allowedDatePart.MONTH, 7);
   enterDateDecisionDue( {day: getDate(pastDate), month: getMonth(pastDate) + 1, year: getYear(pastDate) } );
 });
 
@@ -87,6 +88,9 @@ Then('they are navigated to the have you received an enforcement notice page', (
 
 Then('appellant gets routed to a page which notifies them that they cannot appeal', () => {
   cy.url().should('contain', shutterPageUrl);
+  pastDate = format(addMonths(pastDate,6),'dd MMMM yyyy');
+  getAppealDeadline().should('contain', '6 months');
+  getAppealDeadline().should('contain',pastDate);
 });
 
 Then('progress is halted with an error: {string}', (errorMessage) => {
