@@ -47,10 +47,17 @@ const APPLICATION_DECISION = {
   NODECISIONRECEIVED: 'nodecisionreceived',
 };
 
+const KNOW_THE_OWNERS = {
+  YES: 'yes',
+  SOME: 'some',
+  NO: 'no',
+};
+
 module.exports = {
   APPEAL_ID,
   APPEAL_STATE,
   APPLICATION_DECISION,
+  KNOW_THE_OWNERS,
   PROCEDURE_TYPE,
   SECTION_STATE,
   TYPE_OF_PLANNING_APPLICATION,

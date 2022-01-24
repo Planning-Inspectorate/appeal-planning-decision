@@ -4,6 +4,7 @@ const {
   APPEAL_ID,
   APPEAL_STATE,
   APPLICATION_DECISION,
+  KNOW_THE_OWNERS,
   TYPE_OF_PLANNING_APPLICATION,
 } = require('../../constants');
 
@@ -117,6 +118,12 @@ const insert = pinsYup
           .noUnknown(true),
         ownsSomeOfTheLand: pinsYup.bool().nullable(),
         ownsAllTheLand: pinsYup.bool().nullable(),
+        knowsTheOwners: pinsYup.lazy((knowsTheOwners) => {
+          if (knowsTheOwners) {
+            return pinsYup.string().oneOf(Object.values(KNOW_THE_OWNERS));
+          }
+          return pinsYup.string().nullable();
+        }),
       })
       .noUnknown(true),
     planningApplicationDocumentsSection: pinsYup

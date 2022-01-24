@@ -6,6 +6,7 @@ const {
   APPEAL_ID,
   APPEAL_STATE,
   APPLICATION_DECISION,
+  KNOW_THE_OWNERS,
   TYPE_OF_PLANNING_APPLICATION,
 } = require('../../constants');
 
@@ -741,6 +742,26 @@ describe('schemas/full-appeal/update', () => {
 
           await expect(() => update.validate(appeal, config)).rejects.toThrow(
             'appealSiteSection.ownsAllTheLand is a required field',
+          );
+        });
+      });
+
+      describe('appealSiteSection.knowsTheOwners', () => {
+        it('should throw an error when given an invalid value', async () => {
+          appeal.appealSiteSection.knowsTheOwners = 'appeal';
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            `appealSiteSection.knowsTheOwners must be one of the following values: ${Object.values(
+              KNOW_THE_OWNERS,
+            ).join(', ')}`,
+          );
+        });
+
+        it('should throw an error when not given a value', async () => {
+          delete appeal.appealSiteSection.knowsTheOwners;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'appealSiteSection.knowsTheOwners is a required field',
           );
         });
       });
