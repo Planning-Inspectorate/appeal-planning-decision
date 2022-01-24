@@ -8,19 +8,18 @@ import {
 import { getSaveAndContinueButton } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
-import { verifySectionName } from '../../../../support/common/verifySectionName';
 import {
   errorFileUploadField,
-  filesCanUploadHintText,
   sectionText, uploadedFileLabel, uploadedFileName,
 } from '../../../../support/full-appeal/appeals-service/page-objects/file-upload-po';
-import {
-  pageCaption,
-  planningApplicationNumber,
-} from '../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
+import { planningApplicationNumber} from '../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
 import { submitADesignStNo } from '../../../../support/full-appeal/appeals-service/page-objects/design-access-statement-submitted-po';
-import { planningApplicationDocumentsLink } from '../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
+import {
+  pageCaptionText,
+  planningApplicationDocumentsLink,
+} from '../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
+import { pageCaption } from '../../../../support/full-appeal/appeals-service/page-objects/appeal-site-address-po';
 
 const url = 'full-appeal/submit-appeal/decision-letter';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -56,6 +55,7 @@ Then("the 'Decision Letter' page is displayed",()=> {
   cy.url().should('contain', decisionLetterUrl);
   verifyPageHeading(pageHeading);
   verifyPageTitle(pageTitle);
+  pageCaptionText().should('contain', textPageCaption);
   sectionText().should('contain', decisionLetterSectionText);
 });
 When("they select the 'Continue' button",()=> {
