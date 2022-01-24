@@ -7,10 +7,10 @@ const fetchExistingAppealMiddleware = require('../../../../../src/middleware/fet
 const {
   validationErrorHandler,
 } = require('../../../../../src/validators/validation-error-handler');
-const { rules: yesNoValidationRules } = require('../../../../../src/validators/common/yes-no');
+const { rules: optionsValidationRules } = require('../../../../../src/validators/common/options');
 
 jest.mock('../../../../../src/middleware/fetch-existing-appeal');
-jest.mock('../../../../../src/validators/common/yes-no');
+jest.mock('../../../../../src/validators/common/options');
 
 describe('routes/full-appeal/submit-appeal/design-access-statement-submitted', () => {
   beforeEach(() => {
@@ -26,11 +26,11 @@ describe('routes/full-appeal/submit-appeal/design-access-statement-submitted', (
     );
     expect(post).toHaveBeenCalledWith(
       '/submit-appeal/design-access-statement-submitted',
-      yesNoValidationRules(),
+      optionsValidationRules(),
       validationErrorHandler,
       postDesignAccessStatementSubmitted
     );
-    expect(yesNoValidationRules).toHaveBeenCalledWith(
+    expect(optionsValidationRules).toHaveBeenCalledWith(
       'design-access-statement-submitted',
       'Select yes if you submitted a design and access statement with your application'
     );
