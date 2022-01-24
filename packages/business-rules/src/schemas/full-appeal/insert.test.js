@@ -5,6 +5,7 @@ const {
   APPEAL_STATE,
   APPEAL_ID,
   APPLICATION_DECISION,
+  KNOW_THE_OWNERS,
   TYPE_OF_PLANNING_APPLICATION,
 } = require('../../constants');
 
@@ -737,6 +738,32 @@ describe('schemas/full-appeal/insert', () => {
 
         it('should not throw an error when not given a value', async () => {
           delete appeal.appealSiteSection.ownsAllTheLand;
+
+          const result = await insert.validate(appeal, config);
+          expect(result).toEqual(appeal);
+        });
+      });
+
+      describe('appealSiteSection.knowsTheOwners', () => {
+        it('should throw an error when given an invalid value', async () => {
+          appeal.appealSiteSection.knowsTheOwners = 'perhaps';
+
+          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+            `appealSiteSection.knowsTheOwners must be one of the following values: ${Object.values(
+              KNOW_THE_OWNERS,
+            ).join(', ')}`,
+          );
+        });
+
+        it('should not throw an error when not given a value', async () => {
+          delete appeal.appealSiteSection.knowsTheOwners;
+
+          const result = await insert.validate(appeal, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should not throw an error when given a null value', async () => {
+          appeal.appealSiteSection.knowsTheOwners = null;
 
           const result = await insert.validate(appeal, config);
           expect(result).toEqual(appeal);
