@@ -9,12 +9,10 @@ import {
 import { provideAddressLine1 } from '../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine1';
 import { providePostcode } from '../../../../support/common/appeal-submission-appeal-site-address/providePostcode';
 import {
-  errorMessageOwnAllLand,
-  ownAllLandNo,
-  ownAllLandYes
-} from '../../../../support/full-appeal/appeals-service/page-objects/own-all-the-land-po';
+  errorMessageOwnAllLand} from '../../../../support/full-appeal/appeals-service/page-objects/own-all-the-land-po';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
+import { selectNo, selectYes } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 
 const url = 'full-appeal/submit-appeal/own-all-the-land';
 const siteAddressUrl = 'full-appeal/submit-appeal/appeal-site-address';
@@ -43,14 +41,6 @@ Then("'Do you own all the land involved in the appeal' is displayed",()=> {
 Then("the user is taken to the next page 'Is the appeal site part of an agricultural holding'",()=> {
   cy.url().should('contain', agriculturalHoldingUrl);
 });
-When("the user select 'Yes' and click continue", () => {
-  ownAllLandYes().click();
-  getSaveAndContinueButton().click();
-});
-When("they select 'No' and click continue", () => {
-  ownAllLandNo().click();
-  getSaveAndContinueButton().click();
-});
 When("no selection is made and they click Continue", () => {
   getSaveAndContinueButton().click();
 })
@@ -72,3 +62,18 @@ Then('an error message {string} is displayed', (errorMessage) => {
 Then("they are taken to the next page 'Do you own some of the land involved in the appeal'", () => {
   cy.url().should('contain', ownSomeOfLandUrl);
 })
+When("the user select {string} and click 'Continue'", (option) => {
+  switch (option) {
+    case 'Yes':
+      selectYes().click();
+      getSaveAndContinueButton().click();
+      break;
+    case 'No':
+      selectNo().click();
+      getSaveAndContinueButton().click();
+      break;
+    case 'NONE':
+      getSaveAndContinueButton().click();
+      break;
+  }
+});

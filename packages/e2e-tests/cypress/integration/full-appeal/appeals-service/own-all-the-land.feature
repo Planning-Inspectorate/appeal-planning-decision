@@ -9,17 +9,17 @@ Feature: As an appellant/agent
 
   Scenario: 2 - Yes option is selected on 'Do you own all the land involved in the appeal?'
     Given an appellant or agent is on the 'Do you own all the land involved in the appeal' page
-    When the user select 'Yes' and click continue
+    When the user select 'Yes' and click 'Continue'
     Then the user is taken to the next page 'Is the appeal site part of an agricultural holding'
 
   Scenario: 3 - No option is selected on 'Do you own all the land involved in the appeal'
     Given an appellant or agent is on the 'Do you own all the land involved in the appeal' page
-    When they select 'No' and click continue
+    When the user select 'No' and click 'Continue'
     Then they are taken to the next page 'Do you own some of the land involved in the appeal'
 
   Scenario: 4 - None of the options is selected on 'Do you own all the land involved in the appeal'
     Given an appellant or agent is on the 'Do you own all the land involved in the appeal' page
-    When no selection is made and they click Continue
+    When the user select 'NONE' and click 'Continue'
     Then an error message 'Select yes if you own all the land involved in the appeal' is displayed
 
   Scenario: 5 -  Navigate from 'Do you own all the land involved in the appeal' page back to 'What is the address of the appeal site page'
