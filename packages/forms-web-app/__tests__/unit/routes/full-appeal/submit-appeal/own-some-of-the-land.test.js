@@ -7,10 +7,10 @@ const fetchExistingAppealMiddleware = require('../../../../../src/middleware/fet
 const {
   validationErrorHandler,
 } = require('../../../../../src/validators/validation-error-handler');
-const { rules: yesNoValidationRules } = require('../../../../../src/validators/common/yes-no');
+const { rules: optionsValidationRules } = require('../../../../../src/validators/common/options');
 
 jest.mock('../../../../../src/middleware/fetch-existing-appeal');
-jest.mock('../../../../../src/validators/common/yes-no');
+jest.mock('../../../../../src/validators/common/options');
 
 describe('routes/full-appeal/submit-appeal/own-some-of-the-land', () => {
   beforeEach(() => {
@@ -26,11 +26,11 @@ describe('routes/full-appeal/submit-appeal/own-some-of-the-land', () => {
     );
     expect(post).toHaveBeenCalledWith(
       '/submit-appeal/own-some-of-the-land',
-      yesNoValidationRules(),
+      optionsValidationRules(),
       validationErrorHandler,
       postOwnSomeOfTheLand
     );
-    expect(yesNoValidationRules).toHaveBeenCalledWith(
+    expect(optionsValidationRules).toHaveBeenCalledWith(
       'own-some-of-the-land',
       'Select yes if you own some of the land involved in the appeal'
     );

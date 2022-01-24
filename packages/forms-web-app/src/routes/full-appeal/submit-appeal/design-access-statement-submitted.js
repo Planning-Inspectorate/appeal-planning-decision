@@ -5,7 +5,7 @@ const {
 } = require('../../../controllers/full-appeal/submit-appeal/design-access-statement-submitted');
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
-const { rules: yesNoValidationRules } = require('../../../validators/common/yes-no');
+const { rules: optionsValidationRules } = require('../../../validators/common/options');
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.get(
 );
 router.post(
   '/submit-appeal/design-access-statement-submitted',
-  yesNoValidationRules(
+  optionsValidationRules(
     'design-access-statement-submitted',
     'Select yes if you submitted a design and access statement with your application'
   ),

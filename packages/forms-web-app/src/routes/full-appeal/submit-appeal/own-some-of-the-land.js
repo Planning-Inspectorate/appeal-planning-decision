@@ -5,7 +5,7 @@ const {
 } = require('../../../controllers/full-appeal/submit-appeal/own-some-of-the-land');
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
-const { rules: yesNoValidationRules } = require('../../../validators/common/yes-no');
+const { rules: optionsValidationRules } = require('../../../validators/common/options');
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.get(
 );
 router.post(
   '/submit-appeal/own-some-of-the-land',
-  yesNoValidationRules(
+  optionsValidationRules(
     'own-some-of-the-land',
     'Select yes if you own some of the land involved in the appeal'
   ),
