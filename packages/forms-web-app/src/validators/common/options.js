@@ -1,8 +1,6 @@
 const { body } = require('express-validator');
 
-const validOptions = ['yes', 'no'];
-
-const rules = (fieldName, notEmptyError = 'Select an option') => [
+const rules = (fieldName, notEmptyError = 'Select an option', validOptions = ['yes', 'no']) => [
   body(fieldName)
     .notEmpty()
     .withMessage(notEmptyError)

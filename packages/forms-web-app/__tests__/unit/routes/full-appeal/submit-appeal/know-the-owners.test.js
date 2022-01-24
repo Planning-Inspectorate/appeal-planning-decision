@@ -1,8 +1,11 @@
+const {
+  constants: { KNOW_THE_OWNERS },
+} = require('@pins/business-rules');
 const { get, post } = require('../../router-mock');
 const {
-  getOwnSomeOfTheLand,
-  postOwnSomeOfTheLand,
-} = require('../../../../../src/controllers/full-appeal/submit-appeal/own-some-of-the-land');
+  getKnowTheOwners,
+  postKnowTheOwners,
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/know-the-owners');
 const fetchExistingAppealMiddleware = require('../../../../../src/middleware/fetch-existing-appeal');
 const {
   validationErrorHandler,
@@ -12,27 +15,28 @@ const { rules: optionsValidationRules } = require('../../../../../src/validators
 jest.mock('../../../../../src/middleware/fetch-existing-appeal');
 jest.mock('../../../../../src/validators/common/options');
 
-describe('routes/full-appeal/submit-appeal/own-some-of-the-land', () => {
+describe('routes/full-appeal/submit-appeal/know-the-owners', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
-    require('../../../../../src/routes/full-appeal/submit-appeal/own-some-of-the-land');
+    require('../../../../../src/routes/full-appeal/submit-appeal/know-the-owners');
   });
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      '/submit-appeal/own-some-of-the-land',
+      '/submit-appeal/know-the-owners',
       [fetchExistingAppealMiddleware],
-      getOwnSomeOfTheLand
+      getKnowTheOwners
     );
     expect(post).toHaveBeenCalledWith(
-      '/submit-appeal/own-some-of-the-land',
+      '/submit-appeal/know-the-owners',
       optionsValidationRules(),
       validationErrorHandler,
-      postOwnSomeOfTheLand
+      postKnowTheOwners
     );
     expect(optionsValidationRules).toHaveBeenCalledWith(
-      'own-some-of-the-land',
-      'Select yes if you own some of the land involved in the appeal'
+      'know-the-owners',
+      'Select if you know who owns the rest of the land involved in the appeal',
+      Object.values(KNOW_THE_OWNERS)
     );
   });
 });
