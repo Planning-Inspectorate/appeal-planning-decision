@@ -14,6 +14,7 @@ const originalApplicantRouter = require('../../../../../src/routes/full-appeal/s
 const ownSomeOfTheLandRouter = require('../../../../../src/routes/full-appeal/submit-appeal/own-some-of-the-land');
 const ownAllTheLandRouter = require('../../../../../src/routes/full-appeal/submit-appeal/own-all-the-land');
 const knowTheOwnersRouter = require('../../../../../src/routes/full-appeal/submit-appeal/know-the-owners');
+const agriculturalHoldingRouter = require('../../../../../src/routes/full-appeal/submit-appeal/agricultural-holding');
 
 describe('routes/full-appeal/submit-appeal/index', () => {
   beforeEach(() => {
@@ -22,7 +23,7 @@ describe('routes/full-appeal/submit-appeal/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(15);
+    expect(use.mock.calls.length).toBe(16);
     expect(use).toHaveBeenCalledWith(taskListRouter);
     expect(use).toHaveBeenCalledWith(checkAnswersRouter);
     expect(use).toHaveBeenCalledWith(contactDetailsRouter);
@@ -38,5 +39,6 @@ describe('routes/full-appeal/submit-appeal/index', () => {
     expect(use).toHaveBeenCalledWith(ownSomeOfTheLandRouter);
     expect(use).toHaveBeenCalledWith(ownAllTheLandRouter);
     expect(use).toHaveBeenCalledWith(knowTheOwnersRouter);
+    expect(use).toHaveBeenCalledWith(agriculturalHoldingRouter);
   });
 });
