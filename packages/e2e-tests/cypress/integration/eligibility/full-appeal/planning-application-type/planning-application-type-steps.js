@@ -1,4 +1,4 @@
-import {Given} from 'cypress-cucumber-preprocessor/steps';
+import {Given, When} from 'cypress-cucumber-preprocessor/steps';
 import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
 import {
   getHouseHolderPlanningRadio,
