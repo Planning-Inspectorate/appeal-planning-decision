@@ -30,9 +30,9 @@ describe('routes/full-appeal/submit-appeal/own-all-the-land', () => {
       validationErrorHandler,
       postOwnAllTheLand
     );
-    expect(optionsValidationRules).toHaveBeenCalledWith(
-      'own-all-the-land',
-      'Select yes if you own all the land involved in the appeal'
-    );
+    expect(optionsValidationRules).toHaveBeenCalledWith({
+      fieldName: 'own-all-the-land',
+      emptyError: 'Select yes if you own all the land involved in the appeal',
+    });
   });
 });

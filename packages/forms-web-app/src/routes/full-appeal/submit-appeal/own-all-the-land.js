@@ -12,10 +12,10 @@ const router = express.Router();
 router.get('/submit-appeal/own-all-the-land', [fetchExistingAppealMiddleware], getOwnAllTheLand);
 router.post(
   '/submit-appeal/own-all-the-land',
-  optionsValidationRules(
-    'own-all-the-land',
-    'Select yes if you own all the land involved in the appeal'
-  ),
+  optionsValidationRules({
+    fieldName: 'own-all-the-land',
+    emptyError: 'Select yes if you own all the land involved in the appeal',
+  }),
   validationErrorHandler,
   postOwnAllTheLand
 );

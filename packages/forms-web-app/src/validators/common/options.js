@@ -1,12 +1,15 @@
 const { body } = require('express-validator');
 
-const rules = (fieldName, notEmptyError = 'Select an option', validOptions = ['yes', 'no']) => [
-  body(fieldName)
-    .notEmpty()
-    .withMessage(notEmptyError)
-    .bail()
-    .isIn(validOptions)
-    .withMessage(notEmptyError),
+const rules = ({ fieldName, emptyError = null, validOptions = ['yes', 'no'] }) => [
+  body(fieldName).custom((value, { req }) => {
+    const error = typeof emptyError === 'function' ? emptyError(req) : emptyError;
+
+    if (value && validOptions.includes(value)) {
+      return true;
+    }
+
+    throw new Error(error || 'Select an option');
+  }),
 ];
 
 module.exports = {

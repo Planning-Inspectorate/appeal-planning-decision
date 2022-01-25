@@ -16,10 +16,10 @@ router.get(
 );
 router.post(
   '/submit-appeal/own-some-of-the-land',
-  optionsValidationRules(
-    'own-some-of-the-land',
-    'Select yes if you own some of the land involved in the appeal'
-  ),
+  optionsValidationRules({
+    fieldName: 'own-some-of-the-land',
+    emptyError: 'Select yes if you own some of the land involved in the appeal',
+  }),
   validationErrorHandler,
   postOwnSomeOfTheLand
 );
