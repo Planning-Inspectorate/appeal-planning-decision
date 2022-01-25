@@ -4,7 +4,12 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% set title = "Do you know who owns the rest of the land involved in the appeal? - Appeal a planning decision - GOV.UK" %}
+{% set heading = "Do you know who owns the land involved in the appeal?" %}
+{% if ownsSomeOfTheLand %}
+  {% set heading = "Do you know who owns the rest of the land involved in the appeal?" %}
+{% endif %}
+
+{% set title = heading + " - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% block backButton %}
@@ -38,7 +43,7 @@
           },
           fieldset: {
             legend: {
-              text: "Do you know who owns the rest of the land involved in the appeal?",
+              text: heading,
               isPageHeading: true,
               classes: "govuk-fieldset__legend--l"
             }

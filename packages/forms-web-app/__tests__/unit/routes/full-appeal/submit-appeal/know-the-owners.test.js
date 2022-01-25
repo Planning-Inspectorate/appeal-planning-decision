@@ -11,9 +11,11 @@ const {
   validationErrorHandler,
 } = require('../../../../../src/validators/validation-error-handler');
 const { rules: optionsValidationRules } = require('../../../../../src/validators/common/options');
+const errorMessage = require('../../../../../src/lib/full-appeal/error-message/know-the-owners');
 
 jest.mock('../../../../../src/middleware/fetch-existing-appeal');
 jest.mock('../../../../../src/validators/common/options');
+jest.mock('../../../../../src/lib/full-appeal/error-message/know-the-owners');
 
 describe('routes/full-appeal/submit-appeal/know-the-owners', () => {
   beforeEach(() => {
@@ -33,10 +35,10 @@ describe('routes/full-appeal/submit-appeal/know-the-owners', () => {
       validationErrorHandler,
       postKnowTheOwners
     );
-    expect(optionsValidationRules).toHaveBeenCalledWith(
-      'know-the-owners',
-      'Select if you know who owns the rest of the land involved in the appeal',
-      Object.values(KNOW_THE_OWNERS)
-    );
+    expect(optionsValidationRules).toHaveBeenCalledWith({
+      fieldName: 'know-the-owners',
+      validOptions: Object.values(KNOW_THE_OWNERS),
+      emptyError: errorMessage,
+    });
   });
 });

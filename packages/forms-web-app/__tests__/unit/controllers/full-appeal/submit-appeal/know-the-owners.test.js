@@ -31,6 +31,7 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
       ...APPEAL_DOCUMENT.empty,
       id: appealId,
       appealSiteSection: {
+        ownsSomeOfTheLand: true,
         knowsTheOwners: 'yes',
       },
     };
@@ -52,6 +53,7 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
 
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(KNOW_THE_OWNERS, {
+        ownsSomeOfTheLand: true,
         knowsTheOwners: 'yes',
       });
     });
@@ -63,6 +65,7 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
 
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(KNOW_THE_OWNERS, {
+        ownsSomeOfTheLand: undefined,
         knowsTheOwners: undefined,
       });
     });
@@ -84,6 +87,7 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(KNOW_THE_OWNERS, {
+        ownsSomeOfTheLand: true,
         errors,
         errorSummary,
       });
@@ -108,6 +112,7 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(KNOW_THE_OWNERS, {
+        ownsSomeOfTheLand: true,
         knowsTheOwners: 'yes',
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],

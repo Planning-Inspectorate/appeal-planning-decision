@@ -17,9 +17,10 @@ const taskName = 'knowsTheOwners';
 
 const getKnowTheOwners = (req, res) => {
   const {
-    appeal: { [sectionName]: { [taskName]: knowsTheOwners } = {} },
+    appeal: { [sectionName]: { ownsSomeOfTheLand, [taskName]: knowsTheOwners } = {} },
   } = req.session;
   res.render(KNOW_THE_OWNERS, {
+    ownsSomeOfTheLand,
     knowsTheOwners,
   });
 };
@@ -28,11 +29,15 @@ const postKnowTheOwners = async (req, res) => {
   const {
     body,
     body: { errors = {}, errorSummary = [] },
-    session: { appeal },
+    session: {
+      appeal,
+      appeal: { [sectionName]: { ownsSomeOfTheLand } = {} },
+    },
   } = req;
 
   if (Object.keys(errors).length > 0) {
     return res.render(KNOW_THE_OWNERS, {
+      ownsSomeOfTheLand,
       errors,
       errorSummary,
     });
@@ -50,6 +55,7 @@ const postKnowTheOwners = async (req, res) => {
     logger.error(err);
 
     return res.render(KNOW_THE_OWNERS, {
+      ownsSomeOfTheLand,
       knowsTheOwners,
       errors,
       errorSummary: [{ text: err.toString(), href: '#' }],
