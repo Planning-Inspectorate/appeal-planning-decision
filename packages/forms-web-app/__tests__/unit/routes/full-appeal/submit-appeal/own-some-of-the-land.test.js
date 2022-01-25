@@ -30,9 +30,9 @@ describe('routes/full-appeal/submit-appeal/own-some-of-the-land', () => {
       validationErrorHandler,
       postOwnSomeOfTheLand
     );
-    expect(optionsValidationRules).toHaveBeenCalledWith(
-      'own-some-of-the-land',
-      'Select yes if you own some of the land involved in the appeal'
-    );
+    expect(optionsValidationRules).toHaveBeenCalledWith({
+      fieldName: 'own-some-of-the-land',
+      emptyError: 'Select yes if you own some of the land involved in the appeal',
+    });
   });
 });

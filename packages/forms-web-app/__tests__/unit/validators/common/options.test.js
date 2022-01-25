@@ -5,98 +5,132 @@ const {
 const { rules } = require('../../../../src/validators/common/options');
 const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
 
-describe('validators/common/yes-no', () => {
+describe('validators/common/options', () => {
+  const res = jest.fn();
+  const fieldName = 'know-the-owners';
   const defaultError = 'Select an option';
-  const defaultOptions = ['yes', 'no'];
-  const customError = 'Select if you know who owns the rest of the land involved in the appeal';
-  const customOptions = Object.values(KNOW_THE_OWNERS);
+  const emptyError = 'Select if you know who owns the rest of the land involved in the appeal';
+  const validOptions = Object.values(KNOW_THE_OWNERS);
+  const invalidValue = 'invalid-value';
 
-  describe('rules', () => {
-    it('is configured with the expected rules when not given an error message or options', () => {
-      const rule = rules('yes-no')[0].builder.build();
+  it('should not return an error if a valid value is given', async () => {
+    const req = {
+      body: {
+        [fieldName]: 'yes',
+      },
+    };
 
-      expect(rule.fields).toEqual(['yes-no']);
-      expect(rule.locations).toEqual(['body']);
-      expect(rule.optional).toBeFalsy();
-      expect(rule.stack).toHaveLength(3);
+    await testExpressValidatorMiddleware(req, res, rules({ fieldName }));
 
-      expect(rule.stack[0].negated).toBeTruthy();
-      expect(rule.stack[0].validator.name).toEqual('isEmpty');
-      expect(rule.stack[0].message).toEqual(defaultError);
+    const result = validationResult(req);
 
-      expect(rule.stack[2].negated).toBeFalsy();
-      expect(rule.stack[2].validator.name).toEqual('isIn');
-      expect(rule.stack[2].options).toEqual([defaultOptions]);
-      expect(rule.stack[2].message).toEqual(defaultError);
-    });
-
-    it('is configured with the expected rules when given an error message and options', () => {
-      const rule = rules('yes-no', customError, customOptions)[0].builder.build();
-
-      expect(rule.fields).toEqual(['yes-no']);
-      expect(rule.locations).toEqual(['body']);
-      expect(rule.optional).toBeFalsy();
-      expect(rule.stack).toHaveLength(3);
-
-      expect(rule.stack[0].negated).toBeTruthy();
-      expect(rule.stack[0].validator.name).toEqual('isEmpty');
-      expect(rule.stack[0].message).toEqual(customError);
-
-      expect(rule.stack[2].negated).toBeFalsy();
-      expect(rule.stack[2].validator.name).toEqual('isIn');
-      expect(rule.stack[2].options).toEqual([customOptions]);
-      expect(rule.stack[2].message).toEqual(customError);
-    });
+    expect(result.errors).toHaveLength(0);
   });
 
-  describe('validator', () => {
-    const res = jest.fn();
+  it('should not return an error if custom options are given and a valid value is given', async () => {
+    const req = {
+      body: {
+        [fieldName]: 'some',
+      },
+    };
 
-    it('should return an error if no value have been given', async () => {
-      const req = {
-        body: {},
-      };
-      await testExpressValidatorMiddleware(req, res, rules('yes-no'));
+    await testExpressValidatorMiddleware(
+      req,
+      res,
+      rules({
+        fieldName,
+        validOptions,
+      })
+    );
 
-      const result = validationResult(req);
+    const result = validationResult(req);
 
-      expect(result.errors).toHaveLength(1);
-      expect(result.errors[0].location).toEqual('body');
-      expect(result.errors[0].msg).toEqual(defaultError);
-      expect(result.errors[0].param).toEqual('yes-no');
-      expect(result.errors[0].value).toEqual(undefined);
-    });
+    expect(result.errors).toHaveLength(0);
+  });
 
-    it('should return an error if an invalid option is given', async () => {
-      const req = {
-        body: {
-          'yes-no': 'invalid-value',
-        },
-      };
+  it('should return an error if an value is not given', async () => {
+    const req = {
+      body: {
+        [fieldName]: undefined,
+      },
+    };
 
-      await testExpressValidatorMiddleware(req, res, rules('yes-no'));
+    await testExpressValidatorMiddleware(req, res, rules({ fieldName }));
 
-      const result = validationResult(req);
+    const result = validationResult(req);
 
-      expect(result.errors).toHaveLength(1);
-      expect(result.errors[0].location).toEqual('body');
-      expect(result.errors[0].msg).toEqual(defaultError);
-      expect(result.errors[0].param).toEqual('yes-no');
-      expect(result.errors[0].value).toEqual('invalid-value');
-    });
+    expect(result.errors).toHaveLength(1);
+    expect(result.errors[0].location).toEqual('body');
+    expect(result.errors[0].msg).toEqual(defaultError);
+    expect(result.errors[0].param).toEqual(fieldName);
+    expect(result.errors[0].value).toEqual(undefined);
+  });
 
-    it('should not retun an error if a valid option is given', async () => {
-      const req = {
-        body: {
-          'yes-no': 'yes',
-        },
-      };
+  it('should return an error if a custom error string is given and an value is not given', async () => {
+    const req = {
+      body: {
+        [fieldName]: undefined,
+      },
+    };
 
-      await testExpressValidatorMiddleware(req, res, rules('yes-no'));
+    await testExpressValidatorMiddleware(
+      req,
+      res,
+      rules({
+        fieldName,
+        emptyError,
+      })
+    );
 
-      const result = validationResult(req);
+    const result = validationResult(req);
 
-      expect(result.errors).toHaveLength(0);
-    });
+    expect(result.errors).toHaveLength(1);
+    expect(result.errors[0].location).toEqual('body');
+    expect(result.errors[0].msg).toEqual(emptyError);
+    expect(result.errors[0].param).toEqual(fieldName);
+    expect(result.errors[0].value).toEqual(undefined);
+  });
+
+  it('should return an error if a custom error function is given and an value is not given', async () => {
+    const req = {
+      body: {
+        [fieldName]: undefined,
+      },
+    };
+
+    await testExpressValidatorMiddleware(
+      req,
+      res,
+      rules({
+        fieldName,
+        emptyError: () => emptyError,
+      })
+    );
+
+    const result = validationResult(req);
+
+    expect(result.errors).toHaveLength(1);
+    expect(result.errors[0].location).toEqual('body');
+    expect(result.errors[0].msg).toEqual(emptyError);
+    expect(result.errors[0].param).toEqual(fieldName);
+    expect(result.errors[0].value).toEqual(undefined);
+  });
+
+  it('should return an error if an invalid value is given', async () => {
+    const req = {
+      body: {
+        [fieldName]: invalidValue,
+      },
+    };
+
+    await testExpressValidatorMiddleware(req, res, rules({ fieldName }));
+
+    const result = validationResult(req);
+
+    expect(result.errors).toHaveLength(1);
+    expect(result.errors[0].location).toEqual('body');
+    expect(result.errors[0].msg).toEqual(defaultError);
+    expect(result.errors[0].param).toEqual(fieldName);
+    expect(result.errors[0].value).toEqual(invalidValue);
   });
 });

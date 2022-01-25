@@ -16,10 +16,10 @@ router.get(
 );
 router.post(
   '/submit-appeal/design-access-statement-submitted',
-  optionsValidationRules(
-    'design-access-statement-submitted',
-    'Select yes if you submitted a design and access statement with your application'
-  ),
+  optionsValidationRules({
+    fieldName: 'design-access-statement-submitted',
+    emptyError: 'Select yes if you submitted a design and access statement with your application',
+  }),
   validationErrorHandler,
   postDesignAccessStatementSubmitted
 );

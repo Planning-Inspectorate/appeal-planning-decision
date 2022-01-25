@@ -30,9 +30,9 @@ describe('routes/full-appeal/submit-appeal/design-access-statement-submitted', (
       validationErrorHandler,
       postDesignAccessStatementSubmitted
     );
-    expect(optionsValidationRules).toHaveBeenCalledWith(
-      'design-access-statement-submitted',
-      'Select yes if you submitted a design and access statement with your application'
-    );
+    expect(optionsValidationRules).toHaveBeenCalledWith({
+      fieldName: 'design-access-statement-submitted',
+      emptyError: 'Select yes if you submitted a design and access statement with your application',
+    });
   });
 });
