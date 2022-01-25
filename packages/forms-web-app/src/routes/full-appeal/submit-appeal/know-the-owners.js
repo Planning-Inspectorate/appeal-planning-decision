@@ -9,17 +9,18 @@ const {
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
 const { rules: optionsValidationRules } = require('../../../validators/common/options');
+const errorMessage = require('../../../lib/full-appeal/error-message/know-the-owners');
 
 const router = express.Router();
 
 router.get('/submit-appeal/know-the-owners', [fetchExistingAppealMiddleware], getKnowTheOwners);
 router.post(
   '/submit-appeal/know-the-owners',
-  optionsValidationRules(
-    'know-the-owners',
-    'Select if you know who owns the rest of the land involved in the appeal',
-    Object.values(KNOW_THE_OWNERS)
-  ),
+  optionsValidationRules({
+    fieldName: 'know-the-owners',
+    validOptions: Object.values(KNOW_THE_OWNERS),
+    emptyError: errorMessage,
+  }),
   validationErrorHandler,
   postKnowTheOwners
 );
