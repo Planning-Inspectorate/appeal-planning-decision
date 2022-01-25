@@ -79,6 +79,7 @@ exports.appealDocument = {
     ownsSomeOfTheLand: null,
     ownsAllTheLand: null,
     knowsTheOwners: null,
+    isAgriculturalHolding: null,
   },
   appealSubmission: {
     appealPDFStatement: {
@@ -135,6 +136,8 @@ exports.appealDocument = {
       healthAndSafety: 'NOT STARTED',
       ownsSomeOfTheLand: 'NOT STARTED',
       ownsAllTheLand: 'NOT STARTED',
+      knowsTheOwners: 'NOT STARTED',
+      isAgriculturalHolding: 'NOT STARTED',
     },
     contactDetailsSection: 'NOT STARTED',
     aboutAppealSiteSection: 'NOT STARTED',
