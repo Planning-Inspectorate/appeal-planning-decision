@@ -795,6 +795,30 @@ describe('schemas/full-appeal/insert', () => {
       });
     });
 
+    describe('appealSiteSection.isAgriculturalHoldingTenant', () => {
+      it('should throw an error when not given a boolean', async () => {
+        appeal.appealSiteSection.isAgriculturalHoldingTenant = 'true ';
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          'appealSiteSection.isAgriculturalHoldingTenant must be a `boolean` type, but the final value was: `"true "` (cast from the value `true`).',
+        );
+      });
+
+      it('should not throw an error when given a null value', async () => {
+        appeal.appealSiteSection.isAgriculturalHoldingTenant = null;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should not throw an error when not given a value', async () => {
+        delete appeal.appealSiteSection.isAgriculturalHoldingTenant;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+    });
+
     describe('aboutYouSection', () => {
       it('should remove unknown fields', async () => {
         appeal2.aboutYouSection.unknownField = 'unknown field';

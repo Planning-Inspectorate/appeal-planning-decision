@@ -175,6 +175,10 @@ const FULL_APPEAL_SECTIONS = {
       href: `/${FULL_APPEAL.AGRICULTURAL_HOLDING}`,
       rule: notStartedRule,
     },
+    areYouATenant: {
+      href: `/${FULL_APPEAL.ARE_YOU_A_TENANT}`,
+      rule: notStartedRule,
+    },
   },
   yourAppealSection: {
     appealStatement: {

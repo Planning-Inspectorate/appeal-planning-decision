@@ -783,6 +783,24 @@ describe('schemas/full-appeal/update', () => {
           );
         });
       });
+
+      describe('appealSiteSection.isAgriculturalHoldingTenant', () => {
+        it('should throw an error when not given a boolean', async () => {
+          appeal.appealSiteSection.isAgriculturalHoldingTenant = 'true ';
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'appealSiteSection.isAgriculturalHoldingTenant must be a `boolean` type, but the final value was: `"true "` (cast from the value `true`).',
+          );
+        });
+
+        it('should throw an error when not given a value', async () => {
+          delete appeal.appealSiteSection.isAgriculturalHoldingTenant;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'appealSiteSection.isAgriculturalHoldingTenant is a required field',
+          );
+        });
+      });
     });
 
     describe('aboutYouSection', () => {
