@@ -17,6 +17,7 @@ import {
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { pageCaption } from '../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 
 const url = 'full-appeal/submit-appeal/application-form';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -29,9 +30,11 @@ const pageHeadingText = "If you do not have your planning application form, you 
 
 Given("an appellant is on the 'Appeal a Planning Decision page'",()=> {
   goToAppealsPage(taskListUrl);
+  acceptCookiesBanner();
  })
 Given("an appellant is on the 'Appeal a Planning Decision' task list page",()=> {
   goToAppealsPage(taskListUrl);
+  acceptCookiesBanner();
 })
 When("they select 'Upload documents from your planning application' link",()=> {
   planningApplicationDocumentsLink().click();
@@ -47,7 +50,8 @@ Then("the uploaded file {string} is displayed", (filename) => {
   uploadedFileName().should('contain', filename);
 })
 Given( "an appellant is on the 'Planning Application form' page", () => {
-  goToAppealsPage(url);
+  goToAppealsPage(url)
+  acceptCookiesBanner();
   pageCaption().should('contain', textPageCaption);
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading);
@@ -77,6 +81,7 @@ Then( "an error message {string} is displayed", (errorMessage) => {
 
 Given("an appellant has not uploaded any document",()=> {
   goToAppealsPage(url);
+  acceptCookiesBanner();
 });
 
 Given("an appellant is on the 'Planning Application' page",()=> {
@@ -92,6 +97,7 @@ Then("they are presented with the 'Appeal a planning decision' task list page", 
 
 Given("an appellant has uploaded a file {string}", (filename) => {
   goToAppealsPage(url);
+  acceptCookiesBanner();
   getFileUploadButton().attachFile(filename);
 })
 Then("they are presented with the 'Appeal a planning decision' task list page", () => {

@@ -14,6 +14,7 @@ import { planningApplicationDocumentsLink } from '../../../../support/full-appea
 import { planningApplicationNumber } from '../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 
 
 const url = 'full-appeal/submit-appeal/design-access-statement-submitted';
@@ -29,6 +30,7 @@ const textPlanningAppNumber = 'PNO-1122';
 
 Given("an appellant or agent is on the 'What is your planning application number' page", () => {
   goToAppealsPage(planningApplicationNoUrl);
+  acceptCookiesBanner();
   planningApplicationNumber().type(`{selectall}{backspace}${textPlanningAppNumber}`)
   });
 When("they click on the 'Back' link",()=> {
@@ -42,6 +44,7 @@ Then('an error message {string} is displayed', (errorMessage) => {
 });
 Given("an appellant or agent is on the 'Did you submit a design and access statement with your application?' page", () => {
   goToAppealsPage(taskListUrl);
+  acceptCookiesBanner();
   planningApplicationDocumentsLink().click();
   getFileUploadButton().attachFile(filename);
   getSaveAndContinueButton().click();

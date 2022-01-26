@@ -44,9 +44,15 @@ Feature: As an appellant/agent
     Then an error message 'Select your design and access statement' is displayed
 
  Scenario: 6. Navigate from 'Design and access statement' page back to Task List
-   Given an appellant is on the 'Design and access statement' page
+   Given an appellant is on the 'Design and access statement' page from the task list page
    When they click on the 'Back' link
-   Then they are presented with the 'Did you submit a design and access statement with your application?' page
+   Then the user is presented with the 'Did you submit a design and access statement with your application?' page
+   When they click on the 'Back' link
+   Then they are presented with the 'What is your planning application number?' page
+   When they click on the 'Back' link
+   Then the user is presented with the 'Planning application form' page
+   When they click on the 'Back' link
+   Then they are presented with the 'Appeal a planning decision' task list page
 #And the last task they are working on will show 'In progress'
 
 

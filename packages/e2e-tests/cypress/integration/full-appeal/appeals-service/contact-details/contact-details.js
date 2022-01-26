@@ -21,6 +21,7 @@ import { providePostcode } from '../../../../support/common/appeal-submission-ap
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { errorFileUploadField } from '../../../../support/full-appeal/appeals-service/page-objects/file-upload-po';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 
 const url = 'full-appeal/submit-appeal/contact-details';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -60,6 +61,7 @@ Then("they return to the task list on the 'Appeal a planning decision' page", ()
 });
 Given("an Agent is on the 'Provide your contact details' page", () => {
   goToAppealsPage(originalApplicantUrl);
+  acceptCookiesBanner();
   originalApplicantNo().click();
   getSaveAndContinueButton().click();
   cy.url().should('contain',applicantNameUrl)
@@ -73,9 +75,6 @@ When("agent enters their 'full name, company name, email address'", () => {
   contactDetailsCompanyName().clear().type(AgentCompanyNameText);
   contactDetailsEmail().clear().type(AgentEmailText);
 });
-Given("the appellant or agent has or has not provided {string} in the {string} text box", () => {
-
-})
 Then('they are presented with the error {string}', (errorMessage) => {
   switch (errorMessage) {
     case 'Enter your full name':
@@ -97,6 +96,7 @@ Then('they are presented with the error {string}', (errorMessage) => {
 })
 Given("the appellant or agent is on the 'Provide your contact details' page", () => {
   goToAppealsPage(originalApplicantUrl);
+  acceptCookiesBanner();
   originalApplicantYes().click();
   getSaveAndContinueButton().click();
   cy.url().should('contain', url);
@@ -140,6 +140,7 @@ Then('an error message {string} is displayed', (errorMessage) => {
 });
 Given("the Agent or Appellant is on the 'Provide your contact details' page", () => {
   goToAppealsPage(originalApplicantUrl);
+  acceptCookiesBanner();
   originalApplicantYes().click();
   getSaveAndContinueButton().click();
   cy.url().should('contain', url);

@@ -6,6 +6,7 @@ import { getBackLink } from '../../../../support/common-page-objects/common-po';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 
 const url = 'full-appeal/submit-appeal/task-list';
 const pageTitle = 'Check your answers - Appeal a planning decision - GOV.UK';
@@ -13,6 +14,7 @@ const pageHeading = 'Check your answers';
 
 Given("the appellant is on the 'Appeal a planning decision' page",()=> {
  goToAppealsPage(url);
+  acceptCookiesBanner();
 })
 When("they click on 'Check your answers and submit your appeal' link",()=> {
   CheckYourAnswersLink().click();
@@ -28,9 +30,11 @@ Then('the information they have inputted will be displayed',()=> {
 })
 Given("the agent is on the 'Appeal a planning decision' page",()=> {
   goToAppealsPage(url);
+  acceptCookiesBanner();
 })
 Given("the {string} is on the 'Check your answers' page",()=> {
   goToAppealsPage(url);
+  acceptCookiesBanner();
   CheckYourAnswersLink().click();
   verifyPageTitle(pageTitle);
 })
