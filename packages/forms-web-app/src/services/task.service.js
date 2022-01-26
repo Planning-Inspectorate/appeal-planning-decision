@@ -167,6 +167,14 @@ const FULL_APPEAL_SECTIONS = {
       href: `/${FULL_APPEAL.OWN_SOME_OF_THE_LAND}`,
       rule: notStartedRule,
     },
+    knowTheOwners: {
+      href: `/${FULL_APPEAL.KNOW_THE_OWNERS}`,
+      rule: notStartedRule,
+    },
+    agriculturalHolding: {
+      href: `/${FULL_APPEAL.AGRICULTURAL_HOLDING}`,
+      rule: notStartedRule,
+    },
   },
   yourAppealSection: {
     appealStatement: {
