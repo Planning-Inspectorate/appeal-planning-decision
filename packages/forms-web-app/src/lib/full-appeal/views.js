@@ -18,6 +18,8 @@ const VIEW = {
     OWN_SOME_OF_THE_LAND: 'full-appeal/submit-appeal/own-some-of-the-land',
     KNOW_THE_OWNERS: 'full-appeal/submit-appeal/know-the-owners',
     AGRICULTURAL_HOLDING: 'full-appeal/submit-appeal/agricultural-holding',
+    TELLING_THE_LANDOWNERS: 'full-appeal/submit-appeal/telling-the-landowners',
+    IDENTIFYING_THE_OWNERS: 'full-appeal/submit-appeal/identifying-the-owners',
   },
 };
 

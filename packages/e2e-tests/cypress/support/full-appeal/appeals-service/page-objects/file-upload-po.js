@@ -8,3 +8,4 @@ export const replaceTheFileLabel = () => cy.findAllByText('Replace the file');
 export const sectionText = () => cy.get('.govuk-body');
 export const dragAndDropAFile = () => cy.findAllByText('Drag and drop or choose a file');
 
+

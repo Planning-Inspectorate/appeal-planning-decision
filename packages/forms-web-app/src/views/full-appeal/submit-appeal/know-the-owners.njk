@@ -1,0 +1,80 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set heading = "Do you know who owns the land involved in the appeal?" %}
+{% if ownsSomeOfTheLand %}
+  {% set heading = "Do you know who owns the rest of the land involved in the appeal?" %}
+{% endif %}
+
+{% set title = heading + " - Appeal a planning decision - GOV.UK" %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
+
+{% block backButton %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: '/full-appeal/submit-appeal/own-some-of-the-land',
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary,
+          attributes: {"data-cy": "error-wrapper"}
+        }) }}
+      {% endif %}
+      <form action="" method="post" novalidate>
+        <span class="govuk-caption-l">Tell us about the appeal site</span>
+        {{ govukRadios({
+          classes: "govuk-radios",
+          idPrefix: "know-the-owners",
+          name: "know-the-owners",
+          errorMessage: errors['know-the-owners'] and {
+            text: errors['know-the-owners'].msg
+          },
+          fieldset: {
+            legend: {
+              text: heading,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes, I know who owns all the land",
+              attributes: { "data-cy": "answer-yes" },
+              checked: knowsTheOwners == 'yes'
+            },
+            {
+              value: "some",
+              text: "I know who owns some of the land",
+              attributes: { "data-cy": "answer-some" },
+              checked: knowsTheOwners == 'some'
+            },
+            {
+              value: "no",
+              text: "No, I do not know who owns any of the land",
+              attributes: { "data-cy": "answer-no" },
+              checked: knowsTheOwners == 'no'
+            }
+          ]
+        }) }}
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

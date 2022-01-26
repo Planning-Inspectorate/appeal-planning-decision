@@ -78,6 +78,7 @@ exports.appealDocument = {
     },
     ownsSomeOfTheLand: null,
     ownsAllTheLand: null,
+    knowsTheOwners: null,
   },
   appealSubmission: {
     appealPDFStatement: {

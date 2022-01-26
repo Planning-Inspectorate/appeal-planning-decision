@@ -1,38 +1,44 @@
+const {
+  constants: { KNOW_THE_OWNERS },
+} = require('@pins/business-rules');
 const { get, post } = require('../../router-mock');
 const {
-  getOwnAllTheLand,
-  postOwnAllTheLand,
-} = require('../../../../../src/controllers/full-appeal/submit-appeal/own-all-the-land');
+  getKnowTheOwners,
+  postKnowTheOwners,
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/know-the-owners');
 const fetchExistingAppealMiddleware = require('../../../../../src/middleware/fetch-existing-appeal');
 const {
   validationErrorHandler,
 } = require('../../../../../src/validators/validation-error-handler');
 const { rules: optionsValidationRules } = require('../../../../../src/validators/common/options');
+const errorMessage = require('../../../../../src/lib/full-appeal/error-message/know-the-owners');
 
 jest.mock('../../../../../src/middleware/fetch-existing-appeal');
 jest.mock('../../../../../src/validators/common/options');
+jest.mock('../../../../../src/lib/full-appeal/error-message/know-the-owners');
 
-describe('routes/full-appeal/submit-appeal/own-all-the-land', () => {
+describe('routes/full-appeal/submit-appeal/know-the-owners', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
-    require('../../../../../src/routes/full-appeal/submit-appeal/own-all-the-land');
+    require('../../../../../src/routes/full-appeal/submit-appeal/know-the-owners');
   });
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      '/submit-appeal/own-all-the-land',
+      '/submit-appeal/know-the-owners',
       [fetchExistingAppealMiddleware],
-      getOwnAllTheLand
+      getKnowTheOwners
     );
     expect(post).toHaveBeenCalledWith(
-      '/submit-appeal/own-all-the-land',
+      '/submit-appeal/know-the-owners',
       optionsValidationRules(),
       validationErrorHandler,
-      postOwnAllTheLand
+      postKnowTheOwners
     );
     expect(optionsValidationRules).toHaveBeenCalledWith({
-      fieldName: 'own-all-the-land',
-      emptyError: 'Select yes if you own all the land involved in the appeal',
+      fieldName: 'know-the-owners',
+      validOptions: Object.values(KNOW_THE_OWNERS),
+      emptyError: errorMessage,
     });
   });
 });

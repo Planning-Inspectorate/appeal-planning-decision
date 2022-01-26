@@ -4,6 +4,7 @@ const {
   APPLICATION_DECISION,
   APPEAL_ID,
   APPEAL_STATE,
+  KNOW_THE_OWNERS,
   TYPE_OF_PLANNING_APPLICATION,
 } = require('../../constants');
 
@@ -97,6 +98,7 @@ const update = pinsYup
           .noUnknown(true),
         ownsSomeOfTheLand: pinsYup.bool().required(),
         ownsAllTheLand: pinsYup.bool().required(),
+        knowsTheOwners: pinsYup.string().oneOf(Object.values(KNOW_THE_OWNERS)).required(),
       })
       .noUnknown(true),
     planningApplicationDocumentsSection: pinsYup
