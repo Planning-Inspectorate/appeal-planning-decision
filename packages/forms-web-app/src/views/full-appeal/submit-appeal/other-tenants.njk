@@ -4,13 +4,13 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% set title = "Are you a tenant of the agricultural holding? - Appeal a planning decision - GOV.UK" %}
+{% set title = "Are there any other tenants? - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% block backButton %}
   {{ govukBackLink({
     text: 'Back',
-    href: '/full-appeal/submit-appeal/agricultural-holding',
+    href: '/full-appeal/submit-appeal/are-you-a-tenant',
     attributes: {
       'data-cy': 'back'
     }
@@ -31,14 +31,14 @@
         <span class="govuk-caption-l">Tell us about the appeal site</span>
         {{ govukRadios({
           classes: "govuk-radios",
-          idPrefix: "are-you-a-tenant",
-          name: "are-you-a-tenant",
-          errorMessage: errors['are-you-a-tenant'] and {
-            text: errors['are-you-a-tenant'].msg
+          idPrefix: "other-tenants",
+          name: "other-tenants",
+          errorMessage: errors['other-tenants'] and {
+            text: errors['other-tenants'].msg
           },
           fieldset: {
             legend: {
-              text: "Are you a tenant of the agricultural holding?",
+              text: "Are there any other tenants?",
               isPageHeading: true,
               classes: "govuk-fieldset__legend--l"
             }
@@ -48,13 +48,13 @@
               value: "yes",
               text: "Yes",
               attributes: { "data-cy": "answer-yes" },
-              checked: isAgriculturalHoldingTenant == true
+              checked: areOtherTenants == true
             },
             {
               value: "no",
               text: "No",
               attributes: { "data-cy": "answer-no" },
-              checked: isAgriculturalHoldingTenant == false
+              checked: areOtherTenants == false
             }
           ]
         }) }}
