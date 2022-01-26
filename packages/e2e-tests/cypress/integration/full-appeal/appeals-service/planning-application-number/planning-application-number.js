@@ -13,6 +13,7 @@ import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { getSaveAndContinueButton } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 
 const url = 'full-appeal/submit-appeal/application-number';
 const planningAppFormUrl = 'full-appeal/submit-appeal/application-form';
@@ -27,6 +28,7 @@ const largeTextPlanningAppNumber = 'PNo/0001-This is just a sample test for inpu
 
 Given("an agent is on the 'Planning Application form' page",()=> {
   goToAppealsPage(planningAppFormUrl);
+  acceptCookiesBanner();
   getFileUploadButton().attachFile('upload-file-valid.jpeg');
 });
 When("they click the 'Continue' on File upload page",()=> {
@@ -41,6 +43,7 @@ Then("'What is your Planning Application Number' page is displayed",()=> {
 
 Given("an agent is on the 'What is your Planning Application number' page",()=> {
   goToAppealsPage(url);
+  acceptCookiesBanner();
   pageCaption().should('contain', textPageCaption);
   verifyPageHeading(pageHeading);
   verifyPageTitle(pageTitle);
@@ -60,7 +63,8 @@ Then('an error message {string} is displayed',(errorMessage)=> {
 });
 
 Given("an agent has entered more than 30 characters into the text box",()=> {
-  goToAppealsPage(url)
+  goToAppealsPage(url);
+  acceptCookiesBanner();
   planningApplicationNumber().clear().type(largeTextPlanningAppNumber);
 });
 

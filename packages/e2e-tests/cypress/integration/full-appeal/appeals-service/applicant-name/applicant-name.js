@@ -10,11 +10,12 @@ import {
   originalApplicantNo,
 } from '../../../../support/full-appeal/appeals-service/page-objects/original-applicant-or-not-po';
 import {
-  continueButton, getBackLink,
+   getBackLink,
   getErrorMessageSummary,
   getSaveAndContinueButton,
 } from '../../../../support/common-page-objects/common-po';
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 
 const url = 'full-appeal/submit-appeal/applicant-name';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -42,6 +43,7 @@ Then("the next page to provide the Applicant's name is displayed", () => {
 
 Given("an Agent is on the 'What is the applicant’s name' page", () => {
   goToAppealsPage(taskListUrl);
+  acceptCookiesBanner();
   contactDetailsLink().click();
   originalApplicantNo().click();
   getSaveAndContinueButton().click();

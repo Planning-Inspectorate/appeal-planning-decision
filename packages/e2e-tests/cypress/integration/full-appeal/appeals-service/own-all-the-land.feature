@@ -19,11 +19,11 @@ Feature: As an appellant/agent
 
   Scenario: 4 - None of the options is selected on 'Do you own all the land involved in the appeal'
     Given an appellant or agent is on the 'Do you own all the land involved in the appeal' page
-    When the user select 'NONE' and click 'Continue'
+    When the user select 'None of the options' and click 'Continue'
     Then an error message 'Select yes if you own all the land involved in the appeal' is displayed
 
   Scenario: 5 -  Navigate from 'Do you own all the land involved in the appeal' page back to 'What is the address of the appeal site page'
     Given an appellant or agent is on the 'Do you own all the land involved in the appeal' page
     When they click on the 'Back' link
     Then they are presented with the 'What is the address of the appeal site' page
- # And Site Address Page should have all the previous entered data
+ #And Site Address Page should have all the previous entered data

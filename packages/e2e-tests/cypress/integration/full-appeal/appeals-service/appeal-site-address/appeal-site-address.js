@@ -28,6 +28,7 @@ import { provideAddressLine2 } from '../../../../support/common/appeal-submissio
 import { provideTownOrCity } from '../../../../support/common/appeal-submission-appeal-site-address/provideTownOrCity';
 import { provideCounty } from '../../../../support/common/appeal-submission-appeal-site-address/provideCounty';
 import { providePostcode } from '../../../../support/common/appeal-submission-appeal-site-address/providePostcode';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 
 const url = 'full-appeal/submit-appeal/appeal-site-address';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -39,6 +40,7 @@ const textPageText = 'The appeal site is the area of property or land that your 
 
 Given("an appellant is on the 'Task List' page", () => {
   goToAppealsPage(taskListUrl);
+  acceptCookiesBanner();
 });
 
 When("they click the 'Tell us about the appeal site' link on the Task List page", () => {
@@ -51,6 +53,7 @@ Then("the 'What is the address of the appeal site?' page is displayed", () => {
 
 Given("an appellant is on the 'What is the address of the appeal site?' page", () => {
   goToAppealsPage(url);
+  acceptCookiesBanner();
   pageCaption().should('contain', textPageCaption);
   pageText().should('contain', textPageText);
   verifyPageHeading(pageHeading);

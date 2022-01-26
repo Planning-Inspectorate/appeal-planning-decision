@@ -8,11 +8,14 @@ import {
 } from '../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 import { provideAddressLine1 } from '../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine1';
 import { providePostcode } from '../../../../support/common/appeal-submission-appeal-site-address/providePostcode';
-import {
-  errorMessageOwnAllLand} from '../../../../support/full-appeal/appeals-service/page-objects/own-all-the-land-po';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
-import { selectNo, selectYes } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
+import {
+  errorMessageOwnAllLand,
+  selectNo,
+  selectYes,
+} from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 
 const url = 'full-appeal/submit-appeal/own-all-the-land';
 const siteAddressUrl = 'full-appeal/submit-appeal/appeal-site-address';
@@ -30,6 +33,7 @@ When("they select the 'Continue' button",()=> {
 });
 Given("an appellant or agent is on the 'What is the address of the appeal site' page",()=> {
   goToAppealsPage(taskListUrl);
+  acceptCookiesBanner();
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
   provideAddressLine1(addressLine1);
@@ -46,6 +50,7 @@ When("no selection is made and they click Continue", () => {
 })
 Given("an appellant or agent is on the 'Do you own all the land involved in the appeal' page", () => {
   goToAppealsPage(url);
+  acceptCookiesBanner();
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading);
   pageCaptionText().should('contain', textPageCaption);
@@ -72,7 +77,7 @@ When("the user select {string} and click 'Continue'", (option) => {
       selectNo().click();
       getSaveAndContinueButton().click();
       break;
-    case 'NONE':
+    case 'None of the options':
       getSaveAndContinueButton().click();
       break;
   }

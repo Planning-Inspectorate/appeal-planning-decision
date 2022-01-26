@@ -17,12 +17,16 @@ import { verifyErrorMessage } from '../../../../support/common/verify-error-mess
 import { errorFileUploadField } from '../../../../support/full-appeal/appeals-service/page-objects/file-upload-po';
 import { planningApplicationDocumentsLink } from '../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 import { submitADesignStYes } from '../../../../support/full-appeal/appeals-service/page-objects/design-access-statement-submitted-po';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
+import { selectYes } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 
 const url = 'full-appeal/submit-appeal/design-access-statement';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
 const decisionLetterUrl = '/full-appeal/submit-appeal/decision-letter';
 const planningApplicationNoUrl = 'full-appeal/submit-appeal/application-number';
 const designAccessStatementSubmittedUrl = 'full-appeal/submit-appeal/design-access-statement-submitted';
+const planningAppNumberUrl = 'full-appeal/submit-appeal/application-number';
+const planningAppFormUrl = 'full-appeal/submit-appeal/application-form';
 const textPageCaption = 'Upload documents from your planning application';
 const pageTitle = "Design and access statement - Appeal a planning decision - GOV.UK";
 const pageHeading = 'Design and access statement';
@@ -31,6 +35,7 @@ const textPlanningAppNumber = 'PNO-1122';
 
 Given("an appellant is on the 'Did you submit a design and access statement with your application' page",()=> {
   goToAppealsPage(taskListUrl);
+  acceptCookiesBanner();
   planningApplicationDocumentsLink().click();
   getFileUploadButton().attachFile(filename);
   getSaveAndContinueButton().click();
@@ -51,6 +56,7 @@ Then("they are presented with the 'Decision letter' page", () => {
 })
 Given("an appellant is on the 'Design and access statement' page",()=> {
   goToAppealsPage(url);
+  acceptCookiesBanner();
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading);
   pageCaption().should('contain', textPageCaption);
@@ -80,4 +86,31 @@ Then("they are presented with the 'Did you submit a design and access statement 
 });
 When("they click on the 'Back' link",()=> {
   getBackLink().click();
+});
+Then("they are presented with the 'What is your planning application number?' page", () => {
+  cy.url().should('contain', planningAppNumberUrl);
+});
+Then("the user is presented with the 'Planning application form' page", () => {
+  cy.url().should('contain', planningAppFormUrl);
+})
+Then("they are presented with the 'Appeal a planning decision' task list page", () => {
+  cy.url().should('contain', taskListUrl);
+})
+Then("the user is presented with the 'Did you submit a design and access statement with your application?' page", () => {
+  cy.url().should('contain', designAccessStatementSubmittedUrl);
+});
+
+Given("an appellant is on the 'Design and access statement' page from the task list page", () => {
+  goToAppealsPage(taskListUrl);
+  acceptCookiesBanner();
+  planningApplicationDocumentsLink().click();
+  getFileUploadButton().attachFile(filename);
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', planningApplicationNoUrl);
+  planningApplicationNumber().type(textPlanningAppNumber);
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', designAccessStatementSubmittedUrl);
+  selectYes().click();
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', url);
 });

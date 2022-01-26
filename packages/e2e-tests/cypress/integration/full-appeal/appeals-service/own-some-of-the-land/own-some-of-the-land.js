@@ -19,6 +19,7 @@ import {
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 
 const url = 'full-appeal/submit-appeal/own-some-of-the-land';
 const siteAddressUrl = 'full-appeal/submit-appeal/appeal-site-address';
@@ -33,6 +34,7 @@ const postcode = 'RG6 1BC';
 
 Given("an appellant or agent is on the 'Do you own all the land involved in the appeal' page", () => {
   goToAppealsPage(taskListUrl);
+  acceptCookiesBanner();
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
   provideAddressLine1(addressLine1);
@@ -48,6 +50,7 @@ Then("'Do you own some of the land involved in the appeal' page is displayed", (
 });
 Given("an appellant or agent is on the 'Do you own some of the land involved in the appeal' page", () => {
   goToAppealsPage(url);
+  acceptCookiesBanner();
 })
 When("the user select {string} and click 'Continue'", (option) => {
   switch (option) {
@@ -59,7 +62,7 @@ When("the user select {string} and click 'Continue'", (option) => {
       selectNo().click();
       getSaveAndContinueButton().click();
       break;
-    case 'NONE':
+    case 'None of the options':
       getSaveAndContinueButton().click();
       break;
   }
@@ -73,9 +76,6 @@ Then("the user is taken to the next page 'Do you know who owns the land involved
 When("they click on the 'Back' link",()=> {
   getBackLink().click();
 });
-When("no selection is made and they click Continue", () => {
-  getSaveAndContinueButton().click();
-})
 Then('an error message {string} is displayed', (errorMessage) => {
   verifyErrorMessage(errorMessage,errorMessageOwnSomeLand, getErrorMessageSummary);
 });

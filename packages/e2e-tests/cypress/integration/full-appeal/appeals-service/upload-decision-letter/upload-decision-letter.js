@@ -19,7 +19,7 @@ import {
   pageCaptionText,
   planningApplicationDocumentsLink,
 } from '../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
-import { pageCaption } from '../../../../support/full-appeal/appeals-service/page-objects/appeal-site-address-po';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 
 const url = 'full-appeal/submit-appeal/decision-letter';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -35,6 +35,7 @@ const planningAppNumberText = 'PNO-TEST123'
 
 Given("an appellant is on the 'Design and access statement submitted' page",()=> {
   goToAppealsPage(taskListUrl);
+  acceptCookiesBanner();
   planningApplicationDocumentsLink().click();
   cy.url().should('contain', planningAppFormUrl);
   getFileUploadButton().attachFile('upload-file-valid.jpeg');
@@ -64,6 +65,7 @@ When("they select the 'Continue' button",()=> {
 Given( "an appellant is on the 'Decision Letter' page", () => {
   //goToAppealsPage(url);
   goToAppealsPage(taskListUrl);
+  acceptCookiesBanner();
   planningApplicationDocumentsLink().click();
   cy.url().should('contain', planningAppFormUrl);
   getFileUploadButton().attachFile('upload-file-valid.jpeg');
@@ -94,6 +96,7 @@ Then("the uploaded file {string} is displayed", (filename) => {
 })
 Given("an appellant has uploaded a file {string}", (filename) => {
   goToAppealsPage(url);
+  acceptCookiesBanner();
   getFileUploadButton().attachFile(filename);
 })
 Then( "an error message {string} is displayed", (errorMessage) => {
@@ -101,6 +104,7 @@ Then( "an error message {string} is displayed", (errorMessage) => {
 });
 Given("an appellant has not uploaded any document",()=> {
   goToAppealsPage(url);
+  acceptCookiesBanner();
 });
 Then("they are presented with the 'Design and access statement submitted' page", () => {
   cy.url().should('contain', designAccessStatementSubmittedUrl);
