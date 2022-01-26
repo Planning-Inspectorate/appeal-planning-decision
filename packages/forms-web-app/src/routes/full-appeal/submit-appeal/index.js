@@ -15,6 +15,7 @@ const ownSomeOfTheLandRouter = require('./own-some-of-the-land');
 const ownAllTheLandRouter = require('./own-all-the-land');
 const knowTheOwnersRouter = require('./know-the-owners');
 const agriculturalHoldingRouter = require('./agricultural-holding');
+const areYouATenantRouter = require('./are-you-a-tenant');
 
 const router = express.Router();
 
@@ -34,5 +35,6 @@ router.use(ownSomeOfTheLandRouter);
 router.use(ownAllTheLandRouter);
 router.use(knowTheOwnersRouter);
 router.use(agriculturalHoldingRouter);
+router.use(areYouATenantRouter);
 
 module.exports = router;

@@ -47,6 +47,7 @@ const appeal = {
     ownsAllTheLand: true,
     knowsTheOwners: 'yes',
     isAgriculturalHolding: true,
+    isAgriculturalHoldingTenant: true,
   },
   planningApplicationDocumentsSection: {
     applicationNumber: 'ABCDE12345',

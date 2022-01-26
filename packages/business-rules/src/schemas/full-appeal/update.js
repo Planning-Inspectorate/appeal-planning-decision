@@ -100,6 +100,7 @@ const update = pinsYup
         ownsAllTheLand: pinsYup.bool().required(),
         knowsTheOwners: pinsYup.string().oneOf(Object.values(KNOW_THE_OWNERS)).required(),
         isAgriculturalHolding: pinsYup.bool().required(),
+        isAgriculturalHoldingTenant: pinsYup.bool().required(),
       })
       .noUnknown(true),
     planningApplicationDocumentsSection: pinsYup

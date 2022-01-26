@@ -24,6 +24,7 @@ async function addInDatabase() {
   delete appeal.sectionStates.appealSiteSection.ownsAllTheLand;
   delete appeal.sectionStates.appealSiteSection.knowsTheOwners;
   delete appeal.sectionStates.appealSiteSection.isAgriculturalHolding;
+  delete appeal.sectionStates.appealSiteSection.isAgriculturalHoldingTenant;
 
   await mongodb.get().collection('appeals').insertOne({ _id: appeal.id, uuid: appeal.id, appeal });
   return appeal;

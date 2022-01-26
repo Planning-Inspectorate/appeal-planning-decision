@@ -22,6 +22,8 @@ const VIEW = {
     IDENTIFYING_THE_OWNERS: 'full-appeal/submit-appeal/identifying-the-owners',
     ARE_YOU_A_TENANT: 'full-appeal/submit-appeal/are-you-a-tenant',
     VISIBLE_FROM_ROAD: 'full-appeal/submit-appeal/visible-from-road',
+    OTHER_TENANTS: 'full-appeal/submit-appeal/other-tenants',
+    TELLING_THE_TENANTS: 'full-appeal/submit-appeal/telling-the-tenants',
   },
 };
 
