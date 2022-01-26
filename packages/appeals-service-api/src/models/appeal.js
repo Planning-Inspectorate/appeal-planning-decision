@@ -81,6 +81,7 @@ exports.appealDocument = {
     knowsTheOwners: null,
     isAgriculturalHolding: null,
     isAgriculturalHoldingTenant: null,
+    areOtherTenants: null,
   },
   appealSubmission: {
     appealPDFStatement: {
@@ -140,6 +141,7 @@ exports.appealDocument = {
       knowsTheOwners: 'NOT STARTED',
       isAgriculturalHolding: 'NOT STARTED',
       isAgriculturalHoldingTenant: 'NOT STARTED',
+      areOtherTenants: 'NOT STARTED',
     },
     contactDetailsSection: 'NOT STARTED',
     aboutAppealSiteSection: 'NOT STARTED',

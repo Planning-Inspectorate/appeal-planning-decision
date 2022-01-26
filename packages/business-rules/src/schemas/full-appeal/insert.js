@@ -126,6 +126,7 @@ const insert = pinsYup
         }),
         isAgriculturalHolding: pinsYup.bool().nullable(),
         isAgriculturalHoldingTenant: pinsYup.bool().nullable(),
+        areOtherTenants: pinsYup.bool().nullable(),
       })
       .noUnknown(true),
     planningApplicationDocumentsSection: pinsYup

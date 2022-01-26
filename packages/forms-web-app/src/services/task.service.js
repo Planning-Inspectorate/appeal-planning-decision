@@ -179,6 +179,10 @@ const FULL_APPEAL_SECTIONS = {
       href: `/${FULL_APPEAL.ARE_YOU_A_TENANT}`,
       rule: notStartedRule,
     },
+    otherTenants: {
+      href: `/${FULL_APPEAL.OTHER_TENANTS}`,
+      rule: notStartedRule,
+    },
   },
   yourAppealSection: {
     appealStatement: {
