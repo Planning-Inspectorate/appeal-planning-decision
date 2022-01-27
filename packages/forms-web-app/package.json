@@ -58,7 +58,7 @@
     "jest-html-reporters": "^2.1.6",
     "jest-junit": "^12.2.0",
     "lusca": "^1.6.1",
-    "node-fetch": "^2.6.2",
+    "node-fetch": "^2.6.7",
     "notifications-node-client": "^5.1.0",
     "nunjucks": "^3.2.2",
     "nunjucks-date-filter": "^0.1.1",
