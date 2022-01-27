@@ -1,4 +1,6 @@
 const express = require('express');
+const fetchAppealMiddleware = require('../middleware/common/fetch-appeal');
+const fetchExistingAppealReplyMiddleware = require('../middleware/common/fetch-existing-appeal-reply');
 
 const router = express.Router();
 
@@ -26,6 +28,7 @@ const booleanQuestionRouter = require('./question-type/boolean');
 const { router: supplementaryDocumentsRouter } = require('./supplementary-documents');
 const alreadySubmittedRouter = require('./already-submitted');
 const contactUsRouter = require('./contact-us');
+const fullAppealRouter = require('./full-appeal');
 
 router.use(contactUsRouter);
 router.use(homeRouter);
@@ -51,5 +54,11 @@ router.use(informationSubmittedRouter);
 router.use(booleanQuestionRouter);
 router.use(supplementaryDocumentsRouter);
 router.use(alreadySubmittedRouter);
+
+router.use(
+  '/full-appeal/:id/questionnaire',
+  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+  fullAppealRouter
+);
 
 module.exports = router;

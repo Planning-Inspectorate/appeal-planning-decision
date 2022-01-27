@@ -1,5 +1,5 @@
-const appealSidebarDetails = require('../../../src/lib/appeal-sidebar-details');
-const mockAppeal = require('../mockAppeal');
+const appealSidebarDetails = require('../../../../src/lib/common/appeal-sidebar-details');
+const mockAppeal = require('../../mockAppeal');
 
 describe('lib/appeals-sidebar-details', () => {
   it('should return null if no appeal is passed', () => {

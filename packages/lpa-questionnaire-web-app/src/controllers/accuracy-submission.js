@@ -1,6 +1,6 @@
 const logger = require('../lib/logger');
 const { VIEW } = require('../lib/views');
-const getAppealSideBarDetails = require('../lib/appeal-sidebar-details');
+const getAppealSideBarDetails = require('../lib/common/appeal-sidebar-details');
 const { getTaskStatus } = require('../services/task.service');
 const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
 const { renderView, redirect } = require('../util/render');
