@@ -1,12 +1,12 @@
-jest.mock('../../../src/lib/appeal-reply-api-wrapper');
+jest.mock('../../../../src/lib/appeal-reply-api-wrapper');
 
-const { mockReq, mockRes } = require('../mocks');
-const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
+const { mockReq, mockRes } = require('../../mocks');
+const fetchExistingAppealReplyMiddleware = require('../../../../src/middleware/common/fetch-existing-appeal-reply');
 const {
   createOrUpdateAppealReply,
   getAppealReplyByAppeal,
-} = require('../../../src/lib/appeal-reply-api-wrapper');
-const config = require('../../../src/config');
+} = require('../../../../src/lib/appeal-reply-api-wrapper');
+const config = require('../../../../src/config');
 
 config.appealReply.url = 'http://fake.url';
 const appealId = '6546a75e-6e8b-4c47-ad53-c4ed7e634638';

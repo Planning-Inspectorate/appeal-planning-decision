@@ -1,0 +1,38 @@
+{%- from "govuk/components/tag/macro.njk" import govukTag -%}
+<ol data-cy="task-list"
+      class="moj-task-list {{- ' ' + classes if classes }}" {% for attribute, value in attributes %} {{ attribute }}="{{ value }}"{% endfor %}>
+    {%- for item in params.sections %}
+      <li data-cy="task-list-item-{{ item.attributes.name }}"
+        class="moj-task-list__item" {% for attribute, value in item.attributes %} {{ attribute }}="{{ value }}"{% endfor %}>
+
+      {%- if item.status != 'CANNOT START YET' %}
+        <a data-cy="{{ item.attributes.name }}" class="moj-task-list__task-name" href="{{ item.href }}">
+          {{- item.html | safe if item.html else item.text -}}
+        </a>
+      {% else %}
+        <span data-cy="{{ item.attributes.name }}" class="app-task-list__task-name">
+        {{- item.html | safe if item.html else item.text -}}
+        </span>
+      {% endif %}
+
+      {%- if item.status %}
+        {%- if item.status == 'COMPLETED' %}
+          {{ govukTag({
+            text: item.status,
+            classes: 'moj-task-list__task-completed'
+          }) }}
+          {%- elif item.status == 'IN PROGRESS' %}
+          {{ govukTag({
+            text: item.status,
+            classes: 'govuk-tag--blue moj-task-list__task-completed'
+          }) }}
+        {% else %}
+          {{ govukTag({
+            text: item.status,
+            classes: 'govuk-tag--grey moj-task-list__task-completed'
+          }) }}
+        {% endif -%}
+      {% endif -%}
+      </li>
+    {% endfor -%}
+    </ol>

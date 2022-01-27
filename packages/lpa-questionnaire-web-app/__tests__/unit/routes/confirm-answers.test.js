@@ -1,8 +1,8 @@
 const { get } = require('./router-mock');
 const { VIEW } = require('../../../src/lib/views');
 const confirmAnswersController = require('../../../src/controllers/confirm-answers');
-const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
-const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
+const fetchAppealMiddleware = require('../../../src/middleware/common/fetch-appeal');
+const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/common/fetch-existing-appeal-reply');
 const alreadySubmittedMiddleware = require('../../../src/middleware/already-submitted');
 
 describe('routes/confirm-answers', () => {

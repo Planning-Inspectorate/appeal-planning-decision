@@ -1,9 +1,9 @@
-jest.mock('../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/lib/appeals-api-wrapper');
 
-const { mockReq, mockRes } = require('../mocks');
-const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
-const { getAppeal } = require('../../../src/lib/appeals-api-wrapper');
-const config = require('../../../src/config');
+const { mockReq, mockRes } = require('../../mocks');
+const fetchAppealMiddleware = require('../../../../src/middleware/common/fetch-appeal');
+const { getAppeal } = require('../../../../src/lib/appeals-api-wrapper');
+const config = require('../../../../src/config');
 
 config.appeals.url = 'http://fake.url';
 const appealId = '6546a75e-6e8b-4c47-ad53-c4ed7e634638';

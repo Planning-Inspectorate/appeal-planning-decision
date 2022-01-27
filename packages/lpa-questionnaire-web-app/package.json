@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@ministryofjustice/frontend": "0.2.0",
+    "@pins/business-rules": "file:../business-rules",
     "@pins/common": "file:../common",
     "@planning-inspectorate/pins-clamav-rest-client": "^1.0.0",
     "compression": "^1.7.4",

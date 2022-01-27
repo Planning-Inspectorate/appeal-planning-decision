@@ -1,6 +1,6 @@
 const { format } = require('date-fns');
 const { VIEW } = require('../../lib/views');
-const getAppealSideBarDetails = require('../../lib/appeal-sidebar-details');
+const getAppealSideBarDetails = require('../../lib/common/appeal-sidebar-details');
 const { renderView } = require('../../util/render');
 
 const question = {

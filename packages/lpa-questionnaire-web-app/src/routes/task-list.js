@@ -1,5 +1,5 @@
 const express = require('express');
-const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing-appeal-reply');
+const fetchExistingAppealReplyMiddleware = require('../middleware/common/fetch-existing-appeal-reply');
 const taskListController = require('../controllers/task-list');
 const alreadySubmittedMiddleware = require('../middleware/already-submitted');
 

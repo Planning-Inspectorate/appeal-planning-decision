@@ -1,4 +1,4 @@
-const { NOT_STARTED, COMPLETED } = require('../../../../src/services/task-status/task-statuses');
+const { NOT_STARTED, COMPLETED } = require('../../../../src/services/common/task-statuses');
 const extraConditionsCompletion = require('../../../../src/services/task-status/extra-conditions');
 
 describe('services/task.service/task-status/other-appeals', () => {
