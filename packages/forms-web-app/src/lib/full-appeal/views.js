@@ -24,6 +24,9 @@ const VIEW = {
     VISIBLE_FROM_ROAD: 'full-appeal/submit-appeal/visible-from-road',
     OTHER_TENANTS: 'full-appeal/submit-appeal/other-tenants',
     TELLING_THE_TENANTS: 'full-appeal/submit-appeal/telling-the-tenants',
+    DECLARATION: 'full-appeal/submit-appeal/declaration',
+    APPEAL_SUBMITTED: 'full-appeal/submit-appeal/appeal-submitted',
+    DECLARATION_INFORMATION: 'full-appeal/submit-appeal/declaration-information',
   },
 };
 
