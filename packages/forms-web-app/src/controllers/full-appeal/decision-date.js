@@ -35,6 +35,8 @@ exports.postDecisionDate = async (req, res) => {
   );
 
   if (isBefore(enteredDate, add(new Date(todaysDate), { months: -6 }))) {
+    const deadlineDate = add(enteredDate, { months: 6 });
+    req.session.appeal.eligibility.appealDeadline = deadlineDate;
     return res.redirect(`/before-you-start/you-cannot-appeal`);
   }
 
