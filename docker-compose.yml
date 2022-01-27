@@ -79,11 +79,6 @@ services:
       HORIZON_HAS_PUBLISHER_PORT: 5672
       HORIZON_HAS_PUBLISHER_QUEUE: horizon-householder-appeal-publish
       HORIZON_HAS_PUBLISHER_USERNAME: admin
-      SQL_HASAPPEALS_PUBLISHER_HOST: rabbitmq
-      SQL_HASAPPEALS_PUBLISHER_PASSWORD: admin
-      SQL_HASAPPEALS_PUBLISHER_PORT: 5672
-      SQL_HASAPPEALS_PUBLISHER_QUEUE: sql-householder-appeal-publish
-      SQL_HASAPPEALS_PUBLISHER_USERNAME: admin
       LOGGER_LEVEL: 'debug'
       LPA_DATA_PATH: /opt/app/data/lpa-list.csv
       LPA_TRIALIST_DATA_PATH: /opt/app/data/lpa-trialists.json
