@@ -3,18 +3,18 @@ import {
 
   getBackLink, getErrorMessageSummary, getFileUploadButton,
   getSaveAndContinueButton,
-} from '../../../../../../support/common-page-objects/common-po';
-import { verifyErrorMessage } from '../../../../../../support/common/verify-error-message';
+} from '../../../../../support/common-page-objects/common-po';
+import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
 import {
   designAccessStateSubmittedError, submitADesignStNo,
   submitADesignStYes, pageCaption
-} from '../../../../../../support/full-appeal/appeals-service/page-objects/design-access-statement-submitted-po';
-import { goToAppealsPage } from '../../../../../../support/common/go-to-page/goToAppealsPage';
-import { planningApplicationDocumentsLink } from '../../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
-import { planningApplicationNumber } from '../../../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
-import { verifyPageTitle } from '../../../../../../support/common/verify-page-title';
-import { verifyPageHeading } from '../../../../../../support/common/verify-page-heading';
-import { acceptCookiesBanner } from '../../../../../../support/common/accept-cookies-banner';
+} from '../../../../../support/full-appeal/appeals-service/page-objects/design-access-statement-submitted-po';
+import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
+import { planningApplicationDocumentsLink } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
+import { planningApplicationNumber } from '../../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
+import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
+import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
+import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
 
 
 const url = 'full-appeal/submit-appeal/design-access-statement-submitted';

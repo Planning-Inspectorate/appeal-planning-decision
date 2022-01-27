@@ -75,7 +75,7 @@ Then( "'What is your planning application number' page is displayed", () => {
 When( "they select 'Save and Continue'", () => {
   getSaveAndContinueButton().click();
 } );
-Then( "an error message {string} is displayed", (errorMessage) => {
+Then( "an error message {string} is displayed on planning application form page", (errorMessage) => {
   verifyErrorMessage(errorMessage,errorFileUploadField,getErrorMessageSummary);
 });
 
