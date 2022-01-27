@@ -21,7 +21,7 @@
     "./**/*.{js, json}": "npm run format"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "express": "^4.17.1",
     "pino": "^6.11.1",
     "prom-client": "^13.1.0",
