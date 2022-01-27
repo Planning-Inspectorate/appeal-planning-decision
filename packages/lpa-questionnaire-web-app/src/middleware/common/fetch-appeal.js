@@ -1,5 +1,5 @@
 const { validate: validateUuid } = require('uuid');
-const { getAppeal } = require('../lib/appeals-api-wrapper');
+const { getAppeal } = require('../../lib/appeals-api-wrapper');
 
 /**
  * Middleware to ensure any appeal data is populated

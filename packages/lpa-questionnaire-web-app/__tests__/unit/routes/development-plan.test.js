@@ -1,7 +1,7 @@
 const { get, post } = require('./router-mock');
 const developmentPlanController = require('../../../src/controllers/development-plan');
-const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
-const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
+const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/common/fetch-existing-appeal-reply');
+const fetchAppealMiddleware = require('../../../src/middleware/common/fetch-appeal');
 const alreadySubmittedMiddleware = require('../../../src/middleware/already-submitted');
 const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
 const {

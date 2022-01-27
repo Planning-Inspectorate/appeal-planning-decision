@@ -1,0 +1,40 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "components/appeal-details/macro.njk" import appealDetails %}
+{% from "components/full-appeal/task-list/macro.njk" import taskListComponent %}
+
+{% block pageTitle %}
+  Full planning appeal questionnaire - Appeal a planning decision - GOV.UK
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 data-cy="heading" class="govuk-heading-l">
+      Full planning appeal questionnaire
+    </h1>
+  </div>
+  <div class="govuk-grid-column-two-thirds">
+    <h2 data-cy="application-status" class="govuk-heading-s govuk-!-margin-bottom-2">Questionnaire {{ questionnaireStatus }}</h2>
+    <p data-cy="application-status-detailed" class="govuk-body govuk-!-margin-bottom-7">You have completed {{ completedTasksCount }} of {{ totalTasksCount }} tasks.</p>
+
+    {{
+      taskListComponent({
+        sections: sections
+      })
+    }}
+  </div>
+
+  {{
+    appealDetails({
+        appeal: appeal,
+        requireCaption: false,
+        planningNumberBgColor: "govuk-tag--green"
+    })
+  }}
+
+</div>
+
+
+{% endblock %}

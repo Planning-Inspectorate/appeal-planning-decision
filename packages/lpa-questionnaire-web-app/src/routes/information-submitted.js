@@ -1,6 +1,6 @@
 const express = require('express');
 const informationSubmittedController = require('../controllers/information-submitted');
-const fetchAppealMiddleware = require('../middleware/fetch-appeal');
+const fetchAppealMiddleware = require('../middleware/common/fetch-appeal');
 
 const router = express.Router();
 

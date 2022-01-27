@@ -61,6 +61,7 @@ services:
       - document-service-api
       - mongodb
     volumes:
+      - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
       - ./packages/common:/opt/app/node_modules/@pins/common:ro # Replace the module to avoid symlink errors
       - ./packages/appeal-reply-service-api:/opt/app:ro
     command: npm run start:dev
@@ -220,6 +221,7 @@ services:
       - pdf-service-api
     volumes:
       - ./packages/common:/opt/app/node_modules/@pins/common
+      - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
       - ./packages/lpa-questionnaire-web-app:/opt/app
     command: npm run start:dev
 

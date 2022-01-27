@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-const { NOT_STARTED, COMPLETED } = require('../../../../src/services/task-status/task-statuses');
+const { NOT_STARTED, COMPLETED } = require('../../../../src/services/common/task-statuses');
 
 describe('services/task.service/task-status/boolean', () => {
   beforeEach(() => {

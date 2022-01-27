@@ -1,4 +1,4 @@
-const { COMPLETED, NOT_STARTED } = require('./task-statuses');
+const { COMPLETED, NOT_STARTED } = require('../common/task-statuses');
 
 module.exports = (appealReply) => {
   if (!appealReply) return null;
