@@ -134,7 +134,8 @@ stages:
                       exit $exitCode
                   }
           - task: Docker@2
-            displayName: Push Image
+            displayName: Push Image with latest tag
+            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
             inputs:
               command: push
               repository: $(imageRepository)
@@ -143,3 +144,13 @@ stages:
                 $(versionNumber)
                 appeals-service-api
                 latest
+          - task: Docker@2
+            displayName: Push Image without latest tag
+            condition: and(succeeded(), neq(variables['Build.SourceBranch'], 'refs/heads/master'))
+            inputs:
+              command: push
+              repository: $(imageRepository)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(versionNumber)
+                appeals-service-api
