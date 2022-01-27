@@ -33,7 +33,7 @@ openfaas:
 	rm .faasd.txt
 .PHONY: openfaas
 
-run:
+run:e
 	docker-compose run \
 		--rm \
 		--service-ports \
