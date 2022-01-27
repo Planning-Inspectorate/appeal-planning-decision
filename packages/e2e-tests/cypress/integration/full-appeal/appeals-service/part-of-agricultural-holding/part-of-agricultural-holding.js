@@ -60,8 +60,7 @@ When("the user select {string} and click 'Continue'", (option) => {
 });
 Then("'Is the appeal site part of an agricultural holding' page is displayed with some guidance text", () => {
   cy.url().should('contain', url);
-  //add guidance text
-});
+  });
 Given("an appellant or agent is on the 'Is the appeal site part of an agricultural holding' page", () => {
   goToAppealsPage(url);
   acceptCookiesBanner();
