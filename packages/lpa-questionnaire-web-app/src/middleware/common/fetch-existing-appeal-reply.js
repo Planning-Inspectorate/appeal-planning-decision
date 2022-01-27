@@ -1,9 +1,9 @@
 const { validate: validateUuid } = require('uuid');
-const config = require('../config');
+const config = require('../../config');
 const {
   createOrUpdateAppealReply,
   getAppealReplyByAppeal,
-} = require('../lib/appeal-reply-api-wrapper');
+} = require('../../lib/appeal-reply-api-wrapper');
 
 /**
  * Middleware to ensure any route that needs the appeal reply form data can have it pre-populated when the
@@ -30,7 +30,15 @@ module.exports = async (req, res, next) => {
     req.log.error({ err }, 'Error retrieving appeal reply');
 
     if (config.appealReply.allowCreate) {
-      req.session.appealReply = await createOrUpdateAppealReply({ appealId });
+      if (req.session.appeal) {
+        req.session.appealReply = await createOrUpdateAppealReply({
+          appealId,
+          applicationDecision: req.session.appeal.eligibility.applicationDecision,
+          appealType: req.session.appeal.appealType,
+        });
+      } else {
+        req.session.appealReply = await createOrUpdateAppealReply({ appealId });
+      }
     } else {
       req.log.info({ appealId }, 'Allow Create is disabled for Get existing appeal, returning 404');
 

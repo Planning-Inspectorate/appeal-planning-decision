@@ -2,7 +2,7 @@ const {
   CANNOT_START_YET,
   NOT_STARTED,
   COMPLETED,
-} = require('../../../../src/services/task-status/task-statuses');
+} = require('../../../../src/services/common/task-statuses');
 const checkAnswersCompletion = require('../../../../src/services/task-status/check-your-answers');
 const taskChecks = require('../../../../src/services/task-status/index');
 

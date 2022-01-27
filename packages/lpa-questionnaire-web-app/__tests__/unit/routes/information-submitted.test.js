@@ -1,7 +1,7 @@
 const { get } = require('./router-mock');
 const { VIEW } = require('../../../src/lib/views');
 const informationSubmittedController = require('../../../src/controllers/information-submitted');
-const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
+const fetchAppealMiddleware = require('../../../src/middleware/common/fetch-appeal');
 
 describe('routes/information-submitted', () => {
   beforeEach(() => {

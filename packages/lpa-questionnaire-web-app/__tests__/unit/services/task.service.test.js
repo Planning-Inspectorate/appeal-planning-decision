@@ -1,7 +1,4 @@
-const {
-  NOT_STARTED,
-  CANNOT_START_YET,
-} = require('../../../src/services/task-status/task-statuses');
+const { NOT_STARTED, CANNOT_START_YET } = require('../../../src/services/common/task-statuses');
 const { SECTIONS, getTaskStatus } = require('../../../src/services/task.service');
 const appealReply = require('../emptyAppealReply');
 

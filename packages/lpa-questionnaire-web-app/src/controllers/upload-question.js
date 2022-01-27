@@ -5,7 +5,7 @@ const {
   uploadFiles,
 } = require('../lib/file-upload-helpers');
 const { deleteDocument } = require('../lib/documents-api-wrapper');
-const getAppealSideBarDetails = require('../lib/appeal-sidebar-details');
+const getAppealSideBarDetails = require('../lib/common/appeal-sidebar-details');
 const { getTaskStatus } = require('../services/task.service');
 const { createOrUpdateAppealReply } = require('../lib/appeal-reply-api-wrapper');
 const { renderView, redirect } = require('../util/render');
