@@ -1,4 +1,4 @@
-import { getDate, getMonth, getYear } from 'date-fns';
+import { addMonths, getDate, getMonth, getYear } from 'date-fns';
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
@@ -24,6 +24,12 @@ import {
   getDateDecisionDueHouseholderDay,
   getPlanningApplicationDecisionHouseholderError,
 } from '../../../../support/eligibility/page-objects/date-decision-due-householder-po';
+import { getAppealDeadline } from '../../../../support/eligibility/page-objects/shutter-page-po';
+import format from 'date-fns/format';
+import {
+  selectListedBuildingDecision
+} from '../../../../support/eligibility/listed-building/select-listed-building-decision';
+import { clickContinueButton } from '../../../../support/common/clickContinueButton';
 
 const pageHeading = 'What date was your decision due?';
 const pageTitle =
@@ -33,14 +39,16 @@ const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 const enforcementNoticePageUrl = '/before-you-start/enforcement-notice-householder';
 const grantedOrRefusedPageUrl = 'before-you-start/granted-or-refused-householder';
 const shutterPageUrl = '/before-you-start/you-cannot-appeal';
+let pastDate;
 
 Given('appellant navigates to decision date page for householder appeal', () => {
-  /* goToAppealsPage(typeOfPlanningPageUrl);
+  goToAppealsPage(typeOfPlanningPageUrl);
   selectPlanningApplicationType('Householder');
-  goToAppealsPage(grantedOrRefusedPageUrl)
-  getContinueButton().click();
+  clickContinueButton();
+  selectListedBuildingDecision('No');
+  clickContinueButton();
   selectPlanningApplicationDecision('I have Not Received a Decision');
-  getContinueButton().click();*/
+  clickContinueButton();
 });
 
 Given('appellant navigates to date decision due page', () => {
@@ -67,7 +75,7 @@ When(
 );
 
 When('appellant enters an date older than 6 months when they were due a decision', () => {
-  const pastDate = getPastDate(allowedDatePart.MONTH, 7);
+  pastDate = getPastDate(allowedDatePart.MONTH, 7);
   enterDateDecisionDueHouseholder({
     day: getDate(pastDate),
     month: getMonth(pastDate) + 1,
@@ -109,6 +117,9 @@ Then(
 
 Then('appellant are navigated to the page which notifies them that they cannot appeal', () => {
   cy.url().should('contain', shutterPageUrl);
+  // pastDate = format(addMonths(pastDate, 6), 'dd MMMM yyyy');
+  getAppealDeadline().should('contain', '6 months');
+  // getAppealDeadline().should('contain', pastDate);
 });
 
 Then('progress is halted with an error: {string}', (errorMessage) => {

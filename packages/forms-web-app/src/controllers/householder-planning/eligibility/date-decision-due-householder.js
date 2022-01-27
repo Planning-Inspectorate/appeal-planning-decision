@@ -36,9 +36,9 @@ exports.postDateDecisionDueHouseholder = async (req, res) => {
     (parseInt(body['date-decision-due-householder-month'], 10) - 1).toString(),
     body['date-decision-due-householder-day']
   );
-  const deadlineDate = add(new Date(Date.now()), { months: -6, days: -1 });
+  const deadlineDate = add(enteredDate, { months: 6, days: 1 });
 
-  if (isBefore(enteredDate, deadlineDate)) {
+  if (!isBefore(new Date(), deadlineDate)) {
     req.session.appeal.eligibility.appealDeadline = deadlineDate;
     return res.redirect(shutterPage);
   }
