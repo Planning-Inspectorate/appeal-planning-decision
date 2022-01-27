@@ -30,7 +30,6 @@ import format from 'date-fns/format';
 import {
   selectListedBuildingDecision
 } from '../../../../support/eligibility/listed-building/select-listed-building-decision';
-import { clickContinueButton } from '../../../../support/common/clickContinueButton';
 
 const pageHeading = 'What date was your decision due?';
 const pageTitle =
