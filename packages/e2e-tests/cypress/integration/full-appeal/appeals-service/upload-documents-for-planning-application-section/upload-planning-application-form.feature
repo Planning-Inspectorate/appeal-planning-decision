@@ -33,12 +33,12 @@ Feature: As an appellant/agent
   Scenario: 4. Appellant does not upload any document
     Given an appellant has not uploaded any document
     When they select the 'Continue' button
-    Then an error message 'Select your planning application form' is displayed
+    Then an error message 'Select your planning application form' is displayed on planning application form page
 
   Scenario Outline: 5. Appellant uploads a large file and an invalid file
     Given an appellant has uploaded a file '<filename>'
     When they select the 'Continue' button
-    Then an error message '<error message>' is displayed
+    Then an error message '<error message>' is displayed on planning application form page
     Examples:
       | filename                                | error message                                                                     |
       | upload_file_large.tiff                  | upload_file_large.tiff must be smaller than 15MB                                  |
