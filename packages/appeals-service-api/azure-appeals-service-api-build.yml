@@ -146,7 +146,7 @@ stages:
                 latest
           - task: Docker@2
             displayName: Push Image without latest tag
-            condition: and(succeeded(), neq(variables['Build.SourceBranch'], 'refs/heads/master'))
+            condition: and(succeeded(), not(eq(variables['Build.SourceBranch'], 'refs/heads/master')))
             inputs:
               command: push
               repository: $(imageRepository)
