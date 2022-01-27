@@ -1,0 +1,59 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+
+{% set title="Declaration - Appeal a householder planning decision - GOV.UK" %}
+
+{% block pageTitle %}
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary
+        }) }}
+      {% endif %}
+
+      <form action="" method="post" novalidate>
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Check your answers and submit your appeal</span>
+        <h1 data-cy="title" class="govuk-heading-l">
+          Declaration
+        </h1>
+        <p>By submitting your appeal, you confirm you understand that:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>this is your only opportunity to submit the appeal</li>
+          <li>if you have not included all the information we've requested, we may not be able to progress your appeal</li>
+          <li>we will contact you about any missing information, but this may delay your appeal​</li>
+        </ul>
+        <p>You also confirm that you've completed all sections and the details are correct to the best of your knowledge.</p>
+
+        <div class="govuk-inset-text">
+          The gathering and subsequent processing of the personal data supplied by you in this form is in accordance with the terms of our registration under the Data Protection Act 2018. Further information can be found in our Privacy Notice and Terms and Conditions.
+        </div>
+
+        {{ govukWarningText({
+          text: "Once you submit your appeal, you cannot add to or change it.",
+          iconFallbackText: "Warning"
+        }) }}
+
+        {{ govukButton({
+          text: "Confirm and submit appeal",
+          attributes: {"data-cy":"accept-and-send"}
+        }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

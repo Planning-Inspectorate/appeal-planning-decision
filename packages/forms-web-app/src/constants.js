@@ -20,4 +20,8 @@ module.exports = {
       NODECISION: 'nodecisionreceived',
     },
   },
+  APPEAL_TYPE: {
+    HOUSEHOLDER: '1001',
+    PLANNING_SECTION_78: '1005',
+  },
 };

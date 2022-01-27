@@ -17,6 +17,9 @@ const knowTheOwnersRouter = require('../../../../../src/routes/full-appeal/submi
 const agriculturalHoldingRouter = require('../../../../../src/routes/full-appeal/submit-appeal/agricultural-holding');
 const areYouATenantRouter = require('../../../../../src/routes/full-appeal/submit-appeal/are-you-a-tenant');
 const otherTenantsRouter = require('../../../../../src/routes/full-appeal/submit-appeal/other-tenants');
+const declarationRouter = require('../../../../../src/routes/full-appeal/submit-appeal/declaration');
+const declarationInformationRouter = require('../../../../../src/routes/full-appeal/submit-appeal/declaration-information');
+const appealSubmittedRouter = require('../../../../../src/routes/full-appeal/submit-appeal/appeal-submitted');
 
 describe('routes/full-appeal/submit-appeal/index', () => {
   beforeEach(() => {
@@ -25,7 +28,7 @@ describe('routes/full-appeal/submit-appeal/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(18);
+    expect(use.mock.calls.length).toBe(21);
     expect(use).toHaveBeenCalledWith(taskListRouter);
     expect(use).toHaveBeenCalledWith(checkAnswersRouter);
     expect(use).toHaveBeenCalledWith(contactDetailsRouter);
@@ -44,5 +47,8 @@ describe('routes/full-appeal/submit-appeal/index', () => {
     expect(use).toHaveBeenCalledWith(agriculturalHoldingRouter);
     expect(use).toHaveBeenCalledWith(areYouATenantRouter);
     expect(use).toHaveBeenCalledWith(otherTenantsRouter);
+    expect(use).toHaveBeenCalledWith(declarationRouter);
+    expect(use).toHaveBeenCalledWith(declarationInformationRouter);
+    expect(use).toHaveBeenCalledWith(appealSubmittedRouter);
   });
 });
