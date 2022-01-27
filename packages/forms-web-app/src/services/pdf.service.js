@@ -5,15 +5,30 @@ const config = require('../config');
 const { createDocument } = require('../lib/documents-api-wrapper');
 const { generatePDF } = require('../lib/pdf-api-wrapper');
 const { VIEW } = require('../lib/views');
+const {
+  VIEW: { FULL_APPEAL },
+} = require('../lib/full-appeal/views');
 const logger = require('../lib/logger');
+const { APPEAL_TYPE } = require('../constants');
 
 const FILE_NAME = 'Appeal-form';
+
+const appealTypeUrlMapping = {
+  [APPEAL_TYPE.HOUSEHOLDER]: VIEW.APPELLANT_SUBMISSION.SUBMISSION_INFORMATION,
+  [APPEAL_TYPE.PLANNING_SECTION_78]: FULL_APPEAL.DECLARATION_INFORMATION,
+};
+
+const buildAppealUrl = (appeal) => {
+  const urlPart =
+    appealTypeUrlMapping[appeal.appealType] || appealTypeUrlMapping[APPEAL_TYPE.HOUSEHOLDER];
+  return `${config.server.host}/${urlPart}/${appeal.id}`;
+};
 
 const getHtmlAppeal = async (appeal) => {
   const log = logger.child({ appealId: appeal.id, uuid: uuid.v4() });
 
   /* URL back to this service front-end */
-  const url = `${config.server.host}/${VIEW.APPELLANT_SUBMISSION.SUBMISSION_INFORMATION}/${appeal.id}`;
+  const url = buildAppealUrl(appeal);
 
   let response;
 
