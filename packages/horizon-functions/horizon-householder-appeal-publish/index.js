@@ -5,7 +5,6 @@ const { convertToSoapKVPair } = require('./src/convertToSoapKVPair');
 const { callHorizon } = require('./src/callHorizon');
 const { createContacts } = require('./src/createContacts');
 const { getLpaData } = require('./src/getLpaData');
-const { transmitAppealData } = require('./src/transmitAppealData');
 const { publishDocuments } = require('./src/publishDocuments');
 const { catchErrorHandling } = require('./src/catchErrorHandling');
 
@@ -31,69 +30,152 @@ module.exports = async (context, event) => {
       throw new Error('LPA neither English nor Welsh');
     }
 
-    // context.log({ appealId }, 'Transmit initial appeal');
+    // if no appeal type then default Householder Appeal Type - required as running HAS in parallel to Full Planning
+    const appealTypeID = event.appeal.appealType === undefined ? '1001' : event.appeal.appealType;
 
-    await transmitAppealData(context.log, appealId);
+    let attributeData;
+    let appealType;
 
-    const attributeData = [
-      {
-        key: 'Case Dates:Receipt Date',
-        // This is the last time the record was updated
-        value: new Date(event.appeal.updatedAt),
-      },
-      {
-        key: 'Case:Source Indicator',
-        value: 'Other',
-      },
-      {
-        key: 'Case:Case Publish Flag',
-        value: false,
-      },
-      {
-        key: 'Planning Application:Date Of LPA Decision',
-        value: new Date(event.appeal.decisionDate),
-      },
-      {
-        key: 'Case:Procedure (Appellant)',
-        value: 'Written Representations',
-      },
-      {
-        key: 'Planning Application:LPA Application Reference',
-        value: event.appeal.requiredDocumentsSection.applicationNumber,
-      },
-      {
-        key: 'Case Site:Site Address Line 1',
-        value: event.appeal.appealSiteSection.siteAddress.addressLine1,
-      },
-      {
-        key: 'Case Site:Site Address Line 2',
-        value: event.appeal.appealSiteSection.siteAddress.addressLine2,
-      },
-      {
-        key: 'Case Site:Site Address Town',
-        value: event.appeal.appealSiteSection.siteAddress.town,
-      },
-      {
-        key: 'Case Site:Site Address County',
-        value: event.appeal.appealSiteSection.siteAddress.county,
-      },
-      {
-        key: 'Case Site:Site Address Postcode',
-        value: event.appeal.appealSiteSection.siteAddress.postcode,
-      },
-      {
-        key: 'Case Site:Ownership Certificate',
-        value: event.appeal.appealSiteSection.siteOwnership.ownsWholeSite ? 'Certificate A' : null,
-      },
-      {
-        key: 'Case Site:Site Viewable From Road',
-        value: event.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
-      },
-      {
-        key: 'Case Site:Inspector Need To Enter Site',
-        value: !event.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
-      },
-    ];
+    switch (appealTypeID) {
+      case '1001': {
+        attributeData = [
+          {
+            key: 'Case Dates:Receipt Date',
+            // This is the last time the record was updated
+            value: new Date(event.appeal.updatedAt),
+          },
+          {
+            key: 'Case:Source Indicator',
+            value: 'Other',
+          },
+          {
+            key: 'Case:Case Publish Flag',
+            value: false,
+          },
+          {
+            key: 'Planning Application:Date Of LPA Decision',
+            value: new Date(event.appeal.decisionDate),
+          },
+          {
+            key: 'Case:Procedure (Appellant)',
+            value: 'Written Representations',
+          },
+          {
+            key: 'Planning Application:LPA Application Reference',
+            value: event.appeal.requiredDocumentsSection.applicationNumber,
+          },
+          {
+            key: 'Case Site:Site Address Line 1',
+            value: event.appeal.appealSiteSection.siteAddress.addressLine1,
+          },
+          {
+            key: 'Case Site:Site Address Line 2',
+            value: event.appeal.appealSiteSection.siteAddress.addressLine2,
+          },
+          {
+            key: 'Case Site:Site Address Town',
+            value: event.appeal.appealSiteSection.siteAddress.town,
+          },
+          {
+            key: 'Case Site:Site Address County',
+            value: event.appeal.appealSiteSection.siteAddress.county,
+          },
+          {
+            key: 'Case Site:Site Address Postcode',
+            value: event.appeal.appealSiteSection.siteAddress.postcode,
+          },
+          {
+            key: 'Case Site:Ownership Certificate',
+            value: event.appeal.appealSiteSection.siteOwnership.ownsWholeSite
+              ? 'Certificate A'
+              : null,
+          },
+          {
+            key: 'Case Site:Site Viewable From Road',
+            value: event.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
+          },
+          {
+            key: 'Case Site:Inspector Need To Enter Site',
+            value: !event.appeal.appealSiteSection.siteAccess
+              .canInspectorSeeWholeSiteFromPublicRoad,
+          },
+        ];
+
+        appealType = 'Householder (HAS) Appeal';
+
+        break;
+      }
+
+      case '1005': {
+        attributeData = [
+          {
+            key: 'Case Dates:Receipt Date',
+            // This is the last time the record was updated
+            value: new Date(event.appeal.updatedAt),
+          },
+          {
+            key: 'Case:Source Indicator',
+            value: 'Other',
+          },
+          {
+            key: 'Case:Case Publish Flag',
+            value: false,
+          },
+          // {
+          //   key: 'Planning Application:Date Of LPA Decision',
+          //   value: new Date(event.appeal.decisionDate),
+          // },
+          {
+            key: 'Case:Procedure (Appellant)',
+            value: 'Written Representations',
+          },
+          {
+            key: 'Planning Application:LPA Application Reference',
+            value: event.appeal.requiredDocumentsSection.applicationNumber,
+          },
+          {
+            key: 'Case Site:Site Address Line 1',
+            value: event.appeal.appealSiteSection.siteAddress.addressLine1,
+          },
+          {
+            key: 'Case Site:Site Address Line 2',
+            value: event.appeal.appealSiteSection.siteAddress.addressLine2,
+          },
+          {
+            key: 'Case Site:Site Address Town',
+            value: event.appeal.appealSiteSection.siteAddress.town,
+          },
+          {
+            key: 'Case Site:Site Address County',
+            value: event.appeal.appealSiteSection.siteAddress.county,
+          },
+          {
+            key: 'Case Site:Site Address Postcode',
+            value: event.appeal.appealSiteSection.siteAddress.postcode,
+          },
+          // {
+          //   key: 'Case Site:Ownership Certificate',
+          //   value: event.appeal.appealSiteSection.siteOwnership.ownsWholeSite ? 'Certificate A' : null,
+          // },
+          // {
+          //   key: 'Case Site:Site Viewable From Road',
+          //   value: event.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
+          // },
+          // {
+          //   key: 'Case Site:Inspector Need To Enter Site',
+          //   value: !event.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
+          // },
+        ];
+
+        appealType = 'Planning Appeal (W)';
+
+        break;
+      }
+
+      default: {
+        break;
+      }
+    }
 
     /* Create the contacts and add to attribute data */
     attributeData.push(...(await createContacts(context.log, event)));
@@ -102,7 +184,7 @@ module.exports = async (context, event) => {
       CreateCase: {
         __soap_op: 'http://tempuri.org/IHorizon/CreateCase',
         __xmlns: 'http://tempuri.org/',
-        caseType: 'Householder (HAS) Appeal',
+        caseType: appealType,
         LPACode: lpa.horizonId,
         dateOfReceipt: new Date(),
         location,
@@ -129,10 +211,6 @@ module.exports = async (context, event) => {
       }
     );
 
-    context.log({ appealId }, 'Transmit finalised appeal');
-
-    await transmitAppealData(context.log, appealId);
-
     /*
       Finally, publish the documents to Horizon
 
@@ -140,37 +218,53 @@ module.exports = async (context, event) => {
       they are mandatory in the appeal. This is to avoid any unhelpful
       errors at this point
     */
-    const documents = [
-      {
-        id: event?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
-        type: 'Appellant Grounds of Appeal',
-      },
-      {
-        id: event?.appeal?.requiredDocumentsSection?.originalApplication?.uploadedFile?.id,
-        type: 'Appellant Initial Documents',
-      },
-      {
-        id: event?.appeal?.requiredDocumentsSection?.decisionLetter?.uploadedFile?.id,
-        type: 'LPA Decision Notice',
-      },
-      {
-        id: event?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id,
-        type: 'Appellant Initial Documents',
-      },
-    ];
 
-    /* Add optional docs to the list */
-    const optionalFiles = event?.appeal?.yourAppealSection?.otherDocuments?.uploadedFiles;
-    if (Array.isArray(optionalFiles)) {
-      documents.push(
-        ...optionalFiles.map(({ id }) => ({
-          id,
-          type: 'Appellant Grounds of Appeal',
-        }))
-      );
+    let documents;
+
+    switch (appealTypeID) {
+      case '1001': {
+        documents = [
+          {
+            id: event?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
+            type: 'Appellant Grounds of Appeal',
+          },
+          {
+            id: event?.appeal?.requiredDocumentsSection?.originalApplication?.uploadedFile?.id,
+            type: 'Appellant Initial Documents',
+          },
+          {
+            id: event?.appeal?.requiredDocumentsSection?.decisionLetter?.uploadedFile?.id,
+            type: 'LPA Decision Notice',
+          },
+          {
+            id: event?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id,
+            type: 'Appellant Initial Documents',
+          },
+        ];
+
+        /* Add optional docs to the list */
+        const optionalFiles = event?.appeal?.yourAppealSection?.otherDocuments?.uploadedFiles;
+        if (Array.isArray(optionalFiles)) {
+          documents.push(
+            ...optionalFiles.map(({ id }) => ({
+              id,
+              type: 'Appellant Grounds of Appeal',
+            }))
+          );
+        }
+
+        break;
+      }
+
+      default: {
+        break;
+      }
     }
 
-    await publishDocuments(context.log, documents, appealId, horizonCaseId);
+    if (typeof documents !== 'undefined') {
+      await publishDocuments(context.log, documents, appealId, horizonCaseId);
+    }
+
     context.log({ horizonCaseId }, 'Successful call to Horizon');
 
     return {
