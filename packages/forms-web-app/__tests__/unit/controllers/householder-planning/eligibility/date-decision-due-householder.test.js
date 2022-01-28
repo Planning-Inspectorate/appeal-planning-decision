@@ -61,7 +61,7 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
-        decisionDate: '2021-10-01T00:00:00.000Z',
+        decisionDate: '2021-09-30T23:00:00.000Z',
       });
 
       expect(res.redirect).toHaveBeenCalledWith('/before-you-start/enforcement-notice-householder');
