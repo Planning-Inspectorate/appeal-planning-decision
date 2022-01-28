@@ -41,6 +41,10 @@ Then('appellant gets navigated to HAS Appeal form',()=>{
   verifyPage('/results');
 });
 
+Then('appellant gets navigated to HAS task list',()=>{
+  verifyPage('/task-list');
+});
+
 Then('appellants gets routed to shutter page which notifies them to use a different service',()=>{
   cy.url().should('contain', '/before-you-start/use-a-different-service');
 });

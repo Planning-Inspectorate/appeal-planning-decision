@@ -68,7 +68,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
         ...appeal,
       });
 
-      expect(res.redirect).toBeCalledWith('/householder-planning/eligibility/results-householder');
+      expect(res.redirect).toBeCalledWith('/appellant-submission/task-list');
     });
 
     it('should render errors on the page', async () => {
