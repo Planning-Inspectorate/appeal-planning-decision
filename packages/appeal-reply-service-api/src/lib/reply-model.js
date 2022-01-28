@@ -15,7 +15,8 @@ module.exports = (appealId, appealType, applicationDecision) => {
     appealId,
   };
 
-  if (appealType === HOUSEHOLDER_PLANNING) {
+  // !appealType check not needed once all the existing tests to include appealType in their appeal
+  if (!appealType || appealType === HOUSEHOLDER_PLANNING) {
     return new ReplyModel(replyModel);
   }
 
