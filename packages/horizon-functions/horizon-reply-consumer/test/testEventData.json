@@ -1,0 +1,12 @@
+{
+  "id": "e36a17c4-8017-11ec-a8a3-0242ac120002",
+  "horizonId": "ABC/1234/1234567",
+  "requiredDocumentsSection": {
+    "testHouseholderDocument": {
+      "uploadedFiles": {
+        "name": "testHouseholderDocument",
+        "id": "b2433bf4-8016-11ec-a8a3-0242ac120002"
+      }
+    }
+  }
+}

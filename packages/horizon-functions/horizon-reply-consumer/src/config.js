@@ -25,7 +25,4 @@ module.exports = {
       key: process.env.AZURE_ADD_DOCUMENT_FUNCTION_KEY,
     },
   },
-  logger: {
-    level: process.env.LOGGER_LEVEL || 'info',
-  },
 };
