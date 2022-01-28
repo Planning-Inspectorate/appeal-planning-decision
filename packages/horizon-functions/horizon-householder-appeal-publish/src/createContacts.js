@@ -99,7 +99,7 @@ const createContacts = async (log, body) => {
         lastName = lastName.join(' ');
       }
 
-      log('Inserting contact into Horizon ');
+      log('Inserting contact into Horizon');
 
       const contactId = await createContact(log, {
         firstName,
