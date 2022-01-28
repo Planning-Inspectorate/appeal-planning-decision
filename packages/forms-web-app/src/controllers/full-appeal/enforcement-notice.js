@@ -16,7 +16,7 @@ const {
 } = require('../../validators/full-appeal/enforcement-notice');
 
 const navigationPages = {
-  nextPage: '/before-you-start/claiming-costs',
+  nextPage: '/full-appeal/submit-appeal/task-list',
   shutterPage: '/before-you-start/use-a-different-service',
 };
 
