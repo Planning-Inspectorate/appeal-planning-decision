@@ -84,6 +84,8 @@ exports.appealDocument = {
     areOtherTenants: null,
     isVisibleFromRoad: null,
     visibleFromRoadDetails: null,
+    hasHealthSafetyIssues: null,
+    healthSafetyIssuesDetails: null,
   },
   appealSubmission: {
     appealPDFStatement: {
@@ -146,6 +148,8 @@ exports.appealDocument = {
       areOtherTenants: 'NOT STARTED',
       isVisibleFromRoad: 'NOT STARTED',
       visibleFromRoadDetails: 'NOT STARTED',
+      hasHealthSafetyIssues: 'NOT STARTED',
+      healthSafetyIssuesDetails: 'NOT STARTED',
     },
     contactDetailsSection: 'NOT STARTED',
     aboutAppealSiteSection: 'NOT STARTED',

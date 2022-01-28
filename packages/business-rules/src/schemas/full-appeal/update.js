@@ -112,6 +112,17 @@ const update = pinsYup
             tooLongError: 'How visibility is restricted must be $maxLength characters or less',
           });
         }),
+        hasHealthSafetyIssues: pinsYup.bool().required(),
+        healthSafetyIssuesDetails: pinsYup.lazy((healthSafetyIssuesDetails) => {
+          return pinsYup.mixed().conditionalText({
+            fieldValue: healthSafetyIssuesDetails,
+            fieldName: 'healthSafetyIssuesDetails',
+            targetFieldName: 'hasHealthSafetyIssues',
+            targetFieldValue: true,
+            emptyError: 'Tell us about the health and safety issues',
+            tooLongError: 'Health and safety information must be $maxLength characters or less',
+          });
+        }),
       })
       .noUnknown(true),
     planningApplicationDocumentsSection: pinsYup

@@ -187,6 +187,10 @@ const FULL_APPEAL_SECTIONS = {
       href: `/${FULL_APPEAL.VISIBLE_FROM_ROAD}`,
       rule: notStartedRule,
     },
+    healthSafetyIssues: {
+      href: `/${FULL_APPEAL.HEALTH_SAFETY_ISSUES}`,
+      rule: notStartedRule,
+    },
   },
   yourAppealSection: {
     appealStatement: {
