@@ -102,6 +102,16 @@ const update = pinsYup
         isAgriculturalHolding: pinsYup.bool().required(),
         isAgriculturalHoldingTenant: pinsYup.bool().required(),
         areOtherTenants: pinsYup.bool().required(),
+        isVisibleFromRoad: pinsYup.bool().required(),
+        visibleFromRoadDetails: pinsYup.lazy((visibleFromRoadDetails) => {
+          return pinsYup.mixed().conditionalText({
+            fieldValue: visibleFromRoadDetails,
+            fieldName: 'visibleFromRoadDetails',
+            targetFieldName: 'isVisibleFromRoad',
+            emptyError: 'Tell us how visibility is restricted',
+            tooLongError: 'How visibility is restricted must be $maxLength characters or less',
+          });
+        }),
       })
       .noUnknown(true),
     planningApplicationDocumentsSection: pinsYup

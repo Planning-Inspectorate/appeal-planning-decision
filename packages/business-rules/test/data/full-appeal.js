@@ -49,6 +49,8 @@ const appeal = {
     isAgriculturalHolding: true,
     isAgriculturalHoldingTenant: true,
     areOtherTenants: true,
+    isVisibleFromRoad: false,
+    visibleFromRoadDetails: 'Access via the road at the side of the property',
   },
   planningApplicationDocumentsSection: {
     applicationNumber: 'ABCDE12345',
