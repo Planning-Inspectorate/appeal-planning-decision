@@ -25,6 +25,8 @@ async function createAppeal() {
   delete appeal.sectionStates.appealSiteSection.isAgriculturalHolding;
   delete appeal.sectionStates.appealSiteSection.isAgriculturalHoldingTenant;
   delete appeal.sectionStates.appealSiteSection.areOtherTenants;
+  delete appeal.sectionStates.appealSiteSection.isVisibleFromRoad;
+  delete appeal.sectionStates.appealSiteSection.visibleFromRoadDetails;
 
   await mongodb.get().collection('appeals').insertOne({ _id: appeal.id, uuid: appeal.id, appeal });
   return appeal;

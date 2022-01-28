@@ -843,6 +843,58 @@ describe('schemas/full-appeal/insert', () => {
       });
     });
 
+    describe('appealSiteSection.isVisibleFromRoad', () => {
+      it('should throw an error when not given a boolean', async () => {
+        appeal.appealSiteSection.isVisibleFromRoad = 'false ';
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          'appealSiteSection.isVisibleFromRoad must be a `boolean` type, but the final value was: `"false "` (cast from the value `false`).',
+        );
+      });
+
+      it('should not throw an error when given a null value', async () => {
+        appeal.appealSiteSection.isVisibleFromRoad = null;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should not throw an error when not given a value', async () => {
+        delete appeal.appealSiteSection.isVisibleFromRoad;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+    });
+
+    describe('appealSiteSection.visibleFromRoadDetails', () => {
+      it('should throw an error when not given a value and appealSiteSection.isVisibleFromRoad is false', async () => {
+        appeal.appealSiteSection.isVisibleFromRoad = false;
+        appeal.appealSiteSection.visibleFromRoadDetails = null;
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          'Tell us how visibility is restricted',
+        );
+      });
+
+      it('should throw an error when given a value longer than 255 chars and appealSiteSection.isVisibleFromRoad is false', async () => {
+        appeal.appealSiteSection.isVisibleFromRoad = false;
+        appeal.appealSiteSection.visibleFromRoadDetails = 'a'.repeat(256);
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          'How visibility is restricted must be 255 characters or less',
+        );
+      });
+
+      it('should not throw an error when given a null value and appealSiteSection.isVisibleFromRoad is true', async () => {
+        appeal.appealSiteSection.isVisibleFromRoad = true;
+        appeal.appealSiteSection.visibleFromRoadDetails = null;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+    });
+
     describe('aboutYouSection', () => {
       it('should remove unknown fields', async () => {
         appeal2.aboutYouSection.unknownField = 'unknown field';

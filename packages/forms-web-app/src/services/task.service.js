@@ -183,6 +183,10 @@ const FULL_APPEAL_SECTIONS = {
       href: `/${FULL_APPEAL.OTHER_TENANTS}`,
       rule: notStartedRule,
     },
+    visibleFromRoad: {
+      href: `/${FULL_APPEAL.VISIBLE_FROM_ROAD}`,
+      rule: notStartedRule,
+    },
   },
   yourAppealSection: {
     appealStatement: {
