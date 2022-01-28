@@ -36,7 +36,7 @@ jobs:
       fail-fast: false
       matrix:
         # run 10 copies of the job in parallel
-        machines: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+        machines: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 
     steps:
       - uses: actions/checkout@v2
