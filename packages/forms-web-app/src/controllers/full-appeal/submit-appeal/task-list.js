@@ -51,7 +51,7 @@ exports.getTaskList = (req, res) => {
   const { appeal } = req.session;
   const sections = buildTaskLists(appeal);
 
-  const applicationStatus = 'Application incomplete';
+  const applicationStatus = 'Appeal incomplete';
 
   const sectionInfo = countTasks(sections);
 
