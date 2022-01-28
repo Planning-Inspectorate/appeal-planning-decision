@@ -32,7 +32,7 @@ const appeal = {
   },
   contactDetailsSection: {
     name: 'a name',
-    email: 'anemail@gmail.com',
+    email: 'testemail@example.com',
     companyName: 'Test Company',
   },
   appealSiteSection: {
@@ -51,6 +51,8 @@ const appeal = {
     areOtherTenants: true,
     isVisibleFromRoad: false,
     visibleFromRoadDetails: 'Access via the road at the side of the property',
+    hasHealthSafetyIssues: true,
+    healthSafetyIssuesDetails: 'The site has poor mobile reception',
   },
   planningApplicationDocumentsSection: {
     applicationNumber: 'ABCDE12345',

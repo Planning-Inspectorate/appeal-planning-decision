@@ -21,6 +21,7 @@ const declarationRouter = require('../../../../../src/routes/full-appeal/submit-
 const declarationInformationRouter = require('../../../../../src/routes/full-appeal/submit-appeal/declaration-information');
 const appealSubmittedRouter = require('../../../../../src/routes/full-appeal/submit-appeal/appeal-submitted');
 const visibleFromRoadRouter = require('../../../../../src/routes/full-appeal/submit-appeal/visible-from-road');
+const healthSafetyIssuesRouter = require('../../../../../src/routes/full-appeal/submit-appeal/health-safety-issues');
 
 describe('routes/full-appeal/submit-appeal/index', () => {
   beforeEach(() => {
@@ -29,7 +30,7 @@ describe('routes/full-appeal/submit-appeal/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(22);
+    expect(use.mock.calls.length).toBe(23);
     expect(use).toHaveBeenCalledWith(taskListRouter);
     expect(use).toHaveBeenCalledWith(checkAnswersRouter);
     expect(use).toHaveBeenCalledWith(contactDetailsRouter);
@@ -52,5 +53,6 @@ describe('routes/full-appeal/submit-appeal/index', () => {
     expect(use).toHaveBeenCalledWith(declarationInformationRouter);
     expect(use).toHaveBeenCalledWith(appealSubmittedRouter);
     expect(use).toHaveBeenCalledWith(visibleFromRoadRouter);
+    expect(use).toHaveBeenCalledWith(healthSafetyIssuesRouter);
   });
 });

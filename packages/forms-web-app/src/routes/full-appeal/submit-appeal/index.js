@@ -21,6 +21,7 @@ const declarationRouter = require('./declaration');
 const appealSubmittedRouter = require('./appeal-submitted');
 const declarationInformationRouter = require('./declaration-information');
 const visibleFromRoadRouter = require('./visible-from-road');
+const healthSafetyIssuesRouter = require('./health-safety-issues');
 
 const router = express.Router();
 
@@ -46,5 +47,6 @@ router.use(declarationRouter);
 router.use(appealSubmittedRouter);
 router.use(declarationInformationRouter);
 router.use(visibleFromRoadRouter);
+router.use(healthSafetyIssuesRouter);
 
 module.exports = router;

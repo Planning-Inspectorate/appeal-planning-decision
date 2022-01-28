@@ -865,6 +865,52 @@ describe('schemas/full-appeal/update', () => {
           expect(result).toEqual(appeal);
         });
       });
+
+      describe('appealSiteSection.hasHealthSafetyIssues', () => {
+        it('should throw an error when not given a boolean', async () => {
+          appeal.appealSiteSection.hasHealthSafetyIssues = 'true ';
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'appealSiteSection.hasHealthSafetyIssues must be a `boolean` type, but the final value was: `"true "` (cast from the value `true`).',
+          );
+        });
+
+        it('should throw an error when not given a value', async () => {
+          delete appeal.appealSiteSection.hasHealthSafetyIssues;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'appealSiteSection.hasHealthSafetyIssues is a required field',
+          );
+        });
+      });
+
+      describe('appealSiteSection.healthSafetyIssuesDetails', () => {
+        it('should throw an error when not given a value and appealSiteSection.hasHealthSafetyIssues is true', async () => {
+          appeal.appealSiteSection.hasHealthSafetyIssues = true;
+          appeal.appealSiteSection.healthSafetyIssuesDetails = null;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'Tell us about the health and safety issues',
+          );
+        });
+
+        it('should throw an error when given a value longer than 255 chars and appealSiteSection.hasHealthSafetyIssues is true', async () => {
+          appeal.appealSiteSection.hasHealthSafetyIssues = true;
+          appeal.appealSiteSection.healthSafetyIssuesDetails = 'a'.repeat(256);
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'Health and safety information must be 255 characters or less',
+          );
+        });
+
+        it('should not throw an error when given a null value and appealSiteSection.hasHealthSafetyIssues is false', async () => {
+          appeal.appealSiteSection.hasHealthSafetyIssues = false;
+          appeal.appealSiteSection.healthSafetyIssuesDetails = null;
+
+          const result = await update.validate(appeal, config);
+          expect(result).toEqual(appeal);
+        });
+      });
     });
 
     describe('aboutYouSection', () => {
