@@ -82,6 +82,8 @@ exports.appealDocument = {
     isAgriculturalHolding: null,
     isAgriculturalHoldingTenant: null,
     areOtherTenants: null,
+    isVisibleFromRoad: null,
+    visibleFromRoadDetails: null,
   },
   appealSubmission: {
     appealPDFStatement: {
@@ -142,6 +144,8 @@ exports.appealDocument = {
       isAgriculturalHolding: 'NOT STARTED',
       isAgriculturalHoldingTenant: 'NOT STARTED',
       areOtherTenants: 'NOT STARTED',
+      isVisibleFromRoad: 'NOT STARTED',
+      visibleFromRoadDetails: 'NOT STARTED',
     },
     contactDetailsSection: 'NOT STARTED',
     aboutAppealSiteSection: 'NOT STARTED',

@@ -20,6 +20,7 @@ const otherTenantsRouter = require('./other-tenants');
 const declarationRouter = require('./declaration');
 const appealSubmittedRouter = require('./appeal-submitted');
 const declarationInformationRouter = require('./declaration-information');
+const visibleFromRoadRouter = require('./visible-from-road');
 
 const router = express.Router();
 
@@ -44,5 +45,6 @@ router.use(otherTenantsRouter);
 router.use(declarationRouter);
 router.use(appealSubmittedRouter);
 router.use(declarationInformationRouter);
+router.use(visibleFromRoadRouter);
 
 module.exports = router;
