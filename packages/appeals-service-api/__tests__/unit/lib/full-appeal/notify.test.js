@@ -247,7 +247,15 @@ describe('lib/full-appeal/notify', () => {
       it('should send an email', async () => {
         getLpa.mockResolvedValue({ name: 'lpa name', email: 'some@example.com' });
 
-        await sendAppealSubmissionConfirmationEmailToAppellant(appeal);
+        const fullAppeal = {
+          ...appeal,
+          contactDetailsSection: {
+            name: 'appellant name',
+            email: 'test@gmail.com',
+          },
+        };
+
+        await sendAppealSubmissionConfirmationEmailToAppellant(fullAppeal);
 
         expect(mockError).not.toHaveBeenCalled();
 

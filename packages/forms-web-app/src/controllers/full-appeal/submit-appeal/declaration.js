@@ -22,16 +22,14 @@ exports.postDeclaration = async (req, res) => {
   req.session.appeal.eligibility.enforcementNotice = false;
   req.session.appeal.aboutYouSection.yourDetails.name = 'name surname';
   req.session.appeal.aboutYouSection.yourDetails.email =
-    'AppealPlanningDecisionTest@planninginspectorate.gov.ukk';
+    'AppealPlanningDecisionTest@planninginspectorate.gov.uk';
   req.session.appeal.beforeYouStartSection = {
     typeOfPlanningApplication: 'full-appeal',
   };
-  req.session.appeal.contactDetailsSection.name = 'name surname';
-  req.session.appeal.contactDetailsSection.email =
-    'AppealPlanningDecisionTest@planninginspectorate.gov.uk';
   req.session.appeal.appealSiteSection.ownsSomeOfTheLand = false;
   req.session.appeal.appealSiteSection.isAgriculturalHolding = false;
   req.session.appeal.appealSiteSection.isAgriculturalHoldingTenant = false;
+  req.session.appeal.appealSiteSection.isVisibleFromRoad = true;
   req.session.appeal.appealSiteSection.areOtherTenants = false;
   req.session.appeal.appealSiteSection.knowsTheOwners = 'yes';
   req.session.appeal.planningApplicationDocumentsSection.applicationNumber = '12345';
