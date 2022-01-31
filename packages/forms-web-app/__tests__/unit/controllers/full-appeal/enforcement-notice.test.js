@@ -8,7 +8,7 @@ const {
 const getPreviousPagePath = require('../../../../src/lib/get-previous-page-path');
 
 const navigationPages = {
-  nextPage: '/before-you-start/claiming-costs',
+  nextPage: '/full-appeal/submit-appeal/task-list',
   shutterPage: '/before-you-start/use-a-different-service',
   previousPage: '/before-you-start/decision-date',
 };

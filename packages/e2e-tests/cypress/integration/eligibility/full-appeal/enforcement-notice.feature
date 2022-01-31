@@ -7,7 +7,7 @@ Feature: Enforcement notice
     Given appellant is on the enforcement notice page
     When appellant selects 'No' from the options
     And appellant clicks on the continue button
-    Then appellant gets navigated to the was your planning application claiming costs page
+    Then appellant gets navigated to appeal a planning decision task list page
 
   Scenario: AC02 Appellant has received an enforcement notice
     Given appellant is on the enforcement notice page

@@ -57,8 +57,8 @@ When('appellant selects the back button', () => {
   getBackLink().click();
 });
 
-Then('appellant gets navigated to the was your planning application claiming costs page', () => {
-  cy.url().should('contain', '/before-you-start/claiming-costs');
+Then('appellant gets navigated to appeal a planning decision task list page', () => {
+  cy.url().should('contain', '/full-appeal/submit-appeal/task-list');
 });
 
 Then('appellant is navigated to the shutter page', () => {
