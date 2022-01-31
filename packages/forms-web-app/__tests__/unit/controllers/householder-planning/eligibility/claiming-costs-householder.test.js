@@ -16,7 +16,7 @@ jest.mock('../../../../../src/lib/empty-appeal');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
 
-const backLink = '/householder-planning/eligibility/enforcement-notice-householder';
+const backLink = '/before-you-start/enforcement-notice-householder';
 
 describe('controllers/householder-planning/claiming-costs-householder', () => {
   let req;

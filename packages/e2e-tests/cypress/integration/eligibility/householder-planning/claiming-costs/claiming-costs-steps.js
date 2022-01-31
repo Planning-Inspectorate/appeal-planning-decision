@@ -54,7 +54,7 @@ Then('appellant sees an error message {string}', (errorMessage) => {
 });
 
 Then('appellant is navigated to the enforcement notice page',()=>{
-  verifyPage('/enforcement-notice');
+  verifyPage('before-you-start/enforcement-notice-householder');
 });
 
 Then('information they have inputted will not be saved',()=>{
