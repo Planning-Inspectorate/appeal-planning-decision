@@ -18,6 +18,14 @@ const getDecisionOutcome = (appealType, appealDecisionOutcome) => {
   return TASK_SCOPE.GENERIC;
 };
 
+/**
+ * Builds tasks list and their status
+ *
+ * @param {Object} questionnaire - questionnaire that is retrieved from the database
+ * @param {string} appealType - Appeal type the appellant selected during their eligibility journey
+ * @param {string} appealDecisionOutcome - Appeal decision outcome the appellant selected during their eligibility journey
+ * @return {Object} taskList - An object representing the tasks
+ */
 const buildTasksList = (questionnaire, appealType, appealDecisionOutcome) => {
   const taskList = [];
 
@@ -26,11 +34,8 @@ const buildTasksList = (questionnaire, appealType, appealDecisionOutcome) => {
   Object.keys(SECTIONS).forEach((sectionKey) => {
     const status = getTaskStatus(questionnaire, sectionKey);
     const currentSection = SECTIONS[sectionKey];
-    const isSectionAvailable = currentSection.scope
-      ? currentSection.scope === decisionOutcome
-      : true;
 
-    if (isSectionAvailable) {
+    if (currentSection.scope ? currentSection.scope === decisionOutcome : true) {
       taskList.push({
         text: currentSection.displayText,
         href: currentSection.href,
@@ -43,14 +48,6 @@ const buildTasksList = (questionnaire, appealType, appealDecisionOutcome) => {
   return taskList;
 };
 
-const getTotalTasksCount = (sections) => {
-  return sections.length;
-};
-
-const getCompletedTasksCount = (sections) => {
-  return sections.filter((section) => section.status === 'COMPLETED').length;
-};
-
 exports.getTaskList = (req, res) => {
   req.session.isCheckingAnswers = false;
   const { appeal, appealReply } = req.session;
@@ -61,15 +58,17 @@ exports.getTaskList = (req, res) => {
     appeal.eligibility.applicationDecision,
     req
   );
-  
+
+  req.log.debug({ sections }, 'Des:- getTaskList - sections');
+
   const questionnaireStatus = 'incomplete';
 
   renderView(res, taskListPath, {
     prefix: 'appeal-questionnaire',
     appeal: getAppealSideBarDetails(appeal),
     questionnaireStatus,
-    completedTasksCount: getCompletedTasksCount(sections),
-    totalTasksCount: getTotalTasksCount(sections),
+    completedTasksCount: sections.filter((section) => section.status === 'COMPLETED').length,
+    totalTasksCount: sections.length,
     sections,
   });
 };
