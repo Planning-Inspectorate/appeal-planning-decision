@@ -4,7 +4,7 @@ module.exports = {
   procedureTypeReview: {},
   issuesConstraintsDesignation: {},
   environmentalImpactAssessment: {},
-  peoplNotification: {},
+  peopleNotification: {},
   consultationResponse: {},
   siteAccess: {},
   additionalInformation: {},

@@ -15,6 +15,6 @@ describe('routes/full-appeal/task-list', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith(`/${TASK_LIST}`, taskListController.getTaskList);
+    expect(get).toHaveBeenCalledWith(`/${TASK_LIST.split('/')[1]}`, taskListController.getTaskList);
   });
 });
