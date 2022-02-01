@@ -81,6 +81,9 @@ describe('lib/full-appeal/notify', () => {
               postcode: 'rt12 9ya',
             },
           },
+          planningApplicationDocumentsSection: {
+            applicationNumber: '12345',
+          },
           eligibility: {
             applicationDecision: 'refused',
           },
@@ -139,7 +142,7 @@ describe('lib/full-appeal/notify', () => {
         expect(mockSetDestinationEmailAddress).toHaveBeenCalledWith('some@example.com');
         expect(mockSetTemplateVariablesFromObject).toHaveBeenCalledWith({
           'loca planning department': 'a happy value',
-          'planning application number': '123/abc/xyz',
+          'planning application number': '12345',
           'site address': '999 some street\na town\nrt12 9ya',
           refused: 'yes',
           granted: 'no',
