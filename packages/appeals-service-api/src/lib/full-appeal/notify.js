@@ -68,7 +68,7 @@ async function sendAppealSubmissionReceivedNotificationEmailToLpa(appeal) {
       .setTemplateVariablesFromObject({
         'loca planning department': lpa.name, // todo: template i kontrol et
         'submission date': format(appeal.submissionDate, 'dd MMMM yyyy'),
-        'planning application number': appeal.requiredDocumentsSection.applicationNumber,
+        'planning application number': appeal.planningApplicationDocumentsSection.applicationNumber,
         'site address': getAddressMultiLine(appeal.appealSiteSection.siteAddress),
         refused:
           applicationDecision === FULL_APPEAL.PLANNING_APPLICATION_STATUS.REFUSED ? 'yes' : 'no',
