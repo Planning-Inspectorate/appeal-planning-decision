@@ -30,15 +30,7 @@ module.exports = async (req, res, next) => {
     req.log.error({ err }, 'Error retrieving appeal reply');
 
     if (config.appealReply.allowCreate) {
-      if (req.session.appeal) {
-        req.session.appealReply = await createOrUpdateAppealReply({
-          appealId,
-          applicationDecision: req.session.appeal.eligibility.applicationDecision,
-          appealType: req.session.appeal.appealType,
-        });
-      } else {
-        req.session.appealReply = await createOrUpdateAppealReply({ appealId });
-      }
+      req.session.appealReply = await createOrUpdateAppealReply({ appealId });
     } else {
       req.log.info({ appealId }, 'Allow Create is disabled for Get existing appeal, returning 404');
 

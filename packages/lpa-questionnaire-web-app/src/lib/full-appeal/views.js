@@ -1,5 +1,5 @@
 const VIEW = {
-  TASK_LIST: 'full-appeal/task-list',
+  TASK_LIST: 'task-list',
 };
 
 module.exports = {
