@@ -22,7 +22,7 @@ const SECTIONS = {
     href: '',
     rule: () => TASK_STATUS.NOT_STARTED,
   },
-  peoplNotification: {
+  peopleNotification: {
     displayText: 'Tell us how you notified people about the application',
     href: '',
     rule: () => TASK_STATUS.NOT_STARTED,
@@ -62,12 +62,10 @@ const SECTIONS = {
 };
 
 const getTaskStatus = (questionnaire, section, taskName, sections = SECTIONS) => {
-  try {
-    const { rule } = taskName ? sections[section][taskName] : sections[section];
-    return rule(questionnaire);
-  } catch (e) {
-    return null;
-  }
+  if (!questionnaire || !section || !sections[section]) return null;
+
+  const { rule } = taskName ? sections[section][taskName] : sections[section];
+  return rule(questionnaire);
 };
 
 module.exports = { SECTIONS, getTaskStatus, TASK_SCOPE };

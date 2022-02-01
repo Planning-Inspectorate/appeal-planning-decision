@@ -10,7 +10,7 @@ const issuesConstraintsDesignationsSchema = new Schema({
 const environmentalImpactAssessmentSchema = new Schema({
   _id: false,
 });
-const peoplNotificationSchema = new Schema({
+const peopleNotificationSchema = new Schema({
   _id: false,
 });
 const consultationResponseSchema = new Schema({
@@ -30,7 +30,7 @@ const baseReplySchema = new Schema(
     procedureTypeReview: { type: procedureTypeReviewSchema, default: {} },
     issuesConstraintsDesignation: { type: issuesConstraintsDesignationsSchema, default: {} },
     environmentalImpactAssessment: { type: environmentalImpactAssessmentSchema, default: {} },
-    peoplNotification: { type: peoplNotificationSchema, default: {} },
+    peopleNotification: { type: peopleNotificationSchema, default: {} },
     consultationResponse: { type: consultationResponseSchema, default: {} },
     siteAccess: { type: siteAccessSchema, default: {} },
     additionalInformation: { type: additionalInformationSchema, default: {} },

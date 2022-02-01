@@ -11,6 +11,6 @@ module.exports = {
   eligibility: { applicationDecision: APPLICATION_DECISION.GRANTED, enforcementNotice: null },
   requiredDocumentsSection: { applicationNumber: '12345' },
   appealSiteSection: {
-    siteAddress: { address1: '11 kingston Road', city: 'Bristol', postCode: 'BR12 7AU' },
+    siteAddress: { address1: '11 Kingston Road', city: 'Bristol', postCode: 'BR12 7AU' },
   },
 };

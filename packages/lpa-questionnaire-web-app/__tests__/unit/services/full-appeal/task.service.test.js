@@ -32,7 +32,7 @@ describe('services/full-appeal/task.service', () => {
       expect(SECTIONS.environmentalImpactAssessment.rule()).toEqual(NOT_STARTED);
     });
     it("should return 'NOT STARTED'", () => {
-      expect(SECTIONS.peoplNotification.rule()).toEqual(NOT_STARTED);
+      expect(SECTIONS.peopleNotification.rule()).toEqual(NOT_STARTED);
     });
     it("should return 'NOT STARTED'", () => {
       expect(SECTIONS.consultationResponse.rule()).toEqual(NOT_STARTED);
@@ -79,22 +79,17 @@ describe('services/full-appeal/task.service', () => {
       expect(ruleUnderSection).toBeCalledTimes(1);
     });
 
-    it('should return null if there is an error', () => {
-      ruleUnderSection.mockImplementation(() => {
-        throw new Error('Mock Error');
-      });
-      const taskStatus = getTaskStatus({}, 'section1', undefined, sections);
+    it('should return null if questionnaire param is not supplied', () => {
+      const taskStatus = getTaskStatus(undefined, 'section1', undefined, sections);
 
-      expect(ruleUnderSection).toBeCalledTimes(1);
+      expect(ruleUnderSection).toBeCalledTimes(0);
       expect(taskStatus).toBeNull();
     });
 
-    it('should return null if there is an error', () => {
-      ruleUnderSection.mockImplementation(() => {
-        throw new Error('Mock Error');
-      });
-      const taskStatus = getTaskStatus({}, 'section1', undefined);
+    it('should return null if session param value is not supplied', () => {
+      const taskStatus = getTaskStatus({}, undefined, undefined);
 
+      expect(ruleUnderSection).toBeCalledTimes(0);
       expect(taskStatus).toBeNull();
     });
   });
