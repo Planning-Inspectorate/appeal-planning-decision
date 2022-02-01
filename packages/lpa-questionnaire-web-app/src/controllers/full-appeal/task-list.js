@@ -61,7 +61,7 @@ exports.getTaskList = (req, res) => {
     appeal.eligibility.applicationDecision,
     req
   );
-  req.log.debug({ sections }, 'Des:- Sections');
+  
   const questionnaireStatus = 'incomplete';
 
   renderView(res, taskListPath, {
