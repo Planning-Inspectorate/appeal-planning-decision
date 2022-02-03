@@ -22,9 +22,17 @@ const mockRes = () => ({
   render: jest.fn(),
   sendStatus: jest.fn(),
   status: jest.fn(),
+  set: jest.fn(),
 });
+
+const cacheControlObject = {
+  'Cache-Control': 'no-cache, no-store, must-revalidate',
+  Pragma: 'no-cache',
+  Expires: '0',
+};
 
 module.exports = {
   mockReq,
   mockRes,
+  cacheControlObject,
 };

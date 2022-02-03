@@ -7,7 +7,7 @@ const { getRefreshedDepartmentData } = require('../../../../src/services/departm
 const logger = require('../../../../src/lib/logger');
 
 const { VIEW } = require('../../../../src/lib/views');
-const { mockReq, mockRes } = require('../../mocks');
+const { mockReq, mockRes, cacheControlObject } = require('../../mocks');
 
 jest.mock('../../../../src/services/department.service');
 jest.mock('../../../../src/lib/empty-appeal');
@@ -132,7 +132,6 @@ describe('controllers/full-appeal/local-planning-department', () => {
       };
 
       await localPlanningDepartmentController.postPlanningDepartment(mockRequest, res);
-
       expect(res.redirect).toHaveBeenCalledWith('/before-you-start/use-a-different-service');
     });
 
@@ -147,6 +146,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
       await localPlanningDepartmentController.postPlanningDepartment(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
+      expect(res.set).toBeCalledWith(cacheControlObject);
       expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
         appealLPD: '',
         departments: departmentList,

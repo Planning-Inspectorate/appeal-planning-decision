@@ -9,6 +9,7 @@ const {
   departmentsToNunjucksItems,
 } = require('../../lib/planning-departments-to-nunjucks-list-items');
 const { VIEW } = require('../../lib/views');
+const { cacheControl } = require('../../lib/cache-control');
 
 exports.getPlanningDepartment = async (req, res) => {
   const { departments, eligibleDepartments, ineligibleDepartments } =
@@ -40,17 +41,17 @@ exports.postPlanningDepartment = async (req, res) => {
     const errorMessage = errors['local-planning-department'].msg;
 
     if (errorMessage !== 'Ineligible Department') {
-      res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
+      await cacheControl(res);
+
+      return res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
         appealLPD: '',
         departments: departmentsToNunjucksItems(departments),
         errors,
         errorSummary,
       });
-      return;
     }
 
-    res.redirect(`/before-you-start/use-a-different-service`);
-    return;
+    return res.redirect(`/before-you-start/use-a-different-service`);
   }
 
   const lpaName = body['local-planning-department'];
@@ -62,16 +63,13 @@ exports.postPlanningDepartment = async (req, res) => {
   } catch (e) {
     logger.error(e);
 
-    res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
+    return res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
       appeal,
       departments: departmentsToNunjucksItems(departments, lpaName),
       errors,
       errorSummary: [{ text: e.toString(), href: 'local-planning-department' }],
     });
-    return;
   }
 
-  res.redirect(`/before-you-start/type-of-planning-application`);
-  // eslint-disable-next-line no-useless-return
-  return;
+  return res.redirect(`/before-you-start/type-of-planning-application`);
 };
