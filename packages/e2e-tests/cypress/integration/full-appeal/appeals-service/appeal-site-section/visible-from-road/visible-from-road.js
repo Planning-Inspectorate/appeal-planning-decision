@@ -1,7 +1,7 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import {
   selectNo,
-  selectYes,
+  selectYes, textBox,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 import {
   provideDetails,
@@ -36,7 +36,8 @@ const pageTitleVisibleFromRoad = 'Is the site visible from a public road? - Appe
 const pageHeadingVisibleFromRoad = 'Is the site visible from a public road?';
 const addressLine1 = '10 Bradmore Way';
 const postcode = 'RG6 1BC';
-const visibleFromRoadDetailsError = 'Tell us how visibility is restricted';
+const visibleFromRoadErrorNoOption = 'Tell us how visibility is restricted';
+const visibleFromRoadDetailsErrorTextBox = 'How visibility is restricted must be 255 characters or less';
 const visibleFromRoadError = 'Select yes if the site is visible from a public road';
 
 Given("an appellant or agent is on the 'Is the appeal site part of an agricultural holding?' page", () => {
@@ -65,8 +66,16 @@ When("the user selects {string} and clicks 'Continue'", (option) => {
     case 'None of the options':
       getSaveAndContinueButton().click();
       break;
-  }
+   }
 });
+When( "the user selects No and Enter more than 255 characters in the text box and clicks 'Continue'", () => {
+  const count = 255;
+  const value = 'x'.repeat(count + 1);
+  selectNo().click();
+  textBox().clear().type(value);
+  getSaveAndContinueButton().click();
+} );
+
 When("the user selects 'No' and enters details about how the visibility is restricted and clicks 'Continue'", (option) => {
   selectNo().click();
   provideDetails();
@@ -87,11 +96,14 @@ Then("the user is taken to the next page 'Are there any health and safety issues
 });
 Then('they are presented with an error message {string}', (errorMessage) => {
   switch (errorMessage) {
-    case visibleFromRoadDetailsError:
-      verifyErrorMessage(visibleFromRoadDetailsError, errorMessageVisibleFromRoadDetails, getErrorMessageSummary);
+    case visibleFromRoadErrorNoOption:
+      verifyErrorMessage(visibleFromRoadErrorNoOption, errorMessageVisibleFromRoadDetails, getErrorMessageSummary);
       break;
     case visibleFromRoadError:
       verifyErrorMessage(visibleFromRoadError, errorMessageVisibleFromRoad, getErrorMessageSummary);
+      break;
+    case visibleFromRoadDetailsErrorTextBox:
+      verifyErrorMessage(visibleFromRoadDetailsErrorTextBox, errorMessageVisibleFromRoadDetails, getErrorMessageSummary);
       break;
   }
 });

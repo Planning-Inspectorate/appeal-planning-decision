@@ -22,12 +22,17 @@ Feature: As an appellant/agent
     When the user selects 'No' and clicks 'Continue'
     Then the user is taken to the 'Task List' page
 
-  Scenario: 5 - None of the options are selected on the 'Are there any health and safety issues on the appeal site?' page
+  Scenario: 5 - More than 255 characters entered in the text box which appears if 'Yes' is selected
+    Given an appellant or agent is on the 'Are there any health and safety issues on the appeal site?' page
+    When the user selects No and Enter more than 255 characters in the text box and clicks 'Continue'
+    Then they are presented with an error message 'Health and safety information must be 255 characters or less'
+
+  Scenario: 6 - None of the options are selected on the 'Are there any health and safety issues on the appeal site?' page
     Given an appellant or agent is on the 'Are there any health and safety issues on the appeal site?' page
     When the user selects 'None of the options' and clicks 'Continue'
     Then they are presented with an error message 'Select yes if there are any health and safety issues on the appeal site'
 
-  Scenario: 6 - Navigate from the 'Are there any health and safety issues on the appeal site?' page back to the 'Is the site visible from a public road?' page
+  Scenario: 7 - Navigate from the 'Are there any health and safety issues on the appeal site?' page back to the 'Is the site visible from a public road?' page
     Given an appellant or agent is on the 'Are there any health and safety issues on the appeal site?' page
     When they click on the 'Back' link
     Then they are taken to the 'Is the site visible from a public road?' page

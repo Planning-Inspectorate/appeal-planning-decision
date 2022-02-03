@@ -1,7 +1,7 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import {
   selectNo,
-  selectYes,
+  selectYes, textBox,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 import {
   provideDetails,
@@ -38,6 +38,7 @@ const addressLine1 = '10 Bradmore Way';
 const postcode = 'RG6 1BC';
 const healthSafetyIssuesDetailsError = 'Tell us about the health and safety issues';
 const healthSafetyIssuesError = 'Select yes if there are any health and safety issues on the appeal site';
+const maxCharacterError = 'Health and safety information must be 255 characters or less';
 
 Given("an appellant or agent is on the 'Is the site visible from a public road?' page", () => {
   goToAppealsPage(taskListUrl);
@@ -88,6 +89,13 @@ Given("an appellant or agent is on the 'Are there any health and safety issues o
 Then("the user is taken to the 'Task List' page", () => {
   cy.url().should('contain', taskListUrl);
 });
+When( "the user selects No and Enter more than 255 characters in the text box and clicks 'Continue'", () => {
+  const count = 255;
+  const value = 'x'.repeat(count + 1);
+  selectYes().click();
+  provideDetails().clear().type(value);
+  getSaveAndContinueButton().click();
+} );
 Then('they are presented with an error message {string}', (errorMessage) => {
   switch (errorMessage) {
     case healthSafetyIssuesDetailsError:
@@ -95,6 +103,9 @@ Then('they are presented with an error message {string}', (errorMessage) => {
       break;
     case healthSafetyIssuesError:
       verifyErrorMessage(healthSafetyIssuesError, errorMessageHealthSafetyIssues, getErrorMessageSummary);
+      break;
+    case maxCharacterError:
+      verifyErrorMessage(maxCharacterError, errorMessageHealthSafetyIssuesDetails, getErrorMessageSummary);
       break;
   }
 });

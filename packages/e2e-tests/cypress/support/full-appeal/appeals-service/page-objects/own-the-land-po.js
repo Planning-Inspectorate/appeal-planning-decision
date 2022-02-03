@@ -8,4 +8,6 @@ export const errorMessageAgriculturalHolding = () => cy.get('#agricultural-holdi
 export const hintTextAgriculturalHolding = () => cy.get('#agricultural-holding-hint');
 export const errorMessageAreYouATenant = () => cy.get('#are-you-a-tenant-error');
 export const errorMessageOtherTenants = () => cy.get('#other-tenants-error');
+export const textBox = () => cy.get('#visible-from-road-details');
+
 
