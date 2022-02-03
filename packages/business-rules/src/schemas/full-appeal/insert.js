@@ -66,6 +66,24 @@ const insert = pinsYup
         }),
       })
       .noUnknown(true),
+    appealSubmission: pinsYup.object().shape({
+      appealPDFStatement: pinsYup
+        .object()
+        .shape({
+          uploadedFile: pinsYup
+            .object()
+            .shape({
+              name: pinsYup.string().trim().max(255).ensure(),
+              originalFileName: pinsYup.string().trim().max(255).ensure(),
+              id: pinsYup.string().trim().uuid().nullable().default(null),
+              fileName: pinsYup.string().trim().max(255).ensure(),
+              location: pinsYup.string().trim().ensure(),
+              size: pinsYup.number().positive().integer(),
+            })
+            .noUnknown(true),
+        })
+        .noUnknown(true),
+    }),
     yourAppealSection: pinsYup
       .object()
       .shape({

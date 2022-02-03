@@ -1452,5 +1452,201 @@ describe('schemas/full-appeal/update', () => {
         });
       });
     });
+
+    describe('appealSubmission', () => {
+      it('should throw an error when given a null value', async () => {
+        appeal.appealSubmission = null;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'appealSubmission must be a `object` type, but the final value was: `null`',
+        );
+      });
+
+      it('should throw an error when not given a value', async () => {
+        delete appeal.appealSubmission;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'appealSubmission.appealPDFStatement.uploadedFile.size is a required field',
+        );
+      });
+
+      describe('appealSubmission.appealPDFStatement', () => {
+        it('should throw an error when given a null value', async () => {
+          appeal.appealSubmission.appealPDFStatement = null;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'appealSubmission.appealPDFStatement must be a `object` type, but the final value was: `null`',
+          );
+        });
+
+        describe('appealSubmission.appealPDFStatement.uploadedFile', () => {
+          it('should remove unknown fields', async () => {
+            appeal2.appealSubmission.appealPDFStatement.uploadedFile.unknownField = 'unknown field';
+
+            const result = await update.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should throw an error when given a null value', async () => {
+            appeal.appealSubmission.appealPDFStatement.uploadedFile = null;
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealSubmission.appealPDFStatement.uploadedFile must be a `object` type, but the final value was: `null`',
+            );
+          });
+        });
+
+        describe('appealSubmission.appealPDFStatement.uploadedFile.name', () => {
+          it('should throw an error when given a value with more than 255 characters', async () => {
+            appeal.appealSubmission.appealPDFStatement.uploadedFile.name = 'a'.repeat(256);
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealSubmission.appealPDFStatement.uploadedFile.name must be at most 255 characters',
+            );
+          });
+
+          it('should strip leading/trailing spaces', async () => {
+            appeal2.appealSubmission.appealPDFStatement.uploadedFile.name = '  test-pdf.pdf  ';
+            appeal.appealSubmission.appealPDFStatement.uploadedFile.name = 'test-pdf.pdf';
+
+            const result = await update.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should throw an error when not given a value', async () => {
+            delete appeal.appealSubmission.appealPDFStatement.uploadedFile.name;
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealSubmission.appealPDFStatement.uploadedFile.name is a required field',
+            );
+          });
+        });
+
+        describe('appealSubmission.appealPDFStatement.uploadedFile.originalFileName', () => {
+          it('should throw an error when given a value with more than 255 characters', async () => {
+            appeal.appealSubmission.appealPDFStatement.uploadedFile.originalFileName = 'a'.repeat(
+              256,
+            );
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealSubmission.appealPDFStatement.uploadedFile.originalFileName must be at most 255 characters',
+            );
+          });
+
+          it('should strip leading/trailing spaces', async () => {
+            appeal2.appealSubmission.appealPDFStatement.uploadedFile.originalFileName =
+              '  test-pdf.pdf  ';
+            appeal.appealSubmission.appealPDFStatement.uploadedFile.originalFileName =
+              'test-pdf.pdf';
+
+            const result = await update.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should throw an error when not given a value', async () => {
+            delete appeal.appealSubmission.appealPDFStatement.uploadedFile.originalFileName;
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealSubmission.appealPDFStatement.uploadedFile.originalFileName is a required field',
+            );
+          });
+        });
+
+        describe('appealSubmission.appealPDFStatement.uploadedFile.fileName', () => {
+          it('should throw an error when given a value with more than 255 characters', async () => {
+            appeal.appealSubmission.appealPDFStatement.uploadedFile.fileName = 'a'.repeat(
+              256,
+            );
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealSubmission.appealPDFStatement.uploadedFile.fileName must be at most 255 characters',
+            );
+          });
+
+          it('should strip leading/trailing spaces', async () => {
+            appeal2.appealSubmission.appealPDFStatement.uploadedFile.fileName =
+              '  test-pdf.pdf  ';
+            appeal.appealSubmission.appealPDFStatement.uploadedFile.fileName =
+              'test-pdf.pdf';
+
+            const result = await update.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should throw an error when not given a value', async () => {
+            delete appeal.appealSubmission.appealPDFStatement.uploadedFile.fileName;
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealSubmission.appealPDFStatement.uploadedFile.fileName is a required field',
+            );
+          });
+        });
+
+        describe('appealSubmission.appealPDFStatement.uploadedFile.location', () => {
+          it('should strip leading/trailing spaces', async () => {
+            appeal2.appealSubmission.appealPDFStatement.uploadedFile.location =
+              '  test-pdf.pdf  ';
+            appeal.appealSubmission.appealPDFStatement.uploadedFile.location =
+              'test-pdf.pdf';
+
+            const result = await update.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should throw an error when not given a value', async () => {
+            delete appeal.appealSubmission.appealPDFStatement.uploadedFile.location;
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealSubmission.appealPDFStatement.uploadedFile.location is a required field',
+            );
+          });
+        });
+
+        describe('appealSubmission.appealPDFStatement.uploadedFile.size', () => {
+          it('should throw error if size is not numeric', async () => {
+            appeal.appealSubmission.appealPDFStatement.uploadedFile.size = 'size';
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealSubmission.appealPDFStatement.uploadedFile.size must be a `number` type, but the final value was: `NaN` (cast from the value `74375`).',
+            );
+          });
+
+          it('should throw an error when not given a value', async () => {
+            delete appeal.appealSubmission.appealPDFStatement.uploadedFile.size;
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealSubmission.appealPDFStatement.uploadedFile.size is a required field',
+            );
+          });
+        });
+
+        describe('appealSubmission.appealPDFStatement.uploadedFile.id', () => {
+          it('should strip leading/trailing spaces', async () => {
+            appeal2.appealSubmission.appealPDFStatement.uploadedFile.id =
+              '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
+            appeal.appealSubmission.appealPDFStatement.uploadedFile.id =
+              '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
+
+            const result = await update.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should throw an error when not given a UUID', async () => {
+            appeal.appealSubmission.appealPDFStatement.uploadedFile.id = 'abc123';
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealSubmission.appealPDFStatement.uploadedFile.id must be a valid UUID',
+            );
+          });
+
+          it('should throw an error when not given a value', async () => {
+            delete appeal.appealSubmission.appealPDFStatement.uploadedFile.id;
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealSubmission.appealPDFStatement.uploadedFile.id is a required field',
+            );
+          });
+        });
+      });
+    });
   });
 });

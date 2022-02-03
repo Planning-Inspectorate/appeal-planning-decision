@@ -31,6 +31,7 @@ exports.postDeclaration = async (req, res) => {
   req.session.appeal.appealSiteSection.isAgriculturalHoldingTenant = false;
   req.session.appeal.appealSiteSection.isVisibleFromRoad = true;
   req.session.appeal.appealSiteSection.areOtherTenants = false;
+  req.session.appeal.appealSiteSection.hasHealthSafetyIssues = false;
   req.session.appeal.appealSiteSection.knowsTheOwners = 'yes';
   req.session.appeal.planningApplicationDocumentsSection.applicationNumber = '12345';
   req.session.appeal.planningApplicationDocumentsSection.isDesignAccessStatementSubmitted = false;

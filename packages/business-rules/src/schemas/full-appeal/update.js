@@ -83,6 +83,24 @@ const update = pinsYup
         email: pinsYup.string().email().max(255).required(),
       })
       .noUnknown(true),
+    appealSubmission: pinsYup.object().shape({
+      appealPDFStatement: pinsYup
+        .object()
+        .shape({
+          uploadedFile: pinsYup
+            .object()
+            .shape({
+              name: pinsYup.string().trim().max(255).required(),
+              originalFileName: pinsYup.string().trim().max(255).required(),
+              id: pinsYup.string().trim().uuid().required(),
+              fileName: pinsYup.string().trim().max(255).required(),
+              location: pinsYup.string().trim().required(),
+              size: pinsYup.number().positive().integer().required(),
+            })
+            .noUnknown(true),
+        })
+        .noUnknown(true),
+    }),
     appealSiteSection: pinsYup
       .object()
       .shape({
