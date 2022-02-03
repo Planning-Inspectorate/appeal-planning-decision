@@ -21,8 +21,8 @@ router.use('/appellant-submission', checkDecisionDateDeadline, appellantSubmissi
 router.use('/full-appeal', checkDecisionDateDeadline, fullAppealAppellantSubmissionRouter);
 router.use('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
 router.use('/your-planning-appeal', yourPlanningAppealRouter);
-router.use('/before-you-start', fullAppealRouter);
-router.use('/before-you-start', householderPlanningRouter);
+router.use('/before-you-start', checkDecisionDateDeadline, fullAppealRouter);
+router.use('/before-you-start', checkDecisionDateDeadline, householderPlanningRouter);
 router.use('/document', documentRouter);
 
 module.exports = router;

@@ -38,8 +38,16 @@ describe('routes/index', () => {
     );
     expect(use).toHaveBeenCalledWith('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
     expect(use).toHaveBeenCalledWith('/your-planning-appeal', yourPlanningAppealRouter);
-    expect(use).toHaveBeenCalledWith('/before-you-start', fullAppealRouter);
-    expect(use).toHaveBeenCalledWith('/before-you-start', householderPlanningRouter);
+    expect(use).toHaveBeenCalledWith(
+      '/before-you-start',
+      checkDecisionDateDeadline,
+      fullAppealRouter
+    );
+    expect(use).toHaveBeenCalledWith(
+      '/before-you-start',
+      checkDecisionDateDeadline,
+      householderPlanningRouter
+    );
     expect(use).toHaveBeenCalledWith('/document', documentRouter);
 
     expect(use.mock.calls.length).toBe(10);

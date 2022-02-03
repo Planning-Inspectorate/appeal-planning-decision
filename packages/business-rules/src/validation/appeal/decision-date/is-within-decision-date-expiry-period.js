@@ -11,7 +11,7 @@ const { APPEAL_ID } = require('../../../constants');
  * @param {Date} now
  * @returns {boolean}
  */
-module.exports = (givenDate, now = new Date(), appealType = APPEAL_ID.HOUSEHOLDER) => {
+module.exports = (givenDate, appealType = APPEAL_ID.HOUSEHOLDER, now = new Date()) => {
   [givenDate, now].forEach(isValid);
 
   const yesterday = sub(endOfDay(now), {

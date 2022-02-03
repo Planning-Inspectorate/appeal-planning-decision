@@ -1,5 +1,6 @@
 const { subWeeks, add } = require('date-fns');
 const isWithinDecisionDateExpiryPeriod = require('./is-within-decision-date-expiry-period');
+const { APPEAL_ID } = require('../../../constants');
 
 describe('validation/appeal/decision-date/is-within-decision-date-expiry-period', () => {
   let currentDate;
@@ -21,11 +22,19 @@ describe('validation/appeal/decision-date/is-within-decision-date-expiry-period'
   });
 
   it('should return true if the current date is before the deadline date', () => {
-    expect(isWithinDecisionDateExpiryPeriod(currentDate, currentDate)).toBeTruthy();
+    expect(
+      isWithinDecisionDateExpiryPeriod(currentDate, APPEAL_ID.HOUSEHOLDER, currentDate),
+    ).toBeTruthy();
   });
 
   it('should return false if the current date is after the deadline date', () => {
-    expect(isWithinDecisionDateExpiryPeriod(subWeeks(currentDate, 15), currentDate)).toBeFalsy();
+    expect(
+      isWithinDecisionDateExpiryPeriod(
+        subWeeks(currentDate, 15),
+        APPEAL_ID.HOUSEHOLDER,
+        currentDate,
+      ),
+    ).toBeFalsy();
   });
 
   describe('if decision date is 12 weeks ago from today then it...', () => {
@@ -39,7 +48,9 @@ describe('validation/appeal/decision-date/is-within-decision-date-expiry-period'
       const tomorrow = add(currentDate, {
         days: 1,
       });
-      expect(isWithinDecisionDateExpiryPeriod(decisionDate, tomorrow)).toBeFalsy();
+      expect(
+        isWithinDecisionDateExpiryPeriod(decisionDate, APPEAL_ID.HOUSEHOLDER, tomorrow),
+      ).toBeFalsy();
     });
   });
 });
