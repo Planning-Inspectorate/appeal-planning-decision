@@ -28,9 +28,11 @@ import {
 } from "../../../../support/eligibility/date-decision-due-householder/enter-date-decision-due-householder";
 import {getClaimingCostNo} from "../../../../support/eligibility/page-objects/claiming-costs-po";
 const url = 'before-you-start/local-planning-depart';
+
 before(()=>{
   cy.task('getData',{collection:'appeals',filter:"appeal.state"});
 });
+
 Given('appellant selects local planning department',()=>{
   goToAppealsPage(url);
   acceptCookiesBanner();
@@ -54,6 +56,7 @@ Given('appellant selects the option as No for listed building',()=>{
   verifyPageHeading('Is your appeal about a listed building?');
   selectListedBuildingDecision('No');
 });
+
 Given('appellant selects the {string}',(application_decision)=>{
   verifyPageTitle('Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK');
   verifyPage('/before-you-start/granted-or-refused-householder');
@@ -91,11 +94,12 @@ Given('appellant selects No from the enforcement notice options',()=>{
   verifyPageHeading('Have you received an enforcement notice?');
   getEnforcementNoticeNo().check();
 });
+
 Given('appellant selects No from the claiming costs option',()=>{
   verifyPageTitle('Are you claiming costs as part of your appeal? - Before you start - Appeal a planning decision - GOV.UK');
   verifyPageHeading('Are you claiming costs as part of your appeal?');
   getClaimingCostNo().check();
-})
+});
 
 Then('appellant is navigated to householder appeal task list page',()=>{
   verifyPage('appellant-submission/task-list');

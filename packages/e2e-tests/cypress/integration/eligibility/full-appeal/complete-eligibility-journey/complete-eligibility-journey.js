@@ -24,9 +24,11 @@ import {enterDateDecisionDue} from "../../../../support/eligibility/date-decisio
 import {getEnforcementNoticeNo} from "../../../../support/eligibility/page-objects/enforcement-notice-po";
 import {verifyPage} from "../../../../support/common/verifyPage";
 const url = 'before-you-start/local-planning-depart';
+
 before(()=>{
   cy.task('getData',{collection:'appeals',filter:"appeal.state"});
 });
+
 Given('appellant selects local planning department',()=>{
   goToAppealsPage(url);
   acceptCookiesBanner();
@@ -50,6 +52,7 @@ Given('appellant selects {string} from the list of options',(option)=>{
   verifyPageHeading('Was your planning application was about any of the following?');
   selectSiteOption(option);
 });
+
 Given('appellant selects the {string}',(application_decision)=>{
   verifyPageTitle('Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK');
   verifyPageHeading('Was your planning application granted or refused?');
