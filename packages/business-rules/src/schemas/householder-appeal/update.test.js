@@ -210,12 +210,11 @@ describe('schemas/householder-appeal/update', () => {
         );
       });
 
-      it('should throw an error when not given a value', async () => {
+      it('should not throw an error when not given a value', async () => {
         delete appeal.appealType;
 
-        await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          'appealType is a required field',
-        );
+        const result = await update.validate(appeal, config);
+        expect(result).toEqual(appeal);
       });
     });
 
