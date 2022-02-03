@@ -7,17 +7,15 @@ const BusinessRulesError = require('../lib/business-rules-error');
 const validate = (action, data, config = { abortEarly: false }) => {
   const { appealType } = data;
 
-  if (!isValid(appealType)) {
+  if (appealType && !isValid(appealType)) {
     throw new BusinessRulesError(`${appealType} is not a valid appeal type`);
   }
 
   switch (appealType) {
-    case APPEAL_ID.HOUSEHOLDER:
-      return householderAppeal[action].validate(data, config);
     case APPEAL_ID.PLANNING_SECTION_78:
       return fullAppeal[action].validate(data, config);
     default:
-      throw new BusinessRulesError(`No schema found for appeal type ${appealType}`);
+      return householderAppeal[action].validate(data, config);
   }
 };
 
