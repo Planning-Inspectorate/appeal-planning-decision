@@ -10,7 +10,7 @@ describe('/lib/full-appeal/map-planning-application', () => {
   });
 
   it('should map householder planning application', () => {
-    const planningApplication = 'householder';
+    const planningApplication = 'householder-planning';
     const appealType = mapping(planningApplication);
 
     expect(appealType).toEqual(APPEAL_ID.HOUSEHOLDER);

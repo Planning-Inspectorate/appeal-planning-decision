@@ -22,7 +22,6 @@ describe('controllers/full-appeal/out-of-time-shutter-page', () => {
   describe('getOutOfTimeShutterPage', () => {
     it('should render shutter page with valid appeal deadline', async () => {
       const appealDeadline = new Date();
-      const formattedAppealDeadline = format(appealDeadline, 'dd MMMM yyyy');
       const appealPeriod = '6 months';
 
       const mockRequest = {
@@ -34,7 +33,7 @@ describe('controllers/full-appeal/out-of-time-shutter-page', () => {
 
       await outOfTimeShutterPageController.getOutOfTimeShutterPage(mockRequest, res);
       expect(res.render).toHaveBeenCalledWith(OUT_OF_TIME_SHUTTER_PAGE, {
-        appealDeadline: formattedAppealDeadline,
+        appealDeadline,
         appealPeriod,
       });
     });

@@ -5,7 +5,7 @@ module.exports = (application) => {
     case 'full-appeal':
       return APPEAL_ID.PLANNING_SECTION_78;
 
-    case 'householder':
+    case 'householder-planning':
       return APPEAL_ID.HOUSEHOLDER;
 
     default:

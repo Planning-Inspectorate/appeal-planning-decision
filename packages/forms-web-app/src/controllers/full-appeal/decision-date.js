@@ -41,7 +41,6 @@ exports.postDecisionDate = async (req, res) => {
 
   const isWithinExpiryPeriod = validation.appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
     enteredDate,
-    Date.now(),
     constants.APPEAL_ID.PLANNING_SECTION_78
   );
 
