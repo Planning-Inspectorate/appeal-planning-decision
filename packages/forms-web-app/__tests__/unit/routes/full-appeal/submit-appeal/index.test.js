@@ -14,6 +14,14 @@ const originalApplicantRouter = require('../../../../../src/routes/full-appeal/s
 const ownSomeOfTheLandRouter = require('../../../../../src/routes/full-appeal/submit-appeal/own-some-of-the-land');
 const ownAllTheLandRouter = require('../../../../../src/routes/full-appeal/submit-appeal/own-all-the-land');
 const knowTheOwnersRouter = require('../../../../../src/routes/full-appeal/submit-appeal/know-the-owners');
+const agriculturalHoldingRouter = require('../../../../../src/routes/full-appeal/submit-appeal/agricultural-holding');
+const areYouATenantRouter = require('../../../../../src/routes/full-appeal/submit-appeal/are-you-a-tenant');
+const otherTenantsRouter = require('../../../../../src/routes/full-appeal/submit-appeal/other-tenants');
+const declarationRouter = require('../../../../../src/routes/full-appeal/submit-appeal/declaration');
+const declarationInformationRouter = require('../../../../../src/routes/full-appeal/submit-appeal/declaration-information');
+const appealSubmittedRouter = require('../../../../../src/routes/full-appeal/submit-appeal/appeal-submitted');
+const visibleFromRoadRouter = require('../../../../../src/routes/full-appeal/submit-appeal/visible-from-road');
+const healthSafetyIssuesRouter = require('../../../../../src/routes/full-appeal/submit-appeal/health-safety-issues');
 
 describe('routes/full-appeal/submit-appeal/index', () => {
   beforeEach(() => {
@@ -22,7 +30,7 @@ describe('routes/full-appeal/submit-appeal/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(15);
+    expect(use.mock.calls.length).toBe(23);
     expect(use).toHaveBeenCalledWith(taskListRouter);
     expect(use).toHaveBeenCalledWith(checkAnswersRouter);
     expect(use).toHaveBeenCalledWith(contactDetailsRouter);
@@ -38,5 +46,13 @@ describe('routes/full-appeal/submit-appeal/index', () => {
     expect(use).toHaveBeenCalledWith(ownSomeOfTheLandRouter);
     expect(use).toHaveBeenCalledWith(ownAllTheLandRouter);
     expect(use).toHaveBeenCalledWith(knowTheOwnersRouter);
+    expect(use).toHaveBeenCalledWith(agriculturalHoldingRouter);
+    expect(use).toHaveBeenCalledWith(areYouATenantRouter);
+    expect(use).toHaveBeenCalledWith(otherTenantsRouter);
+    expect(use).toHaveBeenCalledWith(declarationRouter);
+    expect(use).toHaveBeenCalledWith(declarationInformationRouter);
+    expect(use).toHaveBeenCalledWith(appealSubmittedRouter);
+    expect(use).toHaveBeenCalledWith(visibleFromRoadRouter);
+    expect(use).toHaveBeenCalledWith(healthSafetyIssuesRouter);
   });
 });

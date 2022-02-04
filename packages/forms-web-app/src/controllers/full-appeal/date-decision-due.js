@@ -93,10 +93,12 @@ exports.postDateDecisionDue = async (req, res) => {
   );
 
   const redirectTo = isWithinExpiryPeriod ? navigationPage.nextPage : navigationPage.shutterPage;
+  const { duration, time } = rules.appeal.deadlinePeriod(constants.APPEAL_ID.PLANNING_SECTION_78);
 
   req.session.appeal.eligibility.appealDeadline =
     decisionDate &&
     rules.appeal.deadlineDate(parseISO(decisionDate), constants.APPEAL_ID.PLANNING_SECTION_78);
 
+  req.session.appeal.eligibility.appealPeriod = `${time} ${duration}`;
   res.redirect(redirectTo);
 };

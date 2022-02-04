@@ -1,4 +1,5 @@
 const { isInThePast, isWithinDeadlinePeriod } = require('./appeal/decision-date');
+const conditionalText = require('./common/conditional-text');
 
 module.exports = {
   appeal: {
@@ -6,5 +7,6 @@ module.exports = {
       isInThePast,
       isWithinDeadlinePeriod,
     },
+    conditionalText,
   },
 };

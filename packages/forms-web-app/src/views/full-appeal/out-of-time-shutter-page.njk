@@ -11,7 +11,7 @@
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">You cannot appeal.</h1>
       <p class="govuk-body">Your deadline to appeal has passed.</p>
-      <p class="govuk-body" data-cy="appeal-deadline">Your deadline was {{ appealDeadline }}. This is 6 months from the decision date.<p>
+      <p class="govuk-body" data-cy="appeal-deadline">Your deadline was {{ appealDeadline | date }}. This is {{ appealPeriod }} from the decision date.<p>
     </div>
   </div>
 {% endblock %}

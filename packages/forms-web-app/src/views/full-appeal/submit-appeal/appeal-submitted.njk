@@ -1,0 +1,36 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+
+{% block pageTitle %}
+  Appeal Submitted - Check your answers and submit your appeal - Appeal a planning decision - GOV.UK
+{% endblock %}
+
+{% block backButton %}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {{ govukPanel({
+        titleText: "Appeal submitted"
+      }) }}
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <p class="govuk-body">We've sent you a confirmation email with a link to download a copy of your appeal.</p>
+      <div class="govuk-inset-text">
+        You need to send a copy of your appeal to the local planning department.
+      </div>
+      <p class="govuk-body">If you need to contact us, include your planning application number.</p>
+
+      <h2 class="govuk-heading-m">What happens next?</h2>
+
+      <p class="govuk-body">
+        We'll check you've submitted everything we need to progress your appeal. We'll contact you once we've done this.
+      </p>
+    </div>
+  </div>
+
+  <input type="hidden" name="appealId" value="{{ appealId }}" data-cy="submission-information-appeal-id" />
+{% endblock %}

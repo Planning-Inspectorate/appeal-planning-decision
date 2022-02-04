@@ -83,6 +83,24 @@ const update = pinsYup
         email: pinsYup.string().email().max(255).required(),
       })
       .noUnknown(true),
+    appealSubmission: pinsYup.object().shape({
+      appealPDFStatement: pinsYup
+        .object()
+        .shape({
+          uploadedFile: pinsYup
+            .object()
+            .shape({
+              name: pinsYup.string().trim().max(255).required(),
+              originalFileName: pinsYup.string().trim().max(255).required(),
+              id: pinsYup.string().trim().uuid().required(),
+              fileName: pinsYup.string().trim().max(255).required(),
+              location: pinsYup.string().trim().required(),
+              size: pinsYup.number().positive().integer().required(),
+            })
+            .noUnknown(true),
+        })
+        .noUnknown(true),
+    }),
     appealSiteSection: pinsYup
       .object()
       .shape({
@@ -99,6 +117,30 @@ const update = pinsYup
         ownsSomeOfTheLand: pinsYup.bool().required(),
         ownsAllTheLand: pinsYup.bool().required(),
         knowsTheOwners: pinsYup.string().oneOf(Object.values(KNOW_THE_OWNERS)).required(),
+        isAgriculturalHolding: pinsYup.bool().required(),
+        isAgriculturalHoldingTenant: pinsYup.bool().required(),
+        areOtherTenants: pinsYup.bool().required(),
+        isVisibleFromRoad: pinsYup.bool().required(),
+        visibleFromRoadDetails: pinsYup.lazy((visibleFromRoadDetails) => {
+          return pinsYup.mixed().conditionalText({
+            fieldValue: visibleFromRoadDetails,
+            fieldName: 'visibleFromRoadDetails',
+            targetFieldName: 'isVisibleFromRoad',
+            emptyError: 'Tell us how visibility is restricted',
+            tooLongError: 'How visibility is restricted must be $maxLength characters or less',
+          });
+        }),
+        hasHealthSafetyIssues: pinsYup.bool().required(),
+        healthSafetyIssuesDetails: pinsYup.lazy((healthSafetyIssuesDetails) => {
+          return pinsYup.mixed().conditionalText({
+            fieldValue: healthSafetyIssuesDetails,
+            fieldName: 'healthSafetyIssuesDetails',
+            targetFieldName: 'hasHealthSafetyIssues',
+            targetFieldValue: true,
+            emptyError: 'Tell us about the health and safety issues',
+            tooLongError: 'Health and safety information must be $maxLength characters or less',
+          });
+        }),
       })
       .noUnknown(true),
     planningApplicationDocumentsSection: pinsYup

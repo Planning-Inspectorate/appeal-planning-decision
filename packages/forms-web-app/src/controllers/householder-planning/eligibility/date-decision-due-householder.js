@@ -1,4 +1,4 @@
-const { add, isBefore } = require('date-fns');
+const { rules, constants, validation } = require('@pins/business-rules');
 const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../../lib/householder-planning/views');
@@ -31,14 +31,29 @@ exports.postDateDecisionDueHouseholder = async (req, res) => {
     });
   }
 
-  const todaysDate = Date.now();
   const enteredDate = new Date(
     body['date-decision-due-householder-year'],
     (parseInt(body['date-decision-due-householder-month'], 10) - 1).toString(),
     body['date-decision-due-householder-day']
   );
 
-  if (isBefore(enteredDate, add(new Date(todaysDate), { months: -6, days: -1 }))) {
+  const deadlineDate = rules.appeal.deadlineDate(
+    enteredDate,
+    constants.APPEAL_ID.PLANNING_SECTION_78
+  );
+
+  const isWithinExpiryPeriod = validation.appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
+    enteredDate,
+    Date.now(),
+    constants.APPEAL_ID.PLANNING_SECTION_78
+  );
+
+  if (!isWithinExpiryPeriod) {
+    const { duration, time } = rules.appeal.deadlinePeriod(constants.APPEAL_ID.PLANNING_SECTION_78);
+
+    req.session.appeal.eligibility.appealDeadline = deadlineDate;
+    req.session.appeal.eligibility.appealPeriod = `${time} ${duration}`;
+
     return res.redirect(shutterPage);
   }
 

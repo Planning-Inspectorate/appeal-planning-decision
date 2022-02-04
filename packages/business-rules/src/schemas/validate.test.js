@@ -37,10 +37,16 @@ describe('schemas/validate', () => {
       expect(() => validate(action, appeal)).toThrow('100 is not a valid appeal type');
     });
 
-    it('should throw an error if no schema is found', () => {
-      appeal.appealType = APPEAL_ID.ENFORCEMENT_NOTICE;
+    it('should default to the householder appeal schema is an appeal type is not given', () => {
+      delete appeal.appealType;
 
-      expect(() => validate(action, appeal)).toThrow('No schema found for appeal type 1000');
+      householderAppeal.insert.validate.mockReturnValue(appeal);
+
+      const result = insert(appeal);
+
+      expect(householderAppeal.insert.validate).toHaveBeenCalledTimes(1);
+      expect(householderAppeal.insert.validate).toHaveBeenCalledWith(appeal, config);
+      expect(result).toEqual(appeal);
     });
 
     it('should throw an error for an appeal type when the data fails validation', () => {

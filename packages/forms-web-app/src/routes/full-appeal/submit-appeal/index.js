@@ -14,6 +14,14 @@ const originalApplicantRouter = require('./original-applicant');
 const ownSomeOfTheLandRouter = require('./own-some-of-the-land');
 const ownAllTheLandRouter = require('./own-all-the-land');
 const knowTheOwnersRouter = require('./know-the-owners');
+const agriculturalHoldingRouter = require('./agricultural-holding');
+const areYouATenantRouter = require('./are-you-a-tenant');
+const otherTenantsRouter = require('./other-tenants');
+const declarationRouter = require('./declaration');
+const appealSubmittedRouter = require('./appeal-submitted');
+const declarationInformationRouter = require('./declaration-information');
+const visibleFromRoadRouter = require('./visible-from-road');
+const healthSafetyIssuesRouter = require('./health-safety-issues');
 
 const router = express.Router();
 
@@ -32,5 +40,13 @@ router.use(originalApplicantRouter);
 router.use(ownSomeOfTheLandRouter);
 router.use(ownAllTheLandRouter);
 router.use(knowTheOwnersRouter);
+router.use(agriculturalHoldingRouter);
+router.use(areYouATenantRouter);
+router.use(otherTenantsRouter);
+router.use(declarationRouter);
+router.use(appealSubmittedRouter);
+router.use(declarationInformationRouter);
+router.use(visibleFromRoadRouter);
+router.use(healthSafetyIssuesRouter);
 
 module.exports = router;

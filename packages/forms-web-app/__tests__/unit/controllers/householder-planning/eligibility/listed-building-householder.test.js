@@ -30,9 +30,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
 
       expect(res.render).toBeCalledWith(
         VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER,
-        {
-          backLink: '/before-you-start/type-of-planning-application',
-        }
+        { backLink: '/before-you-start/type-of-planning-application' }
       );
     });
 
@@ -47,7 +45,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
       expect(appeal.eligibility.isListedBuilding).toEqual(true);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({ ...appeal });
 
-      expect(res.redirect).toBeCalledWith(`/before-you-start/use-a-different-service`);
+      expect(res.redirect).toBeCalledWith('/before-you-start/use-a-different-service');
     });
 
     it('should redirect to the granted-or-refused-householder page', async () => {
@@ -92,7 +90,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
             },
           },
           errorSummary: [],
-          backLink: `/before-you-start/type-of-planning-application`,
+          backLink: '/before-you-start/type-of-planning-application',
         }
       );
     });
@@ -118,7 +116,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
           appeal,
           errors: {},
           errorSummary: [{ text: error.toString(), href: 'pageId' }],
-          backLink: `/before-you-start/type-of-planning-application`,
+          backLink: '/before-you-start/type-of-planning-application',
         }
       );
     });

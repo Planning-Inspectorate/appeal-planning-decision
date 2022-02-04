@@ -167,6 +167,30 @@ const FULL_APPEAL_SECTIONS = {
       href: `/${FULL_APPEAL.OWN_SOME_OF_THE_LAND}`,
       rule: notStartedRule,
     },
+    knowTheOwners: {
+      href: `/${FULL_APPEAL.KNOW_THE_OWNERS}`,
+      rule: notStartedRule,
+    },
+    agriculturalHolding: {
+      href: `/${FULL_APPEAL.AGRICULTURAL_HOLDING}`,
+      rule: notStartedRule,
+    },
+    areYouATenant: {
+      href: `/${FULL_APPEAL.ARE_YOU_A_TENANT}`,
+      rule: notStartedRule,
+    },
+    otherTenants: {
+      href: `/${FULL_APPEAL.OTHER_TENANTS}`,
+      rule: notStartedRule,
+    },
+    visibleFromRoad: {
+      href: `/${FULL_APPEAL.VISIBLE_FROM_ROAD}`,
+      rule: notStartedRule,
+    },
+    healthSafetyIssues: {
+      href: `/${FULL_APPEAL.HEALTH_SAFETY_ISSUES}`,
+      rule: notStartedRule,
+    },
   },
   yourAppealSection: {
     appealStatement: {

@@ -4,10 +4,13 @@ const valueAppeal = require('../value-appeal');
 const mongodb = require('../../../src/db/db');
 const queue = require('../../../src/lib/queue');
 const notify = require('../../../src/lib/notify');
+const fullAppealNotify = require('../../../src/lib/full-appeal/notify');
+const { APPEAL_TYPE } = require('../../../src/constants');
 
 jest.mock('../../../src/db/db');
 jest.mock('../../../src/lib/queue');
 jest.mock('../../../src/lib/notify');
+jest.mock('../../../src/lib/full-appeal/notify');
 jest.mock('../../../../common/src/lib/notify/notify-builder', () => ({}));
 
 describe('services/validation.service', () => {
@@ -386,6 +389,36 @@ describe('services/validation.service', () => {
       expect(notify.sendAppealSubmissionReceivedNotificationEmailToLpa).toHaveBeenCalledWith(
         appeal.value
       );
+    });
+
+    test('isFirstSubmission is true for full-appeal', async () => {
+      const fullAppeal = {
+        ...appeal,
+        appealType: APPEAL_TYPE.PLANNING_SECTION_78,
+      };
+
+      updatedAppeal = JSON.parse(JSON.stringify(fullAppeal));
+
+      mongodb.get = jest.fn(() => ({
+        collection: jest.fn(() => ({
+          findOneAndUpdate: jest.fn().mockResolvedValue({
+            value: {
+              appeal: updatedAppeal,
+            },
+          }),
+        })),
+      }));
+
+      const outcome = await updateAppeal(fullAppeal, true);
+      expect(outcome).toEqual({ appeal: updatedAppeal });
+      expect(fullAppeal.submissionDate).not.toBe(null);
+      expect(queue.addAppeal).toHaveBeenCalledWith({ appeal: updatedAppeal });
+      expect(
+        fullAppealNotify.sendAppealSubmissionConfirmationEmailToAppellant
+      ).toHaveBeenCalledWith(updatedAppeal);
+      expect(
+        fullAppealNotify.sendAppealSubmissionReceivedNotificationEmailToLpa
+      ).toHaveBeenCalledWith(updatedAppeal);
     });
   });
 });

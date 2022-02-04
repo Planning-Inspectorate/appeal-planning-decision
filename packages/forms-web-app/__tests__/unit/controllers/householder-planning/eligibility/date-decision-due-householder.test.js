@@ -50,7 +50,7 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
         ...req,
         body: {
           'date-decision-due-householder-year': '2021',
-          'date-decision-due-householder-month': '01',
+          'date-decision-due-householder-month': '10',
           'date-decision-due-householder-day': '01',
         },
       };
@@ -61,7 +61,7 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
-        decisionDate: '2021-01-01T00:00:00.000Z',
+        decisionDate: '2021-10-01T00:00:00.000Z',
       });
 
       expect(res.redirect).toHaveBeenCalledWith('/before-you-start/enforcement-notice-householder');
@@ -117,7 +117,11 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
     it('should re-render the template with errors if there is any api call error', async () => {
       const mockRequest = {
         ...req,
-        body: {},
+        body: {
+          'date-decision-due-householder-year': '2021',
+          'date-decision-due-householder-month': '10',
+          'date-decision-due-householder-day': '01',
+        },
       };
 
       const error = 'RangeError: Invalid time value';

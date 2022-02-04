@@ -9,8 +9,8 @@ const {
   },
 } = require('../../../lib/householder-planning/views');
 
-const backLink = `/householder-planning/eligibility/enforcement-notice-householder`;
-const nextPage = `/householder-planning/eligibility/results-householder`;
+const backLink = `/before-you-start/enforcement-notice-householder`;
+const nextPage = `/appellant-submission/task-list`;
 
 exports.getClaimingCostsHouseholder = async (req, res) => {
   res.render(claimingCosts, { backLink });

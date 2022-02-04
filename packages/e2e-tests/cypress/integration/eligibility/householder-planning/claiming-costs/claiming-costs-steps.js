@@ -41,6 +41,10 @@ Then('appellant gets navigated to HAS Appeal form',()=>{
   verifyPage('/results');
 });
 
+Then('appellant gets navigated to HAS task list',()=>{
+  verifyPage('/task-list');
+});
+
 Then('appellants gets routed to shutter page which notifies them to use a different service',()=>{
   cy.url().should('contain', '/before-you-start/use-a-different-service');
 });
@@ -50,7 +54,7 @@ Then('appellant sees an error message {string}', (errorMessage) => {
 });
 
 Then('appellant is navigated to the enforcement notice page',()=>{
-  verifyPage('/enforcement-notice');
+  verifyPage('before-you-start/enforcement-notice-householder');
 });
 
 Then('information they have inputted will not be saved',()=>{

@@ -11,7 +11,7 @@ describe('controllers/full-appeal/submit-appeal/task-list', () => {
       taskListController.getTaskList(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.TASK_LIST, {
-        applicationStatus: 'Application incomplete',
+        applicationStatus: 'Appeal incomplete',
         sectionInfo: {
           nbTasks: 5,
           nbCompleted: 0,

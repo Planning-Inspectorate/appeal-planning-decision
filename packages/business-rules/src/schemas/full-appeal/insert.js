@@ -66,6 +66,24 @@ const insert = pinsYup
         }),
       })
       .noUnknown(true),
+    appealSubmission: pinsYup.object().shape({
+      appealPDFStatement: pinsYup
+        .object()
+        .shape({
+          uploadedFile: pinsYup
+            .object()
+            .shape({
+              name: pinsYup.string().trim().max(255).ensure(),
+              originalFileName: pinsYup.string().trim().max(255).ensure(),
+              id: pinsYup.string().trim().uuid().nullable().default(null),
+              fileName: pinsYup.string().trim().max(255).ensure(),
+              location: pinsYup.string().trim().ensure(),
+              size: pinsYup.number().positive().integer(),
+            })
+            .noUnknown(true),
+        })
+        .noUnknown(true),
+    }),
     yourAppealSection: pinsYup
       .object()
       .shape({
@@ -123,6 +141,30 @@ const insert = pinsYup
             return pinsYup.string().oneOf(Object.values(KNOW_THE_OWNERS));
           }
           return pinsYup.string().nullable();
+        }),
+        isAgriculturalHolding: pinsYup.bool().nullable(),
+        isAgriculturalHoldingTenant: pinsYup.bool().nullable(),
+        areOtherTenants: pinsYup.bool().nullable(),
+        isVisibleFromRoad: pinsYup.bool().nullable(),
+        visibleFromRoadDetails: pinsYup.lazy((visibleFromRoadDetails) => {
+          return pinsYup.mixed().conditionalText({
+            fieldValue: visibleFromRoadDetails,
+            fieldName: 'visibleFromRoadDetails',
+            targetFieldName: 'isVisibleFromRoad',
+            emptyError: 'Tell us how visibility is restricted',
+            tooLongError: 'How visibility is restricted must be $maxLength characters or less',
+          });
+        }),
+        hasHealthSafetyIssues: pinsYup.bool().nullable(),
+        healthSafetyIssuesDetails: pinsYup.lazy((healthSafetyIssuesDetails) => {
+          return pinsYup.mixed().conditionalText({
+            fieldValue: healthSafetyIssuesDetails,
+            fieldName: 'healthSafetyIssuesDetails',
+            targetFieldName: 'hasHealthSafetyIssues',
+            targetFieldValue: true,
+            emptyError: 'Tell us about the health and safety issues',
+            tooLongError: 'Health and safety information must be $maxLength characters or less',
+          });
         }),
       })
       .noUnknown(true),

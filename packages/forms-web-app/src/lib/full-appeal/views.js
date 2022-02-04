@@ -20,6 +20,14 @@ const VIEW = {
     AGRICULTURAL_HOLDING: 'full-appeal/submit-appeal/agricultural-holding',
     TELLING_THE_LANDOWNERS: 'full-appeal/submit-appeal/telling-the-landowners',
     IDENTIFYING_THE_OWNERS: 'full-appeal/submit-appeal/identifying-the-owners',
+    ARE_YOU_A_TENANT: 'full-appeal/submit-appeal/are-you-a-tenant',
+    VISIBLE_FROM_ROAD: 'full-appeal/submit-appeal/visible-from-road',
+    OTHER_TENANTS: 'full-appeal/submit-appeal/other-tenants',
+    TELLING_THE_TENANTS: 'full-appeal/submit-appeal/telling-the-tenants',
+    DECLARATION: 'full-appeal/submit-appeal/declaration',
+    APPEAL_SUBMITTED: 'full-appeal/submit-appeal/appeal-submitted',
+    DECLARATION_INFORMATION: 'full-appeal/submit-appeal/declaration-information',
+    HEALTH_SAFETY_ISSUES: 'full-appeal/submit-appeal/health-safety-issues',
   },
 };
 

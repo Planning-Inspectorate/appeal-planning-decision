@@ -32,7 +32,7 @@ const appeal = {
   },
   contactDetailsSection: {
     name: 'a name',
-    email: 'anemail@gmail.com',
+    email: 'testemail@example.com',
     companyName: 'Test Company',
   },
   appealSiteSection: {
@@ -46,6 +46,25 @@ const appeal = {
     ownsSomeOfTheLand: false,
     ownsAllTheLand: true,
     knowsTheOwners: 'yes',
+    isAgriculturalHolding: true,
+    isAgriculturalHoldingTenant: true,
+    areOtherTenants: true,
+    isVisibleFromRoad: false,
+    visibleFromRoadDetails: 'Access via the road at the side of the property',
+    hasHealthSafetyIssues: true,
+    healthSafetyIssuesDetails: 'The site has poor mobile reception',
+  },
+  appealSubmission: {
+    appealPDFStatement: {
+      uploadedFile: {
+        name: 'Appeal-form.pdf',
+        id: '01739574-e34c-4da0-8163-17e55268af7c',
+        originalFileName: 'Appeal-form.pdf',
+        fileName: 'Appeal-form.pdf',
+        location: 'f8adeda29ecc373097a06d1cc98e4e41',
+        size: 74375,
+      },
+    },
   },
   planningApplicationDocumentsSection: {
     applicationNumber: 'ABCDE12345',

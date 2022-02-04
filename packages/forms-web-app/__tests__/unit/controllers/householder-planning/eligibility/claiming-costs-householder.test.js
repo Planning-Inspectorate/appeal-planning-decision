@@ -16,7 +16,7 @@ jest.mock('../../../../../src/lib/empty-appeal');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
 
-const backLink = '/householder-planning/eligibility/enforcement-notice-householder';
+const backLink = '/before-you-start/enforcement-notice-householder';
 
 describe('controllers/householder-planning/claiming-costs-householder', () => {
   let req;
@@ -68,7 +68,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
         ...appeal,
       });
 
-      expect(res.redirect).toBeCalledWith('/householder-planning/eligibility/results-householder');
+      expect(res.redirect).toBeCalledWith('/appellant-submission/task-list');
     });
 
     it('should render errors on the page', async () => {

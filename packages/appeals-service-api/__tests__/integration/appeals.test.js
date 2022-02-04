@@ -21,6 +21,14 @@ async function createAppeal() {
   delete appeal.eligibility.applicationCategories;
   delete appeal.sectionStates.appealSiteSection.ownsSomeOfTheLand;
   delete appeal.sectionStates.appealSiteSection.ownsAllTheLand;
+  delete appeal.sectionStates.appealSiteSection.knowsTheOwners;
+  delete appeal.sectionStates.appealSiteSection.isAgriculturalHolding;
+  delete appeal.sectionStates.appealSiteSection.isAgriculturalHoldingTenant;
+  delete appeal.sectionStates.appealSiteSection.areOtherTenants;
+  delete appeal.sectionStates.appealSiteSection.isVisibleFromRoad;
+  delete appeal.sectionStates.appealSiteSection.visibleFromRoadDetails;
+  delete appeal.sectionStates.appealSiteSection.hasHealthSafetyIssues;
+  delete appeal.sectionStates.appealSiteSection.healthSafetyIssuesDetails;
 
   await mongodb.get().collection('appeals').insertOne({ _id: appeal.id, uuid: appeal.id, appeal });
   return appeal;
