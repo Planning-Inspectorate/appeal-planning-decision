@@ -20,6 +20,7 @@ variables:
   version.MajorMinor: '1.0' # Manually adjust the version number as needed for semantic versioning. Revision is auto-incremented.
   version.Revision: $[counter(variables['version.MajorMinor'], 0)]
   versionNumber: '$(version.MajorMinor).$(version.Revision)'
+  branchTag: $[replace(variables['Build.SourceBranch'], '/', '_')]
   # -----------------------------------------------------------------------
 
   # Container registry service connection established during pipeline creation
@@ -69,7 +70,7 @@ stages:
                 --build-arg VERSION=$(versionNumber)
               tags: |
                 $(versionNumber)
-                appeals-service-api
+                $(branchTag)
                 latest
           - task: PowerShell@2
             displayName: Copy Test Results
@@ -134,12 +135,23 @@ stages:
                       exit $exitCode
                   }
           - task: Docker@2
-            displayName: Push Image
+            displayName: Push Image with latest tag
+            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
             inputs:
               command: push
               repository: $(imageRepository)
               containerRegistry: $(dockerRegistryServiceConnection)
               tags: |
                 $(versionNumber)
-                appeals-service-api
+                $(branchTag)
                 latest
+          - task: Docker@2
+            displayName: Push Image without latest tag
+            condition: and(succeeded(), not(eq(variables['Build.SourceBranch'], 'refs/heads/master')))
+            inputs:
+              command: push
+              repository: $(imageRepository)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(versionNumber)
+                $(branchTag)
