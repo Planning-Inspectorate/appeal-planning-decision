@@ -1,4 +1,9 @@
-const { validation } = require('@pins/business-rules');
+const {
+  constants: {
+    APPEAL_ID: { HOUSEHOLDER },
+  },
+  validation,
+} = require('@pins/business-rules');
 const { VIEW } = require('../lib/views');
 
 const validationExclusionPages = [
@@ -13,7 +18,7 @@ const youCannotAppealPage = '/before-you-start/you-cannot-appeal';
 const isWithinExpiryPeriod = (appeal) => {
   return validation.appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
     new Date(appeal.decisionDate),
-    appeal.appealType
+    appeal.appealType ? appeal.appealType : HOUSEHOLDER
   );
 };
 
