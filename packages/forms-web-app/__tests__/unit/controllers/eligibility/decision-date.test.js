@@ -160,7 +160,7 @@ describe('controllers/eligibility/decision-date', () => {
       };
       await decisionDateController.postDecisionDate(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.PLANNING_DEPARTMENT}`);
     });
   });
 

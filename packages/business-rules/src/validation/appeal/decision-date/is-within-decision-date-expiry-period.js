@@ -11,13 +11,13 @@ const { APPEAL_ID } = require('../../../constants');
  * @param {Date} now
  * @returns {boolean}
  */
-module.exports = (givenDate, now = new Date(), appealType = APPEAL_ID.HOUSEHOLDER) => {
+module.exports = (givenDate, now = new Date(), appealType = APPEAL_ID.HOUSEHOLDER, decision) => {
   [givenDate, now].forEach(isValid);
 
   const yesterday = sub(endOfDay(now), {
     days: 1,
   });
-  const deadlineDate = businessRules.appeal.deadlineDate(givenDate, appealType);
 
+  const deadlineDate = businessRules.appeal.deadlineDate(givenDate, appealType, decision);
   return isBefore(yesterday, deadlineDate);
 };

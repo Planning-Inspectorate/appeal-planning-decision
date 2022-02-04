@@ -10,7 +10,7 @@ import {
 import {verifyPageTitle} from "../../../../support/common/verify-page-title";
 import {verifyPageHeading} from "../../../../support/common/verify-page-heading";
 import {allowedDatePart, getFutureDate, getPastDate} from "../../../../support/common/getDate";
-import {getDate, getMonth, getYear} from "date-fns";
+import {addMonths, addWeeks, format, getDate, getMonth, getYear} from "date-fns";
 import {
   enterDateDecisionReceived
 } from "../../../../support/eligibility/date-decision-received/enter-date-decision-received";
@@ -28,6 +28,7 @@ import {
 import {
   enterDateHouseholderDecisionReceived
 } from '../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received';
+import {getAppealDeadline} from "../../../../support/eligibility/page-objects/shutter-page-po";
 const pageHeading = 'What\'s the decision date on the letter from the local planning department?';
 const pageTitle = 'What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a householder planning decision - GOV.UK';
 const url = `/decision-date-householder`;
@@ -35,6 +36,7 @@ const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 const enforcementNoticePageUrl = '/enforcement-notice';
 const grantedOrRefusedPageUrl = '/granted-or-refused-householder';
 const shutterPageUrl = '/you-cannot-appeal';
+let pastDate;
 
 Given('appellant navigates to decision date received page for householder appeal',()=>{
   goToAppealsPage(typeOfPlanningPageUrl);
@@ -78,10 +80,10 @@ When('appellant enters future date decision received of {string}-{string}', (dat
 
 When('appellant enters the date older than the deadline date for {string}',(application_decision)=>{
   if(application_decision==='Granted'){
-    const pastDate = getPastDate(allowedDatePart.MONTH, 7);
+    pastDate = getPastDate(allowedDatePart.MONTH, 7);
     enterDateHouseholderDecisionReceived( {day: getDate(pastDate), month: getMonth(pastDate) + 1, year: getYear(pastDate) } );
   }else if(application_decision==='Refused'){
-    const pastDate = getPastDate(allowedDatePart.MONTH, 4);
+    pastDate = getPastDate(allowedDatePart.MONTH, 4);
     enterDateHouseholderDecisionReceived( {day: getDate(pastDate), month: getMonth(pastDate) + 1, year: getYear(pastDate) } );
   }
 
@@ -109,8 +111,17 @@ Then('appellant is navigated to the have you received an enforcement notice page
   cy.url().should('contain', enforcementNoticePageUrl);
 });
 
-Then('appellant gets routed to a page which notifies them that the decision appeal date has passed',()=>{
+Then('appellant gets routed to a page which notifies them that the decision appeal date has passed for {string}',(application_decision)=>{
   cy.url().should('contain', shutterPageUrl);
+  if(application_decision === 'Granted') {
+    pastDate = format(addMonths(pastDate, 6), 'dd MMMM yyyy');
+    getAppealDeadline().should('contain', '6 months');
+    getAppealDeadline().should('contain', pastDate);
+  }else if(application_decision==='Refused'){
+    pastDate = format(addWeeks(pastDate, 12), 'dd MMMM yyyy');
+    getAppealDeadline().should('contain', '12 weeks');
+    getAppealDeadline().should('contain', pastDate);
+  }
 });
 
 Then('progress is halted with an error: {string}', (errorMessage) => {

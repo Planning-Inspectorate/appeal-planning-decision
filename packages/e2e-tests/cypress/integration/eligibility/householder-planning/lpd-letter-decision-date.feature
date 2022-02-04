@@ -19,7 +19,7 @@ Feature: Date Decision received eligibility check for householder appeal
     And appellant is on the what date was the decision received page
     When appellant enters the date older than the deadline date for '<application_decision>'
     And appellant clicks on continue
-    Then appellant gets routed to a page which notifies them that the decision appeal date has passed
+    Then appellant gets routed to a page which notifies them that the decision appeal date has passed for '<application_decision>'
     Examples:
       | application_decision |
       | Granted              |

@@ -44,8 +44,16 @@ exports.postDecisionDateHouseholder = async (req, res) => {
     appeal.eligibility.applicationDecision === 'granted' &&
     isBefore(enteredDate, add(new Date(todaysDate), { months: -6 }))
   ) {
-    const deadlineDate = rules.appeal.deadlineDate(enteredDate, constants.APPEAL_ID.HOUSEHOLDER);
-    const { duration, time } = rules.appeal.deadlinePeriod(constants.APPEAL_ID.HOUSEHOLDER);
+    const deadlineDate = rules.appeal.deadlineDate(
+      enteredDate,
+      constants.APPEAL_ID.HOUSEHOLDER,
+      appeal.eligibility.applicationDecision
+    );
+
+    const { duration, time } = rules.appeal.deadlinePeriod(
+      constants.APPEAL_ID.HOUSEHOLDER,
+      appeal.eligibility.applicationDecision
+    );
 
     req.session.appeal.eligibility.appealDeadline = deadlineDate;
     req.session.appeal.eligibility.appealPeriod = `${time} ${duration}`;
@@ -55,20 +63,22 @@ exports.postDecisionDateHouseholder = async (req, res) => {
 
   const refusedDeadlineDate = rules.appeal.deadlineDate(
     enteredDate,
-    constants.APPEAL_ID.HOUSEHOLDER
+    constants.APPEAL_ID.HOUSEHOLDER,
+    appeal.eligibility.applicationDecision
   );
 
   const isWithinExpiryPeriod = validation.appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
     enteredDate,
     Date.now(),
-    constants.APPEAL_ID.HOUSEHOLDER
+    constants.APPEAL_ID.HOUSEHOLDER,
+    appeal.eligibility.applicationDecision
   );
 
-  if (
-    appeal.eligibility.applicationDecision === 'refused' &&
-    !isWithinExpiryPeriod
-  ) {
-    const { duration, time } = rules.appeal.deadlinePeriod(constants.APPEAL_ID.HOUSEHOLDER);
+  if (appeal.eligibility.applicationDecision === 'refused' && !isWithinExpiryPeriod) {
+    const { duration, time } = rules.appeal.deadlinePeriod(
+      constants.APPEAL_ID.HOUSEHOLDER,
+      appeal.eligibility.applicationDecision
+    );
     req.session.appeal.eligibility.appealDeadline = refusedDeadlineDate;
     req.session.appeal.eligibility.appealPeriod = `${time} ${duration}`;
 
