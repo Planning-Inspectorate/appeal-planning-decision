@@ -1,5 +1,6 @@
 const { isValid, parseISO } = require('date-fns');
 const { rules, validation } = require('@pins/business-rules');
+const { APPEAL_ID, APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 const { VIEW } = require('../../lib/views');
@@ -69,6 +70,12 @@ exports.getDecisionDatePassed = (req, res) => {
   const { appeal } = req.session;
 
   res.render(VIEW.ELIGIBILITY.DECISION_DATE_PASSED, {
-    deadlineDate: appeal.decisionDate && rules.appeal.deadlineDate(parseISO(appeal.decisionDate)),
+    deadlineDate:
+      appeal.decisionDate &&
+      rules.appeal.deadlineDate(
+        parseISO(appeal.decisionDate),
+        APPEAL_ID.HOUSEHOLDER,
+        APPLICATION_DECISION.REFUSED
+      ),
   });
 };
