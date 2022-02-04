@@ -70,7 +70,7 @@ stages:
                 --build-arg VERSION=$(versionNumber)
               tags: |
                 $(versionNumber)
-                appeals-service-api
+                $(branchTag)
                 latest
           - task: PowerShell@2
             displayName: Copy Test Results
