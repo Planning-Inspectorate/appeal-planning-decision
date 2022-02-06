@@ -2,7 +2,7 @@ const { subYears, addYears } = require('date-fns');
 const v8 = require('v8');
 const appealData = require('../../../test/data/householder-appeal');
 const update = require('./update');
-const { APPEAL_ID, APPEAL_STATE, APPLICATION_DECISION, SECTION_STATE } = require('../../constants');
+const { APPEAL_ID, APPEAL_STATE, SECTION_STATE } = require('../../constants');
 
 describe('schemas/householder-appeal/update', () => {
   const config = {};
@@ -206,16 +206,17 @@ describe('schemas/householder-appeal/update', () => {
         appeal.appealType = '0001';
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          '0001 is not a valid appeal type',
+          `appealType must be one of the following values: ${Object.values(APPEAL_ID).join(', ')}`,
         );
       });
 
-      it('should throw an error when given an invalid value', async () => {
+      it('should not throw an error when not given a value', async () => {
         appeal.appealType = null;
 
         const result = await update.validate(appeal, config);
         expect(result).toEqual(appeal);
       });
+
       it('should not throw an error when not given a value', async () => {
         delete appeal.appealType;
 
