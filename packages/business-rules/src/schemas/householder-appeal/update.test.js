@@ -206,7 +206,7 @@ describe('schemas/householder-appeal/update', () => {
         appeal.appealType = '0001';
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          `appealType must be one of the following values: ${Object.values(APPEAL_ID).join(', ')}`,
+          '0001 is not a valid appeal type',
         );
       });
 
