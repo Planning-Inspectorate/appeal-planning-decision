@@ -1,14 +1,8 @@
 const v8 = require('v8');
-const { addYears } = require('date-fns');
+const { addYears, subYears } = require('date-fns');
 const appealData = require('../../../test/data/full-appeal');
 const update = require('./update');
-const {
-  APPEAL_ID,
-  APPEAL_STATE,
-  APPLICATION_DECISION,
-  KNOW_THE_OWNERS,
-  TYPE_OF_PLANNING_APPLICATION,
-} = require('../../constants');
+const { APPEAL_STATE, KNOW_THE_OWNERS, TYPE_OF_PLANNING_APPLICATION } = require('../../constants');
 
 describe('schemas/full-appeal/update', () => {
   const config = {};
@@ -162,7 +156,7 @@ describe('schemas/full-appeal/update', () => {
         appeal.appealType = '0001';
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          `appealType must be one of the following values: ${Object.values(APPEAL_ID).join(', ')}`,
+          '0001 is not a valid appeal type',
         );
       });
 
@@ -189,6 +183,14 @@ describe('schemas/full-appeal/update', () => {
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
           'decisionDate must be in the past',
+        );
+      });
+
+      it('should throw an error when given a date after the deadline date', async () => {
+        appeal.decisionDate = subYears(new Date(), 1);
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'decisionDate must be before the deadline date',
         );
       });
 
@@ -249,9 +251,7 @@ describe('schemas/full-appeal/update', () => {
         appeal.eligibility.applicationDecision = 'appeal';
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          `eligibility.applicationDecision must be one of the following values: ${Object.values(
-            APPLICATION_DECISION,
-          ).join(', ')}`,
+          'appeal must be a valid application decision',
         );
       });
 
@@ -1554,9 +1554,7 @@ describe('schemas/full-appeal/update', () => {
 
         describe('appealSubmission.appealPDFStatement.uploadedFile.fileName', () => {
           it('should throw an error when given a value with more than 255 characters', async () => {
-            appeal.appealSubmission.appealPDFStatement.uploadedFile.fileName = 'a'.repeat(
-              256,
-            );
+            appeal.appealSubmission.appealPDFStatement.uploadedFile.fileName = 'a'.repeat(256);
 
             await expect(() => update.validate(appeal, config)).rejects.toThrow(
               'appealSubmission.appealPDFStatement.uploadedFile.fileName must be at most 255 characters',
@@ -1564,10 +1562,8 @@ describe('schemas/full-appeal/update', () => {
           });
 
           it('should strip leading/trailing spaces', async () => {
-            appeal2.appealSubmission.appealPDFStatement.uploadedFile.fileName =
-              '  test-pdf.pdf  ';
-            appeal.appealSubmission.appealPDFStatement.uploadedFile.fileName =
-              'test-pdf.pdf';
+            appeal2.appealSubmission.appealPDFStatement.uploadedFile.fileName = '  test-pdf.pdf  ';
+            appeal.appealSubmission.appealPDFStatement.uploadedFile.fileName = 'test-pdf.pdf';
 
             const result = await update.validate(appeal2, config);
             expect(result).toEqual(appeal);
@@ -1584,10 +1580,8 @@ describe('schemas/full-appeal/update', () => {
 
         describe('appealSubmission.appealPDFStatement.uploadedFile.location', () => {
           it('should strip leading/trailing spaces', async () => {
-            appeal2.appealSubmission.appealPDFStatement.uploadedFile.location =
-              '  test-pdf.pdf  ';
-            appeal.appealSubmission.appealPDFStatement.uploadedFile.location =
-              'test-pdf.pdf';
+            appeal2.appealSubmission.appealPDFStatement.uploadedFile.location = '  test-pdf.pdf  ';
+            appeal.appealSubmission.appealPDFStatement.uploadedFile.location = 'test-pdf.pdf';
 
             const result = await update.validate(appeal2, config);
             expect(result).toEqual(appeal);

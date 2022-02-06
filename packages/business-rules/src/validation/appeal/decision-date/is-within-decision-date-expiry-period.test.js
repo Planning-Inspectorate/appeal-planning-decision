@@ -1,6 +1,6 @@
 const { subWeeks, add } = require('date-fns');
 const isWithinDecisionDateExpiryPeriod = require('./is-within-decision-date-expiry-period');
-const { APPEAL_ID } = require('../../../constants');
+const { APPEAL_ID, APPLICATION_DECISION } = require('../../../constants');
 
 describe('validation/appeal/decision-date/is-within-decision-date-expiry-period', () => {
   let currentDate;
@@ -23,7 +23,12 @@ describe('validation/appeal/decision-date/is-within-decision-date-expiry-period'
 
   it('should return true if the current date is before the deadline date', () => {
     expect(
-      isWithinDecisionDateExpiryPeriod(currentDate, APPEAL_ID.HOUSEHOLDER, currentDate),
+      isWithinDecisionDateExpiryPeriod(
+        currentDate,
+        APPEAL_ID.HOUSEHOLDER,
+        APPLICATION_DECISION.REFUSED,
+        currentDate,
+      ),
     ).toBeTruthy();
   });
 
@@ -32,6 +37,7 @@ describe('validation/appeal/decision-date/is-within-decision-date-expiry-period'
       isWithinDecisionDateExpiryPeriod(
         subWeeks(currentDate, 15),
         APPEAL_ID.HOUSEHOLDER,
+        APPLICATION_DECISION.REFUSED,
         currentDate,
       ),
     ).toBeFalsy();
@@ -41,7 +47,13 @@ describe('validation/appeal/decision-date/is-within-decision-date-expiry-period'
     const decisionDate = subWeeks(new Date(), 12);
 
     it('should return true if today is before deadline date', () => {
-      expect(isWithinDecisionDateExpiryPeriod(decisionDate)).toBeTruthy();
+      expect(
+        isWithinDecisionDateExpiryPeriod(
+          decisionDate,
+          APPEAL_ID.HOUSEHOLDER,
+          APPLICATION_DECISION.REFUSED,
+        ),
+      ).toBeTruthy();
     });
 
     it('should return false if tomorrow is after deadline date', () => {
@@ -49,7 +61,12 @@ describe('validation/appeal/decision-date/is-within-decision-date-expiry-period'
         days: 1,
       });
       expect(
-        isWithinDecisionDateExpiryPeriod(decisionDate, APPEAL_ID.HOUSEHOLDER, tomorrow),
+        isWithinDecisionDateExpiryPeriod(
+          decisionDate,
+          APPEAL_ID.HOUSEHOLDER,
+          APPLICATION_DECISION.REFUSED,
+          tomorrow,
+        ),
       ).toBeFalsy();
     });
   });

@@ -1,4 +1,5 @@
-const { appeal, generic } = require('../../validation');
+// const { appeal, generic } = require('../../validation');
+const { generic } = require('../../validation');
 const createYupError = require('../../utils/create-yup-error');
 
 function isInThePast(value, ...rest) {
@@ -8,17 +9,6 @@ function isInThePast(value, ...rest) {
   });
 }
 
-function isWithinDeadlinePeriod(value, ...rest) {
-  const errorMessage = rest.errorMessage || 'must be before the deadline date';
-  return this.test('decisionDate', null, function test() {
-    return (
-      appeal.decisionDate.isWithinDecisionDateExpiryPeriod(value) ||
-      createYupError.call(this, errorMessage)
-    );
-  });
-}
-
 module.exports = {
   isInThePast,
-  isWithinDeadlinePeriod,
 };

@@ -7,6 +7,8 @@ const {
   KNOW_THE_OWNERS,
   TYPE_OF_PLANNING_APPLICATION,
 } = require('../../constants');
+const { appeal } = require('../../validation');
+const createYupError = require('../../utils/create-yup-error');
 
 const update = pinsYup
   .object()
@@ -18,7 +20,20 @@ const update = pinsYup
     state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).required(),
     appealType: pinsYup.string().oneOf(Object.values(APPEAL_ID)).required(),
     decisionDate: pinsYup.lazy((decisionDate) => {
-      return pinsYup.date().isInThePast(decisionDate).transform(parseDateString).required();
+      return pinsYup
+        .date()
+        .isInThePast(decisionDate)
+        .test('decisionDate', 'decisionDate is not within dealine period', function test() {
+          return (
+            appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
+              decisionDate,
+              this.options.parent.appealType,
+              this.options.parent.eligibility.applicationDecision,
+            ) || createYupError.call(this, 'must be before the deadline date')
+          );
+        })
+        .transform(parseDateString)
+        .required();
     }),
     eligibility: pinsYup
       .object()

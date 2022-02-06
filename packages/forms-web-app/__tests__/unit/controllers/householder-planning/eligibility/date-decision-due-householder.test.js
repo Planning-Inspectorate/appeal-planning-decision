@@ -1,4 +1,5 @@
 const { subMonths, addDays, getYear, getMonth, getDate, startOfDay } = require('date-fns');
+const { constants } = require('@pins/business-rules');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
@@ -57,6 +58,8 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
           'date-decision-due-householder-day': getDate(decisionDate),
         },
       };
+      mockRequest.session.appeal.eligibility.applicationDecision =
+        constants.APPLICATION_DECISION.REFUSED;
 
       await dateDecisionDueHouseholderController.postDateDecisionDueHouseholder(mockRequest, res);
 
@@ -77,6 +80,8 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
           'date-decision-due-householder-day': '01',
         },
       };
+      mockRequest.session.appeal.eligibility.applicationDecision =
+        constants.APPLICATION_DECISION.REFUSED;
 
       global.Date.now = jest.fn(() => new Date('2021-10-01T00:00:00.000Z').getTime());
 
@@ -124,6 +129,8 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
           'date-decision-due-householder-day': '01',
         },
       };
+      mockRequest.session.appeal.eligibility.applicationDecision =
+        constants.APPLICATION_DECISION.REFUSED;
 
       const error = 'RangeError: Invalid time value';
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
