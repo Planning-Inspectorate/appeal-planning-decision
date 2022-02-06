@@ -14,7 +14,7 @@ jest.mock('../../../../../src/config', () => ({
 }));
 
 const sinon = require('sinon');
-const { rules, validation } = require('@pins/business-rules');
+const { rules, validation, constants } = require('@pins/business-rules');
 const decisionDateHouseholderController = require('../../../../../src/controllers/householder-planning/eligibility/decision-date-householder');
 const { mockReq, mockRes } = require('../../../mocks');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
@@ -50,23 +50,24 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 
   describe('postDecisionDateHouseholder', () => {
     it('should save the appeal and redirect to enforcement-notice-householder if application decision is granted and date is within six months', async () => {
+      const decisionDate = addDays(subMonths(startOfDay(new Date()), 1), 1);
       const mockRequest = {
         ...req,
         body: {
-          'decision-date-householder-year': '2021',
-          'decision-date-householder-month': '01',
-          'decision-date-householder-day': '01',
+          'decision-date-householder-year': getYear(decisionDate),
+          'decision-date-householder-month': getMonth(decisionDate) + 1,
+          'decision-date-householder-day': getDate(decisionDate),
         },
       };
 
-      appeal.eligibility.applicationDecision = 'granted';
-      global.Date.now = jest.fn(() => new Date('2021-05-01T00:00:00.000Z').getTime());
+      mockRequest.session.appeal.eligibility.applicationDecision =
+        constants.APPLICATION_DECISION.GRANTED;
 
       await decisionDateHouseholderController.postDecisionDateHouseholder(mockRequest, res);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
-        decisionDate: '2021-01-01T00:00:00.000Z',
+        decisionDate: decisionDate.toISOString(),
       });
 
       expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/enforcement-notice-householder`);

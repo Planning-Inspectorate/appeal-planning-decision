@@ -1,10 +1,8 @@
-const { rules, constants, validation } = require('@pins/business-rules');
+const { rules, validation } = require('@pins/business-rules');
 const logger = require('../../lib/logger');
-
 
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../lib/views');
-const { APPEAL_TYPE } = require('../../constants');
 
 exports.getDecisionDate = async (req, res) => {
   res.render(VIEW.FULL_APPEAL.DECISION_DATE, {
@@ -36,15 +34,22 @@ exports.postDecisionDate = async (req, res) => {
     body['decision-date-day']
   );
 
-  const deadlineDate = rules.appeal.deadlineDate(enteredDate, APPEAL_TYPE.PLANNING_SECTION_78);
-  const { time, duration } = rules.appeal.deadlinePeriod(APPEAL_TYPE.PLANNING_SECTION_78);
-
   const isWithinExpiryPeriod = validation.appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
     enteredDate,
-    constants.APPEAL_ID.PLANNING_SECTION_78
+    appeal.appealType,
+    appeal.eligibility.applicationDecision
   );
 
   if (!isWithinExpiryPeriod) {
+    const deadlineDate = rules.appeal.deadlineDate(
+      enteredDate,
+      appeal.appealType,
+      appeal.eligibility.applicationDecision
+    );
+    const { time, duration } = rules.appeal.deadlinePeriod(
+      appeal.appealType,
+      appeal.eligibility.applicationDecision
+    );
     req.session.appeal.eligibility.appealDeadline = deadlineDate;
     req.session.appeal.eligibility.appealPeriod = `${time} ${duration}`;
 

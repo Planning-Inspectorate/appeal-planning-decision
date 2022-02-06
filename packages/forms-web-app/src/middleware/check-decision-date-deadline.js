@@ -1,9 +1,4 @@
-const {
-  constants: {
-    APPEAL_ID: { HOUSEHOLDER },
-  },
-  validation,
-} = require('@pins/business-rules');
+const { validation } = require('@pins/business-rules');
 const { VIEW } = require('../lib/views');
 
 const validationExclusionPages = [
@@ -15,26 +10,29 @@ const validationExclusionPages = [
 ];
 const youCannotAppealPage = '/before-you-start/you-cannot-appeal';
 
-const isWithinExpiryPeriod = (appeal) => {
-  return validation.appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
-    new Date(appeal.decisionDate),
-    appeal.appealType ? appeal.appealType : HOUSEHOLDER
-  );
-};
-
 const checkDecisionDateDeadline = (req, res, next) => {
   const { appeal } = req.session;
 
   if (appeal && appeal.decisionDate) {
     if (appeal.appealType && !validationExclusionPages.includes(req.originalUrl)) {
-      if (!isWithinExpiryPeriod(appeal)) {
+      const isWithinExpiryPeriod = validation.appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
+        new Date(appeal.decisionDate),
+        appeal.appealType,
+        appeal.eligibility.applicationDecision
+      );
+
+      if (!isWithinExpiryPeriod) {
         res.redirect(youCannotAppealPage);
         return;
       }
     }
 
     if (!appeal.appealType && !req.originalUrl.includes(VIEW.ELIGIBILITY.DECISION_DATE)) {
-      if (!isWithinExpiryPeriod(appeal)) {
+      const isWithinExpiryPeriod = validation.appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
+        new Date(appeal.decisionDate)
+      );
+
+      if (!isWithinExpiryPeriod) {
         res.redirect(`/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`);
         return;
       }

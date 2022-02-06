@@ -1,4 +1,4 @@
-const { rules, validation } = require('@pins/business-rules');
+const { constants, rules, validation } = require('@pins/business-rules');
 const { subMonths, addDays, startOfDay, getYear, getMonth, getDate } = require('date-fns');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -57,6 +57,8 @@ describe('controllers/full-appeal/decision-date', () => {
           'decision-date-day': getDate(decisionDate),
         },
       };
+      mockRequest.session.appeal.eligibility.applicationDecision =
+        constants.APPLICATION_DECISION.REFUSED;
 
       await decisionDateController.postDecisionDate(mockRequest, res);
 
@@ -77,6 +79,8 @@ describe('controllers/full-appeal/decision-date', () => {
           'decision-date-day': '01',
         },
       };
+      mockRequest.session.appeal.eligibility.applicationDecision =
+        constants.APPLICATION_DECISION.REFUSED;
 
       global.Date.now = jest.fn(() => new Date('2021-10-01T00:00:00.000Z').getTime());
 

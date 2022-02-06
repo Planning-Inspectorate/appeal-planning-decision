@@ -1,4 +1,5 @@
 const { subMonths, addDays, subDays, endOfDay, format } = require('date-fns');
+const { constants } = require('@pins/business-rules');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
@@ -85,6 +86,8 @@ describe('controllers/full-appeal/date-decision-due', () => {
           'decision-date': '2019-10-10',
         },
       };
+      mockRequest.session.appeal.eligibility.applicationDecision =
+        constants.APPLICATION_DECISION.REFUSED;
 
       await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
 
@@ -336,6 +339,8 @@ describe('controllers/full-appeal/date-decision-due', () => {
           errorSummary: [],
         },
       };
+      mockRequest.session.appeal.eligibility.applicationDecision =
+        constants.APPLICATION_DECISION.REFUSED;
 
       await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
 
@@ -357,6 +362,8 @@ describe('controllers/full-appeal/date-decision-due', () => {
           errorSummary: [],
         },
       };
+      mockRequest.session.appeal.eligibility.applicationDecision =
+        constants.APPLICATION_DECISION.REFUSED;
 
       await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
 
