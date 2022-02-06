@@ -14,6 +14,12 @@ const update = pinsYup
     id: pinsYup.string().uuid().required(),
     horizonId: pinsYup.string().trim().max(20).nullable(),
     lpaCode: pinsYup.string().trim().max(20).required(),
+    appealType: pinsYup.lazy((appealType) => {
+      if (appealType) {
+        return pinsYup.string().oneOf(Object.values(APPEAL_ID));
+      }
+      return pinsYup.string().nullable();
+    }),
     decisionDate: pinsYup.lazy((decisionDate) => {
       return pinsYup
         .date()
@@ -32,12 +38,6 @@ const update = pinsYup
     }),
     submissionDate: pinsYup.date().transform(parseDateString).nullable(),
     state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).required(),
-    appealType: pinsYup.lazy((appealType) => {
-      if (appealType) {
-        return pinsYup.string().oneOf(Object.values(APPEAL_ID));
-      }
-      return pinsYup.string().nullable();
-    }),
     eligibility: pinsYup
       .object()
       .shape({
