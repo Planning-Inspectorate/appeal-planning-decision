@@ -1,13 +1,8 @@
 const v8 = require('v8');
+const { subMonths } = require('date-fns');
 const appealData = require('../../../test/data/full-appeal');
 const insert = require('./insert');
-const {
-  APPEAL_STATE,
-  APPEAL_ID,
-  APPLICATION_DECISION,
-  KNOW_THE_OWNERS,
-  TYPE_OF_PLANNING_APPLICATION,
-} = require('../../constants');
+const { APPEAL_STATE, KNOW_THE_OWNERS, TYPE_OF_PLANNING_APPLICATION } = require('../../constants');
 
 describe('schemas/full-appeal/insert', () => {
   const config = {};
@@ -154,7 +149,7 @@ describe('schemas/full-appeal/insert', () => {
         appeal.appealType = '0001';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          `appealType must be one of the following values: ${Object.values(APPEAL_ID).join(', ')}`,
+          '0001 is not a valid appeal type',
         );
       });
 
@@ -177,6 +172,15 @@ describe('schemas/full-appeal/insert', () => {
 
       it('should not throw an error when not given a value', async () => {
         delete appeal.decisionDate;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should not throw an error when appeal type and application decision is not passed', async () => {
+        appeal.decisionDate = subMonths(new Date(), 1);
+        delete appeal.appealType;
+        delete appeal.eligibility.applicationDecision;
 
         const result = await insert.validate(appeal, config);
         expect(result).toEqual(appeal);
@@ -229,9 +233,7 @@ describe('schemas/full-appeal/insert', () => {
         appeal.eligibility.applicationDecision = 'appeal';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          `eligibility.applicationDecision must be one of the following values: ${Object.values(
-            APPLICATION_DECISION,
-          ).join(', ')}`,
+          'appeal must be a valid application decision',
         );
       });
 

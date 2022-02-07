@@ -1,8 +1,8 @@
-const { subYears, addYears } = require('date-fns');
+const { subYears, addYears, subMonths } = require('date-fns');
 const v8 = require('v8');
 const appealData = require('../../../test/data/householder-appeal');
 const update = require('./update');
-const { APPEAL_ID, APPEAL_STATE, SECTION_STATE } = require('../../constants');
+const { APPEAL_STATE, SECTION_STATE } = require('../../constants');
 
 describe('schemas/householder-appeal/update', () => {
   const config = {};
@@ -163,6 +163,15 @@ describe('schemas/householder-appeal/update', () => {
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
           'The given date must be a valid Date instance',
         );
+      });
+
+      it('should return a value when appeal type and application decision is not passed', async () => {
+        appeal.decisionDate = subMonths(new Date(), 1);
+        delete appeal.appealType;
+        delete appeal.eligibility.applicationDecision;
+
+        const result = await update.validate(appeal, config);
+        expect(result).toEqual(appeal);
       });
     });
 

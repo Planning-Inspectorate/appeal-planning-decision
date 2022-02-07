@@ -1,7 +1,6 @@
 const { isBefore, endOfDay, sub } = require('date-fns');
 const businessRules = require('../../../rules');
 const isValid = require('../../generic/date/is-valid');
-const { APPEAL_ID, APPLICATION_DECISION } = require('../../../constants');
 
 /**
  * @description Given a starting point (givenDate), determine the deadline date, and whether

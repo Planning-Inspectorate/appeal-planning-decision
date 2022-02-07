@@ -12,7 +12,18 @@ const insert = pinsYup
     id: pinsYup.string().uuid().required(),
     horizonId: pinsYup.string().trim().max(20).nullable(),
     lpaCode: pinsYup.string().trim().max(20).nullable(),
-    decisionDate: pinsYup.date().transform(parseDateString).nullable(),
+    decisionDate: pinsYup.lazy((decisionDate) => {
+      if (decisionDate) {
+        return pinsYup
+          .date()
+          .isInThePast(decisionDate)
+          .isWithinDeadlinePeriod(decisionDate)
+          .transform(parseDateString)
+          .required();
+      }
+
+      return pinsYup.date().nullable();
+    }),
     submissionDate: pinsYup.date().transform(parseDateString).nullable(),
     state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).default(APPEAL_STATE.DRAFT),
     appealType: pinsYup.lazy((appealType) => {

@@ -5,6 +5,10 @@ describe('pins-yup', () => {
     expect(typeof pinsYup.date().isInThePast).toEqual('function');
   });
 
+  it('should have a pinsYup.date().isWithinDeadlinePeriod method defined', () => {
+    expect(typeof pinsYup.date().isWithinDeadlinePeriod).toEqual('function');
+  });
+
   it('should have a pinsYup.mixed().conditionalText method defined', () => {
     expect(typeof pinsYup.mixed().conditionalText).toEqual('function');
   });

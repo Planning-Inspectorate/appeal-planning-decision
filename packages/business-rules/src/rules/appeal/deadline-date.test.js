@@ -33,19 +33,19 @@ describe('business-rules/appeal/deadline-date', () => {
     );
   });
 
-  it('should return the correct date for an appeal type', () => {
+  it('should return the deadline date of Householder appeal type if appealType and applicationDecision is not passed', () => {
     expect(deadlineDate(new Date(), undefined, undefined)).toEqual(
       addWeeks(endOfDay(new Date()), 12),
     );
   });
-  
-  it('should return the correct date for an appeal type', () => {
+
+  it('should return the deadline date of 6 months for Householder appeal type and non Refused applicationDecision', () => {
     expect(deadlineDate(new Date(), APPEAL_ID.HOUSEHOLDER, APPLICATION_DECISION.GRANTED)).toEqual(
       addMonths(endOfDay(new Date()), 6),
     );
   });
 
-  it('should return the correct date for an appeal type', () => {
+  it('should return the deadline date of 6 months for Full appeal type and any applicationDecision', () => {
     expect(
       deadlineDate(new Date(), APPEAL_ID.PLANNING_SECTION_78, APPLICATION_DECISION.GRANTED),
     ).toEqual(addMonths(endOfDay(new Date()), 6));
