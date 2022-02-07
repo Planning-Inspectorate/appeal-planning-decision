@@ -2,7 +2,13 @@ const v8 = require('v8');
 const { subMonths } = require('date-fns');
 const appealData = require('../../../test/data/full-appeal');
 const insert = require('./insert');
-const { APPEAL_STATE, KNOW_THE_OWNERS, TYPE_OF_PLANNING_APPLICATION } = require('../../constants');
+const {
+  APPEAL_STATE,
+  APPEAL_ID,
+  APPLICATION_DECISION,
+  KNOW_THE_OWNERS,
+  TYPE_OF_PLANNING_APPLICATION,
+} = require('../../constants');
 
 describe('schemas/full-appeal/insert', () => {
   const config = {};
@@ -149,7 +155,7 @@ describe('schemas/full-appeal/insert', () => {
         appeal.appealType = '0001';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          '0001 is not a valid appeal type',
+          `appealType must be one of the following values: ${Object.values(APPEAL_ID).join(', ')}`,
         );
       });
 
@@ -233,7 +239,9 @@ describe('schemas/full-appeal/insert', () => {
         appeal.eligibility.applicationDecision = 'appeal';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'appeal must be a valid application decision',
+          `eligibility.applicationDecision must be one of the following values: ${Object.values(
+            APPLICATION_DECISION,
+          ).join(', ')}`,
         );
       });
 

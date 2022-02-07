@@ -22,18 +22,7 @@ const insert = pinsYup
       }
       return pinsYup.string().nullable();
     }),
-    decisionDate: pinsYup.lazy((decisionDate) => {
-      if (decisionDate) {
-        return pinsYup
-          .date()
-          .isInThePast(decisionDate)
-          .isWithinDeadlinePeriod(decisionDate)
-          .transform(parseDateString)
-          .required();
-      }
-
-      return pinsYup.date().nullable();
-    }),
+    decisionDate: pinsYup.date().transform(parseDateString).nullable(),
     eligibility: pinsYup
       .object()
       .shape({
