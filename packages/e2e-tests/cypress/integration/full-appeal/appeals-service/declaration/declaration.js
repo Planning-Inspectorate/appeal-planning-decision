@@ -166,6 +166,7 @@ Given("an Appellant is ready to submit their appeal", () => {
   cy.url().should('contain', checkYourAnswersUrl);
   getSaveAndContinueButton().click();
   cy.url().should('contain', url);
+  cy.checkPageA11y();
  })
 When("they click on 'Confirm and submit appeal'", () => {
   confirmAndSubmitAppealButton().click();
@@ -175,11 +176,13 @@ Then("they are taken to the next page 'Appeal Submitted'", () => {
   verifyPageTitle(submittedPageTitle);
   appealSubmittedHeading().should('exist');
   getBackLink().should('not.exist');
+  cy.checkPageA11y();
 })
 
 Given("an Agent is on the 'Check your answers' page", () => {
   declariationPageMethodsAgent();
   cy.url().should('contain', checkYourAnswersUrl);
+  cy.checkPageA11y();
 })
 Given("an Agent is ready to submit their appeal", () => {
   declariationPageMethodsAgent();
