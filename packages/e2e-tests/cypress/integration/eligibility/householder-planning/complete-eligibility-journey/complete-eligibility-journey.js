@@ -66,9 +66,7 @@ Given('appellant selects the {string}',(application_decision)=>{
 
 Given('appellant enters the date within {string} when the {string} was received',(deadline_duration, application_decision)=>{
   if(deadline_duration==='6 months' && application_decision==='Granted'){
-    //Uncomment when AS-4480 and AS-4483 are fixed
-   // const validDate = getPastDate(allowedDatePart.MONTH, 3);
-    const validDate = getPastDate(allowedDatePart.WEEK, 8);
+   const validDate = getPastDate(allowedDatePart.MONTH, 3);
       verifyPageTitle('What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a householder planning decision - GOV.UK');
       verifyPageHeading('What\'s the decision date on the letter from the local planning department?');
       enterDateHouseholderDecisionReceived( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
@@ -80,9 +78,7 @@ Given('appellant enters the date within {string} when the {string} was received'
     enterDateHouseholderDecisionReceived( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
   }
   else{
-    //Uncomment when AS-4480 and AS-4483 are fixed
-      //const validDate = getPastDate(allowedDatePart.MONTH, 3);
-    const validDate = getPastDate(allowedDatePart.WEEK, 8);
+      const validDate = getPastDate(allowedDatePart.MONTH, 3);
       verifyPageTitle('What date was your decision due? - Before you start - Appeal a householder planning decision - GOV.UK');
       verifyPageHeading('What date was your decision due?');
       enterDateDecisionDueHouseholder( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
