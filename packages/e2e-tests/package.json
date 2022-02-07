@@ -14,9 +14,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axe-core": "^4.3.5",
+    "axe-core": "^4.4.1",
     "cypress": "8.5.0",
-    "cypress-axe": "^0.13.0",
+    "cypress-axe": "0.14.0",
     "cypress-downloadfile": "^1.2.0",
     "cypress-file-upload": "5.0.2",
     "multiple-cucumber-html-reporter": "1.18.3",
