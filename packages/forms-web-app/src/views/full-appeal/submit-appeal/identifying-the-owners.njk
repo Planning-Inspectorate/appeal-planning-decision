@@ -1,0 +1,80 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+
+{% set heading = "Identifying the landowners" %}
+
+{% set title = heading + " - Appeal a planning decision - GOV.UK" %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
+
+{% block backButton %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: '/full-appeal/submit-appeal/know-the-owners',
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary,
+          attributes: {"data-cy": "error-wrapper"}
+        }) }}
+      {% endif %}
+      <form action="" method="post" novalidate>
+        <span class="govuk-caption-l">Tell us about the appeal site</span>
+        <h1 data-cy="title" class="govuk-heading-l">{{ heading }}</h1>
+        {% if knowsTheOwners == 'some' %}
+          <p class="govuk-body">You must have attempted to identify all the other landowners.</p>
+        {% endif %}
+        {% if knowsTheOwners == 'no' %}
+          <p class="govuk-body">You must have taken all reasonable steps to identify the landowners.</p>
+        {% endif %}
+
+        {% if knowsTheOwners == 'some' %}
+          <p class="govuk-body">This includes:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>searching the land registry</li>
+            <li>putting up a site notice at the appeal site</li>
+          </ul>
+        {% endif %}
+
+        <h1 data-cy="title" class="govuk-heading-m">
+          {% if knowsTheOwners == 'some' %}Confirm that you have attempted to identify the landowners{% endif %}
+          {% if knowsTheOwners == 'no' %}Have you taken all reasonable steps to identify the landowners?{% endif %}
+        </h1>
+
+        {{ govukCheckboxes({
+          idPrefix: "identifying-the-owners",
+          name: "identifying-the-owners",
+          items: [
+            {
+              value: "i-agree",
+              text: "I confirm that I've attempted to identify all the landowners, but have not been successful." if knowsTheOwners == 'some'
+              else ("I confirm that I've taken all reasonable steps to identify the landowners." if knowsTheOwners == 'no'),
+              attributes: {"data-cy":"identifying-the-owners"},
+              checked: identifyingTheOwners == 'i-agree'
+            }
+          ],
+          errorMessage: errors['identifying-the-owners'] and {
+            text: errors['identifying-the-owners'].msg
+          }
+        }) }}
+
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

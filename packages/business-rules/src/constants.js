@@ -53,6 +53,8 @@ const KNOW_THE_OWNERS = {
   NO: 'no',
 };
 
+const I_AGREE = 'i-agree';
+
 module.exports = {
   APPEAL_ID,
   APPEAL_STATE,
@@ -61,4 +63,5 @@ module.exports = {
   PROCEDURE_TYPE,
   SECTION_STATE,
   TYPE_OF_PLANNING_APPLICATION,
+  I_AGREE,
 };

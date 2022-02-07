@@ -6,6 +6,7 @@ const {
   APPLICATION_DECISION,
   KNOW_THE_OWNERS,
   TYPE_OF_PLANNING_APPLICATION,
+  I_AGREE,
 } = require('../../constants');
 
 const insert = pinsYup
@@ -139,6 +140,12 @@ const insert = pinsYup
         knowsTheOwners: pinsYup.lazy((knowsTheOwners) => {
           if (knowsTheOwners) {
             return pinsYup.string().oneOf(Object.values(KNOW_THE_OWNERS));
+          }
+          return pinsYup.string().nullable();
+        }),
+        identifyingTheOwners: pinsYup.lazy((identifyingTheOwners) => {
+          if (identifyingTheOwners) {
+            return pinsYup.string().oneOf([I_AGREE]);
           }
           return pinsYup.string().nullable();
         }),

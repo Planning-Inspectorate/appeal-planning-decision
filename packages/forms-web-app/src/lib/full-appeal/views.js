@@ -28,6 +28,7 @@ const VIEW = {
     APPEAL_SUBMITTED: 'full-appeal/submit-appeal/appeal-submitted',
     DECLARATION_INFORMATION: 'full-appeal/submit-appeal/declaration-information',
     HEALTH_SAFETY_ISSUES: 'full-appeal/submit-appeal/health-safety-issues',
+    ADVERTISING_YOUR_APPEAL: 'full-appeal/submit-appeal/advertising-your-appeal',
   },
 };
 

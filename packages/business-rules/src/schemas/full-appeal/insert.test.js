@@ -8,6 +8,7 @@ const {
   APPLICATION_DECISION,
   KNOW_THE_OWNERS,
   TYPE_OF_PLANNING_APPLICATION,
+  I_AGREE,
 } = require('../../constants');
 
 describe('schemas/full-appeal/insert', () => {
@@ -774,6 +775,30 @@ describe('schemas/full-appeal/insert', () => {
 
         it('should not throw an error when given a null value', async () => {
           appeal.appealSiteSection.knowsTheOwners = null;
+
+          const result = await insert.validate(appeal, config);
+          expect(result).toEqual(appeal);
+        });
+      });
+
+      describe('appealSiteSection.identifyingTheOwners', () => {
+        it('should throw an error when given an invalid value', async () => {
+          appeal.appealSiteSection.identifyingTheOwners = 'not valid';
+
+          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+            `appealSiteSection.identifyingTheOwners must be one of the following values: ${I_AGREE}`,
+          );
+        });
+
+        it('should not throw an error when not given a value', async () => {
+          delete appeal.appealSiteSection.identifyingTheOwners;
+
+          const result = await insert.validate(appeal, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should not throw an error when given a null value', async () => {
+          appeal.appealSiteSection.identifyingTheOwners = null;
 
           const result = await insert.validate(appeal, config);
           expect(result).toEqual(appeal);
