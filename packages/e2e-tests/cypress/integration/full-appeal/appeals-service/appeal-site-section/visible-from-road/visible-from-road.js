@@ -42,7 +42,7 @@ const visibleFromRoadError = 'Select yes if the site is visible from a public ro
 
 Given("an appellant or agent is on the 'Is the appeal site part of an agricultural holding?' page", () => {
   goToAppealsPage(taskListUrl);
-  acceptCookiesBanner();
+   acceptCookiesBanner();
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
   provideAddressLine1(addressLine1);
