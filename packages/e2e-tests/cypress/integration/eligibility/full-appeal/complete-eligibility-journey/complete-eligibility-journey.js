@@ -57,9 +57,7 @@ Given('appellant selects the {string}',(application_decision)=>{
 });
 
 Given('appellant enters the date within 6 months when the {string} was received',(application_decision)=>{
-  //Uncomment this line when AS-4483 is fixed
-  //const validDate = getPastDate(allowedDatePart.MONTH, 3);
-  const validDate = getPastDate(allowedDatePart.WEEK, 8);
+ const validDate = getPastDate(allowedDatePart.MONTH, 3);
   if(application_decision==='Granted' || application_decision ==='Refused'){
     verifyPageTitle('What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK');
     verifyPageHeading('What\'s the decision date on the letter from the local planning department?');
