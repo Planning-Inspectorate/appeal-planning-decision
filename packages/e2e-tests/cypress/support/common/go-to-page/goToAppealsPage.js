@@ -8,4 +8,5 @@ export const goToAppealsPage = (url, options) =>{
     }
       cy.visit(url,options);
   });
+    cy.checkPageA11y();
 }

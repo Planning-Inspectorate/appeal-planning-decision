@@ -75,4 +75,5 @@ When("they select 'No' and click continue", () => {
 });
 Then("they are presented with the 'Did you submit a design and access statement with your application?' page", () => {
   cy.url().should('contain', url);
+  cy.checkPageA11y();
 });
