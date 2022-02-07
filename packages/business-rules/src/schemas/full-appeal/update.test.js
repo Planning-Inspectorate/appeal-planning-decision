@@ -1,5 +1,5 @@
 const v8 = require('v8');
-const { addYears, subYears } = require('date-fns');
+const { addYears, subYears, subMonths } = require('date-fns');
 const appealData = require('../../../test/data/full-appeal');
 const update = require('./update');
 const { APPEAL_STATE, KNOW_THE_OWNERS, TYPE_OF_PLANNING_APPLICATION } = require('../../constants');
@@ -207,6 +207,16 @@ describe('schemas/full-appeal/update', () => {
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
           'The given date must be a valid Date instance',
+        );
+      });
+
+      it('should throw an error when appeal type and application decision is not passed', async () => {
+        appeal.decisionDate = subMonths(new Date(), 1);
+        delete appeal.appealType;
+        delete appeal.eligibility.applicationDecision;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'appealType is a required field',
         );
       });
     });

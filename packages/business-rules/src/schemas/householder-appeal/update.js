@@ -4,8 +4,6 @@ const singleDocumentUpdate = require('../components/update/single-document');
 const multiDocumentUpdate = require('../components/update/multi-document');
 const sectionState = require('../components/section-state');
 const { APPLICATION_DECISION, APPEAL_ID, APPEAL_STATE } = require('../../constants');
-const { appeal } = require('../../validation');
-const createYupError = require('../../utils/create-yup-error');
 
 const update = pinsYup
   .object()
@@ -24,15 +22,7 @@ const update = pinsYup
       return pinsYup
         .date()
         .isInThePast(decisionDate)
-        .test('decisionDate', 'decisionDate is not within dealine period', function test() {
-          return (
-            appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
-              decisionDate,
-              this.options.parent.appealType,
-              this.options.parent.eligibility.applicationDecision,
-            ) || createYupError.call(this, 'must be before the deadline date')
-          );
-        })
+        .isWithinDeadlinePeriod(decisionDate)
         .transform(parseDateString)
         .required();
     }),

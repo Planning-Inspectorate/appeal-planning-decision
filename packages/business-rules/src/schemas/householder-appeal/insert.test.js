@@ -1,7 +1,7 @@
 const v8 = require('v8');
 const appealData = require('../../../test/data/householder-appeal');
 const insert = require('./insert');
-const { APPEAL_ID, APPEAL_STATE, APPLICATION_DECISION, SECTION_STATE } = require('../../constants');
+const { APPEAL_STATE, SECTION_STATE } = require('../../constants');
 
 describe('schemas/householder-appeal/insert', () => {
   const config = {};
@@ -174,7 +174,7 @@ describe('schemas/householder-appeal/insert', () => {
         appeal.appealType = '0001';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          `appealType must be one of the following values: ${Object.values(APPEAL_ID).join(', ')}`,
+          '0001 is not a valid appeal type',
         );
       });
 
@@ -208,9 +208,7 @@ describe('schemas/householder-appeal/insert', () => {
         appeal.eligibility.applicationDecision = 'appeal';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          `eligibility.applicationDecision must be one of the following values: ${Object.values(
-            APPLICATION_DECISION,
-          ).join(', ')}`,
+          'appeal must be a valid application decision',
         );
       });
 
