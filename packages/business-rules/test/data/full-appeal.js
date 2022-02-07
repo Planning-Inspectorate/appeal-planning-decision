@@ -46,6 +46,7 @@ const appeal = {
     ownsSomeOfTheLand: false,
     ownsAllTheLand: true,
     knowsTheOwners: 'yes',
+    identifyingTheOwners: 'i-agree',
     isAgriculturalHolding: true,
     isAgriculturalHoldingTenant: true,
     areOtherTenants: true,

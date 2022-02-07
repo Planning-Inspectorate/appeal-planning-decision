@@ -86,6 +86,7 @@ exports.appealDocument = {
     visibleFromRoadDetails: null,
     hasHealthSafetyIssues: null,
     healthSafetyIssuesDetails: null,
+    identifyingTheOwners: null,
   },
   appealSubmission: {
     appealPDFStatement: {

@@ -188,6 +188,33 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
+    it(`should assign null to appealSiteSection.identifyingTheOwners if appealSiteSection.knowsTheOwners and body['know-the-owners'] are different`, async () => {
+      const submittedAppeal = {
+        ...appeal,
+        state: 'SUBMITTED',
+      };
+
+      req = {
+        ...req,
+        body: {
+          'know-the-owners': 'no',
+        },
+      };
+      req.session.appeal.appealSiteSection.knowsTheOwners = 'some';
+      req.session.appeal.appealSiteSection.identifyingTheOwners = 'i-agree';
+
+      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+      await postKnowTheOwners(req, res);
+
+      const expectedAppeal = {
+        ...req.session.appeal,
+        state: 'DRAFT',
+      };
+      expectedAppeal.appealSiteSection.identifyingTheOwners = null;
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(expectedAppeal);
+    });
+
     it('should redirect to the correct page if `yes` has been selected and appeal.appealSiteSection is not defined', async () => {
       const submittedAppeal = {
         ...appeal,
