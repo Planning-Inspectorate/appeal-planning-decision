@@ -1,6 +1,10 @@
 const {
   constants: {
-    KNOW_THE_OWNERS: { YES: KNOW_THE_OWNERS_YES },
+    KNOW_THE_OWNERS: {
+      YES: KNOW_THE_OWNERS_YES,
+      NO: KNOW_THE_OWNERS_NO,
+      SOME: KNOW_THE_OWNERS_SOME,
+    },
   },
 } = require('@pins/business-rules');
 const logger = require('../../../lib/logger');
@@ -44,8 +48,16 @@ const postKnowTheOwners = async (req, res) => {
   }
 
   const knowsTheOwners = body['know-the-owners'];
+  const knowTheOwnersSomeNo = [KNOW_THE_OWNERS_SOME, KNOW_THE_OWNERS_NO];
 
   try {
+    if (
+      knowTheOwnersSomeNo.includes(knowsTheOwners) &&
+      knowTheOwnersSomeNo.includes(appeal[sectionName]?.knowsTheOwners) &&
+      knowsTheOwners !== appeal[sectionName]?.knowsTheOwners
+    ) {
+      appeal[sectionName].identifyingTheOwners = null;
+    }
     appeal[sectionName] = appeal[sectionName] || {};
     appeal[sectionName][taskName] = knowsTheOwners;
     appeal.sectionStates[sectionName] = appeal.sectionStates[sectionName] || {};
