@@ -4,7 +4,6 @@
 {% from "govuk/components/button/macro.njk" import govukButton %},
 
 {% set title="Are you claiming costs as part of your appeal? - Before you start - Appeal a planning decision - GOV.UK" %}
-{% set selection = appeal.fullPlanningSection.listedBuilding %}
 
 {% block pageTitle %}
   {% if errors %}
@@ -57,13 +56,13 @@
                 value: "yes",
                 text: 'Yes',
                 attributes: { "data-cy":"answer-yes"},
-                checked: selection === "yes"
+                checked: isClaimingCosts == true
               },
               {
                 value: "no",
                 text: 'No',
                 attributes: { "data-cy":"answer-no"},
-                checked: selection === "no"
+                checked: isClaimingCosts == false
               }
             ]
           }) }}

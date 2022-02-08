@@ -400,7 +400,11 @@ describe('controllers/full-appeal/date-decision-due', () => {
       expect(logger.error).toHaveBeenCalledWith(error);
 
       expect(res.render).toHaveBeenCalledWith(currentPage, {
-        appeal,
+        decisionDate: {
+          day: undefined,
+          month: undefined,
+          year: undefined,
+        },
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
         previousPage: navigationPage.previousPage,

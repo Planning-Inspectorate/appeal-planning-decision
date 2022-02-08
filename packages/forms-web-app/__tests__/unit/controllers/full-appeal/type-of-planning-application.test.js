@@ -30,6 +30,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
       await typeOfPlanningApplicationController.getTypeOfPlanningApplication(req, res);
 
       expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.TYPE_OF_PLANNING_APPLICATION, {
+        typeOfPlanningApplication: null,
         backLink: `${VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT}`,
       });
     });
@@ -46,9 +47,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
       const updatedAppeal = {
         ...appeal,
         appealType: mapPlanningApplication(planningApplication),
-        beforeYouStartSection: {
-          typeOfPlanningApplication: planningApplication,
-        },
+        typeOfPlanningApplication: planningApplication,
       };
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
@@ -71,9 +70,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
       const updatedAppeal = {
         ...appeal,
         appealType: mapPlanningApplication(planningApplication),
-        beforeYouStartSection: {
-          typeOfPlanningApplication: planningApplication,
-        },
+        typeOfPlanningApplication: planningApplication,
       };
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
@@ -96,9 +93,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
       const updatedAppeal = {
         ...appeal,
         appealType: mapPlanningApplication(planningApplication),
-        beforeYouStartSection: {
-          typeOfPlanningApplication: planningApplication,
-        },
+        typeOfPlanningApplication: planningApplication,
       };
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
@@ -121,9 +116,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
       const updatedAppeal = {
         ...appeal,
         appealType: mapPlanningApplication(planningApplication),
-        beforeYouStartSection: {
-          typeOfPlanningApplication: planningApplication,
-        },
+        typeOfPlanningApplication: planningApplication,
       };
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
@@ -150,7 +143,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
       expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
       expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.TYPE_OF_PLANNING_APPLICATION, {
-        appeal,
+        typeOfPlanningApplication: null,
         errors: {
           'type-of-planning-application': {
             msg: 'Select which type of planning application your appeal is about, or if you have not made a planning application',
@@ -177,7 +170,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
       expect(logger.error).toHaveBeenCalledWith(error);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.TYPE_OF_PLANNING_APPLICATION, {
-        appeal,
+        typeOfPlanningApplication: null,
         errors: {},
         errorSummary: [{ text: error.toString(), href: 'pageId' }],
         backLink: `${VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT}`,

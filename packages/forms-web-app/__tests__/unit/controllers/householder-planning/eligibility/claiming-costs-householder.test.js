@@ -37,6 +37,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
       await claimingCostsController.getClaimingCostsHouseholder(req, res);
 
       expect(res.render).toBeCalledWith(claimingCosts, {
+        isClaimingCosts: appeal.eligibility.isClaimingCosts,
         backLink,
       });
     });
@@ -88,7 +89,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
       expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
       expect(res.render).toBeCalledWith(`${claimingCosts}`, {
-        appeal,
+        isClaimingCosts: appeal.eligibility.isClaimingCosts,
         errors: {
           'claiming-costs-householder': {
             msg: 'Select yes if you are claiming costs as part of your appeal',
@@ -115,7 +116,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
       expect(logger.error).toHaveBeenCalledWith(error);
 
       expect(res.render).toHaveBeenCalledWith(`${claimingCosts}`, {
-        appeal,
+        isClaimingCosts: appeal.eligibility.isClaimingCosts,
         errors: {},
         errorSummary: [{ text: error.toString(), href: 'pageId' }],
         backLink,

@@ -41,6 +41,7 @@ describe('controllers/full-appeal/decision-date', () => {
       decisionDateController.getDecisionDate(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.DECISION_DATE, {
+        decisionDate: null,
         backLink: `/before-you-start/granted-or-refused`,
       });
     });

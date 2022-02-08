@@ -17,7 +17,7 @@
 {% block backButton %}
     {{ govukBackLink({
     text: "Back",
-    href: "/before-you-start/type-of-planning-application"
+    href: backLink
  })}}
 {% endblock %}
 
@@ -72,6 +72,7 @@
             {
                 value: "none_of_these",
                 text: "None of these",
+                checked: applicationCategory === "none_of_these",
                 behaviour: "exclusive"
             }
         ],

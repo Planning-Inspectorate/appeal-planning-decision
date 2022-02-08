@@ -4,6 +4,7 @@ const {
   APPEAL_ID,
   APPEAL_STATE,
   APPLICATION_DECISION,
+  APPLICATION_CATEGORIES,
   KNOW_THE_OWNERS,
   TYPE_OF_PLANNING_APPLICATION,
   I_AGREE,
@@ -23,15 +24,24 @@ const insert = pinsYup
       }
       return pinsYup.string().nullable();
     }),
+    typeOfPlanningApplication: pinsYup.lazy((typeOfPlanningApplication) => {
+      if (typeOfPlanningApplication) {
+        return pinsYup.string().oneOf(Object.values(TYPE_OF_PLANNING_APPLICATION));
+      }
+      return pinsYup.string().nullable();
+    }),
     decisionDate: pinsYup.date().transform(parseDateString).nullable(),
     eligibility: pinsYup
       .object()
       .shape({
         applicationCategories: pinsYup.lazy((applicationCategories) => {
           if (applicationCategories) {
-            return pinsYup.string().matches('none_of_these');
+            if (typeof applicationCategories === 'string') {
+              return pinsYup.string().oneOf(Object.values(APPLICATION_CATEGORIES));
+            }
+            return pinsYup.object().oneOf(Object.values(APPLICATION_CATEGORIES));
           }
-          return pinsYup.string().nullable();
+          return pinsYup.object().nullable();
         }),
         applicationDecision: pinsYup.lazy((applicationDecision) => {
           if (applicationDecision) {
@@ -40,17 +50,6 @@ const insert = pinsYup
           return pinsYup.string().nullable();
         }),
         enforcementNotice: pinsYup.bool().nullable(),
-      })
-      .noUnknown(true),
-    beforeYouStartSection: pinsYup
-      .object()
-      .shape({
-        typeOfPlanningApplication: pinsYup.lazy((typeOfPlanningApplication) => {
-          if (typeOfPlanningApplication) {
-            return pinsYup.string().oneOf(Object.values(TYPE_OF_PLANNING_APPLICATION));
-          }
-          return pinsYup.string().nullable();
-        }),
       })
       .noUnknown(true),
     aboutYouSection: pinsYup

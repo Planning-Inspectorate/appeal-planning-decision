@@ -41,6 +41,7 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
       expect(res.render).toHaveBeenCalledWith(
         VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.DATE_DECISION_DUE_HOUSEHOLDER,
         {
+          decisionDate: null,
           backLink: `/before-you-start/granted-or-refused-householder`,
         }
       );
@@ -142,7 +143,11 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
       expect(res.render).toHaveBeenCalledWith(
         VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.DATE_DECISION_DUE_HOUSEHOLDER,
         {
-          appeal: req.session.appeal,
+          decisionDate: {
+            day: '01',
+            month: '10',
+            year: '2021',
+          },
           errors: {},
           errorSummary: [{ text: error.toString(), href: 'date-decision-due-householder' }],
           backLink: `/before-you-start/granted-or-refused-householder`,
