@@ -43,7 +43,7 @@ exports.getEnforcementNoticeHouseholder = (req, res) => {
     appeal.eligibility.applicationDecision
   );
   res.render(currentPage, {
-    appeal,
+    enforcementNotice: appeal.eligibility.enforcementNotice,
     previousPage: navigationPages.previousPage,
   });
 };
@@ -65,13 +65,7 @@ exports.postEnforcementNoticeHouseholder = async (req, res) => {
 
   if (Object.keys(errors).length > 0) {
     res.render(currentPage, {
-      appeal: {
-        ...appeal,
-        eligibility: {
-          ...appeal.eligibility,
-          enforcementNotice: hasReceivedEnforcementNoticeHouseholder,
-        },
-      },
+      enforcementNotice: appeal.eligibility.enforcementNotice,
       errors,
       errorSummary,
       previousPage: navigationPages.previousPage,
@@ -79,19 +73,14 @@ exports.postEnforcementNoticeHouseholder = async (req, res) => {
     return;
   }
 
+  appeal.eligibility.enforcementNotice = hasReceivedEnforcementNoticeHouseholder;
   try {
-    req.session.appeal = await createOrUpdateAppeal({
-      ...appeal,
-      eligibility: {
-        ...appeal.eligibility,
-        enforcementNotice: hasReceivedEnforcementNoticeHouseholder,
-      },
-    });
+    req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);
 
     res.render(currentPage, {
-      appeal,
+      enforcementNotice: appeal.eligibility.enforcementNotice,
       errors,
       errorSummary: [{ text: e.toString(), href: '#' }],
       previousPage: navigationPages.previousPage,

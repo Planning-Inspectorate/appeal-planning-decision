@@ -18,6 +18,10 @@ const update = pinsYup
     lpaCode: pinsYup.string().trim().max(20).required(),
     state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).required(),
     appealType: pinsYup.string().oneOf(Object.values(APPEAL_ID)).required(),
+    typeOfPlanningApplication: pinsYup
+      .string()
+      .oneOf(Object.values(TYPE_OF_PLANNING_APPLICATION))
+      .required(),
     decisionDate: pinsYup.lazy((decisionDate) => {
       return pinsYup
         .date()
@@ -32,15 +36,6 @@ const update = pinsYup
         applicationCategories: pinsYup.string().matches('none_of_these').required(),
         applicationDecision: pinsYup.string().oneOf(Object.values(APPLICATION_DECISION)).required(),
         enforcementNotice: pinsYup.bool().required(),
-      })
-      .noUnknown(true),
-    beforeYouStartSection: pinsYup
-      .object()
-      .shape({
-        typeOfPlanningApplication: pinsYup
-          .string()
-          .oneOf(Object.values(TYPE_OF_PLANNING_APPLICATION))
-          .required(),
       })
       .noUnknown(true),
     aboutYouSection: pinsYup

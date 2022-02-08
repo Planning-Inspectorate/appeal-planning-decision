@@ -53,7 +53,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
       enforcementNoticeController.getEnforcementNoticeHouseholder(req, res);
 
       expect(res.render).toHaveBeenCalledWith(currentPage, {
-        appeal,
+        enforcementNotice: appeal.eligibility.enforcementNotice,
         previousPage: navigationPages.previousPage,
       });
     });
@@ -69,19 +69,14 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
           errorSummary: [{ text: 'There were errors here', href: '#' }],
         },
       };
+
       await enforcementNoticeController.postEnforcementNoticeHouseholder(mockRequest, res);
 
       expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(currentPage, {
-        appeal: {
-          ...appeal,
-          eligibility: {
-            ...appeal.eligibility,
-            enforcementNotice: null,
-          },
-        },
+        enforcementNotice: appeal.eligibility.enforcementNotice,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
         previousPage: navigationPages.previousPage,
@@ -106,7 +101,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
       expect(logger.error).toHaveBeenCalledWith(error);
 
       expect(res.render).toHaveBeenCalledWith(currentPage, {
-        appeal,
+        enforcementNotice: appeal.eligibility.enforcementNotice,
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
         previousPage: navigationPages.previousPage,

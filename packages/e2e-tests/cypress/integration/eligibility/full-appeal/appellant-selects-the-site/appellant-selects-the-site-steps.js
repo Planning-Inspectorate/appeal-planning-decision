@@ -11,11 +11,18 @@ import {
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
+import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
+import { verifyPage } from '../../../../support/common/verifyPage';
+import { clickContinueButton } from '../../../../support/common/clickContinueButton';
 const pageHeading = 'Was your planning application was about any of the following?';
 const url = 'before-you-start/any-of-following';
+const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 const pageTitle = 'Was your planning application about any of the following? - Before you start - Appeal a planning decision - GOV.UK';
-Given('an appellant is on the is your appeal about any of the following page',()=>{
-  goToAppealsPage(url);
+Given('an appellant is on the is your appeal about any of the following page for {string}',(application_type)=>{
+  goToAppealsPage(typeOfPlanningPageUrl);
+  selectPlanningApplicationType(application_type);
+  verifyPage(typeOfPlanningPageUrl);
+  clickContinueButton();
   verifyPageHeading(pageHeading);
   verifyPageTitle(pageTitle);
 });

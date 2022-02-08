@@ -1,11 +1,22 @@
 const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
-const { VIEW } = require('../../../lib/householder-planning/views');
+const {
+  VIEW: {
+    HOUSEHOLDER_PLANNING: {
+      ELIGIBILITY: { LISTED_BUILDING_HOUSEHOLDER: currentPage },
+    },
+  },
+} = require('../../../lib/householder-planning/views');
 
 const backLink = '/before-you-start/type-of-planning-application';
 
 exports.getListedBuildingHouseholder = async (req, res) => {
-  res.render(VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER, { backLink });
+  const { appeal } = req.session;
+
+  res.render(currentPage, {
+    isListedBuilding: appeal.eligibility.isListedBuilding,
+    backLink,
+  });
 };
 
 const redirect = (selection, res) => {
@@ -25,8 +36,8 @@ exports.postListedBuildingHouseholder = async (req, res) => {
   const selection = body['listed-building-householder'];
 
   if (errors['listed-building-householder']) {
-    return res.render(VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER, {
-      appeal,
+    return res.render(currentPage, {
+      isListedBuilding: appeal.eligibility.isListedBuilding,
       errors,
       errorSummary,
       backLink,
@@ -44,8 +55,8 @@ exports.postListedBuildingHouseholder = async (req, res) => {
   } catch (e) {
     logger.error(e);
 
-    return res.render(VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER, {
-      appeal,
+    return res.render(currentPage, {
+      isListedBuilding: appeal.eligibility.isListedBuilding,
       errors,
       errorSummary: [{ text: e.toString(), href: 'pageId' }],
       backLink,

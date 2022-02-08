@@ -42,6 +42,7 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
       expect(res.render).toHaveBeenCalledWith(
         VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.DECISION_DATE_HOUSEHOLDER,
         {
+          decisionDate: null,
           backLink: `/before-you-start/granted-or-refused-householder`,
         }
       );
@@ -147,7 +148,7 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
       expect(res.render).toHaveBeenCalledWith(
         VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.DECISION_DATE_HOUSEHOLDER,
         {
-          decisionDateHouseholder: {
+          decisionDate: {
             day: undefined,
             month: undefined,
             year: undefined,

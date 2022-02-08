@@ -3,7 +3,12 @@ const parseDateString = require('../../utils/parse-date-string');
 const singleDocumentInsert = require('../components/insert/single-document');
 const multiDocumentInsert = require('../components/insert/multi-document');
 const sectionState = require('../components/section-state');
-const { APPEAL_ID, APPEAL_STATE, APPLICATION_DECISION } = require('../../constants');
+const {
+  APPEAL_ID,
+  APPEAL_STATE,
+  APPLICATION_DECISION,
+  TYPE_OF_PLANNING_APPLICATION,
+} = require('../../constants');
 
 const insert = pinsYup
   .object()
@@ -18,6 +23,12 @@ const insert = pinsYup
     appealType: pinsYup.lazy((appealType) => {
       if (appealType) {
         return pinsYup.string().oneOf(Object.values(APPEAL_ID));
+      }
+      return pinsYup.string().nullable();
+    }),
+    typeOfPlanningApplication: pinsYup.lazy((typeOfPlanningApplication) => {
+      if (typeOfPlanningApplication) {
+        return pinsYup.string().oneOf(Object.values(TYPE_OF_PLANNING_APPLICATION));
       }
       return pinsYup.string().nullable();
     }),

@@ -30,7 +30,10 @@ describe('controllers/householder-planning/eligibility/listed-building-household
 
       expect(res.render).toBeCalledWith(
         VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER,
-        { backLink: '/before-you-start/type-of-planning-application' }
+        {
+          isListedBuilding: appeal.eligibility.isListedBuilding,
+          backLink: '/before-you-start/type-of-planning-application',
+        }
       );
     });
 
@@ -83,7 +86,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
       expect(res.render).toBeCalledWith(
         VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER,
         {
-          appeal,
+          isListedBuilding: appeal.eligibility.isListedBuilding,
           errors: {
             'listed-building-householder': {
               msg: 'Select yes if your appeal about a listed building',
@@ -113,7 +116,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
       expect(res.render).toHaveBeenCalledWith(
         VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER,
         {
-          appeal,
+          isListedBuilding: appeal.eligibility.isListedBuilding,
           errors: {},
           errorSummary: [{ text: error.toString(), href: 'pageId' }],
           backLink: '/before-you-start/type-of-planning-application',
