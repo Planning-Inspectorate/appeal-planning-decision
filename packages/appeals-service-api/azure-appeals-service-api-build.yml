@@ -20,7 +20,7 @@ variables:
   version.MajorMinor: '1.0' # Manually adjust the version number as needed for semantic versioning. Revision is auto-incremented.
   version.Revision: $[counter(variables['version.MajorMinor'], 0)]
   versionNumber: '$(version.MajorMinor).$(version.Revision)'
-  simpleBranchName: $[replace(variables['Build.SourceBranchName'], 'refs/heads/', '')]
+  simpleBranchName: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
   branchTag: $[replace(variables['simpleBranchName'], '/', '_')]
   # -----------------------------------------------------------------------
 
