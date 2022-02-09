@@ -23,10 +23,12 @@ const update = pinsYup
       }
       return pinsYup.string().nullable();
     }),
-    typeOfPlanningApplication: pinsYup
-      .string()
-      .oneOf(Object.values(TYPE_OF_PLANNING_APPLICATION))
-      .required(),
+    typeOfPlanningApplication: pinsYup.lazy((typeOfPlanningApplication) => {
+      if (typeOfPlanningApplication) {
+        return pinsYup.string().oneOf(Object.values(TYPE_OF_PLANNING_APPLICATION));
+      }
+      return pinsYup.string().nullable();
+    }),
     decisionDate: pinsYup.lazy((decisionDate) => {
       return pinsYup
         .date()

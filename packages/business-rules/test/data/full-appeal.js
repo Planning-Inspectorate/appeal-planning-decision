@@ -4,14 +4,12 @@ const appeal = {
   lpaCode: 'E69999999',
   state: 'SUBMITTED',
   appealType: '1005',
+  typeOfPlanningApplication: 'full-appeal',
   decisionDate: new Date(),
   eligibility: {
     applicationCategories: 'none_of_these',
     applicationDecision: 'granted',
     enforcementNotice: false,
-  },
-  beforeYouStartSection: {
-    typeOfPlanningApplication: 'full-appeal',
   },
   aboutYouSection: {
     yourDetails: {

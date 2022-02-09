@@ -6,6 +6,7 @@ const {
   APPEAL_STATE,
   APPEAL_ID,
   APPLICATION_DECISION,
+  APPLICATION_CATEGORIES,
   KNOW_THE_OWNERS,
   TYPE_OF_PLANNING_APPLICATION,
   I_AGREE,
@@ -194,6 +195,32 @@ describe('schemas/full-appeal/insert', () => {
       });
     });
 
+    describe('typeOfPlanningApplication', () => {
+      it('should throw an error when given an invalid value', async () => {
+        appeal.typeOfPlanningApplication = 'appeal';
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          `typeOfPlanningApplication must be one of the following values: ${Object.values(
+            TYPE_OF_PLANNING_APPLICATION,
+          ).join(', ')}`,
+        );
+      });
+
+      it('should not throw an error when not given a value', async () => {
+        delete appeal.typeOfPlanningApplication;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should not throw an error when given a null value', async () => {
+        appeal.typeOfPlanningApplication = null;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+    });
+
     describe('eligibility', () => {
       it('should remove unknown fields', async () => {
         appeal2.eligibility.unknownField = 'unknown field';
@@ -216,7 +243,9 @@ describe('schemas/full-appeal/insert', () => {
         appeal.eligibility.applicationCategories = 'appeal';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'eligibility.applicationCategories must match the following: "none_of_these"',
+          `eligibility.applicationCategories must be one of the following values: ${Object.values(
+            APPLICATION_CATEGORIES,
+          ).join(', ')}`,
         );
       });
 
@@ -231,6 +260,14 @@ describe('schemas/full-appeal/insert', () => {
         appeal.eligibility.applicationCategories = null;
 
         const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should not throw an error when multiple values are given', async () => {
+        appeal.eligibility.applicationCategories = ['a_listed_building', 'major_dwellings'];
+
+        const result = await insert.validate(appeal, config);
+        appeal.eligibility.applicationCategories = null;
         expect(result).toEqual(appeal);
       });
     });
@@ -274,49 +311,6 @@ describe('schemas/full-appeal/insert', () => {
 
       it('should not throw an error when not given a value', async () => {
         delete appeal.eligibility.enforcementNotice;
-
-        const result = await insert.validate(appeal, config);
-        expect(result).toEqual(appeal);
-      });
-    });
-
-    describe('beforeYouStartSection', () => {
-      it('should remove unknown fields', async () => {
-        appeal2.beforeYouStartSection.unknownField = 'unknown field';
-
-        const result = await insert.validate(appeal2, config);
-        expect(result).toEqual(appeal);
-      });
-
-      it('should throw an error when given a null value', async () => {
-        appeal.beforeYouStartSection = null;
-
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'beforeYouStartSection must be a `object` type, but the final value was: `null`',
-        );
-      });
-    });
-
-    describe('beforeYouStartSection.typeOfPlanningApplication', () => {
-      it('should throw an error when given an invalid value', async () => {
-        appeal.beforeYouStartSection.typeOfPlanningApplication = 'appeal';
-
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          `beforeYouStartSection.typeOfPlanningApplication must be one of the following values: ${Object.values(
-            TYPE_OF_PLANNING_APPLICATION,
-          ).join(', ')}`,
-        );
-      });
-
-      it('should not throw an error when not given a value', async () => {
-        delete appeal.beforeYouStartSection.typeOfPlanningApplication;
-
-        const result = await insert.validate(appeal, config);
-        expect(result).toEqual(appeal);
-      });
-
-      it('should not throw an error when given a null value', async () => {
-        appeal.beforeYouStartSection.typeOfPlanningApplication = null;
 
         const result = await insert.validate(appeal, config);
         expect(result).toEqual(appeal);
