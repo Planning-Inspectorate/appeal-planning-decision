@@ -9,5 +9,12 @@ export const hintTextAgriculturalHolding = () => cy.get('#agricultural-holding-h
 export const errorMessageAreYouATenant = () => cy.get('#are-you-a-tenant-error');
 export const errorMessageOtherTenants = () => cy.get('#other-tenants-error');
 export const textBox = () => cy.get('#visible-from-road-details');
+export const checkBoxIdentifyingTheOwners = () => cy.get('[data-cy=identifying-the-owners]');
+export const errorMessageIdentifyingTheOwners = () => cy.get('#identifying-the-owners-error');
+export const checkBoxLabelIdentifyingTheOwners = () => cy.get(".govuk-label");
+export const statementTitle = () => cy.get(".govuk-heading-m");
+export const listItem1IdentifyingTheOwners = () => cy.findAllByText('searching the land registry');
+export const listItem2IdentifyingTheOwners = () => cy.findAllByText('putting up a site notice at the appeal site');
+
 
 
