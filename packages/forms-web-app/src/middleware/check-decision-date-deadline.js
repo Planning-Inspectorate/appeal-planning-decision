@@ -17,7 +17,7 @@ const setShutterPageProps = (req) => {
   req.session.appeal.eligibility.appealDeadline =
     appeal.decisionDate &&
     rules.appeal.deadlineDate(
-      parseISO(appeal.decisionDate),
+      new Date(appeal.decisionDate),
       appeal.appealType,
       appeal.eligibility.applicationDecision
     );
@@ -40,7 +40,6 @@ const isWithinExpiryPeriod = (appeal) => {
 const checkDecisionDateDeadline = (req, res, next) => {
   const { appeal } = req.session;
 
-  req.log.debug({ appeal }, 'Des:- appeal');
   if (appeal && appeal.decisionDate) {
     if (appeal.appealType && !validationExclusionPages.includes(req.originalUrl)) {
       if (!isWithinExpiryPeriod(appeal)) {
