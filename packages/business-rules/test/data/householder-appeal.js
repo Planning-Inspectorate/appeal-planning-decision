@@ -6,6 +6,7 @@ const appeal = {
   submissionDate: new Date(),
   state: 'SUBMITTED',
   appealType: '1001',
+  typeOfPlanningApplication: 'full-appeal',
   eligibility: {
     applicationDecision: 'granted',
     enforcementNotice: false,

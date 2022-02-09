@@ -307,22 +307,22 @@ describe('schemas/full-appeal/update', () => {
       });
     });
 
-    describe('beforeYouStartSection.typeOfPlanningApplication', () => {
+    describe('typeOfPlanningApplication', () => {
       it('should throw an error when given an invalid value', async () => {
-        appeal.beforeYouStartSection.typeOfPlanningApplication = 'appeal';
+        appeal.typeOfPlanningApplication = 'appeal';
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          `beforeYouStartSection.typeOfPlanningApplication must be one of the following values: ${Object.values(
+          `typeOfPlanningApplication must be one of the following values: ${Object.values(
             TYPE_OF_PLANNING_APPLICATION,
           ).join(', ')}`,
         );
       });
 
       it('should throw an error when not given a value', async () => {
-        delete appeal.beforeYouStartSection.typeOfPlanningApplication;
+        delete appeal.typeOfPlanningApplication;
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          'beforeYouStartSection.typeOfPlanningApplication is a required field',
+          'typeOfPlanningApplication is a required field',
         );
       });
     });
