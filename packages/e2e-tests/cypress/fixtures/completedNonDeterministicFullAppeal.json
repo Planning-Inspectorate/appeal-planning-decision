@@ -6,6 +6,7 @@
   "submissionDate": "2021-10-20T12:00:00.000Z",
   "state": "SUBMITTED",
   "appealType": "1005",
+  "typeOfPlanningApplication": "full-appeal",
   "eligibility": {
     "applicationDecision": "nodecisionreceived",
     "applicationCategories": "none_of_these",
@@ -24,7 +25,7 @@
     }
   },
   "requiredDocumentsSection": {
-    "applicationNumber": "",
+    "applicationNumber": "ValidNumber/12345",
     "originalApplication": {
       "uploadedFile": {
         "name": "original-application-valid.doc",
@@ -83,7 +84,7 @@
     },
     "ownsSomeOfTheLand": true,
     "ownsAllTheLand": false,
-    "knowsTheOwners": true,
+    "knowsTheOwners": "yes",
     "isAgriculturalHolding": false,
     "isAgriculturalHoldingTenant": false,
     "areOtherTenants": false,
