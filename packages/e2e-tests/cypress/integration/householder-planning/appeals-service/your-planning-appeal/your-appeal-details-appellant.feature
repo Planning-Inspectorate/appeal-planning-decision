@@ -1,4 +1,4 @@
-@wip
+@wip @has
 Feature: Your Appeal Details
 
   As an appellant
