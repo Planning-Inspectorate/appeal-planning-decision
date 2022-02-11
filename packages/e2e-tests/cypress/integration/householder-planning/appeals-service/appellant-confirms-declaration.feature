@@ -1,3 +1,4 @@
+@wip @has
 Feature: Declaration must be agreed before a submission can be made
 
   Scenario: Prospective appellant does not agree to the declaration

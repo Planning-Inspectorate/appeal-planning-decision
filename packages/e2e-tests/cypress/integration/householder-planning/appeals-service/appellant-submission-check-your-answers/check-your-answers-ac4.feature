@@ -1,4 +1,4 @@
-@wip
+@wip @has
 Feature: A user checks their answers and wants to submit their appeal
 
   Scenario: AC4a - Multiple document upload section - multiple documents are correctly displayed
