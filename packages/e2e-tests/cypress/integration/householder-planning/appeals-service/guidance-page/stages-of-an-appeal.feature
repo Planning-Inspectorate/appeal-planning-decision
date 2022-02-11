@@ -1,3 +1,4 @@
+@wip @has
 Feature: Guidance Page - Stages of an appeal
   As a PO on the appeal service
   I want prospective appellants to be aware of who the service is for

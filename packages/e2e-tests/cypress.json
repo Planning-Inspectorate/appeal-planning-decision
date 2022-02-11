@@ -22,7 +22,7 @@
     "SRV_NOTIFY_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID": "72f71441-12bf-4455-afbc-c58f9c72bfbd",
     "SRV_NOTIFY_START_EMAIL_TO_LPA_TEMPLATE_ID": "c4701212-4b6a-4b55-801a-c86c7dbea54b",
     "SRV_NOTIFY_EMAIL_REPLYTO_ID_START_EMAIL_TO_LPA": "937b4147-8420-42da-859d-d4a65bdf99bc",
-    "TAGS": "not @wip",
+    "TAGS": "not @wip and not @has",
     "APPEAL_REPLY_SERVICE_BASE_URL": "http://localhost:3002/api/v1",
     "APPEAL_SERVICE_BASE_URL": "http://localhost:3000/api/v1",
     "DOCUMENT_SERVICE_BASE_URL": "http://localhost:3001/api/v1",

@@ -1,4 +1,4 @@
-@wip
+@wip @has
 Feature: Cookie Consent - View Preferences without JavaScript enabled
 
   As a user of the appeal service

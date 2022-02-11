@@ -1,4 +1,4 @@
-@wip
+@wip @has
 Feature: Send email notification
   As an appellant/agent
   I want to receive confirmation of my appeal by email

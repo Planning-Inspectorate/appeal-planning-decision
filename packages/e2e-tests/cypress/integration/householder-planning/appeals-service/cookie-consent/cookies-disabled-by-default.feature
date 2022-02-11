@@ -1,3 +1,4 @@
+@wip @has
 Feature: Not necessary cookies to be disabled by default
 
   As a PO on the appeal service

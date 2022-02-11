@@ -1,3 +1,4 @@
+@wip @has
 Feature: Prospective Appellant provides the Appeal Site Ownership
   Prospective appellant asked to notify the owners of the appeal site where necessary
   Note: This feature describes behaviour for a newly created appeal
