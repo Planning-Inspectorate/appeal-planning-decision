@@ -66,20 +66,29 @@ Given('appellant enters the date within {string} when the {string} was received'
    const validDate = getPastDate(allowedDatePart.MONTH, 3);
       verifyPageTitle('What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a householder planning decision - GOV.UK');
       verifyPageHeading('What\'s the decision date on the letter from the local planning department?');
-      enterDateHouseholderDecisionReceived( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
+      //enterDateHouseholderDecisionReceived( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
+    cy.get('#decision-date-householder-day').type(getDate(validDate));
+    cy.get('#decision-date-householder-month').type(getMonth(validDate) +1);
+    cy.get('#decision-date-householder-year').type(getYear(validDate));
     }
   else if(deadline_duration==='12 weeks' && application_decision==='Refused') {
     const validDate = getPastDate(allowedDatePart.WEEK, 8);
     verifyPageTitle('What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a householder planning decision - GOV.UK');
     verifyPageHeading('What\'s the decision date on the letter from the local planning department?');
-    enterDateHouseholderDecisionReceived( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
+    //enterDateHouseholderDecisionReceived( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
+    cy.get('#decision-date-householder-day').type(getDate(validDate));
+    cy.get('#decision-date-householder-month').type(getMonth(validDate) +1);
+    cy.get('#decision-date-householder-year').type(getYear(validDate));
   }
   else{
       const validDate = getPastDate(allowedDatePart.MONTH, 3);
       verifyPageTitle('What date was your decision due? - Before you start - Appeal a householder planning decision - GOV.UK');
       verifyPageHeading('What date was your decision due?');
-      enterDateDecisionDueHouseholder( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
-    }
+      //enterDateDecisionDueHouseholder( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
+    cy.get('#date-decision-due-householder-day').type(getDate(validDate));
+    cy.get('#date-decision-due-householder-month').type(getMonth(validDate) +1);
+    cy.get('#date-decision-due-householder-year').type(getYear(validDate));
+  }
   });
 
 Given('appellant selects No from the enforcement notice options',()=>{

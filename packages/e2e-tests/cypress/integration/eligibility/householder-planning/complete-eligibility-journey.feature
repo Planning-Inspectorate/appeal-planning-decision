@@ -17,7 +17,7 @@ Feature: Householder appeal Eligibility Journey
     And appellant clicks on the continue button
     Then appellant is navigated to householder appeal task list page
     Examples:
-      | application_decision           |deadline_duration|
-      | Granted                        |6 months         |
-       | Refused                        |12 weeks         |
-      | I have Not Received a Decision |6 months         |
+      | application_decision           | deadline_duration |
+      | Granted                        | 6 months          |
+      | Refused                        | 12 weeks          |
+      | I have Not Received a Decision | 6 months          |
