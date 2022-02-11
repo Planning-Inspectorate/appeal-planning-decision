@@ -96,6 +96,7 @@ services:
       SRV_OS_PLACES_URL: http://mock-os-places:3000
       SRV_NOTIFY_FULL_APPEAL_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID: 'e3cba5d9-8b97-4922-97f1-48ef303b9195'
       SRV_NOTIFY_FULL_APPEAL_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID: '799a27da-b640-4852-a070-e83ff54401f0'
+      FEATURE_FLAG_NEW_APPEAL_JOURNEY: 'true'
     ports:
       - 3000:3000
     working_dir: /opt/app
@@ -162,6 +163,7 @@ services:
       USE_SECURE_SESSION_COOKIES: 'false'
       PDF_SERVICE_API_URL: 'http://pdf-service-api:3000'
       LOGGER_LEVEL: 'debug'
+      FEATURE_FLAG_NEW_APPEAL_JOURNEY: 'true'
     ports:
       - 9003:3000
       # node debugger
