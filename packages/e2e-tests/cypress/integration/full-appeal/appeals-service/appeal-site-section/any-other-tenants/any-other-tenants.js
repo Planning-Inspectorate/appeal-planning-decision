@@ -1,6 +1,4 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
-import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
 import {
   aboutAppealSiteSectionLink,
   pageCaptionText,

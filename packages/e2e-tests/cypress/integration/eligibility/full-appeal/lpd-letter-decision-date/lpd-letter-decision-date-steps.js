@@ -23,12 +23,17 @@ import {getDateDecisionReceivedDay} from "../../../../support/eligibility/page-o
 import {getContinueButton} from "../../../../support/householder-planning/appeals-service/page-objects/common-po";
 import {clickContinueButton} from "../../../../support/common/clickContinueButton";
 import {verifyErrorMessage} from "../../../../support/common/verify-error-message";
-import {getBackLink, getErrorMessageSummary} from "../../../../support/common-page-objects/common-po";
+import {
+  getBackLink,
+  getErrorMessageSummary,
+  getSaveAndContinueButton,
+} from '../../../../support/common-page-objects/common-po';
 import {
   enterDateDecisionDue,
   verifyHighlights
 } from "../../../../support/eligibility/date-decision-due/enter-date-decision-due";
 import {getAppealDeadline} from "../../../../support/eligibility/page-objects/shutter-page-po";
+import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
 const pageHeading = 'What\'s the decision date on the letter from the local planning department?';
 const pageTitle = 'What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK';
 const url = `/decision-date`;
@@ -39,7 +44,9 @@ const shutterPageUrl = '/you-cannot-appeal';
 let pastDate;
 
 Given('appellant navigates to decision date received page for {string}',(application_type)=>{
-  goToAppealsPage(typeOfPlanningPageUrl);
+  goToAppealsPage('before-you-start/local-planning-depart');
+  getLocalPlanningDepart().select('System Test Borough Council');
+  getSaveAndContinueButton().click();
   selectPlanningApplicationType(application_type);
   verifyPage(typeOfPlanningPageUrl);
   clickContinueButton();

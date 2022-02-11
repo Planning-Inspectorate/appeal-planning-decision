@@ -10,13 +10,41 @@ import {
 import {getContinueButton} from "../../../../support/householder-planning/appeals-service/page-objects/common-po";
 import {verifyPage} from "../../../../support/common/verifyPage";
 import {verifyErrorMessage} from "../../../../support/common/verify-error-message";
-import {getBackLink, getErrorMessageSummary} from "../../../../support/common-page-objects/common-po";
+import {
+  getBackLink,
+  getErrorMessageSummary,
+  getSaveAndContinueButton,
+} from '../../../../support/common-page-objects/common-po';
+import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
+import { selectSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/select-site-option';
+import { selectPlanningApplicationDecision } from '../../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
+import { allowedDatePart, getPastDate } from '../../../../support/common/getDate';
+import { enterDateDecisionDue } from '../../../../support/eligibility/date-decision-due/enter-date-decision-due';
+import { getDate, getMonth, getYear } from 'date-fns';
+import { getEnforcementNoticeNo } from '../../../../support/eligibility/page-objects/enforcement-notice-po';
+import { getListedBuildingOption } from '../../../../support/eligibility/page-objects/appellant-selects-the-site-po';
+import { getIsNotListedBuilding } from '../../../../support/eligibility/page-objects/listed-building-po';
+import { enterDateDecisionDueHouseholder } from '../../../../support/eligibility/date-decision-due-householder/enter-date-decision-due-householder';
 const pageUrl = 'before-you-start/claiming-costs-householder';
 const pageTitle = 'Are you claiming costs as part of your appeal? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Are you claiming costs as part of your appeal?';
 
 Given('appellant is on the claiming cost page',()=>{
-  goToAppealsPage(pageUrl);
+  goToAppealsPage('before-you-start/local-planning-depart');
+  getLocalPlanningDepart().select('System Test Borough Council');
+  getContinueButton().click();
+  selectPlanningApplicationType('Householder');
+  getContinueButton().click();
+  getIsNotListedBuilding().click();
+  getContinueButton().click();
+  selectPlanningApplicationDecision('Refused');
+  getContinueButton().click();
+  const validDate = getPastDate(allowedDatePart.MONTH, 3);
+  enterDateDecisionDueHouseholder({ day: getDate(validDate), month: getMonth(validDate) +2, year: getYear(validDate)});
+  getContinueButton().click();
+  getEnforcementNoticeNo().click();
+  getContinueButton().click();
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading);
 });
@@ -58,7 +86,8 @@ Then('appellant is navigated to the enforcement notice page',()=>{
 });
 
 Then('information they have inputted will not be saved',()=>{
-  goToAppealsPage(pageUrl);
+  verifyPage('before-you-start/enforcement-notice-householder');
+  getContinueButton().click();
   getClaimingCostYes().should('not.be.checked');
 })
 

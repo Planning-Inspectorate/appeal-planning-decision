@@ -2,7 +2,11 @@ import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { selectSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/select-site-option';
-import { getBackLink, getErrorMessageSummary } from '../../../../support/common-page-objects/common-po';
+import {
+  getBackLink,
+  getErrorMessageSummary,
+  getSaveAndContinueButton,
+} from '../../../../support/common-page-objects/common-po';
 import { verifyDeselectSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/verify-deselect-site-option';
 import {
   getNoneOfTheseOption,
@@ -11,18 +15,18 @@ import {
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
+import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
 import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
-import { verifyPage } from '../../../../support/common/verifyPage';
-import { clickContinueButton } from '../../../../support/common/clickContinueButton';
 const pageHeading = 'Was your planning application was about any of the following?';
 const url = 'before-you-start/any-of-following';
-const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 const pageTitle = 'Was your planning application about any of the following? - Before you start - Appeal a planning decision - GOV.UK';
 Given('an appellant is on the is your appeal about any of the following page for {string}',(application_type)=>{
-  goToAppealsPage(typeOfPlanningPageUrl);
+  goToAppealsPage('before-you-start/local-planning-depart');
+  getLocalPlanningDepart().select('System Test Borough Council');
+  getSaveAndContinueButton().click();
   selectPlanningApplicationType(application_type);
-  verifyPage(typeOfPlanningPageUrl);
-  clickContinueButton();
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', url);
   verifyPageHeading(pageHeading);
   verifyPageTitle(pageTitle);
 });
@@ -59,6 +63,7 @@ Then('appellant sees an error message {string}',(errorMessage)=>{
 });
 
 Then('any information they have inputted will not be saved',()=>{
-  goToAppealsPage(url);
+  //cy.url().should('contain','/before-you-start/type-of-planning-application');
+  goToAppealsPage('before-you-start/any-of-following');
   getNoneOfTheseOption().should('not.be.checked');
 })
