@@ -1,4 +1,4 @@
-import {Given, Then} from 'cypress-cucumber-preprocessor/steps';
+import {Given, Then, When} from 'cypress-cucumber-preprocessor/steps';
 import {goToAppealsPage} from "../../../../support/common/go-to-page/goToAppealsPage";
 import {acceptCookiesBanner} from "../../../../support/common/accept-cookies-banner";
 import {verifyPageTitle} from "../../../../support/common/verify-page-title";
@@ -42,6 +42,11 @@ import {
 } from "../../../../support/eligibility/date-decision-due-householder/get-date-decision-due-householder";
 import {getBackLink} from "../../../../support/common-page-objects/common-po";
 import {getLocalPlanningDepart} from "../../../../support/eligibility/page-objects/local-planning-depart";
+import {selectSiteOption} from "../../../../support/eligibility/appellant-selects-the-site/select-site-option";
+import {
+  enterDateDecisionReceived
+} from "../../../../support/eligibility/date-decision-received/enter-date-decision-received";
+import {enterDateDecisionDue} from "../../../../support/eligibility/date-decision-due/enter-date-decision-due";
 const url = 'before-you-start/local-planning-depart';
 let validDate;
 before(()=>{
@@ -77,6 +82,15 @@ Given('appellant selects the {string}',(application_decision)=>{
   selectPlanningApplicationDecision(application_decision);
 });
 
+Given('appellant selects the {string} for {string}',(application_decision, application_type)=>{
+  if(application_type!=='Householder'){
+    verifyPageTitle('Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK');
+    verifyPage('/before-you-start/granted-or-refused');
+    verifyPageHeading('Was your planning application granted or refused?');
+    selectPlanningApplicationDecision(application_decision);
+  }
+})
+
 Given('appellant enters the date within {string} when the {string} was received',(deadline_duration, application_decision)=>{
   if(deadline_duration==='6 months' && application_decision==='Granted'){
    validDate = getPastDate(allowedDatePart.MONTH, 3);
@@ -107,6 +121,10 @@ Given('appellant enters the date within {string} when the {string} was received'
   }
   });
 
+When('appellant selects {string} from the list of options',(option)=>{
+  selectSiteOption(option);
+});
+
 Given('appellant selects No from the enforcement notice options',()=>{
   verifyPageTitle('Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK');
   verifyPageHeading('Have you received an enforcement notice?');
@@ -121,6 +139,19 @@ Given('appellant selects No from the claiming costs option',()=>{
 When('appellant clicks on back link',()=>{
   getBackLink().click();
 });
+
+When('appellant enters the date within 6 months when the {string} was received',(application_decision)=>{
+  validDate = getPastDate(allowedDatePart.MONTH, 3);
+  if(application_decision==='Granted' || application_decision ==='Refused'){
+    verifyPageTitle('What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK');
+    verifyPageHeading('What\'s the decision date on the letter from the local planning department?');
+    enterDateDecisionReceived( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
+  }else{
+    verifyPageTitle('What date was your decision due? - Before you start - Appeal a planning decision - GOV.UK');
+    verifyPageHeading('What date was your decision due?');
+    enterDateDecisionDue( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
+  }
+})
 
 Then('appellant is navigated to householder appeal task list page',()=>{
   verifyPage('appellant-submission/task-list');
@@ -182,7 +213,10 @@ Then('data is persisted for No from the claiming costs option',()=>{
   verifyPageHeading('Are you claiming costs as part of your appeal?');
   getClaimingCostNo().should('be.checked');
 });
-Then('appellant clicks on browser back back',()=>{
+Then('appellant clicks on browser back',()=>{
   cy.go('back');
-})
+});
+Then('appellant is navigated to full appeal task list page',()=>{
+  verifyPage('full-appeal/submit-appeal/task-list');
+});
 
