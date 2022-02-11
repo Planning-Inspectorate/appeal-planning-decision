@@ -68,7 +68,6 @@ services:
   appeals-service-api:
     image: node:14-alpine
     environment:
-      FEATURE_FLAG_NEW_APPEAL_JOURNEY: 'true'
       APP_APPEALS_BASE_URL: http://forms-web-app:9003
       APP_LPA_QUESTIONNAIRE_BASE_URL: http://lpa-questionnaire-web-app:9001
       DOCS_API_PATH: /opt/app/api
@@ -149,7 +148,6 @@ services:
   forms-web-app:
     image: node:14-alpine
     environment:
-      FEATURE_FLAG_NEW_APPEAL_JOURNEY: 'true'
       CLAM_AV_HOST: http://clamav-rest-server:3000
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
