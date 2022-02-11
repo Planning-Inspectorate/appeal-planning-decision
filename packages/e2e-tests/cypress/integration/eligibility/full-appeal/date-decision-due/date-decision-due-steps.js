@@ -25,6 +25,8 @@ import {
 } from '../../../../support/eligibility/page-objects/date-decision-due-po';
 import {clickContinueButton} from "../../../../support/common/clickContinueButton";
 import {getAppealDeadline} from "../../../../support/eligibility/page-objects/shutter-page-po";
+import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 
 const pageHeading = 'What date was your decision due?';
 const pageTitle = 'What date was your decision due? - Before you start - Appeal a planning decision - GOV.UK';
@@ -36,7 +38,9 @@ const shutterPageUrl = '/before-you-start/you-cannot-appeal';
 let pastDate;
 
 Given('appellant navigates to decision date page for {string}',(application_type)=>{
-  goToAppealsPage(typeOfPlanningPageUrl);
+  goToAppealsPage('before-you-start/local-planning-depart');
+  getLocalPlanningDepart().select('System Test Borough Council');
+  getContinueButton().click();
   selectPlanningApplicationType(application_type);
   clickContinueButton();
   selectSiteOption('None of these');
@@ -46,13 +50,23 @@ Given('appellant navigates to decision date page for {string}',(application_type
 });
 
 Given('appellant navigates to date decision due page', () =>{
-  goToAppealsPage(url);
+  goToAppealsPage('before-you-start/local-planning-depart');
+  getLocalPlanningDepart().select('System Test Borough Council');
+  getContinueButton().click();
+  selectPlanningApplicationType('Full planning');
+  clickContinueButton();
+  selectSiteOption('None of these');
+  clickContinueButton();
+  selectPlanningApplicationDecision('I have Not Received a Decision');
+  clickContinueButton();
+  cy.url().should('contain', url);
 });
 
 Given('appellant is on the what date was the decision due page',()=>{
   acceptCookiesBanner();
   verifyPageHeading(pageHeading);
   verifyPageTitle(pageTitle);
+  cy.checkPageA11y();
 });
 
 When('appellant enters the date within 6 months when they were due a decision', () => {
@@ -103,11 +117,11 @@ Then('the correct input {string} is highlighted', (highlights) => {
 
 Then('appellant is navigated to the granted or refused page', () => {
   cy.url().should('contain', grantedOrRefusedPageUrl);
-
-  selectPlanningApplicationDecision('I have Not Received a Decision');
-  clickContinueButton();
 });
 
 Then('decision due date they have inputted will not be saved', () => {
+  cy.url().should('contain', grantedOrRefusedPageUrl);
+  selectPlanningApplicationDecision('I have Not Received a Decision');
+  clickContinueButton();
   getDateDecisionDueDay().should('have.text', '');
 });

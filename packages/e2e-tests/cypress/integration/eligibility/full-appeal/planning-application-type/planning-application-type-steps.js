@@ -10,10 +10,12 @@ import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import {
   getBackLink,
-  getErrorMessageSummary,
+  getErrorMessageSummary, getSaveAndContinueButton,
 } from '../../../../support/common-page-objects/common-po';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
+import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { clickContinueButton } from '../../../../support/common/clickContinueButton';
 
 const pageTitle = 'What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'What type of planning application is your appeal about?';
@@ -21,7 +23,10 @@ const url = 'before-you-start/type-of-planning-application';
 const listedBuildingHouseholderUrl = '/before-you-start/listed-building-householder';
 
 Given('an appellant is on the select the type of planning application you made page',()=>{
-  goToAppealsPage(url);
+  goToAppealsPage('before-you-start/local-planning-depart');
+  getLocalPlanningDepart().select('System Test Borough Council');
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', url);
   acceptCookiesBanner();
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading);
@@ -54,7 +59,9 @@ Then('an appellant is navigated to the what local planning department did you su
 cy.url().should('contain','/before-you-start/local-planning-depart');
 });
 Then('any information they have inputted for planning type will not be saved',()=>{
-  goToAppealsPage(url);
+  cy.url().should('contain','/before-you-start/local-planning-depart');
+  getSaveAndContinueButton().click()
+  cy.url().should('contain',url);
   getHouseHolderPlanningRadio().should('not.be.checked');
 });
 
