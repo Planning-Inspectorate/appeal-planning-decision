@@ -6,7 +6,11 @@ describe('lib/full-appeal/error-message/know-the-owners', () => {
   beforeEach(() => {
     req = {
       session: {
-        appeal: {},
+        appeal: {
+          appealSiteSection: {
+            siteOwnership: {},
+          },
+        },
       },
     };
   });
@@ -14,7 +18,9 @@ describe('lib/full-appeal/error-message/know-the-owners', () => {
   it('should return the correct error message when ownsSomeOfTheLand is true', () => {
     req.session.appeal = {
       appealSiteSection: {
-        ownsSomeOfTheLand: true,
+        siteOwnership: {
+          ownsSomeOfTheLand: true,
+        },
       },
     };
 
@@ -28,7 +34,9 @@ describe('lib/full-appeal/error-message/know-the-owners', () => {
   it('should return the correct error message when ownsSomeOfTheLand is false', () => {
     req.session.appeal = {
       appealSiteSection: {
-        ownsSomeOfTheLand: false,
+        siteOwnership: {
+          ownsSomeOfTheLand: false,
+        },
       },
     };
 
