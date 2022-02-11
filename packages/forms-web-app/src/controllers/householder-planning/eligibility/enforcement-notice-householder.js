@@ -40,7 +40,7 @@ exports.getEnforcementNoticeHouseholder = (req, res) => {
 
   navigationPages.previousPage = getPreviousPagePath(
     appeal.appealType,
-    appeal.eligibility.applicationDecision
+    appeal.eligibility?.applicationDecision
   );
   res.render(currentPage, {
     enforcementNotice: appeal.eligibility.enforcementNotice,
@@ -55,7 +55,7 @@ exports.postEnforcementNoticeHouseholder = async (req, res) => {
 
   navigationPages.previousPage = getPreviousPagePath(
     appeal.appealType,
-    appeal.eligibility.applicationDecision
+    appeal.eligibility?.applicationDecision
   );
 
   let hasReceivedEnforcementNoticeHouseholder = null;

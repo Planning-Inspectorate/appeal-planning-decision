@@ -53,6 +53,6 @@ Feature: As an appellant/agent
    Then the user is presented with the 'Planning application form' page
    When they click on the 'Back' link
    Then they are presented with the 'Appeal a planning decision' task list page
-#And the last task they are working on will show 'In progress'
+##And the last task they are working on will show 'In progress'
 
 

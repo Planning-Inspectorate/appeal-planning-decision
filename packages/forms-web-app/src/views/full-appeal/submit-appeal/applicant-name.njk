@@ -47,7 +47,7 @@
             id: "behalf-appellant-name",
             name: "behalf-appellant-name",
             spellcheck: false,
-            value: appeal.aboutYouSection.yourDetails.appealingOnBehalfOf,
+            value: appeal.contactDetailsSection.appealingOnBehalfOf.name,
             errorMessage: errors['behalf-appellant-name'] and {
               text: errors['behalf-appellant-name'].msg
             }
@@ -62,7 +62,7 @@
             id: "company-name",
             name: "company-name",
             spellcheck: false,
-            value: appeal.aboutYouSection.yourDetails.companyName,
+            value: appeal.contactDetailsSection.appealingOnBehalfOf.companyName,
             errorMessage: errors['company-name'] and {
               text: errors['company-name'].msg
             }

@@ -14,23 +14,29 @@ jest.mock('../../../../../src/config', () => ({
 }));
 
 const sinon = require('sinon');
-const { rules, validation, constants } = require('@pins/business-rules');
+const {
+  constants: { APPEAL_ID, APPLICATION_DECISION },
+  rules,
+  validation,
+} = require('@pins/business-rules');
+const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
 const decisionDateHouseholderController = require('../../../../../src/controllers/householder-planning/eligibility/decision-date-householder');
 const { mockReq, mockRes } = require('../../../mocks');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../../src/lib/householder-planning/views');
-const { APPEAL_DOCUMENT } = require('../../../../../src/lib/empty-appeal');
 
 describe('controllers/householder-planning/eligibility/decision-date-householder', () => {
   let req;
   let res;
-  let appeal;
+
+  const appeal = {
+    ...householderAppeal,
+    appealType: APPEAL_ID.PLANNING_SECTION_78,
+  };
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });
@@ -61,8 +67,7 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
         },
       };
 
-      mockRequest.session.appeal.eligibility.applicationDecision =
-        constants.APPLICATION_DECISION.GRANTED;
+      mockRequest.session.appeal.eligibility.applicationDecision = APPLICATION_DECISION.GRANTED;
 
       await decisionDateHouseholderController.postDecisionDateHouseholder(mockRequest, res);
 

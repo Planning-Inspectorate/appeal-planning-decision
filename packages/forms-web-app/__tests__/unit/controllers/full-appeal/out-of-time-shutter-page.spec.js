@@ -1,4 +1,3 @@
-const { format } = require('date-fns');
 const outOfTimeShutterPageController = require('../../../../src/controllers/full-appeal/out-of-time-shutter-page');
 const { mockReq, mockRes } = require('../../mocks');
 

@@ -675,7 +675,7 @@ describe('schemas/householder-appeal/update', () => {
         delete appeal.requiredDocumentsSection.originalApplication;
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          'requiredDocumentsSection.originalApplication.uploadedFile.id is a required field',
+          'requiredDocumentsSection.originalApplication.uploadedFile.size is a required field',
         );
       });
     });
@@ -693,7 +693,7 @@ describe('schemas/householder-appeal/update', () => {
         delete appeal.requiredDocumentsSection.decisionLetter;
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          'requiredDocumentsSection.decisionLetter.uploadedFile.id is a required field',
+          'requiredDocumentsSection.decisionLetter.uploadedFile.size is a required field',
         );
       });
     });
@@ -763,13 +763,12 @@ describe('schemas/householder-appeal/update', () => {
         );
       });
 
-      // it('should throw an error when not given a value', async () => {
-      //   delete appeal.yourAppealSection.otherDocuments;
+      it('should not throw an error when not given a value', async () => {
+        delete appeal.yourAppealSection.otherDocuments.uploadedFiles;
 
-      //   await expect(() => update.validate(appeal, config)).rejects.toThrow(
-      //     'yourAppealSection.otherDocuments.uploadedFiles[0].id is a required field',
-      //   );
-      // });
+        const result = await update.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
     });
 
     describe('appealSubmission', () => {
@@ -785,7 +784,7 @@ describe('schemas/householder-appeal/update', () => {
         delete appeal.appealSubmission;
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          'appealSubmission.appealPDFStatement.uploadedFile.id is a required field',
+          'appealSubmission.appealPDFStatement.uploadedFile.size is a required field',
         );
       });
     });

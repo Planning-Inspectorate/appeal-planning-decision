@@ -11,3 +11,4 @@ export const grantedOrRefused = () => cy.get('#granted-or-refused-2');
 
 
 
+

@@ -1,9 +1,9 @@
+const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const siteOwnershipController = require('../../../../src/controllers/appellant-submission/site-ownership');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { mockReq, mockRes } = require('../../mocks');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -16,13 +16,10 @@ const taskName = 'siteOwnership';
 describe('controllers/appellant-submission/site-ownership', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });
@@ -51,16 +48,7 @@ describe('controllers/appellant-submission/site-ownership', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP, {
-        appeal: {
-          ...req.session.appeal,
-          [sectionName]: {
-            ...req.session.appeal.appealSiteSection,
-            [taskName]: {
-              ownsWholeSite: null,
-              haveOtherOwnersBeenTold: null,
-            },
-          },
-        },
+        appeal: req.session.appeal,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });

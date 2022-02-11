@@ -1,10 +1,11 @@
+const appeal = require('@pins/business-rules/test/data/full-appeal');
+const v8 = require('v8');
 const {
   getHealthSafetyIssues,
   postHealthSafetyIssues,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/health-safety-issues');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { getTaskStatus } = require('../../../../../src/services/task.service');
-const { APPEAL_DOCUMENT } = require('../../../../../src/lib/empty-appeal');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
@@ -18,31 +19,19 @@ jest.mock('../../../../../src/services/task.service');
 describe('controllers/full-appeal/submit-appeal/health-safety-issues', () => {
   let req;
   let res;
-  let appeal;
 
   const sectionName = 'appealSiteSection';
-  const hasHealthSafetyIssuesTask = 'hasHealthSafetyIssues';
-  const healthSafetyIssuesDetailsTask = 'healthSafetyIssuesDetails';
-  const appealId = 'da368e66-de7b-44c4-a403-36e5bf5b000b';
+  const taskName = 'healthAndSafety';
   const errors = { 'health-safety-issues': 'Select an option' };
   const errorSummary = [{ text: 'There was an error', href: '#' }];
 
   beforeEach(() => {
-    appeal = {
-      ...APPEAL_DOCUMENT.empty,
-      id: appealId,
-      appealSiteSection: {
-        hasHealthSafetyIssues: true,
-        healthSafetyIssuesDetails: null,
-      },
-    };
-    req = {
-      ...mockReq(),
-      body: {},
-      session: {
-        appeal,
-      },
-    };
+    req = v8.deserialize(
+      v8.serialize({
+        ...mockReq(appeal),
+        body: {},
+      })
+    );
     res = mockRes();
 
     jest.resetAllMocks();
@@ -54,20 +43,10 @@ describe('controllers/full-appeal/submit-appeal/health-safety-issues', () => {
 
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(HEALTH_SAFETY_ISSUES, {
-        hasHealthSafetyIssues: true,
-        healthSafetyIssuesDetails: null,
-      });
-    });
-
-    it('should call the correct template when appeal.appealSiteSection is not defined', () => {
-      delete appeal.appealSiteSection;
-
-      getHealthSafetyIssues(req, res);
-
-      expect(res.render).toHaveBeenCalledTimes(1);
-      expect(res.render).toHaveBeenCalledWith(HEALTH_SAFETY_ISSUES, {
-        hasHealthSafetyIssues: undefined,
-        healthSafetyIssuesDetails: undefined,
+        healthAndSafety: {
+          hasIssues: true,
+          details: 'The site has poor mobile reception',
+        },
       });
     });
   });
@@ -89,8 +68,10 @@ describe('controllers/full-appeal/submit-appeal/health-safety-issues', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(HEALTH_SAFETY_ISSUES, {
-        hasHealthSafetyIssues: false,
-        healthSafetyIssuesDetails: null,
+        healthAndSafety: {
+          hasIssues: false,
+          details: null,
+        },
         errors,
         errorSummary,
       });
@@ -116,8 +97,10 @@ describe('controllers/full-appeal/submit-appeal/health-safety-issues', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(HEALTH_SAFETY_ISSUES, {
-        hasHealthSafetyIssues: true,
-        healthSafetyIssuesDetails: null,
+        healthAndSafety: {
+          hasIssues: true,
+          details: null,
+        },
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
       });
@@ -130,6 +113,7 @@ describe('controllers/full-appeal/submit-appeal/health-safety-issues', () => {
       };
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -141,21 +125,16 @@ describe('controllers/full-appeal/submit-appeal/health-safety-issues', () => {
 
       await postHealthSafetyIssues(req, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, hasHealthSafetyIssuesTask);
-      expect(getTaskStatus).toHaveBeenCalledWith(
-        appeal,
-        sectionName,
-        healthSafetyIssuesDetailsTask
-      );
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
     it('should redirect to the correct page if `no` has been selected', async () => {
-      appeal.appealSiteSection = {
-        hasHealthSafetyIssues: true,
-        healthSafetyIssuesDetails: null,
+      appeal.appealSiteSection.healthAndSafety = {
+        hasIssues: false,
+        details: null,
       };
 
       const submittedAppeal = {
@@ -164,6 +143,7 @@ describe('controllers/full-appeal/submit-appeal/health-safety-issues', () => {
       };
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -175,146 +155,7 @@ describe('controllers/full-appeal/submit-appeal/health-safety-issues', () => {
 
       await postHealthSafetyIssues(req, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, hasHealthSafetyIssuesTask);
-      expect(getTaskStatus).toHaveBeenCalledWith(
-        appeal,
-        sectionName,
-        healthSafetyIssuesDetailsTask
-      );
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
-      expect(req.session.appeal).toEqual(submittedAppeal);
-    });
-
-    it('should redirect to the correct page if `yes` has been selected and appeal.appealSiteSection is not defined', async () => {
-      const submittedAppeal = {
-        ...appeal,
-        state: 'SUBMITTED',
-      };
-
-      delete appeal.appealSiteSection;
-
-      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-
-      req = {
-        ...req,
-        body: {
-          'health-safety-issues': 'yes',
-          'health-safety-issues-details': 'The site has poor mobile reception',
-        },
-      };
-
-      await postHealthSafetyIssues(req, res);
-
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, hasHealthSafetyIssuesTask);
-      expect(getTaskStatus).toHaveBeenCalledWith(
-        appeal,
-        sectionName,
-        healthSafetyIssuesDetailsTask
-      );
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
-      expect(req.session.appeal).toEqual(submittedAppeal);
-    });
-
-    it('should redirect to the correct page if `no` has been selected and appeal.appealSiteSection is not defined', async () => {
-      appeal.appealSiteSection = {
-        hasHealthSafetyIssues: true,
-        healthSafetyIssuesDetails: null,
-      };
-
-      const submittedAppeal = {
-        ...appeal,
-        state: 'SUBMITTED',
-      };
-
-      delete appeal.appealSiteSection;
-
-      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-
-      req = {
-        ...req,
-        body: {
-          'health-safety-issues': 'no',
-          'health-safety-issues-details': null,
-        },
-      };
-
-      await postHealthSafetyIssues(req, res);
-
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, hasHealthSafetyIssuesTask);
-      expect(getTaskStatus).toHaveBeenCalledWith(
-        appeal,
-        sectionName,
-        healthSafetyIssuesDetailsTask
-      );
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
-      expect(req.session.appeal).toEqual(submittedAppeal);
-    });
-
-    it('should redirect to the correct page if `yes` has been selected and appeal.sectionStates.appealSiteSection is not defined', async () => {
-      const submittedAppeal = {
-        ...appeal,
-        state: 'SUBMITTED',
-      };
-
-      delete appeal.sectionStates.appealSiteSection;
-
-      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-
-      req = {
-        ...req,
-        body: {
-          'health-safety-issues': 'yes',
-          'health-safety-issues-details': 'The site has poor mobile reception',
-        },
-      };
-
-      await postHealthSafetyIssues(req, res);
-
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, hasHealthSafetyIssuesTask);
-      expect(getTaskStatus).toHaveBeenCalledWith(
-        appeal,
-        sectionName,
-        healthSafetyIssuesDetailsTask
-      );
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
-      expect(req.session.appeal).toEqual(submittedAppeal);
-    });
-
-    it('should redirect to the correct page if `no` has been selected and appeal.sectionStates.appealSiteSection is not defined', async () => {
-      appeal.appealSiteSection = {
-        hasHealthSafetyIssues: true,
-        healthSafetyIssuesDetails: null,
-      };
-
-      const submittedAppeal = {
-        ...appeal,
-        state: 'SUBMITTED',
-      };
-
-      delete appeal.sectionStates.appealSiteSection;
-
-      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-
-      req = {
-        ...req,
-        body: {
-          'health-safety-issues': 'no',
-          'health-safety-issues-details': null,
-        },
-      };
-
-      await postHealthSafetyIssues(req, res);
-
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, hasHealthSafetyIssuesTask);
-      expect(getTaskStatus).toHaveBeenCalledWith(
-        appeal,
-        sectionName,
-        healthSafetyIssuesDetailsTask
-      );
+      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
       expect(req.session.appeal).toEqual(submittedAppeal);

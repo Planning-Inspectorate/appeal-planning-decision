@@ -69,7 +69,12 @@ describe('middleware/remove-unwanted-cookies', () => {
   ].forEach(({ title, given, expected }) => {
     it(title, async () => {
       const next = jest.fn();
-      const req = given();
+      const req = {
+        ...given(),
+        log: {
+          warn: jest.fn(),
+        },
+      };
       const res = mockRes();
 
       await removeUnwantedCookiesMiddelware(req, res, next);

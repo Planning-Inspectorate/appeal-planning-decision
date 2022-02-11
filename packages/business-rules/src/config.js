@@ -190,6 +190,9 @@ const config = {
   procedure: {
     type: [WRITTEN_REPRESENTATION, HEARING, INQUIRY],
   },
+  featureFlag: {
+    newAppealJourney: process.env.FEATURE_FLAG_NEW_APPEAL_JOURNEY === 'true',
+  },
 };
 
 module.exports = config;

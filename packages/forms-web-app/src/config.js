@@ -65,5 +65,6 @@ module.exports = {
   },
   featureFlag: {
     googleTagManager: process.env.FEATURE_FLAG_GOOGLE_TAG_MANAGER === 'true',
+    newAppealJourney: process.env.FEATURE_FLAG_NEW_APPEAL_JOURNEY === 'true',
   },
 };

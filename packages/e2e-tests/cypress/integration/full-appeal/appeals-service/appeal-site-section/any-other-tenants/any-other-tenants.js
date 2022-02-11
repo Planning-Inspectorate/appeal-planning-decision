@@ -20,6 +20,7 @@ import {
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
+import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 
 const url = 'full-appeal/submit-appeal/other-tenants';
@@ -28,7 +29,6 @@ const tellingTheTenantsUrl = 'full-appeal/submit-appeal/telling-the-tenants';
 const visibleFromRoadUrl = 'full-appeal/submit-appeal/visible-from-road';
 const agriculturalHoldingUrl = 'full-appeal/submit-appeal/agricultural-holding';
 const siteAddressUrl = 'full-appeal/submit-appeal/appeal-site-address';
-const taskListUrl = 'full-appeal/submit-appeal/task-list';
 const ownAllOfLandUrl = 'full-appeal/submit-appeal/own-all-the-land';
 const textPageCaption = 'Tell us about the appeal site';
 const pageTitle = 'Are there any other tenants? - Appeal a planning decision - GOV.UK';
@@ -37,8 +37,7 @@ const addressLine1 = '10 Bradmore Way';
 const postcode = 'RG6 1BC';
 
 Given("an appellant or agent is on the 'Are you a tenant of the agricultural holding' page", () => {
-  goToAppealsPage(taskListUrl);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
   provideAddressLine1(addressLine1);
@@ -71,8 +70,22 @@ Then("'Are there any other tenants' page is displayed", () => {
   cy.url().should('contain', url);
 });
 Given("an appellant or agent is on the 'Are there any other tenants' page", () => {
-  goToAppealsPage(url);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  aboutAppealSiteSectionLink().click();
+  provideAddressLine1(addressLine1);
+  providePostcode(postcode);
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', ownAllOfLandUrl);
+  selectYes().click();
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', agriculturalHoldingUrl);
+  selectYes().click();
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', areYouATenantUrl);
+  selectYes().click();
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', url);
+  cy.checkPageA11y();
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading);
   pageCaptionText(textPageCaption);

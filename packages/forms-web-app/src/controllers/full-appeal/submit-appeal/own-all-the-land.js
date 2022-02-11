@@ -8,12 +8,10 @@ const {
 const { getTaskStatus } = require('../../../services/task.service');
 
 const sectionName = 'appealSiteSection';
-const taskName = 'ownsAllTheLand';
+const taskName = 'siteOwnership';
 
 const getOwnAllTheLand = (req, res) => {
-  const {
-    appeal: { [sectionName]: { [taskName]: ownsAllTheLand } = {} },
-  } = req.session;
+  const { ownsAllTheLand } = req.session.appeal[sectionName][taskName];
   res.render(OWN_ALL_THE_LAND, {
     ownsAllTheLand,
   });
@@ -36,9 +34,7 @@ const postOwnAllTheLand = async (req, res) => {
   const ownsAllTheLand = body['own-all-the-land'] === 'yes';
 
   try {
-    appeal[sectionName] = appeal[sectionName] || {};
-    appeal[sectionName][taskName] = ownsAllTheLand;
-    appeal.sectionStates[sectionName] = appeal.sectionStates[sectionName] || {};
+    appeal[sectionName][taskName].ownsAllTheLand = ownsAllTheLand;
     appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {

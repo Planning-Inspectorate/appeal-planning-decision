@@ -1,9 +1,9 @@
+const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const siteAccessController = require('../../../../src/controllers/appellant-submission/site-access');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { mockReq, mockRes } = require('../../mocks');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -16,13 +16,10 @@ const taskName = 'siteAccess';
 describe('controllers/appellant-submission/site-access', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });
@@ -105,7 +102,7 @@ describe('controllers/appellant-submission/site-access', () => {
 
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`);
 
-      const { empty: goodAppeal } = APPEAL_DOCUMENT;
+      const goodAppeal = appeal;
       goodAppeal[sectionName][taskName].canInspectorSeeWholeSiteFromPublicRoad = true;
       goodAppeal[sectionName][taskName].howIsSiteAccessRestricted = undefined;
       goodAppeal.sectionStates[sectionName][taskName] = 'COMPLETED';

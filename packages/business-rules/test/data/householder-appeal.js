@@ -4,7 +4,7 @@ const appeal = {
   lpaCode: 'E69999999',
   decisionDate: new Date(),
   submissionDate: new Date(),
-  state: 'SUBMITTED',
+  state: 'DRAFT',
   appealType: '1001',
   typeOfPlanningApplication: 'full-appeal',
   eligibility: {
@@ -63,11 +63,17 @@ const appeal = {
           id: '56e471a4-44a2-4f80-aca4-59ce20c25c8a',
           name: 'test-pdf.pdf',
           originalFileName: 'test-pdf.pdf',
+          fileName: 'test-pdf.pdf',
+          location: '23cb607c2723733807fb56ec4efc0236',
+          size: 8334,
         },
         {
           id: 'ea651ed4-fa76-46c2-a404-2ea66bd3d0b4',
           name: 'test-pdf.pdf',
           originalFileName: 'test-pdf.pdf',
+          fileName: 'test-pdf.pdf',
+          location: '23cb607c2723733807fb56ec4efc0236',
+          size: 8334,
         },
       ],
     },
@@ -81,7 +87,7 @@ const appeal = {
       postcode: 'SW1 1AA',
     },
     siteOwnership: {
-      ownsWholeSite: true,
+      ownsWholeSite: false,
       haveOtherOwnersBeenTold: true,
     },
     siteAccess: {

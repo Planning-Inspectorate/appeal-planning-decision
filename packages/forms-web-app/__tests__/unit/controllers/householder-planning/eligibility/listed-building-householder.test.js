@@ -1,25 +1,21 @@
+const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const listedBuildingController = require('../../../../../src/controllers/householder-planning/eligibility/listed-building-householder');
-const { APPEAL_DOCUMENT } = require('../../../../../src/lib/empty-appeal');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../../src/lib/logger');
 const { VIEW } = require('../../../../../src/lib/householder-planning/views');
 
 const { mockReq, mockRes } = require('../../../mocks');
 
-jest.mock('../../../../../src/lib/empty-appeal');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
 
 describe('controllers/householder-planning/eligibility/listed-building-householder', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });

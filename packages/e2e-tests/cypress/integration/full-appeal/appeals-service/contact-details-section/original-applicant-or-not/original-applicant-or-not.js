@@ -13,8 +13,14 @@ import {
   originalApplicantYes, originalApplicationYourNameError,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/original-applicant-or-not-po';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
-import { planningAppNumberErrorMessage } from '../../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
+import {
+  pageCaption,
+  planningAppNumberErrorMessage,
+} from '../../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
 import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
+import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
+import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
+import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 
 
 const url = 'full-appeal/submit-appeal/original-applicant';
@@ -26,8 +32,7 @@ const pageTitle = "Was the planning application made in your name? - Appeal a pl
 const pageHeading = 'Was the planning application made in your name?';
 
 Given("an Appellant or Agent is on the Appeal a planning decision page",() => {
-  goToAppealsPage(taskListUrl);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
 });
 When("the user click 'Provide your contact details' link",() => {
   contactDetailsLink().click();
@@ -40,9 +45,11 @@ When("they click the 'Continue'",() => {
  });
 
 Given("an {string} is on the 'Was the planning application made in your name' page", () => {
-  goToAppealsPage(taskListUrl);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   contactDetailsLink().click();
+  verifyPageTitle(pageTitle);
+  verifyPageHeading(pageHeading);
+  pageCaption().should('contain', textPageCaption);
 });
 When("the user select 'Yes, the planning application was made in my name' and continue", () => {
   originalApplicantYes().click();

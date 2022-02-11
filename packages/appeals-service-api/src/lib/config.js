@@ -117,4 +117,7 @@ module.exports = {
       baseUrl: process.env.APP_LPA_QUESTIONNAIRE_BASE_URL,
     },
   },
+  featureFlag: {
+    newAppealJourney: process.env.FEATURE_FLAG_NEW_APPEAL_JOURNEY === 'true',
+  },
 };

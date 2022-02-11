@@ -27,6 +27,7 @@ import { provideAddressLine1 } from '../../../../../support/common/appeal-submis
 import { providePostcode } from '../../../../../support/common/appeal-submission-appeal-site-address/providePostcode';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
+import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 const url = 'full-appeal/submit-appeal/identifying-the-owners';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -36,8 +37,7 @@ const ownSomeOfLandUrl = 'full-appeal/submit-appeal/own-some-of-the-land';
 const knowTheOwnersUrl = 'full-appeal/submit-appeal/know-the-owners';
 const advertisingYourAppealUrl = 'full-appeal/submit-appeal/advertising-your-appeal';
 const textPageCaption = 'Tell us about the appeal site';
-const pageTitleKnowSome = 'Identifying the other landowners - Appeal a planning decision - GOV.UK';
-const pageTitleNoIDoNotKnow = 'Identifying the landowners - Appeal a planning decision - GOV.UK';
+const pageTitle = 'Identifying the landowners - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Identifying the landowners';
 const checkBoxLabelKnowSome = "I confirm that I've attempted to identify all the landowners, but have not been successful.";
 const checkBoxLabelNoIDoNotKnow = "I confirm that I've taken all reasonable steps to identify the landowners";
@@ -47,8 +47,7 @@ const addressLine1 = '10 Bradmore Way';
 const postcode = 'RG6 1BC';
 
 const pageMethodsKnowTheOwners = () => {
-  goToAppealsPage(taskListUrl);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
   provideAddressLine1(addressLine1);
@@ -110,7 +109,7 @@ Given("an Appellant or Agent is on the 'Identifying the landowners' page", () =>
   listItem1IdentifyingTheOwners().should('exist');
   listItem2IdentifyingTheOwners().should('exist');
   verifyPageHeading(pageHeading);
-  verifyPageTitle(pageTitleKnowSome);
+  verifyPageTitle(pageTitle);
   pageCaptionText(textPageCaption);
 })
 Given("an Appellant or Agent is on the 'Identifying the landowners' page for the option 'No, I do not know who owns any of the land'", () => {
@@ -121,7 +120,7 @@ Given("an Appellant or Agent is on the 'Identifying the landowners' page for the
   cy.checkPageA11y();
   checkBoxLabelIdentifyingTheOwners().should('contain', checkBoxLabelNoIDoNotKnow);
   verifyPageHeading(pageHeading);
-  verifyPageTitle(pageTitleNoIDoNotKnow);
+  verifyPageTitle(pageTitle);
   pageCaptionText(textPageCaption);
 })
 Given("a statement 'Confirm that you have attempted to identify the landowners' is displayed", () => {

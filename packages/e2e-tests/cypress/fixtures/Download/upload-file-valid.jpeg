@@ -4,82 +4,82 @@
     <meta charset="utf-8">
     <title>Your appeal statement - Appeal a planning decision - GOV.UK</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#0b0c0c"> 
-    
+    <meta name="theme-color" content="#0b0c0c">
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    
+
       <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="/assets/images/favicon.ico" type="image/x-icon">
-      <link rel="mask-icon" href="/assets/images/govuk-mask-icon.svg" color="#0b0c0c"> 
+      <link rel="mask-icon" href="/assets/images/govuk-mask-icon.svg" color="#0b0c0c">
       <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/govuk-apple-touch-icon-180x180.png">
       <link rel="apple-touch-icon" sizes="167x167" href="/assets/images/govuk-apple-touch-icon-167x167.png">
       <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/govuk-apple-touch-icon-152x152.png">
       <link rel="apple-touch-icon" href="/assets/images/govuk-apple-touch-icon.png">
-    
 
-    
-  
+
+
+
 
   <!--[if lte IE 8]><link href="/public/stylesheets/main-ie8.css" rel="stylesheet" type="text/css" /><![endif]-->
   <!--[if gt IE 8]><!--><link href="/public/stylesheets/main.css" media="all" rel="stylesheet" type="text/css" /><!--<![endif]-->
 
-  
+
     <script id="gaId" type='text/plain'>G-TZBWMVPTHV</script>
 
-    
-  
+
+
 
   <script src="/public/javascripts/index.bundle.js" defer></script>
 
 
 
 
-    
-    
+
+
     <meta property="og:image" content="/assets/images/govuk-opengraph-image.png">
   </head>
   <body class="govuk-template__body ">
     <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
-    
-  
-
-  
 
 
 
 
-    
+
+
+
+
+
       <a href="#main-content" class="govuk-skip-link">Skip to main content</a>
 
-    
 
-    
-  
+
+
+
 
 
 
 <div id="global-cookie-message" role="region" aria-label="cookie banner" data-nosnippet="">
-    
-  
 
-  
 
-  
 
-  
+
+
+
+
+
 
   <div class="govuk-cookie-banner " data-nosnippet role="region" aria-label="Cookies on appeal a planning decision service" data-cy="cookie-banner" id="cookie-banner-consent">
-    
-    
+
+
 
     <div class="govuk-cookie-banner__message govuk-width-container"
     >
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        
+
         <h2 class="govuk-cookie-banner__heading govuk-heading-m">Cookies on appeal a planning decision service</h2>
-        
+
 
         <div class="govuk-cookie-banner__content">
     <p>We use some essential cookies to make this service work.</p>
@@ -88,52 +88,52 @@
       </div>
     </div>
 
-      
+
       <div class="govuk-button-group">
-        
-          
+
+
             <button value="accept" type="submit" name="cookie_banner" class="govuk-button govuk-!-display-none" data-module="govuk-button" data-cy="cookie-banner-accept-analytics-cookies">
               Accept analytics cookies
             </button>
-          
-        
-          
+
+
+
             <button value="reject" type="submit" name="cookie_banner" class="govuk-button govuk-!-display-none" data-module="govuk-button" data-cy="cookie-banner-reject-analytics-cookies">
               Reject analytics cookies
             </button>
-          
-        
-          
-            
-              
-              
+
+
+
+
+
+
               <a class="govuk-link" href="/cookies" data-cy="cookie-banner-view-cookies">View cookies</a>
-            
-          
-        
+
+
+
       </div>
-      
+
     </div>
-  
+
 </div>
 
-    
-  
 
-  
 
-  
+
+
+
+
 
   <div class="govuk-cookie-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on appeal a planning decision service" data-cy="cookie-banner-accepted" id="cookie-banner-accepted">
-    
-    
+
+
 
     <div class="govuk-cookie-banner__message govuk-width-container"
     >
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        
+
 
         <div class="govuk-cookie-banner__content">
     <p>You’ve accepted analytics cookies. You can <a class="govuk-link" href="/cookies">change your cookie settings</a> at any time.</p>
@@ -141,38 +141,38 @@
       </div>
     </div>
 
-      
+
       <div class="govuk-button-group">
-        
-          
+
+
             <button value="hide" type="submit" name="cookie_banner_accepted" class="govuk-button" data-module="govuk-button" data-cy="cookie-banner-accepted-hide-message">
               Hide this message
             </button>
-          
-        
+
+
       </div>
-      
+
     </div>
-  
+
 </div>
 
-    
-  
 
-  
 
-  
+
+
+
+
 
   <div class="govuk-cookie-banner govuk-!-display-none" data-nosnippet role="region" aria-label="Cookies on appeal a planning decision service" data-cy="cookie-banner-rejected" id="cookie-banner-rejected">
-    
-    
+
+
 
     <div class="govuk-cookie-banner__message govuk-width-container"
     >
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        
+
 
         <div class="govuk-cookie-banner__content">
     <p>You’ve rejected analytics cookies. You can <a class="govuk-link" href="/cookies">change your cookie settings</a> at any time.</p>
@@ -180,19 +180,19 @@
       </div>
     </div>
 
-      
+
       <div class="govuk-button-group">
-        
-          
+
+
             <button value="hide" type="submit" name="cookie_banner_rejected" class="govuk-button" data-module="govuk-button" data-cy="cookie-banner-rejected-hide-message">
               Hide this message
             </button>
-          
-        
+
+
       </div>
-      
+
     </div>
-  
+
 </div>
 
   </div>
@@ -225,29 +225,29 @@
             GOV.UK
           </span>
         </span>
-        
+
       </a>
     </div>
-    
+
     <div class="govuk-header__content">
-    
+
     <a href="/" class="govuk-header__link govuk-header__link--service-name">
       Appeal a planning decision
     </a>
-    
-    
+
+
     </div>
-    
+
   </div>
 </header>
 
 
 
-    
+
   <div class="govuk-width-container govuk-body ">
 
     <main id="main-content" role="main">
-      
+
         <div class="govuk-phase-banner">
   <p class="govuk-phase-banner__content">
     <strong class="govuk-tag govuk-phase-banner__content__tag">
@@ -259,18 +259,18 @@
   </p>
 </div>
 
-      
 
-      
+
+
   <a href="/full-appeal/submit-appeal/task-list" class="govuk-back-link" data-cy="back">Back</a>
 
 
 
       <div class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-        
+
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      
+
       <span class="govuk-caption-l">Upload documents for your appeal</span>
       <h1 class="govuk-heading-l">Your appeal statement</h1>
       <p class="govuk-body">
@@ -320,13 +320,13 @@
   </div>
 </details>
 
-      
+
         <h2 class="govuk-heading-m">Uploaded file</h2>
         <p class="govuk-body govuk-!-margin-bottom-8"><a href="/document/c8d1d9bc-bef1-4eb9-8962-f8718684b2ea/95ae7fa0-3fe9-48ac-8ee2-fc8378d80181" class="govuk-link">upload-file-valid.jpeg</a>
-        
-      
+
+
       <form action="" method="post" novalidate enctype="multipart/form-data">
-        
+
 
 <div class="govuk-form-group">
   <label class="govuk-label govuk-label--m" for="file-upload">
@@ -362,42 +362,42 @@
 </details>
 
 
-        
+
 
 
 <div class="govuk-form-group">
 
   <div class="govuk-checkboxes"
     data-module="govuk-checkboxes">
-    
-      
-          
-        
-          
-          
-          
-          
+
+
+
+
+
+
+
+
           <div class="govuk-checkboxes__item">
             <input class="govuk-checkboxes__input" id="does-not-include-sensitive-information" name="does-not-include-sensitive-information" type="checkbox" value="i-confirm" checked>
             <label class="govuk-label govuk-checkboxes__label" for="does-not-include-sensitive-information">
         I confirm that I have not included any sensitive information in my appeal statement.
       </label>
-            
+
           </div>
-          
-        
-      
-    
+
+
+
+
   </div>
 
 </div>
 
 
-        
 
-  
-    
-  
+
+
+
+
 
 <button type="submit" class="govuk-button" data-module="govuk-button" data-cy="button-save-and-continue">
   Continue
@@ -412,88 +412,88 @@
   </div>
 
 
-    
-  
+
+
 
 <footer class="govuk-footer " role="contentinfo">
   <div class="govuk-width-container ">
-    
+
       <div class="govuk-footer__navigation">
-        
+
           <div class="govuk-footer__section">
             <h2 class="govuk-footer__heading govuk-heading-m">Contact the Planning Inspectorate</h2>
-            
-              
+
+
               <ul class="govuk-footer__list govuk-footer__list--columns-2">
-                
-                  
+
+
                     <li class="govuk-footer__list-item">
                       <a class="govuk-footer__link" href="tel:03034445000" data-cy="customer-support-telephone-number">
                         Customer Support: England 0303 444 5000
                       </a>
                     </li>
-                  
-                
-                  
+
+
+
                     <li class="govuk-footer__list-item">
                       <a class="govuk-footer__link" href="mailto:enquiries@planninginspectorate.gov.uk" data-cy="customer-support-email-address">
                         enquiries@planninginspectorate.gov.uk
                       </a>
                     </li>
-                  
-                
+
+
               </ul>
-            
+
           </div>
-        
+
           <div class="govuk-footer__section">
             <h2 class="govuk-footer__heading govuk-heading-m">Service information</h2>
-            
-              
+
+
               <ul class="govuk-footer__list ">
-                
-                  
+
+
                     <li class="govuk-footer__list-item">
                       <a class="govuk-footer__link" href="https://www.gov.uk/guidance/appeals-casework-portal-privacy-cookies" data-cy="Privacy">
                         Privacy
                       </a>
                     </li>
-                  
-                
-                  
+
+
+
                     <li class="govuk-footer__list-item">
                       <a class="govuk-footer__link" href="https://www.gov.uk/guidance/appeals-casework-portal-privacy-cookies" data-cy="Cookies">
                         Cookies
                       </a>
                     </li>
-                  
-                
-                  
+
+
+
                     <li class="govuk-footer__list-item">
                       <a class="govuk-footer__link" href="https://www.gov.uk/guidance/appeals-casework-portal-accessibility" data-cy="Accessibility">
                         Accessibility
                       </a>
                     </li>
-                  
-                
-                  
+
+
+
                     <li class="govuk-footer__list-item">
                       <a class="govuk-footer__link" href="https://www.gov.uk/guidance/appeals-casework-portal-terms-and-conditions" data-cy="Terms and conditions">
                         Terms and conditions
                       </a>
                     </li>
-                  
-                
+
+
               </ul>
-            
+
           </div>
-        
+
       </div>
       <hr class="govuk-footer__section-break">
-    
+
     <div class="govuk-footer__meta">
       <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
-        
+
         <svg
           aria-hidden="true"
           focusable="false"
@@ -530,16 +530,16 @@
 
 
 
-    
-  
+
+
     <!-- Javascript -->
 <script src="/assets/govuk/all.js"></script>
 <script>
   window.GOVUKFrontend.initAll()
 </script>
 
-    
-  
+
+
 
   </body>
 </html>

@@ -1,14 +1,13 @@
+const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const yourDetailsController = require('../../../../src/controllers/appellant-submission/your-details');
 const { mockReq, mockRes } = require('../../mocks');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { getTaskStatus, getNextTask } = require('../../../../src/services/task.service');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/services/task.service');
-jest.mock('../../../../src/lib/empty-appeal');
 jest.mock('../../../../src/lib/logger');
 
 const sectionName = 'aboutYouSection';
@@ -17,13 +16,10 @@ const taskName = 'yourDetails';
 describe('controllers/appellant-submission/your-details', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });
@@ -51,18 +47,7 @@ describe('controllers/appellant-submission/your-details', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
-        appeal: {
-          ...req.session.appeal,
-          [sectionName]: {
-            ...req.session.appeal[sectionName],
-            [taskName]: {
-              appealingOnBehalfOf: '',
-              email: undefined,
-              isOriginalApplicant: null,
-              name: undefined,
-            },
-          },
-        },
+        appeal: req.session.appeal,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });
@@ -161,6 +146,9 @@ describe('controllers/appellant-submission/your-details', () => {
       const fakeTaskStatus = 'FAKE_STATUS';
 
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
+      getNextTask.mockImplementation(() => ({
+        href: `/${VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME}`,
+      }));
 
       const mockRequest = {
         ...mockReq(appeal),
@@ -169,6 +157,9 @@ describe('controllers/appellant-submission/your-details', () => {
           'appellant-name': fakeName,
         },
       };
+
+      mockRequest.session.appeal[sectionName][taskName].appealingOnBehalfOf = '';
+      mockRequest.session.appeal[sectionName][taskName].isOriginalApplicant = false;
 
       await yourDetailsController.postYourDetails(mockRequest, res);
 
@@ -179,7 +170,7 @@ describe('controllers/appellant-submission/your-details', () => {
           [taskName]: {
             appealingOnBehalfOf: '',
             email: fakeEmail,
-            isOriginalApplicant: null,
+            isOriginalApplicant: false,
             name: fakeName,
           },
         },

@@ -5,15 +5,14 @@ const {
     FULL_APPEAL: { AGRICULTURAL_HOLDING, ARE_YOU_A_TENANT, VISIBLE_FROM_ROAD },
   },
 } = require('../../../lib/full-appeal/views');
-const { getTaskStatus } = require('../../../services/task.service');
+// const { getTaskStatus } = require('../../../services/task.service');
+const { NOT_STARTED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'appealSiteSection';
-const taskName = 'isAgriculturalHolding';
+const taskName = 'agriculturalHolding';
 
 const getAgriculturalHolding = (req, res) => {
-  const {
-    appeal: { [sectionName]: { [taskName]: isAgriculturalHolding } = {} },
-  } = req.session;
+  const { isAgriculturalHolding } = req.session.appeal[sectionName][taskName];
   res.render(AGRICULTURAL_HOLDING, {
     isAgriculturalHolding,
   });
@@ -36,10 +35,9 @@ const postAgriculturalHolding = async (req, res) => {
   const isAgriculturalHolding = body['agricultural-holding'] === 'yes';
 
   try {
-    appeal[sectionName] = appeal[sectionName] || {};
-    appeal[sectionName][taskName] = isAgriculturalHolding;
-    appeal.sectionStates[sectionName] = appeal.sectionStates[sectionName] || {};
-    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+    appeal[sectionName][taskName].isAgriculturalHolding = isAgriculturalHolding;
+    // appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+    appeal.sectionStates[sectionName][taskName] = NOT_STARTED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);

@@ -1,5 +1,4 @@
 const anyOfFollowingController = require('../../../../src/controllers/full-appeal/any-of-following');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
@@ -16,7 +15,6 @@ const pageLinks = {
 describe('controllers/full-appeal/any-of-following', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
     req = mockReq();
@@ -24,7 +22,6 @@ describe('controllers/full-appeal/any-of-following', () => {
 
     jest.resetAllMocks();
 
-    ({ empty: appeal } = APPEAL_DOCUMENT);
     createOrUpdateAppeal.mockResolvedValueOnce({ eligibility: {} });
   });
 
@@ -35,7 +32,7 @@ describe('controllers/full-appeal/any-of-following', () => {
   it('should render any of following page', async () => {
     await anyOfFollowingController.getAnyOfFollowing(req, res);
     expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.ANY_OF_FOLLOWING, {
-      applicationCategory: appeal.eligibility.applicationCategories,
+      applicationCategory: undefined,
       backLink: pageLinks.previousPage,
     });
   });

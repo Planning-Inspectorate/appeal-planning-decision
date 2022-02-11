@@ -23,6 +23,6 @@ Feature: As an agent
     Then an error message 'The application number must be no more than 30 characters' is displayed
 
   Scenario: 5. Navigate from 'What is your Planning Application number' page back to Task List
-    Given an agent is on the 'What is your planning application' page
+    Given an agent is on the 'What is your Planning Application number' page
     When they click on the 'Back' link
     Then they are presented with the 'Planning Application form' page
