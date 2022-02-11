@@ -36,6 +36,12 @@ describe('middleware/check-appeal-type-exists', () => {
     expect(next).toBeCalled();
     expect(res.redirect).not.toBeCalled();
   });
+  it('should call next() for the `/before-you-start/use-a-different-service` page', () => {
+    req.originalUrl = '/before-you-start/use-a-different-service';
+    checkAppealTypeExists(req, res, next);
+    expect(next).toBeCalled();
+    expect(res.redirect).not.toBeCalled();
+  });
 
   it('should call next() if appealType is set', () => {
     req.session.appeal.appealType = '1005';
