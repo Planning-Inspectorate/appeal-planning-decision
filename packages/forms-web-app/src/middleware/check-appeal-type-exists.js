@@ -5,6 +5,7 @@ const checkAppealTypeExists = (req, res, next) => {
   const allowList = [
     '/before-you-start/local-planning-depart',
     '/before-you-start/type-of-planning-application',
+    '/before-you-start/use-a-different-service',
   ];
 
   if (!featureFlag.newAppealJourney) {
