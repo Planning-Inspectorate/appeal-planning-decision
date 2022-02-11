@@ -3,7 +3,6 @@ const { updateAppeal, validateAppeal } = require('../../../src/services/appeal.s
 const mongodb = require('../../../src/db/db');
 const queue = require('../../../src/lib/queue');
 const notify = require('../../../src/lib/notify');
-const fullAppealNotify = require('../../../src/lib/full-appeal/notify');
 const { APPEAL_TYPE } = require('../../../src/constants');
 
 jest.mock('../../../src/db/db');
@@ -412,12 +411,6 @@ describe('services/validation.service', () => {
       expect(outcome).toEqual({ appeal: updatedAppeal });
       expect(fullAppeal.submissionDate).not.toBe(null);
       expect(queue.addAppeal).toHaveBeenCalledWith({ appeal: updatedAppeal });
-      expect(
-        fullAppealNotify.sendAppealSubmissionConfirmationEmailToAppellant
-      ).toHaveBeenCalledWith(updatedAppeal);
-      expect(
-        fullAppealNotify.sendAppealSubmissionReceivedNotificationEmailToLpa
-      ).toHaveBeenCalledWith(updatedAppeal);
     });
   });
 });
