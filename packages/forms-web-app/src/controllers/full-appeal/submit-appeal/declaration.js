@@ -37,13 +37,20 @@ exports.postDeclaration = async (req, res) => {
       name: 'sdsdsd',
       id: '32fdcb44-a6ab-4b9e-a9ca-68976ec81ad3',
       originalFileName: 'sdsdsds',
+      fileName: 'originalApplication.pdf',
+      location: '372c8ba6-dfa6-4bba-bf9c-b024e3d8c282/originalApplication.pdf',
+      size: 1000,
     },
   };
   req.session.appeal.planningApplicationDocumentsSection.designAccessStatement = {
+    isSubmitted: true,
     uploadedFile: {
       name: 'sdsdsd',
       id: '32fdcb44-a6ab-4b9e-a9ca-68976ec81ad3',
       originalFileName: 'sdsdsds',
+      fileName: 'originalApplication.pdf',
+      location: '372c8ba6-dfa6-4bba-bf9c-b024e3d8c282/originalApplication.pdf',
+      size: 1000,
     },
   };
   req.session.appeal.planningApplicationDocumentsSection.decisionLetter = {
@@ -51,6 +58,9 @@ exports.postDeclaration = async (req, res) => {
       name: 'sdsdsd',
       id: '32fdcb44-a6ab-4b9e-a9ca-68976ec81ad3',
       originalFileName: 'sdsdsds',
+      fileName: 'originalApplication.pdf',
+      location: '372c8ba6-dfa6-4bba-bf9c-b024e3d8c282/originalApplication.pdf',
+      size: 1000,
     },
   };
   req.session.appeal.appealDocumentsSection.appealStatement = {
@@ -58,6 +68,9 @@ exports.postDeclaration = async (req, res) => {
       name: 'sdsdsd',
       id: '32fdcb44-a6ab-4b9e-a9ca-68976ec81ad3',
       originalFileName: 'sdsdsds',
+      fileName: 'originalApplication.pdf',
+      location: '372c8ba6-dfa6-4bba-bf9c-b024e3d8c282/originalApplication.pdf',
+      size: 1000,
     },
     hasSensitiveInformation: false,
   };
@@ -71,7 +84,7 @@ exports.postDeclaration = async (req, res) => {
       siteAddress: 'COMPLETED',
       siteOwnership: 'COMPLETED',
       agriculturalHolding: 'COMPLETED',
-      visibilityFromRoad: 'COMPLETED',
+      visibleFromRoad: 'COMPLETED',
       healthAndSafety: 'COMPLETED',
     },
     planningApplicationDocumentsSection: {
