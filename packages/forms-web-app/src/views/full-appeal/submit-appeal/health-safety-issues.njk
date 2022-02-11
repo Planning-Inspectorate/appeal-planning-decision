@@ -16,7 +16,7 @@
     label: {
       text: "Tell us about the health and safety issues"
     },
-    value: healthSafetyIssuesDetails,
+    value: healthAndSafety.details,
     errorMessage: errors['health-safety-issues-details'] and {
       text: errors['health-safety-issues-details'].msg
     }
@@ -84,7 +84,7 @@
               value: "yes",
               text: "Yes",
               attributes: { "data-cy": "answer-yes" },
-              checked: hasHealthSafetyIssues == true,
+              checked: healthAndSafety.hasIssues == true,
               conditional: {
                 html: healthSafetyIssuesDetailsHtml
               }
@@ -93,7 +93,7 @@
               value: "no",
               text: "No",
               attributes: { "data-cy": "answer-no" },
-              checked: hasHealthSafetyIssues == false
+              checked: healthAndSafety.hasIssues == false
             }
           ]
         }) }}

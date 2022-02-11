@@ -1,8 +1,8 @@
+const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const whoAreYouController = require('../../../../src/controllers/appellant-submission/who-are-you');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { FORM_FIELD } = require('../../../../src/controllers/appellant-submission/who-are-you');
 const logger = require('../../../../src/lib/logger');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 const { getTaskStatus } = require('../../../../src/services/task.service');
@@ -17,13 +17,10 @@ const taskName = 'yourDetails';
 describe('controllers/appellant-submission/who-are-you', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });
@@ -58,15 +55,6 @@ describe('controllers/appellant-submission/who-are-you', () => {
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
-        [sectionName]: {
-          ...appeal[sectionName],
-          [taskName]: {
-            appealingOnBehalfOf: '',
-            email: null,
-            isOriginalApplicant: true,
-            name: null,
-          },
-        },
         sectionStates: {
           ...appeal.sectionStates,
           [sectionName]: {
@@ -141,15 +129,6 @@ describe('controllers/appellant-submission/who-are-you', () => {
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
-        [sectionName]: {
-          ...appeal[sectionName],
-          [taskName]: {
-            appealingOnBehalfOf: '',
-            email: null,
-            isOriginalApplicant: undefined,
-            name: null,
-          },
-        },
         sectionStates: {
           ...appeal.sectionStates,
           [sectionName]: {

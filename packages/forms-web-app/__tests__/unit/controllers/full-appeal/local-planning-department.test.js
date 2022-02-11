@@ -1,31 +1,26 @@
+const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const localPlanningDepartmentController = require('../../../../src/controllers/full-appeal/local-planning-department');
 const { getDepartmentFromId } = require('../../../../src/services/department.service');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { getDepartmentFromName } = require('../../../../src/services/department.service');
 const { getRefreshedDepartmentData } = require('../../../../src/services/department.service');
 const logger = require('../../../../src/lib/logger');
-
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
 jest.mock('../../../../src/services/department.service');
-jest.mock('../../../../src/lib/empty-appeal');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
 
 describe('controllers/full-appeal/local-planning-department', () => {
   let req;
   let res;
-  let appeal;
   let departmentsData;
   let departmentList;
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     departmentsData = {
       departments: ['lpa1', 'lpa2'],

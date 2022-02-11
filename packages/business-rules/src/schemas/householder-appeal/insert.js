@@ -1,12 +1,10 @@
 const pinsYup = require('../../lib/pins-yup');
 const parseDateString = require('../../utils/parse-date-string');
-const singleDocumentInsert = require('../components/insert/single-document');
-const multiDocumentInsert = require('../components/insert/multi-document');
-const sectionState = require('../components/section-state');
 const {
   APPEAL_ID,
   APPEAL_STATE,
   APPLICATION_DECISION,
+  SECTION_STATE,
   TYPE_OF_PLANNING_APPLICATION,
 } = require('../../constants');
 
@@ -76,18 +74,98 @@ const insert = pinsYup
       .object()
       .shape({
         applicationNumber: pinsYup.string().max(30).nullable(),
-        originalApplication: singleDocumentInsert().nullable(),
-        decisionLetter: singleDocumentInsert().nullable(),
+        originalApplication: pinsYup
+          .object()
+          .shape({
+            uploadedFile: pinsYup
+              .object()
+              .shape({
+                id: pinsYup.string().trim().uuid().nullable().default(null),
+                name: pinsYup.string().trim().max(255).ensure(),
+                fileName: pinsYup.string().trim().max(255).ensure(),
+                originalFileName: pinsYup.string().trim().max(255).ensure(),
+                location: pinsYup.string().trim().nullable(),
+                size: pinsYup.number().nullable(),
+              })
+              .noUnknown(true),
+          })
+          .noUnknown(true),
+        decisionLetter: pinsYup
+          .object()
+          .shape({
+            uploadedFile: pinsYup
+              .object()
+              .shape({
+                id: pinsYup.string().trim().uuid().nullable().default(null),
+                name: pinsYup.string().trim().max(255).ensure(),
+                fileName: pinsYup.string().trim().max(255).ensure(),
+                originalFileName: pinsYup.string().trim().max(255).ensure(),
+                location: pinsYup.string().trim().nullable(),
+                size: pinsYup.number().nullable(),
+              })
+              .noUnknown(true),
+          })
+          .noUnknown(true),
       })
       .noUnknown(true),
     yourAppealSection: pinsYup.object().shape({
-      appealStatement: singleDocumentInsert().shape({
-        hasSensitiveInformation: pinsYup.bool().nullable().default(null),
-      }),
-      otherDocuments: multiDocumentInsert(),
+      appealStatement: pinsYup
+        .object()
+        .shape({
+          uploadedFile: pinsYup
+            .object()
+            .shape({
+              id: pinsYup.string().trim().uuid().nullable().default(null),
+              name: pinsYup.string().trim().max(255).ensure(),
+              fileName: pinsYup.string().trim().max(255).ensure(),
+              originalFileName: pinsYup.string().trim().max(255).ensure(),
+              location: pinsYup.string().trim().nullable(),
+              size: pinsYup.number().nullable(),
+            })
+            .noUnknown(true),
+          hasSensitiveInformation: pinsYup.bool().nullable().default(null),
+        })
+        .noUnknown(true),
+      otherDocuments: pinsYup
+        .object()
+        .shape({
+          uploadedFiles: pinsYup
+            .array()
+            .of(
+              pinsYup
+                .object()
+                .shape({
+                  id: pinsYup.string().trim().uuid().nullable().default(null),
+                  name: pinsYup.string().trim().max(255).ensure(),
+                  fileName: pinsYup.string().trim().max(255).ensure(),
+                  originalFileName: pinsYup.string().trim().max(255).ensure(),
+                  location: pinsYup.string().trim().nullable(),
+                  size: pinsYup.number().nullable(),
+                })
+                .noUnknown(true),
+            )
+            .nullable()
+            .default([]),
+        })
+        .noUnknown(true),
     }),
     appealSubmission: pinsYup.object().shape({
-      appealPDFStatement: singleDocumentInsert(),
+      appealPDFStatement: pinsYup
+        .object()
+        .shape({
+          uploadedFile: pinsYup
+            .object()
+            .shape({
+              id: pinsYup.string().trim().uuid().nullable().default(null),
+              name: pinsYup.string().trim().max(255).ensure(),
+              fileName: pinsYup.string().trim().max(255).ensure(),
+              originalFileName: pinsYup.string().trim().max(255).ensure(),
+              location: pinsYup.string().trim().nullable(),
+              size: pinsYup.number().nullable(),
+            })
+            .noUnknown(true),
+        })
+        .noUnknown(true),
     }),
     appealSiteSection: pinsYup.object().shape({
       siteAddress: pinsYup
@@ -118,7 +196,7 @@ const insert = pinsYup
         .object()
         .shape({
           hasIssues: pinsYup.bool().nullable(),
-          healthAndSafetyIssues: pinsYup.string().max(255).nullable(),
+          healthAndSafetyIssues: pinsYup.string().max(255).ensure(),
         })
         .noUnknown(true),
     }),
@@ -126,31 +204,52 @@ const insert = pinsYup
       aboutYouSection: pinsYup
         .object()
         .shape({
-          yourDetails: sectionState().required(),
+          yourDetails: pinsYup.string().oneOf(Object.values(SECTION_STATE)).default('NOT STARTED'),
         })
         .noUnknown(true),
       requiredDocumentsSection: pinsYup
         .object()
         .shape({
-          applicationNumber: sectionState().required(),
-          originalApplication: sectionState().required(),
-          decisionLetter: sectionState().required(),
+          applicationNumber: pinsYup
+            .string()
+            .oneOf(Object.values(SECTION_STATE))
+            .default('NOT STARTED'),
+          originalApplication: pinsYup
+            .string()
+            .oneOf(Object.values(SECTION_STATE))
+            .default('NOT STARTED'),
+          decisionLetter: pinsYup
+            .string()
+            .oneOf(Object.values(SECTION_STATE))
+            .default('NOT STARTED'),
         })
         .noUnknown(true),
       yourAppealSection: pinsYup
         .object()
         .shape({
-          appealStatement: sectionState().required(),
-          otherDocuments: sectionState().required(),
+          appealStatement: pinsYup
+            .string()
+            .oneOf(Object.values(SECTION_STATE))
+            .default('NOT STARTED'),
+          otherDocuments: pinsYup
+            .string()
+            .oneOf(Object.values(SECTION_STATE))
+            .default('NOT STARTED'),
         })
         .noUnknown(true),
       appealSiteSection: pinsYup
         .object()
         .shape({
-          siteAddress: sectionState().required(),
-          siteAccess: sectionState().required(),
-          siteOwnership: sectionState().required(),
-          healthAndSafety: sectionState().required(),
+          siteAddress: pinsYup.string().oneOf(Object.values(SECTION_STATE)).default('NOT STARTED'),
+          siteAccess: pinsYup.string().oneOf(Object.values(SECTION_STATE)).default('NOT STARTED'),
+          siteOwnership: pinsYup
+            .string()
+            .oneOf(Object.values(SECTION_STATE))
+            .default('NOT STARTED'),
+          healthAndSafety: pinsYup
+            .string()
+            .oneOf(Object.values(SECTION_STATE))
+            .default('NOT STARTED'),
         })
         .noUnknown(true),
     }),

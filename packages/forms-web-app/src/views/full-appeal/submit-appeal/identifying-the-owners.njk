@@ -61,7 +61,7 @@
               text: "I confirm that I've attempted to identify all the landowners, but have not been successful." if knowsTheOwners == 'some'
               else ("I confirm that I've taken all reasonable steps to identify the landowners." if knowsTheOwners == 'no'),
               attributes: {"data-cy":"identifying-the-owners"},
-              checked: identifyingTheOwners == 'i-agree'
+              checked: hasIdentifiedTheOwners == 'i-agree'
             }
           ],
           errorMessage: errors['identifying-the-owners'] and {

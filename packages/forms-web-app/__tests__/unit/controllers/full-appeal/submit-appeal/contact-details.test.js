@@ -1,3 +1,4 @@
+const appeal = require('@pins/business-rules/test/data/full-appeal');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const contactDetailsController = require('../../../../../src/controllers/full-appeal/submit-appeal/contact-details');
 const { mockReq, mockRes } = require('../../../mocks');
@@ -7,26 +8,22 @@ const {
   },
 } = require('../../../../../src/lib/full-appeal/views');
 const logger = require('../../../../../src/lib/logger');
-const { APPEAL_DOCUMENT } = require('../../../../../src/lib/empty-appeal');
 const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
-jest.mock('../../../../../src/lib/empty-appeal');
 jest.mock('../../../../../src/lib/logger');
 
 const sectionName = 'contactDetailsSection';
+const taskName = 'contact';
 
 describe('controllers/full-appeal/submit-appeal/contact-details', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });
@@ -58,9 +55,11 @@ describe('controllers/full-appeal/submit-appeal/contact-details', () => {
           ...req.session.appeal,
           [sectionName]: {
             ...req.session.appeal[sectionName],
-            name: undefined,
-            companyName: undefined,
-            email: undefined,
+            [taskName]: {
+              name: undefined,
+              companyName: undefined,
+              email: undefined,
+            },
           },
         },
         errorSummary: [{ text: 'There were errors here', href: '#' }],
@@ -69,7 +68,7 @@ describe('controllers/full-appeal/submit-appeal/contact-details', () => {
     });
 
     it('should log an error if the api call fails, and remain on the same page', async () => {
-      const error = new Error('API is down');
+      const error = new Error('Internal Server Error');
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
       const mockRequest = {
@@ -99,9 +98,11 @@ describe('controllers/full-appeal/submit-appeal/contact-details', () => {
             ...appeal,
             [sectionName]: {
               ...appeal[sectionName],
-              name: undefined,
-              companyName: undefined,
-              email: undefined,
+              [taskName]: {
+                name: undefined,
+                companyName: undefined,
+                email: undefined,
+              },
             },
             sectionStates: {
               ...appeal.sectionStates,
@@ -117,13 +118,18 @@ describe('controllers/full-appeal/submit-appeal/contact-details', () => {
         ...appeal,
         [sectionName]: {
           ...appeal[sectionName],
-          name: undefined,
-          companyName: undefined,
-          email: undefined,
+          [taskName]: {
+            name: undefined,
+            companyName: undefined,
+            email: undefined,
+          },
         },
         sectionStates: {
           ...appeal.sectionStates,
-          [sectionName]: TASK_STATUS.COMPLETED,
+          [sectionName]: {
+            ...appeal.sectionStates[sectionName],
+            [taskName]: TASK_STATUS.COMPLETED,
+          },
         },
       });
 

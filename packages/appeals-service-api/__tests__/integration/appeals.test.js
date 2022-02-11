@@ -1,3 +1,4 @@
+const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
 const request = require('supertest');
 const { MongoClient } = require('mongodb');
 const uuid = require('uuid');
@@ -5,14 +6,12 @@ const mongodb = require('../../src/db/db');
 const app = require('../../src/app');
 const { appealDocument } = require('../../src/models/appeal');
 
-const valueAppeal = require('../unit/value-appeal');
-
 jest.mock('../../src/db/db');
 jest.mock('../../src/lib/queue');
 jest.mock('../../../common/src/lib/notify/notify-builder', () => ({}));
 
 async function createAppeal() {
-  const appeal = JSON.parse(JSON.stringify(appealDocument));
+  const appeal = JSON.parse(JSON.stringify(householderAppeal));
   appeal.id = uuid.v4();
   const now = new Date(new Date().toISOString());
   appeal.appealType = '1001';
@@ -54,12 +53,11 @@ describe('Appeals API', () => {
   });
 
   test('POST /api/v1/appeals - It responds with a newly created appeal', async () => {
-    const appeal = JSON.parse(JSON.stringify(appealDocument));
     const response = await request(app).post('/api/v1/appeals').send({});
-    appeal.id = response.body.id;
-    appeal.createdAt = response.body.createdAt;
-    appeal.updatedAt = response.body.updatedAt;
-    expect(response.body).toEqual(appeal);
+    appealDocument.id = response.body.id;
+    appealDocument.createdAt = response.body.createdAt;
+    appealDocument.updatedAt = response.body.updatedAt;
+    expect(response.body).toEqual(appealDocument);
     expect(response.statusCode).toBe(201);
   });
 
@@ -81,7 +79,7 @@ describe('Appeals API', () => {
 
   test('PUT /api/v1/appeals/{id} - It responds with an updated appeal', async () => {
     const appeal = await createAppeal();
-    valueAppeal(appeal);
+    appeal.appealSiteSection.siteOwnership.ownsWholeSite = false;
     const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
     appeal.createdAt = response.body.createdAt;
     appeal.updatedAt = response.body.updatedAt;
@@ -130,6 +128,7 @@ describe('Appeals API', () => {
     appeal.sectionStates.appealSiteSection.siteOwnership = 'COMPLETED';
     appeal.sectionStates.appealSiteSection.healthAndSafety = 'COMPLETED';
     appeal.sectionStates.appealSiteSection.siteAddress = 'COMPLETED';
+    appeal.appealSiteSection.siteOwnership.ownsWholeSite = false;
     await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
     const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
     expect(response.body.errors).toContain('Cannot update appeal that is already SUBMITTED');
@@ -138,7 +137,7 @@ describe('Appeals API', () => {
 
   test('PATCH /api/v1/appeals/{id} - It responds with an updated appeal', async () => {
     const appeal = await createAppeal();
-    valueAppeal(appeal);
+    appeal.appealSiteSection.siteOwnership.ownsWholeSite = false;
     const response = await request(app).patch(`/api/v1/appeals/${appeal.id}`).send(appeal);
     appeal.createdAt = response.body.createdAt;
     appeal.updatedAt = response.body.updatedAt;
@@ -148,7 +147,6 @@ describe('Appeals API', () => {
 
   test('PATCH /api/v1/appeals/{id} - It responds with an error - Not Found', async () => {
     const appeal = await createAppeal();
-    valueAppeal(appeal);
     appeal.id = 'bfb8698e-13eb-4523-8767-1042fccc0cea';
     const response = await request(app)
       .patch(`/api/v1/appeals/bfb8698e-13eb-4523-8767-1042fccc0cea`)
@@ -162,7 +160,6 @@ describe('Appeals API', () => {
 
   test('PATCH /api/v1/appeals/{id} - It responds with an error - appeal id in path must be the same as the id in the request body', async () => {
     const appeal = await createAppeal();
-    valueAppeal(appeal);
     const idInPath = appeal.id;
     appeal.id = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
     const response = await request(app).patch(`/api/v1/appeals/${idInPath}`).send(appeal);

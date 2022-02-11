@@ -14,22 +14,24 @@ jest.mock('../../../../../src/config', () => ({
   },
 }));
 
+const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
 const dateDecisionDueHouseholderController = require('../../../../../src/controllers/householder-planning/eligibility/date-decision-due-householder');
 const { mockReq, mockRes } = require('../../../mocks');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../../src/lib/householder-planning/views');
-const { APPEAL_DOCUMENT } = require('../../../../../src/lib/empty-appeal');
 
 describe('controllers/householder-planning/date-decision-due-householder', () => {
   let req;
   let res;
-  let appeal;
+
+  const appeal = {
+    ...householderAppeal,
+    appealType: constants.APPEAL_ID.HOUSEHOLDER,
+  };
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });
@@ -60,7 +62,7 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
         },
       };
       mockRequest.session.appeal.eligibility.applicationDecision =
-        constants.APPLICATION_DECISION.REFUSED;
+        constants.APPLICATION_DECISION.GRANTED;
 
       await dateDecisionDueHouseholderController.postDateDecisionDueHouseholder(mockRequest, res);
 
@@ -131,7 +133,7 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
         },
       };
       mockRequest.session.appeal.eligibility.applicationDecision =
-        constants.APPLICATION_DECISION.REFUSED;
+        constants.APPLICATION_DECISION.GRANTED;
 
       const error = 'RangeError: Invalid time value';
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));

@@ -20,10 +20,10 @@ import { verifyPageTitle } from '../../../../../support/common/verify-page-title
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
 import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
+import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 const url = 'full-appeal/submit-appeal/own-some-of-the-land';
 const siteAddressUrl = 'full-appeal/submit-appeal/appeal-site-address';
-const taskListUrl = 'full-appeal/submit-appeal/task-list';
 const knowTheOwnersUrl = 'full-appeal/submit-appeal/know-the-owners';
 const ownAllOfLandUrl = 'full-appeal/submit-appeal/own-all-the-land';
 const textPageCaption = 'Tell us about the appeal site';
@@ -33,8 +33,7 @@ const addressLine1 = '10 Bradmore Way';
 const postcode = 'RG6 1BC';
 
 Given("an appellant or agent is on the 'Do you own all the land involved in the appeal' page", () => {
-  goToAppealsPage(taskListUrl);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
   provideAddressLine1(addressLine1);
@@ -49,8 +48,17 @@ Then("'Do you own some of the land involved in the appeal' page is displayed", (
   pageCaptionText(textPageCaption);
 });
 Given("an appellant or agent is on the 'Do you own some of the land involved in the appeal' page", () => {
-  goToAppealsPage(url);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  aboutAppealSiteSectionLink().click();
+  cy.url().should('contain', siteAddressUrl);
+  provideAddressLine1(addressLine1);
+  providePostcode(postcode);
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', ownAllOfLandUrl);
+  selectNo().click();
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', url);
+  cy.checkPageA11y();
 })
 When("the user select {string} and click 'Continue'", (option) => {
   switch (option) {

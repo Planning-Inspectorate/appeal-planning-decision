@@ -16,8 +16,20 @@ Feature: As an appellant/agent
     Then they return to the task list on the 'Appeal a planning decision' page
     #And the task has been updated to 'Complete'
 
-  Scenario Outline: 3. Appellant or Agent provides invalid details
-    Given the appellant or agent is on the 'Provide your contact details' page
+  Scenario Outline: 3. Appellant provides invalid details
+    Given the appellant is on the 'Provide your contact details' page
+    When they have or have not provided '<value>' in the '<field>' text box
+    And they select the 'Continue' button
+    Then they are presented with the error '<reason>'
+    Examples:
+      | field              | value | reason                                                                 |
+      | Your full name     | a     | Name must be between 2 and 80 characters                               |
+      | Your full name     | 2     | Name must only include letters a to z, hyphens, spaces and apostrophes |
+      | Your email address | b     | Enter an email address in the correct format, like name@example.com    |
+      | Your email address | a@b   | Enter an email address in the correct format, like name@example.com    |
+
+  Scenario Outline: 4. Agent provides invalid details
+    Given the agent is on the 'Provide your contact details' page
     When they have or have not provided '<value>' in the '<field>' text box
     And they select the 'Continue' button
     Then they are presented with the error '<reason>'

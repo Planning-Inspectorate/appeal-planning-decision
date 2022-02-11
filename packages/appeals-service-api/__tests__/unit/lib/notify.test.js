@@ -1,9 +1,9 @@
 jest.mock('../../../src/lib/notify-validation');
 jest.mock('../../../src/services/lpa.service');
 
+const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const config = require('.../../../src/lib/config');
 
-const { APPEAL_DOCUMENT } = require('../../data/empty-appeal');
 const {
   isValidAppealForSubmissionReceivedNotificationEmail,
   isValidAppealForSendStartEmailToLPAEmail,
@@ -131,16 +131,16 @@ describe('lib/notify', () => {
 
       beforeEach(() => {
         appeal = {
-          ...APPEAL_DOCUMENT.empty,
+          ...fullAppeal,
           id: 'some-fake-id',
           lpaCode: 'some-lpa-code',
           submissionDate: new Date('19 April 2021'),
           requiredDocumentsSection: {
-            ...APPEAL_DOCUMENT.empty.requiredDocumentsSection,
+            ...fullAppeal.requiredDocumentsSection,
             applicationNumber: '123/abc/xyz',
           },
           appealSiteSection: {
-            ...APPEAL_DOCUMENT.empty.appealSiteSection,
+            ...fullAppeal.appealSiteSection,
             siteAddress: {
               addressLine1: '999 some street',
               town: 'a town',
@@ -235,7 +235,7 @@ describe('lib/notify', () => {
 
       beforeEach(() => {
         appeal = {
-          ...APPEAL_DOCUMENT.empty,
+          ...fullAppeal,
           id: 'some-fake-id',
           lpaCode: 'some-lpa-code',
           submissionDate: new Date('19 April 2021'),
@@ -245,11 +245,11 @@ describe('lib/notify', () => {
             },
           },
           requiredDocumentsSection: {
-            ...APPEAL_DOCUMENT.empty.requiredDocumentsSection,
+            ...fullAppeal.requiredDocumentsSection,
             applicationNumber: '123/abc/xyz',
           },
           appealSiteSection: {
-            ...APPEAL_DOCUMENT.empty.appealSiteSection,
+            ...fullAppeal.appealSiteSection,
             siteAddress: {
               addressLine1: '999 some street',
               town: 'a town',
@@ -342,7 +342,7 @@ describe('lib/notify', () => {
 
       beforeEach(() => {
         appeal = {
-          ...APPEAL_DOCUMENT.empty,
+          ...fullAppeal,
           id: 'some-fake-id',
           lpaCode: 'some-lpa-code',
           horizonId: 'some-fake-horizon-id',
@@ -354,11 +354,11 @@ describe('lib/notify', () => {
             },
           },
           requiredDocumentsSection: {
-            ...APPEAL_DOCUMENT.empty.requiredDocumentsSection,
+            ...fullAppeal.requiredDocumentsSection,
             applicationNumber: '123/abc/xyz',
           },
           appealSiteSection: {
-            ...APPEAL_DOCUMENT.empty.appealSiteSection,
+            ...fullAppeal.appealSiteSection,
             siteAddress: {
               addressLine1: '999 some street',
               town: 'a town',

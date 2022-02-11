@@ -14,6 +14,8 @@ import { verifyErrorMessage } from '../../../../../support/common/verify-error-m
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { getSaveAndContinueButton } from '../../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
 import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
+import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
+import { planningApplicationDocumentsLink } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 
 const url = 'full-appeal/submit-appeal/application-number';
 const planningAppFormUrl = 'full-appeal/submit-appeal/application-form';
@@ -24,26 +26,36 @@ const pageHeading = 'What is your planning application number?';
 const textAppNumberHint = 'You can find this on the decision letter from your local planning department';
 const textPlanningAppNumber = 'PNO-1001';
 const largeTextPlanningAppNumber = 'PNo/0001-This is just a sample test for inputting more than 30 characters in the field';
+const filename = 'appeal-statement-valid.jpeg';
 
 
 Given("an agent is on the 'Planning Application form' page",()=> {
-  goToAppealsPage(planningAppFormUrl);
-  acceptCookiesBanner();
-  getFileUploadButton().attachFile('upload-file-valid.jpeg');
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  planningApplicationDocumentsLink().click();
+  cy.url().should('contain', planningAppFormUrl);
+  //getFileUploadButton().attachFile('upload-file-valid.jpeg');
 });
 When("they click the 'Continue' on File upload page",()=> {
+  getFileUploadButton().attachFile(filename);
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', url);
+  cy.checkPageA11y();
   getSaveAndContinueButton().click();
 });
 When("they click the 'Continue'",()=> {
-  getSaveAndContinueButton().click();
+    getSaveAndContinueButton().click();
 });
 Then("'What is your Planning Application Number' page is displayed",()=> {
   cy.url().should('contain', url);
 });
 
 Given("an agent is on the 'What is your Planning Application number' page",()=> {
-  goToAppealsPage(url);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  planningApplicationDocumentsLink().click();
+  cy.url().should('contain', planningAppFormUrl);
+  getFileUploadButton().attachFile(filename);
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', url);
   pageCaption().should('contain', textPageCaption);
   verifyPageHeading(pageHeading);
   verifyPageTitle(pageTitle);
@@ -63,15 +75,12 @@ Then('an error message {string} is displayed',(errorMessage)=> {
 });
 
 Given("an agent has entered more than 30 characters into the text box",()=> {
-  goToAppealsPage(url);
-  acceptCookiesBanner();
-  planningApplicationNumber().clear().type(largeTextPlanningAppNumber);
-});
-
-Given("an agent is on the 'What is your planning application' page",()=> {
-  goToAppealsPage(planningAppFormUrl)
-  getFileUploadButton().attachFile('appeal-statement-valid.jpeg', { subjectType: 'drag-n-drop' });
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  planningApplicationDocumentsLink().click();
+  getFileUploadButton().attachFile(filename);
   getSaveAndContinueButton().click();
+  cy.url().should('contain', url);
+  planningApplicationNumber().clear().type(largeTextPlanningAppNumber);
 });
 When("they click on the 'Back' link",()=> {
   getBackLink().click();

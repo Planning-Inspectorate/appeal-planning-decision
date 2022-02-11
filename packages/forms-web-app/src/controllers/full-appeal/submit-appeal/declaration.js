@@ -20,21 +20,18 @@ exports.postDeclaration = async (req, res) => {
   req.session.appeal.eligibility.applicationDecision = 'refused';
   req.session.appeal.eligibility.applicationCategories = 'none_of_these';
   req.session.appeal.eligibility.enforcementNotice = false;
-  req.session.appeal.aboutYouSection.yourDetails.name = 'name surname';
-  req.session.appeal.aboutYouSection.yourDetails.email =
+  req.session.appeal.eligibility.typeOfPlanningApplication = 'full-appeal';
+  req.session.appeal.contactDetailsSection.contact.name = 'name surname';
+  req.session.appeal.contactDetailsSection.contact.email =
     'AppealPlanningDecisionTest@planninginspectorate.gov.uk';
-  req.session.appeal.beforeYouStartSection = {
-    typeOfPlanningApplication: 'full-appeal',
-  };
-  req.session.appeal.appealSiteSection.ownsSomeOfTheLand = false;
-  req.session.appeal.appealSiteSection.isAgriculturalHolding = false;
-  req.session.appeal.appealSiteSection.isAgriculturalHoldingTenant = false;
-  req.session.appeal.appealSiteSection.isVisibleFromRoad = true;
-  req.session.appeal.appealSiteSection.areOtherTenants = false;
-  req.session.appeal.appealSiteSection.hasHealthSafetyIssues = false;
-  req.session.appeal.appealSiteSection.knowsTheOwners = 'yes';
+  req.session.appeal.appealSiteSection.siteOwnership.ownsSomeOfTheLand = false;
+  req.session.appeal.appealSiteSection.siteOwnership.knowsTheOwners = 'yes';
+  req.session.appeal.appealSiteSection.agriculturalHolding.isAgriculturalHolding = false;
+  req.session.appeal.appealSiteSection.agriculturalHolding.isTenant = false;
+  req.session.appeal.appealSiteSection.agriculturalHolding.hasOtherTenants = false;
+  req.session.appeal.appealSiteSection.visibleFromRoad.isVisible = true;
   req.session.appeal.planningApplicationDocumentsSection.applicationNumber = '12345';
-  req.session.appeal.planningApplicationDocumentsSection.isDesignAccessStatementSubmitted = false;
+  req.session.appeal.planningApplicationDocumentsSection.designAccessStatement.isSubmitted = false;
   req.session.appeal.planningApplicationDocumentsSection.originalApplication = {
     uploadedFile: {
       name: 'sdsdsd',
@@ -56,7 +53,7 @@ exports.postDeclaration = async (req, res) => {
       originalFileName: 'sdsdsds',
     },
   };
-  req.session.appeal.yourAppealSection.appealStatement = {
+  req.session.appeal.appealDocumentsSection.appealStatement = {
     uploadedFile: {
       name: 'sdsdsd',
       id: '32fdcb44-a6ab-4b9e-a9ca-68976ec81ad3',
@@ -65,33 +62,26 @@ exports.postDeclaration = async (req, res) => {
     hasSensitiveInformation: false,
   };
   req.session.appeal.sectionStates = {
-    aboutYouSection: {
-      yourDetails: 'COMPLETED',
-    },
-    requiredDocumentsSection: {
-      applicationNumber: 'COMPLETED',
-      originalApplication: 'COMPLETED',
-      decisionLetter: 'COMPLETED',
-    },
-    yourAppealSection: {
-      appealStatement: 'COMPLETED',
-      otherDocuments: 'COMPLETED',
+    contactDetailsSection: {
+      isOriginalApplicant: 'COMPLETED',
+      contact: 'COMPLETED',
+      appealingOnBehalfOf: 'COMPLETED',
     },
     appealSiteSection: {
       siteAddress: 'COMPLETED',
-      siteAccess: 'COMPLETED',
       siteOwnership: 'COMPLETED',
+      agriculturalHolding: 'COMPLETED',
+      visibilityFromRoad: 'COMPLETED',
       healthAndSafety: 'COMPLETED',
-      ownsSomeOfTheLand: 'COMPLETED',
-      ownsAllTheLand: 'COMPLETED',
     },
-    contactDetailsSection: 'COMPLETED',
-    aboutAppealSiteSection: 'COMPLETED',
     planningApplicationDocumentsSection: {
-      isDesignAccessStatementSubmitted: 'COMPLETED',
+      applicationNumber: 'COMPLETED',
       originalApplication: 'COMPLETED',
       decisionLetter: 'COMPLETED',
       designAccessStatement: 'COMPLETED',
+    },
+    appealDocumentsSection: {
+      appealStatement: 'COMPLETED',
     },
   };
 

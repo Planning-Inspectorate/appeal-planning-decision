@@ -72,7 +72,7 @@ exports.createOrUpdateAppeal = (appeal) => {
   let appealsServiceApiUrl = '/api/v1/appeals';
   let method = 'POST';
 
-  if (appeal.id && appeal.id !== '') {
+  if (appeal && appeal.id && appeal.id !== '') {
     appealsServiceApiUrl += `/${appeal.id}`;
     method = 'PUT';
   }

@@ -8,16 +8,12 @@ const {
 const { getTaskStatus } = require('../../../services/task.service');
 
 const sectionName = 'appealSiteSection';
-const hasHealthSafetyIssuesTask = 'hasHealthSafetyIssues';
-const healthSafetyIssuesDetailsTask = 'healthSafetyIssuesDetails';
+const taskName = 'healthAndSafety';
 
 const getHealthSafetyIssues = (req, res) => {
-  const {
-    appeal: { [sectionName]: { hasHealthSafetyIssues, healthSafetyIssuesDetails } = {} },
-  } = req.session;
+  const { healthAndSafety } = req.session.appeal[sectionName];
   res.render(HEALTH_SAFETY_ISSUES, {
-    hasHealthSafetyIssues,
-    healthSafetyIssuesDetails,
+    healthAndSafety,
   });
 };
 
@@ -28,42 +24,29 @@ const postHealthSafetyIssues = async (req, res) => {
     session: { appeal },
   } = req;
 
-  const hasHealthSafetyIssues =
-    body['health-safety-issues'] && body['health-safety-issues'] === 'yes';
-  const healthSafetyIssuesDetails = body['health-safety-issues-details'];
+  const healthAndSafety = {
+    hasIssues: body['health-safety-issues'] && body['health-safety-issues'] === 'yes',
+    details: body['health-safety-issues-details'],
+  };
 
   if (Object.keys(errors).length > 0) {
     return res.render(HEALTH_SAFETY_ISSUES, {
-      hasHealthSafetyIssues,
-      healthSafetyIssuesDetails,
+      healthAndSafety,
       errors,
       errorSummary,
     });
   }
 
   try {
-    appeal[sectionName] = appeal[sectionName] || {};
-    appeal[sectionName][hasHealthSafetyIssuesTask] = hasHealthSafetyIssues;
-    appeal[sectionName][healthSafetyIssuesDetailsTask] = healthSafetyIssuesDetails;
-    appeal.sectionStates[sectionName] = appeal.sectionStates[sectionName] || {};
-    appeal.sectionStates[sectionName].hasHealthSafetyIssues = getTaskStatus(
-      appeal,
-      sectionName,
-      hasHealthSafetyIssuesTask
-    );
-    appeal.sectionStates[sectionName].healthSafetyIssuesDetails = getTaskStatus(
-      appeal,
-      sectionName,
-      healthSafetyIssuesDetailsTask
-    );
+    appeal[sectionName][taskName] = healthAndSafety;
+    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
 
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);
 
     return res.render(HEALTH_SAFETY_ISSUES, {
-      hasHealthSafetyIssues,
-      healthSafetyIssuesDetails,
+      healthAndSafety,
       errors,
       errorSummary: [{ text: err.toString(), href: '#' }],
     });

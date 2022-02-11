@@ -14,7 +14,7 @@ Feature: As an Agent representing an applicant
 
   Scenario: 3. No information provided
     Given an Agent is on the 'What is the applicant’s name' page
-    When they click on continue without enter any information
+    When they click on continue without entering any information
     Then they are presented with the error 'Enter the Applicant’s name'
 
   Scenario Outline: 4 - Only one letter or Numerical character entered
@@ -30,7 +30,7 @@ Feature: As an Agent representing an applicant
   Scenario: 6. Agent Navigates from What is the applicants name page back to Task List
     Given an Agent is on the 'What is the applicant’s name' page
     When they click on the 'Back' link
-    Then Agent is on the 'Was the original planning application made in your name?'
+    Then Agent is on the previous page 'Was the original planning application made in your name?'
     And they click on the 'Back' link
     Then they are presented with the 'Appeal a planning decision' task list page
    # And the last task they are working on will show 'In progress

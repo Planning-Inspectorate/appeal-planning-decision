@@ -12,6 +12,10 @@ const APPEALS = 'appeals';
 const validateAppeal = (appeal) => {
   const errors = [];
 
+  if (appeal.appealType !== '1001') {
+    return errors;
+  }
+
   // Your Details
   // Only accepted states are name and email both empty or both valued
   if (

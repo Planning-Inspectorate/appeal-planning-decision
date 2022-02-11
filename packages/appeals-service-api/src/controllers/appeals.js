@@ -1,22 +1,25 @@
 const uuid = require('uuid');
 const { _ } = require('lodash');
 const logger = require('../lib/logger');
-
 const {
   getAppeal: getAppealFromAppealApiService,
   updateAppeal,
   insertAppeal,
 } = require('../services/appeal.service');
-const { appealDocument } = require('../models/appeal');
-
 const ApiError = require('../error/apiError');
+const { appealDocument } = require('../models/appeal');
+const { featureFlag } = require('../lib/config');
 
 module.exports = {
   async createAppeal(req, res) {
-    const appeal = JSON.parse(JSON.stringify(appealDocument));
-    appeal.id = uuid.v4();
+    let appeal = {};
+
+    if (!featureFlag.newAppealJourney) {
+      appeal = JSON.parse(JSON.stringify(appealDocument));
+    }
 
     const now = new Date(new Date().toISOString());
+    appeal.id = uuid.v4();
     appeal.createdAt = now;
     appeal.updatedAt = now;
 

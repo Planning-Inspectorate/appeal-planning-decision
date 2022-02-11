@@ -24,6 +24,7 @@ import { acceptCookiesBanner } from '../../../../../support/common/accept-cookie
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
+import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 const url = 'full-appeal/submit-appeal/health-safety-issues';
 const agriculturalHoldingUrl = 'full-appeal/submit-appeal/agricultural-holding';
@@ -41,8 +42,7 @@ const healthSafetyIssuesError = 'Select yes if there are any health and safety i
 const maxCharacterError = 'Health and safety information must be 255 characters or less';
 
 Given("an appellant or agent is on the 'Is the site visible from a public road?' page", () => {
-  goToAppealsPage(taskListUrl);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
   provideAddressLine1(addressLine1);
@@ -80,8 +80,23 @@ Then("the 'Are there any health and safety issues on the appeal site?' page is d
   cy.url().should('contain', url);
 });
 Given("an appellant or agent is on the 'Are there any health and safety issues on the appeal site?' page", () => {
-  goToAppealsPage(url);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  aboutAppealSiteSectionLink().click();
+  cy.url().should('contain', siteAddressUrl);
+  provideAddressLine1(addressLine1);
+  providePostcode(postcode);
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', ownAllOfLandUrl);
+  selectYes().click();
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', agriculturalHoldingUrl);
+  selectNo().click();
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', visibleFromRoadUrl);
+  selectYes().click();
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', url);
+  cy.checkPageA11y();
   verifyPageHeading(pageHeadingHealthSafetyIssues);
   verifyPageTitle(pageTitleHealthSafetyIssues)
   pageCaptionText().should('contain', textPageCaption);
