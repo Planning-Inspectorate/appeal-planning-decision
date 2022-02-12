@@ -500,6 +500,156 @@ describe('schemas/full-appeal/insert', () => {
           });
         });
       });
+
+      describe('appealDocumentsSection.plansDrawings', () => {
+        it('should remove unknown fields', async () => {
+          appeal2.appealDocumentsSection.plansDrawings.unknownField = 'unknown field';
+
+          const result = await insert.validate(appeal2, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should throw an error when given a null value', async () => {
+          appeal.appealDocumentsSection.plansDrawings = null;
+
+          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+            'appealDocumentsSection.plansDrawings must be a `object` type, but the final value was: `null`',
+          );
+        });
+
+        describe('appealDocumentsSection.plansDrawings.hasPlansDrawings', () => {
+          it('should throw an error when not given a boolean', async () => {
+            appeal.appealDocumentsSection.plansDrawings.hasPlansDrawings = 'true ';
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              'appealDocumentsSection.plansDrawings.hasPlansDrawings must be a `boolean` type, but the final value was: `"true "` (cast from the value `true`).',
+            );
+          });
+
+          it('should not throw an error when given a null value', async () => {
+            appeal.appealDocumentsSection.plansDrawings.hasPlansDrawings = null;
+
+            const result = await insert.validate(appeal, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should not throw an error when not given a value', async () => {
+            delete appeal2.appealDocumentsSection.plansDrawings.hasPlansDrawings;
+            appeal.appealDocumentsSection.plansDrawings.hasPlansDrawings = null;
+
+            const result = await insert.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+        });
+
+        describe('appealDocumentsSection.plansDrawings.uploadedFile', () => {
+          it('should remove unknown fields', async () => {
+            appeal2.appealDocumentsSection.plansDrawings.uploadedFile.unknownField =
+              'unknown field';
+
+            const result = await insert.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should throw an error when given a null value', async () => {
+            appeal.appealDocumentsSection.plansDrawings.uploadedFile = null;
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              'appealDocumentsSection.plansDrawings.uploadedFile must be a `object` type, but the final value was: `null`',
+            );
+          });
+
+          describe('appealDocumentsSection.plansDrawings.uploadedFile.name', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.appealDocumentsSection.plansDrawings.uploadedFile.name = 'a'.repeat(256);
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'appealDocumentsSection.plansDrawings.uploadedFile.name must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealDocumentsSection.plansDrawings.uploadedFile.name = '  test-pdf.pdf  ';
+              appeal.appealDocumentsSection.plansDrawings.uploadedFile.name = 'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.appealDocumentsSection.plansDrawings.uploadedFile.name;
+              appeal.appealDocumentsSection.plansDrawings.uploadedFile.name = '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('appealDocumentsSection.plansDrawings.uploadedFile.originalFileName', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.appealDocumentsSection.plansDrawings.uploadedFile.originalFileName =
+                'a'.repeat(256);
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'appealDocumentsSection.plansDrawings.uploadedFile.originalFileName must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealDocumentsSection.plansDrawings.uploadedFile.originalFileName =
+                '  test-pdf.pdf  ';
+              appeal.appealDocumentsSection.plansDrawings.uploadedFile.originalFileName =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.appealDocumentsSection.plansDrawings.uploadedFile.originalFileName;
+              appeal.appealDocumentsSection.plansDrawings.uploadedFile.originalFileName = '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('appealDocumentsSection.plansDrawings.uploadedFile.id', () => {
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealDocumentsSection.plansDrawings.uploadedFile.id =
+                '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
+              appeal.appealDocumentsSection.plansDrawings.uploadedFile.id =
+                '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should throw an error when not given a UUID', async () => {
+              appeal.appealDocumentsSection.plansDrawings.uploadedFile.id = 'abc123';
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'appealDocumentsSection.plansDrawings.uploadedFile.id must be a valid UUID',
+              );
+            });
+
+            it('should not throw an error when given a null value', async () => {
+              appeal.appealDocumentsSection.plansDrawings.uploadedFile.id = null;
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.appealDocumentsSection.plansDrawings.uploadedFile.id;
+              appeal.appealDocumentsSection.plansDrawings.uploadedFile.id = null;
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+        });
+      });
     });
 
     describe('contactDetailsSection', () => {
@@ -2115,6 +2265,27 @@ describe('schemas/full-appeal/insert', () => {
 
             appeal2.sectionStates.appealDocumentsSection.appealStatement =
               SECTION_STATE.NOT_STARTED;
+
+            const result = await insert.validate(appeal, config);
+            expect(result).toEqual(appeal2);
+          });
+        });
+
+        describe('sectionStates.appealDocumentsSection.plansDrawings', () => {
+          it('should throw an error when given an invalid value', async () => {
+            appeal.sectionStates.appealDocumentsSection.plansDrawings = 'NOT COMPLETE';
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              `sectionStates.appealDocumentsSection.plansDrawings must be one of the following values: ${Object.values(
+                SECTION_STATE,
+              ).join(', ')}`,
+            );
+          });
+
+          it('should set a default value of `NOT STARTED` when not given a value', async () => {
+            delete appeal.sectionStates.appealDocumentsSection.plansDrawings;
+
+            appeal2.sectionStates.appealDocumentsSection.plansDrawings = SECTION_STATE.NOT_STARTED;
 
             const result = await insert.validate(appeal, config);
             expect(result).toEqual(appeal2);

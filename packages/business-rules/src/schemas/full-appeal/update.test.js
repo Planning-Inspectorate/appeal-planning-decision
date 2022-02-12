@@ -559,6 +559,142 @@ describe('schemas/full-appeal/update', () => {
           });
         });
       });
+
+      describe('appealDocumentsSection.plansDrawings', () => {
+        it('should remove unknown fields', async () => {
+          appeal2.appealDocumentsSection.plansDrawings.unknownField = 'unknown field';
+
+          const result = await update.validate(appeal2, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should throw an error when given a null value', async () => {
+          appeal.appealDocumentsSection.plansDrawings = null;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'appealDocumentsSection.plansDrawings must be a `object` type, but the final value was: `null`',
+          );
+        });
+
+        describe('appealDocumentsSection.plansDrawings.hasPlansDrawings', () => {
+          it('should throw an error when not given a boolean', async () => {
+            appeal.appealDocumentsSection.plansDrawings.hasPlansDrawings = 'true ';
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealDocumentsSection.plansDrawings.hasPlansDrawings must be a `boolean` type, but the final value was: `"true "` (cast from the value `true`).',
+            );
+          });
+
+          it('should throw an error when not given a value', async () => {
+            delete appeal.appealDocumentsSection.plansDrawings.hasPlansDrawings;
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealDocumentsSection.plansDrawings.hasPlansDrawings is a required field',
+            );
+          });
+        });
+
+        describe('appealDocumentsSection.plansDrawings.uploadedFile', () => {
+          it('should remove unknown fields', async () => {
+            appeal2.appealDocumentsSection.plansDrawings.uploadedFile.unknownField =
+              'unknown field';
+
+            const result = await update.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should throw an error when given a null value', async () => {
+            appeal.appealDocumentsSection.plansDrawings.uploadedFile = null;
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealDocumentsSection.plansDrawings.uploadedFile must be a `object` type, but the final value was: `null`',
+            );
+          });
+
+          describe('appealDocumentsSection.plansDrawings.uploadedFile.name', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.appealDocumentsSection.plansDrawings.uploadedFile.name = 'a'.repeat(256);
+
+              await expect(() => update.validate(appeal, config)).rejects.toThrow(
+                'appealDocumentsSection.plansDrawings.uploadedFile.name must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealDocumentsSection.plansDrawings.uploadedFile.name = '  test-pdf.pdf  ';
+              appeal.appealDocumentsSection.plansDrawings.uploadedFile.name = 'test-pdf.pdf';
+
+              const result = await update.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should throw an error when not given a value', async () => {
+              delete appeal.appealDocumentsSection.plansDrawings.uploadedFile.name;
+
+              await expect(() => update.validate(appeal, config)).rejects.toThrow(
+                'appealDocumentsSection.plansDrawings.uploadedFile.name is a required field',
+              );
+            });
+          });
+
+          describe('appealDocumentsSection.plansDrawings.uploadedFile.originalFileName', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.appealDocumentsSection.plansDrawings.uploadedFile.originalFileName =
+                'a'.repeat(256);
+
+              await expect(() => update.validate(appeal, config)).rejects.toThrow(
+                'appealDocumentsSection.plansDrawings.uploadedFile.originalFileName must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealDocumentsSection.plansDrawings.uploadedFile.originalFileName =
+                '  test-pdf.pdf  ';
+              appeal.appealDocumentsSection.plansDrawings.uploadedFile.originalFileName =
+                'test-pdf.pdf';
+
+              const result = await update.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should throw an error when not given a value', async () => {
+              delete appeal.appealDocumentsSection.plansDrawings.uploadedFile.originalFileName;
+
+              await expect(() => update.validate(appeal, config)).rejects.toThrow(
+                'appealDocumentsSection.plansDrawings.uploadedFile.originalFileName is a required field',
+              );
+            });
+          });
+
+          describe('appealDocumentsSection.plansDrawings.uploadedFile.id', () => {
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealDocumentsSection.plansDrawings.uploadedFile.id =
+                '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
+              appeal.appealDocumentsSection.plansDrawings.uploadedFile.id =
+                '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
+
+              const result = await update.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should throw an error when not given a UUID', async () => {
+              appeal.appealDocumentsSection.plansDrawings.uploadedFile.id = 'abc123';
+
+              await expect(() => update.validate(appeal, config)).rejects.toThrow(
+                'appealDocumentsSection.plansDrawings.uploadedFile.id must be a valid UUID',
+              );
+            });
+
+            it('should throw an error when not given a value', async () => {
+              delete appeal.appealDocumentsSection.plansDrawings.uploadedFile.id;
+
+              await expect(() => update.validate(appeal, config)).rejects.toThrow(
+                'appealDocumentsSection.plansDrawings.uploadedFile.id is a required field',
+              );
+            });
+          });
+        });
+      });
     });
 
     describe('contactDetailsSection', () => {
@@ -2120,6 +2256,26 @@ describe('schemas/full-appeal/update', () => {
 
             await expect(() => update.validate(appeal, config)).rejects.toThrow(
               'sectionStates.appealDocumentsSection.appealStatement is a required field',
+            );
+          });
+        });
+
+        describe('sectionStates.appealDocumentsSection.plansDrawings', () => {
+          it('should throw an error when given an invalid value', async () => {
+            appeal.sectionStates.appealDocumentsSection.plansDrawings = 'NOT COMPLETE';
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              `sectionStates.appealDocumentsSection.plansDrawings must be one of the following values: ${Object.values(
+                SECTION_STATE,
+              ).join(', ')}`,
+            );
+          });
+
+          it('should throw an error when not given a value', async () => {
+            delete appeal.sectionStates.appealDocumentsSection.plansDrawings;
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'sectionStates.appealDocumentsSection.plansDrawings is a required field',
             );
           });
         });
