@@ -23,6 +23,7 @@ const appealSubmittedRouter = require('../../../../../src/routes/full-appeal/sub
 const visibleFromRoadRouter = require('../../../../../src/routes/full-appeal/submit-appeal/visible-from-road');
 const healthSafetyIssuesRouter = require('../../../../../src/routes/full-appeal/submit-appeal/health-safety-issues');
 const identfyingTheOwnersRouter = require('../../../../../src/routes/full-appeal/submit-appeal/identifying-the-owners');
+const plansDrawingsRouter = require('../../../../../src/routes/full-appeal/submit-appeal/plans-drawings');
 
 describe('routes/full-appeal/submit-appeal/index', () => {
   beforeEach(() => {
@@ -31,7 +32,7 @@ describe('routes/full-appeal/submit-appeal/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(24);
+    expect(use.mock.calls.length).toBe(25);
     expect(use).toHaveBeenCalledWith(taskListRouter);
     expect(use).toHaveBeenCalledWith(checkAnswersRouter);
     expect(use).toHaveBeenCalledWith(contactDetailsRouter);
@@ -56,5 +57,6 @@ describe('routes/full-appeal/submit-appeal/index', () => {
     expect(use).toHaveBeenCalledWith(visibleFromRoadRouter);
     expect(use).toHaveBeenCalledWith(healthSafetyIssuesRouter);
     expect(use).toHaveBeenCalledWith(identfyingTheOwnersRouter);
+    expect(use).toHaveBeenCalledWith(plansDrawingsRouter);
   });
 });

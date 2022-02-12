@@ -13,7 +13,7 @@ const VIEW = {
     OWN_ALL_THE_LAND: 'full-appeal/submit-appeal/own-all-the-land',
     APPLICANT_NAME: 'full-appeal/submit-appeal/applicant-name',
     APPEAL_STATEMENT: 'full-appeal/submit-appeal/appeal-statement',
-    PLANS_DRAWINGS: 'full-appeal/plans-drawings',
+    PLANS_DRAWINGS: 'full-appeal/submit-appeal/plans-drawings',
     ORIGINAL_APPLICANT: 'full-appeal/submit-appeal/original-applicant',
     OWN_SOME_OF_THE_LAND: 'full-appeal/submit-appeal/own-some-of-the-land',
     KNOW_THE_OWNERS: 'full-appeal/submit-appeal/know-the-owners',
@@ -29,6 +29,8 @@ const VIEW = {
     DECLARATION_INFORMATION: 'full-appeal/submit-appeal/declaration-information',
     HEALTH_SAFETY_ISSUES: 'full-appeal/submit-appeal/health-safety-issues',
     ADVERTISING_YOUR_APPEAL: 'full-appeal/submit-appeal/advertising-your-appeal',
+    NEW_PLANS_DRAWINGS: 'full-appeal/submit-appeal/new-plans-drawings',
+    SUPPORTING_DOCUMENTS: 'full-appeal/submit-appeal/supporting-documents',
   },
 };
 

@@ -24,7 +24,7 @@ import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-
 
 const url = 'full-appeal/submit-appeal/appeal-statement';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
-const planDrawingUrl = '/full-appeal/plans-drawings';
+const planDrawingUrl = '/full-appeal/submit-appeal/plans-drawings';
 const textPageCaption = 'Upload documents for your appeal';
 const pageTitle = "Your appeal statement - Appeal a planning decision - GOV.UK";
 const pageHeading = 'Your appeal statement';

@@ -212,6 +212,23 @@ const update = pinsYup
             hasSensitiveInformation: pinsYup.bool().required(),
           })
           .noUnknown(true),
+        plansDrawings: pinsYup
+          .object()
+          .shape({
+            hasPlansDrawings: pinsYup.bool().required(),
+            uploadedFile: pinsYup
+              .object()
+              .shape({
+                id: pinsYup.string().trim().uuid().required(),
+                name: pinsYup.string().trim().max(255).required(),
+                fileName: pinsYup.string().trim().max(255).required(),
+                originalFileName: pinsYup.string().trim().max(255).required(),
+                location: pinsYup.string().trim().required(),
+                size: pinsYup.number().required(),
+              })
+              .noUnknown(true),
+          })
+          .noUnknown(true),
       })
       .noUnknown(true),
     appealSubmission: pinsYup
@@ -269,6 +286,7 @@ const update = pinsYup
           .object()
           .shape({
             appealStatement: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            plansDrawings: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
           })
           .noUnknown(true),
       })
