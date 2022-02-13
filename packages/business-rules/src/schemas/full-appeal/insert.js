@@ -233,6 +233,23 @@ const insert = pinsYup
             hasSensitiveInformation: pinsYup.bool().nullable().default(null),
           })
           .noUnknown(true),
+        plansDrawings: pinsYup
+          .object()
+          .shape({
+            hasPlansDrawings: pinsYup.bool().nullable().default(null),
+            uploadedFile: pinsYup
+              .object()
+              .shape({
+                id: pinsYup.string().trim().uuid().nullable().default(null),
+                name: pinsYup.string().trim().max(255).ensure(),
+                fileName: pinsYup.string().trim().max(255).ensure(),
+                originalFileName: pinsYup.string().trim().max(255).ensure(),
+                location: pinsYup.string().trim().nullable(),
+                size: pinsYup.number().nullable(),
+              })
+              .noUnknown(true),
+          })
+          .noUnknown(true),
       })
       .noUnknown(true),
     appealSubmission: pinsYup
@@ -323,6 +340,10 @@ const insert = pinsYup
           .object()
           .shape({
             appealStatement: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .default('NOT STARTED'),
+            plansDrawings: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
               .default('NOT STARTED'),

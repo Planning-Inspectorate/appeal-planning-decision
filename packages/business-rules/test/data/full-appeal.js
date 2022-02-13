@@ -97,6 +97,17 @@ const appeal = {
       },
       hasSensitiveInformation: false,
     },
+    plansDrawings: {
+      hasPlansDrawings: true,
+      uploadedFile: {
+        id: '89280aa4-d925-4525-8050-938d5db41a5a',
+        name: 'plansDrawings.pdf',
+        fileName: 'plansDrawings.pdf',
+        originalFileName: 'plansDrawings.pdf',
+        location: '89280aa4-d925-4525-8050-938d5db41a5a/plansDrawings.pdf',
+        size: 1000,
+      },
+    },
   },
   appealSubmission: {
     appealPDFStatement: {
@@ -131,6 +142,7 @@ const appeal = {
     },
     appealDocumentsSection: {
       appealStatement: 'NOT STARTED',
+      plansDrawings: 'NOT STARTED',
     },
   },
 };

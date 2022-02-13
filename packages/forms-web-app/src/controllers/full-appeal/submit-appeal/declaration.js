@@ -74,6 +74,17 @@ exports.postDeclaration = async (req, res) => {
     },
     hasSensitiveInformation: false,
   };
+  req.session.appeal.appealDocumentsSection.plansDrawings = {
+    hasPlansDrawings: false,
+    uploadedFile: {
+      name: 'sdsdsd',
+      id: '32fdcb44-a6ab-4b9e-a9ca-68976ec81ad3',
+      originalFileName: 'sdsdsds',
+      fileName: 'plansDrawings.pdf',
+      location: '372c8ba6-dfa6-4bba-bf9c-b024e3d8c282/plansDrawings.pdf',
+      size: 1000,
+    },
+  };
   req.session.appeal.sectionStates = {
     contactDetailsSection: {
       isOriginalApplicant: 'COMPLETED',
@@ -95,6 +106,7 @@ exports.postDeclaration = async (req, res) => {
     },
     appealDocumentsSection: {
       appealStatement: 'COMPLETED',
+      plansDrawings: 'COMPLETED',
     },
   };
 
