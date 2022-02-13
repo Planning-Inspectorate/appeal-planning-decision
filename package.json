@@ -10,7 +10,7 @@
   "main": "index.js",
   "scripts": {
     "commit": "cz",
-    "commitlint": "commitlint --from 052ebfdc --to HEAD",
+    "commitlint": "commitlint --from 58844f55ff --to HEAD",
     "format": "prettier --write \"*.js\" \"data/*.js\"",
     "semantic-release": "semantic-release",
     "test:e2e": "cd ./packages/e2e-tests && npm run test:e2e",

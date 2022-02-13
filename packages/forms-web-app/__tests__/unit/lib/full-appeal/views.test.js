@@ -35,6 +35,7 @@ describe('/lib/full-appeal/views', () => {
         ADVERTISING_YOUR_APPEAL: 'full-appeal/submit-appeal/advertising-your-appeal',
         NEW_PLANS_DRAWINGS: 'full-appeal/submit-appeal/new-plans-drawings',
         SUPPORTING_DOCUMENTS: 'full-appeal/submit-appeal/supporting-documents',
+        NEW_SUPPORTING_DOCUMENTS: 'full-appeal/submit-appeal/new-supporting-documents',
       },
     });
   });

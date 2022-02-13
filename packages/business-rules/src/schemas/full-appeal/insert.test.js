@@ -650,6 +650,48 @@ describe('schemas/full-appeal/insert', () => {
           });
         });
       });
+
+      describe('appealDocumentsSection.supportingDocuments', () => {
+        it('should remove unknown fields', async () => {
+          appeal2.appealDocumentsSection.supportingDocuments.unknownField = 'unknown field';
+
+          const result = await insert.validate(appeal2, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should throw an error when given a null value', async () => {
+          appeal.appealDocumentsSection.supportingDocuments = null;
+
+          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+            'appealDocumentsSection.supportingDocuments must be a `object` type, but the final value was: `null`',
+          );
+        });
+
+        describe('appealDocumentsSection.supportingDocuments.hasSupportingDocuments', () => {
+          it('should throw an error when not given a boolean', async () => {
+            appeal.appealDocumentsSection.supportingDocuments.hasSupportingDocuments = 'true ';
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              'appealDocumentsSection.supportingDocuments.hasSupportingDocuments must be a `boolean` type, but the final value was: `"true "` (cast from the value `true`).',
+            );
+          });
+
+          it('should not throw an error when given a null value', async () => {
+            appeal.appealDocumentsSection.supportingDocuments.hasSupportingDocuments = null;
+
+            const result = await insert.validate(appeal, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should not throw an error when not given a value', async () => {
+            delete appeal2.appealDocumentsSection.supportingDocuments.hasSupportingDocuments;
+            appeal.appealDocumentsSection.supportingDocuments.hasSupportingDocuments = null;
+
+            const result = await insert.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+        });
+      });
     });
 
     describe('contactDetailsSection', () => {
