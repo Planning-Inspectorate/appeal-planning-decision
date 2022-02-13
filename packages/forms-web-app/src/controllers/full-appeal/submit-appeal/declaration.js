@@ -85,6 +85,9 @@ exports.postDeclaration = async (req, res) => {
       size: 1000,
     },
   };
+  req.session.appeal.appealDocumentsSection.supportingDocuments = {
+    hasSupportingDocuments: false,
+  };
   req.session.appeal.sectionStates = {
     contactDetailsSection: {
       isOriginalApplicant: 'COMPLETED',
@@ -107,6 +110,7 @@ exports.postDeclaration = async (req, res) => {
     appealDocumentsSection: {
       appealStatement: 'COMPLETED',
       plansDrawings: 'COMPLETED',
+      supportingDocuments: 'COMPLETED',
     },
   };
 

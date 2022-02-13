@@ -250,6 +250,12 @@ const insert = pinsYup
               .noUnknown(true),
           })
           .noUnknown(true),
+        supportingDocuments: pinsYup
+          .object()
+          .shape({
+            hasSupportingDocuments: pinsYup.bool().nullable().default(null),
+          })
+          .noUnknown(true),
       })
       .noUnknown(true),
     appealSubmission: pinsYup
@@ -344,6 +350,10 @@ const insert = pinsYup
               .oneOf(Object.values(SECTION_STATE))
               .default('NOT STARTED'),
             plansDrawings: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .default('NOT STARTED'),
+            supportingDocuments: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
               .default('NOT STARTED'),

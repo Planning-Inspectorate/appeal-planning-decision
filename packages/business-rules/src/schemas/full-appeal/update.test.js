@@ -695,6 +695,41 @@ describe('schemas/full-appeal/update', () => {
           });
         });
       });
+
+      describe('appealDocumentsSection.supportingDocuments', () => {
+        it('should remove unknown fields', async () => {
+          appeal2.appealDocumentsSection.supportingDocuments.unknownField = 'unknown field';
+
+          const result = await update.validate(appeal2, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should throw an error when given a null value', async () => {
+          appeal.appealDocumentsSection.supportingDocuments = null;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'appealDocumentsSection.supportingDocuments must be a `object` type, but the final value was: `null`',
+          );
+        });
+
+        describe('appealDocumentsSection.supportingDocuments.hasSupportingDocuments', () => {
+          it('should throw an error when not given a boolean', async () => {
+            appeal.appealDocumentsSection.supportingDocuments.hasSupportingDocuments = 'true ';
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealDocumentsSection.supportingDocuments.hasSupportingDocuments must be a `boolean` type, but the final value was: `"true "` (cast from the value `true`).',
+            );
+          });
+
+          it('should throw an error when not given a value', async () => {
+            delete appeal.appealDocumentsSection.supportingDocuments.hasSupportingDocuments;
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealDocumentsSection.supportingDocuments.hasSupportingDocuments is a required field',
+            );
+          });
+        });
+      });
     });
 
     describe('contactDetailsSection', () => {

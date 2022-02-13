@@ -108,6 +108,9 @@ const appeal = {
         size: 1000,
       },
     },
+    supportingDocuments: {
+      hasSupportingDocuments: true,
+    },
   },
   appealSubmission: {
     appealPDFStatement: {
@@ -143,6 +146,7 @@ const appeal = {
     appealDocumentsSection: {
       appealStatement: 'NOT STARTED',
       plansDrawings: 'NOT STARTED',
+      supportingDocuments: 'NOT STARTED',
     },
   },
 };

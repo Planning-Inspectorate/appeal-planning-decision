@@ -229,6 +229,12 @@ const update = pinsYup
               .noUnknown(true),
           })
           .noUnknown(true),
+        supportingDocuments: pinsYup
+          .object()
+          .shape({
+            hasSupportingDocuments: pinsYup.bool().required(),
+          })
+          .noUnknown(true),
       })
       .noUnknown(true),
     appealSubmission: pinsYup
@@ -287,6 +293,7 @@ const update = pinsYup
           .shape({
             appealStatement: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             plansDrawings: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            supportingDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
           })
           .noUnknown(true),
       })
