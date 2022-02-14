@@ -1,7 +1,12 @@
 const { featureFlag } = require('../config');
+const logger = require('../lib/logger');
 
 const checkAppealTypeExists = (req, res, next) => {
-  const { session: { appeal: { appealType } = {} } = {} } = req;
+  const { session: { appeal, appeal: { appealType } = {} } = {} } = req;
+
+  logger.debug({ appeal }, 'Appeal data in checkAppealTypeExists');
+  logger.debug({ featureFlag }, 'Feature flag in checkAppealTypeExists');
+
   const allowList = [
     '/before-you-start/local-planning-depart',
     '/before-you-start/type-of-planning-application',

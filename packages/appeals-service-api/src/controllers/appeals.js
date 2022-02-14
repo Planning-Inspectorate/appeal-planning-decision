@@ -14,6 +14,8 @@ module.exports = {
   async createAppeal(req, res) {
     let appeal = {};
 
+    logger.debug({ featureFlag }, 'Feature flag in createAppeal');
+
     if (!featureFlag.newAppealJourney) {
       appeal = JSON.parse(JSON.stringify(appealDocument));
     }
@@ -24,6 +26,7 @@ module.exports = {
     appeal.updatedAt = now;
 
     logger.debug(`Creating appeal ${appeal.id} ...`);
+    logger.debug({ appeal }, 'Appeal data in createAppeal');
 
     const document = await insertAppeal(appeal);
 
@@ -75,9 +78,13 @@ module.exports = {
       const newAppeal = req.body;
       const oldAppeal = document.appeal;
 
+      logger.debug({ newAppeal }, 'New appeal data in updateAppeal');
+
       const isFirstSubmission = oldAppeal.state === 'DRAFT' && newAppeal.state === 'SUBMITTED';
 
       const updatedDocument = await updateAppeal(_.merge(oldAppeal, newAppeal), isFirstSubmission);
+
+      logger.debug({ updatedDocument }, 'Updated appeal data in updateAppeal');
 
       res.status(200).send(updatedDocument.appeal);
     } catch (e) {

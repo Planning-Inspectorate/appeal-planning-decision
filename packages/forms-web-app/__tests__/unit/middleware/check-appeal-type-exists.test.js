@@ -5,6 +5,9 @@ jest.mock('../../../src/config', () => ({
   featureFlag: {
     newAppealJourney: true,
   },
+  logger: {
+    level: 'info',
+  },
 }));
 
 describe('middleware/check-appeal-type-exists', () => {
