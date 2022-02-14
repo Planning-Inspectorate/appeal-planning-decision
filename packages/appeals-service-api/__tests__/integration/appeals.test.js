@@ -4,7 +4,6 @@ const { MongoClient } = require('mongodb');
 const uuid = require('uuid');
 const mongodb = require('../../src/db/db');
 const app = require('../../src/app');
-const { appealDocument } = require('../../src/models/appeal');
 
 jest.mock('../../src/db/db');
 jest.mock('../../src/lib/queue');
@@ -54,10 +53,11 @@ describe('Appeals API', () => {
 
   test('POST /api/v1/appeals - It responds with a newly created appeal', async () => {
     const response = await request(app).post('/api/v1/appeals').send({});
-    appealDocument.id = response.body.id;
-    appealDocument.createdAt = response.body.createdAt;
-    appealDocument.updatedAt = response.body.updatedAt;
-    expect(response.body).toEqual(appealDocument);
+    expect(response.body).toEqual({
+      id: response.body.id,
+      createdAt: response.body.createdAt,
+      updatedAt: response.body.updatedAt,
+    });
     expect(response.statusCode).toBe(201);
   });
 
