@@ -118,6 +118,6 @@ module.exports = {
     },
   },
   featureFlag: {
-    newAppealJourney: process.env.FEATURE_FLAG_NEW_APPEAL_JOURNEY === 'true',
+    newAppealJourney: process.env.FEATURE_FLAG_NEW_APPEAL_JOURNEY === 'true' || true,
   },
 };

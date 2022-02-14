@@ -191,7 +191,7 @@ const config = {
     type: [WRITTEN_REPRESENTATION, HEARING, INQUIRY],
   },
   featureFlag: {
-    newAppealJourney: process.env.FEATURE_FLAG_NEW_APPEAL_JOURNEY === 'true',
+    newAppealJourney: process.env.FEATURE_FLAG_NEW_APPEAL_JOURNEY === 'true' || true,
   },
 };
 
