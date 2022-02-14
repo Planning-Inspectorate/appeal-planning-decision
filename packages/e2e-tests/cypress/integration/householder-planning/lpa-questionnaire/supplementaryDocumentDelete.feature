@@ -1,3 +1,4 @@
+@wip
 Feature: As a LPA Planning Officer
   I want to delete an incorrectly uploaded supplementary planning document
   so that it does not form part of the evidence on which the Inspector makes a decision
