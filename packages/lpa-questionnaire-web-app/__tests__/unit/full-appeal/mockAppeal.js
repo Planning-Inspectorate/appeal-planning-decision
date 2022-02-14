@@ -1,5 +1,3 @@
-
-
 const {
   constants: { APPEAL_ID, APPLICATION_DECISION },
 } = require('@pins/business-rules');
