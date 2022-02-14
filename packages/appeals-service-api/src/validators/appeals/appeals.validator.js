@@ -4,11 +4,10 @@ const {
 const { isAppealSubmitted } = require('../../services/appeal.service');
 const logger = require('../../lib/logger');
 const ApiError = require('../../error/apiError');
-const { featureFlag } = require('../../lib/config');
 
 const appealUpdateValidationRules = async (req, res, next) => {
   try {
-    req.body = await validate.update(req.body, featureFlag);
+    req.body = await validate.update(req.body);
     logger.debug('Valid input format');
 
     const appealId = req.body.id;
@@ -26,7 +25,7 @@ const appealUpdateValidationRules = async (req, res, next) => {
 
 const appealInsertValidationRules = async (req, res, next) => {
   try {
-    req.body = await validate.insert(req.body, featureFlag);
+    req.body = await validate.insert(req.body);
     logger.debug('Valid input format');
 
     const appealId = req.body.id;

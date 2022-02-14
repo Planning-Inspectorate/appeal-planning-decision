@@ -3,8 +3,9 @@ const fullAppeal = require('./full-appeal');
 const isValid = require('../validation/appeal/type/is-valid');
 const { APPEAL_ID } = require('../constants');
 const BusinessRulesError = require('../lib/business-rules-error');
+const { featureFlag } = require('../config');
 
-const validate = (action, data, featureFlag, config = { abortEarly: false }) => {
+const validate = (action, data, config = { abortEarly: false }) => {
   const { appealType } = data;
 
   if (appealType && !isValid(appealType)) {
@@ -25,8 +26,8 @@ const validate = (action, data, featureFlag, config = { abortEarly: false }) => 
   }
 };
 
-const insert = (data, featureFlag, config) => validate('insert', data, featureFlag, config);
-const update = (data, featureFlag, config) => validate('update', data, featureFlag, config);
+const insert = (data, config) => validate('insert', data, config);
+const update = (data, config) => validate('update', data, config);
 
 module.exports = {
   insert,
