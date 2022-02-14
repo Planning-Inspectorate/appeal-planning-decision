@@ -59,14 +59,10 @@ exports.getTaskList = (req, res) => {
     req
   );
 
-  req.log.debug({ sections }, 'Des:- getTaskList - sections');
-
-  const questionnaireStatus = 'incomplete';
-
   renderView(res, taskListPath, {
     prefix: 'appeal-questionnaire',
     appeal: getAppealSideBarDetails(appeal),
-    questionnaireStatus,
+    'incomplete',
     completedTasksCount: sections.filter((section) => section.status === 'COMPLETED').length,
     totalTasksCount: sections.length,
     sections,

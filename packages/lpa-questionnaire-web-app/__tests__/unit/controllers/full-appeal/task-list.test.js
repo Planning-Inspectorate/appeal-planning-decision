@@ -5,13 +5,12 @@ const taskListController = require('../../../../src/controllers/full-appeal/task
 const {
   VIEW: { TASK_LIST },
 } = require('../../../../src/lib/full-appeal/views');
+const { mockReq, mockRes } = require('../../full-appeal/mocks');
 const {
-  mockReq,
-  mockRes,
   genericSections,
   deterministicSections,
   nonDeterministicSections,
-} = require('../../full-appeal/mocks');
+} = require('../../full-appeal/taskListSections');
 
 const mockAddress = {
   address: '11 Kingston Road, Bristol, BR12 7AU',
