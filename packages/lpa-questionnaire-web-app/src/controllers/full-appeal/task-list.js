@@ -62,7 +62,7 @@ exports.getTaskList = (req, res) => {
   renderView(res, taskListPath, {
     prefix: 'appeal-questionnaire',
     appeal: getAppealSideBarDetails(appeal),
-    'incomplete',
+    questionnaireStatus: 'incomplete',
     completedTasksCount: sections.filter((section) => section.status === 'COMPLETED').length,
     totalTasksCount: sections.length,
     sections,
