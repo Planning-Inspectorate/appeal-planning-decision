@@ -1,3 +1,4 @@
+@wip
 Feature: appealDetailsSidebar:
   As an LPA user I want to know which planning application I am responding on
   so that I provide the correct information to the Planning Inspectorate.
