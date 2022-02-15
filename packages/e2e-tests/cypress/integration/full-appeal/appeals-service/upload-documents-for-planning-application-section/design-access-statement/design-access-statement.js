@@ -1,6 +1,4 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
-import { appealDocumentsSectionLink } from '../../../../../support/full-appeal/appeals-service/page-objects/your-appeal-statement-po';
 import {
   getBackLink,
   getErrorMessageSummary,
@@ -17,7 +15,6 @@ import { verifyErrorMessage } from '../../../../../support/common/verify-error-m
 import { errorFileUploadField } from '../../../../../support/full-appeal/appeals-service/page-objects/file-upload-po';
 import { planningApplicationDocumentsLink } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 import { submitADesignStYes } from '../../../../../support/full-appeal/appeals-service/page-objects/design-access-statement-submitted-po';
-import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
 import { selectYes } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 

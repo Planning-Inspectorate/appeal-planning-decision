@@ -7,18 +7,17 @@ import {
   getErrorMessageSummary,
   getSaveAndContinueButton,
 } from '../../../../../support/common-page-objects/common-po';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import {
   aboutAppealSiteSectionLink,
   pageCaptionText,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 import { provideAddressLine1 } from '../../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine1';
 import { providePostcode } from '../../../../../support/common/appeal-submission-appeal-site-address/providePostcode';
-import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
 import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
+import { selectRadioButton } from '../../../../../support/full-appeal/appeals-service/selectRadioButton';
 
 const url = 'full-appeal/submit-appeal/agricultural-holding';
 const areYouATenantUrl = '/full-appeal/submit-appeal/are-you-a-tenant';
@@ -44,19 +43,7 @@ Given("an appellant or agent is on the 'Do you own all of the land involved in t
   selectYes().click();
 })
 When("the user select {string} and click 'Continue'", (option) => {
-  switch (option) {
-    case 'Yes':
-      selectYes().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'No':
-      selectNo().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'None of the options':
-      getSaveAndContinueButton().click();
-      break;
-  }
+  selectRadioButton(option);
 });
 Then("'Is the appeal site part of an agricultural holding' page is displayed with some guidance text", () => {
   cy.url().should('contain', url);

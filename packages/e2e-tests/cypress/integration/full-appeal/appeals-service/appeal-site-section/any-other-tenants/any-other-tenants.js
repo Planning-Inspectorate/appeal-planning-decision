@@ -19,6 +19,7 @@ import { verifyErrorMessage } from '../../../../../support/common/verify-error-m
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
+import { selectRadioButton } from '../../../../../support/full-appeal/appeals-service/selectRadioButton';
 
 
 const url = 'full-appeal/submit-appeal/other-tenants';
@@ -49,20 +50,8 @@ Given("an appellant or agent is on the 'Are you a tenant of the agricultural hol
   getSaveAndContinueButton().click();
   cy.url().should('contain', areYouATenantUrl);
 })
-When("the user select {string} and click 'Continue'", (options) => {
-  switch (options) {
-    case 'Yes':
-      selectYes().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'No':
-      selectNo().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'None of the options':
-      getSaveAndContinueButton().click();
-      break;
-  }
+When("the user select {string} and click 'Continue'", (option) => {
+  selectRadioButton(option);
 })
 Then("'Are there any other tenants' page is displayed", () => {
   cy.url().should('contain', url);

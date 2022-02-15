@@ -2,7 +2,6 @@ import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { getSaveAndContinueButton } from '../../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
 import { getBackLink, getErrorMessageSummary } from '../../../../../support/common-page-objects/common-po';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import {
   aboutAppealSiteSectionLink, pageCaptionText,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
@@ -17,6 +16,7 @@ import {
 } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 
 import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
+import { selectRadioButton } from '../../../../../support/full-appeal/appeals-service/selectRadioButton';
 
 const url = 'full-appeal/submit-appeal/own-all-the-land';
 const siteAddressUrl = 'full-appeal/submit-appeal/appeal-site-address';
@@ -73,17 +73,5 @@ Then("they are taken to the next page 'Do you own some of the land involved in t
   cy.url().should('contain', ownSomeOfLandUrl);
 })
 When("the user select {string} and click 'Continue'", (option) => {
-  switch (option) {
-    case 'Yes':
-      selectYes().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'No':
-      selectNo().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'None of the options':
-      getSaveAndContinueButton().click();
-      break;
-  }
+  selectRadioButton(option);
 });

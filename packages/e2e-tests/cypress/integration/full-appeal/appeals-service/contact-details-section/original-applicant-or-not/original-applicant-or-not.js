@@ -1,23 +1,16 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import {
   getBackLink,
-  getErrorMessageSummary,
-  getFileUploadButton,
+  getErrorMessageSummary
 } from '../../../../../support/common-page-objects/common-po';
 import { getSaveAndContinueButton } from '../../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
 import { contactDetailsLink } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 import {
-  buttonContinue,
   originalApplicantNo,
   originalApplicantYes, originalApplicationYourNameError,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/original-applicant-or-not-po';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
-import {
-  pageCaption,
-  planningAppNumberErrorMessage,
-} from '../../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
-import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
+import { pageCaption} from '../../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
 import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';

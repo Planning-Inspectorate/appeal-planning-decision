@@ -3,7 +3,6 @@ import {
    getBackLink,
   getErrorMessageSummary, getFileUploadButton,
 } from '../../../../../support/common-page-objects/common-po';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import {
   appNumberHint, pageCaption,
   planningApplicationNumber,
@@ -13,7 +12,6 @@ import { verifyPageTitle } from '../../../../../support/common/verify-page-title
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { getSaveAndContinueButton } from '../../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
-import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
 import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import { planningApplicationDocumentsLink } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 

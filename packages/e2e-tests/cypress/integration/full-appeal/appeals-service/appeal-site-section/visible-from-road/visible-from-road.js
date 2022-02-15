@@ -13,18 +13,17 @@ import {
   getErrorMessageSummary,
   getSaveAndContinueButton,
 } from '../../../../../support/common-page-objects/common-po';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import {
   aboutAppealSiteSectionLink,
   pageCaptionText,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 import { provideAddressLine1 } from '../../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine1';
 import { providePostcode } from '../../../../../support/common/appeal-submission-appeal-site-address/providePostcode';
-import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
 import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
+import { selectRadioButton } from '../../../../../support/full-appeal/appeals-service/selectRadioButton';
 
 const url = 'full-appeal/submit-appeal/visible-from-road';
 const agriculturalHoldingUrl = 'full-appeal/submit-appeal/agricultural-holding';
@@ -53,19 +52,7 @@ Given("an appellant or agent is on the 'Is the appeal site part of an agricultur
   cy.url().should('contain', agriculturalHoldingUrl);
 });
 When("the user selects {string} and clicks 'Continue'", (option) => {
-  switch (option) {
-    case 'Yes':
-      selectYes().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'No':
-      selectNo().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'None of the options':
-      getSaveAndContinueButton().click();
-      break;
-   }
+  selectRadioButton(option);
 });
 When( "the user selects No and Enter more than 255 characters in the text box and clicks 'Continue'", () => {
   const count = 255;
