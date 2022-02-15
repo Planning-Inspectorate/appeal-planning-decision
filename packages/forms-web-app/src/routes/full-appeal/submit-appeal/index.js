@@ -22,9 +22,10 @@ const appealSubmittedRouter = require('./appeal-submitted');
 const declarationInformationRouter = require('./declaration-information');
 const visibleFromRoadRouter = require('./visible-from-road');
 const healthSafetyIssuesRouter = require('./health-safety-issues');
-const identifyingTheOwners = require('./identifying-the-owners');
+const identifyingTheOwnersRouter = require('./identifying-the-owners');
 const plansDrawingsRouter = require('./plans-drawings');
 const supportingDocumentsRouter = require('./supporting-documents');
+const newPlansDrawingsRouter = require('./new-plans-drawings');
 
 const router = express.Router();
 
@@ -51,8 +52,9 @@ router.use(appealSubmittedRouter);
 router.use(declarationInformationRouter);
 router.use(visibleFromRoadRouter);
 router.use(healthSafetyIssuesRouter);
-router.use(identifyingTheOwners);
+router.use(identifyingTheOwnersRouter);
 router.use(plansDrawingsRouter);
 router.use(supportingDocumentsRouter);
+router.use(newPlansDrawingsRouter);
 
 module.exports = router;

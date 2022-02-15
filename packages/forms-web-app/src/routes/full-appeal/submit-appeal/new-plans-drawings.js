@@ -1,32 +1,29 @@
 const express = require('express');
-const { documentTypes } = require('@pins/common');
 const {
-  getAppealStatement,
-  postAppealStatement,
-} = require('../../../controllers/full-appeal/submit-appeal/appeal-statement');
+  getNewPlansDrawings,
+  postNewPlansDrawings,
+} = require('../../../controllers/full-appeal/submit-appeal/new-plans-drawings');
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
-const {
-  rules: appealStatementValidationRules,
-} = require('../../../validators/common/appeal-statement');
+const { rules: fileUploadValidationRules } = require('../../../validators/common/file-upload');
 const setSectionAndTaskNames = require('../../../middleware/set-section-and-task-names');
 
 const router = express.Router();
 const sectionName = 'appealDocumentsSection';
-const taskName = documentTypes.appealStatement.name;
+const taskName = 'plansDrawings';
 
 router.get(
-  '/submit-appeal/appeal-statement',
+  '/submit-appeal/new-plans-drawings',
   [fetchExistingAppealMiddleware],
   setSectionAndTaskNames(sectionName, taskName),
-  getAppealStatement
+  getNewPlansDrawings
 );
 router.post(
-  '/submit-appeal/appeal-statement',
+  '/submit-appeal/new-plans-drawings',
   setSectionAndTaskNames(sectionName, taskName),
-  appealStatementValidationRules('Select your appeal statement'),
+  fileUploadValidationRules('Select a plan or drawing'),
   validationErrorHandler,
-  postAppealStatement
+  postNewPlansDrawings
 );
 
 module.exports = router;
