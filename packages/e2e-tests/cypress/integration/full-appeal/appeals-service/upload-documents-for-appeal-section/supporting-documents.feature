@@ -26,4 +26,4 @@ Scenario: 4 - None of the options is selected on 'Supporting documents' page
 Scenario: 5 - Navigate from 'Supporting documents' page back to 'New plans and drawings' page
     Given an Appellant or Agent is on the 'Supporting documents' page
     When they click on the 'Back' link
-    Then they are presented with the 'New plans or drawings' page and the option is selected
+    Then they are presented with the 'New plans or drawings' page and the No option is selected
