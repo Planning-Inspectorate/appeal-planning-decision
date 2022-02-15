@@ -3,13 +3,10 @@ import { verifyErrorMessage } from '../../../../../support/common/verify-error-m
 import {
   checkBoxIdentifyingTheOwners,
   checkBoxLabelIdentifyingTheOwners,
-  errorMessageAreYouATenant,
   errorMessageIdentifyingTheOwners,
   listItem1IdentifyingTheOwners, listItem2IdentifyingTheOwners,
-  listItemIdentifyingTheOwners,
   selectNo,
   selectSomeOf,
-  selectYes,
   statementTitle,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 import {
@@ -17,8 +14,6 @@ import {
   getErrorMessageSummary,
   getSaveAndContinueButton,
 } from '../../../../../support/common-page-objects/common-po';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
-import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
 import {
   aboutAppealSiteSectionLink,
   pageCaptionText,
@@ -28,6 +23,7 @@ import { providePostcode } from '../../../../../support/common/appeal-submission
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
+import { selectRadioButton } from '../../../../../support/full-appeal/appeals-service/selectRadioButton';
 
 const url = 'full-appeal/submit-appeal/identifying-the-owners';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -67,19 +63,7 @@ Given("an Appellant or Agent is on the 'Do you know who owns the land involved i
 })
 
 When("the user selects {string} and clicks 'Continue' button", (option) => {
-  switch (option) {
-    case 'I know who owns some of the land':
-      selectSomeOf().click()
-      getSaveAndContinueButton().click();
-      break;
-    case 'No, I do not know who owns any of the land':
-      selectNo().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'None of the options':
-      getSaveAndContinueButton().click();
-      break;
-  }
+  selectRadioButton(option);
 });
 Then("'Identifying the landowners' page is displayed", () => {
   cy.url().should('contain',url);
