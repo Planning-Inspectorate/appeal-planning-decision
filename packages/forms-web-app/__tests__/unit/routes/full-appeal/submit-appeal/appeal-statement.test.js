@@ -39,7 +39,7 @@ describe('routes/full-appeal/submit-appeal/appeal-statement', () => {
     );
     expect(appealStatementValidationRules).toHaveBeenCalledWith('Select your appeal statement');
     expect(setSectionAndTaskNames).toHaveBeenCalledWith(
-      'yourAppealSection',
+      'appealDocumentsSection',
       documentTypes.appealStatement.name
     );
   });

@@ -75,14 +75,18 @@ module.exports = {
         throw ApiError.appealNotFound(idParam);
       }
 
-      const newAppeal = req.body;
+      let newAppeal = req.body;
       const oldAppeal = document.appeal;
 
       logger.debug({ newAppeal }, 'New appeal data in updateAppeal');
 
       const isFirstSubmission = oldAppeal.state === 'DRAFT' && newAppeal.state === 'SUBMITTED';
 
-      const updatedDocument = await updateAppeal(_.merge(oldAppeal, newAppeal), isFirstSubmission);
+      if (!featureFlag.newAppealJourney) {
+        newAppeal = _.merge(oldAppeal, newAppeal);
+      }
+
+      const updatedDocument = await updateAppeal(newAppeal, isFirstSubmission);
 
       logger.debug({ updatedDocument }, 'Updated appeal data in updateAppeal');
 

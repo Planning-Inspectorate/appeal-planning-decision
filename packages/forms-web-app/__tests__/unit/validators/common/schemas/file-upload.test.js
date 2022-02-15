@@ -41,13 +41,30 @@ describe('validators/common/schemas/file-upload', () => {
       schema = fileUploadSchema()['file-upload'].custom.options;
     });
 
-    it('should return true if req.files is null and a file has already been uploaded', async () => {
+    it('should return true if req.files is null and a single file has already been uploaded', async () => {
       req.files = null;
       req.session = {
         appeal: {
           [sectionName]: {
             [taskName]: {
               uploadedFile: file,
+            },
+          },
+        },
+      };
+
+      const result = schema(null, { req });
+
+      expect(result).toBeTruthy();
+    });
+
+    it('should return true if req.files is null and multiple files already been uploaded', async () => {
+      req.files = null;
+      req.session = {
+        appeal: {
+          [sectionName]: {
+            [taskName]: {
+              uploadedFiles: [file, file],
             },
           },
         },
@@ -171,7 +188,7 @@ describe('validators/common/schemas/file-upload', () => {
       expect(result).toBeTruthy();
     });
 
-    it('should return true when given a smultiple valid files', async () => {
+    it('should return true when given multiple valid files', async () => {
       req.files = { 'file-upload': [file, file, file] };
 
       const result = await schema(null, { req, path: 'file-upload' });

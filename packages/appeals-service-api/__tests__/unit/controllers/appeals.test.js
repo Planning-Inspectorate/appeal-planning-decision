@@ -127,23 +127,5 @@ describe('appeals.controllers', () => {
       expect(res.send).toHaveBeenCalledWith(appeal);
       expect(res.status).toHaveBeenCalledWith(200);
     });
-
-    it('it responds with a updated appeal', async () => {
-      const appeal = await addInDatabase();
-      const appealId = appeal.id;
-
-      req.params.id = appealId;
-      req.body.horizonId = 'HORIZON123';
-
-      await updateAppeal(req, res);
-
-      const updatedAppeal = await getFromDatabase(appealId);
-
-      appeal.updatedAt = updatedAppeal.appeal.updatedAt;
-      expect(appeal).toEqual(updatedAppeal.appeal);
-
-      expect(res.send).toHaveBeenCalledWith(appeal);
-      expect(res.status).toHaveBeenCalledWith(200);
-    });
   });
 });

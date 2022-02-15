@@ -99,14 +99,24 @@ const appeal = {
     },
     plansDrawings: {
       hasPlansDrawings: true,
-      uploadedFile: {
-        id: '89280aa4-d925-4525-8050-938d5db41a5a',
-        name: 'plansDrawings.pdf',
-        fileName: 'plansDrawings.pdf',
-        originalFileName: 'plansDrawings.pdf',
-        location: '89280aa4-d925-4525-8050-938d5db41a5a/plansDrawings.pdf',
-        size: 1000,
-      },
+      uploadedFiles: [
+        {
+          id: '89280aa4-d925-4525-8050-938d5db41a5a',
+          name: 'plansDrawings1.pdf',
+          fileName: 'plansDrawings1.pdf',
+          originalFileName: 'plansDrawings1.pdf',
+          location: '89280aa4-d925-4525-8050-938d5db41a5a/plansDrawings1.pdf',
+          size: 1000,
+        },
+        {
+          id: '5ac54094-4356-4dc4-ba33-efcdbccaa834',
+          name: 'plansDrawings2.pdf',
+          fileName: 'plansDrawings2.pdf',
+          originalFileName: 'plansDrawings2.pdf',
+          location: '5ac54094-4356-4dc4-ba33-efcdbccaa834/plansDrawings2.pdf',
+          size: 1000,
+        },
+      ],
     },
     supportingDocuments: {
       hasSupportingDocuments: true,
