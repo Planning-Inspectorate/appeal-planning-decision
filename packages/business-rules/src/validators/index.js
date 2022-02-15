@@ -1,5 +1,6 @@
 const { isInThePast, isWithinDeadlinePeriod } = require('./appeal/decision-date');
 const conditionalText = require('./common/conditional-text');
+const { allOf } = require('./common/array');
 
 module.exports = {
   appeal: {
@@ -8,5 +9,6 @@ module.exports = {
       isWithinDeadlinePeriod,
     },
     conditionalText,
+    allOf,
   },
 };

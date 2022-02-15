@@ -64,6 +64,12 @@ const KNOW_THE_OWNERS = {
 
 const I_AGREE = 'i-agree';
 
+const STANDARD_TRIPLE_CONFIRM_OPTIONS = [
+  'toldAboutMyAppeal',
+  'withinLast21Days',
+  'useCopyOfTheForm',
+];
+
 module.exports = {
   APPEAL_ID,
   APPEAL_STATE,
@@ -74,4 +80,5 @@ module.exports = {
   SECTION_STATE,
   TYPE_OF_PLANNING_APPLICATION,
   I_AGREE,
+  STANDARD_TRIPLE_CONFIRM_OPTIONS,
 };

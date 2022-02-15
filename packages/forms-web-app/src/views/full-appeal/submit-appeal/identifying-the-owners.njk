@@ -47,10 +47,10 @@
           </ul>
         {% endif %}
 
-        <h1 data-cy="title" class="govuk-heading-m">
+        <h2 data-cy="title" class="govuk-heading-m">
           {% if knowsTheOwners == 'some' %}Confirm that you have attempted to identify the landowners{% endif %}
           {% if knowsTheOwners == 'no' %}Have you taken all reasonable steps to identify the landowners?{% endif %}
-        </h1>
+        </h2>
 
         {{ govukCheckboxes({
           idPrefix: "identifying-the-owners",
