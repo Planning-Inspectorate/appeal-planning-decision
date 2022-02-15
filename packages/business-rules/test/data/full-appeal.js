@@ -120,6 +120,24 @@ const appeal = {
     },
     supportingDocuments: {
       hasSupportingDocuments: true,
+      uploadedFiles: [
+        {
+          id: '059c3060-b112-4520-bf85-21a3894016ab',
+          name: 'supportingDocuments1.pdf',
+          fileName: 'supportingDocuments1.pdf',
+          originalFileName: 'supportingDocuments1.pdf',
+          location: '059c3060-b112-4520-bf85-21a3894016ab/supportingDocuments1.pdf',
+          size: 1000,
+        },
+        {
+          id: '4e501f91-0572-4c50-b0d2-28748b46454a',
+          name: 'supportingDocuments2.pdf',
+          fileName: 'supportingDocuments2.pdf',
+          originalFileName: 'supportingDocuments2.pdf',
+          location: '4e501f91-0572-4c50-b0d2-28748b46454a/supportingDocuments2.pdf',
+          size: 1000,
+        },
+      ],
     },
   },
   appealSubmission: {
