@@ -68,7 +68,7 @@ When("they select {string} and clicks 'Continue' button", (option) => {
 Then("are taken back to the task list page", () => {
   cy.url().should('contain', taskListUrl);
 });
-Then("they are presented with the 'New plans or drawings' page and the option is selected'", () => {
+Then("they are presented with the 'New plans or drawings' page and the No option is selected", () => {
   cy.url().should('contain', plansDrawingsUrl);
   selectNo().should('be.checked');
 });
