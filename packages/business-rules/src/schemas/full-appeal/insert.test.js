@@ -748,6 +748,175 @@ describe('schemas/full-appeal/insert', () => {
             expect(result).toEqual(appeal);
           });
         });
+
+        describe('appealDocumentsSection.supportingDocuments.uploadedFiles', () => {
+          it('should not throw an error when given a null value', async () => {
+            appeal.appealDocumentsSection.supportingDocuments.uploadedFiles = null;
+            appeal2.appealDocumentsSection.supportingDocuments.uploadedFiles = [];
+
+            const result = await insert.validate(appeal, config);
+            expect(result).toEqual(appeal2);
+          });
+
+          it('should not throw an error when not given a value', async () => {
+            delete appeal.appealDocumentsSection.supportingDocuments.uploadedFiles;
+            appeal2.appealDocumentsSection.supportingDocuments.uploadedFiles = [];
+
+            const result = await insert.validate(appeal2, config);
+            expect(result).toEqual(appeal2);
+          });
+
+          describe('appealDocumentsSection.supportingDocuments.uploadedFiles[0].id', () => {
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealDocumentsSection.supportingDocuments.uploadedFiles[0].id =
+                '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
+              appeal.appealDocumentsSection.supportingDocuments.uploadedFiles[0].id =
+                '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should throw an error when not given a UUID', async () => {
+              appeal.appealDocumentsSection.supportingDocuments.uploadedFiles[0].id = 'abc123';
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'appealDocumentsSection.supportingDocuments.uploadedFiles[0].id must be a valid UUID',
+              );
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.appealDocumentsSection.supportingDocuments.uploadedFiles[0].id;
+              appeal.appealDocumentsSection.supportingDocuments.uploadedFiles[0].id = null;
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('appealDocumentsSection.supportingDocuments.uploadedFiles[0].name', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.appealDocumentsSection.supportingDocuments.uploadedFiles[0].name = 'a'.repeat(
+                256,
+              );
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'appealDocumentsSection.supportingDocuments.uploadedFiles[0].name must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealDocumentsSection.supportingDocuments.uploadedFiles[0].name =
+                '  test-pdf.pdf  ';
+              appeal.appealDocumentsSection.supportingDocuments.uploadedFiles[0].name =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              appeal.appealDocumentsSection.supportingDocuments.uploadedFiles[0].name = '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('appealDocumentsSection.supportingDocuments.uploadedFiles[0].fileName', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.appealDocumentsSection.supportingDocuments.uploadedFiles[0].fileName =
+                'a'.repeat(256);
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'appealDocumentsSection.supportingDocuments.uploadedFiles[0].fileName must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealDocumentsSection.supportingDocuments.uploadedFiles[0].fileName =
+                '  test-pdf.pdf  ';
+              appeal.appealDocumentsSection.supportingDocuments.uploadedFiles[0].fileName =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              appeal.appealDocumentsSection.supportingDocuments.uploadedFiles[0].fileName = '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('appealDocumentsSection.supportingDocuments.uploadedFiles[0].originalFileName', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.appealDocumentsSection.supportingDocuments.uploadedFiles[0].originalFileName =
+                'a'.repeat(256);
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'appealDocumentsSection.supportingDocuments.uploadedFiles[0].originalFileName must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealDocumentsSection.supportingDocuments.uploadedFiles[0].originalFileName =
+                '  test-pdf.pdf  ';
+              appeal.appealDocumentsSection.supportingDocuments.uploadedFiles[0].originalFileName =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              appeal.appealDocumentsSection.supportingDocuments.uploadedFiles[0].originalFileName =
+                '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('appealDocumentsSection.supportingDocuments.uploadedFiles[0].location', () => {
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealDocumentsSection.supportingDocuments.uploadedFiles[0].location =
+                '  test-pdf.pdf  ';
+              appeal.appealDocumentsSection.supportingDocuments.uploadedFiles[0].location =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              appeal.appealDocumentsSection.supportingDocuments.uploadedFiles[0].location = '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('appealDocumentsSection.supportingDocuments.uploadedFiles[0].size', () => {
+            it('should throw an error when not given a number', async () => {
+              appeal.appealDocumentsSection.supportingDocuments.uploadedFiles[0].size =
+                'not-a-number';
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'appealDocumentsSection.supportingDocuments.uploadedFiles[0].size must be a `number` type, but the final value was: `NaN` (cast from the value `1000`).',
+              );
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal.appealDocumentsSection.supportingDocuments.uploadedFiles[0].size;
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+        });
       });
     });
 
