@@ -54,11 +54,6 @@ router.use(informationSubmittedRouter);
 router.use(booleanQuestionRouter);
 router.use(supplementaryDocumentsRouter);
 router.use(alreadySubmittedRouter);
-
-router.use(
-  '/full-appeal/:id/questionnaire',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
-  fullAppealRouter
-);
+router.use(fullAppealRouter);
 
 module.exports = router;

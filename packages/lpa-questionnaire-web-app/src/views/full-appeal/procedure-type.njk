@@ -1,0 +1,96 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% set title = "Which procedure do you think is most appropriate for this appeal? - Full planning appeal questionnaire - Appeal a householder planning decision - GOV.UK" %}
+
+{% set inquiryDays %}
+  {{ govukInput({
+    id: "inquiry-days",
+    name: "inquiry-days",
+
+    classes: "govuk-!-width-one-half",
+    label: {
+      text: "Enter the number of days you would expect the inquiry to last"
+    },
+    errorMessage: errors['inquiry-days'] and {
+        text: errors['inquiry-days'].msg
+    }
+  }) }}
+{% endset -%}
+
+{% block pageTitle %}
+    {% if errors %}
+        {% set title = "Error: " + title %}
+    {% endif %}
+    {{ title }}
+{% endblock %}
+
+{% block backButton %}
+    {{ govukBackLink({
+    text: "Back",
+    href: previousPage
+ })}}
+{% endblock %}
+
+{% block content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {% if errors %}
+                {{ govukErrorSummary({
+                    titleText: "There is a problem",
+                    errorList: errorSummary
+                }) }}
+            {% endif %}
+
+            <form action="" method="post" novalidate>
+                <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Recommend a procedure for this appeal</span>
+
+                {{ govukRadios({
+                    idPrefix: "procedure-type",
+                    name: "procedure-type",
+                    errorMessage: errors['procedure-type'] and {
+                        text: errors['procedure-type'].msg
+                    },
+                    fieldset: {
+                        legend: {
+                            text: "Which procedure do you think is most appropriate for this appeal?",
+                            isPageHeading: true,
+                            classes: "govuk-fieldset__legend--l"
+                        }
+                    },
+                    items: [
+                      {
+                          value: "written-representations",
+                          text: "Written Representations",
+                          attributes: { "data-cy": "answer-written-representations"},
+                          checked: procedureType
+                      },
+                      {
+                          value: "hearing",
+                          text: "Hearing",
+                          attributes: { "data-cy": "answer-hearing"},
+                          checked: procedureType
+                      },
+                      {
+                          value: "inquiry",
+                          text: "Inquiry",
+                          attributes: { "data-cy": "answer-inquiry"},
+                          checked: procedureType,
+                          conditional: { html: inquiryDays }
+                      }
+                    ]
+                }) }}
+
+                {{ govukButton({
+                    text: "Continue",
+                    type: "submit",
+                    attributes: { "data-cy":"button-save-and-continue"}
+                }) }}
+            </form>
+        </div>
+    </div>
+{% endblock %}
