@@ -11,6 +11,7 @@ const {
   TYPE_OF_PLANNING_APPLICATION,
   I_AGREE,
   SECTION_STATE,
+  STANDARD_TRIPLE_CONFIRM_OPTIONS,
 } = require('../../constants');
 
 describe('schemas/full-appeal/insert', () => {
@@ -1345,6 +1346,68 @@ describe('schemas/full-appeal/insert', () => {
             const result = await insert.validate(appeal, config);
             expect(result).toEqual(appeal);
           });
+        });
+      });
+
+      describe('appealSiteSection.siteOwnership.tellingTheLandowners', () => {
+        it('should throw an error if not all tellingTheLandowners options selected', async () => {
+          appeal.appealSiteSection.siteOwnership.tellingTheLandowners = [
+            STANDARD_TRIPLE_CONFIRM_OPTIONS[0],
+            STANDARD_TRIPLE_CONFIRM_OPTIONS[2],
+          ];
+
+          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+            `You must have ["toldAboutMyAppeal","withinLast21Days","useCopyOfTheForm"] for appealSiteSection.siteOwnership.tellingTheLandowners but you have ["toldAboutMyAppeal","useCopyOfTheForm"]`,
+          );
+        });
+
+        it('should not throw an error if tellingTheLandowners is undefined', async () => {
+          delete appeal.appealSiteSection.siteOwnership.tellingTheLandowners;
+
+          const result = await insert.validate(appeal, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should not throw an error if all tellingTheLandowners options selected', async () => {
+          appeal.appealSiteSection.siteOwnership.tellingTheLandowners = [
+            STANDARD_TRIPLE_CONFIRM_OPTIONS[1],
+            STANDARD_TRIPLE_CONFIRM_OPTIONS[0],
+            STANDARD_TRIPLE_CONFIRM_OPTIONS[2],
+          ];
+
+          const result = await insert.validate(appeal, config);
+          expect(result).toEqual(appeal);
+        });
+      });
+
+      describe('appealSiteSection.siteOwnership.tellingTheTenants', () => {
+        it('should throw an error if not all tellingTheTenants options selected', async () => {
+          appeal.appealSiteSection.siteOwnership.tellingTheTenants = [
+            STANDARD_TRIPLE_CONFIRM_OPTIONS[0],
+            STANDARD_TRIPLE_CONFIRM_OPTIONS[2],
+          ];
+
+          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+            `You must have ["toldAboutMyAppeal","withinLast21Days","useCopyOfTheForm"] for appealSiteSection.siteOwnership.tellingTheTenants but you have ["toldAboutMyAppeal","useCopyOfTheForm"]`,
+          );
+        });
+
+        it('should not throw an error if tellingTheTenants is undefined', async () => {
+          delete appeal.appealSiteSection.siteOwnership.tellingTheTenants;
+
+          const result = await insert.validate(appeal, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should not throw an error if all tellingTheTenants options selected', async () => {
+          appeal.appealSiteSection.siteOwnership.tellingTheTenants = [
+            STANDARD_TRIPLE_CONFIRM_OPTIONS[1],
+            STANDARD_TRIPLE_CONFIRM_OPTIONS[0],
+            STANDARD_TRIPLE_CONFIRM_OPTIONS[2],
+          ];
+
+          const result = await insert.validate(appeal, config);
+          expect(result).toEqual(appeal);
         });
       });
 

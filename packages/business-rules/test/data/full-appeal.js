@@ -1,3 +1,5 @@
+const { STANDARD_TRIPLE_CONFIRM_OPTIONS } = require('../../src/constants');
+
 const appeal = {
   id: 'fc7cb757-fe21-46dd-b3fd-121c385cd884',
   horizonId: 'HORIZON123',
@@ -36,6 +38,8 @@ const appeal = {
       ownsAllTheLand: true,
       knowsTheOwners: 'yes',
       hasIdentifiedTheOwners: 'i-agree',
+      tellingTheLandowners: [...STANDARD_TRIPLE_CONFIRM_OPTIONS],
+      tellingTheTenants: [...STANDARD_TRIPLE_CONFIRM_OPTIONS],
     },
     agriculturalHolding: {
       isAgriculturalHolding: true,

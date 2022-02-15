@@ -9,6 +9,7 @@ const {
   KNOW_THE_OWNERS,
   SECTION_STATE,
   TYPE_OF_PLANNING_APPLICATION,
+  STANDARD_TRIPLE_CONFIRM_OPTIONS,
 } = require('../../constants');
 
 const insert = pinsYup
@@ -115,6 +116,8 @@ const insert = pinsYup
               }
               return pinsYup.string().nullable();
             }),
+            tellingTheLandowners: pinsYup.array().nullable().allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
+            tellingTheTenants: pinsYup.array().nullable().allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
           })
           .noUnknown(true),
         agriculturalHolding: pinsYup

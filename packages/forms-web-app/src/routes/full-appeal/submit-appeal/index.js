@@ -27,6 +27,8 @@ const plansDrawingsRouter = require('./plans-drawings');
 const supportingDocumentsRouter = require('./supporting-documents');
 const newPlansDrawingsRouter = require('./new-plans-drawings');
 const newSupportingDocumentsRouter = require('./new-supporting-documents');
+const tellingTheLandownersRouter = require('./telling-the-landowners');
+const tellingTheTenantsRouter = require('./telling-the-tenants');
 
 const router = express.Router();
 
@@ -58,5 +60,7 @@ router.use(plansDrawingsRouter);
 router.use(supportingDocumentsRouter);
 router.use(newPlansDrawingsRouter);
 router.use(newSupportingDocumentsRouter);
+router.use(tellingTheLandownersRouter);
+router.use(tellingTheTenantsRouter);
 
 module.exports = router;
