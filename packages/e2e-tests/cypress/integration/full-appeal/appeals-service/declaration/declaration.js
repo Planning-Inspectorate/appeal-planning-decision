@@ -4,32 +4,9 @@ import {
   confirmAndSubmitAppealButton, declarationWarningText, getBackLink,
   getSaveAndContinueButton, privacyNoticeLink, termAndConditionsLink,
 } from '../../../../support/common-page-objects/common-po';
-import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
-import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
-import {
-  aboutAppealSiteSectionLink,
-  checkYourAnswersLink, contactDetailsLink, grantedOrRefused, noneOfTheseOption,
-} from '../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
-import { provideAddressLine1 } from '../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine1';
-import { providePostcode } from '../../../../support/common/appeal-submission-appeal-site-address/providePostcode';
-import { selectNo, selectYes } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
-import { enterLocalPlanningDepart } from '../../../../support/eligibility/local-planning-depart/enter-local-planning-depart';
-import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
-import {
-  applicantCompanyName,
-  contactDetailsCompanyName, contactDetailsEmail,
-  contactDetailsFullName, originalApplicantName, originalApplicantNo,
-  originalApplicantYes,
-} from '../../../../support/full-appeal/appeals-service/page-objects/original-applicant-or-not-po';
-import { allowedDatePart, getPastDate } from '../../../../support/common/getDate';
-import { enterDateDecisionDue } from '../../../../support/eligibility/date-decision-due/enter-date-decision-due';
-import { getDate, getMonth, getYear } from 'date-fns';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
-import {
-  backButton,
-  sectionName,
+import { sectionName,
 } from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import { declariationPageMethodsAgent } from '../../../../support/full-appeal/appeals-service/declariationPageMethodsAgent';
 import { declarationPageMethodsAppellant } from '../../../../support/full-appeal/appeals-service/declarationPageMethodsAppellant';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';

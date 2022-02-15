@@ -3,32 +3,32 @@ Feature: Appellant selects the site
   I  want to select the valid site
   so that I can proceed with the appeal
 
-#  Scenario Outline: AC01 Appellant selects None of these from the list option
-#  Given an appellant is on the is your appeal about any of the following page for '<application_type>'
-#  When appellant selects 'None of these' from the list of options
-#  And appellant clicks the continue button
-#  Then appellant gets routed to the have you received an granted or refused page
-#
-#  Examples:
-#    | application_type                   |
-#    | Full planning                      |
-#    | Outline planning                   |
-#    | Prior approval                     |
-#    | Reserved matters                   |
-#    | Removal or variation of conditions |
-#
-#  Scenario Outline: AC02 An error message is displayed when no selection is made
-#  Given an appellant is on the is your appeal about any of the following page for '<application_type>'
-#  When  appellant clicks the continue button
-#  Then appellant sees an error message 'Select if your appeal is about any of the following'
-#
-#  Examples:
-#    | application_type                   |
-#    | Full planning                      |
-#    | Outline planning                   |
-#    | Prior approval                     |
-#    | Reserved matters                   |
-#    | Removal or variation of conditions |
+  Scenario Outline: AC01 Appellant selects None of these from the list option
+  Given an appellant is on the is your appeal about any of the following page for '<application_type>'
+  When appellant selects 'None of these' from the list of options
+  And appellant clicks the continue button
+  Then appellant gets routed to the have you received an granted or refused page
+
+  Examples:
+    | application_type                   |
+    | Full planning                      |
+    | Outline planning                   |
+    | Prior approval                     |
+    | Reserved matters                   |
+    | Removal or variation of conditions |
+
+  Scenario Outline: AC02 An error message is displayed when no selection is made
+  Given an appellant is on the is your appeal about any of the following page for '<application_type>'
+  When  appellant clicks the continue button
+  Then appellant sees an error message 'Select if your appeal is about any of the following'
+
+  Examples:
+    | application_type                   |
+    | Full planning                      |
+    | Outline planning                   |
+    | Prior approval                     |
+    | Reserved matters                   |
+    | Removal or variation of conditions |
 
   Scenario Outline: AC03 Back Link
     Given an appellant is on the is your appeal about any of the following page for '<application_type>'

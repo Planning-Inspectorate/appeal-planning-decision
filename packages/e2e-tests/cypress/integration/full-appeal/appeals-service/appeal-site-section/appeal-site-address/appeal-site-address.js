@@ -4,17 +4,11 @@ import {
   getErrorMessageSummary,
   getSaveAndContinueButton,
 } from '../../../../../support/common-page-objects/common-po';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import {
-  siteAddressLineOne,
   siteAddressLineOneErrorMessage,
-  siteAddressLineTwo,
   siteAddressLineTwoErrorMessage,
-  siteTownCity,
   siteTownCityErrorMessage,
-  siteCounty,
   siteCountyErrorMessage,
-  sitePostcode,
   sitePostcodeErrorMessage,
   pageCaption,
   pageText,

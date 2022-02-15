@@ -21,6 +21,7 @@ import { verifyPageHeading } from '../../../../../support/common/verify-page-hea
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
 import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
 import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
+import { selectRadioButton } from '../../../../../support/full-appeal/appeals-service/selectRadioButton';
 
 const url = 'full-appeal/submit-appeal/own-some-of-the-land';
 const siteAddressUrl = 'full-appeal/submit-appeal/appeal-site-address';
@@ -61,19 +62,7 @@ Given("an appellant or agent is on the 'Do you own some of the land involved in 
   cy.checkPageA11y();
 })
 When("the user select {string} and click 'Continue'", (option) => {
-  switch (option) {
-    case 'Yes':
-      selectYes().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'No':
-      selectNo().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'None of the options':
-      getSaveAndContinueButton().click();
-      break;
-  }
+  selectRadioButton(option);
 });
 Then("the user is taken to the next page 'Do you know who owns the rest of the land involved in the appeal?'", () => {
   cy.url().should('contain', knowTheOwnersUrl);

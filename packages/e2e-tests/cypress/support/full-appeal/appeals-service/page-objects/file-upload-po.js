@@ -7,5 +7,7 @@ export const uploadedFileName = () => cy.get('.govuk-link');
 export const replaceTheFileLabel = () => cy.findAllByText('Replace the file');
 export const sectionText = () => cy.get('.govuk-body');
 export const dragAndDropAFile = () => cy.findAllByText('Drag and drop or choose a file');
+export const plansOrDrawingsErrorMessage = () => cy.get('#plans-drawings-error');
+export const supportingDocumentsErrorMessage = () => cy.get('#supporting-documents-error');
 
 
