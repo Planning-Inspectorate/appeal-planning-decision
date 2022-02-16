@@ -35,6 +35,7 @@ const VIEW = {
     HOW_DECIDE_APPEAL: 'full-appeal/submit-appeal/how-decide-appeal',
     WHY_HEARING: 'full-appeal/submit-appeal/why-hearing',
     WHY_INQUIRY: 'full-appeal/submit-appeal/why-inquiry',
+    DRAFT_STATEMENT_COMMON_GROUND: 'full-appeal/submit-appeal/draft-statement-common-ground',
   },
 };
 

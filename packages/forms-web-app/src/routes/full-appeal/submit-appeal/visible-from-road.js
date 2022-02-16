@@ -6,9 +6,7 @@ const {
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
 const { rules: optionsValidationRules } = require('../../../validators/common/options');
-const {
-  rules: conditionalTextValidationRules,
-} = require('../../../validators/common/conditional-text');
+const { rules: textfieldValidationRules } = require('../../../validators/common/textfield');
 
 const router = express.Router();
 
@@ -19,7 +17,7 @@ router.post(
     fieldName: 'visible-from-road',
     emptyError: 'Select yes if the site is visible from a public road',
   }),
-  conditionalTextValidationRules({
+  textfieldValidationRules({
     fieldName: 'visible-from-road-details',
     targetFieldName: 'visible-from-road',
     emptyError: 'Tell us how visibility is restricted',
