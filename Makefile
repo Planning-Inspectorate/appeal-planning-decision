@@ -1,4 +1,4 @@
-APPS = data packages/appeals-service-api packages/business-rules packages/clamav-rest-server packages/common packages/document-server-api packages/e2e-tests packages/forms-web-app packages/horizon-functions packages/pdf-service-api
+APPS = data packages/*
 STACKS = common environments
 SSH_KEY ?= ~/.ssh/id_rsa.pub
 PUB_KEY = $(shell cat $(SSH_KEY))
