@@ -1,0 +1,84 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set title = "How would you prefer us to decide your appeal? - Appeal a planning decision - GOV.UK" %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
+
+{% block backButton %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: '/full-appeal/submit-appeal/task-list',
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary,
+          attributes: {"data-cy": "error-wrapper"}
+        }) }}
+      {% endif %}
+      <form action="" method="post" novalidate>
+        <span class="govuk-caption-l">Tell us how you would prefer us to decide your appeal</span>
+        {{ govukRadios({
+          classes: "govuk-radios",
+          idPrefix: "procedure-type",
+          name: "procedure-type",
+          errorMessage: errors['procedure-type'] and {
+            text: errors['procedure-type'].msg
+          },
+          fieldset: {
+            legend: {
+              text: "How would you prefer us to decide your appeal?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "Written Representation",
+              text: "Written representations",
+              hint: {
+                text: "For appeals where the issues are clear from written statements and a site visit. This is the quickest and most common way to make an appeal."
+              },
+              attributes: { "data-cy": "answer-written-representation" },
+              checked: procedureType == "Written Representation"
+            },
+            {
+              value: "Hearing",
+              text: "Hearing",
+              hint: {
+                text: "For appeals with more complex issues. The Inspector leads a discussion to answer questions they have about the appeal."
+              },
+              attributes: { "data-cy": "answer-hearing" },
+              checked: procedureType == "Hearing"
+            },
+            {
+              value: "Inquiry",
+              text: "Inquiry",
+              hint: {
+                text: "For appeals with very complex issues. Appeal evidence is tested by legal representatives, who question witnesses under oath."
+              },
+              attributes: { "data-cy": "answer-inquiry" },
+              checked: procedureType == "Inquiry"
+            }
+          ]
+        }) }}
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

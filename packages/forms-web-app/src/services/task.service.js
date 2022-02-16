@@ -206,6 +206,10 @@ const FULL_APPEAL_SECTIONS = {
     href: `/${FULL_APPEAL.APPEAL_SITE_ADDRESS}`,
     rule: notStartedRule,
   },
+  appealDecisionSection: {
+    href: `/${FULL_APPEAL.HOW_DECIDE_APPEAL}`,
+    rule: notStartedRule,
+  },
   planningApplicationDocumentsSection: {
     href: `/${FULL_APPEAL.APPLICATION_FORM}`,
     rule: notStartedRule,

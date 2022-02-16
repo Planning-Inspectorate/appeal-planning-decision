@@ -4,6 +4,7 @@ const { VIEW } = require('../../../lib/full-appeal/views');
 const HEADERS = {
   contactDetailsSection: 'Provide your contact details',
   aboutAppealSiteSection: 'Tell us about the appeal site',
+  appealDecisionSection: ' Tell us how you would prefer us to decide your appeal',
   planningApplicationDocumentsSection: 'Upload documents from your planning application',
   appealDocumentsSection: 'Upload documents for your appeal',
   submitYourAppealSection: 'Check your answers and submit your appeal',

@@ -7,6 +7,7 @@ const {
   APPLICATION_CATEGORIES,
   I_AGREE,
   KNOW_THE_OWNERS,
+  PROCEDURE_TYPE,
   SECTION_STATE,
   TYPE_OF_PLANNING_APPLICATION,
   STANDARD_TRIPLE_CONFIRM_OPTIONS,
@@ -159,6 +160,17 @@ const insert = pinsYup
             }),
           })
           .noUnknown(true),
+      })
+      .noUnknown(true),
+    appealDecisionSection: pinsYup
+      .object()
+      .shape({
+        procedureType: pinsYup.lazy((procedureType) => {
+          if (procedureType) {
+            return pinsYup.string().oneOf(Object.values(PROCEDURE_TYPE));
+          }
+          return pinsYup.string().nullable().default(null);
+        }),
       })
       .noUnknown(true),
     planningApplicationDocumentsSection: pinsYup
@@ -340,6 +352,15 @@ const insert = pinsYup
               .oneOf(Object.values(SECTION_STATE))
               .default('NOT STARTED'),
             healthAndSafety: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .default('NOT STARTED'),
+          })
+          .noUnknown(true),
+        appealDecisionSection: pinsYup
+          .object()
+          .shape({
+            procedureType: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
               .default('NOT STARTED'),
