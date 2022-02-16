@@ -102,7 +102,7 @@ jobs:
           record: true
           parallel: true
           ci-build-id: ${{ needs.context.outputs.uuid }}
-          group: 'Appeals and LPA Service'
+          group: 'Appeals Service'
           wait-on-timeout: 300
 
 
