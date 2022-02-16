@@ -1,4 +1,4 @@
-git statusFROM node:14-alpine
+FROM node:14-alpine
 ARG APP_NAME
 ARG BUILD_ID
 ARG VERSION
