@@ -7,15 +7,22 @@ const rules = ({
   tooLongError,
   targetFieldValue = 'no',
   maxLength = 255,
-}) => [
-  body(fieldName)
-    .if(body(targetFieldName).matches(targetFieldValue))
+}) => {
+  const rule = body(fieldName);
+
+  if (targetFieldName && targetFieldValue) {
+    rule.if(body(targetFieldName).matches(targetFieldValue));
+  }
+
+  rule
     .notEmpty()
     .withMessage(emptyError)
     .bail()
     .isLength({ min: 1, max: maxLength })
-    .withMessage(tooLongError.replace('$maxLength', maxLength)),
-];
+    .withMessage(tooLongError.replace('$maxLength', maxLength));
+
+  return [rule];
+};
 
 module.exports = {
   rules,

@@ -30,6 +30,7 @@ const newSupportingDocumentsRouter = require('../../../../../src/routes/full-app
 const tellingTheLandownersRouter = require('../../../../../src/routes/full-appeal/submit-appeal/telling-the-landowners');
 const tellingTheTenantsRouter = require('../../../../../src/routes/full-appeal/submit-appeal/telling-the-tenants');
 const howDecideAppealRouter = require('../../../../../src/routes/full-appeal/submit-appeal/how-decide-appeal');
+const whyHearingRouter = require('../../../../../src/routes/full-appeal/submit-appeal/why-hearing');
 
 describe('routes/full-appeal/submit-appeal/index', () => {
   beforeEach(() => {
@@ -38,7 +39,7 @@ describe('routes/full-appeal/submit-appeal/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(31);
+    expect(use.mock.calls.length).toBe(32);
     expect(use).toHaveBeenCalledWith(taskListRouter);
     expect(use).toHaveBeenCalledWith(checkAnswersRouter);
     expect(use).toHaveBeenCalledWith(contactDetailsRouter);
@@ -70,5 +71,6 @@ describe('routes/full-appeal/submit-appeal/index', () => {
     expect(use).toHaveBeenCalledWith(tellingTheLandownersRouter);
     expect(use).toHaveBeenCalledWith(tellingTheTenantsRouter);
     expect(use).toHaveBeenCalledWith(howDecideAppealRouter);
+    expect(use).toHaveBeenCalledWith(whyHearingRouter);
   });
 });

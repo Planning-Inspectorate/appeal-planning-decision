@@ -1,8 +1,8 @@
 const { validationResult } = require('express-validator');
-const { rules } = require('../../../../src/validators/common/conditional-text');
+const { rules } = require('../../../../src/validators/common/textfield');
 const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
 
-describe('validators/common/conditional-text', () => {
+describe('validators/common/textfield', () => {
   const res = jest.fn();
   const fieldName = 'visible-from-road-details';
   const targetFieldName = 'visible-from-road';
@@ -82,7 +82,30 @@ describe('validators/common/conditional-text', () => {
     expect(result.errors).toHaveLength(0);
   });
 
-  it('should return an error if the condition matches and no value is given', async () => {
+  it('should not return an error if a condition is not given and a valid value is given', async () => {
+    const req = {
+      body: {
+        'visible-from-road': 'yes',
+        'visible-from-road-details': 'a'.repeat(100),
+      },
+    };
+
+    await testExpressValidatorMiddleware(
+      req,
+      res,
+      rules({
+        fieldName,
+        emptyError,
+        tooLongError,
+      })
+    );
+
+    const result = validationResult(req);
+
+    expect(result.errors).toHaveLength(0);
+  });
+
+  it('should return an error if no value is given', async () => {
     const req = {
       body: {
         'visible-from-road': 'no',
@@ -95,7 +118,6 @@ describe('validators/common/conditional-text', () => {
       res,
       rules({
         fieldName,
-        targetFieldName,
         emptyError,
         tooLongError,
       })
@@ -110,7 +132,7 @@ describe('validators/common/conditional-text', () => {
     expect(result.errors[0].value).toEqual('');
   });
 
-  it('should return an error if the condition matches with the default max length and a value longer than the max length is given', async () => {
+  it('should return an error with the default max length and a value longer than the max length is given', async () => {
     const fieldValue = 'a'.repeat(256);
     const req = {
       body: {
@@ -124,7 +146,6 @@ describe('validators/common/conditional-text', () => {
       res,
       rules({
         fieldName,
-        targetFieldName,
         emptyError,
         tooLongError,
       })
@@ -141,7 +162,7 @@ describe('validators/common/conditional-text', () => {
     expect(result.errors[0].value).toEqual(fieldValue);
   });
 
-  it('should return an error if the condition matches with a custom max length and a value longer than the max length is given', async () => {
+  it('should return an error with a custom max length and a value longer than the max length is given', async () => {
     const fieldValue = 'a'.repeat(101);
     const req = {
       body: {
@@ -155,7 +176,6 @@ describe('validators/common/conditional-text', () => {
       res,
       rules({
         fieldName,
-        targetFieldName,
         emptyError,
         tooLongError,
         maxLength: 100,

@@ -57,6 +57,9 @@ const appeal = {
   },
   appealDecisionSection: {
     procedureType: 'Hearing',
+    hearing: {
+      reason: 'Reason for having a hearing',
+    },
   },
   planningApplicationDocumentsSection: {
     applicationNumber: 'ABCDE12345',
@@ -174,6 +177,7 @@ const appeal = {
     },
     appealDecisionSection: {
       procedureType: 'NOT STARTED',
+      hearing: 'NOT STARTED',
     },
     planningApplicationDocumentsSection: {
       applicationNumber: 'NOT STARTED',

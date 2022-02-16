@@ -9,12 +9,12 @@ const {
 } = require('../../../../../src/validators/validation-error-handler');
 const { rules: optionsValidationRules } = require('../../../../../src/validators/common/options');
 const {
-  rules: conditionalTextValidationRules,
-} = require('../../../../../src/validators/common/conditional-text');
+  rules: textfieldValidationRules,
+} = require('../../../../../src/validators/common/textfield');
 
 jest.mock('../../../../../src/middleware/fetch-existing-appeal');
 jest.mock('../../../../../src/validators/common/options');
-jest.mock('../../../../../src/validators/common/conditional-text');
+jest.mock('../../../../../src/validators/common/textfield');
 
 describe('routes/full-appeal/submit-appeal/health-safety-issues', () => {
   beforeEach(() => {
@@ -31,7 +31,7 @@ describe('routes/full-appeal/submit-appeal/health-safety-issues', () => {
     expect(post).toHaveBeenCalledWith(
       '/submit-appeal/health-safety-issues',
       optionsValidationRules(),
-      conditionalTextValidationRules(),
+      textfieldValidationRules(),
       validationErrorHandler,
       postHealthSafetyIssues
     );
@@ -39,7 +39,7 @@ describe('routes/full-appeal/submit-appeal/health-safety-issues', () => {
       fieldName: 'health-safety-issues',
       emptyError: 'Select yes if there are any health and safety issues on the appeal site',
     });
-    expect(conditionalTextValidationRules).toHaveBeenCalledWith({
+    expect(textfieldValidationRules).toHaveBeenCalledWith({
       fieldName: 'health-safety-issues-details',
       targetFieldName: 'health-safety-issues',
       targetFieldValue: 'yes',

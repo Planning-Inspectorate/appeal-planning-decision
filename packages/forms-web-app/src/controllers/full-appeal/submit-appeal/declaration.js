@@ -31,6 +31,7 @@ exports.postDeclaration = async (req, res) => {
   req.session.appeal.appealSiteSection.agriculturalHolding.hasOtherTenants = false;
   req.session.appeal.appealSiteSection.visibleFromRoad.isVisible = true;
   req.session.appeal.appealDecisionSection.procedureType = 'Hearing';
+  req.session.appeal.appealDecisionSection.hearing = {};
   req.session.appeal.planningApplicationDocumentsSection.applicationNumber = '12345';
   req.session.appeal.planningApplicationDocumentsSection.designAccessStatement.isSubmitted = false;
   req.session.appeal.planningApplicationDocumentsSection.originalApplication = {
@@ -115,6 +116,7 @@ exports.postDeclaration = async (req, res) => {
     },
     appealDecisionSection: {
       procedureType: 'COMPLETED',
+      hearing: 'NOT STARTED',
     },
   };
 

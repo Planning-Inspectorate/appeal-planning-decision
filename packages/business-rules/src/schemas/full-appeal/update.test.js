@@ -1683,6 +1683,48 @@ describe('schemas/full-appeal/update', () => {
           );
         });
       });
+
+      describe('appealDecisionSection.hearing', () => {
+        it('should remove unknown fields', async () => {
+          appeal2.appealDecisionSection.hearing.unknownField = 'unknown field';
+
+          const result = await update.validate(appeal2, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should throw an error when given a null value', async () => {
+          appeal.appealDecisionSection.hearing = null;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'appealDecisionSection.hearing must be a `object` type, but the final value was: `null`',
+          );
+        });
+
+        describe('appealDecisionSection.hearing.reason', () => {
+          it('should throw an error when given a value with more than 255 characters', async () => {
+            appeal.appealDecisionSection.hearing.reason = 'a'.repeat(256);
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealDecisionSection.hearing.reason must be at most 255 characters',
+            );
+          });
+
+          it('should strip leading/trailing spaces', async () => {
+            appeal2.appealDecisionSection.hearing.reason = '  Reason for having a hearing  ';
+            appeal.appealDecisionSection.hearing.reason = 'Reason for having a hearing';
+
+            const result = await update.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should not throw an error when not given a value', async () => {
+            delete appeal.appealDecisionSection.hearing.reason;
+
+            const result = await update.validate(appeal, config);
+            expect(result).toEqual(appeal);
+          });
+        });
+      });
     });
 
     describe('planningApplicationDocumentsSection', () => {
