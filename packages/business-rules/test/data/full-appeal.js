@@ -55,6 +55,9 @@ const appeal = {
       details: 'The site has poor mobile reception',
     },
   },
+  appealDecisionSection: {
+    procedureType: 'Hearing',
+  },
   planningApplicationDocumentsSection: {
     applicationNumber: 'ABCDE12345',
     originalApplication: {
@@ -168,6 +171,9 @@ const appeal = {
       agriculturalHolding: 'NOT STARTED',
       visibleFromRoad: 'NOT STARTED',
       healthAndSafety: 'NOT STARTED',
+    },
+    appealDecisionSection: {
+      procedureType: 'NOT STARTED',
     },
     planningApplicationDocumentsSection: {
       applicationNumber: 'NOT STARTED',

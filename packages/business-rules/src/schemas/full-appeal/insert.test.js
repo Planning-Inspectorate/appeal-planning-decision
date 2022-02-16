@@ -3,15 +3,16 @@ const { subMonths } = require('date-fns');
 const appealData = require('../../../test/data/full-appeal');
 const insert = require('./insert');
 const {
-  APPEAL_STATE,
   APPEAL_ID,
-  APPLICATION_DECISION,
+  APPEAL_STATE,
   APPLICATION_CATEGORIES,
-  KNOW_THE_OWNERS,
-  TYPE_OF_PLANNING_APPLICATION,
+  APPLICATION_DECISION,
   I_AGREE,
+  KNOW_THE_OWNERS,
+  PROCEDURE_TYPE,
   SECTION_STATE,
   STANDARD_TRIPLE_CONFIRM_OPTIONS,
+  TYPE_OF_PLANNING_APPLICATION,
 } = require('../../constants');
 
 describe('schemas/full-appeal/insert', () => {
@@ -1635,6 +1636,43 @@ describe('schemas/full-appeal/insert', () => {
             const result = await insert.validate(appeal, config);
             expect(result).toEqual(appeal);
           });
+        });
+      });
+    });
+
+    describe('appealDecisionSection', () => {
+      it('should remove unknown fields', async () => {
+        appeal2.appealDecisionSection.unknownField = 'unknown field';
+
+        const result = await insert.validate(appeal2, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should throw an error when given a null value', async () => {
+        appeal.appealDecisionSection = null;
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          'appealDecisionSection must be a `object` type, but the final value was: `null`',
+        );
+      });
+
+      describe('appealDecisionSection.procedureType', () => {
+        it('should throw an error when given an invalid value', async () => {
+          appeal.appealDecisionSection.procedureType = 'Full Appeal';
+
+          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+            `appealDecisionSection.procedureType must be one of the following values: ${Object.values(
+              PROCEDURE_TYPE,
+            ).join(', ')}`,
+          );
+        });
+
+        it('should not throw an error when not given a value', async () => {
+          delete appeal.appealDecisionSection.procedureType;
+          appeal2.appealDecisionSection.procedureType = null;
+
+          const result = await insert.validate(appeal, config);
+          expect(result).toEqual(appeal2);
         });
       });
     });

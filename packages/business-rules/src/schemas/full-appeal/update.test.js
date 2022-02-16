@@ -6,9 +6,10 @@ const {
   APPEAL_STATE,
   I_AGREE,
   KNOW_THE_OWNERS,
+  PROCEDURE_TYPE,
   SECTION_STATE,
-  TYPE_OF_PLANNING_APPLICATION,
   STANDARD_TRIPLE_CONFIRM_OPTIONS,
+  TYPE_OF_PLANNING_APPLICATION,
 } = require('../../constants');
 
 describe('schemas/full-appeal/update', () => {
@@ -1643,6 +1644,43 @@ describe('schemas/full-appeal/update', () => {
             const result = await update.validate(appeal, config);
             expect(result).toEqual(appeal);
           });
+        });
+      });
+    });
+
+    describe('appealDecisionSection', () => {
+      it('should remove unknown fields', async () => {
+        appeal2.appealDecisionSection.unknownField = 'unknown field';
+
+        const result = await update.validate(appeal2, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should throw an error when given a null value', async () => {
+        appeal.appealDecisionSection = null;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'appealDecisionSection must be a `object` type, but the final value was: `null`',
+        );
+      });
+
+      describe('appealDecisionSection.procedureType', () => {
+        it('should throw an error when given an invalid value', async () => {
+          appeal.appealDecisionSection.procedureType = 'Full Appeal';
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            `appealDecisionSection.procedureType must be one of the following values: ${Object.values(
+              PROCEDURE_TYPE,
+            ).join(', ')}`,
+          );
+        });
+
+        it('should throw an error when not given a value', async () => {
+          delete appeal.appealDecisionSection.procedureType;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'appealDecisionSection.procedureType is a required field',
+          );
         });
       });
     });

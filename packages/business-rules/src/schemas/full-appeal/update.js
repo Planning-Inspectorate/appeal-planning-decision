@@ -6,6 +6,7 @@ const {
   APPLICATION_DECISION,
   I_AGREE,
   KNOW_THE_OWNERS,
+  PROCEDURE_TYPE,
   SECTION_STATE,
   TYPE_OF_PLANNING_APPLICATION,
   STANDARD_TRIPLE_CONFIRM_OPTIONS,
@@ -138,6 +139,12 @@ const update = pinsYup
             }),
           })
           .noUnknown(true),
+      })
+      .noUnknown(true),
+    appealDecisionSection: pinsYup
+      .object()
+      .shape({
+        procedureType: pinsYup.string().oneOf(Object.values(PROCEDURE_TYPE)).required(),
       })
       .noUnknown(true),
     planningApplicationDocumentsSection: pinsYup
@@ -301,6 +308,12 @@ const update = pinsYup
             agriculturalHolding: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             visibleFromRoad: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             healthAndSafety: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+          })
+          .noUnknown(true),
+        appealDecisionSection: pinsYup
+          .object()
+          .shape({
+            procedureType: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
           })
           .noUnknown(true),
         planningApplicationDocumentsSection: pinsYup
