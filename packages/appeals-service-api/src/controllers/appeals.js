@@ -135,7 +135,7 @@ module.exports = {
         return;
       }
 
-      res.status(500).send(`Problem updating appeal ${idParam}\n${e}`);
+      res.status(500).send(`Problem patching appeal ${idParam}\n${e}`);
     }
   },
 };
