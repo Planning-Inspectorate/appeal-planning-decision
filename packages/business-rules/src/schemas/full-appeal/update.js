@@ -151,6 +151,12 @@ const update = pinsYup
             reason: pinsYup.string().trim().max(255).nullable(),
           })
           .noUnknown(true),
+        inquiry: pinsYup
+          .object()
+          .shape({
+            reason: pinsYup.string().trim().max(255).nullable(),
+          })
+          .noUnknown(true),
       })
       .noUnknown(true),
     planningApplicationDocumentsSection: pinsYup
@@ -321,6 +327,7 @@ const update = pinsYup
           .shape({
             procedureType: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             hearing: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            inquiry: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
           })
           .noUnknown(true),
         planningApplicationDocumentsSection: pinsYup

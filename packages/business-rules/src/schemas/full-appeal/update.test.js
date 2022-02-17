@@ -1725,6 +1725,48 @@ describe('schemas/full-appeal/update', () => {
           });
         });
       });
+
+      describe('appealDecisionSection.inquiry', () => {
+        it('should remove unknown fields', async () => {
+          appeal2.appealDecisionSection.inquiry.unknownField = 'unknown field';
+
+          const result = await update.validate(appeal2, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should throw an error when given a null value', async () => {
+          appeal.appealDecisionSection.inquiry = null;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'appealDecisionSection.inquiry must be a `object` type, but the final value was: `null`',
+          );
+        });
+
+        describe('appealDecisionSection.inquiry.reason', () => {
+          it('should throw an error when given a value with more than 255 characters', async () => {
+            appeal.appealDecisionSection.inquiry.reason = 'a'.repeat(256);
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'appealDecisionSection.inquiry.reason must be at most 255 characters',
+            );
+          });
+
+          it('should strip leading/trailing spaces', async () => {
+            appeal2.appealDecisionSection.inquiry.reason = '  Reason for having an inquiry  ';
+            appeal.appealDecisionSection.inquiry.reason = 'Reason for having an inquiry';
+
+            const result = await update.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should not throw an error when not given a value', async () => {
+            delete appeal.appealDecisionSection.inquiry.reason;
+
+            const result = await update.validate(appeal, config);
+            expect(result).toEqual(appeal);
+          });
+        });
+      });
     });
 
     describe('planningApplicationDocumentsSection', () => {
@@ -2511,6 +2553,63 @@ describe('schemas/full-appeal/update', () => {
 
             await expect(() => update.validate(appeal, config)).rejects.toThrow(
               'sectionStates.appealSiteSection.healthAndSafety is a required field',
+            );
+          });
+        });
+      });
+
+      describe('sectionStates.appealDecisionSection', () => {
+        it('should remove unknown fields', async () => {
+          appeal2.sectionStates.appealDecisionSection.unknownField = 'unknown field';
+
+          const result = await update.validate(appeal2, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should throw an error when given a null value', async () => {
+          appeal.sectionStates.appealDecisionSection = null;
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            'sectionStates.appealDecisionSection must be a `object` type, but the final value was: `null`',
+          );
+        });
+
+        describe('sectionStates.appealDecisionSection.hearing', () => {
+          it('should throw an error when given an invalid value', async () => {
+            appeal.sectionStates.appealDecisionSection.hearing = 'NOT COMPLETE';
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              `sectionStates.appealDecisionSection.hearing must be one of the following values: ${Object.values(
+                SECTION_STATE,
+              ).join(', ')}`,
+            );
+          });
+
+          it('should throw an error when not given a value', async () => {
+            delete appeal.sectionStates.appealDecisionSection.hearing;
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'sectionStates.appealDecisionSection.hearing is a required field',
+            );
+          });
+        });
+
+        describe('sectionStates.appealDecisionSection.inquiry', () => {
+          it('should throw an error when given an invalid value', async () => {
+            appeal.sectionStates.appealDecisionSection.inquiry = 'NOT COMPLETE';
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              `sectionStates.appealDecisionSection.inquiry must be one of the following values: ${Object.values(
+                SECTION_STATE,
+              ).join(', ')}`,
+            );
+          });
+
+          it('should throw an error when not given a value', async () => {
+            delete appeal.sectionStates.appealDecisionSection.inquiry;
+
+            await expect(() => update.validate(appeal, config)).rejects.toThrow(
+              'sectionStates.appealDecisionSection.inquiry is a required field',
             );
           });
         });
