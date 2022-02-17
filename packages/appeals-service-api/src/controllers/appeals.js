@@ -5,6 +5,7 @@ const {
   getAppeal: getAppealFromAppealApiService,
   updateAppeal,
   insertAppeal,
+  patchAppeal,
 } = require('../services/appeal.service');
 const ApiError = require('../error/apiError');
 const { appealDocument } = require('../models/appeal');
@@ -87,6 +88,41 @@ module.exports = {
       }
 
       const updatedDocument = await updateAppeal(newAppeal, isFirstSubmission);
+
+      logger.debug({ updatedDocument }, 'Updated appeal data in updateAppeal');
+
+      res.status(200).send(updatedDocument.appeal);
+    } catch (e) {
+      logger.error(e.message);
+
+      if (e instanceof ApiError) {
+        res.status(e.code).send({ code: e.code, errors: e.message.errors });
+        return;
+      }
+
+      res.status(500).send(`Problem updating appeal ${idParam}\n${e}`);
+    }
+  },
+
+  async patchAppeal(req, res) {
+    const idParam = req.params.id;
+    logger.debug(`Patching appeal ${idParam} ...`);
+
+    try {
+      const document = await getAppealFromAppealApiService(idParam);
+
+      if (document === null) {
+        throw ApiError.appealNotFound(idParam);
+      }
+
+      let newAppeal = req.body;
+      const oldAppeal = document.appeal;
+
+      logger.debug({ newAppeal }, 'New appeal data in updateAppeal');
+
+      newAppeal = _.merge(oldAppeal, newAppeal);
+
+      const updatedDocument = await updateAppeal(newAppeal, false);
 
       logger.debug({ updatedDocument }, 'Updated appeal data in updateAppeal');
 
