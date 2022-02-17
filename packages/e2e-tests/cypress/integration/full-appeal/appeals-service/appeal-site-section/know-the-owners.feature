@@ -28,10 +28,10 @@ Feature: As an appellant/agent
     Examples:
       | current page                                                      | option                                     | next page                        |
       | Do you know who owns the rest of the land involved in the appeal? | Yes, I know who owns all the land          | Telling the other landowners     |
-      | Do you know who owns the rest of the land involved in the appeal? | I know who owns some the land              | Identifying the other landowners |
+      | Do you know who owns the rest of the land involved in the appeal? | I know who owns some of the land              | Identifying the other landowners |
       | Do you know who owns the rest of the land involved in the appeal? | No, I do not know who owns any of the land | Identifying the other landowners |
       | Do you know who owns the land involved in the appeal              | Yes, I know who owns all the land          | Telling the other landowners     |
-      | Do you know who owns the land involved in the appeal              | I know who owns some the land              | Identifying the other landowners |
+      | Do you know who owns the land involved in the appeal              | I know who owns some of the land              | Identifying the other landowners |
       | Do you know who owns the land involved in the appeal              | No, I do not know who owns any of the land | Identifying the other landowners |
 
   Scenario Outline: 5 - Navigate using back link
