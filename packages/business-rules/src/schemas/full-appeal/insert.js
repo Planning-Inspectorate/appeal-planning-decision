@@ -177,6 +177,12 @@ const insert = pinsYup
             reason: pinsYup.string().trim().max(255).nullable(),
           })
           .noUnknown(true),
+        inquiry: pinsYup
+          .object()
+          .shape({
+            reason: pinsYup.string().trim().max(255).nullable(),
+          })
+          .noUnknown(true),
       })
       .noUnknown(true),
     planningApplicationDocumentsSection: pinsYup
@@ -371,6 +377,7 @@ const insert = pinsYup
               .oneOf(Object.values(SECTION_STATE))
               .default('NOT STARTED'),
             hearing: pinsYup.string().oneOf(Object.values(SECTION_STATE)).default('NOT STARTED'),
+            inquiry: pinsYup.string().oneOf(Object.values(SECTION_STATE)).default('NOT STARTED'),
           })
           .noUnknown(true),
         planningApplicationDocumentsSection: pinsYup
