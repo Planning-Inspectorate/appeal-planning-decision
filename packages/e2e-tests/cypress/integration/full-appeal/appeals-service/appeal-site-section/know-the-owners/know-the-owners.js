@@ -19,6 +19,7 @@ import {
 } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
 import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
+import {selectTheOwners} from "../../../../../support/full-appeal/appeals-service/selectTheOwners";
 
 const url = 'full-appeal/submit-appeal/know-the-owners';
 const someOfLandUrl = 'full-appeal/submit-appeal/own-some-of-the-land';
@@ -58,30 +59,9 @@ Then("'Do you know who owns the rest of the land involved in the appeal?' page i
   pageCaptionText(textPageCaption);
 });
 When("the user select {string} and click 'Continue'", (option) => {
-  switch (option) {
-    case 'Yes':
-      selectYes().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'No':
-      selectNo().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'Yes, I know who owns all the land':
-      selectYes().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'I know who owns some the land':
-      selectSomeOf().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'No, I do not know who owns any of the land':
-      selectNo().click();
-    case 'None of the options':
-      getSaveAndContinueButton().click();
-      break;
-  }
+  selectTheOwners(option);
 });
+
 When("they click on the 'Back' link",()=> {
     getBackLink().click();
 });
