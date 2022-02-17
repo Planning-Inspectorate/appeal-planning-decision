@@ -11,11 +11,6 @@ import {
   getSaveAndContinueButton,
 } from '../../../../../support/common-page-objects/common-po';
 import {
-  errorMessageAreYouATenant,
-  selectNo,
-  selectSomeOf, selectYes,
-} from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
-import {
   checkboxConfirmSensitiveInfo,
   checkboxErrorMessage,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/your-appeal-statement-po';
