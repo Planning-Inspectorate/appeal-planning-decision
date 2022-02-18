@@ -33,6 +33,7 @@ const howDecideAppealRouter = require('./how-decide-appeal');
 const whyHearingRouter = require('./why-hearing');
 const whyInquiryRouter = require('./why-inquiry');
 const expectEnquiryLastRouter = require('./expect-inquiry-last');
+const draftStatementOfCommonGroundRouter = require('./draft-statement-common-ground');
 
 const router = express.Router();
 
@@ -70,5 +71,6 @@ router.use(howDecideAppealRouter);
 router.use(whyHearingRouter);
 router.use(whyInquiryRouter);
 router.use(expectEnquiryLastRouter);
+router.use(draftStatementOfCommonGroundRouter);
 
 module.exports = router;

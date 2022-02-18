@@ -158,6 +158,22 @@ const update = pinsYup
             expectedDays: pinsYup.number().integer().min(1).max(999).nullable(),
           })
           .noUnknown(true),
+        draftStatementOfCommonGround: pinsYup
+          .object()
+          .shape({
+            uploadedFile: pinsYup
+              .object()
+              .shape({
+                id: pinsYup.string().trim().uuid().nullable().default(null),
+                name: pinsYup.string().trim().max(255).ensure(),
+                fileName: pinsYup.string().trim().max(255).ensure(),
+                originalFileName: pinsYup.string().trim().max(255).ensure(),
+                location: pinsYup.string().trim().nullable(),
+                size: pinsYup.number().nullable(),
+              })
+              .noUnknown(true),
+          })
+          .noUnknown(true),
       })
       .noUnknown(true),
     planningApplicationDocumentsSection: pinsYup
@@ -329,6 +345,10 @@ const update = pinsYup
             procedureType: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             hearing: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             inquiry: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            draftStatementOfCommonGround: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .required(),
           })
           .noUnknown(true),
         planningApplicationDocumentsSection: pinsYup
