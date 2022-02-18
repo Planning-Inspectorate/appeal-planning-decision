@@ -1758,6 +1758,47 @@ describe('schemas/full-appeal/insert', () => {
             expect(result).toEqual(appeal);
           });
         });
+
+        describe('appealDecisionSection.inquiry.expectedDays', () => {
+          it('should throw an error when not given a number', async () => {
+            appeal.appealDecisionSection.inquiry.expectedDays = '2!';
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              'appealDecisionSection.inquiry.expectedDays must be a `number` type, but the final value was: `NaN` (cast from the value `2`).',
+            );
+          });
+
+          it('should throw an error when not given an integer', async () => {
+            appeal.appealDecisionSection.inquiry.expectedDays = 1.5;
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              'appealDecisionSection.inquiry.expectedDays must be an integer',
+            );
+          });
+
+          it('should not throw an error when given a value less than 1', async () => {
+            appeal.appealDecisionSection.inquiry.expectedDays = 0;
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              'appealDecisionSection.inquiry.expectedDays must be greater than or equal to 1',
+            );
+          });
+
+          it('should not throw an error when given a value more than 999', async () => {
+            appeal.appealDecisionSection.inquiry.expectedDays = 1000;
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              'appealDecisionSection.inquiry.expectedDays must be less than or equal to 999',
+            );
+          });
+
+          it('should not throw an error when not given a value', async () => {
+            delete appeal.appealDecisionSection.inquiry.expectedDays;
+
+            const result = await insert.validate(appeal, config);
+            expect(result).toEqual(appeal);
+          });
+        });
       });
     });
 

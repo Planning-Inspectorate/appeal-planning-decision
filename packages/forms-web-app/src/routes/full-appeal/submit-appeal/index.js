@@ -32,6 +32,7 @@ const tellingTheTenantsRouter = require('./telling-the-tenants');
 const howDecideAppealRouter = require('./how-decide-appeal');
 const whyHearingRouter = require('./why-hearing');
 const whyInquiryRouter = require('./why-inquiry');
+const expectEnquiryLastRouter = require('./expect-inquiry-last');
 
 const router = express.Router();
 
@@ -68,5 +69,6 @@ router.use(tellingTheTenantsRouter);
 router.use(howDecideAppealRouter);
 router.use(whyHearingRouter);
 router.use(whyInquiryRouter);
+router.use(expectEnquiryLastRouter);
 
 module.exports = router;
