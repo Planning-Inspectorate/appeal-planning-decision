@@ -2,7 +2,7 @@ const { featureFlag } = require('../config');
 const logger = require('../lib/logger');
 
 const checkAppealTypeExists = (req, res, next) => {
-  const { session: { appeal, appeal: { appealType } = {} } = {} } = req;
+  const { session: { appeal } = {} } = req;
 
   logger.debug({ appeal }, 'Appeal data in checkAppealTypeExists');
   logger.debug({ featureFlag }, 'Feature flag in checkAppealTypeExists');
@@ -21,7 +21,7 @@ const checkAppealTypeExists = (req, res, next) => {
     return next();
   }
 
-  if (appealType) {
+  if (appeal && appeal.appealType) {
     return next();
   }
 
