@@ -4,13 +4,15 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
+{% set backLink = '/full-appeal/submit-appeal/' %}
+{% set backLink = backLink + 'new-plans-drawings' if hasPlansDrawings else backLink + 'plans-drawings' %}
 {% set title = "Supporting documents - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% block backButton %}
   {{ govukBackLink({
     text: 'Back',
-    href: '/full-appeal/submit-appeal/plans-drawings',
+    href: backLink,
     attributes: {
       'data-cy': 'back'
     }
