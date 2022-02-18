@@ -20,7 +20,7 @@ import {
   selectYes, tellingTheLandownersFormInAnnex, tellingTheLandownersText,
   tellingTheLandOwnersToldAboutAppeal,
   tellingTheLandOwnersUseCopyOfTheForm,
-  tellingTheLandOwnersWithinLast21Days
+  tellingTheLandOwnersWithinLast21Days, tellingTheOtherLandownersText
 } from "../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po";
 import {selectRadioButton} from "../../../../../support/full-appeal/appeals-service/selectRadioButton";
 import {verifyPageTitle} from "../../../../../support/common/verify-page-title";
@@ -50,7 +50,7 @@ Given('appellant has completed full appeal eligibility journey',()=>{
   goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
 });
 
-Given('an appellant or agent is on the Do you know who owns the land involved in the appeal page',()=>{
+Given('an appellant or agent is on the Do you know who owns the land involved in the appeal page for {string}',(landowners)=>{
     aboutAppealSiteSectionLink().click();
     cy.url().should('contain', siteAddressUrl);
     provideAddressLine1(addressLine1);
@@ -60,7 +60,11 @@ Given('an appellant or agent is on the Do you know who owns the land involved in
     selectNo().click();
     getSaveAndContinueButton().click();
     cy.url().should('contain', ownSomeOfLandUrl);
-    selectNo().click();
+    if(landowners==='Telling the landowners'){
+      selectNo().click();
+    }else{
+      selectYes().click();
+    }
     getSaveAndContinueButton().click();
     cy.url().should('contain',knowTheOwnersUrl);
 });
@@ -80,17 +84,13 @@ Given('an appellant or agent is on the Telling the landowners page for the {stri
     getSaveAndContinueButton().click();
     cy.url().should('contain',knowTheOwnersUrl);
     selectTheOwners(knowTheOwners);
-    if(knowTheOwners==='Yes, I know who owns all the land'){
-      cy.url().should('contain',url);
-      verifyPageTitle(pageTitleTellingTheOtherLandowners);
-      verifyPageHeading(pageHeadingTellingTheOtherLandowners);
-    }else{
+    if(knowTheOwners==='I know who owns some of the land'){
       checkBoxIdentifyingTheOwners().check();
       getSaveAndContinueButton().click();
+    }
       cy.url().should('contain',url);
       verifyPageTitle(pageTitleTellingTheOtherLandowners);
       verifyPageHeading(pageHeadingTellingTheOtherLandowners);
-    }
   }else{
     selectNo().click();
     getSaveAndContinueButton().click();
@@ -103,11 +103,24 @@ Given('an appellant or agent is on the Telling the landowners page for the {stri
 
 });
 
-When('the appellant select {string} and click continue',(option)=>{
+When('the appellant select {string} and click continue for {string}',(option, landowners)=>{
   selectTheOwners(option);
-  cy.url().should('contain',url);
+  if(option==='I know who owns some of the land'){
+    checkBoxIdentifyingTheOwners().check();
+    getSaveAndContinueButton().click();
+  }
+  if(landowners==='Telling the landowners'){
+    cy.url().should('contain',url);
+    verifyPageTitle(pageTitleTellingTheLandowners);
+    verifyPageHeading(pageHeadingTellingTheLandowners);
+  }else if(landowners==='Telling the other landowners'){
+    cy.url().should('contain',url);
+    verifyPageTitle(pageTitleTellingTheOtherLandowners);
+    verifyPageHeading(pageHeadingTellingTheOtherLandowners);
+  }
   cy.checkPageA11y();
 });
+
 
 When('the user select the confirmation boxes for the {string} and click continue',(option) => {
   let landownerCheckboxValues = option.split(',');
@@ -138,15 +151,27 @@ When('user clicks on the Back link',()=>{
   getBackLink().click();
 })
 
-Then('Telling the landowners page is displayed with guidance text',()=>{
-verifyPageTitle(pageTitleTellingTheLandowners);
-verifyPageHeading(pageHeadingTellingTheLandowners);
-pageCaptionText(tellingTheLandownersCaption);
-tellingTheLandownersText().should('exist');
-tellingTheLandownersFormInAnnex()
-  .should('have.attr','href','https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/994918/eHow_To_-_Planning_18_ANNEX.pdf')
-  .should('have.attr','target','_blank')
-  .should('have.attr','rel','noreferrer noopener');
+Then('Telling the {string} page is displayed with guidance text',(landowners)=>{
+  if(landowners==='Telling the landowners'){
+    verifyPageTitle(pageTitleTellingTheLandowners);
+    verifyPageHeading(pageHeadingTellingTheLandowners);
+    pageCaptionText(tellingTheLandownersCaption);
+    tellingTheLandownersText().should('exist');
+    tellingTheLandownersFormInAnnex()
+      .should('have.attr','href','https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/994918/eHow_To_-_Planning_18_ANNEX.pdf')
+      .should('have.attr','target','_blank')
+      .should('have.attr','rel','noreferrer noopener');
+  }else if(landowners==='Telling the other landowners'){
+    verifyPageTitle(pageTitleTellingTheOtherLandowners);
+    verifyPageHeading(pageHeadingTellingTheOtherLandowners);
+    pageCaptionText(tellingTheLandownersCaption);
+    tellingTheOtherLandownersText().should('exist');
+    tellingTheLandownersFormInAnnex()
+      .should('have.attr','href','https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/994918/eHow_To_-_Planning_18_ANNEX.pdf')
+      .should('have.attr','target','_blank')
+      .should('have.attr','rel','noreferrer noopener');
+  }
+
 });
 
 Then('an error message {string} is displayed',(errorMessage)=>{
@@ -160,4 +185,4 @@ verifyPageTitle(pageTitleAgriculturalLand);
 
 Then('they are presented with the Do you know who owns the land involved in the appeal page',()=>{
   cy.url().should('contain',knowTheOwnersUrl);
-})
+});
