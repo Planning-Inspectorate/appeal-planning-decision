@@ -1,3 +1,4 @@
+const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
 const { documentTypes } = require('@pins/common');
 const supportingDocumentsController = require('../../../../src/controllers/appellant-submission/supporting-documents');
 const { mockReq, mockRes } = require('../../mocks');
@@ -6,7 +7,6 @@ const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrappe
 const { createDocument } = require('../../../../src/lib/documents-api-wrapper');
 const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
 const { VIEW } = require('../../../../src/lib/views');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/documents-api-wrapper');
@@ -22,7 +22,8 @@ describe('controllers/appellant-submission/supporting-documents', () => {
   let appeal;
 
   beforeEach(() => {
-    appeal = JSON.parse(JSON.stringify(APPEAL_DOCUMENT.empty));
+    appeal = JSON.parse(JSON.stringify(householderAppeal));
+    appeal.yourAppealSection.otherDocuments.uploadedFiles = [];
 
     req = mockReq(appeal);
     res = mockRes();
@@ -70,15 +71,7 @@ describe('controllers/appellant-submission/supporting-documents', () => {
 
         expect(res.redirect).not.toHaveBeenCalled();
         expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS, {
-          appeal: {
-            ...req.session.appeal,
-            [sectionName]: {
-              ...req.session.appeal[sectionName],
-              [taskName]: {
-                uploadedFiles: [],
-              },
-            },
-          },
+          appeal: req.session.appeal,
           errorSummary: [{ text: 'There were errors here', href: '#supporting-documents-error' }],
           errors: errorsOut,
         });

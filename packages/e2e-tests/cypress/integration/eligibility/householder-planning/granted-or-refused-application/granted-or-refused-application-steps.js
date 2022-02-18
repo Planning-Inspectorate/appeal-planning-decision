@@ -15,6 +15,9 @@ import {
   getErrorMessageSummary,
 } from '../../../../support/common-page-objects/common-po';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
+import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
+import { getIsNotListedBuilding } from '../../../../support/eligibility/page-objects/listed-building-po';
 
 const pageTitle = 'Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Was your planning application granted or refused?';
@@ -24,7 +27,14 @@ const decisionDateDuePageUrl = '/before-you-start/date-decision-due-householder'
 const previousPageUrl = '/before-you-start/listed-building-householder';
 
 Given('appellant is on the was your planning application granted or refused householder page', () => {
-    goToAppealsPage(url);
+    goToAppealsPage('before-you-start/local-planning-depart');
+    getLocalPlanningDepart().select('System Test Borough Council');
+    getContinueButton().click();
+    selectPlanningApplicationType('Householder');
+    getContinueButton().click();
+    getIsNotListedBuilding().click();
+    getContinueButton().click();
+    cy.url().should('contain', url);
     acceptCookiesBanner();
     verifyPageTitle(pageTitle);
     verifyPageHeading(pageHeading);
@@ -59,6 +69,8 @@ Then('appellant is navigated to Is your appeal about a listed building?', () => 
 });
 
 Then('any information they have inputted will not be saved', () => {
-  goToAppealsPage(url);
+  cy.url().should('contain',previousPageUrl);
+  getIsNotListedBuilding().click();
+  getContinueButton().click();
   getGrantedRadio().should('not.be.checked');
 });

@@ -1,3 +1,4 @@
+@wip @has
 Feature: A user has submitted an appeal and at a later date views the appeal status
 
   @AS-1606 @as-2307

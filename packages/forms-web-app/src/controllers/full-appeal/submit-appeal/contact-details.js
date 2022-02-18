@@ -8,6 +8,7 @@ const {
 const TASK_STATUS = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'contactDetailsSection';
+const taskName = 'contact';
 
 exports.getContactDetails = (req, res) => {
   res.render(CONTACT_DETAILS, {
@@ -18,14 +19,13 @@ exports.getContactDetails = (req, res) => {
 exports.postContactDetails = async (req, res) => {
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
-
   const { appeal } = req.session;
 
-  const section = appeal[sectionName];
-
-  section.name = req.body['appellant-name'];
-  section.companyName = req.body['appellant-company-name'];
-  section.email = req.body['appellant-email'];
+  appeal[sectionName][taskName] = {
+    name: req.body['appellant-name'],
+    companyName: req.body['appellant-company-name'],
+    email: req.body['appellant-email'],
+  };
 
   if (Object.keys(errors).length > 0) {
     res.render(CONTACT_DETAILS, {
@@ -37,7 +37,7 @@ exports.postContactDetails = async (req, res) => {
   }
 
   try {
-    appeal.sectionStates[sectionName] = TASK_STATUS.COMPLETED;
+    appeal.sectionStates[sectionName][taskName] = TASK_STATUS.COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);

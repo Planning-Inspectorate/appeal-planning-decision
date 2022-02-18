@@ -15,22 +15,24 @@ jest.mock('../../../../src/config', () => ({
 }));
 
 const sinon = require('sinon');
+const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const decisionDateController = require('../../../../src/controllers/full-appeal/decision-date');
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 
 describe('controllers/full-appeal/decision-date', () => {
   let req;
   let res;
-  let appeal;
+
+  const appeal = {
+    ...fullAppeal,
+    appealType: constants.APPEAL_ID.PLANNING_SECTION_78,
+  };
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     sinon.restore();
     jest.resetAllMocks();
@@ -41,6 +43,7 @@ describe('controllers/full-appeal/decision-date', () => {
       decisionDateController.getDecisionDate(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.DECISION_DATE, {
+        decisionDate: null,
         backLink: `/before-you-start/granted-or-refused`,
       });
     });

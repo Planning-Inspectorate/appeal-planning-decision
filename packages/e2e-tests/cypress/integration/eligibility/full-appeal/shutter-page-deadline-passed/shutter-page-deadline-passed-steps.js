@@ -16,13 +16,17 @@ import {
   enterDateDecisionReceived
 } from "../../../../support/eligibility/date-decision-received/enter-date-decision-received";
 import {clickContinueButton} from "../../../../support/common/clickContinueButton";
+import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { getSaveAndContinueButton } from '../../../../support/common-page-objects/common-po';
 
 const pageHeading = 'You cannot appeal.';
 const pageTitle = 'You cannot appeal - Before you start - Appeal a planning decision - GOV.UK';
 const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 
 Given('an appellant is on the shutter page for date passed for appeal',()=>{
-  goToAppealsPage(typeOfPlanningPageUrl);
+  goToAppealsPage('before-you-start/local-planning-depart');
+  getLocalPlanningDepart().select('System Test Borough Council');
+  getSaveAndContinueButton().click();
   selectPlanningApplicationType('Full planning');
   verifyPage(typeOfPlanningPageUrl);
   clickContinueButton();

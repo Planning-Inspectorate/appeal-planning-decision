@@ -1,4 +1,4 @@
-@wip
+@wip @has
 Feature: Appeal submission to Horizon - providing all documentation
   As a case worker
   I want to view the documents associated to an appeal

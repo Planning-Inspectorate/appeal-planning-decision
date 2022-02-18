@@ -1,3 +1,4 @@
+const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const { subMonths, addDays, subDays, endOfDay, format } = require('date-fns');
 const { constants } = require('@pins/business-rules');
 
@@ -23,7 +24,6 @@ const {
   },
 } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 
 const navigationPage = {
   nextPage: '/before-you-start/enforcement-notice',
@@ -34,13 +34,16 @@ const navigationPage = {
 describe('controllers/full-appeal/date-decision-due', () => {
   let req;
   let res;
-  let appeal;
+
+  const appeal = {
+    ...fullAppeal,
+    appealType: constants.APPEAL_ID.PLANNING_SECTION_78,
+  };
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
 
-    ({ empty: appeal } = APPEAL_DOCUMENT);
     createOrUpdateAppeal.mockResolvedValueOnce({ eligibility: {} });
   });
 
@@ -400,7 +403,11 @@ describe('controllers/full-appeal/date-decision-due', () => {
       expect(logger.error).toHaveBeenCalledWith(error);
 
       expect(res.render).toHaveBeenCalledWith(currentPage, {
-        appeal,
+        decisionDate: {
+          day: undefined,
+          month: undefined,
+          year: undefined,
+        },
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
         previousPage: navigationPage.previousPage,

@@ -5,13 +5,14 @@ const {
 } = require('../../../lib/full-appeal/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
-const { getTaskStatus } = require('../../../services/task.service');
+// const { getTaskStatus } = require('../../../services/task.service');
+const { NOT_STARTED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'planningApplicationDocumentsSection';
 const taskName = 'applicationNumber';
 
 exports.getApplicationNumber = (req, res) => {
-  const { applicationNumber } = req.session.appeal.planningApplicationDocumentsSection;
+  const { applicationNumber } = req.session.appeal[sectionName];
   res.render(APPLICATION_NUMBER, {
     applicationNumber,
   });
@@ -24,7 +25,7 @@ exports.postApplicationNumber = async (req, res) => {
   const {
     appeal,
     appeal: {
-      planningApplicationDocumentsSection: { applicationNumber },
+      [sectionName]: { applicationNumber },
     },
   } = req.session;
   const task = appeal[sectionName];
@@ -41,7 +42,8 @@ exports.postApplicationNumber = async (req, res) => {
   }
 
   try {
-    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+    // appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+    appeal.sectionStates[sectionName][taskName] = NOT_STARTED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);

@@ -1,3 +1,4 @@
+@wip @has
 Feature: Cookie Consent - View Preferences with JavaScript enabled
 
   As a PO for the appeals service

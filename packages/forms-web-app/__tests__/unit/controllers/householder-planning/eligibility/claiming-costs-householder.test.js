@@ -1,5 +1,5 @@
+const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const claimingCostsController = require('../../../../../src/controllers/householder-planning/eligibility/claiming-costs-householder');
-const { APPEAL_DOCUMENT } = require('../../../../../src/lib/empty-appeal');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../../src/lib/logger');
 
@@ -12,7 +12,6 @@ const {
 } = require('../../../../../src/lib/householder-planning/views');
 const { mockReq, mockRes } = require('../../../mocks');
 
-jest.mock('../../../../../src/lib/empty-appeal');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
 
@@ -21,13 +20,10 @@ const backLink = '/before-you-start/enforcement-notice-householder';
 describe('controllers/householder-planning/claiming-costs-householder', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });
@@ -37,6 +33,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
       await claimingCostsController.getClaimingCostsHouseholder(req, res);
 
       expect(res.render).toBeCalledWith(claimingCosts, {
+        isClaimingCosts: appeal.eligibility.isClaimingCosts,
         backLink,
       });
     });
@@ -88,7 +85,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
       expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
       expect(res.render).toBeCalledWith(`${claimingCosts}`, {
-        appeal,
+        isClaimingCosts: appeal.eligibility.isClaimingCosts,
         errors: {
           'claiming-costs-householder': {
             msg: 'Select yes if you are claiming costs as part of your appeal',
@@ -115,7 +112,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
       expect(logger.error).toHaveBeenCalledWith(error);
 
       expect(res.render).toHaveBeenCalledWith(`${claimingCosts}`, {
-        appeal,
+        isClaimingCosts: appeal.eligibility.isClaimingCosts,
         errors: {},
         errorSummary: [{ text: error.toString(), href: 'pageId' }],
         backLink,

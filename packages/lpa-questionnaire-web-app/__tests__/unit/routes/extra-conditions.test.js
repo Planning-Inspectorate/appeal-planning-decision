@@ -1,7 +1,7 @@
 const { get, post } = require('./router-mock');
 const extraConditionsController = require('../../../src/controllers/extra-conditions');
-const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
-const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
+const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/common/fetch-existing-appeal-reply');
+const fetchAppealMiddleware = require('../../../src/middleware/common/fetch-appeal');
 const { validationErrorHandler } = require('../../../src/validators/validation-error-handler');
 const {
   rules: extraConditionsValidationRules,

@@ -1,7 +1,7 @@
-const uuid = require('uuid');
 const logger = require('../lib/logger');
 const mongodb = require('../db/db');
-const ReplyModel = require('../models/replySchema');
+
+const replyModel = require('../lib/reply-model');
 const notify = require('../lib/notify');
 const queue = require('../lib/queue');
 const sqlQueue = require('../lib/sql-lpa-queue');
@@ -10,16 +10,15 @@ const dbId = 'reply';
 
 module.exports = {
   async create(req, res) {
-    const { appealId } = req.body;
+    const { appealId, applicationDecision, appealType } = req.body;
     if (appealId === '' || appealId === undefined) {
       logger.error(`Problem creating reply - no appealID`);
       res.status(400).send(`AppealId must be included`);
       return;
     }
-    const reply = new ReplyModel({
-      id: uuid.v4(),
-      appealId,
-    });
+
+    const reply = replyModel(appealId, appealType, applicationDecision);
+
     logger.debug({ replyId: reply.id }, 'Creating reply...');
     try {
       await mongodb

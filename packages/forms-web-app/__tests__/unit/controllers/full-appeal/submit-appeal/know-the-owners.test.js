@@ -1,10 +1,11 @@
+const appeal = require('@pins/business-rules/test/data/full-appeal');
+const v8 = require('v8');
 const {
   getKnowTheOwners,
   postKnowTheOwners,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/know-the-owners');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { getTaskStatus } = require('../../../../../src/services/task.service');
-const { APPEAL_DOCUMENT } = require('../../../../../src/lib/empty-appeal');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
@@ -18,30 +19,19 @@ jest.mock('../../../../../src/services/task.service');
 describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
   let req;
   let res;
-  let appeal;
 
   const sectionName = 'appealSiteSection';
-  const taskName = 'knowsTheOwners';
-  const appealId = 'da368e66-de7b-44c4-a403-36e5bf5b000b';
+  const taskName = 'siteOwnership';
   const errors = { 'know-the-owners': 'Select an option' };
   const errorSummary = [{ text: 'There was an error', href: '#' }];
 
   beforeEach(() => {
-    appeal = {
-      ...APPEAL_DOCUMENT.empty,
-      id: appealId,
-      appealSiteSection: {
-        ownsSomeOfTheLand: true,
-        knowsTheOwners: 'yes',
-      },
-    };
-    req = {
-      ...mockReq(),
-      body: {},
-      session: {
-        appeal,
-      },
-    };
+    req = v8.deserialize(
+      v8.serialize({
+        ...mockReq(appeal),
+        body: {},
+      })
+    );
     res = mockRes();
 
     jest.resetAllMocks();
@@ -53,20 +43,8 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
 
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(KNOW_THE_OWNERS, {
-        ownsSomeOfTheLand: true,
+        ownsSomeOfTheLand: false,
         knowsTheOwners: 'yes',
-      });
-    });
-
-    it('should call the correct template when appeal.appealSiteSection is not defined', () => {
-      delete appeal.appealSiteSection;
-
-      getKnowTheOwners(req, res);
-
-      expect(res.render).toHaveBeenCalledTimes(1);
-      expect(res.render).toHaveBeenCalledWith(KNOW_THE_OWNERS, {
-        ownsSomeOfTheLand: undefined,
-        knowsTheOwners: undefined,
       });
     });
   });
@@ -87,7 +65,7 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(KNOW_THE_OWNERS, {
-        ownsSomeOfTheLand: true,
+        ownsSomeOfTheLand: false,
         errors,
         errorSummary,
       });
@@ -112,7 +90,7 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(KNOW_THE_OWNERS, {
-        ownsSomeOfTheLand: true,
+        ownsSomeOfTheLand: false,
         knowsTheOwners: 'yes',
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
@@ -126,6 +104,7 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
       };
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -147,8 +126,10 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
         ...appeal,
         state: 'SUBMITTED',
       };
+      submittedAppeal[sectionName][taskName].knowsTheOwners = 'some';
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -170,8 +151,11 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
         ...appeal,
         state: 'SUBMITTED',
       };
+      submittedAppeal[sectionName][taskName].knowsTheOwners = 'no';
+      submittedAppeal[sectionName][taskName].hasIdentifiedTheOwners = null;
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -193,62 +177,7 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
         ...appeal,
         state: 'SUBMITTED',
       };
-
-      req = {
-        ...req,
-        body: {
-          'know-the-owners': 'no',
-        },
-      };
-      req.session.appeal.appealSiteSection.knowsTheOwners = 'some';
-      req.session.appeal.appealSiteSection.identifyingTheOwners = 'i-agree';
-
-      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-
-      await postKnowTheOwners(req, res);
-
-      const expectedAppeal = {
-        ...req.session.appeal,
-        state: 'DRAFT',
-      };
-      expectedAppeal.appealSiteSection.identifyingTheOwners = null;
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(expectedAppeal);
-    });
-
-    it('should redirect to the correct page if `yes` has been selected and appeal.appealSiteSection is not defined', async () => {
-      const submittedAppeal = {
-        ...appeal,
-        state: 'SUBMITTED',
-      };
-
-      delete appeal.appealSiteSection;
-
-      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-
-      req = {
-        ...req,
-        body: {
-          'know-the-owners': 'yes',
-        },
-      };
-
-      await postKnowTheOwners(req, res);
-
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${TELLING_THE_LANDOWNERS}`);
-      expect(req.session.appeal).toEqual(submittedAppeal);
-    });
-
-    it('should redirect to the correct page if `some` has been selected and appeal.appealSiteSection is not defined', async () => {
-      const submittedAppeal = {
-        ...appeal,
-        state: 'SUBMITTED',
-      };
-
-      delete appeal.appealSiteSection;
-
-      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+      submittedAppeal[sectionName][taskName].knowsTheOwners = 'some';
 
       req = {
         ...req,
@@ -256,113 +185,14 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
           'know-the-owners': 'some',
         },
       };
-
-      await postKnowTheOwners(req, res);
-
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${IDENTIFYING_THE_OWNERS}`);
-      expect(req.session.appeal).toEqual(submittedAppeal);
-    });
-
-    it('should redirect to the correct page if `no` has been selected and appeal.appealSiteSection is not defined', async () => {
-      const submittedAppeal = {
-        ...appeal,
-        state: 'SUBMITTED',
-      };
-
-      delete appeal.appealSiteSection;
+      req.session.appeal[sectionName][taskName].knowsTheOwners = 'no';
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-
-      req = {
-        ...req,
-        body: {
-          'know-the-owners': 'no',
-        },
-      };
+      getTaskStatus.mockReturnValue('NOT STARTED');
 
       await postKnowTheOwners(req, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${IDENTIFYING_THE_OWNERS}`);
-      expect(req.session.appeal).toEqual(submittedAppeal);
-    });
-
-    it('should redirect to the correct page if `yes` has been selected and appeal.sectionStates.appealSiteSection is not defined', async () => {
-      const submittedAppeal = {
-        ...appeal,
-        state: 'SUBMITTED',
-      };
-
-      delete appeal.sectionStates.appealSiteSection;
-
-      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-
-      req = {
-        ...req,
-        body: {
-          'know-the-owners': 'yes',
-        },
-      };
-
-      await postKnowTheOwners(req, res);
-
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${TELLING_THE_LANDOWNERS}`);
-      expect(req.session.appeal).toEqual(submittedAppeal);
-    });
-
-    it('should redirect to the correct page if `some` has been selected and appeal.sectionStates.appealSiteSection is not defined', async () => {
-      const submittedAppeal = {
-        ...appeal,
-        state: 'SUBMITTED',
-      };
-
-      delete appeal.sectionStates.appealSiteSection;
-
-      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-
-      req = {
-        ...req,
-        body: {
-          'know-the-owners': 'some',
-        },
-      };
-
-      await postKnowTheOwners(req, res);
-
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${IDENTIFYING_THE_OWNERS}`);
-      expect(req.session.appeal).toEqual(submittedAppeal);
-    });
-
-    it('should redirect to the correct page if `no` has been selected and appeal.sectionStates.appealSiteSection is not defined', async () => {
-      const submittedAppeal = {
-        ...appeal,
-        state: 'SUBMITTED',
-      };
-
-      delete appeal.sectionStates.appealSiteSection;
-
-      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-
-      req = {
-        ...req,
-        body: {
-          'know-the-owners': 'no',
-        },
-      };
-
-      await postKnowTheOwners(req, res);
-
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${IDENTIFYING_THE_OWNERS}`);
-      expect(req.session.appeal).toEqual(submittedAppeal);
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(submittedAppeal);
     });
   });
 });

@@ -1,12 +1,15 @@
 const pinsYup = require('../../lib/pins-yup');
 const parseDateString = require('../../utils/parse-date-string');
 const {
-  APPLICATION_DECISION,
   APPEAL_ID,
   APPEAL_STATE,
-  KNOW_THE_OWNERS,
-  TYPE_OF_PLANNING_APPLICATION,
+  APPLICATION_DECISION,
   I_AGREE,
+  KNOW_THE_OWNERS,
+  PROCEDURE_TYPE,
+  SECTION_STATE,
+  TYPE_OF_PLANNING_APPLICATION,
+  STANDARD_TRIPLE_CONFIRM_OPTIONS,
 } = require('../../constants');
 
 const update = pinsYup
@@ -16,8 +19,6 @@ const update = pinsYup
     id: pinsYup.string().trim().uuid().required(),
     horizonId: pinsYup.string().trim().max(20).nullable(),
     lpaCode: pinsYup.string().trim().max(20).required(),
-    state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).required(),
-    appealType: pinsYup.string().oneOf(Object.values(APPEAL_ID)).required(),
     decisionDate: pinsYup.lazy((decisionDate) => {
       return pinsYup
         .date()
@@ -26,6 +27,12 @@ const update = pinsYup
         .transform(parseDateString)
         .required();
     }),
+    state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).required(),
+    appealType: pinsYup.string().oneOf(Object.values(APPEAL_ID)).required(),
+    typeOfPlanningApplication: pinsYup
+      .string()
+      .oneOf(Object.values(TYPE_OF_PLANNING_APPLICATION))
+      .required(),
     eligibility: pinsYup
       .object()
       .shape({
@@ -34,79 +41,36 @@ const update = pinsYup
         enforcementNotice: pinsYup.bool().required(),
       })
       .noUnknown(true),
-    beforeYouStartSection: pinsYup
+    contactDetailsSection: pinsYup
       .object()
       .shape({
-        typeOfPlanningApplication: pinsYup
-          .string()
-          .oneOf(Object.values(TYPE_OF_PLANNING_APPLICATION))
-          .required(),
-      })
-      .noUnknown(true),
-    aboutYouSection: pinsYup
-      .object()
-      .shape({
-        yourDetails: pinsYup.object().shape({
-          isOriginalApplicant: pinsYup.bool().required(),
-          appealingOnBehalfOf: pinsYup
-            .string()
-            .max(80)
-            .matches(/^[a-z\-' ]*$/i)
-            .nullable(),
-          companyName: pinsYup.string().nullable(),
-        }),
-      })
-      .noUnknown(true),
-    yourAppealSection: pinsYup
-      .object()
-      .shape({
-        appealStatement: pinsYup
+        isOriginalApplicant: pinsYup.bool().required(),
+        contact: pinsYup
           .object()
           .shape({
-            uploadedFile: pinsYup
-              .object()
-              .shape({
-                name: pinsYup.string().trim().max(255).required(),
-                originalFileName: pinsYup.string().trim().max(255).required(),
-                id: pinsYup.string().trim().uuid().required(),
-              })
-              .noUnknown(true),
-            hasSensitiveInformation: pinsYup.bool().required(),
+            name: pinsYup
+              .string()
+              .min(2)
+              .max(80)
+              .matches(/^[a-z\-' ]+$/i)
+              .required(),
+            companyName: pinsYup.string().max(50).nullable(),
+            email: pinsYup.string().email().max(255).required(),
+          })
+          .noUnknown(true),
+        appealingOnBehalfOf: pinsYup
+          .object()
+          .shape({
+            name: pinsYup
+              .string()
+              .max(80)
+              .matches(/^[a-z\-' ]*$/i)
+              .nullable(),
+            companyName: pinsYup.string().nullable(),
           })
           .noUnknown(true),
       })
       .noUnknown(true),
-    contactDetailsSection: pinsYup
-      .object()
-      .shape({
-        name: pinsYup
-          .string()
-          .min(2)
-          .max(80)
-          .matches(/^[a-z\-' ]+$/i)
-          .required(),
-        companyName: pinsYup.string().max(50).nullable(),
-        email: pinsYup.string().email().max(255).required(),
-      })
-      .noUnknown(true),
-    appealSubmission: pinsYup.object().shape({
-      appealPDFStatement: pinsYup
-        .object()
-        .shape({
-          uploadedFile: pinsYup
-            .object()
-            .shape({
-              name: pinsYup.string().trim().max(255).required(),
-              originalFileName: pinsYup.string().trim().max(255).required(),
-              id: pinsYup.string().trim().uuid().required(),
-              fileName: pinsYup.string().trim().max(255).required(),
-              location: pinsYup.string().trim().required(),
-              size: pinsYup.number().positive().integer().required(),
-            })
-            .noUnknown(true),
-        })
-        .noUnknown(true),
-    }),
     appealSiteSection: pinsYup
       .object()
       .shape({
@@ -120,68 +84,114 @@ const update = pinsYup
             postcode: pinsYup.string().max(8).required(),
           })
           .noUnknown(true),
-        ownsSomeOfTheLand: pinsYup.bool().required(),
-        ownsAllTheLand: pinsYup.bool().required(),
-        knowsTheOwners: pinsYup.string().oneOf(Object.values(KNOW_THE_OWNERS)).required(),
-        identifyingTheOwners: pinsYup.lazy((identifyingTheOwners) => {
-          if (identifyingTheOwners) {
-            return pinsYup.string().oneOf([I_AGREE]);
-          }
-          return pinsYup.string().nullable();
-        }),
-        isAgriculturalHolding: pinsYup.bool().required(),
-        isAgriculturalHoldingTenant: pinsYup.bool().required(),
-        areOtherTenants: pinsYup.bool().required(),
-        isVisibleFromRoad: pinsYup.bool().required(),
-        visibleFromRoadDetails: pinsYup.lazy((visibleFromRoadDetails) => {
-          return pinsYup.mixed().conditionalText({
-            fieldValue: visibleFromRoadDetails,
-            fieldName: 'visibleFromRoadDetails',
-            targetFieldName: 'isVisibleFromRoad',
-            emptyError: 'Tell us how visibility is restricted',
-            tooLongError: 'How visibility is restricted must be $maxLength characters or less',
-          });
-        }),
-        hasHealthSafetyIssues: pinsYup.bool().required(),
-        healthSafetyIssuesDetails: pinsYup.lazy((healthSafetyIssuesDetails) => {
-          return pinsYup.mixed().conditionalText({
-            fieldValue: healthSafetyIssuesDetails,
-            fieldName: 'healthSafetyIssuesDetails',
-            targetFieldName: 'hasHealthSafetyIssues',
-            targetFieldValue: true,
-            emptyError: 'Tell us about the health and safety issues',
-            tooLongError: 'Health and safety information must be $maxLength characters or less',
-          });
-        }),
+        siteOwnership: pinsYup
+          .object()
+          .shape({
+            ownsSomeOfTheLand: pinsYup.bool().required(),
+            ownsAllTheLand: pinsYup.bool().required(),
+            knowsTheOwners: pinsYup.string().oneOf(Object.values(KNOW_THE_OWNERS)).required(),
+            hasIdentifiedTheOwners: pinsYup.lazy((identifyingTheOwners) => {
+              if (identifyingTheOwners) {
+                return pinsYup.string().oneOf([I_AGREE]);
+              }
+              return pinsYup.string().nullable();
+            }),
+            tellingTheLandowners: pinsYup.array().nullable().allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
+            tellingTheTenants: pinsYup.array().nullable().allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
+          })
+          .noUnknown(true),
+        agriculturalHolding: pinsYup
+          .object()
+          .shape({
+            isAgriculturalHolding: pinsYup.bool().required(),
+            isTenant: pinsYup.bool().required(),
+            hasOtherTenants: pinsYup.bool().required(),
+          })
+          .noUnknown(true),
+        visibleFromRoad: pinsYup
+          .object()
+          .shape({
+            isVisible: pinsYup.bool().required(),
+            details: pinsYup.lazy((details) => {
+              return pinsYup.mixed().conditionalText({
+                fieldValue: details,
+                fieldName: 'details',
+                targetFieldName: 'isVisible',
+                emptyError: 'Tell us how visibility is restricted',
+                tooLongError: 'How visibility is restricted must be $maxLength characters or less',
+              });
+            }),
+          })
+          .noUnknown(true),
+        healthAndSafety: pinsYup
+          .object()
+          .shape({
+            hasIssues: pinsYup.bool().required(),
+            details: pinsYup.lazy((details) => {
+              return pinsYup.mixed().conditionalText({
+                fieldValue: details,
+                fieldName: 'details',
+                targetFieldName: 'hasIssues',
+                targetFieldValue: true,
+                emptyError: 'Tell us about the health and safety issues',
+                tooLongError: 'Health and safety information must be $maxLength characters or less',
+              });
+            }),
+          })
+          .noUnknown(true),
+      })
+      .noUnknown(true),
+    appealDecisionSection: pinsYup
+      .object()
+      .shape({
+        procedureType: pinsYup.string().oneOf(Object.values(PROCEDURE_TYPE)).required(),
+        hearing: pinsYup
+          .object()
+          .shape({
+            reason: pinsYup.string().trim().max(255).nullable(),
+          })
+          .noUnknown(true),
+        inquiry: pinsYup
+          .object()
+          .shape({
+            reason: pinsYup.string().trim().max(255).nullable(),
+            expectedDays: pinsYup.number().integer().min(1).max(999).nullable(),
+          })
+          .noUnknown(true),
+        draftStatementOfCommonGround: pinsYup
+          .object()
+          .shape({
+            uploadedFile: pinsYup
+              .object()
+              .shape({
+                id: pinsYup.string().trim().uuid().nullable().default(null),
+                name: pinsYup.string().trim().max(255).ensure(),
+                fileName: pinsYup.string().trim().max(255).ensure(),
+                originalFileName: pinsYup.string().trim().max(255).ensure(),
+                location: pinsYup.string().trim().nullable(),
+                size: pinsYup.number().nullable(),
+              })
+              .noUnknown(true),
+          })
+          .noUnknown(true),
       })
       .noUnknown(true),
     planningApplicationDocumentsSection: pinsYup
       .object()
       .shape({
         applicationNumber: pinsYup.string().max(30).required(),
-        isDesignAccessStatementSubmitted: pinsYup.bool().required(),
         originalApplication: pinsYup
           .object()
           .shape({
             uploadedFile: pinsYup
               .object()
               .shape({
-                name: pinsYup.string().trim().max(255).required(),
-                originalFileName: pinsYup.string().trim().max(255).required(),
                 id: pinsYup.string().trim().uuid().required(),
-              })
-              .noUnknown(true),
-          })
-          .noUnknown(true),
-        designAccessStatement: pinsYup
-          .object()
-          .shape({
-            uploadedFile: pinsYup
-              .object()
-              .shape({
                 name: pinsYup.string().trim().max(255).required(),
+                fileName: pinsYup.string().trim().max(255).required(),
                 originalFileName: pinsYup.string().trim().max(255).required(),
-                id: pinsYup.string().trim().uuid().required(),
+                location: pinsYup.string().trim().required(),
+                size: pinsYup.number().required(),
               })
               .noUnknown(true),
           })
@@ -192,16 +202,174 @@ const update = pinsYup
             uploadedFile: pinsYup
               .object()
               .shape({
-                name: pinsYup.string().trim().max(255).required(),
-                originalFileName: pinsYup.string().trim().max(255).required(),
                 id: pinsYup.string().trim().uuid().required(),
+                name: pinsYup.string().trim().max(255).required(),
+                fileName: pinsYup.string().trim().max(255).required(),
+                originalFileName: pinsYup.string().trim().max(255).required(),
+                location: pinsYup.string().trim().required(),
+                size: pinsYup.number().required(),
+              })
+              .noUnknown(true),
+          })
+          .noUnknown(true),
+        designAccessStatement: pinsYup
+          .object()
+          .shape({
+            isSubmitted: pinsYup.bool().required(),
+            uploadedFile: pinsYup
+              .object()
+              .shape({
+                id: pinsYup.string().trim().uuid().required(),
+                name: pinsYup.string().trim().max(255).required(),
+                fileName: pinsYup.string().trim().max(255).required(),
+                originalFileName: pinsYup.string().trim().max(255).required(),
+                location: pinsYup.string().trim().required(),
+                size: pinsYup.number().required(),
               })
               .noUnknown(true),
           })
           .noUnknown(true),
       })
       .noUnknown(true),
-    sectionStates: pinsYup.object().shape({}),
+    appealDocumentsSection: pinsYup
+      .object()
+      .shape({
+        appealStatement: pinsYup
+          .object()
+          .shape({
+            uploadedFile: pinsYup
+              .object()
+              .shape({
+                id: pinsYup.string().trim().uuid().required(),
+                name: pinsYup.string().trim().max(255).required(),
+                fileName: pinsYup.string().trim().max(255).required(),
+                originalFileName: pinsYup.string().trim().max(255).required(),
+                location: pinsYup.string().trim().required(),
+                size: pinsYup.number().required(),
+              })
+              .noUnknown(true),
+            hasSensitiveInformation: pinsYup.bool().required(),
+          })
+          .noUnknown(true),
+        plansDrawings: pinsYup
+          .object()
+          .shape({
+            hasPlansDrawings: pinsYup.bool().required(),
+            uploadedFiles: pinsYup
+              .array()
+              .of(
+                pinsYup
+                  .object()
+                  .shape({
+                    id: pinsYup.string().trim().uuid().nullable(),
+                    name: pinsYup.string().trim().max(255).nullable(),
+                    fileName: pinsYup.string().trim().max(255).nullable(),
+                    originalFileName: pinsYup.string().trim().max(255).nullable(),
+                    location: pinsYup.string().trim().nullable(),
+                    size: pinsYup.number().nullable(),
+                  })
+                  .noUnknown(true),
+              )
+              .ensure(),
+          })
+          .noUnknown(true),
+        supportingDocuments: pinsYup
+          .object()
+          .shape({
+            hasSupportingDocuments: pinsYup.bool().required(),
+            uploadedFiles: pinsYup
+              .array()
+              .of(
+                pinsYup
+                  .object()
+                  .shape({
+                    id: pinsYup.string().trim().uuid().nullable(),
+                    name: pinsYup.string().trim().max(255).nullable(),
+                    fileName: pinsYup.string().trim().max(255).nullable(),
+                    originalFileName: pinsYup.string().trim().max(255).nullable(),
+                    location: pinsYup.string().trim().nullable(),
+                    size: pinsYup.number().nullable(),
+                  })
+                  .noUnknown(true),
+              )
+              .ensure(),
+          })
+          .noUnknown(true),
+      })
+      .noUnknown(true),
+    appealSubmission: pinsYup
+      .object()
+      .shape({
+        appealPDFStatement: pinsYup
+          .object()
+          .shape({
+            uploadedFile: pinsYup
+              .object()
+              .shape({
+                id: pinsYup.string().trim().uuid().required(),
+                name: pinsYup.string().trim().max(255).required(),
+                fileName: pinsYup.string().trim().max(255).required(),
+                originalFileName: pinsYup.string().trim().max(255).required(),
+                location: pinsYup.string().trim().required(),
+                size: pinsYup.number().required(),
+              })
+              .noUnknown(true),
+          })
+          .noUnknown(true),
+      })
+      .noUnknown(true),
+    sectionStates: pinsYup
+      .object()
+      .shape({
+        contactDetailsSection: pinsYup
+          .object()
+          .shape({
+            isOriginalApplicant: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            contact: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            appealingOnBehalfOf: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+          })
+          .noUnknown(true),
+        appealSiteSection: pinsYup
+          .object()
+          .shape({
+            siteAddress: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            siteOwnership: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            agriculturalHolding: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            visibleFromRoad: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            healthAndSafety: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+          })
+          .noUnknown(true),
+        appealDecisionSection: pinsYup
+          .object()
+          .shape({
+            procedureType: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            hearing: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            inquiry: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            draftStatementOfCommonGround: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .required(),
+          })
+          .noUnknown(true),
+        planningApplicationDocumentsSection: pinsYup
+          .object()
+          .shape({
+            applicationNumber: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            originalApplication: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            decisionLetter: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            designAccessStatement: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+          })
+          .noUnknown(true),
+        appealDocumentsSection: pinsYup
+          .object()
+          .shape({
+            appealStatement: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            plansDrawings: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            supportingDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+          })
+          .noUnknown(true),
+      })
+      .noUnknown(true),
   });
 
 module.exports = update;

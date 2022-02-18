@@ -1,7 +1,7 @@
 const express = require('express');
 const developmentPlanController = require('../controllers/development-plan');
-const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing-appeal-reply');
-const fetchAppealMiddleware = require('../middleware/fetch-appeal');
+const fetchExistingAppealReplyMiddleware = require('../middleware/common/fetch-existing-appeal-reply');
+const fetchAppealMiddleware = require('../middleware/common/fetch-appeal');
 const alreadySubmittedMiddleware = require('../middleware/already-submitted');
 const { validationErrorHandler } = require('../validators/validation-error-handler');
 const { rules: developmentPlanValidationRules } = require('../validators/development-plan');

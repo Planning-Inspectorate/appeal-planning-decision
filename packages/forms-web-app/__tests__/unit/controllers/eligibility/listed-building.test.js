@@ -1,21 +1,23 @@
+const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const listedBuildingController = require('../../../../src/controllers/eligibility/listed-building');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 
 describe('controllers/eligibility/listed-building', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = {
+      ...mockReq(appeal),
+      log: {
+        error: jest.fn(),
+      },
+    };
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });
@@ -79,8 +81,6 @@ describe('controllers/eligibility/listed-building', () => {
       await listedBuildingController.postListedBuilding(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
-
-      expect(req.log.error).toHaveBeenCalledWith(error);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.LISTED_BUILDING, {
         appeal: req.session.appeal,

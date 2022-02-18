@@ -8,6 +8,11 @@ const {
 const validateFileSize = require('../../custom/file-size');
 const mimeTypes = require('../../../lib/mime-types');
 
+const hasAlreadyUploadedFile = (task) => {
+  const { uploadedFile = {}, uploadedFiles = [] } = task;
+  return !!uploadedFile.id || (uploadedFiles[0] && !!uploadedFiles[0].id);
+};
+
 const schema = (noFilesError) => ({
   'file-upload': {
     custom: {
@@ -20,7 +25,7 @@ const schema = (noFilesError) => ({
         } = req;
 
         if (!files) {
-          if (appeal[sectionName] && appeal[sectionName][taskName]?.uploadedFile.id) {
+          if (appeal[sectionName] && hasAlreadyUploadedFile(appeal[sectionName][taskName])) {
             return true;
           }
 

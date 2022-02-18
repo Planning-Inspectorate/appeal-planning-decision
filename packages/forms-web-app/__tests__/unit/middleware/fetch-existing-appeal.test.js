@@ -31,7 +31,7 @@ describe('middleware/fetch-existing-appeal', () => {
     {
       title: 'set empty appeal and call next immediately if no id set',
       given: () => ({
-        ...mockReq(),
+        ...mockReq({ id: null }),
       }),
       expected: (req, res, next) => {
         expect(getExistingAppeal).not.toHaveBeenCalled();
@@ -82,7 +82,12 @@ describe('middleware/fetch-existing-appeal', () => {
   ].forEach(({ title, given, expected }) => {
     it(title, async () => {
       const next = jest.fn();
-      const req = given();
+      const req = {
+        ...given(),
+        log: {
+          debug: jest.fn(),
+        },
+      };
 
       await fetchExistingAppealMiddleware(req, mockRes(), next);
 

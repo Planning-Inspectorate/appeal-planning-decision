@@ -28,6 +28,8 @@ import {
 import {
   enterDateHouseholderDecisionReceived
 } from '../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received';
+import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 const pageHeading = 'What\'s the decision date on the letter from the local planning department?';
 const pageTitle = 'What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a householder planning decision - GOV.UK';
 const url = `/decision-date-householder`;
@@ -37,7 +39,9 @@ const grantedOrRefusedPageUrl = '/granted-or-refused-householder';
 const shutterPageUrl = '/you-cannot-appeal';
 
 Given('appellant navigates to decision date received page for householder appeal',()=>{
-  goToAppealsPage(typeOfPlanningPageUrl);
+  goToAppealsPage('before-you-start/local-planning-depart');
+  getLocalPlanningDepart().select('System Test Borough Council');
+  getContinueButton().click();
   selectPlanningApplicationType('Householder');
   verifyPage(typeOfPlanningPageUrl);
   clickContinueButton();
@@ -54,6 +58,7 @@ Given('appellant is on the what date was the decision received page',()=>{
   verifyPage(url);
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading);
+  cy.checkPageA11y();
 });
 
 When('appellant enters the date lesser than the deadline date for {string}',(application_decision)=>{

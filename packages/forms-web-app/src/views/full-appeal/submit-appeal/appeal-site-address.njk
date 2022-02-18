@@ -6,13 +6,7 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 
 {% set title="What is the address of the appeal site? - Appeal a planning decision - GOV.UK" %}
-
-{% block pageTitle %}
-  {% if errors %}
-    {% set title="Error: " + title %}
-  {% endif %}
-  {{ title }}
-{% endblock %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% block backButton %}
   {{ govukBackLink({
@@ -52,21 +46,18 @@
 
           {% set addressLine1Id = "site-address-line-one" %}
           {% set addressLine1LabelId = addressLine1Id + "-label" %}
-          {% set addressLine1Text = "Building and street" %}
           {{ govukInput({
             label: {
               attributes: {
                 id: addressLine1LabelId
               },
-              text: addressLine1Text
+              html: 'Building and street <span class="govuk-visually-hidden">line 1 of 2</span>'
             },
             id: addressLine1Id,
             value: appeal.appealSiteSection.siteAddress.addressLine1,
             name: addressLine1Id,
             autocomplete: "address-line1",
-            describedBy: addressLine1LabelId,
             attributes: {
-              title: addressLine1Text,
               'data-cy': addressLine1Id
             },
             errorMessage: errors[addressLine1Id] and {
@@ -76,21 +67,18 @@
 
           {% set addressLine2Id = "site-address-line-two" %}
           {% set addressLine2LabelId = addressLine2Id + "-label" %}
-          {% set addressLine2Text = "" %}
           {{ govukInput({
             label: {
               attributes: {
                 id: addressLine2LabelId
               },
-              text: addressLine2Text
+              html: '<span class="govuk-visually-hidden">Building and street line 2 of 2</span>'
             },
             id: addressLine2Id,
             value: appeal.appealSiteSection.siteAddress.addressLine2,
             name: addressLine2Id,
             autocomplete: "address-line2",
-            describedBy: addressLine2LabelId,
             attributes: {
-              title: addressLine2Text,
               'data-cy': addressLine2Id
             },
             errorMessage: errors[addressLine2Id] and {
@@ -100,22 +88,19 @@
 
           {% set townOrCityId = "site-town-city" %}
           {% set townOrCityLabelId = townOrCityId + "-label" %}
-          {% set townOrCityText = "Town or city" %}
           {{ govukInput({
             label: {
               attributes: {
                 id: townOrCityLabelId
               },
-              text: townOrCityText
+              text: "Town or city"
             },
             classes: "govuk-!-width-two-thirds",
             id: townOrCityId,
             value: appeal.appealSiteSection.siteAddress.town,
             name: townOrCityId,
             autocomplete: "address-level2",
-            describedBy: townOrCityLabelId,
             attributes: {
-              title: townOrCityText,
               'data-cy': townOrCityId
             },
             errorMessage: errors[townOrCityId] and {
@@ -125,21 +110,18 @@
 
           {% set countyId = "site-county" %}
           {% set countyLabelId = countyId + "-label" %}
-          {% set countyText = "County" %}
           {{ govukInput({
             label: {
               attributes: {
                 id: countyLabelId
               },
-              text: countyText
+              text: "County"
             },
             classes: "govuk-!-width-two-thirds",
             id: countyId,
             value: appeal.appealSiteSection.siteAddress.county,
             name: countyId,
-            describedBy: countyLabelId,
             attributes: {
-              title: countyText,
               'data-cy': countyId
             },
             errorMessage: errors[countyId] and {
@@ -149,7 +131,6 @@
 
           {% set postcodeId = "site-postcode" %}
           {% set postcodeLabelId = postcodeId + "-label" %}
-          {% set postcodeText = "Postcode" %}
           {{ govukInput({
             label: {
               attributes: {
@@ -162,9 +143,7 @@
             value: appeal.appealSiteSection.siteAddress.postcode,
             name: postcodeId,
             autocomplete: "postal-code",
-            describedBy: postcodeLabelId,
             attributes: {
-              title: postcodeText,
               'data-cy': postcodeId
             },
             errorMessage: errors[postcodeId] and {

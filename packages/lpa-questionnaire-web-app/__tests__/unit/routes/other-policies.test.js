@@ -4,8 +4,8 @@ const { mockRes, mockReq } = require('../mocks');
 
 const uploadQuestionController = require('../../../src/controllers/upload-question');
 
-const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
-const fetchAppealMiddleware = require('../../../src/middleware/fetch-appeal');
+const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/common/fetch-existing-appeal-reply');
+const fetchAppealMiddleware = require('../../../src/middleware/common/fetch-appeal');
 const clearUploadedFilesMiddleware = require('../../../src/middleware/clear-uploaded-files');
 const reqFilesToReqBodyFilesMiddleware = require('../../../src/middleware/req-files-to-req-body-files');
 const alreadySubmittedMiddleware = require('../../../src/middleware/already-submitted');

@@ -18,6 +18,7 @@ import { verifyPageTitle } from '../../../../../support/common/verify-page-title
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { pageCaption } from '../../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
 import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
+import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 const url = 'full-appeal/submit-appeal/application-form';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -29,13 +30,9 @@ const pageHeadingText = "If you do not have your planning application form, you 
 
 
 Given("an appellant is on the 'Appeal a Planning Decision page'",()=> {
-  goToAppealsPage(taskListUrl);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
  })
-Given("an appellant is on the 'Appeal a Planning Decision' task list page",()=> {
-  goToAppealsPage(taskListUrl);
-  acceptCookiesBanner();
-})
+
 When("they select 'Upload documents from your planning application' link",()=> {
   planningApplicationDocumentsLink().click();
 })
@@ -50,14 +47,15 @@ Then("the uploaded file {string} is displayed", (filename) => {
   uploadedFileName().should('contain', filename);
 })
 Given( "an appellant is on the 'Planning Application form' page", () => {
-  goToAppealsPage(url)
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  planningApplicationDocumentsLink().click();
   pageCaption().should('contain', textPageCaption);
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading);
   sectionText().should('contain', pageHeadingText);
   filesCanUploadHintText().should('exist');
   filesCanUploadHintText().click();
+  cy.checkPageA11y();
  } );
 When( "they upload a file {string} and click on Continue button", (filename) => {
   getFileUploadButton().attachFile(filename);
@@ -80,12 +78,12 @@ Then( "an error message {string} is displayed on planning application form page"
 });
 
 Given("an appellant has not uploaded any document",()=> {
-  goToAppealsPage(url);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  planningApplicationDocumentsLink().click();
 });
 
 Given("an appellant is on the 'Planning Application' page",()=> {
-  goToAppealsPage(taskListUrl);
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   planningApplicationDocumentsLink().click();
 });
 When("they click on the 'Back' link",()=> {
@@ -96,8 +94,8 @@ Then("they are presented with the 'Appeal a planning decision' task list page", 
 });
 
 Given("an appellant has uploaded a file {string}", (filename) => {
-  goToAppealsPage(url);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  planningApplicationDocumentsLink().click();
   getFileUploadButton().attachFile(filename);
 })
 Then("they are presented with the 'Appeal a planning decision' task list page", () => {

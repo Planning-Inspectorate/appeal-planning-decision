@@ -1,8 +1,16 @@
 const anyOfFollowingController = require('../../../../src/controllers/full-appeal/any-of-following');
 const { mockReq, mockRes } = require('../../mocks');
+const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/logger');
+jest.mock('../../../../src/lib/appeals-api-wrapper');
+
+const pageLinks = {
+  previousPage: '/before-you-start/type-of-planning-application',
+  nextPage: '/before-you-start/granted-or-refused',
+  shutterPage: '/before-you-start/use-a-different-service',
+};
 
 describe('controllers/full-appeal/any-of-following', () => {
   let req;
@@ -13,11 +21,20 @@ describe('controllers/full-appeal/any-of-following', () => {
     res = mockRes();
 
     jest.resetAllMocks();
+
+    createOrUpdateAppeal.mockResolvedValueOnce({ eligibility: {} });
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
   });
 
   it('should render any of following page', async () => {
     await anyOfFollowingController.getAnyOfFollowing(req, res);
-    expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.ANY_OF_FOLLOWING);
+    expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.ANY_OF_FOLLOWING, {
+      applicationCategory: undefined,
+      backLink: pageLinks.previousPage,
+    });
   });
 
   describe('postAnyOfFollowing', () => {

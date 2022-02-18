@@ -1,3 +1,4 @@
+const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const { documentTypes } = require('@pins/common');
 const uploadDecisionController = require('../../../../src/controllers/appellant-submission/upload-decision');
 const { mockReq, mockRes } = require('../../mocks');
@@ -6,7 +7,6 @@ const logger = require('../../../../src/lib/logger');
 const { createDocument } = require('../../../../src/lib/documents-api-wrapper');
 const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
 const { VIEW } = require('../../../../src/lib/views');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/documents-api-wrapper');
@@ -19,13 +19,10 @@ const taskName = 'decisionLetter';
 describe('controllers/appellant-submission/upload-decision', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });
@@ -56,18 +53,7 @@ describe('controllers/appellant-submission/upload-decision', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
-        appeal: {
-          ...req.session.appeal,
-          [sectionName]: {
-            ...req.session.appeal[sectionName],
-            [taskName]: {
-              uploadedFile: {
-                id: null,
-                name: '',
-              },
-            },
-          },
-        },
+        appeal: req.session.appeal,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });
@@ -116,15 +102,6 @@ describe('controllers/appellant-submission/upload-decision', () => {
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
-        [sectionName]: {
-          ...appeal[sectionName],
-          [taskName]: {
-            uploadedFile: {
-              id: null,
-              name: '',
-            },
-          },
-        },
         sectionStates: {
           ...appeal.sectionStates,
           [sectionName]: {

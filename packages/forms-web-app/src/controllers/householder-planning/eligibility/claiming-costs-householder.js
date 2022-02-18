@@ -13,7 +13,12 @@ const backLink = `/before-you-start/enforcement-notice-householder`;
 const nextPage = `/appellant-submission/task-list`;
 
 exports.getClaimingCostsHouseholder = async (req, res) => {
-  res.render(claimingCosts, { backLink });
+  const { appeal } = req.session;
+
+  res.render(claimingCosts, {
+    isClaimingCosts: appeal.eligibility.isClaimingCosts,
+    backLink,
+  });
 };
 
 const redirect = (selection, res) => {
@@ -34,7 +39,7 @@ exports.postClaimingCostsHouseholder = async (req, res) => {
 
   if (errors['claiming-costs-householder']) {
     return res.render(claimingCosts, {
-      appeal,
+      isClaimingCosts: appeal.eligibility.isClaimingCosts,
       errors,
       errorSummary,
       backLink,
@@ -53,7 +58,7 @@ exports.postClaimingCostsHouseholder = async (req, res) => {
     logger.error(e);
 
     return res.render(claimingCosts, {
-      appeal,
+      isClaimingCosts: appeal.eligibility.isClaimingCosts,
       errors,
       errorSummary: [{ text: e.toString(), href: 'pageId' }],
       backLink,

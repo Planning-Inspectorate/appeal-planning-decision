@@ -5,11 +5,11 @@ const {
   },
 } = require('../../../lib/full-appeal/views');
 const logger = require('../../../lib/logger');
-const { getTaskStatus, FULL_APPEAL_SECTIONS } = require('../../../services/task.service');
-const TASK_STATUS = require('../../../services/task-status/task-statuses');
+// const { getTaskStatus, FULL_APPEAL_SECTIONS } = require('../../../services/task.service');
+const { NOT_STARTED } = require('../../../services/task-status/task-statuses');
 
-const sectionName = 'aboutYouSection';
-const taskName = 'yourDetails';
+const sectionName = 'contactDetailsSection';
+const taskName = 'appealingOnBehalfOf';
 
 exports.getApplicantName = (req, res) => {
   res.render(currentPage, {
@@ -24,7 +24,7 @@ exports.postApplicantName = async (req, res) => {
   const { appeal } = req.session;
   const task = appeal[sectionName][taskName];
 
-  task.appealingOnBehalfOf = req.body['behalf-appellant-name'];
+  task.name = req.body['behalf-appellant-name'];
   task.companyName = req.body['company-name'];
 
   if (Object.keys(errors).length > 0) {
@@ -37,13 +37,13 @@ exports.postApplicantName = async (req, res) => {
   }
 
   try {
-    appeal.sectionStates[sectionName][taskName] = getTaskStatus(
-      appeal,
-      sectionName,
-      taskName,
-      FULL_APPEAL_SECTIONS
-    );
-    appeal.sectionStates.contactDetailsSection = TASK_STATUS.COMPLETED;
+    // appeal.sectionStates[sectionName][taskName] = getTaskStatus(
+    //   appeal,
+    //   sectionName,
+    //   taskName,
+    //   FULL_APPEAL_SECTIONS
+    // );
+    appeal.sectionStates[sectionName][taskName] = NOT_STARTED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);

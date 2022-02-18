@@ -2,7 +2,7 @@ const taskListController = require('../../../../src/controllers/appellant-submis
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
-describe('controllers/appellant-submission/task-list', () => {
+describe.skip('controllers/appellant-submission/task-list', () => {
   describe('getTaskList', () => {
     it('All the tasks except check answers should be in not started', () => {
       const req = mockReq();

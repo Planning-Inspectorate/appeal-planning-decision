@@ -14,22 +14,24 @@ jest.mock('../../../../../src/config', () => ({
   },
 }));
 
+const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
 const dateDecisionDueHouseholderController = require('../../../../../src/controllers/householder-planning/eligibility/date-decision-due-householder');
 const { mockReq, mockRes } = require('../../../mocks');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../../src/lib/householder-planning/views');
-const { APPEAL_DOCUMENT } = require('../../../../../src/lib/empty-appeal');
 
 describe('controllers/householder-planning/date-decision-due-householder', () => {
   let req;
   let res;
-  let appeal;
+
+  const appeal = {
+    ...householderAppeal,
+    appealType: constants.APPEAL_ID.HOUSEHOLDER,
+  };
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });
@@ -41,6 +43,7 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
       expect(res.render).toHaveBeenCalledWith(
         VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.DATE_DECISION_DUE_HOUSEHOLDER,
         {
+          decisionDate: null,
           backLink: `/before-you-start/granted-or-refused-householder`,
         }
       );
@@ -59,7 +62,7 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
         },
       };
       mockRequest.session.appeal.eligibility.applicationDecision =
-        constants.APPLICATION_DECISION.REFUSED;
+        constants.APPLICATION_DECISION.GRANTED;
 
       await dateDecisionDueHouseholderController.postDateDecisionDueHouseholder(mockRequest, res);
 
@@ -130,7 +133,7 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
         },
       };
       mockRequest.session.appeal.eligibility.applicationDecision =
-        constants.APPLICATION_DECISION.REFUSED;
+        constants.APPLICATION_DECISION.GRANTED;
 
       const error = 'RangeError: Invalid time value';
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
@@ -142,7 +145,11 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
       expect(res.render).toHaveBeenCalledWith(
         VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.DATE_DECISION_DUE_HOUSEHOLDER,
         {
-          appeal: req.session.appeal,
+          decisionDate: {
+            day: '01',
+            month: '10',
+            year: '2021',
+          },
           errors: {},
           errorSummary: [{ text: error.toString(), href: 'date-decision-due-householder' }],
           backLink: `/before-you-start/granted-or-refused-householder`,

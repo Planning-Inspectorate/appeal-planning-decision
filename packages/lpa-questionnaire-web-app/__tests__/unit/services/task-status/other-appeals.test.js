@@ -1,4 +1,4 @@
-const { NOT_STARTED, COMPLETED } = require('../../../../src/services/task-status/task-statuses');
+const { NOT_STARTED, COMPLETED } = require('../../../../src/services/common/task-statuses');
 const otherAppealsCompletion = require('../../../../src/services/task-status/other-appeals');
 
 describe('services/task.service/task-status/other-appeals', () => {

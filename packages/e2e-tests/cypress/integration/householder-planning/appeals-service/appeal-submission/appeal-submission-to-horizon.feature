@@ -1,4 +1,4 @@
-@wip
+@wip @has
 Feature: Appeal submission to Horizon - create case for appellant
 
   As a Planning Inspectorate case worker

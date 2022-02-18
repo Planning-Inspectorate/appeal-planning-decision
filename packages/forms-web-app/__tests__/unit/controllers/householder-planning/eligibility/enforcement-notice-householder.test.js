@@ -1,3 +1,4 @@
+const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const enforcementNoticeController = require('../../../../../src/controllers/householder-planning/eligibility/enforcement-notice-householder');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const {
@@ -8,15 +9,14 @@ const {
   },
 } = require('../../../../../src/lib/householder-planning/views');
 const getPreviousPagePath = require('../../../../../src/lib/get-previous-page-path');
+const logger = require('../../../../../src/lib/logger');
+const { mockReq, mockRes } = require('../../../mocks');
 
 const navigationPages = {
   nextPage: '/before-you-start/claiming-costs-householder',
   shutterPage: '/before-you-start/use-a-different-service',
   previousPage: '/before-you-start/decision-date-householder',
 };
-const logger = require('../../../../../src/lib/logger');
-const { APPEAL_DOCUMENT } = require('../../../../../src/lib/empty-appeal');
-const { mockReq, mockRes } = require('../../../mocks');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
@@ -25,13 +25,10 @@ jest.mock('../../../../../src/lib/get-previous-page-path');
 describe('controllers/householder-planning/eligibility/enforcement-notice-householder', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     appeal.eligibility.appealType = '1001';
     appeal.eligibility.applicationDecision = 'granted';
@@ -53,7 +50,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
       enforcementNoticeController.getEnforcementNoticeHouseholder(req, res);
 
       expect(res.render).toHaveBeenCalledWith(currentPage, {
-        appeal,
+        enforcementNotice: appeal.eligibility.enforcementNotice,
         previousPage: navigationPages.previousPage,
       });
     });
@@ -69,19 +66,14 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
           errorSummary: [{ text: 'There were errors here', href: '#' }],
         },
       };
+
       await enforcementNoticeController.postEnforcementNoticeHouseholder(mockRequest, res);
 
       expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(currentPage, {
-        appeal: {
-          ...appeal,
-          eligibility: {
-            ...appeal.eligibility,
-            enforcementNotice: null,
-          },
-        },
+        enforcementNotice: appeal.eligibility.enforcementNotice,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
         previousPage: navigationPages.previousPage,
@@ -106,7 +98,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
       expect(logger.error).toHaveBeenCalledWith(error);
 
       expect(res.render).toHaveBeenCalledWith(currentPage, {
-        appeal,
+        enforcementNotice: appeal.eligibility.enforcementNotice,
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
         previousPage: navigationPages.previousPage,

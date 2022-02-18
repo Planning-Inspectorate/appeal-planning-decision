@@ -9,9 +9,12 @@ import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import {
   getBackLink,
-  getErrorMessageSummary,
+  getErrorMessageSummary, getSaveAndContinueButton,
 } from '../../../../support/common-page-objects/common-po';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
+import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
+import { selectSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/select-site-option';
 
 const pageTitle = 'Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Was your planning application granted or refused?';
@@ -21,7 +24,14 @@ const decisionDateDuePageUrl = '/before-you-start/date-decision-due';
 const previousPageUrl = '/before-you-start/any-of-following';
 
 Given('appellant is on the was your planning application granted or refused page', () => {
-    goToAppealsPage(url);
+    goToAppealsPage('before-you-start/local-planning-depart');
+    getLocalPlanningDepart().select('System Test Borough Council');
+    getSaveAndContinueButton().click();
+    selectPlanningApplicationType('Full planning');
+    getContinueButton().click();
+    selectSiteOption('None of these');
+    getContinueButton().click();
+    cy.url().should('contain', url);
     acceptCookiesBanner();
     verifyPageTitle(pageTitle);
     verifyPageHeading(pageHeading);

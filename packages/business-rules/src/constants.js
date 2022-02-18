@@ -47,6 +47,15 @@ const APPLICATION_DECISION = {
   NODECISIONRECEIVED: 'nodecisionreceived',
 };
 
+const APPLICATION_CATEGORIES = {
+  LISTED_BUILDING: 'a_listed_building',
+  MAJOR_DWELLINGS: 'major_dwellings',
+  MAJOR_GENERAL_INDUSTRY_STORAGE_WAREHOUSING: 'major_general_industry_storage_warehousing',
+  MAJOR_RATAIL_AND_SERVICES: 'major_retail_and_services',
+  MAJOR_TRAVELLING_AND_CARAVAN_PITCHES: 'major_travelling_and_caravan_pitches',
+  NON_OF_THESE: 'none_of_these',
+};
+
 const KNOW_THE_OWNERS = {
   YES: 'yes',
   SOME: 'some',
@@ -55,13 +64,21 @@ const KNOW_THE_OWNERS = {
 
 const I_AGREE = 'i-agree';
 
+const STANDARD_TRIPLE_CONFIRM_OPTIONS = [
+  'toldAboutMyAppeal',
+  'withinLast21Days',
+  'useCopyOfTheForm',
+];
+
 module.exports = {
   APPEAL_ID,
   APPEAL_STATE,
   APPLICATION_DECISION,
+  APPLICATION_CATEGORIES,
   KNOW_THE_OWNERS,
   PROCEDURE_TYPE,
   SECTION_STATE,
   TYPE_OF_PLANNING_APPLICATION,
   I_AGREE,
+  STANDARD_TRIPLE_CONFIRM_OPTIONS,
 };

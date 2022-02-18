@@ -1,19 +1,18 @@
+const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
 const { MongoClient } = require('mongodb');
 const uuid = require('uuid');
-
 const { createAppeal, getAppeal, updateAppeal } = require('../../../src/controllers/appeals');
-const { appealDocument } = require('../../../src/models/appeal');
 const mongodb = require('../../../src/db/db');
 
 jest.mock('../../../src/db/db');
 jest.mock('../../../src/lib/logger');
-const valueAppeal = require('../value-appeal');
+// const valueAppeal = require('../value-appeal');
 const { mockReq, mockRes } = require('../mocks');
 
 jest.mock('../../../../common/src/lib/notify/notify-builder', () => ({}));
 
 async function addInDatabase() {
-  const appeal = JSON.parse(JSON.stringify(appealDocument));
+  const appeal = JSON.parse(JSON.stringify(householderAppeal));
 
   appeal.id = uuid.v4();
   const now = new Date(new Date().toISOString());
@@ -112,7 +111,8 @@ describe('appeals.controllers', () => {
     it('responds with an updated appeal', async () => {
       const appeal = await addInDatabase();
       const appealId = appeal.id;
-      valueAppeal(appeal);
+
+      appeal.appealSiteSection.siteOwnership.ownsWholeSite = false;
 
       req.params.id = appealId;
       req.body = appeal;
@@ -121,27 +121,6 @@ describe('appeals.controllers', () => {
 
       const updatedAppeal = await getFromDatabase(appealId);
 
-      appeal.updatedAt = updatedAppeal.appeal.updatedAt;
-      expect(appeal).toEqual(updatedAppeal.appeal);
-
-      expect(res.send).toHaveBeenCalledWith(appeal);
-      expect(res.status).toHaveBeenCalledWith(200);
-    });
-
-    it('it responds with a updated appeal', async () => {
-      const appeal = await addInDatabase();
-      const appealId = appeal.id;
-
-      expect(appeal.horizonId).toBeNull();
-
-      req.params.id = appealId;
-      req.body.horizonId = 'horizonId';
-
-      await updateAppeal(req, res);
-
-      const updatedAppeal = await getFromDatabase(appealId);
-
-      appeal.horizonId = 'horizonId';
       appeal.updatedAt = updatedAppeal.appeal.updatedAt;
       expect(appeal).toEqual(updatedAppeal.appeal);
 

@@ -17,6 +17,8 @@ variables:
   version.MajorMinor: '1.0' # Manually adjust the version number as needed for semantic versioning. Revision is auto-incremented.
   version.Revision: $[counter(variables['version.MajorMinor'], 0)]
   versionNumber: '$(version.MajorMinor).$(version.Revision)'
+  simpleBranchName: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
+  branchTag: $[replace(variables['simpleBranchName'], '/', '_')]
   # -----------------------------------------------------------------------
 
   # Container registry service connection established during pipeline creation
@@ -44,13 +46,18 @@ stages:
               includeRootFolder: false
               archiveFile: "$(System.DefaultWorkingDirectory)/build/horizon-functions.zip"
           - task: PublishBuildArtifacts@1
+            displayName: Publish build artifact with latest tag
+            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
             inputs:
               PathtoPublish: '$(System.DefaultWorkingDirectory)/build/horizon-functions.zip'
-              artifactName: 'horizon-functions-artifact'
-          - task: AzureFunctionApp@1
+              artifactName: 'horizon-functions-artifact-latest'
+          - task: PublishBuildArtifacts@1
+            displayName: Publish build artifact with branch name
             inputs:
-              azureSubscription: 'PINS ODTDEV (38602df9-8f79-41d1-a971-50c7672ba6f1)'
-              appType: functionApp
-              appName: 'pins-dev-fn'
-              package: $(System.DefaultWorkingDirectory)/build/horizon-functions.zip
-              deploymentMethod: zipDeploy
+              PathtoPublish: '$(System.DefaultWorkingDirectory)/build/horizon-functions.zip'
+              artifactName: 'horizon-functions-artifact-$(branchTag)'
+          - task: PublishBuildArtifacts@1
+            displayName: Publish build artifact with version number
+            inputs:
+              PathtoPublish: '$(System.DefaultWorkingDirectory)/build/horizon-functions.zip'
+              artifactName: 'horizon-functions-artifact-$(versionNumber)'

@@ -59,19 +59,19 @@
                 classes: "govuk-input--width-2 govuk-input--error" if errors['decision-date-householder'] or errors['decision-date-householder-day'] else "govuk-input--width-2",
                 name: "day",
                 id: "decision-date-householder-day",
-                value: decisionDateHouseholder.day
+                value: decisionDate.day
               },
               {
                 classes: "govuk-input--width-2 govuk-input--error" if errors['decision-date-householder'] or errors['decision-date-householder-month'] else "govuk-input--width-2",
                 name: "month",
                 id: "decision-date-householder-month",
-                value: decisionDateHouseholder.month
+                value: decisionDate.month
               },
               {
                 classes: "govuk-input--width-4 govuk-input--error" if errors['decision-date-householder'] or errors['decision-date-householder-year'] else "govuk-input--width-4",
                 name: "year",
                 id: "decision-date-householder-year",
-                value: decisionDateHouseholder.year
+                value: decisionDate.year
               }
             ]
           }) }}

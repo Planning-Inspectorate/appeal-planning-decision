@@ -26,6 +26,9 @@ describe('controllers/cookies', () => {
       ...mockReq(),
       body: {},
       cookies: {},
+      log: {
+        warn: jest.fn(),
+      },
     };
     res = mockRes();
 

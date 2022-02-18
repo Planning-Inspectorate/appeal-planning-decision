@@ -1,14 +1,31 @@
-const { rules, constants, validation } = require('@pins/business-rules');
+const { isValid, parseISO } = require('date-fns');
+const { rules, validation } = require('@pins/business-rules');
 const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
-const { VIEW } = require('../../../lib/householder-planning/views');
+const {
+  VIEW: {
+    HOUSEHOLDER_PLANNING: {
+      ELIGIBILITY: { DATE_DECISION_DUE_HOUSEHOLDER: currentPage },
+    },
+  },
+} = require('../../../lib/householder-planning/views');
 
 const backLink = `/before-you-start/granted-or-refused-householder`;
 const shutterPage = '/before-you-start/you-cannot-appeal';
 const enforcementNoticeHouseholder = `/before-you-start/enforcement-notice-householder`;
 
 exports.getDateDecisionDueHouseholder = async (req, res) => {
-  res.render(VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.DATE_DECISION_DUE_HOUSEHOLDER, {
+  const { appeal } = req.session;
+
+  const appealDecisionDate = parseISO(appeal.decisionDate);
+  const decisionDate = isValid(appealDecisionDate) ? appealDecisionDate : null;
+
+  res.render(currentPage, {
+    decisionDate: decisionDate && {
+      day: `0${decisionDate?.getDate()}`.slice(-2),
+      month: `0${decisionDate?.getMonth() + 1}`.slice(-2),
+      year: decisionDate?.getFullYear(),
+    },
     backLink,
   });
 };
@@ -19,7 +36,7 @@ exports.postDateDecisionDueHouseholder = async (req, res) => {
   const { appeal } = req.session;
 
   if (Object.keys(errors).length > 0) {
-    return res.render(VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.DATE_DECISION_DUE_HOUSEHOLDER, {
+    return res.render(currentPage, {
       decisionDate: {
         day: body['date-decision-due-householder-day'],
         month: body['date-decision-due-householder-month'],
@@ -70,8 +87,12 @@ exports.postDateDecisionDueHouseholder = async (req, res) => {
   } catch (e) {
     logger.error(e);
 
-    return res.render(VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.DATE_DECISION_DUE_HOUSEHOLDER, {
-      appeal,
+    return res.render(currentPage, {
+      decisionDate: {
+        day: body['date-decision-due-householder-day'],
+        month: body['date-decision-due-householder-month'],
+        year: body['date-decision-due-householder-year'],
+      },
       errors,
       errorSummary: [{ text: e.toString(), href: 'date-decision-due-householder' }],
       backLink,

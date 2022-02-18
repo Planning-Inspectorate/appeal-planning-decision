@@ -1,5 +1,4 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import {
   getBackLink,
   getErrorMessageSummary,
@@ -19,7 +18,7 @@ import {
   pageCaptionText,
   planningApplicationDocumentsLink,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
-import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
+import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 const url = 'full-appeal/submit-appeal/decision-letter';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -34,8 +33,7 @@ const decisionLetterSectionText = 'This is the letter from the local planning de
 const planningAppNumberText = 'PNO-TEST123'
 
 Given("an appellant is on the 'Design and access statement submitted' page",()=> {
-  goToAppealsPage(taskListUrl);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   planningApplicationDocumentsLink().click();
   cy.url().should('contain', planningAppFormUrl);
   getFileUploadButton().attachFile('upload-file-valid.jpeg');
@@ -63,9 +61,7 @@ When("they select the 'Continue' button",()=> {
   getSaveAndContinueButton().click();
 });
 Given( "an appellant is on the 'Decision Letter' page", () => {
-  //goToAppealsPage(url);
-  goToAppealsPage(taskListUrl);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   planningApplicationDocumentsLink().click();
   cy.url().should('contain', planningAppFormUrl);
   getFileUploadButton().attachFile('upload-file-valid.jpeg');
@@ -95,16 +91,35 @@ Then("the uploaded file {string} is displayed", (filename) => {
   uploadedFileName().should('contain', filename);
 })
 Given("an appellant has uploaded a file {string}", (filename) => {
-  goToAppealsPage(url);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  planningApplicationDocumentsLink().click();
+  cy.url().should('contain', planningAppFormUrl);
+  getFileUploadButton().attachFile('upload-file-valid.jpeg');
+  getSaveAndContinueButton().click();
+  planningApplicationNumber().clear().type(planningAppNumberText);
+  getSaveAndContinueButton().click();
+  cy.url().should('contain',designAccessStatementSubmittedUrl);
+  submitADesignStNo().click();
+  getSaveAndContinueButton().click();
+  cy.url().should('contain',decisionLetterUrl);
   getFileUploadButton().attachFile(filename);
 })
 Then( "an error message {string} is displayed", (errorMessage) => {
   verifyErrorMessage(errorMessage,errorFileUploadField,getErrorMessageSummary);
 });
 Given("an appellant has not uploaded any document",()=> {
-  goToAppealsPage(url);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  planningApplicationDocumentsLink().click();
+  cy.url().should('contain', planningAppFormUrl);
+  getFileUploadButton().attachFile('upload-file-valid.jpeg');
+  getSaveAndContinueButton().click();
+  planningApplicationNumber().clear().type(planningAppNumberText);
+  getSaveAndContinueButton().click();
+  cy.url().should('contain',designAccessStatementSubmittedUrl);
+  submitADesignStNo().click();
+  getSaveAndContinueButton().click();
+  cy.url().should('contain',decisionLetterUrl);
+  cy.checkPageA11y();
 });
 Then("they are presented with the 'Design and access statement submitted' page", () => {
   cy.url().should('contain', designAccessStatementSubmittedUrl);

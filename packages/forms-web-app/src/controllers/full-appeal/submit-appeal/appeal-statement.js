@@ -6,21 +6,27 @@ const {
 const logger = require('../../../lib/logger');
 const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
-const { getTaskStatus } = require('../../../services/task.service');
+// const { getTaskStatus } = require('../../../services/task.service');
+const { NOT_STARTED } = require('../../../services/task-status/task-statuses');
+
+const sectionName = 'appealDocumentsSection';
+const taskName = 'appealStatement';
 
 const getAppealStatement = (req, res) => {
   const {
     session: {
-      appeal,
-      appeal: { id: appealId },
+      appeal: {
+        id: appealId,
+        [sectionName]: {
+          [taskName]: { uploadedFile, hasSensitiveInformation },
+        },
+      },
     },
-    sectionName,
-    taskName,
   } = req;
   res.render(APPEAL_STATEMENT, {
     appealId,
-    uploadedFile: appeal[sectionName][taskName].uploadedFile,
-    hasSensitiveInformation: appeal[sectionName][taskName].hasSensitiveInformation,
+    uploadedFile,
+    hasSensitiveInformation,
   });
 };
 
@@ -33,13 +39,7 @@ const postAppealStatement = async (req, res) => {
       appeal,
       appeal: { id: appealId },
     },
-    sectionName,
-    taskName,
   } = req;
-
-  if (!appeal[sectionName][taskName]) {
-    appeal[sectionName][taskName] = {};
-  }
 
   appeal[sectionName][taskName].hasSensitiveInformation =
     body['does-not-include-sensitive-information'] !== 'i-confirm';
@@ -67,7 +67,8 @@ const postAppealStatement = async (req, res) => {
       };
     }
 
-    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+    // appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+    appeal.sectionStates[sectionName][taskName] = NOT_STARTED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);

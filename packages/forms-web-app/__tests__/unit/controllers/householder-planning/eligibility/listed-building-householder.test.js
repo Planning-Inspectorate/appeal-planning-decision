@@ -1,25 +1,21 @@
+const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const listedBuildingController = require('../../../../../src/controllers/householder-planning/eligibility/listed-building-householder');
-const { APPEAL_DOCUMENT } = require('../../../../../src/lib/empty-appeal');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../../src/lib/logger');
 const { VIEW } = require('../../../../../src/lib/householder-planning/views');
 
 const { mockReq, mockRes } = require('../../../mocks');
 
-jest.mock('../../../../../src/lib/empty-appeal');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
 
 describe('controllers/householder-planning/eligibility/listed-building-householder', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });
@@ -30,7 +26,10 @@ describe('controllers/householder-planning/eligibility/listed-building-household
 
       expect(res.render).toBeCalledWith(
         VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER,
-        { backLink: '/before-you-start/type-of-planning-application' }
+        {
+          isListedBuilding: appeal.eligibility.isListedBuilding,
+          backLink: '/before-you-start/type-of-planning-application',
+        }
       );
     });
 
@@ -83,7 +82,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
       expect(res.render).toBeCalledWith(
         VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER,
         {
-          appeal,
+          isListedBuilding: appeal.eligibility.isListedBuilding,
           errors: {
             'listed-building-householder': {
               msg: 'Select yes if your appeal about a listed building',
@@ -113,7 +112,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
       expect(res.render).toHaveBeenCalledWith(
         VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER,
         {
-          appeal,
+          isListedBuilding: appeal.eligibility.isListedBuilding,
           errors: {},
           errorSummary: [{ text: error.toString(), href: 'pageId' }],
           backLink: '/before-you-start/type-of-planning-application',

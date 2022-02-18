@@ -8,18 +8,13 @@ const logger = require('../../../lib/logger');
 const { getTaskStatus } = require('../../../services/task.service');
 
 const sectionName = 'appealSiteSection';
-const taskName = 'identifyingTheOwners';
+const taskName = 'siteOwnership';
 
 const getIdentifyingTheOwners = (req, res) => {
-  const {
-    appeal: {
-      appealSiteSection: { knowsTheOwners, identifyingTheOwners },
-    },
-  } = req.session;
-
+  const { knowsTheOwners, hasIdentifiedTheOwners } = req.session.appeal[sectionName][taskName];
   res.render(IDENTIFYING_THE_OWNERS, {
     knowsTheOwners,
-    identifyingTheOwners,
+    hasIdentifiedTheOwners,
   });
 };
 
@@ -30,7 +25,9 @@ const postIdentifyingTheOwners = async (req, res) => {
     session: {
       appeal,
       appeal: {
-        appealSiteSection: { knowsTheOwners },
+        [sectionName]: {
+          [taskName]: { knowsTheOwners },
+        },
       },
     },
   } = req;
@@ -44,7 +41,7 @@ const postIdentifyingTheOwners = async (req, res) => {
   }
 
   try {
-    appeal.appealSiteSection.identifyingTheOwners = body['identifying-the-owners'];
+    appeal[sectionName][taskName].hasIdentifiedTheOwners = body['identifying-the-owners'];
     appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     req.session.appeal = await createOrUpdateAppeal(appeal);
 

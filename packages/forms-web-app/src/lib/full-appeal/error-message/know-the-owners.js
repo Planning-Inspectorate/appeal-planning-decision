@@ -1,5 +1,5 @@
 const errorMessage = (req) => {
-  const { appealSiteSection: { ownsSomeOfTheLand } = {} } = req.session.appeal;
+  const { ownsSomeOfTheLand } = req.session.appeal.appealSiteSection.siteOwnership;
   if (ownsSomeOfTheLand) {
     return 'Select if you know who owns the rest of the land involved in the appeal';
   }

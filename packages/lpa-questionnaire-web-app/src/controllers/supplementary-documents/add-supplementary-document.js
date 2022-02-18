@@ -1,5 +1,5 @@
 const { VIEW } = require('../../lib/views');
-const getAppealSideBarDetails = require('../../lib/appeal-sidebar-details');
+const getAppealSideBarDetails = require('../../lib/common/appeal-sidebar-details');
 const { uploadFiles } = require('../../lib/file-upload-helpers');
 const { createOrUpdateAppealReply } = require('../../lib/appeal-reply-api-wrapper');
 const errorTexts = require('../../validators/validation-messages/supplementary-documents-validation-messages');

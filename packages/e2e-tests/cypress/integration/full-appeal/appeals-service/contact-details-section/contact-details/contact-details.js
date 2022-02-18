@@ -3,7 +3,6 @@ import {
   getSaveAndContinueButton,
   sectionName,
 } from '../../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import { contactDetailsLink } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 import {
   applicantCompanyName, behalfApplicantNameErrorMessage,
@@ -11,17 +10,11 @@ import {
   contactDetailsFullName, EmailErrorMessage, fullnameErrorMessage, originalApplicantName, originalApplicantNo,
   originalApplicantYes,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/original-applicant-or-not-po';
-import { continueButton, getBackLink, getErrorMessageSummary } from '../../../../../support/common-page-objects/common-po';
+import { getBackLink, getErrorMessageSummary } from '../../../../../support/common-page-objects/common-po';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
-import { provideAddressLine1 } from '../../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine1';
-import { provideAddressLine2 } from '../../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine2';
-import { provideTownOrCity } from '../../../../../support/common/appeal-submission-appeal-site-address/provideTownOrCity';
-import { provideCounty } from '../../../../../support/common/appeal-submission-appeal-site-address/provideCounty';
-import { providePostcode } from '../../../../../support/common/appeal-submission-appeal-site-address/providePostcode';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
-import { errorFileUploadField } from '../../../../../support/full-appeal/appeals-service/page-objects/file-upload-po';
-import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
+import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 const url = 'full-appeal/submit-appeal/contact-details';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -40,7 +33,9 @@ const AgentCompanyNameText = 'Agent Zoopla Test Company Ltd';
 const AgentEmailText = 'agent-zoopla@hotmail.com';
 
 Given("an Appellant is on the 'Provide your contact details' page", () => {
- goToAppealsPage(originalApplicantUrl);
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  contactDetailsLink().click();
+  cy.url().should('contain',originalApplicantUrl);
   originalApplicantYes().click();
   getSaveAndContinueButton().click();
   cy.url().should('contain', url);
@@ -60,14 +55,15 @@ Then("they return to the task list on the 'Appeal a planning decision' page", ()
   cy.url().should('contain', taskListUrl);
 });
 Given("an Agent is on the 'Provide your contact details' page", () => {
-  goToAppealsPage(originalApplicantUrl);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  contactDetailsLink().click();
   originalApplicantNo().click();
   getSaveAndContinueButton().click();
   cy.url().should('contain',applicantNameUrl)
   originalApplicantName().clear().type(applicantName);
   applicantCompanyName().clear().type(companyName);
   getSaveAndContinueButton().click();
+  cy.url().should('contain', url);
 })
 
 When("agent enters their 'full name, company name, email address'", () => {
@@ -94,10 +90,19 @@ Then('they are presented with the error {string}', (errorMessage) => {
       break;
   }
 })
-Given("the appellant or agent is on the 'Provide your contact details' page", () => {
-  goToAppealsPage(originalApplicantUrl);
-  acceptCookiesBanner();
+Given("the appellant is on the 'Provide your contact details' page", () => {
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  contactDetailsLink().click();
   originalApplicantYes().click();
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', url);
+})
+Given("the agent is on the 'Provide your contact details' page", () => {
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  contactDetailsLink().click();
+  originalApplicantNo().click();
+  getSaveAndContinueButton().click();
+  originalApplicantName().clear().type(applicantName);
   getSaveAndContinueButton().click();
   cy.url().should('contain', url);
 })
@@ -139,8 +144,8 @@ Then('an error message {string} is displayed', (errorMessage) => {
   verifyErrorMessage(errorMessage,fullnameErrorMessage, getErrorMessageSummary);
 });
 Given("the Agent or Appellant is on the 'Provide your contact details' page", () => {
-  goToAppealsPage(originalApplicantUrl);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  contactDetailsLink().click();
   originalApplicantYes().click();
   getSaveAndContinueButton().click();
   cy.url().should('contain', url);

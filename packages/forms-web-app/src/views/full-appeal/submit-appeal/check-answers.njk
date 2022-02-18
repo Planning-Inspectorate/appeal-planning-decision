@@ -29,7 +29,7 @@
               text: "Was the planning application made in your name?"
             },
             value: {
-              text: "Yes, the planning application was made in my name" if appeal.aboutYouSection.yourDetails.isOriginalApplicant === true else "No, I'm an agent acting on behalf of the applicant"
+              text: "Yes, the planning application was made in my name" if appeal.contactDetailsSection.isOriginalApplicant === true else "No, I'm an agent acting on behalf of the applicant"
             }
           },
           {
@@ -37,7 +37,7 @@
               text: "Your contact details"
             },
             value: {
-              text: contactDetails(appeal.aboutYouSection.yourDetails)
+              text: contactDetails(appeal.contactDetailsSection.contact)
             }
           }
         ]

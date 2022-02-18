@@ -1,10 +1,11 @@
+const appeal = require('@pins/business-rules/test/data/full-appeal');
+const v8 = require('v8');
 const {
   getOwnSomeOfTheLand,
   postOwnSomeOfTheLand,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/own-some-of-the-land');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { getTaskStatus } = require('../../../../../src/services/task.service');
-const { APPEAL_DOCUMENT } = require('../../../../../src/lib/empty-appeal');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
@@ -18,29 +19,19 @@ jest.mock('../../../../../src/services/task.service');
 describe('controllers/full-appeal/submit-appeal/own-some-of-the-land', () => {
   let req;
   let res;
-  let appeal;
 
   const sectionName = 'appealSiteSection';
-  const taskName = 'ownsSomeOfTheLand';
-  const appealId = 'da368e66-de7b-44c4-a403-36e5bf5b000b';
+  const taskName = 'siteOwnership';
   const errors = { 'own-some-of-the-land': 'Select an option' };
   const errorSummary = [{ text: 'There was an error', href: '#' }];
 
   beforeEach(() => {
-    appeal = {
-      ...APPEAL_DOCUMENT.empty,
-      id: appealId,
-      appealSiteSection: {
-        ownsSomeOfTheLand: false,
-      },
-    };
-    req = {
-      ...mockReq(),
-      body: {},
-      session: {
-        appeal,
-      },
-    };
+    req = v8.deserialize(
+      v8.serialize({
+        ...mockReq(appeal),
+        body: {},
+      })
+    );
     res = mockRes();
 
     jest.resetAllMocks();
@@ -53,17 +44,6 @@ describe('controllers/full-appeal/submit-appeal/own-some-of-the-land', () => {
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(OWN_SOME_OF_THE_LAND, {
         ownsSomeOfTheLand: false,
-      });
-    });
-
-    it('should call the correct template when appeal.appealSiteSection is not defined', () => {
-      delete appeal.appealSiteSection;
-
-      getOwnSomeOfTheLand(req, res);
-
-      expect(res.render).toHaveBeenCalledTimes(1);
-      expect(res.render).toHaveBeenCalledWith(OWN_SOME_OF_THE_LAND, {
-        ownsSomeOfTheLand: undefined,
       });
     });
   });
@@ -112,8 +92,10 @@ describe('controllers/full-appeal/submit-appeal/own-some-of-the-land', () => {
         ...appeal,
         state: 'SUBMITTED',
       };
+      submittedAppeal[sectionName][taskName].ownsSomeOfTheLand = true;
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -135,108 +117,10 @@ describe('controllers/full-appeal/submit-appeal/own-some-of-the-land', () => {
         ...appeal,
         state: 'SUBMITTED',
       };
+      submittedAppeal[sectionName][taskName].ownsSomeOfTheLand = false;
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-
-      req = {
-        ...req,
-        body: {
-          'own-some-of-the-land': 'no',
-        },
-      };
-
-      await postOwnSomeOfTheLand(req, res);
-
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${KNOW_THE_OWNERS}`);
-      expect(req.session.appeal).toEqual(submittedAppeal);
-    });
-
-    it('should redirect to the correct page if `yes` has been selected and appeal.appealSiteSection is not defined', async () => {
-      const submittedAppeal = {
-        ...appeal,
-        state: 'SUBMITTED',
-      };
-
-      delete appeal.appealSiteSection;
-
-      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-
-      req = {
-        ...req,
-        body: {
-          'own-some-of-the-land': 'yes',
-        },
-      };
-
-      await postOwnSomeOfTheLand(req, res);
-
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${KNOW_THE_OWNERS}`);
-      expect(req.session.appeal).toEqual(submittedAppeal);
-    });
-
-    it('should redirect to the correct page if `no` has been selected and appeal.appealSiteSection is not defined', async () => {
-      const submittedAppeal = {
-        ...appeal,
-        state: 'SUBMITTED',
-      };
-
-      delete appeal.appealSiteSection;
-
-      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-
-      req = {
-        ...req,
-        body: {
-          'own-some-of-the-land': 'no',
-        },
-      };
-
-      await postOwnSomeOfTheLand(req, res);
-
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${KNOW_THE_OWNERS}`);
-      expect(req.session.appeal).toEqual(submittedAppeal);
-    });
-
-    it('should redirect to the correct page if `yes` has been selected and appeal.sectionStates.appealSiteSection is not defined', async () => {
-      const submittedAppeal = {
-        ...appeal,
-        state: 'SUBMITTED',
-      };
-
-      delete appeal.sectionStates.appealSiteSection;
-
-      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-
-      req = {
-        ...req,
-        body: {
-          'own-some-of-the-land': 'yes',
-        },
-      };
-
-      await postOwnSomeOfTheLand(req, res);
-
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${KNOW_THE_OWNERS}`);
-      expect(req.session.appeal).toEqual(submittedAppeal);
-    });
-
-    it('should redirect to the correct page if `no` has been selected and appeal.sectionStates.appealSiteSection is not defined', async () => {
-      const submittedAppeal = {
-        ...appeal,
-        state: 'SUBMITTED',
-      };
-
-      delete appeal.sectionStates.appealSiteSection;
-
-      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,

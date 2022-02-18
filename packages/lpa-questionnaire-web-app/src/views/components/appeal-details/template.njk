@@ -1,16 +1,18 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
 
 {%- if params.appeal.number %}
-
+  
+  {% set planningNumberBgColor = "govuk-tag " + params.planningNumberBgColor if params.planningNumberBgColor else "govuk-tag govuk-tag--turquoise" %}
+  {% set tableCaption = "" if params.requireCaption === false else "Appeal details" %}
   {% set appealNumber %}
-    <strong class="govuk-tag govuk-tag--turquoise">
-      {{ params.appeal.number }}
-    </strong>
+      <strong class="{{planningNumberBgColor}}">
+        {{ params.appeal.number }}
+      </strong>
   {% endset %}
 
   <div class="govuk-grid-column-one-third">
     {{ govukTable({
-      caption: "Appeal details",
+      caption: tableCaption,
       firstCellIsHeader: true,
       attributes: {
         'data-cy': 'appealDetails'

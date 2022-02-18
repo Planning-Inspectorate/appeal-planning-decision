@@ -47,10 +47,10 @@
           </ul>
         {% endif %}
 
-        <h1 data-cy="title" class="govuk-heading-m">
+        <h2 data-cy="title" class="govuk-heading-m">
           {% if knowsTheOwners == 'some' %}Confirm that you have attempted to identify the landowners{% endif %}
           {% if knowsTheOwners == 'no' %}Have you taken all reasonable steps to identify the landowners?{% endif %}
-        </h1>
+        </h2>
 
         {{ govukCheckboxes({
           idPrefix: "identifying-the-owners",
@@ -61,7 +61,7 @@
               text: "I confirm that I've attempted to identify all the landowners, but have not been successful." if knowsTheOwners == 'some'
               else ("I confirm that I've taken all reasonable steps to identify the landowners." if knowsTheOwners == 'no'),
               attributes: {"data-cy":"identifying-the-owners"},
-              checked: identifyingTheOwners == 'i-agree'
+              checked: hasIdentifiedTheOwners == 'i-agree'
             }
           ],
           errorMessage: errors['identifying-the-owners'] and {

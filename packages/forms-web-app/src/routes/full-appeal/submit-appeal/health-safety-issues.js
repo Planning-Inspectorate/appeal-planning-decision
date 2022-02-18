@@ -6,9 +6,7 @@ const {
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
 const { rules: optionsValidationRules } = require('../../../validators/common/options');
-const {
-  rules: conditionalTextValidationRules,
-} = require('../../../validators/common/conditional-text');
+const { rules: textfieldValidationRules } = require('../../../validators/common/textfield');
 
 const router = express.Router();
 
@@ -23,7 +21,7 @@ router.post(
     fieldName: 'health-safety-issues',
     emptyError: 'Select yes if there are any health and safety issues on the appeal site',
   }),
-  conditionalTextValidationRules({
+  textfieldValidationRules({
     fieldName: 'health-safety-issues-details',
     targetFieldName: 'health-safety-issues',
     targetFieldValue: 'yes',

@@ -1,7 +1,13 @@
 const v8 = require('v8');
 const appealData = require('../../../test/data/householder-appeal');
 const insert = require('./insert');
-const { APPEAL_ID, APPEAL_STATE, APPLICATION_DECISION, SECTION_STATE } = require('../../constants');
+const {
+  APPEAL_ID,
+  APPEAL_STATE,
+  APPLICATION_DECISION,
+  SECTION_STATE,
+  TYPE_OF_PLANNING_APPLICATION,
+} = require('../../constants');
 
 describe('schemas/householder-appeal/insert', () => {
   const config = {};
@@ -143,7 +149,7 @@ describe('schemas/householder-appeal/insert', () => {
 
     describe('state', () => {
       it('should throw an error when given an invalid value', async () => {
-        appeal.state = 'PENDING';
+        appeal.state = 'NOT COMPLETE';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
           `state must be one of the following values: ${Object.values(APPEAL_STATE).join(', ')}`,
@@ -180,6 +186,32 @@ describe('schemas/householder-appeal/insert', () => {
 
       it('should not throw an error when not given a value', async () => {
         delete appeal.appealType;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+    });
+
+    describe('typeOfPlanningApplication', () => {
+      it('should throw an error when given an invalid value', async () => {
+        appeal.typeOfPlanningApplication = 'appeal';
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          `typeOfPlanningApplication must be one of the following values: ${Object.values(
+            TYPE_OF_PLANNING_APPLICATION,
+          ).join(', ')}`,
+        );
+      });
+
+      it('should not throw an error when not given a value', async () => {
+        delete appeal.typeOfPlanningApplication;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should not throw an error when given a null value', async () => {
+        appeal.typeOfPlanningApplication = null;
 
         const result = await insert.validate(appeal, config);
         expect(result).toEqual(appeal);
@@ -487,36 +519,36 @@ describe('schemas/householder-appeal/insert', () => {
     });
 
     describe('requiredDocumentsSection.originalApplication', () => {
-      it('should throw an error when not given a value', async () => {
-        delete appeal2.requiredDocumentsSection.originalApplication;
-
-        appeal.requiredDocumentsSection.originalApplication = {
-          uploadedFile: {
-            id: null,
-            name: '',
-            originalFileName: '',
-          },
-        };
+      it('should remove unknown fields', async () => {
+        appeal2.requiredDocumentsSection.originalApplication.unknownField = 'unknown field';
 
         const result = await insert.validate(appeal2, config);
         expect(result).toEqual(appeal);
       });
+
+      it('should throw an error when given a null value', async () => {
+        appeal.requiredDocumentsSection.originalApplication = null;
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          'requiredDocumentsSection.originalApplication must be a `object` type, but the final value was: `null`',
+        );
+      });
     });
 
     describe('requiredDocumentsSection.decisionLetter', () => {
-      it('should not throw an error when not given a value', async () => {
-        delete appeal2.requiredDocumentsSection.decisionLetter;
-
-        appeal.requiredDocumentsSection.decisionLetter = {
-          uploadedFile: {
-            id: null,
-            name: '',
-            originalFileName: '',
-          },
-        };
+      it('should remove unknown fields', async () => {
+        appeal2.requiredDocumentsSection.decisionLetter.unknownField = 'unknown field';
 
         const result = await insert.validate(appeal2, config);
         expect(result).toEqual(appeal);
+      });
+
+      it('should throw an error when given a null value', async () => {
+        appeal.requiredDocumentsSection.decisionLetter = null;
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          'requiredDocumentsSection.decisionLetter must be a `object` type, but the final value was: `null`',
+        );
       });
     });
 
@@ -541,17 +573,24 @@ describe('schemas/householder-appeal/insert', () => {
     });
 
     describe('yourAppealSection.appealStatement.hasSensitiveInformation', () => {
-      it('should not throw an error when not given a value', async () => {
-        delete appeal2.yourAppealSection.appealStatement;
+      it('should throw an error when not given a boolean', async () => {
+        appeal.yourAppealSection.appealStatement.hasSensitiveInformation = 'false ';
 
-        appeal.yourAppealSection.appealStatement = {
-          hasSensitiveInformation: null,
-          uploadedFile: {
-            id: null,
-            name: '',
-            originalFileName: '',
-          },
-        };
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          'yourAppealSection.appealStatement.hasSensitiveInformation must be a `boolean` type, but the final value was: `"false "` (cast from the value `false`).',
+        );
+      });
+
+      it('should not throw an error when given a null value', async () => {
+        appeal.yourAppealSection.appealStatement.hasSensitiveInformation = null;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should not throw an error when not given a value', async () => {
+        delete appeal2.yourAppealSection.appealStatement.hasSensitiveInformation;
+        appeal.yourAppealSection.appealStatement.hasSensitiveInformation = null;
 
         const result = await insert.validate(appeal2, config);
         expect(result).toEqual(appeal);
@@ -567,13 +606,14 @@ describe('schemas/householder-appeal/insert', () => {
         );
       });
 
-      // it('should throw an error when not given a value', async () => {
-      //   delete appeal.yourAppealSection.otherDocuments;
+      it('should throw an error when not given a value', async () => {
+        delete appeal.yourAppealSection.otherDocuments.uploadedFiles;
 
-      //   await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-      //     'yourAppealSection.otherDocuments.uploadedFiles[0].id is a required field',
-      //   );
-      // });
+        appeal2.yourAppealSection.otherDocuments.uploadedFiles = [];
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal2);
+      });
     });
 
     describe('appealSubmission', () => {
@@ -587,17 +627,19 @@ describe('schemas/householder-appeal/insert', () => {
     });
 
     describe('appealSubmission.appealPDFStatement', () => {
-      it('should not throw an error when not given a value', async () => {
-        delete appeal2.appealSubmission.appealPDFStatement;
-
-        appeal.appealSubmission.appealPDFStatement.uploadedFile = {
-          id: null,
-          name: '',
-          originalFileName: '',
-        };
+      it('should remove unknown fields', async () => {
+        appeal2.appealSubmission.appealPDFStatement.unknownField = 'unknown field';
 
         const result = await insert.validate(appeal2, config);
         expect(result).toEqual(appeal);
+      });
+
+      it('should throw an error when given a null value', async () => {
+        appeal.appealSubmission.appealPDFStatement = null;
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          'appealSubmission.appealPDFStatement must be a `object` type, but the final value was: `null`',
+        );
       });
     });
 
@@ -861,8 +903,10 @@ describe('schemas/householder-appeal/insert', () => {
       it('should not throw an error when not given a value', async () => {
         delete appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues;
 
+        appeal2.appealSiteSection.healthAndSafety.healthAndSafetyIssues = '';
+
         const result = await insert.validate(appeal, config);
-        expect(result).toEqual(appeal);
+        expect(result).toEqual(appeal2);
       });
     });
 
@@ -875,11 +919,11 @@ describe('schemas/householder-appeal/insert', () => {
         );
       });
 
-      it('should throw an error when not given a value', async () => {
-        delete appeal.sectionStates;
+      it('should throw an error when given a null value', async () => {
+        appeal.sectionStates = null;
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.appealSiteSection.healthAndSafety is a required field',
+          'sectionStates must be a `object` type, but the final value was: `null`',
         );
       });
     });
@@ -899,19 +943,11 @@ describe('schemas/householder-appeal/insert', () => {
           'sectionStates.aboutYouSection must be a `object` type, but the final value was: `null`',
         );
       });
-
-      it('should throw an error when not given a value', async () => {
-        delete appeal.sectionStates.aboutYouSection;
-
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.aboutYouSection.yourDetails is a required field',
-        );
-      });
     });
 
     describe('sectionStates.aboutYouSection.yourDetails', () => {
       it('should throw an error when given an invalid value', async () => {
-        appeal.sectionStates.aboutYouSection.yourDetails = 'PENDING';
+        appeal.sectionStates.aboutYouSection.yourDetails = 'NOT COMPLETE';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
           `sectionStates.aboutYouSection.yourDetails must be one of the following values: ${Object.values(
@@ -920,20 +956,13 @@ describe('schemas/householder-appeal/insert', () => {
         );
       });
 
-      it('should throw an error when given a null value', async () => {
-        appeal.sectionStates.aboutYouSection.yourDetails = null;
-
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.aboutYouSection.yourDetails must be a `string` type, but the final value was: `null`',
-        );
-      });
-
-      it('should throw an error when not given a value', async () => {
+      it('should set a default value of `NOT STARTED` when not given a value', async () => {
         delete appeal.sectionStates.aboutYouSection.yourDetails;
 
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.aboutYouSection.yourDetails is a required field',
-        );
+        appeal2.sectionStates.aboutYouSection.yourDetails = SECTION_STATE.NOT_STARTED;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal2);
       });
     });
 
@@ -945,18 +974,18 @@ describe('schemas/householder-appeal/insert', () => {
         expect(result).toEqual(appeal);
       });
 
-      it('should throw an error when not given a value', async () => {
-        delete appeal.sectionStates.requiredDocumentsSection;
+      it('should throw an error when given a null value', async () => {
+        appeal.sectionStates.requiredDocumentsSection = null;
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.requiredDocumentsSection.decisionLetter is a required field',
+          'sectionStates.requiredDocumentsSection must be a `object` type, but the final value was: `null`',
         );
       });
     });
 
     describe('sectionStates.requiredDocumentsSection.applicationNumber', () => {
       it('should throw an error when given an invalid value', async () => {
-        appeal.sectionStates.requiredDocumentsSection.applicationNumber = 'PENDING';
+        appeal.sectionStates.requiredDocumentsSection.applicationNumber = 'NOT COMPLETE';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
           `sectionStates.requiredDocumentsSection.applicationNumber must be one of the following values: ${Object.values(
@@ -965,18 +994,20 @@ describe('schemas/householder-appeal/insert', () => {
         );
       });
 
-      it('should throw an error when not given a value', async () => {
+      it('should set a default value of `NOT STARTED` when not given a value', async () => {
         delete appeal.sectionStates.requiredDocumentsSection.applicationNumber;
 
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.requiredDocumentsSection.applicationNumber is a required field',
-        );
+        appeal2.sectionStates.requiredDocumentsSection.applicationNumber =
+          SECTION_STATE.NOT_STARTED;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal2);
       });
     });
 
     describe('sectionStates.requiredDocumentsSection.originalApplication', () => {
       it('should throw an error when given an invalid value', async () => {
-        appeal.sectionStates.requiredDocumentsSection.originalApplication = 'PENDING';
+        appeal.sectionStates.requiredDocumentsSection.originalApplication = 'NOT COMPLETE';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
           `sectionStates.requiredDocumentsSection.originalApplication must be one of the following values: ${Object.values(
@@ -985,18 +1016,20 @@ describe('schemas/householder-appeal/insert', () => {
         );
       });
 
-      it('should throw an error when not given a value', async () => {
+      it('should set a default value of `NOT STARTED` when not given a value', async () => {
         delete appeal.sectionStates.requiredDocumentsSection.originalApplication;
 
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.requiredDocumentsSection.originalApplication is a required field',
-        );
+        appeal2.sectionStates.requiredDocumentsSection.originalApplication =
+          SECTION_STATE.NOT_STARTED;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal2);
       });
     });
 
     describe('sectionStates.requiredDocumentsSection.decisionLetter', () => {
       it('should throw an error when given an invalid value', async () => {
-        appeal.sectionStates.requiredDocumentsSection.decisionLetter = 'PENDING';
+        appeal.sectionStates.requiredDocumentsSection.decisionLetter = 'NOT COMPLETE';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
           `sectionStates.requiredDocumentsSection.decisionLetter must be one of the following values: ${Object.values(
@@ -1005,12 +1038,13 @@ describe('schemas/householder-appeal/insert', () => {
         );
       });
 
-      it('should throw an error when not given a value', async () => {
+      it('should set a default value of `NOT STARTED` when not given a value', async () => {
         delete appeal.sectionStates.requiredDocumentsSection.decisionLetter;
 
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.requiredDocumentsSection.decisionLetter is a required field',
-        );
+        appeal2.sectionStates.requiredDocumentsSection.decisionLetter = SECTION_STATE.NOT_STARTED;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal2);
       });
     });
 
@@ -1022,18 +1056,18 @@ describe('schemas/householder-appeal/insert', () => {
         expect(result).toEqual(appeal);
       });
 
-      it('should throw an error when not given a value', async () => {
-        delete appeal.sectionStates.yourAppealSection;
+      it('should throw an error when given a null value', async () => {
+        appeal.sectionStates.yourAppealSection = null;
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.yourAppealSection.otherDocuments is a required field',
+          'sectionStates.yourAppealSection must be a `object` type, but the final value was: `null`',
         );
       });
     });
 
     describe('sectionStates.yourAppealSection.appealStatement', () => {
       it('should throw an error when given an invalid value', async () => {
-        appeal.sectionStates.yourAppealSection.appealStatement = 'PENDING';
+        appeal.sectionStates.yourAppealSection.appealStatement = 'NOT COMPLETE';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
           `sectionStates.yourAppealSection.appealStatement must be one of the following values: ${Object.values(
@@ -1042,18 +1076,19 @@ describe('schemas/householder-appeal/insert', () => {
         );
       });
 
-      it('should throw an error when not given a value', async () => {
+      it('should set a default value of `NOT STARTED` when not given a value', async () => {
         delete appeal.sectionStates.yourAppealSection.appealStatement;
 
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.yourAppealSection.appealStatement is a required field',
-        );
+        appeal2.sectionStates.yourAppealSection.appealStatement = SECTION_STATE.NOT_STARTED;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal2);
       });
     });
 
     describe('sectionStates.yourAppealSection.otherDocuments', () => {
       it('should throw an error when given an invalid value', async () => {
-        appeal.sectionStates.yourAppealSection.otherDocuments = 'PENDING';
+        appeal.sectionStates.yourAppealSection.otherDocuments = 'NOT COMPLETE';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
           `sectionStates.yourAppealSection.otherDocuments must be one of the following values: ${Object.values(
@@ -1062,12 +1097,13 @@ describe('schemas/householder-appeal/insert', () => {
         );
       });
 
-      it('should throw an error when not given a value', async () => {
+      it('should set a default value of `NOT STARTED` when not given a value', async () => {
         delete appeal.sectionStates.yourAppealSection.otherDocuments;
 
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.yourAppealSection.otherDocuments is a required field',
-        );
+        appeal2.sectionStates.yourAppealSection.otherDocuments = SECTION_STATE.NOT_STARTED;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal2);
       });
     });
 
@@ -1079,18 +1115,18 @@ describe('schemas/householder-appeal/insert', () => {
         expect(result).toEqual(appeal);
       });
 
-      it('should throw an error when not given a value', async () => {
-        delete appeal.sectionStates.appealSiteSection;
+      it('should throw an error when given a null value', async () => {
+        appeal.sectionStates.appealSiteSection = null;
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.appealSiteSection.healthAndSafety is a required field',
+          'sectionStates.appealSiteSection must be a `object` type, but the final value was: `null`',
         );
       });
     });
 
     describe('sectionStates.appealSiteSection.siteAddress', () => {
       it('should throw an error when given an invalid value', async () => {
-        appeal.sectionStates.appealSiteSection.siteAddress = 'PENDING';
+        appeal.sectionStates.appealSiteSection.siteAddress = 'NOT COMPLETE';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
           `sectionStates.appealSiteSection.siteAddress must be one of the following values: ${Object.values(
@@ -1099,18 +1135,19 @@ describe('schemas/householder-appeal/insert', () => {
         );
       });
 
-      it('should throw an error when not given a value', async () => {
+      it('should set a default value of `NOT STARTED` when not given a value', async () => {
         delete appeal.sectionStates.appealSiteSection.siteAddress;
 
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.appealSiteSection.siteAddress is a required field',
-        );
+        appeal2.sectionStates.appealSiteSection.siteAddress = SECTION_STATE.NOT_STARTED;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal2);
       });
     });
 
     describe('sectionStates.appealSiteSection.siteAccess', () => {
       it('should throw an error when given an invalid value', async () => {
-        appeal.sectionStates.appealSiteSection.siteAccess = 'PENDING';
+        appeal.sectionStates.appealSiteSection.siteAccess = 'NOT COMPLETE';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
           `sectionStates.appealSiteSection.siteAccess must be one of the following values: ${Object.values(
@@ -1119,18 +1156,19 @@ describe('schemas/householder-appeal/insert', () => {
         );
       });
 
-      it('should throw an error when not given a value', async () => {
+      it('should set a default value of `NOT STARTED` when not given a value', async () => {
         delete appeal.sectionStates.appealSiteSection.siteAccess;
 
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.appealSiteSection.siteAccess is a required field',
-        );
+        appeal2.sectionStates.appealSiteSection.siteAccess = SECTION_STATE.NOT_STARTED;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal2);
       });
     });
 
     describe('sectionStates.appealSiteSection.siteOwnership', () => {
       it('should throw an error when given an invalid value', async () => {
-        appeal.sectionStates.appealSiteSection.siteOwnership = 'PENDING';
+        appeal.sectionStates.appealSiteSection.siteOwnership = 'NOT COMPLETE';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
           `sectionStates.appealSiteSection.siteOwnership must be one of the following values: ${Object.values(
@@ -1139,18 +1177,19 @@ describe('schemas/householder-appeal/insert', () => {
         );
       });
 
-      it('should throw an error when not given a value', async () => {
+      it('should set a default value of `NOT STARTED` when not given a value', async () => {
         delete appeal.sectionStates.appealSiteSection.siteOwnership;
 
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.appealSiteSection.siteOwnership is a required field',
-        );
+        appeal2.sectionStates.appealSiteSection.siteOwnership = SECTION_STATE.NOT_STARTED;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal2);
       });
     });
 
     describe('sectionStates.appealSiteSection.healthAndSafety', () => {
       it('should throw an error when given an invalid value', async () => {
-        appeal.sectionStates.appealSiteSection.healthAndSafety = 'PENDING';
+        appeal.sectionStates.appealSiteSection.healthAndSafety = 'NOT COMPLETE';
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
           `sectionStates.appealSiteSection.healthAndSafety must be one of the following values: ${Object.values(
@@ -1159,12 +1198,13 @@ describe('schemas/householder-appeal/insert', () => {
         );
       });
 
-      it('should throw an error when not given a value', async () => {
+      it('should set a default value of `NOT STARTED` when not given a value', async () => {
         delete appeal.sectionStates.appealSiteSection.healthAndSafety;
 
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.appealSiteSection.healthAndSafety is a required field',
-        );
+        appeal2.sectionStates.appealSiteSection.healthAndSafety = SECTION_STATE.NOT_STARTED;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal2);
       });
     });
   });

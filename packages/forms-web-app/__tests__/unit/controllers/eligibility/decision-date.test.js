@@ -1,3 +1,4 @@
+const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const { addWeeks, subWeeks, addDays, subDays, endOfDay, format, parseISO } = require('date-fns');
 const dateFilter = require('nunjucks-date-filter');
 
@@ -19,18 +20,14 @@ const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 
 describe('controllers/eligibility/decision-date', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });

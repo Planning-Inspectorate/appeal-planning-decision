@@ -1,5 +1,6 @@
 const logger = require('../../../lib/logger');
-const { getTaskStatus, FULL_APPEAL_SECTIONS } = require('../../../services/task.service');
+// const { getTaskStatus, FULL_APPEAL_SECTIONS } = require('../../../services/task.service');
+const { NOT_STARTED } = require('../../../services/task-status/task-statuses');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   VIEW: {
@@ -7,8 +8,8 @@ const {
   },
 } = require('../../../lib/full-appeal/views');
 
-const sectionName = 'aboutYouSection';
-const taskName = 'yourDetails';
+const sectionName = 'contactDetailsSection';
+const taskName = 'isOriginalApplicant';
 
 const FORM_FIELD = {
   'original-application-your-name': {
@@ -41,22 +42,22 @@ exports.postOriginalApplicant = async (req, res) => {
   const { errors = {}, errorSummary = [] } = body;
 
   const { appeal } = req.session;
-  const task = appeal[sectionName][taskName];
+  const section = appeal[sectionName];
   let nextPage = currentPage;
 
   switch (body['original-application-your-name']) {
     case 'yes': {
-      task.isOriginalApplicant = true;
+      section[taskName] = true;
       nextPage = CONTACT_DETAILS;
       break;
     }
     case 'no': {
-      task.isOriginalApplicant = false;
+      section[taskName] = false;
       nextPage = APPLICANT_NAME;
       break;
     }
     default: {
-      task.isOriginalApplicant = undefined;
+      section[taskName] = undefined;
       break;
     }
   }
@@ -72,12 +73,13 @@ exports.postOriginalApplicant = async (req, res) => {
   }
 
   try {
-    appeal.sectionStates[sectionName][taskName] = getTaskStatus(
-      appeal,
-      sectionName,
-      taskName,
-      FULL_APPEAL_SECTIONS
-    );
+    // appeal.sectionStates[sectionName][taskName] = getTaskStatus(
+    //   appeal,
+    //   sectionName,
+    //   taskName,
+    //   FULL_APPEAL_SECTIONS
+    // );
+    appeal.sectionStates[sectionName][taskName] = NOT_STARTED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);
