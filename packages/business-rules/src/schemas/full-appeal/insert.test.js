@@ -1800,6 +1800,191 @@ describe('schemas/full-appeal/insert', () => {
           });
         });
       });
+
+      describe('appealDecisionSection.draftStatementOfCommonGround', () => {
+        it('should remove unknown fields', async () => {
+          appeal2.appealDecisionSection.draftStatementOfCommonGround.unknownField = 'unknown field';
+
+          const result = await insert.validate(appeal2, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should throw an error when given a null value', async () => {
+          appeal.appealDecisionSection.draftStatementOfCommonGround = null;
+
+          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+            'appealDecisionSection.draftStatementOfCommonGround must be a `object` type, but the final value was: `null`',
+          );
+        });
+
+        describe('appealDecisionSection.draftStatementOfCommonGround.uploadedFile', () => {
+          it('should remove unknown fields', async () => {
+            appeal2.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.unknownField =
+              'unknown field';
+
+            const result = await insert.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should throw an error when given a null value', async () => {
+            appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile = null;
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              'appealDecisionSection.draftStatementOfCommonGround.uploadedFile must be a `object` type, but the final value was: `null`',
+            );
+          });
+
+          describe('draftStatementOfCommonGround.uploadedFile.id', () => {
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.id =
+                '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
+              appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.id =
+                '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should throw an error when not given a UUID', async () => {
+              appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.id = 'abc123';
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'draftStatementOfCommonGround.uploadedFile.id must be a valid UUID',
+              );
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.id;
+              appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.id = null;
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('draftStatementOfCommonGround.uploadedFile.name', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.name =
+                'a'.repeat(256);
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'draftStatementOfCommonGround.uploadedFile.name must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.name =
+                '  test-pdf.pdf  ';
+              appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.name =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.name = '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('draftStatementOfCommonGround.uploadedFile.fileName', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.fileName =
+                'a'.repeat(256);
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'draftStatementOfCommonGround.uploadedFile.fileName must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.fileName =
+                '  test-pdf.pdf  ';
+              appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.fileName =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.fileName = '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('draftStatementOfCommonGround.uploadedFile.originalFileName', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.originalFileName =
+                'a'.repeat(256);
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'draftStatementOfCommonGround.uploadedFile.originalFileName must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.originalFileName =
+                '  test-pdf.pdf  ';
+              appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.originalFileName =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.originalFileName =
+                '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('draftStatementOfCommonGround.uploadedFile.location', () => {
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.location =
+                '  test-pdf.pdf  ';
+              appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.location =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.location = '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('draftStatementOfCommonGround.uploadedFile.size', () => {
+            it('should throw an error when not given a number', async () => {
+              appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.size =
+                'not-a-number';
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'draftStatementOfCommonGround.uploadedFile.size must be a `number` type, but the final value was: `NaN` (cast from the value `1000`).',
+              );
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.size;
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+        });
+      });
     });
 
     describe('planningApplicationDocumentsSection', () => {
@@ -2670,6 +2855,29 @@ describe('schemas/full-appeal/insert', () => {
             delete appeal.sectionStates.appealDecisionSection.inquiry;
 
             appeal2.sectionStates.appealDecisionSection.inquiry = SECTION_STATE.NOT_STARTED;
+
+            const result = await insert.validate(appeal, config);
+            expect(result).toEqual(appeal2);
+          });
+        });
+
+        describe('sectionStates.appealDecisionSection.draftStatementOfCommonGround', () => {
+          it('should throw an error when given an invalid value', async () => {
+            appeal.sectionStates.appealDecisionSection.draftStatementOfCommonGround =
+              'NOT COMPLETE';
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              `sectionStates.appealDecisionSection.draftStatementOfCommonGround must be one of the following values: ${Object.values(
+                SECTION_STATE,
+              ).join(', ')}`,
+            );
+          });
+
+          it('should set a default value of `NOT STARTED` when not given a value', async () => {
+            delete appeal.sectionStates.appealDecisionSection.draftStatementOfCommonGround;
+
+            appeal2.sectionStates.appealDecisionSection.draftStatementOfCommonGround =
+              SECTION_STATE.NOT_STARTED;
 
             const result = await insert.validate(appeal, config);
             expect(result).toEqual(appeal2);

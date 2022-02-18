@@ -64,6 +64,16 @@ const appeal = {
       reason: 'Reason for having an inquiry',
       expectedDays: 2,
     },
+    draftStatementOfCommonGround: {
+      uploadedFile: {
+        id: '3e0a6cf1-d3a2-49d1-9759-f775c59b90c8',
+        name: 'draftStatementOfCommonGround.pdf',
+        fileName: 'draftStatementOfCommonGround.pdf',
+        originalFileName: 'draftStatementOfCommonGround.pdf',
+        location: '3e0a6cf1-d3a2-49d1-9759-f775c59b90c8/draftStatementOfCommonGround.pdf',
+        size: 1000,
+      },
+    },
   },
   planningApplicationDocumentsSection: {
     applicationNumber: 'ABCDE12345',
@@ -183,6 +193,7 @@ const appeal = {
       procedureType: 'NOT STARTED',
       hearing: 'NOT STARTED',
       inquiry: 'NOT STARTED',
+      draftStatementOfCommonGround: 'NOT STARTED',
     },
     planningApplicationDocumentsSection: {
       applicationNumber: 'NOT STARTED',

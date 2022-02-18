@@ -24,6 +24,11 @@ const documentTypes = {
     multiple: false,
     displayName: 'Design and access statement',
   },
+  draftStatementOfCommonGround: {
+    name: 'draftStatementOfCommonGround',
+    multiple: false,
+    displayName: 'Draft statement of common ground',
+  },
   appealPdf: {
     name: 'appealPdf',
     multiple: false,
