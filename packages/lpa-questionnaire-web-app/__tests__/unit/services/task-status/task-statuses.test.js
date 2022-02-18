@@ -3,7 +3,7 @@ const {
   NOT_STARTED,
   IN_PROGRESS,
   COMPLETED,
-} = require('../../../../src/services/task-status/task-statuses');
+} = require('../../../../src/services/common/task-statuses');
 
 describe('services/task-status/task-statuses', () => {
   it('should have the expected, defined constants', () => {

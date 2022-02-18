@@ -21,6 +21,19 @@ const declarationRouter = require('./declaration');
 const appealSubmittedRouter = require('./appeal-submitted');
 const declarationInformationRouter = require('./declaration-information');
 const visibleFromRoadRouter = require('./visible-from-road');
+const healthSafetyIssuesRouter = require('./health-safety-issues');
+const identifyingTheOwnersRouter = require('./identifying-the-owners');
+const plansDrawingsRouter = require('./plans-drawings');
+const supportingDocumentsRouter = require('./supporting-documents');
+const newPlansDrawingsRouter = require('./new-plans-drawings');
+const newSupportingDocumentsRouter = require('./new-supporting-documents');
+const tellingTheLandownersRouter = require('./telling-the-landowners');
+const tellingTheTenantsRouter = require('./telling-the-tenants');
+const howDecideAppealRouter = require('./how-decide-appeal');
+const whyHearingRouter = require('./why-hearing');
+const whyInquiryRouter = require('./why-inquiry');
+const expectEnquiryLastRouter = require('./expect-inquiry-last');
+const draftStatementOfCommonGroundRouter = require('./draft-statement-common-ground');
 
 const router = express.Router();
 
@@ -46,5 +59,18 @@ router.use(declarationRouter);
 router.use(appealSubmittedRouter);
 router.use(declarationInformationRouter);
 router.use(visibleFromRoadRouter);
+router.use(healthSafetyIssuesRouter);
+router.use(identifyingTheOwnersRouter);
+router.use(plansDrawingsRouter);
+router.use(supportingDocumentsRouter);
+router.use(newPlansDrawingsRouter);
+router.use(newSupportingDocumentsRouter);
+router.use(tellingTheLandownersRouter);
+router.use(tellingTheTenantsRouter);
+router.use(howDecideAppealRouter);
+router.use(whyHearingRouter);
+router.use(whyInquiryRouter);
+router.use(expectEnquiryLastRouter);
+router.use(draftStatementOfCommonGroundRouter);
 
 module.exports = router;

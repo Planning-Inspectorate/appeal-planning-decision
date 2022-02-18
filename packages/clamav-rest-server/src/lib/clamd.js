@@ -1,9 +1,12 @@
 const NodeClam = require('clamscan');
 const { Readable } = require('stream');
 const config = require('./config');
+const logger = require('./logger');
 
 const createClient = async () => {
-  return NodeClam.init({
+  logger.info('creating client');
+
+  const client = new NodeClam().init({
     removeInfected: true,
     clamdscan: {
       host: config.services.clamav.host || 'localhost',
@@ -12,6 +15,8 @@ const createClient = async () => {
     },
     preference: 'clamdscan',
   });
+
+  return client;
 };
 
 const sendFile = async (file) => {
@@ -19,9 +24,7 @@ const sendFile = async (file) => {
     throw new Error('invalid or empty file');
   }
 
-  if (!Buffer.isBuffer(file)) {
-    throw new Error('invalid file type, requires a buffer');
-  }
+  logger.info('sending file');
 
   const client = await createClient();
   const readableStream = Readable.from(file.toString());

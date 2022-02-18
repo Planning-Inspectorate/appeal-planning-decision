@@ -1,3 +1,4 @@
+const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const uuid = require('uuid');
 const { storePdfAppeal } = require('../../../services/pdf.service');
 const { VIEW } = require('../../../lib/full-appeal/views');
@@ -9,92 +10,33 @@ const {
 } = VIEW;
 
 exports.getDeclaration = (req, res) => {
-  req.session.appeal.appealType = '1005';
+  req.session.appeal.appealType = fullAppeal.appealType;
   res.render(currentPage);
 };
 
 exports.postDeclaration = async (req, res) => {
-  req.session.appeal.appealType = '1005';
-  req.session.appeal.lpaCode = 'E69999999';
-  req.session.appeal.decisionDate = new Date();
-  req.session.appeal.eligibility.applicationDecision = 'refused';
-  req.session.appeal.eligibility.applicationCategories = 'none_of_these';
-  req.session.appeal.eligibility.enforcementNotice = false;
-  req.session.appeal.aboutYouSection.yourDetails.name = 'name surname';
-  req.session.appeal.aboutYouSection.yourDetails.email =
-    'AppealPlanningDecisionTest@planninginspectorate.gov.ukk';
-  req.session.appeal.beforeYouStartSection = {
-    typeOfPlanningApplication: 'full-appeal',
-  };
-  req.session.appeal.contactDetailsSection.name = 'name surname';
-  req.session.appeal.contactDetailsSection.email =
-    'AppealPlanningDecisionTest@planninginspectorate.gov.uk';
-  req.session.appeal.appealSiteSection.ownsSomeOfTheLand = false;
-  req.session.appeal.appealSiteSection.isAgriculturalHolding = false;
-  req.session.appeal.appealSiteSection.isAgriculturalHoldingTenant = false;
-  req.session.appeal.appealSiteSection.areOtherTenants = false;
-  req.session.appeal.appealSiteSection.knowsTheOwners = 'yes';
-  req.session.appeal.planningApplicationDocumentsSection.applicationNumber = '12345';
-  req.session.appeal.planningApplicationDocumentsSection.isDesignAccessStatementSubmitted = false;
-  req.session.appeal.planningApplicationDocumentsSection.originalApplication = {
-    uploadedFile: {
-      name: 'sdsdsd',
-      id: '32fdcb44-a6ab-4b9e-a9ca-68976ec81ad3',
-      originalFileName: 'sdsdsds',
-    },
-  };
-  req.session.appeal.planningApplicationDocumentsSection.designAccessStatement = {
-    uploadedFile: {
-      name: 'sdsdsd',
-      id: '32fdcb44-a6ab-4b9e-a9ca-68976ec81ad3',
-      originalFileName: 'sdsdsds',
-    },
-  };
-  req.session.appeal.planningApplicationDocumentsSection.decisionLetter = {
-    uploadedFile: {
-      name: 'sdsdsd',
-      id: '32fdcb44-a6ab-4b9e-a9ca-68976ec81ad3',
-      originalFileName: 'sdsdsds',
-    },
-  };
-  req.session.appeal.yourAppealSection.appealStatement = {
-    uploadedFile: {
-      name: 'sdsdsd',
-      id: '32fdcb44-a6ab-4b9e-a9ca-68976ec81ad3',
-      originalFileName: 'sdsdsds',
-    },
-    hasSensitiveInformation: false,
-  };
-  req.session.appeal.sectionStates = {
-    aboutYouSection: {
-      yourDetails: 'COMPLETED',
-    },
-    requiredDocumentsSection: {
-      applicationNumber: 'COMPLETED',
-      originalApplication: 'COMPLETED',
-      decisionLetter: 'COMPLETED',
-    },
-    yourAppealSection: {
-      appealStatement: 'COMPLETED',
-      otherDocuments: 'COMPLETED',
-    },
-    appealSiteSection: {
-      siteAddress: 'COMPLETED',
-      siteAccess: 'COMPLETED',
-      siteOwnership: 'COMPLETED',
-      healthAndSafety: 'COMPLETED',
-      ownsSomeOfTheLand: 'COMPLETED',
-      ownsAllTheLand: 'COMPLETED',
-    },
-    contactDetailsSection: 'COMPLETED',
-    aboutAppealSiteSection: 'COMPLETED',
-    planningApplicationDocumentsSection: {
-      isDesignAccessStatementSubmitted: 'COMPLETED',
-      originalApplication: 'COMPLETED',
-      decisionLetter: 'COMPLETED',
-      designAccessStatement: 'COMPLETED',
-    },
-  };
+  const {
+    appealType,
+    lpaCode,
+    decisionDate,
+    eligibility,
+    contactDetailsSection,
+    appealSiteSection,
+    appealDecisionSection,
+    planningApplicationDocumentsSection,
+    appealDocumentsSection,
+    sectionStates,
+  } = fullAppeal;
+  req.session.appeal.appealType = appealType;
+  req.session.appeal.lpaCode = lpaCode;
+  req.session.appeal.decisionDate = decisionDate;
+  req.session.appeal.eligibility = eligibility;
+  req.session.appeal.contactDetailsSection = contactDetailsSection;
+  req.session.appeal.appealSiteSection = appealSiteSection;
+  req.session.appeal.appealDecisionSection = appealDecisionSection;
+  req.session.appeal.planningApplicationDocumentsSection = planningApplicationDocumentsSection;
+  req.session.appeal.appealDocumentsSection = appealDocumentsSection;
+  req.session.appeal.sectionStates = sectionStates;
 
   const { body } = req;
   const { errors = {} } = body;

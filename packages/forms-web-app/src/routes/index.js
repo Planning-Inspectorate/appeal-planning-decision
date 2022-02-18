@@ -13,16 +13,32 @@ const guidancePagesRouter = require('./guidance-pages');
 const yourPlanningAppealRouter = require('./your-planning-appeal');
 const documentRouter = require('./document');
 const checkDecisionDateDeadline = require('../middleware/check-decision-date-deadline');
+const checkAppealTypeExists = require('../middleware/check-appeal-type-exists');
 
 router.use('/', homeRouter);
 router.use(guidancePagesRouter);
 router.use('/cookies', cookieRouter);
-router.use('/appellant-submission', checkDecisionDateDeadline, appellantSubmissionRouter);
-router.use('/full-appeal', checkDecisionDateDeadline, fullAppealAppellantSubmissionRouter);
+router.use(
+  '/appellant-submission',
+  checkAppealTypeExists,
+  checkDecisionDateDeadline,
+  appellantSubmissionRouter
+);
+router.use(
+  '/full-appeal',
+  checkAppealTypeExists,
+  checkDecisionDateDeadline,
+  fullAppealAppellantSubmissionRouter
+);
 router.use('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
 router.use('/your-planning-appeal', yourPlanningAppealRouter);
-router.use('/before-you-start', fullAppealRouter);
-router.use('/before-you-start', householderPlanningRouter);
+router.use('/before-you-start', checkAppealTypeExists, checkDecisionDateDeadline, fullAppealRouter);
+router.use(
+  '/before-you-start',
+  checkAppealTypeExists,
+  checkDecisionDateDeadline,
+  householderPlanningRouter
+);
 router.use('/document', documentRouter);
 
 module.exports = router;

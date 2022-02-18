@@ -1,8 +1,8 @@
-const { subYears, addYears } = require('date-fns');
+const { subYears, addYears, subMonths } = require('date-fns');
 const v8 = require('v8');
 const appealData = require('../../../test/data/householder-appeal');
 const update = require('./update');
-const { APPEAL_ID, APPEAL_STATE, APPLICATION_DECISION, SECTION_STATE } = require('../../constants');
+const { APPEAL_STATE, SECTION_STATE, TYPE_OF_PLANNING_APPLICATION } = require('../../constants');
 
 describe('schemas/householder-appeal/update', () => {
   const config = {};
@@ -164,6 +164,15 @@ describe('schemas/householder-appeal/update', () => {
           'The given date must be a valid Date instance',
         );
       });
+
+      it('should return a value when appeal type and application decision is not passed', async () => {
+        appeal.decisionDate = subMonths(new Date(), 1);
+        delete appeal.appealType;
+        delete appeal.eligibility.applicationDecision;
+
+        const result = await update.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
     });
 
     describe('submissionDate', () => {
@@ -206,16 +215,48 @@ describe('schemas/householder-appeal/update', () => {
         appeal.appealType = '0001';
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          `appealType must be one of the following values: ${Object.values(APPEAL_ID).join(', ')}`,
+          '0001 is not a valid appeal type',
         );
       });
 
-      it('should throw an error when not given a value', async () => {
+      it('should not throw an error when not given a value', async () => {
+        appeal.appealType = null;
+
+        const result = await update.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should not throw an error when not given a value', async () => {
         delete appeal.appealType;
 
+        const result = await update.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+    });
+
+    describe('typeOfPlanningApplication', () => {
+      it('should throw an error when given an invalid value', async () => {
+        appeal.typeOfPlanningApplication = 'appeal';
+
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          'appealType is a required field',
+          `typeOfPlanningApplication must be one of the following values: ${Object.values(
+            TYPE_OF_PLANNING_APPLICATION,
+          ).join(', ')}`,
         );
+      });
+
+      it('should not throw an error when not given a value', async () => {
+        delete appeal.typeOfPlanningApplication;
+
+        const result = await update.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+
+      it('should not throw an error when given a null value', async () => {
+        appeal.typeOfPlanningApplication = null;
+
+        const result = await update.validate(appeal, config);
+        expect(result).toEqual(appeal);
       });
     });
 
@@ -249,10 +290,15 @@ describe('schemas/householder-appeal/update', () => {
         appeal.eligibility.applicationDecision = 'appeal';
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          `eligibility.applicationDecision must be one of the following values: ${Object.values(
-            APPLICATION_DECISION,
-          ).join(', ')}`,
+          `appeal must be a valid application decision`,
         );
+      });
+
+      it('should throw an error when given an invalid value', async () => {
+        appeal.eligibility.applicationDecision = null;
+
+        const result = await update.validate(appeal, config);
+        expect(result).toEqual(appeal);
       });
 
       it('should not throw an error when not given a value', async () => {
@@ -629,7 +675,7 @@ describe('schemas/householder-appeal/update', () => {
         delete appeal.requiredDocumentsSection.originalApplication;
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          'requiredDocumentsSection.originalApplication.uploadedFile.id is a required field',
+          'requiredDocumentsSection.originalApplication.uploadedFile.size is a required field',
         );
       });
     });
@@ -647,7 +693,7 @@ describe('schemas/householder-appeal/update', () => {
         delete appeal.requiredDocumentsSection.decisionLetter;
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          'requiredDocumentsSection.decisionLetter.uploadedFile.id is a required field',
+          'requiredDocumentsSection.decisionLetter.uploadedFile.size is a required field',
         );
       });
     });
@@ -717,13 +763,12 @@ describe('schemas/householder-appeal/update', () => {
         );
       });
 
-      // it('should throw an error when not given a value', async () => {
-      //   delete appeal.yourAppealSection.otherDocuments;
+      it('should not throw an error when not given a value', async () => {
+        delete appeal.yourAppealSection.otherDocuments.uploadedFiles;
 
-      //   await expect(() => update.validate(appeal, config)).rejects.toThrow(
-      //     'yourAppealSection.otherDocuments.uploadedFiles[0].id is a required field',
-      //   );
-      // });
+        const result = await update.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
     });
 
     describe('appealSubmission', () => {
@@ -739,7 +784,7 @@ describe('schemas/householder-appeal/update', () => {
         delete appeal.appealSubmission;
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          'appealSubmission.appealPDFStatement.uploadedFile.id is a required field',
+          'appealSubmission.appealPDFStatement.uploadedFile.size is a required field',
         );
       });
     });

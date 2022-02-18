@@ -199,17 +199,17 @@ module.exports = async (context, event) => {
     };
 
     const horizonCaseId = await callHorizon(context.log, input);
-    context.log({ horizonId: horizonCaseId }, 'Adding Horizon ID to Appeal');
+    // context.log({ horizonId: horizonCaseId }, 'Adding Horizon ID to Appeal');
 
-    await axios.patch(
-      `/api/v1/appeals/${appealId}`,
-      {
-        horizonId: horizonCaseId,
-      },
-      {
-        baseURL: config.appealsService.url,
-      }
-    );
+    // await axios.patch(
+    //   `/api/v1/appeals/${appealId}`,
+    //   {
+    //     horizonId: horizonCaseId,
+    //   },
+    //   {
+    //     baseURL: config.appealsService.url,
+    //   }
+    // );
 
     /*
       Finally, publish the documents to Horizon

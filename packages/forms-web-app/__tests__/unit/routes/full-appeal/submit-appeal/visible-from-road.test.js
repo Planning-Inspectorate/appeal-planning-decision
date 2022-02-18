@@ -9,12 +9,12 @@ const {
 } = require('../../../../../src/validators/validation-error-handler');
 const { rules: optionsValidationRules } = require('../../../../../src/validators/common/options');
 const {
-  rules: conditionalTextValidationRules,
-} = require('../../../../../src/validators/common/conditional-text');
+  rules: textfieldValidationRules,
+} = require('../../../../../src/validators/common/textfield');
 
 jest.mock('../../../../../src/middleware/fetch-existing-appeal');
 jest.mock('../../../../../src/validators/common/options');
-jest.mock('../../../../../src/validators/common/conditional-text');
+jest.mock('../../../../../src/validators/common/textfield');
 
 describe('routes/full-appeal/submit-appeal/visible-from-road', () => {
   beforeEach(() => {
@@ -31,7 +31,7 @@ describe('routes/full-appeal/submit-appeal/visible-from-road', () => {
     expect(post).toHaveBeenCalledWith(
       '/submit-appeal/visible-from-road',
       optionsValidationRules(),
-      conditionalTextValidationRules(),
+      textfieldValidationRules(),
       validationErrorHandler,
       postVisibleFromRoad
     );
@@ -39,7 +39,7 @@ describe('routes/full-appeal/submit-appeal/visible-from-road', () => {
       fieldName: 'visible-from-road',
       emptyError: 'Select yes if the site is visible from a public road',
     });
-    expect(conditionalTextValidationRules).toHaveBeenCalledWith({
+    expect(textfieldValidationRules).toHaveBeenCalledWith({
       fieldName: 'visible-from-road-details',
       targetFieldName: 'visible-from-road',
       emptyError: 'Tell us how visibility is restricted',

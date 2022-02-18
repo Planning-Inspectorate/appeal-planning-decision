@@ -1,3 +1,4 @@
+@wip @has
 Feature: Cookie consent bar - with JS
 
   As a performance analyst working on the appeals service

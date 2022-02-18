@@ -1,3 +1,4 @@
+@wip @has
 Feature: Claiming for Costs eligibility check
   Note: Appeals that include claiming for Costs are not supported.
 

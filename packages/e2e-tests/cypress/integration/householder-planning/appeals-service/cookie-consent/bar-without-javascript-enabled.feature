@@ -1,3 +1,4 @@
+@wip @has
 Feature: Cookie consent bar - no JS
 
   As a PO on the appeals service

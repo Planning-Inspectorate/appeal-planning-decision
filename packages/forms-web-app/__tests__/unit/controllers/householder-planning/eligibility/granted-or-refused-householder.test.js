@@ -1,3 +1,4 @@
+const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const grantedOrRefusedHouseholderController = require('../../../../../src/controllers/householder-planning/eligibility/granted-or-refused-householder');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const {
@@ -7,15 +8,14 @@ const {
     },
   },
 } = require('../../../../../src/lib/householder-planning/views');
+const logger = require('../../../../../src/lib/logger');
+const { mockReq, mockRes } = require('../../../mocks');
 
 const forwardPage = {
   nextPageDateDecision: '/before-you-start/decision-date-householder',
   nextPageDateDecisionDue: '/before-you-start/date-decision-due-householder',
   previousPage: '/before-you-start/listed-building-householder',
 };
-const logger = require('../../../../../src/lib/logger');
-const { APPEAL_DOCUMENT } = require('../../../../../src/lib/empty-appeal');
-const { mockReq, mockRes } = require('../../../mocks');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
@@ -23,13 +23,10 @@ jest.mock('../../../../../src/lib/logger');
 describe('controllers/householder-planning/eligibility/granted-or-refused-householder', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });

@@ -1,26 +1,22 @@
+const appeal = require('@pins/business-rules/test/data/full-appeal');
+const v8 = require('v8');
 const typeOfPlanningApplicationController = require('../../../../src/controllers/full-appeal/type-of-planning-application');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
-
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 const mapPlanningApplication = require('../../../../src/lib/full-appeal/map-planning-application');
 
-jest.mock('../../../../src/lib/empty-appeal');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
 
 describe('controllers/full-appeal/type-of-planning-application', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = v8.deserialize(v8.serialize(mockReq(appeal)));
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });
@@ -30,6 +26,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
       await typeOfPlanningApplicationController.getTypeOfPlanningApplication(req, res);
 
       expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.TYPE_OF_PLANNING_APPLICATION, {
+        typeOfPlanningApplication: 'full-appeal',
         backLink: `${VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT}`,
       });
     });
@@ -43,13 +40,9 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 
       await typeOfPlanningApplicationController.postTypeOfPlanningApplication(mockRequest, res);
 
-      const updatedAppeal = {
-        ...appeal,
-        appealType: mapPlanningApplication(planningApplication),
-        beforeYouStartSection: {
-          typeOfPlanningApplication: planningApplication,
-        },
-      };
+      const updatedAppeal = appeal;
+      updatedAppeal.appealType = mapPlanningApplication(planningApplication);
+      updatedAppeal.typeOfPlanningApplication = planningApplication;
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...updatedAppeal,
@@ -68,13 +61,9 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 
       await typeOfPlanningApplicationController.postTypeOfPlanningApplication(mockRequest, res);
 
-      const updatedAppeal = {
-        ...appeal,
-        appealType: mapPlanningApplication(planningApplication),
-        beforeYouStartSection: {
-          typeOfPlanningApplication: planningApplication,
-        },
-      };
+      const updatedAppeal = appeal;
+      updatedAppeal.appealType = mapPlanningApplication(planningApplication);
+      updatedAppeal.typeOfPlanningApplication = planningApplication;
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...updatedAppeal,
@@ -93,13 +82,9 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 
       await typeOfPlanningApplicationController.postTypeOfPlanningApplication(mockRequest, res);
 
-      const updatedAppeal = {
-        ...appeal,
-        appealType: mapPlanningApplication(planningApplication),
-        beforeYouStartSection: {
-          typeOfPlanningApplication: planningApplication,
-        },
-      };
+      const updatedAppeal = appeal;
+      updatedAppeal.appealType = mapPlanningApplication(planningApplication);
+      updatedAppeal.typeOfPlanningApplication = planningApplication;
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...updatedAppeal,
@@ -118,13 +103,9 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 
       await typeOfPlanningApplicationController.postTypeOfPlanningApplication(mockRequest, res);
 
-      const updatedAppeal = {
-        ...appeal,
-        appealType: mapPlanningApplication(planningApplication),
-        beforeYouStartSection: {
-          typeOfPlanningApplication: planningApplication,
-        },
-      };
+      const updatedAppeal = appeal;
+      updatedAppeal.appealType = mapPlanningApplication(planningApplication);
+      updatedAppeal.typeOfPlanningApplication = planningApplication;
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...updatedAppeal,
@@ -144,13 +125,14 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
           },
         },
       };
+      mockRequest.session.appeal.typeOfPlanningApplication = null;
 
       await typeOfPlanningApplicationController.postTypeOfPlanningApplication(mockRequest, res);
 
       expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
       expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.TYPE_OF_PLANNING_APPLICATION, {
-        appeal,
+        typeOfPlanningApplication: null,
         errors: {
           'type-of-planning-application': {
             msg: 'Select which type of planning application your appeal is about, or if you have not made a planning application',
@@ -168,6 +150,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
         ...req,
         body: { 'type-of-planning-application': 'outline-planning' },
       };
+      mockRequest.session.appeal.typeOfPlanningApplication = null;
 
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
@@ -177,7 +160,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
       expect(logger.error).toHaveBeenCalledWith(error);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.TYPE_OF_PLANNING_APPLICATION, {
-        appeal,
+        typeOfPlanningApplication: null,
         errors: {},
         errorSummary: [{ text: error.toString(), href: 'pageId' }],
         backLink: `${VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT}`,

@@ -6,6 +6,7 @@ exports.appealDocument = {
   submissionDate: null,
   state: 'DRAFT',
   appealType: null,
+  typeOfPlanningApplication: null,
   eligibility: {
     applicationDecision: null,
     applicationCategories: null,
@@ -84,6 +85,9 @@ exports.appealDocument = {
     areOtherTenants: null,
     isVisibleFromRoad: null,
     visibleFromRoadDetails: null,
+    hasHealthSafetyIssues: null,
+    healthSafetyIssuesDetails: null,
+    identifyingTheOwners: null,
   },
   appealSubmission: {
     appealPDFStatement: {
@@ -146,6 +150,8 @@ exports.appealDocument = {
       areOtherTenants: 'NOT STARTED',
       isVisibleFromRoad: 'NOT STARTED',
       visibleFromRoadDetails: 'NOT STARTED',
+      hasHealthSafetyIssues: 'NOT STARTED',
+      healthSafetyIssuesDetails: 'NOT STARTED',
     },
     contactDetailsSection: 'NOT STARTED',
     aboutAppealSiteSection: 'NOT STARTED',

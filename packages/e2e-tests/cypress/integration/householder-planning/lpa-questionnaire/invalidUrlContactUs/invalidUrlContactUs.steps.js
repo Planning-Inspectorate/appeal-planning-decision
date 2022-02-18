@@ -12,7 +12,7 @@ import { goToLPAPage } from '../../../../support/common/go-to-page/goToLPAPage';
 const invalidUrl = `${Cypress.env('LPA_BASE_URL')}/invalid-url`;
 const invalidPageTitle = 'Page not found - Appeal questionnaire - Appeal a householder planning decision - GOV.UK';
 const invalidPageHeading = 'Page not found';
-const contactUsPageUrl = `${Cypress.env('LPA_BASE_URL')}/contact-us`;
+const contactUsPageUrl = `${Cypress.env('LPA_BASE_URL')}/appeal-questionnaire/contact-us`;
 const contactUsPageTitle = 'Contact us - Appeal questionnaire - Appeal a householder planning decision - GOV.UK';
 const contactUsPageHeading = 'Contact us';
 

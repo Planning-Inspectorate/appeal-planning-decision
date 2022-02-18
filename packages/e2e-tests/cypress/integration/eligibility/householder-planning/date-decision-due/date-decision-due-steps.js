@@ -12,6 +12,7 @@ import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppea
 import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
 import { selectSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/select-site-option';
 import { selectPlanningApplicationDecision } from '../../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
+import {clickContinueButton} from "../../../../support/common/clickContinueButton";
 import {
   getDateDecisionDueDay,
   getPlanningApplicationDecisionError,
@@ -29,7 +30,7 @@ import format from 'date-fns/format';
 import {
   selectListedBuildingDecision
 } from '../../../../support/eligibility/listed-building/select-listed-building-decision';
-import { clickContinueButton } from '../../../../support/common/clickContinueButton';
+import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
 
 const pageHeading = 'What date was your decision due?';
 const pageTitle =
@@ -42,7 +43,10 @@ const shutterPageUrl = '/before-you-start/you-cannot-appeal';
 let pastDate;
 
 Given('appellant navigates to decision date page for householder appeal', () => {
-  goToAppealsPage(typeOfPlanningPageUrl);
+  //goToAppealsPage(typeOfPlanningPageUrl);
+  goToAppealsPage('before-you-start/local-planning-depart');
+  getLocalPlanningDepart().select('System Test Borough Council');
+  getContinueButton().click();
   selectPlanningApplicationType('Householder');
   clickContinueButton();
   selectListedBuildingDecision('No');
@@ -52,35 +56,62 @@ Given('appellant navigates to decision date page for householder appeal', () => 
 });
 
 Given('appellant navigates to date decision due page', () => {
-  goToAppealsPage(url);
+ // goToAppealsPage(url);
+  goToAppealsPage('before-you-start/local-planning-depart');
+  getLocalPlanningDepart().select('System Test Borough Council');
+  getContinueButton().click();
+  selectPlanningApplicationType('Householder');
+  clickContinueButton();
+  selectListedBuildingDecision('No');
+  clickContinueButton();
+  selectPlanningApplicationDecision('I have Not Received a Decision');
+  clickContinueButton();
+  cy.url().should('contain', url);
 });
 
 Given('appellant is on the what date was the decision due page for householder', () => {
-  goToAppealsPage(url);
+  // goToAppealsPage('before-you-start/local-planning-depart');
+  // getLocalPlanningDepart().select('System Test Borough Council');
+  // getContinueButton().click();
+  // selectPlanningApplicationType('Householder');
+  // clickContinueButton();
+  // selectListedBuildingDecision('No');
+  // clickContinueButton();
+  // selectPlanningApplicationDecision('I have Not Received a Decision');
+  // clickContinueButton();
+  cy.url().should('contain', url);
   acceptCookiesBanner();
   verifyPageHeading(pageHeading);
   verifyPageTitle(pageTitle);
+  cy.checkPageA11y();
 });
 
-When(
-  'appellant enters the {string} within 6 months when they were due a decision',
-  (valid_month) => {
-    const validDate = getPastDate(allowedDatePart.MONTH, valid_month);
-    enterDateDecisionDueHouseholder({
-      day: getDate(validDate),
-      month: getMonth(validDate) + 1,
-      year: getYear(validDate),
-    });
-  },
-);
+When('appellant enters the {string} within 6 months when they were due a decision',
+   (valid_month) => {
+     const validDate = getPastDate( allowedDatePart.MONTH, valid_month );
+     //   enterDateDecisionDueHouseholder({
+     //     day: getDate(validDate),
+     //     month: getMonth(validDate) + 1,
+     //     year: getYear(validDate),
+     //   });
+     cy.get( '#date-decision-due-householder-day' ).type( getDate( validDate ) );
+     cy.get( '#date-decision-due-householder-month' ).type( getMonth( validDate ) + 1 );
+     cy.get( '#date-decision-due-householder-year' ).type( getYear( validDate ) );
+   });
+
+
 
 When('appellant enters an date older than 6 months when they were due a decision', () => {
-  pastDate = getPastDate(allowedDatePart.MONTH, 7);
-  enterDateDecisionDueHouseholder({
-    day: getDate(pastDate),
-    month: getMonth(pastDate) + 1,
-    year: getYear(pastDate),
-  });
+   pastDate = getPastDate(allowedDatePart.MONTH, 7);
+  // enterDateDecisionDueHouseholder({
+  //   day: getDate(pastDate),
+  //   month: getMonth(pastDate) + 1,
+  //   year: getYear(pastDate),
+  // });
+  cy.get('#date-decision-due-householder-day').type(getDate(pastDate));
+  cy.get('#date-decision-due-householder-month').type(getMonth(pastDate) +1);
+  cy.get('#date-decision-due-householder-year').type(getYear(pastDate));
+
 });
 
 When('appellant clicks on continue', () => {
@@ -88,16 +119,27 @@ When('appellant clicks on continue', () => {
 });
 
 When('appellant enters date decision due of {string}-{string}-{string}', (day, month, year) => {
-  enterDateDecisionDueHouseholder({ day, month, year });
+  //enterDateDecisionDueHouseholder({ day, month, year });
+  if(day) {
+    cy.get('#date-decision-due-householder-day').type(day);
+  }
+  if(month){
+  cy.get('#date-decision-due-householder-month').type(month);}
+  if(year){
+  cy.get('#date-decision-due-householder-year').type(year);}
 });
 
 When('appellant enters future date decision due of {string}-{string}', (datePart, value) => {
-  const futureDate = getFutureDate(datePart, value);
-  enterDateDecisionDueHouseholder({
-    day: getDate(futureDate),
-    month: getMonth(futureDate) + 1,
-    year: getYear(futureDate),
-  });
+   const futureDate = getFutureDate(datePart, value);
+  // enterDateDecisionDueHouseholder({
+  //   day: getDate(futureDate),
+  //   month: getMonth(futureDate) + 1,
+  //   year: getYear(futureDate),
+  // });
+
+  cy.get('#date-decision-due-householder-day').type(getDate(futureDate));
+  cy.get('#date-decision-due-householder-month').type(getMonth(futureDate) +1);
+  cy.get('#date-decision-due-householder-year').type(getYear(futureDate));
 });
 
 When('appellant selects the back button', () => {
@@ -117,9 +159,9 @@ Then(
 
 Then('appellant are navigated to the page which notifies them that they cannot appeal', () => {
   cy.url().should('contain', shutterPageUrl);
-  // pastDate = format(addMonths(pastDate, 6), 'dd MMMM yyyy');
+  pastDate = format(addMonths(pastDate, 6), 'dd MMMM yyyy');
   getAppealDeadline().should('contain', '6 months');
-  // getAppealDeadline().should('contain', pastDate);
+  getAppealDeadline().should('contain', pastDate);
 });
 
 Then('progress is halted with an error: {string}', (errorMessage) => {

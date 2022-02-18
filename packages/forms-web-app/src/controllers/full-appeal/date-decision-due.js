@@ -1,5 +1,5 @@
 const { isValid, parseISO } = require('date-fns');
-const { rules, validation, constants } = require('@pins/business-rules');
+const { rules, validation } = require('@pins/business-rules');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 const {
@@ -78,7 +78,11 @@ exports.postDateDecisionDue = async (req, res) => {
     logger.error(e);
 
     res.render(currentPage, {
-      appeal,
+      decisionDate: {
+        day: body['decision-date-day'],
+        month: body['decision-date-month'],
+        year: body['decision-date-year'],
+      },
       errors,
       errorSummary: [{ text: e.toString(), href: '#' }],
       previousPage: navigationPage.previousPage,
@@ -88,15 +92,24 @@ exports.postDateDecisionDue = async (req, res) => {
 
   const isWithinExpiryPeriod = validation.appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
     appeal.decisionDate,
-    new Date(),
-    constants.APPEAL_ID.PLANNING_SECTION_78
+    appeal.appealType,
+    appeal.eligibility.applicationDecision
   );
 
   const redirectTo = isWithinExpiryPeriod ? navigationPage.nextPage : navigationPage.shutterPage;
+  const { duration, time } = rules.appeal.deadlinePeriod(
+    appeal.appealType,
+    appeal.eligibility.applicationDecision
+  );
 
   req.session.appeal.eligibility.appealDeadline =
     decisionDate &&
-    rules.appeal.deadlineDate(parseISO(decisionDate), constants.APPEAL_ID.PLANNING_SECTION_78);
+    rules.appeal.deadlineDate(
+      parseISO(decisionDate),
+      appeal.appealType,
+      appeal.eligibility.applicationDecision
+    );
 
+  req.session.appeal.eligibility.appealPeriod = `${time} ${duration}`;
   res.redirect(redirectTo);
 };

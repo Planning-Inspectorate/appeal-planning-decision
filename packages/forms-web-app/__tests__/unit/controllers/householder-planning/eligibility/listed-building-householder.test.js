@@ -1,25 +1,21 @@
+const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const listedBuildingController = require('../../../../../src/controllers/householder-planning/eligibility/listed-building-householder');
-const { APPEAL_DOCUMENT } = require('../../../../../src/lib/empty-appeal');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../../src/lib/logger');
 const { VIEW } = require('../../../../../src/lib/householder-planning/views');
 
 const { mockReq, mockRes } = require('../../../mocks');
 
-jest.mock('../../../../../src/lib/empty-appeal');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
 
 describe('controllers/householder-planning/eligibility/listed-building-householder', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });
@@ -28,9 +24,13 @@ describe('controllers/householder-planning/eligibility/listed-building-household
     it('should call the correct template on getListedBuildingHouseholder', async () => {
       await listedBuildingController.getListedBuildingHouseholder(req, res);
 
-      expect(res.render).toBeCalledWith(VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER, {
-        backLink: `/before-you-start/type-of-planning-application`,
-      });
+      expect(res.render).toBeCalledWith(
+        VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER,
+        {
+          isListedBuilding: appeal.eligibility.isListedBuilding,
+          backLink: '/before-you-start/type-of-planning-application',
+        }
+      );
     });
 
     it('should redirect to the use-a-different-service page', async () => {
@@ -44,7 +44,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
       expect(appeal.eligibility.isListedBuilding).toEqual(true);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({ ...appeal });
 
-      expect(res.redirect).toBeCalledWith(`/before-you-start/use-a-different-service`);
+      expect(res.redirect).toBeCalledWith('/before-you-start/use-a-different-service');
     });
 
     it('should redirect to the granted-or-refused-householder page', async () => {
@@ -82,14 +82,14 @@ describe('controllers/householder-planning/eligibility/listed-building-household
       expect(res.render).toBeCalledWith(
         VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER,
         {
-          appeal,
+          isListedBuilding: appeal.eligibility.isListedBuilding,
           errors: {
             'listed-building-householder': {
               msg: 'Select yes if your appeal about a listed building',
             },
           },
           errorSummary: [],
-          backLink: `/before-you-start/type-of-planning-application`,
+          backLink: '/before-you-start/type-of-planning-application',
         }
       );
     });
@@ -112,10 +112,10 @@ describe('controllers/householder-planning/eligibility/listed-building-household
       expect(res.render).toHaveBeenCalledWith(
         VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER,
         {
-          appeal,
+          isListedBuilding: appeal.eligibility.isListedBuilding,
           errors: {},
           errorSummary: [{ text: error.toString(), href: 'pageId' }],
-          backLink: `/before-you-start/type-of-planning-application`,
+          backLink: '/before-you-start/type-of-planning-application',
         }
       );
     });

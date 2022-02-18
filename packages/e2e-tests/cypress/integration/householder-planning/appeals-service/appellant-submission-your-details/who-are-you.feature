@@ -1,4 +1,4 @@
-@smoketest
+@wip @has @smoketest
 Feature: Confirmation of original applicant
   Note: This feature describes behaviour for a newly created appeal
 

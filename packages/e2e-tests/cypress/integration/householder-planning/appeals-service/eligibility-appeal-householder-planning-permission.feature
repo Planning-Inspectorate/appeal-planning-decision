@@ -1,3 +1,4 @@
+@wip @has
 Feature: Eligibility - Appeal Householder Planning Permission Question
  Prospective appellant states whether they are appealing against a householder planning permission decision
  So that the system can confirm whether their appeal is eligible to use the private beta service.

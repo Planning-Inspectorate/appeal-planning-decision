@@ -51,7 +51,7 @@ Feature: As an appellant/agent
       #And the last task they are working on will show 'In progress'
 
   Scenario: 8. Navigate from Task List to 'Planning Application Form' page with an existing uploaded file
-    Given an appellant is on the 'Appeal a Planning Decision' task list page
+    Given an appellant is on the 'Appeal a Planning Decision page'
     When they select 'Upload documents from your planning application' link
     Then 'Planning Application form' page is displayed
     When they click on the 'Back' link

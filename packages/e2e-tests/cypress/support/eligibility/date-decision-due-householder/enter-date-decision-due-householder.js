@@ -1,12 +1,13 @@
 import {
-  getDateDecisionDueHouseholderDay,
-  getDateDecisionDueHouseholderMonth, getDateDecisionDueHouseholderYear
+  getDecisionDateHouseholderDay,
+  getDecisionDateHouseholderMonth,
+  getDecisionDateHouseholderYear,
 } from "../page-objects/date-decision-due-householder-po";
 
 export const enterDateDecisionDueHouseholder = ({ day, month, year} ) => {
-  if(day) getDateDecisionDueHouseholderDay().clear().type(day);
-  if(month) getDateDecisionDueHouseholderMonth().clear().type(month);
-  if(year) getDateDecisionDueHouseholderYear().clear().type(year);
+  if(day) getDecisionDateHouseholderDay().clear().type(day);
+  if(month) getDecisionDateHouseholderMonth().clear().type(month);
+  if(year) getDecisionDateHouseholderYear().clear().type(year);
 }
 
 export const verifyHighlightsDecisionDueHouseholder = (highlights) => {

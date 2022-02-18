@@ -9,12 +9,12 @@ Feature: Date Decision Due eligibility check
     Then they are navigated to the have you received an enforcement notice page
 
     Examples:
-      | application_type |
-      | Full planning  |
-      | Outline planning  |
-      | Prior approval  |
-      | Reserved matters  |
-      | Removal or variation of conditions  |
+      | application_type                   |
+      | Full planning                      |
+      | Outline planning                   |
+      | Prior approval                     |
+      | Reserved matters                   |
+      | Removal or variation of conditions |
 
   Scenario Outline: AC02 - Ineligible Date Decision Due continues to Shutter page for <application_type>
     Given appellant navigates to decision date page for '<application_type>'
@@ -24,12 +24,12 @@ Feature: Date Decision Due eligibility check
     Then appellant gets routed to a page which notifies them that they cannot appeal
 
     Examples:
-      | application_type |
-      | Full planning  |
-      | Outline planning  |
-      | Prior approval  |
-      | Reserved matters  |
-      | Removal or variation of conditions  |
+      | application_type                   |
+      | Full planning                      |
+      | Outline planning                   |
+      | Prior approval                     |
+      | Reserved matters                   |
+      | Removal or variation of conditions |
 
   Scenario Outline: AC03 - Future Date Decision is rejected for '<application_type>'
     Given appellant navigates to decision date page for '<application_type>'
@@ -41,35 +41,35 @@ Feature: Date Decision Due eligibility check
 
     Examples: Full Planning
       | application_type | datePart | value |
-      | Full planning | day | 10 |
-      | Full planning | month | 10 |
-      | Full planning | year | 2 |
+      | Full planning    | day      | 10    |
+      | Full planning    | month    | 10    |
+      | Full planning    | year     | 2     |
 
     Examples: Outline planning
       | application_type | datePart | value |
-      | Outline planning | day | 10 |
-      | Outline planning | month | 10 |
-      | Outline planning | year | 2 |
+      | Outline planning | day      | 10    |
+      | Outline planning | month    | 10    |
+      | Outline planning | year     | 2     |
 
     Examples: Prior approval
       | application_type | datePart | value |
-      | Prior approval | day | 10 |
-      | Prior approval | month | 10 |
-      | Prior approval | year | 2 |
+      | Prior approval   | day      | 10    |
+      | Prior approval   | month    | 10    |
+      | Prior approval   | year     | 2     |
 
     Examples: Reserved matters
       | application_type | datePart | value |
-      | Reserved matters | day | 10 |
-      | Reserved matters | month | 10 |
-      | Reserved matters | year | 2 |
+      | Reserved matters | day      | 10    |
+      | Reserved matters | month    | 10    |
+      | Reserved matters | year     | 2     |
 
     Examples: Removal or variation of conditions
-      | application_type | datePart | value |
-      | Removal or variation of conditions | day | 10 |
-      | Removal or variation of conditions | month | 10 |
-      | Removal or variation of conditions | year | 2 |
+      | application_type                   | datePart | value |
+      | Removal or variation of conditions | day      | 10    |
+      | Removal or variation of conditions | month    | 10    |
+      | Removal or variation of conditions | year     | 2     |
 
-   Scenario Outline: AC04 - Invalid Date Decision Due of <day>-<month>-<year> is rejected
+  Scenario Outline: AC04 - Invalid Date Decision Due of <day>-<month>-<year> is rejected
     Given appellant navigates to date decision due page
     And appellant is on the what date was the decision due page
     When appellant enters date decision due of <day>-<month>-<year>
@@ -116,9 +116,9 @@ Feature: Date Decision Due eligibility check
     And decision due date they have inputted will not be saved
 
     Examples:
-      | application_type |
-      | Full planning  |
-      | Outline planning  |
-      | Prior approval  |
-      | Reserved matters  |
-      | Removal or variation of conditions  |
+      | application_type                   |
+      | Full planning                      |
+      | Outline planning                   |
+      | Prior approval                     |
+      | Reserved matters                   |
+      | Removal or variation of conditions |

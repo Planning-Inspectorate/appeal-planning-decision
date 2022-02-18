@@ -1,6 +1,10 @@
 const {
   constants: {
-    KNOW_THE_OWNERS: { YES: KNOW_THE_OWNERS_YES },
+    KNOW_THE_OWNERS: {
+      NO: KNOW_THE_OWNERS_NO,
+      SOME: KNOW_THE_OWNERS_SOME,
+      YES: KNOW_THE_OWNERS_YES,
+    },
   },
 } = require('@pins/business-rules');
 const logger = require('../../../lib/logger');
@@ -13,12 +17,10 @@ const {
 const { getTaskStatus } = require('../../../services/task.service');
 
 const sectionName = 'appealSiteSection';
-const taskName = 'knowsTheOwners';
+const taskName = 'siteOwnership';
 
 const getKnowTheOwners = (req, res) => {
-  const {
-    appeal: { [sectionName]: { ownsSomeOfTheLand, [taskName]: knowsTheOwners } = {} },
-  } = req.session;
+  const { ownsSomeOfTheLand, knowsTheOwners } = req.session.appeal[sectionName][taskName];
   res.render(KNOW_THE_OWNERS, {
     ownsSomeOfTheLand,
     knowsTheOwners,
@@ -31,7 +33,11 @@ const postKnowTheOwners = async (req, res) => {
     body: { errors = {}, errorSummary = [] },
     session: {
       appeal,
-      appeal: { [sectionName]: { ownsSomeOfTheLand } = {} },
+      appeal: {
+        [sectionName]: {
+          [taskName]: { ownsSomeOfTheLand },
+        },
+      },
     },
   } = req;
 
@@ -44,11 +50,17 @@ const postKnowTheOwners = async (req, res) => {
   }
 
   const knowsTheOwners = body['know-the-owners'];
+  const knowTheOwnersSomeNo = [KNOW_THE_OWNERS_SOME, KNOW_THE_OWNERS_NO];
 
   try {
-    appeal[sectionName] = appeal[sectionName] || {};
-    appeal[sectionName][taskName] = knowsTheOwners;
-    appeal.sectionStates[sectionName] = appeal.sectionStates[sectionName] || {};
+    if (
+      knowTheOwnersSomeNo.includes(knowsTheOwners) &&
+      knowTheOwnersSomeNo.includes(appeal[sectionName][taskName].knowsTheOwners) &&
+      knowsTheOwners !== appeal[sectionName][taskName].knowsTheOwners
+    ) {
+      appeal[sectionName][taskName].hasIdentifiedTheOwners = null;
+    }
+    appeal[sectionName][taskName].knowsTheOwners = knowsTheOwners;
     appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {

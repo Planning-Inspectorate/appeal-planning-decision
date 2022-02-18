@@ -1,8 +1,8 @@
+const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const applicationNumberController = require('../../../../src/controllers/appellant-submission/application-number');
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { VIEW } = require('../../../../src/lib/views');
 const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
 
@@ -16,13 +16,10 @@ const taskName = 'applicationNumber';
 describe('controllers/appellant-submission/application-number', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });
@@ -51,13 +48,7 @@ describe('controllers/appellant-submission/application-number', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER, {
-        appeal: {
-          ...req.session.appeal,
-          [sectionName]: {
-            ...req.session.appeal[sectionName],
-            [taskName]: undefined,
-          },
-        },
+        appeal: req.session.appeal,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });
@@ -109,10 +100,6 @@ describe('controllers/appellant-submission/application-number', () => {
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
-        [sectionName]: {
-          ...appeal[sectionName],
-          [taskName]: fakeApplicationNumber,
-        },
         sectionStates: {
           ...appeal.sectionStates,
           [sectionName]: {

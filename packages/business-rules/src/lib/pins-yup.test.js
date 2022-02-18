@@ -12,4 +12,8 @@ describe('pins-yup', () => {
   it('should have a pinsYup.mixed().conditionalText method defined', () => {
     expect(typeof pinsYup.mixed().conditionalText).toEqual('function');
   });
+
+  it('should have a pinsYup.array().allOf method defined', () => {
+    expect(typeof pinsYup.array().allOf).toEqual('function');
+  });
 });

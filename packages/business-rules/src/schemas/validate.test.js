@@ -9,11 +9,23 @@ const mockAppeal = {
 
 jest.mock('./householder-appeal', () => mockAppeal);
 jest.mock('./full-appeal', () => mockAppeal);
+jest.mock('../config', () => ({
+  appeal: {
+    type: {
+      1001: {},
+      1005: {},
+    },
+  },
+  featureFlag: {
+    newAppealJourney: true,
+  },
+}));
 
 const { insert, update, validate } = require('./validate');
 const householderAppeal = require('./householder-appeal');
 const fullAppeal = require('./full-appeal');
 const { APPEAL_ID } = require('../constants');
+const { featureFlag } = require('../config');
 
 describe('schemas/validate', () => {
   let appeal;
@@ -37,10 +49,14 @@ describe('schemas/validate', () => {
       expect(() => validate(action, appeal)).toThrow('100 is not a valid appeal type');
     });
 
-    it('should throw an error if no schema is found', () => {
-      appeal.appealType = APPEAL_ID.ENFORCEMENT_NOTICE;
+    it('should return the data if an appeal type is not given', () => {
+      delete appeal.appealType;
 
-      expect(() => validate(action, appeal)).toThrow('No schema found for appeal type 1000');
+      householderAppeal.insert.validate.mockReturnValue(appeal);
+
+      const result = insert(appeal);
+
+      expect(result).toEqual(appeal);
     });
 
     it('should throw an error for an appeal type when the data fails validation', () => {
@@ -104,5 +120,29 @@ describe('schemas/validate', () => {
       expect(fullAppeal.update.validate).toHaveBeenCalledWith(appeal, config);
       expect(result).toEqual(appeal);
     });
+  });
+
+  it('should use the householder validation schema if featureFlag.newAppealJourney is false', () => {
+    featureFlag.newAppealJourney = false;
+
+    householderAppeal.insert.validate.mockReturnValue(appeal);
+
+    const result = insert(appeal);
+
+    expect(householderAppeal.insert.validate).toHaveBeenCalledTimes(1);
+    expect(householderAppeal.insert.validate).toHaveBeenCalledWith(appeal, config);
+    expect(result).toEqual(appeal);
+  });
+
+  it('should use the householder validation schema if featureFlag.newAppealJourney is not set', () => {
+    delete featureFlag.newAppealJourney;
+
+    householderAppeal.insert.validate.mockReturnValue(appeal);
+
+    const result = insert(appeal);
+
+    expect(householderAppeal.insert.validate).toHaveBeenCalledTimes(1);
+    expect(householderAppeal.insert.validate).toHaveBeenCalledWith(appeal, config);
+    expect(result).toEqual(appeal);
   });
 });

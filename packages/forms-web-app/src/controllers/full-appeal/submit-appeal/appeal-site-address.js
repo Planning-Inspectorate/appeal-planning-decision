@@ -23,15 +23,15 @@ exports.getAppealSiteAddress = (req, res) => {
 exports.postAppealSiteAddress = async (req, res) => {
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
-
   const { appeal } = req.session;
-  const task = appeal[sectionName][taskName];
 
-  task.addressLine1 = req.body['site-address-line-one'];
-  task.addressLine2 = req.body['site-address-line-two'];
-  task.town = req.body['site-town-city'];
-  task.county = req.body['site-county'];
-  task.postcode = req.body['site-postcode'];
+  req.session.appeal[sectionName][taskName] = {
+    addressLine1: req.body['site-address-line-one'],
+    addressLine2: req.body['site-address-line-two'],
+    town: req.body['site-town-city'],
+    county: req.body['site-county'],
+    postcode: req.body['site-postcode'],
+  };
 
   if (Object.keys(errors).length > 0) {
     res.render(currentPage, {
@@ -43,7 +43,7 @@ exports.postAppealSiteAddress = async (req, res) => {
   }
 
   try {
-    appeal.sectionStates[sectionName][taskName] = getTaskStatus(
+    req.session.appeal.sectionStates[sectionName][taskName] = getTaskStatus(
       appeal,
       sectionName,
       taskName,

@@ -1,7 +1,7 @@
 const express = require('express');
 const healthSafetyController = require('../controllers/health-safety');
-const fetchExistingAppealReplyMiddleware = require('../middleware/fetch-existing-appeal-reply');
-const fetchAppealMiddleware = require('../middleware/fetch-appeal');
+const fetchExistingAppealReplyMiddleware = require('../middleware/common/fetch-existing-appeal-reply');
+const fetchAppealMiddleware = require('../middleware/common/fetch-appeal');
 const { validationErrorHandler } = require('../validators/validation-error-handler');
 const { rules: healthSafetyValidationRules } = require('../validators/health-safety');
 const alreadySubmittedMiddleware = require('../middleware/already-submitted');

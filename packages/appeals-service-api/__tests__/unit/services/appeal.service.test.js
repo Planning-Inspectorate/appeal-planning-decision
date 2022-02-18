@@ -1,10 +1,8 @@
-const { appealDocument } = require('../../../src/models/appeal');
+const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
 const { updateAppeal, validateAppeal } = require('../../../src/services/appeal.service');
-const valueAppeal = require('../value-appeal');
 const mongodb = require('../../../src/db/db');
 const queue = require('../../../src/lib/queue');
 const notify = require('../../../src/lib/notify');
-const fullAppealNotify = require('../../../src/lib/full-appeal/notify');
 const { APPEAL_TYPE } = require('../../../src/constants');
 
 jest.mock('../../../src/db/db');
@@ -18,9 +16,9 @@ describe('services/validation.service', () => {
   const appealId = 'f40a7073-b1fc-445a-acf5-2035c6b1791e';
 
   beforeEach(() => {
-    appeal = JSON.parse(JSON.stringify(appealDocument));
-    valueAppeal(appeal);
+    appeal = JSON.parse(JSON.stringify(householderAppeal));
     appeal.id = appealId;
+    appeal.submissionDate = null;
 
     jest.resetAllMocks();
   });
@@ -370,7 +368,7 @@ describe('services/validation.service', () => {
     });
 
     test('isFirstSubmission is false', async () => {
-      const outcome = await updateAppeal(appeal, false);
+      const outcome = await updateAppeal(appeal, false, 'here');
       expect(outcome).toEqual(updatedAppeal);
       expect(appeal.submissionDate).toBe(null);
       expect(queue.addAppeal).not.toHaveBeenCalled();
@@ -413,12 +411,6 @@ describe('services/validation.service', () => {
       expect(outcome).toEqual({ appeal: updatedAppeal });
       expect(fullAppeal.submissionDate).not.toBe(null);
       expect(queue.addAppeal).toHaveBeenCalledWith({ appeal: updatedAppeal });
-      expect(
-        fullAppealNotify.sendAppealSubmissionConfirmationEmailToAppellant
-      ).toHaveBeenCalledWith(updatedAppeal);
-      expect(
-        fullAppealNotify.sendAppealSubmissionReceivedNotificationEmailToLpa
-      ).toHaveBeenCalledWith(updatedAppeal);
     });
   });
 });

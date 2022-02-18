@@ -1,7 +1,7 @@
 const { get } = require('./router-mock');
 const { VIEW } = require('../../../src/lib/views');
 const taskListController = require('../../../src/controllers/task-list');
-const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/fetch-existing-appeal-reply');
+const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/common/fetch-existing-appeal-reply');
 const alreadySubmittedMiddleware = require('../../../src/middleware/already-submitted');
 
 describe('routes/task-list', () => {

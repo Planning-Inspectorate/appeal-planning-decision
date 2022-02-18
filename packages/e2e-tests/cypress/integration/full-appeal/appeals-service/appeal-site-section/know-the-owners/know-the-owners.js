@@ -1,5 +1,4 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import {
   aboutAppealSiteSectionLink,
   pageCaptionText,
@@ -19,6 +18,8 @@ import {
   selectYes,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
+import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
+import {selectTheOwners} from "../../../../../support/full-appeal/appeals-service/selectTheOwners";
 
 const url = 'full-appeal/submit-appeal/know-the-owners';
 const someOfLandUrl = 'full-appeal/submit-appeal/own-some-of-the-land';
@@ -34,9 +35,8 @@ const pageHeadingRestOfLand = 'Do you know who owns the rest of the land involve
 const pageHeadingOwnTheLand = 'Do you know who owns the land involved in the appeal?';
 const addressLine1 = '10 Bradmore Way';
 const postcode = 'RG6 1BC';
-
-Given("an appellant or agent is on the 'Do you own some of the land involved in the appeal' page", () => {
-  goToAppealsPage(taskListUrl);
+const callMethodsTillSomeOfLandUrl = () => {
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
   provideAddressLine1(addressLine1);
@@ -46,38 +46,22 @@ Given("an appellant or agent is on the 'Do you own some of the land involved in 
   selectNo().click();
   getSaveAndContinueButton().click();
   cy.url().should('contain', someOfLandUrl);
+}
+
+Given("an appellant or agent is on the 'Do you own some of the land involved in the appeal' page", () => {
+  callMethodsTillSomeOfLandUrl();
 });
 Then("'Do you know who owns the rest of the land involved in the appeal?' page is displayed", () => {
   cy.url().should('contain', url);
+  cy.checkPageA11y();
   verifyPageTitle(pageTitleRestOfLand);
   verifyPageHeading(pageHeadingRestOfLand);
   pageCaptionText(textPageCaption);
 });
 When("the user select {string} and click 'Continue'", (option) => {
-  switch (option) {
-    case 'Yes':
-      selectYes().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'No':
-      selectNo().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'Yes, I know who owns all the land':
-      selectYes().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'I know who owns some the land':
-      selectSomeOf().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'No, I do not know who owns any of the land':
-      selectNo().click();
-    case 'None of the options':
-      getSaveAndContinueButton().click();
-      break;
-  }
+  selectTheOwners(option);
 });
+
 When("they click on the 'Back' link",()=> {
     getBackLink().click();
 });
@@ -89,16 +73,7 @@ Then("'Do you know who owns the land involved in the appeal' page is displayed",
   verifyPageHeading(pageHeadingOwnTheLand);
 });
 Given("an appellant or agent is on the 'Do you know who owns the land involved in the appeal' page", () => {
-  goToAppealsPage(taskListUrl);
-  aboutAppealSiteSectionLink().click();
-  cy.url().should('contain', siteAddressUrl);
-  provideAddressLine1(addressLine1);
-  providePostcode(postcode);
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', ownAllOfLandUrl);
-  selectNo().click();
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', someOfLandUrl);
+  callMethodsTillSomeOfLandUrl();
   selectNo().click();
   getSaveAndContinueButton().click();
   cy.url().should('contain', url);
@@ -108,20 +83,22 @@ Given("an appellant or agent is on the 'Do you know who owns the land involved i
 Given("an appellant or agent is on the current page {string} page", (currentpage) => {
   switch (currentpage) {
     case 'Do you know who owns the rest of the land involved in the appeal?' :
-      goToAppealsPage(someOfLandUrl);
+      callMethodsTillSomeOfLandUrl();
       selectYes().click();
       getSaveAndContinueButton().click();
       verifyPageTitle(pageTitleRestOfLand);
       verifyPageHeading(pageHeadingRestOfLand);
       pageCaptionText(textPageCaption);
+      cy.checkPageA11y();
       break;
     case 'Do you know who owns the land involved in the appeal' :
-      goToAppealsPage(someOfLandUrl);
+      callMethodsTillSomeOfLandUrl();
       selectNo().click();
       getSaveAndContinueButton().click();
       verifyPageHeading(pageHeadingOwnTheLand);
       verifyPageTitle(pageTitleOwnTheLand);
       pageCaptionText(textPageCaption);
+      cy.checkPageA11y();
       break;
   }
   });

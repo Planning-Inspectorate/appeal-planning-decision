@@ -1,3 +1,4 @@
+const appeal = require('@pins/business-rules/test/data/full-appeal');
 const appealSiteAddressController = require('../../../../../src/controllers/full-appeal/submit-appeal/appeal-site-address');
 const { mockReq, mockRes } = require('../../../mocks');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
@@ -7,7 +8,6 @@ const {
   getTaskStatus,
   FULL_APPEAL_SECTIONS,
 } = require('../../../../../src/services/task.service');
-const { APPEAL_DOCUMENT } = require('../../../../../src/lib/empty-appeal');
 const {
   VIEW: {
     FULL_APPEAL: { APPEAL_SITE_ADDRESS: currentPage, OWN_ALL_THE_LAND },
@@ -24,13 +24,10 @@ const taskName = 'siteAddress';
 describe('controllers/full-appeal/submit-appeal/appeal-site-address', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });

@@ -1,7 +1,5 @@
 const { use } = require('../router-mock');
 
-const eligibilityRouter = require('../../../../src/routes/householder-planning/index');
-
 describe('routes/householder-planning/index', () => {
   beforeEach(() => {
     jest.resetModules();

@@ -1,5 +1,4 @@
 const {
-  constants: { APPEAL_ID },
   schemas: { validate },
 } = require('@pins/business-rules');
 const { isAppealSubmitted } = require('../../services/appeal.service');
@@ -8,10 +7,6 @@ const ApiError = require('../../error/apiError');
 
 const appealUpdateValidationRules = async (req, res, next) => {
   try {
-    if (!req.body.appealType) {
-      req.body.appealType = APPEAL_ID.HOUSEHOLDER;
-    }
-
     req.body = await validate.update(req.body);
     logger.debug('Valid input format');
 
@@ -30,11 +25,15 @@ const appealUpdateValidationRules = async (req, res, next) => {
 
 const appealInsertValidationRules = async (req, res, next) => {
   try {
-    if (!req.body.appealType) {
-      req.body.appealType = APPEAL_ID.HOUSEHOLDER;
-    }
-
+    logger.debug(
+      { appeal: req.body },
+      'Appeal data before validation in appealInsertValidationRules'
+    );
     req.body = await validate.insert(req.body);
+    logger.debug(
+      { appeal: req.body },
+      'Appeal data after validation in appealInsertValidationRules'
+    );
     logger.debug('Valid input format');
 
     const appealId = req.body.id;

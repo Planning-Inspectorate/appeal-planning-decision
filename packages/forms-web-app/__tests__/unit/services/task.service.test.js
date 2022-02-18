@@ -1,12 +1,11 @@
+const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
 const { VIEW } = require('../../../src/lib/views');
-const { APPEAL_DOCUMENT } = require('../../../src/lib/empty-appeal');
 const {
   CANNOT_START_YET,
   COMPLETED,
   IN_PROGRESS,
   NOT_STARTED,
 } = require('../../../src/services/task-status/task-statuses');
-
 const { SECTIONS, getNextTask, getTaskStatus } = require('../../../src/services/task.service');
 
 beforeEach(() => {
@@ -155,7 +154,7 @@ describe('services/task.service', () => {
 
     it('should allow `sections` to be an optional parameter', () => {
       const appeal = {
-        ...APPEAL_DOCUMENT.empty,
+        ...householderAppeal,
         sectionStates: {
           aboutYouSection: {
             yourDetails: IN_PROGRESS,
@@ -173,7 +172,7 @@ describe('services/task.service', () => {
       };
       expect(getNextTask(appeal, currentTask)).toEqual({
         href: '/appellant-submission/upload-application',
-        status: NOT_STARTED,
+        status: COMPLETED,
         taskName: 'originalApplication',
       });
     });

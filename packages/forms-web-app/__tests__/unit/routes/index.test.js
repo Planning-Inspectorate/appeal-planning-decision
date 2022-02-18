@@ -9,8 +9,8 @@ const fullAppealAppellantSubmissionRouter = require('../../../src/routes/full-ap
 const fullAppealRouter = require('../../../src/routes/full-appeal/index');
 const householderPlanningRouter = require('../../../src/routes/householder-planning/index');
 const documentRouter = require('../../../src/routes/document');
-
 const checkDecisionDateDeadline = require('../../../src/middleware/check-decision-date-deadline');
+const checkAppealTypeExists = require('../../../src/middleware/check-appeal-type-exists');
 
 describe('routes/index', () => {
   beforeEach(() => {
@@ -28,18 +28,30 @@ describe('routes/index', () => {
     expect(use).toHaveBeenCalledWith('/cookies', cookieRouter);
     expect(use).toHaveBeenCalledWith(
       '/appellant-submission',
+      checkAppealTypeExists,
       checkDecisionDateDeadline,
       appellantSubmissionRouter
     );
     expect(use).toHaveBeenCalledWith(
       '/full-appeal',
+      checkAppealTypeExists,
       checkDecisionDateDeadline,
       fullAppealAppellantSubmissionRouter
     );
     expect(use).toHaveBeenCalledWith('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
     expect(use).toHaveBeenCalledWith('/your-planning-appeal', yourPlanningAppealRouter);
-    expect(use).toHaveBeenCalledWith('/before-you-start', fullAppealRouter);
-    expect(use).toHaveBeenCalledWith('/before-you-start', householderPlanningRouter);
+    expect(use).toHaveBeenCalledWith(
+      '/before-you-start',
+      checkAppealTypeExists,
+      checkDecisionDateDeadline,
+      fullAppealRouter
+    );
+    expect(use).toHaveBeenCalledWith(
+      '/before-you-start',
+      checkAppealTypeExists,
+      checkDecisionDateDeadline,
+      householderPlanningRouter
+    );
     expect(use).toHaveBeenCalledWith('/document', documentRouter);
 
     expect(use.mock.calls.length).toBe(10);

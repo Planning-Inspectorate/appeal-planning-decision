@@ -1,3 +1,4 @@
+const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const enforcementNoticeController = require('../../../../src/controllers/full-appeal/enforcement-notice');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const {
@@ -8,12 +9,11 @@ const {
 const getPreviousPagePath = require('../../../../src/lib/get-previous-page-path');
 
 const navigationPages = {
-  nextPage: '/before-you-start/claiming-costs',
+  nextPage: '/full-appeal/submit-appeal/task-list',
   shutterPage: '/before-you-start/use-a-different-service',
   previousPage: '/before-you-start/decision-date',
 };
 const logger = require('../../../../src/lib/logger');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { mockReq, mockRes } = require('../../mocks');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -23,13 +23,15 @@ jest.mock('../../../../src/lib/get-previous-page-path');
 describe('controllers/full-appeal/enforcement-notice', () => {
   let req;
   let res;
-  let appeal;
+
+  const appeal = {
+    ...fullAppeal,
+    appealType: '1005',
+  };
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     getPreviousPagePath.mockImplementation(() => {
       return '/before-you-start/decision-date';

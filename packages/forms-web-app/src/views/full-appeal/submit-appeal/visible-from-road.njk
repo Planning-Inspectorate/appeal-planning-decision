@@ -15,7 +15,7 @@
     label: {
       text: "How is visibility restricted?"
     },
-    value: visibleFromRoadDetails,
+    value: visibleFromRoad.details,
     errorMessage: errors['visible-from-road-details'] and {
       text: errors['visible-from-road-details'].msg
     }
@@ -63,13 +63,13 @@
               value: "yes",
               text: "Yes",
               attributes: { "data-cy": "answer-yes" },
-              checked: isVisibleFromRoad == true
+              checked: visibleFromRoad.isVisible == true
             },
             {
               value: "no",
               text: "No",
               attributes: { "data-cy": "answer-no" },
-              checked: isVisibleFromRoad == false,
+              checked: visibleFromRoad.isVisible == false,
               conditional: {
                 html: visibleFromRoadDetailsHtml
               }

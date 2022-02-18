@@ -3,12 +3,17 @@ const fullAppeal = require('./full-appeal');
 const isValid = require('../validation/appeal/type/is-valid');
 const { APPEAL_ID } = require('../constants');
 const BusinessRulesError = require('../lib/business-rules-error');
+const { featureFlag } = require('../config');
 
 const validate = (action, data, config = { abortEarly: false }) => {
   const { appealType } = data;
 
-  if (!isValid(appealType)) {
+  if (appealType && !isValid(appealType)) {
     throw new BusinessRulesError(`${appealType} is not a valid appeal type`);
+  }
+
+  if (!featureFlag.newAppealJourney) {
+    return householderAppeal[action].validate(data, config);
   }
 
   switch (appealType) {
@@ -17,7 +22,7 @@ const validate = (action, data, config = { abortEarly: false }) => {
     case APPEAL_ID.PLANNING_SECTION_78:
       return fullAppeal[action].validate(data, config);
     default:
-      throw new BusinessRulesError(`No schema found for appeal type ${appealType}`);
+      return data;
   }
 };
 

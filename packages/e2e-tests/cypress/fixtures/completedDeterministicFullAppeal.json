@@ -1,0 +1,169 @@
+{
+  "id": "96d5c4b9-55ad-43dd-a280-67caad47230b",
+  "horizonId": "3218951",
+  "lpaCode": "E69999999",
+  "decisionDate": "2021-10-20T12:00:00.000Z",
+  "submissionDate": "2021-10-20T12:00:00.000Z",
+  "state": "SUBMITTED",
+  "appealType": "1005",
+  "typeOfPlanningApplication": "full-appeal",
+  "eligibility": {
+    "applicationDecision": "granted",
+    "applicationCategories": "none_of_these",
+    "enforcementNotice": false,
+    "householderPlanningPermission": null,
+    "isClaimingCosts": null,
+    "isListedBuilding": null
+  },
+  "aboutYouSection": {
+    "yourDetails": {
+      "isOriginalApplicant": true,
+      "name": "Bob Smith",
+      "email": "bob@smith.com",
+      "appealingOnBehalfOf": "Martin Jones",
+      "companyName": "Martin Jones' Company"
+    }
+  },
+  "requiredDocumentsSection": {
+    "applicationNumber": "ValidNumber/12345",
+    "originalApplication": {
+      "uploadedFile": {
+        "name": "original-application-valid.doc",
+        "id": "598d0d1f-f215-45c0-b179-f8d306d40f21"
+      }
+    },
+    "decisionLetter": {
+      "uploadedFile": {
+        "name": "decision-letter-valid.doc",
+        "id": "338b24b9-1695-47f0-bcb0-3f6b6baaaf4e"
+      }
+    },
+    "designAccessStatement": {
+      "uploadedFile": {
+        "name": "design-access-statement-valid.doc",
+        "id": "339c4c5c-3ebd-4ceb-8a40-6ebb160a24a4"
+      }
+    }
+  },
+  "yourAppealSection": {
+    "appealStatement": {
+      "uploadedFile": {
+        "name": "appeal-statement-valid.doc",
+        "id": "12061f5f-e904-4902-ba77-35c0e5b42f2b"
+      },
+      "hasSensitiveInformation": false
+    },
+    "otherDocuments": {
+      "uploadedFiles": [
+        {
+          "name": "other-file-valid.doc",
+          "id": "47d7660c-a3c9-43b1-bbed-91dd97e0d85c"
+        }
+      ]
+    }
+  },
+  "appealSiteSection": {
+    "siteAddress": {
+      "addressLine1": "1 Taylor Road",
+      "addressLine2": "Clifton",
+      "town": "Bristol",
+      "county": "South Glos",
+      "postcode": "BS8 1TG"
+    },
+    "siteOwnership": {
+      "ownsWholeSite": false,
+      "haveOtherOwnersBeenTold": false
+    },
+    "siteAccess": {
+      "canInspectorSeeWholeSiteFromPublicRoad": true,
+      "howIsSiteAccessRestricted": "some restriction details"
+    },
+    "healthAndSafety": {
+      "hasIssues": false,
+      "healthAndSafetyIssues": ""
+    },
+    "ownsSomeOfTheLand": true,
+    "ownsAllTheLand": false,
+    "knowsTheOwners": "yes",
+    "isAgriculturalHolding": false,
+    "isAgriculturalHoldingTenant": false,
+    "areOtherTenants": false,
+    "isVisibleFromRoad": true,
+    "visibleFromRoadDetails": "some visible from the road details",
+    "hasHealthSafetyIssues": false,
+    "healthSafetyIssuesDetails": false
+  },
+  "appealSubmission": {
+    "appealPDFStatement": {
+      "uploadedFile": {
+        "name": "",
+        "id": "7e6fa1f2-1d79-4e3e-8672-b66d118e64cf"
+      }
+    }
+  },
+  "contactDetailsSection": {
+    "name": "Original Appellant Teddy",
+    "email": "original-appellant@gmail.com",
+    "companyName": ""
+  },
+  "planningApplicationDocumentsSection": {
+    "applicationNumber": "12345",
+    "isDesignAccessStatementSubmitted": false,
+    "originalApplication": {
+      "uploadedFile": {
+        "name": "",
+        "id": "529a83c3-29fd-4d70-aa84-e07c3061fe3e"
+      }
+    },
+    "decisionLetter": {
+      "uploadedFile": {
+        "name": "",
+        "id": "6892e450-27e3-4ddb-9292-ca1ddd061137"
+      }
+    },
+    "designAccessStatement": {
+      "uploadedFile": {
+        "name": "",
+        "id": "0bda6360-a23e-46a5-acb4-ce917462496c"
+      }
+    }
+  },
+  "sectionStates": {
+    "aboutYouSection": {
+      "yourDetails": "COMPLETED"
+    },
+    "requiredDocumentsSection": {
+      "applicationNumber": "COMPLETED",
+      "originalApplication": "COMPLETED",
+      "decisionLetter": "COMPLETED"
+    },
+    "yourAppealSection": {
+      "appealStatement": "COMPLETED",
+      "otherDocuments": "COMPLETED"
+    },
+    "appealSiteSection": {
+      "siteAddress": "COMPLETED",
+      "siteAccess": "COMPLETED",
+      "siteOwnership": "COMPLETED",
+      "healthAndSafety": "COMPLETED",
+      "ownsSomeOfTheLand": "COMPLETED",
+      "ownsAllTheLand": "COMPLETED",
+      "knowsTheOwners": "COMPLETED",
+      "isAgriculturalHolding": "COMPLETED",
+      "isAgriculturalHoldingTenant": "COMPLETED",
+      "areOtherTenants": "COMPLETED",
+      "isVisibleFromRoad": "COMPLETED",
+      "visibleFromRoadDetails": "COMPLETED",
+      "hasHealthSafetyIssues": "COMPLETED",
+      "healthSafetyIssuesDetails": "COMPLETED"
+    },
+    "contactDetailsSection": "COMPLETED",
+    "aboutAppealSiteSection": "COMPLETED",
+    "planningApplicationDocumentsSection": {
+      "isDesignAccessStatementSubmitted": "COMPLETED",
+      "originalApplication": "COMPLETED",
+      "decisionLetter": "COMPLETED",
+      "designAccessStatement": "COMPLETED"
+    }
+  }
+}

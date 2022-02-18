@@ -32,38 +32,39 @@ services:
     restart: on-failure
     command: npm run start:dev
 
-  appeal-reply-service-api:
-    image: node:14-alpine
-    environment:
-      DOCS_API_PATH: /opt/app/api
-      APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
-      DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
-      MONGODB_DB_NAME: appeals-reply-service-api
-      MONGODB_URL: mongodb://mongodb:27017
-      SERVER_SHOW_ERRORS: 'true'
-      LOGGER_LEVEL: 'debug'
-      SRV_NOTIFY_BASE_URL: http://mock-notify:3000
-      SRV_NOTIFY_SERVICE_ID: 'dummy-service-id-for-notify'
-      SRV_NOTIFY_API_KEY: 'dummy-api-key-for-notify'
-      SRV_NOTIFY_TEMPLATE_ID_APPEAL_REPLY_SUBMISSION_CONFIRMATION: '937b4147-8420-42da-859d-d4a65bdf99bc'
-      SRV_NOTIFY_EMAIL_REPLYTO_ID_APPEAL_REPLY_SUBMISSION_CONFIRMATION: 'f1e6c8c5-786e-41ca-9086-10b67f31bc86'
-      HORIZON_HAS_PUBLISHER_HOST: rabbitmq
-      HORIZON_HAS_PUBLISHER_PASSWORD: admin
-      HORIZON_HAS_PUBLISHER_PORT: 5672
-      HORIZON_HAS_PUBLISHER_QUEUE: docker_queue
-      HORIZON_HAS_PUBLISHER_USERNAME: admin
-      SRV_HORIZON_URL: http://mock-horizon:3001
-    ports:
-      - 3002:3000
-    working_dir: /opt/app
-    links:
-      - appeals-service-api
-      - document-service-api
-      - mongodb
-    volumes:
-      - ./packages/common:/opt/app/node_modules/@pins/common:ro # Replace the module to avoid symlink errors
-      - ./packages/appeal-reply-service-api:/opt/app:ro
-    command: npm run start:dev
+#  appeal-reply-service-api:
+#    image: node:14-alpine
+#    environment:
+#      DOCS_API_PATH: /opt/app/api
+#      APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
+#      DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
+#      MONGODB_DB_NAME: appeals-reply-service-api
+#      MONGODB_URL: mongodb://mongodb:27017
+#      SERVER_SHOW_ERRORS: 'true'
+#      LOGGER_LEVEL: 'debug'
+#      SRV_NOTIFY_BASE_URL: http://mock-notify:3000
+#      SRV_NOTIFY_SERVICE_ID: 'dummy-service-id-for-notify'
+#      SRV_NOTIFY_API_KEY: 'dummy-api-key-for-notify'
+#      SRV_NOTIFY_TEMPLATE_ID_APPEAL_REPLY_SUBMISSION_CONFIRMATION: '937b4147-8420-42da-859d-d4a65bdf99bc'
+#      SRV_NOTIFY_EMAIL_REPLYTO_ID_APPEAL_REPLY_SUBMISSION_CONFIRMATION: 'f1e6c8c5-786e-41ca-9086-10b67f31bc86'
+#      HORIZON_HAS_PUBLISHER_HOST: rabbitmq
+#      HORIZON_HAS_PUBLISHER_PASSWORD: admin
+#      HORIZON_HAS_PUBLISHER_PORT: 5672
+#      HORIZON_HAS_PUBLISHER_QUEUE: docker_queue
+#      HORIZON_HAS_PUBLISHER_USERNAME: admin
+#      SRV_HORIZON_URL: http://mock-horizon:3001
+#    ports:
+#      - 3002:3000
+#    working_dir: /opt/app
+#    links:
+#      - appeals-service-api
+#      - document-service-api
+#      - mongodb
+#    volumes:
+#      - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
+#      - ./packages/common:/opt/app/node_modules/@pins/common:ro # Replace the module to avoid symlink errors
+#      - ./packages/appeal-reply-service-api:/opt/app:ro
+#    command: npm run start:dev
 
   appeals-service-api:
     image: node:14-alpine
@@ -96,6 +97,7 @@ services:
       SRV_OS_PLACES_URL: http://mock-os-places:3000
       SRV_NOTIFY_FULL_APPEAL_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID: 'e3cba5d9-8b97-4922-97f1-48ef303b9195'
       SRV_NOTIFY_FULL_APPEAL_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID: '799a27da-b640-4852-a070-e83ff54401f0'
+      FEATURE_FLAG_NEW_APPEAL_JOURNEY: 'true'
     ports:
       - 3000:3000
     working_dir: /opt/app
@@ -103,7 +105,7 @@ services:
       - document-service-api
       - mock-horizon
       - mock-notify
-      - mock-os-places
+#      - mock-os-places
       - mongodb
       - rabbitmq
     depends_on:
@@ -111,7 +113,7 @@ services:
       - document-service-api
       - mock-horizon
       - mock-notify
-      - mock-os-places
+#      - mock-os-places
       - mongodb
       - rabbitmq
     volumes:
@@ -162,6 +164,7 @@ services:
       USE_SECURE_SESSION_COOKIES: 'false'
       PDF_SERVICE_API_URL: 'http://pdf-service-api:3000'
       LOGGER_LEVEL: 'debug'
+      FEATURE_FLAG_NEW_APPEAL_JOURNEY: 'true'
     ports:
       - 9003:3000
       # node debugger
@@ -185,43 +188,44 @@ services:
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
 
-  lpa-questionnaire-web-app:
-    image: node:14-alpine
-    environment:
-      CLAM_AV_HOST: http://clamav-rest-server:3000
-      ALLOW_APPEAL_REPLY_CREATE: "true"
-      APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
-      APPEAL_REPLY_SERVICE_API_URL: http://appeal-reply-service-api:3000
-      DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
-      FILE_UPLOAD_DEBUG: 'false'
-      FILE_UPLOAD_MAX_FILE_SIZE_BYTES: 15000000
-      FILE_UPLOAD_USE_TEMP_FILES: "true"
-      FILE_UPLOAD_TMP_PATH: "/tmp"
-      SESSION_MONGODB_URL: mongodb://mongodb:27017/lpa-sessions
-      SESSION_KEY: some_secure_key_goes_here
-      USE_SECURE_SESSION_COOKIES: 'false'
-      PDF_SERVICE_API_URL: 'http://pdf-service-api:3000'
-      JWT_SIGNING_KEY: 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3'
-      TOKEN_COOKIE_NAME: 'authCookie'
-      TOKEN_VALIDITY_MILLIS: 14400000 # 4h
-      LOGGER_LEVEL: 'debug'
-    ports:
-      - 9001:3000
-    working_dir: /opt/app
-    links:
-      - appeals-service-api
-      - document-service-api
-      - mongodb
-      - pdf-service-api
-    depends_on:
-      - appeals-service-api
-      - document-service-api
-      - mongodb
-      - pdf-service-api
-    volumes:
-      - ./packages/common:/opt/app/node_modules/@pins/common
-      - ./packages/lpa-questionnaire-web-app:/opt/app
-    command: npm run start:dev
+#  lpa-questionnaire-web-app:
+#    image: node:14-alpine
+#    environment:
+#      CLAM_AV_HOST: http://clamav-rest-server:3000
+#      ALLOW_APPEAL_REPLY_CREATE: "true"
+#      APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
+#      APPEAL_REPLY_SERVICE_API_URL: http://appeal-reply-service-api:3000
+#      DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
+#      FILE_UPLOAD_DEBUG: 'false'
+#      FILE_UPLOAD_MAX_FILE_SIZE_BYTES: 15000000
+#      FILE_UPLOAD_USE_TEMP_FILES: "true"
+#      FILE_UPLOAD_TMP_PATH: "/tmp"
+#      SESSION_MONGODB_URL: mongodb://mongodb:27017/lpa-sessions
+#      SESSION_KEY: some_secure_key_goes_here
+#      USE_SECURE_SESSION_COOKIES: 'false'
+#      PDF_SERVICE_API_URL: 'http://pdf-service-api:3000'
+#      JWT_SIGNING_KEY: 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3'
+#      TOKEN_COOKIE_NAME: 'authCookie'
+#      TOKEN_VALIDITY_MILLIS: 14400000 # 4h
+#      LOGGER_LEVEL: 'debug'
+#    ports:
+#      - 9001:3000
+#    working_dir: /opt/app
+#    links:
+#      - appeals-service-api
+#      - document-service-api
+#      - mongodb
+#      - pdf-service-api
+#    depends_on:
+#      - appeals-service-api
+#      - document-service-api
+#      - mongodb
+#      - pdf-service-api
+#    volumes:
+#      - ./packages/common:/opt/app/node_modules/@pins/common
+#      - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
+#      - ./packages/lpa-questionnaire-web-app:/opt/app
+#    command: npm run start:dev
 
   # This does not work locally with RabbitMQ
   queue-retry:
@@ -273,12 +277,12 @@ services:
     ports:
       - 5001:3000
 
-  mock-os-places:
-    build:
-      context: ./mocked-services/os-places
-      dockerfile: ../Dockerfile
-    ports:
-      - 5002:3000
+#  mock-os-places:
+#    build:
+#      context: ./mocked-services/os-places
+#      dockerfile: ../Dockerfile
+#    ports:
+#      - 5002:3000
 
   clamav-server:
     image: clamav/clamav

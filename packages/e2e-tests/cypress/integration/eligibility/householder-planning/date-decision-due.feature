@@ -29,10 +29,10 @@ Feature: Date Decision Due eligibility check for householder appeal
      Then progress is halted with an error: 'Date decision due must be today or in the past'
      And the correct input 'day,month,year' is highlighted
      Examples:
-      | datePart | value |
-      | day | 10 |
-      | month | 10 |
-      | year | 2 |
+       | datePart | value |
+       | day      | 10    |
+       | month    | 10    |
+       | year     | 2     |
 
    Scenario Outline: AC04 - Invalid Date Decision Due of <day>-<month>-<year> is rejected
      Given appellant navigates to decision date page for householder appeal

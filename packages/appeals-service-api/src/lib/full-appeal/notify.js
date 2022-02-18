@@ -15,13 +15,14 @@ async function sendAppealSubmissionConfirmationEmailToAppellant(appeal) {
   try {
     const lpa = await getLpa(appeal.lpaCode);
 
+    const { contactDetailsSection } = appeal;
     await NotifyBuilder.reset()
       .setTemplateId(
         config.services.notify.templates.fullAppeal.appealSubmissionConfirmationEmailToAppellant
       )
-      .setDestinationEmailAddress(appeal.aboutYouSection.yourDetails.email)
+      .setDestinationEmailAddress(contactDetailsSection.email)
       .setTemplateVariablesFromObject({
-        name: appeal.aboutYouSection.yourDetails.name,
+        name: contactDetailsSection.name,
         'appeal site address': getAddressMultiLine(appeal.appealSiteSection.siteAddress),
         'local planning department': lpa.name,
         'link to pdf': `${config.apps.appeals.baseUrl}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`,
@@ -67,7 +68,7 @@ async function sendAppealSubmissionReceivedNotificationEmailToLpa(appeal) {
       .setTemplateVariablesFromObject({
         'loca planning department': lpa.name, // todo: template i kontrol et
         'submission date': format(appeal.submissionDate, 'dd MMMM yyyy'),
-        'planning application number': appeal.requiredDocumentsSection.applicationNumber,
+        'planning application number': appeal.planningApplicationDocumentsSection.applicationNumber,
         'site address': getAddressMultiLine(appeal.appealSiteSection.siteAddress),
         refused:
           applicationDecision === FULL_APPEAL.PLANNING_APPLICATION_STATUS.REFUSED ? 'yes' : 'no',

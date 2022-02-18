@@ -24,8 +24,18 @@ const config = {
         name: 'Householder Appeal (HAS)',
         procedureType: [WRITTEN_REPRESENTATION],
         appealDue: {
-          time: 12,
-          duration: 'weeks',
+          granted: {
+            time: 6,
+            duration: 'months',
+          },
+          refused: {
+            time: 12,
+            duration: 'weeks',
+          },
+          nodecisionreceived: {
+            time: 6,
+            duration: 'months',
+          },
         },
         questionnaireDue: {
           time: 1,
@@ -179,6 +189,9 @@ const config = {
   },
   procedure: {
     type: [WRITTEN_REPRESENTATION, HEARING, INQUIRY],
+  },
+  featureFlag: {
+    newAppealJourney: process.env.FEATURE_FLAG_NEW_APPEAL_JOURNEY === 'true' || true,
   },
 };
 

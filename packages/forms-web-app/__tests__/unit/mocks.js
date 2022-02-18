@@ -1,13 +1,10 @@
 jest.mock('../../src/lib/logger');
 
-const logger = require('../../src/lib/logger');
-const { APPEAL_DOCUMENT } = require('../../src/lib/empty-appeal');
+const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
 
-const { empty: emptyAppeal } = APPEAL_DOCUMENT;
-
-const mockReq = (appeal = emptyAppeal) => ({
+const mockReq = (appeal = householderAppeal) => ({
   cookies: {},
-  log: logger,
+  log: {},
   params: {},
   session: {
     appeal,

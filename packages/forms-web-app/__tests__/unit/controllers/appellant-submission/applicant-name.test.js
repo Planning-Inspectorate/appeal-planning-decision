@@ -1,9 +1,9 @@
+const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const applicantNameController = require('../../../../src/controllers/appellant-submission/applicant-name');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { getTaskStatus, getNextTask } = require('../../../../src/services/task.service');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const { mockReq, mockRes } = require('../../mocks');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -16,13 +16,10 @@ const taskName = 'yourDetails';
 describe('controllers/appellant-submission/applicant-name', () => {
   let req;
   let res;
-  let appeal;
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
-
-    ({ empty: appeal } = APPEAL_DOCUMENT);
 
     jest.resetAllMocks();
   });
@@ -54,18 +51,7 @@ describe('controllers/appellant-submission/applicant-name', () => {
       expect(res.redirect).not.toHaveBeenCalled();
 
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME, {
-        appeal: {
-          ...req.session.appeal,
-          [sectionName]: {
-            ...req.session.appeal[sectionName],
-            [taskName]: {
-              appealingOnBehalfOf: fakeBehalfAppellantName,
-              email: null,
-              isOriginalApplicant: null,
-              name: null,
-            },
-          },
-        },
+        appeal: req.session.appeal,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });
@@ -96,7 +82,6 @@ describe('controllers/appellant-submission/applicant-name', () => {
     });
 
     it('should redirect to the task list if valid', async () => {
-      const fakeBehalfAppellantName = 'Jim Jacobson';
       const fakeTaskStatus = 'FAKE_STATUS';
 
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
@@ -117,15 +102,6 @@ describe('controllers/appellant-submission/applicant-name', () => {
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
-        [sectionName]: {
-          ...appeal[sectionName],
-          [taskName]: {
-            appealingOnBehalfOf: fakeBehalfAppellantName,
-            email: null,
-            isOriginalApplicant: null,
-            name: null,
-          },
-        },
         sectionStates: {
           ...appeal.sectionStates,
           [sectionName]: {

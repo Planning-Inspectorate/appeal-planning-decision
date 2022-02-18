@@ -12,7 +12,7 @@ const {
 const setSectionAndTaskNames = require('../../../middleware/set-section-and-task-names');
 
 const router = express.Router();
-const sectionName = 'yourAppealSection';
+const sectionName = 'appealDocumentsSection';
 const taskName = documentTypes.appealStatement.name;
 
 router.get(

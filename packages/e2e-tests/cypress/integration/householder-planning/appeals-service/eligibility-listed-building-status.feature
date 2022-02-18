@@ -1,4 +1,4 @@
-@smoketest
+@wip @has @smoketest
 Feature: A prospective appellant states whether or not their appeal covers a listed building
     Our service doesn't cover listed buildings.
 

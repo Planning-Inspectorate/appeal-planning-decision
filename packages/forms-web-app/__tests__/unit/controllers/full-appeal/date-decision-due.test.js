@@ -1,4 +1,6 @@
+const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const { subMonths, addDays, subDays, endOfDay, format } = require('date-fns');
+const { constants } = require('@pins/business-rules');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
@@ -22,7 +24,6 @@ const {
   },
 } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 
 const navigationPage = {
   nextPage: '/before-you-start/enforcement-notice',
@@ -33,13 +34,16 @@ const navigationPage = {
 describe('controllers/full-appeal/date-decision-due', () => {
   let req;
   let res;
-  let appeal;
+
+  const appeal = {
+    ...fullAppeal,
+    appealType: constants.APPEAL_ID.PLANNING_SECTION_78,
+  };
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
 
-    ({ empty: appeal } = APPEAL_DOCUMENT);
     createOrUpdateAppeal.mockResolvedValueOnce({ eligibility: {} });
   });
 
@@ -85,6 +89,8 @@ describe('controllers/full-appeal/date-decision-due', () => {
           'decision-date': '2019-10-10',
         },
       };
+      mockRequest.session.appeal.eligibility.applicationDecision =
+        constants.APPLICATION_DECISION.REFUSED;
 
       await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
 
@@ -336,6 +342,8 @@ describe('controllers/full-appeal/date-decision-due', () => {
           errorSummary: [],
         },
       };
+      mockRequest.session.appeal.eligibility.applicationDecision =
+        constants.APPLICATION_DECISION.REFUSED;
 
       await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
 
@@ -357,6 +365,8 @@ describe('controllers/full-appeal/date-decision-due', () => {
           errorSummary: [],
         },
       };
+      mockRequest.session.appeal.eligibility.applicationDecision =
+        constants.APPLICATION_DECISION.REFUSED;
 
       await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
 
@@ -393,7 +403,11 @@ describe('controllers/full-appeal/date-decision-due', () => {
       expect(logger.error).toHaveBeenCalledWith(error);
 
       expect(res.render).toHaveBeenCalledWith(currentPage, {
-        appeal,
+        decisionDate: {
+          day: undefined,
+          month: undefined,
+          year: undefined,
+        },
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
         previousPage: navigationPage.previousPage,

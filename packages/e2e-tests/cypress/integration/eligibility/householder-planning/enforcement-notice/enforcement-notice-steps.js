@@ -16,28 +16,47 @@ import { selectListedBuildingDecision } from '../../../../support/eligibility/li
 import { enterDateDecisionDue } from '../../../../support/eligibility/date-decision-due/enter-date-decision-due';
 import { getDate, getMonth, getYear } from 'date-fns';
 import { allowedDatePart, getPastDate } from '../../../../support/common/getDate';
+import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { getIsNotListedBuilding } from '../../../../support/eligibility/page-objects/listed-building-po';
+import { enterDateDecisionDueHouseholder } from '../../../../support/eligibility/date-decision-due-householder/enter-date-decision-due-householder';
 const pageHeading = 'Have you received an enforcement notice?';
 const pageTitle = 'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK';
 const url = `before-you-start/enforcement-notice-householder`;
 const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 
 Given('appellant is on the enforcement notice page for householder planning', () => {
-  goToAppealsPage(url);
+  //goToAppealsPage(url);
+  goToAppealsPage('before-you-start/local-planning-depart');
+  getLocalPlanningDepart().select('System Test Borough Council');
+  getContinueButton().click();
+  selectPlanningApplicationType('Householder');
+  getContinueButton().click();
+  getIsNotListedBuilding().click();
+  getContinueButton().click();
+  selectPlanningApplicationDecision('Refused');
+  getContinueButton().click();
+  const validDate = getPastDate(allowedDatePart.MONTH, 3);
+  enterDateDecisionDueHouseholder({ day: getDate(validDate), month: getMonth(validDate) +2, year: getYear(validDate)});
+  getContinueButton().click();
+  cy.url().should('contain', url);
   verifyPageHeading(pageHeading);
   verifyPageTitle(pageTitle);
 });
 
 Given('appellant is on the enforcement notice page for {string}', (application_type) => {
-  goToAppealsPage(typeOfPlanningPageUrl);
+  goToAppealsPage('before-you-start/local-planning-depart');
+  getLocalPlanningDepart().select('System Test Borough Council');
+  getContinueButton().click();
   selectPlanningApplicationType(application_type);
   getContinueButton().click();
-  selectListedBuildingDecision('No');
+  getIsNotListedBuilding().click();
   getContinueButton().click();
-  selectPlanningApplicationDecision('Granted');
+  selectPlanningApplicationDecision('Refused');
   getContinueButton().click();
   const validDate = getPastDate(allowedDatePart.MONTH, 3);
-  enterDateDecisionDue( {day: getDate(validDate), month: getMonth(validDate)+1, year: getYear(validDate) } );
-
+  enterDateDecisionDueHouseholder({ day: getDate(validDate), month: getMonth(validDate) +2, year: getYear(validDate)});
+  getContinueButton().click();
+  cy.url().should('contain', url);
   verifyPageHeading(pageHeading);
   verifyPageTitle(pageTitle);
 });
@@ -75,6 +94,7 @@ Then('appellant sees an error message {string}', (errorMessage) => {
 })
 
 Then('information they have inputted will not be saved', () => {
-  goToAppealsPage(url);
+  cy.url().should('contain', '/before-you-start/decision-date-householder');
+  getContinueButton().click();
   getEnforcementNoticeYes().should('not.be.checked');
 })

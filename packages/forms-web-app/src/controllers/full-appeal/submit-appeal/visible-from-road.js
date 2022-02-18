@@ -5,19 +5,16 @@ const {
     FULL_APPEAL: { HEALTH_SAFETY_ISSUES, VISIBLE_FROM_ROAD },
   },
 } = require('../../../lib/full-appeal/views');
-const { getTaskStatus } = require('../../../services/task.service');
+// const { getTaskStatus } = require('../../../services/task.service');
+const { NOT_STARTED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'appealSiteSection';
-const isVisibleFromRoadTask = 'isVisibleFromRoad';
-const visibleFromRoadDetailsTask = 'visibleFromRoadDetails';
+const taskName = 'visibleFromRoad';
 
 const getVisibleFromRoad = (req, res) => {
-  const {
-    appeal: { [sectionName]: { isVisibleFromRoad, visibleFromRoadDetails } = {} },
-  } = req.session;
+  const { visibleFromRoad } = req.session.appeal[sectionName];
   res.render(VISIBLE_FROM_ROAD, {
-    isVisibleFromRoad,
-    visibleFromRoadDetails,
+    visibleFromRoad,
   });
 };
 
@@ -28,41 +25,30 @@ const postVisibleFromRoad = async (req, res) => {
     session: { appeal },
   } = req;
 
-  const isVisibleFromRoad = body['visible-from-road'] && body['visible-from-road'] === 'yes';
-  const visibleFromRoadDetails = body['visible-from-road-details'];
+  const visibleFromRoad = {
+    isVisible: body['visible-from-road'] && body['visible-from-road'] === 'yes',
+    details: body['visible-from-road-details'],
+  };
 
   if (Object.keys(errors).length > 0) {
     return res.render(VISIBLE_FROM_ROAD, {
-      isVisibleFromRoad,
-      visibleFromRoadDetails,
+      visibleFromRoad,
       errors,
       errorSummary,
     });
   }
 
   try {
-    appeal[sectionName] = appeal[sectionName] || {};
-    appeal[sectionName][isVisibleFromRoadTask] = isVisibleFromRoad;
-    appeal[sectionName][visibleFromRoadDetailsTask] = visibleFromRoadDetails;
-    appeal.sectionStates[sectionName] = appeal.sectionStates[sectionName] || {};
-    appeal.sectionStates[sectionName].isVisibleFromRoad = getTaskStatus(
-      appeal,
-      sectionName,
-      isVisibleFromRoadTask
-    );
-    appeal.sectionStates[sectionName].visibleFromRoadDetails = getTaskStatus(
-      appeal,
-      sectionName,
-      visibleFromRoadDetailsTask
-    );
+    appeal[sectionName][taskName] = visibleFromRoad;
+    // appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+    appeal.sectionStates[sectionName][taskName] = NOT_STARTED;
 
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);
 
     return res.render(VISIBLE_FROM_ROAD, {
-      isVisibleFromRoad,
-      visibleFromRoadDetails,
+      visibleFromRoad,
       errors,
       errorSummary: [{ text: err.toString(), href: '#' }],
     });

@@ -1,5 +1,4 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { pageCaption } from '../../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
@@ -15,35 +14,36 @@ import {
   getSaveAndContinueButton,
 } from '../../../../../support/common-page-objects/common-po';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
-import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
+import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 const url = 'full-appeal/submit-appeal/applicant-name';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
 const originalApplicantUrl = 'full-appeal/submit-appeal/original-applicant';
 const contactDetailsUrl = 'full-appeal/submit-appeal/contact-details'
 const textPageCaption = 'Provide your contact details';
-const pageTitle = "Was the planning application made in your name? - Appeal a planning decision - GOV.UK";
-const pageHeading = 'Was the planning application made in your name?';
+const pageTitle = "What is the applicant's name? - Appeal a planning decision - GOV.UK";
+const pageHeading = "What is the applicant's name?";
 const applicantName = 'Original Applicant Teddy'
 const companyName = 'ABC company limited'
 
 Given("Agent is on the 'Was the original planning application made in your name?'",()=> {
-  goToAppealsPage(taskListUrl);
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   contactDetailsLink().click();
+  cy.url().should('contain',originalApplicantUrl);
 })
 When("the option 'No, I'm acting on behalf of the applicant' is selected",()=> {
   originalApplicantNo().click();
+  getSaveAndContinueButton().click();
 })
 Then("the next page to provide the Applicant's name is displayed", () => {
-  cy.url().should('contain',originalApplicantUrl);
+  cy.url().should('contain',url);
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading);
   pageCaption().should('contain', textPageCaption);
 });
 
 Given("an Agent is on the 'What is the applicant’s name' page", () => {
-  goToAppealsPage(taskListUrl);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   contactDetailsLink().click();
   originalApplicantNo().click();
   getSaveAndContinueButton().click();
@@ -58,7 +58,7 @@ When( "the Applicant’s name and Company name are provided and select 'Continue
   applicantCompanyName().clear().type(companyName);
   getSaveAndContinueButton().click();
 });
-When("they click on continue without enter any information", () => {
+When("they click on continue without entering any information", () => {
   getSaveAndContinueButton().click();
 })
 Then('they are presented with the error {string}', (errorMessage) => {
@@ -76,6 +76,9 @@ When("they enter {string} and click continue", (name) => {
 When("they click on the 'Back' link",()=> {
   getBackLink().click();
 });
+Then("Agent is on the previous page 'Was the original planning application made in your name?'", () => {
+  cy.url().should('contain',originalApplicantUrl);
+})
 Then("they are presented with the 'Appeal a planning decision' task list page", () => {
   cy.url().should('contain', taskListUrl);
 })

@@ -187,6 +187,10 @@ const FULL_APPEAL_SECTIONS = {
       href: `/${FULL_APPEAL.VISIBLE_FROM_ROAD}`,
       rule: notStartedRule,
     },
+    healthSafetyIssues: {
+      href: `/${FULL_APPEAL.HEALTH_SAFETY_ISSUES}`,
+      rule: notStartedRule,
+    },
   },
   yourAppealSection: {
     appealStatement: {
@@ -200,6 +204,10 @@ const FULL_APPEAL_SECTIONS = {
   },
   aboutAppealSiteSection: {
     href: `/${FULL_APPEAL.APPEAL_SITE_ADDRESS}`,
+    rule: notStartedRule,
+  },
+  appealDecisionSection: {
+    href: `/${FULL_APPEAL.HOW_DECIDE_APPEAL}`,
     rule: notStartedRule,
   },
   planningApplicationDocumentsSection: {

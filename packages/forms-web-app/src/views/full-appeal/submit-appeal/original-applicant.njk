@@ -41,13 +41,13 @@
               value: 'yes',
               text: 'Yes, the planning application was made in my name',
               attributes: { "data-cy":"answer-yes"},
-              checked: appeal.aboutYouSection.yourDetails.isOriginalApplicant
+              checked: appeal.contactDetailsSection.isOriginalApplicant
             },
             {
               value: 'no',
               text: "No, I'm acting on behalf of the applicant",
               attributes: { 'data-cy':'answer-no'},
-              checked: appeal.aboutYouSection.yourDetails.isOriginalApplicant === false
+              checked: appeal.contactDetailsSection.isOriginalApplicant === false
             }
           ],
           errorMessage: errors['original-application-your-name'] and {

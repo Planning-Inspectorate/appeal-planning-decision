@@ -2,7 +2,6 @@ import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { getSaveAndContinueButton } from '../../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
 import { getBackLink, getErrorMessageSummary } from '../../../../../support/common-page-objects/common-po';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import {
   aboutAppealSiteSectionLink, pageCaptionText,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
@@ -15,11 +14,12 @@ import {
   selectNo,
   selectYes,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
-import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
+
+import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
+import { selectRadioButton } from '../../../../../support/full-appeal/appeals-service/selectRadioButton';
 
 const url = 'full-appeal/submit-appeal/own-all-the-land';
 const siteAddressUrl = 'full-appeal/submit-appeal/appeal-site-address';
-const taskListUrl = 'full-appeal/submit-appeal/task-list';
 const agriculturalHoldingUrl = 'full-appeal/submit-appeal/agricultural-holding';
 const ownSomeOfLandUrl = 'full-appeal/submit-appeal/own-some-of-the-land';
 const textPageCaption = 'Tell us about the appeal site';
@@ -32,8 +32,7 @@ When("they select the 'Continue' button",()=> {
     getSaveAndContinueButton().click();
 });
 Given("an appellant or agent is on the 'What is the address of the appeal site' page",()=> {
-  goToAppealsPage(taskListUrl);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
   provideAddressLine1(addressLine1);
@@ -49,8 +48,14 @@ When("no selection is made and they click Continue", () => {
   getSaveAndContinueButton().click();
 })
 Given("an appellant or agent is on the 'Do you own all the land involved in the appeal' page", () => {
-  goToAppealsPage(url);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  aboutAppealSiteSectionLink().click();
+  cy.url().should('contain', siteAddressUrl);
+  provideAddressLine1(addressLine1);
+  providePostcode(postcode);
+  getSaveAndContinueButton().click();
+  cy.url().should('contain',url);
+  cy.checkPageA11y();
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading);
   pageCaptionText().should('contain', textPageCaption);
@@ -68,17 +73,5 @@ Then("they are taken to the next page 'Do you own some of the land involved in t
   cy.url().should('contain', ownSomeOfLandUrl);
 })
 When("the user select {string} and click 'Continue'", (option) => {
-  switch (option) {
-    case 'Yes':
-      selectYes().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'No':
-      selectNo().click();
-      getSaveAndContinueButton().click();
-      break;
-    case 'None of the options':
-      getSaveAndContinueButton().click();
-      break;
-  }
+  selectRadioButton(option);
 });

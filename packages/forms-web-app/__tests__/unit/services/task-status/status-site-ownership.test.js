@@ -1,23 +1,29 @@
+const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const {
   statusSiteOwnership,
 } = require('../../../../src/services/task-status/status-site-ownership');
-
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 const TASK_STATUS = require('../../../../src/services/task-status/task-statuses');
 
 describe('services/task-status/status-site-ownership', () => {
   [
     {
-      given: APPEAL_DOCUMENT.empty,
+      given: {
+        ...appeal,
+        appealSiteSection: {
+          siteOwnership: {
+            ownsWholeSite: null,
+          },
+        },
+      },
       expected: TASK_STATUS.NOT_STARTED,
     },
     {
       given: {
-        ...APPEAL_DOCUMENT.empty,
+        ...appeal,
         appealSiteSection: {
-          ...APPEAL_DOCUMENT.empty.appealSiteSection,
+          ...appeal.appealSiteSection,
           siteOwnership: {
-            ...APPEAL_DOCUMENT.empty.appealSiteSection.siteOwnership,
+            ...appeal.appealSiteSection.siteOwnership,
             ownsWholeSite: true,
           },
         },
@@ -26,12 +32,13 @@ describe('services/task-status/status-site-ownership', () => {
     },
     {
       given: {
-        ...APPEAL_DOCUMENT.empty,
+        ...appeal,
         appealSiteSection: {
-          ...APPEAL_DOCUMENT.empty.appealSiteSection,
+          ...appeal.appealSiteSection,
           siteOwnership: {
-            ...APPEAL_DOCUMENT.empty.appealSiteSection.siteOwnership,
+            ...appeal.appealSiteSection.siteOwnership,
             ownsWholeSite: false,
+            haveOtherOwnersBeenTold: null,
           },
         },
       },
@@ -39,11 +46,11 @@ describe('services/task-status/status-site-ownership', () => {
     },
     {
       given: {
-        ...APPEAL_DOCUMENT.empty,
+        ...appeal,
         appealSiteSection: {
-          ...APPEAL_DOCUMENT.empty.appealSiteSection,
+          ...appeal.appealSiteSection,
           siteOwnership: {
-            ...APPEAL_DOCUMENT.empty.appealSiteSection.siteOwnership,
+            ...appeal.appealSiteSection.siteOwnership,
             ownsWholeSite: false,
             haveOtherOwnersBeenTold: true,
           },
@@ -53,11 +60,11 @@ describe('services/task-status/status-site-ownership', () => {
     },
     {
       given: {
-        ...APPEAL_DOCUMENT.empty,
+        ...appeal,
         appealSiteSection: {
-          ...APPEAL_DOCUMENT.empty.appealSiteSection,
+          ...appeal.appealSiteSection,
           siteOwnership: {
-            ...APPEAL_DOCUMENT.empty.appealSiteSection.siteOwnership,
+            ...appeal.appealSiteSection.siteOwnership,
             ownsWholeSite: false,
             haveOtherOwnersBeenTold: false,
           },

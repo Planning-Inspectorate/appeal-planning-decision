@@ -6,23 +6,27 @@ const {
 const logger = require('../../../lib/logger');
 const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
-const { getTaskStatus } = require('../../../services/task.service');
+// const { getTaskStatus } = require('../../../services/task.service');
+const { NOT_STARTED } = require('../../../services/task-status/task-statuses');
+
+const sectionName = 'planningApplicationDocumentsSection';
+const taskName = 'decisionLetter';
 
 const getDecisionLetter = (req, res) => {
   const {
     session: {
-      appeal,
       appeal: {
         id: appealId,
-        planningApplicationDocumentsSection: { isDesignAccessStatementSubmitted },
+        [sectionName]: {
+          designAccessStatement: { isSubmitted: isDesignAccessStatementSubmitted },
+          [taskName]: { uploadedFile },
+        },
       },
     },
-    sectionName,
-    taskName,
   } = req;
   res.render(DECISION_LETTER, {
     appealId,
-    uploadedFile: appeal[sectionName][taskName]?.uploadedFile,
+    uploadedFile,
     isDesignAccessStatementSubmitted,
   });
 };
@@ -35,17 +39,18 @@ const postDecisionLetter = async (req, res) => {
       appeal,
       appeal: {
         id: appealId,
-        planningApplicationDocumentsSection: { isDesignAccessStatementSubmitted },
+        [sectionName]: {
+          designAccessStatement: { isSubmitted: isDesignAccessStatementSubmitted },
+          [taskName]: { uploadedFile },
+        },
       },
     },
-    sectionName,
-    taskName,
   } = req;
 
   if (Object.keys(errors).length > 0) {
     return res.render(DECISION_LETTER, {
       appealId,
-      uploadedFile: appeal[sectionName][taskName]?.uploadedFile,
+      uploadedFile,
       isDesignAccessStatementSubmitted,
       errorSummary,
       errors,
@@ -55,10 +60,6 @@ const postDecisionLetter = async (req, res) => {
   try {
     if (files) {
       const document = await createDocument(appeal, files['file-upload'], null, taskName);
-
-      if (!appeal[sectionName][taskName]) {
-        appeal[sectionName][taskName] = {};
-      }
 
       appeal[sectionName][taskName].uploadedFile = {
         id: document.id,
@@ -70,7 +71,8 @@ const postDecisionLetter = async (req, res) => {
       };
     }
 
-    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+    // appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+    appeal.sectionStates[sectionName][taskName] = NOT_STARTED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);

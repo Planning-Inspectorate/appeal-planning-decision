@@ -16,6 +16,8 @@ import {
   getErrorMessageSummary,
 } from '../../../../support/common-page-objects/common-po';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
+import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
 
 const pageTitle =
   'Is your appeal about a listed building? - Before you start - Appeal a planning decision - GOV.UK';
@@ -27,10 +29,16 @@ const useADifferentServicePageUrl = '/use-a-different-service'
 const typeOfPlanningApplicationPageUrl = '/type-of-planning-application';
 
 Given('appellant is on the is your application about a Listed Building Page', () => {
-  goToAppealsPage(url);
+  goToAppealsPage('before-you-start/local-planning-depart');
+  getLocalPlanningDepart().select('System Test Borough Council');
+  getContinueButton().click();
+  selectPlanningApplicationType('Householder');
+  getContinueButton().click();
+  cy.url().should('contain', url);
   acceptCookiesBanner();
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading);
+  cy.checkPageA11y();
 });
 
 When('appellant selects the option as {string}', (decision) => {

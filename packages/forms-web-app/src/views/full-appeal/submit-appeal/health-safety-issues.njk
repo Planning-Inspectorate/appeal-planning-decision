@@ -1,0 +1,108 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set title = "Are there any health and safety issues on the appeal site? - Appeal a planning decision - GOV.UK" %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
+
+{% set healthSafetyIssuesDetailsHtml %}
+  {{ govukTextarea({
+    name: "health-safety-issues-details",
+    id: "health-safety-issues-details",
+    label: {
+      text: "Tell us about the health and safety issues"
+    },
+    value: healthAndSafety.details,
+    errorMessage: errors['health-safety-issues-details'] and {
+      text: errors['health-safety-issues-details'].msg
+    }
+  }) }}
+{% endset %}
+
+{% set healthSafetyConcernsHtml %}
+<p class="govuk-body">Tell us about:</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li>animals at the site, for example pets or livestock</li>
+  <li>poor mobile signal at the site</li>
+  <li>access issues for people with limited mobility</li>
+  <li>overgrown vegetation that could restrict access to the site</li>
+  <li>building works or other operations taking place on the site</li>
+  <li>site-specific safety arrangements that are in place</li>
+  <li>areas of the site that require specialist equipment or training for access, for example heights or confined spaces</li>
+  <li>requirements to view the site from a height, for example from a roof or balcony</li>
+  <li>risk of exposure to chemicals, asbestos or radiation</li>
+  <li>unmarked changes in level or missing fittings</li>
+</ul>
+{% endset %}
+
+{% block backButton %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: '/full-appeal/submit-appeal/visible-from-road',
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary,
+          attributes: {"data-cy": "error-wrapper"}
+        }) }}
+      {% endif %}
+      <form action="" method="post" novalidate>
+        <span class="govuk-caption-l">Tell us about the appeal site</span>
+        <h1 class="govuk-heading-l">Are there any health and safety issues on the appeal site?</h1>
+        <p class="govuk-body">
+          The appeal site is the area of property or land that your original planning application relates to.
+        </p>
+        <p class="govuk-body">
+           Tell us about any health and safety issues on the appeal site in case an Inspector needs to carry out a site visit.
+        </p>
+        {{ govukDetails({
+          summaryText: "List of health and safety concerns",
+          html: healthSafetyConcernsHtml
+        }) }}
+        {{ govukRadios({
+          classes: "govuk-radios",
+          idPrefix: "health-safety-issues",
+          name: "health-safety-issues",
+          errorMessage: errors['health-safety-issues'] and {
+            text: errors['health-safety-issues'].msg
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              attributes: { "data-cy": "answer-yes" },
+              checked: healthAndSafety.hasIssues == true,
+              conditional: {
+                html: healthSafetyIssuesDetailsHtml
+              }
+            },
+            {
+              value: "no",
+              text: "No",
+              attributes: { "data-cy": "answer-no" },
+              checked: healthAndSafety.hasIssues == false
+            }
+          ]
+        }) }}
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

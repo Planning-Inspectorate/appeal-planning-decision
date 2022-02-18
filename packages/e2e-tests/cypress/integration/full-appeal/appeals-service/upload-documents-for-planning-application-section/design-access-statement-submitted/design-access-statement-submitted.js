@@ -9,12 +9,11 @@ import {
   designAccessStateSubmittedError, submitADesignStNo,
   submitADesignStYes, pageCaption
 } from '../../../../../support/full-appeal/appeals-service/page-objects/design-access-statement-submitted-po';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import { planningApplicationDocumentsLink } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 import { planningApplicationNumber } from '../../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
-import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
+import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 
 const url = 'full-appeal/submit-appeal/design-access-statement-submitted';
@@ -29,8 +28,11 @@ const filename = 'appeal-statement-valid.jpeg';
 const textPlanningAppNumber = 'PNO-1122';
 
 Given("an appellant or agent is on the 'What is your planning application number' page", () => {
-  goToAppealsPage(planningApplicationNoUrl);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  planningApplicationDocumentsLink().click();
+  getFileUploadButton().attachFile(filename);
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', planningApplicationNoUrl);
   planningApplicationNumber().type(`{selectall}{backspace}${textPlanningAppNumber}`)
   });
 When("they click on the 'Back' link",()=> {
@@ -43,8 +45,7 @@ Then('an error message {string} is displayed', (errorMessage) => {
   verifyErrorMessage(errorMessage,designAccessStateSubmittedError, getErrorMessageSummary);
 });
 Given("an appellant or agent is on the 'Did you submit a design and access statement with your application?' page", () => {
-  goToAppealsPage(taskListUrl);
-  acceptCookiesBanner();
+  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   planningApplicationDocumentsLink().click();
   getFileUploadButton().attachFile(filename);
   getSaveAndContinueButton().click();
@@ -55,6 +56,7 @@ Given("an appellant or agent is on the 'Did you submit a design and access state
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading);
   pageCaption().should('contain', textPageCaption);
+  cy.checkPageA11y();
 });
 Then("they are presented with the 'Design and access statement' page", () => {
   cy.url().should('contain', designAccessStatementUrl);
@@ -75,4 +77,5 @@ When("they select 'No' and click continue", () => {
 });
 Then("they are presented with the 'Did you submit a design and access statement with your application?' page", () => {
   cy.url().should('contain', url);
+  cy.checkPageA11y();
 });

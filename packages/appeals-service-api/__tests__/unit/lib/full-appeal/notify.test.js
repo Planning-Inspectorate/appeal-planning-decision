@@ -1,9 +1,9 @@
 jest.mock('../../../../src/lib/notify-validation');
 jest.mock('../../../../src/services/lpa.service');
 
+const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
 const config = require('../../../../src/lib/config');
 
-const { APPEAL_DOCUMENT } = require('../../../data/empty-appeal');
 const {
   isValidAppealForSubmissionReceivedNotificationEmail,
 } = require('../../../../src/lib/notify-validation');
@@ -64,22 +64,25 @@ describe('lib/full-appeal/notify', () => {
 
       beforeEach(() => {
         appeal = {
-          ...APPEAL_DOCUMENT.empty,
+          ...householderAppeal,
           appealType: APPEAL_TYPE.PLANNING_SECTION_78,
           id: 'some-fake-id',
           lpaCode: 'some-lpa-code',
           submissionDate: new Date('19 April 2021'),
           requiredDocumentsSection: {
-            ...APPEAL_DOCUMENT.empty.requiredDocumentsSection,
+            ...householderAppeal.requiredDocumentsSection,
             applicationNumber: '123/abc/xyz',
           },
           appealSiteSection: {
-            ...APPEAL_DOCUMENT.empty.appealSiteSection,
+            ...householderAppeal.appealSiteSection,
             siteAddress: {
               addressLine1: '999 some street',
               town: 'a town',
               postcode: 'rt12 9ya',
             },
+          },
+          planningApplicationDocumentsSection: {
+            applicationNumber: '12345',
           },
           eligibility: {
             applicationDecision: 'refused',
@@ -139,7 +142,7 @@ describe('lib/full-appeal/notify', () => {
         expect(mockSetDestinationEmailAddress).toHaveBeenCalledWith('some@example.com');
         expect(mockSetTemplateVariablesFromObject).toHaveBeenCalledWith({
           'loca planning department': 'a happy value',
-          'planning application number': '123/abc/xyz',
+          'planning application number': '12345',
           'site address': '999 some street\na town\nrt12 9ya',
           refused: 'yes',
           granted: 'no',
@@ -175,7 +178,7 @@ describe('lib/full-appeal/notify', () => {
 
       beforeEach(() => {
         appeal = {
-          ...APPEAL_DOCUMENT.empty,
+          ...householderAppeal,
           appealType: APPEAL_TYPE.PLANNING_SECTION_78,
           id: 'some-fake-id',
           lpaCode: 'some-lpa-code',
@@ -187,11 +190,11 @@ describe('lib/full-appeal/notify', () => {
             },
           },
           requiredDocumentsSection: {
-            ...APPEAL_DOCUMENT.empty.requiredDocumentsSection,
+            ...householderAppeal.requiredDocumentsSection,
             applicationNumber: '123/abc/xyz',
           },
           appealSiteSection: {
-            ...APPEAL_DOCUMENT.empty.appealSiteSection,
+            ...householderAppeal.appealSiteSection,
             siteAddress: {
               addressLine1: '999 some street',
               town: 'a town',
@@ -247,7 +250,15 @@ describe('lib/full-appeal/notify', () => {
       it('should send an email', async () => {
         getLpa.mockResolvedValue({ name: 'lpa name', email: 'some@example.com' });
 
-        await sendAppealSubmissionConfirmationEmailToAppellant(appeal);
+        const fullAppeal = {
+          ...appeal,
+          contactDetailsSection: {
+            name: 'appellant name',
+            email: 'test@gmail.com',
+          },
+        };
+
+        await sendAppealSubmissionConfirmationEmailToAppellant(fullAppeal);
 
         expect(mockError).not.toHaveBeenCalled();
 

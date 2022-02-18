@@ -12,8 +12,11 @@ function isWithinDeadlinePeriod(value, ...rest) {
   const errorMessage = rest.errorMessage || 'must be before the deadline date';
   return this.test('decisionDate', null, function test() {
     return (
-      appeal.decisionDate.isWithinDecisionDateExpiryPeriod(value) ||
-      createYupError.call(this, errorMessage)
+      appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
+        value,
+        this.options.parent.appealType,
+        this.options.parent.eligibility.applicationDecision,
+      ) || createYupError.call(this, errorMessage)
     );
   });
 }

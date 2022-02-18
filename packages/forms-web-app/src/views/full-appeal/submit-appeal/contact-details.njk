@@ -8,7 +8,7 @@
 {% if errors %}{% set title="Error: " + title %}{% endif %}
 {% block pageTitle %}{{ title }}{% endblock %}
 
-{% set section = appeal['contactDetailsSection'] %}
+{% set section = appeal['contactDetailsSection']['contact'] %}
 
 {% block content %}
 

@@ -1,3 +1,6 @@
+const { constants, rules, validation } = require('@pins/business-rules');
+const { subMonths, addDays, startOfDay, getYear, getMonth, getDate } = require('date-fns');
+
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
 jest.mock('../../../../src/config', () => ({
@@ -11,23 +14,27 @@ jest.mock('../../../../src/config', () => ({
   },
 }));
 
+const sinon = require('sinon');
+const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const decisionDateController = require('../../../../src/controllers/full-appeal/decision-date');
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
-const { APPEAL_DOCUMENT } = require('../../../../src/lib/empty-appeal');
 
 describe('controllers/full-appeal/decision-date', () => {
   let req;
   let res;
-  let appeal;
+
+  const appeal = {
+    ...fullAppeal,
+    appealType: constants.APPEAL_ID.PLANNING_SECTION_78,
+  };
 
   beforeEach(() => {
-    req = mockReq();
+    req = mockReq(appeal);
     res = mockRes();
 
-    ({ empty: appeal } = APPEAL_DOCUMENT);
-
+    sinon.restore();
     jest.resetAllMocks();
   });
 
@@ -36,6 +43,7 @@ describe('controllers/full-appeal/decision-date', () => {
       decisionDateController.getDecisionDate(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.DECISION_DATE, {
+        decisionDate: null,
         backLink: `/before-you-start/granted-or-refused`,
       });
     });
@@ -43,22 +51,23 @@ describe('controllers/full-appeal/decision-date', () => {
 
   describe('postDecisionDate', () => {
     it('should save the appeal and redirect to enforcement-notice if date is within six months', async () => {
+      const decisionDate = addDays(subMonths(startOfDay(new Date()), 6), 1);
       const mockRequest = {
         ...req,
         body: {
-          'decision-date-year': '2021',
-          'decision-date-month': '01',
-          'decision-date-day': '01',
+          'decision-date-year': getYear(decisionDate),
+          'decision-date-month': getMonth(decisionDate) + 1,
+          'decision-date-day': getDate(decisionDate),
         },
       };
-
-      global.Date.now = jest.fn(() => new Date('2021-02-01T00:00:00.000Z').getTime());
+      mockRequest.session.appeal.eligibility.applicationDecision =
+        constants.APPLICATION_DECISION.REFUSED;
 
       await decisionDateController.postDecisionDate(mockRequest, res);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
-        decisionDate: '2021-01-01T00:00:00.000Z',
+        decisionDate: decisionDate.toISOString(),
       });
 
       expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/enforcement-notice`);
@@ -73,6 +82,8 @@ describe('controllers/full-appeal/decision-date', () => {
           'decision-date-day': '01',
         },
       };
+      mockRequest.session.appeal.eligibility.applicationDecision =
+        constants.APPLICATION_DECISION.REFUSED;
 
       global.Date.now = jest.fn(() => new Date('2021-10-01T00:00:00.000Z').getTime());
 
@@ -113,6 +124,10 @@ describe('controllers/full-appeal/decision-date', () => {
         ...req,
         body: {},
       };
+
+      sinon.replace(rules.appeal, 'deadlineDate', () => new Date().toISOString());
+      sinon.replace(rules.appeal, 'deadlinePeriod', () => ({ time: 1, period: 'weeks' }));
+      sinon.replace(validation.appeal.decisionDate, 'isWithinDecisionDateExpiryPeriod', () => true);
 
       const error = 'RangeError: Invalid time value';
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));

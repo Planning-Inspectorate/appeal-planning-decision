@@ -1,3 +1,4 @@
+@wip @has
 Feature: Common links in footer section
   Each of the Eligibility and Appellant Submission webpages must display links to the following:
   * Terms and conditions

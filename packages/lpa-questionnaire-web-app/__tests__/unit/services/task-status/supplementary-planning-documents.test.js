@@ -1,4 +1,4 @@
-const { NOT_STARTED, COMPLETED } = require('../../../../src/services/task-status/task-statuses');
+const { NOT_STARTED, COMPLETED } = require('../../../../src/services/common/task-statuses');
 const supplementaryPlanningDocumentsCompletion = require('../../../../src/services/task-status/supplementary-planning-documents');
 
 describe('services/task.service/task-status/supplementary-planning-documents', () => {
