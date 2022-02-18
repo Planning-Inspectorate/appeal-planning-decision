@@ -62,6 +62,7 @@ const appeal = {
     },
     inquiry: {
       reason: 'Reason for having an inquiry',
+      expectedDays: 2,
     },
   },
   planningApplicationDocumentsSection: {

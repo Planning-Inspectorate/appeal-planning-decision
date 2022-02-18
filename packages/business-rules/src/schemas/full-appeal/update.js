@@ -155,6 +155,7 @@ const update = pinsYup
           .object()
           .shape({
             reason: pinsYup.string().trim().max(255).nullable(),
+            expectedDays: pinsYup.number().integer().min(1).max(999).nullable(),
           })
           .noUnknown(true),
       })
