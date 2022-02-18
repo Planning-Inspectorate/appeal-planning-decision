@@ -44,6 +44,7 @@ describe('controllers/full-appeal/submit-appeal/supporting-documents', () => {
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(SUPPORTING_DOCUMENTS, {
         hasSupportingDocuments: true,
+        hasPlansDrawings: true,
       });
     });
   });
@@ -64,6 +65,7 @@ describe('controllers/full-appeal/submit-appeal/supporting-documents', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(SUPPORTING_DOCUMENTS, {
+        hasPlansDrawings: true,
         errors,
         errorSummary,
       });
@@ -82,6 +84,7 @@ describe('controllers/full-appeal/submit-appeal/supporting-documents', () => {
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(SUPPORTING_DOCUMENTS, {
         hasSupportingDocuments: false,
+        hasPlansDrawings: true,
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
       });

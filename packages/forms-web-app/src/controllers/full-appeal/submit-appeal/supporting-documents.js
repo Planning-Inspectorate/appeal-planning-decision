@@ -12,9 +12,15 @@ const sectionName = 'appealDocumentsSection';
 const taskName = 'supportingDocuments';
 
 const getSupportingDocuments = (req, res) => {
-  const { hasSupportingDocuments } = req.session.appeal[sectionName][taskName];
+  const {
+    [sectionName]: {
+      [taskName]: { hasSupportingDocuments },
+      plansDrawings: { hasPlansDrawings },
+    },
+  } = req.session.appeal;
   res.render(SUPPORTING_DOCUMENTS, {
     hasSupportingDocuments,
+    hasPlansDrawings,
   });
 };
 
@@ -22,11 +28,19 @@ const postSupportingDocuments = async (req, res) => {
   const {
     body,
     body: { errors = {}, errorSummary = [] },
-    session: { appeal },
+    session: {
+      appeal,
+      appeal: {
+        [sectionName]: {
+          plansDrawings: { hasPlansDrawings },
+        },
+      },
+    },
   } = req;
 
   if (Object.keys(errors).length > 0) {
     return res.render(SUPPORTING_DOCUMENTS, {
+      hasPlansDrawings,
       errors,
       errorSummary,
     });
@@ -45,6 +59,7 @@ const postSupportingDocuments = async (req, res) => {
 
     return res.render(SUPPORTING_DOCUMENTS, {
       hasSupportingDocuments,
+      hasPlansDrawings,
       errors,
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
