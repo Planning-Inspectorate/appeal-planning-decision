@@ -1,3 +1,0 @@
-{
-  "/places/v1/addresses/postcode\\?postcode=:postcode\\&key=:key": "/postcodes?POSTCODE_like=:postcode&useOsOutput=1"
-}
