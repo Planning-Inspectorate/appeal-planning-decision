@@ -1,8 +1,5 @@
 import {Given, When, Then} from 'cypress-cucumber-preprocessor/steps';
 import {
-  goToFullAppealSubmitAppealTaskList
-} from "../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList";
-import {
   aboutAppealSiteSectionLink, pageCaptionText
 } from "../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po";
 import {
@@ -45,10 +42,6 @@ const pageTitleTellingTheLandowners = 'Telling the landowners - Appeal a plannin
 const tellingTheLandownersCaption = 'Tell us about the appeal site';
 const pageTitleTellingTheOtherLandowners = 'Telling the other landowners - Appeal a planning decision - GOV.UK';
 const pageTitleAgriculturalLand='Is the appeal site part of an agricultural holding? - Appeal a planning decision - GOV.UK';
-
-Given('appellant has completed full appeal eligibility journey',()=>{
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
-});
 
 Given('an appellant or agent is on the Do you know who owns the land involved in the appeal page for {string}',(landowners)=>{
     aboutAppealSiteSectionLink().click();
@@ -124,7 +117,6 @@ When('the appellant select {string} and click continue for {string}',(option, la
 
 When('the user select the confirmation boxes for the {string} and click continue',(option) => {
   let landownerCheckboxValues = option.split(',');
-  console.log(landownerCheckboxValues);
   landownerCheckboxValues.forEach(ele=>{
     if(ele.trim()==="I've told all the landowners about my appeal"){
       tellingTheLandOwnersToldAboutAppeal().check();
