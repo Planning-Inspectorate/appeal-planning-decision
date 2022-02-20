@@ -60,7 +60,7 @@ Feature: As an appellant/agent
     Examples:
       |knowTheOwners|ownSomeOfTheLand|options|
       |Yes, I know who owns all the land|No|I've told all the landowners about my appeal, I've done this within the last 21 days|
-      |Yes, I know who owns all the land|Yes|I've told all the landowners about my appeal, I've done this within the last 21 days|
+      |Yes, I know who owns all the land|Yes|   out my appeal, I've done this within the last 21 days|
     #  |I know who owns some of the land|Yes|I've told all the landowners about my appeal, I've done this within the last 21 days|
       |Yes, I know who owns all the land|No|I've done this within the last 21 days, I used a copy of the form in annexe 2A or 2B|
       |Yes, I know who owns all the land|Yes|I've done this within the last 21 days, I used a copy of the form in annexe 2A or 2B|
