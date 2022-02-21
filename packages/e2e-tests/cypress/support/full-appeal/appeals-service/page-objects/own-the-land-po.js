@@ -22,3 +22,10 @@ export const tellingTheLandownersText = () =>cy.findByText('You must have told a
 export const tellingTheLandownersFormInAnnex = () => cy.findByRole('link',{name:"form in annexe 2A or 2B of the 'making your appeal' guidance"});
 export const errorMessageTellingTheLandowners = () => cy.get('#telling-the-landowners-error');
 export const tellingTheOtherLandownersText =() =>cy.findByText('You must have told all the other landowners about your appeal.');
+export const tellingTheTenantsToldAboutAppeal = () =>cy.get('[data-cy=telling-the-tenants-toldAboutMyAppeal]');
+export const tellingTheTenantsWithinLast21Days = () => cy.get('[data-cy=telling-the-tenants-withinLast21Days]');
+export const tellingTheTenantsCopyOfTheForm = () => cy.get('[data-cy=telling-the-tenants-useCopyOfTheForm]');
+export const tellingTheTenantsText = () => cy.findByText('You must have told all the tenants about your appeal.');
+export const tellingTheTenantsFormInAnnexe = () => cy.findByRole('link', {name:"form in Annexe 2a of the 'making your appeal' guidance"});
+export const errorMessageTellingTheTenants = () => cy.get('#telling-the-tenants-error');
+export const tellingTheOtherTenantsText = () => cy.findByText('You must have told all the other tenants about your appeal.');
