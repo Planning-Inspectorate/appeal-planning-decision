@@ -64,7 +64,7 @@ const update = pinsYup
             },
           ),
         enforcementNotice: pinsYup.bool().required(),
-        householderPlanningPermission: pinsYup.bool().required(),
+        householderPlanningPermission: pinsYup.bool().nullable(),
         isClaimingCosts: pinsYup.bool().required(),
         isListedBuilding: pinsYup.bool().required(),
       })

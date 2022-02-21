@@ -348,20 +348,11 @@ describe('schemas/householder-appeal/update', () => {
         );
       });
 
-      it('should throw an error when given a null value', async () => {
-        appeal.eligibility.householderPlanningPermission = null;
-
-        await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          'eligibility.householderPlanningPermission must be a `boolean` type, but the final value was: `null`',
-        );
-      });
-
-      it('should throw an error when not given a value', async () => {
+      it('should not throw an error when not given a value', async () => {
         delete appeal.eligibility.householderPlanningPermission;
 
-        await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          'eligibility.householderPlanningPermission is a required field',
-        );
+        const result = await update.validate(appeal, config);
+        expect(result).toEqual(appeal);
       });
     });
 
