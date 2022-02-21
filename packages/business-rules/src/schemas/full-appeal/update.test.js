@@ -1450,6 +1450,37 @@ describe('schemas/full-appeal/update', () => {
         });
       });
 
+      describe('appealSiteSection.siteOwnership.advertisingYourAppeal', () => {
+        it('should throw an error if not all advertisingYourAppeal options selected', async () => {
+          appeal.appealSiteSection.siteOwnership.advertisingYourAppeal = [
+            STANDARD_TRIPLE_CONFIRM_OPTIONS[0],
+            STANDARD_TRIPLE_CONFIRM_OPTIONS[2],
+          ];
+
+          await expect(() => update.validate(appeal, config)).rejects.toThrow(
+            `You must have ["toldAboutMyAppeal","withinLast21Days","useCopyOfTheForm"] for appealSiteSection.siteOwnership.advertisingYourAppeal but you have ["toldAboutMyAppeal","useCopyOfTheForm"]`,
+          );
+        });
+
+        it('should not throw an error if advertisingYourAppeal is undefined', async () => {
+          delete appeal.appealSiteSection.siteOwnership.advertisingYourAppeal;
+
+          const result = await update.validate(appeal, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should not throw an error if all advertisingYourAppeal options selected', async () => {
+          appeal.appealSiteSection.siteOwnership.advertisingYourAppeal = [
+            STANDARD_TRIPLE_CONFIRM_OPTIONS[1],
+            STANDARD_TRIPLE_CONFIRM_OPTIONS[0],
+            STANDARD_TRIPLE_CONFIRM_OPTIONS[2],
+          ];
+
+          const result = await update.validate(appeal, config);
+          expect(result).toEqual(appeal);
+        });
+      });
+
       describe('appealSiteSection.agriculturalHolding', () => {
         it('should remove unknown fields', async () => {
           appeal2.appealSiteSection.agriculturalHolding.unknownField = 'unknown field';

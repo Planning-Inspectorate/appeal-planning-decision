@@ -3,7 +3,6 @@ const { STANDARD_TRIPLE_CONFIRM_OPTIONS } = require('@pins/business-rules/src/co
 const {
   getTellingTheTenants,
   postTellingTheTenants,
-  validTellingTheTenantsOptions,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/telling-the-tenants');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { getTaskStatus } = require('../../../../../src/services/task.service');
@@ -99,7 +98,7 @@ describe('controllers/full-appeal/submit-appeal/telling-the-tenants', () => {
       req = {
         ...req,
         body: {
-          'telling-the-tenants': [validTellingTheTenantsOptions[0]],
+          'telling-the-tenants': [STANDARD_TRIPLE_CONFIRM_OPTIONS[0]],
         },
       };
 
@@ -114,7 +113,7 @@ describe('controllers/full-appeal/submit-appeal/telling-the-tenants', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(TELLING_THE_TENANTS, {
-        tellingTheTenants: [validTellingTheTenantsOptions[0]],
+        tellingTheTenants: [STANDARD_TRIPLE_CONFIRM_OPTIONS[0]],
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
         isOther: true,
@@ -133,7 +132,7 @@ describe('controllers/full-appeal/submit-appeal/telling-the-tenants', () => {
       req = {
         ...req,
         body: {
-          'telling-the-tenants': [validTellingTheTenantsOptions[0]],
+          'telling-the-tenants': [STANDARD_TRIPLE_CONFIRM_OPTIONS[0]],
         },
       };
 

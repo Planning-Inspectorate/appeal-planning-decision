@@ -18,12 +18,6 @@ const buildVariables = (ownsSomeOfTheLand, tellingTheLandowners) => {
   };
 };
 
-const validTellingTheLandownerOptions = [
-  'toldAboutMyAppeal',
-  'withinLast21Days',
-  'useCopyOfTheForm',
-];
-
 const getTellingTheLandowners = (req, res) => {
   const {
     appeal: {
@@ -81,7 +75,6 @@ const postTellingTheLandowners = async (req, res) => {
 };
 
 module.exports = {
-  validTellingTheLandownerOptions,
   getTellingTheLandowners,
   postTellingTheLandowners,
 };
