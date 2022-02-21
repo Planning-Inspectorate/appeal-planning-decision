@@ -64,19 +64,13 @@ Then("the user is taken to the next page 'Plans or drawings'", () => {
 Then("are taken to the next page 'Supporting Documents'", () => {
   cy.url().should('contain', supportingDocumentsUrl);
 })
-// Then('they are presented with an error message {string}', (errorMessage) => {
-//   verifyErrorMessage(errorMessage,, getErrorMessageSummary);
-// });
 When("they click on the 'Back' link",()=> {
   getBackLink().click();
 });
 Then("they are presented with the 'Your appeal statement' page with the uploaded file is displayed and confirm checkbox selected", () => {
   cy.url().should('contain', appealStatementUrl);
-  //uploaded file should exist
   cy.findAllByText('Uploaded file').should('exist');
   cy.findAllByRole('link', {name: filename});
-  // cy.downloadFile('','Downloads',filename);
-  //  cy.readFile("./Downloads/filename");
   checkboxConfirmSensitiveInfo().should('be.checked');
 });
 Then("they are presented with an error message {string}", (errorMessage) => {

@@ -24,24 +24,25 @@ Feature: As an appellant/agent
   Scenario Outline: 4. Appellant or Agent uploads a large file and an invalid file
     Given an Appellant or Agent has uploaded a file '<filename>' in the 'New supporting documents' page
     When they select the 'Continue' button
-    Then an error message '<error message>' is displayed
+    #Then an error message '<error message>' is displayed
+    Then an '<error message>' is displayed for the '<filename>'
     Examples:
-      | filename                                | error message                                                                     |
-      | upload_file_large.tiff                  | upload_file_large.tiff must be smaller than 15MB                                  |
-      | appeal-statement-invalid-wrong-type.mp3 | appeal-statement-invalid-wrong-type.mp3 must be a DOC, DOCX, PDF, TIF, JPG or PNG |
-      | appeal-statement-invalid-wrong-type.csv | appeal-statement-invalid-wrong-type.csv must be a DOC, DOCX, PDF, TIF, JPG or PNG |
-      |                                         | Select a supporting document                                                      |
+      | filename                                | error message                             |
+      | upload-file-valid-15mb.PNG                  | must be smaller than 15MB                 |
+      | appeal-statement-invalid-wrong-type.mp3 | must be a DOC, DOCX, PDF, TIF, JPG or PNG |
+      | appeal-statement-invalid-wrong-type.csv | must be a DOC, DOCX, PDF, TIF, JPG or PNG |
+      |                                         | Select a supporting document              |
 
-    Scenario Outline: 7 - Appellant/Agent uploads some valid and some invalid files
+  Scenario Outline: 5 - Appellant/Agent uploads some valid and some invalid files
     Given an Appellant or Agent is on the 'New supporting documents' page
     When they upload one '<Valid file>' and one '<Invalid file>' through 'Choose files' or 'drag and drop' and click 'Continue'
-    Then an '<error message>' is displayed for the invalid file '<Invalid file>'
+    Then an '<error message>' is displayed for the '<Invalid file>'
     And they will have to upload any valid files again
   Examples:
     | Valid file                 | Invalid file                            | error message                             |
     | appeal-statement-valid.tif | appeal-statement-invalid-wrong-type.mp3 | must be a DOC, DOCX, PDF, TIF, JPG or PNG |
 
-  Scenario: 8 - Navigate from 'New supporting documents' page back to 'Do you want to submit any new supporting documents with your appeal?' page
+  Scenario: 6 - Navigate from 'New supporting documents' page back to 'Do you want to submit any new supporting documents with your appeal?' page
     Given an Appellant or Agent is on the 'New supporting documents' page
     When they click on the 'Back' link
     Then they are presented with the 'Do you want to submit any new supporting documents with your appeal?' page

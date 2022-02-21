@@ -104,7 +104,7 @@ When("they upload one {string} and one {string} through 'Choose files' or 'drag 
   getFileUploadButton().attachFile ([validFile,invalidFile], { subjectType: 'drag-n-drop' });
   getSaveAndContinueButton().click();
 })
-Then("an {string} is displayed for the invalid file {string}", (errormessage, invalidFile) => {
+Then("an {string} is displayed for the {string}", (errormessage, invalidFile) => {
   const invalidFileErrorMessage  = invalidFile + ' ' + errormessage;
   verifyErrorMessage(invalidFileErrorMessage,errorFileUploadField,getErrorMessageSummary);
 });

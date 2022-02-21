@@ -1,5 +1,4 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import {
     appealStatementBodyText, checkboxConfirmSensitiveInfo, checkboxErrorMessage, sensitiveInfoLabel,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/your-appeal-statement-po';
@@ -19,7 +18,6 @@ import {
 } from '../../../../../support/common-page-objects/common-po';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
 import { appealDocumentsSectionLink } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
-import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
 import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 const url = 'full-appeal/submit-appeal/appeal-statement';
