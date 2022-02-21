@@ -28,7 +28,7 @@ Feature: As an appellant/agent
     Then an '<error message>' is displayed for the '<filename>'
     Examples:
       | filename                                | error message                             |
-      | upload-file-valid-15mb.PNG                  | must be smaller than 15MB                 |
+      | upload-file-valid-15mb.png              | must be smaller than 15MB                 |
       | appeal-statement-invalid-wrong-type.mp3 | must be a DOC, DOCX, PDF, TIF, JPG or PNG |
       | appeal-statement-invalid-wrong-type.csv | must be a DOC, DOCX, PDF, TIF, JPG or PNG |
       |                                         | Select a supporting document              |

@@ -21,15 +21,11 @@ import {
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
 import {
   backButton,
-  summaryErrorMessage,
 } from '../../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
-import { verifyFileUploadErrorMessage } from '../../../../../support/common/verifyFileUploadErrorMessage';
-import { confirmSupportingDocumentRejectedBecause } from '../../../../../support/householder-planning/appeals-service/appellant-submission-supporting-documents/confirmSupportingDocumentRejectedBecause';
 
 const Url ='full-appeal/submit-appeal/new-plans-drawings';
 const plansDrawingsUrl = 'full-appeal/submit-appeal/plans-drawings';
 const appealStatementUrl = 'full-appeal/submit-appeal/appeal-statement';
-//const plansDrawingUploadUrl = 'full-appeal/submit-appeal/plans-drawings-upload';
 const supportingDocumentsUrl ='full-appeal/submit-appeal/supporting-documents';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
 const textPageCaption = 'Upload documents for your appeal';
