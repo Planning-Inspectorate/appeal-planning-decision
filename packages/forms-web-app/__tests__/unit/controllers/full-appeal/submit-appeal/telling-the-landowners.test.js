@@ -3,7 +3,6 @@ const { STANDARD_TRIPLE_CONFIRM_OPTIONS } = require('@pins/business-rules/src/co
 const {
   getTellingTheLandowners,
   postTellingTheLandowners,
-  validTellingTheLandownerOptions,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/telling-the-landowners');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { getTaskStatus } = require('../../../../../src/services/task.service');
@@ -85,7 +84,7 @@ describe('controllers/full-appeal/submit-appeal/telling-the-landowners', () => {
       req = {
         ...req,
         body: {
-          'telling-the-landowners': [validTellingTheLandownerOptions[0]],
+          'telling-the-landowners': [STANDARD_TRIPLE_CONFIRM_OPTIONS[0]],
         },
       };
 
@@ -101,7 +100,7 @@ describe('controllers/full-appeal/submit-appeal/telling-the-landowners', () => {
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(TELLING_THE_LANDOWNERS, {
         ownsSomeOfTheLand: false,
-        tellingTheLandowners: [validTellingTheLandownerOptions[0]],
+        tellingTheLandowners: [STANDARD_TRIPLE_CONFIRM_OPTIONS[0]],
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
       });
@@ -118,7 +117,7 @@ describe('controllers/full-appeal/submit-appeal/telling-the-landowners', () => {
       req = {
         ...req,
         body: {
-          'telling-the-landowners': [validTellingTheLandownerOptions[0]],
+          'telling-the-landowners': [STANDARD_TRIPLE_CONFIRM_OPTIONS[0]],
         },
       };
 

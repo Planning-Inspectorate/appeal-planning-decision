@@ -40,6 +40,7 @@ const appeal = {
       hasIdentifiedTheOwners: 'i-agree',
       tellingTheLandowners: [...STANDARD_TRIPLE_CONFIRM_OPTIONS],
       tellingTheTenants: [...STANDARD_TRIPLE_CONFIRM_OPTIONS],
+      advertisingYourAppeal: [...STANDARD_TRIPLE_CONFIRM_OPTIONS],
     },
     agriculturalHolding: {
       isAgriculturalHolding: true,

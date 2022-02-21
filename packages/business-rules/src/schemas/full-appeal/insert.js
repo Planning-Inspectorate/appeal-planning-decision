@@ -119,6 +119,10 @@ const insert = pinsYup
             }),
             tellingTheLandowners: pinsYup.array().nullable().allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
             tellingTheTenants: pinsYup.array().nullable().allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
+            advertisingYourAppeal: pinsYup
+              .array()
+              .nullable()
+              .allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
           })
           .noUnknown(true),
         agriculturalHolding: pinsYup

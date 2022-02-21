@@ -1,0 +1,82 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+
+{% set other = "other " if isOther else "" %}
+{% set all = "all " if isAll else "" %}
+{% set heading = "Advertising your appeal" %}
+
+{% set title = heading + " - Appeal a planning decision - GOV.UK" %}
+{% set pdfUrl = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/994918/eHow_To_-_Planning_18_ANNEX.pdf" %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
+
+{% block backButton %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: backLink ,
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary,
+          attributes: {"data-cy": "error-wrapper"}
+        }) }}
+      {% endif %}
+      <form action="" method="post" novalidate>
+        <span class="govuk-caption-l">Tell us about the appeal site</span>
+        <h1 data-cy="title" class="govuk-heading-l">{{ heading }}</h1>
+        <p class="govuk-body">Because you do not know {{ all }}the {{ other }}landowners, you must have advertised your appeal in the press.</p>
+        <p class="govuk-body">You must have done this within the last 21 days using a copy of the <a href="{{ pdfUrl }}" class="govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">form in annexe 2A or 2B of the 'making your appeal' guidance</a>.</p>
+
+        <h1 data-cy="title" class="govuk-heading-m">
+          Confirm that you have advertised your appeal
+        </h1>
+        <p class="govuk-body">I confirm that:</p>
+
+        {{ govukCheckboxes({
+          idPrefix: "advertising-your-appeal",
+          name: "advertising-your-appeal",
+          items: [
+            {
+              value: "toldAboutMyAppeal",
+              text: "I've advertised my appeal in the press",
+              attributes: {"data-cy":"advertising-your-appeal-toldAboutMyAppeal"},
+              checked: advertisingYourAppeal.includes('toldAboutMyAppeal')
+            },
+            {
+              value: "withinLast21Days",
+              text: "I've done this within the last 21 days",
+              attributes: {"data-cy":"advertising-your-appeal-withinLast21Days"},
+              checked: advertisingYourAppeal.includes('withinLast21Days')
+            },
+            {
+              value: "useCopyOfTheForm",
+              text: "I used a copy of the form in annexe 2A or 2B",
+              attributes: {"data-cy":"advertising-your-appeal-useCopyOfTheForm"},
+              checked: advertisingYourAppeal.includes('useCopyOfTheForm')
+            }
+          ],
+          errorMessage: errors['advertising-your-appeal'] and {
+            text: errors['advertising-your-appeal'].msg
+          }
+        }) }}
+
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

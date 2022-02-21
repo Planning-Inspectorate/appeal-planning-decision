@@ -1,6 +1,6 @@
 const express = require('express');
+const { STANDARD_TRIPLE_CONFIRM_OPTIONS } = require('@pins/business-rules/src/constants');
 const {
-  validTellingTheLandownerOptions,
   getTellingTheLandowners,
   postTellingTheLandowners,
 } = require('../../../controllers/full-appeal/submit-appeal/telling-the-landowners');
@@ -18,7 +18,7 @@ const errorMessage = `Confirm if you've told the landowners`;
 
 const checkboxValidations = buildCheckboxValidation(
   'telling-the-landowners',
-  validTellingTheLandownerOptions,
+  STANDARD_TRIPLE_CONFIRM_OPTIONS,
   {
     notEmptyMessage: errorMessage,
     allMandatoryMessage: errorMessage,
