@@ -4,6 +4,7 @@ export const applicationStatusDetailedText = () => cy.get('[data-cy=application-
 export const linkProvideYourContactDetails = () => cy.get('[data-cy=contactDetailsSection]');
 export const statusProvideYourContactDetails = () => cy.get('[data-cy=task-list-item-contactDetailsSection] > .govuk-tag');
 export const linkTellAboutTheAppealSite = () => cy.get('[data-cy=aboutAppealSiteSection]');
+export const linkDecideYourAppeal = () => cy.get('[data-cy=appealDecisionSection]');
 export const statusTellAboutTheAppealSite = () => cy.get('[data-cy=task-list-item-aboutAppealSiteSection] > .govuk-tag');
 export const linkUploadDocsFromPlanningApplication = () => cy.get('[data-cy=task-list-item-planningApplicationDocumentsSection] > .govuk-tag');
 export const statusUploadDocsFromPlanningApplication = () => cy.get('[data-cy=task-list-item-planningApplicationDocumentsSection] > .govuk-tag');
