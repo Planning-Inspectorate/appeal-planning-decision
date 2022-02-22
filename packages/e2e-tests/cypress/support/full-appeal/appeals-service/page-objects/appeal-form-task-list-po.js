@@ -12,5 +12,14 @@ export const linkUploadDocsForYourAppeal = () => cy.get('[data-cy=appealDocument
 export const statusUploadDocsForYourAppeal = () => cy.get('[data-cy=task-list-item-appealDocumentsSection] > .govuk-tag');
 export const linkCheckYourAnswers = () => cy.get('[data-cy=submitYourAppealSection]')
 export const statusCheckYourAnswers = () => cy.get('[data-cy=task-list-item-submitYourAppealSection] > .govuk-tag');
+export const applicationStatus = () => cy.get('[data-cy=application-status]');
+export const applicationStatusDetailed = () => cy.get('[data-cy=application-status-detailed]');
+
+
+
+
+
+
+
 
 
