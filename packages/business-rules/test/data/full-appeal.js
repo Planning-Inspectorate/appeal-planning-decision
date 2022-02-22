@@ -37,7 +37,7 @@ const appeal = {
       ownsSomeOfTheLand: false,
       ownsAllTheLand: true,
       knowsTheOwners: 'yes',
-      hasIdentifiedTheOwners: 'i-agree',
+      hasIdentifiedTheOwners: true,
       tellingTheLandowners: [...STANDARD_TRIPLE_CONFIRM_OPTIONS],
       tellingTheTenants: [...STANDARD_TRIPLE_CONFIRM_OPTIONS],
       advertisingYourAppeal: [...STANDARD_TRIPLE_CONFIRM_OPTIONS],

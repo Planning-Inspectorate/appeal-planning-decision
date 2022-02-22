@@ -5,7 +5,6 @@ const {
   APPEAL_STATE,
   APPLICATION_DECISION,
   APPLICATION_CATEGORIES,
-  I_AGREE,
   KNOW_THE_OWNERS,
   PROCEDURE_TYPE,
   SECTION_STATE,
@@ -111,12 +110,7 @@ const insert = pinsYup
               }
               return pinsYup.string().nullable();
             }),
-            hasIdentifiedTheOwners: pinsYup.lazy((identifyingTheOwners) => {
-              if (identifyingTheOwners) {
-                return pinsYup.string().oneOf([I_AGREE]);
-              }
-              return pinsYup.string().nullable();
-            }),
+            hasIdentifiedTheOwners: pinsYup.bool().nullable(),
             tellingTheLandowners: pinsYup.array().nullable().allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
             tellingTheTenants: pinsYup.array().nullable().allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
             advertisingYourAppeal: pinsYup
