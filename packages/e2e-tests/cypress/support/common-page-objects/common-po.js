@@ -13,3 +13,4 @@ export const privacyNoticeLink = () => cy.findAllByText('Privacy Notice').should
 export const termAndConditionsLink = () => cy.findAllByText('Terms and Conditions').should('have.attr','href');
 export const declarationWarningText = () => cy.get('.govuk-warning-text__text');
 export const appealSubmittedHeading = () => cy.get('.govuk-panel__title');
+

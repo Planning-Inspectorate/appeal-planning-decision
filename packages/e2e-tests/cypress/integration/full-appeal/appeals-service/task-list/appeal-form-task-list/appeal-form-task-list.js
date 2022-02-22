@@ -13,7 +13,6 @@ import {
   statusUploadDocsForYourAppeal, statusCheckYourAnswers, linkDecideYourAppeal,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/appeal-form-task-list-po';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 
 const pageHeading = 'Appeal a planning decision';
