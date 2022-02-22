@@ -1,4 +1,5 @@
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
+const { I_AGREE } = require('@pins/business-rules/src/constants');
 const {
   getIdentifyingTheOwners,
   postIdentifyingTheOwners,
@@ -53,6 +54,7 @@ describe('controllers/full-appeal/submit-appeal/identifying-the-owners', () => {
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(IDENTIFYING_THE_OWNERS, {
         knowsTheOwners: 'some',
+        backLink: '/full-appeal/submit-appeal/know-the-owners',
       });
     });
   });
@@ -74,7 +76,9 @@ describe('controllers/full-appeal/submit-appeal/identifying-the-owners', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(IDENTIFYING_THE_OWNERS, {
+        hasIdentifiedTheOwners: false,
         knowsTheOwners: 'some',
+        backLink: '/full-appeal/submit-appeal/know-the-owners',
         errors,
         errorSummary,
       });
@@ -84,7 +88,7 @@ describe('controllers/full-appeal/submit-appeal/identifying-the-owners', () => {
       req = {
         ...req,
         body: {
-          'identifying-the-owners': 'i-agree',
+          'identifying-the-owners': I_AGREE,
         },
       };
 
@@ -100,6 +104,8 @@ describe('controllers/full-appeal/submit-appeal/identifying-the-owners', () => {
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(IDENTIFYING_THE_OWNERS, {
         knowsTheOwners: 'some',
+        backLink: '/full-appeal/submit-appeal/know-the-owners',
+        hasIdentifiedTheOwners: true,
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
       });
@@ -116,7 +122,7 @@ describe('controllers/full-appeal/submit-appeal/identifying-the-owners', () => {
       req = {
         ...req,
         body: {
-          'identifying-the-owners': 'i-agree',
+          'identifying-the-owners': I_AGREE,
         },
       };
 
