@@ -219,7 +219,7 @@ const FULL_APPEAL_SECTIONS = {
     rule: statusAppealStatement,
   },
   submitYourAppealSection: {
-    href: `/${FULL_APPEAL.CHECK_ANSWERS}`,
+    href: `/${FULL_APPEAL.CHECK_YOUR_ANSWERS}`,
     rule: () => TASK_STATUS.NOT_STARTED,
   },
 };

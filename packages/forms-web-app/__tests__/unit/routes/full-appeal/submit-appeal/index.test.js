@@ -1,6 +1,6 @@
 const { use } = require('../../router-mock');
 const taskListRouter = require('../../../../../src/routes/full-appeal/submit-appeal/task-list');
-const checkAnswersRouter = require('../../../../../src/routes/full-appeal/submit-appeal/check-answers');
+const checkAnswersRouter = require('../../../../../src/routes/full-appeal/submit-appeal/check-your-answers');
 const contactDetailsRouter = require('../../../../../src/routes/full-appeal/submit-appeal/contact-details');
 const applicationFormRouter = require('../../../../../src/routes/full-appeal/submit-appeal/application-form');
 const applicationNumberRouter = require('../../../../../src/routes/full-appeal/submit-appeal/application-number');

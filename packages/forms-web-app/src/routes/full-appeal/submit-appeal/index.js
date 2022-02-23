@@ -1,6 +1,6 @@
 const express = require('express');
 const taskListRouter = require('./task-list');
-const checkAnswersRouter = require('./check-answers');
+const checkAnswersRouter = require('./check-your-answers');
 const contactDetailsRouter = require('./contact-details');
 const applicationFormRouter = require('./application-form');
 const applicationNumberRouter = require('./application-number');

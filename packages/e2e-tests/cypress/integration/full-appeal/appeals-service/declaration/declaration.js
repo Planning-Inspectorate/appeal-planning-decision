@@ -12,7 +12,7 @@ import { declarationPageMethodsAppellant } from '../../../../support/full-appeal
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 
 const url = 'full-appeal/submit-appeal/declaration?';
-const checkYourAnswersUrl = 'full-appeal/submit-appeal/check-answers';
+const checkYourAnswersUrl = 'full-appeal/submit-appeal/check-your-answers';
 const appealSubmittedUrl = 'full-appeal/submit-appeal/appeal-submitted';
 const textPageCaption = 'Check your answers and submit your appeal';
 const pageTitle = 'Declaration - Appeal a planning decision - GOV.UK';

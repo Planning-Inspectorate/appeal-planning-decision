@@ -1,12 +1,14 @@
 const appeal = require('@pins/business-rules/test/data/full-appeal');
-const checkAnswersController = require('../../../../../src/controllers/full-appeal/submit-appeal/check-answers');
+const {
+  getCheckYourAnswers,
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/check-your-answers');
 const { getDepartmentFromId } = require('../../../../../src/services/department.service');
 const { mockReq, mockRes } = require('../../../mocks');
 const { VIEW } = require('../../../../../src/lib/full-appeal/views');
 
 jest.mock('../../../../../src/services/department.service');
 
-describe('controllers/full-appeal/submit-appeal/check-answers', () => {
+describe('controllers/full-appeal/submit-appeal/check-your-answers', () => {
   let req;
   let res;
 
@@ -20,8 +22,8 @@ describe('controllers/full-appeal/submit-appeal/check-answers', () => {
   describe('getCheckAnswers', () => {
     it('should call the correct template with empty local planning department', () => {
       req.session.appeal.lpaCode = null;
-      checkAnswersController.getCheckAnswers(req, res);
-      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.CHECK_ANSWERS, {
+      getCheckYourAnswers(req, res);
+      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.CHECK_YOUR_ANSWERS, {
         appealLPD: '',
         appeal,
       });
@@ -30,9 +32,9 @@ describe('controllers/full-appeal/submit-appeal/check-answers', () => {
       await getDepartmentFromId.mockResolvedValue(undefined);
 
       appeal.lpaCode = 'lpdCode';
-      await checkAnswersController.getCheckAnswers(req, res);
+      await getCheckYourAnswers(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.CHECK_ANSWERS, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.CHECK_YOUR_ANSWERS, {
         appealLPD: '',
         appeal,
       });
@@ -41,9 +43,9 @@ describe('controllers/full-appeal/submit-appeal/check-answers', () => {
       await getDepartmentFromId.mockResolvedValue({ name: 'lpdName' });
 
       appeal.lpaCode = 'lpdCode';
-      await checkAnswersController.getCheckAnswers(req, res);
+      await getCheckYourAnswers(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.CHECK_ANSWERS, {
+      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.CHECK_YOUR_ANSWERS, {
         appealLPD: 'lpdName',
         appeal,
       });

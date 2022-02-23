@@ -1,13 +1,15 @@
 const express = require('express');
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
-const checkAnswersController = require('../../../controllers/full-appeal/submit-appeal/check-answers');
+const {
+  getCheckYourAnswers,
+} = require('../../../controllers/full-appeal/submit-appeal/check-your-answers');
 
 const router = express.Router();
 
 router.get(
-  '/submit-appeal/check-answers',
+  '/submit-appeal/check-your-answers',
   [fetchExistingAppealMiddleware],
-  checkAnswersController.getCheckAnswers
+  getCheckYourAnswers
 );
 
 module.exports = router;
