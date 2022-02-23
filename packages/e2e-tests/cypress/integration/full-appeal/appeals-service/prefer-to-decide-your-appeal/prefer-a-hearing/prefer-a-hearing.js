@@ -86,4 +86,7 @@ When("they click on the 'Back' link", () => {
 });
 Then("they are presented with the 'How would you prefer us to decide your appeal' page", () => {
   cy.url().should('include', decideAppealUrl);
+});
+Then("the option Hearing is selected", () => {
+  selectHearing().should('be.checked');
 })

@@ -29,3 +29,4 @@ Feature: As an Appellant or Agent
    Given an Appellant or Agent is on the 'Why would your prefer a hearing?' page
    When they click on the 'Back' link
    Then they are presented with the 'How would you prefer us to decide your appeal' page
+   And the option Hearing is selected
