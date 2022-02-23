@@ -4,7 +4,6 @@ const {
   APPEAL_ID,
   APPEAL_STATE,
   APPLICATION_DECISION,
-  I_AGREE,
   KNOW_THE_OWNERS,
   PROCEDURE_TYPE,
   SECTION_STATE,
@@ -90,12 +89,7 @@ const update = pinsYup
             ownsSomeOfTheLand: pinsYup.bool().required(),
             ownsAllTheLand: pinsYup.bool().required(),
             knowsTheOwners: pinsYup.string().oneOf(Object.values(KNOW_THE_OWNERS)).required(),
-            hasIdentifiedTheOwners: pinsYup.lazy((identifyingTheOwners) => {
-              if (identifyingTheOwners) {
-                return pinsYup.string().oneOf([I_AGREE]);
-              }
-              return pinsYup.string().nullable();
-            }),
+            hasIdentifiedTheOwners: pinsYup.bool().nullable(),
             tellingTheLandowners: pinsYup.array().nullable().allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
             tellingTheTenants: pinsYup.array().nullable().allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
             advertisingYourAppeal: pinsYup

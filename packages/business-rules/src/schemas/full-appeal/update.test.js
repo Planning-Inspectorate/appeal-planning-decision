@@ -4,7 +4,6 @@ const appealData = require('../../../test/data/full-appeal');
 const update = require('./update');
 const {
   APPEAL_STATE,
-  I_AGREE,
   KNOW_THE_OWNERS,
   PROCEDURE_TYPE,
   SECTION_STATE,
@@ -1364,23 +1363,23 @@ describe('schemas/full-appeal/update', () => {
         });
 
         describe('appealSiteSection.siteOwnership.hasIdentifiedTheOwners', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.appealSiteSection.siteOwnership.hasIdentifiedTheOwners = 'not valid';
+          it('should throw an error when not given a boolean', async () => {
+            appeal.appealSiteSection.siteOwnership.hasIdentifiedTheOwners = 'false ';
 
             await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              `appealSiteSection.siteOwnership.hasIdentifiedTheOwners must be one of the following values: ${I_AGREE}`,
+              'appealSiteSection.siteOwnership.hasIdentifiedTheOwners must be a `boolean` type, but the final value was: `"false "` (cast from the value `true`).',
             );
           });
 
-          it('should not throw an error when not given a value', async () => {
-            delete appeal.appealSiteSection.siteOwnership.hasIdentifiedTheOwners;
+          it('should not throw an error when given a null value', async () => {
+            appeal.appealSiteSection.siteOwnership.hasIdentifiedTheOwners = null;
 
             const result = await update.validate(appeal, config);
             expect(result).toEqual(appeal);
           });
 
-          it('should not throw an error when given a null value', async () => {
-            appeal.appealSiteSection.siteOwnership.hasIdentifiedTheOwners = null;
+          it('should not throw an error when not given a value', async () => {
+            delete appeal.appealSiteSection.siteOwnership.hasIdentifiedTheOwners;
 
             const result = await update.validate(appeal, config);
             expect(result).toEqual(appeal);

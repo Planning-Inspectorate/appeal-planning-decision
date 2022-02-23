@@ -1,3 +1,4 @@
+const { I_AGREE } = require('@pins/business-rules/src/constants');
 const {
   VIEW: {
     FULL_APPEAL: { IDENTIFYING_THE_OWNERS, ADVERTISING_YOUR_APPEAL },
@@ -10,12 +11,22 @@ const { getTaskStatus } = require('../../../services/task.service');
 const sectionName = 'appealSiteSection';
 const taskName = 'siteOwnership';
 
-const getIdentifyingTheOwners = (req, res) => {
-  const { knowsTheOwners, hasIdentifiedTheOwners } = req.session.appeal[sectionName][taskName];
-  res.render(IDENTIFYING_THE_OWNERS, {
+const buildVariables = (ownsSomeOfTheLand, knowsTheOwners, hasIdentifiedTheOwners) => {
+  return {
+    ownsSomeOfTheLand,
     knowsTheOwners,
     hasIdentifiedTheOwners,
-  });
+    backLink: '/full-appeal/submit-appeal/know-the-owners',
+  };
+};
+
+const getIdentifyingTheOwners = (req, res) => {
+  const { ownsSomeOfTheLand, knowsTheOwners, hasIdentifiedTheOwners } =
+    req.session.appeal[sectionName][taskName];
+  res.render(
+    IDENTIFYING_THE_OWNERS,
+    buildVariables(ownsSomeOfTheLand, knowsTheOwners, hasIdentifiedTheOwners)
+  );
 };
 
 const postIdentifyingTheOwners = async (req, res) => {
@@ -26,22 +37,24 @@ const postIdentifyingTheOwners = async (req, res) => {
       appeal,
       appeal: {
         [sectionName]: {
-          [taskName]: { knowsTheOwners },
+          [taskName]: { ownsSomeOfTheLand, knowsTheOwners },
         },
       },
     },
   } = req;
 
+  const hasIdentifiedTheOwner = body['identifying-the-owners'] === I_AGREE;
+  const variables = buildVariables(ownsSomeOfTheLand, knowsTheOwners, hasIdentifiedTheOwner);
   if (Object.keys(errors).length > 0) {
     return res.render(IDENTIFYING_THE_OWNERS, {
-      knowsTheOwners,
+      ...variables,
       errors,
       errorSummary,
     });
   }
 
   try {
-    appeal[sectionName][taskName].hasIdentifiedTheOwners = body['identifying-the-owners'];
+    appeal[sectionName][taskName].hasIdentifiedTheOwners = hasIdentifiedTheOwner;
     appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
     req.session.appeal = await createOrUpdateAppeal(appeal);
 
@@ -50,7 +63,7 @@ const postIdentifyingTheOwners = async (req, res) => {
     logger.error(err);
 
     return res.render(IDENTIFYING_THE_OWNERS, {
-      knowsTheOwners,
+      ...variables,
       errors,
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
