@@ -44,6 +44,8 @@ describe('controllers/full-appeal/submit-appeal/agricultural-holding', () => {
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(AGRICULTURAL_HOLDING, {
         isAgriculturalHolding: true,
+        ownsAllTheLand: true,
+        knowsTheOwners: 'yes',
       });
     });
   });
@@ -64,6 +66,8 @@ describe('controllers/full-appeal/submit-appeal/agricultural-holding', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(AGRICULTURAL_HOLDING, {
+        ownsAllTheLand: true,
+        knowsTheOwners: 'yes',
         errors,
         errorSummary,
       });
@@ -82,6 +86,8 @@ describe('controllers/full-appeal/submit-appeal/agricultural-holding', () => {
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(AGRICULTURAL_HOLDING, {
         isAgriculturalHolding: false,
+        ownsAllTheLand: true,
+        knowsTheOwners: 'yes',
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
       });

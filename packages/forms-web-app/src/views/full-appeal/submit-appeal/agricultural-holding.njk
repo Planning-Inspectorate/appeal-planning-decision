@@ -4,13 +4,21 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
+{% set backLink = '/full-appeal/submit-appeal' %}
+{% if ownsAllTheLand %}
+  {% set backLink = backLink + '/own-all-the-land' %}
+{% elif knowsTheOwners === 'no' %}
+  {% set backLink = backLink + '/advertising-your-appeal' %}
+{% else %}
+  {% set backLink = backLink + '/telling-the-landowners' %}
+{% endif %}
 {% set title = "Is the appeal site part of an agricultural holding? - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% block backButton %}
   {{ govukBackLink({
     text: 'Back',
-    href: '/full-appeal/submit-appeal/own-all-the-land',
+    href: backLink,
     attributes: {
       'data-cy': 'back'
     }

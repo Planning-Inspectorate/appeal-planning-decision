@@ -12,9 +12,16 @@ const sectionName = 'appealSiteSection';
 const taskName = 'agriculturalHolding';
 
 const getAgriculturalHolding = (req, res) => {
-  const { isAgriculturalHolding } = req.session.appeal[sectionName][taskName];
+  const {
+    [sectionName]: {
+      [taskName]: { isAgriculturalHolding },
+      siteOwnership: { ownsAllTheLand, knowsTheOwners },
+    },
+  } = req.session.appeal;
   res.render(AGRICULTURAL_HOLDING, {
     isAgriculturalHolding,
+    ownsAllTheLand,
+    knowsTheOwners,
   });
 };
 
@@ -22,11 +29,20 @@ const postAgriculturalHolding = async (req, res) => {
   const {
     body,
     body: { errors = {}, errorSummary = [] },
-    session: { appeal },
+    session: {
+      appeal,
+      appeal: {
+        [sectionName]: {
+          siteOwnership: { ownsAllTheLand, knowsTheOwners },
+        },
+      },
+    },
   } = req;
 
   if (Object.keys(errors).length > 0) {
     return res.render(AGRICULTURAL_HOLDING, {
+      ownsAllTheLand,
+      knowsTheOwners,
       errors,
       errorSummary,
     });
@@ -44,6 +60,8 @@ const postAgriculturalHolding = async (req, res) => {
 
     return res.render(AGRICULTURAL_HOLDING, {
       isAgriculturalHolding,
+      ownsAllTheLand,
+      knowsTheOwners,
       errors,
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
