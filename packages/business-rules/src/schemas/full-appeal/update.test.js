@@ -1315,12 +1315,18 @@ describe('schemas/full-appeal/update', () => {
             );
           });
 
-          it('should throw an error when not given a value', async () => {
+          it('should not throw an error when given a null value', async () => {
+            appeal.appealSiteSection.siteOwnership.ownsSomeOfTheLand = null;
+
+            const result = await update.validate(appeal, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should not throw an error when not given a value', async () => {
             delete appeal.appealSiteSection.siteOwnership.ownsSomeOfTheLand;
 
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              'appealSiteSection.siteOwnership.ownsSomeOfTheLand is a required field',
-            );
+            const result = await update.validate(appeal, config);
+            expect(result).toEqual(appeal);
           });
         });
 
@@ -1344,7 +1350,7 @@ describe('schemas/full-appeal/update', () => {
 
         describe('appealSiteSection.siteOwnership.knowsTheOwners', () => {
           it('should throw an error when given an invalid value', async () => {
-            appeal.appealSiteSection.siteOwnership.knowsTheOwners = 'appeal';
+            appeal.appealSiteSection.siteOwnership.knowsTheOwners = 'perhaps';
 
             await expect(() => update.validate(appeal, config)).rejects.toThrow(
               `appealSiteSection.siteOwnership.knowsTheOwners must be one of the following values: ${Object.values(
@@ -1353,12 +1359,18 @@ describe('schemas/full-appeal/update', () => {
             );
           });
 
-          it('should throw an error when not given a value', async () => {
+          it('should not throw an error when not given a value', async () => {
             delete appeal.appealSiteSection.siteOwnership.knowsTheOwners;
 
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              'appealSiteSection.siteOwnership.knowsTheOwners is a required field',
-            );
+            const result = await update.validate(appeal, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should not throw an error when given a null value', async () => {
+            appeal.appealSiteSection.siteOwnership.knowsTheOwners = null;
+
+            const result = await update.validate(appeal, config);
+            expect(result).toEqual(appeal);
           });
         });
 
@@ -1523,12 +1535,18 @@ describe('schemas/full-appeal/update', () => {
             );
           });
 
-          it('should throw an error when not given a value', async () => {
+          it('should not throw an error when given a null value', async () => {
+            appeal.appealSiteSection.agriculturalHolding.isTenant = null;
+
+            const result = await update.validate(appeal, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should not throw an error when not given a value', async () => {
             delete appeal.appealSiteSection.agriculturalHolding.isTenant;
 
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              'appealSiteSection.agriculturalHolding.isTenant is a required field',
-            );
+            const result = await update.validate(appeal, config);
+            expect(result).toEqual(appeal);
           });
         });
 
@@ -1541,12 +1559,18 @@ describe('schemas/full-appeal/update', () => {
             );
           });
 
-          it('should throw an error when not given a value', async () => {
+          it('should not throw an error when given a null value', async () => {
+            appeal.appealSiteSection.agriculturalHolding.hasOtherTenants = null;
+
+            const result = await update.validate(appeal, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should not throw an error when not given a value', async () => {
             delete appeal.appealSiteSection.agriculturalHolding.hasOtherTenants;
 
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              'appealSiteSection.agriculturalHolding.hasOtherTenants is a required field',
-            );
+            const result = await update.validate(appeal, config);
+            expect(result).toEqual(appeal);
           });
         });
       });

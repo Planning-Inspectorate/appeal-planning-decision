@@ -27,16 +27,16 @@ exports.postDeclaration = async (req, res) => {
     appealDocumentsSection,
     sectionStates,
   } = fullAppeal;
-  req.session.appeal.appealType = appealType;
+  // req.session.appeal.appealType = appealType;
   req.session.appeal.lpaCode = lpaCode;
-  req.session.appeal.decisionDate = decisionDate;
-  req.session.appeal.eligibility = eligibility;
-  req.session.appeal.contactDetailsSection = contactDetailsSection;
-  req.session.appeal.appealSiteSection = appealSiteSection;
-  req.session.appeal.appealDecisionSection = appealDecisionSection;
-  req.session.appeal.planningApplicationDocumentsSection = planningApplicationDocumentsSection;
-  req.session.appeal.appealDocumentsSection = appealDocumentsSection;
-  req.session.appeal.sectionStates = sectionStates;
+  // req.session.appeal.decisionDate = decisionDate;
+  // req.session.appeal.eligibility = eligibility;
+  // req.session.appeal.contactDetailsSection = contactDetailsSection;
+  // req.session.appeal.appealSiteSection = appealSiteSection;
+  // req.session.appeal.appealDecisionSection = appealDecisionSection;
+  // req.session.appeal.planningApplicationDocumentsSection = planningApplicationDocumentsSection;
+  // req.session.appeal.appealDocumentsSection = appealDocumentsSection;
+  // req.session.appeal.sectionStates = sectionStates;
 
   const { body } = req;
   const { errors = {} } = body;
