@@ -23,3 +23,4 @@ export const applicationStatusDetailed = () => cy.get('[data-cy=application-stat
 
 
 
+
