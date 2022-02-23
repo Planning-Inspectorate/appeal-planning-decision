@@ -15,7 +15,7 @@ Feature:  As an Appellant or Agent
     When they enter number of days into the box and click 'Continue'
     Then the page 'Upload your draft statement of common ground' page is displayed
 
-  Scenario Outline: 4 - Enter character, not a whole number, higher than 999 and lower than 999
+  Scenario Outline: 3 - Enter character, not a whole number, higher than 999 and lower than 999
     Given an Appellant or Agent has entered a '<value>' for the '<expectedUserInput>'
     When they click 'Continue'
     Then they are presented with an error message '<errorMessage>' in the expect inquiry last page
