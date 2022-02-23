@@ -1,7 +1,7 @@
 const { getDepartmentFromId } = require('../../../services/department.service');
 const { VIEW } = require('../../../lib/full-appeal/views');
 
-exports.getCheckAnswers = async (req, res) => {
+const getCheckYourAnswers = async (req, res) => {
   const { appeal } = req.session;
   let appealLPD = '';
 
@@ -12,10 +12,12 @@ exports.getCheckAnswers = async (req, res) => {
     }
   }
 
-  const options = {
+  res.render(VIEW.FULL_APPEAL.CHECK_YOUR_ANSWERS, {
     appealLPD,
     appeal,
-  };
+  });
+};
 
-  res.render(VIEW.FULL_APPEAL.CHECK_ANSWERS, options);
+module.exports = {
+  getCheckYourAnswers,
 };

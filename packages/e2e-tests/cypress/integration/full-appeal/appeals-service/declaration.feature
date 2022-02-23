@@ -12,6 +12,7 @@ Feature: As an Appellant/Agent
     When they click on 'Confirm and submit appeal'
     Then they are taken to the next page 'Appeal Submitted'
 
+  @wip
   Scenario: 3 - Agent navigate from 'Check your answers' URL to 'Declaration' URL
     Given an Agent is on the 'Check your answers' page
     When they click on 'Continue' button

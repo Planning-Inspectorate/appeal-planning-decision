@@ -17,7 +17,7 @@ import {
 } from '../../../../../support/full-appeal/appeals-service/page-objects/original-applicant-or-not-po';
 import { getSaveAndContinueButton } from '../../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
 
-const url = 'full-appeal/submit-appeal/check-answers';
+const url = 'full-appeal/submit-appeal/check-your-answers';
 const pageTitle = 'Check your answers - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Check your answers';
 const applicantName = 'Original applicant Teddy';
