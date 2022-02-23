@@ -15,7 +15,7 @@ Feature:  As an Appellant or Agent
     When they enter number of days into the box and click 'Continue'
     Then the page 'Upload your draft statement of common ground' page is displayed
 
-  Scenario Outline: 3 - Enter character, not a whole number, higher than 999 and lower than 999
+  Scenario Outline: 3 - Enter '<expectedUserInput>' as '<value>'
     Given an Appellant or Agent has entered a '<value>' for the '<expectedUserInput>'
     When they click 'Continue'
     Then they are presented with an error message '<errorMessage>' in the expect inquiry last page
@@ -27,7 +27,7 @@ Feature:  As an Appellant or Agent
       | higher than 999                   | 1000  | The days you would expect the inquiry to last must be a whole number between 1 and 999 |
       | lower than 1                      | 0     | The days you would expect the inquiry to last must be a whole number between 1 and 999 |
 
-  Scenario: 5 - Navigate from 'How many days would you expect the inquiry to last?' page back to 'Why would you prefer an inquiry?'
+  Scenario: 4 - Navigate from 'How many days would you expect the inquiry to last?' page back to 'Why would you prefer an inquiry?'
     Given an Appellant or Agent is on the 'How many days would you expect the inquiry to last?' page
     When they click on the 'Back' link
     Then they are presented with the 'Why would you prefer an inquiry?' page

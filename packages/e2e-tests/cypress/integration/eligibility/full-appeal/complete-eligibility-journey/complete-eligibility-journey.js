@@ -77,7 +77,7 @@ Given('appellant selects {string} planning application type',(applicationType)=>
 
 Given('appellant selects {string} from the list of options',(option)=>{
   verifyPageTitle('Was your planning application about any of the following? - Before you start - Appeal a planning decision - GOV.UK');
-  verifyPageHeading('Was your planning application was about any of the following?');
+  verifyPageHeading('Was your planning application about any of the following?');
   selectSiteOption(option);
 });
 Given('appellant selects the {string}',(application_decision)=>{
@@ -176,7 +176,7 @@ Then('data is persisted for {string} planning application type',(applicationType
 
 Then('data is persisted for {string} from the list of options',(option)=>{
   verifyPageTitle('Was your planning application about any of the following? - Before you start - Appeal a planning decision - GOV.UK');
-  verifyPageHeading('Was your planning application was about any of the following?');
+  verifyPageHeading('Was your planning application about any of the following?');
 getSiteOption(option);
 });
 

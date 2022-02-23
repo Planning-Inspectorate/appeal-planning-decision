@@ -6,4 +6,6 @@ export const inquiryTextBoxErrorMessage = () => cy.get('#why-inquiry-error');
 export const textBoxInquiry = () => cy.get('#why-inquiry');
 export const textBoxExpectDays = () => cy.get('#expected-days');
 export const expectedDaysErrorMessage = () => cy.get('#expected-days-error');
+export const textBoxWhyHearing = () => cy.get('#why-hearing');
+export const whyHearingErrorMessage = () => cy.get('#why-hearing-error');
 
