@@ -1,17 +1,33 @@
 import { goToFullAppealSubmitAppealTaskList } from './goToFullAppealSubmitAppealTaskList';
-import { aboutAppealSiteSectionLink, checkYourAnswersLink, contactDetailsLink } from './page-objects/task-list-page-po';
+import {
+  aboutAppealSiteSectionLink,
+  checkYourAnswersLink,
+  contactDetailsLink,
+  appealDocumentsSectionLink,
+  planningApplicationDocumentsLink,
+} from './page-objects/task-list-page-po';
 import {
   applicantCompanyName, contactDetailsEmail, contactDetailsFullName,
   originalApplicantName,
   originalApplicantNo,
 } from './page-objects/original-applicant-or-not-po';
-import { getSaveAndContinueButton } from '../../common-page-objects/common-po';
+import { getSaveAndContinueButton, getFileUploadButton } from '../../common-page-objects/common-po';
 import { provideAddressLine1 } from '../../common/appeal-submission-appeal-site-address/provideAddressLine1';
 import { providePostcode } from '../../common/appeal-submission-appeal-site-address/providePostcode';
 import { selectNo, selectYes } from './page-objects/own-the-land-po';
+import { linkDecideYourAppeal } from '../../../support/full-appeal/appeals-service/page-objects/appeal-form-task-list-po';
+import {
+  selectWrittenRepresentations,
+} from '../../../support/full-appeal/appeals-service/page-objects/decide-your-appeal-po';
+import {
+  planningApplicationNumber,
+} from '../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
+import { submitADesignStNo } from '../../../support/full-appeal/appeals-service/page-objects/design-access-statement-submitted-po';
+import { checkboxConfirmSensitiveInfo } from '../../../support/full-appeal/appeals-service/page-objects/your-appeal-statement-po';
 
 export const declariationPageMethodsAgent = () => {
   goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+
   contactDetailsLink().click();
   originalApplicantNo().click();
   getSaveAndContinueButton().click();
@@ -34,5 +50,29 @@ export const declariationPageMethodsAgent = () => {
   getSaveAndContinueButton().click();
   selectNo().click();
   getSaveAndContinueButton().click();
+
+  linkDecideYourAppeal().click();
+  selectWrittenRepresentations().click();
+  getSaveAndContinueButton().click();
+
+  planningApplicationDocumentsLink().click();
+  getFileUploadButton().attachFile('appeal-statement-valid.jpeg');
+  getSaveAndContinueButton().click();
+  planningApplicationNumber().type('PNO-1001');
+  getSaveAndContinueButton().click();
+  submitADesignStNo().click();
+  getSaveAndContinueButton().click();
+  getFileUploadButton().attachFile('appeal-statement-valid.jpeg');
+  getSaveAndContinueButton().click();
+
+  appealDocumentsSectionLink().click();
+  getFileUploadButton().attachFile('appeal-statement-valid.jpeg');
+  checkboxConfirmSensitiveInfo().click();
+  getSaveAndContinueButton().click();
+  selectNo().click();
+  getSaveAndContinueButton().click();
+  selectNo().click();
+  getSaveAndContinueButton().click();
+
   checkYourAnswersLink().click();
 }
