@@ -166,6 +166,42 @@ describe('schemas/full-appeal/update', () => {
       });
     });
 
+    describe('createdAt', () => {
+      it('should throw an error when given a value which is in an incorrect format', async () => {
+        appeal.createdAt = '03/07/2021';
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'Invalid Date or string not ISO format',
+        );
+      });
+
+      it('should throw an error when not given a value', async () => {
+        delete appeal.createdAt;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'createdAt is a required field',
+        );
+      });
+    });
+
+    describe('updatedAt', () => {
+      it('should throw an error when given a value which is in an incorrect format', async () => {
+        appeal.updatedAt = '03/07/2021';
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'Invalid Date or string not ISO format',
+        );
+      });
+
+      it('should throw an error when not given a value', async () => {
+        delete appeal.updatedAt;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'updatedAt is a required field',
+        );
+      });
+    });
+
     describe('state', () => {
       it('should throw an error when given an invalid value', async () => {
         appeal.state = 'PENDING';
