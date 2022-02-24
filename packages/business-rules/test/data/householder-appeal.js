@@ -3,6 +3,8 @@ const appeal = {
   horizonId: 'HORIZON123',
   lpaCode: 'E69999999',
   decisionDate: new Date(),
+  createdAt: new Date(),
+  updatedAt: new Date(),
   submissionDate: new Date(),
   state: 'DRAFT',
   appealType: '1001',

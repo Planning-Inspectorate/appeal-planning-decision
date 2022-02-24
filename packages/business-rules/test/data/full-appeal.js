@@ -5,6 +5,8 @@ const appeal = {
   horizonId: 'HORIZON123',
   lpaCode: 'E69999999',
   decisionDate: new Date(),
+  createdAt: new Date(),
+  updatedAt: new Date(),
   state: 'SUBMITTED',
   appealType: '1005',
   typeOfPlanningApplication: 'full-appeal',

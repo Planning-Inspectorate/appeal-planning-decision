@@ -35,6 +35,8 @@ const update = pinsYup
         .transform(parseDateString)
         .required();
     }),
+    createdAt: pinsYup.date().transform(parseDateString).required(),
+    updatedAt: pinsYup.date().transform(parseDateString).required(),
     submissionDate: pinsYup.date().transform(parseDateString).nullable(),
     state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).required(),
     eligibility: pinsYup

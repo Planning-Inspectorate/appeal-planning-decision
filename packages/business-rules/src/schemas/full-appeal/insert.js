@@ -20,6 +20,8 @@ const insert = pinsYup
     horizonId: pinsYup.string().trim().max(20).nullable(),
     lpaCode: pinsYup.string().trim().max(20).nullable(),
     decisionDate: pinsYup.date().transform(parseDateString).nullable(),
+    createdAt: pinsYup.date().transform(parseDateString).required(),
+    updatedAt: pinsYup.date().transform(parseDateString).required(),
     state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).default(APPEAL_STATE.DRAFT),
     appealType: pinsYup.lazy((appealType) => {
       if (appealType) {
