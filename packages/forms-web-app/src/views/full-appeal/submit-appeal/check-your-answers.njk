@@ -21,7 +21,7 @@
       <h2 class="govuk-heading-l" data-cy="contact-details-heading">Your contact details</h2>
       {% set isOriginalApplicantValue = "Yes, the planning application was made in my name" %}
       {% if not appeal.contactDetailsSection.isOriginalApplicant %}
-        {% set isOriginalApplicantValue = "No, I'm an agent acting on behalf of the applicant" %}
+        {% set isOriginalApplicantValue = "No, I'm acting on behalf of the appellant" %}
       {% endif %}
       {% set isOriginalApplicantRowActions = {
         items: [
