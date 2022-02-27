@@ -71,18 +71,6 @@ When('the appellant select {string} and click continue',(option)=>{
   cy.checkPageA11y();
 })
 
-Then('Telling the {string} page is displayed with guidance text',(tenants)=>{
-  if(tenants==='Telling the tenants'){
-    verifyPageTitle(pageTitleTellingTheTenants);
-    verifyPageHeading(pageHeadingTellingTheTenants);
-    pageCaptionText(tellingTheTenantsCaption);
-  }else if(tenants==='Telling the other tenants') {
-    verifyPageTitle(pageTitleTellingTheOtherTenants);
-    verifyPageHeading(pageHeadingTellingTheOtherTenants);
-    pageCaptionText(tellingTheTenantsCaption);
-  }
-});
-
 Given('an appellant or agent is on the {string} page',(tenant)=>{
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
