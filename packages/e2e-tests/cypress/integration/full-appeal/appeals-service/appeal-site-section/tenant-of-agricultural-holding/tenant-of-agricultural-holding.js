@@ -70,6 +70,10 @@ Given("an appellant or agent is on the 'Are you a tenant of the agricultural hol
 Then("the user is taken to the next page 'Are there any other tenants?' page is displayed", () => {
   cy.url().should('contain', otherTenantsUrl);
 });
+Then("the answer 'Yes' is selected in the 'Are there any other tenants?' page", () => {
+  cy.url().should('include', url);
+  selectYes().should('be.checked');
+})
 Then("are taken to the next page 'Telling the tenants'", () => {
   cy.url().should('contain', tellingTheTenantsUrl);
 });
