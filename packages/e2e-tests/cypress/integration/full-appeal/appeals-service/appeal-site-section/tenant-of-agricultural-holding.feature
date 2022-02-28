@@ -12,6 +12,8 @@ Feature: As an appellant/agent
     Given an appellant or agent is on the 'Are you a tenant of the agricultural holding?' page
     When the user select 'Yes' and click 'Continue'
     Then the user is taken to the next page 'Are there any other tenants?' page is displayed
+    When they click on the 'Back' link
+    Then the answer 'Yes' is selected in the 'Are there any other tenants?' page
 
   Scenario: 3 - No option is selected on 'Are you a tenant of the agricultural holding?' page
     Given an appellant or agent is on the 'Are you a tenant of the agricultural holding?' page
