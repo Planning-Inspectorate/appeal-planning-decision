@@ -24,7 +24,7 @@ import { checkboxConfirmSensitiveInfo } from '../../../support/full-appeal/appea
 import {
   selectWrittenRepresentations,
 } from '../../../support/full-appeal/appeals-service/page-objects/decide-your-appeal-po';
-export const declarationPageMethodsAppellant = () => {
+export const declarationPageMethodsAppellant = (count) => {
   goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
 
   contactDetailsLink().click();
