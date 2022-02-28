@@ -653,7 +653,7 @@
             text: "Change",
             visuallyHiddenText: "if you submitted a design and access statement with your application",
             attributes: {
-              "data-cy": "change-design-access-statement"
+              "data-cy": "change-has-design-access-statement"
             }
           }
         ]
@@ -661,11 +661,11 @@
       {% set hasDesignAccessStatementRow = {
         key: { text: summaryField(
           "Design and access statement submitted with application",
-          { "data-cy": "design-access-statement-label" }
+          { "data-cy": "has-design-access-statement-label" }
         ) },
         value: { text: boolToSentenceCaseField(
           appeal.planningApplicationDocumentsSection.designAccessStatement.isSubmitted,
-          { "data-cy": "design-access-statement" }
+          { "data-cy": "has-design-access-statement" }
         ) },
         actions: hasDesignAccessStatementRowActions if displayActions !== false
       } %}
