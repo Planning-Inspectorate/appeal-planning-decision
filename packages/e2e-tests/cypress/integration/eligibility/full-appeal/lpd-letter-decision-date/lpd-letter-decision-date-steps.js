@@ -16,7 +16,6 @@ import {
   enterDateDecisionReceived
 } from "../../../../support/eligibility/date-decision-received/enter-date-decision-received";
 import {
-  getDateDecisionDueDay,
   getPlanningApplicationDecisionError
 } from "../../../../support/eligibility/page-objects/date-decision-due-po";
 import {getDateDecisionReceivedDay} from "../../../../support/eligibility/page-objects/date-decision-received-po";
@@ -29,7 +28,6 @@ import {
   getSaveAndContinueButton,
 } from '../../../../support/common-page-objects/common-po';
 import {
-  enterDateDecisionDue,
   verifyHighlights
 } from "../../../../support/eligibility/date-decision-due/enter-date-decision-due";
 import {getAppealDeadline} from "../../../../support/eligibility/page-objects/shutter-page-po";
@@ -67,7 +65,7 @@ Given('appellant is on the what date was the decision received page',()=>{
 
 When('appellant enters the date within 6 months when the decision was received',()=>{
   const validDate = getPastDate(allowedDatePart.MONTH, 3);
-  enterDateDecisionReceived( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
+  enterDateDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate) } );
 });
 
 When('appellant clicks on continue',()=>{
@@ -76,12 +74,12 @@ When('appellant clicks on continue',()=>{
 
 When('appellant enters future date decision received of {string}-{string}', (datePart, value) => {
   const futureDate = getFutureDate(datePart, value);
-  enterDateDecisionReceived( {day: getDate(futureDate), month: getMonth(futureDate) + 1, year: getYear(futureDate) } );
+  enterDateDecisionReceived( {day: ("0" + getDate(futureDate)).slice(-2), month: ("0" + (getMonth(futureDate)+1)).slice(-2) , year: getYear(futureDate) } );
 });
 
 When('appellant enters the date older than 6 months when the decision was received',()=>{
   pastDate = getPastDate(allowedDatePart.MONTH, 7);
-  enterDateDecisionReceived( {day: getDate(pastDate), month: getMonth(pastDate) + 1, year: getYear(pastDate) } );
+  enterDateDecisionReceived( {day: ("0" + getDate(pastDate)).slice(-2), month: ("0" + (getMonth(pastDate)+1)).slice(-2) , year: getYear(pastDate) } );
 });
 
 When('appellant enters date decision received of {string}-{string}-{string}',(day,month,year)=>{
