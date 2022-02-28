@@ -23,7 +23,7 @@ export const goToFullAppealSubmitAppealTaskList = (url, applicationType) =>  {
   getSaveAndContinueButton().click();
   cy.url().should('contain', 'before-you-start/decision-date');
   const validDate = getPastDate(allowedDatePart.MONTH, 1);
-  enterDateDecisionDue( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
+  enterDateDecisionDue( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate) } );
   getSaveAndContinueButton().click();
   cy.url().should('contain', 'before-you-start/enforcement-notice');
   selectNo().click();

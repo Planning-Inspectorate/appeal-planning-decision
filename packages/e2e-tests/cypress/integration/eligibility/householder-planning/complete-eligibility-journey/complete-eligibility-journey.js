@@ -96,28 +96,20 @@ Given('appellant enters the date within {string} when the {string} was received'
    validDate = getPastDate(allowedDatePart.MONTH, 3);
       verifyPageTitle('What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a householder planning decision - GOV.UK');
       verifyPageHeading('What\'s the decision date on the letter from the local planning department?');
-      //enterDateHouseholderDecisionReceived( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
-    cy.get('#decision-date-householder-day').type(getDate(validDate));
-    cy.get('#decision-date-householder-month').type(getMonth(validDate) +1);
-    cy.get('#decision-date-householder-year').type(getYear(validDate));
+      enterDateHouseholderDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate) + 1)).slice(-2) , year: getYear(validDate) } );
+
     }
   else if(deadline_duration==='12 weeks' && application_decision==='Refused') {
     validDate = getPastDate(allowedDatePart.WEEK, 8);
     verifyPageTitle('What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a householder planning decision - GOV.UK');
     verifyPageHeading('What\'s the decision date on the letter from the local planning department?');
-    //enterDateHouseholderDecisionReceived( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
-    cy.get('#decision-date-householder-day').type(getDate(validDate));
-    cy.get('#decision-date-householder-month').type(getMonth(validDate) +1);
-    cy.get('#decision-date-householder-year').type(getYear(validDate));
+    enterDateHouseholderDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+ 1)).slice(-2) , year: getYear(validDate) } );
   }
   else{
       validDate = getPastDate(allowedDatePart.MONTH, 3);
       verifyPageTitle('What date was your decision due? - Before you start - Appeal a householder planning decision - GOV.UK');
       verifyPageHeading('What date was your decision due?');
-      //enterDateDecisionDueHouseholder( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
-    cy.get('#date-decision-due-householder-day').type(getDate(validDate));
-    cy.get('#date-decision-due-householder-month').type(getMonth(validDate) +1);
-    cy.get('#date-decision-due-householder-year').type(getYear(validDate));
+      enterDateDecisionDueHouseholder( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+ 1)).slice(-2) , year: getYear(validDate) } );
   }
   });
 
@@ -145,11 +137,11 @@ When('appellant enters the date within 6 months when the {string} was received',
   if(application_decision==='Granted' || application_decision ==='Refused'){
     verifyPageTitle('What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK');
     verifyPageHeading('What\'s the decision date on the letter from the local planning department?');
-    enterDateDecisionReceived( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
+    enterDateDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+ 1)).slice(-2) , year: getYear(validDate) } );
   }else{
     verifyPageTitle('What date was your decision due? - Before you start - Appeal a planning decision - GOV.UK');
     verifyPageHeading('What date was your decision due?');
-    enterDateDecisionDue( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
+    enterDateDecisionDue( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+ 1)).slice(-2) , year: getYear(validDate) } );
   }
 })
 
@@ -186,19 +178,19 @@ Then('data is persisted for the date within {string} when the {string} was recei
     validDate = getPastDate(allowedDatePart.MONTH, 3);
     verifyPageTitle('What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a householder planning decision - GOV.UK');
     verifyPageHeading('What\'s the decision date on the letter from the local planning department?');
-    getDateHouseholderDecisionReceived( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
+    getDateHouseholderDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+ 1)).slice(-2) , year: getYear(validDate) } );
   }
   else if(deadline_duration==='12 weeks' && application_decision==='Refused') {
     validDate = getPastDate(allowedDatePart.WEEK, 8);
     verifyPageTitle('What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a householder planning decision - GOV.UK');
     verifyPageHeading('What\'s the decision date on the letter from the local planning department?');
-    getDateHouseholderDecisionReceived( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
+    getDateHouseholderDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+ 1)).slice(-2) , year: getYear(validDate) } );
   }
   else{
     validDate = getPastDate(allowedDatePart.MONTH, 3);
     verifyPageTitle('What date was your decision due? - Before you start - Appeal a householder planning decision - GOV.UK');
     verifyPageHeading('What date was your decision due?');
-    getDateDecisionDueHouseholder( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
+    getDateDecisionDueHouseholder( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+ 1)).slice(-2) , year: getYear(validDate) } );
   }
 });
 

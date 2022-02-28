@@ -71,12 +71,12 @@ Given('appellant is on the what date was the decision due page',()=>{
 
 When('appellant enters the date within 6 months when they were due a decision', () => {
   const validDate = getPastDate(allowedDatePart.MONTH, 3);
-  enterDateDecisionDue( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
+  enterDateDecisionDue( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate) } );
 });
 
 When('appellant enters a past date of over 6 months', () => {
   pastDate = getPastDate(allowedDatePart.MONTH, 7);
-  enterDateDecisionDue( {day: getDate(pastDate), month: getMonth(pastDate) + 1, year: getYear(pastDate) } );
+  enterDateDecisionDue( {day: ("0" + getDate(pastDate)).slice(-2), month: ("0" + (getMonth(pastDate)+1)).slice(-2) , year: getYear(pastDate) } );
 });
 
 When('appellant clicks on continue', () => {
@@ -89,7 +89,7 @@ When('appellant enters date decision due of {string}-{string}-{string}', (day, m
 
 When('appellant enters future date decision due of {string}-{string}', (datePart, value) => {
   const futureDate = getFutureDate(datePart, value);
-  enterDateDecisionDue( {day: getDate(futureDate), month: getMonth(futureDate) + 1, year: getYear(futureDate) } );
+  enterDateDecisionDue( {day: ("0" + getDate(futureDate)).slice(-2), month: ("0" + (getMonth(futureDate)+1)).slice(-2) , year: getYear(futureDate) } );
 });
 
 When('appellant selects the back button', () => {
