@@ -13,19 +13,17 @@ import {verifyErrorMessage} from "../../../../support/common/verify-error-messag
 import {
   getBackLink,
   getErrorMessageSummary,
-  getSaveAndContinueButton,
 } from '../../../../support/common-page-objects/common-po';
 import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
 import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
-import { selectSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/select-site-option';
 import { selectPlanningApplicationDecision } from '../../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
 import { allowedDatePart, getPastDate } from '../../../../support/common/getDate';
-import { enterDateDecisionDue } from '../../../../support/eligibility/date-decision-due/enter-date-decision-due';
 import { getDate, getMonth, getYear } from 'date-fns';
 import { getEnforcementNoticeNo } from '../../../../support/eligibility/page-objects/enforcement-notice-po';
-import { getListedBuildingOption } from '../../../../support/eligibility/page-objects/appellant-selects-the-site-po';
 import { getIsNotListedBuilding } from '../../../../support/eligibility/page-objects/listed-building-po';
-import { enterDateDecisionDueHouseholder } from '../../../../support/eligibility/date-decision-due-householder/enter-date-decision-due-householder';
+import {
+  enterDateHouseholderDecisionReceived
+} from '../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received';
 const pageUrl = 'before-you-start/claiming-costs-householder';
 const pageTitle = 'Are you claiming costs as part of your appeal? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Are you claiming costs as part of your appeal?';
@@ -41,7 +39,7 @@ Given('appellant is on the claiming cost page',()=>{
   selectPlanningApplicationDecision('Refused');
   getContinueButton().click();
   const validDate = getPastDate(allowedDatePart.MONTH, 3);
-  enterDateDecisionDueHouseholder({ day: getDate(validDate), month: getMonth(validDate) +2, year: getYear(validDate)});
+  enterDateHouseholderDecisionReceived({ day: getDate(validDate), month: getMonth(validDate) +2, year: getYear(validDate)});
   getContinueButton().click();
   getEnforcementNoticeNo().click();
   getContinueButton().click();

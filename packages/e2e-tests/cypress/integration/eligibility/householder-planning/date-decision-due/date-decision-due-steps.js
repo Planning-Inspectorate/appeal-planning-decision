@@ -89,28 +89,19 @@ Given('appellant is on the what date was the decision due page for householder',
 When('appellant enters the {string} within 6 months when they were due a decision',
    (valid_month) => {
      const validDate = getPastDate( allowedDatePart.MONTH, valid_month );
-     //   enterDateDecisionDueHouseholder({
-     //     day: getDate(validDate),
-     //     month: getMonth(validDate) + 1,
-     //     year: getYear(validDate),
-     //   });
-     cy.get( '#date-decision-due-householder-day' ).type( getDate( validDate ) );
-     cy.get( '#date-decision-due-householder-month' ).type( getMonth( validDate ) + 1 );
-     cy.get( '#date-decision-due-householder-year' ).type( getYear( validDate ) );
+       enterDateDecisionDueHouseholder({
+         day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate),
+       });
    });
 
 
 
 When('appellant enters an date older than 6 months when they were due a decision', () => {
    pastDate = getPastDate(allowedDatePart.MONTH, 7);
-  // enterDateDecisionDueHouseholder({
-  //   day: getDate(pastDate),
-  //   month: getMonth(pastDate) + 1,
-  //   year: getYear(pastDate),
-  // });
-  cy.get('#date-decision-due-householder-day').type(getDate(pastDate));
-  cy.get('#date-decision-due-householder-month').type(getMonth(pastDate) +1);
-  cy.get('#date-decision-due-householder-year').type(getYear(pastDate));
+  enterDateDecisionDueHouseholder({
+    day: ("0" + getDate(pastDate)).slice(-2), month: ("0" + (getMonth(pastDate)+1)).slice(-2) ,
+    year: getYear(pastDate),
+  });
 
 });
 
@@ -119,27 +110,24 @@ When('appellant clicks on continue', () => {
 });
 
 When('appellant enters date decision due of {string}-{string}-{string}', (day, month, year) => {
-  //enterDateDecisionDueHouseholder({ day, month, year });
-  if(day) {
-    cy.get('#date-decision-due-householder-day').type(day);
-  }
-  if(month){
-  cy.get('#date-decision-due-householder-month').type(month);}
-  if(year){
-  cy.get('#date-decision-due-householder-year').type(year);}
+  enterDateDecisionDueHouseholder({ day, month, year });
+  // if(day) {
+  //   cy.get('#date-decision-due-householder-day').type(day);
+  // }
+  // if(month){
+  // cy.get('#date-decision-due-householder-month').type(month);}
+  // if(year){
+  // cy.get('#date-decision-due-householder-year').type(year);}
 });
 
 When('appellant enters future date decision due of {string}-{string}', (datePart, value) => {
    const futureDate = getFutureDate(datePart, value);
-  // enterDateDecisionDueHouseholder({
-  //   day: getDate(futureDate),
-  //   month: getMonth(futureDate) + 1,
-  //   year: getYear(futureDate),
-  // });
+  enterDateDecisionDueHouseholder({
+    day: ("0" + getDate(futureDate)).slice(-2), month: ("0" + (getMonth(futureDate)+1)).slice(-2) ,
+    year: getYear(futureDate),
+  });
 
-  cy.get('#date-decision-due-householder-day').type(getDate(futureDate));
-  cy.get('#date-decision-due-householder-month').type(getMonth(futureDate) +1);
-  cy.get('#date-decision-due-householder-year').type(getYear(futureDate));
+
 });
 
 When('appellant selects the back button', () => {
