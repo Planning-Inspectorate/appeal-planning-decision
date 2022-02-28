@@ -64,10 +64,10 @@ Given('appellant is on the what date was the decision received page',()=>{
 When('appellant enters the date lesser than the deadline date for {string}',(application_decision)=>{
   if(application_decision==='Granted'){
     const validDate = getPastDate(allowedDatePart.MONTH, 3);
-    enterDateHouseholderDecisionReceived( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
+    enterDateHouseholderDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate) } );
   }else if(application_decision==='Refused'){
     const validDate = getPastDate(allowedDatePart.MONTH, 2);
-    enterDateHouseholderDecisionReceived( {day: getDate(validDate), month: getMonth(validDate) + 1, year: getYear(validDate) } );
+    enterDateHouseholderDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate) } );
   }
 
 });
@@ -78,16 +78,16 @@ When('appellant clicks on continue',()=>{
 
 When('appellant enters future date decision received of {string}-{string}', (datePart, value) => {
   const futureDate = getFutureDate(datePart, value);
-  enterDateHouseholderDecisionReceived( {day: getDate(futureDate), month: getMonth(futureDate) + 1, year: getYear(futureDate) } );
+  enterDateHouseholderDecisionReceived( {day: ("0" + getDate(futureDate)).slice(-2), month: ("0" + (getMonth(futureDate)+1)).slice(-2) , year: getYear(futureDate) } );
 });
 
 When('appellant enters the date older than the deadline date for {string}',(application_decision)=>{
   if(application_decision==='Granted'){
     const pastDate = getPastDate(allowedDatePart.MONTH, 7);
-    enterDateHouseholderDecisionReceived( {day: getDate(pastDate), month: getMonth(pastDate) + 1, year: getYear(pastDate) } );
+    enterDateHouseholderDecisionReceived( {day: ("0" + getDate(pastDate)).slice(-2), month: ("0" + (getMonth(pastDate)+1)).slice(-2) , year: getYear(pastDate) } );
   }else if(application_decision==='Refused'){
     const pastDate = getPastDate(allowedDatePart.MONTH, 4);
-    enterDateHouseholderDecisionReceived( {day: getDate(pastDate), month: getMonth(pastDate) + 1, year: getYear(pastDate) } );
+    enterDateHouseholderDecisionReceived( {day: ("0" + getDate(pastDate)).slice(-2), month: ("0" + (getMonth(pastDate)+1)).slice(-2) , year: getYear(pastDate) } );
   }
 
 });
