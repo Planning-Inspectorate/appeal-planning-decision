@@ -19,6 +19,9 @@ import { allowedDatePart, getPastDate } from '../../../../support/common/getDate
 import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
 import { getIsNotListedBuilding } from '../../../../support/eligibility/page-objects/listed-building-po';
 import { enterDateDecisionDueHouseholder } from '../../../../support/eligibility/date-decision-due-householder/enter-date-decision-due-householder';
+import {
+  enterDateHouseholderDecisionReceived
+} from '../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received';
 const pageHeading = 'Have you received an enforcement notice?';
 const pageTitle = 'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK';
 const url = `before-you-start/enforcement-notice-householder`;
@@ -36,7 +39,7 @@ Given('appellant is on the enforcement notice page for householder planning', ()
   selectPlanningApplicationDecision('Refused');
   getContinueButton().click();
   const validDate = getPastDate(allowedDatePart.MONTH, 3);
-  enterDateDecisionDueHouseholder({ day: getDate(validDate), month: getMonth(validDate) +2, year: getYear(validDate)});
+  enterDateHouseholderDecisionReceived({ day: getDate(validDate), month: getMonth(validDate) +2, year: getYear(validDate)});
   getContinueButton().click();
   cy.url().should('contain', url);
   verifyPageHeading(pageHeading);
@@ -54,7 +57,7 @@ Given('appellant is on the enforcement notice page for {string}', (application_t
   selectPlanningApplicationDecision('Refused');
   getContinueButton().click();
   const validDate = getPastDate(allowedDatePart.MONTH, 3);
-  enterDateDecisionDueHouseholder({ day: getDate(validDate), month: getMonth(validDate) +2, year: getYear(validDate)});
+  enterDateHouseholderDecisionReceived({ day: getDate(validDate), month: getMonth(validDate) +2, year: getYear(validDate)});
   getContinueButton().click();
   cy.url().should('contain', url);
   verifyPageHeading(pageHeading);
