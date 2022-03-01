@@ -29,3 +29,6 @@ export const tellingTheTenantsText = () => cy.findByText('You must have told all
 export const tellingTheTenantsFormInAnnexe = () => cy.findByRole('link', {name:"form in Annexe 2a of the 'making your appeal' guidance"});
 export const errorMessageTellingTheTenants = () => cy.get('#telling-the-tenants-error');
 export const tellingTheOtherTenantsText = () => cy.findByText('You must have told all the other tenants about your appeal.');
+export const advertisingYourAppealToldAboutAppeal = () => cy.get('[data-cy=advertising-your-appeal-toldAboutMyAppeal]');
+export const advertisingYourAppealWithinLast21Days = () => cy.get('[data-cy=advertising-your-appeal-withinLast21Days]');
+export const advertisingYourAppealUseCopyOfTheForm = () => cy.get('[data-cy=advertising-your-appeal-useCopyOfTheForm]')
