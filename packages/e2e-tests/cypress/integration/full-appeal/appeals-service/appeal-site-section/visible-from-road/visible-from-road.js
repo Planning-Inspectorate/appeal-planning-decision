@@ -4,7 +4,7 @@ import {
   selectYes, textBox,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 import {
-  provideDetails,
+  notVisibleFromLandProvideDetails,
   errorMessageVisibleFromRoadDetails,
   errorMessageVisibleFromRoad,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/visible-from-road-po';
@@ -64,7 +64,7 @@ When( "the user selects No and Enter more than 255 characters in the text box an
 
 When("the user selects 'No' and enters details about how the visibility is restricted and clicks 'Continue'", (option) => {
   selectNo().click();
-  provideDetails();
+  notVisibleFromLandProvideDetails().type(`{selectall}{backspace}The site is behind a tall wall`);
   getSaveAndContinueButton().click();
 });
 Then("the 'Is the site visible from a public road?' page is displayed", () => {

@@ -4,7 +4,7 @@ import {
   selectYes, textBox,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 import {
-  provideDetails,
+  healthAndSafetyIssuesProvideDetails,
   errorMessageHealthSafetyIssuesDetails,
   errorMessageHealthSafetyIssues,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/health-safety-issues-po';
@@ -60,7 +60,7 @@ When("the user selects {string} and clicks 'Continue'", (option) => {
 });
 When("the user selects 'Yes' and enters details about the health and safety issues and clicks 'Continue'", () => {
   selectYes().click();
-  provideDetails();
+  healthAndSafetyIssuesProvideDetails().type(`{selectall}{backspace}The site has no mobile reception`);
   getSaveAndContinueButton().click();
 });
 Then("the 'Are there any health and safety issues on the appeal site?' page is displayed", () => {
@@ -95,7 +95,7 @@ When( "the user selects No and Enter more than 255 characters in the text box an
   const count = 255;
   const value = 'x'.repeat(count + 1);
   selectYes().click();
-  provideDetails().clear().type(value);
+  healthAndSafetyIssuesProvideDetails().clear().type(value);
   getSaveAndContinueButton().click();
 } );
 Then('they are presented with an error message {string}', (errorMessage) => {
