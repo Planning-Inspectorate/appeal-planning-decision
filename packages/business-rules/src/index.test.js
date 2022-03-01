@@ -3,6 +3,7 @@ const rules = require('./rules');
 const validation = require('./validation');
 const schemas = require('./schemas');
 const constants = require('./constants');
+const config = require('./config');
 
 describe('index', () => {
   it('should export the expected data shape', () => {
@@ -11,6 +12,7 @@ describe('index', () => {
       validation,
       schemas,
       constants,
+      config,
     });
   });
 });

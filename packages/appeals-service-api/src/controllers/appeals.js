@@ -5,7 +5,6 @@ const {
   getAppeal: getAppealFromAppealApiService,
   updateAppeal,
   insertAppeal,
-  patchAppeal,
 } = require('../services/appeal.service');
 const ApiError = require('../error/apiError');
 const { appealDocument } = require('../models/appeal');

@@ -1,7 +1,10 @@
+const { format } = require('date-fns');
 const {
   APPEAL_ID,
+  APPLICATION_DECISION,
   PROCEDURE_TYPE: { WRITTEN_REPRESENTATION, HEARING, INQUIRY },
 } = require('./constants');
+const formatAddress = require('./utils/format-address');
 
 const config = {
   appeal: {
@@ -40,6 +43,28 @@ const config = {
         questionnaireDue: {
           time: 1,
           duration: 'weeks',
+        },
+        email: {
+          appellant: (appeal, lpa) => ({
+            recipientEmail: appeal.aboutYouSection.yourDetails.email,
+            variables: {
+              name: appeal.aboutYouSection.yourDetails.name,
+              'appeal site address': formatAddress(appeal.appealSiteSection.siteAddress),
+              'local planning department': lpa.name,
+              'view appeal url': `${process.env.APP_APPEALS_BASE_URL}/your-planning-appeal/${appeal.id}`,
+            },
+            reference: appeal.id,
+          }),
+          lpa: (appeal, lpa) => ({
+            recipientEmail: lpa.email,
+            variables: {
+              LPA: lpa.name,
+              date: format(appeal.submissionDate, 'dd MMMM yyyy'),
+              'planning application number': appeal.requiredDocumentsSection.applicationNumber,
+              'site address': formatAddress(appeal.appealSiteSection.siteAddress),
+            },
+            reference: appeal.id,
+          }),
         },
       },
       [APPEAL_ID.ENFORCEMENT_LISTED_BUILDING]: {
@@ -92,6 +117,41 @@ const config = {
         questionnaireDue: {
           time: 1,
           duration: 'weeks',
+        },
+        email: {
+          appellant: (appeal, lpa) => ({
+            recipientEmail: appeal.contactDetailsSection.contact.email,
+            variables: {
+              name: appeal.contactDetailsSection.contact.name,
+              'appeal site address': formatAddress(appeal.appealSiteSection.siteAddress),
+              'local planning department': lpa.name,
+              'link to pdf': `${process.env.APP_APPEALS_BASE_URL}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`,
+            },
+            reference: appeal.id,
+          }),
+          lpa: (appeal, lpa) => ({
+            recipientEmail: lpa.email,
+            variables: {
+              'loca planning department': lpa.name,
+              'submission date': format(appeal.submissionDate, 'dd MMMM yyyy'),
+              'planning application number':
+                appeal.planningApplicationDocumentsSection.applicationNumber,
+              'site address': formatAddress(appeal.appealSiteSection.siteAddress),
+              refused:
+                appeal.eligibility.applicationDecision === APPLICATION_DECISION.REFUSED
+                  ? 'yes'
+                  : 'no',
+              granted:
+                appeal.eligibility.applicationDecision === APPLICATION_DECISION.GRANTED
+                  ? 'yes'
+                  : 'no',
+              'non-determination':
+                appeal.eligibility.applicationDecision === APPLICATION_DECISION.NODECISIONRECEIVED
+                  ? 'yes'
+                  : 'no',
+            },
+            reference: appeal.id,
+          }),
         },
       },
       [APPEAL_ID.PLANNING_LISTED_BUILDING]: {
@@ -172,23 +232,7 @@ const config = {
           duration: 'weeks',
         },
       },
-      [APPEAL_ID.FULL_APPEAL]: {
-        id: 'D',
-        name: 'Full Appeal',
-        procedureType: [WRITTEN_REPRESENTATION],
-        appealDue: {
-          time: 6,
-          duration: 'months',
-        },
-        questionnaireDue: {
-          time: 1,
-          duration: 'weeks',
-        },
-      },
     },
-  },
-  procedure: {
-    type: [WRITTEN_REPRESENTATION, HEARING, INQUIRY],
   },
   featureFlag: {
     newAppealJourney: process.env.FEATURE_FLAG_NEW_APPEAL_JOURNEY === 'true' || true,

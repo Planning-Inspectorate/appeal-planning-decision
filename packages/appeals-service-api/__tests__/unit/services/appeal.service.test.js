@@ -1,14 +1,15 @@
 const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
+const {
+  constants: { APPEAL_ID },
+} = require('@pins/business-rules');
 const { updateAppeal, validateAppeal } = require('../../../src/services/appeal.service');
 const mongodb = require('../../../src/db/db');
 const queue = require('../../../src/lib/queue');
 const notify = require('../../../src/lib/notify');
-const { APPEAL_TYPE } = require('../../../src/constants');
 
 jest.mock('../../../src/db/db');
 jest.mock('../../../src/lib/queue');
 jest.mock('../../../src/lib/notify');
-jest.mock('../../../src/lib/full-appeal/notify');
 jest.mock('../../../../common/src/lib/notify/notify-builder', () => ({}));
 
 describe('services/validation.service', () => {
@@ -372,8 +373,8 @@ describe('services/validation.service', () => {
       expect(outcome).toEqual(updatedAppeal);
       expect(appeal.submissionDate).toBe(null);
       expect(queue.addAppeal).not.toHaveBeenCalled();
-      expect(notify.sendAppealSubmissionConfirmationEmailToAppellant).not.toHaveBeenCalled();
-      expect(notify.sendAppealSubmissionReceivedNotificationEmailToLpa).not.toHaveBeenCalled();
+      expect(notify.sendSubmissionConfirmationEmailToAppellant).not.toHaveBeenCalled();
+      expect(notify.sendSubmissionReceivedEmailToLpa).not.toHaveBeenCalled();
     });
 
     test('isFirstSubmission is true', async () => {
@@ -381,18 +382,14 @@ describe('services/validation.service', () => {
       expect(outcome).toEqual(updatedAppeal);
       expect(appeal.submissionDate).not.toBe(null);
       expect(queue.addAppeal).toHaveBeenCalledWith(updatedAppeal);
-      expect(notify.sendAppealSubmissionConfirmationEmailToAppellant).toHaveBeenCalledWith(
-        appeal.value
-      );
-      expect(notify.sendAppealSubmissionReceivedNotificationEmailToLpa).toHaveBeenCalledWith(
-        appeal.value
-      );
+      expect(notify.sendSubmissionConfirmationEmailToAppellant).toHaveBeenCalledWith(appeal.value);
+      expect(notify.sendSubmissionReceivedEmailToLpa).toHaveBeenCalledWith(appeal.value);
     });
 
     test('isFirstSubmission is true for full-appeal', async () => {
       const fullAppeal = {
         ...appeal,
-        appealType: APPEAL_TYPE.PLANNING_SECTION_78,
+        appealType: APPEAL_ID.PLANNING_SECTION_78,
       };
 
       updatedAppeal = JSON.parse(JSON.stringify(fullAppeal));
