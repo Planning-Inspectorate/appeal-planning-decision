@@ -546,7 +546,7 @@ Then('appellant is displayed answers for appeal site for {string}, {string}, {st
         verifyFullAppealCYAAnswer(getOwnsRestOfTheLandInvolvedAnswer, 'I know who owns some of the land');
         verifyFullAppealCYAQuestion(getIdentifyOtherLandownersQuestion, 'Identifying the other landowners');
         verifyFullAppealCYAChangLink(getIdentifyOtherLandownersChangeLink, '/full-appeal/submit-appeal/identifying-the-owners');
-        verifyFullAppealCYAAnswer(getIdentifyOtherLandownersAnswer, "I confirm that I've attempted to identify all the landowners, but have not been successful");
+        verifyFullAppealCYAAnswer(getIdentifyOtherLandownersAnswer, "I confirm that I've attempted to identify all the other landowners, but have not been successful");
         verifyFullAppealCYAQuestion(getAdvertisingYourAppealQuestion, 'Advertising your appeal');
         verifyFullAppealCYAChangLink(getAdvertisingYourAppealChangeLink, '/full-appeal/submit-appeal/advertising-your-appeal');
         verifyFullAppealCYAAnswer(getAdvertisingYourAppealAnswerInThePress, "I've advertised my appeal in the press");
@@ -564,7 +564,7 @@ Then('appellant is displayed answers for appeal site for {string}, {string}, {st
         verifyFullAppealCYAAnswer(getOwnsRestOfTheLandInvolvedAnswer, 'No, I do not know who owns any of the land');
         verifyFullAppealCYAQuestion(getIdentifyOtherLandownersQuestion, 'Identifying the other landowners');
         verifyFullAppealCYAChangLink(getIdentifyOtherLandownersChangeLink, '/full-appeal/submit-appeal/identifying-the-owners');
-        verifyFullAppealCYAAnswer(getIdentifyOtherLandownersAnswer, "I confirm that I've taken all reasonable steps to identify the landowners");
+        verifyFullAppealCYAAnswer(getIdentifyOtherLandownersAnswer, "I confirm that I've attempted to identify all the other landowners, but have not been successful");
         verifyFullAppealCYAQuestion(getAdvertisingYourAppealQuestion, 'Advertising your appeal');
         verifyFullAppealCYAChangLink(getAdvertisingYourAppealChangeLink, '/full-appeal/submit-appeal/advertising-your-appeal');
         verifyFullAppealCYAAnswer(getAdvertisingYourAppealAnswerInThePress, "I've advertised my appeal in the press");
@@ -590,7 +590,7 @@ Then('appellant is displayed answers for appeal site for {string}, {string}, {st
         verifyFullAppealCYAChangLink(getTellingTheOtherLandownersChangeLink, '/full-appeal/submit-appeal/telling-the-landowners');
         verifyFullAppealCYAAnswer(getTellingTheOtherLandownersAnswerLast21Days, "I've done this within the last 21 days");
         verifyFullAppealCYAAnswer(getTellingTheOtherLandownersAnswerCopyOfForm, 'I used a copy of the form in annexe 2A or 2B');
-        verifyFullAppealCYAQuestion(getOwnsRestOfTheLandInvolvedQuestion, 'Do you know who owns the rest of the land involved in the appeal?');
+        verifyFullAppealCYAQuestion(getOwnsRestOfTheLandInvolvedQuestion, 'Do you know who owns the land involved in the appeal?');
         verifyFullAppealCYAChangLink(getOwnsRestOfTheLandInvolvedChangeLink, '/full-appeal/submit-appeal/know-the-owners');
         verifyFullAppealCYAAnswer(getTellingTheOtherLandownersAnswerLast21Days, "I've done this within the last 21 days");
         verifyFullAppealCYAAnswer(getTellingTheOtherLandownersAnswerCopyOfForm, 'I used a copy of the form in annexe 2A or 2B');
@@ -607,7 +607,7 @@ Then('appellant is displayed answers for appeal site for {string}, {string}, {st
         verifyFullAppealCYAAnswer(getOwnsRestOfTheLandInvolvedAnswer, 'No, I do not know who owns any of the land');
         verifyFullAppealCYAQuestion(getIdentifyOtherLandownersQuestion, 'Identifying the landowners');
         verifyFullAppealCYAChangLink(getIdentifyOtherLandownersChangeLink, '/full-appeal/submit-appeal/identifying-the-owners');
-        verifyFullAppealCYAAnswer(getIdentifyOtherLandownersAnswer, "I confirm that I've taken all reasonable steps to identify the landowners");
+        verifyFullAppealCYAAnswer(getIdentifyOtherLandownersAnswer, "I confirm that I've attempted to identify all the landowners, but have not been successful");
         verifyFullAppealCYAQuestion(getAdvertisingYourAppealQuestion, 'Advertising your appeal');
         verifyFullAppealCYAChangLink(getAdvertisingYourAppealChangeLink, '/full-appeal/submit-appeal/advertising-your-appeal');
         verifyFullAppealCYAAnswer(getAdvertisingYourAppealAnswerInThePress, "I've advertised my appeal in the press");
@@ -622,7 +622,7 @@ Then('appellant is displayed answers for appeal site for {string}, {string}, {st
         verifyFullAppealCYAChangLink(getTellingTheOtherLandownersChangeLink, '/full-appeal/submit-appeal/telling-the-landowners');
         verifyFullAppealCYAAnswer(getTellingTheOtherLandownersAnswerLast21Days, "I've done this within the last 21 days");
         verifyFullAppealCYAAnswer(getTellingTheOtherLandownersAnswerCopyOfForm, 'I used a copy of the form in annexe 2A or 2B');
-        verifyFullAppealCYAQuestion(getOwnsRestOfTheLandInvolvedQuestion, 'Do you know who owns the rest of the land involved in the appeal?');
+        verifyFullAppealCYAQuestion(getOwnsRestOfTheLandInvolvedQuestion, 'Do you know who owns the land involved in the appeal?');
         verifyFullAppealCYAChangLink(getOwnsRestOfTheLandInvolvedChangeLink, '/full-appeal/submit-appeal/know-the-owners');
       }
     }
