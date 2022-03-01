@@ -19,6 +19,10 @@
       <h1 class="govuk-heading-xl" data-cy="page-title">Check your answers</h1>
 
       <h2 class="govuk-heading-l" data-cy="contact-details-heading">Your contact details</h2>
+      {% set otherText = "" %}
+      {% if appeal.appealSiteSection.siteOwnership.ownsSomeOfTheLand %}
+        {% set otherText = " other" %}
+      {% endif %}
       {% set isOriginalApplicantValue = "Yes, the planning application was made in my name" %}
       {% if not appeal.contactDetailsSection.isOriginalApplicant %}
         {% set isOriginalApplicantValue = "No, I'm acting on behalf of the appellant" %}
@@ -157,7 +161,7 @@
       {% set tellingOtherLandownersRowHtml %}
         <ul class="govuk-list">
           <li>{{ summaryField(
-            "I've told all the other landowners about my appeal",
+            "I've told all the" + otherText + " landowners about my appeal",
             { "data-cy": "telling-other-landowners-1" }
           ) }}</li>
           <li>{{ summaryField(
@@ -184,7 +188,7 @@
       } %}
       {% set tellingOtherLandownersRow = {
         key: { text: summaryField(
-          "Telling the other landowners",
+          "Telling the" + otherText + " landowners",
           { "data-cy": "telling-other-landowners-label" }
         ) },
         value: { html: tellingOtherLandownersRowHtml },
@@ -218,10 +222,6 @@
         ) },
         actions: knowTheOwnersRowActions if displayActions !== false
       } %}
-      {% set identifyingTheLandownersRowTitle = "Identifying the other landowners" %}
-      {% if not appeal.appealSiteSection.siteOwnership.ownsSomeOfTheLand %}
-        {% set identifyingTheLandownersRowTitle = "Identifying the landowners" %}
-      {% endif %}
       {% set identifyingTheLandownersRowActions = {
         items: [
           {
@@ -235,12 +235,9 @@
         ]
       } %}
       {% set identifyingTheLandownersRow = {
-        key: { text: summaryField(identifyingTheLandownersRowTitle, { "data-cy": "identifying-the-landowners-label" }) },
+        key: { text: summaryField("Identifying the" + otherText + " landowners", { "data-cy": "identifying-the-landowners-label" }) },
         value: { text: summaryField(
-          {
-            "some": "I confirm that I've attempted to identify all the landowners, but have not been successful",
-            "no": "I confirm that I've taken all reasonable steps to identify the landowners"
-          }[appeal.appealSiteSection.siteOwnership.knowsTheOwners],
+          "I confirm that I've attempted to identify all the" + otherText + " landowners, but have not been successful",
           { "data-cy": "identifying-the-landowners" }
         ) },
         actions: identifyingTheLandownersRowActions if displayActions !== false
@@ -444,17 +441,19 @@
         actions: healthAndSafetyRowActions if displayActions !== false
       } %}
       {% set appealSiteRows = [siteAddressRow, ownsAllTheLandRow] %}
-      {% if appeal.appealSiteSection.siteOwnership.tellingTheLandowners %}
-        {% set appealSiteRows = (appealSiteRows.push(tellingOtherLandownersRow), appealSiteRows) %}
+      {% if not appeal.appealSiteSection.siteOwnership.ownsAllTheLand %}
+        {% if appeal.appealSiteSection.siteOwnership.knowsTheOwners === 'yes' or appeal.appealSiteSection.siteOwnership.knowsTheOwners === 'some' %}
+          {% set appealSiteRows = (appealSiteRows.push(tellingOtherLandownersRow), appealSiteRows) %}
+        {% endif %}
+        {% if appeal.appealSiteSection.siteOwnership.knowsTheOwners %}
+          {% set appealSiteRows = (appealSiteRows.push(knowTheOwnersRow), appealSiteRows) %}
+        {% endif %}
       {% endif %}
-      {% if appeal.appealSiteSection.siteOwnership.knowsTheOwners %}
-        {% set appealSiteRows = (appealSiteRows.push(knowTheOwnersRow), appealSiteRows) %}
-      {% endif %}
-      {% if appeal.appealSiteSection.siteOwnership.hasIdentifiedTheOwners %}
-        {% set appealSiteRows = (appealSiteRows.push(identifyingTheLandownersRow), appealSiteRows) %}
-      {% endif %}
-      {% if appeal.appealSiteSection.siteOwnership.advertisingYourAppeal %}
-        {% set appealSiteRows = (appealSiteRows.push(advertisingYourAppealRow), appealSiteRows) %}
+      {% if not appeal.appealSiteSection.siteOwnership.ownsAllTheLand %}
+        {% if appeal.appealSiteSection.siteOwnership.knowsTheOwners === 'some' or appeal.appealSiteSection.siteOwnership.knowsTheOwners === 'no' %}
+          {% set appealSiteRows = (appealSiteRows.push(identifyingTheLandownersRow), appealSiteRows) %}
+          {% set appealSiteRows = (appealSiteRows.push(advertisingYourAppealRow), appealSiteRows) %}
+        {% endif %}
       {% endif %}
       {% set appealSiteRows = (appealSiteRows.push(isAgriculturalHoldingRow), appealSiteRows) %}
       {% if appeal.appealSiteSection.agriculturalHolding.isAgriculturalHolding %}
