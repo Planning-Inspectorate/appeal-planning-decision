@@ -276,8 +276,8 @@
       
         <h2 class="govuk-heading-m govuk-!-margin-top-8">Uploaded files</h2>
         <ul class="govuk-list">
-          <li><a href="/document/56467b80-feae-4f34-b056-9417e3002fa7/9169bd16-8a55-4265-9d04-78c7cc8a67ec" class="govuk-link">upload-file-valid.doc</a></li>
-          <li><a href="/document/56467b80-feae-4f34-b056-9417e3002fa7/615b3d66-5388-46cc-8105-bd04e89eec25" class="govuk-link">upload-file-valid.jpeg</a></li>
+          <li><a href="/document/835f8bc2-5e26-4666-ac19-44f9ca07d068/a404d9c0-7598-4382-9058-cb9bd2b9d757" class="govuk-link">upload-file-valid.doc</a></li>
+          <li><a href="/document/835f8bc2-5e26-4666-ac19-44f9ca07d068/bee14c34-ca1a-4da5-a273-3ef1d4b48529" class="govuk-link">upload-file-valid.jpeg</a></li>
         </ul>
         
       
