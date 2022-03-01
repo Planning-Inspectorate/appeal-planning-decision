@@ -5,9 +5,10 @@ const mongodb = require('../db/db');
 const queue = require('../lib/queue');
 const logger = require('../lib/logger');
 const ApiError = require('../error/apiError');
-const hasNotify = require('../lib/notify');
-const fullAppealNotify = require('../lib/full-appeal/notify');
-const { APPEAL_TYPE } = require('../constants');
+const {
+  sendSubmissionReceivedEmailToLpa,
+  sendSubmissionConfirmationEmailToAppellant,
+} = require('../lib/notify');
 
 const APPEALS = 'appeals';
 
@@ -291,14 +292,6 @@ function isValidAppeal(appeal) {
   return errors.length === 0;
 }
 
-function getNotify(appeal) {
-  let notify = hasNotify;
-  if (appeal?.appealType === APPEAL_TYPE.PLANNING_SECTION_78) {
-    notify = fullAppealNotify;
-  }
-  return notify;
-}
-
 const updateAppeal = async (appeal, isFirstSubmission = false) => {
   if (isValidAppeal(appeal)) {
     const now = new Date(new Date().toISOString());
@@ -314,14 +307,8 @@ const updateAppeal = async (appeal, isFirstSubmission = false) => {
 
     if (isFirstSubmission) {
       await queue.addAppeal(updatedDocument.value);
-
-      if (appeal.appealType === APPEAL_ID.HOUSEHOLDER) {
-        const notify = getNotify(updatedDocument.value.appeal);
-        await notify.sendAppealSubmissionConfirmationEmailToAppellant(updatedDocument.value.appeal);
-        await notify.sendAppealSubmissionReceivedNotificationEmailToLpa(
-          updatedDocument.value.appeal
-        );
-      }
+      await sendSubmissionConfirmationEmailToAppellant(updatedDocument.value.appeal);
+      await sendSubmissionReceivedEmailToLpa(updatedDocument.value.appeal);
     }
 
     logger.debug(`Updated appeal ${appeal.id}\n`);

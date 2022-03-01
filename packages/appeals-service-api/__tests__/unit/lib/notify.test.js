@@ -1,437 +1,143 @@
-jest.mock('../../../src/lib/notify-validation');
-jest.mock('../../../src/services/lpa.service');
-
-const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
-const config = require('.../../../src/lib/config');
-
+const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
+const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
 const {
-  isValidAppealForSubmissionReceivedNotificationEmail,
-  isValidAppealForSendStartEmailToLPAEmail,
-} = require('../../../src/lib/notify-validation');
-
-const mockError = jest.fn();
-
-jest.doMock('../../../src/lib/logger', () => ({
-  error: mockError,
-}));
-
-const mockReset = jest.fn().mockReturnThis();
-const mockSetTemplateId = jest.fn().mockReturnThis();
-const mockSetDestinationEmailAddress = jest.fn().mockReturnThis();
-const mockSetEmailReplyToId = jest.fn().mockReturnThis();
-const mockSetTemplateVariablesFromObject = jest.fn().mockReturnThis();
-const mockSetReference = jest.fn().mockReturnThis();
-const mockSend = jest.fn();
-
-jest.doMock('@pins/common/src/lib/notify/notify-builder', () => ({
-  reset: mockReset,
-  setTemplateId: mockSetTemplateId,
-  setDestinationEmailAddress: mockSetDestinationEmailAddress,
-  setEmailReplyToId: mockSetEmailReplyToId,
-  setTemplateVariablesFromObject: mockSetTemplateVariablesFromObject,
-  setReference: mockSetReference,
-  sendEmail: mockSend,
-}));
-
-const { getLpa } = require('../../../src/services/lpa.service');
-
-const {
-  getNotifyClientArguments,
-  getFileUrl,
-  getOptions,
-  sendAppealSubmissionReceivedNotificationEmailToLpa,
-  sendAppealSubmissionConfirmationEmailToAppellant,
-  sendStartEmailToLPA,
+  sendSubmissionReceivedEmailToLpa,
+  sendSubmissionConfirmationEmailToAppellant,
 } = require('../../../src/lib/notify');
+const logger = require('../../../src/lib/logger');
+
+jest.mock('@pins/common/src/lib/notify/notify-builder', () => ({
+  reset: jest.fn().mockReturnThis(),
+  setTemplateId: jest.fn().mockReturnThis(),
+  setDestinationEmailAddress: jest.fn().mockReturnThis(),
+  setTemplateVariablesFromObject: jest.fn().mockReturnThis(),
+  setReference: jest.fn().mockReturnThis(),
+  sendEmail: jest.fn().mockReturnThis(),
+}));
+jest.mock('../../../src/services/lpa.service', () => ({
+  getLpa: jest
+    .fn()
+    .mockImplementationOnce(() => ({
+      email: 'AppealPlanningDecisionTest@planninginspectorate.gov.uk',
+      name: 'System Test Borough Council',
+    }))
+    .mockImplementationOnce(() => {
+      throw new Error('Internal Server Error');
+    })
+    .mockImplementationOnce(() => ({
+      email: 'AppealPlanningDecisionTest@planninginspectorate.gov.uk',
+      name: 'System Test Borough Council',
+    }))
+    .mockImplementationOnce(() => {
+      throw new Error('Internal Server Error');
+    }),
+}));
+jest.mock('../../../src/lib/config', () => ({
+  services: {
+    notify: {
+      templates: {
+        1001: {
+          appealSubmissionConfirmationEmailToAppellant: 'appellant-template',
+          appealNotificationEmailToLpa: 'lpa-template',
+        },
+      },
+    },
+  },
+  logger: {
+    level: 'info',
+  },
+}));
+jest.mock('../../../src/lib/logger', () => ({
+  debug: jest.fn(),
+  error: jest.fn(),
+}));
 
 describe('lib/notify', () => {
-  describe('getNotifyClientArguments', () => {
-    test('Using mock service', () => {
-      const baseUrl = 'http://mock-notify:3000';
-      const serviceId = 'dummy-service-id-for-notify';
-      const apiKey = 'dummy-api-key-for-notify';
-      const output = [
-        'http://mock-notify:3000',
-        'dummy-service-id-for-notify',
-        'dummy-api-key-for-notify',
-      ];
-      expect(getNotifyClientArguments(baseUrl, serviceId, apiKey)).toEqual(output);
+  process.env.APP_APPEALS_BASE_URL = 'http://localhost';
+
+  describe('sendSubmissionConfirmationEmailToAppellant', () => {
+    it('should call NotifyBuilder with the correct data', async () => {
+      await sendSubmissionConfirmationEmailToAppellant(householderAppeal);
+
+      expect(NotifyBuilder.reset).toBeCalled();
+      expect(NotifyBuilder.reset().setTemplateId).toBeCalledWith('appellant-template');
+      expect(NotifyBuilder.reset().setTemplateId().setDestinationEmailAddress).toBeCalledWith(
+        householderAppeal.aboutYouSection.yourDetails.email
+      );
+      expect(
+        NotifyBuilder.reset().setTemplateId().setDestinationEmailAddress()
+          .setTemplateVariablesFromObject
+      ).toBeCalledWith({
+        name: householderAppeal.aboutYouSection.yourDetails.name,
+        'appeal site address': 'Site Address 1\nSite Address 2\nSite Town\nSite County\nSW1 1AA',
+        'local planning department': 'System Test Borough Council',
+        'view appeal url': `${process.env.APP_APPEALS_BASE_URL}/your-planning-appeal/${householderAppeal.id}`,
+      });
+      expect(
+        NotifyBuilder.reset()
+          .setTemplateId()
+          .setDestinationEmailAddress()
+          .setTemplateVariablesFromObject().setReference
+      ).toBeCalledWith(householderAppeal.id);
+      expect(
+        NotifyBuilder.reset()
+          .setTemplateId()
+          .setDestinationEmailAddress()
+          .setTemplateVariablesFromObject()
+          .setReference().sendEmail
+      ).toBeCalled();
     });
 
-    test('Using real service', () => {
-      const baseUrl = null;
-      const serviceId = 'dummy-service-id-for-notify';
-      const apiKey = 'dummy-api-key-for-notify';
-      const output = ['dummy-api-key-for-notify'];
-      expect(getNotifyClientArguments(baseUrl, serviceId, apiKey)).toEqual(output);
-    });
-  });
+    it('log the error when an error is thrown', async () => {
+      await sendSubmissionConfirmationEmailToAppellant(householderAppeal);
 
-  describe('getFileUrl', () => {
-    test('Calculate file url', () => {
-      const docSrvUrl = 'http:/docs-srv:3000';
-      const applicationId = 'fdre-355g-jd7798';
-      const documentId = 'jh345-kjesw-23c-kdfgu';
-      const output = 'http:/docs-srv:3000/api/v1/fdre-355g-jd7798/jh345-kjesw-23c-kdfgu/file';
-      expect(getFileUrl(docSrvUrl, applicationId, documentId)).toEqual(output);
-    });
-  });
-
-  describe('getOptions', () => {
-    test('Calculate options', () => {
-      const address = 'Line 1\nLine 2\nTown\nCounty\nSA18 3RT';
-      const link = {
-        file: 'JVBERi0MxNTIxUXXhTu/X5Nzc0CiUlRU9G',
-        is_csv: false,
-      };
-      const lpa = 'System Test Borough Council';
-      const name = 'John Smith';
-      const appealId = 'jhbdfoi-d72344675348-q3iuhak7u5324jvb§00mdf-jdaijhbwefi';
-      const output = {
-        personalisation: {
-          'appeal site address': address,
-          'link to appeal submission pdf': link,
-          'local planning department': lpa,
-          name,
-        },
-        reference: appealId,
-      };
-      expect(getOptions(address, link, lpa, name, appealId)).toEqual(output);
+      expect(logger.error).toBeCalledWith(
+        { err: new Error('Internal Server Error'), appealId: householderAppeal.id },
+        'Unable to send submission confirmation email to appellant'
+      );
     });
   });
 
-  /**
-   * This was left untested :/
-   * @see https://github.com/Planning-Inspectorate/appeal-planning-decision/pull/746
-   */
-  describe.skip('sendEmail', () => {
-    it('should send an email', () => {});
-  });
+  describe('sendSubmissionReceivedEmailToLpa', () => {
+    it('should call NotifyBuilder with the correct data', async () => {
+      await sendSubmissionReceivedEmailToLpa(householderAppeal);
 
-  describe('sendAppealSubmissionReceivedNotificationEmailToLpa', () => {
-    let notifyBuilder;
-
-    beforeEach(() => {
-      jest.doMock('../../../../common/src/lib/notify/notify-builder', () => notifyBuilder);
-
-      isValidAppealForSubmissionReceivedNotificationEmail.mockReturnValue(true);
+      expect(NotifyBuilder.reset).toBeCalled();
+      expect(NotifyBuilder.reset().setTemplateId).toBeCalledWith('lpa-template');
+      expect(NotifyBuilder.reset().setTemplateId().setDestinationEmailAddress).toBeCalledWith(
+        'AppealPlanningDecisionTest@planninginspectorate.gov.uk'
+      );
+      expect(
+        NotifyBuilder.reset().setTemplateId().setDestinationEmailAddress()
+          .setTemplateVariablesFromObject
+      ).toBeCalledWith({
+        LPA: 'System Test Borough Council',
+        date: expect.any(String),
+        'planning application number': householderAppeal.requiredDocumentsSection.applicationNumber,
+        'site address': 'Site Address 1\nSite Address 2\nSite Town\nSite County\nSW1 1AA',
+      });
+      expect(
+        NotifyBuilder.reset()
+          .setTemplateId()
+          .setDestinationEmailAddress()
+          .setTemplateVariablesFromObject().setReference
+      ).toBeCalledWith(householderAppeal.id);
+      expect(
+        NotifyBuilder.reset()
+          .setTemplateId()
+          .setDestinationEmailAddress()
+          .setTemplateVariablesFromObject()
+          .setReference().sendEmail
+      ).toBeCalled();
     });
 
-    it('should throw an error if appeal is invalid', async () => {
-      isValidAppealForSubmissionReceivedNotificationEmail.mockReturnValue(false);
-      try {
-        await sendAppealSubmissionReceivedNotificationEmailToLpa({});
-      } catch (e) {
-        expect(e).toEqual(new Error('Appeal was not available.'));
-      }
-    });
+    it('log the error when an error is thrown', async () => {
+      await sendSubmissionReceivedEmailToLpa(householderAppeal);
 
-    describe('with valid appeal object', () => {
-      let appeal;
-
-      beforeEach(() => {
-        appeal = {
-          ...fullAppeal,
-          id: 'some-fake-id',
-          lpaCode: 'some-lpa-code',
-          submissionDate: new Date('19 April 2021'),
-          requiredDocumentsSection: {
-            ...fullAppeal.requiredDocumentsSection,
-            applicationNumber: '123/abc/xyz',
-          },
-          appealSiteSection: {
-            ...fullAppeal.appealSiteSection,
-            siteAddress: {
-              addressLine1: '999 some street',
-              town: 'a town',
-              postcode: 'rt12 9ya',
-            },
-          },
-        };
-      });
-
-      afterEach(() => {
-        mockError.mockClear();
-        mockSend.mockClear();
-      });
-
-      it('should log an error if unable to find the given LPA by ID', async () => {
-        const error = new Error('boom');
-        getLpa.mockRejectedValue(error);
-
-        try {
-          await sendAppealSubmissionReceivedNotificationEmailToLpa(appeal);
-        } catch (e) {
-          expect(mockError).toHaveBeenCalledWith(
-            { err: e, lpaCode: 'some-lpa-code' },
-            'Unable to find LPA from given lpaCode'
-          );
-        }
-      });
-
-      it('should throw if the looked up LPA has no email address', async () => {
-        const mockLpa = { name: 'whoops, email is missing' };
-        getLpa.mockResolvedValue(mockLpa);
-
-        await sendAppealSubmissionReceivedNotificationEmailToLpa(appeal);
-
-        try {
-          await sendAppealSubmissionReceivedNotificationEmailToLpa(appeal);
-        } catch (e) {
-          expect(mockError).toHaveBeenCalledWith(
-            {
-              err: new Error('Missing LPA email. This indicates an issue with the look up data.'),
-              lpa: mockLpa,
-            },
-            'Unable to send appeal submission received notification email to LPA.'
-          );
-        }
-      });
-
-      it('should send an email', async () => {
-        getLpa.mockResolvedValue({ name: 'a happy value', email: 'some@example.com' });
-
-        await sendAppealSubmissionReceivedNotificationEmailToLpa(appeal);
-
-        expect(mockError).not.toHaveBeenCalled();
-
-        expect(mockReset).toHaveBeenCalled();
-        expect(mockSetTemplateId).toHaveBeenCalledWith(
-          config.services.notify.templates.appealNotificationEmailToLpa
-        );
-        expect(mockSetDestinationEmailAddress).toHaveBeenCalledWith('some@example.com');
-        expect(mockSetTemplateVariablesFromObject).toHaveBeenCalledWith({
-          LPA: 'a happy value',
-          date: '19 April 2021',
-          'planning application number': '123/abc/xyz',
-          'site address': '999 some street\na town\nrt12 9ya',
-        });
-        expect(mockSetReference).toHaveBeenCalledWith('some-fake-id');
-        expect(mockSend).toHaveBeenCalledTimes(1);
-      });
-    });
-  });
-
-  describe('sendAppealSubmissionConfirmationEmailToAppellant', () => {
-    let notifyBuilder;
-
-    beforeEach(() => {
-      jest.doMock('../../../../common/src/lib/notify/notify-builder', () => notifyBuilder);
-
-      isValidAppealForSubmissionReceivedNotificationEmail.mockReturnValue(true);
-    });
-
-    it('should throw an error if appeal is invalid', async () => {
-      isValidAppealForSubmissionReceivedNotificationEmail.mockReturnValue(false);
-      try {
-        await sendAppealSubmissionConfirmationEmailToAppellant({});
-      } catch (e) {
-        expect(e).toEqual(new Error('Appeal was not available.'));
-      }
-    });
-
-    describe('with valid appeal object', () => {
-      let appeal;
-
-      beforeEach(() => {
-        appeal = {
-          ...fullAppeal,
-          id: 'some-fake-id',
-          lpaCode: 'some-lpa-code',
-          submissionDate: new Date('19 April 2021'),
-          aboutYouSection: {
-            yourDetails: {
-              name: 'appellant name',
-            },
-          },
-          requiredDocumentsSection: {
-            ...fullAppeal.requiredDocumentsSection,
-            applicationNumber: '123/abc/xyz',
-          },
-          appealSiteSection: {
-            ...fullAppeal.appealSiteSection,
-            siteAddress: {
-              addressLine1: '999 some street',
-              town: 'a town',
-              postcode: 'rt12 9ya',
-            },
-          },
-        };
-      });
-
-      afterEach(() => {
-        mockError.mockClear();
-        mockSend.mockClear();
-      });
-
-      it('should log an error if unable to find the given LPA by ID', async () => {
-        const error = new Error('boom');
-        getLpa.mockRejectedValue(error);
-
-        try {
-          await sendAppealSubmissionConfirmationEmailToAppellant(appeal);
-        } catch (e) {
-          expect(mockError).toHaveBeenCalledWith(
-            { err: e, lpaCode: 'some-lpa-code' },
-            'Unable to find LPA from given lpaCode'
-          );
-        }
-      });
-
-      it('should throw if the looked up LPA has no email address', async () => {
-        const mockLpa = { name: 'whoops, email is missing' };
-        getLpa.mockResolvedValue(mockLpa);
-
-        try {
-          await sendAppealSubmissionConfirmationEmailToAppellant(appeal);
-        } catch (e) {
-          expect(mockError).toHaveBeenCalledWith(
-            {
-              err: new Error('Missing LPA email. This indicates an issue with the look up data.'),
-              lpa: mockLpa,
-            },
-            'Unable to send appeal submission received notification email to LPA.'
-          );
-        }
-      });
-
-      it('should send an email', async () => {
-        getLpa.mockResolvedValue({ name: 'lpa name', email: 'some@example.com' });
-
-        await sendAppealSubmissionConfirmationEmailToAppellant(appeal);
-
-        expect(mockError).not.toHaveBeenCalled();
-
-        expect(mockReset).toHaveBeenCalled();
-        expect(mockSetTemplateId).toHaveBeenCalledWith(
-          config.services.notify.templates.appealNotificationEmailToApellant
-        );
-        expect(mockSetDestinationEmailAddress).toHaveBeenCalledWith('some@example.com');
-        expect(mockSetTemplateVariablesFromObject).toHaveBeenCalledWith({
-          name: 'appellant name',
-          'appeal site address': '999 some street\na town\nrt12 9ya',
-          'local planning department': 'lpa name',
-          'view appeal url': `${config.apps.appeals.baseUrl}/your-planning-appeal/some-fake-id`,
-        });
-        expect(mockSetReference).toHaveBeenCalledWith('some-fake-id');
-        expect(mockSend).toHaveBeenCalledTimes(1);
-      });
-    });
-  });
-
-  describe('sendStartEmailToLPA', () => {
-    let notifyBuilder;
-
-    beforeEach(() => {
-      jest.doMock('../../../../common/src/lib/notify/notify-builder', () => notifyBuilder);
-
-      isValidAppealForSendStartEmailToLPAEmail.mockReturnValue(true);
-    });
-
-    it('should throw an error if appeal is invalid', async () => {
-      isValidAppealForSendStartEmailToLPAEmail.mockReturnValue(false);
-      try {
-        await sendStartEmailToLPA({});
-      } catch (e) {
-        expect(e).toEqual(new Error('Appeal was not available.'));
-      }
-    });
-
-    describe('with valid appeal object', () => {
-      let appeal;
-
-      beforeEach(() => {
-        appeal = {
-          ...fullAppeal,
-          id: 'some-fake-id',
-          lpaCode: 'some-lpa-code',
-          horizonId: 'some-fake-horizon-id',
-          submissionDate: new Date('19 April 2021'),
-          aboutYouSection: {
-            yourDetails: {
-              name: 'appellant name',
-              email: 'timmy@tester.com',
-            },
-          },
-          requiredDocumentsSection: {
-            ...fullAppeal.requiredDocumentsSection,
-            applicationNumber: '123/abc/xyz',
-          },
-          appealSiteSection: {
-            ...fullAppeal.appealSiteSection,
-            siteAddress: {
-              addressLine1: '999 some street',
-              town: 'a town',
-              postcode: 'rt12 9ya',
-            },
-          },
-        };
-      });
-
-      afterEach(() => {
-        mockError.mockClear();
-        mockSend.mockClear();
-      });
-
-      it('should log an error if unable to find the given LPA by ID', async () => {
-        const error = new Error('boom');
-        getLpa.mockRejectedValue(error);
-
-        try {
-          await sendStartEmailToLPA(appeal);
-        } catch (e) {
-          expect(mockError).toHaveBeenCalledWith(
-            { err: e, lpaCode: 'some-lpa-code' },
-            'Unable to find LPA from given lpaCode'
-          );
-        }
-      });
-
-      it('should throw if the looked up LPA has no email address', async () => {
-        const mockLpa = { name: 'whoops, email is missing' };
-        getLpa.mockResolvedValue(mockLpa);
-
-        try {
-          await sendStartEmailToLPA(appeal);
-        } catch (e) {
-          expect(mockError).toHaveBeenCalledWith(
-            {
-              err: new Error('Missing LPA email. This indicates an issue with the look up data.'),
-              lpa: mockLpa,
-            },
-            'Unable to send appeal submission received notification email to LPA.'
-          );
-        }
-      });
-
-      it('should send an email', async () => {
-        getLpa.mockResolvedValue({ name: 'a happy value', email: 'some@example.com' });
-
-        await sendStartEmailToLPA(appeal);
-
-        expect(mockError).not.toHaveBeenCalled();
-
-        expect(mockReset).toHaveBeenCalled();
-        expect(mockSetEmailReplyToId).toHaveBeenCalledWith(
-          config.services.notify.emailReplyToId.startEmailToLpa
-        );
-        expect(mockSetTemplateId).toHaveBeenCalledWith(
-          config.services.notify.templates.startEmailToLpa
-        );
-        expect(mockSetDestinationEmailAddress).toHaveBeenCalledWith('some@example.com');
-        expect(mockSetTemplateVariablesFromObject).toHaveBeenCalledWith({
-          'site address one line': '999 some street, a town, rt12 9ya',
-          'horizon id': appeal.horizonId,
-          lpa: 'a happy value',
-          'planning application number': appeal.requiredDocumentsSection.applicationNumber,
-          'site address': '999 some street\na town\nrt12 9ya',
-          'questionnaire due date': '24 April 2021',
-          url: 'http://fake-lpa-questionnaire-base-url/some-fake-id',
-          'appellant email address': appeal.aboutYouSection.yourDetails.email,
-        });
-        expect(mockSetReference).toHaveBeenCalledWith('some-fake-id');
-        expect(mockSend).toHaveBeenCalledTimes(1);
-      });
+      expect(logger.error).toBeCalledWith(
+        { err: new Error('Internal Server Error'), lpaCode: householderAppeal.lpaCode },
+        'Unable to send submission received email to LPA'
+      );
     });
   });
 });

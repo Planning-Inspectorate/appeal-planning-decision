@@ -41,8 +41,6 @@
     "lodash": "^4.17.21",
     "mongodb": "^3.7.3",
     "neat-csv": "^5.2.0",
-    "node-fetch": "^2.6.7",
-    "notifications-node-client": "^5.1.1",
     "pino": "^6.13.4",
     "rhea": "^1.0.24",
     "supertest": "^6.2.2",

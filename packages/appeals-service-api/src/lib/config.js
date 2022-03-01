@@ -6,9 +6,12 @@
  * values are required.
  */
 
+const {
+  constants: { APPEAL_ID },
+} = require('@pins/business-rules');
 const path = require('path');
 
-module.exports = {
+const config = {
   data: {
     lpa: {
       listPath: process.env.LPA_DATA_PATH,
@@ -88,12 +91,14 @@ module.exports = {
       // deprecated, see `sendEmail` inside `./notify`
       templateId: process.env.SRV_NOTIFY_TEMPLATE_ID,
       templates: {
-        appealSubmissionConfirmationEmailToAppellant:
-          process.env.SRV_NOTIFY_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
-        appealNotificationEmailToLpa:
-          process.env.SRV_NOTIFY_APPEAL_SUBMISSION_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID,
-        startEmailToLpa: process.env.SRV_NOTIFY_START_EMAIL_TO_LPA_TEMPLATE_ID,
-        fullAppeal: {
+        [APPEAL_ID.HOUSEHOLDER]: {
+          appealSubmissionConfirmationEmailToAppellant:
+            process.env.SRV_NOTIFY_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
+          appealNotificationEmailToLpa:
+            process.env.SRV_NOTIFY_APPEAL_SUBMISSION_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID,
+          startEmailToLpa: process.env.SRV_NOTIFY_START_EMAIL_TO_LPA_TEMPLATE_ID,
+        },
+        [APPEAL_ID.PLANNING_SECTION_78]: {
           appealSubmissionConfirmationEmailToAppellant:
             process.env.SRV_NOTIFY_FULL_APPEAL_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
           appealNotificationEmailToLpa:
@@ -121,3 +126,5 @@ module.exports = {
     newAppealJourney: process.env.FEATURE_FLAG_NEW_APPEAL_JOURNEY === 'true' || true,
   },
 };
+
+module.exports = config;
