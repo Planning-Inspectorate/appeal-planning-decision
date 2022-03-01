@@ -19,7 +19,6 @@ import {
   getPlanningApplicationDecisionError
 } from "../../../../support/eligibility/page-objects/date-decision-due-po";
 import {getDateDecisionReceivedDay} from "../../../../support/eligibility/page-objects/date-decision-received-po";
-import {getContinueButton} from "../../../../support/householder-planning/appeals-service/page-objects/common-po";
 import {clickContinueButton} from "../../../../support/common/clickContinueButton";
 import {verifyErrorMessage} from "../../../../support/common/verify-error-message";
 import {

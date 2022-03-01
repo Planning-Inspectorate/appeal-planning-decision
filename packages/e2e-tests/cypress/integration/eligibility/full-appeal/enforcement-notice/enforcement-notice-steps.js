@@ -34,7 +34,7 @@ Given('appellant is on the enforcement notice page', () => {
   selectPlanningApplicationDecision('I have not received a decision');
   getContinueButton().click();
   const validDate = getPastDate(allowedDatePart.MONTH, 3);
-  enterDateDecisionDue( {day: getDate(validDate), month: getMonth(validDate)+1, year: getYear(validDate) } );
+  enterDateDecisionDue( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2), year: getYear(validDate) } );
   getContinueButton().click();
   cy.url().should('contain', url);
   verifyPageHeading(pageHeading);
@@ -53,7 +53,7 @@ Given('appellant is on the enforcement notice page for {string}', (application_t
   selectPlanningApplicationDecision('I have not received a decision');
   getContinueButton().click();
   const validDate = getPastDate(allowedDatePart.MONTH, 3);
-  enterDateDecisionDue( {day: getDate(validDate), month: getMonth(validDate)+1, year: getYear(validDate) } );
+  enterDateDecisionDue( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2), year: getYear(validDate) } );
   getContinueButton().click();
 });
 
