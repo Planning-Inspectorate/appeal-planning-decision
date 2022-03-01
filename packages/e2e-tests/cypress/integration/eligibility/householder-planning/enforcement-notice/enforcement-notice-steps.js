@@ -38,8 +38,8 @@ Given('appellant is on the enforcement notice page for householder planning', ()
   getContinueButton().click();
   selectPlanningApplicationDecision('Refused');
   getContinueButton().click();
-  const validDate = getPastDate(allowedDatePart.MONTH, 3);
-  enterDateHouseholderDecisionReceived({ day: getDate(validDate), month: getMonth(validDate) +2, year: getYear(validDate)});
+  const validDate = getPastDate(allowedDatePart.WEEK, 7);
+  enterDateHouseholderDecisionReceived({ day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2), year: getYear(validDate)});
   getContinueButton().click();
   cy.url().should('contain', url);
   verifyPageHeading(pageHeading);
@@ -56,8 +56,8 @@ Given('appellant is on the enforcement notice page for {string}', (application_t
   getContinueButton().click();
   selectPlanningApplicationDecision('Refused');
   getContinueButton().click();
-  const validDate = getPastDate(allowedDatePart.MONTH, 3);
-  enterDateHouseholderDecisionReceived({ day: getDate(validDate), month: getMonth(validDate) +2, year: getYear(validDate)});
+  const validDate = getPastDate(allowedDatePart.WEEK, 7);
+  enterDateHouseholderDecisionReceived({ day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2), year: getYear(validDate)});
   getContinueButton().click();
   cy.url().should('contain', url);
   verifyPageHeading(pageHeading);

@@ -1,4 +1,3 @@
-@wip
 Feature: Enforcement notice
   As an appellant
   I want to select whether or not I have received an enforcement notice
