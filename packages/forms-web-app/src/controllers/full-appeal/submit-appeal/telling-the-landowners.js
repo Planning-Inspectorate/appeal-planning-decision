@@ -11,8 +11,9 @@ const toArray = require('../../../lib/to-array');
 const sectionName = 'appealSiteSection';
 const taskName = 'tellingTheLandowners';
 
-const buildVariables = (ownsSomeOfTheLand, tellingTheLandowners) => {
+const buildVariables = (knowsTheOwners, ownsSomeOfTheLand, tellingTheLandowners) => {
   return {
+    knowsTheOwners,
     ownsSomeOfTheLand,
     tellingTheLandowners: toArray(tellingTheLandowners),
   };
@@ -22,12 +23,15 @@ const getTellingTheLandowners = (req, res) => {
   const {
     appeal: {
       appealSiteSection: {
-        siteOwnership: { ownsSomeOfTheLand, tellingTheLandowners },
+        siteOwnership: { knowsTheOwners, ownsSomeOfTheLand, tellingTheLandowners },
       },
     },
   } = req.session;
 
-  res.render(TELLING_THE_LANDOWNERS, buildVariables(ownsSomeOfTheLand, tellingTheLandowners));
+  res.render(
+    TELLING_THE_LANDOWNERS,
+    buildVariables(knowsTheOwners, ownsSomeOfTheLand, tellingTheLandowners)
+  );
 };
 
 const postTellingTheLandowners = async (req, res) => {
@@ -38,16 +42,17 @@ const postTellingTheLandowners = async (req, res) => {
       appeal,
       appeal: {
         appealSiteSection: {
-          siteOwnership: { ownsSomeOfTheLand },
+          siteOwnership: { knowsTheOwners, ownsSomeOfTheLand },
         },
       },
     },
   } = req;
 
   const tellingTheLandowners = toArray(body['telling-the-landowners']);
+
   if (Object.keys(errors).length > 0) {
     return res.render(TELLING_THE_LANDOWNERS, {
-      ...buildVariables(ownsSomeOfTheLand, tellingTheLandowners),
+      ...buildVariables(knowsTheOwners, ownsSomeOfTheLand, tellingTheLandowners),
       errors,
       errorSummary,
     });
@@ -67,7 +72,7 @@ const postTellingTheLandowners = async (req, res) => {
     logger.error(err);
 
     return res.render(TELLING_THE_LANDOWNERS, {
-      ...buildVariables(ownsSomeOfTheLand, tellingTheLandowners),
+      ...buildVariables(knowsTheOwners, ownsSomeOfTheLand, tellingTheLandowners),
       errors,
       errorSummary: [{ text: err.toString(), href: '#' }],
     });

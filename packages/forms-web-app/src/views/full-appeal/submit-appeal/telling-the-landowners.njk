@@ -4,9 +4,9 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 
-{% set other = "other " if ownsSomeOfTheLand == true else "" %}
-{% set heading = "Telling the "+other+"landowners" %}
-
+{% set backLink = '/full-appeal/submit-appeal' %}
+{% set otherText = "other " if ownsSomeOfTheLand == true else "" %}
+{% set heading = "Telling the " + otherText + "landowners" %}
 {% set title = heading + " - Appeal a planning decision - GOV.UK" %}
 {% set pdfUrl = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/994918/eHow_To_-_Planning_18_ANNEX.pdf" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
@@ -14,7 +14,7 @@
 {% block backButton %}
   {{ govukBackLink({
     text: 'Back',
-    href: '/full-appeal/submit-appeal/know-the-owners',
+    href: backLink + '/advertising-your-appeal' if knowsTheOwners === 'some' else backLink + '/know-the-owners',
     attributes: {
       'data-cy': 'back'
     }
@@ -34,11 +34,11 @@
       <form action="" method="post" novalidate>
         <span class="govuk-caption-l">Tell us about the appeal site</span>
         <h1 data-cy="title" class="govuk-heading-l">{{ heading }}</h1>
-        <p class="govuk-body">You must have told all the {{ other }}landowners about your appeal.</p>
+        <p class="govuk-body">You must have told all the {{ otherText }}landowners about your appeal.</p>
         <p class="govuk-body">You must have done this within the last 21 days using a copy of the <a href="{{ pdfUrl }}" class="govuk-link--no-visited-state" rel="noreferrer noopener" target="_blank">form in annexe 2A or 2B of the 'making your appeal' guidance</a>.</p>
 
         <h2 data-cy="title" class="govuk-heading-m">
-          Confirm that you've told the {{ other }}landowners
+          Confirm that you've told the {{ otherText }}landowners
         </h2>
         <p class="govuk-body">I confirm that:</p>
 
@@ -48,7 +48,7 @@
           items: [
             {
               value: "toldAboutMyAppeal",
-              text: "I've told all the "+other+"landowners about my appeal",
+              text: "I've told all the " + otherText + "landowners about my appeal",
               attributes: {"data-cy":"telling-the-landowners-toldAboutMyAppeal"},
               checked: tellingTheLandowners.includes('toldAboutMyAppeal')
             },
