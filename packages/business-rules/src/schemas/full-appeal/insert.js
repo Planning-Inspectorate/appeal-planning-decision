@@ -114,7 +114,6 @@ const insert = pinsYup
             }),
             hasIdentifiedTheOwners: pinsYup.bool().nullable(),
             tellingTheLandowners: pinsYup.array().nullable().allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
-            tellingTheTenants: pinsYup.array().nullable().allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
             advertisingYourAppeal: pinsYup
               .array()
               .nullable()
@@ -127,6 +126,7 @@ const insert = pinsYup
             isAgriculturalHolding: pinsYup.bool().nullable(),
             isTenant: pinsYup.bool().nullable(),
             hasOtherTenants: pinsYup.bool().nullable(),
+            tellingTheTenants: pinsYup.array().nullable().allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
           })
           .noUnknown(true),
         visibleFromRoad: pinsYup

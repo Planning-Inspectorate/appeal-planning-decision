@@ -41,13 +41,13 @@ const appeal = {
       knowsTheOwners: 'yes',
       hasIdentifiedTheOwners: true,
       tellingTheLandowners: [...STANDARD_TRIPLE_CONFIRM_OPTIONS],
-      tellingTheTenants: [...STANDARD_TRIPLE_CONFIRM_OPTIONS],
       advertisingYourAppeal: [...STANDARD_TRIPLE_CONFIRM_OPTIONS],
     },
     agriculturalHolding: {
       isAgriculturalHolding: true,
       isTenant: true,
       hasOtherTenants: true,
+      tellingTheTenants: [...STANDARD_TRIPLE_CONFIRM_OPTIONS],
     },
     visibleFromRoad: {
       isVisible: false,
