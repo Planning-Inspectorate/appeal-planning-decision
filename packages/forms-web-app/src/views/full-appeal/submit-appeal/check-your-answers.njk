@@ -6,6 +6,7 @@
 {% from "../../macros/contact-details.njk" import contactDetails %}
 {% from "../../macros/address.njk" import address %}
 {% from "../../macros/uploaded-file-link.njk" import uploadedFileLink %}
+{% from "../../macros/uploaded-file-link-list.njk" import uploadedFileLinkList %}
 {% from "../../macros/summary-field.njk" import summaryField %}
 
 {% block pageTitle %}
@@ -598,29 +599,6 @@
       }) }}
 
       <h2 class="govuk-heading-l" data-cy="planning-application-heading">Your planning application</h2>
-      {% set applicationNumberRowActions = {
-        items: [
-          {
-            href: "/full-appeal/submit-appeal/application-number",
-            text: "Change",
-            visuallyHiddenText: "the planning application number",
-            attributes: {
-              "data-cy": "change-application-number"
-            }
-          }
-        ]
-      } %}
-      {% set applicationNumberRow = {
-        key: { text: summaryField(
-          "Planning application number",
-          { "data-cy": "application-number-label" }
-        ) },
-        value: { text: summaryField(
-          appeal.planningApplicationDocumentsSection.applicationNumber,
-          { "data-cy": "application-number" }
-        ) },
-        actions: applicationNumberRowActions if displayActions !== false
-      } %}
       {% set applicationFormRowActions = {
         items: [
           {
@@ -644,6 +622,53 @@
           { "data-cy": "application-form" }
         ) },
         actions: applicationFormRowActions if displayActions !== false
+      } %}
+      {% set applicationNumberRowActions = {
+        items: [
+          {
+            href: "/full-appeal/submit-appeal/application-number",
+            text: "Change",
+            visuallyHiddenText: "the planning application number",
+            attributes: {
+              "data-cy": "change-application-number"
+            }
+          }
+        ]
+      } %}
+      {% set applicationNumberRow = {
+        key: { text: summaryField(
+          "Planning application number",
+          { "data-cy": "application-number-label" }
+        ) },
+        value: { text: summaryField(
+          appeal.planningApplicationDocumentsSection.applicationNumber,
+          { "data-cy": "application-number" }
+        ) },
+        actions: applicationNumberRowActions if displayActions !== false
+      } %}
+      {% set plansDrawingsSupportingDocumentsRowActions = {
+        items: [
+          {
+            href: "/full-appeal/submit-appeal/plans-drawings-documents",
+            text: "Change",
+            visuallyHiddenText: "if you have any new plans or drawings that support your appeal",
+            attributes: {
+              "data-cy": "change-plans-drawings-supporting-documents"
+            }
+          }
+        ]
+      } %}
+      {% set plansDrawingsSupportingDocumentsRow = {
+        key: { text: summaryField(
+          "Plans, drawings and supporting documents",
+          { "data-cy": "plans-drawings-supporting-documents-label" }
+        ) },
+        value: { html: uploadedFileLinkList(
+          appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles,
+          appeal.id,
+          "plans-drawings-supporting-documents"
+        ) },
+        actions: plansDrawingsSupportingDocumentsRowActions if displayActions !== false
       } %}
       {% set hasDesignAccessStatementRowActions = {
         items: [
@@ -716,7 +741,7 @@
         ) },
         actions: decisionLetterRowActions if displayActions !== false
       } %}
-      {% set planningApplicationRows = [applicationNumberRow, applicationFormRow, hasDesignAccessStatementRow] %}
+      {% set planningApplicationRows = [applicationFormRow, applicationNumberRow, plansDrawingsSupportingDocumentsRow, hasDesignAccessStatementRow] %}
       {% if appeal.planningApplicationDocumentsSection.designAccessStatement.isSubmitted %}
         {% set planningApplicationRows = (planningApplicationRows.push(designAccessStatementRow), planningApplicationRows) %}
       {% endif %}
@@ -774,13 +799,6 @@
         ) },
         actions: hasPlansDrawingsRowActions if displayActions !== false
       } %}
-      {% set plansDrawingsHtml %}
-        <ul class="govuk-list">
-          {% for file in appeal.appealDocumentsSection.plansDrawings.uploadedFiles %}
-            <li>{{ uploadedFileLink( appeal.id, file, { "data-cy": "plans-drawings-" + loop.index } )}}</li>
-          {% endfor %}
-        </ul>
-      {% endset %}
       {% set plansDrawingsRowActions = {
         items: [
           {
@@ -798,7 +816,11 @@
           "Plans and drawings",
           { "data-cy": "plans-drawings-label" }
         ) },
-        value: { html: plansDrawingsHtml },
+        value: { html: uploadedFileLinkList(
+          appeal.appealDocumentsSection.plansDrawings.uploadedFiles,
+          appeal.id,
+          "plans-drawings"
+        ) },
         actions: plansDrawingsRowActions if displayActions !== false
       } %}
       {% set hasSupportingDocumentsRowActions = {
@@ -824,13 +846,6 @@
         ) },
         actions: hasSupportingDocumentsRowActions if displayActions !== false
       } %}
-      {% set supportingDocumentsHtml %}
-        <ul class="govuk-list">
-          {% for file in appeal.appealDocumentsSection.supportingDocuments.uploadedFiles %}
-            <li>{{ uploadedFileLink( appeal.id, file, { "data-cy": "supporting-documents-" + loop.index } )}}</li>
-          {% endfor %}
-        </ul>
-      {% endset %}
       {% set supportingDocumentsRowActions = {
         items: [
           {
@@ -848,7 +863,11 @@
           "Supporting documents",
           { "data-cy": "supporting-documents-label" }
         ) },
-        value: { html: supportingDocumentsHtml },
+        value: { html: uploadedFileLinkList(
+          appeal.appealDocumentsSection.supportingDocuments.uploadedFiles,
+          appeal.id,
+          "supporting-documents"
+        ) },
         actions: supportingDocumentsRowActions if displayActions !== false
       } %}
       {% set yourAppealRows = [appealStatementRow, hasPlansDrawingsRow] %}

@@ -1,0 +1,9 @@
+{% from "./uploaded-file-link.njk" import uploadedFileLink %}
+
+{% macro uploadedFileLinkList(uploadedFiles, appealId, dataCyPrefix) %}
+  <ul class="govuk-list">
+    {% for file in uploadedFiles %}
+      <li>{{ uploadedFileLink( appealId, file, { "data-cy": dataCyPrefix + "-" + loop.index } )}}</li>
+    {% endfor %}
+  </ul>
+{% endmacro %}

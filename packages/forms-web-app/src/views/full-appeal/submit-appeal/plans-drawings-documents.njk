@@ -1,0 +1,83 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set labelText = "Drag and drop or choose files" %}
+{% set title = "Plans, drawings and supporting documents - Appeal a planning decision - GOV.UK" %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
+
+{% block backButton %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: '/full-appeal/submit-appeal/application-number',
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary,
+          attributes: {"data-cy": "error-wrapper"}
+        }) }}
+      {% endif %}
+      <span class="govuk-caption-l">Upload documents from your planning application</span>
+      <h1 class="govuk-heading-l">Plans, drawings and supporting documents</h1>
+      {% if uploadedFiles.length %}
+        <h2 class="govuk-heading-m govuk-!-margin-top-8">Uploaded files</h2>
+        <ul class="govuk-list">
+        {%- for file in uploadedFiles %}
+          <li><a href="/document/{{appealId}}/{{file.id}}" class="govuk-link">{{ file.name }}</a></li>
+        {%- endfor %}
+        </ul>
+        {% set labelText = "Replace the files" %}
+      {% endif %}
+      <form action="" method="post" novalidate enctype="multipart/form-data">
+        {{ govukFileUpload({
+          id: "file-upload",
+          name: "file-upload",
+          classes: "pins-file-upload",
+          attributes: {
+            'multiple': true
+          },
+          label: {
+            text: labelText,
+            classes: "govuk-label--m"
+          },
+          errorMessage: errors['file-upload'] and { text: errors['file-upload'].msg }
+        }) }}
+
+        {{ govukDetails({
+          summaryText: "Files you can upload",
+          html: '<p class="govuk-body">
+                  You can upload the following types of file:
+                </p>
+                <ul class="govuk-list govuk-list--bullet">
+                  <li>DOC or DOCX</li>
+                  <li>JPG or JPEG</li>
+                  <li>PDF</li>
+                  <li>PNG</li>
+                  <li>TIF or TIFF</li>
+                </ul>
+                <p class="govuk-body">
+                  Your file must be smaller than 15MB.
+                </p>'
+        }) }}
+
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

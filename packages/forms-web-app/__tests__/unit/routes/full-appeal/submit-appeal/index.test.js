@@ -35,6 +35,7 @@ const whyInquiryRouter = require('../../../../../src/routes/full-appeal/submit-a
 const expectEnquiryLastRouter = require('../../../../../src/routes/full-appeal/submit-appeal/expect-inquiry-last');
 const draftStatementOfCommonGroundRouter = require('../../../../../src/routes/full-appeal/submit-appeal/draft-statement-common-ground');
 const advertisingYourAppealRouter = require('../../../../../src/routes/full-appeal/submit-appeal/advertising-your-appeal');
+const plansDrawingsDocumentsRouter = require('../../../../../src/routes/full-appeal/submit-appeal/plans-drawings-documents');
 
 describe('routes/full-appeal/submit-appeal/index', () => {
   beforeEach(() => {
@@ -43,7 +44,7 @@ describe('routes/full-appeal/submit-appeal/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(36);
+    expect(use.mock.calls.length).toBe(37);
     expect(use).toHaveBeenCalledWith(taskListRouter);
     expect(use).toHaveBeenCalledWith(checkAnswersRouter);
     expect(use).toHaveBeenCalledWith(contactDetailsRouter);
@@ -80,5 +81,6 @@ describe('routes/full-appeal/submit-appeal/index', () => {
     expect(use).toHaveBeenCalledWith(expectEnquiryLastRouter);
     expect(use).toHaveBeenCalledWith(draftStatementOfCommonGroundRouter);
     expect(use).toHaveBeenCalledWith(advertisingYourAppealRouter);
+    expect(use).toHaveBeenCalledWith(plansDrawingsDocumentsRouter);
   });
 });

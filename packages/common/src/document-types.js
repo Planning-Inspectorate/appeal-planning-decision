@@ -29,6 +29,11 @@ const documentTypes = {
     multiple: false,
     displayName: 'Draft statement of common ground',
   },
+  plansDrawingsSupportingDocuments: {
+    name: 'plansDrawingsSupportingDocuments',
+    multiple: true,
+    displayName: 'Plans, drawings and supporting documents',
+  },
   appealPdf: {
     name: 'appealPdf',
     multiple: false,

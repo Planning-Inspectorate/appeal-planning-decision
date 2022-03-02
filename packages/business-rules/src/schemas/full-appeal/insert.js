@@ -206,6 +206,27 @@ const insert = pinsYup
       .object()
       .shape({
         applicationNumber: pinsYup.string().max(30).nullable(),
+        plansDrawingsSupportingDocuments: pinsYup
+          .object()
+          .shape({
+            uploadedFiles: pinsYup
+              .array()
+              .of(
+                pinsYup
+                  .object()
+                  .shape({
+                    id: pinsYup.string().trim().uuid().nullable().default(null),
+                    name: pinsYup.string().trim().max(255).ensure(),
+                    fileName: pinsYup.string().trim().max(255).ensure(),
+                    originalFileName: pinsYup.string().trim().max(255).ensure(),
+                    location: pinsYup.string().trim().nullable(),
+                    size: pinsYup.number().nullable(),
+                  })
+                  .noUnknown(true),
+              )
+              .ensure(),
+          })
+          .noUnknown(true),
         originalApplication: pinsYup
           .object()
           .shape({
@@ -405,6 +426,10 @@ const insert = pinsYup
           .object()
           .shape({
             applicationNumber: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .default('NOT STARTED'),
+            plansDrawingsSupportingDocuments: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
               .default('NOT STARTED'),

@@ -185,6 +185,27 @@ const update = pinsYup
       .object()
       .shape({
         applicationNumber: pinsYup.string().max(30).required(),
+        plansDrawingsSupportingDocuments: pinsYup
+          .object()
+          .shape({
+            uploadedFiles: pinsYup
+              .array()
+              .of(
+                pinsYup
+                  .object()
+                  .shape({
+                    id: pinsYup.string().trim().uuid().required(),
+                    name: pinsYup.string().trim().max(255).required(),
+                    fileName: pinsYup.string().trim().max(255).required(),
+                    originalFileName: pinsYup.string().trim().max(255).required(),
+                    location: pinsYup.string().trim().required(),
+                    size: pinsYup.number().required(),
+                  })
+                  .noUnknown(true),
+              )
+              .ensure(),
+          })
+          .noUnknown(true),
         originalApplication: pinsYup
           .object()
           .shape({
@@ -360,6 +381,10 @@ const update = pinsYup
           .object()
           .shape({
             applicationNumber: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            plansDrawingsSupportingDocuments: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .required(),
             originalApplication: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             decisionLetter: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             designAccessStatement: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
