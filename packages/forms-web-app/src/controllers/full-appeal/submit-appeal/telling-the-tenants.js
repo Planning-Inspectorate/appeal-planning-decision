@@ -26,8 +26,7 @@ const getTellingTheTenants = (req, res) => {
   const {
     appeal: {
       appealSiteSection: {
-        siteOwnership: { tellingTheTenants },
-        agriculturalHolding: { isTenant },
+        agriculturalHolding: { tellingTheTenants, isTenant },
       },
     },
   } = req.session;
@@ -59,8 +58,8 @@ const postTellingTheTenants = async (req, res) => {
   }
 
   try {
-    appeal.appealSiteSection.siteOwnership.tellingTheTenants = tellingTheTenants;
-    appeal.sectionStates[sectionName].siteOwnership[taskName] = getTaskStatus(
+    appeal.appealSiteSection.agriculturalHolding.tellingTheTenants = tellingTheTenants;
+    appeal.sectionStates[sectionName].agriculturalHolding[taskName] = getTaskStatus(
       appeal,
       sectionName,
       taskName
