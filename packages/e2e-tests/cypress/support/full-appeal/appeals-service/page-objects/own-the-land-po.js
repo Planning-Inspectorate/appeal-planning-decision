@@ -32,4 +32,10 @@ export const errorMessageTellingTheTenants = () => cy.get('#telling-the-tenants-
 export const tellingTheOtherTenantsText = () => cy.findByText('You must have told all the other tenants about your appeal.');
 export const advertisingYourAppealToldAboutAppeal = () => cy.get('[data-cy=advertising-your-appeal-toldAboutMyAppeal]');
 export const advertisingYourAppealWithinLast21Days = () => cy.get('[data-cy=advertising-your-appeal-withinLast21Days]');
-export const advertisingYourAppealUseCopyOfTheForm = () => cy.get('[data-cy=advertising-your-appeal-useCopyOfTheForm]')
+export const advertisingYourAppealUseCopyOfTheForm = () => cy.get('[data-cy=advertising-your-appeal-useCopyOfTheForm]');
+export const advertisingYourAppealForKnowSomeOfTheLandownersText = () => cy.findByText('Because you do not know all the landowners, you must have advertised your appeal in the press.');
+export const advertisingYourAppealFormInAnnex = () => cy.findByRole('link',{name:"form in annexe 2A or 2B of the 'making your appeal' guidance"});
+export const advertisingYourAppealForKnowSomeOfTheOtherLandownersText = () => cy.findByText('Because you do not know all the other landowners, you must have advertised your appeal in the press.');
+export const errorMessageAdvertisingYourAppeal = () => cy.get('#advertising-your-appeal-error');
+export const advertisingYourAppealForKnowNoneOfTheLandownersText = () => cy.findByText('Because you do not know the landowners, you must have advertised your appeal in the press.');
+export const advertisingYourAppealForKnowNoneOfTheOtherLandownersText = () => cy.findByText('Because you do not know the other landowners, you must have advertised your appeal in the press.');
