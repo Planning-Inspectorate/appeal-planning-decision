@@ -200,6 +200,9 @@ verifyPageHeading(pageHeadingAgriculturalLand);
 verifyPageTitle(pageTitleAgriculturalLand);
 })
 
-Then('they are presented with the Do you know who owns the land involved in the appeal page',()=>{
-  cy.url().should('contain',knowTheOwnersUrl);
+Then('they are presented with the {string} page',(page)=>{
+  if(page==='know the owners')
+    cy.url().should('contain',knowTheOwnersUrl);
+  else if(page==='Advertising your appeal')
+    cy.url().should('contain',advertisingYourAppealUrl);
 });

@@ -78,14 +78,14 @@ Feature: As an appellant/agent
       | I know who owns some of the land  | Yes              | I used a copy of the form in annexe 2A or 2B, I've told all the landowners about my appeal |
       | I know who owns some of the land  | No               | I used a copy of the form in annexe 2A or 2B, I've told all the landowners about my appeal |
 
-  Scenario Outline: AC06 -  Navigate from ‘Telling the landowners' page back to ‘Do you know who owns the land involved in the appeal? page
+  Scenario Outline: AC06 -  Navigate from ‘Telling the landowners' page back to '<page>' page
     Given an appellant or agent is on the Telling the landowners page for the '<knowTheOwners>' and '<ownSomeOfTheLand>'
     When user clicks on the Back link
-    Then they are presented with the Do you know who owns the land involved in the appeal page
+    Then they are presented with the '<page>' page
     Examples:
-      | knowTheOwners                     | ownSomeOfTheLand |
-      | Yes, I know who owns all the land | No               |
-      | Yes, I know who owns all the land | Yes              |
-      | I know who owns some of the land  | Yes              |
-      | I know who owns some of the land  | No               |
+      | knowTheOwners                     | ownSomeOfTheLand | page                    |
+      | Yes, I know who owns all the land | No               | know the owners         |
+      | Yes, I know who owns all the land | Yes              | know the owners         |
+      | I know who owns some of the land  | Yes              | Advertising your appeal |
+      | I know who owns some of the land  | No               | Advertising your appeal |
 
