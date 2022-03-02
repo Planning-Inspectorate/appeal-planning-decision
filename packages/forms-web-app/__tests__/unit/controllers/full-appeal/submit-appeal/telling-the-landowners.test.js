@@ -50,6 +50,7 @@ describe('controllers/full-appeal/submit-appeal/telling-the-landowners', () => {
 
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(TELLING_THE_LANDOWNERS, {
+        knowsTheOwners: 'yes',
         ownsSomeOfTheLand: false,
         tellingTheLandowners: STANDARD_TRIPLE_CONFIRM_OPTIONS,
       });
@@ -73,6 +74,7 @@ describe('controllers/full-appeal/submit-appeal/telling-the-landowners', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(TELLING_THE_LANDOWNERS, {
+        knowsTheOwners: 'yes',
         ownsSomeOfTheLand: false,
         tellingTheLandowners: [],
         errors,
@@ -99,6 +101,7 @@ describe('controllers/full-appeal/submit-appeal/telling-the-landowners', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(TELLING_THE_LANDOWNERS, {
+        knowsTheOwners: 'yes',
         ownsSomeOfTheLand: false,
         tellingTheLandowners: [STANDARD_TRIPLE_CONFIRM_OPTIONS[0]],
         errors: {},

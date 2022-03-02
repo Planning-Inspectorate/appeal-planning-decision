@@ -12,8 +12,18 @@ const sectionName = 'appealSiteSection';
 const taskName = 'visibleFromRoad';
 
 const getVisibleFromRoad = (req, res) => {
-  const { visibleFromRoad } = req.session.appeal[sectionName];
+  const {
+    appeal: {
+      [sectionName]: {
+        visibleFromRoad,
+        agriculturalHolding: { hasOtherTenants, isAgriculturalHolding, isTenant },
+      },
+    },
+  } = req.session;
   res.render(VISIBLE_FROM_ROAD, {
+    hasOtherTenants,
+    isAgriculturalHolding,
+    isTenant,
     visibleFromRoad,
   });
 };
@@ -22,7 +32,14 @@ const postVisibleFromRoad = async (req, res) => {
   const {
     body,
     body: { errors = {}, errorSummary = [] },
-    session: { appeal },
+    session: {
+      appeal,
+      appeal: {
+        [sectionName]: {
+          agriculturalHolding: { hasOtherTenants, isAgriculturalHolding, isTenant },
+        },
+      },
+    },
   } = req;
 
   const visibleFromRoad = {
@@ -32,6 +49,9 @@ const postVisibleFromRoad = async (req, res) => {
 
   if (Object.keys(errors).length > 0) {
     return res.render(VISIBLE_FROM_ROAD, {
+      hasOtherTenants,
+      isAgriculturalHolding,
+      isTenant,
       visibleFromRoad,
       errors,
       errorSummary,
@@ -48,6 +68,9 @@ const postVisibleFromRoad = async (req, res) => {
     logger.error(err);
 
     return res.render(VISIBLE_FROM_ROAD, {
+      hasOtherTenants,
+      isAgriculturalHolding,
+      isTenant,
       visibleFromRoad,
       errors,
       errorSummary: [{ text: err.toString(), href: '#' }],

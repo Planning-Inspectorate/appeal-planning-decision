@@ -5,6 +5,14 @@
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
+{% set backLink = '/full-appeal/submit-appeal' %}
+{% if not isAgriculturalHolding %}
+  {% set backLink = backLink + '/agricultural-holding' %}
+{% elif hasOtherTenants or not isTenant %}
+  {% set backLink = backLink + '/telling-the-tenants' %}
+{% else %}
+  {% set backLink = backLink + '/other-tenants' %}
+{% endif %}
 {% set title = "Is the site visible from a public road? - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
@@ -25,7 +33,7 @@
 {% block backButton %}
   {{ govukBackLink({
     text: 'Back',
-    href: '/full-appeal/submit-appeal/agricultural-holding',
+    href: backLink,
     attributes: {
       'data-cy': 'back'
     }

@@ -42,6 +42,9 @@ describe('controllers/full-appeal/submit-appeal/visible-from-road', () => {
 
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(VISIBLE_FROM_ROAD, {
+        hasOtherTenants: true,
+        isAgriculturalHolding: true,
+        isTenant: true,
         visibleFromRoad: {
           isVisible: false,
           details: appeal[sectionName][taskName].details,
@@ -67,6 +70,9 @@ describe('controllers/full-appeal/submit-appeal/visible-from-road', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(VISIBLE_FROM_ROAD, {
+        hasOtherTenants: true,
+        isAgriculturalHolding: true,
+        isTenant: true,
         visibleFromRoad: {
           isVisible: false,
           details: null,
@@ -96,6 +102,9 @@ describe('controllers/full-appeal/submit-appeal/visible-from-road', () => {
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(VISIBLE_FROM_ROAD, {
+        hasOtherTenants: true,
+        isAgriculturalHolding: true,
+        isTenant: true,
         visibleFromRoad: {
           isVisible: true,
           details: null,
