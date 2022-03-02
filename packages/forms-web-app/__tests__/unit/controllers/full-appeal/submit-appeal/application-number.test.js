@@ -5,7 +5,7 @@ const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wra
 const logger = require('../../../../../src/lib/logger');
 const {
   VIEW: {
-    FULL_APPEAL: { APPLICATION_NUMBER, DESIGN_ACCESS_STATEMENT_SUBMITTED },
+    FULL_APPEAL: { APPLICATION_NUMBER, PLANS_DRAWINGS_DOCUMENTS },
   },
 } = require('../../../../../src/lib/full-appeal/views');
 const { getNextTask, getTaskStatus } = require('../../../../../src/services/task.service');
@@ -91,7 +91,7 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
       getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
       getNextTask.mockReturnValue({
-        href: `/${DESIGN_ACCESS_STATEMENT_SUBMITTED}`,
+        href: `/${PLANS_DRAWINGS_DOCUMENTS}`,
       });
 
       const mockRequest = {
@@ -120,7 +120,7 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
         },
       });
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${DESIGN_ACCESS_STATEMENT_SUBMITTED}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${PLANS_DRAWINGS_DOCUMENTS}`);
     });
   });
 });

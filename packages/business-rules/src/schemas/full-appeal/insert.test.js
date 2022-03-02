@@ -2086,6 +2086,203 @@ describe('schemas/full-appeal/insert', () => {
         });
       });
 
+      describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments', () => {
+        it('should remove unknown fields', async () => {
+          appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.unknownField =
+            'unknown field';
+
+          const result = await insert.validate(appeal2, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should throw an error when given a null value', async () => {
+          appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments = null;
+
+          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+            'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments must be a `object` type, but the final value was: `null`',
+          );
+        });
+
+        describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles', () => {
+          it('should not throw an error when given a null value', async () => {
+            appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles =
+              null;
+            appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles =
+              [];
+
+            const result = await insert.validate(appeal, config);
+            expect(result).toEqual(appeal2);
+          });
+
+          it('should not throw an error when not given a value', async () => {
+            delete appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments
+              .uploadedFiles;
+            appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles =
+              [];
+
+            const result = await insert.validate(appeal2, config);
+            expect(result).toEqual(appeal2);
+          });
+
+          describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id', () => {
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id =
+                '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id =
+                '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should throw an error when not given a UUID', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id =
+                'abc123';
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id must be a valid UUID',
+              );
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments
+                .uploadedFiles[0].id;
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id =
+                null;
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name =
+                'a'.repeat(256);
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name =
+                '  test-pdf.pdf  ';
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name =
+                '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName =
+                'a'.repeat(256);
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName =
+                '  test-pdf.pdf  ';
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName =
+                '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName =
+                'a'.repeat(256);
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName =
+                '  test-pdf.pdf  ';
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName =
+                '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].location', () => {
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].location =
+                '  test-pdf.pdf  ';
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].location =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].location =
+                '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].size', () => {
+            it('should throw an error when not given a number', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].size =
+                'not-a-number';
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].size must be a `number` type, but the final value was: `NaN` (cast from the value `1000`).',
+              );
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments
+                .uploadedFiles[0].size;
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+        });
+      });
+
       describe('planningApplicationDocumentsSection.originalApplication', () => {
         it('should remove unknown fields', async () => {
           appeal2.planningApplicationDocumentsSection.originalApplication.unknownField =
@@ -2983,6 +3180,30 @@ describe('schemas/full-appeal/insert', () => {
             delete appeal.sectionStates.planningApplicationDocumentsSection.applicationNumber;
 
             appeal2.sectionStates.planningApplicationDocumentsSection.applicationNumber =
+              SECTION_STATE.NOT_STARTED;
+
+            const result = await insert.validate(appeal, config);
+            expect(result).toEqual(appeal2);
+          });
+        });
+
+        describe('sectionStates.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments', () => {
+          it('should throw an error when given an invalid value', async () => {
+            appeal.sectionStates.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments =
+              'NOT COMPLETE';
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              `sectionStates.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments must be one of the following values: ${Object.values(
+                SECTION_STATE,
+              ).join(', ')}`,
+            );
+          });
+
+          it('should set a default value of `NOT STARTED` when not given a value', async () => {
+            delete appeal.sectionStates.planningApplicationDocumentsSection
+              .plansDrawingsSupportingDocuments;
+
+            appeal2.sectionStates.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments =
               SECTION_STATE.NOT_STARTED;
 
             const result = await insert.validate(appeal, config);

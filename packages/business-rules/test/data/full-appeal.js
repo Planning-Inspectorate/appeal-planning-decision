@@ -80,6 +80,26 @@ const appeal = {
   },
   planningApplicationDocumentsSection: {
     applicationNumber: 'ABCDE12345',
+    plansDrawingsSupportingDocuments: {
+      uploadedFiles: [
+        {
+          id: 'e8e26cae-720f-4bc7-8d9b-cc601b0a80ca',
+          name: 'plansDrawingsSupportingDocuments1.pdf',
+          fileName: 'plansDrawingsSupportingDocuments1.pdf',
+          originalFileName: 'plansDrawingsSupportingDocuments1.pdf',
+          location: 'e8e26cae-720f-4bc7-8d9b-cc601b0a80ca/plansDrawingsSupportingDocuments1.pdf',
+          size: 1000,
+        },
+        {
+          id: '73ce77bf-7bdb-40ea-8787-d45fd580c592',
+          name: 'plansDrawingsSupportingDocuments2.pdf',
+          fileName: 'plansDrawingsSupportingDocuments2.pdf',
+          originalFileName: 'plansDrawingsSupportingDocuments2.pdf',
+          location: '73ce77bf-7bdb-40ea-8787-d45fd580c592/plansDrawingsSupportingDocuments2.pdf',
+          size: 1000,
+        },
+      ],
+    },
     originalApplication: {
       uploadedFile: {
         id: '372c8ba6-dfa6-4bba-bf9c-b024e3d8c282',
@@ -200,6 +220,7 @@ const appeal = {
     },
     planningApplicationDocumentsSection: {
       applicationNumber: 'NOT STARTED',
+      plansDrawingsSupportingDocuments: 'NOT STARTED',
       originalApplication: 'NOT STARTED',
       decisionLetter: 'NOT STARTED',
       designAccessStatement: 'NOT STARTED',
