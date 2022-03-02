@@ -12,13 +12,14 @@ import {
   getSaveAndContinueButton
 } from "../../../../../support/common-page-objects/common-po";
 import {
+  advertisingYourAppealToldAboutAppeal, advertisingYourAppealUseCopyOfTheForm, advertisingYourAppealWithinLast21Days,
   checkBoxIdentifyingTheOwners, errorMessageTellingTheLandowners,
   selectNo,
   selectYes, tellingTheLandownersFormInAnnex, tellingTheLandownersText,
   tellingTheLandOwnersToldAboutAppeal,
   tellingTheLandOwnersUseCopyOfTheForm,
-  tellingTheLandOwnersWithinLast21Days, tellingTheOtherLandownersText
-} from "../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po";
+  tellingTheLandOwnersWithinLast21Days, tellingTheOtherLandownersText,
+} from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 import {selectRadioButton} from "../../../../../support/full-appeal/appeals-service/selectRadioButton";
 import {verifyPageTitle} from "../../../../../support/common/verify-page-title";
 import {verifyPageHeading} from "../../../../../support/common/verify-page-heading";
@@ -33,6 +34,8 @@ const ownSomeOfLandUrl = 'full-appeal/submit-appeal/own-some-of-the-land';
 const ownAllOfLandUrl = 'full-appeal/submit-appeal/own-all-the-land';
 const siteAddressUrl = 'full-appeal/submit-appeal/appeal-site-address';
 const knowTheOwnersUrl = 'full-appeal/submit-appeal/know-the-owners';
+const advertisingYourAppealUrl = 'full-appeal/submit-appeal/advertising-your-appeal';
+const identifyingTheOwnersUrl = 'full-appeal/submit-appeal/identifying-the-owners';
 const addressLine1 = '10 Bradmore Way';
 const postcode = 'RG6 1BC';
 const pageHeadingTellingTheLandowners = 'Telling the landowners';
@@ -78,7 +81,13 @@ Given('an appellant or agent is on the Telling the landowners page for the {stri
     cy.url().should('contain',knowTheOwnersUrl);
     selectTheOwners(knowTheOwners);
     if(knowTheOwners==='I know who owns some of the land'){
+      cy.url().should('contain',identifyingTheOwnersUrl);
       checkBoxIdentifyingTheOwners().check();
+      getSaveAndContinueButton().click();
+      cy.url().should('contain',advertisingYourAppealUrl);
+      advertisingYourAppealToldAboutAppeal().check();
+      advertisingYourAppealWithinLast21Days().check();
+      advertisingYourAppealUseCopyOfTheForm().check();
       getSaveAndContinueButton().click();
     }
       cy.url().should('contain',url);
@@ -89,6 +98,16 @@ Given('an appellant or agent is on the Telling the landowners page for the {stri
     getSaveAndContinueButton().click();
     cy.url().should('contain',knowTheOwnersUrl);
     selectTheOwners(knowTheOwners);
+    if(knowTheOwners==='I know who owns some of the land'){
+      cy.url().should('contain',identifyingTheOwnersUrl);
+      checkBoxIdentifyingTheOwners().check();
+      getSaveAndContinueButton().click();
+      cy.url().should('contain',advertisingYourAppealUrl);
+      advertisingYourAppealToldAboutAppeal().check();
+      advertisingYourAppealWithinLast21Days().check();
+      advertisingYourAppealUseCopyOfTheForm().check();
+      getSaveAndContinueButton().click();
+    }
     cy.url().should('contain',url);
     verifyPageTitle(pageTitleTellingTheLandowners);
     verifyPageHeading(pageHeadingTellingTheLandowners);
@@ -99,7 +118,13 @@ Given('an appellant or agent is on the Telling the landowners page for the {stri
 When('the appellant select {string} and click continue for {string}',(option, landowners)=>{
   selectTheOwners(option);
   if(option==='I know who owns some of the land'){
+    cy.url().should('contain',identifyingTheOwnersUrl);
     checkBoxIdentifyingTheOwners().check();
+    getSaveAndContinueButton().click();
+    cy.url().should('contain',advertisingYourAppealUrl);
+    advertisingYourAppealToldAboutAppeal().check();
+    advertisingYourAppealWithinLast21Days().check();
+    advertisingYourAppealUseCopyOfTheForm().check();
     getSaveAndContinueButton().click();
   }
   if(landowners==='Telling the landowners'){
