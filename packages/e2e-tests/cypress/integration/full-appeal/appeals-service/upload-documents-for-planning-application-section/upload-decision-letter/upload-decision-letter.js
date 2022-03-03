@@ -25,20 +25,24 @@ const taskListUrl = 'full-appeal/submit-appeal/task-list';
 const planningAppFormUrl ='full-appeal/submit-appeal/application-form';
 const planningAppNumberUrl = 'full-appeal/submit-appeal/application-number';
 const designAccessStatementSubmittedUrl = 'full-appeal/submit-appeal/design-access-statement-submitted';
+const plansAndDrawingsDocumentsUrl = 'full-appeal/submit-appeal/plans-drawings-documents';
 const decisionLetterUrl = 'full-appeal/submit-appeal/decision-letter'
 const textPageCaption = 'Upload documents from your planning application';
 const pageTitle = "Decision letter - Appeal a planning decision - GOV.UK";
 const pageHeading = 'Decision letter';
 const decisionLetterSectionText = 'This is the letter from the local planning department telling you about the decision on your planning application.';
-const planningAppNumberText = 'PNO-TEST123'
+const planningAppNumberText = 'PNO-TEST123';
+
 
 Given("an appellant is on the 'Design and access statement submitted' page",()=> {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   planningApplicationDocumentsLink().click();
   cy.url().should('contain', planningAppFormUrl);
   getFileUploadButton().attachFile('upload-file-valid.jpeg');
   getSaveAndContinueButton().click();
   planningApplicationNumber().clear().type(planningAppNumberText);
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', plansAndDrawingsDocumentsUrl);
+  getFileUploadButton().attachFile('upload-file-valid.pdf');
   getSaveAndContinueButton().click();
   cy.url().should('contain',designAccessStatementSubmittedUrl )
 });
@@ -61,12 +65,14 @@ When("they select the 'Continue' button",()=> {
   getSaveAndContinueButton().click();
 });
 Given( "an appellant is on the 'Decision Letter' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   planningApplicationDocumentsLink().click();
   cy.url().should('contain', planningAppFormUrl);
   getFileUploadButton().attachFile('upload-file-valid.jpeg');
   getSaveAndContinueButton().click();
   planningApplicationNumber().clear().type(planningAppNumberText);
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', plansAndDrawingsDocumentsUrl);
+  getFileUploadButton().attachFile('upload-file-valid.pdf');
   getSaveAndContinueButton().click();
   cy.url().should('contain',designAccessStatementSubmittedUrl);
   submitADesignStNo().click();
@@ -91,12 +97,14 @@ Then("the uploaded file {string} is displayed", (filename) => {
   uploadedFileName().should('contain', filename);
 })
 Given("an appellant has uploaded a file {string}", (filename) => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   planningApplicationDocumentsLink().click();
   cy.url().should('contain', planningAppFormUrl);
   getFileUploadButton().attachFile('upload-file-valid.jpeg');
   getSaveAndContinueButton().click();
   planningApplicationNumber().clear().type(planningAppNumberText);
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', plansAndDrawingsDocumentsUrl);
+  getFileUploadButton().attachFile('upload-file-valid.pdf');
   getSaveAndContinueButton().click();
   cy.url().should('contain',designAccessStatementSubmittedUrl);
   submitADesignStNo().click();
@@ -108,12 +116,14 @@ Then( "an error message {string} is displayed", (errorMessage) => {
   verifyErrorMessage(errorMessage,errorFileUploadField,getErrorMessageSummary);
 });
 Given("an appellant has not uploaded any document",()=> {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   planningApplicationDocumentsLink().click();
   cy.url().should('contain', planningAppFormUrl);
   getFileUploadButton().attachFile('upload-file-valid.jpeg');
   getSaveAndContinueButton().click();
   planningApplicationNumber().clear().type(planningAppNumberText);
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', plansAndDrawingsDocumentsUrl);
+  getFileUploadButton().attachFile('upload-file-valid.pdf');
   getSaveAndContinueButton().click();
   cy.url().should('contain',designAccessStatementSubmittedUrl);
   submitADesignStNo().click();
@@ -127,7 +137,7 @@ Then("they are presented with the 'Design and access statement submitted' page",
 Then("they are presented with the 'What is your planning application number?' page", () => {
   cy.url().should('contain', planningAppNumberUrl);
 });
-When("they click on the 'Back' link",()=> {
+When("they click on the Back link",()=> {
   getBackLink().click();
 });
 When( "they drag and drop a file and click on Continue button", () => {
@@ -139,4 +149,8 @@ Then("they are presented with the 'Appeal a planning decision' task list page", 
 })
 Then("they are presented with the 'Planning application form' page", () => {
   cy.url().should('contain', planningAppFormUrl);
-})
+});
+
+Then('the user are presented with plans and drawings documents page', () => {
+  cy.url().should('contain', plansAndDrawingsDocumentsUrl);
+});

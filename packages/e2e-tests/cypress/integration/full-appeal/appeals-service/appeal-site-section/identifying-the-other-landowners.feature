@@ -9,7 +9,7 @@ Feature: As an Appellant or or Agent
     Given an Appellant or Agent is on the 'Do you know who owns the rest of the land involved in the Appeal' page
     When the user selects '<knowTheOwners>' and clicks 'Continue'
     Then the '<nextPage>' page is displayed with guidance text
-    When they click on the 'Back' link
+    When they click on the Back link
     Then they are on the 'Do you know who owns the rest of the land involved in the Appeal' page and the option '<knowTheOwners>' is selected
     Examples:
      | knowTheOwners                              | nextPage                         |
@@ -20,7 +20,7 @@ Feature: As an Appellant or or Agent
     Given an Appellant or Agent is on the '<currentPage>' page for the question '<knowTheOwners>'
     When the user selects the confirmation box and clicks 'Continue'
     Then the user is taken to the '<nextPage>'
-    When they click on the 'Back' link
+    When they click on the Back link
     Then they are presented with the '<currentPage>' page for the question '<knowTheOwners>'
     Examples:
       | knowTheOwners                              | currentPage                      | nextPage                |

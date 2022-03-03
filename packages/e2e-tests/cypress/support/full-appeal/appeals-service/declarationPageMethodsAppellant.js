@@ -56,6 +56,8 @@ export const declarationPageMethodsAppellant = (count) => {
   getSaveAndContinueButton().click();
   planningApplicationNumber().type('PNO-1001');
   getSaveAndContinueButton().click();
+  getFileUploadButton().attachFile('upload-file-valid.pdf');
+  getSaveAndContinueButton().click();
   submitADesignStNo().click();
   getSaveAndContinueButton().click();
   getFileUploadButton().attachFile('appeal-statement-valid.jpeg');

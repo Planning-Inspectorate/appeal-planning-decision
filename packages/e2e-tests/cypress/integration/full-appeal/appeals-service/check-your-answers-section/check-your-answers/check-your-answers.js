@@ -70,6 +70,8 @@ import {
   getPlanningAppMadeOnBehalfOfCompanyAnswer,
   getPlanningAppMadeOnBehalfOfNameAnswer,
   getPlanningAppMadeOnBehalfOfQuestion,
+  getPlansDrawingSupportingDocumentsAnswer, getPlansDrawingSupportingDocumentsChangeLink,
+  getPlansDrawingSupportingDocumentsQuestion,
   getPlansOrDrawingAnswer,
   getPlansOrDrawingChangeLink,
   getPlansOrDrawingQuestion,
@@ -240,6 +242,8 @@ const plansAndDrawings = 'upload-file-valid.tif';
 const supportingDocument = 'upload-file-valid.docx';
 const visibleFromRoadText = 'Site is behind a tall wall';
 const healthAndSafetyConcern = 'The site has no mobile reception';
+const plansAndDrawingsDocumentsUrl = 'full-appeal/submit-appeal/plans-drawings-documents';
+const plansAndDrawingsDocument = 'upload-file-valid.pdf';
 
 
 Given('the appellant has provided details for {string}', (contact_Details) => {
@@ -443,6 +447,9 @@ Given('appellant uploads documents from planning application and design and acce
   getSaveAndContinueButton().click();
   cy.url().should('contain', planningAppNumberUrl);
   planningApplicationNumber().clear().type(planningAppNumberText);
+  getSaveAndContinueButton().click();
+  cy.url().should('contain', plansAndDrawingsDocumentsUrl);
+  getFileUploadButton().attachFile(plansAndDrawingsDocument);
   getSaveAndContinueButton().click();
   cy.url().should('contain', designAccessStatementSubmittedUrl);
   if (design_access_statement === 'no') {
@@ -712,6 +719,9 @@ Then('appellant is displayed answers for planning application for {string}', (de
   verifyFullAppealCYAAnswer(getPlanningApplicationFormAnswer, planningAppFormDocument);
   verifyFullAppealCYAQuestion(getDesignAccessStatementSubmittedQuestion, 'Design and access statement submitted with application');
   verifyFullAppealCYAChangLink(getDesignAccessStatementSubmittedChangeLink, '/full-appeal/submit-appeal/design-access-statement-submitted');
+  verifyFullAppealCYAQuestion(getPlansDrawingSupportingDocumentsQuestion,'Plans, drawings and supporting documents');
+  verifyFullAppealCYAAnswer(getPlansDrawingSupportingDocumentsAnswer,plansAndDrawingsDocument);
+  verifyFullAppealCYAChangLink(getPlansDrawingSupportingDocumentsChangeLink,'/full-appeal/submit-appeal/plans-drawings-documents');
   if (design_access_statement === 'no') {
     verifyFullAppealCYAAnswer(getDesignAccessStatementSubmittedAnswer, 'No');
   } else if (design_access_statement === 'yes') {

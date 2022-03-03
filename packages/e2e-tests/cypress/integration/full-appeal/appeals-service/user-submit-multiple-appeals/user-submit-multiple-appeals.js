@@ -92,6 +92,8 @@ const declarationPageMethodsMultipleAppealsAppellant = () => {
   getSaveAndContinueButton().click();
   planningApplicationNumber().type('PNO-1001');
   getSaveAndContinueButton().click();
+  getFileUploadButton().attachFile('upload-file-valid.pdf');
+  getSaveAndContinueButton().click();
   submitADesignStNo().click();
   getSaveAndContinueButton().click();
   getFileUploadButton().attachFile('appeal-statement-valid.jpeg');
@@ -142,6 +144,8 @@ const declarationPageMethodsMultipleAppealsAgent = () => {
   getFileUploadButton().attachFile('appeal-statement-valid.jpeg');
   getSaveAndContinueButton().click();
   planningApplicationNumber().type('PNO-1001');
+  getSaveAndContinueButton().click();
+  getFileUploadButton().attachFile('upload-file-valid.pdf');
   getSaveAndContinueButton().click();
   submitADesignStNo().click();
   getSaveAndContinueButton().click();

@@ -104,6 +104,10 @@ export const getYourPlanningApplicationSectionHeading = () =>  cy.get('[data-cy=
 export const getPlanningApplicationNumberQuestion = () =>  cy.get('[data-cy="application-number-label"]');
 export const getPlanningApplicationNumberAnswer = () =>  cy.get('[data-cy="application-number"]');
 export const getPlanningApplicationNumberChangeLink =() => cy.get('[data-cy="change-application-number"]');
+//Plans drawings supporting documents
+export const getPlansDrawingSupportingDocumentsQuestion = () =>  cy.get('[data-cy="plans-drawings-supporting-documents-label"]');
+export const getPlansDrawingSupportingDocumentsAnswer = () =>  cy.get('[data-cy="plans-drawings-supporting-documents-1"]');
+export const getPlansDrawingSupportingDocumentsChangeLink =() => cy.get('[data-cy="change-plans-drawings-supporting-documents"]');
 //planning application form
 export const getPlanningApplicationFormQuestion = () =>  cy.get('[data-cy="application-form-label"]');
 export const getPlanningApplicationFormAnswer = () =>  cy.get('[data-cy="application-form"]');

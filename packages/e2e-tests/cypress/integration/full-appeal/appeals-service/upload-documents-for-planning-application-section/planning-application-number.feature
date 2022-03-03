@@ -10,7 +10,7 @@ Feature: As an agent
   Scenario: 2. Agent enters letters/numbers into the text box
     Given an agent is on the 'What is your Planning Application number' page
     When they enter text into the box and click 'Continue'
-    Then the page 'Did you submit a design and access statement with your application?' is displayed
+    Then the user are presented with plans and drawings documents page
 
   Scenario: 3. No characters entered in the text box
     Given an agent is on the 'What is your Planning Application number' page
