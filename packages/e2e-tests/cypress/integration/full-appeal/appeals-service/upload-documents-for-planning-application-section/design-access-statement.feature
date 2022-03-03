@@ -2,6 +2,9 @@ Feature: As an appellant/agent
   I want to add a copy of the Design and Access Statement
   So that the planning Inspectorate can have the necessary evidence to support my appeal
 
+  Background:
+    Given appellant has completed full appeal eligibility journey
+
  Scenario: 1. Navigate from 'Did you submit a design and access statement with your application? to 'Design and access statement' page
     Given an appellant is on the 'Did you submit a design and access statement with your application' page
     When they select the 'Yes' option
@@ -45,13 +48,15 @@ Feature: As an appellant/agent
 
  Scenario: 6. Navigate from 'Design and access statement' page back to Task List
    Given an appellant is on the 'Design and access statement' page from the task list page
-   When they click on the 'Back' link
+   When they click on the Back link
    Then the user is presented with the 'Did you submit a design and access statement with your application?' page
-   When they click on the 'Back' link
-   Then they are presented with the 'What is your planning application number?' page
-   When they click on the 'Back' link
+   When they click on the Back link
+   Then the user are presented with plans and drawings documents page
+   When they click on the Back link
+   Then they are presented with the What is your planning application number? page
+   When they click on the Back link
    Then the user is presented with the 'Planning application form' page
-   When they click on the 'Back' link
+   When they click on the Back link
    Then they are presented with the 'Appeal a planning decision' task list page
 ##And the last task they are working on will show 'In progress'
 

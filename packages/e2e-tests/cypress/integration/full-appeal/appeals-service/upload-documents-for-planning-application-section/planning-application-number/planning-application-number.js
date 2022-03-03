@@ -17,7 +17,7 @@ import { planningApplicationDocumentsLink } from '../../../../../support/full-ap
 
 const url = 'full-appeal/submit-appeal/application-number';
 const planningAppFormUrl = 'full-appeal/submit-appeal/application-form';
-const designAccessStatementUrl = 'full-appeal/submit-appeal/design-access-statement-submitted';
+const plansAndDrawingsDocumentsUrl = 'full-appeal/submit-appeal/plans-drawings-documents';
 const textPageCaption = 'Upload documents from your planning application';
 const pageTitle = "What's the original planning application number? - Appeal a planning decision - GOV.UK";
 const pageHeading = 'What is your planning application number?';
@@ -64,9 +64,6 @@ When("they enter text into the box and click 'Continue'",()=> {
   planningApplicationNumber().type(textPlanningAppNumber);
   getSaveAndContinueButton().click();
 });
-Then("the page 'Did you submit a design and access statement with your application?' is displayed",()=> {
-  cy.url().should('contain', designAccessStatementUrl);
-});
 
 Then('an error message {string} is displayed',(errorMessage)=> {
   verifyErrorMessage(errorMessage,planningAppNumberErrorMessage,getErrorMessageSummary);
@@ -85,4 +82,8 @@ When("they click on the 'Back' link",()=> {
 });
 Then("they are presented with the 'Planning Application form' page",()=> {
   cy.url().should('contain', planningAppFormUrl);
+});
+
+Then('the user are presented with plans and drawings documents page', () => {
+  cy.url().should('contain', plansAndDrawingsDocumentsUrl);
 });

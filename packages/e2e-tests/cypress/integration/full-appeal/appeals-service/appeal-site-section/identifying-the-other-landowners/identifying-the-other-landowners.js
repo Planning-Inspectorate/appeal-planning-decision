@@ -98,7 +98,7 @@ Then("they are on the 'Do you know who owns the rest of the land involved in the
       break;
   }
 });
-When("they click on the 'Back' link",()=>{
+When("they click on the Back link",()=>{
   getBackLink().click();
 });
 
