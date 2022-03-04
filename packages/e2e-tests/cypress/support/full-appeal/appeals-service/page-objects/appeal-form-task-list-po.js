@@ -3,9 +3,9 @@ export const applicationStatusText = () => cy.get('[data-cy=application-status]'
 export const applicationStatusDetailedText = () => cy.get('[data-cy=application-status-detailed]');
 export const linkProvideYourContactDetails = () => cy.get('[data-cy=contactDetailsSection]');
 export const statusProvideYourContactDetails = () => cy.get('[data-cy=task-list-item-contactDetailsSection] > .govuk-tag');
-export const linkTellAboutTheAppealSite = () => cy.get('[data-cy=aboutAppealSiteSection]');
+export const linkTellAboutTheAppealSite = () => cy.get('[data-cy=appealSiteSection]');
 export const linkDecideYourAppeal = () => cy.get('[data-cy=appealDecisionSection]');
-export const statusTellAboutTheAppealSite = () => cy.get('[data-cy=task-list-item-aboutAppealSiteSection] > .govuk-tag');
+export const statusTellAboutTheAppealSite = () => cy.get('[data-cy=task-list-item-appealSiteSection] > .govuk-tag');
 export const linkUploadDocsFromPlanningApplication = () => cy.get('[data-cy=planningApplicationDocumentsSection]');
 export const statusUploadDocsFromPlanningApplication = () => cy.get('[data-cy=task-list-item-planningApplicationDocumentsSection] > .govuk-tag');
 export const linkUploadDocsForYourAppeal = () => cy.get('[data-cy=appealDocumentsSection]');
