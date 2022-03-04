@@ -69,6 +69,7 @@ const update = pinsYup
         householderPlanningPermission: pinsYup.bool().nullable(),
         isClaimingCosts: pinsYup.bool().required(),
         isListedBuilding: pinsYup.bool().required(),
+        hasPriorApprovalForExistingHome: pinsYup.bool().required(),
       })
       .noUnknown(true),
     aboutYouSection: pinsYup

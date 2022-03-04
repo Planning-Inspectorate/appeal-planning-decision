@@ -3,6 +3,7 @@ const parseDateString = require('../../utils/parse-date-string');
 const {
   APPEAL_ID,
   APPEAL_STATE,
+  APPLICATION_CATEGORIES,
   APPLICATION_DECISION,
   KNOW_THE_OWNERS,
   PROCEDURE_TYPE,
@@ -37,9 +38,13 @@ const update = pinsYup
     eligibility: pinsYup
       .object()
       .shape({
-        applicationCategories: pinsYup.string().matches('none_of_these').required(),
+        applicationCategories: pinsYup
+          .array()
+          .allOfSelectedOptions('applicationCategories', [APPLICATION_CATEGORIES.NON_OF_THESE])
+          .required(),
         applicationDecision: pinsYup.string().oneOf(Object.values(APPLICATION_DECISION)).required(),
         enforcementNotice: pinsYup.bool().required(),
+        hasPriorApprovalForExistingHome: pinsYup.bool().nullable(),
       })
       .noUnknown(true),
     contactDetailsSection: pinsYup
@@ -97,11 +102,14 @@ const update = pinsYup
               return pinsYup.string().nullable();
             }),
             hasIdentifiedTheOwners: pinsYup.bool().nullable(),
-            tellingTheLandowners: pinsYup.array().nullable().allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
+            tellingTheLandowners: pinsYup
+              .array()
+              .nullable()
+              .allOfValidOptions(STANDARD_TRIPLE_CONFIRM_OPTIONS),
             advertisingYourAppeal: pinsYup
               .array()
               .nullable()
-              .allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
+              .allOfValidOptions(STANDARD_TRIPLE_CONFIRM_OPTIONS),
           })
           .noUnknown(true),
         agriculturalHolding: pinsYup
@@ -110,7 +118,10 @@ const update = pinsYup
             isAgriculturalHolding: pinsYup.bool().required(),
             isTenant: pinsYup.bool().nullable(),
             hasOtherTenants: pinsYup.bool().nullable(),
-            tellingTheTenants: pinsYup.array().nullable().allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
+            tellingTheTenants: pinsYup
+              .array()
+              .nullable()
+              .allOfValidOptions(STANDARD_TRIPLE_CONFIRM_OPTIONS),
           })
           .noUnknown(true),
         visibleFromRoad: pinsYup

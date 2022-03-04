@@ -44,7 +44,6 @@ describe('controllers/full-appeal/decision-date', () => {
 
       expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.DECISION_DATE, {
         decisionDate: null,
-        backLink: `/before-you-start/granted-or-refused`,
       });
     });
   });
@@ -115,7 +114,6 @@ describe('controllers/full-appeal/decision-date', () => {
             msg: 'You need to provide a date',
           },
         },
-        backLink: `/before-you-start/granted-or-refused`,
       });
     });
 
@@ -140,7 +138,6 @@ describe('controllers/full-appeal/decision-date', () => {
         appeal: req.session.appeal,
         errors: {},
         errorSummary: [{ text: error.toString(), href: 'decision-date' }],
-        backLink: `/before-you-start/granted-or-refused`,
       });
     });
   });

@@ -66,6 +66,7 @@ describe('lib/views', () => {
         TYPE_OF_PLANNING_APPLICATION: 'full-appeal/type-of-planning-application',
         USE_A_DIFFERENT_SERVICE: 'full-appeal/use-a-different-service',
         YOU_CANNOT_APPEAL: 'full-appeal/you-cannot-appeal',
+        PRIOR_APPROVAL_EXISTING_HOME: 'full-appeal/prior-approval-existing-home',
       },
 
       YOUR_PLANNING_APPEAL: {

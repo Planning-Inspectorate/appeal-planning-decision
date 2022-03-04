@@ -9,6 +9,7 @@ const outOfTimeRouter = require('../../../../src/routes/full-appeal/out-of-time'
 const enforcementNoticeRouter = require('../../../../src/routes/full-appeal/enforcement-notice');
 const dateDecisionDueRouter = require('../../../../src/routes/full-appeal/date-decision-due');
 const decisionDateRouter = require('../../../../src/routes/full-appeal/decision-date');
+const priorApprovalExistingHomeRouter = require('../../../../src/routes/full-appeal/prior-approval-existing-home');
 
 describe('routes/full-appeal/index', () => {
   beforeEach(() => {
@@ -19,6 +20,7 @@ describe('routes/full-appeal/index', () => {
   });
 
   it('should define the expected routes', () => {
+    expect(use.mock.calls.length).toBe(10);
     expect(use).toHaveBeenCalledWith(localPlanningDepartmentRouter);
     expect(use).toHaveBeenCalledWith(typeOfPlanningRouter);
     expect(use).toHaveBeenCalledWith(anyOfFollowingRouter);
@@ -28,7 +30,6 @@ describe('routes/full-appeal/index', () => {
     expect(use).toHaveBeenCalledWith(enforcementNoticeRouter);
     expect(use).toHaveBeenCalledWith(decisionDateRouter);
     expect(use).toHaveBeenCalledWith(dateDecisionDueRouter);
-
-    expect(use.mock.calls.length).toBe(9);
+    expect(use).toHaveBeenCalledWith(priorApprovalExistingHomeRouter);
   });
 });

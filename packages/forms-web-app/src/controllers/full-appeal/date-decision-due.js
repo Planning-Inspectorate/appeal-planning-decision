@@ -10,7 +10,6 @@ const {
 
 const navigationPage = {
   nextPage: '/before-you-start/enforcement-notice',
-  previousPage: '/before-you-start/granted-or-refused',
   shutterPage: '/before-you-start/you-cannot-appeal',
 };
 
@@ -26,7 +25,6 @@ exports.getDateDecisionDue = (req, res) => {
       month: `0${decisionDate?.getMonth() + 1}`.slice(-2),
       year: decisionDate?.getFullYear(),
     },
-    previousPage: navigationPage.previousPage,
   });
 };
 
@@ -63,7 +61,6 @@ exports.postDateDecisionDue = async (req, res) => {
       },
       errors,
       errorSummary: filteredErrorSummary(errorSummary),
-      previousPage: navigationPage.previousPage,
     });
     return;
   }
@@ -85,7 +82,6 @@ exports.postDateDecisionDue = async (req, res) => {
       },
       errors,
       errorSummary: [{ text: e.toString(), href: '#' }],
-      previousPage: navigationPage.previousPage,
     });
     return;
   }

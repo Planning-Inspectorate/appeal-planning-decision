@@ -12,13 +12,6 @@
   {{ title }}
 {% endblock %}
 
-{% block backButton %}
-    {{ govukBackLink({
-    text: "Back",
-    href: backLink
- })}}
-{% endblock %}
-
 {% block content %}
 
   {% if errors %}
