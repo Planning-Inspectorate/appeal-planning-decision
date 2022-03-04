@@ -25,7 +25,7 @@ exports.getDecisionDateHouseholder = async (req, res) => {
     decisionDate: decisionDate && {
       day: `0${decisionDate?.getDate()}`.slice(-2),
       month: `0${decisionDate?.getMonth() + 1}`.slice(-2),
-      year: decisionDate?.getFullYear(),
+      year: String(decisionDate?.getFullYear()),
     },
     backLink,
   });
