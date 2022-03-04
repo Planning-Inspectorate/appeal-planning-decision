@@ -44,7 +44,6 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
         VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.DATE_DECISION_DUE_HOUSEHOLDER,
         {
           decisionDate: null,
-          backLink: `/before-you-start/granted-or-refused-householder`,
         }
       );
     });
@@ -62,7 +61,6 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
             month: '03',
             year: '2022',
           },
-          backLink: `/before-you-start/granted-or-refused-householder`,
         }
       );
     });
@@ -136,7 +134,6 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
               msg: 'You need to provide a date',
             },
           },
-          backLink: `/before-you-start/granted-or-refused-householder`,
         }
       );
     });
@@ -170,7 +167,6 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
           },
           errors: {},
           errorSummary: [{ text: error.toString(), href: 'date-decision-due-householder' }],
-          backLink: `/before-you-start/granted-or-refused-householder`,
         }
       );
     });

@@ -11,7 +11,6 @@ const {
   },
 } = require('../../../lib/householder-planning/views');
 
-const backLink = `/before-you-start/granted-or-refused-householder`;
 const shutter = `/before-you-start/you-cannot-appeal`;
 const enforcementNoticeHouseholder = `/before-you-start/enforcement-notice-householder`;
 
@@ -27,7 +26,6 @@ exports.getDecisionDateHouseholder = async (req, res) => {
       month: `0${decisionDate?.getMonth() + 1}`.slice(-2),
       year: String(decisionDate?.getFullYear()),
     },
-    backLink,
   });
 };
 
@@ -45,7 +43,6 @@ exports.postDecisionDateHouseholder = async (req, res) => {
       },
       errors,
       errorSummary,
-      backLink,
     });
   }
 
@@ -91,7 +88,6 @@ exports.postDecisionDateHouseholder = async (req, res) => {
       appeal,
       errors,
       errorSummary: [{ text: e.toString(), href: 'decision-date-householder' }],
-      backLink,
     });
   }
 };
