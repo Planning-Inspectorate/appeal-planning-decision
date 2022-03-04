@@ -5,7 +5,6 @@ const {
   postIdentifyingTheOwners,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/identifying-the-owners');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
@@ -21,8 +20,6 @@ describe('controllers/full-appeal/submit-appeal/identifying-the-owners', () => {
   let res;
   let appeal;
 
-  const sectionName = 'appealSiteSection';
-  const taskName = 'siteOwnership';
   const appealId = 'da368e66-de7b-44c4-a403-36e5bf5b000b';
   const errors = { 'identify-the-owners': 'Select an option' };
   const errorSummary = [{ text: 'There was an error', href: '#' }];
@@ -128,7 +125,6 @@ describe('controllers/full-appeal/submit-appeal/identifying-the-owners', () => {
 
       await postIdentifyingTheOwners(req, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${ADVERTISING_YOUR_APPEAL}`);
       expect(req.session.appeal).toEqual(submittedAppeal);

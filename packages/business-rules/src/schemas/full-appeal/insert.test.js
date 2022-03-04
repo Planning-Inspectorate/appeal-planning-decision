@@ -2960,108 +2960,40 @@ describe('schemas/full-appeal/insert', () => {
           );
         });
 
-        describe('sectionStates.appealSiteSection.siteAddress', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.appealSiteSection.siteAddress = 'NOT COMPLETE';
+        [
+          'siteAddress',
+          'ownsAllTheLand',
+          'agriculturalHolding',
+          'areYouATenant',
+          'tellingTheTenants',
+          'otherTenants',
+          'visibleFromRoad',
+          'healthAndSafety',
+          'someOfTheLand',
+          'knowTheOwners',
+          'identifyingTheLandOwners',
+          'advertisingYourAppeal',
+          'tellingTheLandowners',
+        ].forEach((page) => {
+          describe(`sectionStates.appealSiteSection.${page}`, () => {
+            it('should throw an error when given an invalid value', async () => {
+              appeal.sectionStates.appealSiteSection[page] = 'NOT COMPLETE';
 
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.appealSiteSection.siteAddress must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                `sectionStates.appealSiteSection.${page} must be one of the following values: ${Object.values(
+                  SECTION_STATE,
+                ).join(', ')}`,
+              );
+            });
 
-          it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.appealSiteSection.siteAddress;
+            it('should set a default value of `NOT STARTED` when not given a value', async () => {
+              delete appeal.sectionStates.appealSiteSection[page];
 
-            appeal2.sectionStates.appealSiteSection.siteAddress = SECTION_STATE.NOT_STARTED;
+              appeal2.sectionStates.appealSiteSection[page] = SECTION_STATE.NOT_STARTED;
 
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal2);
-          });
-        });
-
-        describe('sectionStates.appealSiteSection.siteOwnership', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.appealSiteSection.siteOwnership = 'NOT COMPLETE';
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.appealSiteSection.siteOwnership must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.appealSiteSection.siteOwnership;
-
-            appeal2.sectionStates.appealSiteSection.siteOwnership = SECTION_STATE.NOT_STARTED;
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal2);
-          });
-        });
-
-        describe('sectionStates.appealSiteSection.agriculturalHolding', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.appealSiteSection.agriculturalHolding = 'NOT COMPLETE';
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.appealSiteSection.agriculturalHolding must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.appealSiteSection.agriculturalHolding;
-
-            appeal2.sectionStates.appealSiteSection.agriculturalHolding = SECTION_STATE.NOT_STARTED;
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal2);
-          });
-        });
-
-        describe('sectionStates.appealSiteSection.visibleFromRoad', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.appealSiteSection.visibleFromRoad = 'NOT COMPLETE';
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.appealSiteSection.visibleFromRoad must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.appealSiteSection.visibleFromRoad;
-
-            appeal2.sectionStates.appealSiteSection.visibleFromRoad = SECTION_STATE.NOT_STARTED;
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal2);
-          });
-        });
-
-        describe('sectionStates.appealSiteSection.healthAndSafety', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.appealSiteSection.healthAndSafety = 'NOT COMPLETE';
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.appealSiteSection.healthAndSafety must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.appealSiteSection.healthAndSafety;
-
-            appeal2.sectionStates.appealSiteSection.healthAndSafety = SECTION_STATE.NOT_STARTED;
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal2);
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal2);
+            });
           });
         });
       });

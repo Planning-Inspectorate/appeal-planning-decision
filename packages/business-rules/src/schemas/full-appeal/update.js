@@ -359,10 +359,21 @@ const update = pinsYup
           .object()
           .shape({
             siteAddress: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
-            siteOwnership: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            ownsAllTheLand: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             agriculturalHolding: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            areYouATenant: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            tellingTheTenants: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            otherTenants: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             visibleFromRoad: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             healthAndSafety: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            someOfTheLand: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            knowTheOwners: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            identifyingTheLandOwners: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .required(),
+            advertisingYourAppeal: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            tellingTheLandowners: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
           })
           .noUnknown(true),
         appealDecisionSection: pinsYup

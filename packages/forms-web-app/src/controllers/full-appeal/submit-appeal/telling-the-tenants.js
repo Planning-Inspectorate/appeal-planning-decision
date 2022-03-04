@@ -5,8 +5,8 @@ const {
 } = require('../../../lib/full-appeal/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
-const { getTaskStatus } = require('../../../services/task.service');
 const toArray = require('../../../lib/to-array');
+const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'tellingTheTenants';
@@ -59,11 +59,7 @@ const postTellingTheTenants = async (req, res) => {
 
   try {
     appeal.appealSiteSection.agriculturalHolding.tellingTheTenants = tellingTheTenants;
-    appeal.sectionStates[sectionName].agriculturalHolding[taskName] = getTaskStatus(
-      appeal,
-      sectionName,
-      taskName
-    );
+    appeal.sectionStates[sectionName][taskName] = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
 
     return res.redirect(`/${VISIBLE_FROM_ROAD}`);

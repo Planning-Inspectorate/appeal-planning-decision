@@ -1,6 +1,5 @@
 const logger = require('../../../lib/logger');
-// const { getTaskStatus, FULL_APPEAL_SECTIONS } = require('../../../services/task.service');
-const { NOT_STARTED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED } = require('../../../services/task-status/task-statuses');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   VIEW: {
@@ -73,13 +72,7 @@ exports.postOriginalApplicant = async (req, res) => {
   }
 
   try {
-    // appeal.sectionStates[sectionName][taskName] = getTaskStatus(
-    //   appeal,
-    //   sectionName,
-    //   taskName,
-    //   FULL_APPEAL_SECTIONS
-    // );
-    appeal.sectionStates[sectionName][taskName] = NOT_STARTED;
+    appeal.sectionStates[sectionName][taskName] = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);

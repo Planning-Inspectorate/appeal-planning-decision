@@ -5,7 +5,7 @@ const {
     FULL_APPEAL: { HEALTH_SAFETY_ISSUES, TASK_LIST },
   },
 } = require('../../../lib/full-appeal/views');
-const { getTaskStatus } = require('../../../services/task.service');
+const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'healthAndSafety';
@@ -39,7 +39,7 @@ const postHealthSafetyIssues = async (req, res) => {
 
   try {
     appeal[sectionName][taskName] = healthAndSafety;
-    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+    appeal.sectionStates[sectionName][taskName] = COMPLETED;
 
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {

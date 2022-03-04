@@ -5,7 +5,6 @@ const {
   postHealthSafetyIssues,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/health-safety-issues');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
@@ -20,10 +19,9 @@ describe('controllers/full-appeal/submit-appeal/health-safety-issues', () => {
   let req;
   let res;
 
-  const sectionName = 'appealSiteSection';
-  const taskName = 'healthAndSafety';
   const errors = { 'health-safety-issues': 'Select an option' };
   const errorSummary = [{ text: 'There was an error', href: '#' }];
+  appeal.sectionStates.appealSiteSection.healthAndSafety = 'COMPLETED';
 
   beforeEach(() => {
     req = v8.deserialize(
@@ -113,7 +111,6 @@ describe('controllers/full-appeal/submit-appeal/health-safety-issues', () => {
       };
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -125,7 +122,6 @@ describe('controllers/full-appeal/submit-appeal/health-safety-issues', () => {
 
       await postHealthSafetyIssues(req, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
@@ -143,7 +139,6 @@ describe('controllers/full-appeal/submit-appeal/health-safety-issues', () => {
       };
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -155,7 +150,6 @@ describe('controllers/full-appeal/submit-appeal/health-safety-issues', () => {
 
       await postHealthSafetyIssues(req, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
       expect(req.session.appeal).toEqual(submittedAppeal);

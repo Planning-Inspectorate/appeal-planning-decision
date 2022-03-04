@@ -5,7 +5,6 @@ const {
   postKnowTheOwners,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/know-the-owners');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
@@ -24,6 +23,7 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
   const taskName = 'siteOwnership';
   const errors = { 'know-the-owners': 'Select an option' };
   const errorSummary = [{ text: 'There was an error', href: '#' }];
+  appeal.sectionStates.appealSiteSection.knowTheOwners = 'COMPLETED';
 
   beforeEach(() => {
     req = v8.deserialize(
@@ -104,7 +104,6 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
       };
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -115,7 +114,6 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
 
       await postKnowTheOwners(req, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${TELLING_THE_LANDOWNERS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
@@ -129,7 +127,6 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
       submittedAppeal[sectionName][taskName].knowsTheOwners = 'some';
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -140,7 +137,6 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
 
       await postKnowTheOwners(req, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${IDENTIFYING_THE_OWNERS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
@@ -155,7 +151,6 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
       submittedAppeal[sectionName][taskName].hasIdentifiedTheOwners = null;
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -166,7 +161,6 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
 
       await postKnowTheOwners(req, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${IDENTIFYING_THE_OWNERS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
@@ -188,7 +182,6 @@ describe('controllers/full-appeal/submit-appeal/know-the-owners', () => {
       req.session.appeal[sectionName][taskName].knowsTheOwners = 'no';
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       await postKnowTheOwners(req, res);
 

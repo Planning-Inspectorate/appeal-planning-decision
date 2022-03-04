@@ -5,8 +5,7 @@ const {
     FULL_APPEAL: { HEALTH_SAFETY_ISSUES, VISIBLE_FROM_ROAD },
   },
 } = require('../../../lib/full-appeal/views');
-// const { getTaskStatus } = require('../../../services/task.service');
-const { NOT_STARTED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'visibleFromRoad';
@@ -60,8 +59,7 @@ const postVisibleFromRoad = async (req, res) => {
 
   try {
     appeal[sectionName][taskName] = visibleFromRoad;
-    // appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
-    appeal.sectionStates[sectionName][taskName] = NOT_STARTED;
+    appeal.sectionStates[sectionName][taskName] = COMPLETED;
 
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {

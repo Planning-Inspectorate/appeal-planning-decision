@@ -5,8 +5,7 @@ const {
     FULL_APPEAL: { ARE_YOU_A_TENANT, OTHER_TENANTS, TELLING_THE_TENANTS },
   },
 } = require('../../../lib/full-appeal/views');
-// const { getTaskStatus } = require('../../../services/task.service');
-const { NOT_STARTED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'agriculturalHolding';
@@ -36,8 +35,7 @@ const postAreYouATenant = async (req, res) => {
 
   try {
     appeal[sectionName][taskName].isTenant = isTenant;
-    // appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
-    appeal.sectionStates[sectionName][taskName] = NOT_STARTED;
+    appeal.sectionStates[sectionName].areYouATenant = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);

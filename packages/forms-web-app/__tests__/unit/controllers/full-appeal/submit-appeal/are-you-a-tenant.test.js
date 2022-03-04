@@ -5,7 +5,6 @@ const {
   postAreYouATenant,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/are-you-a-tenant');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
@@ -24,6 +23,7 @@ describe('controllers/full-appeal/submit-appeal/are-you-a-tenant', () => {
   const taskName = 'agriculturalHolding';
   const errors = { 'are-you-a-tenant': 'Select an option' };
   const errorSummary = [{ text: 'There was an error', href: '#' }];
+  appeal.sectionStates.appealSiteSection.areYouATenant = 'COMPLETED';
 
   beforeEach(() => {
     req = v8.deserialize(
@@ -94,7 +94,6 @@ describe('controllers/full-appeal/submit-appeal/are-you-a-tenant', () => {
       };
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -105,7 +104,6 @@ describe('controllers/full-appeal/submit-appeal/are-you-a-tenant', () => {
 
       await postAreYouATenant(req, res);
 
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${OTHER_TENANTS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
@@ -119,7 +117,6 @@ describe('controllers/full-appeal/submit-appeal/are-you-a-tenant', () => {
       submittedAppeal[sectionName][taskName].isTenant = false;
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -130,7 +127,6 @@ describe('controllers/full-appeal/submit-appeal/are-you-a-tenant', () => {
 
       await postAreYouATenant(req, res);
 
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${TELLING_THE_TENANTS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);

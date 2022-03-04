@@ -6,6 +6,8 @@ const TASK_STATUS = require('./task-status/task-statuses');
 const { statusAppealSiteAddress } = require('./task-status/status-appeal-site-address');
 const { statusSiteOwnership } = require('./task-status/status-site-ownership');
 const { statusYourDetails } = require('./task-status/status-your-details');
+const { statusContactDetails } = require('./task-status/full-appeal/status-contact-details');
+const { statusAppealSiteSection } = require('./task-status/full-appeal/status-appeal-site-section');
 
 function statusAppealStatement(appeal) {
   const task = appeal.yourAppealSection.appealStatement;
@@ -134,6 +136,34 @@ function notStartedRule() {
 }
 
 const FULL_APPEAL_SECTIONS = {
+  contactDetailsSection: {
+    href: `/${FULL_APPEAL.ORIGINAL_APPLICANT}`,
+    rule: statusContactDetails,
+  },
+  appealSiteSection: {
+    href: `/${FULL_APPEAL.APPEAL_SITE_ADDRESS}`,
+    rule: statusAppealSiteSection,
+  },
+  appealDecisionSection: {
+    href: `/${FULL_APPEAL.HOW_DECIDE_APPEAL}`,
+    rule: notStartedRule,
+  },
+  aboutAppealSiteSection: {
+    href: `/${FULL_APPEAL.APPEAL_SITE_ADDRESS}`,
+    rule: notStartedRule,
+  },
+  planningApplicationDocumentsSection: {
+    href: `/${FULL_APPEAL.APPLICATION_FORM}`,
+    rule: notStartedRule,
+  },
+  appealDocumentsSection: {
+    href: `/${FULL_APPEAL.APPEAL_STATEMENT}`,
+    rule: statusAppealStatement,
+  },
+  submitYourAppealSection: {
+    href: `/${FULL_APPEAL.CHECK_YOUR_ANSWERS}`,
+    rule: () => TASK_STATUS.NOT_STARTED,
+  },
   aboutYouSection: {
     yourDetails: {
       href: `/${FULL_APPEAL.APPLICANT_NAME}`,
@@ -154,73 +184,11 @@ const FULL_APPEAL_SECTIONS = {
       rule: notStartedRule,
     },
   },
-  appealSiteSection: {
-    siteAddress: {
-      href: `/${FULL_APPEAL.APPEAL_SITE_ADDRESS}`,
-      rule: statusAppealSiteAddress,
-    },
-    ownAllTheLand: {
-      href: `/${FULL_APPEAL.OWN_ALL_THE_LAND}`,
-      rule: notStartedRule,
-    },
-    ownSomeOfTheLand: {
-      href: `/${FULL_APPEAL.OWN_SOME_OF_THE_LAND}`,
-      rule: notStartedRule,
-    },
-    knowTheOwners: {
-      href: `/${FULL_APPEAL.KNOW_THE_OWNERS}`,
-      rule: notStartedRule,
-    },
-    agriculturalHolding: {
-      href: `/${FULL_APPEAL.AGRICULTURAL_HOLDING}`,
-      rule: notStartedRule,
-    },
-    areYouATenant: {
-      href: `/${FULL_APPEAL.ARE_YOU_A_TENANT}`,
-      rule: notStartedRule,
-    },
-    otherTenants: {
-      href: `/${FULL_APPEAL.OTHER_TENANTS}`,
-      rule: notStartedRule,
-    },
-    visibleFromRoad: {
-      href: `/${FULL_APPEAL.VISIBLE_FROM_ROAD}`,
-      rule: notStartedRule,
-    },
-    healthSafetyIssues: {
-      href: `/${FULL_APPEAL.HEALTH_SAFETY_ISSUES}`,
-      rule: notStartedRule,
-    },
-  },
   yourAppealSection: {
     appealStatement: {
       href: `/${FULL_APPEAL.APPEAL_STATEMENT}`,
       rule: statusAppealStatement,
     },
-  },
-  contactDetailsSection: {
-    href: `/${FULL_APPEAL.ORIGINAL_APPLICANT}`,
-    rule: (appeal) => appeal.sectionStates.contactDetailsSection,
-  },
-  aboutAppealSiteSection: {
-    href: `/${FULL_APPEAL.APPEAL_SITE_ADDRESS}`,
-    rule: notStartedRule,
-  },
-  appealDecisionSection: {
-    href: `/${FULL_APPEAL.HOW_DECIDE_APPEAL}`,
-    rule: notStartedRule,
-  },
-  planningApplicationDocumentsSection: {
-    href: `/${FULL_APPEAL.APPLICATION_FORM}`,
-    rule: notStartedRule,
-  },
-  appealDocumentsSection: {
-    href: `/${FULL_APPEAL.APPEAL_STATEMENT}`,
-    rule: statusAppealStatement,
-  },
-  submitYourAppealSection: {
-    href: `/${FULL_APPEAL.CHECK_YOUR_ANSWERS}`,
-    rule: () => TASK_STATUS.NOT_STARTED,
   },
 };
 

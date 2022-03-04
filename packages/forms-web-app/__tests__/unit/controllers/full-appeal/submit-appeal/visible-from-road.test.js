@@ -5,7 +5,6 @@ const {
   postVisibleFromRoad,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/visible-from-road');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
@@ -24,6 +23,7 @@ describe('controllers/full-appeal/submit-appeal/visible-from-road', () => {
   const taskName = 'visibleFromRoad';
   const errors = { 'visible-from-road': 'Select an option' };
   const errorSummary = [{ text: 'There was an error', href: '#' }];
+  appeal.sectionStates.appealSiteSection.visibleFromRoad = 'COMPLETED';
 
   beforeEach(() => {
     req = v8.deserialize(
@@ -124,7 +124,6 @@ describe('controllers/full-appeal/submit-appeal/visible-from-road', () => {
       };
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -152,7 +151,6 @@ describe('controllers/full-appeal/submit-appeal/visible-from-road', () => {
       };
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,

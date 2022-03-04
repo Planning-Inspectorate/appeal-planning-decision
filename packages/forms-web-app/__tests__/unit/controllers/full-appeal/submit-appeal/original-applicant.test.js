@@ -4,7 +4,6 @@ const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wra
 const logger = require('../../../../../src/lib/logger');
 const { VIEW } = require('../../../../../src/lib/full-appeal/views');
 const { mockReq, mockRes } = require('../../../mocks');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
@@ -39,9 +38,7 @@ describe('controllers/full-appeal/submit-appeal/original-applicant', () => {
 
   describe('postOriginalApplicant', () => {
     it('should redirect with original-appellant set to true', async () => {
-      const fakeTaskStatus = 'NOT STARTED';
-
-      getTaskStatus.mockImplementation(() => fakeTaskStatus);
+      const fakeTaskStatus = 'COMPLETED';
 
       const mockRequest = {
         ...mockReq(appeal),
@@ -114,9 +111,7 @@ describe('controllers/full-appeal/submit-appeal/original-applicant', () => {
     });
 
     it('should re-render the template with errors if there is any api call error', async () => {
-      const fakeTaskStatus = 'NOT STARTED';
-
-      getTaskStatus.mockImplementation(() => fakeTaskStatus);
+      const fakeTaskStatus = 'COMPLETED';
 
       const mockRequest = {
         ...mockReq(appeal),

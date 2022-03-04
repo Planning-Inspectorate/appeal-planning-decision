@@ -1,9 +1,11 @@
-const { getTaskStatus, FULL_APPEAL_SECTIONS } = require('../../../services/task.service');
+const { FULL_APPEAL_SECTIONS } = require('../../../services/task.service');
 const { VIEW } = require('../../../lib/full-appeal/views');
+const { NOT_STARTED } = require('../../../services/task-status/task-statuses');
+const logger = require('../../../lib/logger');
 
 const HEADERS = {
   contactDetailsSection: 'Provide your contact details',
-  aboutAppealSiteSection: 'Tell us about the appeal site',
+  appealSiteSection: 'Tell us about the appeal site',
   appealDecisionSection: ' Tell us how you would prefer us to decide your appeal',
   planningApplicationDocumentsSection: 'Upload documents from your planning application',
   appealDocumentsSection: 'Upload documents for your appeal',
@@ -14,7 +16,7 @@ function buildTaskLists(appeal) {
   const taskList = [];
   const {
     requiredDocumentsSection,
-    appealSiteSection,
+    aboutAppealSiteSection,
     aboutYouSection,
     yourAppealSection,
     ...sections
@@ -23,7 +25,12 @@ function buildTaskLists(appeal) {
   Object.keys(sections).forEach((sectionName) => {
     const section = sections[sectionName];
 
-    const status = getTaskStatus(appeal, sectionName, undefined, FULL_APPEAL_SECTIONS);
+    let status = NOT_STARTED;
+    try {
+      status = section.rule(appeal);
+    } catch (e) {
+      logger.error(e.message); // todo: this will be deleted at the end of the journey
+    }
 
     taskList.push({
       text: HEADERS[sectionName],
@@ -35,6 +42,7 @@ function buildTaskLists(appeal) {
       status,
     });
   });
+
   return taskList;
 }
 

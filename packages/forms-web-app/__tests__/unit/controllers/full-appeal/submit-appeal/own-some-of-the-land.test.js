@@ -5,7 +5,6 @@ const {
   postOwnSomeOfTheLand,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/own-some-of-the-land');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
@@ -24,6 +23,7 @@ describe('controllers/full-appeal/submit-appeal/own-some-of-the-land', () => {
   const taskName = 'siteOwnership';
   const errors = { 'own-some-of-the-land': 'Select an option' };
   const errorSummary = [{ text: 'There was an error', href: '#' }];
+  appeal.sectionStates.appealSiteSection.someOfTheLand = 'COMPLETED';
 
   beforeEach(() => {
     req = v8.deserialize(
@@ -95,7 +95,6 @@ describe('controllers/full-appeal/submit-appeal/own-some-of-the-land', () => {
       submittedAppeal[sectionName][taskName].ownsSomeOfTheLand = true;
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -106,7 +105,6 @@ describe('controllers/full-appeal/submit-appeal/own-some-of-the-land', () => {
 
       await postOwnSomeOfTheLand(req, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${KNOW_THE_OWNERS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
@@ -120,7 +118,6 @@ describe('controllers/full-appeal/submit-appeal/own-some-of-the-land', () => {
       submittedAppeal[sectionName][taskName].ownsSomeOfTheLand = false;
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -131,7 +128,6 @@ describe('controllers/full-appeal/submit-appeal/own-some-of-the-land', () => {
 
       await postOwnSomeOfTheLand(req, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${KNOW_THE_OWNERS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
