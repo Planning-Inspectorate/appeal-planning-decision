@@ -2,9 +2,10 @@ const {
   constants: {
     TYPE_OF_PLANNING_APPLICATION: {
       HOUSEHOLDER_PLANNING,
-      SOMETHING_ELSE,
       I_HAVE_NOT_MADE_A_PLANNING_APPLICATION,
       PRIOR_APPROVAL,
+      REMOVAL_OR_VARIATION_OF_CONDITIONS,
+      SOMETHING_ELSE,
     },
   },
 } = require('@pins/business-rules');
@@ -58,6 +59,8 @@ const postTypeOfPlanningApplication = async (req, res) => {
       return res.redirect('/before-you-start/listed-building-householder');
     case PRIOR_APPROVAL:
       return res.redirect('/before-you-start/prior-approval-existing-home');
+    case REMOVAL_OR_VARIATION_OF_CONDITIONS:
+      return res.redirect('/before-you-start/conditions-householder-permission');
     case SOMETHING_ELSE:
     case I_HAVE_NOT_MADE_A_PLANNING_APPLICATION:
       return res.redirect('/before-you-start/use-a-different-service');

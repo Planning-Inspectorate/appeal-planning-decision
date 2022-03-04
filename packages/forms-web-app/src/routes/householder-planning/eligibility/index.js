@@ -7,13 +7,15 @@ const dateDecisionDueHouseholderRouter = require('./date-decision-due-householde
 const listedBuildingHouseholderRouter = require('./listed-building-householder');
 const enforcementNoticeRouter = require('./enforcement-notice-householder');
 const grantedOrRefusedRouter = require('./granted-or-refused-householder');
-const decisionDateHouseholder = require('./decision-date-householder');
+const decisionDateHouseholderRouter = require('./decision-date-householder');
+const conditionsHouseholderPermissionRouter = require('./conditions-householder-permission');
 
 router.use(claimingCostsHouseholderRouter);
 router.use(enforcementNoticeRouter);
 router.use(grantedOrRefusedRouter);
 router.use(listedBuildingHouseholderRouter);
 router.use(dateDecisionDueHouseholderRouter);
-router.use(decisionDateHouseholder);
+router.use(decisionDateHouseholderRouter);
+router.use(conditionsHouseholderPermissionRouter);
 
 module.exports = router;

@@ -18,6 +18,8 @@ describe('/lib/householder-planning/views', () => {
           HAS_APPEAL_FORM: 'householder-planning/eligibility/results-householder',
           DECISION_DATE_HOUSEHOLDER: 'householder-planning/eligibility/decision-date-householder',
           LISTED_BUILDING: 'householder-planning/eligibility/listed-building-householder',
+          CONDITIONS_HOUSEHOLDER_PERMISSION:
+            'householder-planning/eligibility/conditions-householder-permission',
         },
       },
     });

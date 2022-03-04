@@ -388,6 +388,25 @@ describe('schemas/householder-appeal/update', () => {
       });
     });
 
+    describe('eligibility.hasHouseholderPermissionConditions', () => {
+      it('should throw an error when not given a boolean value', async () => {
+        appeal.eligibility = {
+          hasHouseholderPermissionConditions: 'yes',
+        };
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'eligibility.hasHouseholderPermissionConditions must be a `boolean` type, but the final value was: `"yes"`',
+        );
+      });
+
+      it('should not throw an error when given a null value', async () => {
+        appeal.eligibility.hasHouseholderPermissionConditions = null;
+
+        const result = await update.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+    });
+
     describe('eligibility.householderPlanningPermission', () => {
       it('should throw an error when not given a boolean value', async () => {
         appeal.eligibility = {

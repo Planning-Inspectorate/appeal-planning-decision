@@ -45,6 +45,7 @@ const update = pinsYup
         applicationDecision: pinsYup.string().oneOf(Object.values(APPLICATION_DECISION)).required(),
         enforcementNotice: pinsYup.bool().required(),
         hasPriorApprovalForExistingHome: pinsYup.bool().nullable(),
+        hasHouseholderPermissionConditions: pinsYup.bool().nullable(),
       })
       .noUnknown(true),
     contactDetailsSection: pinsYup

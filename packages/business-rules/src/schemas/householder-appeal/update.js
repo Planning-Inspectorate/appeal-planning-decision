@@ -70,6 +70,7 @@ const update = pinsYup
         isClaimingCosts: pinsYup.bool().required(),
         isListedBuilding: pinsYup.bool().required(),
         hasPriorApprovalForExistingHome: pinsYup.bool().nullable(),
+        hasHouseholderPermissionConditions: pinsYup.bool().nullable(),
       })
       .noUnknown(true),
     aboutYouSection: pinsYup
