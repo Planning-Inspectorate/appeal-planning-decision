@@ -1,60 +1,62 @@
 const {
   VIEW: {
-    FULL_APPEAL: { ANY_OF_FOLLOWING: currentPage },
+    FULL_APPEAL: { ANY_OF_FOLLOWING },
   },
 } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 
-const routeUserOption = (options) => {
-  return typeof options === 'string' && options === 'none_of_these';
-};
-const pageLinks = {
-  previousPage: '/before-you-start/type-of-planning-application',
-  nextPage: '/before-you-start/granted-or-refused',
-  shutterPage: '/before-you-start/use-a-different-service',
-};
+const sectionName = 'eligibility';
 
-const getAnyOfFollowing = async (req, res) => {
-  const { appeal } = req.session;
-
-  res.render(currentPage, {
-    applicationCategory: appeal.eligibility.applicationCategories,
-    backLink: pageLinks.previousPage,
+const getAnyOfFollowing = (req, res) => {
+  const {
+    [sectionName]: { applicationCategories },
+    typeOfPlanningApplication,
+  } = req.session.appeal;
+  res.render(ANY_OF_FOLLOWING, {
+    applicationCategories,
+    typeOfPlanningApplication,
   });
 };
 
 const postAnyOfFollowing = async (req, res) => {
-  const { appeal } = req.session;
-  const { option, errors = {}, errorSummary = [] } = req.body;
+  const { body } = req;
+  const { errors = {}, errorSummary = [] } = body;
+  const {
+    appeal,
+    appeal: { typeOfPlanningApplication },
+  } = req.session;
 
-  if (errors.option) {
-    return res.render(currentPage, {
-      applicationCategory: option,
+  const applicationCategories = body['any-of-following'];
+
+  if (Object.keys(errors).length > 0) {
+    return res.render(ANY_OF_FOLLOWING, {
+      applicationCategories,
+      typeOfPlanningApplication,
       errors,
       errorSummary,
     });
   }
 
-  appeal.eligibility.applicationCategories = option;
-
   try {
+    appeal[sectionName].applicationCategories = Array.isArray(applicationCategories)
+      ? applicationCategories
+      : [applicationCategories];
     req.session.appeal = await createOrUpdateAppeal(appeal);
-  } catch (e) {
-    logger.error(e);
+  } catch (err) {
+    logger.error(err);
 
-    return res.render(currentPage, {
-      applicationCategory: option,
+    return res.render(ANY_OF_FOLLOWING, {
+      applicationCategories,
+      typeOfPlanningApplication,
       errors,
-      errorSummary: [{ text: e.toString(), href: '#' }],
-      backLink: pageLinks.previousPage,
+      errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
 
-  const pagetoRedirect =
-    routeUserOption(option) === true ? pageLinks.nextPage : pageLinks.shutterPage;
-
-  return res.redirect(pagetoRedirect);
+  return applicationCategories.includes('none_of_these')
+    ? res.redirect('/before-you-start/granted-or-refused')
+    : res.redirect('/before-you-start/use-a-different-service');
 };
 
 module.exports = {

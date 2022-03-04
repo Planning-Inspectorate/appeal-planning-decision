@@ -8,13 +8,14 @@ const appeal = {
   submissionDate: new Date(),
   state: 'DRAFT',
   appealType: '1001',
-  typeOfPlanningApplication: 'full-appeal',
+  typeOfPlanningApplication: 'householder-planning',
   eligibility: {
     applicationDecision: 'granted',
     enforcementNotice: false,
     householderPlanningPermission: true,
     isClaimingCosts: false,
     isListedBuilding: false,
+    hasPriorApprovalForExistingHome: true,
   },
   aboutYouSection: {
     yourDetails: {

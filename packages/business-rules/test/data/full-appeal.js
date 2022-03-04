@@ -11,9 +11,10 @@ const appeal = {
   appealType: '1005',
   typeOfPlanningApplication: 'full-appeal',
   eligibility: {
-    applicationCategories: 'none_of_these',
+    applicationCategories: ['none_of_these'],
     applicationDecision: 'granted',
     enforcementNotice: false,
+    hasPriorApprovalForExistingHome: true,
   },
   contactDetailsSection: {
     isOriginalApplicant: true,

@@ -3,6 +3,7 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/button/macro.njk" import govukButton %},
 
+{% set backLink = '/before-you-start' %}
 {% set title="Is your appeal about a listed building? - Before you start - Appeal a planning decision - GOV.UK" %}
 
 {% block pageTitle %}
@@ -15,7 +16,7 @@
 {% block backButton %}
     {{ govukBackLink({
     text: "Back",
-    href: backLink
+    href: backLink + '/prior-approval-existing-home' if typeOfPlanningApplication === 'prior-approval' else backLink + '/type-of-planning-application'
  })}}
 {% endblock %}
 
@@ -56,13 +57,13 @@
                 value: "yes",
                 text: 'Yes',
                 attributes: { "data-cy":"answer-full-planning"},
-                checked: isListedBuilding == true
+                checked: isListedBuilding === true
               },
               {
                 value: "no",
                 text: 'No',
                 attributes: { "data-cy":"answer-listed-building"},
-                checked: isListedBuilding == false
+                checked: isListedBuilding === false
               }
             ]
           }) }}

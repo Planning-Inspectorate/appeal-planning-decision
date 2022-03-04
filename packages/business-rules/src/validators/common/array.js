@@ -1,17 +1,31 @@
-const buildAllOfMessage = (allOfArray) => (context) =>
-  `You must have ${JSON.stringify(allOfArray)} for ${context.path} but you have ${JSON.stringify(
+const buildAllOfMessage = (validOptions) => (context) =>
+  `You must have ${JSON.stringify(validOptions)} for ${context.path} but you have ${JSON.stringify(
     context.value,
   )}`;
 
-function allOf(allOfArray) {
-  return this.test('allOf', buildAllOfMessage(allOfArray), (value) => {
+function allOfValidOptions(validOptions) {
+  return this.test('allOfValidOptions', buildAllOfMessage(validOptions), (value) => {
     if (Array.isArray(value)) {
-      return allOfArray.every((item) => value.includes(item));
+      return validOptions.every((item) => value.includes(item));
     }
     return true;
   });
 }
 
+function allOfSelectedOptions(fieldName, validOptions) {
+  return this.test(
+    'allOfSelectedOptions',
+    `${fieldName} must be one or more of the following values: ${validOptions.join(', ')}`,
+    (value) => {
+      if (Array.isArray(value)) {
+        return value.every((item) => validOptions.includes(item));
+      }
+      return false;
+    },
+  );
+}
+
 module.exports = {
-  allOf,
+  allOfValidOptions,
+  allOfSelectedOptions,
 };

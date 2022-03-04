@@ -1,21 +1,16 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
+const v8 = require('v8');
 const grantedOrRefusedHouseholderController = require('../../../../../src/controllers/householder-planning/eligibility/granted-or-refused-householder');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const {
   VIEW: {
     HOUSEHOLDER_PLANNING: {
-      ELIGIBILITY: { GRANTED_OR_REFUSED_HOUSEHOLDER: currentPage },
+      ELIGIBILITY: { GRANTED_OR_REFUSED_HOUSEHOLDER },
     },
   },
 } = require('../../../../../src/lib/householder-planning/views');
 const logger = require('../../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../../mocks');
-
-const forwardPage = {
-  nextPageDateDecision: '/before-you-start/decision-date-householder',
-  nextPageDateDecisionDue: '/before-you-start/date-decision-due-householder',
-  previousPage: '/before-you-start/listed-building-householder',
-};
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
@@ -25,7 +20,12 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
   let res;
 
   beforeEach(() => {
-    req = mockReq(appeal);
+    req = v8.deserialize(
+      v8.serialize({
+        ...mockReq(appeal),
+        body: {},
+      })
+    );
     res = mockRes();
 
     jest.resetAllMocks();
@@ -35,48 +35,9 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
     it('should call the correct template', () => {
       grantedOrRefusedHouseholderController.getGrantedOrRefusedHouseholder(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(currentPage, {
+      expect(res.render).toHaveBeenCalledWith(GRANTED_OR_REFUSED_HOUSEHOLDER, {
         appeal: req.session.appeal,
-        previousPage: forwardPage.previousPage,
       });
-    });
-  });
-
-  describe('forwardPage', () => {
-    it(`should return '/${forwardPage.nextPageDateDecision}' if passed 'permissionStatus' is 'granted'`, async () => {
-      const pageRedirect = grantedOrRefusedHouseholderController.forwardPage('granted');
-
-      expect(pageRedirect).toEqual(forwardPage.nextPageDateDecision);
-    });
-
-    it(`should return '/${forwardPage.nextPageDateDecision}' if passed 'permissionStatus' is 'refused'`, async () => {
-      const pageRedirect = grantedOrRefusedHouseholderController.forwardPage('refused');
-
-      expect(pageRedirect).toEqual(forwardPage.nextPageDateDecision);
-    });
-
-    it(`should return '/${forwardPage.nextPageDateDecisionDue}' if passed 'permissionStatus' is 'nodecisionreceived'`, async () => {
-      const pageRedirect = grantedOrRefusedHouseholderController.forwardPage('nodecisionreceived');
-
-      expect(pageRedirect).toEqual(forwardPage.nextPageDateDecisionDue);
-    });
-
-    it(`should return '/${forwardPage.previousPage}' if passed 'permissionStatus' is 'previousPage'`, async () => {
-      const pageRedirect = grantedOrRefusedHouseholderController.forwardPage('previousPage');
-
-      expect(pageRedirect).toEqual(forwardPage.previousPage);
-    });
-
-    it(`should return '/${currentPage}' if passed 'permissionStatus' is 'default'`, async () => {
-      const pageRedirect = grantedOrRefusedHouseholderController.forwardPage('default');
-
-      expect(pageRedirect).toEqual(currentPage);
-    });
-
-    it(`should return '/${currentPage}' if 'permissionStatus' is not passed`, async () => {
-      const pageRedirect = grantedOrRefusedHouseholderController.forwardPage();
-
-      expect(pageRedirect).toEqual(currentPage);
     });
   });
 
@@ -96,74 +57,81 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
 
       expect(res.redirect).not.toHaveBeenCalled();
 
-      expect(res.render).toHaveBeenCalledWith(currentPage, {
+      expect(res.render).toHaveBeenCalledWith(GRANTED_OR_REFUSED_HOUSEHOLDER, {
         appeal: req.session.appeal,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
-        previousPage: forwardPage.previousPage,
       });
     });
 
     it('should re-render the template with errors if there is any api call error', async () => {
-      const mockRequest = {
-        ...req,
-        body: {},
+      const error = new Error('Api call error');
+      const applicationDecision = 'granted';
+
+      appeal.appealType = '1005';
+
+      req.body = {
+        'granted-or-refused': applicationDecision,
       };
 
-      const error = new Error('Api call error');
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-      await grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder(mockRequest, res);
+      await grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder(req, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
 
       expect(logger.error).toHaveBeenCalledWith(error);
 
-      expect(res.render).toHaveBeenCalledWith(currentPage, {
+      expect(res.render).toHaveBeenCalledWith(GRANTED_OR_REFUSED_HOUSEHOLDER, {
         appeal,
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
-        previousPage: forwardPage.previousPage,
       });
     });
 
-    it(`'should redirect to '/${forwardPage.nextPageDateDecision}' if 'applicationDecision' is 'refused'`, async () => {
+    it(`'should redirect to '/before-you-start/decision-date-householder' if 'applicationDecision' is 'refused'`, async () => {
       const applicationDecision = 'refused';
-      const mockRequest = {
-        ...req,
-        body: {
-          'granted-or-refused': applicationDecision,
-        },
+
+      appeal.appealType = '1001';
+      appeal.eligibility.applicationDecision = applicationDecision;
+      req.body = {
+        'granted-or-refused': applicationDecision,
       };
-      await grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder(mockRequest, res);
+
+      await grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder(req, res);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 
-      expect(res.redirect).toHaveBeenCalledWith(forwardPage.nextPageDateDecision);
+      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date-householder');
     });
 
-    it(`should redirect to '/${forwardPage.nextPageDateDecision}' if 'applicationDecision' is 'granted'`, async () => {
+    it(`should redirect to '/before-you-start/decision-date-householder' if 'applicationDecision' is 'granted'`, async () => {
       const applicationDecision = 'granted';
-      const mockRequest = {
-        ...req,
-        body: { 'granted-or-refused': applicationDecision },
+
+      appeal.appealType = '1005';
+      appeal.eligibility.applicationDecision = applicationDecision;
+      req.body = {
+        'granted-or-refused': applicationDecision,
       };
-      await grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder(mockRequest, res);
+
+      await grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder(req, res);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-
-      expect(res.redirect).toHaveBeenCalledWith(forwardPage.nextPageDateDecision);
+      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
     });
 
-    it(`should redirect to '/${forwardPage.nextPageDateDecisionDue}' if 'applicationDecision' is 'nodecisionreceived'`, async () => {
+    it(`should redirect to '/before-you-start/date-decision-due-householder' if 'applicationDecision' is 'nodecisionreceived'`, async () => {
       const applicationDecision = 'nodecisionreceived';
-      const mockRequest = {
-        ...req,
-        body: { 'granted-or-refused': applicationDecision },
+
+      appeal.eligibility.applicationDecision = applicationDecision;
+      req.body = {
+        'granted-or-refused': applicationDecision,
       };
-      await grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder(mockRequest, res);
+
+      await grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder(req, res);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/date-decision-due');
     });
   });
 });

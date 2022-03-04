@@ -5,6 +5,8 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
+{% set applicationCategories = applicationCategories or [] %}
+{% set backLink = '/before-you-start' %}
 {% set title="Was your planning application about any of the following? - Before you start - Appeal a planning decision - GOV.UK" %}
 
 {% block pageTitle %}
@@ -17,7 +19,7 @@
 {% block backButton %}
     {{ govukBackLink({
     text: "Back",
-    href: backLink
+    href: backLink + '/prior-approval-existing-home' if typeOfPlanningApplication === 'prior-approval' else backLink + '/type-of-planning-application'
  })}}
 {% endblock %}
 
@@ -34,7 +36,7 @@
     <span class="govuk-caption-l"> Before you start </span>
     {{ govukCheckboxes({
         idPrefix: "site-selection",
-        name: "option",
+        name: "any-of-following",
         fieldset: {
             legend: {
                 text: "Was your planning application about any of the following?",
@@ -48,23 +50,28 @@
         items: [
             {
                 value: "a_listed_building",
-                text: "A listed building"
+                text: "A listed building",
+                checked: true if "a_listed_building" in applicationCategories
             },
             {
                 value: "major_dwellings",
-                text: "Major dwellings"
+                text: "Major dwellings",
+                checked: true if "major_dwellings" in applicationCategories
             },
             {
                 value: "major_general_industry_storage_warehousing",
-                text: "Major general industry, storage or warehousing"
+                text: "Major general industry, storage or warehousing",
+                checked: true if "major_general_industry_storage_warehousing" in applicationCategories
             },
             {
                 value: "major_retail_and_services",
-                text: "Major retail and services"
+                text: "Major retail and services",
+                checked: true if "major_retail_and_services" in applicationCategories
             },
             {
                 value: "major_travelling_and_caravan_pitches",
-                text: "Major travelling and caravan pitches"
+                text: "Major travelling and caravan pitches",
+                checked: true if "major_travelling_and_caravan_pitches" in applicationCategories
             },
             {
                 divider: "or"
@@ -72,12 +79,12 @@
             {
                 value: "none_of_these",
                 text: "None of these",
-                checked: applicationCategory === "none_of_these",
+                checked: true if "none_of_these" in applicationCategories,
                 behaviour: "exclusive"
             }
         ],
-        errorMessage: errors['option'] and {
-            text: errors['option'].msg
+        errorMessage: errors['any-of-following'] and {
+            text: errors['any-of-following'].msg
         }
         }) }}
 

@@ -8,13 +8,6 @@
 {% if errors %}{% set title="Error: " + title %}{% endif %}
 {% block pageTitle %}{{ title }}{% endblock %}
 
-{% block backButton %}
-    {{ govukBackLink({
-    text: "Back",
-    href: previousPage
- })}}
-{% endblock %}
-
 {% block content %}
 
   <div class="govuk-grid-row">
@@ -23,7 +16,7 @@
       {% if errors %}
         {{ govukErrorSummary({
           titleText: "There is a problem",
-          errorList: errorSummary 
+          errorList: errorSummary
         }) }}
       {% endif %}
 

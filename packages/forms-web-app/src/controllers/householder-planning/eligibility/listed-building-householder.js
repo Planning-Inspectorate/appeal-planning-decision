@@ -3,63 +3,63 @@ const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   VIEW: {
     HOUSEHOLDER_PLANNING: {
-      ELIGIBILITY: { LISTED_BUILDING_HOUSEHOLDER: currentPage },
+      ELIGIBILITY: { LISTED_BUILDING_HOUSEHOLDER },
     },
   },
 } = require('../../../lib/householder-planning/views');
 
-const backLink = '/before-you-start/type-of-planning-application';
+const sectionName = 'eligibility';
 
-exports.getListedBuildingHouseholder = async (req, res) => {
-  const { appeal } = req.session;
-
-  res.render(currentPage, {
-    isListedBuilding: appeal.eligibility.isListedBuilding,
-    backLink,
+const getListedBuildingHouseholder = async (req, res) => {
+  const {
+    [sectionName]: { isListedBuilding },
+    typeOfPlanningApplication,
+  } = req.session.appeal;
+  res.render(LISTED_BUILDING_HOUSEHOLDER, {
+    isListedBuilding,
+    typeOfPlanningApplication,
   });
 };
 
-const redirect = (selection, res) => {
-  if (selection === 'yes') {
-    res.redirect(`/before-you-start/use-a-different-service`);
-    return;
-  }
-
-  res.redirect('/before-you-start/granted-or-refused-householder');
-};
-
-exports.postListedBuildingHouseholder = async (req, res) => {
+const postListedBuildingHouseholder = async (req, res) => {
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
-  const { appeal } = req.session;
+  const {
+    appeal,
+    appeal: { typeOfPlanningApplication },
+  } = req.session;
 
-  const selection = body['listed-building-householder'];
+  const isListedBuilding = body['listed-building-householder'] === 'yes';
 
-  if (errors['listed-building-householder']) {
-    return res.render(currentPage, {
-      isListedBuilding: appeal.eligibility.isListedBuilding,
+  if (Object.keys(errors).length > 0) {
+    return res.render(LISTED_BUILDING_HOUSEHOLDER, {
+      isListedBuilding,
+      typeOfPlanningApplication,
       errors,
       errorSummary,
-      backLink,
     });
   }
-
-  appeal.eligibility = {
-    ...appeal.eligibility,
-    isListedBuilding: selection === 'yes',
-  };
 
   try {
+    appeal[sectionName].isListedBuilding = isListedBuilding;
     req.session.appeal = await createOrUpdateAppeal(appeal);
-    return redirect(selection, res);
-  } catch (e) {
-    logger.error(e);
+  } catch (err) {
+    logger.error(err);
 
-    return res.render(currentPage, {
-      isListedBuilding: appeal.eligibility.isListedBuilding,
+    return res.render(LISTED_BUILDING_HOUSEHOLDER, {
+      isListedBuilding,
+      typeOfPlanningApplication,
       errors,
-      errorSummary: [{ text: e.toString(), href: 'pageId' }],
-      backLink,
+      errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
+
+  return isListedBuilding
+    ? res.redirect(`/before-you-start/use-a-different-service`)
+    : res.redirect('/before-you-start/granted-or-refused-householder');
+};
+
+module.exports = {
+  getListedBuildingHouseholder,
+  postListedBuildingHouseholder,
 };

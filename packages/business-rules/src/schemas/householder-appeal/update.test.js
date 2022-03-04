@@ -316,7 +316,7 @@ describe('schemas/householder-appeal/update', () => {
         delete appeal.eligibility;
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          'eligibility.isListedBuilding is a required field',
+          'eligibility.hasPriorApprovalForExistingHome is a required field',
         );
       });
     });
@@ -347,9 +347,7 @@ describe('schemas/householder-appeal/update', () => {
 
     describe('eligibility.enforcementNotice', () => {
       it('should throw an error when not given a boolean value', async () => {
-        appeal.eligibility = {
-          enforcementNotice: 'yes',
-        };
+        appeal.eligibility.enforcementNotice = 'yes';
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
           'eligibility.enforcementNotice must be a `boolean` type, but the final value was: `"yes"`',
@@ -369,6 +367,32 @@ describe('schemas/householder-appeal/update', () => {
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
           'eligibility.enforcementNotice is a required field',
+        );
+      });
+    });
+
+    describe('eligibility.hasPriorApprovalForExistingHome', () => {
+      it('should throw an error when not given a boolean value', async () => {
+        appeal.eligibility.hasPriorApprovalForExistingHome = 'yes';
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'eligibility.hasPriorApprovalForExistingHome must be a `boolean` type, but the final value was: `"yes"`',
+        );
+      });
+
+      it('should throw an error when given a null value', async () => {
+        appeal.eligibility.hasPriorApprovalForExistingHome = null;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'eligibility.hasPriorApprovalForExistingHome must be a `boolean` type, but the final value was: `null`',
+        );
+      });
+
+      it('should throw an error when not given a value', async () => {
+        delete appeal.eligibility.hasPriorApprovalForExistingHome;
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'eligibility.hasPriorApprovalForExistingHome is a required field',
         );
       });
     });

@@ -316,6 +316,23 @@ describe('schemas/householder-appeal/insert', () => {
       });
     });
 
+    describe('eligibility.hasPriorApprovalForExistingHome', () => {
+      it('should throw an error when not given a boolean value', async () => {
+        appeal.eligibility.hasPriorApprovalForExistingHome = 'yes';
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          'eligibility.hasPriorApprovalForExistingHome must be a `boolean` type, but the final value was: `"yes"`',
+        );
+      });
+
+      it('should not throw an error when not given a value', async () => {
+        delete appeal.eligibility.hasPriorApprovalForExistingHome;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+    });
+
     describe('eligibility.householderPlanningPermission', () => {
       it('should throw an error when not given a boolean value', async () => {
         appeal.eligibility = {

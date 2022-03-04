@@ -9,8 +9,6 @@ const {
   },
 } = require('../../lib/views');
 
-const backLink = '/before-you-start/granted-or-refused';
-
 exports.getDecisionDate = async (req, res) => {
   const { appeal } = req.session;
 
@@ -23,7 +21,6 @@ exports.getDecisionDate = async (req, res) => {
       month: `0${decisionDate?.getMonth() + 1}`.slice(-2),
       year: decisionDate?.getFullYear(),
     },
-    backLink,
   });
 };
 
@@ -41,7 +38,6 @@ exports.postDecisionDate = async (req, res) => {
       },
       errors,
       errorSummary,
-      backLink: `/before-you-start/granted-or-refused`,
     });
   }
 
@@ -86,7 +82,6 @@ exports.postDecisionDate = async (req, res) => {
       appeal,
       errors,
       errorSummary: [{ text: e.toString(), href: 'decision-date' }],
-      backLink: `/before-you-start/granted-or-refused`,
     });
   }
 };

@@ -27,7 +27,6 @@ const logger = require('../../../../src/lib/logger');
 
 const navigationPage = {
   nextPage: '/before-you-start/enforcement-notice',
-  previousPage: '/before-you-start/granted-or-refused',
   shutterPage: '/before-you-start/you-cannot-appeal',
 };
 
@@ -57,7 +56,6 @@ describe('controllers/full-appeal/date-decision-due', () => {
 
       expect(res.render).toHaveBeenCalledWith(currentPage, {
         decisionDate: null,
-        previousPage: navigationPage.previousPage,
       });
     });
 
@@ -76,7 +74,6 @@ describe('controllers/full-appeal/date-decision-due', () => {
           month: '01',
           year: 2000,
         },
-        previousPage: navigationPage.previousPage,
       });
     });
   });
@@ -129,7 +126,6 @@ describe('controllers/full-appeal/date-decision-due', () => {
             msg: 'You need to provide a date',
           },
         },
-        previousPage: navigationPage.previousPage,
       });
 
       mockRequest.body['decision-date-day'] = '01';
@@ -149,7 +145,6 @@ describe('controllers/full-appeal/date-decision-due', () => {
             msg: 'You need to provide a date',
           },
         },
-        previousPage: navigationPage.previousPage,
       });
     });
 
@@ -215,7 +210,6 @@ describe('controllers/full-appeal/date-decision-due', () => {
             location: 'body',
           },
         },
-        previousPage: navigationPage.previousPage,
       });
 
       mockRequest = {
@@ -263,7 +257,6 @@ describe('controllers/full-appeal/date-decision-due', () => {
             location: 'body',
           },
         },
-        previousPage: navigationPage.previousPage,
       });
     });
 
@@ -327,7 +320,6 @@ describe('controllers/full-appeal/date-decision-due', () => {
             location: 'body',
           },
         },
-        previousPage: navigationPage.previousPage,
       });
     });
 
@@ -410,7 +402,6 @@ describe('controllers/full-appeal/date-decision-due', () => {
         },
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
-        previousPage: navigationPage.previousPage,
       });
     });
   });

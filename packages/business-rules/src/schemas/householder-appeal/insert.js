@@ -45,6 +45,7 @@ const insert = pinsYup
         householderPlanningPermission: pinsYup.bool().nullable(),
         isClaimingCosts: pinsYup.bool().nullable(),
         isListedBuilding: pinsYup.bool().nullable(),
+        hasPriorApprovalForExistingHome: pinsYup.bool().nullable(),
       })
       .noUnknown(true),
     aboutYouSection: pinsYup

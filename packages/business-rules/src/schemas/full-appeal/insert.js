@@ -38,10 +38,9 @@ const insert = pinsYup
     eligibility: pinsYup.object().shape({
       applicationCategories: pinsYup.lazy((applicationCategories) => {
         if (applicationCategories) {
-          if (typeof applicationCategories === 'string') {
-            return pinsYup.string().oneOf(Object.values(APPLICATION_CATEGORIES));
-          }
-          return pinsYup.object().oneOf(Object.values(APPLICATION_CATEGORIES));
+          return pinsYup
+            .array()
+            .allOfSelectedOptions('applicationCategories', Object.values(APPLICATION_CATEGORIES));
         }
         return pinsYup.object().nullable();
       }),
@@ -52,6 +51,7 @@ const insert = pinsYup
         return pinsYup.string().nullable();
       }),
       enforcementNotice: pinsYup.bool().nullable(),
+      hasPriorApprovalForExistingHome: pinsYup.bool().nullable(),
     }),
     contactDetailsSection: pinsYup
       .object()
@@ -113,11 +113,14 @@ const insert = pinsYup
               return pinsYup.string().nullable();
             }),
             hasIdentifiedTheOwners: pinsYup.bool().nullable(),
-            tellingTheLandowners: pinsYup.array().nullable().allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
+            tellingTheLandowners: pinsYup
+              .array()
+              .nullable()
+              .allOfValidOptions(STANDARD_TRIPLE_CONFIRM_OPTIONS),
             advertisingYourAppeal: pinsYup
               .array()
               .nullable()
-              .allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
+              .allOfValidOptions(STANDARD_TRIPLE_CONFIRM_OPTIONS),
           })
           .noUnknown(true),
         agriculturalHolding: pinsYup
@@ -126,7 +129,10 @@ const insert = pinsYup
             isAgriculturalHolding: pinsYup.bool().nullable(),
             isTenant: pinsYup.bool().nullable(),
             hasOtherTenants: pinsYup.bool().nullable(),
-            tellingTheTenants: pinsYup.array().nullable().allOf(STANDARD_TRIPLE_CONFIRM_OPTIONS),
+            tellingTheTenants: pinsYup
+              .array()
+              .nullable()
+              .allOfValidOptions(STANDARD_TRIPLE_CONFIRM_OPTIONS),
           })
           .noUnknown(true),
         visibleFromRoad: pinsYup
