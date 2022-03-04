@@ -16,6 +16,7 @@ const appeal = {
     isClaimingCosts: false,
     isListedBuilding: false,
     hasPriorApprovalForExistingHome: true,
+    hasHouseholderPermissionConditions: true,
   },
   aboutYouSection: {
     yourDetails: {

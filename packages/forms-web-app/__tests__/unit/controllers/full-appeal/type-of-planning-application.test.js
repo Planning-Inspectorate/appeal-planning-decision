@@ -137,6 +137,27 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
       expect(res.redirect).toBeCalledWith('/before-you-start/prior-approval-existing-home');
     });
 
+    it('should redirect to the removal or variation of conditions page', async () => {
+      const planningApplication = 'removal-or-variation-of-conditions';
+
+      const mockRequest = {
+        ...req,
+        body: { 'type-of-planning-application': planningApplication },
+      };
+
+      await postTypeOfPlanningApplication(mockRequest, res);
+
+      const updatedAppeal = appeal;
+      updatedAppeal.appealType = mapPlanningApplication(planningApplication);
+      updatedAppeal.typeOfPlanningApplication = planningApplication;
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+        ...updatedAppeal,
+      });
+
+      expect(res.redirect).toBeCalledWith('/before-you-start/conditions-householder-permission');
+    });
+
     it('should render errors on the page', async () => {
       const mockRequest = {
         ...req,

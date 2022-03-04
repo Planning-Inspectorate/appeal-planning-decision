@@ -280,7 +280,7 @@ describe('schemas/full-appeal/insert', () => {
       it('should remove unknown fields', async () => {
         appeal2.eligibility.unknownField = 'unknown field';
 
-        const result = await insert.validate(appeal, config);
+        const result = await insert.validate(appeal2, config);
         expect(result).toEqual(appeal);
       });
 
@@ -387,6 +387,23 @@ describe('schemas/full-appeal/insert', () => {
 
         it('should not throw an error when not given a value', async () => {
           delete appeal.eligibility.hasPriorApprovalForExistingHome;
+
+          const result = await insert.validate(appeal, config);
+          expect(result).toEqual(appeal);
+        });
+      });
+
+      describe('eligibility.hasHouseholderPermissionConditions', () => {
+        it('should throw an error when not given a boolean value', async () => {
+          appeal.eligibility.hasHouseholderPermissionConditions = 'yes';
+
+          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+            'eligibility.hasHouseholderPermissionConditions must be a `boolean` type, but the final value was: `"yes"`',
+          );
+        });
+
+        it('should not throw an error when not given a value', async () => {
+          delete appeal.eligibility.hasHouseholderPermissionConditions;
 
           const result = await insert.validate(appeal, config);
           expect(result).toEqual(appeal);

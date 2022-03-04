@@ -1,4 +1,5 @@
 const { use } = require('../router-mock');
+const eligibilityRouter = require('../../../../src/routes/eligibility/index');
 
 describe('routes/householder-planning/index', () => {
   beforeEach(() => {
@@ -9,6 +10,6 @@ describe('routes/householder-planning/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(7);
+    expect(use).toHaveBeenCalledWith(eligibilityRouter);
   });
 });

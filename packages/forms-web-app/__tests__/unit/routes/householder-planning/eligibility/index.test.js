@@ -6,6 +6,7 @@ const grantedOrRefusedHouseholderRouter = require('../../../../../src/routes/hou
 const listedBuildingHouseholderRouter = require('../../../../../src/routes/householder-planning/eligibility/listed-building-householder');
 const dateDecisionDueHouseholderRouter = require('../../../../../src/routes/householder-planning/eligibility/date-decision-due-householder');
 const decisionDateHouseholderRouter = require('../../../../../src/routes/householder-planning/eligibility/decision-date-householder');
+const conditionsHouseholderPermissionRouter = require('../../../../../src/routes/householder-planning/eligibility/conditions-householder-permission');
 
 describe('routes/householder-planning/eligibility/index', () => {
   beforeEach(() => {
@@ -16,13 +17,13 @@ describe('routes/householder-planning/eligibility/index', () => {
   });
 
   it('should define the expected routes', () => {
+    expect(use.mock.calls.length).toBe(7);
     expect(use).toHaveBeenCalledWith(claimingCostsHouseholderRouter);
     expect(use).toHaveBeenCalledWith(enforcementNoticeHouseholderRouter);
     expect(use).toHaveBeenCalledWith(grantedOrRefusedHouseholderRouter);
     expect(use).toHaveBeenCalledWith(listedBuildingHouseholderRouter);
     expect(use).toHaveBeenCalledWith(dateDecisionDueHouseholderRouter);
     expect(use).toHaveBeenCalledWith(decisionDateHouseholderRouter);
-
-    expect(use.mock.calls.length).toBe(6);
+    expect(use).toHaveBeenCalledWith(conditionsHouseholderPermissionRouter);
   });
 });

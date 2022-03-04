@@ -35,24 +35,28 @@ const insert = pinsYup
       }
       return pinsYup.string().nullable();
     }),
-    eligibility: pinsYup.object().shape({
-      applicationCategories: pinsYup.lazy((applicationCategories) => {
-        if (applicationCategories) {
-          return pinsYup
-            .array()
-            .allOfSelectedOptions('applicationCategories', Object.values(APPLICATION_CATEGORIES));
-        }
-        return pinsYup.object().nullable();
-      }),
-      applicationDecision: pinsYup.lazy((applicationDecision) => {
-        if (applicationDecision) {
-          return pinsYup.string().oneOf(Object.values(APPLICATION_DECISION));
-        }
-        return pinsYup.string().nullable();
-      }),
-      enforcementNotice: pinsYup.bool().nullable(),
-      hasPriorApprovalForExistingHome: pinsYup.bool().nullable(),
-    }),
+    eligibility: pinsYup
+      .object()
+      .shape({
+        applicationCategories: pinsYup.lazy((applicationCategories) => {
+          if (applicationCategories) {
+            return pinsYup
+              .array()
+              .allOfSelectedOptions('applicationCategories', Object.values(APPLICATION_CATEGORIES));
+          }
+          return pinsYup.object().nullable();
+        }),
+        applicationDecision: pinsYup.lazy((applicationDecision) => {
+          if (applicationDecision) {
+            return pinsYup.string().oneOf(Object.values(APPLICATION_DECISION));
+          }
+          return pinsYup.string().nullable();
+        }),
+        enforcementNotice: pinsYup.bool().nullable(),
+        hasPriorApprovalForExistingHome: pinsYup.bool().nullable(),
+        hasHouseholderPermissionConditions: pinsYup.bool().nullable(),
+      })
+      .noUnknown(true),
     contactDetailsSection: pinsYup
       .object()
       .shape({
