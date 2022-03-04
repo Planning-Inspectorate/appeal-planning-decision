@@ -5,7 +5,7 @@ const {
     FULL_APPEAL: { OWN_SOME_OF_THE_LAND, KNOW_THE_OWNERS },
   },
 } = require('../../../lib/full-appeal/views');
-const { getTaskStatus } = require('../../../services/task.service');
+const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'siteOwnership';
@@ -35,7 +35,7 @@ const postOwnSomeOfTheLand = async (req, res) => {
 
   try {
     appeal[sectionName][taskName].ownsSomeOfTheLand = ownsSomeOfTheLand;
-    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+    appeal.sectionStates[sectionName].someOfTheLand = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);

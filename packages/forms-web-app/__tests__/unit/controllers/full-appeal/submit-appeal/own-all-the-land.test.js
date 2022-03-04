@@ -5,7 +5,6 @@ const {
   postOwnAllTheLand,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/own-all-the-land');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
@@ -24,6 +23,7 @@ describe('controllers/full-appeal/submit-appeal/own-all-the-land', () => {
   const taskName = 'siteOwnership';
   const errors = { 'own-all-the-land': 'Select an option' };
   const errorSummary = [{ text: 'There was an error', href: '#' }];
+  appeal.sectionStates.appealSiteSection.ownsAllTheLand = 'COMPLETED';
 
   beforeEach(() => {
     req = v8.deserialize(
@@ -94,7 +94,6 @@ describe('controllers/full-appeal/submit-appeal/own-all-the-land', () => {
       };
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -105,7 +104,6 @@ describe('controllers/full-appeal/submit-appeal/own-all-the-land', () => {
 
       await postOwnAllTheLand(req, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${AGRICULTURAL_HOLDING}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
@@ -119,7 +117,6 @@ describe('controllers/full-appeal/submit-appeal/own-all-the-land', () => {
       submittedAppeal[sectionName][taskName].ownsAllTheLand = false;
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -130,7 +127,6 @@ describe('controllers/full-appeal/submit-appeal/own-all-the-land', () => {
 
       await postOwnAllTheLand(req, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${OWN_SOME_OF_THE_LAND}`);
       expect(req.session.appeal).toEqual(submittedAppeal);

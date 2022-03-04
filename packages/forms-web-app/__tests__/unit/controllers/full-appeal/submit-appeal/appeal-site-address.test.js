@@ -3,11 +3,7 @@ const appealSiteAddressController = require('../../../../../src/controllers/full
 const { mockReq, mockRes } = require('../../../mocks');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../../src/lib/logger');
-const {
-  getNextTask,
-  getTaskStatus,
-  FULL_APPEAL_SECTIONS,
-} = require('../../../../../src/services/task.service');
+
 const {
   VIEW: {
     FULL_APPEAL: { APPEAL_SITE_ADDRESS: currentPage, OWN_ALL_THE_LAND },
@@ -82,13 +78,6 @@ describe('controllers/full-appeal/submit-appeal/appeal-site-address', () => {
       };
       await appealSiteAddressController.postAppealSiteAddress(mockRequest, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(
-        appeal,
-        sectionName,
-        taskName,
-        FULL_APPEAL_SECTIONS
-      );
-
       expect(logger.error).toHaveBeenCalledWith(error);
 
       expect(res.redirect).not.toHaveBeenCalled();
@@ -106,13 +95,8 @@ describe('controllers/full-appeal/submit-appeal/appeal-site-address', () => {
       const fakeTownCity = 'Bristol';
       const fakeCounty = 'South Glos';
       const fakePostcode = 'BS8 1TG';
-      const fakeTaskStatus = 'FAKE_STATUS';
+      const fakeTaskStatus = 'COMPLETED';
 
-      getTaskStatus.mockImplementation(() => fakeTaskStatus);
-
-      getNextTask.mockReturnValue({
-        href: `/${OWN_ALL_THE_LAND}`,
-      });
       const mockRequest = {
         ...req,
         body: {
@@ -124,13 +108,6 @@ describe('controllers/full-appeal/submit-appeal/appeal-site-address', () => {
         },
       };
       await appealSiteAddressController.postAppealSiteAddress(mockRequest, res);
-
-      expect(getTaskStatus).toHaveBeenCalledWith(
-        appeal,
-        sectionName,
-        taskName,
-        FULL_APPEAL_SECTIONS
-      );
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,

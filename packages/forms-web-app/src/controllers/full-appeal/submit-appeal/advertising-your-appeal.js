@@ -11,7 +11,7 @@ const {
 } = require('../../../lib/full-appeal/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
-const { getTaskStatus } = require('../../../services/task.service');
+const { COMPLETED } = require('../../../services/task-status/task-statuses');
 const toArray = require('../../../lib/to-array');
 
 const sectionName = 'appealSiteSection';
@@ -69,11 +69,7 @@ const postAdvertisingYourAppeal = async (req, res) => {
 
   try {
     appeal.appealSiteSection.siteOwnership.advertisingYourAppeal = advertisingYourAppeal;
-    appeal.sectionStates[sectionName].siteOwnership[taskName] = getTaskStatus(
-      appeal,
-      sectionName,
-      taskName
-    );
+    appeal.sectionStates[sectionName][taskName] = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
 
     const nextPage = variables.isAll ? `/${TELLING_THE_LANDOWNERS}` : `/${AGRICULTURAL_HOLDING}`;

@@ -14,7 +14,7 @@ const {
     FULL_APPEAL: { IDENTIFYING_THE_OWNERS, KNOW_THE_OWNERS, TELLING_THE_LANDOWNERS },
   },
 } = require('../../../lib/full-appeal/views');
-const { getTaskStatus } = require('../../../services/task.service');
+const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'siteOwnership';
@@ -61,7 +61,7 @@ const postKnowTheOwners = async (req, res) => {
       appeal[sectionName][taskName].hasIdentifiedTheOwners = null;
     }
     appeal[sectionName][taskName].knowsTheOwners = knowsTheOwners;
-    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+    appeal.sectionStates[sectionName].knowTheOwners = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);

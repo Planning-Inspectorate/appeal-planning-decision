@@ -5,7 +5,6 @@ const {
   postAgriculturalHolding,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/agricultural-holding');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
@@ -24,6 +23,7 @@ describe('controllers/full-appeal/submit-appeal/agricultural-holding', () => {
   const taskName = 'agriculturalHolding';
   const errors = { 'agricultural-holding': 'Select an option' };
   const errorSummary = [{ text: 'There was an error', href: '#' }];
+  appeal.sectionStates.appealSiteSection.agriculturalHolding = 'COMPLETED';
 
   beforeEach(() => {
     req = v8.deserialize(
@@ -100,7 +100,6 @@ describe('controllers/full-appeal/submit-appeal/agricultural-holding', () => {
       };
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -111,7 +110,6 @@ describe('controllers/full-appeal/submit-appeal/agricultural-holding', () => {
 
       await postAgriculturalHolding(req, res);
 
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${ARE_YOU_A_TENANT}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
@@ -125,7 +123,6 @@ describe('controllers/full-appeal/submit-appeal/agricultural-holding', () => {
       submittedAppeal[sectionName][taskName].isAgriculturalHolding = false;
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,

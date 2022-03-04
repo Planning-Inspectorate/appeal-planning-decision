@@ -3,7 +3,6 @@ const applicantNameController = require('../../../../../src/controllers/full-app
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../../src/lib/full-appeal/views');
 const logger = require('../../../../../src/lib/logger');
-const { getTaskStatus, getNextTask } = require('../../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../../mocks');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
@@ -76,13 +75,6 @@ describe('controllers/full-appeal/submit-appeal/applicant-name', () => {
 
       await applicantNameController.postApplicantName(mockRequest, res);
 
-      // expect(getTaskStatus).toHaveBeenCalledWith(
-      //   appeal,
-      //   sectionName,
-      //   taskName,
-      //   FULL_APPEAL_SECTIONS
-      // );
-
       expect(res.redirect).not.toHaveBeenCalled();
 
       expect(logger.error).toHaveBeenCalledWith(error);
@@ -97,13 +89,8 @@ describe('controllers/full-appeal/submit-appeal/applicant-name', () => {
     it('should redirect to the task list if valid', async () => {
       const fakeBehalfAppellantName = 'Jim Jacobson';
       const fakeCompanyName = 'Test Company';
-      const fakeTaskStatus = 'NOT STARTED';
+      const fakeTaskStatus = 'COMPLETED';
 
-      getTaskStatus.mockImplementation(() => fakeTaskStatus);
-
-      getNextTask.mockReturnValue({
-        href: `/${VIEW.FULL_APPEAL.TASK_LIST}`,
-      });
       const mockRequest = {
         ...req,
         body: {
@@ -113,13 +100,6 @@ describe('controllers/full-appeal/submit-appeal/applicant-name', () => {
       };
 
       await applicantNameController.postApplicantName(mockRequest, res);
-
-      // expect(getTaskStatus).toHaveBeenCalledWith(
-      //   appeal,
-      //   sectionName,
-      //   taskName,
-      //   FULL_APPEAL_SECTIONS
-      // );
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,

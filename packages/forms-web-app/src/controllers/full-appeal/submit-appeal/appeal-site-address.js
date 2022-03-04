@@ -1,15 +1,11 @@
 const {
   VIEW: {
-    FULL_APPEAL: { APPEAL_SITE_ADDRESS: currentPage },
+    FULL_APPEAL: { APPEAL_SITE_ADDRESS: currentPage, OWN_ALL_THE_LAND },
   },
 } = require('../../../lib/full-appeal/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
-const {
-  getNextTask,
-  getTaskStatus,
-  FULL_APPEAL_SECTIONS,
-} = require('../../../services/task.service');
+const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'siteAddress';
@@ -43,12 +39,7 @@ exports.postAppealSiteAddress = async (req, res) => {
   }
 
   try {
-    req.session.appeal.sectionStates[sectionName][taskName] = getTaskStatus(
-      appeal,
-      sectionName,
-      taskName,
-      FULL_APPEAL_SECTIONS
-    );
+    req.session.appeal.sectionStates[sectionName][taskName] = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);
@@ -60,5 +51,5 @@ exports.postAppealSiteAddress = async (req, res) => {
     return;
   }
 
-  res.redirect(getNextTask(appeal, { sectionName, taskName }, FULL_APPEAL_SECTIONS).href);
+  res.redirect(`/${OWN_ALL_THE_LAND}`);
 };

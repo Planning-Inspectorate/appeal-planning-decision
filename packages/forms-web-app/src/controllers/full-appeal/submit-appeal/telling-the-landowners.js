@@ -5,7 +5,7 @@ const {
 } = require('../../../lib/full-appeal/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
-const { getTaskStatus } = require('../../../services/task.service');
+const { COMPLETED } = require('../../../services/task-status/task-statuses');
 const toArray = require('../../../lib/to-array');
 
 const sectionName = 'appealSiteSection';
@@ -60,11 +60,7 @@ const postTellingTheLandowners = async (req, res) => {
 
   try {
     appeal.appealSiteSection.siteOwnership.tellingTheLandowners = tellingTheLandowners;
-    appeal.sectionStates[sectionName].siteOwnership[taskName] = getTaskStatus(
-      appeal,
-      sectionName,
-      taskName
-    );
+    appeal.sectionStates[sectionName][taskName] = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
 
     return res.redirect(`/${AGRICULTURAL_HOLDING}`);

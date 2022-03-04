@@ -5,7 +5,6 @@ const {
   postTellingTheLandowners,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/telling-the-landowners');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
@@ -21,8 +20,6 @@ describe('controllers/full-appeal/submit-appeal/telling-the-landowners', () => {
   let res;
   let appeal;
 
-  const sectionName = 'appealSiteSection';
-  const taskName = 'tellingTheLandowners';
   const appealId = 'da368e66-de7b-44c4-a403-36e5bf5b000b';
   const errors = { 'telling-the-landowners': `Confirm if you've told the landowners` };
   const errorSummary = [{ text: 'There was an error', href: '#' }];
@@ -126,7 +123,6 @@ describe('controllers/full-appeal/submit-appeal/telling-the-landowners', () => {
 
       await postTellingTheLandowners(req, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${AGRICULTURAL_HOLDING}`);
       expect(req.session.appeal).toEqual(submittedAppeal);

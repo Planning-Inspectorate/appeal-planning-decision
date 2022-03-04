@@ -6,7 +6,7 @@ const {
 } = require('../../../lib/full-appeal/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
-const { getTaskStatus } = require('../../../services/task.service');
+const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'siteOwnership';
@@ -55,7 +55,7 @@ const postIdentifyingTheOwners = async (req, res) => {
 
   try {
     appeal[sectionName][taskName].hasIdentifiedTheOwners = hasIdentifiedTheOwner;
-    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+    appeal.sectionStates[sectionName].identifyingTheLandOwners = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
 
     return res.redirect(`/${ADVERTISING_YOUR_APPEAL}`);

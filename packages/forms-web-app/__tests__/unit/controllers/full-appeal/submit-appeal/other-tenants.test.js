@@ -5,7 +5,6 @@ const {
   postOtherTenants,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/other-tenants');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
@@ -24,6 +23,7 @@ describe('controllers/full-appeal/submit-appeal/other-tenants', () => {
   const taskName = 'agriculturalHolding';
   const errors = { 'other-tenants': 'Select an option' };
   const errorSummary = [{ text: 'There was an error', href: '#' }];
+  appeal.sectionStates.appealSiteSection.otherTenants = 'COMPLETED';
 
   beforeEach(() => {
     req = v8.deserialize(
@@ -94,7 +94,6 @@ describe('controllers/full-appeal/submit-appeal/other-tenants', () => {
       };
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -105,7 +104,6 @@ describe('controllers/full-appeal/submit-appeal/other-tenants', () => {
 
       await postOtherTenants(req, res);
 
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${TELLING_THE_TENANTS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
@@ -119,7 +117,6 @@ describe('controllers/full-appeal/submit-appeal/other-tenants', () => {
       submittedAppeal[sectionName][taskName].hasOtherTenants = false;
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -130,7 +127,6 @@ describe('controllers/full-appeal/submit-appeal/other-tenants', () => {
 
       await postOtherTenants(req, res);
 
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${VISIBLE_FROM_ROAD}`);
       expect(req.session.appeal).toEqual(submittedAppeal);

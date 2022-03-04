@@ -5,7 +5,6 @@ const {
   postAdvertisingYourAppeal,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/advertising-your-appeal');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
@@ -21,8 +20,6 @@ describe('controllers/full-appeal/submit-appeal/advertising-your-appeal', () => 
   let res;
   let appeal;
 
-  const sectionName = 'appealSiteSection';
-  const taskName = 'advertisingYourAppeal';
   const appealId = 'da368e66-de7b-44c4-a403-36e5bf5b000b';
   const errors = { 'advertising-your-appeal': `Confirm if you have advertised your appeal` };
   const errorSummary = [{ text: 'There was an error', href: '#' }];
@@ -155,7 +152,6 @@ describe('controllers/full-appeal/submit-appeal/advertising-your-appeal', () => 
 
       await postAdvertisingYourAppeal(req, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${AGRICULTURAL_HOLDING}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
@@ -179,7 +175,6 @@ describe('controllers/full-appeal/submit-appeal/advertising-your-appeal', () => 
 
       await postAdvertisingYourAppeal(req, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${TELLING_THE_LANDOWNERS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
