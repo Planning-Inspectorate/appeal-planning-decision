@@ -39,11 +39,25 @@ describe('controllers/full-appeal/decision-date', () => {
   });
 
   describe('getDecisionDate', () => {
-    it('should call the correct template decision date unevaluated', () => {
+    it('should call the correct template with no decision date given', () => {
       decisionDateController.getDecisionDate(req, res);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.DECISION_DATE, {
         decisionDate: null,
+      });
+    });
+
+    it('should call the correct template with a decision date given', () => {
+      appeal.decisionDate = '2022-03-04T16:24:00.000Z';
+
+      decisionDateController.getDecisionDate(req, res);
+
+      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.DECISION_DATE, {
+        decisionDate: {
+          day: '04',
+          month: '03',
+          year: '2022',
+        },
       });
     });
   });
