@@ -3,11 +3,11 @@ Feature: Appeal Householder Appeal Application Status Question
   I want to select the planning application status type of planning Application I made
   So that I can proceed to raise an appeal
 
-Scenario Outline: AC01 Appellant selects Granted Planning Application Status and proceeds through to "Decision Date" page
+Scenario Outline: AC01 Appellant selects <application_status> Planning Application Status and proceeds through to "Decision Date" page
   Given appellant is on the was your planning application granted or refused householder page
   When appellant selects the granted or refused householder option as '<application_status>'
   And appellant clicks on the continue button
-  Then appellant gets navigated to the What’s the decision date on the letter from the local planning department?
+  Then appellant gets navigated to the What’s the decision date on the letter from the local planning department? for '<application_status>'
   Examples:
   |application_status|
   |Granted           |

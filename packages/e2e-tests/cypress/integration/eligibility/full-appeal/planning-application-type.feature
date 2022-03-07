@@ -9,7 +9,7 @@ Feature: Planning Application Type
     And appellant clicks on the continue button
     Then appellant is navigated to the About A Listed Building Page
 
-  Scenario Outline: AC02 Appellant selects application type other that house holder planning
+  Scenario Outline: AC02 Appellant selects <planning_application>
     Given an appellant is on the select the type of planning application you made page
     When appellant selects '<planning_application>' planning application type
     And appellant clicks on the continue button
@@ -18,9 +18,14 @@ Feature: Planning Application Type
     | planning_application|
     | Full planning        |
     | Outline planning     |
-    | Prior approval      |
     |Reserved matters     |
     |Removal or variation of conditions|
+
+  Scenario: AC03 Appellant selects Prior application
+    Given an appellant is on the select the type of planning application you made page
+    When appellant selects 'Prior approval' planning application type
+    And appellant clicks on the continue button
+    Then appellant is presented with the page Did you apply for prior approval to extend an existing home?
 
   Scenario: AC03 appellant has not selected any of planning application types
     Given an appellant is on the select the type of planning application you made page
