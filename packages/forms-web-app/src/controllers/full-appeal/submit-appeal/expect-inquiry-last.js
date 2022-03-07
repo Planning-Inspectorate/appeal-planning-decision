@@ -5,8 +5,7 @@ const {
     FULL_APPEAL: { EXPECT_ENQUIRY_LAST, DRAFT_STATEMENT_COMMON_GROUND },
   },
 } = require('../../../lib/full-appeal/views');
-// const { getTaskStatus } = require('../../../services/task.service');
-const { NOT_STARTED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'appealDecisionSection';
 const taskName = 'inquiry';
@@ -37,8 +36,7 @@ const postExpectInquiryLast = async (req, res) => {
 
   try {
     appeal[sectionName][taskName].expectedDays = expectedDays;
-    // appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
-    appeal.sectionStates[sectionName][taskName] = NOT_STARTED;
+    appeal.sectionStates[sectionName].inquiryExpectedDays = COMPLETED;
 
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {

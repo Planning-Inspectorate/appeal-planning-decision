@@ -3014,68 +3014,32 @@ describe('schemas/full-appeal/insert', () => {
           );
         });
 
-        describe('sectionStates.appealDecisionSection.hearing', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.appealDecisionSection.hearing = 'NOT COMPLETE';
+        [
+          'procedureType',
+          'hearing',
+          'inquiry',
+          'inquiryExpectedDays',
+          'draftStatementOfCommonGround',
+        ].forEach((page) => {
+          describe(`sectionStates.appealDecisionSection.${page}`, () => {
+            it('should throw an error when given an invalid value', async () => {
+              appeal.sectionStates.appealDecisionSection[page] = 'NOT COMPLETE';
 
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.appealDecisionSection.hearing must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                `sectionStates.appealDecisionSection.${page} must be one of the following values: ${Object.values(
+                  SECTION_STATE,
+                ).join(', ')}`,
+              );
+            });
 
-          it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.appealDecisionSection.hearing;
+            it('should set a default value of `NOT STARTED` when not given a value', async () => {
+              delete appeal.sectionStates.appealDecisionSection[page];
 
-            appeal2.sectionStates.appealDecisionSection.hearing = SECTION_STATE.NOT_STARTED;
+              appeal2.sectionStates.appealDecisionSection[page] = SECTION_STATE.NOT_STARTED;
 
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal2);
-          });
-        });
-
-        describe('sectionStates.appealDecisionSection.inquiry', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.appealDecisionSection.inquiry = 'NOT COMPLETE';
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.appealDecisionSection.inquiry must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.appealDecisionSection.inquiry;
-
-            appeal2.sectionStates.appealDecisionSection.inquiry = SECTION_STATE.NOT_STARTED;
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal2);
-          });
-        });
-
-        describe('sectionStates.appealDecisionSection.draftStatementOfCommonGround', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.appealDecisionSection.draftStatementOfCommonGround =
-              'NOT COMPLETE';
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.appealDecisionSection.draftStatementOfCommonGround must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.appealDecisionSection.draftStatementOfCommonGround;
-
-            appeal2.sectionStates.appealDecisionSection.draftStatementOfCommonGround =
-              SECTION_STATE.NOT_STARTED;
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal2);
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal2);
+            });
           });
         });
       });

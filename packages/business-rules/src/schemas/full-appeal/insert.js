@@ -448,6 +448,10 @@ const insert = pinsYup
               .default('NOT STARTED'),
             hearing: pinsYup.string().oneOf(Object.values(SECTION_STATE)).default('NOT STARTED'),
             inquiry: pinsYup.string().oneOf(Object.values(SECTION_STATE)).default('NOT STARTED'),
+            inquiryExpectedDays: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .default('NOT STARTED'),
             draftStatementOfCommonGround: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))

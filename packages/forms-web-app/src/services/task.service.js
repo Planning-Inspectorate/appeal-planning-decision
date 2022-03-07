@@ -8,6 +8,9 @@ const { statusSiteOwnership } = require('./task-status/status-site-ownership');
 const { statusYourDetails } = require('./task-status/status-your-details');
 const { statusContactDetails } = require('./task-status/full-appeal/status-contact-details');
 const { statusAppealSiteSection } = require('./task-status/full-appeal/status-appeal-site-section');
+const {
+  statusAppealDecisionSection,
+} = require('./task-status/full-appeal/status-appeal-decision-section');
 
 function statusAppealStatement(appeal) {
   const task = appeal.yourAppealSection.appealStatement;
@@ -146,7 +149,7 @@ const FULL_APPEAL_SECTIONS = {
   },
   appealDecisionSection: {
     href: `/${FULL_APPEAL.HOW_DECIDE_APPEAL}`,
-    rule: notStartedRule,
+    rule: statusAppealDecisionSection,
   },
   aboutAppealSiteSection: {
     href: `/${FULL_APPEAL.APPEAL_SITE_ADDRESS}`,
