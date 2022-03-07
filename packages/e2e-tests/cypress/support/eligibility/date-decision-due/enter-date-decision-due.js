@@ -10,7 +10,7 @@ export const enterDateDecisionDue = ({ day, month, year} ) => {
   if(year) getDateDecisionDueYear().clear().type(year);
 }
 
-export const verifyHighlights = (highlights) => {
+export const verifyHighlightsDecisionDue = (highlights) => {
   const highlightsList = highlights.split(',') || [highlights];
 
   highlightsList.forEach(input => {

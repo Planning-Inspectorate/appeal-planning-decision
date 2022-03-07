@@ -22,8 +22,9 @@ import { getIsNotListedBuilding } from '../../../../support/eligibility/page-obj
 const pageTitle = 'Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Was your planning application granted or refused?';
 const url = 'before-you-start/granted-or-refused-householder';
-const decisionDatePageUrl = '/before-you-start/decision-date-householder';
-const decisionDateDuePageUrl = '/before-you-start/date-decision-due-householder';
+const houseHolderDecisionDatePageUrl = '/before-you-start/decision-date-householder';
+const fullAppealDecisionDatePageUrl = '/before-you-start/decision-date';
+const decisionDateDuePageUrl = '/before-you-start/date-decision-due';
 const previousPageUrl = '/before-you-start/listed-building-householder';
 
 Given('appellant is on the was your planning application granted or refused householder page', () => {
@@ -52,8 +53,11 @@ When('appellant clicks the back link',()=>{
   getBackLink().click();
 });
 
-Then('appellant gets navigated to the What’s the decision date on the letter from the local planning department?', () => {
-  cy.url().should('contain', decisionDatePageUrl);
+Then('appellant gets navigated to the What’s the decision date on the letter from the local planning department? for {string}', (application_status) => {
+  if(application_status==='Granted')
+  cy.url().should('contain', fullAppealDecisionDatePageUrl);
+  else
+    cy.url().should('contain', houseHolderDecisionDatePageUrl);
 });
 
 Then('appellant gets navigated to the decision due page', () => {
