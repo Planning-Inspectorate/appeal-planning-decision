@@ -11,7 +11,6 @@ const {
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/draft-statement-common-ground');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { createDocument } = require('../../../../../src/lib/documents-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
@@ -105,9 +104,10 @@ describe('controllers/full-appeal/submit-appeal/draft-statement-common-ground', 
         ...appeal,
         state: 'SUBMITTED',
       };
+      submittedAppeal.sectionStates.appealDecisionSection.draftStatementOfCommonGround =
+        TASK_STATUS.COMPLETED;
 
       createDocument.mockReturnValue(appeal[sectionName][taskName].uploadedFile);
-      getTaskStatus.mockReturnValue(TASK_STATUS.NOT_STARTED);
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 
       req = {
@@ -126,7 +126,6 @@ describe('controllers/full-appeal/submit-appeal/draft-statement-common-ground', 
         null,
         taskName
       );
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
@@ -137,14 +136,14 @@ describe('controllers/full-appeal/submit-appeal/draft-statement-common-ground', 
         ...appeal,
         state: 'SUBMITTED',
       };
+      submittedAppeal.sectionStates.appealDecisionSection.draftStatementOfCommonGround =
+        TASK_STATUS.COMPLETED;
 
-      getTaskStatus.mockReturnValue(TASK_STATUS.NOT_STARTED);
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 
       await postDraftStatementCommonGround(req, res);
 
       expect(createDocument).not.toHaveBeenCalled();
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
