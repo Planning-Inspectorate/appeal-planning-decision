@@ -56,6 +56,9 @@ When("the user select {string} and click 'Continue'", (option) => {
 Then("'Are there any other tenants' page is displayed", () => {
   cy.url().should('contain', url);
 });
+Then("the option 'No' is selected", () => {
+  selectNo().should('be.checked');
+})
 Given("an appellant or agent is on the 'Are there any other tenants' page", () => {
   goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   aboutAppealSiteSectionLink().click();
