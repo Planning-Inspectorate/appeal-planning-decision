@@ -17,6 +17,7 @@ import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppea
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
 import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
+import { selectNo } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 const pageHeading = 'Was your planning application about any of the following?';
 const url = 'before-you-start/any-of-following';
 const pageTitle = 'Was your planning application about any of the following? - Before you start - Appeal a planning decision - GOV.UK';
@@ -26,6 +27,11 @@ Given('an appellant is on the is your appeal about any of the following page for
   getSaveAndContinueButton().click();
   selectPlanningApplicationType(application_type);
   getSaveAndContinueButton().click();
+  if(application_type === 'Prior approval'){
+    selectNo().click();
+    getSaveAndContinueButton().click();
+  }
+
   cy.url().should('contain', url);
   verifyPageHeading(pageHeading);
   verifyPageTitle(pageTitle);
@@ -50,8 +56,13 @@ Then('an appellants gets routed to shutter page which notifies them to use a dif
   cy.url().should('contain', '/before-you-start/use-a-different-service');
 });
 
-Then('an appellant is taken back to the what type of planning application did you make page',()=>{
-  cy.url().should('contain','/before-you-start/type-of-planning-application');
+Then('an appellant is taken back to the {string} for {string}',(page,application_type)=>{
+  if(application_type === 'Prior approval'){
+cy.url().should('contain','before-you-start/prior-approval-existing-home');
+  }else{
+    cy.url().should('contain','/before-you-start/type-of-planning-application');
+  }
+
 });
 
 Then('{string} gets deselected',(option)=>{

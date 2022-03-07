@@ -35,7 +35,7 @@ import {
   getDateDecisionReceived
 } from "../../../../support/eligibility/date-decision-received/get-date-decision-received";
 import {getDateDecisionDue} from "../../../../support/eligibility/date-decision-due/get-date-decision-due";
-import {getBackLink} from "../../../../support/common-page-objects/common-po";
+import { getBackLink, getSaveAndContinueButton } from '../../../../support/common-page-objects/common-po';
 import {
   selectListedBuildingDecision
 } from "../../../../support/eligibility/listed-building/select-listed-building-decision";
@@ -43,6 +43,7 @@ import {
   enterDateHouseholderDecisionReceived
 } from "../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received";
 import {getClaimingCostNo} from "../../../../support/eligibility/page-objects/claiming-costs-po";
+import { selectNo } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 const url = 'before-you-start/local-planning-depart';
 let validDate;
 before(()=>{
@@ -64,7 +65,16 @@ Given('appellant selects {string} planning application type',(applicationType)=>
   verifyPageTitle('What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK');
   verifyPageHeading('What type of planning application is your appeal about?');
   selectPlanningApplicationType(applicationType);
+  if(applicationType==='Prior approval'){
+    getSaveAndContinueButton().click();
+    selectNo().click();
+  }
 });
+Given('appellant selects Prior approval planning application type',()=>{
+  verifyPageTitle('What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK');
+  verifyPageHeading('What type of planning application is your appeal about?');
+  selectPlanningApplicationType('Prior approval');
+})
 
 Given('appellant selects {string} from the list of options',(option)=>{
   verifyPageTitle('Was your planning application about any of the following? - Before you start - Appeal a planning decision - GOV.UK');
@@ -75,6 +85,12 @@ Given('appellant selects the {string}',(application_decision)=>{
   verifyPageTitle('Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK');
   verifyPageHeading('Was your planning application granted or refused?');
   selectPlanningApplicationDecision(application_decision);
+});
+
+Given('appellant selects the option no for prior approval existing house',()=>{
+  verifyPageTitle('Did you apply for prior approval to extend an existing home? - Before you start - Appeal a planning decision - GOV.UK');
+  verifyPageHeading('Did you apply for prior approval to extend an existing home?');
+  selectNo().click();
 });
 
 Given('appellant enters the date within 6 months when the {string} was received',(application_decision)=>{
@@ -185,4 +201,10 @@ Then('data is persisted for enforcement notice',()=>{
 
 Then('appellant clicks on browser back',()=>{
   cy.go('back');
+});
+
+Then('data is persisted for option no for prior approval existing house',()=>{
+  verifyPageTitle('Did you apply for prior approval to extend an existing home? - Before you start - Appeal a planning decision - GOV.UK');
+  verifyPageHeading('Did you apply for prior approval to extend an existing home?');
+  selectNo().should('be.checked');
 })
