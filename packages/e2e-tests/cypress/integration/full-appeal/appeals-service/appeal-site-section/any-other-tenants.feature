@@ -16,6 +16,9 @@ Feature: As an appellant or agent
     Given an appellant or agent is on the 'Are there any other tenants' page
     When the user select 'No' and click 'Continue'
     Then the user is taken to the next page 'Is the site visible from a public road?'
+    When they click on the 'Back' link
+    Then 'Are there any other tenants' page is displayed
+    And the option 'No' is selected
 
   Scenario: 4 - None of the options are selected on 'Are there any other tenants' page
     Given an appellant or agent is on the 'Are there any other tenants' page

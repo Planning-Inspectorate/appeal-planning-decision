@@ -168,3 +168,44 @@ Then('Telling the {string} page is displayed with guidance text',(tenants)=>{
   }
 
 });
+When('the user does not select the any one of the confirmation checkboxes boxes then an error message {string} is displayed', (errorMessage) => {
+  getSaveAndContinueButton().click();
+  verifyErrorMessage(errorMessage,errorMessageTellingTheTenants, getErrorMessageSummary);
+
+  tellingTheTenantsToldAboutAppeal().check();
+  getSaveAndContinueButton().click();
+  verifyErrorMessage(errorMessage,errorMessageTellingTheTenants, getErrorMessageSummary);
+  tellingTheTenantsToldAboutAppeal().uncheck();
+
+  tellingTheTenantsWithinLast21Days().check();
+  getSaveAndContinueButton().click();
+  verifyErrorMessage(errorMessage,errorMessageTellingTheTenants, getErrorMessageSummary);
+  tellingTheTenantsWithinLast21Days().uncheck();
+
+  tellingTheTenantsCopyOfTheForm().check();
+  getSaveAndContinueButton().click();
+  verifyErrorMessage(errorMessage,errorMessageTellingTheTenants, getErrorMessageSummary);
+  tellingTheTenantsCopyOfTheForm().uncheck();
+
+  tellingTheTenantsToldAboutAppeal().check();
+  tellingTheTenantsWithinLast21Days().check();
+  getSaveAndContinueButton().click();
+  verifyErrorMessage(errorMessage,errorMessageTellingTheTenants, getErrorMessageSummary);
+  tellingTheTenantsToldAboutAppeal().uncheck();
+  tellingTheTenantsWithinLast21Days().uncheck();
+
+  tellingTheTenantsWithinLast21Days().check();
+  tellingTheTenantsCopyOfTheForm().check();
+  getSaveAndContinueButton().click();
+  verifyErrorMessage(errorMessage,errorMessageTellingTheTenants, getErrorMessageSummary);
+  tellingTheTenantsWithinLast21Days().uncheck();
+  tellingTheTenantsCopyOfTheForm().uncheck();
+
+  tellingTheTenantsToldAboutAppeal().check();
+  tellingTheTenantsCopyOfTheForm().check();
+  getSaveAndContinueButton().click();
+  verifyErrorMessage(errorMessage,errorMessageTellingTheTenants, getErrorMessageSummary);
+  tellingTheTenantsToldAboutAppeal().uncheck();
+  tellingTheTenantsCopyOfTheForm().uncheck();
+});
+
