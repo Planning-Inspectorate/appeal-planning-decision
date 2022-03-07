@@ -12,9 +12,12 @@ import {verifyPageHeading} from "../../../../support/common/verify-page-heading"
 import {allowedDatePart, getFutureDate, getPastDate} from "../../../../support/common/getDate";
 import {getDate, getMonth, getYear} from "date-fns";
 import {
-  enterDateDecisionReceived
-} from "../../../../support/eligibility/date-decision-received/enter-date-decision-received";
-import {getDateHouseholderDecisionReceivedDay} from "../../../../support/eligibility/page-objects/date-decision-received-po";
+  enterDateDecisionReceived, verifyDecisionDatesHighlights,
+} from '../../../../support/eligibility/date-decision-received/enter-date-decision-received';
+import {
+  getDateDecisionReceivedDay,
+  getDateHouseholderDecisionReceivedDay,
+} from '../../../../support/eligibility/page-objects/date-decision-received-po';
 import {clickContinueButton} from "../../../../support/common/clickContinueButton";
 import {verifyErrorMessage} from "../../../../support/common/verify-error-message";
 import {getBackLink, getErrorMessageSummary} from "../../../../support/common-page-objects/common-po";
@@ -30,9 +33,10 @@ import {
 } from '../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received';
 import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
+import { getPlanningApplicationDecisionError } from '../../../../support/eligibility/page-objects/date-decision-due-po';
 const pageHeading = 'What\'s the decision date on the letter from the local planning department?';
-const pageTitle = 'What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a householder planning decision - GOV.UK';
-const url = `/decision-date-householder`;
+const pageTitle = 'What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK';
+const url = `/decision-date`;
 const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 const enforcementNoticePageUrl = '/enforcement-notice';
 const grantedOrRefusedPageUrl = '/granted-or-refused-householder';
@@ -54,9 +58,14 @@ Given('appellant selects the {string}',(application_decision)=>{
   clickContinueButton();
 });
 
-Given('appellant is on the what date was the decision received page',()=>{
+Given('appellant is on the what date was the decision received page for {string}',(application_decision)=>{
+  if(application_decision === 'Granted'){
+    verifyPageTitle("What's the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK");
+  }else{
+    verifyPageTitle("What's the decision date on the letter from the local planning department? - Before you start - Appeal a householder planning decision - GOV.UK");
+  }
   verifyPage(url);
-  verifyPageTitle(pageTitle);
+
   verifyPageHeading(pageHeading);
   cy.checkPageA11y();
 });
@@ -64,9 +73,9 @@ Given('appellant is on the what date was the decision received page',()=>{
 When('appellant enters the date lesser than the deadline date for {string}',(application_decision)=>{
   if(application_decision==='Granted'){
     const validDate = getPastDate(allowedDatePart.MONTH, 3);
-    enterDateHouseholderDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate) } );
+    enterDateDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate) } );
   }else if(application_decision==='Refused'){
-    const validDate = getPastDate(allowedDatePart.MONTH, 2);
+    const validDate = getPastDate(allowedDatePart.WEEK, 7);
     enterDateHouseholderDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate) } );
   }
 
@@ -76,15 +85,18 @@ When('appellant clicks on continue',()=>{
   clickContinueButton();
 });
 
-When('appellant enters future date decision received of {string}-{string}', (datePart, value) => {
+When('appellant enters future date decision received of {string}-{string} for {string}', (datePart, value, applicationDecision) => {
   const futureDate = getFutureDate(datePart, value);
-  enterDateHouseholderDecisionReceived( {day: ("0" + getDate(futureDate)).slice(-2), month: ("0" + (getMonth(futureDate)+1)).slice(-2) , year: getYear(futureDate) } );
+  if(applicationDecision === 'Granted')
+    enterDateDecisionReceived( {day: ("0" + getDate(futureDate)).slice(-2), month: ("0" + (getMonth(futureDate)+1)).slice(-2) , year: getYear(futureDate) } );
+  else
+    enterDateHouseholderDecisionReceived( {day: ("0" + getDate(futureDate)).slice(-2), month: ("0" + (getMonth(futureDate)+1)).slice(-2) , year: getYear(futureDate) } );
 });
 
 When('appellant enters the date older than the deadline date for {string}',(application_decision)=>{
   if(application_decision==='Granted'){
     const pastDate = getPastDate(allowedDatePart.MONTH, 7);
-    enterDateHouseholderDecisionReceived( {day: ("0" + getDate(pastDate)).slice(-2), month: ("0" + (getMonth(pastDate)+1)).slice(-2) , year: getYear(pastDate) } );
+    enterDateDecisionReceived( {day: ("0" + getDate(pastDate)).slice(-2), month: ("0" + (getMonth(pastDate)+1)).slice(-2) , year: getYear(pastDate) } );
   }else if(application_decision==='Refused'){
     const pastDate = getPastDate(allowedDatePart.MONTH, 4);
     enterDateHouseholderDecisionReceived( {day: ("0" + getDate(pastDate)).slice(-2), month: ("0" + (getMonth(pastDate)+1)).slice(-2) , year: getYear(pastDate) } );
@@ -93,8 +105,15 @@ When('appellant enters the date older than the deadline date for {string}',(appl
 });
 
 When('appellant enters date decision received of {string}-{string}-{string}',(day,month,year)=>{
-  enterDateHouseholderDecisionReceived({day,month,year});
+  enterDateDecisionReceived({day,month,year});
 });
+
+When('appellant enters date decision received of {string}-{string}-{string} for {string}',(day,month,year, applicationDecision)=>{
+  if(applicationDecision === 'Granted')
+    enterDateDecisionReceived({day,month,year});
+  else
+    enterDateHouseholderDecisionReceived({day, month, year});
+})
 
 When('appellant is navigated to the granted or refused page for {string}',(application_decision)=>{
   cy.url().should('contain', grantedOrRefusedPageUrl);
@@ -106,7 +125,10 @@ When('appellant clicks the back button',()=>{
   getBackLink().click();
 })
 
-Then('decision received date they have inputted will not be saved',()=>{
+Then('decision received date they have inputted will not be saved for {string}',(applicationDecision)=>{
+  if(applicationDecision === 'Granted')
+    getDateDecisionReceivedDay().should('have.text', '');
+    else
   getDateHouseholderDecisionReceivedDay().should('have.text', '');
 });
 
@@ -118,10 +140,25 @@ Then('appellant gets routed to a page which notifies them that the decision appe
   cy.url().should('contain', shutterPageUrl);
 });
 
+Then('progress is halted with an error: {string} for {string}', (errorMessage,applicationDecision) => {
+  if(applicationDecision === 'Granted')
+  verifyErrorMessage(errorMessage, getPlanningApplicationDecisionError, getErrorMessageSummary);
+  else
+    verifyErrorMessage(errorMessage, getPlanningApplicationHouseholderDecisionError, getErrorMessageSummary);
+});
+
 Then('progress is halted with an error: {string}', (errorMessage) => {
-  verifyErrorMessage(errorMessage, getPlanningApplicationHouseholderDecisionError, getErrorMessageSummary);
+    verifyErrorMessage(errorMessage, getPlanningApplicationDecisionError, getErrorMessageSummary);
+});
+
+
+Then('the correct input {string} is highlighted for {string}', (highlights, applicationDecision) => {
+  if(applicationDecision === 'Granted')
+  verifyDecisionDatesHighlights(highlights);
+  else
+    verifyHouseholderDecisionDatesHighlights(highlights);
 });
 
 Then('the correct input {string} is highlighted', (highlights) => {
-  verifyHouseholderDecisionDatesHighlights(highlights);
+    verifyDecisionDatesHighlights(highlights);
 });

@@ -7,4 +7,5 @@ export const getRemovalOrVariationOfConditionsRadio = () => cy.get('input[data-c
 export const getSomethingElseRadio = () => cy.get('input[data-cy="answer-something-else"]');
 export const getNoApplicationMadeRadio = () => cy.get('input[data-cy="answer-i-have-not-made-a-planning-application"]');
 export const getTypeOfPlanningApplicationError = () => cy.get('#type-of-planning-application-error');
+export const getPriorApprovalExistingHomeError = () => cy.get('#prior-approval-existing-home-error');
 

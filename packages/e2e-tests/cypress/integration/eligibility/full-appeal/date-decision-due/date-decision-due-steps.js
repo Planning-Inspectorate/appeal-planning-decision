@@ -27,6 +27,7 @@ import {clickContinueButton} from "../../../../support/common/clickContinueButto
 import {getAppealDeadline} from "../../../../support/eligibility/page-objects/shutter-page-po";
 import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
+import { selectNo } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 
 const pageHeading = 'What date was your decision due?';
 const pageTitle = 'What date was your decision due? - Before you start - Appeal a planning decision - GOV.UK';
@@ -43,6 +44,10 @@ Given('appellant navigates to decision date page for {string}',(application_type
   getContinueButton().click();
   selectPlanningApplicationType(application_type);
   clickContinueButton();
+  if(application_type==='Prior approval'){
+    selectNo().click();
+    clickContinueButton();
+  }
   selectSiteOption('None of these');
   clickContinueButton();
   selectPlanningApplicationDecision('I have Not Received a Decision');

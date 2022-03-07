@@ -40,13 +40,18 @@ import {
 import {
   getDateDecisionDueHouseholder
 } from "../../../../support/eligibility/date-decision-due-householder/get-date-decision-due-householder";
-import {getBackLink} from "../../../../support/common-page-objects/common-po";
+import { getBackLink, getSaveAndContinueButton } from '../../../../support/common-page-objects/common-po';
 import {getLocalPlanningDepart} from "../../../../support/eligibility/page-objects/local-planning-depart";
 import {selectSiteOption} from "../../../../support/eligibility/appellant-selects-the-site/select-site-option";
 import {
   enterDateDecisionReceived
 } from "../../../../support/eligibility/date-decision-received/enter-date-decision-received";
 import {enterDateDecisionDue} from "../../../../support/eligibility/date-decision-due/enter-date-decision-due";
+import {
+  getDateDecisionReceived
+} from '../../../../support/eligibility/date-decision-received/get-date-decision-received';
+import { getDateDecisionDue } from '../../../../support/eligibility/date-decision-due/get-date-decision-due';
+import { selectNo, selectYes } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 const url = 'before-you-start/local-planning-depart';
 let validDate;
 before(()=>{
@@ -68,6 +73,10 @@ Given('appellant selects {string} planning application type',(applicationType)=>
   verifyPageTitle('What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK');
   verifyPageHeading('What type of planning application is your appeal about?');
   selectPlanningApplicationType(applicationType);
+  if(applicationType==='Prior approval'){
+    getSaveAndContinueButton().click();
+    selectYes().click();
+  }
 });
 
 Given('appellant selects the option as No for listed building',()=>{
@@ -94,9 +103,9 @@ Given('appellant selects the {string} for {string}',(application_decision, appli
 Given('appellant enters the date within {string} when the {string} was received',(deadline_duration, application_decision)=>{
   if(deadline_duration==='6 months' && application_decision==='Granted'){
    validDate = getPastDate(allowedDatePart.MONTH, 3);
-      verifyPageTitle('What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a householder planning decision - GOV.UK');
+      verifyPageTitle('What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK');
       verifyPageHeading('What\'s the decision date on the letter from the local planning department?');
-      enterDateHouseholderDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate) + 1)).slice(-2) , year: getYear(validDate) } );
+      enterDateDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate) + 1)).slice(-2) , year: getYear(validDate) } );
 
     }
   else if(deadline_duration==='12 weeks' && application_decision==='Refused') {
@@ -109,7 +118,7 @@ Given('appellant enters the date within {string} when the {string} was received'
       validDate = getPastDate(allowedDatePart.MONTH, 3);
       verifyPageTitle('What date was your decision due? - Before you start - Appeal a householder planning decision - GOV.UK');
       verifyPageHeading('What date was your decision due?');
-      enterDateDecisionDueHouseholder( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+ 1)).slice(-2) , year: getYear(validDate) } );
+      enterDateDecisionDue( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+ 1)).slice(-2) , year: getYear(validDate) } );
   }
   });
 
@@ -156,9 +165,21 @@ Then('data is persisted for local planning department',()=>{
 });
 
 Then('data is persisted for {string} planning application type',(applicationType)=>{
+  if(applicationType==='Prior approval'){
+    verifyPageTitle('Did you apply for prior approval to extend an existing home? - Before you start - Appeal a planning decision - GOV.UK');
+    verifyPageHeading('Did you apply for prior approval to extend an existing home?');
+    selectYes().should('be.checked');
+    getBackLink().click();
+  }
   verifyPageTitle('What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK');
   verifyPageHeading('What type of planning application is your appeal about?');
   getPlanningApplicationType(applicationType);
+});
+
+Given('appellant selects the option yes for prior approval existing house',()=>{
+  verifyPageTitle('Did you apply for prior approval to extend an existing home? - Before you start - Appeal a planning decision - GOV.UK');
+  verifyPageHeading('Did you apply for prior approval to extend an existing home?');
+  selectYes().click();
 });
 
 Then('data is persisted for the option as No for listed building',()=>{
@@ -176,9 +197,9 @@ Then('data is persisted for {string}',(application_decision)=>{
 Then('data is persisted for the date within {string} when the {string} was received',(deadline_duration, application_decision)=>{
   if(deadline_duration==='6 months' && application_decision==='Granted'){
     validDate = getPastDate(allowedDatePart.MONTH, 3);
-    verifyPageTitle('What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a householder planning decision - GOV.UK');
+    verifyPageTitle('What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK');
     verifyPageHeading('What\'s the decision date on the letter from the local planning department?');
-    getDateHouseholderDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+ 1)).slice(-2) , year: getYear(validDate) } );
+    getDateDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+ 1)).slice(-2) , year: getYear(validDate) } );
   }
   else if(deadline_duration==='12 weeks' && application_decision==='Refused') {
     validDate = getPastDate(allowedDatePart.WEEK, 8);
@@ -190,7 +211,7 @@ Then('data is persisted for the date within {string} when the {string} was recei
     validDate = getPastDate(allowedDatePart.MONTH, 3);
     verifyPageTitle('What date was your decision due? - Before you start - Appeal a householder planning decision - GOV.UK');
     verifyPageHeading('What date was your decision due?');
-    getDateDecisionDueHouseholder( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+ 1)).slice(-2) , year: getYear(validDate) } );
+    getDateDecisionDue( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+ 1)).slice(-2) , year: getYear(validDate) } );
   }
 });
 
@@ -212,3 +233,8 @@ Then('appellant is navigated to full appeal task list page',()=>{
   verifyPage('full-appeal/submit-appeal/task-list');
 });
 
+Then('data is persisted for option yes for prior approval existing house',()=>{
+  verifyPageTitle('Did you apply for prior approval to extend an existing home? - Before you start - Appeal a planning decision - GOV.UK');
+  verifyPageHeading('Did you apply for prior approval to extend an existing home?');
+  selectYes().should('be.checked');
+})

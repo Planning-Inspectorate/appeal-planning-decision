@@ -173,5 +173,6 @@ Then('an error message {string} is displayed', (errorMessage) => {
 
 Then('they are presented with the Identify the landowners page',()=>{
   cy.url().should('contain',identifyingTheOwnersUrl);
+  checkBoxIdentifyingTheOwners().should('be.checked');
 })
 
