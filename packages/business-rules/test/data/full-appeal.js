@@ -224,6 +224,7 @@ const appeal = {
       procedureType: 'NOT STARTED',
       hearing: 'NOT STARTED',
       inquiry: 'NOT STARTED',
+      inquiryExpectedDays: 'NOT STARTED',
       draftStatementOfCommonGround: 'NOT STARTED',
     },
     planningApplicationDocumentsSection: {

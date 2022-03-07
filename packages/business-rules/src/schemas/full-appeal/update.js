@@ -382,6 +382,7 @@ const update = pinsYup
             procedureType: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             hearing: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             inquiry: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            inquiryExpectedDays: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             draftStatementOfCommonGround: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))

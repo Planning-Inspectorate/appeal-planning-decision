@@ -5,13 +5,13 @@ const {
   postExpectInquiryLast,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/expect-inquiry-last');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
     FULL_APPEAL: { EXPECT_ENQUIRY_LAST, DRAFT_STATEMENT_COMMON_GROUND },
   },
 } = require('../../../../../src/lib/full-appeal/views');
+const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
@@ -100,9 +100,10 @@ describe('controllers/full-appeal/submit-appeal/expect-inquiry-last', () => {
         ...appeal,
         state: 'SUBMITTED',
       };
+      submittedAppeal.sectionStates.appealDecisionSection.inquiryExpectedDays =
+        TASK_STATUS.COMPLETED;
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -113,7 +114,6 @@ describe('controllers/full-appeal/submit-appeal/expect-inquiry-last', () => {
 
       await postExpectInquiryLast(req, res);
 
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${DRAFT_STATEMENT_COMMON_GROUND}`);
       expect(req.session.appeal).toEqual(submittedAppeal);

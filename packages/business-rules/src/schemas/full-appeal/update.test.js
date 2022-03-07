@@ -3082,64 +3082,31 @@ describe('schemas/full-appeal/update', () => {
           );
         });
 
-        describe('sectionStates.appealDecisionSection.hearing', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.appealDecisionSection.hearing = 'NOT COMPLETE';
+        [
+          'procedureType',
+          'hearing',
+          'inquiry',
+          'inquiryExpectedDays',
+          'draftStatementOfCommonGround',
+        ].forEach((page) => {
+          describe(`sectionStates.appealDecisionSection.${page}`, () => {
+            it('should throw an error when given an invalid value', async () => {
+              appeal.sectionStates.appealDecisionSection[page] = 'NOT COMPLETE';
 
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.appealDecisionSection.hearing must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
+              await expect(() => update.validate(appeal, config)).rejects.toThrow(
+                `sectionStates.appealDecisionSection.${page} must be one of the following values: ${Object.values(
+                  SECTION_STATE,
+                ).join(', ')}`,
+              );
+            });
 
-          it('should throw an error when not given a value', async () => {
-            delete appeal.sectionStates.appealDecisionSection.hearing;
+            it('should throw an error when not given a value', async () => {
+              delete appeal.sectionStates.appealDecisionSection[page];
 
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              'sectionStates.appealDecisionSection.hearing is a required field',
-            );
-          });
-        });
-
-        describe('sectionStates.appealDecisionSection.inquiry', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.appealDecisionSection.inquiry = 'NOT COMPLETE';
-
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.appealDecisionSection.inquiry must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should throw an error when not given a value', async () => {
-            delete appeal.sectionStates.appealDecisionSection.inquiry;
-
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              'sectionStates.appealDecisionSection.inquiry is a required field',
-            );
-          });
-        });
-
-        describe('sectionStates.appealDecisionSection.draftStatementOfCommonGround', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.appealDecisionSection.draftStatementOfCommonGround =
-              'NOT COMPLETE';
-
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.appealDecisionSection.draftStatementOfCommonGround must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should throw an error when not given a value', async () => {
-            delete appeal.sectionStates.appealDecisionSection.draftStatementOfCommonGround;
-
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              'sectionStates.appealDecisionSection.draftStatementOfCommonGround is a required field',
-            );
+              await expect(() => update.validate(appeal, config)).rejects.toThrow(
+                `sectionStates.appealDecisionSection.${page} is a required field`,
+              );
+            });
           });
         });
       });

@@ -7,7 +7,7 @@ const {
   statusAppealSiteSection,
 } = require('../../../../../src/services/task-status/full-appeal/status-appeal-site-section');
 
-describe('services/task-status/full-appeal/status-contact-details.js', () => {
+describe('services/task-status/full-appeal/status-appeal-site-section.js', () => {
   describe('#statusAppealSiteSection', () => {
     it('should return NOT_STARTED if site address page is NOT_STARTED', () => {
       const appeal = {
