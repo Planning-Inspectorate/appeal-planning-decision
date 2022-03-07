@@ -11,13 +11,17 @@ const checkAppealTypeExists = (req, res, next) => {
     '/before-you-start/local-planning-depart',
     '/before-you-start/type-of-planning-application',
     '/before-you-start/use-a-different-service',
+    '/appellant-submission/submission-information',
+    'full-appeal/submit-appeal/declaration-information',
   ];
 
   if (!featureFlag.newAppealJourney) {
     return next();
   }
 
-  if (allowList.includes(req.originalUrl)) {
+  const isInAllowList = allowList.some((path) => req.originalUrl.includes(path));
+
+  if (isInAllowList) {
     return next();
   }
 

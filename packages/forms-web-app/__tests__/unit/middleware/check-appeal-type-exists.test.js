@@ -23,6 +23,7 @@ describe('middleware/check-appeal-type-exists', () => {
       session: {
         appeal: {},
       },
+      originalUrl: '/',
     };
   });
 
@@ -39,8 +40,25 @@ describe('middleware/check-appeal-type-exists', () => {
     expect(next).toBeCalled();
     expect(res.redirect).not.toBeCalled();
   });
+
   it('should call next() for the `/before-you-start/use-a-different-service` page', () => {
     req.originalUrl = '/before-you-start/use-a-different-service';
+    checkAppealTypeExists(req, res, next);
+    expect(next).toBeCalled();
+    expect(res.redirect).not.toBeCalled();
+  });
+
+  it('should call next() for the `/appellant-submission/submission-information/6e1195ad-176d-4ca3-a944-525218780a7e` page', () => {
+    req.originalUrl =
+      '/appellant-submission/submission-information/6e1195ad-176d-4ca3-a944-525218780a7e';
+    checkAppealTypeExists(req, res, next);
+    expect(next).toBeCalled();
+    expect(res.redirect).not.toBeCalled();
+  });
+
+  it('should call next() for the `/full-appeal/submit-appeal/declaration-information/6e1195ad-176d-4ca3-a944-525218780a7e` page', () => {
+    req.originalUrl =
+      '/full-appeal/submit-appeal/declaration-information/6e1195ad-176d-4ca3-a944-525218780a7e';
     checkAppealTypeExists(req, res, next);
     expect(next).toBeCalled();
     expect(res.redirect).not.toBeCalled();
