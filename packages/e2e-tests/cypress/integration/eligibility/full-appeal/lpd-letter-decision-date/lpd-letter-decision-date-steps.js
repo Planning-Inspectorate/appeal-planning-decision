@@ -13,8 +13,8 @@ import {verifyPageHeading} from "../../../../support/common/verify-page-heading"
 import {allowedDatePart, getFutureDate, getPastDate} from "../../../../support/common/getDate";
 import {getDate, getMonth, getYear, format, addMonths} from "date-fns";
 import {
-  enterDateDecisionReceived
-} from "../../../../support/eligibility/date-decision-received/enter-date-decision-received";
+  enterDateDecisionReceived, verifyDecisionDatesHighlights,
+} from '../../../../support/eligibility/date-decision-received/enter-date-decision-received';
 import {
   getPlanningApplicationDecisionError
 } from "../../../../support/eligibility/page-objects/date-decision-due-po";
@@ -120,5 +120,5 @@ Then('progress is halted with an error: {string}', (errorMessage) => {
 });
 
 Then('the correct input {string} is highlighted', (highlights) => {
-  verifyHighlights(highlights);
+  verifyDecisionDatesHighlights(highlights);
 });
