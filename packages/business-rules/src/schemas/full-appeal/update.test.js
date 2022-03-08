@@ -3127,165 +3127,59 @@ describe('schemas/full-appeal/update', () => {
           );
         });
 
-        describe('sectionStates.planningApplicationDocumentsSection.applicationNumber', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.planningApplicationDocumentsSection.applicationNumber =
-              'NOT COMPLETE';
+        [
+          'originalApplication',
+          'applicationNumber',
+          'plansDrawingsSupportingDocuments',
+          'designAccessStatementSubmitted',
+          'decisionLetter',
+          'designAccessStatement',
+        ].forEach((page) => {
+          describe(`sectionStates.planningApplicationDocumentsSection.${page}`, () => {
+            it('should throw an error when given an invalid value', async () => {
+              appeal.sectionStates.planningApplicationDocumentsSection[page] = 'NOT COMPLETE';
 
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.planningApplicationDocumentsSection.applicationNumber must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
+              await expect(() => update.validate(appeal, config)).rejects.toThrow(
+                `sectionStates.planningApplicationDocumentsSection.${page} must be one of the following values: ${Object.values(
+                  SECTION_STATE,
+                ).join(', ')}`,
+              );
+            });
 
-          it('should throw an error when not given a value', async () => {
-            delete appeal.sectionStates.planningApplicationDocumentsSection.applicationNumber;
+            it('should throw an error when not given a value', async () => {
+              delete appeal.sectionStates.planningApplicationDocumentsSection[page];
 
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              'sectionStates.planningApplicationDocumentsSection.applicationNumber is a required field',
-            );
-          });
-        });
-
-        describe('sectionStates.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments =
-              'NOT COMPLETE';
-
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should throw an error when not given a value', async () => {
-            delete appeal.sectionStates.planningApplicationDocumentsSection
-              .plansDrawingsSupportingDocuments;
-
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              'sectionStates.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments is a required field',
-            );
-          });
-        });
-
-        describe('sectionStates.planningApplicationDocumentsSection.originalApplication', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.planningApplicationDocumentsSection.originalApplication =
-              'NOT COMPLETE';
-
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.planningApplicationDocumentsSection.originalApplication must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should throw an error when not given a value', async () => {
-            delete appeal.sectionStates.planningApplicationDocumentsSection.originalApplication;
-
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              'sectionStates.planningApplicationDocumentsSection.originalApplication is a required field',
-            );
-          });
-        });
-
-        describe('sectionStates.planningApplicationDocumentsSection.decisionLetter', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.planningApplicationDocumentsSection.decisionLetter =
-              'NOT COMPLETE';
-
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.planningApplicationDocumentsSection.decisionLetter must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should throw an error when not given a value', async () => {
-            delete appeal.sectionStates.planningApplicationDocumentsSection.decisionLetter;
-
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              'sectionStates.planningApplicationDocumentsSection.decisionLetter is a required field',
-            );
-          });
-        });
-
-        describe('sectionStates.planningApplicationDocumentsSection.designAccessStatement', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.planningApplicationDocumentsSection.designAccessStatement =
-              'NOT COMPLETE';
-
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.planningApplicationDocumentsSection.designAccessStatement must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should throw an error when not given a value', async () => {
-            delete appeal.sectionStates.planningApplicationDocumentsSection.designAccessStatement;
-
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              'sectionStates.planningApplicationDocumentsSection.designAccessStatement is a required field',
-            );
+              await expect(() => update.validate(appeal, config)).rejects.toThrow(
+                `sectionStates.planningApplicationDocumentsSection.${page} is a required field`,
+              );
+            });
           });
         });
       });
 
-      describe('sectionStates.appealDocumentsSection', () => {
-        it('should remove unknown fields', async () => {
-          appeal2.sectionStates.appealDocumentsSection.unknownField = 'unknown field';
-
-          const result = await update.validate(appeal2, config);
-          expect(result).toEqual(appeal);
-        });
-
-        it('should throw an error when given a null value', async () => {
-          appeal.sectionStates.appealDocumentsSection = null;
-
-          await expect(() => update.validate(appeal, config)).rejects.toThrow(
-            'sectionStates.appealDocumentsSection must be a `object` type, but the final value was: `null`',
-          );
-        });
-
-        describe('sectionStates.appealDocumentsSection.appealStatement', () => {
+      [
+        'appealStatement',
+        'plansDrawings',
+        'newPlansDrawings',
+        'supportingDocuments',
+        'newSupportingDocuments',
+      ].forEach((page) => {
+        describe(`sectionStates.appealDocumentsSection.${page}`, () => {
           it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.appealDocumentsSection.appealStatement = 'NOT COMPLETE';
+            appeal.sectionStates.appealDocumentsSection[page] = 'NOT COMPLETE';
 
             await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.appealDocumentsSection.appealStatement must be one of the following values: ${Object.values(
+              `sectionStates.appealDocumentsSection.${page} must be one of the following values: ${Object.values(
                 SECTION_STATE,
               ).join(', ')}`,
             );
           });
 
           it('should throw an error when not given a value', async () => {
-            delete appeal.sectionStates.appealDocumentsSection.appealStatement;
+            delete appeal.sectionStates.appealDocumentsSection[page];
 
             await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              'sectionStates.appealDocumentsSection.appealStatement is a required field',
-            );
-          });
-        });
-
-        describe('sectionStates.appealDocumentsSection.plansDrawings', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.appealDocumentsSection.plansDrawings = 'NOT COMPLETE';
-
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.appealDocumentsSection.plansDrawings must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should throw an error when not given a value', async () => {
-            delete appeal.sectionStates.appealDocumentsSection.plansDrawings;
-
-            await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              'sectionStates.appealDocumentsSection.plansDrawings is a required field',
+              `sectionStates.appealDocumentsSection.${page} is a required field`,
             );
           });
         });

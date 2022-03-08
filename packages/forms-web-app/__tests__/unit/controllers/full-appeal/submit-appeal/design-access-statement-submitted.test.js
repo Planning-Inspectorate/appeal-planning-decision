@@ -5,13 +5,13 @@ const {
   postDesignAccessStatementSubmitted,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/design-access-statement-submitted');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
     FULL_APPEAL: { DESIGN_ACCESS_STATEMENT, DESIGN_ACCESS_STATEMENT_SUBMITTED, DECISION_LETTER },
   },
 } = require('../../../../../src/lib/full-appeal/views');
+const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
@@ -89,13 +89,14 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement-submitte
     });
 
     it('should redirect to the correct page if `yes` has been selected', async () => {
+      appeal.sectionStates.planningApplicationDocumentsSection.designAccessStatementSubmitted =
+        TASK_STATUS.COMPLETED;
       const submittedAppeal = {
         ...appeal,
         state: 'SUBMITTED',
       };
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -106,13 +107,14 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement-submitte
 
       await postDesignAccessStatementSubmitted(req, res);
 
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${DESIGN_ACCESS_STATEMENT}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
     it('should redirect to the correct page if `no` has been selected', async () => {
+      appeal.sectionStates.planningApplicationDocumentsSection.designAccessStatementSubmitted =
+        TASK_STATUS.COMPLETED;
       const submittedAppeal = {
         ...appeal,
         state: 'SUBMITTED',
@@ -120,7 +122,6 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement-submitte
       submittedAppeal[sectionName][taskName].isSubmitted = false;
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -131,7 +132,6 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement-submitte
 
       await postDesignAccessStatementSubmitted(req, res);
 
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
       expect(req.session.appeal).toEqual(submittedAppeal);

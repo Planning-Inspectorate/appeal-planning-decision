@@ -228,16 +228,19 @@ const appeal = {
       draftStatementOfCommonGround: 'NOT STARTED',
     },
     planningApplicationDocumentsSection: {
+      originalApplication: 'NOT STARTED',
       applicationNumber: 'NOT STARTED',
       plansDrawingsSupportingDocuments: 'NOT STARTED',
-      originalApplication: 'NOT STARTED',
-      decisionLetter: 'NOT STARTED',
+      designAccessStatementSubmitted: 'NOT STARTED',
       designAccessStatement: 'NOT STARTED',
+      decisionLetter: 'NOT STARTED',
     },
     appealDocumentsSection: {
       appealStatement: 'NOT STARTED',
       plansDrawings: 'NOT STARTED',
+      newPlansDrawings: 'NOT STARTED',
       supportingDocuments: 'NOT STARTED',
+      newSupportingDocuments: 'NOT STARTED',
     },
   },
 };

@@ -8,7 +8,6 @@ const {
     FULL_APPEAL: { APPLICATION_NUMBER, PLANS_DRAWINGS_DOCUMENTS },
   },
 } = require('../../../../../src/lib/full-appeal/views');
-const { getNextTask, getTaskStatus } = require('../../../../../src/services/task.service');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
@@ -51,8 +50,6 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
       };
       await applicationNumberController.postApplicationNumber(mockRequest, res);
 
-      expect(getTaskStatus).not.toHaveBeenCalled();
-
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
         applicationNumber,
@@ -71,8 +68,6 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
       };
       await applicationNumberController.postApplicationNumber(mockRequest, res);
 
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
-
       expect(logger.error).toHaveBeenCalledWith(error);
 
       expect(res.redirect).not.toHaveBeenCalled();
@@ -86,13 +81,7 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
 
     it('should redirect to `/full-appeal/design-access-statement-submitted` if valid', async () => {
       const fakeApplicationNumber = 'some valid application number';
-      const fakeTaskStatus = 'NOT STARTED';
-
-      getTaskStatus.mockImplementation(() => fakeTaskStatus);
-
-      getNextTask.mockReturnValue({
-        href: `/${PLANS_DRAWINGS_DOCUMENTS}`,
-      });
+      const fakeTaskStatus = 'COMPLETED';
 
       const mockRequest = {
         ...req,
@@ -102,8 +91,6 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
       };
 
       await applicationNumberController.postApplicationNumber(mockRequest, res);
-
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,

@@ -6,8 +6,7 @@ const {
 const logger = require('../../../lib/logger');
 const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
-// const { getTaskStatus } = require('../../../services/task.service');
-const { NOT_STARTED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'planningApplicationDocumentsSection';
 const taskName = 'decisionLetter';
@@ -71,8 +70,7 @@ const postDecisionLetter = async (req, res) => {
       };
     }
 
-    // appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
-    appeal.sectionStates[sectionName][taskName] = NOT_STARTED;
+    appeal.sectionStates[sectionName][taskName] = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);

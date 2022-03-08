@@ -5,13 +5,13 @@ const {
   postPlansDrawings,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/plans-drawings');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
     FULL_APPEAL: { PLANS_DRAWINGS, NEW_PLANS_DRAWINGS, SUPPORTING_DOCUMENTS },
   },
 } = require('../../../../../src/lib/full-appeal/views');
+const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
@@ -92,9 +92,9 @@ describe('controllers/full-appeal/submit-appeal/plans-drawings', () => {
         ...appeal,
         state: 'SUBMITTED',
       };
+      submittedAppeal.sectionStates.appealDocumentsSection.plansDrawings = TASK_STATUS.COMPLETED;
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -105,7 +105,6 @@ describe('controllers/full-appeal/submit-appeal/plans-drawings', () => {
 
       await postPlansDrawings(req, res);
 
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${NEW_PLANS_DRAWINGS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
@@ -117,9 +116,9 @@ describe('controllers/full-appeal/submit-appeal/plans-drawings', () => {
         state: 'SUBMITTED',
       };
       submittedAppeal[sectionName][taskName].hasPlansDrawings = false;
+      submittedAppeal.sectionStates.appealDocumentsSection.plansDrawings = TASK_STATUS.COMPLETED;
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-      getTaskStatus.mockReturnValue('NOT STARTED');
 
       req = {
         ...req,
@@ -130,7 +129,6 @@ describe('controllers/full-appeal/submit-appeal/plans-drawings', () => {
 
       await postPlansDrawings(req, res);
 
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${SUPPORTING_DOCUMENTS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
