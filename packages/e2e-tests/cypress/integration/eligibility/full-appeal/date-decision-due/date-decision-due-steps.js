@@ -17,7 +17,7 @@ import {
 } from '../../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
 import {
   enterDateDecisionDue,
-  verifyHighlights,
+  verifyHighlights, verifyHighlightsDecisionDue,
 } from '../../../../support/eligibility/date-decision-due/enter-date-decision-due';
 import {
   getDateDecisionDueDay,
@@ -117,7 +117,7 @@ Then('progress is halted with an error: {string}', (errorMessage) => {
 });
 
 Then('the correct input {string} is highlighted', (highlights) => {
-  verifyHighlights(highlights);
+  verifyHighlightsDecisionDue(highlights);
 });
 
 Then('appellant is navigated to the granted or refused page', () => {
