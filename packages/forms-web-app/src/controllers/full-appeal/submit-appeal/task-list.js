@@ -14,13 +14,7 @@ const HEADERS = {
 
 function buildTaskLists(appeal) {
   const taskList = [];
-  const {
-    requiredDocumentsSection,
-    aboutAppealSiteSection,
-    aboutYouSection,
-    yourAppealSection,
-    ...sections
-  } = FULL_APPEAL_SECTIONS;
+  const { ...sections } = FULL_APPEAL_SECTIONS;
 
   Object.keys(sections).forEach((sectionName) => {
     const section = sections[sectionName];

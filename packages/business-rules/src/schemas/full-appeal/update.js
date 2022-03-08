@@ -400,6 +400,10 @@ const update = pinsYup
             originalApplication: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             decisionLetter: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             designAccessStatement: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            designAccessStatementSubmitted: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .required(),
           })
           .noUnknown(true),
         appealDocumentsSection: pinsYup
@@ -407,7 +411,9 @@ const update = pinsYup
           .shape({
             appealStatement: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             plansDrawings: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            newPlansDrawings: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             supportingDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            newSupportingDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
           })
           .noUnknown(true),
       })

@@ -3060,176 +3060,60 @@ describe('schemas/full-appeal/insert', () => {
           );
         });
 
-        describe('sectionStates.planningApplicationDocumentsSection.applicationNumber', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.planningApplicationDocumentsSection.applicationNumber =
-              'NOT COMPLETE';
+        [
+          'originalApplication',
+          'applicationNumber',
+          'plansDrawingsSupportingDocuments',
+          'designAccessStatementSubmitted',
+          'decisionLetter',
+          'designAccessStatement',
+        ].forEach((page) => {
+          describe(`sectionStates.planningApplicationDocumentsSection.${page}`, () => {
+            it('should throw an error when given an invalid value', async () => {
+              appeal.sectionStates.planningApplicationDocumentsSection[page] = 'NOT COMPLETE';
 
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.planningApplicationDocumentsSection.applicationNumber must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                `sectionStates.planningApplicationDocumentsSection.${page} must be one of the following values: ${Object.values(
+                  SECTION_STATE,
+                ).join(', ')}`,
+              );
+            });
 
-          it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.planningApplicationDocumentsSection.applicationNumber;
+            it('should set a default value of `NOT STARTED` when not given a value', async () => {
+              delete appeal.sectionStates.planningApplicationDocumentsSection[page];
 
-            appeal2.sectionStates.planningApplicationDocumentsSection.applicationNumber =
-              SECTION_STATE.NOT_STARTED;
+              appeal2.sectionStates.planningApplicationDocumentsSection[page] =
+                SECTION_STATE.NOT_STARTED;
 
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal2);
-          });
-        });
-
-        describe('sectionStates.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments =
-              'NOT COMPLETE';
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.planningApplicationDocumentsSection
-              .plansDrawingsSupportingDocuments;
-
-            appeal2.sectionStates.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments =
-              SECTION_STATE.NOT_STARTED;
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal2);
-          });
-        });
-
-        describe('sectionStates.planningApplicationDocumentsSection.originalApplication', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.planningApplicationDocumentsSection.originalApplication =
-              'NOT COMPLETE';
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.planningApplicationDocumentsSection.originalApplication must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.planningApplicationDocumentsSection.originalApplication;
-
-            appeal2.sectionStates.planningApplicationDocumentsSection.originalApplication =
-              SECTION_STATE.NOT_STARTED;
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal2);
-          });
-        });
-
-        describe('sectionStates.planningApplicationDocumentsSection.decisionLetter', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.planningApplicationDocumentsSection.decisionLetter =
-              'NOT COMPLETE';
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.planningApplicationDocumentsSection.decisionLetter must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.planningApplicationDocumentsSection.decisionLetter;
-
-            appeal2.sectionStates.planningApplicationDocumentsSection.decisionLetter =
-              SECTION_STATE.NOT_STARTED;
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal2);
-          });
-        });
-
-        describe('sectionStates.planningApplicationDocumentsSection.designAccessStatement', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.planningApplicationDocumentsSection.designAccessStatement =
-              'NOT COMPLETE';
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.planningApplicationDocumentsSection.designAccessStatement must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.planningApplicationDocumentsSection.designAccessStatement;
-
-            appeal2.sectionStates.planningApplicationDocumentsSection.designAccessStatement =
-              SECTION_STATE.NOT_STARTED;
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal2);
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal2);
+            });
           });
         });
       });
 
-      describe('sectionStates.appealDocumentsSection', () => {
-        it('should remove unknown fields', async () => {
-          appeal2.sectionStates.appealDocumentsSection.unknownField = 'unknown field';
-
-          const result = await insert.validate(appeal2, config);
-          expect(result).toEqual(appeal);
-        });
-
-        it('should throw an error when given a null value', async () => {
-          appeal.sectionStates.appealDocumentsSection = null;
-
-          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-            'sectionStates.appealDocumentsSection must be a `object` type, but the final value was: `null`',
-          );
-        });
-
-        describe('sectionStates.appealDocumentsSection.appealStatement', () => {
+      [
+        'appealStatement',
+        'plansDrawings',
+        'newPlansDrawings',
+        'supportingDocuments',
+        'newSupportingDocuments',
+      ].forEach((page) => {
+        describe(`sectionStates.appealDocumentsSection.${page}`, () => {
           it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.appealDocumentsSection.appealStatement = 'NOT COMPLETE';
+            appeal.sectionStates.appealDocumentsSection[page] = 'NOT COMPLETE';
 
             await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.appealDocumentsSection.appealStatement must be one of the following values: ${Object.values(
+              `sectionStates.appealDocumentsSection.${page} must be one of the following values: ${Object.values(
                 SECTION_STATE,
               ).join(', ')}`,
             );
           });
 
           it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.appealDocumentsSection.appealStatement;
+            delete appeal.sectionStates.appealDocumentsSection[page];
 
-            appeal2.sectionStates.appealDocumentsSection.appealStatement =
-              SECTION_STATE.NOT_STARTED;
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal2);
-          });
-        });
-
-        describe('sectionStates.appealDocumentsSection.plansDrawings', () => {
-          it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.appealDocumentsSection.plansDrawings = 'NOT COMPLETE';
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.appealDocumentsSection.plansDrawings must be one of the following values: ${Object.values(
-                SECTION_STATE,
-              ).join(', ')}`,
-            );
-          });
-
-          it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.appealDocumentsSection.plansDrawings;
-
-            appeal2.sectionStates.appealDocumentsSection.plansDrawings = SECTION_STATE.NOT_STARTED;
+            appeal2.sectionStates.appealDocumentsSection[page] = SECTION_STATE.NOT_STARTED;
 
             const result = await insert.validate(appeal, config);
             expect(result).toEqual(appeal2);

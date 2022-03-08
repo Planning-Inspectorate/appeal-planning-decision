@@ -7,7 +7,6 @@ const {
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/design-access-statement');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { createDocument } = require('../../../../../src/lib/documents-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
@@ -95,13 +94,14 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement', () => 
     });
 
     it('should redirect to the correct page if valid and a file is being uploaded', async () => {
+      appeal.sectionStates.planningApplicationDocumentsSection.designAccessStatement =
+        TASK_STATUS.COMPLETED;
       const submittedAppeal = {
         ...appeal,
         state: 'SUBMITTED',
       };
 
       createDocument.mockReturnValue(appeal[sectionName][taskName].uploadedFile);
-      getTaskStatus.mockReturnValue(TASK_STATUS.NOT_STARTED);
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 
       req = {
@@ -120,26 +120,25 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement', () => 
         null,
         taskName
       );
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
     it('should redirect to the correct page if valid and a file is not being uploaded', async () => {
+      appeal.sectionStates.planningApplicationDocumentsSection.designAccessStatement =
+        TASK_STATUS.COMPLETED;
       const submittedAppeal = {
         ...appeal,
         state: 'SUBMITTED',
       };
 
       createDocument.mockReturnValue(appeal[sectionName][taskName].uploadedFile);
-      getTaskStatus.mockReturnValue(TASK_STATUS.NOT_STARTED);
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 
       await postDesignAccessStatement(req, res);
 
       expect(createDocument).not.toHaveBeenCalled();
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
       expect(req.session.appeal).toEqual(submittedAppeal);

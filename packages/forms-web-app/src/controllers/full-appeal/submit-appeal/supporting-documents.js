@@ -5,8 +5,7 @@ const {
     FULL_APPEAL: { NEW_SUPPORTING_DOCUMENTS, SUPPORTING_DOCUMENTS, TASK_LIST },
   },
 } = require('../../../lib/full-appeal/views');
-// const { getTaskStatus } = require('../../../services/task.service');
-const { NOT_STARTED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'appealDocumentsSection';
 const taskName = 'supportingDocuments';
@@ -50,8 +49,7 @@ const postSupportingDocuments = async (req, res) => {
 
   try {
     appeal[sectionName][taskName].hasSupportingDocuments = hasSupportingDocuments;
-    // appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
-    appeal.sectionStates[sectionName][taskName] = NOT_STARTED;
+    appeal.sectionStates[sectionName][taskName] = COMPLETED;
 
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {

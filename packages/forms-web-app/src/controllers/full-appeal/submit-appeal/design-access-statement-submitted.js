@@ -5,8 +5,7 @@ const {
     FULL_APPEAL: { DESIGN_ACCESS_STATEMENT, DESIGN_ACCESS_STATEMENT_SUBMITTED, DECISION_LETTER },
   },
 } = require('../../../lib/full-appeal/views');
-// const { getTaskStatus } = require('../../../services/task.service');
-const { NOT_STARTED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'planningApplicationDocumentsSection';
 const taskName = 'designAccessStatement';
@@ -42,8 +41,7 @@ const postDesignAccessStatementSubmitted = async (req, res) => {
 
   try {
     appeal[sectionName][taskName].isSubmitted = isSubmitted;
-    // appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
-    appeal.sectionStates[sectionName][taskName] = NOT_STARTED;
+    appeal.sectionStates[sectionName].designAccessStatementSubmitted = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);

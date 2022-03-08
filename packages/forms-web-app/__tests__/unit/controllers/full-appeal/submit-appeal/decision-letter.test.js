@@ -7,7 +7,6 @@ const {
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/decision-letter');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { createDocument } = require('../../../../../src/lib/documents-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
@@ -99,13 +98,14 @@ describe('controllers/full-appeal/submit-appeal/decision-letter', () => {
     });
 
     it('should redirect to the correct page if valid and a file is being uploaded', async () => {
+      appeal.sectionStates.planningApplicationDocumentsSection.decisionLetter =
+        TASK_STATUS.COMPLETED;
       const submittedAppeal = {
         ...appeal,
         state: 'SUBMITTED',
       };
 
       createDocument.mockReturnValue(appeal[sectionName][taskName].uploadedFile);
-      getTaskStatus.mockReturnValue(TASK_STATUS.NOT_STARTED);
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 
       req = {
@@ -124,25 +124,24 @@ describe('controllers/full-appeal/submit-appeal/decision-letter', () => {
         null,
         documentTypes.decisionLetter.name
       );
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
     it('should redirect to the correct page if valid and a file is not being uploaded', async () => {
+      appeal.sectionStates.planningApplicationDocumentsSection.decisionLetter =
+        TASK_STATUS.COMPLETED;
       const submittedAppeal = {
         ...appeal,
         state: 'SUBMITTED',
       };
 
-      getTaskStatus.mockReturnValue(TASK_STATUS.NOT_STARTED);
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 
       await postDecisionLetter(req, res);
 
       expect(createDocument).not.toHaveBeenCalled();
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
       expect(req.session.appeal).toEqual(submittedAppeal);

@@ -11,6 +11,12 @@ const { statusAppealSiteSection } = require('./task-status/full-appeal/status-ap
 const {
   statusAppealDecisionSection,
 } = require('./task-status/full-appeal/status-appeal-decision-section');
+const {
+  statusPlanningApplicationDocumentsSection,
+} = require('./task-status/full-appeal/status-planning-application-documents-section');
+const {
+  statusAppealDocumentsSection,
+} = require('./task-status/full-appeal/status-appeal-documents-section');
 
 function statusAppealStatement(appeal) {
   const task = appeal.yourAppealSection.appealStatement;
@@ -134,10 +140,6 @@ const SECTIONS = {
   },
 };
 
-function notStartedRule() {
-  return TASK_STATUS.NOT_STARTED;
-}
-
 const FULL_APPEAL_SECTIONS = {
   contactDetailsSection: {
     href: `/${FULL_APPEAL.ORIGINAL_APPLICANT}`,
@@ -151,47 +153,17 @@ const FULL_APPEAL_SECTIONS = {
     href: `/${FULL_APPEAL.HOW_DECIDE_APPEAL}`,
     rule: statusAppealDecisionSection,
   },
-  aboutAppealSiteSection: {
-    href: `/${FULL_APPEAL.APPEAL_SITE_ADDRESS}`,
-    rule: notStartedRule,
-  },
   planningApplicationDocumentsSection: {
     href: `/${FULL_APPEAL.APPLICATION_FORM}`,
-    rule: notStartedRule,
+    rule: statusPlanningApplicationDocumentsSection,
   },
   appealDocumentsSection: {
     href: `/${FULL_APPEAL.APPEAL_STATEMENT}`,
-    rule: statusAppealStatement,
+    rule: statusAppealDocumentsSection,
   },
   submitYourAppealSection: {
     href: `/${FULL_APPEAL.CHECK_YOUR_ANSWERS}`,
     rule: () => TASK_STATUS.NOT_STARTED,
-  },
-  aboutYouSection: {
-    yourDetails: {
-      href: `/${FULL_APPEAL.APPLICANT_NAME}`,
-      rule: statusYourDetails,
-    },
-    contactDetails: {
-      href: `/${FULL_APPEAL.CONTACT_DETAILS}`,
-      rule: notStartedRule(),
-    },
-  },
-  requiredDocumentsSection: {
-    applicationNumber: {
-      href: `/${FULL_APPEAL.APPLICATION_NUMBER}`,
-      rule: statusApplicationNumber,
-    },
-    designAccessStatementSubmitted: {
-      href: `/full-appeal/submit-appeal/design-access-statement-submitted`,
-      rule: notStartedRule,
-    },
-  },
-  yourAppealSection: {
-    appealStatement: {
-      href: `/${FULL_APPEAL.APPEAL_STATEMENT}`,
-      rule: statusAppealStatement,
-    },
   },
 };
 

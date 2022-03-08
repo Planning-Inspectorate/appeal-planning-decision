@@ -7,7 +7,6 @@ const {
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/new-supporting-documents');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { createDocument } = require('../../../../../src/lib/documents-api-wrapper');
-const { getTaskStatus } = require('../../../../../src/services/task.service');
 const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
@@ -98,6 +97,8 @@ describe('controllers/full-appeal/submit-appeal/new-supporting-documents', () =>
 
     it('should redirect to the correct page if valid and a single file is being uploaded', async () => {
       appealData[sectionName][taskName].uploadedFiles.pop();
+      appealData.sectionStates.appealDocumentsSection.newSupportingDocuments =
+        TASK_STATUS.COMPLETED;
       req.session.appeal[sectionName][taskName].uploadedFiles = [];
 
       const submittedAppeal = {
@@ -106,7 +107,6 @@ describe('controllers/full-appeal/submit-appeal/new-supporting-documents', () =>
       };
 
       createDocument.mockReturnValue(appealData[sectionName][taskName].uploadedFiles[0]);
-      getTaskStatus.mockReturnValue(TASK_STATUS.NOT_STARTED);
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 
       req = {
@@ -125,13 +125,14 @@ describe('controllers/full-appeal/submit-appeal/new-supporting-documents', () =>
         null,
         documentTypes.otherDocuments.name
       );
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
       expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
     it('should redirect to the correct page if valid and multiple files are being uploaded', async () => {
+      appealData.sectionStates.appealDocumentsSection.newSupportingDocuments =
+        TASK_STATUS.COMPLETED;
       req.session.appeal[sectionName][taskName].uploadedFiles = [];
 
       const submittedAppeal = {
@@ -142,7 +143,6 @@ describe('controllers/full-appeal/submit-appeal/new-supporting-documents', () =>
       createDocument
         .mockReturnValueOnce(appealData[sectionName][taskName].uploadedFiles[0])
         .mockReturnValueOnce(appealData[sectionName][taskName].uploadedFiles[1]);
-      getTaskStatus.mockReturnValue(TASK_STATUS.NOT_STARTED);
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 
       req = {
@@ -167,31 +167,32 @@ describe('controllers/full-appeal/submit-appeal/new-supporting-documents', () =>
         null,
         documentTypes.otherDocuments.name
       );
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
       expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
     it('should redirect to the correct page if valid and a file is not being uploaded', async () => {
+      appealData.sectionStates.appealDocumentsSection.newSupportingDocuments =
+        TASK_STATUS.COMPLETED;
       const submittedAppeal = {
         ...appealData,
         state: 'SUBMITTED',
       };
 
-      getTaskStatus.mockReturnValue(TASK_STATUS.NOT_STARTED);
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 
       await postNewSupportingDocuments(req, res);
 
       expect(createDocument).not.toHaveBeenCalled();
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
       expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
     it('should replace the previously uploaded files with the newly uploaded file', async () => {
+      appealData.sectionStates.appealDocumentsSection.newSupportingDocuments =
+        TASK_STATUS.COMPLETED;
       req.session.appeal[sectionName][taskName].uploadedFiles = [
         appealData[sectionName][taskName].uploadedFiles[0],
         appealData[sectionName][taskName].uploadedFiles[1],
@@ -212,7 +213,6 @@ describe('controllers/full-appeal/submit-appeal/new-supporting-documents', () =>
       submittedAppeal[sectionName][taskName].uploadedFiles = [newFile];
 
       createDocument.mockReturnValue(newFile);
-      getTaskStatus.mockReturnValue(TASK_STATUS.NOT_STARTED);
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 
       req = {
@@ -231,7 +231,6 @@ describe('controllers/full-appeal/submit-appeal/new-supporting-documents', () =>
         null,
         documentTypes.otherDocuments.name
       );
-      // expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
       expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
