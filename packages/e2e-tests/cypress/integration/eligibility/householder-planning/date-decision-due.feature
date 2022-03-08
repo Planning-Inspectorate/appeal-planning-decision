@@ -1,38 +1,38 @@
 Feature: Date Decision Due eligibility check for householder appeal
   The deadline for when appellants can make these appeals if their decision is not yet received is 6 months prior to when they are making the appeal.
 
-#   Scenario Outline: AC01 - Eligible Date Decision Due allows progress for householder appeal
-#     Given appellant navigates to decision date page for householder appeal
-#     And appellant is on the what date was the decision due page for householder
-#     When appellant enters the '<valid_date>' within 6 months when they were due a decision
-#     And appellant clicks on continue
-#     Then appellant are navigated to the have you received an enforcement notice page for householder
-#     Examples:
-#     |valid_date|
-#     |3         |
-#     |6         |
-#     |1         |
-#
-#   Scenario: AC02 - Ineligible Date Decision Due continues to Shutter page for householder appeal
-#     Given appellant navigates to decision date page for householder appeal
-#     And appellant is on the what date was the decision due page for householder
-#     When appellant enters an date older than 6 months when they were due a decision
-#     And appellant clicks on continue
-#     Then appellant are navigated to the page which notifies them that they cannot appeal
-#
-#
-#   Scenario Outline: AC03 - Future Date Decision is rejected for householder appeal
-#     Given appellant navigates to decision date page for householder appeal
-#     And appellant is on the what date was the decision due page for householder
-#     When appellant enters future date decision due of '<datePart>'-'<value>'
-#     And appellant clicks on continue
-#     Then progress is halted with an error: 'The date the decision was due must be today or in the past'
-#     And the correct input 'day,month,year' is highlighted
-#     Examples:
-#       | datePart | value |
-#       | day      | 10    |
-#       | month    | 10    |
-#       | year     | 2     |
+   Scenario Outline: AC01 - Eligible Date Decision Due allows progress for householder appeal
+     Given appellant navigates to decision date page for householder appeal
+     And appellant is on the what date was the decision due page for householder
+     When appellant enters the '<valid_date>' within 6 months when they were due a decision
+     And appellant clicks on continue
+     Then appellant are navigated to the have you received an enforcement notice page for householder
+     Examples:
+     |valid_date|
+     |3         |
+     |6         |
+     |1         |
+
+   Scenario: AC02 - Ineligible Date Decision Due continues to Shutter page for householder appeal
+     Given appellant navigates to decision date page for householder appeal
+     And appellant is on the what date was the decision due page for householder
+     When appellant enters an date older than 6 months when they were due a decision
+     And appellant clicks on continue
+     Then appellant are navigated to the page which notifies them that they cannot appeal
+
+
+   Scenario Outline: AC03 - Future Date Decision is rejected for householder appeal
+     Given appellant navigates to decision date page for householder appeal
+     And appellant is on the what date was the decision due page for householder
+     When appellant enters future date decision due of '<datePart>'-'<value>'
+     And appellant clicks on continue
+     Then progress is halted with an error: 'The date the decision was due must be today or in the past'
+     And the correct input 'day,month,year' is highlighted
+     Examples:
+       | datePart | value |
+       | day      | 10    |
+       | month    | 10    |
+       | year     | 2     |
 
    Scenario Outline: AC04 - Invalid Date Decision Due of <day>-<month>-<year> is rejected
      Given appellant navigates to decision date page for householder appeal
