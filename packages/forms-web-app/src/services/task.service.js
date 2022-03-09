@@ -57,22 +57,22 @@ function statusSiteAccess(appeal) {
     : TASK_STATUS.NOT_STARTED;
 }
 
-function statusCheckYourAnswer(appeal) {
+const houseHolderTasksRules = [
+  statusYourDetails,
+  statusApplicationNumber,
+  statusOriginalApplication,
+  statusDecisionLetter,
+  statusAppealStatement,
+  statusAppealSiteAddress,
+  statusSiteOwnership,
+  statusSiteAccess,
+  statusHealthAndSafety,
+];
+
+const statusCheckYourAnswer = (tasksRules) => (appeal) => {
   if (appeal.state === 'SUBMITTED') {
     return TASK_STATUS.COMPLETED;
   }
-
-  const tasksRules = [
-    statusYourDetails,
-    statusApplicationNumber,
-    statusOriginalApplication,
-    statusDecisionLetter,
-    statusAppealStatement,
-    statusAppealSiteAddress,
-    statusSiteOwnership,
-    statusSiteAccess,
-    statusHealthAndSafety,
-  ];
 
   for (let i = 0; i < tasksRules.length; i += 1) {
     const rule = tasksRules[i];
@@ -84,7 +84,7 @@ function statusCheckYourAnswer(appeal) {
   }
 
   return TASK_STATUS.NOT_STARTED;
-}
+};
 
 const SECTIONS = {
   aboutYouSection: {
@@ -135,10 +135,18 @@ const SECTIONS = {
   submitYourAppealSection: {
     checkYourAnswers: {
       href: `/${VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS}`,
-      rule: statusCheckYourAnswer,
+      rule: statusCheckYourAnswer(houseHolderTasksRules),
     },
   },
 };
+
+const fullAppealTasksRules = [
+  statusContactDetails,
+  statusAppealSiteSection,
+  statusAppealDecisionSection,
+  statusPlanningApplicationDocumentsSection,
+  statusAppealDocumentsSection,
+];
 
 const FULL_APPEAL_SECTIONS = {
   contactDetailsSection: {
@@ -163,7 +171,7 @@ const FULL_APPEAL_SECTIONS = {
   },
   submitYourAppealSection: {
     href: `/${FULL_APPEAL.CHECK_YOUR_ANSWERS}`,
-    rule: () => TASK_STATUS.NOT_STARTED,
+    rule: statusCheckYourAnswer(fullAppealTasksRules),
   },
 };
 

@@ -112,8 +112,34 @@ describe('services/task-status/full-appeal/status-appeal-site-section.js', () =>
             visibleFromRoad: COMPLETED,
             healthAndSafety: COMPLETED,
             areYouATenant: COMPLETED,
-            tellingTheTenants: COMPLETED,
             otherTenants: COMPLETED,
+          },
+        },
+      };
+      expect(statusAppealSiteSection(appeal)).toEqual(COMPLETED);
+    });
+    it('should return COMPLETED if all pages COMPLETED for ownsAllTheLand=true, isAgriculturalHolding=true, isTenant=true, hasOtherTenants=true', () => {
+      const appeal = {
+        appealSiteSection: {
+          siteOwnership: {
+            ownsAllTheLand: true,
+          },
+          agriculturalHolding: {
+            isAgriculturalHolding: true,
+            isTenant: true,
+            hasOtherTenants: true,
+          },
+        },
+        sectionStates: {
+          appealSiteSection: {
+            siteAddress: COMPLETED,
+            ownsAllTheLand: COMPLETED,
+            agriculturalHolding: COMPLETED,
+            visibleFromRoad: COMPLETED,
+            healthAndSafety: COMPLETED,
+            areYouATenant: COMPLETED,
+            otherTenants: COMPLETED,
+            tellingTheTenants: COMPLETED,
           },
         },
       };

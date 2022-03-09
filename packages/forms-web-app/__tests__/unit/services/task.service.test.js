@@ -12,6 +12,53 @@ beforeEach(() => {
   jest.resetAllMocks();
 });
 
+const completedAppeal = {
+  requiredDocumentsSection: {
+    applicationNumber: '2323',
+    originalApplication: {
+      uploadedFile: {
+        id: 'asdsad',
+      },
+    },
+    decisionLetter: {
+      uploadedFile: {
+        id: 'wwewe',
+      },
+    },
+  },
+  aboutYouSection: {
+    yourDetails: {
+      isOriginalApplicant: true,
+      name: 'test name',
+    },
+  },
+  appealSiteSection: {
+    siteAddress: {
+      addressLine1: 'test',
+      postcode: 'TW8 1RT',
+    },
+    siteOwnership: {
+      ownsWholeSite: true,
+    },
+    siteAccess: {
+      canInspectorSeeWholeSiteFromPublicRoad: true,
+    },
+    healthAndSafety: {
+      hasIssues: true,
+    },
+  },
+  yourAppealSection: {
+    appealStatement: {
+      uploadedFile: {
+        id: 'id',
+      },
+    },
+    otherDocuments: {
+      uploadedFiles: [{}],
+    },
+  },
+};
+
 describe('services/task.service', () => {
   describe('getNextTask', () => {
     it('should return next on going task', async () => {
@@ -67,6 +114,34 @@ describe('services/task.service', () => {
       expect(
         SECTIONS.submitYourAppealSection.checkYourAnswers.rule({ state: 'SUBMITTED' })
       ).toEqual(COMPLETED);
+    });
+    it('should return COMPLETED from statusSupportingDocuments if the appeal has other documents ', () => {
+      expect(
+        SECTIONS.yourAppealSection.otherDocuments.rule({
+          yourAppealSection: {
+            otherDocuments: {
+              uploadedFiles: [{}],
+            },
+          },
+        })
+      ).toEqual(COMPLETED);
+    });
+    it('should return "NOT STARTED" from statusCheckYourAnswer if all sections have been COMPLETED but the appeal is not submitted ', () => {
+      expect(SECTIONS.submitYourAppealSection.checkYourAnswers.rule(completedAppeal)).toEqual(
+        NOT_STARTED
+      );
+    });
+    it('should return "CANNOT START YET" from statusCheckYourAnswer if not all sections have been COMPLETED and the appeal is not submitted ', () => {
+      const incompletedAppeal = {
+        ...completedAppeal,
+        requiredDocumentsSection: {
+          ...completedAppeal.requiredDocumentsSection,
+          applicationNumber: undefined,
+        },
+      };
+      expect(SECTIONS.submitYourAppealSection.checkYourAnswers.rule(incompletedAppeal)).toEqual(
+        CANNOT_START_YET
+      );
     });
   });
 
