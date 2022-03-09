@@ -4,7 +4,7 @@ const { getStatusOfPath, SectionPath } = require('../task-statuses');
 const statusAppealSiteSection = (appeal) => {
   const {
     siteOwnership: { ownsAllTheLand, knowsTheOwners, ownsSomeOfTheLand },
-    agriculturalHolding: { isAgriculturalHolding, isTenant },
+    agriculturalHolding: { isAgriculturalHolding, isTenant, hasOtherTenants },
   } = appeal.appealSiteSection;
   const section = appeal.sectionStates.appealSiteSection;
 
@@ -37,9 +37,14 @@ const statusAppealSiteSection = (appeal) => {
   }
 
   if (isAgriculturalHolding) {
-    sectionPath.add('areYouATenant').add('tellingTheTenants');
+    sectionPath.add('areYouATenant');
     if (isTenant) {
       sectionPath.add('otherTenants');
+      if (hasOtherTenants) {
+        sectionPath.add('tellingTheTenants');
+      }
+    } else {
+      sectionPath.add('tellingTheTenants');
     }
   }
   return getStatusOfPath(sectionPath.getPath());

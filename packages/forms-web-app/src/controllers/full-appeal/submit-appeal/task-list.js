@@ -1,7 +1,5 @@
 const { FULL_APPEAL_SECTIONS } = require('../../../services/task.service');
 const { VIEW } = require('../../../lib/full-appeal/views');
-const { NOT_STARTED } = require('../../../services/task-status/task-statuses');
-const logger = require('../../../lib/logger');
 
 const HEADERS = {
   contactDetailsSection: 'Provide your contact details',
@@ -19,12 +17,7 @@ function buildTaskLists(appeal) {
   Object.keys(sections).forEach((sectionName) => {
     const section = sections[sectionName];
 
-    let status = NOT_STARTED;
-    try {
-      status = section.rule(appeal);
-    } catch (e) {
-      logger.error(e.message); // todo: this will be deleted at the end of the journey
-    }
+    const status = section.rule(appeal);
 
     taskList.push({
       text: HEADERS[sectionName],
