@@ -11,7 +11,7 @@ import { declariationPageMethodsAgent } from '../../../../support/full-appeal/ap
 import { declarationPageMethodsAppellant } from '../../../../support/full-appeal/appeals-service/declarationPageMethodsAppellant';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 
-const url = 'full-appeal/submit-appeal/declaration?';
+const url = 'full-appeal/submit-appeal/declaration';
 const checkYourAnswersUrl = 'full-appeal/submit-appeal/check-your-answers';
 const appealSubmittedUrl = 'full-appeal/submit-appeal/appeal-submitted';
 const textPageCaption = 'Check your answers and submit your appeal';

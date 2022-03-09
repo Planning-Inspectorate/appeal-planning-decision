@@ -20,8 +20,11 @@ const generatePdf = async (html) => {
       waitUntil: 'domcontentloaded',
     });
 
+    await page.emulateMediaType('screen');
+
     const pdfBuffer = await page.pdf({
       format: 'A4',
+      scale: 0.9,
     });
 
     await browser.close();

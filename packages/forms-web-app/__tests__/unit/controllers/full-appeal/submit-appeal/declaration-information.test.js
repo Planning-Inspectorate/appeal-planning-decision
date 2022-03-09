@@ -47,7 +47,7 @@ describe('controllers/full-appeal/submit-appeal/declaration-information', () => 
     });
 
     it('should define default value if appeal submission date is not defined', async () => {
-      const fakeLpdName = 'fake lpd name here';
+      const lpdName = 'fake lpd name here';
 
       req = {
         ...req,
@@ -58,7 +58,7 @@ describe('controllers/full-appeal/submit-appeal/declaration-information', () => 
             lpaCode: '123-abc',
           },
           appealLPD: {
-            name: fakeLpdName,
+            name: lpdName,
           },
         },
       };
@@ -69,7 +69,7 @@ describe('controllers/full-appeal/submit-appeal/declaration-information', () => 
     });
 
     it('should call the correct template with the expected data on the happy path', async () => {
-      const fakeLpdName = 'fake lpd name here';
+      const lpdName = 'System Test Borough Council';
       const submissionDate = new Date();
       req = {
         ...req,
@@ -81,7 +81,7 @@ describe('controllers/full-appeal/submit-appeal/declaration-information', () => 
             submissionDate,
           },
           appealLPD: {
-            name: fakeLpdName,
+            name: lpdName,
           },
         },
       };
@@ -94,6 +94,7 @@ describe('controllers/full-appeal/submit-appeal/declaration-information', () => 
       );
 
       expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.DECLARATION_INFORMATION, {
+        appealLPD: lpdName,
         appeal: req.session.appeal,
         css,
         displayCookieBanner: false,

@@ -11,7 +11,7 @@ const {
 const logger = require('../lib/logger');
 const { APPEAL_TYPE } = require('../constants');
 
-const FILE_NAME = 'Appeal-form';
+const defaultFileName = 'appeal-form';
 
 const appealTypeUrlMapping = {
   [APPEAL_TYPE.HOUSEHOLDER]: VIEW.APPELLANT_SUBMISSION.SUBMISSION_INFORMATION,
@@ -63,7 +63,7 @@ const getHtmlAppeal = async (appeal) => {
   return response.text();
 };
 
-const storePdfAppeal = async (appeal) => {
+const storePdfAppeal = async (appeal, fileName) => {
   const log = logger.child({ appealId: appeal.id, uuid: uuid.v4() });
 
   log.info('Storing PDF appeal document');
@@ -80,7 +80,7 @@ const storePdfAppeal = async (appeal) => {
     const document = await createDocument(
       appeal,
       pdfBuffer,
-      `${FILE_NAME}.pdf`,
+      `${fileName || defaultFileName}.pdf`,
       documentTypes.appealPdf.name
     );
 

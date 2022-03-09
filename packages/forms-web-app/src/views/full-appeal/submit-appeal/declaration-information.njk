@@ -1,3 +1,94 @@
-{% set displayActions = false %}
+{% extends "../../layouts/main.njk" %}
 
-{% extends "./check-your-answers.njk" %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "../../macros/bool-to-sentence-case.njk" import boolToSentenceCaseField %}
+{% from "../../macros/multifile-upload-to-list.njk" import multifileUploadToList %}
+{% from "../../macros/summary-field.njk" import summaryField %}
+{% from "../check-your-answers.njk" import checkYourAnswers %}
+
+{% block head %}
+  <style>{{ css | safe }}</style>
+  <style>.govuk-template { background-color: #FFFFFF; }</style>
+{% endblock %}
+
+{% block pageTitle %}
+  Appeal Submitted - Appeal a planning decision - GOV.UK
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block bodyStart %}
+{% endblock %}
+
+{% block bodyEnd %}
+{% endblock %}
+
+{% block phaseBanner %}
+{% endblock %}
+
+{% block backButton %}
+{% endblock %}
+
+{% if appeal.eligibility.applicationDecision === 'granted' %}
+  {% set planningDecision = 'Granted' %}
+{% elif appeal.eligibility.applicationDecision === 'refused' %}
+  {% set planningDecision = 'Refused' %}
+{% else %}
+  {% set planningDecision = 'I have not received a decision' %}
+{% endif %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-l">
+        Planning appeal for planning application
+        {{ appeal.planningApplicationDocumentsSection.applicationNumber }}
+      </h1>
+      <p>Submitted to the Planning Inspectorate on {{ appeal.submissionDate | date }}</p>
+      <h2 class="govuk-heading-m">Before you start</h2>
+
+      {{ govukSummaryList({
+        classes: "govuk-summary-list govuk-!-margin-bottom-9",
+        rows: [
+          {
+            key: {
+              text: "Local planning department"
+            },
+            value: {
+              text: summaryField(appealLPD, { 'data-cy': "local-planning-department" })
+            }
+          },
+          {
+            key: {
+              text: "Planning application type"
+            },
+            value: {
+              text: summaryField("Full planning", { 'data-cy': "planning-appliction-type" })
+            }
+          },
+          {
+            key: {
+              text: "Planning decision"
+            },
+            value: {
+              text: summaryField(planningDecision, { 'data-cy': "planning-decision" })
+            }
+          },
+          {
+            key: {
+              text: "Decision due on" if appeal.eligibility.applicationDecision === 'nodecisionreceived' else "Decision date"
+            },
+            value: {
+              text: summaryField(appeal.decisionDate | date, { 'data-cy': "decision-date" })
+            }
+          }
+        ]
+      }) }}
+      {{ checkYourAnswers(appeal, true) }}
+    </div>
+  </div>
+{% endblock %}
