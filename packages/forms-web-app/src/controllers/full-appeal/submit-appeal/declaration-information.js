@@ -9,8 +9,8 @@ const {
 } = require('../../../lib/full-appeal/views');
 const logger = require('../../../lib/logger');
 
-exports.getDeclarationInformation = async (req, res) => {
-  const { appeal } = req.session;
+const getDeclarationInformation = async (req, res) => {
+  const { appeal, appealLPD } = req.session;
 
   const { appealId } = req.params;
   const log = logger.child({ appealId, uuid: uuid.v4() });
@@ -25,12 +25,22 @@ exports.getDeclarationInformation = async (req, res) => {
     });
   }
 
-  log.debug('Get submission information');
+  log.debug('Get declaration information');
 
   if (!appeal) {
     res.status(404);
     log.debug(`The appeal ${appealId} was not found`);
     return res.render('error/not-found');
+  }
+
+  if (!appealLPD) {
+    const message = 'Unable to locate the Local Planning Department for the given LPA Code.';
+    res.status(400);
+    log.debug(message);
+
+    return res.render('error/400', {
+      message,
+    });
   }
 
   const css = fs.readFileSync(
@@ -44,8 +54,13 @@ exports.getDeclarationInformation = async (req, res) => {
   }
 
   return res.render(currentPage, {
+    appealLPD: appealLPD.name,
     appeal,
     css,
     displayCookieBanner: false,
   });
+};
+
+module.exports = {
+  getDeclarationInformation,
 };

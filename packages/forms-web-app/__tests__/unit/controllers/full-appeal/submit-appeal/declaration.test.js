@@ -18,6 +18,10 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
     location: 'here',
     size: '123',
   };
+  const fileName = `planning-appeal-for-planning-application-${appeal.planningApplicationDocumentsSection.applicationNumber.replace(
+    /\//g,
+    '-'
+  )}`;
 
   beforeEach(() => {
     req = mockReq(appeal);
@@ -52,7 +56,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
 
-      expect(storePdfAppeal).toHaveBeenCalledWith(appeal);
+      expect(storePdfAppeal).toHaveBeenCalledWith(appeal, fileName);
 
       expect(submitAppeal).toHaveBeenCalledWith({
         ...appeal,
@@ -91,7 +95,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 
       expect(submitAppeal).not.toHaveBeenCalled();
 
-      expect(storePdfAppeal).toHaveBeenCalledWith(appeal);
+      expect(storePdfAppeal).toHaveBeenCalledWith(appeal, fileName);
 
       expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.DECLARATION, {
         errors: {},

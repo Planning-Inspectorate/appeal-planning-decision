@@ -9,6 +9,7 @@ jest.mock('puppeteer', () => ({
     newPage: () => ({
       setContent: jest.fn(),
       pdf: jest.fn().mockReturnValue(mockPdfBuffer),
+      emulateMediaType: jest.fn(),
     }),
     close: jest.fn(),
   }),

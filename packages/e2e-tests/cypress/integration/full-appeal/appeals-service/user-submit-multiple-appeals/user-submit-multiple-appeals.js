@@ -31,7 +31,7 @@ import { submitADesignStNo } from '../../../../support/full-appeal/appeals-servi
 import { checkboxConfirmSensitiveInfo } from '../../../../support/full-appeal/appeals-service/page-objects/your-appeal-statement-po';
 import { declariationPageMethodsAgent } from '../../../../support/full-appeal/appeals-service/declariationPageMethodsAgent';
 
-const declarationUrl = 'full-appeal/submit-appeal/declaration?';
+const declarationUrl = 'full-appeal/submit-appeal/declaration';
 const appealSubmittedUrl = 'full-appeal/submit-appeal/appeal-submitted';
 const applicantName = 'Original Applicant Teddy';
 const AgentFullNameText = 'Agent Zoopla';
