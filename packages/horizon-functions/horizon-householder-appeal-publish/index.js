@@ -15,6 +15,9 @@ module.exports = async (context, event) => {
   try {
     const { _id: appealId } = event;
 
+    context.log('JSON information');
+    context.log(JSON.stringify(event));
+
     /* Get the LPA associated with this appeal */
     const lpa = await getLpaData(context.log, event.appeal.lpaCode);
 
@@ -30,15 +33,150 @@ module.exports = async (context, event) => {
       throw new Error('LPA neither English nor Welsh');
     }
 
-    // if no appeal type then default Householder Appeal Type - required as running HAS in parallel to Full Planning
-    const appealTypeID = event.appeal.appealType === undefined ? '1001' : event.appeal.appealType;
+    // if no appeal type then default Householder Appeal Type (1001) - required as running HAS in parallel to Full Planning
+    const appealTypeID = event.appeal.appealType == null ? '1001' : event.appeal.appealType;
+
+    context.log({ appealTypeID }, 'Appeal Type');
+
+    // Case:Casework Reason logic
+    const applicationDecision = event.appeal.eligibility;
+    const typePlanningApplication = event.appeal.typeOfPlanningApplication;
+
+    context.log({ applicationDecision }, 'Application Decision');
+    context.log({ typePlanningApplication }, 'Planning Application Type');
+
+    let caseworkReason;
+
+    switch (appealTypeID) {
+      case '1001': {
+        // Householder (HAS) Appeal
+        if (applicationDecision === 'refused') {
+          if (typePlanningApplication === 'householder-planning') {
+            caseworkReason = '1. Refused planning permission for the development';
+          } else if (typePlanningApplication === 'removal-or-variation-of-conditions') {
+            caseworkReason = '2. Refused permission to vary or remove a condition(s)';
+          } else if (typePlanningApplication === 'prior-approval') {
+            caseworkReason = '3. Refused prior approval of permitted development rights';
+          }
+        }
+
+        break;
+      }
+
+      case '1005': {
+        // Full Planning Appeal
+        switch (typePlanningApplication) {
+          case 'householder-planning': {
+            if (applicationDecision === 'granted') {
+              caseworkReason =
+                '4. Granted planning permission for the development subject to conditions to which you object';
+            } else if (applicationDecision === 'nodecisionreceived') {
+              caseworkReason =
+                '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
+            }
+
+            break;
+          }
+
+          case 'full-appeal': {
+            if (applicationDecision === 'granted') {
+              caseworkReason =
+                '4. Granted planning permission for the development subject to conditions to which you object';
+            } else if (applicationDecision === 'refused') {
+              caseworkReason = '1. Refused planning permission for the development';
+            } else if (applicationDecision === 'nodecisionreceived') {
+              caseworkReason =
+                '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
+            }
+
+            break;
+          }
+
+          case 'outline-planning': {
+            if (applicationDecision === 'granted') {
+              caseworkReason =
+                '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object';
+            } else if (applicationDecision === 'refused') {
+              caseworkReason =
+                '5. Refused approval of the matters reserved under an outline planning permission';
+            } else if (applicationDecision === 'nodecisionreceived') {
+              caseworkReason =
+                '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
+            }
+
+            break;
+          }
+
+          case 'prior-approval': {
+            if (applicationDecision === 'granted') {
+              caseworkReason =
+                '4. Granted planning permission for the development subject to conditions to which you object';
+            } else if (applicationDecision === 'refused') {
+              caseworkReason = '3. Refused prior approval of permitted development rights';
+            } else if (applicationDecision === 'nodecisionreceived') {
+              caseworkReason =
+                '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
+            }
+
+            break;
+          }
+
+          case 'reserved-matters': {
+            if (applicationDecision === 'granted') {
+              caseworkReason =
+                '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object';
+            } else if (applicationDecision === 'refused') {
+              caseworkReason =
+                '5. Refused approval of the matters reserved under an outline planning permission';
+            } else if (applicationDecision === 'nodecisionreceived') {
+              caseworkReason =
+                '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
+            }
+
+            break;
+          }
+
+          case 'removal-or-variation-of-conditions': {
+            if (applicationDecision === 'granted') {
+              caseworkReason =
+                '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object';
+            } else if (applicationDecision === 'refused') {
+              caseworkReason = '2. Refused permission to vary or remove a condition(s)';
+            } else if (applicationDecision === 'nodecisionreceived') {
+              caseworkReason =
+                '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
+            }
+
+            break;
+          }
+
+          default: {
+            break;
+          }
+        }
+
+        break;
+      }
+
+      default: {
+        break;
+      }
+    }
+
+    context.log({ caseworkReason }, 'Case Work Reason');
 
     let attributeData;
     let appealType;
 
     switch (appealTypeID) {
       case '1001': {
+        // Householder (HAS) Appeal
         attributeData = [
+          {
+            key: 'Case:Casework Reason',
+            // This is the last time the record was updated
+            value: caseworkReason,
+          },
           {
             key: 'Case Dates:Receipt Date',
             // This is the last time the record was updated
@@ -107,6 +245,7 @@ module.exports = async (context, event) => {
       }
 
       case '1005': {
+        // Full Planning Appeal
         attributeData = [
           {
             key: 'Case Dates:Receipt Date',
@@ -121,17 +260,17 @@ module.exports = async (context, event) => {
             key: 'Case:Case Publish Flag',
             value: false,
           },
-          // {
-          //   key: 'Planning Application:Date Of LPA Decision',
-          //   value: new Date(event.appeal.decisionDate),
-          // },
+          {
+            key: 'Planning Application:Date Of LPA Decision',
+            value: new Date(event.appeal.decisionDate),
+          },
           {
             key: 'Case:Procedure (Appellant)',
-            value: 'Written Representations',
+            value: event.appeal.appealDecisionSection.procedureType,
           },
           {
             key: 'Planning Application:LPA Application Reference',
-            value: event.appeal.requiredDocumentsSection.applicationNumber,
+            value: event.appeal.planningApplicationDocumentsSection.applicationNumber,
           },
           {
             key: 'Case Site:Site Address Line 1',
@@ -153,14 +292,16 @@ module.exports = async (context, event) => {
             key: 'Case Site:Site Address Postcode',
             value: event.appeal.appealSiteSection.siteAddress.postcode,
           },
-          // {
-          //   key: 'Case Site:Ownership Certificate',
-          //   value: event.appeal.appealSiteSection.siteOwnership.ownsWholeSite ? 'Certificate A' : null,
-          // },
-          // {
-          //   key: 'Case Site:Site Viewable From Road',
-          //   value: event.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
-          // },
+          {
+            key: 'Case Site:Ownership Certificate',
+            value: event.appeal.appealSiteSection.siteOwnership.ownsAllTheLand
+              ? 'Certificate A'
+              : null,
+          },
+          {
+            key: 'Case Site:Site Viewable From Road',
+            value: event.appeal.appealSiteSection.visibleFromRoad.isVisible,
+          },
           // {
           //   key: 'Case Site:Inspector Need To Enter Site',
           //   value: !event.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
@@ -198,18 +339,21 @@ module.exports = async (context, event) => {
       },
     };
 
-    const horizonCaseId = await callHorizon(context.log, input);
-    // context.log({ horizonId: horizonCaseId }, 'Adding Horizon ID to Appeal');
+    context.log('Horizon input:');
+    context.log(input);
 
-    // await axios.patch(
-    //   `/api/v1/appeals/${appealId}`,
-    //   {
-    //     horizonId: horizonCaseId,
-    //   },
-    //   {
-    //     baseURL: config.appealsService.url,
-    //   }
-    // );
+    const horizonCaseId = await callHorizon(context.log, input);
+    context.log({ horizonId: horizonCaseId }, 'Adding Horizon ID to Appeal');
+
+    await axios.patch(
+      `/api/v1/appeals-horizon/${appealId}`,
+      {
+        horizonId: horizonCaseId,
+      },
+      {
+        baseURL: config.appealsService.url,
+      }
+    );
 
     /*
       Finally, publish the documents to Horizon
@@ -218,12 +362,12 @@ module.exports = async (context, event) => {
       they are mandatory in the appeal. This is to avoid any unhelpful
       errors at this point
     */
-
-    let documents;
+    context.log('Add documents to Horizon');
 
     switch (appealTypeID) {
       case '1001': {
-        documents = [
+        // Householder (HAS) Appeal
+        const documents = [
           {
             id: event?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
             type: 'Appellant Grounds of Appeal',
@@ -253,6 +397,133 @@ module.exports = async (context, event) => {
           );
         }
 
+        await publishDocuments(context.log, documents, appealId, horizonCaseId);
+
+        break;
+      }
+
+      case '1005': {
+        // Full Planning Appeal
+        const documents = [
+          // Appeal Statement - Mandatory
+          {
+            id: event?.appeal?.appealDocumentsSection?.appealStatement?.uploadedFile?.id,
+            type: 'Appellant Statement and Appendices',
+          },
+          // Planning Application Form - Mandatory
+          {
+            id:
+              event?.appeal?.planningApplicationDocumentsSection?.originalApplication?.uploadedFile
+                ?.id,
+            type: 'Application Form',
+          },
+        ];
+
+        // Decision Letter - Optional
+        if (applicationDecision === 'granted' || applicationDecision === 'refused') {
+          if (
+            event?.appeal?.planningApplicationDocumentsSection?.decisionLetter?.uploadedFile?.id !==
+            null
+          ) {
+            documents.push({
+              id:
+                event?.appeal?.planningApplicationDocumentsSection?.decisionLetter?.uploadedFile
+                  ?.id,
+              type: 'LPA Decision Notice',
+            });
+          }
+        }
+
+        // Submission information file PDF - Mandatory
+        if (event?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id !== null) {
+          documents.push({
+            id: event?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id,
+            type: 'Appellant Initial Documents',
+          });
+        }
+
+        // Design and Access Statement - Optional
+        if (
+          event?.appeal?.planningApplicationDocumentsSection?.designAccessStatement?.isSubmitted ===
+          'true'
+        ) {
+          if (
+            event?.appeal?.planningApplicationDocumentsSection?.designAccessStatement?.uploadedFile
+              .id !== null
+          ) {
+            documents.push({
+              id:
+                event?.appeal?.planningApplicationDocumentsSection?.designAccessStatement
+                  ?.uploadedFile?.id,
+              type: 'Appellant Initial Documents',
+            });
+          }
+        }
+
+        // Statement of Common Ground - Optional
+        const { procedureType } = event.appeal.appealDecisionSection;
+
+        if (procedureType === 'Hearing' || procedureType === 'Inquiry') {
+          if (
+            event?.appeal?.planningApplicationDocumentsSection?.draftStatementOfCommonGround
+              ?.uploadedFile?.id !== null
+          ) {
+            documents.push({
+              id:
+                event?.appeal?.planningApplicationDocumentsSection?.draftStatementOfCommonGround
+                  ?.uploadedFile?.id,
+              type: 'Statement of Common Ground',
+            });
+          }
+        }
+
+        // Add multiple Old Plans & Drawings documents to the list - Mandatory
+        const oldPlansDrawingsFiles =
+          event?.appeal?.planningApplicationDocumentsSection?.plansDrawingsSupportingDocuments
+            ?.uploadedFiles;
+        if (Array.isArray(oldPlansDrawingsFiles)) {
+          documents.push(
+            ...oldPlansDrawingsFiles.map(({ id }) => ({
+              id,
+              type: 'Appellant Initial Documents',
+            }))
+          );
+        }
+
+        // Add multiple New Plans & Drawings documents to the list - Optional
+        if (event?.appeal?.appealDocumentsSection?.plansDrawings?.hasPlanDrawings === 'true') {
+          const newPlansDrawingsFiles =
+            event?.appeal?.appealDocumentsSection?.plansDrawings?.uploadedFiles;
+
+          if (Array.isArray(newPlansDrawingsFiles)) {
+            documents.push(
+              ...newPlansDrawingsFiles.map(({ id }) => ({
+                id,
+                type: 'Appellant Initial Documents',
+              }))
+            );
+          }
+        }
+
+        // Add supporting documents to the list - Optional
+        if (
+          event?.appeal?.appealDocumentsSection?.supportingDocuments?.hasSupportingDocuments ===
+          'true'
+        ) {
+          const supportingFiles =
+            event?.appeal?.appealDocumentsSection?.supportingDocuments?.uploadedFiles;
+          if (Array.isArray(supportingFiles)) {
+            documents.push(
+              ...supportingFiles.map(({ id }) => ({
+                id,
+                type: 'Appellant Initial Documents',
+              }))
+            );
+          }
+        }
+
+        await publishDocuments(context.log, documents, appealId, horizonCaseId);
+
         break;
       }
 
@@ -260,10 +531,7 @@ module.exports = async (context, event) => {
         break;
       }
     }
-
-    if (typeof documents !== 'undefined') {
-      await publishDocuments(context.log, documents, appealId, horizonCaseId);
-    }
+    context.log('Finish add documents to Horizon');
 
     context.log({ horizonCaseId }, 'Successful call to Horizon');
 
