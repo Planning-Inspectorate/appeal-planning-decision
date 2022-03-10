@@ -1,4 +1,5 @@
 const createContact = require('./logic/createContact');
+const createOrganisation = require('./logic/createOrganisation');
 
 /**
  * Create Contacts
@@ -15,11 +16,12 @@ const createContacts = async (log, body) => {
   const contacts = [];
   let logMessage;
 
-  // if no appeal type then default Householder Appeal Type - required as running HAS in parallel to Full Planning
-  const appealTypeID = body.appeal.appealType === undefined ? '1001' : body.appeal.appealType;
+  // if no appeal type then default Householder Appeal Type (1001) - required as running HAS in parallel to Full Planning
+  const appealTypeID = body.appeal.appealType == null ? '1001' : body.appeal.appealType;
 
   switch (appealTypeID) {
     case '1001': {
+      // Householder (HAS) Appeal
       if (body.appeal.aboutYouSection.yourDetails.isOriginalApplicant) {
         /* User is original applicant - just add appellant */
         logMessage = 'User is original applicant';
@@ -36,11 +38,13 @@ const createContacts = async (log, body) => {
             type: 'Agent',
             email: body.appeal.aboutYouSection.yourDetails.email,
             name: body.appeal.aboutYouSection.yourDetails.name,
+            company: null,
           },
           {
             /* Email not collected here */
             type: 'Appellant',
             name: body.appeal.aboutYouSection.yourDetails.appealingOnBehalfOf,
+            company: null,
           }
         );
       }
@@ -49,13 +53,14 @@ const createContacts = async (log, body) => {
     }
 
     case '1005': {
-      if (body.appeal.aboutYouSection.yourDetails.isOriginalApplicant) {
+      if (body.appeal.contactDetailsSection.isOriginalApplicant) {
         /* User is original applicant - just add appellant */
         logMessage = 'User is original applicant';
         contacts.push({
           type: 'Appellant',
-          email: body.appeal.contactDetailsSection.email,
-          name: body.appeal.contactDetailsSection.name,
+          email: body.appeal.contactDetailsSection.contact.email,
+          name: body.appeal.contactDetailsSection.contact.name,
+          company: body.appeal.contactDetailsSection.contact.companyName,
         });
       } else {
         /* User is agent - add both agent and OP */
@@ -64,13 +69,15 @@ const createContacts = async (log, body) => {
         contacts.push(
           {
             type: 'Agent',
-            email: body.appeal.contactDetailsSection.email,
-            name: body.appeal.contactDetailsSection.name,
+            email: body.appeal.contactDetailsSection.contact.email,
+            name: body.appeal.contactDetailsSection.contact.name,
+            company: body.appeal.contactDetailsSection.contact.companyName,
           },
           {
             /* Email not collected here */
             type: 'Appellant',
-            name: body.appeal.aboutYouSection.yourDetails.appealingOnBehalfOf,
+            name: body.appeal.contactDetailsSection.appealingOnBehalfOf.name,
+            company: body.appeal.contactDetailsSection.appealingOnBehalfOf.companyName,
           }
         );
       }
@@ -84,7 +91,7 @@ const createContacts = async (log, body) => {
   }
 
   return Promise.all(
-    contacts.map(async ({ name, email, type }) => {
+    contacts.map(async ({ name, email, type, company }) => {
       /* Create the user in Horizon */
 
       let [firstName, ...lastName] = name.split(' ');
@@ -99,13 +106,36 @@ const createContacts = async (log, body) => {
         lastName = lastName.join(' ');
       }
 
-      log('Inserting contact into Horizon ');
+      let organisationId = null;
+      let contactId = null;
 
-      const contactId = await createContact(log, {
-        firstName,
-        lastName,
-        email,
-      });
+      if (typeof company !== 'undefined') {
+        log('Insert organisation into Horizon');
+
+        organisationId = await createOrganisation(log, company);
+
+        log('Insert contact into Horizon ');
+
+        contactId = await createContact(log, {
+          firstName,
+          lastName,
+          email,
+          organisationId,
+        });
+
+        log({ organisationId }, 'Organisation Identifier');
+        log({ contactId }, 'Contact Identifier');
+      } else {
+        log('Insert contact into Horizon ');
+
+        contactId = await createContact(log, {
+          firstName,
+          lastName,
+          email,
+        });
+
+        log({ contactId }, 'Contact Identifier');
+      }
 
       return {
         /* Add user contact details */
