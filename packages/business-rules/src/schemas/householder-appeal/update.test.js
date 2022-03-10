@@ -316,7 +316,7 @@ describe('schemas/householder-appeal/update', () => {
         delete appeal.eligibility;
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          'eligibility.hasPriorApprovalForExistingHome is a required field',
+          'eligibility.isListedBuilding is a required field',
         );
       });
     });
@@ -380,20 +380,11 @@ describe('schemas/householder-appeal/update', () => {
         );
       });
 
-      it('should throw an error when given a null value', async () => {
+      it('should not throw an error when given a null value', async () => {
         appeal.eligibility.hasPriorApprovalForExistingHome = null;
 
-        await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          'eligibility.hasPriorApprovalForExistingHome must be a `boolean` type, but the final value was: `null`',
-        );
-      });
-
-      it('should throw an error when not given a value', async () => {
-        delete appeal.eligibility.hasPriorApprovalForExistingHome;
-
-        await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          'eligibility.hasPriorApprovalForExistingHome is a required field',
-        );
+        const result = await update.validate(appeal, config);
+        expect(result).toEqual(appeal);
       });
     });
 
