@@ -30,7 +30,7 @@ Feature: As an Appellant/Agent
       | 20   | appellant-submission/site-access                |
       | 21   | appellant-submission/site-access-safety         |
       | 22   | appellant-submission/check-answers              |
-      | 23   | appellant-submission/submission?                |
+      | 23   | appellant-submission/submission                 |
 
   Scenario Outline: <Test> - The user has started an appeal and is taken to the <URL> page
     Given the user has started an appeal and not yet selected an appeal type

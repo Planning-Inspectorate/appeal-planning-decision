@@ -329,12 +329,7 @@
         ]
       }) }}
 
-      <form action="/appellant-submission/submission" method="get" novalidate>
-        {{ govukButton({
-          text: "Save and continue",
-          attributes: { "data-cy":"button-save-and-continue"}
-        }) }}
-      </form>
+      <a href="/appellant-submission/submission" class="govuk-button" role="button" data-cy="button-save-and-continue">Save and continue</a>
     </div>
   </div>
 {% endblock %}
