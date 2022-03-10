@@ -12,7 +12,7 @@ const checkAppealTypeExists = (req, res, next) => {
     '/before-you-start/type-of-planning-application',
     '/before-you-start/use-a-different-service',
     '/appellant-submission/submission-information',
-    'full-appeal/submit-appeal/declaration-information',
+    '/full-appeal/submit-appeal/declaration-information',
   ];
 
   if (!featureFlag.newAppealJourney) {
