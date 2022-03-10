@@ -9,21 +9,62 @@ module.exports = async (log, body) => {
 
   log('Receiving create contact request');
 
+  let contactData;
+
+  if (body?.organisationId == null) {
+    contactData = [
+      {
+        key: 'a:Email',
+        value: body?.email,
+      },
+      {
+        key: 'a:FirstName',
+        value: body?.firstName || '<Not provided>',
+      },
+      {
+        key: 'a:LastName',
+        value: body?.lastName || '<Not provided>',
+      },
+    ];
+  } else {
+    contactData = [
+      {
+        key: 'a:Email',
+        value: body?.email,
+      },
+      {
+        key: 'a:FirstName',
+        value: body?.firstName || '<Not provided>',
+      },
+      {
+        key: 'a:LastName',
+        value: body?.lastName || '<Not provided>',
+      },
+      {
+        key: 'a:OrganisationID',
+        value: body?.organisationId?.id,
+      },
+    ];
+  }
+
+  log('Contact Data');
+  log(contactData);
+
   /* The order of this appears to be important - first and last name's are required by Horizon */
-  const contactData = [
-    {
-      key: 'a:Email',
-      value: body?.email,
-    },
-    {
-      key: 'a:FirstName',
-      value: body?.firstName || '<Not provided>',
-    },
-    {
-      key: 'a:LastName',
-      value: body?.lastName || '<Not provided>',
-    },
-  ];
+  // const contactData = [
+  //   {
+  //     key: 'a:Email',
+  //     value: body?.email,
+  //   },
+  //   {
+  //     key: 'a:FirstName',
+  //     value: body?.firstName || '<Not provided>',
+  //   },
+  //   {
+  //     key: 'a:LastName',
+  //     value: body?.lastName || '<Not provided>',
+  //   },
+  // ];
 
   const input = {
     AddContact: {
