@@ -77,6 +77,11 @@ Given('appellant selects {string} planning application type',(applicationType)=>
     getSaveAndContinueButton().click();
     selectYes().click();
   }
+  if(applicationType==='Removal or variation of conditions'){
+    getSaveAndContinueButton().click();
+    selectYes().click();
+  }
+
 });
 
 Given('appellant selects the option as No for listed building',()=>{
@@ -171,6 +176,12 @@ Then('data is persisted for {string} planning application type',(applicationType
     selectYes().should('be.checked');
     getBackLink().click();
   }
+  if(applicationType==='Removal or variation of conditions'){
+    verifyPageTitle('Are the conditions for householder planning permission? - Before you start - Appeal a planning decision - GOV.UK');
+    verifyPageHeading('Are the conditions for householder planning permission?');
+    selectYes().should('be.checked');
+    getBackLink().click();
+  }
   verifyPageTitle('What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK');
   verifyPageHeading('What type of planning application is your appeal about?');
   getPlanningApplicationType(applicationType);
@@ -179,6 +190,12 @@ Then('data is persisted for {string} planning application type',(applicationType
 Given('appellant selects the option yes for prior approval existing house',()=>{
   verifyPageTitle('Did you apply for prior approval to extend an existing home? - Before you start - Appeal a planning decision - GOV.UK');
   verifyPageHeading('Did you apply for prior approval to extend an existing home?');
+  selectYes().click();
+});
+
+Given("appellant selects the option yes for 'Are the conditions for householder planning permission?'",()=>{
+  verifyPageTitle("Are the conditions for householder planning permission? - Before you start - Appeal a planning decision - GOV.UK");
+  verifyPageHeading('Are the conditions for householder planning permission?');
   selectYes().click();
 });
 
@@ -237,4 +254,9 @@ Then('data is persisted for option yes for prior approval existing house',()=>{
   verifyPageTitle('Did you apply for prior approval to extend an existing home? - Before you start - Appeal a planning decision - GOV.UK');
   verifyPageHeading('Did you apply for prior approval to extend an existing home?');
   selectYes().should('be.checked');
-})
+});
+Then("data is persisted for option yes for 'Are the conditions for householder planning permission?'",()=>{
+  verifyPageTitle("Are the conditions for householder planning permission? - Before you start - Appeal a planning decision - GOV.UK");
+  verifyPageHeading('Are the conditions for householder planning permission?');
+  selectYes().should('be.checked');
+  });

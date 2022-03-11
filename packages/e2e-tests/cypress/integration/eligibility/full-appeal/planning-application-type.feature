@@ -15,11 +15,10 @@ Feature: Planning Application Type
     And appellant clicks on the continue button
     Then appellant is navigated to the is your planning application about any of the following page
   Examples:
-    | planning_application|
+    | planning_application |
     | Full planning        |
     | Outline planning     |
-    |Reserved matters     |
-    |Removal or variation of conditions|
+    | Reserved matters     |
 
   Scenario: AC03 Appellant selects Prior application
     Given an appellant is on the select the type of planning application you made page

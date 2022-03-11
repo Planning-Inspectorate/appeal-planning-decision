@@ -52,6 +52,10 @@ Given('appellant navigates to decision date received page for {string}',(applica
     selectNo().click();
     clickContinueButton();
   }
+  if(application_type==='Removal or variation of conditions'){
+    selectNo().click();
+    clickContinueButton();
+  }
   selectSiteOption('None of these');
   clickContinueButton();
 });

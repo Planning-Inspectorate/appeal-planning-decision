@@ -63,7 +63,7 @@ When('appellant selects {string} and clicks continue', (application_type) =>{
 Then('appellant is presented with the next page Did you apply for prior approval to extend an existing home?',()=>{
   cy.url().should('contain', url);
   verifyPageHeading(pageHeading);
- // verifyPageTitle(pageTitle);
+  verifyPageTitle(pageTitle);
 });
 
 When('appellant selects {string} and click continue',(approval_answer)=>{
