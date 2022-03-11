@@ -27,7 +27,7 @@ Given('an appellant is on the is your appeal about any of the following page for
   getSaveAndContinueButton().click();
   selectPlanningApplicationType(application_type);
   getSaveAndContinueButton().click();
-  if(application_type === 'Prior approval'){
+  if(application_type === 'Prior approval' || application_type === 'Removal or variation of conditions'){
     selectNo().click();
     getSaveAndContinueButton().click();
   }
@@ -59,7 +59,11 @@ Then('an appellants gets routed to shutter page which notifies them to use a dif
 Then('an appellant is taken back to the {string} for {string}',(page,application_type)=>{
   if(application_type === 'Prior approval'){
 cy.url().should('contain','before-you-start/prior-approval-existing-home');
-  }else{
+  }
+  else if(application_type === 'Removal or variation of conditions'){
+    cy.url().should('contain','before-you-start/conditions-householder-permission');
+  }
+  else{
     cy.url().should('contain','/before-you-start/type-of-planning-application');
   }
 

@@ -50,49 +50,49 @@ Feature: Date Decision received eligibility check
     Then progress is halted with an error: 'Decision date must be today or in the past'
     And the correct input 'day,month,year' is highlighted
     Examples: Full Planning
-      | application_type | application_decision|datePart | value |
-      | Full planning    | Granted             |day      | 10    |
-      | Full planning    |Granted             | month    | 10    |
-      | Full planning    | Granted             |year     | 2     |
-      | Full planning    | Refused             |day      | 10    |
-      | Full planning    |Refused             | month    | 10    |
-      | Full planning    | Refused             |year     | 2     |
+      | application_type | application_decision | datePart | value |
+      | Full planning    | Granted              | day      | 10    |
+      | Full planning    | Granted              | month    | 10    |
+      | Full planning    | Granted              | year     | 2     |
+      | Full planning    | Refused              | day      | 10    |
+      | Full planning    | Refused              | month    | 10    |
+      | Full planning    | Refused              | year     | 2     |
 
     Examples: Outline planning
-      | application_type | application_decision|datePart | value |
-      | Outline planning    | Granted             |day      | 10    |
-      | Outline planning    |Granted             | month    | 10    |
-      | Outline planning    | Granted             |year     | 2     |
-      | Outline planning    | Refused             |day      | 10    |
-      | Outline planning    |Refused             | month    | 10    |
-      | Outline planning    | Refused             |year     | 2     |
+      | application_type | application_decision | datePart | value |
+      | Outline planning | Granted              | day      | 10    |
+      | Outline planning | Granted              | month    | 10    |
+      | Outline planning | Granted              | year     | 2     |
+      | Outline planning | Refused              | day      | 10    |
+      | Outline planning | Refused              | month    | 10    |
+      | Outline planning | Refused              | year     | 2     |
 
     Examples: Prior approval
-      | application_type | application_decision|datePart | value |
-      | Prior approval    | Granted             |day      | 10    |
-      | Prior approval    |Granted             | month    | 10    |
-      | Prior approval    | Granted             |year     | 2     |
-      | Prior approval    | Refused             |day      | 10    |
-      | Prior approval    |Refused             | month    | 10    |
-      | Prior approval    | Refused             |year     | 2     |
+      | application_type | application_decision | datePart | value |
+      | Prior approval   | Granted              | day      | 10    |
+      | Prior approval   | Granted              | month    | 10    |
+      | Prior approval   | Granted              | year     | 2     |
+      | Prior approval   | Refused              | day      | 10    |
+      | Prior approval   | Refused              | month    | 10    |
+      | Prior approval   | Refused              | year     | 2     |
 
     Examples: Reserved matters
-      | application_type | application_decision|datePart | value |
-      | Reserved matters    | Granted             |day      | 10    |
-      | Reserved matters    |Granted             | month    | 10    |
-      | Reserved matters    | Granted             |year     | 2     |
-      | Reserved matters    | Refused             |day      | 10    |
-      | Reserved matters    |Refused             | month    | 10    |
-      | Reserved matters    | Refused             |year     | 2     |
+      | application_type | application_decision | datePart | value |
+      | Reserved matters | Granted              | day      | 10    |
+      | Reserved matters | Granted              | month    | 10    |
+      | Reserved matters | Granted              | year     | 2     |
+      | Reserved matters | Refused              | day      | 10    |
+      | Reserved matters | Refused              | month    | 10    |
+      | Reserved matters | Refused              | year     | 2     |
 
     Examples: Removal or variation of conditions
-      | application_type | application_decision|datePart | value |
-      | Removal or variation of conditions    | Granted             |day      | 10    |
-      | Removal or variation of conditions    |Granted             | month    | 10    |
-      | Removal or variation of conditions    | Granted             |year     | 2     |
-      | Removal or variation of conditions    | Refused             |day      | 10    |
-      | Removal or variation of conditions    |Refused             | month    | 10    |
-      | Removal or variation of conditions    | Refused             |year     | 2     |
+      | application_type                   | application_decision | datePart | value |
+      | Removal or variation of conditions | Granted              | day      | 10    |
+      | Removal or variation of conditions | Granted              | month    | 10    |
+      | Removal or variation of conditions | Granted              | year     | 2     |
+      | Removal or variation of conditions | Refused              | day      | 10    |
+      | Removal or variation of conditions | Refused              | month    | 10    |
+      | Removal or variation of conditions | Refused              | year     | 2     |
 
   Scenario Outline: AC04 - Invalid Date Decision Received of <day>-<month>-<year> is Refused
     Given appellant navigates to decision date received page for 'Full planning'

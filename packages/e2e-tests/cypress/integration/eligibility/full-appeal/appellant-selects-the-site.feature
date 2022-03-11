@@ -19,7 +19,7 @@ Feature: Appellant selects the site
 
   Scenario Outline: AC02 An error message is displayed when no selection is made
     Given an appellant is on the is your appeal about any of the following page for '<application_type>'
-    When  appellant clicks the continue button
+    When appellant clicks the continue button
     Then appellant sees an error message 'Select if your appeal is about any of the following'
 
     Examples:
