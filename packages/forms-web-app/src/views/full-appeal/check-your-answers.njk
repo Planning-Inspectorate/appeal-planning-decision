@@ -337,14 +337,14 @@
       ) },
       actions: hasOtherTenantsRowActions if isPdf !== true
     } %}
-    {% set tellingTheTenantsRowTitle = "Telling the other tenants" %}
-    {% if not appeal.appealSiteSection.agriculturalHolding.isTenant %}
-      {% set tellingTheTenantsRowTitle = "Telling the tenants" %}
+    {% set tellingTheTenantsOtherText = "" %}
+    {% if appeal.appealSiteSection.agriculturalHolding.isTenant %}
+      {% set tellingTheTenantsOtherText = " other" %}
     {% endif %}
     {% set tellingTheTenantsRowHtml %}
       <ul class="govuk-list">
         <li>{{ summaryField(
-          "I've told all the other tenants about my appeal",
+          "I've told all the" + tellingTheTenantsOtherText + " tenants about my appeal",
           { "data-cy": "telling-the-tenants-1" }
         ) }}</li>
         <li>{{ summaryField(
@@ -370,7 +370,10 @@
       ]
     } %}
     {% set tellingTheTenantsRow = {
-      key: { text: summaryField(tellingTheTenantsRowTitle, { "data-cy": "telling-the-tenants-label" }) },
+      key: { text: summaryField(
+        "Telling the" + tellingTheTenantsOtherText + " tenants",
+        { "data-cy": "telling-the-tenants-label" }
+      ) },
       value: { html: tellingTheTenantsRowHtml },
       actions: tellingTheTenantsRowActions if isPdf !== true
     } %}
