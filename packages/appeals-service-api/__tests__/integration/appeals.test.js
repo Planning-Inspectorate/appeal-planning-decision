@@ -48,7 +48,6 @@ describe('Appeals API', () => {
 
   afterAll(async () => {
     await connection.close();
-    await db.close();
   });
 
   test('POST /api/v1/appeals - It responds with a newly created appeal', async () => {
