@@ -233,7 +233,7 @@ describe('schemas/full-appeal/update', () => {
         appeal.appealType = '0001';
 
         await expect(() => update.validate(appeal, config)).rejects.toThrow(
-          'appealType must be one of the following values: 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011',
+          '0001 is not a valid appeal type',
         );
       });
 
