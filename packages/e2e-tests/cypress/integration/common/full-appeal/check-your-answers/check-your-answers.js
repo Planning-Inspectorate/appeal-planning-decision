@@ -109,10 +109,10 @@ import {
   getVisibleFromPublicRoadDetails,
   getYourAppealSectionHeading,
   getYourPlanningApplicationSectionHeading,
-} from '../../../../../support/full-appeal/appeals-service/page-objects/check-your-answers-po';
-import {getFileUploadButton} from '../../../../../support/common-page-objects/common-po';
-import {verifyPageTitle} from '../../../../../support/common/verify-page-title';
-import {verifyPageHeading} from '../../../../../support/common/verify-page-heading';
+} from '../../../../support/full-appeal/appeals-service/page-objects/check-your-answers-po';
+import {getFileUploadButton} from '../../../../support/common-page-objects/common-po';
+import {verifyPageTitle} from '../../../../support/common/verify-page-title';
+import {verifyPageHeading} from '../../../../support/common/verify-page-heading';
 import {
   linkDecideYourAppeal,
   linkProvideYourContactDetails,
@@ -120,7 +120,7 @@ import {
   linkUploadDocsForYourAppeal,
   linkUploadDocsFromPlanningApplication,
   pageCaptionText
-} from '../../../../../support/full-appeal/appeals-service/page-objects/appeal-form-task-list-po';
+} from '../../../../support/full-appeal/appeals-service/page-objects/appeal-form-task-list-po';
 import {
   applicantCompanyName,
   contactDetailsCompanyName,
@@ -129,14 +129,14 @@ import {
   originalApplicantName,
   originalApplicantNo,
   originalApplicantYes,
-} from '../../../../../support/full-appeal/appeals-service/page-objects/original-applicant-or-not-po';
+} from '../../../../support/full-appeal/appeals-service/page-objects/original-applicant-or-not-po';
 import {
   getSaveAndContinueButton
-} from '../../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
+} from '../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
 import {
   provideAddressLine1
-} from "../../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine1";
-import {providePostcode} from "../../../../../support/common/appeal-submission-appeal-site-address/providePostcode";
+} from "../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine1";
+import {providePostcode} from "../../../../support/common/appeal-submission-appeal-site-address/providePostcode";
 import {
   advertisingYourAppealToldAboutAppeal,
   advertisingYourAppealUseCopyOfTheForm,
@@ -150,7 +150,7 @@ import {
   tellingTheTenantsFormInAnnexe,
   tellingTheTenantsToldAboutAppeal,
   tellingTheTenantsWithinLast21Days
-} from "../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po";
+} from "../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po";
 import {
   selectHearing,
   selectInquiry,
@@ -158,32 +158,32 @@ import {
   textBoxExpectDays,
   textBoxInquiry,
   textBoxWhyHearing
-} from "../../../../../support/full-appeal/appeals-service/page-objects/decide-your-appeal-po";
+} from "../../../../support/full-appeal/appeals-service/page-objects/decide-your-appeal-po";
 import {
   planningApplicationNumber
-} from "../../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po";
+} from "../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po";
 import {
   checkboxConfirmSensitiveInfo
-} from "../../../../../support/full-appeal/appeals-service/page-objects/your-appeal-statement-po";
+} from "../../../../support/full-appeal/appeals-service/page-objects/your-appeal-statement-po";
 import {
   verifyFullAppealCYAQuestion
-} from "../../../../../support/full-appeal/appeals-service/check-your-answers/verifyFullAppealCYAQuestion";
+} from "../../../../support/full-appeal/appeals-service/check-your-answers/verifyFullAppealCYAQuestion";
 import {
   verifyFullAppealCYAChangLink
-} from "../../../../../support/full-appeal/appeals-service/check-your-answers/verifyFullAppealCYAChangLink";
+} from "../../../../support/full-appeal/appeals-service/check-your-answers/verifyFullAppealCYAChangLink";
 import {
   verifyFullAppealCYAAnswer
-} from "../../../../../support/full-appeal/appeals-service/check-your-answers/verifyFullAppealCYAAnswer";
+} from "../../../../support/full-appeal/appeals-service/check-your-answers/verifyFullAppealCYAAnswer";
 import {
   provideAddressLine2
-} from "../../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine2";
-import {provideTownOrCity} from "../../../../../support/common/appeal-submission-appeal-site-address/provideTownOrCity";
-import {provideCounty} from "../../../../../support/common/appeal-submission-appeal-site-address/provideCounty";
-import {selectTheOwners} from "../../../../../support/full-appeal/appeals-service/selectTheOwners";
-import {notVisibleFromLandProvideDetails} from "../../../../../support/full-appeal/appeals-service/page-objects/visible-from-road-po";
+} from "../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine2";
+import {provideTownOrCity} from "../../../../support/common/appeal-submission-appeal-site-address/provideTownOrCity";
+import {provideCounty} from "../../../../support/common/appeal-submission-appeal-site-address/provideCounty";
+import {selectTheOwners} from "../../../../support/full-appeal/appeals-service/selectTheOwners";
+import {notVisibleFromLandProvideDetails} from "../../../../support/full-appeal/appeals-service/page-objects/visible-from-road-po";
 import {
   healthAndSafetyIssuesProvideDetails
-} from "../../../../../support/full-appeal/appeals-service/page-objects/health-safety-issues-po";
+} from "../../../../support/full-appeal/appeals-service/page-objects/health-safety-issues-po";
 
 const url = 'full-appeal/submit-appeal/check-your-answers';
 const pageTitle = 'Check your answers - Appeal a planning decision - GOV.UK';
@@ -395,7 +395,7 @@ Given('appellant provides the details for {string}, {string}, {string}, {string}
     selectYes().click();
   }else if(visible_publicLand === 'no'){
     selectNo().click();
-    notVisibleFromLandProvideDetails().type(`{selectall}{backspace}${visibleFromRoadText}`);
+    notVisibleFromLandProvideDetails().clear().type(visibleFromRoadText);
   }
   getSaveAndContinueButton().click();
   cy.url().should('contain', healthAndSafetyUrl);
@@ -403,7 +403,7 @@ Given('appellant provides the details for {string}, {string}, {string}, {string}
     selectNo().click();
   }else if(health_and_safety === 'yes'){
     selectYes().click();
-    healthAndSafetyIssuesProvideDetails().type(`{selectall}{backspace}${healthAndSafetyConcern}`);
+    healthAndSafetyIssuesProvideDetails().clear().type(healthAndSafetyConcern);
   }
   getSaveAndContinueButton().click();
   cy.url().should('contain', taskListUrl);
