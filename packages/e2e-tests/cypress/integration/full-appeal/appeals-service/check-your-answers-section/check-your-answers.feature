@@ -1,12 +1,11 @@
 Feature: As an Appellant/Agent
-  I want to be able to review and change my answers
+  I want to be able to review my answers
   So that my appeal is accurate
 
   Background:
     Given appellant has completed full appeal eligibility journey
 
-  #Scenario Outline: '<Acceptance_criteria>'- Appellant has submitted the application with '<contact_details>', own land as '<own_land>', agricultural holding as '<agricultural_holding>, visible from public land as '<visible_publicLand>', health and safety as '<health_and_safety>', '<appeal_decision>', design and access statement as '<design_access_statement>', plans and drawings as '<plans_and_drawings>' and supporting documents as '<supporting_documents>'
-  Scenario Outline: <Acceptance_criteria>- <description>
+   Scenario Outline: <Acceptance_criteria>- <description>
     Given the appellant has provided details for '<contact_details>'
     And appellant provides the details for '<own_land>', '<own_some_land>', '<owns_rest_of_land>', '<agricultural_holding>', '<visible_publicLand>', '<tenant>', '<other_tenants>' and '<health_and_safety>'
     And appellant provides the details about '<appeal_decision>' preference
