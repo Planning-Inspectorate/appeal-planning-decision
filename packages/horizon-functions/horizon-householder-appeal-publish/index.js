@@ -445,7 +445,7 @@ module.exports = async (context, event) => {
         // Design and Access Statement - Optional
         if (
           event?.appeal?.planningApplicationDocumentsSection?.designAccessStatement?.isSubmitted ===
-          'true'
+          true
         ) {
           if (
             event?.appeal?.planningApplicationDocumentsSection?.designAccessStatement?.uploadedFile
@@ -491,7 +491,7 @@ module.exports = async (context, event) => {
         }
 
         // Add multiple New Plans & Drawings documents to the list - Optional
-        if (event?.appeal?.appealDocumentsSection?.plansDrawings?.hasPlanDrawings === 'true') {
+        if (event?.appeal?.appealDocumentsSection?.plansDrawings?.hasPlansDrawings === true) {
           const newPlansDrawingsFiles =
             event?.appeal?.appealDocumentsSection?.plansDrawings?.uploadedFiles;
 
@@ -508,7 +508,7 @@ module.exports = async (context, event) => {
         // Add supporting documents to the list - Optional
         if (
           event?.appeal?.appealDocumentsSection?.supportingDocuments?.hasSupportingDocuments ===
-          'true'
+          true
         ) {
           const supportingFiles =
             event?.appeal?.appealDocumentsSection?.supportingDocuments?.uploadedFiles;
