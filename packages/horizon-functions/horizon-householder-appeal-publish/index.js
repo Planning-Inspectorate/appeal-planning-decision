@@ -39,10 +39,10 @@ module.exports = async (context, event) => {
     context.log({ appealTypeID }, 'Appeal Type');
 
     // Case:Casework Reason logic
-    const applicationDecision = event.appeal.eligibility;
+    const decision = event.appeal.eligibility.applicationDecision;
     const typePlanningApplication = event.appeal.typeOfPlanningApplication;
 
-    context.log({ applicationDecision }, 'Application Decision');
+    context.log({ decision }, 'Application Decision');
     context.log({ typePlanningApplication }, 'Planning Application Type');
 
     let caseworkReason;
@@ -50,7 +50,7 @@ module.exports = async (context, event) => {
     switch (appealTypeID) {
       case '1001': {
         // Householder (HAS) Appeal
-        if (applicationDecision === 'refused') {
+        if (decision === 'refused') {
           if (typePlanningApplication === 'householder-planning') {
             caseworkReason = '1. Refused planning permission for the development';
           } else if (typePlanningApplication === 'removal-or-variation-of-conditions') {
@@ -67,10 +67,10 @@ module.exports = async (context, event) => {
         // Full Planning Appeal
         switch (typePlanningApplication) {
           case 'householder-planning': {
-            if (applicationDecision === 'granted') {
+            if (decision === 'granted') {
               caseworkReason =
                 '4. Granted planning permission for the development subject to conditions to which you object';
-            } else if (applicationDecision === 'nodecisionreceived') {
+            } else if (decision === 'nodecisionreceived') {
               caseworkReason =
                 '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
             }
@@ -79,12 +79,12 @@ module.exports = async (context, event) => {
           }
 
           case 'full-appeal': {
-            if (applicationDecision === 'granted') {
+            if (decision === 'granted') {
               caseworkReason =
                 '4. Granted planning permission for the development subject to conditions to which you object';
-            } else if (applicationDecision === 'refused') {
+            } else if (decision === 'refused') {
               caseworkReason = '1. Refused planning permission for the development';
-            } else if (applicationDecision === 'nodecisionreceived') {
+            } else if (decision === 'nodecisionreceived') {
               caseworkReason =
                 '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
             }
@@ -93,13 +93,13 @@ module.exports = async (context, event) => {
           }
 
           case 'outline-planning': {
-            if (applicationDecision === 'granted') {
+            if (decision === 'granted') {
               caseworkReason =
                 '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object';
-            } else if (applicationDecision === 'refused') {
+            } else if (decision === 'refused') {
               caseworkReason =
                 '5. Refused approval of the matters reserved under an outline planning permission';
-            } else if (applicationDecision === 'nodecisionreceived') {
+            } else if (decision === 'nodecisionreceived') {
               caseworkReason =
                 '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
             }
@@ -108,12 +108,12 @@ module.exports = async (context, event) => {
           }
 
           case 'prior-approval': {
-            if (applicationDecision === 'granted') {
+            if (decision === 'granted') {
               caseworkReason =
                 '4. Granted planning permission for the development subject to conditions to which you object';
-            } else if (applicationDecision === 'refused') {
+            } else if (decision === 'refused') {
               caseworkReason = '3. Refused prior approval of permitted development rights';
-            } else if (applicationDecision === 'nodecisionreceived') {
+            } else if (decision === 'nodecisionreceived') {
               caseworkReason =
                 '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
             }
@@ -122,13 +122,13 @@ module.exports = async (context, event) => {
           }
 
           case 'reserved-matters': {
-            if (applicationDecision === 'granted') {
+            if (decision === 'granted') {
               caseworkReason =
                 '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object';
-            } else if (applicationDecision === 'refused') {
+            } else if (decision === 'refused') {
               caseworkReason =
                 '5. Refused approval of the matters reserved under an outline planning permission';
-            } else if (applicationDecision === 'nodecisionreceived') {
+            } else if (decision === 'nodecisionreceived') {
               caseworkReason =
                 '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
             }
@@ -137,12 +137,12 @@ module.exports = async (context, event) => {
           }
 
           case 'removal-or-variation-of-conditions': {
-            if (applicationDecision === 'granted') {
+            if (decision === 'granted') {
               caseworkReason =
                 '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object';
-            } else if (applicationDecision === 'refused') {
+            } else if (decision === 'refused') {
               caseworkReason = '2. Refused permission to vary or remove a condition(s)';
-            } else if (applicationDecision === 'nodecisionreceived') {
+            } else if (decision === 'nodecisionreceived') {
               caseworkReason =
                 '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
             }
@@ -420,7 +420,7 @@ module.exports = async (context, event) => {
         ];
 
         // Decision Letter - Optional
-        if (applicationDecision === 'granted' || applicationDecision === 'refused') {
+        if (decision === 'granted' || decision === 'refused') {
           if (
             event?.appeal?.planningApplicationDocumentsSection?.decisionLetter?.uploadedFile?.id !==
             null
@@ -431,6 +431,8 @@ module.exports = async (context, event) => {
                   ?.id,
               type: 'LPA Decision Notice',
             });
+
+            context.log('Added Decision Letter document');
           }
         }
 
@@ -440,6 +442,8 @@ module.exports = async (context, event) => {
             id: event?.appeal?.appealSubmission?.appealPDFStatement?.uploadedFile?.id,
             type: 'Appellant Initial Documents',
           });
+
+          context.log('Added Submission PDF document');
         }
 
         // Design and Access Statement - Optional
@@ -457,13 +461,17 @@ module.exports = async (context, event) => {
                   ?.uploadedFile?.id,
               type: 'Appellant Initial Documents',
             });
+
+            context.log('Added Design and Access Statement document');
           }
         }
 
         // Statement of Common Ground - Optional
-        const { procedureType } = event.appeal.appealDecisionSection;
+        const procType = event.appeal.appealDecisionSection.procedureType;
 
-        if (procedureType === 'Hearing' || procedureType === 'Inquiry') {
+        context.log({ procType }, 'Procedure Type');
+
+        if (procType === 'Hearing' || procType === 'Inquiry') {
           if (
             event?.appeal?.planningApplicationDocumentsSection?.draftStatementOfCommonGround
               ?.uploadedFile?.id !== null
@@ -474,6 +482,8 @@ module.exports = async (context, event) => {
                   ?.uploadedFile?.id,
               type: 'Statement of Common Ground',
             });
+
+            context.log('Added Statement of Common Ground document');
           }
         }
 
@@ -488,9 +498,11 @@ module.exports = async (context, event) => {
               type: 'Appellant Initial Documents',
             }))
           );
+
+          context.log('Added Old Plans & Drawings documents');
         }
 
-        // Add multiple New Plans & Drawings documents to the list - Optional
+        // // Add multiple New Plans & Drawings documents to the list - Optional
         if (event?.appeal?.appealDocumentsSection?.plansDrawings?.hasPlansDrawings === true) {
           const newPlansDrawingsFiles =
             event?.appeal?.appealDocumentsSection?.plansDrawings?.uploadedFiles;
@@ -502,6 +514,8 @@ module.exports = async (context, event) => {
                 type: 'Appellant Initial Documents',
               }))
             );
+
+            context.log('Added New Plans & Drawings documents');
           }
         }
 
@@ -519,6 +533,8 @@ module.exports = async (context, event) => {
                 type: 'Appellant Initial Documents',
               }))
             );
+
+            context.log('Added Supporting documents');
           }
         }
 
