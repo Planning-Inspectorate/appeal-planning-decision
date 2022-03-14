@@ -1,7 +1,8 @@
 import {Then, When} from 'cypress-cucumber-preprocessor/steps';
 import {
   getAdvertisingYourAppealAnswerCopyOfForm,
-  getAdvertisingYourAppealAnswerInThePress, getAdvertisingYourAppealAnswerLast21Days,
+  getAdvertisingYourAppealAnswerInThePress,
+  getAdvertisingYourAppealAnswerLast21Days,
   getAdvertisingYourAppealChangeLink,
   getAdvertisingYourAppealQuestion,
   getAgriculturalHoldingAnswer,
@@ -169,10 +170,6 @@ import {
 } from "../../../../../support/full-appeal/appeals-service/page-objects/health-safety-issues-po";
 import {selectTheOwners} from "../../../../../support/full-appeal/appeals-service/selectTheOwners";
 
-const url = 'full-appeal/submit-appeal/check-your-answers';
-const pageTitle = 'Check your answers - Appeal a planning decision - GOV.UK';
-const pageHeading = 'Check your answers';
-const checkYourAnswerCaptionText = 'Check your answers and submit your appeal';
 const applicantName = 'Original applicant Teddy';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
 const agentFullNameText = 'Agent Zoopla';
@@ -187,16 +184,13 @@ const townCity = 'Bristol';
 const county = 'South Glos';
 const postcode = 'BS8 1TG';
 const ownAllOfLandUrl = 'full-appeal/submit-appeal/own-all-the-land';
-const siteAddressUrl = 'full-appeal/submit-appeal/appeal-site-address';
 const agriculturalLandHoldingUrl = 'full-appeal/submit-appeal/agricultural-holding';
 const visibleFromPublicLandUrl = 'full-appeal/submit-appeal/visible-from-road';
 const healthAndSafetyUrl = 'full-appeal/submit-appeal/health-safety-issues';
-const decideAppealUrl = 'full-appeal/submit-appeal/how-decide-appeal';
 const ownSomeOfLandUrl = 'full-appeal/submit-appeal/own-some-of-the-land';
 const whyHearingUrl = 'full-appeal/submit-appeal/why-hearing';
 const textHearing = 'I want to provide the facts of the Appeal for the formal decision';
 const daysToExpectTheInquiryUrl = 'full-appeal/submit-appeal/expect-inquiry-last';
-const planningAppFormUrl = 'full-appeal/submit-appeal/application-form';
 const planningAppNumberUrl = 'full-appeal/submit-appeal/application-number';
 const advertisingTheAppealUrl = '/full-appeal/submit-appeal/advertising-your-appeal';
 const knowTheOwnersUrl = 'full-appeal/submit-appeal/know-the-owners';
@@ -333,9 +327,13 @@ When('appellant selects to change answers for {string}', (change_question) => {
       break;
     case 'Are there any other tenants?':
       getAgriculturalHoldingOtherTenantChangeLink().click();
-      cy.url().should('contain', 'full-appeal/submit-appeal/are-you-a-tenant');
+      cy.url().should('contain', 'full-appeal/submit-appeal/other-tenants');
       break;
-    case 'Do you know who owns the rest of the land involved in the appeal?' || 'Do you know who owns the land involved in the appeal?':
+    case 'Do you know who owns the rest of the land involved in the appeal?':
+      getOwnsRestOfTheLandInvolvedChangeLink().click();
+      cy.url().should('contain', 'full-appeal/submit-appeal/know-the-owners');
+      break;
+    case 'Do you know who owns the land involved in the appeal?':
       getOwnsRestOfTheLandInvolvedChangeLink().click();
       cy.url().should('contain', 'full-appeal/submit-appeal/know-the-owners');
       break;
@@ -638,8 +636,7 @@ When('appellant provides the {string} for {string} for appeal site section', (ch
     case 'Is the appeal site part of an agricultural holding?':
       if (appeal_site_change_answers[0] === 'no') {
         selectNo().click();
-      }
-      else if (appeal_site_change_answers[0].trim() === 'yes') {
+      } else if (appeal_site_change_answers[0].trim() === 'yes') {
         selectYes().click();
         getSaveAndContinueButton().click();
         cy.url().should('contain', areYouTenantUrl);
@@ -668,8 +665,7 @@ When('appellant provides the {string} for {string} for appeal site section', (ch
         tellingTheTenantsWithinLast21Days().check();
         tellingTheTenantsCopyOfTheForm().check();
 
-      }
-      else if (appeal_site_change_answers[0].trim() === 'yes') {
+      } else if (appeal_site_change_answers[0].trim() === 'yes') {
         selectYes().click();
         getSaveAndContinueButton().click();
         cy.url().should('contain', otherTenantsUrl);
@@ -776,6 +772,8 @@ When('appellant provides the {string} for {string} for appeal site section', (ch
           }
         }
 
+      } else if (appeal_site_change_answers[0].trim() === 'yes') {
+        selectYes().click();
       }
       getSaveAndContinueButton().click();
       cy.url().should('contain', agriculturalLandHoldingUrl);
@@ -789,10 +787,9 @@ When('appellant provides the {string} for {string} for appeal site section', (ch
       getSaveAndContinueButton().click();
       cy.url().should('contain', taskListUrl);
       break;
-    case 'Do you know who owns the rest of the land involved in the appeal?' || 'Do you know who owns the land involved in the appeal?':
+    case 'Do you know who owns the rest of the land involved in the appeal?':
       cy.url().should('contain', knowTheOwnersUrl);
       selectTheOwners(appeal_site_change_answers[0].trim());
-      getSaveAndContinueButton().click();
       if (appeal_site_change_answers[0].trim() === 'Yes, I know who owns all the land') {
         cy.url().should('contain', tellingTheLandownersUrl);
         tellingTheLandOwnersToldAboutAppeal().check();
@@ -832,49 +829,48 @@ When('appellant provides the {string} for {string} for appeal site section', (ch
       getSaveAndContinueButton().click();
       cy.url().should('contain', taskListUrl);
       break;
-    // case 'Do you know who owns the land involved in the appeal?':
-    //   cy.url().should('contain', knowTheOwnersUrl);
-    //   selectTheOwners(appeal_site_change_answers[0].trim());
-    //   getSaveAndContinueButton().click();
-    //   if (appeal_site_change_answers[0].trim() === 'Yes, I know who owns all the land') {
-    //     cy.url().should('contain', tellingTheLandownersUrl);
-    //     tellingTheLandOwnersToldAboutAppeal().check();
-    //     tellingTheLandOwnersWithinLast21Days().check();
-    //     tellingTheLandOwnersUseCopyOfTheForm().check();
-    //   } else if (appeal_site_change_answers[0].trim() === 'I know who owns some of the land') {
-    //     cy.url().should('contain', identifyingTheOwnersUrl)
-    //     checkBoxIdentifyingTheOwners().check();
-    //     getSaveAndContinueButton().click();
-    //     cy.url().should('contain', advertisingTheAppealUrl);
-    //     advertisingYourAppealToldAboutAppeal().check();
-    //     advertisingYourAppealWithinLast21Days().check();
-    //     advertisingYourAppealUseCopyOfTheForm().check();
-    //     getSaveAndContinueButton().click();
-    //     cy.url().should('contain', tellingTheLandownersUrl);
-    //     tellingTheLandOwnersToldAboutAppeal().check();
-    //     tellingTheLandOwnersWithinLast21Days().check();
-    //     tellingTheLandOwnersUseCopyOfTheForm().check();
-    //   } else if (appeal_site_change_answers[0].trim() === 'No, I do not know who owns any of the land') {
-    //     cy.url().should('contain', identifyingTheOwnersUrl)
-    //     checkBoxIdentifyingTheOwners().check();
-    //     getSaveAndContinueButton().click();
-    //     cy.url().should('contain', advertisingTheAppealUrl);
-    //     advertisingYourAppealToldAboutAppeal().check();
-    //     advertisingYourAppealWithinLast21Days().check();
-    //     advertisingYourAppealUseCopyOfTheForm().check();
-    //   }
-    //   getSaveAndContinueButton().click();
-    //   cy.url().should('contain', agriculturalLandHoldingUrl);
-    //   selectNo().click();
-    //   getSaveAndContinueButton().click();
-    //   cy.url().should('contain', visibleFromPublicLandUrl);
-    //   selectYes().click();
-    //   getSaveAndContinueButton().click();
-    //   cy.url().should('contain', healthAndSafetyUrl);
-    //   selectNo().click();
-    //   getSaveAndContinueButton().click();
-    //   cy.url().should('contain', taskListUrl);
-    //   break;
+    case 'Do you know who owns the land involved in the appeal?':
+      cy.url().should('contain', knowTheOwnersUrl);
+      selectTheOwners(appeal_site_change_answers[0].trim());
+      if (appeal_site_change_answers[0].trim() === 'Yes, I know who owns all the land') {
+        cy.url().should('contain', tellingTheLandownersUrl);
+        tellingTheLandOwnersToldAboutAppeal().check();
+        tellingTheLandOwnersWithinLast21Days().check();
+        tellingTheLandOwnersUseCopyOfTheForm().check();
+      } else if (appeal_site_change_answers[0].trim() === 'I know who owns some of the land') {
+        cy.url().should('contain', identifyingTheOwnersUrl)
+        checkBoxIdentifyingTheOwners().check();
+        getSaveAndContinueButton().click();
+        cy.url().should('contain', advertisingTheAppealUrl);
+        advertisingYourAppealToldAboutAppeal().check();
+        advertisingYourAppealWithinLast21Days().check();
+        advertisingYourAppealUseCopyOfTheForm().check();
+        getSaveAndContinueButton().click();
+        cy.url().should('contain', tellingTheLandownersUrl);
+        tellingTheLandOwnersToldAboutAppeal().check();
+        tellingTheLandOwnersWithinLast21Days().check();
+        tellingTheLandOwnersUseCopyOfTheForm().check();
+      } else if (appeal_site_change_answers[0].trim() === 'No, I do not know who owns any of the land') {
+        cy.url().should('contain', identifyingTheOwnersUrl)
+        checkBoxIdentifyingTheOwners().check();
+        getSaveAndContinueButton().click();
+        cy.url().should('contain', advertisingTheAppealUrl);
+        advertisingYourAppealToldAboutAppeal().check();
+        advertisingYourAppealWithinLast21Days().check();
+        advertisingYourAppealUseCopyOfTheForm().check();
+      }
+      getSaveAndContinueButton().click();
+      cy.url().should('contain', agriculturalLandHoldingUrl);
+      selectNo().click();
+      getSaveAndContinueButton().click();
+      cy.url().should('contain', visibleFromPublicLandUrl);
+      selectYes().click();
+      getSaveAndContinueButton().click();
+      cy.url().should('contain', healthAndSafetyUrl);
+      selectNo().click();
+      getSaveAndContinueButton().click();
+      cy.url().should('contain', taskListUrl);
+      break;
   }
 });
 
@@ -942,7 +938,7 @@ Then('appellant is displayed answers for {string} for {string} for appeal site s
       verifyFullAppealCYAChangLink(getHealthAndSafetyIssuesChangeLink, '/full-appeal/submit-appeal/health-safety-issues');
       if (appeal_site_change_answers[0] === 'yes') {
         verifyFullAppealCYAAnswer(getHealthAndSafetyIssuesAnswer, 'Yes');
-        verifyFullAppealCYAAnswer(getHealthAndSafetyIssuesDetails,healthAndSafetyConcern);
+        verifyFullAppealCYAAnswer(getHealthAndSafetyIssuesDetails, healthAndSafetyConcern);
       } else if (appeal_site_change_answers[0] === 'no') {
         verifyFullAppealCYAAnswer(getHealthAndSafetyIssuesAnswer, 'No');
       }
@@ -962,14 +958,14 @@ Then('appellant is displayed answers for {string} for {string} for appeal site s
         verifyFullAppealCYAAnswer(getAgriculturalHoldingAnswer, 'No');
       } else if (appeal_site_change_answers[0].trim() === 'yes') {
         verifyFullAppealCYAAnswer(getAgriculturalHoldingAnswer, 'Yes');
-        verifyFullAppealCYAQuestion(getAgriculturalHoldingTenantQuestion,'Are you a tenant of the agricultural holding?');
-        verifyFullAppealCYAChangLink(getAgriculturalHoldingTenantChangeLink,'/full-appeal/submit-appeal/are-you-a-tenant');
-        verifyFullAppealCYAAnswer(getAgriculturalHoldingTenantAnswer,'No');
-        verifyFullAppealCYAQuestion(getTellingTheOtherTenantsQuestion,'Telling the tenants');
-        verifyFullAppealCYAChangLink(getTellingTheOtherTenantsChangeLink,'/full-appeal/submit-appeal/telling-the-tenants');
-        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerAllOtherTenants,"I've told all the tenants about my appeal");
-        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerLast21Days,"I've done this within the last 21 days");
-        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerCopyOfForm,'I used a copy of the form in annexe 2a');
+        verifyFullAppealCYAQuestion(getAgriculturalHoldingTenantQuestion, 'Are you a tenant of the agricultural holding?');
+        verifyFullAppealCYAChangLink(getAgriculturalHoldingTenantChangeLink, '/full-appeal/submit-appeal/are-you-a-tenant');
+        verifyFullAppealCYAAnswer(getAgriculturalHoldingTenantAnswer, 'No');
+        verifyFullAppealCYAQuestion(getTellingTheOtherTenantsQuestion, 'Telling the tenants');
+        verifyFullAppealCYAChangLink(getTellingTheOtherTenantsChangeLink, '/full-appeal/submit-appeal/telling-the-tenants');
+        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerAllOtherTenants, "I've told all the tenants about my appeal");
+        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerLast21Days, "I've done this within the last 21 days");
+        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerCopyOfForm, 'I used a copy of the form in annexe 2a');
       }
       verifyFullAppealCYAQuestion(getVisibleFromPublicLandQuestion, 'Visible from a public road');
       verifyFullAppealCYAChangLink(getVisibleFromPublicLandChangeLink, '/full-appeal/submit-appeal/visible-from-road');
@@ -990,20 +986,20 @@ Then('appellant is displayed answers for {string} for {string} for appeal site s
       verifyFullAppealCYAQuestion(getAgriculturalHoldingQuestion, 'Is the appeal site part of an agricultural holding?');
       verifyFullAppealCYAChangLink(getAgriculturalHoldingChangeLink, '/full-appeal/submit-appeal/agricultural-holding');
       verifyFullAppealCYAAnswer(getAgriculturalHoldingAnswer, 'Yes');
-      verifyFullAppealCYAQuestion(getAgriculturalHoldingTenantQuestion,'Are you a tenant of the agricultural holding?');
-      verifyFullAppealCYAChangLink(getAgriculturalHoldingTenantChangeLink,'/full-appeal/submit-appeal/are-you-a-tenant');
+      verifyFullAppealCYAQuestion(getAgriculturalHoldingTenantQuestion, 'Are you a tenant of the agricultural holding?');
+      verifyFullAppealCYAChangLink(getAgriculturalHoldingTenantChangeLink, '/full-appeal/submit-appeal/are-you-a-tenant');
       if (appeal_site_change_answers[0].trim() === 'no') {
-        verifyFullAppealCYAAnswer(getAgriculturalHoldingTenantAnswer,'No');
-        verifyFullAppealCYAQuestion(getTellingTheOtherTenantsQuestion,'Telling the tenants');
-        verifyFullAppealCYAChangLink(getTellingTheOtherTenantsChangeLink,'/full-appeal/submit-appeal/telling-the-tenants');
-        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerAllOtherTenants,"I've told all the tenants about my appeal");
-        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerLast21Days,"I've done this within the last 21 days");
-        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerCopyOfForm,'I used a copy of the form in annexe 2a');
+        verifyFullAppealCYAAnswer(getAgriculturalHoldingTenantAnswer, 'No');
+        verifyFullAppealCYAQuestion(getTellingTheOtherTenantsQuestion, 'Telling the tenants');
+        verifyFullAppealCYAChangLink(getTellingTheOtherTenantsChangeLink, '/full-appeal/submit-appeal/telling-the-tenants');
+        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerAllOtherTenants, "I've told all the tenants about my appeal");
+        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerLast21Days, "I've done this within the last 21 days");
+        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerCopyOfForm, 'I used a copy of the form in annexe 2a');
       } else if (appeal_site_change_answers[0].trim() === 'yes') {
-        verifyFullAppealCYAAnswer(getAgriculturalHoldingTenantAnswer,'Yes');
-        verifyFullAppealCYAQuestion(getAgriculturalHoldingOtherTenantQuestion,'Are there any other tenants?');
-        verifyFullAppealCYAChangLink(getAgriculturalHoldingOtherTenantChangeLink,'/full-appeal/submit-appeal/other-tenants');
-        verifyFullAppealCYAAnswer(getAgriculturalHoldingOtherTenantAnswer,'No');
+        verifyFullAppealCYAAnswer(getAgriculturalHoldingTenantAnswer, 'Yes');
+        verifyFullAppealCYAQuestion(getAgriculturalHoldingOtherTenantQuestion, 'Are there any other tenants?');
+        verifyFullAppealCYAChangLink(getAgriculturalHoldingOtherTenantChangeLink, '/full-appeal/submit-appeal/other-tenants');
+        verifyFullAppealCYAAnswer(getAgriculturalHoldingOtherTenantAnswer, 'No');
       }
       verifyFullAppealCYAQuestion(getVisibleFromPublicLandQuestion, 'Visible from a public road');
       verifyFullAppealCYAChangLink(getVisibleFromPublicLandChangeLink, '/full-appeal/submit-appeal/visible-from-road');
@@ -1024,20 +1020,20 @@ Then('appellant is displayed answers for {string} for {string} for appeal site s
       verifyFullAppealCYAQuestion(getAgriculturalHoldingQuestion, 'Is the appeal site part of an agricultural holding?');
       verifyFullAppealCYAChangLink(getAgriculturalHoldingChangeLink, '/full-appeal/submit-appeal/agricultural-holding');
       verifyFullAppealCYAAnswer(getAgriculturalHoldingAnswer, 'Yes');
-      verifyFullAppealCYAQuestion(getAgriculturalHoldingTenantQuestion,'Are you a tenant of the agricultural holding?');
-      verifyFullAppealCYAChangLink(getAgriculturalHoldingTenantChangeLink,'/full-appeal/submit-appeal/are-you-a-tenant');
-      verifyFullAppealCYAAnswer(getAgriculturalHoldingTenantAnswer,'Yes');
-      verifyFullAppealCYAQuestion(getAgriculturalHoldingOtherTenantQuestion,'Are there any other tenants?');
-      verifyFullAppealCYAChangLink(getAgriculturalHoldingOtherTenantChangeLink,'/full-appeal/submit-appeal/other-tenants');
+      verifyFullAppealCYAQuestion(getAgriculturalHoldingTenantQuestion, 'Are you a tenant of the agricultural holding?');
+      verifyFullAppealCYAChangLink(getAgriculturalHoldingTenantChangeLink, '/full-appeal/submit-appeal/are-you-a-tenant');
+      verifyFullAppealCYAAnswer(getAgriculturalHoldingTenantAnswer, 'Yes');
+      verifyFullAppealCYAQuestion(getAgriculturalHoldingOtherTenantQuestion, 'Are there any other tenants?');
+      verifyFullAppealCYAChangLink(getAgriculturalHoldingOtherTenantChangeLink, '/full-appeal/submit-appeal/other-tenants');
       if (appeal_site_change_answers[0] === 'no') {
-        verifyFullAppealCYAAnswer(getAgriculturalHoldingOtherTenantAnswer,'No');
+        verifyFullAppealCYAAnswer(getAgriculturalHoldingOtherTenantAnswer, 'No');
       } else if (appeal_site_change_answers[0] === 'yes') {
-        verifyFullAppealCYAAnswer(getAgriculturalHoldingOtherTenantAnswer,'Yes');
-        verifyFullAppealCYAQuestion(getTellingTheOtherTenantsQuestion,'Telling the other tenants');
-        verifyFullAppealCYAChangLink(getTellingTheOtherTenantsChangeLink,'/full-appeal/submit-appeal/telling-the-tenants');
-        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerAllOtherTenants,"I've told all the other tenants about my appeal");
-        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerLast21Days,"I've done this within the last 21 days");
-        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerCopyOfForm,'I used a copy of the form in annexe 2a');
+        verifyFullAppealCYAAnswer(getAgriculturalHoldingOtherTenantAnswer, 'Yes');
+        verifyFullAppealCYAQuestion(getTellingTheOtherTenantsQuestion, 'Telling the other tenants');
+        verifyFullAppealCYAChangLink(getTellingTheOtherTenantsChangeLink, '/full-appeal/submit-appeal/telling-the-tenants');
+        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerAllOtherTenants, "I've told all the other tenants about my appeal");
+        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerLast21Days, "I've done this within the last 21 days");
+        verifyFullAppealCYAAnswer(getTellingTheOtherTenantsAnswerCopyOfForm, 'I used a copy of the form in annexe 2a');
       }
       verifyFullAppealCYAQuestion(getVisibleFromPublicLandQuestion, 'Visible from a public road');
       verifyFullAppealCYAChangLink(getVisibleFromPublicLandChangeLink, '/full-appeal/submit-appeal/visible-from-road');
@@ -1068,8 +1064,7 @@ Then('appellant is displayed answers for {string} for {string} for appeal site s
             verifyFullAppealCYAAnswer(getTellingTheOtherLandownersAnswerCopyOfForm, 'I used a copy of the form in annexe 2A or 2B');
             verifyFullAppealCYAQuestion(getOwnsRestOfTheLandInvolvedQuestion, 'Do you know who owns the rest of the land involved in the appeal?');
             verifyFullAppealCYAChangLink(getOwnsRestOfTheLandInvolvedChangeLink, '/full-appeal/submit-appeal/know-the-owners');
-          }
-          else if (appeal_site_change_answers[2].trim() === 'I know who owns some of the land') {
+          } else if (appeal_site_change_answers[2].trim() === 'I know who owns some of the land') {
             verifyFullAppealCYAAnswer(getOwnsRestOfTheLandInvolvedAnswer, 'I know who owns some of the land');
             verifyFullAppealCYAQuestion(getIdentifyOtherLandownersQuestion, 'Identifying the other landowners');
             verifyFullAppealCYAChangLink(getIdentifyOtherLandownersChangeLink, '/full-appeal/submit-appeal/identifying-the-owners');
@@ -1086,8 +1081,7 @@ Then('appellant is displayed answers for {string} for {string} for appeal site s
             verifyFullAppealCYAAnswer(getTellingTheOtherLandownersAnswerCopyOfForm, 'I used a copy of the form in annexe 2A or 2B');
             verifyFullAppealCYAQuestion(getOwnsRestOfTheLandInvolvedQuestion, 'Do you know who owns the rest of the land involved in the appeal?');
             verifyFullAppealCYAChangLink(getOwnsRestOfTheLandInvolvedChangeLink, '/full-appeal/submit-appeal/know-the-owners');
-          }
-          else if (appeal_site_change_answers[2].trim() === 'No, I do not know who owns any of the land') {
+          } else if (appeal_site_change_answers[2].trim() === 'No, I do not know who owns any of the land') {
             verifyFullAppealCYAAnswer(getOwnsRestOfTheLandInvolvedAnswer, 'No, I do not know who owns any of the land');
             verifyFullAppealCYAQuestion(getIdentifyOtherLandownersQuestion, 'Identifying the other landowners');
             verifyFullAppealCYAChangLink(getIdentifyOtherLandownersChangeLink, '/full-appeal/submit-appeal/identifying-the-owners');
@@ -1099,8 +1093,7 @@ Then('appellant is displayed answers for {string} for {string} for appeal site s
             verifyFullAppealCYAAnswer(getAdvertisingYourAppealAnswerCopyOfForm, 'I used a copy of the form in annexe 2A or 2B');
           }
 
-        }
-        else if (appeal_site_change_answers[1].trim() === 'no') {
+        } else if (appeal_site_change_answers[1].trim() === 'no') {
           verifyFullAppealCYAAnswer(getOwnsAllTheLandInvolvedAnswer, 'You own none of the land involved in the appeal');
           if (appeal_site_change_answers[2].trim() === 'No, I do not know who owns any of the land') {
             verifyFullAppealCYAAnswer(getOwnsRestOfTheLandInvolvedAnswer, 'No, I do not know who owns any of the land');
@@ -1112,8 +1105,7 @@ Then('appellant is displayed answers for {string} for {string} for appeal site s
             verifyFullAppealCYAAnswer(getAdvertisingYourAppealAnswerInThePress, "I've advertised my appeal in the press");
             verifyFullAppealCYAAnswer(getAdvertisingYourAppealAnswerLast21Days, "I've done this within the last 21 days");
             verifyFullAppealCYAAnswer(getAdvertisingYourAppealAnswerCopyOfForm, 'I used a copy of the form in annexe 2A or 2B');
-          }
-          else if (appeal_site_change_answers[2].trim() === 'I know who owns some of the land') {
+          } else if (appeal_site_change_answers[2].trim() === 'I know who owns some of the land') {
             verifyFullAppealCYAQuestion(getTellingTheOtherLandownersQuestion, 'Telling the landowners');
             verifyFullAppealCYAAnswer(getTellingTheOtherLandownersAnswerAllOtherLandowners, "I've told all the landowners about my appeal");
             verifyFullAppealCYAChangLink(getTellingTheOtherLandownersChangeLink, '/full-appeal/submit-appeal/telling-the-landowners');
@@ -1132,8 +1124,7 @@ Then('appellant is displayed answers for {string} for {string} for appeal site s
             verifyFullAppealCYAAnswer(getAdvertisingYourAppealAnswerInThePress, "I've advertised my appeal in the press");
             verifyFullAppealCYAAnswer(getAdvertisingYourAppealAnswerLast21Days, "I've done this within the last 21 days");
             verifyFullAppealCYAAnswer(getAdvertisingYourAppealAnswerCopyOfForm, 'I used a copy of the form in annexe 2A or 2B');
-          }
-          else if (appeal_site_change_answers[2].trim() === 'Yes, I know who owns all the land') {
+          } else if (appeal_site_change_answers[2].trim() === 'Yes, I know who owns all the land') {
             verifyFullAppealCYAAnswer(getOwnsRestOfTheLandInvolvedAnswer, 'Yes, I know who owns all the land');
             verifyFullAppealCYAQuestion(getTellingTheOtherLandownersQuestion, 'Telling the landowners');
             verifyFullAppealCYAAnswer(getTellingTheOtherLandownersAnswerAllOtherLandowners, "I've told all the landowners about my appeal");
@@ -1147,7 +1138,7 @@ Then('appellant is displayed answers for {string} for {string} for appeal site s
           }
         }
 
-      }else if(appeal_site_change_answers[0] === 'yes'){
+      } else if (appeal_site_change_answers[0] === 'yes') {
         verifyFullAppealCYAAnswer(getOwnsAllTheLandInvolvedAnswer, 'You own all the land involved in the appeal');
       }
       verifyFullAppealCYAQuestion(getAgriculturalHoldingQuestion, 'Is the appeal site part of an agricultural holding?');
@@ -1179,8 +1170,7 @@ Then('appellant is displayed answers for {string} for {string} for appeal site s
         verifyFullAppealCYAAnswer(getTellingTheOtherLandownersAnswerCopyOfForm, 'I used a copy of the form in annexe 2A or 2B');
         verifyFullAppealCYAQuestion(getOwnsRestOfTheLandInvolvedQuestion, 'Do you know who owns the rest of the land involved in the appeal?');
         verifyFullAppealCYAChangLink(getOwnsRestOfTheLandInvolvedChangeLink, '/full-appeal/submit-appeal/know-the-owners');
-      }
-      else if (appeal_site_change_answers[0].trim() === 'I know who owns some of the land') {
+      } else if (appeal_site_change_answers[0].trim() === 'I know who owns some of the land') {
         verifyFullAppealCYAAnswer(getOwnsRestOfTheLandInvolvedAnswer, 'I know who owns some of the land');
         verifyFullAppealCYAQuestion(getIdentifyOtherLandownersQuestion, 'Identifying the other landowners');
         verifyFullAppealCYAChangLink(getIdentifyOtherLandownersChangeLink, '/full-appeal/submit-appeal/identifying-the-owners');
@@ -1231,8 +1221,7 @@ Then('appellant is displayed answers for {string} for {string} for appeal site s
         verifyFullAppealCYAAnswer(getTellingTheOtherLandownersAnswerCopyOfForm, 'I used a copy of the form in annexe 2A or 2B');
         verifyFullAppealCYAQuestion(getOwnsRestOfTheLandInvolvedQuestion, 'Do you know who owns the land involved in the appeal?');
         verifyFullAppealCYAChangLink(getOwnsRestOfTheLandInvolvedChangeLink, '/full-appeal/submit-appeal/know-the-owners');
-      }
-      else if (appeal_site_change_answers[0].trim() === 'I know who owns some of the land') {
+      } else if (appeal_site_change_answers[0].trim() === 'I know who owns some of the land') {
         verifyFullAppealCYAQuestion(getTellingTheOtherLandownersQuestion, 'Telling the landowners');
         verifyFullAppealCYAAnswer(getTellingTheOtherLandownersAnswerAllOtherLandowners, "I've told all the landowners about my appeal");
         verifyFullAppealCYAChangLink(getTellingTheOtherLandownersChangeLink, '/full-appeal/submit-appeal/telling-the-landowners');
@@ -1251,8 +1240,7 @@ Then('appellant is displayed answers for {string} for {string} for appeal site s
         verifyFullAppealCYAAnswer(getAdvertisingYourAppealAnswerInThePress, "I've advertised my appeal in the press");
         verifyFullAppealCYAAnswer(getAdvertisingYourAppealAnswerLast21Days, "I've done this within the last 21 days");
         verifyFullAppealCYAAnswer(getAdvertisingYourAppealAnswerCopyOfForm, 'I used a copy of the form in annexe 2A or 2B');
-      }
-      else if (appeal_site_change_answers[0].trim() === 'No, I do not know who owns any of the land') {
+      } else if (appeal_site_change_answers[0].trim() === 'No, I do not know who owns any of the land') {
         verifyFullAppealCYAAnswer(getOwnsRestOfTheLandInvolvedAnswer, 'No, I do not know who owns any of the land');
         verifyFullAppealCYAQuestion(getIdentifyOtherLandownersQuestion, 'Identifying the landowners');
         verifyFullAppealCYAChangLink(getIdentifyOtherLandownersChangeLink, '/full-appeal/submit-appeal/identifying-the-owners');
