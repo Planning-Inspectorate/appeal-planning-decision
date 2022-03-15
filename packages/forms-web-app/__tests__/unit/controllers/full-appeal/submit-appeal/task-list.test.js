@@ -3,10 +3,13 @@ const taskListController = require('../../../../../src/controllers/full-appeal/s
 const { VIEW } = require('../../../../../src/lib/full-appeal/views');
 const { mockReq, mockRes } = require('../../../mocks');
 
-describe.skip('controllers/full-appeal/submit-appeal/task-list', () => {
+describe('controllers/full-appeal/submit-appeal/task-list', () => {
   describe('getTaskList', () => {
     it('All the tasks except check answers should be in not started', () => {
-      const req = mockReq(appeal);
+      const req = mockReq({
+        ...appeal,
+        state: undefined,
+      });
       const res = mockRes();
 
       taskListController.getTaskList(req, res);
@@ -14,7 +17,7 @@ describe.skip('controllers/full-appeal/submit-appeal/task-list', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.TASK_LIST, {
         applicationStatus: 'Appeal incomplete',
         sectionInfo: {
-          nbTasks: 5,
+          nbTasks: 6,
           nbCompleted: 0,
         },
         sections: [
@@ -32,8 +35,17 @@ describe.skip('controllers/full-appeal/submit-appeal/task-list', () => {
             text: 'Tell us about the appeal site',
             status: 'NOT STARTED',
             attributes: {
-              'aboutAppealSiteSection-status': 'NOT STARTED',
-              name: 'aboutAppealSiteSection',
+              'appealSiteSection-status': 'NOT STARTED',
+              name: 'appealSiteSection',
+            },
+          },
+          {
+            href: '/full-appeal/submit-appeal/how-decide-appeal',
+            text: 'Tell us how you would prefer us to decide your appeal',
+            status: 'NOT STARTED',
+            attributes: {
+              'appealDecisionSection-status': 'NOT STARTED',
+              name: 'appealDecisionSection',
             },
           },
           {
@@ -55,11 +67,11 @@ describe.skip('controllers/full-appeal/submit-appeal/task-list', () => {
             },
           },
           {
-            href: `/${VIEW.FULL_APPEAL.CHECK_ANSWERS}`,
+            href: `/${VIEW.FULL_APPEAL.CHECK_YOUR_ANSWERS}`,
             text: 'Check your answers and submit your appeal',
-            status: 'NOT STARTED',
+            status: 'CANNOT START YET',
             attributes: {
-              'submitYourAppealSection-status': 'NOT STARTED',
+              'submitYourAppealSection-status': 'CANNOT START YET',
               name: 'submitYourAppealSection',
             },
           },

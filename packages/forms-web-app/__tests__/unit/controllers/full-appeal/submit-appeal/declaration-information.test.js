@@ -37,6 +37,16 @@ describe('controllers/full-appeal/submit-appeal/declaration-information', () => 
         message: 'The appealId should be provided in the request param.',
       });
     });
+    it('should return 400 if appealLPD does not exist in sesion', async () => {
+      req.params.appealId = 'some-id';
+      req.session.appeal = {};
+      await declarationInformationController.getDeclarationInformation(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(400);
+      expect(res.render).toHaveBeenCalledWith('error/400', {
+        message: 'Unable to locate the Local Planning Department for the given LPA Code.',
+      });
+    });
     it('should return 404 if appeal not found', async () => {
       req.params.appealId = 'some-id';
 

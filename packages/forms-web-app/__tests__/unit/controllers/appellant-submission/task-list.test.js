@@ -2,7 +2,7 @@ const taskListController = require('../../../../src/controllers/appellant-submis
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
-describe.skip('controllers/appellant-submission/task-list', () => {
+describe('controllers/appellant-submission/task-list', () => {
   describe('getTaskList', () => {
     it('All the tasks except check answers should be in not started', () => {
       const req = mockReq();
@@ -14,10 +14,10 @@ describe.skip('controllers/appellant-submission/task-list', () => {
         applicationStatus: 'Application incomplete',
         sectionInfo: {
           nbTasks: 11,
-          nbCompleted: 0,
+          nbCompleted: 10,
           sections: {
             count: 5,
-            completed: 0,
+            completed: 4,
           },
         },
         sections: [
@@ -29,9 +29,9 @@ describe.skip('controllers/appellant-submission/task-list', () => {
               {
                 href: `/${VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU}`,
                 text: 'Your details',
-                status: 'NOT STARTED',
+                status: 'COMPLETED',
                 attributes: {
-                  'yourDetails-status': 'NOT STARTED',
+                  'yourDetails-status': 'COMPLETED',
                   name: 'yourDetails',
                 },
               },
@@ -45,27 +45,27 @@ describe.skip('controllers/appellant-submission/task-list', () => {
               {
                 text: 'Planning application number',
                 href: `/${VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER}`,
-                status: 'NOT STARTED',
+                status: 'COMPLETED',
                 attributes: {
-                  'applicationNumber-status': 'NOT STARTED',
+                  'applicationNumber-status': 'COMPLETED',
                   name: 'applicationNumber',
                 },
               },
               {
                 text: 'Upload the original planning application form',
                 href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`,
-                status: 'NOT STARTED',
+                status: 'COMPLETED',
                 attributes: {
-                  'originalApplication-status': 'NOT STARTED',
+                  'originalApplication-status': 'COMPLETED',
                   name: 'originalApplication',
                 },
               },
               {
                 text: 'Upload the decision letter',
                 href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION}`,
-                status: 'NOT STARTED',
+                status: 'COMPLETED',
                 attributes: {
-                  'decisionLetter-status': 'NOT STARTED',
+                  'decisionLetter-status': 'COMPLETED',
                   name: 'decisionLetter',
                 },
               },
@@ -79,18 +79,18 @@ describe.skip('controllers/appellant-submission/task-list', () => {
               {
                 text: 'Your appeal statement',
                 href: `/${VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT}`,
-                status: 'NOT STARTED',
+                status: 'COMPLETED',
                 attributes: {
-                  'appealStatement-status': 'NOT STARTED',
+                  'appealStatement-status': 'COMPLETED',
                   name: 'appealStatement',
                 },
               },
               {
                 text: 'Any other documents to support your appeal',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
-                status: 'NOT STARTED',
+                status: 'COMPLETED',
                 attributes: {
-                  'otherDocuments-status': 'NOT STARTED',
+                  'otherDocuments-status': 'COMPLETED',
                   name: 'otherDocuments',
                 },
               },
@@ -104,36 +104,36 @@ describe.skip('controllers/appellant-submission/task-list', () => {
               {
                 text: 'Address of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_LOCATION}`,
-                status: 'NOT STARTED',
+                status: 'COMPLETED',
                 attributes: {
-                  'siteAddress-status': 'NOT STARTED',
+                  'siteAddress-status': 'COMPLETED',
                   name: 'siteAddress',
                 },
               },
               {
                 text: 'Ownership of the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
-                status: 'NOT STARTED',
+                status: 'COMPLETED',
                 attributes: {
-                  'siteOwnership-status': 'NOT STARTED',
+                  'siteOwnership-status': 'COMPLETED',
                   name: 'siteOwnership',
                 },
               },
               {
                 text: 'Access to the appeal site',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
-                status: 'NOT STARTED',
+                status: 'COMPLETED',
                 attributes: {
-                  'siteAccess-status': 'NOT STARTED',
+                  'siteAccess-status': 'COMPLETED',
                   name: 'siteAccess',
                 },
               },
               {
                 text: 'Any health and safety issues',
                 href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
-                status: 'NOT STARTED',
+                status: 'COMPLETED',
                 attributes: {
-                  'healthAndSafety-status': 'NOT STARTED',
+                  'healthAndSafety-status': 'COMPLETED',
                   name: 'healthAndSafety',
                 },
               },
@@ -148,9 +148,9 @@ describe.skip('controllers/appellant-submission/task-list', () => {
               {
                 text: 'Check your answers',
                 href: `/${VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS}`,
-                status: 'CANNOT START YET',
+                status: 'NOT STARTED',
                 attributes: {
-                  'checkYourAnswers-status': 'CANNOT START YET',
+                  'checkYourAnswers-status': 'NOT STARTED',
                   name: 'checkYourAnswers',
                 },
               },
