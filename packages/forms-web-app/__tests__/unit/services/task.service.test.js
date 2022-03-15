@@ -115,7 +115,7 @@ describe('services/task.service', () => {
         SECTIONS.submitYourAppealSection.checkYourAnswers.rule({ state: 'SUBMITTED' })
       ).toEqual(COMPLETED);
     });
-    it('should return COMPLETED from statusSupportingDocuments if the appeal has other documents ', () => {
+    it('should return COMPLETED from statusSupportingDocuments if the appeal has other documents', () => {
       expect(
         SECTIONS.yourAppealSection.otherDocuments.rule({
           yourAppealSection: {
@@ -125,6 +125,77 @@ describe('services/task.service', () => {
           },
         })
       ).toEqual(COMPLETED);
+    });
+    it('should return NOT_STARTED from statusAppealStatement if id is empty', () => {
+      expect(
+        SECTIONS.yourAppealSection.appealStatement.rule({
+          yourAppealSection: {
+            appealStatement: {
+              uploadedFile: {},
+            },
+          },
+        })
+      ).toEqual(NOT_STARTED);
+    });
+    it('should return NOT_STARTED from statusSupportingDocuments if uploadedFiles empty', () => {
+      expect(
+        SECTIONS.yourAppealSection.otherDocuments.rule({
+          yourAppealSection: {
+            otherDocuments: {
+              uploadedFiles: [],
+            },
+          },
+        })
+      ).toEqual(NOT_STARTED);
+    });
+    it('should return NOT_STARTED from statusDecisionLetter if id is empty', () => {
+      expect(
+        SECTIONS.requiredDocumentsSection.decisionLetter.rule({
+          requiredDocumentsSection: {
+            decisionLetter: {
+              uploadedFile: {},
+            },
+          },
+        })
+      ).toEqual(NOT_STARTED);
+    });
+    it('should return NOT_STARTED from statusOriginalApplication if id is empty', () => {
+      expect(
+        SECTIONS.requiredDocumentsSection.originalApplication.rule({
+          requiredDocumentsSection: {
+            originalApplication: {
+              uploadedFile: {},
+            },
+          },
+        })
+      ).toEqual(NOT_STARTED);
+    });
+    it('should return NOT_STARTED from statusHealthAndSafety if healthAndSafety.hasIssues is null', () => {
+      expect(
+        SECTIONS.appealSiteSection.healthAndSafety.rule({
+          appealSiteSection: {},
+        })
+      ).toEqual(NOT_STARTED);
+      expect(
+        SECTIONS.appealSiteSection.healthAndSafety.rule({
+          appealSiteSection: {
+            healthAndSafety: {
+              hasIssues: null,
+            },
+          },
+        })
+      ).toEqual(NOT_STARTED);
+    });
+    it('should return NOT_STARTED from statusSiteAccess if canInspectorSeeWholeSiteFromPublicRoad is null', () => {
+      expect(
+        SECTIONS.appealSiteSection.siteAccess.rule({
+          appealSiteSection: {
+            siteAccess: {
+              canInspectorSeeWholeSiteFromPublicRoad: null,
+            },
+          },
+        })
+      ).toEqual(NOT_STARTED);
     });
     it('should return "NOT STARTED" from statusCheckYourAnswer if all sections have been COMPLETED but the appeal is not submitted ', () => {
       expect(SECTIONS.submitYourAppealSection.checkYourAnswers.rule(completedAppeal)).toEqual(
