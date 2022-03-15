@@ -27,8 +27,8 @@ import {
 } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 import { selectTheOwners } from '../../../../../support/full-appeal/appeals-service/selectTheOwners';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
-import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
+import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 
 const ownSomeOfLandUrl = 'full-appeal/submit-appeal/own-some-of-the-land';
 const ownAllOfLandUrl = 'full-appeal/submit-appeal/own-all-the-land';
