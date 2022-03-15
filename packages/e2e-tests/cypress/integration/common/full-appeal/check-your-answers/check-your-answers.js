@@ -223,7 +223,6 @@ const plansAndDrawingsDocument = 'upload-file-valid.pdf';
 
 Given('the appellant has provided details for {string} and status is {string}', (contact_Details, progress) => {
   cy.url().should('contain', taskListUrl);
-  statusProvideYourContactDetails().should('contain.text', 'NOT STARTED');
   linkProvideYourContactDetails().click();
   if (contact_Details === 'appellant') {
     originalApplicantYes().click();
