@@ -6,6 +6,7 @@
   "video": false,
   "env": {
     "demoDelay": 0,
+    "numTestsKeptInMemory": 30,
     "QUEUE_VALIDATION_ENABLED": true,
     "HORIZON_HAS_PUBLISHER_HOST": "localhost",
     "HORIZON_HAS_PUBLISHER_PASSWORD": "admin",

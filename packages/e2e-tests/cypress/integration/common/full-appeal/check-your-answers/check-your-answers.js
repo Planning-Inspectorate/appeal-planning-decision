@@ -1,5 +1,47 @@
 import {Given, Then, When} from 'cypress-cucumber-preprocessor/steps';
 import {
+  linkDecideYourAppeal,
+  linkProvideYourContactDetails,
+  linkTellAboutTheAppealSite, linkUploadDocsForYourAppeal,
+  linkUploadDocsFromPlanningApplication, pageCaptionText,
+  statusAppealDecisionSection,
+  statusProvideYourContactDetails, statusTellAboutTheAppealSite, statusUploadDocsFromPlanningApplication,
+} from '../../../../support/full-appeal/appeals-service/page-objects/appeal-form-task-list-po';
+import {
+  applicantCompanyName,
+  contactDetailsCompanyName, contactDetailsEmail,
+  contactDetailsFullName, originalApplicantName, originalApplicantNo,
+  originalApplicantYes,
+} from '../../../../support/full-appeal/appeals-service/page-objects/original-applicant-or-not-po';
+import { getFileUploadButton, getSaveAndContinueButton } from '../../../../support/common-page-objects/common-po';
+import { provideAddressLine1 } from '../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine1';
+import { provideAddressLine2 } from '../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine2';
+import {
+  advertisingYourAppealToldAboutAppeal,
+  advertisingYourAppealUseCopyOfTheForm,
+  advertisingYourAppealWithinLast21Days,
+  checkBoxIdentifyingTheOwners,
+  selectNo,
+  selectYes,
+  tellingTheLandOwnersToldAboutAppeal,
+  tellingTheLandOwnersUseCopyOfTheForm,
+  tellingTheLandOwnersWithinLast21Days,
+  tellingTheTenantsCopyOfTheForm,
+  tellingTheTenantsToldAboutAppeal,
+  tellingTheTenantsWithinLast21Days,
+} from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
+import { selectTheOwners } from '../../../../support/full-appeal/appeals-service/selectTheOwners';
+import { provideTownOrCity } from '../../../../support/common/appeal-submission-appeal-site-address/provideTownOrCity';
+import { provideCounty } from '../../../../support/common/appeal-submission-appeal-site-address/provideCounty';
+import { providePostcode } from '../../../../support/common/appeal-submission-appeal-site-address/providePostcode';
+import {
+  selectHearing, selectInquiry,
+  selectWrittenRepresentations,
+  textBoxExpectDays,
+  textBoxInquiry, textBoxWhyHearing,
+} from '../../../../support/full-appeal/appeals-service/page-objects/decide-your-appeal-po';
+import { planningApplicationNumber } from '../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
+import {
   CheckYourAnswersLink,
   getAdvertisingYourAppealAnswerCopyOfForm,
   getAdvertisingYourAppealAnswerInThePress,
@@ -37,8 +79,7 @@ import {
   getDocumentsToSupportAppealChangeLink,
   getDocumentsToSupportAppealQuestion,
   getHealthAndSafetyIssuesAnswer,
-  getHealthAndSafetyIssuesChangeLink,
-  getHealthAndSafetyIssuesDetails,
+  getHealthAndSafetyIssuesChangeLink, getHealthAndSafetyIssuesDetails,
   getHealthAndSafetyIssuesQuestion,
   getIdentifyOtherLandownersAnswer,
   getIdentifyOtherLandownersChangeLink,
@@ -70,7 +111,8 @@ import {
   getPlanningAppMadeOnBehalfOfCompanyAnswer,
   getPlanningAppMadeOnBehalfOfNameAnswer,
   getPlanningAppMadeOnBehalfOfQuestion,
-  getPlansDrawingSupportingDocumentsAnswer, getPlansDrawingSupportingDocumentsChangeLink,
+  getPlansDrawingSupportingDocumentsAnswer,
+  getPlansDrawingSupportingDocumentsChangeLink,
   getPlansDrawingSupportingDocumentsQuestion,
   getPlansOrDrawingAnswer,
   getPlansOrDrawingChangeLink,
@@ -78,8 +120,7 @@ import {
   getPlansOrDrawingSupportingAnswer,
   getPlansOrDrawingSupportingChangeLink,
   getPlansOrDrawingSupportingQuestion,
-  getPreferAHearingAnswer,
-  getPreferAHearingChangeLink,
+  getPreferAHearingAnswer, getPreferAHearingChangeLink,
   getPreferAHearingQuestion,
   getPreferAnInquiryAnswer,
   getPreferAnInquiryChangeLink,
@@ -109,86 +150,15 @@ import {
   getVisibleFromPublicRoadDetails,
   getYourAppealSectionHeading,
   getYourPlanningApplicationSectionHeading,
-} from '../../../../../support/full-appeal/appeals-service/page-objects/check-your-answers-po';
-import {getFileUploadButton} from '../../../../../support/common-page-objects/common-po';
-import {verifyPageTitle} from '../../../../../support/common/verify-page-title';
-import {verifyPageHeading} from '../../../../../support/common/verify-page-heading';
-import {
-  linkDecideYourAppeal,
-  linkProvideYourContactDetails,
-  linkTellAboutTheAppealSite,
-  linkUploadDocsForYourAppeal,
-  linkUploadDocsFromPlanningApplication,
-  pageCaptionText,
-  statusAppealDecisionSection,
-  statusProvideYourContactDetails,
-  statusTellAboutTheAppealSite,
-  statusUploadDocsFromPlanningApplication,
-} from '../../../../../support/full-appeal/appeals-service/page-objects/appeal-form-task-list-po';
-import {
-  applicantCompanyName,
-  contactDetailsCompanyName,
-  contactDetailsEmail,
-  contactDetailsFullName,
-  originalApplicantName,
-  originalApplicantNo,
-  originalApplicantYes,
-} from '../../../../../support/full-appeal/appeals-service/page-objects/original-applicant-or-not-po';
-import {
-  getSaveAndContinueButton
-} from '../../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
-import {
-  provideAddressLine1
-} from "../../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine1";
-import {providePostcode} from "../../../../../support/common/appeal-submission-appeal-site-address/providePostcode";
-import {
-  advertisingYourAppealToldAboutAppeal,
-  advertisingYourAppealUseCopyOfTheForm,
-  advertisingYourAppealWithinLast21Days,
-  checkBoxIdentifyingTheOwners,
-  selectNo,
-  selectYes,
-  tellingTheLandOwnersToldAboutAppeal,
-  tellingTheLandOwnersUseCopyOfTheForm,
-  tellingTheLandOwnersWithinLast21Days, tellingTheTenantsCopyOfTheForm,
-  tellingTheTenantsFormInAnnexe,
-  tellingTheTenantsToldAboutAppeal,
-  tellingTheTenantsWithinLast21Days
-} from "../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po";
-import {
-  selectHearing,
-  selectInquiry,
-  selectWrittenRepresentations,
-  textBoxExpectDays,
-  textBoxInquiry,
-  textBoxWhyHearing
-} from "../../../../../support/full-appeal/appeals-service/page-objects/decide-your-appeal-po";
-import {
-  planningApplicationNumber
-} from "../../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po";
-import {
-  checkboxConfirmSensitiveInfo
-} from "../../../../../support/full-appeal/appeals-service/page-objects/your-appeal-statement-po";
-import {
-  verifyFullAppealCYAQuestion
-} from "../../../../../support/full-appeal/appeals-service/check-your-answers/verifyFullAppealCYAQuestion";
-import {
-  verifyFullAppealCYAChangLink
-} from "../../../../../support/full-appeal/appeals-service/check-your-answers/verifyFullAppealCYAChangLink";
-import {
-  verifyFullAppealCYAAnswer
-} from "../../../../../support/full-appeal/appeals-service/check-your-answers/verifyFullAppealCYAAnswer";
-import {
-  provideAddressLine2
-} from "../../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine2";
-import {provideTownOrCity} from "../../../../../support/common/appeal-submission-appeal-site-address/provideTownOrCity";
-import {provideCounty} from "../../../../../support/common/appeal-submission-appeal-site-address/provideCounty";
-import {selectTheOwners} from "../../../../../support/full-appeal/appeals-service/selectTheOwners";
-import {notVisibleFromLandProvideDetails} from "../../../../../support/full-appeal/appeals-service/page-objects/visible-from-road-po";
-import {
-  healthAndSafetyIssuesProvideDetails
-} from "../../../../../support/full-appeal/appeals-service/page-objects/health-safety-issues-po";
-import { statusAppealDocumentsSection } from '../../../../../../../forms-web-app/src/services/task-status/full-appeal/status-appeal-documents-section';
+} from '../../../../support/full-appeal/appeals-service/page-objects/check-your-answers-po';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
+import { verifyFullAppealCYAQuestion } from '../../../../support/full-appeal/appeals-service/check-your-answers/verifyFullAppealCYAQuestion';
+import { verifyFullAppealCYAChangLink } from '../../../../support/full-appeal/appeals-service/check-your-answers/verifyFullAppealCYAChangLink';
+import { verifyFullAppealCYAAnswer } from '../../../../support/full-appeal/appeals-service/check-your-answers/verifyFullAppealCYAAnswer';
+import { notVisibleFromLandProvideDetails } from '../../../../support/full-appeal/appeals-service/page-objects/visible-from-road-po';
+import { healthAndSafetyIssuesProvideDetails } from '../../../../support/full-appeal/appeals-service/page-objects/health-safety-issues-po';
+import { checkboxConfirmSensitiveInfo } from '../../../../support/full-appeal/appeals-service/page-objects/your-appeal-statement-po';
 
 const url = 'full-appeal/submit-appeal/check-your-answers';
 const pageTitle = 'Check your answers - Appeal a planning decision - GOV.UK';
@@ -253,6 +223,7 @@ const plansAndDrawingsDocument = 'upload-file-valid.pdf';
 
 Given('the appellant has provided details for {string} and status is {string}', (contact_Details, progress) => {
   cy.url().should('contain', taskListUrl);
+  statusProvideYourContactDetails().should('contain.text', 'NOT STARTED');
   linkProvideYourContactDetails().click();
   if (contact_Details === 'appellant') {
     originalApplicantYes().click();
