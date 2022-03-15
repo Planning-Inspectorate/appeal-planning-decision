@@ -34,11 +34,11 @@ Feature: As an Appellant/Agent
 
 
   Scenario Outline: <Acceptance_criteria>- <description> for appeal site section
-    Given the appellant has provided details for '<contact_details>'
-    And appellant provides the details for '<own_land>', '<own_some_land>', '<owns_rest_of_land>', '<agricultural_holding>', '<visible_publicLand>', '<tenant>', '<other_tenants>' and '<health_and_safety>'
-    And appellant provides the details about '<appeal_decision>' preference
-    And appellant uploads documents from planning application and design and access statement as '<design_access_statement>'
-    And appellant uploads documents for appeal for plans and drawings '<plans_and_drawings>' and supporting documents '<supporting_documents>'
+    Given the appellant has provided details for '<contact_details>' and status is 'COMPLETED'
+    And appellant provides the details for '<own_land>', '<own_some_land>', '<owns_rest_of_land>', '<agricultural_holding>', '<visible_publicLand>', '<tenant>', '<other_tenants>' and '<health_and_safety>' and status is 'COMPLETED'
+    And appellant provides the details about '<appeal_decision>' preference and status is 'COMPLETED'
+    And appellant uploads documents from planning application and design and access statement as '<design_access_statement>' and status is 'COMPLETED'
+    And appellant uploads documents for appeal for plans and drawings '<plans_and_drawings>' and supporting documents '<supporting_documents>' and status is 'COMPLETED'
     When appellant clicks on Check your answers link
     Then appellant is displayed the check your answer page
     And appellant is displayed answers for '<contact_details>'
@@ -81,11 +81,11 @@ Feature: As an Appellant/Agent
 
 
   Scenario Outline: <Acceptance_criteria>- <description> for deciding your appeal section
-    Given the appellant has provided details for '<contact_details>'
-    And appellant provides the details for '<own_land>', '<own_some_land>', '<owns_rest_of_land>', '<agricultural_holding>', '<visible_publicLand>', '<tenant>', '<other_tenants>' and '<health_and_safety>'
-    And appellant provides the details about '<appeal_decision>' preference
-    And appellant uploads documents from planning application and design and access statement as '<design_access_statement>'
-    And appellant uploads documents for appeal for plans and drawings '<plans_and_drawings>' and supporting documents '<supporting_documents>'
+    Given the appellant has provided details for '<contact_details>' and status is 'COMPLETED'
+    And appellant provides the details for '<own_land>', '<own_some_land>', '<owns_rest_of_land>', '<agricultural_holding>', '<visible_publicLand>', '<tenant>', '<other_tenants>' and '<health_and_safety>' and status is 'COMPLETED'
+    And appellant provides the details about '<appeal_decision>' preference and status is 'COMPLETED'
+    And appellant uploads documents from planning application and design and access statement as '<design_access_statement>' and status is 'COMPLETED'
+    And appellant uploads documents for appeal for plans and drawings '<plans_and_drawings>' and supporting documents '<supporting_documents>' and status is 'COMPLETED'
     When appellant clicks on Check your answers link
     Then appellant is displayed the check your answer page
     And appellant is displayed answers for '<contact_details>'
@@ -114,11 +114,11 @@ Feature: As an Appellant/Agent
       | AC-40               | Appellant changes Inquiry statement for common ground | appellant       | yes      | no            | Yes, I know who owns all the land | no                   | yes    | yes           | no                | yes                | Inquiry                 | no                      | no                 | no                   | Draft statement of common ground                    | upload-file-valid.jpg, Inquiry                                                    |
 
   Scenario Outline: <Acceptance_criteria>- <description> for planning application section
-    Given the appellant has provided details for '<contact_details>'
-    And appellant provides the details for '<own_land>', '<own_some_land>', '<owns_rest_of_land>', '<agricultural_holding>', '<visible_publicLand>', '<tenant>', '<other_tenants>' and '<health_and_safety>'
-    And appellant provides the details about '<appeal_decision>' preference
-    And appellant uploads documents from planning application and design and access statement as '<design_access_statement>'
-    And appellant uploads documents for appeal for plans and drawings '<plans_and_drawings>' and supporting documents '<supporting_documents>'
+    Given the appellant has provided details for '<contact_details>' and status is 'COMPLETED'
+    And appellant provides the details for '<own_land>', '<own_some_land>', '<owns_rest_of_land>', '<agricultural_holding>', '<visible_publicLand>', '<tenant>', '<other_tenants>' and '<health_and_safety>' and status is 'COMPLETED'
+    And appellant provides the details about '<appeal_decision>' preference and status is 'COMPLETED'
+    And appellant uploads documents from planning application and design and access statement as '<design_access_statement>' and status is 'COMPLETED'
+    And appellant uploads documents for appeal for plans and drawings '<plans_and_drawings>' and supporting documents '<supporting_documents>' and status is 'COMPLETED'
     When appellant clicks on Check your answers link
     Then appellant is displayed the check your answer page
     And appellant is displayed answers for '<contact_details>'
@@ -144,11 +144,11 @@ Feature: As an Appellant/Agent
 
 
   Scenario Outline: <Acceptance_criteria>- <description> for your appeal section
-    Given the appellant has provided details for '<contact_details>'
-    And appellant provides the details for '<own_land>', '<own_some_land>', '<owns_rest_of_land>', '<agricultural_holding>', '<visible_publicLand>', '<tenant>', '<other_tenants>' and '<health_and_safety>'
-    And appellant provides the details about '<appeal_decision>' preference
-    And appellant uploads documents from planning application and design and access statement as '<design_access_statement>'
-    And appellant uploads documents for appeal for plans and drawings '<plans_and_drawings>' and supporting documents '<supporting_documents>'
+    Given the appellant has provided details for '<contact_details>' and status is 'COMPLETED'
+    And appellant provides the details for '<own_land>', '<own_some_land>', '<owns_rest_of_land>', '<agricultural_holding>', '<visible_publicLand>', '<tenant>', '<other_tenants>' and '<health_and_safety>' and status is 'COMPLETED'
+    And appellant provides the details about '<appeal_decision>' preference and status is 'COMPLETED'
+    And appellant uploads documents from planning application and design and access statement as '<design_access_statement>' and status is 'COMPLETED'
+    And appellant uploads documents for appeal for plans and drawings '<plans_and_drawings>' and supporting documents '<supporting_documents>' and status is 'COMPLETED'
     When appellant clicks on Check your answers link
     Then appellant is displayed the check your answer page
     And appellant is displayed answers for '<contact_details>'
