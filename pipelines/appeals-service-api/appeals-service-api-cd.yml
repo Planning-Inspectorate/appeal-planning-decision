@@ -1,0 +1,52 @@
+parameters:
+  - name: deploymentTag
+    type: string
+    default: none
+  - name: environments
+    type: object
+    default:
+      - name: Dev
+      - name: Test
+        dependsOn:
+          - Dev
+      - name: Prod
+        dependsOn:
+          - Test
+
+trigger: none
+
+pr: none
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      endpoint: Appeals Token
+      name: Planning-Inspectorate/common-pipeline-templates
+  pipelines:
+    - pipeline: appeals-service-api-ci
+      source: appeals-service-api CI
+      trigger: 
+        branches:
+          include: 
+            - main
+
+extends:
+  template: stages/wrapper_web_app_cd.yml@templates
+  parameters:
+    appName: pins-app-appeals-service-appeals-api-$(ENVIRONMENT)-uks-001
+    artifactSourcePipeline: appeals-service-api CI
+    azurecrName: $(azurecrName)
+    azurecrServiceConnection: $(azurecrServiceConnection)
+    deploymentTag: ${{ parameters.deploymentTag }}
+    globalVariables:
+      - template: pipelines/appeals-service-api/variables.yml@self
+      - template: pipelines/variables.yml@self  
+    projectName: $(projectName) 
+    releaseVersion: $(version.MajorMinor)
+    repository: $(repository)
+    ${{ if in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'ResourceTrigger') }}:
+      environments:
+        - name: Dev
+    ${{ else }}:
+      environments: ${{ parameters.environments }}

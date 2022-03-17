@@ -1,0 +1,4 @@
+variables:
+  azurecrName: pinscrsharedtoolinguks
+  azurecrServiceConnection: appeal-planning-decision-tooling
+  projectName: appeal-planning-decision
