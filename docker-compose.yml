@@ -305,7 +305,7 @@ services:
     image: mcr.microsoft.com/azure-storage/azurite
     ports:
       - 4002:10000
-      - 4003:10001
+      - 4003:10002
     volumes:
       - ./tmp/blob-storage:/data
 
