@@ -7,6 +7,7 @@ const appeal = {
   decisionDate: new Date(),
   createdAt: new Date(),
   updatedAt: new Date(),
+  submissionDate: new Date(),
   state: 'SUBMITTED',
   appealType: '1005',
   typeOfPlanningApplication: 'full-appeal',

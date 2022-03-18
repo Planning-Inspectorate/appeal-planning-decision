@@ -22,6 +22,7 @@ const insert = pinsYup
     decisionDate: pinsYup.date().transform(parseDateString).nullable(),
     createdAt: pinsYup.date().transform(parseDateString).required(),
     updatedAt: pinsYup.date().transform(parseDateString).required(),
+    submissionDate: pinsYup.date().transform(parseDateString).nullable(),
     state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).default(APPEAL_STATE.DRAFT),
     appealType: pinsYup.lazy((appealType) => {
       if (appealType) {

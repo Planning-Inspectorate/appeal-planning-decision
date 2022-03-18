@@ -29,6 +29,7 @@ const update = pinsYup
     }),
     createdAt: pinsYup.date().transform(parseDateString).required(),
     updatedAt: pinsYup.date().transform(parseDateString).required(),
+    submissionDate: pinsYup.date().transform(parseDateString).nullable(),
     state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).required(),
     appealType: pinsYup.string().oneOf(Object.values(APPEAL_ID)).required(),
     typeOfPlanningApplication: pinsYup
