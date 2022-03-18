@@ -179,6 +179,23 @@ describe('schemas/full-appeal/insert', () => {
       });
     });
 
+    describe('submissionDate', () => {
+      it('should throw an error when given a value which is in an incorrect format', async () => {
+        appeal.submissionDate = '03/07/2021';
+
+        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+          'Invalid Date or string not ISO format',
+        );
+      });
+
+      it('should not throw an error when not given a value', async () => {
+        delete appeal.submissionDate;
+
+        const result = await insert.validate(appeal, config);
+        expect(result).toEqual(appeal);
+      });
+    });
+
     describe('state', () => {
       it('should throw an error when given an invalid value', async () => {
         appeal.state = 'PENDING';

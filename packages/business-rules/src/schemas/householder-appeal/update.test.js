@@ -212,6 +212,14 @@ describe('schemas/householder-appeal/update', () => {
     });
 
     describe('submissionDate', () => {
+      it('should throw an error when given a value which is in an incorrect format', async () => {
+        appeal.submissionDate = '03/07/2021';
+
+        await expect(() => update.validate(appeal, config)).rejects.toThrow(
+          'Invalid Date or string not ISO format',
+        );
+      });
+
       it('should not throw an error when not given a value', async () => {
         delete appeal.submissionDate;
 
