@@ -33,13 +33,27 @@
 {% block backButton %}
 {% endblock %}
 
-{% if appeal.eligibility.applicationDecision === 'granted' %}
-  {% set planningDecision = 'Granted' %}
-{% elif appeal.eligibility.applicationDecision === 'refused' %}
-  {% set planningDecision = 'Refused' %}
-{% else %}
-  {% set planningDecision = 'I have not received a decision' %}
-{% endif %}
+{% switch(appeal.eligibility.applicationDecision) %}
+  {% case 'granted' %}
+    {% set planningDecision = 'Granted' %}
+  {% case 'refused' %}
+    {% set planningDecision = 'Refused' %}
+  {% default %}
+    {% set planningDecision = 'I have not received a decision' %}
+{% endswitch %}
+
+{% switch(appeal.typeOfPlanningApplication) %}
+  {% case 'outline-planning' %}
+    {% set planningApplicationType = 'Outline planning' %}
+  {% case 'prior-approval' %}
+    {% set planningApplicationType = 'Prior approval' %}
+  {% case 'reserved-matters' %}
+    {% set planningApplicationType = 'Reserved matters' %}
+  {% case 'removal-or-variation-of-conditions' %}
+    {% set planningApplicationType = 'Removal or variation of conditions' %}
+  {% default %}
+    {% set planningApplicationType = 'Full planning' %}
+{% endswitch %}
 
 {% block content %}
   <div class="govuk-grid-row">
@@ -67,7 +81,7 @@
               text: "Planning application type"
             },
             value: {
-              text: summaryField("Full planning", { 'data-cy': "planning-appliction-type" })
+              text: summaryField(planningApplicationType, { 'data-cy': "planning-application-type" })
             }
           },
           {
