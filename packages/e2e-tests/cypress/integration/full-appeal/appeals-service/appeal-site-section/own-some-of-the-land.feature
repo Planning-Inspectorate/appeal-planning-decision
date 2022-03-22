@@ -1,6 +1,9 @@
 Feature: As an appellant/agent
-         I want to provide the necessary details needed for my application to be submitted
-         So that I am sure that the information provided are accurate
+  I want to provide the necessary details needed for my application to be submitted
+  So that I am sure that the information provided are accurate
+
+  Background:
+    Given appellant has completed full appeal eligibility journey
 
   Scenario: 1 - Navigate from 'Do you own all the land involved in the appeal' to 'Do you own some of the land involved in the appeal?'
     Given an appellant or agent is on the 'Do you own all the land involved in the appeal' page

@@ -23,9 +23,6 @@ import {
 import {
   enterDateHouseholderDecisionReceived
 } from "../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received";
-import {
-  enterDateDecisionDueHouseholder
-} from "../../../../support/eligibility/date-decision-due-householder/enter-date-decision-due-householder";
 import {getClaimingCostNo} from "../../../../support/eligibility/page-objects/claiming-costs-po";
 import {
   getPlanningApplicationType
@@ -37,9 +34,6 @@ import {
 import {
   getDateHouseholderDecisionReceived
 } from "../../../../support/eligibility/date-decision-received/get-date-householder-decision-received";
-import {
-  getDateDecisionDueHouseholder
-} from "../../../../support/eligibility/date-decision-due-householder/get-date-decision-due-householder";
 import { getBackLink, getSaveAndContinueButton } from '../../../../support/common-page-objects/common-po';
 import {getLocalPlanningDepart} from "../../../../support/eligibility/page-objects/local-planning-depart";
 import {selectSiteOption} from "../../../../support/eligibility/appellant-selects-the-site/select-site-option";
@@ -51,12 +45,10 @@ import {
   getDateDecisionReceived
 } from '../../../../support/eligibility/date-decision-received/get-date-decision-received';
 import { getDateDecisionDue } from '../../../../support/eligibility/date-decision-due/get-date-decision-due';
-import { selectNo, selectYes } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
+import { selectYes } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 const url = 'before-you-start/local-planning-depart';
 let validDate;
-before(()=>{
-  cy.task('getData',{collection:'appeals',filter:"appeal.state"});
-});
+
 Given('appellant selects local planning department',()=>{
   goToAppealsPage(url);
   acceptCookiesBanner();

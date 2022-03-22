@@ -5,7 +5,6 @@ import {
 } from '../../../../../support/common-page-objects/common-po';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
 import { Given } from 'cypress-cucumber-preprocessor/steps';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import { linkDecideYourAppeal } from '../../../../../support/full-appeal/appeals-service/page-objects/appeal-form-task-list-po';
 import {
   expectedDaysErrorMessage,
@@ -18,7 +17,6 @@ import { pageCaptionText } from '../../../../../support/full-appeal/appeals-serv
 
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
 const whyInquiryUrl = 'full-appeal/submit-appeal/why-inquiry';
-const decideAppealUrl = 'full-appeal/submit-appeal/how-decide-appeal';
 const Url = 'full-appeal/submit-appeal/expect-inquiry-last';
 const draftStatementCommonGroundUrl = 'full-appeal/submit-appeal/draft-statement-common-ground';
 const pageTitle = 'How many days would you expect the inquiry to last? - Appeal a planning decision - GOV.UK';
@@ -27,9 +25,6 @@ const textPageCaption = 'Tell us how you would prefer us to decide your appeal';
 const textInquiry = 'I want to take part in the inquiry process - 123456789';
 const validNumberDays = '10';
 
-Given('appellant has completed full appeal eligibility journey',()=>{
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
-});
 
 Given("an Appellant or Agent is on the 'Why would you prefer an inquiry?'", () => {
   cy.url().should('include', taskListUrl);

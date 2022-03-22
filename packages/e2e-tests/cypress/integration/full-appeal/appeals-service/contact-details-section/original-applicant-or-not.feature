@@ -2,9 +2,11 @@ Feature: As an appellant/agent
   I want to provide the necessary details needed for my application to be submitted
   So that I am sure that the information provided are accurate
 
+  Background:
+    Given appellant has completed full appeal eligibility journey
+
   Scenario: 1. Navigate from 'Appeal a Planning Decision page' to 'Provide your contact details' page and select 'Yes' the application made was made in my name
-    Given an Appellant or Agent is on the Appeal a planning decision page
-    When the user click 'Provide your contact details' link
+    Given the user click 'Provide your contact details' link
     Then 'Provide your contact details' page is displayed
 
   Scenario: 2. Yes option is selected on 'Was the planning application made in your name'

@@ -11,11 +11,8 @@ import { verifyPageTitle } from '../../../../../support/common/verify-page-title
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import {
   errorMessageOwnAllLand,
-  selectNo,
-  selectYes,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import { selectRadioButton } from '../../../../../support/full-appeal/appeals-service/selectRadioButton';
 
 const url = 'full-appeal/submit-appeal/own-all-the-land';
@@ -32,7 +29,6 @@ When("they select the 'Continue' button",()=> {
     getSaveAndContinueButton().click();
 });
 Given("an appellant or agent is on the 'What is the address of the appeal site' page",()=> {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
   provideAddressLine1(addressLine1);
@@ -48,7 +44,6 @@ When("no selection is made and they click Continue", () => {
   getSaveAndContinueButton().click();
 })
 Given("an appellant or agent is on the 'Do you own all the land involved in the appeal' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
   provideAddressLine1(addressLine1);

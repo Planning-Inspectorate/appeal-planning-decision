@@ -14,7 +14,6 @@ import {
   getSaveAndContinueButton,
 } from '../../../../../support/common-page-objects/common-po';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 const url = 'full-appeal/submit-appeal/applicant-name';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -27,7 +26,6 @@ const applicantName = 'Original Applicant Teddy'
 const companyName = 'ABC company limited'
 
 Given("Agent is on the 'Was the original planning application made in your name?'",()=> {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   contactDetailsLink().click();
   cy.url().should('contain',originalApplicantUrl);
 })
@@ -43,7 +41,6 @@ Then("the next page to provide the Applicant's name is displayed", () => {
 });
 
 Given("an Agent is on the 'What is the applicant’s name' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   contactDetailsLink().click();
   originalApplicantNo().click();
   getSaveAndContinueButton().click();

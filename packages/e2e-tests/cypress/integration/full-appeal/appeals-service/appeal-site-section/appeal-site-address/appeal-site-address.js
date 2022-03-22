@@ -22,7 +22,6 @@ import { provideAddressLine2 } from '../../../../../support/common/appeal-submis
 import { provideTownOrCity } from '../../../../../support/common/appeal-submission-appeal-site-address/provideTownOrCity';
 import { provideCounty } from '../../../../../support/common/appeal-submission-appeal-site-address/provideCounty';
 import { providePostcode } from '../../../../../support/common/appeal-submission-appeal-site-address/providePostcode';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 const url = 'full-appeal/submit-appeal/appeal-site-address';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -32,11 +31,7 @@ const pageTitle = "What is the address of the appeal site? - Appeal a planning d
 const pageHeading = 'What is the address of the appeal site?';
 const textPageText = 'The appeal site is the area of property or land that your planning application relates to.';
 
-Given("an appellant is on the 'Task List' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
-});
-
-When("they click the 'Tell us about the appeal site' link on the Task List page", () => {
+Given("appellant click the 'Tell us about the appeal site' link on the Task List page", () => {
   linkTellAboutTheAppealSite().click();
 });
 
@@ -45,7 +40,6 @@ Then("the 'What is the address of the appeal site?' page is displayed", () => {
 });
 
 Given("an appellant is on the 'What is the address of the appeal site?' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   linkTellAboutTheAppealSite().click();
   pageCaption().should('contain', textPageCaption);
   pageText().should('contain', textPageText);

@@ -13,11 +13,9 @@ import { planningApplicationDocumentsLink } from '../../../../../support/full-ap
 import { planningApplicationNumber } from '../../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 
 const url = 'full-appeal/submit-appeal/design-access-statement-submitted';
-const taskListUrl = 'full-appeal/submit-appeal/task-list';
 const planningApplicationNoUrl = 'full-appeal/submit-appeal/application-number';
 const designAccessStatementUrl = 'full-appeal/submit-appeal/design-access-statement';
 const decisionLetterUrl = 'full-appeal/submit-appeal/decision-letter';

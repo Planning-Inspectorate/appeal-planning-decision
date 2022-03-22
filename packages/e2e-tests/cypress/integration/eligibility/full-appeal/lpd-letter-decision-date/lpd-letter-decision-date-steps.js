@@ -26,12 +26,10 @@ import {
   getErrorMessageSummary,
   getSaveAndContinueButton,
 } from '../../../../support/common-page-objects/common-po';
-import {
-  verifyHighlights
-} from "../../../../support/eligibility/date-decision-due/enter-date-decision-due";
 import {getAppealDeadline} from "../../../../support/eligibility/page-objects/shutter-page-po";
 import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
 import { selectNo } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
+import {acceptCookiesBanner} from "../../../../support/common/accept-cookies-banner";
 const pageHeading = 'What\'s the decision date on the letter from the local planning department?';
 const pageTitle = 'What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK';
 const url = `/decision-date`;
@@ -43,6 +41,7 @@ let pastDate;
 
 Given('appellant navigates to decision date received page for {string}',(application_type)=>{
   goToAppealsPage('before-you-start/local-planning-depart');
+  acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getSaveAndContinueButton().click();
   selectPlanningApplicationType(application_type);

@@ -1,23 +1,24 @@
-import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import {Given, Then, When} from 'cypress-cucumber-preprocessor/steps';
 
-import { selectListedBuildingDecision } from '../../../../support/eligibility/listed-building/select-listed-building-decision';
-import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
-import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
+import {
+  selectListedBuildingDecision
+} from '../../../../support/eligibility/listed-building/select-listed-building-decision';
+import {verifyErrorMessage} from '../../../../support/common/verify-error-message';
+import {acceptCookiesBanner} from '../../../../support/common/accept-cookies-banner';
 import {
   getIsListedBuilding,
   getIsNotListedBuilding,
   getListedBuildingDecisionError,
 } from '../../../../support/eligibility/page-objects/listed-building-po';
-import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
-import { verifyPageTitle } from '../../../../support/common/verify-page-title';
-import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
+import {goToAppealsPage} from '../../../../support/common/go-to-page/goToAppealsPage';
+import {verifyPageTitle} from '../../../../support/common/verify-page-title';
+import {verifyPageHeading} from '../../../../support/common/verify-page-heading';
+import {getBackLink, getErrorMessageSummary,} from '../../../../support/common-page-objects/common-po';
+import {getContinueButton} from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
+import {getLocalPlanningDepart} from '../../../../support/eligibility/page-objects/local-planning-department-po';
 import {
-  getBackLink,
-  getErrorMessageSummary,
-} from '../../../../support/common-page-objects/common-po';
-import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
-import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
-import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
+  selectPlanningApplicationType
+} from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
 
 const pageTitle =
   'Is your appeal about a listed building? - Before you start - Appeal a planning decision - GOV.UK';
@@ -30,12 +31,12 @@ const typeOfPlanningApplicationPageUrl = '/type-of-planning-application';
 
 Given('appellant is on the is your application about a Listed Building Page', () => {
   goToAppealsPage('before-you-start/local-planning-depart');
+  acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getContinueButton().click();
   selectPlanningApplicationType('Householder');
   getContinueButton().click();
   cy.url().should('contain', url);
-  acceptCookiesBanner();
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading);
   cy.checkPageA11y();
@@ -49,7 +50,8 @@ When('appellant clicks on the continue button', () => {
   getContinueButton().click();
 });
 
-When('appellant has not made any selection', () => {});
+When('appellant has not made any selection', () => {
+});
 
 When('appellant selects the back link', () => {
   getBackLink().click();

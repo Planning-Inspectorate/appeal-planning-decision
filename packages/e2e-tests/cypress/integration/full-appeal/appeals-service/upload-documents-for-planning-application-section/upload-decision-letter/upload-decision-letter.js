@@ -18,7 +18,6 @@ import {
   pageCaptionText,
   planningApplicationDocumentsLink,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 const url = 'full-appeal/submit-appeal/decision-letter';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';

@@ -3,13 +3,10 @@ import { verifyErrorMessage } from '../../../../../support/common/verify-error-m
 import {
   checkBoxIdentifyingTheOwners,
   checkBoxLabelIdentifyingTheOwners,
-  errorMessageAreYouATenant,
   errorMessageIdentifyingTheOwners,
   listItem1IdentifyingTheOwners, listItem2IdentifyingTheOwners,
-  listItemIdentifyingTheOwners,
   selectNo,
   selectSomeOf,
-  selectYes,
   statementTitle,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 import {
@@ -17,8 +14,6 @@ import {
   getErrorMessageSummary,
   getSaveAndContinueButton,
 } from '../../../../../support/common-page-objects/common-po';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
-import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
 import {
   aboutAppealSiteSectionLink,
   pageCaptionText,
@@ -27,10 +22,8 @@ import { provideAddressLine1 } from '../../../../../support/common/appeal-submis
 import { providePostcode } from '../../../../../support/common/appeal-submission-appeal-site-address/providePostcode';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 const url = 'full-appeal/submit-appeal/identifying-the-owners';
-const taskListUrl = 'full-appeal/submit-appeal/task-list';
 const siteAddressUrl = 'full-appeal/submit-appeal/appeal-site-address';
 const ownAllOfLandUrl = 'full-appeal/submit-appeal/own-all-the-land';
 const ownSomeOfLandUrl = 'full-appeal/submit-appeal/own-some-of-the-land';
@@ -47,7 +40,6 @@ const addressLine1 = '10 Bradmore Way';
 const postcode = 'RG6 1BC';
 
 const pageMethodsKnowTheOwners = () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
   provideAddressLine1(addressLine1);

@@ -1,9 +1,11 @@
 Feature: Appellant provides the Appeal Site Address
   I need to provide the appeal site address, so that all parties know which site the appeal is against.
 
+  Background:
+    Given appellant has completed full appeal eligibility journey
+
   Scenario: 1. Navigate from 'Task List page' to 'What is the address of the appeal site?' page
-    Given an appellant is on the 'Task List' page
-    When they click the 'Tell us about the appeal site' link on the Task List page
+    Given appellant click the 'Tell us about the appeal site' link on the Task List page
     Then the 'What is the address of the appeal site?' page is displayed
 
   Scenario Outline: 2. The appellant submits a valid appeal site address
@@ -26,9 +28,9 @@ Feature: Appellant provides the Appeal Site Address
     Then the appellant remains on the 'What is the address of the appeal site?' page
     And the appellant is informed that <Reason>
     Examples:
-      | Address Line 1 | Address Line 2 | Town or City | County       | Postcode  | Reason                       |
+      | Address Line 1 | Address Line 2 | Town or City | County       | Postcode  | Reason                          |
       | ""             | ""             | ""           | "South Glos" | "W1A 1HQ" | "Enter the building and street" |
-      | "aaa"          | ""             | ""           | ""           | ""        | "Enter the postcode"         |
+      | "aaa"          | ""             | ""           | ""           | ""        | "Enter the postcode"            |
 
   Scenario: 4. The appellant fails to provide any address information
     Given an appellant is on the 'What is the address of the appeal site?' page

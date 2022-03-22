@@ -1,18 +1,15 @@
 import { Given, Then, When } from 'cypress-cucumber-preprocessor/steps';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import { linkDecideYourAppeal } from '../../../../../support/full-appeal/appeals-service/page-objects/appeal-form-task-list-po';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { pageCaptionText } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 import {
-  decideYourAppealPageCaption, decideYourAppealPageHeading,
   procedureErrorMessage,
   selectHearing, selectInquiry,
   selectWrittenRepresentations,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/decide-your-appeal-po';
 import {
   getBackLink, getErrorMessageSummary,
-  getPageHeading,
   getSaveAndContinueButton,
 } from '../../../../../support/common-page-objects/common-po';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
@@ -26,9 +23,6 @@ const pageTitle = 'How would you prefer us to decide your appeal? - Appeal a pla
 const pageHeading = 'How would you prefer us to decide your appeal?';
 const textPageCaption = 'Tell us how you would prefer us to decide your appeal';
 
-Given('appellant has completed full appeal eligibility journey',()=>{
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
-});
 
 Given("an Appellant or Agent is on the 'Appeal a Planning Decision' page", () => {
   cy.url().should('include', taskListUrl);

@@ -24,12 +24,14 @@ import { getIsNotListedBuilding } from '../../../../support/eligibility/page-obj
 import {
   enterDateHouseholderDecisionReceived
 } from '../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received';
+import {acceptCookiesBanner} from "../../../../support/common/accept-cookies-banner";
 const pageUrl = 'before-you-start/claiming-costs-householder';
 const pageTitle = 'Are you claiming costs as part of your appeal? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Are you claiming costs as part of your appeal?';
 
 Given('appellant is on the claiming cost page',()=>{
   goToAppealsPage('before-you-start/local-planning-depart');
+  acceptCookiesBanner()
   getLocalPlanningDepart().select('System Test Borough Council');
   getContinueButton().click();
   selectPlanningApplicationType('Householder');

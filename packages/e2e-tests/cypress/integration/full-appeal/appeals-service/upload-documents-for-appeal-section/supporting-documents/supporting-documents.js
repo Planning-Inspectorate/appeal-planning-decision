@@ -1,5 +1,4 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import {
   appealDocumentsSectionLink,
   pageCaptionText,
@@ -33,7 +32,6 @@ const pageHeading = 'Do you want to submit any new supporting documents with you
 const filename = 'upload-file-valid.doc';
 
 Given("an Appellant or Agent is on the 'New plans or drawings' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   appealDocumentsSectionLink().click();
   getFileUploadButton().attachFile(filename);
   checkboxConfirmSensitiveInfo().click();
@@ -49,7 +47,6 @@ Then("'Do you want to submit any new supporting documents with your appeal?' pag
   cy.checkPageA11y();
 });
 Given("an Appellant or Agent is on the 'Supporting documents' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   appealDocumentsSectionLink().click();
   getFileUploadButton().attachFile(filename);
   checkboxConfirmSensitiveInfo().click();

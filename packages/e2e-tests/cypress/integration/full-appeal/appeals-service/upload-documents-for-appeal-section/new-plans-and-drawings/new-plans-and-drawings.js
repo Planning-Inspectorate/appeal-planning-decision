@@ -1,5 +1,4 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import {
   appealDocumentsSectionLink,
   pageCaptionText,
@@ -27,7 +26,6 @@ const Url ='full-appeal/submit-appeal/new-plans-drawings';
 const plansDrawingsUrl = 'full-appeal/submit-appeal/plans-drawings';
 const appealStatementUrl = 'full-appeal/submit-appeal/appeal-statement';
 const supportingDocumentsUrl ='full-appeal/submit-appeal/supporting-documents';
-const taskListUrl = 'full-appeal/submit-appeal/task-list';
 const textPageCaption = 'Upload documents for your appeal';
 const pageTitle = "New plans and drawings - Appeal a planning decision - GOV.UK";
 const pageHeading = 'New plans and drawings';
@@ -37,9 +35,6 @@ const validFilename2 = 'upload-file-valid.jpeg';
 const validFilename3 = 'appeal-statement-valid.jpeg';
 const validFilename4 = 'appeal-statement-valid.tif';
 
-Given('appellant has completed full appeal eligibility journey',()=>{
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
-});
 Given("an Appellant or Agent is on the 'Do you have any new plans for drawings that support your appeal' page", () => {
   appealDocumentsSectionLink().click();
   cy.url().should('include', appealStatementUrl);

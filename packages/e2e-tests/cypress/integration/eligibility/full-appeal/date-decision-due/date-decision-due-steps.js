@@ -17,7 +17,7 @@ import {
 } from '../../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
 import {
   enterDateDecisionDue,
-  verifyHighlights, verifyHighlightsDecisionDue,
+  verifyHighlightsDecisionDue,
 } from '../../../../support/eligibility/date-decision-due/enter-date-decision-due';
 import {
   getDateDecisionDueDay,
@@ -32,7 +32,6 @@ import { selectNo } from '../../../../support/full-appeal/appeals-service/page-o
 const pageHeading = 'What date was your decision due?';
 const pageTitle = 'What date was your decision due? - Before you start - Appeal a planning decision - GOV.UK';
 const url = `before-you-start/date-decision-due`;
-const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 const enforcementNoticePageUrl = '/before-you-start/enforcement-notice';
 const grantedOrRefusedPageUrl = '/before-you-start/granted-or-refused';
 const shutterPageUrl = '/before-you-start/you-cannot-appeal';
@@ -40,6 +39,7 @@ let pastDate;
 
 Given('appellant navigates to decision date page for {string}',(application_type)=>{
   goToAppealsPage('before-you-start/local-planning-depart');
+  acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getContinueButton().click();
   selectPlanningApplicationType(application_type);
@@ -72,7 +72,6 @@ Given('appellant navigates to date decision due page', () =>{
 });
 
 Given('appellant is on the what date was the decision due page',()=>{
-  acceptCookiesBanner();
   verifyPageHeading(pageHeading);
   verifyPageTitle(pageTitle);
   cy.checkPageA11y();

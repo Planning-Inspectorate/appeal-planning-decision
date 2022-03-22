@@ -25,6 +25,7 @@ const previousPageUrl = '/before-you-start/any-of-following';
 
 Given('appellant is on the was your planning application granted or refused page', () => {
     goToAppealsPage('before-you-start/local-planning-depart');
+    acceptCookiesBanner();
     getLocalPlanningDepart().select('System Test Borough Council');
     getSaveAndContinueButton().click();
     selectPlanningApplicationType('Full planning');
@@ -32,7 +33,6 @@ Given('appellant is on the was your planning application granted or refused page
     selectSiteOption('None of these');
     getContinueButton().click();
     cy.url().should('contain', url);
-    acceptCookiesBanner();
     verifyPageTitle(pageTitle);
     verifyPageHeading(pageHeading);
 });
