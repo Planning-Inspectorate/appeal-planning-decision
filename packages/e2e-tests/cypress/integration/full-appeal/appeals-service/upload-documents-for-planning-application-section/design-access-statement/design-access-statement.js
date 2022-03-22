@@ -16,7 +16,6 @@ import { errorFileUploadField } from '../../../../../support/full-appeal/appeals
 import { planningApplicationDocumentsLink } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 import { submitADesignStYes } from '../../../../../support/full-appeal/appeals-service/page-objects/design-access-statement-submitted-po';
 import { selectYes } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 const url = 'full-appeal/submit-appeal/design-access-statement';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';

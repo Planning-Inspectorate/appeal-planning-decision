@@ -26,7 +26,7 @@ Feature: As an appellant/agent
       | knowTheOwners                              | ownSomeOfTheLand | page                         | options                                                                                                                      |
       | No, I do not know who owns any of the land | No               | Agricultural holding         | I've advertised my appeal in the press, I've done this within the last 21 days, I used a copy of the form in annexe 2A or 2B |
       | No, I do not know who owns any of the land | Yes              | Agricultural holding         | I've advertised my appeal in the press, I've done this within the last 21 days, I used a copy of the form in annexe 2A or 2B |
-      | I know who owns some of the land           | No              | Telling the landowners       | I've advertised my appeal in the press, I've done this within the last 21 days, I used a copy of the form in annexe 2A or 2B |
+      | I know who owns some of the land           | No               | Telling the landowners       | I've advertised my appeal in the press, I've done this within the last 21 days, I used a copy of the form in annexe 2A or 2B |
       | I know who owns some of the land           | Yes              | Telling the other landowners | I've advertised my appeal in the press, I've done this within the last 21 days, I used a copy of the form in annexe 2A or 2B |
 
 
@@ -66,7 +66,7 @@ Feature: As an appellant/agent
     Then an error message 'Confirm if you have advertised your appeal' is displayed
 
     Examples:
-       | knowTheOwners                              | ownSomeOfTheLand | options                                                                              |
+      | knowTheOwners                              | ownSomeOfTheLand | options                                                                              |
       | No, I do not know who owns any of the land | No               | I've advertised my appeal in the press, I've done this within the last 21 days       |
       | No, I do not know who owns any of the land | Yes              | I've advertised my appeal in the press, I've done this within the last 21 days       |
       | I know who owns some of the land           | Yes              | I've advertised my appeal in the press, I've done this within the last 21 days       |

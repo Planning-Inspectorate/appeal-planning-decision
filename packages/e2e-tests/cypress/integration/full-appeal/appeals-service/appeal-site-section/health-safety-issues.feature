@@ -2,6 +2,9 @@ Feature: As an appellant/agent
   I want to provide the details of any health and safety issues on the appeal site for my application to be submitted
   So that I am sure that the information provided are accurate
 
+  Background:
+    Given appellant has completed full appeal eligibility journey
+
   Scenario: 1 - Navigate from the 'Is the site visible from a public road?' page to the 'Are there any health and safety issues on the appeal site?' page
     Given an appellant or agent is on the 'Is the site visible from a public road?' page
     When the user selects 'Yes' and clicks 'Continue'

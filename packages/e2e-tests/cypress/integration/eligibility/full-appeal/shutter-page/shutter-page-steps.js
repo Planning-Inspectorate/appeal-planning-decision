@@ -5,11 +5,13 @@ import { getACPLink } from '../../../../support/eligibility/page-objects/shutter
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
 import { getSaveAndContinueButton } from '../../../../support/common-page-objects/common-po';
+import {acceptCookiesBanner} from "../../../../support/common/accept-cookies-banner";
 const url = 'before-you-start/use-a-different-service';
 const pageHeading = 'You need to use a different service';
 const pageTitle = 'You need to use a different service - Before you start - Appeal a planning decision - GOV.UK';
 Given('an appellant is on the shutter page',()=>{
   goToAppealsPage('before-you-start/local-planning-depart');
+  acceptCookiesBanner();
   getLocalPlanningDepart().select('Amber Valley');
   getSaveAndContinueButton().click();
   cy.url().should('contain', url);

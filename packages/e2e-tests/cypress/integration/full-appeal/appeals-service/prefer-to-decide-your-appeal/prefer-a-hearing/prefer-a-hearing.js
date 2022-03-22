@@ -1,5 +1,4 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import { linkDecideYourAppeal } from '../../../../../support/full-appeal/appeals-service/page-objects/appeal-form-task-list-po';
 import {
   selectHearing,
@@ -24,9 +23,6 @@ const pageTitle = 'Why would you prefer a hearing? - Appeal a planning decision 
 const pageHeading = 'Why would you prefer a hearing?';
 const textHearing = 'I want to provide the facts of the Appeal for the formal decision';
 
-Given('appellant has completed full appeal eligibility journey',() => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
-});
 
 Given('an Appellant or Agent is on the How would you prefer us to decide your appeal for hearing', () => {
   cy.url().should('contain', taskListUrl);

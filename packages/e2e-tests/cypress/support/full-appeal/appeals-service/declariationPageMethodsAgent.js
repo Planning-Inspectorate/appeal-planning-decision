@@ -1,4 +1,3 @@
-import { goToFullAppealSubmitAppealTaskList } from './goToFullAppealSubmitAppealTaskList';
 import {
   aboutAppealSiteSectionLink,
   checkYourAnswersLink,
@@ -15,18 +14,18 @@ import { getSaveAndContinueButton, getFileUploadButton } from '../../common-page
 import { provideAddressLine1 } from '../../common/appeal-submission-appeal-site-address/provideAddressLine1';
 import { providePostcode } from '../../common/appeal-submission-appeal-site-address/providePostcode';
 import { selectNo, selectYes } from './page-objects/own-the-land-po';
-import { linkDecideYourAppeal } from '../../../support/full-appeal/appeals-service/page-objects/appeal-form-task-list-po';
+import { linkDecideYourAppeal } from './page-objects/appeal-form-task-list-po';
 import {
   selectWrittenRepresentations,
-} from '../../../support/full-appeal/appeals-service/page-objects/decide-your-appeal-po';
+} from './page-objects/decide-your-appeal-po';
 import {
   planningApplicationNumber,
-} from '../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
-import { submitADesignStNo } from '../../../support/full-appeal/appeals-service/page-objects/design-access-statement-submitted-po';
-import { checkboxConfirmSensitiveInfo } from '../../../support/full-appeal/appeals-service/page-objects/your-appeal-statement-po';
+} from './page-objects/planning-application-number-po';
+import { submitADesignStNo } from './page-objects/design-access-statement-submitted-po';
+import { checkboxConfirmSensitiveInfo } from './page-objects/your-appeal-statement-po';
 
 export const declariationPageMethodsAgent = () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+//  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
 
   contactDetailsLink().click();
   originalApplicantNo().click();

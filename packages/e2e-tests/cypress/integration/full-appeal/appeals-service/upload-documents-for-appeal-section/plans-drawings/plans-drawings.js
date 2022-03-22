@@ -1,5 +1,4 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import {
   appealDocumentsSectionLink,
   pageCaptionText,
@@ -12,7 +11,6 @@ import {
 } from '../../../../../support/common-page-objects/common-po';
 import {
   checkboxConfirmSensitiveInfo,
-  checkboxErrorMessage,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/your-appeal-statement-po';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
@@ -24,14 +22,12 @@ const Url = 'full-appeal/submit-appeal/plans-drawings';
 const appealStatementUrl = 'full-appeal/submit-appeal/appeal-statement';
 const plansDrawingUploadUrl = 'full-appeal/submit-appeal/plans-drawings-upload';
 const supportingDocumentsUrl ='full-appeal/submit-appeal/supporting-documents';
-const taskListUrl = 'full-appeal/submit-appeal/task-list';
 const textPageCaption = 'Upload documents for your appeal';
 const pageTitle = "Plans and drawings - Appeal a planning decision - GOV.UK";
 const pageHeading = 'Do you have any new plans or drawings that support your appeal?';
 const filename = 'upload-file-valid.doc';
 
 Given("an Appellant or Agent is on the 'Appeal statement' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   appealDocumentsSectionLink().click();
 })
 When("the user uploads a document and selects the confirm box", () => {
@@ -47,7 +43,6 @@ When("the user selects {string} and clicks 'Continue' button", (option) => {
   selectRadioButton(option);
 });
 Given("an Appellant or Agent is on the 'Do you have any new plans or drawings that support your appeal' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   appealDocumentsSectionLink().click();
   getFileUploadButton().attachFile(filename);
   checkboxConfirmSensitiveInfo().click();

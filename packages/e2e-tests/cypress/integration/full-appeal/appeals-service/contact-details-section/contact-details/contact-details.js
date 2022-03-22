@@ -5,7 +5,7 @@ import {
 } from '../../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
 import { contactDetailsLink } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 import {
-  applicantCompanyName, behalfApplicantNameErrorMessage,
+  applicantCompanyName,
   contactDetailsCompanyName, contactDetailsEmail,
   contactDetailsFullName, EmailErrorMessage, fullnameErrorMessage, originalApplicantName, originalApplicantNo,
   originalApplicantYes,
@@ -14,7 +14,6 @@ import { getBackLink, getErrorMessageSummary } from '../../../../../support/comm
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 const url = 'full-appeal/submit-appeal/contact-details';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -33,7 +32,6 @@ const AgentCompanyNameText = 'Agent Zoopla Test Company Ltd';
 const AgentEmailText = 'agent-zoopla@hotmail.com';
 
 Given("an Appellant is on the 'Provide your contact details' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   contactDetailsLink().click();
   cy.url().should('contain',originalApplicantUrl);
   originalApplicantYes().click();
@@ -55,7 +53,6 @@ Then("they return to the task list on the 'Appeal a planning decision' page", ()
   cy.url().should('contain', taskListUrl);
 });
 Given("an Agent is on the 'Provide your contact details' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   contactDetailsLink().click();
   originalApplicantNo().click();
   getSaveAndContinueButton().click();
@@ -91,14 +88,12 @@ Then('they are presented with the error {string}', (errorMessage) => {
   }
 })
 Given("the appellant is on the 'Provide your contact details' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   contactDetailsLink().click();
   originalApplicantYes().click();
   getSaveAndContinueButton().click();
   cy.url().should('contain', url);
 })
 Given("the agent is on the 'Provide your contact details' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   contactDetailsLink().click();
   originalApplicantNo().click();
   getSaveAndContinueButton().click();
@@ -144,7 +139,6 @@ Then('an error message {string} is displayed', (errorMessage) => {
   verifyErrorMessage(errorMessage,fullnameErrorMessage, getErrorMessageSummary);
 });
 Given("the Agent or Appellant is on the 'Provide your contact details' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   contactDetailsLink().click();
   originalApplicantYes().click();
   getSaveAndContinueButton().click();

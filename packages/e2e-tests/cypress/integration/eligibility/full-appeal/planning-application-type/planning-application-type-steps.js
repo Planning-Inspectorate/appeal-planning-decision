@@ -24,10 +24,10 @@ const listedBuildingHouseholderUrl = '/before-you-start/listed-building-househol
 
 Given('an appellant is on the select the type of planning application you made page',()=>{
   goToAppealsPage('before-you-start/local-planning-depart');
+  acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getSaveAndContinueButton().click();
   cy.url().should('contain', url);
-  acceptCookiesBanner();
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading);
 });

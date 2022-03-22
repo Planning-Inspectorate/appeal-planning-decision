@@ -1,6 +1,9 @@
 Feature: As an appellant/agent
-         I want to add a copy of my appeal statement
-         So that the planning Inspectorate can have the necessary evidence to support my appeal
+  I want to add a copy of my appeal statement
+  So that the planning Inspectorate can have the necessary evidence to support my appeal
+
+  Background:
+    Given appellant has completed full appeal eligibility journey
 
   Scenario: 1. Navigate from 'Appeal a Planning Decision' task list page to 'Your appeal statement' page
     Given an appellant is on the 'Appeal a Planning Decision' task list page

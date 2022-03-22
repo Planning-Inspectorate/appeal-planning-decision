@@ -12,7 +12,6 @@ import { verifyPageTitle } from '../../../../../support/common/verify-page-title
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { getSaveAndContinueButton } from '../../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import { planningApplicationDocumentsLink } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 
 const url = 'full-appeal/submit-appeal/application-number';
@@ -28,10 +27,8 @@ const filename = 'appeal-statement-valid.jpeg';
 
 
 Given("an agent is on the 'Planning Application form' page",()=> {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   planningApplicationDocumentsLink().click();
   cy.url().should('contain', planningAppFormUrl);
-  //getFileUploadButton().attachFile('upload-file-valid.jpeg');
 });
 When("they click the 'Continue' on File upload page",()=> {
   getFileUploadButton().attachFile(filename);
@@ -48,7 +45,6 @@ Then("'What is your Planning Application Number' page is displayed",()=> {
 });
 
 Given("an agent is on the 'What is your Planning Application number' page",()=> {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   planningApplicationDocumentsLink().click();
   cy.url().should('contain', planningAppFormUrl);
   getFileUploadButton().attachFile(filename);
@@ -70,7 +66,6 @@ Then('an error message {string} is displayed',(errorMessage)=> {
 });
 
 Given("an agent has entered more than 30 characters into the text box",()=> {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   planningApplicationDocumentsLink().click();
   getFileUploadButton().attachFile(filename);
   getSaveAndContinueButton().click();

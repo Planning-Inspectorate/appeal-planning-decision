@@ -2,6 +2,9 @@ Feature: As an appellant/agent
   I want to add a copy of my original planning application form
   So that the planning Inspectorate can have the necessary evidence to support my appeal
 
+  Background:
+    Given appellant has completed full appeal eligibility journey
+
   Scenario: 1. Navigate from 'Appeal a Planning Decision page' to 'Planning application from'
     Given an appellant is on the 'Appeal a Planning Decision page'
     When they select 'Upload documents from your planning application' link
@@ -14,16 +17,16 @@ Feature: As an appellant/agent
     # When they click on the 'Back' link
     # Then 'Planning Application form' page is displayed
     # And the uploaded file '<filename>' is displayed
-     Examples:
-       | filename               |
-       | upload-file-valid.doc  |
-       | upload-file-valid.docx |
-       | upload-file-valid.jpeg |
-       | upload-file-valid.jpg  |
-       | upload-file-valid.png  |
-       | upload-file-valid.tif  |
-       | upload-file-valid.tiff |
-       | upload-file-valid.pdf  |
+    Examples:
+      | filename               |
+      | upload-file-valid.doc  |
+      | upload-file-valid.docx |
+      | upload-file-valid.jpeg |
+      | upload-file-valid.jpg  |
+      | upload-file-valid.png  |
+      | upload-file-valid.tif  |
+      | upload-file-valid.tiff |
+      | upload-file-valid.pdf  |
 
   Scenario: 3. Appellant/agent uploads valid file using Drag and Drop
     Given an appellant is on the 'Planning Application form' page

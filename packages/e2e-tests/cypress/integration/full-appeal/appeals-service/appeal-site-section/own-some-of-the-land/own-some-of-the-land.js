@@ -4,7 +4,6 @@ import {
   getErrorMessageSummary,
   getSaveAndContinueButton,
 } from '../../../../../support/common-page-objects/common-po';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import {
   aboutAppealSiteSectionLink,
   pageCaptionText,
@@ -14,13 +13,10 @@ import { providePostcode } from '../../../../../support/common/appeal-submission
 import {
   errorMessageOwnSomeLand,
   selectNo,
-  selectYes,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
-import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import { selectRadioButton } from '../../../../../support/full-appeal/appeals-service/selectRadioButton';
 
 const url = 'full-appeal/submit-appeal/own-some-of-the-land';
@@ -33,8 +29,7 @@ const pageHeading = 'Do you own some of the land involved in the appeal?';
 const addressLine1 = '10 Bradmore Way';
 const postcode = 'RG6 1BC';
 
-Given("an appellant or agent is on the 'Do you own all the land involved in the appeal' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+Given("an appellant or agent is on the 'Do you own all the land involved in the appeal' page", () => {;
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
   provideAddressLine1(addressLine1);
@@ -49,7 +44,6 @@ Then("'Do you own some of the land involved in the appeal' page is displayed", (
   pageCaptionText(textPageCaption);
 });
 Given("an appellant or agent is on the 'Do you own some of the land involved in the appeal' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
   provideAddressLine1(addressLine1);

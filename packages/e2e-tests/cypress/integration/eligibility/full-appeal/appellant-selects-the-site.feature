@@ -35,7 +35,7 @@ Feature: Appellant selects the site
     And appellant selects 'None of these' from the list of options
     When an appellant selects the back button
     Then an appellant is taken back to the '<page>' for '<application_type>'
-    And any information they have inputted will not be saved
+    And any information they have inputted will not be saved for '<application_type>'
 
     Examples:
       | application_type                   | page                                           |
