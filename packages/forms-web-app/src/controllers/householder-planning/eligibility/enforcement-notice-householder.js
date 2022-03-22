@@ -1,7 +1,6 @@
-const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const {
-  FULL_APPEAL: { PLANNING_APPLICATION_STATUS: status },
-} = require('../../../constants');
+  constants: { APPEAL_ID, APPLICATION_DECISION },
+} = require('@pins/business-rules');
 const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
@@ -22,9 +21,11 @@ const navigationPages = {
 
 const decisionDateEnforcementNoticeMapper = (key) => {
   const pages = {
-    [`${APPEAL_ID.HOUSEHOLDER}_${status.GRANTED}`]: '/before-you-start/decision-date-householder',
-    [`${APPEAL_ID.HOUSEHOLDER}_${status.REFUSED}`]: '/before-you-start/decision-date-householder',
-    [`${APPEAL_ID.HOUSEHOLDER}_${status.NODECISION}`]:
+    [`${APPEAL_ID.HOUSEHOLDER}_${APPLICATION_DECISION.GRANTED}`]:
+      '/before-you-start/decision-date-householder',
+    [`${APPEAL_ID.HOUSEHOLDER}_${APPLICATION_DECISION.REFUSED}`]:
+      '/before-you-start/decision-date-householder',
+    [`${APPEAL_ID.HOUSEHOLDER}_${APPLICATION_DECISION.NODECISIONRECEIVED}`]:
       '/before-you-start/date-decision-due-householder',
   };
 

@@ -1,3 +1,6 @@
+const {
+  constants: { APPLICATION_DECISION },
+} = require('@pins/business-rules');
 const logger = require('../../lib/logger');
 const {
   VIEW: {
@@ -9,15 +12,11 @@ const {
   validApplicationDecisionOptions,
 } = require('../../validators/full-appeal/granted-or-refused');
 
-const {
-  FULL_APPEAL: { PLANNING_APPLICATION_STATUS },
-} = require('../../constants');
-
 exports.forwardPage = (status) => {
   const statuses = {
-    [PLANNING_APPLICATION_STATUS.GRANTED]: '/before-you-start/decision-date',
-    [PLANNING_APPLICATION_STATUS.NODECISION]: '/before-you-start/date-decision-due',
-    [PLANNING_APPLICATION_STATUS.REFUSED]: '/before-you-start/decision-date',
+    [APPLICATION_DECISION.GRANTED]: '/before-you-start/decision-date',
+    [APPLICATION_DECISION.NODECISIONRECEIVED]: '/before-you-start/date-decision-due',
+    [APPLICATION_DECISION.REFUSED]: '/before-you-start/decision-date',
     previousPage: '/before-you-start/any-of-following',
 
     default: currentPage,

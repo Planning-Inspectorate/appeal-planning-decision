@@ -1,3 +1,6 @@
+const {
+  constants: { APPEAL_ID },
+} = require('@pins/business-rules');
 const fetch = require('node-fetch');
 const { storePdfAppeal } = require('../../../src/services/pdf.service');
 const { getHtmlAppeal } = require('../../../src/services/pdf.service');
@@ -7,7 +10,6 @@ const { VIEW } = require('../../../src/lib/views');
 const {
   VIEW: { FULL_APPEAL },
 } = require('../../../src/lib/full-appeal/views');
-const { APPEAL_TYPE } = require('../../../src/constants');
 
 jest.mock('../../../src/lib/documents-api-wrapper');
 
@@ -63,7 +65,7 @@ describe('services/pdf.service', () => {
     it('should return the expected response if the fetch status is 200 for full appeal', async () => {
       const fullAppeal = {
         ...mockAppeal,
-        appealType: APPEAL_TYPE.PLANNING_SECTION_78,
+        appealType: APPEAL_ID.PLANNING_SECTION_78,
       };
       fetch.mockResponse(htmlContent, { status: 200 });
       expect(await getHtmlAppeal(fullAppeal)).toEqual(htmlContent);

@@ -1,10 +1,12 @@
+const {
+  constants: { APPLICATION_DECISION },
+} = require('@pins/business-rules');
 const { body } = require('express-validator');
-const { ELIGIBILITY } = require('../../constants');
 
 const validHouseholderPlanningPermissionStatusOptions = [
-  ELIGIBILITY.PLANNING_PERMISSION_STATUS.GRANTED,
-  ELIGIBILITY.PLANNING_PERMISSION_STATUS.REFUSED,
-  ELIGIBILITY.PLANNING_PERMISSION_STATUS.NODECISION,
+  APPLICATION_DECISION.GRANTED,
+  APPLICATION_DECISION.REFUSED,
+  APPLICATION_DECISION.NODECISIONRECEIVED,
 ];
 
 const ruleHouseholderPlanningPermissionStatus = () =>

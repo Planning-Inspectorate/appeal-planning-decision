@@ -1,3 +1,6 @@
+const {
+  constants: { APPEAL_ID },
+} = require('@pins/business-rules');
 const fetch = require('node-fetch');
 const uuid = require('uuid');
 const { documentTypes } = require('@pins/common');
@@ -9,18 +12,17 @@ const {
   VIEW: { FULL_APPEAL },
 } = require('../lib/full-appeal/views');
 const logger = require('../lib/logger');
-const { APPEAL_TYPE } = require('../constants');
 
 const defaultFileName = 'appeal-form';
 
 const appealTypeUrlMapping = {
-  [APPEAL_TYPE.HOUSEHOLDER]: VIEW.APPELLANT_SUBMISSION.SUBMISSION_INFORMATION,
-  [APPEAL_TYPE.PLANNING_SECTION_78]: FULL_APPEAL.DECLARATION_INFORMATION,
+  [APPEAL_ID.HOUSEHOLDER]: VIEW.APPELLANT_SUBMISSION.SUBMISSION_INFORMATION,
+  [APPEAL_ID.PLANNING_SECTION_78]: FULL_APPEAL.DECLARATION_INFORMATION,
 };
 
 const buildAppealUrl = (appeal) => {
   const urlPart =
-    appealTypeUrlMapping[appeal.appealType] || appealTypeUrlMapping[APPEAL_TYPE.HOUSEHOLDER];
+    appealTypeUrlMapping[appeal.appealType] || appealTypeUrlMapping[APPEAL_ID.HOUSEHOLDER];
   return `${config.server.host}/${urlPart}/${appeal.id}`;
 };
 
