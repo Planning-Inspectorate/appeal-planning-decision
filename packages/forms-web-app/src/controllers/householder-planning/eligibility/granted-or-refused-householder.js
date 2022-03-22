@@ -1,5 +1,5 @@
 const {
-  constants: { APPEAL_ID },
+  constants: { APPEAL_ID, APPLICATION_DECISION },
 } = require('@pins/business-rules');
 const logger = require('../../../lib/logger');
 const {
@@ -10,12 +10,6 @@ const {
   },
 } = require('../../../lib/householder-planning/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
-
-const {
-  HOUSEHOLDER_PLANNING: {
-    PLANNING_APPLICATION_STATUS: { GRANTED, REFUSED },
-  },
-} = require('../../../constants');
 
 const getGrantedOrRefusedHouseholder = async (req, res) => {
   res.render(GRANTED_OR_REFUSED_HOUSEHOLDER, {
@@ -41,7 +35,9 @@ const postGrantedOrRefusedHouseholder = async (req, res) => {
   try {
     appeal.eligibility.applicationDecision = applicationDecision;
     appeal.appealType =
-      applicationDecision === REFUSED ? APPEAL_ID.HOUSEHOLDER : APPEAL_ID.PLANNING_SECTION_78;
+      applicationDecision === APPLICATION_DECISION.REFUSED
+        ? APPEAL_ID.HOUSEHOLDER
+        : APPEAL_ID.PLANNING_SECTION_78;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);
@@ -54,9 +50,9 @@ const postGrantedOrRefusedHouseholder = async (req, res) => {
   }
 
   switch (applicationDecision) {
-    case GRANTED:
+    case APPLICATION_DECISION.GRANTED:
       return res.redirect('/before-you-start/decision-date');
-    case REFUSED:
+    case APPLICATION_DECISION.REFUSED:
       return res.redirect('/before-you-start/decision-date-householder');
     default:
       return res.redirect('/before-you-start/date-decision-due');

@@ -1,9 +1,6 @@
 const {
-  constants: { APPEAL_ID },
+  constants: { APPEAL_ID, APPLICATION_DECISION },
 } = require('@pins/business-rules');
-const {
-  FULL_APPEAL: { PLANNING_APPLICATION_STATUS: status },
-} = require('../../constants');
 const logger = require('../../lib/logger');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const {
@@ -22,9 +19,11 @@ const navigationPages = {
 
 const decisionDateEnforcementNoticeMapper = (key) => {
   const pages = {
-    [`${APPEAL_ID.PLANNING_SECTION_78}_${status.GRANTED}`]: '/before-you-start/decision-date',
-    [`${APPEAL_ID.PLANNING_SECTION_78}_${status.REFUSED}`]: '/before-you-start/decision-date',
-    [`${APPEAL_ID.PLANNING_SECTION_78}_${status.NODECISION}`]:
+    [`${APPEAL_ID.PLANNING_SECTION_78}_${APPLICATION_DECISION.GRANTED}`]:
+      '/before-you-start/decision-date',
+    [`${APPEAL_ID.PLANNING_SECTION_78}_${APPLICATION_DECISION.REFUSED}`]:
+      '/before-you-start/decision-date',
+    [`${APPEAL_ID.PLANNING_SECTION_78}_${APPLICATION_DECISION.NODECISIONRECEIVED}`]:
       '/before-you-start/date-decision-due',
   };
 

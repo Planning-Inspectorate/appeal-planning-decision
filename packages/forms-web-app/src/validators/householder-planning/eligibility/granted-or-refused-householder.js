@@ -1,12 +1,12 @@
-const { body } = require('express-validator');
 const {
-  HOUSEHOLDER_PLANNING: { PLANNING_APPLICATION_STATUS },
-} = require('../../../constants');
+  constants: { APPLICATION_DECISION },
+} = require('@pins/business-rules');
+const { body } = require('express-validator');
 
 const validApplicationDecisionOptions = [
-  PLANNING_APPLICATION_STATUS.GRANTED,
-  PLANNING_APPLICATION_STATUS.REFUSED,
-  PLANNING_APPLICATION_STATUS.NODECISION,
+  APPLICATION_DECISION.GRANTED,
+  APPLICATION_DECISION.REFUSED,
+  APPLICATION_DECISION.NODECISIONRECEIVED,
 ];
 
 const ruleApplicationDecision = () =>
