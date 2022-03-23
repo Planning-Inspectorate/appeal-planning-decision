@@ -1,3 +1,4 @@
+@e2e
 Feature: As an Agent representing an applicant
   I want add their name
   So that the Planning Inspectorate have the accurate information

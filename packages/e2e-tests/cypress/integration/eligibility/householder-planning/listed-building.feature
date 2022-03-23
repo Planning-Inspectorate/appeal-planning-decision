@@ -1,3 +1,4 @@
+@e2e
 Feature: Appeal Full Appeal Listed Building
   As an appellant
   I want to select No from the list of options

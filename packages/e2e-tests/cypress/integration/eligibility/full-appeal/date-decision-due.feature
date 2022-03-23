@@ -1,3 +1,4 @@
+@e2e
 Feature: Date Decision Due eligibility check
   Note: A valid appeal must be submitted if their decision is not yet received is 6 months prior to when they are making the appeal.
 

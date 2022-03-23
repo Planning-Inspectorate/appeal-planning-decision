@@ -1,3 +1,4 @@
+@smoketest @e2e
 Feature: As an Appellant/Agent
   I want to be able to review and change my answers
   So that my appeal is accurate

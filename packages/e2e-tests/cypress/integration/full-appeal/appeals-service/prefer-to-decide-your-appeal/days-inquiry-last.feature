@@ -1,3 +1,4 @@
+@e2e
 Feature:  As an Appellant or Agent
           I want to give an estimate for the inquiry duration
           So that the Planning Inspectorate can take this into account when deciding the event duration

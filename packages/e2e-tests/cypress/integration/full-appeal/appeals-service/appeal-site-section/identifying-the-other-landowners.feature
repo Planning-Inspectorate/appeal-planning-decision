@@ -1,3 +1,4 @@
+@e2e
 Feature: As an Appellant or or Agent
   I want to provide the necessary details needed for my Application to be submitted
   So that I am sure that the information provided are accurate

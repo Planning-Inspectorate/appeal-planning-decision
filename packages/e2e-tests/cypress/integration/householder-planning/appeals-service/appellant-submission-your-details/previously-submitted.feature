@@ -1,4 +1,4 @@
-@wip @has @smoketest
+@wip @has
 Feature: Name and email provided after being previously provided
   Note: This feature describes behaviour for a newly created appeal
 

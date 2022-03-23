@@ -1,3 +1,4 @@
+@e2e
 Feature: As an Appellant or Agent
          I want to give reasons on how I want my appeal decided
          So that the Planning Inspectorate can take this into account when validating my appeal

@@ -1,3 +1,4 @@
+@smoketest @e2e
 Feature: As an Appellant/Agent
   I want the application to redirect me back to the first question if the appeal type is not set
   So that I can be sure I'm providing the correct information for the Full Appeal appeal type

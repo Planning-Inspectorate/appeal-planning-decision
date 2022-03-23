@@ -1,3 +1,4 @@
+@e2e
 Feature: As an Appellant or Agent
   I want to provide any supporting documents for Plans and drawings for my application to be submitted
   So that I am sure that the information provided are accurate

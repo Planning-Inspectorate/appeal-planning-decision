@@ -1,3 +1,4 @@
+@e2e
 Feature: As an appellant/agent
   I want to add some supporting documents
   So that the planning Inspectorate can have the necessary evidence to support my appeal
