@@ -2,6 +2,9 @@ Feature: As an Appellant or Agent
   I want to be able to submit more than one appeal
   So that the Planning Inspectorate can action on all my appeals submitted
 
+  Background:
+    Given appellant has completed full appeal eligibility journey
+
   Scenario: 1 - Appellant submits more than one appeal
     Given an Appellant is on the 'Declaration' page
     When they click on 'Confirm and submit appeal' button
