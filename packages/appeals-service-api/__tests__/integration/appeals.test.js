@@ -12,22 +12,6 @@ jest.mock('../../../common/src/lib/notify/notify-builder', () => ({}));
 async function createAppeal() {
   const appeal = JSON.parse(JSON.stringify(householderAppeal));
   appeal.id = uuid.v4();
-  const now = new Date(new Date().toISOString());
-  appeal.appealType = '1001';
-  appeal.createdAt = now;
-  appeal.updatedAt = now;
-  delete appeal.eligibility.applicationCategories;
-  delete appeal.sectionStates.appealSiteSection.ownsSomeOfTheLand;
-  delete appeal.sectionStates.appealSiteSection.ownsAllTheLand;
-  delete appeal.sectionStates.appealSiteSection.knowsTheOwners;
-  delete appeal.sectionStates.appealSiteSection.isAgriculturalHolding;
-  delete appeal.sectionStates.appealSiteSection.isAgriculturalHoldingTenant;
-  delete appeal.sectionStates.appealSiteSection.areOtherTenants;
-  delete appeal.sectionStates.appealSiteSection.isVisibleFromRoad;
-  delete appeal.sectionStates.appealSiteSection.visibleFromRoadDetails;
-  delete appeal.sectionStates.appealSiteSection.hasHealthSafetyIssues;
-  delete appeal.sectionStates.appealSiteSection.healthSafetyIssuesDetails;
-
   await mongodb.get().collection('appeals').insertOne({ _id: appeal.id, uuid: appeal.id, appeal });
   return appeal;
 }
@@ -115,19 +99,6 @@ describe('Appeals API', () => {
   test('PUT /api/v1/appeals/{id} - It responds with an error - Cannot update appeal that is already SUBMITTED', async () => {
     const appeal = await createAppeal();
     appeal.state = 'SUBMITTED';
-    appeal.aboutYouSection.yourDetails.name = 'Some Name';
-    appeal.aboutYouSection.yourDetails.email = 'something@email.com';
-    appeal.aboutYouSection.yourDetails.isOriginalApplicant = true;
-    appeal.sectionStates.aboutYouSection.yourDetails = 'COMPLETED';
-    appeal.sectionStates.requiredDocumentsSection.applicationNumber = 'COMPLETED';
-    appeal.sectionStates.requiredDocumentsSection.originalApplication = 'COMPLETED';
-    appeal.sectionStates.requiredDocumentsSection.decisionLetter = 'COMPLETED';
-    appeal.sectionStates.yourAppealSection.appealStatement = 'COMPLETED';
-    appeal.sectionStates.appealSiteSection.siteAccess = 'COMPLETED';
-    appeal.sectionStates.appealSiteSection.siteOwnership = 'COMPLETED';
-    appeal.sectionStates.appealSiteSection.healthAndSafety = 'COMPLETED';
-    appeal.sectionStates.appealSiteSection.siteAddress = 'COMPLETED';
-    appeal.appealSiteSection.siteOwnership.ownsWholeSite = false;
     await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
     const response = await request(app).put(`/api/v1/appeals/${appeal.id}`).send(appeal);
     expect(response.body.errors).toContain('Cannot update appeal that is already SUBMITTED');
@@ -136,7 +107,6 @@ describe('Appeals API', () => {
 
   test('PATCH /api/v1/appeals/{id} - It responds with an updated appeal', async () => {
     const appeal = await createAppeal();
-    appeal.appealSiteSection.siteOwnership.ownsWholeSite = false;
     const response = await request(app).patch(`/api/v1/appeals/${appeal.id}`).send(appeal);
     appeal.createdAt = response.body.createdAt;
     appeal.updatedAt = response.body.updatedAt;
@@ -147,13 +117,9 @@ describe('Appeals API', () => {
   test('PATCH /api/v1/appeals/{id} - It responds with an error - Not Found', async () => {
     const appeal = await createAppeal();
     appeal.id = 'bfb8698e-13eb-4523-8767-1042fccc0cea';
-    const response = await request(app)
-      .patch(`/api/v1/appeals/bfb8698e-13eb-4523-8767-1042fccc0cea`)
-      .send(appeal);
+    const response = await request(app).patch(`/api/v1/appeals/${appeal.id}`).send(appeal);
     expect(response.body.code).toEqual(404);
-    expect(response.body.errors).toContain(
-      'The appeal bfb8698e-13eb-4523-8767-1042fccc0cea was not found'
-    );
+    expect(response.body.errors).toContain(`The appeal ${appeal.id} was not found`);
     expect(response.statusCode).toBe(404);
   });
 
