@@ -1,3 +1,4 @@
+@e2e
 Feature: Appellant selects the site
   As an Appellant
   I  want to select the valid site

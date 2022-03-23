@@ -1,3 +1,4 @@
+@e2e
 Feature: As an Appellant or Agent
   I want to upload plans and drawings needed for my application to be submitted
   So that I am sure that the information provided are accurate

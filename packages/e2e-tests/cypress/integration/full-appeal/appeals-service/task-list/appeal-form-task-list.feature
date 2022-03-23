@@ -1,3 +1,4 @@
+@smoketest @e2e
 Feature: As an Appellant I want, at a glance, to see what information
          I need to submit and once started to see my progress
          So that the Planning Inspectorate has what it needs to consider my appeal

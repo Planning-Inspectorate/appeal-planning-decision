@@ -1,3 +1,4 @@
+@e2e
 Feature: As an appellant/agent
   I want to provide details about user is a tenant of the agricultural holding or not for my application to be submitted
   So that I am sure that the information provided are accurate

@@ -1,3 +1,4 @@
+@e2e
 Feature: As an appellant/agent
   I want to add documents submitted with my application
   So that the Planning Inspectorate can consider the information as part of my appeal

@@ -1,3 +1,4 @@
+@smoketest @e2e
 Feature: Householder appeal Eligibility Journey
 
   Scenario Outline: AC01 - Verify '<application_type>' eligibility journey for '<application_decision>'
