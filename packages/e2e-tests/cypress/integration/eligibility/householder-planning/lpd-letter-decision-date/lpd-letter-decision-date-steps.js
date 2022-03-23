@@ -34,8 +34,8 @@ import {
 import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 import { getPlanningApplicationDecisionError } from '../../../../support/eligibility/page-objects/date-decision-due-po';
+import {acceptCookiesBanner} from "../../../../support/common/accept-cookies-banner";
 const pageHeading = 'What\'s the decision date on the letter from the local planning department?';
-const pageTitle = 'What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK';
 const url = `/decision-date`;
 const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 const enforcementNoticePageUrl = '/enforcement-notice';
@@ -44,6 +44,7 @@ const shutterPageUrl = '/you-cannot-appeal';
 
 Given('appellant navigates to decision date received page for householder appeal',()=>{
   goToAppealsPage('before-you-start/local-planning-depart');
+  acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getContinueButton().click();
   selectPlanningApplicationType('Householder');

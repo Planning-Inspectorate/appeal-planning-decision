@@ -17,6 +17,7 @@ import { enterDateDecisionDue } from '../../../../support/eligibility/date-decis
 import { getDate, getMonth, getYear } from 'date-fns';
 import { selectSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/select-site-option';
 import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import {acceptCookiesBanner} from "../../../../support/common/accept-cookies-banner";
 const pageHeading = 'Have you received an enforcement notice?';
 const pageTitle = 'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK';
 const url = `before-you-start/enforcement-notice`;
@@ -24,6 +25,7 @@ const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 
 Given('appellant is on the enforcement notice page', () => {
   goToAppealsPage('before-you-start/local-planning-depart');
+  acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getSaveAndContinueButton().click();
   cy.url().should('contain', typeOfPlanningPageUrl);

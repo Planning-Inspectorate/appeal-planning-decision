@@ -1,6 +1,9 @@
 Feature: As an Agent representing an applicant
-         I want add their name
-         So that the Planning Inspectorate have the accurate information
+  I want add their name
+  So that the Planning Inspectorate have the accurate information
+
+  Background:
+    Given appellant has completed full appeal eligibility journey
 
   Scenario: 1 Navigate from 'who are you' URL to 'applicant name' URL
     Given Agent is on the 'Was the original planning application made in your name?'
@@ -21,11 +24,11 @@ Feature: As an Agent representing an applicant
     Given an Agent is on the 'What is the applicant’s name' page
     When they enter '<name>' and click continue
     Then they are presented with the error '<reason>'
-  Examples:
-    | name | reason                                                                 |
-    | 1    | Name must only include letters a to z, hyphens, spaces and apostrophes |
-    | @    | Name must only include letters a to z, hyphens, spaces and apostrophes |
-    | a    | Name must be between 2 and 80 characters                               |
+    Examples:
+      | name | reason                                                                 |
+      | 1    | Name must only include letters a to z, hyphens, spaces and apostrophes |
+      | @    | Name must only include letters a to z, hyphens, spaces and apostrophes |
+      | a    | Name must be between 2 and 80 characters                               |
 
   Scenario: 6. Agent Navigates from What is the applicants name page back to Task List
     Given an Agent is on the 'What is the applicant’s name' page

@@ -1,46 +1,46 @@
 Feature: Date Decision received eligibility check for householder appeal
   Appellant must enter the decision date mentioned on Local planning decision letter
 
-#  Scenario Outline: AC01 - Eligible Date Decision Received allows progress for householder appeal
-#    Given appellant navigates to decision date received page for householder appeal
-#    And appellant selects the '<application_decision>'
-#    And appellant is on the what date was the decision received page for '<application_decision>'
-#    When appellant enters the date lesser than the deadline date for '<application_decision>'
-#    And appellant clicks on continue
-#    Then appellant is navigated to the have you received an enforcement notice page
-#    Examples:
-#      | application_decision |
-#      | Granted              |
-#      | Refused              |
-#
-#  Scenario Outline: AC02 - Ineligible  Date Decision Received continues to Shutter page for householder appeal
-#    Given appellant navigates to decision date received page for householder appeal
-#    And appellant selects the '<application_decision>'
-#    And appellant is on the what date was the decision received page for '<application_decision>'
-#    When appellant enters the date older than the deadline date for '<application_decision>'
-#    And appellant clicks on continue
-#    Then appellant gets routed to a page which notifies them that the decision appeal date has passed
-#    Examples:
-#      | application_decision |
-#      | Granted              |
-#      | Refused              |
-#
-#  Scenario Outline: AC03 - Future Date Decision is Refused for Householder planning
-#    Given appellant navigates to decision date received page for householder appeal
-#    And appellant selects the '<application_decision>'
-#    And appellant is on the what date was the decision received page for '<application_decision>'
-#    When appellant enters future date decision received of '<datePart>'-'<value>' for '<application_decision>'
-#    And appellant clicks on continue
-#    Then progress is halted with an error: 'Decision date must be today or in the past' for '<application_decision>'
-#    And the correct input 'day,month,year' is highlighted for '<application_decision>'
-#    Examples: Full Planning
-#      | application_decision | datePart | value |
-#      | Granted              | day      | 10    |
-#      | Granted              | month    | 10    |
-#      | Granted              | year     | 2     |
-#      | Refused              | day      | 10    |
-#      | Refused              | month    | 10    |
-#      | Refused              | year     | 2     |
+  Scenario Outline: AC01 - Eligible Date Decision Received allows progress for householder appeal
+    Given appellant navigates to decision date received page for householder appeal
+    And appellant selects the '<application_decision>'
+    And appellant is on the what date was the decision received page for '<application_decision>'
+    When appellant enters the date lesser than the deadline date for '<application_decision>'
+    And appellant clicks on continue
+    Then appellant is navigated to the have you received an enforcement notice page
+    Examples:
+      | application_decision |
+      | Granted              |
+      | Refused              |
+
+  Scenario Outline: AC02 - Ineligible  Date Decision Received continues to Shutter page for householder appeal
+    Given appellant navigates to decision date received page for householder appeal
+    And appellant selects the '<application_decision>'
+    And appellant is on the what date was the decision received page for '<application_decision>'
+    When appellant enters the date older than the deadline date for '<application_decision>'
+    And appellant clicks on continue
+    Then appellant gets routed to a page which notifies them that the decision appeal date has passed
+    Examples:
+      | application_decision |
+      | Granted              |
+      | Refused              |
+
+  Scenario Outline: AC03 - Future Date Decision is Refused for Householder planning
+    Given appellant navigates to decision date received page for householder appeal
+    And appellant selects the '<application_decision>'
+    And appellant is on the what date was the decision received page for '<application_decision>'
+    When appellant enters future date decision received of '<datePart>'-'<value>' for '<application_decision>'
+    And appellant clicks on continue
+    Then progress is halted with an error: 'Decision date must be today or in the past' for '<application_decision>'
+    And the correct input 'day,month,year' is highlighted for '<application_decision>'
+    Examples: Full Planning
+      | application_decision | datePart | value |
+      | Granted              | day      | 10    |
+      | Granted              | month    | 10    |
+      | Granted              | year     | 2     |
+      | Refused              | day      | 10    |
+      | Refused              | month    | 10    |
+      | Refused              | year     | 2     |
 
 
   Scenario Outline: AC04 - Invalid Date Decision Received of <day>-<month>-<year> is Refused

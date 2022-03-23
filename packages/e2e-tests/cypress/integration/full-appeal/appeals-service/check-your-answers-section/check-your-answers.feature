@@ -5,7 +5,6 @@ Feature: As an Appellant/Agent
   Background:
     Given appellant has completed full appeal eligibility journey
 
-  #Scenario Outline: '<Acceptance_criteria>'- Appellant has submitted the application with '<contact_details>', own land as '<own_land>', agricultural holding as '<agricultural_holding>, visible from public land as '<visible_publicLand>', health and safety as '<health_and_safety>', '<appeal_decision>', design and access statement as '<design_access_statement>', plans and drawings as '<plans_and_drawings>' and supporting documents as '<supporting_documents>'
   Scenario Outline: <Acceptance_criteria>- <description>
     Given the appellant has provided details for '<contact_details>' and status is 'COMPLETED'
     And appellant provides the details for '<own_land>', '<own_some_land>', '<owns_rest_of_land>', '<agricultural_holding>', '<visible_publicLand>', '<tenant>', '<other_tenants>' and '<health_and_safety>' and status is 'COMPLETED'
@@ -31,4 +30,3 @@ Feature: As an Appellant/Agent
       | AC-08               | Appellant owns none of the land and knows all of the owners and is one of the tenants of agricultural holding     | appellant       | no       | no            | Yes, I know who owns all the land          | yes                  | yes    | yes           | yes               | no                 | Written representations | no                      | yes                | yes                  |
       | AC-09               | Appellant owns none of the land and knows some of the owners and is one of the tenants of agricultural holding    | appellant       | no       | no            | I know who owns some of the land           | yes                  | yes    | no            | yes               | no                 | Written representations | no                      | yes                | yes                  |
       | AC-10               | Appellant owns none of the land and knows none of the owners and is the only tenants of agricultural holding      | appellant       | no       | no            | No, I do not know who owns any of the land | yes                  | yes    | no            | no                | yes                | Written representations | no                      | yes                | yes                  |
-

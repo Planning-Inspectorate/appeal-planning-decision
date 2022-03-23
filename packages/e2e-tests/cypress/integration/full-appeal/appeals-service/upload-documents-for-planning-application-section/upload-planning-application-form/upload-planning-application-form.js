@@ -1,5 +1,4 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import {
   getBackLink,
   getErrorMessageSummary,
@@ -17,8 +16,6 @@ import {
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { pageCaption } from '../../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
-import { acceptCookiesBanner } from '../../../../../support/common/accept-cookies-banner';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 
 const url = 'full-appeal/submit-appeal/application-form';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -30,7 +27,7 @@ const pageHeadingText = "If you do not have your planning application form, you 
 
 
 Given("an appellant is on the 'Appeal a Planning Decision page'",()=> {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+ cy.url().should('contain',taskListUrl);
  })
 
 When("they select 'Upload documents from your planning application' link",()=> {
@@ -47,7 +44,6 @@ Then("the uploaded file {string} is displayed", (filename) => {
   uploadedFileName().should('contain', filename);
 })
 Given( "an appellant is on the 'Planning Application form' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   planningApplicationDocumentsLink().click();
   pageCaption().should('contain', textPageCaption);
   verifyPageTitle(pageTitle);
@@ -78,12 +74,10 @@ Then( "an error message {string} is displayed on planning application form page"
 });
 
 Given("an appellant has not uploaded any document",()=> {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
-  planningApplicationDocumentsLink().click();
+ planningApplicationDocumentsLink().click();
 });
 
 Given("an appellant is on the 'Planning Application' page",()=> {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   planningApplicationDocumentsLink().click();
 });
 When("they click on the 'Back' link",()=> {
@@ -94,7 +88,6 @@ Then("they are presented with the 'Appeal a planning decision' task list page", 
 });
 
 Given("an appellant has uploaded a file {string}", (filename) => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   planningApplicationDocumentsLink().click();
   getFileUploadButton().attachFile(filename);
 })

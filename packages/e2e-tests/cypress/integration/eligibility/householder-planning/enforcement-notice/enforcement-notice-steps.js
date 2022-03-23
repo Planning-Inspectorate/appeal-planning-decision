@@ -12,24 +12,21 @@ import { getBackLink } from '../../../../support/common-page-objects/common-po';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
 import { selectPlanningApplicationDecision } from '../../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
-import { selectListedBuildingDecision } from '../../../../support/eligibility/listed-building/select-listed-building-decision';
-import { enterDateDecisionDue } from '../../../../support/eligibility/date-decision-due/enter-date-decision-due';
 import { getDate, getMonth, getYear } from 'date-fns';
 import { allowedDatePart, getPastDate } from '../../../../support/common/getDate';
 import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
 import { getIsNotListedBuilding } from '../../../../support/eligibility/page-objects/listed-building-po';
-import { enterDateDecisionDueHouseholder } from '../../../../support/eligibility/date-decision-due-householder/enter-date-decision-due-householder';
 import {
   enterDateHouseholderDecisionReceived
 } from '../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received';
+import {acceptCookiesBanner} from "../../../../support/common/accept-cookies-banner";
 const pageHeading = 'Have you received an enforcement notice?';
 const pageTitle = 'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK';
 const url = `before-you-start/enforcement-notice-householder`;
-const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 
 Given('appellant is on the enforcement notice page for householder planning', () => {
-  //goToAppealsPage(url);
   goToAppealsPage('before-you-start/local-planning-depart');
+  acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getContinueButton().click();
   selectPlanningApplicationType('Householder');

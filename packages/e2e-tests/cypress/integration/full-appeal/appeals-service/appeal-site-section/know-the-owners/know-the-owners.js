@@ -14,11 +14,10 @@ import { verifyPageTitle } from '../../../../../support/common/verify-page-title
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import {
   errorMessageKnowTheOwners,
-   selectNo, selectSomeOf,
+   selectNo,
   selectYes,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import {selectTheOwners} from "../../../../../support/full-appeal/appeals-service/selectTheOwners";
 
 const url = 'full-appeal/submit-appeal/know-the-owners';
@@ -35,8 +34,8 @@ const pageHeadingRestOfLand = 'Do you know who owns the rest of the land involve
 const pageHeadingOwnTheLand = 'Do you know who owns the land involved in the appeal?';
 const addressLine1 = '10 Bradmore Way';
 const postcode = 'RG6 1BC';
+
 const callMethodsTillSomeOfLandUrl = () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
   provideAddressLine1(addressLine1);

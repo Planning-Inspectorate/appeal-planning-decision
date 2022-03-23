@@ -10,21 +10,12 @@ import { getContinueButton } from '../../../../support/householder-planning/appe
 import { getFutureDate, getPastDate, allowedDatePart } from '../../../../support/common/getDate';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
-import { selectSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/select-site-option';
 import { selectPlanningApplicationDecision } from '../../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
 import {clickContinueButton} from "../../../../support/common/clickContinueButton";
 import {
   getDateDecisionDueDay,
   getPlanningApplicationDecisionError,
 } from '../../../../support/eligibility/page-objects/date-decision-due-po';
-import {
-  enterDateDecisionDueHouseholder,
-  verifyHighlightsDecisionDueHouseholder,
-} from '../../../../support/eligibility/date-decision-due-householder/enter-date-decision-due-householder';
-import {
-  getDateDecisionDueHouseholderDay,
-  getPlanningApplicationDecisionHouseholderError,
-} from '../../../../support/eligibility/page-objects/date-decision-due-householder-po';
 import { getAppealDeadline } from '../../../../support/eligibility/page-objects/shutter-page-po';
 import format from 'date-fns/format';
 import {
@@ -40,7 +31,6 @@ const pageHeading = 'What date was your decision due?';
 const pageTitle =
   'What date was your decision due? - Before you start - Appeal a planning decision - GOV.UK';
 const url = `before-you-start/date-decision-due`;
-const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 const enforcementNoticePageUrl = '/before-you-start/enforcement-notice';
 const grantedOrRefusedPageUrl = 'before-you-start/granted-or-refused-householder';
 const shutterPageUrl = '/before-you-start/you-cannot-appeal';
@@ -60,6 +50,7 @@ Given('appellant navigates to decision date page for householder appeal', () => 
 
 Given('appellant navigates to date decision due page', () => {
   goToAppealsPage('before-you-start/local-planning-depart');
+  acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getContinueButton().click();
   selectPlanningApplicationType('Householder');
@@ -73,7 +64,6 @@ Given('appellant navigates to date decision due page', () => {
 
 Given('appellant is on the what date was the decision due page for householder', () => {
   cy.url().should('contain', url);
-  acceptCookiesBanner();
   verifyPageHeading(pageHeading);
   verifyPageTitle(pageTitle);
   cy.checkPageA11y();

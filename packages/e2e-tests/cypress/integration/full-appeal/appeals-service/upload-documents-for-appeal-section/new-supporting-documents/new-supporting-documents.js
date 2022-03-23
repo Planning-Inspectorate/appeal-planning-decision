@@ -13,7 +13,6 @@ import {
   appealDocumentsSectionLink,
   pageCaptionText,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import { checkNoSensitiveInformation } from '../../../../../support/householder-planning/appeals-service/appeal-statement-submission/checkNoSensitiveInformation';
 import { selectNo, selectYes } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
@@ -34,7 +33,6 @@ const validFilename4 = 'appeal-statement-valid.tif';
 const invalidFilename1 = 'upload-file-invalid-wrong-type.csv';
 
 const newSupportingDocsMethods = () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   appealDocumentsSectionLink().click();
   cy.url().should('contain',appealStatementUrl);
   getFileUploadButton().attachFile(validFilename1);
@@ -51,7 +49,6 @@ const newSupportingDocsMethods = () => {
 
 
 Given("an Appellant or Agent is on the 'Do you want to submit any new supporting documents with your appeal?' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   appealDocumentsSectionLink().click();
   cy.url().should('contain',appealStatementUrl);
   getFileUploadButton().attachFile('upload-file-valid.jpeg');

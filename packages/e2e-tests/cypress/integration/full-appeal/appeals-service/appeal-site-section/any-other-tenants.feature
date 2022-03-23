@@ -2,8 +2,11 @@ Feature: As an appellant or agent
   I want to provide if there are any other Tenants for my application to be submitted
   So that I am sure that the information provided are accurate
 
+  Background:
+    Given appellant has completed full appeal eligibility journey
+
   Scenario: 1 - Navigate from 'Are you a tenant of the agricultural holding?' to 'Are there any other tenants' page
-    Given an appellant or agent is on the 'Are you a tenant of the agricultural holding' page
+    Given an appellant or agent is on the Are you a tenant of the agricultural holding page
     When the user select 'Yes' and click 'Continue'
     Then 'Are there any other tenants' page is displayed
 

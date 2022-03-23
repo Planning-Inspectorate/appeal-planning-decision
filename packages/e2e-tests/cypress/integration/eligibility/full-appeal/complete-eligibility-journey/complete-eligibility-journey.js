@@ -6,7 +6,6 @@ import {verifyPageHeading} from "../../../../support/common/verify-page-heading"
 import {
   enterLocalPlanningDepart
 } from "../../../../support/eligibility/local-planning-depart/enter-local-planning-depart";
-import {getContinueButton} from "../../../../support/householder-planning/appeals-service/page-objects/common-po";
 import {
   selectPlanningApplicationType
 } from "../../../../support/eligibility/planning-application-type/select-planning-application-type";
@@ -46,9 +45,7 @@ import {getClaimingCostNo} from "../../../../support/eligibility/page-objects/cl
 import { selectNo } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 const url = 'before-you-start/local-planning-depart';
 let validDate;
-before(()=>{
-  cy.task('getData',{collection:'appeals',filter:"appeal.state"});
-});
+
 Given('appellant selects local planning department',()=>{
   goToAppealsPage(url);
   acceptCookiesBanner();

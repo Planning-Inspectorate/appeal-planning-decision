@@ -1,6 +1,9 @@
 Feature: As an appellant/agent
-         I want to add some supporting documents
-         So that the planning Inspectorate can have the necessary evidence to support my appeal
+  I want to add some supporting documents
+  So that the planning Inspectorate can have the necessary evidence to support my appeal
+
+  Background:
+    Given appellant has completed full appeal eligibility journey
 
   Scenario: 1 - Navigate from 'Do you want to submit any new supporting documents with your appeal?' page to 'New supporting documents'
     Given an Appellant or Agent is on the 'Do you want to submit any new supporting documents with your appeal?' page
@@ -38,9 +41,9 @@ Feature: As an appellant/agent
     When they upload one '<Valid file>' and one '<Invalid file>' through 'Choose files' or 'drag and drop' and click 'Continue'
     Then an '<error message>' is displayed for the '<Invalid file>'
     And they will have to upload any valid files again
-  Examples:
-    | Valid file                 | Invalid file                            | error message                             |
-    | appeal-statement-valid.tif | appeal-statement-invalid-wrong-type.mp3 | must be a DOC, DOCX, PDF, TIF, JPG or PNG |
+    Examples:
+      | Valid file                 | Invalid file                            | error message                             |
+      | appeal-statement-valid.tif | appeal-statement-invalid-wrong-type.mp3 | must be a DOC, DOCX, PDF, TIF, JPG or PNG |
 
   Scenario: 6 - Navigate from 'New supporting documents' page back to 'Do you want to submit any new supporting documents with your appeal?' page
     Given an Appellant or Agent is on the 'New supporting documents' page

@@ -11,7 +11,6 @@ import {
 } from '../../../../../support/full-appeal/appeals-service/page-objects/original-applicant-or-not-po';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
 import { pageCaption} from '../../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 
@@ -24,10 +23,7 @@ const textPageCaption = 'Provide your contact details';
 const pageTitle = "Was the planning application made in your name? - Appeal a planning decision - GOV.UK";
 const pageHeading = 'Was the planning application made in your name?';
 
-Given("an Appellant or Agent is on the Appeal a planning decision page",() => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
-});
-When("the user click 'Provide your contact details' link",() => {
+Given("the user click 'Provide your contact details' link",() => {
   contactDetailsLink().click();
 });
 Then("'Provide your contact details' page is displayed",() => {
@@ -38,7 +34,6 @@ When("they click the 'Continue'",() => {
  });
 
 Given("an {string} is on the 'Was the planning application made in your name' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   contactDetailsLink().click();
   verifyPageTitle(pageTitle);
   verifyPageHeading(pageHeading);

@@ -1,6 +1,9 @@
 Feature: As an Appellant or Agent
-         I want to upload plans and drawings needed for my application to be submitted
-         So that I am sure that the information provided are accurate
+  I want to upload plans and drawings needed for my application to be submitted
+  So that I am sure that the information provided are accurate
+
+  Background:
+    Given appellant has completed full appeal eligibility journey
 
   Scenario: 1 - Navigate from 'Your appeal statement' to 'Do you have any new plans or drawings that support your appeal'
     Given an Appellant or Agent is on the 'Appeal statement' page

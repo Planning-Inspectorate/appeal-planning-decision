@@ -1,5 +1,4 @@
 import { Given } from 'cypress-cucumber-preprocessor/steps';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import { linkDecideYourAppeal } from '../../../../../support/full-appeal/appeals-service/page-objects/appeal-form-task-list-po';
 import {
   inquiryTextBoxErrorMessage,
@@ -26,9 +25,6 @@ const pageHeading = 'Why would you prefer an inquiry?';
 const textPageCaption = 'Tell us how you would prefer us to decide your appeal';
 const textInquiry = 'I want to take part in the inquiry process - 123456789';
 
-Given('appellant has completed full appeal eligibility journey',()=>{
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
-});
 Given("an Appellant or Agent is on the 'How would you prefer us to decide your appeal'", () => {
   cy.url().should('include', taskListUrl);
   linkDecideYourAppeal().click();

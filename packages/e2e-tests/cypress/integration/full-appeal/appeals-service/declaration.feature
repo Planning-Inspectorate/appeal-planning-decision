@@ -2,6 +2,9 @@ Feature: As an Appellant/Agent
          I want to be able to submit my appeal
          So that the Planning Inspectorate can action my appeal
 
+  Background:
+    Given appellant has completed full appeal eligibility journey
+
   Scenario: 1 - Appellant navigate from 'Check your answers' URL to 'Declaration' URL
     Given an Appellant is on the 'Check your answers' page
     When they click on 'Continue' button

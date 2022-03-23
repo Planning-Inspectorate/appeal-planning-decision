@@ -2,6 +2,9 @@ Feature: As an appellant/agent
   I want to provide the details if the site is visible form a public road for my application to be submitted
   So that I am sure that the information provided are accurate
 
+  Background:
+    Given appellant has completed full appeal eligibility journey
+
   Scenario: 1 - Navigate from 'Is the appeal site part of an agricultural holding?' to 'Is the site visible from a public road?'
     Given an appellant or agent is on the 'Is the appeal site part of an agricultural holding?' page
     When the user selects 'No' and clicks 'Continue'

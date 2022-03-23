@@ -1,5 +1,4 @@
 import { Given, When } from 'cypress-cucumber-preprocessor/steps';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import {
   aboutAppealSiteSectionLink,
   pageCaptionText,
@@ -54,9 +53,6 @@ const methodsKnowTheOwners = () => {
   cy.url().should('contain', knowTheOwnersUrl);
 }
 
-Given('appellant has completed full appeal eligibility journey',() => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
-});
 
 Given("an Appellant or Agent is on the 'Do you know who owns the rest of the land involved in the Appeal' page", () => {
   methodsKnowTheOwners();

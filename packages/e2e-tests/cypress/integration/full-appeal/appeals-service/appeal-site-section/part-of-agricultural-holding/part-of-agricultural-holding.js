@@ -24,13 +24,11 @@ import { providePostcode } from '../../../../../support/common/appeal-submission
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import { selectRadioButton } from '../../../../../support/full-appeal/appeals-service/selectRadioButton';
 
 const url = 'full-appeal/submit-appeal/agricultural-holding';
 const areYouATenantUrl = '/full-appeal/submit-appeal/are-you-a-tenant';
 const siteAddressUrl = 'full-appeal/submit-appeal/appeal-site-address';
-const taskListUrl = 'full-appeal/submit-appeal/task-list';
 const ownAllOfLandUrl = 'full-appeal/submit-appeal/own-all-the-land';
 const ownSomeOfLandUrl = 'full-appeal/submit-appeal/own-some-of-the-land';
 const knowTheOwnersUrl = 'full-appeal/submit-appeal/know-the-owners';
@@ -80,10 +78,6 @@ const knowTheOwnersMethodsOwnSomeOfLandNo = () => {
   getSaveAndContinueButton().click();
   cy.url().should('contain',knowTheOwnersUrl);
 }
-
-Given('appellant has completed full appeal eligibility journey',()=>{
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
-});
 
 Given("an appellant or agent is on the 'Do you own all of the land involved in the appeal' page", () => {
   aboutAppealSiteSectionLink().click();

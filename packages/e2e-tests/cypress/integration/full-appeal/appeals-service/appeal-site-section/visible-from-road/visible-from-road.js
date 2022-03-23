@@ -22,7 +22,6 @@ import { providePostcode } from '../../../../../support/common/appeal-submission
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
-import { goToFullAppealSubmitAppealTaskList } from '../../../../../support/full-appeal/appeals-service/goToFullAppealSubmitAppealTaskList';
 import { selectRadioButton } from '../../../../../support/full-appeal/appeals-service/selectRadioButton';
 
 const url = 'full-appeal/submit-appeal/visible-from-road';
@@ -40,7 +39,6 @@ const visibleFromRoadDetailsErrorTextBox = 'How visibility is restricted must be
 const visibleFromRoadError = 'Select yes if the site is visible from a public road';
 
 Given("an appellant or agent is on the 'Is the appeal site part of an agricultural holding?' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
   provideAddressLine1(addressLine1);
@@ -71,7 +69,6 @@ Then("the 'Is the site visible from a public road?' page is displayed", () => {
   cy.url().should('contain', url);
   });
 Given("an appellant or agent is on the 'Is the site visible from a public road?' page", () => {
-  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
   aboutAppealSiteSectionLink().click();
   cy.url().should('contain', siteAddressUrl);
   provideAddressLine1(addressLine1);
