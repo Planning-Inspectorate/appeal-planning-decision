@@ -3,33 +3,19 @@ const { MongoClient } = require('mongodb');
 const uuid = require('uuid');
 const { createAppeal, getAppeal, updateAppeal } = require('../../../src/controllers/appeals');
 const mongodb = require('../../../src/db/db');
+const config = require('../../../src/lib/config');
+const { appealDocument } = require('../../../src/models/appeal');
 
+jest.mock('../../../src/lib/config');
 jest.mock('../../../src/db/db');
 jest.mock('../../../src/lib/logger');
-// const valueAppeal = require('../value-appeal');
 const { mockReq, mockRes } = require('../mocks');
 
 jest.mock('../../../../common/src/lib/notify/notify-builder', () => ({}));
 
 async function addInDatabase() {
   const appeal = JSON.parse(JSON.stringify(householderAppeal));
-
   appeal.id = uuid.v4();
-  const now = new Date(new Date().toISOString());
-  appeal.createdAt = now;
-  appeal.updatedAt = now;
-  delete appeal.eligibility.applicationCategories;
-  delete appeal.sectionStates.appealSiteSection.ownsSomeOfTheLand;
-  delete appeal.sectionStates.appealSiteSection.ownsAllTheLand;
-  delete appeal.sectionStates.appealSiteSection.knowsTheOwners;
-  delete appeal.sectionStates.appealSiteSection.isAgriculturalHolding;
-  delete appeal.sectionStates.appealSiteSection.isAgriculturalHoldingTenant;
-  delete appeal.sectionStates.appealSiteSection.areOtherTenants;
-  delete appeal.sectionStates.appealSiteSection.isVisibleFromRoad;
-  delete appeal.sectionStates.appealSiteSection.visibleFromRoadDetails;
-  delete appeal.sectionStates.appealSiteSection.hasHealthSafetyIssues;
-  delete appeal.sectionStates.appealSiteSection.healthSafetyIssuesDetails;
-
   await mongodb.get().collection('appeals').insertOne({ _id: appeal.id, uuid: appeal.id, appeal });
   return appeal;
 }
@@ -88,10 +74,27 @@ describe('appeals.controllers', () => {
   });
 
   describe('createAppeal', () => {
-    it('responds with a newly created appeal', async () => {
+    it('responds with a newly created appeal when the newAppealJourney feature flag is set', async () => {
       await createAppeal(req, res);
 
       expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.send).toHaveBeenCalledWith({
+        id: expect.any(String),
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date),
+      });
+    });
+
+    it('responds with a newly created appeal when the newAppealJourney feature flag is not set', async () => {
+      config.featureFlag.newAppealJourney = false;
+      appealDocument.id = expect.any(String);
+      appealDocument.createdAt = expect.any(Date);
+      appealDocument.updatedAt = expect.any(Date);
+
+      await createAppeal(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.send).toHaveBeenCalledWith(appealDocument);
     });
   });
 
