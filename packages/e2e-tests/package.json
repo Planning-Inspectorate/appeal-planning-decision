@@ -8,7 +8,7 @@
     "test:e2e:demo": "cypress run --headed -b chrome -e TAGS='not @wip',demoDelay=1000",
     "test:e2e:postprocess": "node ./reporter.js",
     "test:e2e:files": "./create-large-test-files.sh",
-     "test:e2e:horizon:script": "cypress run --headed -b chrome --env QUEUE_VALIDATION_ENABLED=false --spec='**/*horizon*.feature'"
+    "test:e2e:horizon:script": "cypress run --headed -b chrome --env QUEUE_VALIDATION_ENABLED=false --spec='**/*horizon*.feature'"
   },
   "author": "",
   "license": "ISC",
