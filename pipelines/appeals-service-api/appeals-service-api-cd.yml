@@ -1,8 +1,10 @@
 parameters:
   - name: deploymentTag
+    displayName: Deployment Tag
     type: string
     default: none
   - name: environments
+    displayName: Environments
     type: object
     default:
       - name: Dev
@@ -12,6 +14,13 @@ parameters:
       - name: Prod
         dependsOn:
           - Test
+  - name: region
+    displayName: Region
+    type: string
+    values:
+      - uks
+      - ukw
+    default: ukw
 
 trigger: none
 
@@ -34,7 +43,7 @@ resources:
 extends:
   template: stages/wrapper_web_app_cd.yml@templates
   parameters:
-    appName: pins-app-appeals-service-appeals-api-$(ENVIRONMENT)-uks-001
+    appName: pins-app-appeals-service-appeals-api-$(ENVIRONMENT)-${{ parameters.region }}-001
     artifactSourcePipeline: appeals-service-api CI
     azurecrName: $(azurecrName)
     azurecrServiceConnection: $(azurecrServiceConnection)
