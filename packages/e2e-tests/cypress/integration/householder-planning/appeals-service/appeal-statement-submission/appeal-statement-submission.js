@@ -19,7 +19,7 @@ Given('user did not previously submitted an appeal statement file', () => {});
 
 Given('user has previously submitted an appeal statement file {string}', (filename) => {
   //goToAppealStatementSubmission();
-  goToAppealsPage(pageURLAppeal.goToAppealStatementSubmission);
+  cy.url().should('contain',pageURLAppeal.goToAppealStatementSubmission);
   checkNoSensitiveInformation();
   uploadAppealStatementFile(filename);
   clickSaveAndContinue();

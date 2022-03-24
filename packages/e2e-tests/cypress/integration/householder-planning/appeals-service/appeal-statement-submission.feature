@@ -8,8 +8,9 @@ Feature: Appeal statement file submission
   Appeal statements files that contain sensitive information are not permitted.
   The latest successfully uploaded appeal statement file replaces any previously uploaded file.
 
+  Background:
+    Given appellant has completed householder appeal eligibility journey
 
-  @as-120 @ac-1
   Scenario Outline: Prospective appellant submits valid appeal statement file without sensitive information
     Given user did not previously submitted an appeal statement file
     When user submits an appeal statement file <filename> confirming that it "does not" contain sensitive information
@@ -26,19 +27,19 @@ Feature: Appeal statement file submission
       | "appeal-statement-valid.png"          |
 #      | "appeal-statement-valid-max-size.png" |
 
-  @as-120 @ac-3-1
+
   Scenario: Prospective applicant confirms no sensitive information but chooses not to upload an appeal statement file
     Given user did not previously submitted an appeal statement file
     When user confirms that there is no sensitive information without selecting an appeal statement file to upload
     Then user is informed that he needs to select an appeal statement
 
-  @as-120 @ac-3-2
+
   Scenario: Prospective does not provide appeal statement but had previously submitted one
     Given user has previously submitted an appeal statement file "appeal-statement-valid.pdf"
     When user submits an appeal statement file "appeal-statement-valid.doc" confirming that it "does not" contain sensitive information
     Then user can see that the appeal statement file "appeal-statement-valid.doc" "is" submitted
 
-  @as-120 @ac-4
+
   Scenario: Prospective applicant chooses not to upload an appeal statement file and does not confirm no sensitive information
     Given user did not previously submitted an appeal statement file
     When user does not confirm that there is no sensitive information nor upload a statement
@@ -50,14 +51,14 @@ Feature: Appeal statement file submission
     When user submits an appeal statement file "appeal-statement-valid.doc" confirming that it "does not" contain sensitive information
     Then user can see that the appeal statement file "appeal-statement-valid.doc" "is" submitted
 
-  @as-120 @ac-2
+
   Scenario: Prospective appellant submits valid appeal statement file with sensitive information does not replace previous file
     Given user has previously submitted an appeal statement file "appeal-statement-valid.pdf"
     When user submits an appeal statement file "appeal-statement-valid.doc" confirming that it "does" contain sensitive information
     Then user is informed that the file is not submitted because "file contains sensitive information"
     And user can see that the appeal statement file "appeal-statement-valid.pdf" "is" submitted
 
-  @as-120 @ac-2
+
   Scenario: Prospective appellant submits valid appeal statement file with sensitive information
     When user submits an appeal statement file "appeal-statement-valid.doc" confirming that it "does" contain sensitive information
     Then user is informed that the file is not submitted because "file contains sensitive information"
