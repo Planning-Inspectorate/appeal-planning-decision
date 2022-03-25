@@ -27,7 +27,7 @@ describe('config', () => {
         name: householderAppeal.aboutYouSection.yourDetails.name,
         'appeal site address': formatAddress(householderAppeal.appealSiteSection.siteAddress),
         'local planning department': lpa.name,
-        'view appeal url': `${process.env.APP_APPEALS_BASE_URL}/your-planning-appeal/${householderAppeal.id}`,
+        'pdf copy URL': `${process.env.APP_APPEALS_BASE_URL}/document/${householderAppeal.id}/${householderAppeal.appealSubmission.appealPDFStatement.uploadedFile.id}`,
       },
       reference: householderAppeal.id,
     });

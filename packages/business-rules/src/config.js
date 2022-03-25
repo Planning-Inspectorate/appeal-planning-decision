@@ -51,7 +51,7 @@ const config = {
               name: appeal.aboutYouSection.yourDetails.name,
               'appeal site address': formatAddress(appeal.appealSiteSection.siteAddress),
               'local planning department': lpa.name,
-              'view appeal url': `${process.env.APP_APPEALS_BASE_URL}/your-planning-appeal/${appeal.id}`,
+              'pdf copy URL': `${process.env.APP_APPEALS_BASE_URL}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`,
             },
             reference: appeal.id,
           }),
