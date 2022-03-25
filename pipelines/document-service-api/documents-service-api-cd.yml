@@ -33,8 +33,8 @@ resources:
       endpoint: Appeals Token
       name: Planning-Inspectorate/common-pipeline-templates
   pipelines:
-    - pipeline: appeals-service-api-ci
-      source: appeals-service-api CI
+    - pipeline: document-service-api-ci
+      source: document-service-api CI
       trigger: 
         branches:
           include: 
@@ -43,13 +43,13 @@ resources:
 extends:
   template: stages/wrapper_web_app_cd.yml@templates
   parameters:
-    appName: pins-app-appeals-service-appeals-api-$(ENVIRONMENT)-${{ parameters.region }}-001
-    artifactSourcePipeline: appeals-service-api CI
+    appName: pins-app-appeals-service-documents-api-$(ENVIRONMENT)-${{ parameters.region }}-001
+    artifactSourcePipeline: document-service-api CI
     azurecrName: $(azurecrName)
     azurecrServiceConnection: $(azurecrServiceConnection)
     deploymentTag: ${{ parameters.deploymentTag }}
     globalVariables:
-      - template: pipelines/appeals-service-api/variables.yml@self
+      - template: pipelines/document-service-api/variables.yml@self
       - template: pipelines/variables.yml@self  
     projectName: $(projectName) 
     releaseVersion: $(version.MajorMinor)
