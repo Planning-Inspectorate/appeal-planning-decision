@@ -1,7 +1,5 @@
 const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
-const {
-  constants: { APPEAL_ID },
-} = require('@pins/business-rules');
+const fullAppealData = require('@pins/business-rules/test/data/full-appeal');
 const { updateAppeal, validateAppeal } = require('../../../src/services/appeal.service');
 const mongodb = require('../../../src/db/db');
 const queue = require('../../../src/lib/queue');
@@ -14,10 +12,12 @@ jest.mock('../../../../common/src/lib/notify/notify-builder', () => ({}));
 
 describe('services/validation.service', () => {
   let appeal;
+  let fullAppeal;
   const appealId = 'f40a7073-b1fc-445a-acf5-2035c6b1791e';
 
   beforeEach(() => {
     appeal = JSON.parse(JSON.stringify(householderAppeal));
+    fullAppeal = JSON.parse(JSON.stringify(fullAppealData));
     appeal.id = appealId;
     appeal.submissionDate = null;
 
@@ -318,10 +318,22 @@ describe('services/validation.service', () => {
       );
     });
 
-    test('Appeal has been entered by agent acting on behalf of applicant and must have an Appealing on Behalf Applicant Name', async () => {
+    test('Appeal has been entered by agent acting on behalf of applicant and Appealing on Behalf Applicant Name is empty', async () => {
       appeal.sectionStates.aboutYouSection.yourDetails = 'COMPLETED';
       appeal.aboutYouSection.yourDetails.isOriginalApplicant = false;
       appeal.aboutYouSection.yourDetails.appealingOnBehalfOf = '';
+
+      const errors = validateAppeal(appeal);
+
+      expect(errors).toContain(
+        'Appeal has been entered by agent acting on behalf of applicant and must have an Appealing on Behalf Applicant Name'
+      );
+    });
+
+    test('Appeal has been entered by agent acting on behalf of applicant and Appealing on Behalf Applicant Name is null', async () => {
+      appeal.sectionStates.aboutYouSection.yourDetails = 'COMPLETED';
+      appeal.aboutYouSection.yourDetails.isOriginalApplicant = false;
+      appeal.aboutYouSection.yourDetails.appealingOnBehalfOf = null;
 
       const errors = validateAppeal(appeal);
 
@@ -369,7 +381,7 @@ describe('services/validation.service', () => {
     });
 
     test('isFirstSubmission is false', async () => {
-      const outcome = await updateAppeal(appeal, false, 'here');
+      const outcome = await updateAppeal(appeal, false);
       expect(outcome).toEqual(updatedAppeal);
       expect(appeal.submissionDate).toBe(null);
       expect(queue.addAppeal).not.toHaveBeenCalled();
@@ -377,7 +389,7 @@ describe('services/validation.service', () => {
       expect(notify.sendSubmissionReceivedEmailToLpa).not.toHaveBeenCalled();
     });
 
-    test('isFirstSubmission is true', async () => {
+    test('isFirstSubmission is true for householder appeal', async () => {
       const outcome = await updateAppeal(appeal, true);
       expect(outcome).toEqual(updatedAppeal);
       expect(appeal.submissionDate).not.toBe(null);
@@ -386,28 +398,52 @@ describe('services/validation.service', () => {
       expect(notify.sendSubmissionReceivedEmailToLpa).toHaveBeenCalledWith(appeal.value);
     });
 
-    test('isFirstSubmission is true for full-appeal', async () => {
-      const fullAppeal = {
-        ...appeal,
-        appealType: APPEAL_ID.PLANNING_SECTION_78,
-      };
-
-      updatedAppeal = JSON.parse(JSON.stringify(fullAppeal));
-
+    test('isFirstSubmission is true for full appeal', async () => {
       mongodb.get = jest.fn(() => ({
         collection: jest.fn(() => ({
           findOneAndUpdate: jest.fn().mockResolvedValue({
             value: {
-              appeal: updatedAppeal,
+              appeal: fullAppeal,
             },
           }),
         })),
       }));
 
       const outcome = await updateAppeal(fullAppeal, true);
-      expect(outcome).toEqual({ appeal: updatedAppeal });
+      expect(outcome).toEqual({ appeal: fullAppeal });
       expect(fullAppeal.submissionDate).not.toBe(null);
-      expect(queue.addAppeal).toHaveBeenCalledWith({ appeal: updatedAppeal });
+      expect(queue.addAppeal).toHaveBeenCalledWith({ appeal: fullAppeal });
+    });
+
+    test('appealType is not set', async () => {
+      delete appeal.appealType;
+      const outcome = await updateAppeal(appeal);
+      expect(outcome).toEqual(updatedAppeal);
+    });
+
+    test('validate full appeal', async () => {
+      const updatedFullAppeal = JSON.parse(JSON.stringify(fullAppeal));
+
+      mongodb.get = jest.fn(() => ({
+        collection: jest.fn(() => ({
+          findOneAndUpdate: jest.fn().mockResolvedValue({
+            value: {
+              appeal: updatedFullAppeal,
+            },
+          }),
+        })),
+      }));
+
+      const outcome = await updateAppeal(fullAppeal);
+      expect(outcome).toEqual({ appeal: updatedFullAppeal });
+    });
+
+    test('throw an error when validation fails', async () => {
+      fullAppeal.appealDecisionSection.hearing.reason = null;
+
+      expect(() => updateAppeal(fullAppeal)).rejects.toThrow([
+        'If you would prefer your appeal to be decided by hearing then you must give a reason',
+      ]);
     });
   });
 });

@@ -9,15 +9,12 @@ const {
   sendSubmissionReceivedEmailToLpa,
   sendSubmissionConfirmationEmailToAppellant,
 } = require('../lib/notify');
+const validateFullAppeal = require('../validators/validate-full-appeal');
 
 const APPEALS = 'appeals';
 
 const validateAppeal = (appeal) => {
   const errors = [];
-
-  if (appeal.appealType !== APPEAL_ID.HOUSEHOLDER) {
-    return errors;
-  }
 
   // Your Details
   // Only accepted states are name and email both empty or both valued
@@ -282,7 +279,17 @@ const replaceAppeal = async (appeal) => {
 };
 
 function isValidAppeal(appeal) {
-  const errors = validateAppeal(appeal);
+  if (!appeal.appealType) {
+    return true;
+  }
+
+  let errors;
+
+  if (appeal.appealType === APPEAL_ID.PLANNING_SECTION_78) {
+    errors = validateFullAppeal(appeal);
+  } else {
+    errors = validateAppeal(appeal);
+  }
 
   if (errors.length > 0) {
     logger.debug(`Validated payload for appeal update generated errors:\n ${appeal}\n${errors}`);
@@ -293,30 +300,28 @@ function isValidAppeal(appeal) {
 }
 
 const updateAppeal = async (appeal, isFirstSubmission = false) => {
-  if (isValidAppeal(appeal)) {
-    const now = new Date(new Date().toISOString());
+  isValidAppeal(appeal);
 
-    /* eslint no-param-reassign: ["error", { "props": false }] */
-    appeal.updatedAt = now;
+  const now = new Date(new Date().toISOString());
 
-    if (isFirstSubmission) {
-      appeal.submissionDate = now;
-    }
+  /* eslint no-param-reassign: ["error", { "props": false }] */
+  appeal.updatedAt = now;
 
-    const updatedDocument = await replaceAppeal(appeal);
-
-    if (isFirstSubmission) {
-      await queue.addAppeal(updatedDocument.value);
-      await sendSubmissionConfirmationEmailToAppellant(updatedDocument.value.appeal);
-      await sendSubmissionReceivedEmailToLpa(updatedDocument.value.appeal);
-    }
-
-    logger.debug(`Updated appeal ${appeal.id}\n`);
-
-    return updatedDocument.value;
+  if (isFirstSubmission) {
+    appeal.submissionDate = now;
   }
-  // impossible to get here as `isValidAppeal` throws if invalid
-  return null;
+
+  const updatedDocument = await replaceAppeal(appeal);
+
+  if (isFirstSubmission) {
+    await queue.addAppeal(updatedDocument.value);
+    await sendSubmissionConfirmationEmailToAppellant(updatedDocument.value.appeal);
+    await sendSubmissionReceivedEmailToLpa(updatedDocument.value.appeal);
+  }
+
+  logger.debug(`Updated appeal ${appeal.id}\n`);
+
+  return updatedDocument.value;
 };
 
 const isAppealSubmitted = async (appealId) => {
