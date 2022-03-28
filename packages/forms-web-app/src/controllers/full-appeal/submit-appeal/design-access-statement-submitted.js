@@ -1,8 +1,18 @@
+const {
+  constants: {
+    APPLICATION_DECISION: { NODECISIONRECEIVED },
+  },
+} = require('@pins/business-rules');
 const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   VIEW: {
-    FULL_APPEAL: { DESIGN_ACCESS_STATEMENT, DESIGN_ACCESS_STATEMENT_SUBMITTED, DECISION_LETTER },
+    FULL_APPEAL: {
+      DECISION_LETTER,
+      DESIGN_ACCESS_STATEMENT_SUBMITTED,
+      DESIGN_ACCESS_STATEMENT,
+      TASK_LIST,
+    },
   },
 } = require('../../../lib/full-appeal/views');
 const { COMPLETED } = require('../../../services/task-status/task-statuses');
@@ -27,7 +37,12 @@ const postDesignAccessStatementSubmitted = async (req, res) => {
   const {
     body,
     body: { errors = {}, errorSummary = [] },
-    session: { appeal },
+    session: {
+      appeal,
+      appeal: {
+        eligibility: { applicationDecision },
+      },
+    },
   } = req;
 
   if (Object.keys(errors).length > 0) {
@@ -53,9 +68,15 @@ const postDesignAccessStatementSubmitted = async (req, res) => {
     });
   }
 
-  return isSubmitted
-    ? res.redirect(`/${DESIGN_ACCESS_STATEMENT}`)
-    : res.redirect(`/${DECISION_LETTER}`);
+  if (isSubmitted) {
+    return res.redirect(`/${DESIGN_ACCESS_STATEMENT}`);
+  }
+
+  if (applicationDecision === NODECISIONRECEIVED) {
+    return res.redirect(`/${TASK_LIST}`);
+  }
+
+  return res.redirect(`/${DECISION_LETTER}`);
 };
 
 module.exports = {

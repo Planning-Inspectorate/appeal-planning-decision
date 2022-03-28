@@ -1,3 +1,8 @@
+const {
+  constants: {
+    APPLICATION_DECISION: { GRANTED, NODECISIONRECEIVED, REFUSED },
+  },
+} = require('@pins/business-rules');
 const appeal = require('@pins/business-rules/test/data/full-appeal');
 const v8 = require('v8');
 const {
@@ -8,7 +13,12 @@ const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wra
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
-    FULL_APPEAL: { DESIGN_ACCESS_STATEMENT, DESIGN_ACCESS_STATEMENT_SUBMITTED, DECISION_LETTER },
+    FULL_APPEAL: {
+      DECISION_LETTER,
+      DESIGN_ACCESS_STATEMENT_SUBMITTED,
+      DESIGN_ACCESS_STATEMENT,
+      TASK_LIST,
+    },
   },
 } = require('../../../../../src/lib/full-appeal/views');
 const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
@@ -112,9 +122,10 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement-submitte
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
-    it('should redirect to the correct page if `no` has been selected', async () => {
+    it('should redirect to the correct page if `no` has been selected and the application decision is `granted`', async () => {
       appeal.sectionStates.planningApplicationDocumentsSection.designAccessStatementSubmitted =
         TASK_STATUS.COMPLETED;
+      appeal.eligibility.applicationDecision = GRANTED;
       const submittedAppeal = {
         ...appeal,
         state: 'SUBMITTED',
@@ -129,11 +140,66 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement-submitte
           'design-access-statement-submitted': 'no',
         },
       };
+      req.session.appeal.eligibility.applicationDecision = GRANTED;
 
       await postDesignAccessStatementSubmitted(req, res);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
+      expect(req.session.appeal).toEqual(submittedAppeal);
+    });
+
+    it('should redirect to the correct page if `no` has been selected and the application decision is `refused`', async () => {
+      appeal.sectionStates.planningApplicationDocumentsSection.designAccessStatementSubmitted =
+        TASK_STATUS.COMPLETED;
+      appeal.eligibility.applicationDecision = REFUSED;
+      const submittedAppeal = {
+        ...appeal,
+        state: 'SUBMITTED',
+      };
+      submittedAppeal[sectionName][taskName].isSubmitted = false;
+
+      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+      req = {
+        ...req,
+        body: {
+          'design-access-statement-submitted': 'no',
+        },
+      };
+      req.session.appeal.eligibility.applicationDecision = REFUSED;
+
+      await postDesignAccessStatementSubmitted(req, res);
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
+      expect(req.session.appeal).toEqual(submittedAppeal);
+    });
+
+    it('should redirect to the correct page if `no` has been selected and the application decision is `no decision received`', async () => {
+      appeal.sectionStates.planningApplicationDocumentsSection.designAccessStatementSubmitted =
+        TASK_STATUS.COMPLETED;
+      appeal.eligibility.applicationDecision = NODECISIONRECEIVED;
+      const submittedAppeal = {
+        ...appeal,
+        state: 'SUBMITTED',
+      };
+      submittedAppeal[sectionName][taskName].isSubmitted = false;
+
+      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+      req = {
+        ...req,
+        body: {
+          'design-access-statement-submitted': 'no',
+        },
+      };
+      req.session.appeal.eligibility.applicationDecision = NODECISIONRECEIVED;
+
+      await postDesignAccessStatementSubmitted(req, res);
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
   });

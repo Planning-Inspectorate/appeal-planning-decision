@@ -2537,6 +2537,33 @@ describe('schemas/full-appeal/update', () => {
             );
           });
 
+          describe('planningApplicationDocumentsSection.decisionLetter.uploadedFile.id', () => {
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id =
+                '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
+              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id =
+                '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
+
+              const result = await update.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should throw an error when not given a UUID', async () => {
+              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id = 'abc123';
+
+              await expect(() => update.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.decisionLetter.uploadedFile.id must be a valid UUID',
+              );
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id;
+
+              const result = await update.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
           describe('planningApplicationDocumentsSection.decisionLetter.uploadedFile.name', () => {
             it('should throw an error when given a value with more than 255 characters', async () => {
               appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.name =
@@ -2557,12 +2584,40 @@ describe('schemas/full-appeal/update', () => {
               expect(result).toEqual(appeal);
             });
 
-            it('should throw an error when not given a value', async () => {
+            it('should not throw an error when not given a value', async () => {
               delete appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.name;
 
+              const result = await update.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('planningApplicationDocumentsSection.decisionLetter.uploadedFile.fileName', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.fileName =
+                'a'.repeat(256);
+
               await expect(() => update.validate(appeal, config)).rejects.toThrow(
-                'planningApplicationDocumentsSection.decisionLetter.uploadedFile.name is a required field',
+                'planningApplicationDocumentsSection.decisionLetter.uploadedFile.fileName must be at most 255 characters',
               );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile.fileName =
+                '  test-pdf.pdf  ';
+              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.fileName =
+                'test-pdf.pdf';
+
+              const result = await update.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile
+                .fileName;
+
+              const result = await update.validate(appeal, config);
+              expect(result).toEqual(appeal);
             });
           });
 
@@ -2586,41 +2641,50 @@ describe('schemas/full-appeal/update', () => {
               expect(result).toEqual(appeal);
             });
 
-            it('should throw an error when not given a value', async () => {
+            it('should not throw an error when not given a value', async () => {
               delete appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile
                 .originalFileName;
 
-              await expect(() => update.validate(appeal, config)).rejects.toThrow(
-                'planningApplicationDocumentsSection.decisionLetter.uploadedFile.originalFileName is a required field',
-              );
+              const result = await update.validate(appeal, config);
+              expect(result).toEqual(appeal);
             });
           });
 
-          describe('c.decisionLetter.uploadedFile.id', () => {
+          describe('planningApplicationDocumentsSection.decisionLetter.uploadedFile.location', () => {
             it('should strip leading/trailing spaces', async () => {
-              appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id =
-                '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
-              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id =
-                '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
+              appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile.location =
+                '  test-pdf.pdf  ';
+              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.location =
+                'test-pdf.pdf';
 
               const result = await update.validate(appeal2, config);
               expect(result).toEqual(appeal);
             });
 
-            it('should throw an error when not given a UUID', async () => {
-              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id = 'abc123';
+            it('should not throw an error when not given a value', async () => {
+              delete appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile
+                .location;
+
+              const result = await update.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('planningApplicationDocumentsSection.decisionLetter.uploadedFile.size', () => {
+            it('should throw an error when not given a number', async () => {
+              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.size =
+                'not-a-number';
 
               await expect(() => update.validate(appeal, config)).rejects.toThrow(
-                'planningApplicationDocumentsSection.decisionLetter.uploadedFile.id must be a valid UUID',
+                'planningApplicationDocumentsSection.decisionLetter.uploadedFile.size must be a `number` type, but the final value was: `NaN` (cast from the value `1000`).',
               );
             });
 
-            it('should throw an error when not given a value', async () => {
-              delete appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id;
+            it('should not throw an error when not given a value', async () => {
+              delete appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.size;
 
-              await expect(() => update.validate(appeal, config)).rejects.toThrow(
-                'planningApplicationDocumentsSection.decisionLetter.uploadedFile.id is a required field',
-              );
+              const result = await update.validate(appeal, config);
+              expect(result).toEqual(appeal);
             });
           });
         });
