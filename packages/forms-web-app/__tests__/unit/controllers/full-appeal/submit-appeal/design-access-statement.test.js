@@ -1,3 +1,8 @@
+const {
+  constants: {
+    APPLICATION_DECISION: { GRANTED, NODECISIONRECEIVED, REFUSED },
+  },
+} = require('@pins/business-rules');
 const appeal = require('@pins/business-rules/test/data/full-appeal');
 const v8 = require('v8');
 const { documentTypes } = require('@pins/common');
@@ -11,7 +16,7 @@ const TASK_STATUS = require('../../../../../src/services/task-status/task-status
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
-    FULL_APPEAL: { DESIGN_ACCESS_STATEMENT, DECISION_LETTER },
+    FULL_APPEAL: { DESIGN_ACCESS_STATEMENT, DECISION_LETTER, TASK_LIST },
   },
 } = require('../../../../../src/lib/full-appeal/views');
 
@@ -93,9 +98,10 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement', () => 
       });
     });
 
-    it('should redirect to the correct page if valid and a file is being uploaded', async () => {
+    it('should redirect to the correct page if valid and the application decision is `granted` and a file is being uploaded', async () => {
       appeal.sectionStates.planningApplicationDocumentsSection.designAccessStatement =
         TASK_STATUS.COMPLETED;
+      appeal.eligibility.applicationDecision = GRANTED;
       const submittedAppeal = {
         ...appeal,
         state: 'SUBMITTED',
@@ -111,6 +117,7 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement', () => 
           'file-upload': appeal[sectionName][taskName].uploadedFile,
         },
       };
+      req.session.appeal.eligibility.applicationDecision = GRANTED;
 
       await postDesignAccessStatement(req, res);
 
@@ -125,13 +132,83 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement', () => 
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
-    it('should redirect to the correct page if valid and a file is not being uploaded', async () => {
+    it('should redirect to the correct page if valid and the application decision is `refused` and a file is being uploaded', async () => {
       appeal.sectionStates.planningApplicationDocumentsSection.designAccessStatement =
         TASK_STATUS.COMPLETED;
+      appeal.eligibility.applicationDecision = REFUSED;
       const submittedAppeal = {
         ...appeal,
         state: 'SUBMITTED',
       };
+
+      createDocument.mockReturnValue(appeal[sectionName][taskName].uploadedFile);
+      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+      req = {
+        ...req,
+        body: {},
+        files: {
+          'file-upload': appeal[sectionName][taskName].uploadedFile,
+        },
+      };
+      req.session.appeal.eligibility.applicationDecision = REFUSED;
+
+      await postDesignAccessStatement(req, res);
+
+      expect(createDocument).toHaveBeenCalledWith(
+        appeal,
+        appeal[sectionName][taskName].uploadedFile,
+        null,
+        taskName
+      );
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
+      expect(req.session.appeal).toEqual(submittedAppeal);
+    });
+
+    it('should redirect to the correct page if valid and the application decision is `no decision received` and a file is being uploaded', async () => {
+      appeal.sectionStates.planningApplicationDocumentsSection.designAccessStatement =
+        TASK_STATUS.COMPLETED;
+      appeal.eligibility.applicationDecision = NODECISIONRECEIVED;
+      const submittedAppeal = {
+        ...appeal,
+        state: 'SUBMITTED',
+      };
+
+      createDocument.mockReturnValue(appeal[sectionName][taskName].uploadedFile);
+      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+      req = {
+        ...req,
+        body: {},
+        files: {
+          'file-upload': appeal[sectionName][taskName].uploadedFile,
+        },
+      };
+      req.session.appeal.eligibility.applicationDecision = NODECISIONRECEIVED;
+
+      await postDesignAccessStatement(req, res);
+
+      expect(createDocument).toHaveBeenCalledWith(
+        appeal,
+        appeal[sectionName][taskName].uploadedFile,
+        null,
+        taskName
+      );
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
+      expect(req.session.appeal).toEqual(submittedAppeal);
+    });
+
+    it('should redirect to the correct page if valid and the application decision is `granted` and a file is not being uploaded', async () => {
+      appeal.sectionStates.planningApplicationDocumentsSection.designAccessStatement =
+        TASK_STATUS.COMPLETED;
+      appeal.eligibility.applicationDecision = GRANTED;
+      const submittedAppeal = {
+        ...appeal,
+        state: 'SUBMITTED',
+      };
+      req.session.appeal.eligibility.applicationDecision = GRANTED;
 
       createDocument.mockReturnValue(appeal[sectionName][taskName].uploadedFile);
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
@@ -141,6 +218,48 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement', () => 
       expect(createDocument).not.toHaveBeenCalled();
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
+      expect(req.session.appeal).toEqual(submittedAppeal);
+    });
+
+    it('should redirect to the correct page if valid and the application decision is `refused` and a file is not being uploaded', async () => {
+      appeal.sectionStates.planningApplicationDocumentsSection.designAccessStatement =
+        TASK_STATUS.COMPLETED;
+      appeal.eligibility.applicationDecision = REFUSED;
+      const submittedAppeal = {
+        ...appeal,
+        state: 'SUBMITTED',
+      };
+      req.session.appeal.eligibility.applicationDecision = REFUSED;
+
+      createDocument.mockReturnValue(appeal[sectionName][taskName].uploadedFile);
+      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+      await postDesignAccessStatement(req, res);
+
+      expect(createDocument).not.toHaveBeenCalled();
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
+      expect(req.session.appeal).toEqual(submittedAppeal);
+    });
+
+    it('should redirect to the correct page if valid and the application decision is `no decision received` and a file is not being uploaded', async () => {
+      appeal.sectionStates.planningApplicationDocumentsSection.designAccessStatement =
+        TASK_STATUS.COMPLETED;
+      appeal.eligibility.applicationDecision = NODECISIONRECEIVED;
+      const submittedAppeal = {
+        ...appeal,
+        state: 'SUBMITTED',
+      };
+      req.session.appeal.eligibility.applicationDecision = NODECISIONRECEIVED;
+
+      createDocument.mockReturnValue(appeal[sectionName][taskName].uploadedFile);
+      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+      await postDesignAccessStatement(req, res);
+
+      expect(createDocument).not.toHaveBeenCalled();
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
   });
