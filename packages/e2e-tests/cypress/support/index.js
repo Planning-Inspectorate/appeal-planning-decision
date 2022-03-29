@@ -22,6 +22,7 @@ import 'cypress-axe';
 import 'cypress-downloadfile/lib/downloadFileCommand';
 
 import 'cypress-html-validate/dist/commands';
+import 'cypress-xpath';
 
 Cypress.on('uncaught:exception',(err, runnable)=>{
   return false
