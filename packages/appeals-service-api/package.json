@@ -34,8 +34,8 @@
     "express": "^4.17.2",
     "express-async-errors": "^3.1.1",
     "express-pino-logger": "^5.0.0",
-    "jest": "^27.5.1",
-    "jest-junit": "^13.0.0",
+    "jest": "^26.6.3",
+    "jest-junit": "^12.3.0",
     "jest-when": "^3.5.0",
     "js-yaml": "^3.14.0",
     "lodash": "^4.17.21",
@@ -45,7 +45,8 @@
     "rhea": "^1.0.24",
     "supertest": "^6.2.2",
     "swagger-ui-express": "^4.3.0",
-    "uuid": "^8.3.1"
+    "uuid": "^8.3.1",
+    "yup": "^0.31.1"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
