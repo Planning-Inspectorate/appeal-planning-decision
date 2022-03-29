@@ -50,15 +50,15 @@ Then('the appeal information is presented', () => {
  confirmCheckYourAnswersDisplayItem('[data-cy="application-number"]', 'ValidNumber/12345');
  confirmCheckYourAnswersDisplayItem(
     '[data-cy="upload-application"]',
-    'appeal-statement-valid.doc',
+    'appeal-statement-valid.pdf',
   );
  confirmCheckYourAnswersDisplayItem(
     '[data-cy="upload-decision"]',
-    'appeal-statement-valid.doc',
+    'mock-decision-letter.pdf',
   );
  confirmCheckYourAnswersDisplayItem(
     '[data-cy="appeal-statement"]',
-    'appeal-statement-valid.doc',
+    'appeal-statement-valid.docx',
   );
  confirmCheckYourAnswersDisplayItem(
     '[data-cy="supporting-documents-no-files"]',
@@ -71,8 +71,6 @@ Then('the appeal information is presented', () => {
  confirmCheckYourAnswersDisplayItem('[data-cy="site-ownership"]', 'Yes');
  confirmCheckYourAnswersDisplayItem('[data-cy="site-access"]', 'Yes');
  confirmCheckYourAnswersDisplayItem('[data-cy="site-access-safety"]', 'No');
-  goToAppealsPage(pageURLAppeal.goToPlanningDepartmentPage);
- confirmEligibleLocalPlanningDepartment();
 });
 
 Given('the check your answers page is displayed for Person Appealing is Original Applicant', () => {
@@ -114,9 +112,8 @@ Given('the user is presented with the answers they had provided', () => {
 
 Given('changes are made for About you section', () => {
  provideCompleteAppeal(STANDARD_APPEAL);
-  goToAppealsPage(pageURLAppeal.goToWhoAreYouPage);
- //cy.answerNoOriginalAppellant();
-  provideAnswerNo();
+ goToAppealsPage(pageURLAppeal.goToWhoAreYouPage);
+ provideAnswerNo();
  clickSaveAndContinue();
  provideDetailsName('New Valid Name');
  provideDetailsEmail('new-valid@email.com');
@@ -141,12 +138,12 @@ Then('the updated values for About you section are displayed', () => {
 
 Given('changes are made for About the original planning application section', () => {
  provideCompleteAppeal(STANDARD_APPEAL);
-  goToAppealsPage(pageURLAppeal.goToPlanningApplicationNumberPage);
+ goToAppealsPage(pageURLAppeal.goToPlanningApplicationNumberPage);
  providePlanningApplicationNumber('New ValidNumber/12345');
-  goToAppealsPage(pageURLAppeal.goToPlanningApplicationSubmission);
+ goToAppealsPage(pageURLAppeal.goToPlanningApplicationSubmission);
  uploadPlanningApplicationFile('appeal-statement-valid.jpeg');
  clickSaveAndContinue();
-  goToAppealsPage(pageURLAppeal.goToDecisionLetterPage);
+ goToAppealsPage(pageURLAppeal.goToDecisionLetterPage);
  uploadDecisionLetterFile('appeal-statement-valid.pdf');
  clickSaveAndContinue();
 });
@@ -219,7 +216,7 @@ Then('the updated values for Visiting the appeal site section are displayed', ()
 
 Given('the appeal has more than one other documents', () => {
  provideCompleteAppeal(STANDARD_APPEAL);
-  goToAppealsPage(pageURLAppeal.goToSupportingDocumentsPage);
+ goToAppealsPage(pageURLAppeal.goToSupportingDocumentsPage);
  uploadSupportingDocuments([
     'appeal-statement-valid.doc',
     'appeal-statement-valid.docx',

@@ -1,6 +1,9 @@
-@wip @has
+@has
 Feature: Name and email provided after being previously provided
   Note: This feature describes behaviour for a newly created appeal
+
+  Background:
+    Given appellant has completed householder appeal eligibility journey
 
   Scenario: Section status update - original applicant - valid name and email
     Given name and email are requested again where appellant is the original applicant

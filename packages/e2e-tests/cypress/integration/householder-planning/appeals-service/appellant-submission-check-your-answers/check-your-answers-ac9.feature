@@ -1,7 +1,9 @@
-@wip @has
+@has
 Feature: A user checks their answers and wants to submit their appeal
 
-  @AS-121
+  Background:
+    Given appellant has completed householder appeal eligibility journey
+
   Scenario: Change link navigates to the other owner notification page
     Given an agent or appellant has provided information where they have not informed the other owners
     When Check Your Answers is presented
