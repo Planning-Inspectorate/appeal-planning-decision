@@ -1,6 +1,11 @@
 const {
+  constants: {
+    APPLICATION_DECISION: { NODECISIONRECEIVED },
+  },
+} = require('@pins/business-rules');
+const {
   VIEW: {
-    FULL_APPEAL: { DESIGN_ACCESS_STATEMENT, DECISION_LETTER },
+    FULL_APPEAL: { DESIGN_ACCESS_STATEMENT, DECISION_LETTER, TASK_LIST },
   },
 } = require('../../../lib/full-appeal/views');
 const logger = require('../../../lib/logger');
@@ -37,6 +42,7 @@ const postDesignAccessStatement = async (req, res) => {
       appeal,
       appeal: {
         id: appealId,
+        eligibility: { applicationDecision },
         [sectionName]: {
           [taskName]: { uploadedFile },
         },
@@ -78,7 +84,9 @@ const postDesignAccessStatement = async (req, res) => {
     });
   }
 
-  return res.redirect(`/${DECISION_LETTER}`);
+  return applicationDecision === NODECISIONRECEIVED
+    ? res.redirect(`/${TASK_LIST}`)
+    : res.redirect(`/${DECISION_LETTER}`);
 };
 
 module.exports = {
