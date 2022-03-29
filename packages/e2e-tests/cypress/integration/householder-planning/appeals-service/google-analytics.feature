@@ -3,8 +3,7 @@ Feature: Google Analytics
   Each of the Eligibility and Appellant Submission webpages needs to send data to Google Analytics platform
 
   Scenario Outline: Required GA script is present
-    Given an appeal is being made
-    When the <page> page is presented
+    Given the <page> page is presented
     Then the required GA script is present
     Examples:
       | page                                                                   |

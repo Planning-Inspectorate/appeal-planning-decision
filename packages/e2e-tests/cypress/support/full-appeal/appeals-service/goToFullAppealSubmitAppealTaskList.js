@@ -8,6 +8,7 @@ import { enterDateDecisionDue } from '../../eligibility/date-decision-due/enter-
 import { getDate, getMonth, getYear } from 'date-fns';
 import { selectNo } from './page-objects/own-the-land-po';
 import { getLocalPlanningDepart } from '../../eligibility/page-objects/local-planning-department-po';
+import { enterDateDecisionReceived } from '../../eligibility/date-decision-received/enter-date-decision-received';
 
 export const goToFullAppealSubmitAppealTaskList = (url, applicationType) =>  {
   goToAppealsPage(url);
@@ -23,7 +24,7 @@ export const goToFullAppealSubmitAppealTaskList = (url, applicationType) =>  {
   getSaveAndContinueButton().click();
   cy.url().should('contain', 'before-you-start/decision-date');
   const validDate = getPastDate(allowedDatePart.MONTH, 1);
-  enterDateDecisionDue( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate) } );
+  enterDateDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate) } );
   getSaveAndContinueButton().click();
   cy.url().should('contain', 'before-you-start/enforcement-notice');
   selectNo().click();

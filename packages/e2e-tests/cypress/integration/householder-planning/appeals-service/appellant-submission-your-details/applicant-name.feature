@@ -1,6 +1,9 @@
-@wip @has
+@has
 Feature: Name of original applicant
   Note: This feature describes behaviour for a newly created appeal
+
+  Background:
+    Given appellant has completed householder appeal eligibility journey
 
   Scenario: Valid name
     Given appeal is made on behalf of another applicant

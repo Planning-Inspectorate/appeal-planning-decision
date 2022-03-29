@@ -8,9 +8,18 @@ import { confirmPlanningApplicationFileIsUploaded } from '../../../../support/ho
 import { confirmThatNoErrorTriggered } from '../../../../support/householder-planning/appeals-service/appeal-statement-submission/confirmThatNoErrorTriggered';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { pageURLAppeal } from '../../../common/householder-planning/appeals-service/pageURLAppeal';
+import { goToHouseholderAppealSubmitAppealTaskList } from '../../../../support/householder-planning/appeals-service/goToHouseholderAppealSubmitAppealTaskList';
+import { linkUploadOriginalPlanningAppForm } from '../../../../support/householder-planning/appeals-service/page-objects/task-list-po';
+import { getBackLink } from '../../../../support/common-page-objects/common-po';
 
-
-Given('user did not previously submitted a planning application file',() => {})
+const goToUploadApplicationMethods =() => {
+  cy.url().should('contain', pageURLAppeal.goToTaskListPage);
+  linkUploadOriginalPlanningAppForm().click();
+  cy.url().should('contain',pageURLAppeal.goToPlanningApplicationSubmission);
+}
+Given('user did not previously submitted a planning application file',() => {
+  cy.url().should('contain', pageURLAppeal.goToTaskListPage);
+})
 
 Given('user has previously submitted a planning application file {string}', (filename) => {
   goToAppealsPage(pageURLAppeal.goToPlanningApplicationSubmission);
@@ -21,10 +30,10 @@ Given('user has previously submitted a planning application file {string}', (fil
 Given(
   'user has previously submitted a valid planning application file {string} followed by an invalid file {string} that was rejected because {string}',
   (validFile, invalidFile, reason) => {
-    goToAppealsPage(pageURLAppeal.goToPlanningApplicationSubmission);
+    goToUploadApplicationMethods();
     uploadPlanningApplicationFile(validFile);
     clickSaveAndContinue();
-    goToAppealsPage(pageURLAppeal.goToPlanningApplicationSubmission);
+    getBackLink().click();
     uploadPlanningApplicationFile(invalidFile);
     clickSaveAndContinue();
 

@@ -1,4 +1,4 @@
-const { dateForXDaysAgo } = require('./date-for-x-days-ago');
+const {dateForXDaysAgo} = require('./date-for-x-days-ago');
 
 const matchWhatWeCanFrom = (hardCodedExpectations) => {
   return {
@@ -76,10 +76,13 @@ const matchWhatWeCanFrom = (hardCodedExpectations) => {
 const STANDARD_APPEAL = {
   decisionDate: dateForXDaysAgo(30),
   eligibility: {
-    householderPlanningPermission: true,
-    eligibleLocalPlanningDepartment: true,
-    isClaimingCosts: false,
+    hasHouseholderPermissionConditions: null,
+    hasPriorApprovalForExistingHome: null,
     isListedBuilding: false,
+    isClaimingCosts: false,
+    householderPlanningPermission: true,
+    enforcementNotice: false,
+    applicationDecision: 'refused'
   },
   aboutYouSection: {
     yourDetails: {
@@ -93,21 +96,36 @@ const STANDARD_APPEAL = {
     applicationNumber: 'ValidNumber/12345',
     originalApplication: {
       uploadedFile: {
-        name: 'appeal-statement-valid.doc',
+        size: 12956,
+        location: '03d8f6ed-d7ec-4d4e-a486-21de614e1843/eca0218b-c6bf-43bc-8e99-6353b549de29/appeal-statement-valid.pdf',
+        originalFileName: 'appeal-statement-valid.pdf',
+        fileName: 'appeal-statement-valid.pdf',
+        name: 'appeal-statement-valid.pdf',
+        id: 'eca0218b-c6bf-43bc-8e99-6353b549de29'
       },
     },
     decisionLetter: {
       uploadedFile: {
-        name: 'appeal-statement-valid.doc',
+        size: 9144,
+        location: '3d8f6ed-d7ec-4d4e-a486-21de614e1843/ee5c5845-e547-4979-a277-52c745ff692d/mock-decision-letter.pdf',
+        originalFileName: 'mock-decision-letter.pdf',
+        fileName: 'mock-decision-letter.pdf',
+        name: 'mock-decision-letter.pdf',
+        id: 'ee5c5845-e547-4979-a277-52c745ff692d'
       },
     },
   },
   yourAppealSection: {
     appealStatement: {
       uploadedFile: {
-        name: 'appeal-statement-valid.doc',
+        size: 11978,
+        location: '03d8f6ed-d7ec-4d4e-a486-21de614e1843/3489fcbe-c163-4908-8c71-1892d1aa9e2a/appeal-statement-valid.docx',
+        originalFileName: 'appeal-statement-valid.docx',
+        fileName: 'appeal-statement-valid.docx',
+        name: 'appeal-statement-valid.docx',
+        id: 'cf5531db-aab8-48c8-acb5-f5875b108e39'
       },
-      hasSensitiveInformation: null,
+      hasSensitiveInformation: false,
     },
     otherDocuments: {
       uploadedFiles: [],
@@ -144,7 +162,7 @@ const STANDARD_AGENT_APPEAL = {
       isOriginalApplicant: false,
       name: 'Agent Name',
       email: 'valid@email.com',
-      appealingOnBehalfOf: "Valid Name",
+      appealingOnBehalfOf: 'Valid Name',
     },
   },
 };
@@ -152,10 +170,13 @@ const STANDARD_AGENT_APPEAL = {
 const APPEAL_NOT_OWNER_OTHERS_NOT_INFORMED = {
   decisionDate: dateForXDaysAgo(30),
   eligibility: {
-    householderPlanningPermission: true,
-    eligibleLocalPlanningDepartment: true,
-    listedBuilding: true,
+    hasHouseholderPermissionConditions: null,
+    hasPriorApprovalForExistingHome: null,
+    isListedBuilding: false,
     isClaimingCosts: false,
+    householderPlanningPermission: true,
+    enforcementNotice: false,
+    applicationDecision: 'refused'
   },
   aboutYouSection: {
     yourDetails: {
@@ -169,21 +190,36 @@ const APPEAL_NOT_OWNER_OTHERS_NOT_INFORMED = {
     applicationNumber: 'ValidNumber/12345',
     originalApplication: {
       uploadedFile: {
-        name: 'appeal-statement-valid.doc',
+        size: 12956,
+        location: '03d8f6ed-d7ec-4d4e-a486-21de614e1843/eca0218b-c6bf-43bc-8e99-6353b549de29/appeal-statement-valid.pdf',
+        originalFileName: 'appeal-statement-valid.pdf',
+        fileName: 'appeal-statement-valid.pdf',
+        name: 'appeal-statement-valid.pdf',
+        id: 'eca0218b-c6bf-43bc-8e99-6353b549de29'
       },
     },
     decisionLetter: {
       uploadedFile: {
-        name: 'appeal-statement-valid.doc',
+        size: 9144,
+        location: '3d8f6ed-d7ec-4d4e-a486-21de614e1843/ee5c5845-e547-4979-a277-52c745ff692d/mock-decision-letter.pdf',
+        originalFileName: 'mock-decision-letter.pdf',
+        fileName: 'mock-decision-letter.pdf',
+        name: 'mock-decision-letter.pdf',
+        id: 'ee5c5845-e547-4979-a277-52c745ff692d'
       },
     },
   },
   yourAppealSection: {
     appealStatement: {
       uploadedFile: {
-        name: 'appeal-statement-valid.doc',
+        size: 11978,
+        location: '03d8f6ed-d7ec-4d4e-a486-21de614e1843/3489fcbe-c163-4908-8c71-1892d1aa9e2a/appeal-statement-valid.docx',
+        originalFileName: 'appeal-statement-valid.docx',
+        fileName: 'appeal-statement-valid.docx',
+        name: 'appeal-statement-valid.docx',
+        id: 'cf5531db-aab8-48c8-acb5-f5875b108e39'
       },
-      hasSensitiveInformation: null,
+      hasSensitiveInformation: false,
     },
     otherDocuments: {
       uploadedFiles: [],
@@ -215,10 +251,13 @@ const APPEAL_NOT_OWNER_OTHERS_NOT_INFORMED = {
 const APPEAL_NOT_OWNER_OTHERS_INFORMED = {
   decisionDate: dateForXDaysAgo(30),
   eligibility: {
-    householderPlanningPermission: true,
-    eligibleLocalPlanningDepartment: true,
-    listedBuilding: true,
+    hasHouseholderPermissionConditions: null,
+    hasPriorApprovalForExistingHome: null,
+    isListedBuilding: false,
     isClaimingCosts: false,
+    householderPlanningPermission: true,
+    enforcementNotice: false,
+    applicationDecision: 'refused'
   },
   aboutYouSection: {
     yourDetails: {
@@ -232,21 +271,36 @@ const APPEAL_NOT_OWNER_OTHERS_INFORMED = {
     applicationNumber: 'ValidNumber/12345',
     originalApplication: {
       uploadedFile: {
-        name: 'appeal-statement-valid.doc',
+        size: 12956,
+        location: '03d8f6ed-d7ec-4d4e-a486-21de614e1843/eca0218b-c6bf-43bc-8e99-6353b549de29/appeal-statement-valid.pdf',
+        originalFileName: 'appeal-statement-valid.pdf',
+        fileName: 'appeal-statement-valid.pdf',
+        name: 'appeal-statement-valid.pdf',
+        id: 'eca0218b-c6bf-43bc-8e99-6353b549de29'
       },
     },
     decisionLetter: {
       uploadedFile: {
-        name: 'appeal-statement-valid.doc',
+        size: 9144,
+        location: '3d8f6ed-d7ec-4d4e-a486-21de614e1843/ee5c5845-e547-4979-a277-52c745ff692d/mock-decision-letter.pdf',
+        originalFileName: 'mock-decision-letter.pdf',
+        fileName: 'mock-decision-letter.pdf',
+        name: 'mock-decision-letter.pdf',
+        id: 'ee5c5845-e547-4979-a277-52c745ff692d'
       },
     },
   },
   yourAppealSection: {
     appealStatement: {
       uploadedFile: {
-        name: 'appeal-statement-valid.doc',
+        size: 11978,
+        location: '03d8f6ed-d7ec-4d4e-a486-21de614e1843/3489fcbe-c163-4908-8c71-1892d1aa9e2a/appeal-statement-valid.docx',
+        originalFileName: 'appeal-statement-valid.docx',
+        fileName: 'appeal-statement-valid.docx',
+        name: 'appeal-statement-valid.docx',
+        id: 'cf5531db-aab8-48c8-acb5-f5875b108e39'
       },
-      hasSensitiveInformation: null,
+      hasSensitiveInformation: false,
     },
     otherDocuments: {
       uploadedFiles: [],

@@ -5,13 +5,13 @@ import { selectPlanningApplicationType } from '../../eligibility/planning-applic
 import { allowedDatePart, getPastDate } from '../../common/getDate';
 import { enterDateDecisionDue } from '../../eligibility/date-decision-due/enter-date-decision-due';
 import { getDate, getMonth, getYear } from 'date-fns';
-import { selectNo } from './page-objects/own-the-land-po';
 import { getLocalPlanningDepart } from '../../eligibility/page-objects/local-planning-department-po';
 import {selectListedBuildingDecision} from "../../eligibility/listed-building/select-listed-building-decision";
 import {grantedOrRefused} from "../../full-appeal/appeals-service/page-objects/task-list-page-po";
 import {
   enterDateHouseholderDecisionReceived
 } from "../../eligibility/date-decision-received/enter-date-householder-decision-received";
+import { selectNo } from '../../full-appeal/appeals-service/page-objects/own-the-land-po';
 
 export const goToHouseholderAppealSubmitAppealTaskList = (url, applicationType) =>  {
   goToAppealsPage(url);

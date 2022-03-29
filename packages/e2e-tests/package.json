@@ -42,5 +42,8 @@
       "generate": true,
       "outputFolder": "./cypress/cucumber-json"
     }
+  },
+  "devDependencies": {
+    "cypress-xpath": "^1.6.2"
   }
 }

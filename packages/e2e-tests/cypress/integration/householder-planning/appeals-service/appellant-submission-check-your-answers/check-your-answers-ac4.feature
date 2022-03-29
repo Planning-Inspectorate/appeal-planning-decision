@@ -1,6 +1,10 @@
 @wip @has
 Feature: A user checks their answers and wants to submit their appeal
 
+  Background:
+    Given appellant has completed householder appeal eligibility journey
+
+    ### This has to be tested again once the defect AS-4654 has been fixed
   Scenario: AC4a - Multiple document upload section - multiple documents are correctly displayed
     Given the appeal has more than one other documents
     When Check Your Answers is presented
