@@ -5,15 +5,19 @@ import { clickSaveAndContinue } from '../../../../../support/householder-plannin
 import { uploadSupportingDocuments } from '../../../../../support/householder-planning/appeals-service/appellant-submission-supporting-documents/uploadSupportingDocuments';
 import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import { pageURLAppeal } from '../../../../common/householder-planning/appeals-service/pageURLAppeal';
+import {
+  appealStatement,
+  supportingDocuments
+} from "../../../../../support/householder-planning/appeals-service/page-objects/task-list-po";
 
 Given('the "Appeal statement" is presented', () => {
- //goToAppealStatementSubmission();
-  goToAppealsPage(pageURLAppeal.goToAppealStatementSubmission);
+ appealStatement().click();
+  cy.url().should('contain',pageURLAppeal.goToAppealStatementSubmission);
 });
 
 Given('the "Supporting documents" is presented', () => {
-  //goToSupportingDocumentsPage();
-  goToAppealsPage(pageURLAppeal.goToSupportingDocumentsPage);
+  supportingDocuments().click();
+  cy.url().should('contain',pageURLAppeal.goToSupportingDocumentsPage);
 });
 
 When('the "Appeal statement" is submitted with valid values', () => {

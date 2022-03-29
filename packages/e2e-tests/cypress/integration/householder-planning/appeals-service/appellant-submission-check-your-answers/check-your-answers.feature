@@ -1,4 +1,4 @@
-@wip @has
+@has
 Feature: A user checks their answers and wants to submit their appeal
 
   Background:

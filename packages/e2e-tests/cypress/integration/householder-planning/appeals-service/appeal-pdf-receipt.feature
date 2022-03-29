@@ -1,7 +1,8 @@
 @wip @has
 Feature: A user has submitted an appeal and requests a pdf copy of the data entered
+  Background:
+    Given appellant has completed householder appeal eligibility journey
 
-  @AS-121
   Scenario: the appellant or agent views the pdf and sees the other owner notification as entered
     Given an agent or appellant has submitted an appeal and they do not wholly own the site
     When the pdf is viewed

@@ -4,6 +4,8 @@ Feature: Appeal submission to Horizon - providing all documentation
   I want to view the documents associated to an appeal
   So that I can review them
 
+  Background:
+    Given appellant has completed householder appeal eligibility journey
 
   Scenario: Appeal documentation submitted for case workers to view
     Given documents have been provided as part of an appeal

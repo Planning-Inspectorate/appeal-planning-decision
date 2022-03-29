@@ -1,5 +1,8 @@
-@wip @has
+@has
 Feature: Declaration must be agreed before a submission can be made
+
+  Background:
+    Given appellant has completed householder appeal eligibility journey
 
   Scenario: Prospective appellant does not agree to the declaration
     Given an appeal is ready to be submitted

@@ -1,7 +1,10 @@
-@wip @has
+@has
 Feature: Prospective Appellant provides the Appeal Site Ownership
   Prospective appellant asked to notify the owners of the appeal site where necessary
   Note: This feature describes behaviour for a newly created appeal
+
+  Background:
+    Given appellant has completed householder appeal eligibility journey
 
   Scenario: No confirmation of ownership of the whole site provided
     Given the site ownership is presented for the first time

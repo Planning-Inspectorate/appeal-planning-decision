@@ -11,19 +11,19 @@ Feature: Appellant submission - decision letter
   * not exceed a size limit.
   The latest successfully uploaded decision letter file replaces any previously uploaded file.
 
-  @as-119 @ac-1-1 @as-1677
+  Background:
+    Given appellant has completed householder appeal eligibility journey
+
   Scenario: Prospective applicant do not upload a decision letter file
     Given user did not previously submitted a decision letter file
     When user does not submit a decision letter file
     Then user is informed that he needs to upload a decision letter file
 
-  @as-119 @ac-1-2
   Scenario: Prospective applicant do not upload a planning application file
     Given user has previously submitted a decision letter file "appeal-statement-valid.pdf"
     When user does not submit a decision letter file
     Then decision letter file "appeal-statement-valid.pdf" is submitted and user can proceed
 
-  @as-119 @ac-2
   Scenario Outline: Prospective appellant submits valid decision letter file
     When user submits a decision letter file <filename>
     Then decision letter file <filename> is submitted and user can proceed

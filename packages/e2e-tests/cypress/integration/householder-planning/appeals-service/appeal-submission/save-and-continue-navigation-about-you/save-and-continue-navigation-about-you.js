@@ -6,34 +6,43 @@ import { provideDetailsEmail } from '../../../../../support/householder-planning
 import { provideNameOfOriginalApplicant } from '../../../../../support/householder-planning/appeals-service/appellant-submission-your-details/provideNameOfOriginalApplicant';
 import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import { pageURLAppeal } from '../../../../common/householder-planning/appeals-service/pageURLAppeal';
+import {yourDetails} from "../../../../../support/householder-planning/appeals-service/page-objects/task-list-po";
+import {getSaveAndContinueButton} from "../../../../../support/common-page-objects/common-po";
 
 Given('the "Who are you" is presented', () => {
-  //goToWhoAreYouPage();
-  goToAppealsPage(pageURLAppeal.goToWhoAreYouPage);
+  yourDetails().click();
+  cy.url().should('contain',pageURLAppeal.goToWhoAreYouPage);
 });
 
 Given('the "Your details" is presented for an original applicant', () => {
- // goToYourDetailsPage();
-  goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
+  yourDetails().click();
+  cy.url().should('contain',pageURLAppeal.goToWhoAreYouPage);
   provideAreYouOriginalApplicant('are');
   clickSaveAndContinue();
 });
 
 Given('the "Your details" is presented for not the original applicant', () => {
-  goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
+  yourDetails().click();
+  cy.url().should('contain',pageURLAppeal.goToWhoAreYouPage);
   provideAreYouOriginalApplicant('are not');
   clickSaveAndContinue();
 });
 
 Given('the "Applicant name" is presented', () => {
-  provideAreYouOriginalApplicant('are');
-  //gotooApplicantNamePage();
-  goToAppealsPage(pageURLAppeal.goToApplicantNamePage);
+  yourDetails().click();
+  cy.url().should('contain',pageURLAppeal.goToWhoAreYouPage);
+  provideAreYouOriginalApplicant('are not');
+  getSaveAndContinueButton().click();
+  cy.url().should('contain',pageURLAppeal.goToYourDetailsPage);
+  provideDetailsName('Timmy Tester');
+  provideDetailsEmail('timmy@example.com');
+  getSaveAndContinueButton().click();
+  cy.url().should('contain',pageURLAppeal.goToApplicantNamePage);
 });
 
 When('the "Who are you" is submitted with valid values', () => {
   provideAreYouOriginalApplicant('are');
-  clickSaveAndContinue();
+  getSaveAndContinueButton().click();
 });
 
 When('the "Your details" is submitted with valid values', () => {
