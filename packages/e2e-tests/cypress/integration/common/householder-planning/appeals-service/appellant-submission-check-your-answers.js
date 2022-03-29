@@ -6,7 +6,6 @@ import { provideCompleteAppeal } from '../../../../support/householder-planning/
 import { clickCheckYourAnswers } from '../../../../support/householder-planning/appeals-service/appeal-navigation/clickCheckYourAnswers';
 import { confirmCheckYourAnswersPage } from '../../../../support/householder-planning/appeals-service/appellant-submission-check-your-answers/confirmCheckYourAnswersPage';
 import { confirmCheckYourAnswersDisplayItem } from '../../../../support/householder-planning/appeals-service/appellant-submission-check-your-answers/confirmCheckYourAnswersDisplayItem';
-import { confirmEligibleLocalPlanningDepartment } from '../../../../support/householder-planning/appeals-service/eligibility-local-planning-department/confirmEligibleLocalPlanningDepartment';
 import { accessSection } from '../../../../support/householder-planning/appeals-service/appellant-submission-check-your-answers/accessSection';
 import { userIsNavigatedToPage } from '../../../../support/householder-planning/appeals-service/appeal-navigation/userIsNavigatedToPage';
 import { clickSaveAndContinue } from '../../../../support/householder-planning/appeals-service/appeal-navigation/clickSaveAndContinue';
@@ -33,6 +32,11 @@ import { provideSafetyIssuesConcerns } from '../../../../support/householder-pla
 import { uploadSupportingDocuments } from '../../../../support/householder-planning/appeals-service/appellant-submission-supporting-documents/uploadSupportingDocuments';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { pageURLAppeal } from './pageURLAppeal';
+import {
+  linkAppealStatement, linkCheckYourAnswersHouseHolder, linkOtherSupportingDocs,
+  linkPlanningApplicationNumber, linkSiteAddress,
+  linkYourDetails,
+} from '../../../../support/householder-planning/appeals-service/page-objects/task-list-po';
 
 Given('the completed task list page is displayed', () => {
  provideCompleteAppeal(STANDARD_APPEAL);
@@ -92,8 +96,8 @@ Given(
   'the check your answers page is displayed for Person Appealing is not Original Applicant',
   () => {
    provideCompleteAppeal(STANDARD_APPEAL);
-   goToAppealsPage(pageURLAppeal.goToWhoAreYouPage);
-  // cy.answerNoOriginalAppellant();
+   goToAppealsPage(pageURLAppeal.goToTaskListPage);
+   linkYourDetails().click();
    provideAnswerNo();
    clickSaveAndContinue();
    provideDetailsName('Valid Name');
@@ -112,7 +116,8 @@ Given('the user is presented with the answers they had provided', () => {
 
 Given('changes are made for About you section', () => {
  provideCompleteAppeal(STANDARD_APPEAL);
- goToAppealsPage(pageURLAppeal.goToWhoAreYouPage);
+  goToAppealsPage(pageURLAppeal.goToTaskListPage);
+  linkYourDetails().click();
  provideAnswerNo();
  clickSaveAndContinue();
  provideDetailsName('New Valid Name');
@@ -138,12 +143,15 @@ Then('the updated values for About you section are displayed', () => {
 
 Given('changes are made for About the original planning application section', () => {
  provideCompleteAppeal(STANDARD_APPEAL);
- goToAppealsPage(pageURLAppeal.goToPlanningApplicationNumberPage);
+  cy.url().should('contain',pageURLAppeal.goToTaskListPage);
+ linkPlanningApplicationNumber().click();
+ cy.url().should('contain',pageURLAppeal.goToPlanningApplicationNumberPage);
  providePlanningApplicationNumber('New ValidNumber/12345');
- goToAppealsPage(pageURLAppeal.goToPlanningApplicationSubmission);
+ clickSaveAndContinue();
+ cy.url().should('contain',pageURLAppeal.goToPlanningApplicationSubmission);
  uploadPlanningApplicationFile('appeal-statement-valid.jpeg');
  clickSaveAndContinue();
- goToAppealsPage(pageURLAppeal.goToDecisionLetterPage);
+ cy.url().should('contain',pageURLAppeal.goToDecisionLetterPage);
  uploadDecisionLetterFile('appeal-statement-valid.pdf');
  clickSaveAndContinue();
 });
@@ -162,7 +170,9 @@ Then('the updated values for About the original planning application section are
 
 Given('changes are made for About your appeal section', () => {
  provideCompleteAppeal(STANDARD_APPEAL);
-  goToAppealsPage(pageURLAppeal.goToAppealStatementSubmission);
+ cy.url().should('contain',pageURLAppeal.goToTaskListPage);
+ linkAppealStatement().click();
+ cy.url().should('contain',pageURLAppeal.goToAppealStatementSubmission);
  checkNoSensitiveInformation();
  uploadAppealStatementFile('appeal-statement-valid.png');
  clickSaveAndContinue();
@@ -182,23 +192,24 @@ Then('the updated values for About your appeal section are displayed', () => {
 
 Given('changes are made for Visiting the appeal site section', () => {
  provideCompleteAppeal(STANDARD_APPEAL);
- goToAppealsPage(pageURLAppeal.goToSiteAddressPage);
+ cy.url().should('contain',pageURLAppeal.goToTaskListPage);
+ linkSiteAddress().click();
  provideAddressLine1('New 1 Taylor Road');
  provideAddressLine2('New Clifton');
  provideTownOrCity('New Bristol');
  provideCounty('New South Glos');
  providePostcode('XX8 1XX');
  clickSaveAndContinue();
- goToAppealsPage(pageURLAppeal.goToWholeSiteOwnerPage);
+ cy.url().should('contain',pageURLAppeal.goToWholeSiteOwnerPage);
  answerDoesNotOwnTheWholeAppeal();
  clickSaveAndContinue();
  answerHaveToldOtherOwnersAppeal();
  clickSaveAndContinue();
- goToAppealsPage(pageURLAppeal.goToSiteAccessPage);
+ cy.url().should('contain',pageURLAppeal.goToSiteAccessPage);
  answerCannotSeeTheWholeAppeal();
  provideMoreDetails('Some more new details.');
  clickSaveAndContinue();
-  goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
+ cy.url().should('contain',pageURLAppeal.goToHealthAndSafetyPage);
  answerSiteHasIssues();
  provideSafetyIssuesConcerns('Beware of the dog!');
  clickSaveAndContinue();
@@ -216,7 +227,9 @@ Then('the updated values for Visiting the appeal site section are displayed', ()
 
 Given('the appeal has more than one other documents', () => {
  provideCompleteAppeal(STANDARD_APPEAL);
- goToAppealsPage(pageURLAppeal.goToSupportingDocumentsPage);
+ cy.url().should('contain',pageURLAppeal.goToTaskListPage);
+ linkOtherSupportingDocs().click();
+  cy.url().should('contain',pageURLAppeal.goToSupportingDocumentsPage);
  uploadSupportingDocuments([
     'appeal-statement-valid.doc',
     'appeal-statement-valid.docx',
@@ -285,8 +298,14 @@ When(
   () => {
    cy.get('[data-cy="other-owner-notification-change"]').click();
    cy.get('[data-cy="answer-yes"]').check();
-   cy.get('[data-cy="button-save-and-continue"]').click();
-    goToAppealsPage(pageURLAppeal.goToCheckYourAnswersPage);
+   clickSaveAndContinue();
+   cy.url().should('contain', pageURLAppeal.goToSiteAccessPage);
+   clickSaveAndContinue();
+   cy.url().should('contain', pageURLAppeal.goToSiteSafetyPage);
+   clickSaveAndContinue();
+   cy.url().should('contain', pageURLAppeal.goToTaskListPage);
+   linkCheckYourAnswersHouseHolder().click();
+   cy.url().should('contain', pageURLAppeal.goToCheckYourAnswersPage);
   },
 );
 
