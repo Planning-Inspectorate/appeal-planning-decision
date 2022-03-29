@@ -6,3 +6,4 @@ export const getAcceptAnalyticsCookies = () =>cy.get('[data-cy=cookie-banner-acc
 export const getCookiesBannerAcceptedHideMessage = () =>cy.get('[data-cy=cookie-banner-accepted-hide-message]');
 export const getBackLink = () => cy.get('.govuk-back-link');
 export const getErrorMessageOnLabel = () => cy.get ('#householder-planning-permission-error');
+export const fileUploadButton = () => cy.get('[data-cy=button-upload-file]');

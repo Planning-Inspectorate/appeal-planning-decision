@@ -32,6 +32,7 @@ import { pageURLAppeal } from './pageURLAppeal';
 import {
   provideAreYouOriginalApplicant
 } from '../../../../support/householder-planning/appeals-service/appellant-submission-your-details/provideAreYouOriginalApplicant';
+import { linkYourDetails } from '../../../../support/householder-planning/appeals-service/page-objects/task-list-po';
 
 When('the user provides the name {string}', (name) => {
   goToAppealsPage(pageURLAppeal.goToApplicantNamePage);
@@ -70,28 +71,28 @@ Then(
 );
 
 Given('appeal is made on behalf of another applicant', () => {
-  goToAppealsPage(pageURLAppeal.goToWhoAreYouPage);
- provideAreYouOriginalApplicant('are not');
+ goToAppealsPage(pageURLAppeal.goToTaskListPage);
+ linkYourDetails().click();
+ provideAreYouOriginalApplicant('no');
  clickSaveAndContinue();
-  goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
  provideDetailsName('Valid Name');
  provideDetailsEmail('valid@email.com');
  clickSaveAndContinue();
 })
 
 Given('the user has confirmed that they {string} the original applicant', (areOrAreNot) => {
-  goToAppealsPage(pageURLAppeal.goToWhoAreYouPage);
+ goToAppealsPage(pageURLAppeal.goToWhoAreYouPage);
  provideAreYouOriginalApplicant(areOrAreNot);
  clickSaveAndContinue();
 })
 
 And('Your Details section is {string}', (status) => {
-  goToAppealsPage(pageURLAppeal.goToTaskListPage);
+ goToAppealsPage(pageURLAppeal.goToTaskListPage);
  confirmYourDetailsStatus(status.toUpperCase());
 })
 
 And('appeal is updated with the original applicant', () => {
-  goToAppealsPage(pageURLAppeal.goToApplicantNamePage);
+ goToAppealsPage(pageURLAppeal.goToApplicantNamePage);
  confirmOriginalApplicantName('Original Applicant')
 })
 
@@ -127,55 +128,55 @@ When('original applicant name {string} is submitted', (originalApplicant) => {
 })
 
 Given('name and email are requested again where appellant is the original applicant', () => {
- provideAreYouOriginalApplicant('are')
+ provideAreYouOriginalApplicant('yes')
  clickSaveAndContinue();
-  goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
+ goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
  provideDetailsName('Valid Name');
  provideDetailsEmail('valid@email.com');
  clickSaveAndContinue();
-  goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
+ goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
 });
 
 Given('name and email are requested again where appellant is not the original applicant', () => {
- provideAreYouOriginalApplicant('are not')
+ provideAreYouOriginalApplicant('no')
  clickSaveAndContinue();
-  goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
+ goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
  provideDetailsName('Valid Name');
  provideDetailsEmail('valid@email.com');
  clickSaveAndContinue();
-  goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
+ goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
 });
 
 Given('name and email are requested where appellant is the original applicant', () => {
- provideAreYouOriginalApplicant('are')
+ provideAreYouOriginalApplicant('yes')
  clickSaveAndContinue();
-  goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
+ cy.url().should('contain',pageURLAppeal.goToYourDetailsPage);
 });
 
 Given('name and email are requested where appellant is not the original applicant', () => {
- provideAreYouOriginalApplicant('are not')
+ provideAreYouOriginalApplicant('no')
  clickSaveAndContinue();
-  goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
+ goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
 });
 
 Given('name and email are requested again', () => {
-  goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
+ goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
  provideDetailsName('Valid Name');
  provideDetailsEmail('valid@email.com');
  clickSaveAndContinue();
-  goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
+ goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
 });
 
 Given('name and email are requested', () => {
-  goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
+ goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
 });
 
 Given('appeal does contain name and email', () => {
-  goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
+ goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
  provideDetailsName('Valid Name');
  provideDetailsEmail('valid@email.com');
  clickSaveAndContinue();
-  goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
+ goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
 });
 
 Given('the user {string} previously provided their name or email', (hasOrHasNot) => {
@@ -189,7 +190,7 @@ Given('the user {string} previously provided their name or email', (hasOrHasNot)
 });
 
 When('{string} and {string} are submitted', (name, email) => {
-  goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
+ goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
  provideDetailsName(name);
  provideDetailsEmail(email);
  clickSaveAndContinue();
@@ -422,7 +423,7 @@ When('the user does not state being or not the original appellant', () => {
 
 
 When('the user states that they {string} the original appellant', (original) => {
-  if (original === 'are') {
+  if (original === 'yes') {
    provideAnswerYes();
   } else {
    provideAnswerNo();
@@ -474,7 +475,9 @@ And('applicant name is presented', () => {
 
 
 Given('confirmation of whether appellant is original applicant is requested', () => {
-  goToAppealsPage(pageURLAppeal.goToWhoAreYouPage);
+  goToAppealsPage(pageURLAppeal.goToTaskListPage);
+  linkYourDetails().click();
+  cy.url().should('contain', pageURLAppeal.goToWhoAreYouPage);
 })
 
 Given('confirmation about original applicant is not provided', () => {
@@ -482,20 +485,20 @@ Given('confirmation about original applicant is not provided', () => {
 })
 
 Given('confirmation provided that appellant is original applicant', () => {
- provideAreYouOriginalApplicant('are')
+ provideAreYouOriginalApplicant('yes')
  clickSaveAndContinue();
 })
 
 Given('confirmation provided that appellant is not original applicant', () => {
- provideAreYouOriginalApplicant('are not')
+ provideAreYouOriginalApplicant('no')
  clickSaveAndContinue();
 })
 
 Given('it is confirmed that appellant {string} original applicant', (isOrIsNot) => {
   if (isOrIsNot === 'is') {
-   provideAreYouOriginalApplicant('are')
+   provideAreYouOriginalApplicant('yes')
   } else {
-   provideAreYouOriginalApplicant('are not');
+   provideAreYouOriginalApplicant('no');
   }
  clickSaveAndContinue();
 })

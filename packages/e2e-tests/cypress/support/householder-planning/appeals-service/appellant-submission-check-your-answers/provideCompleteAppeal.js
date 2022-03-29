@@ -38,55 +38,15 @@ import { provideAnswerYes } from '../appellant-submission-your-details/provideAn
 import { provideAnswerNo } from '../appellant-submission-your-details/provideAnswerNo';
 import { goToAppealsPage } from '../../../common/go-to-page/goToAppealsPage';
 import { pageURLAppeal } from '../../../../integration/common/householder-planning/appeals-service/pageURLAppeal';
+import { goToHouseholderAppealSubmitAppealTaskList } from '../goToHouseholderAppealSubmitAppealTaskList';
+import { linkYourDetails } from '../page-objects/task-list-po';
 
 
 export const provideCompleteAppeal = (appeal, options = {}) => {
-  goToAppealsPage(pageURLAppeal.goToHouseholderQuestionPage);
+ cy.url().should('contain', pageURLAppeal.goToTaskListPage );
+  linkYourDetails().click();
 
-  if (appeal.eligibility.householderPlanningPermission) {
-   provideHouseholderAnswerYes();
-  } else {
-   provideHouseholderAnswerNo();
-  }
-  clickSaveAndContinue();
-
-  goToAppealsPage(pageURLAppeal.goToGrantedOrRefusedPermissionPage);
-
-  provideHouseholderPlanningPermissionStatusRefused();
-
-  goToAppealsPage(pageURLAppeal.goToDecisionDatePage);
-
-  provideDecisionDate(appeal.decisionDate);
-
-  if (appeal.eligibility.eligibleLocalPlanningDepartment) {
-   provideEligibleLocalPlanningDepartment(options);
-  } else {
-   provideIneligibleLocalPlanningDepartment();
-  }
-  clickSaveAndContinue();
-
-  goToAppealsPage(pageURLAppeal.goToEnforcementNoticePage);
-
-  provideEnforcementNoticeAnswer(appeal.eligibility.enforcementNotice === true);
-  clickSaveAndContinue();
-
-  if (appeal.eligibility.isListedBuilding) {
-   stateCaseInvolvesListedBuilding();
-  } else {
-   stateCaseDoesNotInvolveAListedBuilding();
-  }
-
-  goToAppealsPage(pageURLAppeal.goToCostsPage);
-  if (appeal.eligibility.isClaimingCosts) {
-   provideCostsAnswerYes();
-  } else {
-   provideCostsAnswerNo();
-  }
-  clickSaveAndContinue();
-
-  goToAppealsPage(pageURLAppeal.goToTaskListPage);
-
-  goToAppealsPage(pageURLAppeal.goToWhoAreYouPage);
+cy.url().should('contain',pageURLAppeal.goToWhoAreYouPage);
 
   if (appeal.aboutYouSection.yourDetails.isOriginalApplicant) {
     provideAnswerYes();

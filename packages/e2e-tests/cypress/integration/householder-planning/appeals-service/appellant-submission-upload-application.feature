@@ -1,4 +1,4 @@
-@wip @has
+@has
 Feature: Planning Application file submission
 
   As an appellant
@@ -11,19 +11,20 @@ Feature: Planning Application file submission
   * not exceed a size limit.
   The latest successfully uploaded planning application file replaces any previously uploaded file.
 
-  @as-118 @ac-1-1
+
+  Background:
+    Given appellant has completed householder appeal eligibility journey
+
   Scenario: Prospective applicant do not upload a planning application file
     Given user did not previously submitted a planning application file
     When user does not submit a planning application file
     Then user is informed that he needs to upload a planning application file
 
-  @as-118 @ac-1-2
   Scenario: Prospective applicant do not upload a planning application file
     Given user has previously submitted a planning application file "appeal-statement-valid.pdf"
     When user does not submit a planning application file
     Then application file "appeal-statement-valid.pdf" is submitted and user can proceed
 
-  @as-118 @ac-2
   Scenario Outline: Prospective appellant submits valid planning application file
     Given user did not previously submitted a planning application file
     When user submits a planning application file <filename>
@@ -53,7 +54,7 @@ Feature: Planning Application file submission
     Examples:
       | filename                                  | reason                    |
       | "appeal-statement-invalid-wrong-type.csv" | "file type is invalid"    |
-#      | "appeal-statement-invalid-too-big.png"    | "file size exceeds limit" |
+#      | "upload-file-valid-15mb.png"   | "file size exceeds limit" |
 
 
   Scenario Outline: Prospective appellant submits invalid planning application file

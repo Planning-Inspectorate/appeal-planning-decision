@@ -1,7 +1,10 @@
-@wip @has
-Feature: A user checks their answers and wants to submit their appeal
+@has
+Feature: A user checks their answers and wants to submit their
 
-  Scenario Outline: AC2a - Accessing an appeal section from check your answers
+  Background:
+    Given appellant has completed householder appeal eligibility journey
+
+  Scenario Outline: AC2a - Accessing the <section> from check your answers
     Given the check your answers page is displayed for Person Appealing is Original Applicant
     When section <section> is accessed
     Then the <section> is displayed
@@ -19,7 +22,7 @@ Feature: A user checks their answers and wants to submit their appeal
       | "Appeal site - Site access"                     |
       | "Appeal site - Site safety"                     |
 
-  Scenario Outline: AC2b - Accessing an appeal section from check your answers
+  Scenario Outline: AC2b - Accessing the <section> from check your answers
     Given the check your answers page is displayed for Person Appealing is not Original Applicant
     When section <section> is accessed
     Then the <section> is displayed

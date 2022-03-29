@@ -4,25 +4,24 @@ Feature: Back link
   I need to be able to navigate back to my previous page within the appeal service
   So that I can change or review my previous answer
 
-  @as-115 @as-115-1-1
+
   Scenario: Appellant or agent can navigate back to previous page when javascript is turned off - eligiblity
     Given an appellant or agent is checking their eligibility with JavaScript disabled
     When they navigate forwards within the eligibility steps
     Then they will be able to navigate back to the previous page within the eligibility steps
 
-  @as-115 @as-115-1-2
+
   Scenario: Appellant or agent can navigate back to previous page when javascript is turned off - appeal
     Given an appellant or agent is creating an appeal with JavaScript disabled
     When they navigate forwards within the appeal steps
     Then they will be able to navigate back to the previous page within the appeal steps
 
-  @as-115 @as-115-1-3 @as-115-5
+
   Scenario: Appellant or agent can navigate back to previous page when javascript is turned off - appeal back to task list
     Given an appellant or agent is on the task list with JavaScript disabled
     When they provide details about the original planning application
     Then they will be able to navigate back from the original planning application steps to the task list
 
-  @as-115 @as-115-1-4 @as-115-6
   Scenario: Appellant or agent can navigate back to previous page when javascript is turned off - check your answers
     Given an appellant or agent is on check your answers with JavaScript disabled
     When they alter details about visiting the appeal site

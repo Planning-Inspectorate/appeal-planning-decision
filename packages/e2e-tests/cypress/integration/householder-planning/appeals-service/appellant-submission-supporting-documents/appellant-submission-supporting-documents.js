@@ -7,6 +7,7 @@ import { confirmSupportingDocumentAccepted } from '../../../../support/household
 import { confirmSupportingDocumentRejectedBecause } from '../../../../support/householder-planning/appeals-service/appellant-submission-supporting-documents/confirmSupportingDocumentRejectedBecause';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { pageURLAppeal } from '../../../common/householder-planning/appeals-service/pageURLAppeal';
+import { fileUploadButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 
 const VALID_DOCUMENTS = [
   'appeal-statement-valid.doc',
@@ -27,7 +28,6 @@ const INVALID_DOCUMENTS = [
 ];
 
 Given('the supporting document page is displayed', () => {
-  //goToSupportingDocumentsPage();
   goToAppealsPage(pageURLAppeal.goToSupportingDocumentsPage);
 });
 

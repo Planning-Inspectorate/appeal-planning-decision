@@ -1,3 +1,3 @@
 export const confirmBackButtonDisplayed = () => {
-  cy.get('[data-cy="back"]').should('have.length', 1);
+  cy.get('.govuk-back-link').should('exist');
 };

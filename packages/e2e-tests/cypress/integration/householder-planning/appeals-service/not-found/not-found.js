@@ -1,4 +1,4 @@
-import { When, Then} from "cypress-cucumber-preprocessor/steps"
+import { Given, Then} from "cypress-cucumber-preprocessor/steps"
 import {
   confirmNavigationPageNotFoundPage
 } from '../../../../support/householder-planning/appeals-service/errors/confirmNavigationPageNotFoundPage';
@@ -6,8 +6,9 @@ import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppea
 
 
 
-When('an unknown url is requested',() => {
-  goToAppealsPage('unknown-submission/unknown-page', {failOnStatusCode: false});
+
+Given('an unknown url is requested',() => {
+  goToAppealsPage('/before-you-start/claiming-costs-householder-123', {failOnStatusCode: false});
 })
 
 

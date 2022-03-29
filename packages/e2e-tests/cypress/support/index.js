@@ -22,10 +22,12 @@ import 'cypress-axe';
 import 'cypress-downloadfile/lib/downloadFileCommand';
 
 import 'cypress-html-validate/dist/commands';
+import 'cypress-xpath';
 
 Cypress.on('uncaught:exception',(err, runnable)=>{
   return false
 });
+
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

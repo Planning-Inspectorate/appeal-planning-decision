@@ -1,9 +1,11 @@
-@wip @has
+@has
 Feature: Confirmation of original applicant
   Note: This feature describes behaviour for a newly created appeal
 
-  @as-1672
-  Scenario: No confirmation
+  Background:
+    Given appellant has completed householder appeal eligibility journey
+
+  Scenario: No confirmation is provided
     Given confirmation of whether appellant is original applicant is requested
     When confirmation about original applicant is not provided
     Then original applicant status is presented
