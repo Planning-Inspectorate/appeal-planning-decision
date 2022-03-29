@@ -1,5 +1,5 @@
 {
-  "testFiles": "**/*.feature",
+  "testFiles": "**/householder-planning/**/*.feature",
   "chromeWebSecurity": false,
   "viewportWidth": 1024,
   "viewportHeight": 1600,
