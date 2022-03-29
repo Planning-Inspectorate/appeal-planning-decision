@@ -1,0 +1,37 @@
+parameters:
+  - name: region
+    displayName: Region
+    type: string
+    values:
+      - uks
+      - ukw
+    default: ukw
+
+trigger: none
+
+pr: none
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      endpoint: Appeals Token
+      name: Planning-Inspectorate/common-pipeline-templates
+  pipelines:
+    - pipeline: azure-functions-ci
+      source: azure-functions CI
+      trigger: 
+        branches:
+          include: 
+            - master
+        paths:
+          include:
+            - packages/horizon-functions
+
+extends:
+  template: stages/wrapper_function_app_cd.yml@templates
+  parameters:
+    appName: pins-func-horizon-appeals-service-$(ENVIRONMENT)-${{ parameters.region }}-001
+    artifactSourcePipeline: horizon-functions CI
+    project: appeal-planning-decision
+    resourceGroup: pins-rg-appeals-service-$(ENVIRONMENT)-${{ parameters.region }}-001
