@@ -1,6 +1,6 @@
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const {
-  constants: { APPEAL_STATE, KNOW_THE_OWNERS, PROCEDURE_TYPE },
+  constants: { APPEAL_STATE, APPLICATION_DECISION, KNOW_THE_OWNERS, PROCEDURE_TYPE },
 } = require('@pins/business-rules');
 const v8 = require('v8');
 const validateFullAppeal = require('../../../src/validators/validate-full-appeal');
@@ -185,5 +185,22 @@ describe('validators/validate-full-appeal', () => {
     appeal.appealDocumentsSection.supportingDocuments.uploadedFiles = [];
     const errors = validateFullAppeal(appeal);
     expect(errors).toEqual(['Your other new supporting documents must be uploaded']);
+  });
+
+  it('should return an error if applicationDecision = granted and decisionLetter.uploadedFile = {}', () => {
+    appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile = {};
+    const errors = validateFullAppeal(appeal);
+    expect(errors).toEqual([
+      'If your planning application was granted then you must upload the decision letter',
+    ]);
+  });
+
+  it('should return an error if applicationDecision = refused and decisionLetter.uploadedFile = {}', () => {
+    appeal.eligibility.applicationDecision = APPLICATION_DECISION.REFUSED;
+    appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile = {};
+    const errors = validateFullAppeal(appeal);
+    expect(errors).toEqual([
+      'If your planning application was refused then you must upload the decision letter',
+    ]);
   });
 });

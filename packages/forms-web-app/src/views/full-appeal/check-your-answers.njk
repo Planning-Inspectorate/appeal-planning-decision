@@ -750,7 +750,9 @@
     {% if appeal.planningApplicationDocumentsSection.designAccessStatement.isSubmitted %}
       {% set planningApplicationRows = (planningApplicationRows.push(designAccessStatementRow), planningApplicationRows) %}
     {% endif %}
-    {% set planningApplicationRows = (planningApplicationRows.push(decisionLetterRow), planningApplicationRows) %}
+    {% if appeal.eligibility.applicationDecision !== 'nodecisionreceived' %}
+      {% set planningApplicationRows = (planningApplicationRows.push(decisionLetterRow), planningApplicationRows) %}
+    {% endif %}
     {{ govukSummaryList({
       classes: "govuk-summary-list govuk-!-margin-bottom-9",
       rows: planningApplicationRows

@@ -1,10 +1,11 @@
 const {
-  constants: { APPEAL_STATE, KNOW_THE_OWNERS, PROCEDURE_TYPE },
+  constants: { APPEAL_STATE, APPLICATION_DECISION, KNOW_THE_OWNERS, PROCEDURE_TYPE },
 } = require('@pins/business-rules');
 
 const validateFullAppeal = (appeal) => {
   const {
     state,
+    eligibility: { applicationDecision },
     contactDetailsSection: { appealingOnBehalfOf, isOriginalApplicant },
     appealSiteSection: {
       siteOwnership: {
@@ -18,7 +19,7 @@ const validateFullAppeal = (appeal) => {
       agriculturalHolding: { hasOtherTenants, isAgriculturalHolding, isTenant, tellingTheTenants },
     },
     appealDecisionSection: { draftStatementOfCommonGround, hearing, inquiry, procedureType },
-    planningApplicationDocumentsSection: { designAccessStatement },
+    planningApplicationDocumentsSection: { decisionLetter, designAccessStatement },
     appealDocumentsSection: { plansDrawings, supportingDocuments },
   } = appeal;
   const errors = [];
@@ -133,6 +134,18 @@ const validateFullAppeal = (appeal) => {
 
   if (supportingDocuments.hasSupportingDocuments && !supportingDocuments.uploadedFiles.length) {
     errors.push('Your other new supporting documents must be uploaded');
+  }
+
+  if (applicationDecision === APPLICATION_DECISION.GRANTED && !decisionLetter.uploadedFile.id) {
+    errors.push(
+      'If your planning application was granted then you must upload the decision letter'
+    );
+  }
+
+  if (applicationDecision === APPLICATION_DECISION.REFUSED && !decisionLetter.uploadedFile.id) {
+    errors.push(
+      'If your planning application was refused then you must upload the decision letter'
+    );
   }
 
   return errors;
