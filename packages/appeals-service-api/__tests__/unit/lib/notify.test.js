@@ -65,15 +65,6 @@ describe('lib/notify', () => {
         householderAppeal.aboutYouSection.yourDetails.email
       );
       expect(
-        NotifyBuilder.reset().setTemplateId().setDestinationEmailAddress()
-          .setTemplateVariablesFromObject
-      ).toBeCalledWith({
-        name: householderAppeal.aboutYouSection.yourDetails.name,
-        'appeal site address': 'Site Address 1\nSite Address 2\nSite Town\nSite County\nSW1 1AA',
-        'local planning department': 'System Test Borough Council',
-        'view appeal url': `${process.env.APP_APPEALS_BASE_URL}/your-planning-appeal/${householderAppeal.id}`,
-      });
-      expect(
         NotifyBuilder.reset()
           .setTemplateId()
           .setDestinationEmailAddress()
