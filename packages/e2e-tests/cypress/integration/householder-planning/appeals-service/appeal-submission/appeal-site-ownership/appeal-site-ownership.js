@@ -1,85 +1,41 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { answerOwnsTheWholeAppeal } from '../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-ownership/answerOwnsTheWholeAppeal';
-import { answerDoesNotOwnTheWholeAppeal } from '../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-ownership/answerDoesNotOwnTheWholeAppeal';
 import { clickSaveAndContinue } from '../../../../../support/householder-planning/appeals-service/appeal-navigation/clickSaveAndContinue';
-import { answerHaveToldOtherOwnersAppeal } from '../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-ownership/answerHaveToldOtherOwnersAppeal';
-import { answerHaveNotToldOtherOwnersAppeal } from '../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-ownership/answerHaveNotToldOtherOwnersAppeal';
-import { confirmOtherOwnersAsked } from '../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-ownership/confirmOtherOwnersAsked';
-import { confirmSiteOwnershipAccepted } from '../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-ownership/confirmSiteOwnershipAccepted';
 import { confirmWholeSiteOwnerAnswered } from '../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-ownership/confirmWholeSiteOwnerAnswered';
 import { confirmOtherSiteOwnerToldAnswered } from '../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-ownership/confirmOtherSiteOwnerToldAnswered';
 import { confirmSiteOwnershipRejectedBecause } from '../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-ownership/confirmSiteOwnershipRejectedBecause';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
-import { pageURLAppeal } from '../../../../common/householder-planning/appeals-service/pageURLAppeal';
-
-function givenAlreadySubmittedandWholeSiteOwner(isAlreadySubmitted, isWholeSiteOwner) {
-  //goToWholeSiteOwnerPage();
-  goToAppealsPage(pageURLAppeal.goToWholeSiteOwnerPage);
-
-  if (isAlreadySubmitted) {
-    if (isWholeSiteOwner) {
-      answerOwnsTheWholeAppeal();
-    } else {
-      answerDoesNotOwnTheWholeAppeal();
-    }
-    clickSaveAndContinue();
-    goToAppealsPage(pageURLAppeal.goToWholeSiteOwnerPage);
-  }
-}
-
-function stateOwnSiteOwner(isWholeOwner) {
-  if (isWholeOwner) {
-    answerOwnsTheWholeAppeal();
-  } else {
-    answerDoesNotOwnTheWholeAppeal();
-  }
-  clickSaveAndContinue();
-}
-
-function stateOtherOwnersBeenTold(areOtherOwnersTold) {
-  if (areOtherOwnersTold) {
-    answerHaveToldOtherOwnersAppeal();
-  } else {
-    answerHaveNotToldOtherOwnersAppeal();
-  }
-  clickSaveAndContinue();
-}
-
-function isOtherOwnerPresented(isAsked) {
-  if (isAsked) {
-    confirmOtherOwnersAsked();
-  } else {
-    confirmSiteOwnershipAccepted();
-  }
-}
-
-function isComponentUpdated(component, value) {
-  switch (component) {
-    case 'site ownership':
-      confirmWholeSiteOwnerAnswered(value);
-      break;
-    case 'other owners told':
-      confirmOtherSiteOwnerToldAnswered(value);
-      break;
-    default:
-      throw new Error('Component ' + component + ' unknown');
-  }
-}
+import {
+  givenAlreadySubmittedAndWholeSiteOwner
+} from "../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-ownership/givenAlreadySubmittedAndWholeSiteOwner";
+import {
+  stateOwnSiteOwner
+} from "../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-ownership/stateOwnSiteOwner";
+import {
+  stateOtherOwnersBeenTold
+} from "../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-ownership/stateOtherOwnersBeenTold";
+import {
+  isOtherOwnerPresented
+} from "../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-ownership/isOtherOwnerPresented";
+import {
+  isComponentUpdated
+} from "../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-ownership/isComponentUpdated";
+import {siteOwnership} from "../../../../../support/householder-planning/appeals-service/page-objects/task-list-po";
+import {pageURLAppeal} from "../../../../common/householder-planning/appeals-service/pageURLAppeal";
+import {goToAppealsPage} from "../../../../../support/common/go-to-page/goToAppealsPage";
 
 Given('the site ownership is presented for the first time', () => {
-  givenAlreadySubmittedandWholeSiteOwner(false);
+  givenAlreadySubmittedAndWholeSiteOwner(false);
 });
 
 Given('the whole site had previously been confirmed as owned', () => {
-  givenAlreadySubmittedandWholeSiteOwner(true, true);
+  givenAlreadySubmittedAndWholeSiteOwner(true, true);
 });
 
 Given('the whole site had previously been confirmed as not owned', () => {
-  givenAlreadySubmittedandWholeSiteOwner(true, false);
+  givenAlreadySubmittedAndWholeSiteOwner(true, false);
 });
 
 Given('confirmation of additional site owners notification is requested', () => {
-  givenAlreadySubmittedandWholeSiteOwner(true, false);
+  givenAlreadySubmittedAndWholeSiteOwner(true, false);
   clickSaveAndContinue();
 });
 

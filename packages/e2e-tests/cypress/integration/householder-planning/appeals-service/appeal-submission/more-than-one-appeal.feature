@@ -1,7 +1,10 @@
-@wip @has
+@has
 Feature: As an appellant or agent using the appeals service
   I need to be able to submit more than one appeal
   So that I can create all the appeals I need
+
+  Background:
+    Given appellant has completed householder appeal eligibility journey
 
   Scenario: AC1: Appellant to be able to create more than 1 appeal
     Given an appellant has successfully submitted an appeal

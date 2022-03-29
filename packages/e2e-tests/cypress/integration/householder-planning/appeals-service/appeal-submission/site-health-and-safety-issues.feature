@@ -1,8 +1,11 @@
-@wip @has
+@has
 Feature: Appellant submission - Health and safety issues
   As an Inspector I need to understand if there are any H&S concerns at the appeal site
   so that I can plan my site visit accordingly.
   Note: This feature describes behaviour for a newly created appeal
+
+  Background:
+    Given appellant has completed householder appeal eligibility journey
 
   Scenario: Opportunity to provide health and safety issues is presented
     Given the status of the appeal section is displayed

@@ -18,38 +18,45 @@ import { answerSiteHasIssues } from '../../../../../support/householder-planning
 import { provideSafetyIssuesConcerns } from '../../../../../support/householder-planning/appeals-service/appeal-submission-site-health-and-safety-issues/provideSafetyIssuesConcerns';
 import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import { pageURLAppeal } from '../../../../common/householder-planning/appeals-service/pageURLAppeal';
+import {
+  accessAppealSite, healthAndSafety,
+  siteAddress,
+  siteOwnership
+} from "../../../../../support/householder-planning/appeals-service/page-objects/task-list-po";
 
 Given('the "Site location" is presented', () => {
-  //goToSiteAddressPage();
-  goToAppealsPage(pageURLAppeal.goToSiteAddressPage);
+  siteAddress().click();
+  cy.url().should('contain',pageURLAppeal.goToSiteAddressPage);
 });
 
 Given('the "Site ownership" is presented', () => {
   //goToWholeSiteOwnerPage();
-  goToAppealsPage(pageURLAppeal.goToWholeSiteOwnerPage);
+  siteOwnership().click();
+  cy.url().should('contain',pageURLAppeal.goToWholeSiteOwnerPage);
 });
 
 Given('the "Site ownership certb" is presented', () => {
   //goToOtherSiteOwnerToldPage();
-  goToAppealsPage(pageURLAppeal.goToOtherSiteOwnerToldPage);
+  cy.url().should('contain',pageURLAppeal.goToOtherSiteOwnerToldPage);
 });
 
 Given('the "Site ownership" is not wholly owned', () => {
   //goToWholeSiteOwnerPage();
-  goToAppealsPage(pageURLAppeal.goToWholeSiteOwnerPage);
+  siteOwnership().click();
+  cy.url().should('contain',pageURLAppeal.goToWholeSiteOwnerPage);
   answerDoesNotOwnTheWholeAppeal();
   clickSaveAndContinue();
   userIsNavigatedToPage('/appellant-submission/site-ownership-certb');
 });
 
 Given('the "Site access" is presented', () => {
-  //goToAppealsPage('/appellant-submission/site-access');
-  goToAppealsPage(pageURLAppeal.goToSiteAccessPage);
+  accessAppealSite().click();
+  cy.url().should('contain',pageURLAppeal.goToSiteAccessPage);
 });
 
 Given('the "Site safety" is presented', () => {
-  //goToHealthAndSafetyPage();
-  goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
+  healthAndSafety().click();
+  cy.url().should('contain',pageURLAppeal.goToHealthAndSafetyPage);
 });
 
 When('the "Site location" is submitted with valid values', () => {

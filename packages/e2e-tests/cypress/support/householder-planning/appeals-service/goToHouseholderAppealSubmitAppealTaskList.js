@@ -3,7 +3,6 @@ import { acceptCookiesBanner } from '../../common/accept-cookies-banner';
 import { getSaveAndContinueButton } from '../../common-page-objects/common-po';
 import { selectPlanningApplicationType } from '../../eligibility/planning-application-type/select-planning-application-type';
 import { allowedDatePart, getPastDate } from '../../common/getDate';
-import { enterDateDecisionDue } from '../../eligibility/date-decision-due/enter-date-decision-due';
 import { getDate, getMonth, getYear } from 'date-fns';
 import { getLocalPlanningDepart } from '../../eligibility/page-objects/local-planning-department-po';
 import {selectListedBuildingDecision} from "../../eligibility/listed-building/select-listed-building-decision";
@@ -11,7 +10,8 @@ import {grantedOrRefused} from "../../full-appeal/appeals-service/page-objects/t
 import {
   enterDateHouseholderDecisionReceived
 } from "../../eligibility/date-decision-received/enter-date-householder-decision-received";
-import { selectNo } from '../../full-appeal/appeals-service/page-objects/own-the-land-po';
+import {getEnforcementNoticeNo} from "../../eligibility/page-objects/enforcement-notice-po";
+import {getClaimingCostNo} from "../../eligibility/page-objects/claiming-costs-po";
 
 export const goToHouseholderAppealSubmitAppealTaskList = (url, applicationType) =>  {
   goToAppealsPage(url);
@@ -30,10 +30,10 @@ export const goToHouseholderAppealSubmitAppealTaskList = (url, applicationType) 
   enterDateHouseholderDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate) } );
   getSaveAndContinueButton().click();
   cy.url().should('contain', 'before-you-start/enforcement-notice-householder');
-  selectNo().click();
+  getEnforcementNoticeNo().click();
   getSaveAndContinueButton().click();
   cy.url().should('contain','/before-you-start/claiming-costs-householder');
-  selectNo().click();
+  getClaimingCostNo().click();
   getSaveAndContinueButton().click();
   cy.url().should('contain', 'appellant-submission/task-list');
   cy.checkPageA11y();

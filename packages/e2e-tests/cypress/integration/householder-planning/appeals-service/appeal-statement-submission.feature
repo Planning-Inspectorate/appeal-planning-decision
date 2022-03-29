@@ -1,4 +1,4 @@
-@wip @has
+@has
 Feature: Appeal statement file submission
 
   I want to submit an appeal statement.
@@ -12,8 +12,7 @@ Feature: Appeal statement file submission
     Given appellant has completed householder appeal eligibility journey
 
   Scenario Outline: Prospective appellant submits valid appeal statement file without sensitive information
-    Given user did not previously submitted an appeal statement file
-    When user submits an appeal statement file <filename> confirming that it "does not" contain sensitive information
+    Given user submits an appeal statement file <filename> confirming that it "does not" contain sensitive information
     Then user can see that the appeal statement file <filename> "is" submitted
     Examples:
       | filename                              |
@@ -29,8 +28,7 @@ Feature: Appeal statement file submission
 
 
   Scenario: Prospective applicant confirms no sensitive information but chooses not to upload an appeal statement file
-    Given user did not previously submitted an appeal statement file
-    When user confirms that there is no sensitive information without selecting an appeal statement file to upload
+    Given user confirms that there is no sensitive information without selecting an appeal statement file to upload
     Then user is informed that he needs to select an appeal statement
 
 
@@ -41,8 +39,7 @@ Feature: Appeal statement file submission
 
 
   Scenario: Prospective applicant chooses not to upload an appeal statement file and does not confirm no sensitive information
-    Given user did not previously submitted an appeal statement file
-    When user does not confirm that there is no sensitive information nor upload a statement
+    Given user does not confirm that there is no sensitive information nor upload a statement
     Then user is informed that he needs to select an appeal statement and confirms that it does not contain sensitive information
 
 
