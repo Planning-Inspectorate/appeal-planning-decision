@@ -18,9 +18,6 @@ import {
 import {
   isComponentUpdated
 } from "../../../../../support/householder-planning/appeals-service/appeal-submission-appeal-site-ownership/isComponentUpdated";
-import {siteOwnership} from "../../../../../support/householder-planning/appeals-service/page-objects/task-list-po";
-import {pageURLAppeal} from "../../../../common/householder-planning/appeals-service/pageURLAppeal";
-import {goToAppealsPage} from "../../../../../support/common/go-to-page/goToAppealsPage";
 
 Given('the site ownership is presented for the first time', () => {
   givenAlreadySubmittedAndWholeSiteOwner(false);

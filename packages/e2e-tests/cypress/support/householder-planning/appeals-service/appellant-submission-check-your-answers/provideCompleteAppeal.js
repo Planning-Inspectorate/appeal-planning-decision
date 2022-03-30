@@ -1,14 +1,4 @@
-import { provideHouseholderAnswerYes } from '../eligibility-householder/provideHouseholderAnswerYes';
-import { provideHouseholderAnswerNo } from '../eligibility-householder/provideHouseholderAnswerNo';
 import { clickSaveAndContinue } from '../appeal-navigation/clickSaveAndContinue';
-import { provideHouseholderPlanningPermissionStatusRefused } from '../eligibility-granted-or-refused-permission/provideHouseholderPlanningPermissionStatusRefused';
-import { provideDecisionDate } from '../eligibility-decision-date/provideDecisionDate';
-import { provideEligibleLocalPlanningDepartment } from '../eligibility-local-planning-department/provideEligibleLocalPlanningDepartment';
-import { provideEnforcementNoticeAnswer } from '../eligibility-enforcement-notice/provideEnforcementNoticeAnswer';
-import { stateCaseInvolvesListedBuilding } from '../eligibility-listed-building-status/stateCaseInvolvesListedBuilding';
-import { stateCaseDoesNotInvolveAListedBuilding } from '../eligibility-listed-building-status/stateCaseDoesNotInvolveAListedBuilding';
-import { provideCostsAnswerYes } from '../eligibility-costs/provideCostsAnswerYes';
-import { provideCostsAnswerNo } from '../eligibility-costs/provideCostsAnswerNo';
 import { provideDetailsName } from '../appellant-submission-your-details/provideDetailsName';
 import { provideDetailsEmail } from '../appellant-submission-your-details/provideDetailsEmail';
 import { provideNameOfOriginalApplicant } from '../appellant-submission-your-details/provideNameOfOriginalApplicant';
@@ -28,13 +18,16 @@ import { provideMoreDetails } from '../appeal-submission-access-to-appeal-site/p
 import { answerSiteHasIssues } from '../appeal-submission-site-health-and-safety-issues/answerSiteHasIssues';
 import { provideSafetyIssuesConcerns } from '../appeal-submission-site-health-and-safety-issues/provideSafetyIssuesConcerns';
 import { answerSiteHasNoIssues } from '../appeal-submission-site-health-and-safety-issues/answerSiteHasNoIssues';
-import { provideIneligibleLocalPlanningDepartment } from '../eligibility-local-planning-department/provideIneligibleLocalPlanningDepartment';
 import { provideAnswerYes } from '../appellant-submission-your-details/provideAnswerYes';
 import { provideAnswerNo } from '../appellant-submission-your-details/provideAnswerNo';
 import { goToAppealsPage } from '../../../common/go-to-page/goToAppealsPage';
 import { pageURLAppeal } from '../../../../integration/common/householder-planning/appeals-service/pageURLAppeal';
-import { goToHouseholderAppealSubmitAppealTaskList } from '../goToHouseholderAppealSubmitAppealTaskList';
 import { linkYourDetails } from '../page-objects/task-list-po';
+import {provideAddressLine1} from "../../../common/appeal-submission-appeal-site-address/provideAddressLine1";
+import {provideAddressLine2} from "../../../common/appeal-submission-appeal-site-address/provideAddressLine2";
+import {provideTownOrCity} from "../../../common/appeal-submission-appeal-site-address/provideTownOrCity";
+import {provideCounty} from "../../../common/appeal-submission-appeal-site-address/provideCounty";
+import {providePostcode} from "../../../common/appeal-submission-appeal-site-address/providePostcode";
 
 
 export const provideCompleteAppeal = (appeal, options = {}) => {

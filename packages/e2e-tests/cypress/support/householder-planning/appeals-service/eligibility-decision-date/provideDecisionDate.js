@@ -2,8 +2,6 @@
 import { clickSaveAndContinue } from '../appeal-navigation/clickSaveAndContinue';
 
 export const provideDecisionDate = ({ day, month, year }) => {
-  // go to the right page
-  //cy.visit('/eligibility/decision-date');
 
   // provide the date
   cy.get('#decision-date-day').type(`{selectall}{backspace}${day}`);

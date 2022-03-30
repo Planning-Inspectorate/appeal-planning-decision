@@ -14,7 +14,6 @@ import { provideDetailsEmail } from '../../../../support/householder-planning/ap
 import { provideApplicantName } from '../../../../support/householder-planning/appeals-service/appellant-submission-your-details/provideApplicantName';
 import { provideAnswerNo } from '../../../../support/householder-planning/appeals-service/appellant-submission-your-details/provideAnswerNo';
 import { providePlanningApplicationNumber } from '../../../../support/householder-planning/appeals-service/appellant-submission-planning-application-number/providePlanningApplicationNumber';
-import { uploadPlanningApplicationFile } from '../../../../support/householder-planning/appeals-service/appellant-submission-upload-application/uploadPlanningApplicationFile';
 import { uploadDecisionLetterFile } from '../../../../support/householder-planning/appeals-service/appellant-submission-decision-letter/uploadDecisionLetterFile';
 import { checkNoSensitiveInformation } from '../../../../support/householder-planning/appeals-service/appeal-statement-submission/checkNoSensitiveInformation';
 import { uploadAppealStatementFile } from '../../../../support/householder-planning/appeals-service/appeal-statement-submission/uploadAppealStatementFile';
@@ -148,9 +147,6 @@ Given('changes are made for About the original planning application section', ()
  cy.url().should('contain',pageURLAppeal.goToPlanningApplicationNumberPage);
  providePlanningApplicationNumber('New ValidNumber/12345');
  clickSaveAndContinue();
- cy.url().should('contain',pageURLAppeal.goToPlanningApplicationSubmission);
- uploadPlanningApplicationFile('appeal-statement-valid.jpeg');
- clickSaveAndContinue();
  cy.url().should('contain',pageURLAppeal.goToDecisionLetterPage);
  uploadDecisionLetterFile('appeal-statement-valid.pdf');
  clickSaveAndContinue();
@@ -160,7 +156,7 @@ Then('the updated values for About the original planning application section are
  confirmCheckYourAnswersDisplayItem('[data-cy="application-number"]', 'New ValidNumber/12345');
  confirmCheckYourAnswersDisplayItem(
     '[data-cy="upload-application"]',
-    'appeal-statement-valid.jpeg',
+    'appeal-statement-valid.pdf',
   );
  confirmCheckYourAnswersDisplayItem(
     '[data-cy="upload-decision"]',
@@ -245,7 +241,7 @@ Then('the multiple other documents are correctly displayed', () => {
   );
  confirmCheckYourAnswersDisplayItem(
     '[data-cy="supporting-documents-uploaded-file-0"]',
-    'appeal-statement-valid.pdf',
+    'appeal-statement-valid.doc',
   );
  confirmCheckYourAnswersDisplayItem(
     '[data-cy="supporting-documents-uploaded-file-1"]',
@@ -253,7 +249,7 @@ Then('the multiple other documents are correctly displayed', () => {
   );
  confirmCheckYourAnswersDisplayItem(
     '[data-cy="supporting-documents-uploaded-file-2"]',
-    'appeal-statement-valid.doc',
+    'appeal-statement-valid.pdf',
   );
 });
 
