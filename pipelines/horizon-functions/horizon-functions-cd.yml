@@ -24,9 +24,6 @@ resources:
         branches:
           include: 
             - master
-        paths:
-          include:
-            - packages/horizon-functions
 
 extends:
   template: stages/wrapper_function_app_cd.yml@templates
