@@ -26,6 +26,10 @@ extends:
           echo "Setting the name of the build to '$buildName'."
           echo "##vso[build.updatebuildnumber]$buildName"
         displayName: Set Build Number
+      - script: |
+          echo "Setting build tag to '$(Build.SourceBranchName)'."
+          echo "##vso[build.addbuildtag]$(Build.SourceBranchName)"
+        displayName: Add Branch Tag
       - template: steps/function_app_validate.yml@templates
         parameters:
           workingDirectory: $(Build.Repository.LocalPath)/packages/horizon-functions
