@@ -16,6 +16,8 @@ extends:
     globalVariables:
       - template: pipelines/appeals-service-api/variables.yml@self
       - template: pipelines/variables.yml@self
+    pool:
+      vmImage: ubuntu-latest
     projectName: $(projectName)
     validateName: Build
     validationSteps:
