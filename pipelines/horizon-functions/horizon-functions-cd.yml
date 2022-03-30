@@ -28,7 +28,7 @@ resources:
 extends:
   template: stages/wrapper_function_app_cd.yml@templates
   parameters:
-    appName: pins-func-horizon-appeals-service-$(ENVIRONMENT)-${{ parameters.region }}-001
+    appName: pins-func-appeals-service-horizon-$(ENVIRONMENT)-${{ parameters.region }}-001
     artifactSourcePipeline: horizon-functions CI
     project: appeal-planning-decision
     resourceGroup: pins-rg-appeals-service-$(ENVIRONMENT)-${{ parameters.region }}-001
