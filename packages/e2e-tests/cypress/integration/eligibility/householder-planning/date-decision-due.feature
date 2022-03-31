@@ -11,7 +11,7 @@ Feature: Date Decision Due eligibility check for householder appeal
      Examples:
      |valid_date|
      |3         |
-     |6         |
+     |5         |
      |1         |
 
    Scenario: AC02 - Ineligible Date Decision Due continues to Shutter page for householder appeal

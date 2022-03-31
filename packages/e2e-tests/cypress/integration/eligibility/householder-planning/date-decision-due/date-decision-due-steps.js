@@ -72,9 +72,10 @@ Given('appellant is on the what date was the decision due page for householder',
 When('appellant enters the {string} within 6 months when they were due a decision',
    (valid_month) => {
      const validDate = getPastDate( allowedDatePart.MONTH, valid_month );
-       enterDateDecisionDue({
-         day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate),
+          enterDateDecisionDue({
+         day: ("0" + (getDate(validDate))).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate),
        });
+
    });
 
 
