@@ -1,4 +1,5 @@
 @wip @has
+
 Feature: A user has submitted an appeal and requests a pdf copy of the data entered
   Background:
     Given appellant has completed householder appeal eligibility journey
