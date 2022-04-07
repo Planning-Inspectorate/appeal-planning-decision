@@ -549,4 +549,4 @@ To access the data, please use the [Azure Portal](https://portal.azure.com).
 
 ### Source Code Structure
 
-Where appropriate the source code must be split out into a hierarchy by appeal type.  Several examples of this may be found under cypress tests (i.e. /packages/e2e-tests/cypress/integration), forms-web-app (i.e. /packages/forms-web-app/src/routes/), and many others. 
+Where appropriate the source code must be split out into a hierarchy by appeal type.  Several examples of this may be found under cypress tests (i.e. /packages/e2e-tests/cypress/integration), forms-web-app (i.e. /packages/forms-web-app/src/routes/), and many others.
