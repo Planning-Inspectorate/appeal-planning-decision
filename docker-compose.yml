@@ -8,13 +8,13 @@
 
 version: '3.7'
 services:
-  pdf-service-api:
-    build: './packages/pdf-service-api'
-    environment:
-      SERVER_SHOW_ERRORS: 'true'
-      LOGGER_LEVEL: 'debug'
-    ports:
-      - 3003:3000
+#  pdf-service-api:
+#    build: './packages/pdf-service-api'
+#    environment:
+#      SERVER_SHOW_ERRORS: 'true'
+#      LOGGER_LEVEL: 'debug'
+#    ports:
+#      - 3003:3000
 
   clamav-rest-server:
     image: node:14-alpine
@@ -174,12 +174,12 @@ services:
       - appeals-service-api
       - document-service-api
       - mongodb
-      - pdf-service-api
+      #- pdf-service-api
     depends_on:
       - appeals-service-api
       - document-service-api
       - mongodb
-      - pdf-service-api
+      #- pdf-service-api
     volumes:
       - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
       - ./packages/common:/opt/app/node_modules/@pins/common
