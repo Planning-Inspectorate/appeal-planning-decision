@@ -23,7 +23,7 @@ exports.getClaimingCostsHouseholder = async (req, res) => {
 
 const redirect = (selection, res) => {
   if (selection === 'yes') {
-    res.redirect(`/before-you-start/use-a-different-service`);
+    res.redirect(`/before-you-start/use-existing-service-costs`);
     return;
   }
 
