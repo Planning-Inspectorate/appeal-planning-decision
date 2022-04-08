@@ -8,8 +8,8 @@ ENV BUILD_ID="${BUILD_ID}"
 ENV VERSION="${VERSION}"
 
 # This must be built locally from the common package
-COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
-COPY --from=pinscommonukscontainers3887default.azurecr.io/business-rules:latest /opt/app ../business-rules
+COPY ../common ../common
+COPY ../business-rules ../business-rules
 
 ADD package.json package.json
 ADD package-lock.json package-lock.json
