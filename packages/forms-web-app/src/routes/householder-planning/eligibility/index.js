@@ -9,6 +9,7 @@ const enforcementNoticeRouter = require('./enforcement-notice-householder');
 const grantedOrRefusedRouter = require('./granted-or-refused-householder');
 const decisionDateHouseholderRouter = require('./decision-date-householder');
 const conditionsHouseholderPermissionRouter = require('./conditions-householder-permission');
+const useExistingServiceCosts = require('./use-existing-service-costs');
 
 router.use(claimingCostsHouseholderRouter);
 router.use(enforcementNoticeRouter);
@@ -17,5 +18,6 @@ router.use(listedBuildingHouseholderRouter);
 router.use(dateDecisionDueHouseholderRouter);
 router.use(decisionDateHouseholderRouter);
 router.use(conditionsHouseholderPermissionRouter);
+router.use(useExistingServiceCosts);
 
 module.exports = router;
