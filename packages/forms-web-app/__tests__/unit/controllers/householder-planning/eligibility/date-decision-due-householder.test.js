@@ -142,9 +142,7 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
       const mockRequest = {
         ...req,
         body: {
-          'date-decision-due-householder-year': '2021',
-          'date-decision-due-householder-month': '10',
-          'date-decision-due-householder-day': '01',
+          errors: { 'date-decision-due-householder-day': { msg: 'You need to provide a date' } },
         },
       };
       mockRequest.session.appeal.eligibility.applicationDecision =
@@ -161,12 +159,16 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
         VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.DATE_DECISION_DUE_HOUSEHOLDER,
         {
           decisionDate: {
-            day: '01',
-            month: '10',
-            year: '2021',
+            day: undefined,
+            month: undefined,
+            year: undefined,
           },
-          errors: {},
-          errorSummary: [{ text: error.toString(), href: 'date-decision-due-householder' }],
+          errorSummary: [],
+          errors: {
+            'date-decision-due-householder-day': {
+              msg: 'You need to provide a date',
+            },
+          },
         }
       );
     });
