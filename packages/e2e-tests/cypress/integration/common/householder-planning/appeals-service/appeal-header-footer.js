@@ -43,7 +43,7 @@ When('the {string} page is presented', (page) => {
       goToAppealsPage(pageURLAppeal.goToPlanningDepartmentPage);
       break;
     case 'Eligibility - Planning department out':
-      goToAppealsPage(pageURLAppeal.goToPlanningDepartmentOutPage);
+      goToAppealsPage(pageURLAppeal.goToPlanningDepartmentSomethingElsePage);
       break;
     case 'Enforcement - Notice':
       goToAppealsPage(pageURLAppeal.goToEnforcementNoticePage);

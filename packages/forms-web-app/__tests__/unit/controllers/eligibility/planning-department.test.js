@@ -104,7 +104,7 @@ describe('controllers/eligibility/planning-department', () => {
     it('Test the getPlanningDepartmentOut method calls the correct template', () => {
       planningDepartmentController.getPlanningDepartmentOut(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT);
+      expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_SOMETHING_ELSE);
     });
 
     it('Test the postPlanningDepartment method call with handled department', async () => {
@@ -142,7 +142,7 @@ describe('controllers/eligibility/planning-department', () => {
         lpaCode: 'lpaCode1',
       });
 
-      expect(res.redirect).toBeCalledWith(`/${VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT}`);
+      expect(res.redirect).toBeCalledWith(`/${VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_SOMETHING_ELSE}`);
     });
 
     it('Test the postPlanningDepartment method call on error', async () => {

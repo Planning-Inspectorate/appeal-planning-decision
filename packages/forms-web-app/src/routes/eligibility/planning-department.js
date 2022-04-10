@@ -15,7 +15,7 @@ router.get(
   planningDepartmentController.getPlanningDepartment
 );
 router.get(
-  '/planning-department-out',
+  '/planning-department-something-else',
   [fetchExistingAppealMiddleware],
   planningDepartmentController.getPlanningDepartmentOut
 );
