@@ -25,7 +25,7 @@ describe('routes/eligibility/planning-department', () => {
       planningDepartmentController.getPlanningDepartment
     );
     expect(get).toHaveBeenCalledWith(
-      '/planning-department-out',
+      '/planning-department-something-else',
       [fetchExistingAppealMiddleware],
       planningDepartmentController.getPlanningDepartmentOut
     );

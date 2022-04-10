@@ -37,7 +37,7 @@ export const pageURLAppeal = {
    goToPageWhenYouCanAppeal: 'when-you-can-appeal' ,
    goToPlanningApplicationNumberPage: 'appellant-submission/application-number' ,
    goToPlanningApplicationSubmission: 'appellant-submission/upload-application' ,
-   goToPlanningDepartmentOutPage: 'eligibility/planning-department-out' ,
+   goToPlanningDepartmentSomethingElsePage: 'eligibility/planning-department-something-else' ,
    goToPlanningDepartmentPage: 'eligibility/planning-department' ,
    goToPlanningDepartmentPageWithoutJs: ('eligibility/planning-department', {script:false}),
    goToSiteAddressPage : 'appellant-submission/site-location',

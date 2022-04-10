@@ -46,7 +46,7 @@ exports.postPlanningDepartment = async (req, res) => {
       });
       return;
     }
-    res.redirect(`/${VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT}`);
+    res.redirect(`/${VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_SOMETHING_ELSE}`);
   }
 
   const lpaName = body['local-planning-department'];
@@ -73,5 +73,5 @@ exports.postPlanningDepartment = async (req, res) => {
 };
 
 exports.getPlanningDepartmentOut = (req, res) => {
-  res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT);
+  res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_SOMETHING_ELSE);
 };

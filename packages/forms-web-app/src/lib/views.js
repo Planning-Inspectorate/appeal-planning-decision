@@ -11,7 +11,7 @@ const VIEW = {
     DECISION_DATE: 'eligibility/decision-date',
     DECISION_DATE_PASSED: 'eligibility/decision-date-passed',
     PLANNING_DEPARTMENT: 'eligibility/planning-department',
-    PLANNING_DEPARTMENT_OUT: 'eligibility/planning-department-out',
+    PLANNING_DEPARTMENT_SOMETHING_ELSE: 'eligibility/planning-department-something-else',
     COSTS: 'eligibility/costs',
     COSTS_OUT: 'eligibility/costs-out',
     APPEAL_STATEMENT: 'eligibility/appeal-statement',
