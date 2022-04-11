@@ -2,6 +2,7 @@ const VIEW = {
   HOUSEHOLDER_PLANNING: {
     ELIGIBILITY: {
       CLAIMING_COSTS: 'householder-planning/eligibility/claiming-costs-householder',
+      USE_EXISTING_SERVICE_COSTS: 'householder-planning/eligibility/use-existing-service-costs',
       DATE_DECISION_DUE_HOUSEHOLDER:
         'householder-planning/eligibility/date-decision-due-householder',
       LISTED_BUILDING_HOUSEHOLDER: 'householder-planning/eligibility/listed-building-householder',
