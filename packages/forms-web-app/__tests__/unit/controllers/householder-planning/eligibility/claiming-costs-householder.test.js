@@ -49,7 +49,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
       expect(appeal.eligibility.isClaimingCosts).toEqual(true);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({ ...appeal });
 
-      expect(res.redirect).toBeCalledWith(`/before-you-start/use-a-different-service`);
+      expect(res.redirect).toBeCalledWith(`/before-you-start/use-existing-service-costs`);
     });
 
     it('should redirect to the results-householder page', async () => {
