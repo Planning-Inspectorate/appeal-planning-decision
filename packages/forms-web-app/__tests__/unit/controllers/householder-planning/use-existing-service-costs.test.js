@@ -14,7 +14,7 @@ describe('controllers/householder-planning/eligibility/use-existing-service-cost
   const req = mockReq();
   const res = mockRes();
 
-  it('Test the postClaimingCostsHouseholder method calls the correct template', async () => {
+  it('Test the getUseExistingServiceCosts method calls the correct template', async () => {
     await useExistingServiceCostsController.getUseExistingServiceCosts(req, res);
 
     expect(res.render).toBeCalledWith(useExistingServiceCosts, {
