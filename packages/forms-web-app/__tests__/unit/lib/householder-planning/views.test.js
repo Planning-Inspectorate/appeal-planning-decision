@@ -6,6 +6,7 @@ describe('/lib/householder-planning/views', () => {
       HOUSEHOLDER_PLANNING: {
         ELIGIBILITY: {
           CLAIMING_COSTS: 'householder-planning/eligibility/claiming-costs-householder',
+          USE_EXISTING_SERVICE_COSTS: 'householder-planning/eligibility/use-existing-service-costs',
           ENFORCEMENT_NOTICE_HOUSEHOLDER:
             'householder-planning/eligibility/enforcement-notice-householder',
           DATE_DECISION_DUE_HOUSEHOLDER:

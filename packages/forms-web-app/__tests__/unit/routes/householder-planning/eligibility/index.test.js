@@ -7,6 +7,8 @@ const listedBuildingHouseholderRouter = require('../../../../../src/routes/house
 const dateDecisionDueHouseholderRouter = require('../../../../../src/routes/householder-planning/eligibility/date-decision-due-householder');
 const decisionDateHouseholderRouter = require('../../../../../src/routes/householder-planning/eligibility/decision-date-householder');
 const conditionsHouseholderPermissionRouter = require('../../../../../src/routes/householder-planning/eligibility/conditions-householder-permission');
+const useExistingServiceCostsRouter = require('../../../../../src/routes/householder-planning/eligibility/use-existing-service-costs');
+const useExistingServiceEnforcementNotice = require('../../../../../src/routes/householder-planning/eligibility/use-existing-service-enforcement-notice');
 
 describe('routes/householder-planning/eligibility/index', () => {
   beforeEach(() => {
@@ -17,7 +19,7 @@ describe('routes/householder-planning/eligibility/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(7);
+    expect(use.mock.calls.length).toBe(9);
     expect(use).toHaveBeenCalledWith(claimingCostsHouseholderRouter);
     expect(use).toHaveBeenCalledWith(enforcementNoticeHouseholderRouter);
     expect(use).toHaveBeenCalledWith(grantedOrRefusedHouseholderRouter);
@@ -25,5 +27,7 @@ describe('routes/householder-planning/eligibility/index', () => {
     expect(use).toHaveBeenCalledWith(dateDecisionDueHouseholderRouter);
     expect(use).toHaveBeenCalledWith(decisionDateHouseholderRouter);
     expect(use).toHaveBeenCalledWith(conditionsHouseholderPermissionRouter);
+    expect(use).toHaveBeenCalledWith(useExistingServiceCostsRouter);
+    expect(use).toHaveBeenCalledWith(useExistingServiceEnforcementNotice);
   });
 });
