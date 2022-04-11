@@ -71,7 +71,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
         ...updatedAppeal,
       });
 
-      expect(res.redirect).toBeCalledWith('/before-you-start/use-a-different-service');
+      expect(res.redirect).toBeCalledWith('/before-you-start/use-existing-service-application-type');
     });
 
     it('should redirect to the shutter page', async () => {
@@ -92,7 +92,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
         ...updatedAppeal,
       });
 
-      expect(res.redirect).toBeCalledWith('/before-you-start/use-a-different-service');
+      expect(res.redirect).toBeCalledWith('/before-you-start/use-existing-service-application-type');
     });
 
     it('should redirect to the about appeal page', async () => {
