@@ -65,8 +65,8 @@ Then('any information they have inputted for planning type will not be saved',()
   getHouseHolderPlanningRadio().should('not.be.checked');
 });
 
-Then('an appellants gets routed to shutter page which notifies them to use a different service',()=>{
-  cy.url().should('contain', '/before-you-start/use-a-different-service');
+Then('an appellants gets routed to shutter page which notifies them to use an existing service',()=>{
+  cy.url().should('contain', '/before-you-start/use-existing-service-application-type');
 })
 
 Then('appellant is presented with the page Did you apply for prior approval to extend an existing home?',()=>{
