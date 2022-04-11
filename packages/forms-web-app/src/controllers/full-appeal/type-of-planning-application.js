@@ -63,7 +63,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
       return res.redirect('/before-you-start/conditions-householder-permission');
     case SOMETHING_ELSE:
     case I_HAVE_NOT_MADE_A_PLANNING_APPLICATION:
-      return res.redirect('/before-you-start/use-a-different-service');
+      return res.redirect('/before-you-start/use-existing-service-application-type');
     default:
       return res.redirect('/before-you-start/any-of-following');
   }
