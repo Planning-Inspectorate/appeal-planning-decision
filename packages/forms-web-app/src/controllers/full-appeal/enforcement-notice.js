@@ -14,7 +14,7 @@ const {
 
 const navigationPages = {
   nextPage: '/full-appeal/submit-appeal/task-list',
-  shutterPage: '/before-you-start/use-a-different-service',
+  shutterPage: '/before-you-start/use-existing-service-enforcement-notice',
 };
 
 const decisionDateEnforcementNoticeMapper = (key) => {
