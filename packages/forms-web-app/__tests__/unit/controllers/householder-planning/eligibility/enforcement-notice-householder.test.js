@@ -14,7 +14,7 @@ const { mockReq, mockRes } = require('../../../mocks');
 
 const navigationPages = {
   nextPage: '/before-you-start/claiming-costs-householder',
-  shutterPage: '/before-you-start/use-a-different-service',
+  shutterPage: '/before-you-start/use-existing-service-enforcement-notice',
   previousPage: '/before-you-start/decision-date-householder',
 };
 
