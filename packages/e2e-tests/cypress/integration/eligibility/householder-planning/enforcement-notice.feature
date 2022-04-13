@@ -14,7 +14,7 @@ Feature: Enforcement notice
     Given appellant is on the enforcement notice page for householder planning
     When appellant selects 'Yes' from the enforcement notice options
     And appellant clicks on the continue button on enforcement notice page
-    Then appellant is navigated to the householder enforcement notice shutter page
+    Then appellant is navigated to the enforcement notice householder shutter page
 
   Scenario: AC03 appellant has not made any selection and they get an error message
     Given appellant is on the enforcement notice page for householder planning
