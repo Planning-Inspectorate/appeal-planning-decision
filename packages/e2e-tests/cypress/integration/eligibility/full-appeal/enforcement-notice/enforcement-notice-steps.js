@@ -4,9 +4,13 @@ import { verifyPageHeading } from '../../../../support/common/verify-page-headin
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import {
   getEnforcementNoticeErrorMessage,
-  getEnforcementNoticeNo, getEnforcementNoticeYes,
+  getEnforcementNoticeNo,
+  getEnforcementNoticeYes,
 } from '../../../../support/eligibility/page-objects/enforcement-notice-po';
-import { getErrorMessageSummary, getSaveAndContinueButton } from '../../../../support/common-page-objects/common-po';
+import {
+  getErrorMessageSummary,
+  getSaveAndContinueButton,
+} from '../../../../support/common-page-objects/common-po';
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
 import { getBackLink } from '../../../../support/common-page-objects/common-po';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
@@ -17,9 +21,10 @@ import { enterDateDecisionDue } from '../../../../support/eligibility/date-decis
 import { getDate, getMonth, getYear } from 'date-fns';
 import { selectSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/select-site-option';
 import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
-import {acceptCookiesBanner} from "../../../../support/common/accept-cookies-banner";
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 const pageHeading = 'Have you received an enforcement notice?';
-const pageTitle = 'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK';
+const pageTitle =
+  'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK';
 const url = `before-you-start/enforcement-notice`;
 const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 
@@ -36,7 +41,11 @@ Given('appellant is on the enforcement notice page', () => {
   selectPlanningApplicationDecision('I have not received a decision');
   getContinueButton().click();
   const validDate = getPastDate(allowedDatePart.MONTH, 3);
-  enterDateDecisionDue( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2), year: getYear(validDate) } );
+  enterDateDecisionDue({
+    day: ('0' + getDate(validDate)).slice(-2),
+    month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+    year: getYear(validDate),
+  });
   getContinueButton().click();
   cy.url().should('contain', url);
   verifyPageHeading(pageHeading);
@@ -55,7 +64,11 @@ Given('appellant is on the enforcement notice page for {string}', (application_t
   selectPlanningApplicationDecision('I have not received a decision');
   getContinueButton().click();
   const validDate = getPastDate(allowedDatePart.MONTH, 3);
-  enterDateDecisionDue( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2), year: getYear(validDate) } );
+  enterDateDecisionDue({
+    day: ('0' + getDate(validDate)).slice(-2),
+    month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+    year: getYear(validDate),
+  });
   getContinueButton().click();
 });
 
@@ -79,7 +92,7 @@ Then('appellant gets navigated to appeal a planning decision task list page', ()
 });
 
 Then('appellant is navigated to the shutter page', () => {
-  cy.url().should('contain', '/before-you-start/use-a-different-service');
+  cy.url().should('contain', '/before-you-start/use-existing-service-enforcement-notice');
 });
 
 Then('appellant is navigated to the date decision due page', () => {
@@ -88,10 +101,10 @@ Then('appellant is navigated to the date decision due page', () => {
 
 Then('appellant sees an error message {string}', (errorMessage) => {
   verifyErrorMessage(errorMessage, getEnforcementNoticeErrorMessage, getErrorMessageSummary);
-})
+});
 
 Then('information they have inputted will not be saved', () => {
   cy.url().should('contain', '/before-you-start/date-decision-due');
   getContinueButton().click();
   getEnforcementNoticeYes().should('not.be.checked');
-})
+});

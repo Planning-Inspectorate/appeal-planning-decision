@@ -4,7 +4,8 @@ import { verifyPageHeading } from '../../../../support/common/verify-page-headin
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import {
   getEnforcementNoticeErrorMessage,
-  getEnforcementNoticeNo, getEnforcementNoticeYes,
+  getEnforcementNoticeNo,
+  getEnforcementNoticeYes,
 } from '../../../../support/eligibility/page-objects/enforcement-notice-po';
 import { getErrorMessageSummary } from '../../../../support/common-page-objects/common-po';
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
@@ -16,12 +17,11 @@ import { getDate, getMonth, getYear } from 'date-fns';
 import { allowedDatePart, getPastDate } from '../../../../support/common/getDate';
 import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
 import { getIsNotListedBuilding } from '../../../../support/eligibility/page-objects/listed-building-po';
-import {
-  enterDateHouseholderDecisionReceived
-} from '../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received';
-import {acceptCookiesBanner} from "../../../../support/common/accept-cookies-banner";
+import { enterDateHouseholderDecisionReceived } from '../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 const pageHeading = 'Have you received an enforcement notice?';
-const pageTitle = 'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK';
+const pageTitle =
+  'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK';
 const url = `before-you-start/enforcement-notice-householder`;
 
 Given('appellant is on the enforcement notice page for householder planning', () => {
@@ -36,7 +36,11 @@ Given('appellant is on the enforcement notice page for householder planning', ()
   selectPlanningApplicationDecision('Refused');
   getContinueButton().click();
   const validDate = getPastDate(allowedDatePart.WEEK, 7);
-  enterDateHouseholderDecisionReceived({ day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2), year: getYear(validDate)});
+  enterDateHouseholderDecisionReceived({
+    day: ('0' + getDate(validDate)).slice(-2),
+    month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+    year: getYear(validDate),
+  });
   getContinueButton().click();
   cy.url().should('contain', url);
   verifyPageHeading(pageHeading);
@@ -54,7 +58,11 @@ Given('appellant is on the enforcement notice page for {string}', (application_t
   selectPlanningApplicationDecision('Refused');
   getContinueButton().click();
   const validDate = getPastDate(allowedDatePart.WEEK, 7);
-  enterDateHouseholderDecisionReceived({ day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2), year: getYear(validDate)});
+  enterDateHouseholderDecisionReceived({
+    day: ('0' + getDate(validDate)).slice(-2),
+    month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+    year: getYear(validDate),
+  });
   getContinueButton().click();
   cy.url().should('contain', url);
   verifyPageHeading(pageHeading);
@@ -82,7 +90,7 @@ Then('appellant gets navigated to was your planning application claiming costs p
 });
 
 Then('appellant is navigated to the enforcement notice householder shutter page', () => {
-  cy.url().should('contain', '/before-you-start/use-a-different-service');
+  cy.url().should('contain', '/before-you-start/use-existing-service-enforcement-notice');
 });
 
 Then('appellant is navigated to the householder decision date page', () => {
@@ -91,10 +99,10 @@ Then('appellant is navigated to the householder decision date page', () => {
 
 Then('appellant sees an error message {string}', (errorMessage) => {
   verifyErrorMessage(errorMessage, getEnforcementNoticeErrorMessage, getErrorMessageSummary);
-})
+});
 
 Then('information they have inputted will not be saved', () => {
   cy.url().should('contain', '/before-you-start/decision-date-householder');
   getContinueButton().click();
   getEnforcementNoticeYes().should('not.be.checked');
-})
+});

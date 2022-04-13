@@ -10,7 +10,7 @@ const getPreviousPagePath = require('../../../../src/lib/get-previous-page-path'
 
 const navigationPages = {
   nextPage: '/full-appeal/submit-appeal/task-list',
-  shutterPage: '/before-you-start/use-a-different-service',
+  shutterPage: '/before-you-start/use-existing-service-enforcement-notice',
   previousPage: '/before-you-start/decision-date',
 };
 const logger = require('../../../../src/lib/logger');
