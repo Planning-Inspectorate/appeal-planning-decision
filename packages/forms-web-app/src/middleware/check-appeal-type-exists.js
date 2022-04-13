@@ -11,6 +11,7 @@ const checkAppealTypeExists = (req, res, next) => {
     '/before-you-start/local-planning-depart',
     '/before-you-start/type-of-planning-application',
     '/before-you-start/use-a-different-service',
+    '/before-you-start/use-existing-service-application-type',
     '/appellant-submission/submission-information',
     '/full-appeal/submit-appeal/declaration-information',
   ];

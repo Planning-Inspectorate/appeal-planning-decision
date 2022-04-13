@@ -42,7 +42,7 @@ Feature: Planning Application Type
     Given an appellant is on the select the type of planning application you made page
     When appellant selects '<invalid_planning_type>' planning application type
     And appellant clicks on the continue button
-    Then an appellants gets routed to shutter page which notifies them to use a different service
+    Then an appellants gets routed to shutter page which notifies them to use an existing service
     Examples:
     |invalid_planning_type|
     |Something else       |
