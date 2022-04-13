@@ -8,6 +8,11 @@ describe('lib/views', () => {
       OUT_OF_TIME_SHUTTER_PAGE: 'full-appeal/out-of-time-shutter-page',
       COOKIES: 'cookies',
 
+      BEFORE_YOU_START: {
+        USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE:
+          'before-you-start/use-existing-service-enforcement-notice',
+      },
+
       ELIGIBILITY: {
         LISTED_BUILDING: 'eligibility/listed-building',
         LISTED_OUT: 'eligibility/listed-out',
