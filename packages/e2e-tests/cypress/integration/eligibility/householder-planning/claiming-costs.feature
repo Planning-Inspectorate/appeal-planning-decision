@@ -12,7 +12,7 @@ Feature: Claiming Cost
     Given appellant is on the claiming cost page
     When appellant selects 'Yes' from the options
     And appellant clicks on the continue button
-    Then appellants gets routed to shutter page which notifies them to use a different service
+    Then appellants gets routed to shutter page which notifies them to use an existing service
 
   Scenario: AC03 - Appellant makes no selection and is provided an error
     Given appellant is on the claiming cost page
