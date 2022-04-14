@@ -49,7 +49,7 @@ exports.postPlanningDepartment = async (req, res) => {
       return;
     }
 
-    res.redirect(`/before-you-start/use-a-different-service`);
+    res.redirect(`/before-you-start/use-existing-service-local-planning-department`);
     return;
   }
 

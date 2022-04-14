@@ -67,6 +67,8 @@ const VIEW = {
     TYPE_OF_PLANNING_APPLICATION: 'full-appeal/type-of-planning-application',
     USE_A_DIFFERENT_SERVICE: 'full-appeal/use-a-different-service',
     USE_EXISTING_SERVICE_APPLICATION_TYPE: 'full-appeal/use-existing-service-application-type',
+    USE_EXISTING_SERVICE_LOCAL_PLANNING_DEPARTMENT:
+      'full-appeal/use-existing-service-local-planning-department',
     YOU_CANNOT_APPEAL: 'full-appeal/you-cannot-appeal',
     PRIOR_APPROVAL_EXISTING_HOME: 'full-appeal/prior-approval-existing-home',
   },
