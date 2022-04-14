@@ -39,7 +39,7 @@ Then('appellant sees an error message {string}',(errorMessage)=>{
 verifyErrorMessage(errorMessage, getLocalPlanningDepartmentError,getErrorMessageSummary);
 });
 
-Then('an appellants gets routed to shutter page which notifies them to use a different service',()=>{
-cy.url().should('contain', '/before-you-start/use-a-different-service');
+Then('an appellants gets routed to shutter page which notifies them to use an existing service',()=>{
+cy.url().should('contain', '/before-you-start/use-existing-service-local-planning-department');
 });
 
