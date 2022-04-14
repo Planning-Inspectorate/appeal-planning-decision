@@ -1,3 +1,4 @@
+@smoketest @e2e
 Feature: As an Appellant or Agent
   I want to be able to submit more than one appeal
   So that the Planning Inspectorate can action on all my appeals submitted

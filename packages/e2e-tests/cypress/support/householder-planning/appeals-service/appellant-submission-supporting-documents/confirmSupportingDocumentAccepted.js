@@ -1,18 +1,16 @@
 import { goToAppealsPage } from '../../../common/go-to-page/goToAppealsPage';
 import { pageURLAppeal } from '../../../../integration/common/householder-planning/appeals-service/pageURLAppeal';
+import { validateIndividualFileUpload } from '../file-upload/validateIndividualFileUpload';
 
 export const confirmSupportingDocumentAccepted = (filenames) => {
-  //cy.goToSupportingDocumentsPage();
   goToAppealsPage(pageURLAppeal.goToSupportingDocumentsPage);
 
-  cy.get('.moj-multi-file-upload__list')
+  cy.get('#supporting-documents')
     .invoke('text')
     .then((text) => {
-      if (!Array.isArray(filenames)) {
-        filenames = [filenames];
-      }
-      filenames.forEach((filename) => expect(text).to.contain(filename));
+      expect(text).to.eq(filenames);
     });
 
-  cy.wait(Cypress.env('demoDelay'));
+  validateIndividualFileUpload('#supporting-documents');
 };
+

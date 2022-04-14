@@ -1,3 +1,4 @@
+@e2e
 Feature: Appeal Full Appeal Application Status Question
   As an appellant
   I want to select the planning application status type of planning Application I made

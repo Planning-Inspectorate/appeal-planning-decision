@@ -1,3 +1,4 @@
+@e2e
 Feature: As an appellant/agent
   I want to provide the details of any health and safety issues on the appeal site for my application to be submitted
   So that I am sure that the information provided are accurate

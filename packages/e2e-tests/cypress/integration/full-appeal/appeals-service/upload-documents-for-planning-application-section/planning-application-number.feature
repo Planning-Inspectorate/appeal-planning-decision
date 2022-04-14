@@ -1,3 +1,4 @@
+@e2e
 Feature: As an agent
   I want to enter my contact details So that all the necessary information needed for my appeal
   to be processed are provided

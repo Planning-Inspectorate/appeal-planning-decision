@@ -1,5 +1,9 @@
-@wip @has
+@has
 Feature: Appellant submits a planning application reference number so that the planning inspectorate can refer to their appeal
+
+
+  Background:
+    Given appellant has completed householder appeal eligibility journey
 
   Scenario: Prospective appellant provides a valid planning application number
     Given user has not previously provided a planning application number

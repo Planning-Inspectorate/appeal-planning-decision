@@ -1,3 +1,4 @@
+@e2e
 Feature: Date Decision received eligibility check
   Appellant must enter the decision date mentioned on Local planning decision letter
 

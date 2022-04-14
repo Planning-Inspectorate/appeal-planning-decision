@@ -1,3 +1,4 @@
+@e2e
 Feature: As an appellant who has made a prior approval application
   I want to make an appeal through the simple householder route
   So that my appeal can be dealt with more quickly.

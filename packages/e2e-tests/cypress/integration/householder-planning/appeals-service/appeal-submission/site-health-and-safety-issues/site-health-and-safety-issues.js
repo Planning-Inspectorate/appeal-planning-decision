@@ -8,81 +8,93 @@ import { confirmHealthAndSafetyPage } from '../../../../../support/householder-p
 import { confirmSiteHasIssuesAnswered } from '../../../../../support/householder-planning/appeals-service/appeal-submission-site-health-and-safety-issues/confirmSiteHasIssuesAnswered';
 import { confirmSiteSafetyRejectedBecause } from '../../../../../support/householder-planning/appeals-service/appeal-submission-site-health-and-safety-issues/confirmSiteSafetyRejectedBecause';
 import { confirmSafetyIssuesConcernsValue } from '../../../../../support/householder-planning/appeals-service/appeal-submission-site-health-and-safety-issues/confirmSafetyIssuesConcernsValue';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 import { pageURLAppeal } from '../../../../common/householder-planning/appeals-service/pageURLAppeal';
+import {healthAndSafety} from "../../../../../support/householder-planning/appeals-service/page-objects/task-list-po";
 
 const CONCERNS = "There's no roof and only one wall.";
 
 Given('the status of the appeal section is displayed', () => {
-  //goToTaskListPage();
-  goToAppealsPage(pageURLAppeal.goToTaskListPage);
+  cy.url().should('contain',pageURLAppeal.goToTaskListPage);
 });
 
 Given(
   'the status of the appeal section is displayed with no health and safety issues previously reported',
   () => {
-    //goToHealthAndSafetyPage();
-    goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
+    healthAndSafety().click();
+    cy.url().should('contain',pageURLAppeal.goToHealthAndSafetyPage);
     answerSiteHasNoIssues();
     isSafetyIssuesInputPresented(false);
     clickSaveAndContinue();
-    //goToTaskListPage();
-    goToAppealsPage(pageURLAppeal.goToTaskListPage);
+    cy.url().should('contain',pageURLAppeal.goToTaskListPage);
   },
 );
 
 Given('health and safety issues along with concerns have been indicated', () => {
-  //goToHealthAndSafetyPage();
-  goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
+  healthAndSafety().click();
   answerSiteHasIssues();
   provideSafetyIssuesConcerns(CONCERNS);
+  clickSaveAndContinue();
+  healthAndSafety().click();
+  cy.url().should('contain',pageURLAppeal.goToHealthAndSafetyPage);
 });
 
 Given('no health and safety concerns have been indicated', () => {
-  goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
+  healthAndSafety().click();
   answerSiteHasNoIssues();
 });
 
 Given(
   'the status of the appeal section is displayed with some health and safety issues previously reported',
   () => {
-    goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
+    healthAndSafety().click();
+    cy.url().should('contain',pageURLAppeal.goToHealthAndSafetyPage);
     answerSiteHasIssues();
     isSafetyIssuesInputPresented(true);
     provideSafetyIssuesConcerns(CONCERNS);
     clickSaveAndContinue();
-    goToAppealsPage(pageURLAppeal.goToTaskListPage);
+    cy.url().should('contain',pageURLAppeal.goToTaskListPage);
   },
 );
 
 Given('health and safety issues along with concerns have been provided', () => {
-  goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
+  cy.url().should('contain',pageURLAppeal.goToTaskListPage);
+  healthAndSafety().click();
+  cy.url().should('contain',pageURLAppeal.goToHealthAndSafetyPage);
   answerSiteHasIssues();
   isSafetyIssuesInputPresented(true);
   provideSafetyIssuesConcerns(CONCERNS);
   clickSaveAndContinue();
-  goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
+  cy.url().should('contain',pageURLAppeal.goToTaskListPage);
+  healthAndSafety().click();
+  cy.url().should('contain',pageURLAppeal.goToHealthAndSafetyPage);
 });
 
 Given(
   'health and safety issues and concerns previously indicated followed by an indication of no issues',
   () => {
-    goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
+    cy.url().should('contain',pageURLAppeal.goToTaskListPage);
+    healthAndSafety().click();
+    cy.url().should('contain',pageURLAppeal.goToHealthAndSafetyPage);
     answerSiteHasIssues();
     isSafetyIssuesInputPresented(true);
     provideSafetyIssuesConcerns(CONCERNS);
     clickSaveAndContinue();
-    goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
+    healthAndSafety().click();
+    cy.url().should('contain',pageURLAppeal.goToHealthAndSafetyPage);
     answerSiteHasNoIssues();
   },
 );
 
 Given('confirmation of health and safety issues is requested', () => {
-  goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
+  cy.url().should('contain',pageURLAppeal.goToTaskListPage);
+  healthAndSafety().click();
+  cy.url().should('contain',pageURLAppeal.goToHealthAndSafetyPage);
 });
 
 When('health and safety issues is accessed', () => {
-  goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
+  cy.url().should('contain',pageURLAppeal.goToTaskListPage);
+  healthAndSafety().click();
+  cy.url().should('contain',pageURLAppeal.goToHealthAndSafetyPage);
 });
 
 When('no confirmation of health and safety issues is provided', () => {
@@ -143,20 +155,22 @@ Then('appeal is not updated because the health and safety concerns exceed the li
 Then(
   'appeal is updated with health and safety issues and concerns and the appeal tasks are presented',
   () => {
-    goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
+    cy.url().should('contain',pageURLAppeal.goToTaskListPage);
+    healthAndSafety().click();
+    cy.url().should('contain',pageURLAppeal.goToHealthAndSafetyPage);
     confirmSiteHasIssuesAnswered('yes');
     confirmSafetyIssuesConcernsValue(CONCERNS);
-    goToAppealsPage(pageURLAppeal.goToTaskListPage);
    },
 );
 
 Then(
   'appeal is updated with no health and safety issues and the appeal tasks are presented',
   () => {
-    goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
+    cy.url().should('contain',pageURLAppeal.goToTaskListPage);
+    healthAndSafety().click();
+    cy.url().should('contain',pageURLAppeal.goToHealthAndSafetyPage);
     confirmSiteHasIssuesAnswered('no');
     confirmSafetyIssuesConcernsValue('');
-    goToAppealsPage(pageURLAppeal.goToTaskListPage);
   },
 );
 

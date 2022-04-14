@@ -1,3 +1,4 @@
+@e2e
 Feature:Shutter page - Deadline passed
   As an appellant
   I am notified that I cannot make an appeal when I enter an out of time date

@@ -1,3 +1,4 @@
+@e2e
 Feature: Planning Application Type
   As an appellant
   I want to select the type of planning Application I made

@@ -13,21 +13,16 @@ import { confirmSubmissionInformationDisplayItems } from '../../../../../support
 Given('a prospective appellant has provided valid appeal information', () => {
   provideCompleteAppeal(STANDARD_APPEAL);
   clickCheckYourAnswers();
-
-  // /appellant-submission/check-answers
   clickSaveAndContinue();
 });
 
 When('the appeal is submitted', () => {
   confirmNavigationTermsAndConditionsPage();
-
-  // /appellant-submission/submission
   agreeToTheDeclaration();
 });
 
 Then('a submission information file is created', () => {
-  // /appellant-submission/confirmation
-  confirmAppealSubmitted();
+   confirmAppealSubmitted();
 
   navigateToSubmissionInformationPage();
 
@@ -36,9 +31,9 @@ Then('a submission information file is created', () => {
     'appellant-name': 'Valid Name',
     'appellant-email': 'valid@email.com',
     'application-number': 'ValidNumber/12345',
-    'upload-application': 'appeal-statement-valid.doc',
-    'upload-decision': 'appeal-statement-valid.doc',
-    'appeal-statement': 'appeal-statement-valid.doc',
+    'upload-application': 'appeal-statement-valid.pdf',
+    'upload-decision': 'mock-decision-letter.pdf',
+    'appeal-statement': 'appeal-statement-valid.docx',
     'supporting-documents-no-files': 'No files uploaded',
     'site-location': '1 Taylor Road\nClifton\nBristol\nSouth Glos\nBS8 1TG',
     'site-ownership': 'Yes',

@@ -1,8 +1,10 @@
-@wip @has
+@has
 Feature: Confirmation page feature
   The confirmation page must display the feedback link and its header has no back buttons
 
-  @as-2264
+  Background:
+    Given appellant has completed householder appeal eligibility journey
+
   Scenario: Required link is present
     Given an appeal exists
     When the appeal confirmation is presented

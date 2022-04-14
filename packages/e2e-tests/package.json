@@ -4,11 +4,10 @@
   "description": "E2E tests for appeals and lpa questionnaire",
   "main": "index.js",
   "scripts": {
-    "test:e2e": "cypress run -e TAGS='not @wip'",
+    "test:e2e": "cypress run -e",
     "test:e2e:demo": "cypress run --headed -b chrome -e TAGS='not @wip',demoDelay=1000",
     "test:e2e:postprocess": "node ./reporter.js",
     "test:e2e:files": "./create-large-test-files.sh",
-    "test:e2e:smoke": "cypress run -e",
     "test:e2e:horizon:script": "cypress run --headed -b chrome --env QUEUE_VALIDATION_ENABLED=false --spec='**/*horizon*.feature'"
   },
   "author": "",
@@ -21,7 +20,7 @@
     "cypress-cucumber-preprocessor": "^4.3.1",
     "cypress-downloadfile": "^1.2.0",
     "cypress-file-upload": "5.0.2",
-    "cypress-html-validate": "^2.1.3",
+    "cypress-html-validate": "^2.1.2",
     "cypress-jest-adapter": "^0.1.1",
     "cypress-ntlm-auth": "^3.1.5",
     "cypress-wait-until": "^1.7.1",

@@ -1,4 +1,5 @@
 export const provideNameOfOriginalApplicant = (name) => {
-  cy.get('#behalf-appellant-name').type(`{selectall}{backspace}${name}`);
+  if(name.length>=1)
+  cy.get('#behalf-appellant-name').clear().type(name);
   //cy.wait(Cypress.env('demoDelay'));
 };

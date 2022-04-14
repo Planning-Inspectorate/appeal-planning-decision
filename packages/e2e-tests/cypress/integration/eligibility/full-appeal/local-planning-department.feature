@@ -1,3 +1,4 @@
+@e2e
 Feature: Local Planning Department
   As an Appellant
   I want to enter the local planning department where my planning application was submitted to

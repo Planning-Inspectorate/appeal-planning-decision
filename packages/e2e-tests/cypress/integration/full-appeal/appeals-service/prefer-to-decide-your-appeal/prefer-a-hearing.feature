@@ -1,3 +1,4 @@
+@e2e
 Feature: As an Appellant or Agent
          I want to give reasons why I want a Hearing
          So that all the necessary details needed for my appeal to be processed are provided
