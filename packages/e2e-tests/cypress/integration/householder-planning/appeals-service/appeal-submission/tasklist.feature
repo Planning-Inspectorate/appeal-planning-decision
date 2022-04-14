@@ -1,4 +1,4 @@
-@wip @has
+@has
 Feature: Task lists
   As a prospective appellant I want to clearly see which sections of the
   appeal submission I have completed, so that I do not waste my time checking.
@@ -7,6 +7,9 @@ Feature: Task lists
   Some tasks could be multi steps and if not all steps are completed, then the task is considered "IN PROGRESS"
 
   The "Check your answer" task state should be "CANNOT START YET" until all mandatory tasks are "COMPLETED"
+
+  Background:
+    Given appellant has completed householder appeal eligibility journey
 
   Scenario Outline: When the tasks are presented, then they should able to be selected
     Given the appeal tasks are presented

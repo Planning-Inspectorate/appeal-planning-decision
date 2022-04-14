@@ -1,3 +1,4 @@
+@e2e
 Feature: As an Appellant or Agent who has made an application to Remove or vary a Condition
   I want to make an appeal through the simple Full Planning or Householder route
   So that my appeal can be dealt with more quickly

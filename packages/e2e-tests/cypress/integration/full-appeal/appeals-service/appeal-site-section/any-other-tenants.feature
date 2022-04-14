@@ -1,3 +1,4 @@
+@e2e
 Feature: As an appellant or agent
   I want to provide if there are any other Tenants for my application to be submitted
   So that I am sure that the information provided are accurate

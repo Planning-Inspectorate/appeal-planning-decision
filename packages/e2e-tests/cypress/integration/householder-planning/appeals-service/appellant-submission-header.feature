@@ -1,31 +1,24 @@
-@wip @has
+@has
 Feature: Common link in header section
   Each of the Eligibility and Appellant Submission webpages must display link to feedback page
 
-  @as-2264
+  Background:
+    Given appellant has completed householder appeal eligibility journey
+
   Scenario Outline: Required link in header is present
-    Given an appeal is being made
-    When the <page> page is presented
+    Given the <page> page is presented
     Then the required header link is displayed
     Examples:
       | page                                                                   |
-      | "Start your appeal"                                                    |
-      | "Eligibility - House holder planning permission"                       |
-      | "Eligibility - Householder planning permission out"                    |
+      | "Eligibility - Planning department"                                    |
+      | "Eligibility - Shutter page"                                           |
+      | "Eligibility - Type of Planning Application"                           |
+      | "Eligibility - Listed building"                                        |
       | "Eligibility - Granted Or Refused Permission"                          |
-      | "Eligibility - Granted Or Refused Permission Out"                      |
-      | "Eligibility - No decision on Permission"                              |
       | "Eligibility - Decision date"                                          |
       | "Eligibility - Decision date expired"                                  |
-      | "Eligibility - Planning department"                                    |
-      | "Eligibility - Planning department out"                                |
       | "Enforcement - Notice"                                                 |
-      | "Enforcement - Notice out"                                             |
-      | "Eligibility - Listed building"                                        |
-      | "Eligibility - Listed building out"                                    |
       | "Eligibility - Costs"                                                  |
-      | "Eligibility - Costs out"                                              |
-      | "Eligibility - Appeal statement info"                                  |
       | "Appellant submission - Appeal tasks"                                  |
       | "Appellant submission - Your details - Who are you"                    |
       | "Appellant submission - Your details - Your details"                   |
@@ -45,19 +38,16 @@ Feature: Common link in header section
       | "Appeal submission - Confirmation"                                     |
 
   Scenario Outline: Required back button is present
-    Given an appeal is being made
-    When the <page> page is presented
+    Given the <page> page is presented
     Then the back button is displayed
     Examples:
       | page                                                                   |
-      | "Eligibility - House holder planning permission"                       |
+      | "Eligibility - Type of Planning Application"                           |
+      | "Eligibility - Listed building"                                        |
       | "Eligibility - Granted Or Refused Permission"                          |
       | "Eligibility - Decision date"                                          |
-      | "Eligibility - Planning department"                                    |
       | "Enforcement - Notice"                                                 |
-      | "Eligibility - Listed building"                                        |
       | "Eligibility - Costs"                                                  |
-      | "Eligibility - Appeal statement info"                                  |
       | "Appellant submission - Your details - Who are you"                    |
       | "Appellant submission - Your details - Your details"                   |
       | "Appellant submission - Your details - Applicant name"                 |
@@ -73,4 +63,3 @@ Feature: Common link in header section
       | "Appellant submission - Appeal site - Site safety"                     |
       | "Appellant submission - Check your answers"                            |
       | "Appeal submission - Declaration"                                      |
-

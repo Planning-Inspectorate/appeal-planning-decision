@@ -1,3 +1,4 @@
+@e2e
 Feature: Appellant provides the Appeal Site Address
   I need to provide the appeal site address, so that all parties know which site the appeal is against.
 

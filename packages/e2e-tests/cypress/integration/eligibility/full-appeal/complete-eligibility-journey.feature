@@ -1,3 +1,4 @@
+@smoketest @e2e
 Feature: Full Appeal Eligibility Journey
 
   Scenario Outline: AC01 - Verify full eligibility journey for '<application_type>' and '<application_decision>'

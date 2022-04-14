@@ -1,3 +1,4 @@
+@e2e
 Feature:Shutter page
   As an appellant
   I want to receive a notification when I select services that are not being provisioned

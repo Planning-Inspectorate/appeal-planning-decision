@@ -1,10 +1,12 @@
-@wip @has
-@UI-ONLY
+@has
 Feature: Appeal Submission Save and Continue Navigation - About You
-    As a prospective appellant, I want to be taken through the submission process efficiently
-    so that I do not get confused.
-    This feature file covers the navigation between the About You section to the task-list
-    The navigation does not depend on the status of a sub-section
+  As a prospective appellant, I want to be taken through the submission process efficiently
+  so that I do not get confused.
+  This feature file covers the navigation between the About You section to the task-list
+  The navigation does not depend on the status of a sub-section
+
+  Background:
+    Given appellant has completed householder appeal eligibility journey
 
   Scenario: Navigation - Is original applicant
     Given the "Who are you" is presented

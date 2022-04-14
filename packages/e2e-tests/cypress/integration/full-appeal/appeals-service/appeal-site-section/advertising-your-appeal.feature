@@ -1,3 +1,4 @@
+@e2e
 Feature: As an appellant/agent
   I want to provide the necessary details needed for my application to be submitted
   So that I am sure that the information provided are accurate
@@ -5,7 +6,7 @@ Feature: As an appellant/agent
   Background:
     Given appellant has completed full appeal eligibility journey
 
-  Scenario Outline: AC-01 Navigate from ‘Do you know who owns the land involved in the appeal?' to advertising your appeal for '<landowners>'
+   Scenario Outline: AC-01 Navigate from ‘Do you know who owns the land involved in the appeal?' to advertising your appeal for '<landowners>'
     Given  an appellant is on the Do you know who owns the land involved in the appeal page for '<landowners>'
     When the appellant select '<knowTheOwners>' and click continue
     And the appellant confirms that they have attempted to identify the other landowners

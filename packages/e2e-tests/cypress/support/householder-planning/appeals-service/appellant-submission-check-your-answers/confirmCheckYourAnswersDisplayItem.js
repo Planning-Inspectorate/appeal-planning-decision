@@ -4,5 +4,4 @@ export const confirmCheckYourAnswersDisplayItem = (identifier, expected) => {
     .then((text) => {
       expect(text).to.eq(expected);
     });
-  //cy.wait(Cypress.env('demoDelay'));
 };

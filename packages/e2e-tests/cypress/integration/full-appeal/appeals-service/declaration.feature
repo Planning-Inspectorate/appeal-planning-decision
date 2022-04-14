@@ -1,3 +1,4 @@
+@smoketest @e2e
 Feature: As an Appellant/Agent
          I want to be able to submit my appeal
          So that the Planning Inspectorate can action my appeal

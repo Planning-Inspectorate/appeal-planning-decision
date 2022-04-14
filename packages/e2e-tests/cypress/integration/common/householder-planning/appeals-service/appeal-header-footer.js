@@ -11,25 +11,15 @@ import { confirmGoogleAnalyticsLinkIsPresent } from '../../../../support/househo
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { pageURLAppeal } from './pageURLAppeal';
 
-Given('an appeal is being made', () => {});
 
-When('the {string} page is presented', (page) => {
+Given('the {string} page is presented', (page) => {
   switch (page) {
-    case 'Start your appeal':
-      goToAppealsPage(pageURLAppeal.goToPageStartYourAppeal);
-      break;
-    case 'Eligibility - House holder planning permission':
-      goToAppealsPage(pageURLAppeal.goToHouseholderQuestionPage);
-      break;
-    case 'Eligibility - Householder planning permission out':
-      goToAppealsPage(pageURLAppeal.goToHouseholderQuestionOutPage);
+    case 'Eligibility - Type of Planning Application':
+      goToAppealsPage(pageURLAppeal.goToTypeOfPlanningApplication);
       break;
     case 'Eligibility - Granted Or Refused Permission':
       goToAppealsPage(pageURLAppeal.goToGrantedOrRefusedPermissionPage);
         break;
-    case 'Eligibility - Granted Or Refused Permission Out':
-      goToAppealsPage(pageURLAppeal.goToGrantedOrRefusedPermissionOutPage);
-      break;
     case 'Eligibility - No decision on Permission':
       goToAppealsPage(pageURLAppeal.goToNoDecisionOnPermissionPage);
       break;
@@ -42,38 +32,26 @@ When('the {string} page is presented', (page) => {
     case 'Eligibility - Planning department':
       goToAppealsPage(pageURLAppeal.goToPlanningDepartmentPage);
       break;
-    case 'Eligibility - Planning department out':
+    case 'Eligibility - Shutter page':
       goToAppealsPage(pageURLAppeal.goToPlanningDepartmentOutPage);
       break;
     case 'Enforcement - Notice':
       goToAppealsPage(pageURLAppeal.goToEnforcementNoticePage);
       break;
-    case 'Enforcement - Notice out':
-      goToAppealsPage(pageURLAppeal.goToEnforcementNoticeOutPage);
-      break;
     case 'Eligibility - Listed building':
       goToAppealsPage(pageURLAppeal.goToListedBuildingPage);
-      break;
-    case 'Eligibility - Listed building out':
-      goToAppealsPage(pageURLAppeal.goToListedBuildingOutPage);
       break;
     case 'Eligibility - Costs':
       goToAppealsPage(pageURLAppeal.goToListedBuildingPage);
       break;
-    case 'Eligibility - Costs out':
-      goToAppealsPage(pageURLAppeal.goToListedBuildingOutPage);
-      break;
-    case 'Eligibility - Appeal statement info':
-      goToAppealsPage(pageURLAppeal.goToAppealStatementInfoPage);
-      break;
-    case 'Appellant submission - Appeal tasks':
+     case 'Appellant submission - Appeal tasks':
       goToAppealsPage(pageURLAppeal.goToTaskListPage);
       break;
     case 'Appellant submission - Your details - Who are you':
       goToAppealsPage(pageURLAppeal.goToWhoAreYouPage);
       break;
     case 'Appellant submission - Your details - Your details':
-      goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
+       goToAppealsPage(pageURLAppeal.goToYourDetailsPage);
       break;
     case 'Appellant submission - Your details - Applicant name':
       goToAppealsPage(pageURLAppeal.goToApplicantNamePage);
@@ -85,7 +63,7 @@ When('the {string} page is presented', (page) => {
       goToAppealsPage(pageURLAppeal.goToPlanningApplicationSubmission);
       break;
     case 'Appellant submission - Planning application - Upload decision letter':
-      goToAppealsPage(pageURLAppeal.goToDecisionLetterPage);
+       goToAppealsPage(pageURLAppeal.goToDecisionLetterPage);
       break;
     case 'Appellant submission - Your appeal - Appeal statement':
       goToAppealsPage(pageURLAppeal.goToAppealStatementSubmission);

@@ -1,3 +1,4 @@
+@e2e
 Feature: As an appellant/agent
          I want to add a copy of my draft statement of common ground for Hearing or Inquiry
          So that the planning Inspectorate can have the necessary evidence to support my appeal

@@ -8,9 +8,11 @@ import { clickSaveAndContinue } from '../../../../support/householder-planning/a
 import { checkStatusForTask } from '../../../../support/householder-planning/appeals-service/appeal-submission-tasklist/checkStatusForTask';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { pageURLAppeal } from './pageURLAppeal';
+import {siteAddress} from "../../../../support/householder-planning/appeals-service/page-objects/task-list-po";
 
 When('appeal site address is requested', () => {
-   goToAppealsPage(pageURLAppeal.goToSiteAddressPage);
+  siteAddress().click();
+   cy.url().should('contain',pageURLAppeal.goToSiteAddressPage);
 });
 
 When('valid appeal site address is submitted', () => {
@@ -32,7 +34,6 @@ When('invalid appeal site address is submitted', () => {
 });
 
 Then('Address of the appeal site section is {string}', (status) => {
-  //goToTaskListPage();
   goToAppealsPage(pageURLAppeal.goToTaskListPage);
   checkStatusForTask('SiteAddress', status);
 });

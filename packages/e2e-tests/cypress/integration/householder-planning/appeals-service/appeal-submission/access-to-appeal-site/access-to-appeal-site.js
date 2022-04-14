@@ -6,10 +6,11 @@ import { provideMoreDetails } from '../../../../../support/householder-planning/
 import { confirmAccessSiteAnswered } from '../../../../../support/householder-planning/appeals-service/appeal-submission-access-to-appeal-site/confirmAccessSiteAnswered';
 import { confirmAccessSiteNotSubmitted } from '../../../../../support/householder-planning/appeals-service/appeal-submission-access-to-appeal-site/confirmAccessSiteNotSubmitted';
 import { confirmAccessSiteWasRejectedBecause } from '../../../../../support/householder-planning/appeals-service/appeal-submission-access-to-appeal-site/confirmAccessSiteWasRejectedBecause';
-import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
+import {accessAppealSite} from "../../../../../support/householder-planning/appeals-service/page-objects/task-list-po";
 const url = 'appellant-submission/site-access';
 Given('the user is prompted to provide access to the inspector visiting the appeal site', () => {
-  goToAppealsPage(url);
+  accessAppealSite().click();
+  cy.url().should('contain',url);
 });
 
 When('the user does not select any option', () => {});
