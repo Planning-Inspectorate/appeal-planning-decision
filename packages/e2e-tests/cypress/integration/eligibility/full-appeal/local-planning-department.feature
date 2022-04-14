@@ -24,4 +24,4 @@ Feature: Local Planning Department
     Given appellant is on the Local Planning Authority Page
     When an appellant selects an ineligible LPA
     And  appellant clicks the continue button
-    Then an appellants gets routed to shutter page which notifies them to use a different service
+    Then an appellants gets routed to shutter page which notifies them to use an existing service
