@@ -11,8 +11,8 @@ COPY data/lpa-trialists.json /opt/app/data/
 COPY data/lpa-list.csv /opt/app/data/
 
 # This must be built locally from the common package
-COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
-COPY --from=pinscommonukscontainers3887default.azurecr.io/business-rules:latest /opt/app ../business-rules
+ADD /packages/common ../common
+ADD /packages/business-rules ../business-rules
 ADD api api
 ADD src src
 ADD __tests__ __tests__
