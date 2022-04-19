@@ -128,7 +128,9 @@ describe('controllers/full-appeal/local-planning-department', () => {
 
       await localPlanningDepartmentController.postPlanningDepartment(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/use-a-different-service');
+      expect(res.redirect).toHaveBeenCalledWith(
+        '/before-you-start/use-existing-service-local-planning-department'
+      );
     });
 
     it('Test the postPlanningDepartment method call on error', async () => {
