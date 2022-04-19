@@ -23,7 +23,8 @@
     <p class="govuk-body">To begin your appeal, log in or register on the Appeals Casework Portal.</p>
     {{ govukButton({
       text: "Continue to the Appeals Casework Portal",
-      href: acpLink
+      href: acpLink,
+      attributes: { "data-cy":"button-acp"}
     }) }}
   </div>
 </div>
