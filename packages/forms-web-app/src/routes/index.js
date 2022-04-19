@@ -7,6 +7,8 @@ const fullAppealAppellantSubmissionRouter = require('./full-appeal/submit-appeal
 const eligibilityRouter = require('./eligibility');
 const homeRouter = require('./home');
 const fullAppealRouter = require('./full-appeal');
+const beforeYouStart = require('./before-you-start');
+
 const householderPlanningRouter = require('./householder-planning');
 const cookieRouter = require('./cookies');
 const guidancePagesRouter = require('./guidance-pages');
@@ -39,6 +41,8 @@ router.use(
   checkDecisionDateDeadline,
   householderPlanningRouter
 );
+router.use('/before-you-start', checkAppealTypeExists, checkDecisionDateDeadline, beforeYouStart);
+
 router.use('/document', documentRouter);
 
 module.exports = router;
