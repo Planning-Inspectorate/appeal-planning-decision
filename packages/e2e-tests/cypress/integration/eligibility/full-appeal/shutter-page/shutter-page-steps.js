@@ -1,7 +1,7 @@
 import {Given} from 'cypress-cucumber-preprocessor/steps';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
-import { getACPLink } from '../../../../support/eligibility/page-objects/shutter-page-po';
+import { getACPLink } from '../../../../support/eligibility/page-objects/lpd-shutter-page-po';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
 import { getSaveAndContinueButton } from '../../../../support/common-page-objects/common-po';
