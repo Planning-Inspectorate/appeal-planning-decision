@@ -9,8 +9,8 @@ import {acceptCookiesBanner} from "../../../../support/common/accept-cookies-ban
 const url = 'before-you-start/use-a-different-service';
 const pageHeading = 'You need to use a different service';
 const pageTitle = 'You need to use a different service - Before you start - Appeal a planning decision - GOV.UK';
-Given('an appellant is on the shutter page',()=>{
-  goToAppealsPage('before-you-start/local-planning-depart');
+Given('an appellant is on the local planning department shutter page',()=>{
+  goToAppealsPage('use-existing-service-local-planning-department');
   acceptCookiesBanner();
   getLocalPlanningDepart().select('Amber Valley');
   getSaveAndContinueButton().click();
@@ -20,7 +20,7 @@ Given('an appellant is presented with a link to use a different service',()=>{
 getACPLink().should('be.visible')
   .should('have.attr','href');
 });
-When('an appellant clicks on the you can appeal using our appeals casework portal link',()=>{
+When('an appellant clicks on the continue to the appeals casework portal link',()=>{
   getACPLink().click();
 });
 
