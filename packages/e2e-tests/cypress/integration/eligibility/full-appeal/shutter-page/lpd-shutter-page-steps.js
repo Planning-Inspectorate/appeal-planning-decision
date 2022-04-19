@@ -16,7 +16,7 @@ Given('an appellant is on the local planning department shutter page',()=>{
   getSaveAndContinueButton().click();
   cy.url().should('contain', url);
 });
-Given('an appellant is presented with a link to use a different service',()=>{
+Given('an appellant is presented with a link to use an existing service',()=>{
 getACPLink().should('be.visible')
   .should('have.attr','href');
 });
