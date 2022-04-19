@@ -8,7 +8,7 @@ ENV BUILD_ID="${BUILD_ID}"
 ENV VERSION="${VERSION}"
 
 # This must be built locally from the common package
-ADD /packages/common ../common
+COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
 ADD src src
 ADD test test
 ADD jest.config.js jest.config.js
