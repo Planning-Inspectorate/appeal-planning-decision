@@ -56,7 +56,7 @@ exports.postListedBuilding = async (req, res) => {
   }
 
   if (isAppealAboutAListedBuilding) {
-    res.redirect(`/${VIEW.ELIGIBILITY.LISTED_OUT}`);
+    res.redirect(`/${VIEW.BEFORE_YOU_START.USE_EXISTING_SERVICE_LISTED_BUILDING}`);
     return;
   }
 

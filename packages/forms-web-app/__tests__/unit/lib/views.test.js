@@ -78,6 +78,10 @@ describe('lib/views', () => {
       MESSAGES: {
         COOKIES_UPDATED_SUCCESSFULLY: 'messages/cookies-updated-successfully',
       },
+
+      BEFORE_YOU_START: {
+        USE_EXISTING_SERVICE_LISTED_BUILDING: 'before-you-start/use-existing-service-listed-building',
+      },
     });
   });
 });

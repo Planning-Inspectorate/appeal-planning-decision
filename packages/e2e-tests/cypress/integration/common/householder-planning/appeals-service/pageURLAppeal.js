@@ -20,7 +20,7 @@ export const pageURLAppeal = {
    goToHouseholderPlanningPermissionQuestionPage: 'eligibility/householder-planning-permission' ,
    goToHouseholderQuestionOutPage: 'eligibility/householder-planning-permission-out' ,
    //goToHouseholderQuestionPage : (''eligibility/householder-planning-permission/',{ script: false }),
-  goToHouseholderQuestionPage : 'eligibility/householder-planning-permission/',
+   goToHouseholderQuestionPage : 'eligibility/householder-planning-permission/',
    goToLandingPage: '' ,
    goToListedBuildingOutPage: 'before-you-start/use-existing-service-listed-building', // 'eligibility/listed-out' ,
    goToListedBuildingPage: 'eligibility/listed-building' ,
