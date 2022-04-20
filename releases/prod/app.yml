@@ -23,7 +23,7 @@ spec:
     appealReplyServiceApi:
       replicaCount: 2
       image:
-        repository: pinscommonukscontainers3887default.azurecr.io/appeal-reply-service-api
+        repository: pinscrsharedtoolinguks.azurecr.io/appeal-reply-service-api
         tag: 1.1.1
       config:
         notify:
@@ -36,7 +36,7 @@ spec:
     appealsServiceApi:
       replicaCount: 2
       image:
-        repository: pinscommonukscontainers3887default.azurecr.io/appeals-service-api
+        repository: pinscrsharedtoolinguks.azurecr.io/appeals-service-api
         tag: 1.19.0
       config:
         notify:
@@ -52,13 +52,13 @@ spec:
     documentServiceApi:
       replicaCount: 2
       image:
-        repository: pinscommonukscontainers3887default.azurecr.io/document-service-api
+        repository: pinscrsharedtoolinguks.azurecr.io/document-service-api
         tag: 1.4.0
 
     formsWebApp:
       replicaCount: 2
       image:
-        repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
+        repository: pinscrsharedtoolinguks.azurecr.io/forms-web-app
         tag: 1.52.11
       config:
         googleAnalyticsId: UA-187490521-3
@@ -66,7 +66,7 @@ spec:
     lpaQuestionnaireWebApp:
       replicaCount: 2
       image:
-        repository: pinscommonukscontainers3887default.azurecr.io/lpa-questionnaire-web-app
+        repository: pinscrsharedtoolinguks.azurecr.io/lpa-questionnaire-web-app
         tag: 1.6.2
       config:
         allowCreate: false
@@ -74,12 +74,12 @@ spec:
     pdfServiceApi:
       replicaCount: 2
       image:
-        repository: pinscommonukscontainers3887default.azurecr.io/pdf-service-api
+        repository: pinscrsharedtoolinguks.azurecr.io/pdf-service-api
         tag: 1.0.1
 
     queueRetryService:
       image:
-        repository: pinscommonukscontainers3887default.azurecr.io/queue-retry
+        repository: pinscrsharedtoolinguks.azurecr.io/queue-retry
         tag: 1.0.0
 
     gotenberg:
@@ -102,7 +102,7 @@ spec:
 
     horizon-householder-appeal-publish:
       image:
-        repository: pinscommonukscontainers3887default.azurecr.io/openfaas-amqp1.0-connector
+        repository: pinscrsharedtoolinguks.azurecr.io/openfaas-amqp1.0-connector
         tag: 1.0.0
       amqp:
         connection:

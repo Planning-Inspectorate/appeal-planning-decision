@@ -28,7 +28,7 @@ variables:
   lpaQuestionnaireWebAppDockerfilePath: '$(Build.SourcesDirectory)/packages/lpa-questionnaire-web-app/Dockerfile'
   lpaQuestionnaireWebAppContext: '$(Build.SourcesDirectory)/packages/lpa-questionnaire-web-app'
   imageRepository: 'lpa-questionnaire-web-app'
-  containerRegistry: 'pinscommonukscontainers3887default.azurecr.io'
+  containerRegistry: 'pinscrsharedtoolinguks.azurecr.io'
   dockerRegistryServiceConnection: 'appeals-service-api-registry-connection' ## this needs renamed
   # Agent VM image name
   vmImageName: 'ubuntu-latest'

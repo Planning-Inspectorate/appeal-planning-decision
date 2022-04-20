@@ -6,7 +6,7 @@ functions:
   horizon-add-document:
     lang: node
     handler: ./packages/horizon-add-document
-    image: pinscommonukscontainers3887default.azurecr.io/horizon-add-document:latest
+    image: pinscrsharedtoolinguks.azurecr.io/horizon-add-document:latest
     environment:
       STORAGE_CONTAINER_NAME: uploads
       STORAGE_CONNECTION_STRING_SECRET: value
@@ -18,7 +18,7 @@ functions:
   horizon-create-contact:
     lang: node
     handler: ./packages/horizon-create-contact
-    image: pinscommonukscontainers3887default.azurecr.io/horizon-create-contact:latest
+    image: pinscrsharedtoolinguks.azurecr.io/horizon-create-contact:latest
     environment:
       HORIZON_URL: http://10.0.7.4:8000
     secrets:
@@ -27,7 +27,7 @@ functions:
   horizon-householder-appeal-publish:
     lang: node
     handler: ./packages/horizon-householder-appeal-publish
-    image: pinscommonukscontainers3887default.azurecr.io/horizon-householder-appeal-publish:latest
+    image: pinscrsharedtoolinguks.azurecr.io/horizon-householder-appeal-publish:latest
     environment:
       write_timeout: 90s
       read_timeout: 90s

@@ -25,7 +25,7 @@ variables:
   # Container registry service connection established during pipeline creation
   clamAVProxyDockerfile: '$(Build.SourcesDirectory)/packages/clamav-rest-server/Dockerfile'
   imageRepository: 'clamav-rest-server'
-  containerRegistry: 'pinscommonukscontainers3887default.azurecr.io'
+  containerRegistry: 'pinscrsharedtoolinguks.azurecr.io'
   dockerRegistryServiceConnection: 'appeals-service-api-registry-connection'
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
