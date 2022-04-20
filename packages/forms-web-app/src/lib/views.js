@@ -4,6 +4,11 @@ const VIEW = {
   COOKIES: 'cookies',
   OUT_OF_TIME_SHUTTER_PAGE: 'full-appeal/out-of-time-shutter-page',
 
+  BEFORE_YOU_START: {
+    USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE:
+      'before-you-start/use-existing-service-enforcement-notice',
+  },
+
   ELIGIBILITY: {
     LISTED_BUILDING: 'eligibility/listed-building',
     LISTED_OUT: 'eligibility/listed-out',
@@ -62,6 +67,8 @@ const VIEW = {
     TYPE_OF_PLANNING_APPLICATION: 'full-appeal/type-of-planning-application',
     USE_A_DIFFERENT_SERVICE: 'full-appeal/use-a-different-service',
     USE_EXISTING_SERVICE_APPLICATION_TYPE: 'full-appeal/use-existing-service-application-type',
+    USE_EXISTING_SERVICE_LOCAL_PLANNING_DEPARTMENT:
+      'full-appeal/use-existing-service-local-planning-department',
     YOU_CANNOT_APPEAL: 'full-appeal/you-cannot-appeal',
     PRIOR_APPROVAL_EXISTING_HOME: 'full-appeal/prior-approval-existing-home',
   },
