@@ -17,9 +17,7 @@ Given('an appellant is on the shutter page', () => {
   getSaveAndContinueButton().click();
   cy.url().should('contain', url);
 });
-Given('an appellant is presented with a link to use a different service', () => {
-  cy.get('button').should('be.visible').should('have.attr', 'href');
-});
+
 When('an appellant clicks on the you can appeal using our appeals casework portal link', () => {
   cy.get('button').click();
 });

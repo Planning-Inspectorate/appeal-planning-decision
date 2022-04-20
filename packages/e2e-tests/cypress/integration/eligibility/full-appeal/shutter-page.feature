@@ -8,6 +8,5 @@ Feature:Shutter page
 
  Scenario: AC02 - ACP Link
     Given an appellant is on the shutter page
-    And an appellant is presented with a link to use a different service
     When an appellant clicks on the you can appeal using our appeals casework portal link
     Then an appellant is able to navigate to casework appeal portal
