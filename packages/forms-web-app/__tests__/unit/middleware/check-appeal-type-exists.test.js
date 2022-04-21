@@ -27,8 +27,8 @@ describe('middleware/check-appeal-type-exists', () => {
     };
   });
 
-  it('should call next() for the `/before-you-start/local-planning-depart` page', () => {
-    req.originalUrl = '/before-you-start/local-planning-depart';
+  it('should call next() for the `/before-you-start/local-planning-department` page', () => {
+    req.originalUrl = '/before-you-start/local-planning-department';
     checkAppealTypeExists(req, res, next);
     expect(next).toBeCalled();
     expect(res.redirect).not.toBeCalled();
@@ -71,32 +71,32 @@ describe('middleware/check-appeal-type-exists', () => {
     expect(res.redirect).not.toBeCalled();
   });
 
-  it('should redirect to the `/before-you-start/local-planning-depart` page if the page is not in allowList and the appealType is not set', () => {
+  it('should redirect to the `/before-you-start/local-planning-department` page if the page is not in allowList and the appealType is not set', () => {
     delete req.session.appeal.appealType;
     req.originalUrl = '/full-appeal/submit-appeal/task-list';
     checkAppealTypeExists(req, res, next);
-    expect(res.redirect).toBeCalledWith('/before-you-start/local-planning-depart');
+    expect(res.redirect).toBeCalledWith('/before-you-start/local-planning-department');
   });
 
-  it('should redirect to the `/before-you-start/local-planning-depart` page if req.session is not set', () => {
+  it('should redirect to the `/before-you-start/local-planning-department` page if req.session is not set', () => {
     delete req.session;
     req.originalUrl = '/full-appeal/submit-appeal/task-list';
     checkAppealTypeExists(req, res, next);
-    expect(res.redirect).toBeCalledWith('/before-you-start/local-planning-depart');
+    expect(res.redirect).toBeCalledWith('/before-you-start/local-planning-department');
   });
 
-  it('should redirect to the `/before-you-start/local-planning-depart` page if req.session.appeal is not set', () => {
+  it('should redirect to the `/before-you-start/local-planning-department` page if req.session.appeal is not set', () => {
     delete req.session.appeal;
     req.originalUrl = '/full-appeal/submit-appeal/task-list';
     checkAppealTypeExists(req, res, next);
-    expect(res.redirect).toBeCalledWith('/before-you-start/local-planning-depart');
+    expect(res.redirect).toBeCalledWith('/before-you-start/local-planning-department');
   });
 
-  it('should redirect to the `/before-you-start/local-planning-depart` page if req.session.appeal is null', () => {
+  it('should redirect to the `/before-you-start/local-planning-department` page if req.session.appeal is null', () => {
     req.session.appeal = null;
     req.originalUrl = '/full-appeal/submit-appeal/task-list';
     checkAppealTypeExists(req, res, next);
-    expect(res.redirect).toBeCalledWith('/before-you-start/local-planning-depart');
+    expect(res.redirect).toBeCalledWith('/before-you-start/local-planning-department');
   });
 
   it('should call next() if featureFlag.newAppealJourney is not set', () => {

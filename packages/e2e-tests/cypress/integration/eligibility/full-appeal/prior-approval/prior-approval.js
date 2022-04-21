@@ -40,14 +40,14 @@ const url = '/before-you-start/prior-approval-existing-home';
 const pageTitle = 'Did you apply for prior approval to extend an existing home? - Before you start - Appeal a planning decision - GOV.UK';
 
 Given('an appellant is on the is your appeal about any of the following page',()=>{
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getSaveAndContinueButton().click();
 });
 
 Given('the appellant is on the Did you apply for prior approval to extend an existing home page',()=>{
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   getLocalPlanningDepart().select('System Test Borough Council');
   getSaveAndContinueButton().click();
   selectPlanningApplicationType('Prior approval');

@@ -29,7 +29,7 @@ const pageTitle =
 const pageHeading = 'Are you claiming costs as part of your appeal?';
 
 Given('appellant is on the claiming cost page', () => {
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getContinueButton().click();

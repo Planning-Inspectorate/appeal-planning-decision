@@ -25,7 +25,7 @@ const pageTitle =
 const url = `before-you-start/enforcement-notice-householder`;
 
 Given('appellant is on the enforcement notice page for householder planning', () => {
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getContinueButton().click();
@@ -48,7 +48,7 @@ Given('appellant is on the enforcement notice page for householder planning', ()
 });
 
 Given('appellant is on the enforcement notice page for {string}', (application_type) => {
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   getLocalPlanningDepart().select('System Test Borough Council');
   getContinueButton().click();
   selectPlanningApplicationType(application_type);

@@ -8,7 +8,7 @@ const checkAppealTypeExists = (req, res, next) => {
   logger.debug({ featureFlag }, 'Feature flag in checkAppealTypeExists');
 
   const allowList = [
-    '/before-you-start/local-planning-depart',
+    '/before-you-start/local-planning-department',
     '/before-you-start/type-of-planning-application',
     '/before-you-start/use-a-different-service',
     '/before-you-start/use-existing-service-application-type',
@@ -31,7 +31,7 @@ const checkAppealTypeExists = (req, res, next) => {
     return next();
   }
 
-  return res.redirect('/before-you-start/local-planning-depart');
+  return res.redirect('/before-you-start/local-planning-department');
 };
 
 module.exports = checkAppealTypeExists;
