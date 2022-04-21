@@ -4,8 +4,8 @@ import {acceptCookiesBanner} from "../../../../support/common/accept-cookies-ban
 import {verifyPageTitle} from "../../../../support/common/verify-page-title";
 import {verifyPageHeading} from "../../../../support/common/verify-page-heading";
 import {
-  enterLocalPlanningDepart
-} from "../../../../support/eligibility/local-planning-depart/enter-local-planning-depart";
+  enterLocalPlanningDepartment
+} from "../../../../support/eligibility/local-planning-department/enter-local-planning-department";
 import {
   selectPlanningApplicationType
 } from "../../../../support/eligibility/planning-application-type/select-planning-application-type";
@@ -43,7 +43,7 @@ import {
 } from "../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received";
 import {getClaimingCostNo} from "../../../../support/eligibility/page-objects/claiming-costs-po";
 import { selectNo } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
-const url = 'before-you-start/local-planning-depart';
+const url = 'before-you-start/local-planning-department';
 let validDate;
 
 Given('appellant selects local planning department',()=>{
@@ -51,7 +51,7 @@ Given('appellant selects local planning department',()=>{
   acceptCookiesBanner();
   verifyPageTitle('Which local planning department dealt with your planning application? - Before you start - Appeal a planning decision - GOV.UK');
   verifyPageHeading('Which local planning department dealt with your planning application?');
-  enterLocalPlanningDepart('System Test Borough Council');
+  enterLocalPlanningDepartment('System Test Borough Council');
 });
 
 Given('appellant clicks on the continue button',()=>{

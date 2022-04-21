@@ -30,7 +30,7 @@ const useADifferentServicePageUrl = '/use-a-different-service'
 const typeOfPlanningApplicationPageUrl = '/type-of-planning-application';
 
 Given('appellant is on the is your application about a Listed Building Page', () => {
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getContinueButton().click();

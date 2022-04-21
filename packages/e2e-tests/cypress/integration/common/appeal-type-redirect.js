@@ -1,7 +1,7 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { goToAppealsPage } from '../../support/common/go-to-page/goToAppealsPage';
 
-const localPlanningDepartmentUrl = 'before-you-start/local-planning-depart';
+const localPlanningDepartmentUrl = 'before-you-start/local-planning-department';
 
 Given('the user wants to start an appeal from a random page', () => {
   return true;
