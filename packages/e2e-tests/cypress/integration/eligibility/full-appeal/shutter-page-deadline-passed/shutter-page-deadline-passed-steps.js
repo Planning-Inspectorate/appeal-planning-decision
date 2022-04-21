@@ -25,7 +25,7 @@ const pageTitle = 'You cannot appeal - Before you start - Appeal a planning deci
 const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 
 Given('an appellant is on the shutter page for date passed for appeal',()=>{
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getSaveAndContinueButton().click();

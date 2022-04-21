@@ -5,7 +5,7 @@ import {verifyPageTitle} from "../../../../support/common/verify-page-title";
 import {verifyPageHeading} from "../../../../support/common/verify-page-heading";
 import {
   enterLocalPlanningDepart
-} from "../../../../support/eligibility/local-planning-depart/enter-local-planning-depart";
+} from "../../../../support/eligibility/local-planning-department/enter-local-planning-department";
 import {
   selectPlanningApplicationType
 } from "../../../../support/eligibility/planning-application-type/select-planning-application-type";
@@ -43,7 +43,7 @@ import {
 } from "../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received";
 import {getClaimingCostNo} from "../../../../support/eligibility/page-objects/claiming-costs-po";
 import { selectNo } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
-const url = 'before-you-start/local-planning-depart';
+const url = 'before-you-start/local-planning-department';
 let validDate;
 
 Given('appellant selects local planning department',()=>{

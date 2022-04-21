@@ -23,7 +23,7 @@ const url = 'before-you-start/type-of-planning-application';
 const listedBuildingHouseholderUrl = '/before-you-start/listed-building-householder';
 
 Given('an appellant is on the select the type of planning application you made page',()=>{
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getSaveAndContinueButton().click();
@@ -56,10 +56,10 @@ Then('appellant sees an error message {string}',(errorMessage)=>{
 });
 
 Then('an appellant is navigated to the what local planning department did you submit your application to page',()=>{
-cy.url().should('contain','/before-you-start/local-planning-depart');
+cy.url().should('contain','/before-you-start/local-planning-department');
 });
 Then('any information they have inputted for planning type will not be saved',()=>{
-  cy.url().should('contain','/before-you-start/local-planning-depart');
+  cy.url().should('contain','/before-you-start/local-planning-department');
   getSaveAndContinueButton().click()
   cy.url().should('contain',url);
   getHouseHolderPlanningRadio().should('not.be.checked');

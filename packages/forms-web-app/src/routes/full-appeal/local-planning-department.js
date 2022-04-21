@@ -9,13 +9,13 @@ const { validationErrorHandler } = require('../../validators/validation-error-ha
 const router = express.Router();
 
 router.get(
-  '/local-planning-depart',
+  '/local-planning-department',
   [fetchExistingAppealMiddleware],
   localPlanningDepartmentController.getPlanningDepartment
 );
 
 router.post(
-  '/local-planning-depart',
+  '/local-planning-department',
   localPlanningDepartmentValidationRules(),
   validationErrorHandler,
   localPlanningDepartmentController.postPlanningDepartment
