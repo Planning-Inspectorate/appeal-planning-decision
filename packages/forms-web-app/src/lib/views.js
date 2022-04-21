@@ -5,6 +5,7 @@ const VIEW = {
   OUT_OF_TIME_SHUTTER_PAGE: 'full-appeal/out-of-time-shutter-page',
 
   BEFORE_YOU_START: {
+    FIRST_PAGE: 'before-you-start/first-page',
     USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE:
       'before-you-start/use-existing-service-enforcement-notice',
   },
