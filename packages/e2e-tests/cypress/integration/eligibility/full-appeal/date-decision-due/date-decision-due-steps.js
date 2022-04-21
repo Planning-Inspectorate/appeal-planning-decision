@@ -38,7 +38,7 @@ const shutterPageUrl = '/before-you-start/you-cannot-appeal';
 let pastDate;
 
 Given('appellant navigates to decision date page for {string}',(application_type)=>{
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getContinueButton().click();
@@ -59,7 +59,7 @@ Given('appellant navigates to decision date page for {string}',(application_type
 });
 
 Given('appellant navigates to date decision due page', () =>{
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   getLocalPlanningDepart().select('System Test Borough Council');
   getContinueButton().click();
   selectPlanningApplicationType('Full planning');

@@ -25,7 +25,7 @@ import { submitADesignStNo } from './page-objects/design-access-statement-submit
 import { checkboxConfirmSensitiveInfo } from './page-objects/your-appeal-statement-po';
 
 export const declariationPageMethodsAgent = () => {
-//  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+//  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-department','Full planning');
 
   contactDetailsLink().click();
   originalApplicantNo().click();

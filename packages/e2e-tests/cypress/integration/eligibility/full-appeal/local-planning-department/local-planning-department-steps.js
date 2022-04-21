@@ -1,5 +1,5 @@
 import {Given, When,Then} from 'cypress-cucumber-preprocessor/steps';
-import { enterLocalPlanningDepart } from '../../../../support/eligibility/local-planning-depart/enter-local-planning-depart';
+import { enterLocalPlanningDepart } from '../../../../support/eligibility/local-planning-department/enter-local-planning-department';
 import { getErrorMessageSummary} from '../../../../support/common-page-objects/common-po';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
@@ -11,7 +11,7 @@ import { getContinueButton } from '../../../../support/householder-planning/appe
 
 const pageTitle = 'Which local planning department dealt with your planning application? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Which local planning department dealt with your planning application?';
-const url = 'before-you-start/local-planning-depart';
+const url = 'before-you-start/local-planning-department';
 Given('appellant is on the Local Planning Authority Page',()=> {
   goToAppealsPage(url);
   acceptCookiesBanner();

@@ -44,7 +44,7 @@ const pageTitle = 'Are the conditions for householder planning permission? - Bef
 
 
 Given('the appellant is on the is your appeal about any of the following page',()=>{
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getSaveAndContinueButton().click();
@@ -60,7 +60,7 @@ Then("they are presented with the next page 'Are the conditions for householder 
   pageCaptionText().should('contain', 'Before you start');
 });
 Given("the appellant is on the 'Are the conditions for householder planning permission?' page", () => {
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getSaveAndContinueButton().click();
