@@ -5,7 +5,7 @@ import {verifyPageTitle} from "../../../../support/common/verify-page-title";
 import {verifyPageHeading} from "../../../../support/common/verify-page-heading";
 import {
   enterLocalPlanningDepart
-} from "../../../../support/eligibility/local-planning-depart/enter-local-planning-depart";
+} from "../../../../support/eligibility/local-planning-department/enter-local-planning-department";
 import {
   selectPlanningApplicationType
 } from "../../../../support/eligibility/planning-application-type/select-planning-application-type";
@@ -35,7 +35,7 @@ import {
   getDateHouseholderDecisionReceived
 } from "../../../../support/eligibility/date-decision-received/get-date-householder-decision-received";
 import { getBackLink, getSaveAndContinueButton } from '../../../../support/common-page-objects/common-po';
-import {getLocalPlanningDepart} from "../../../../support/eligibility/page-objects/local-planning-depart";
+import {getLocalPlanningDepart} from "../../../../support/eligibility/page-objects/local-planning-department";
 import {selectSiteOption} from "../../../../support/eligibility/appellant-selects-the-site/select-site-option";
 import {
   enterDateDecisionReceived
@@ -46,7 +46,7 @@ import {
 } from '../../../../support/eligibility/date-decision-received/get-date-decision-received';
 import { getDateDecisionDue } from '../../../../support/eligibility/date-decision-due/get-date-decision-due';
 import { selectYes } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
-const url = 'before-you-start/local-planning-depart';
+const url = 'before-you-start/local-planning-department';
 let validDate;
 
 Given('appellant selects local planning department',()=>{

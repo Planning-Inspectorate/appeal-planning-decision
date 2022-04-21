@@ -29,7 +29,7 @@ const decisionDateDuePageUrl = '/before-you-start/date-decision-due';
 const previousPageUrl = '/before-you-start/listed-building-householder';
 
 Given('appellant is on the was your planning application granted or refused householder page', () => {
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getContinueButton().click();

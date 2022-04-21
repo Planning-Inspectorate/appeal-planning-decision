@@ -29,7 +29,7 @@ const url = `before-you-start/enforcement-notice`;
 const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 
 Given('appellant is on the enforcement notice page', () => {
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getSaveAndContinueButton().click();
@@ -53,7 +53,7 @@ Given('appellant is on the enforcement notice page', () => {
 });
 
 Given('appellant is on the enforcement notice page for {string}', (application_type) => {
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   getLocalPlanningDepart().select('System Test Borough Council');
   getSaveAndContinueButton().click();
   cy.url().should('contain', typeOfPlanningPageUrl);
