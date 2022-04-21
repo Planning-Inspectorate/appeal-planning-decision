@@ -24,6 +24,10 @@ const postDeclaration = async (req, res) => {
 
   const log = logger.child({ appealId: appeal.id, uuid: uuid.v4() });
 
+  log.info(appeal);
+  if (!appeal.eligibility.applicationCategories) {
+    appeal.eligibility.applicationCategories = ['none_of_these'];
+  }
   log.info('Submitting the appeal');
 
   try {
