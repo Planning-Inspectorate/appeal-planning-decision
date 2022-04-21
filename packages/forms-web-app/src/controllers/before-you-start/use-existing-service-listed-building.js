@@ -6,7 +6,7 @@ const {
     },
   } = require('../../lib/views');
   
-  exports.getUseExistingServiceCosts = async (_, res) => {
+  exports.getUseExistingServiceListedBuilding = async (_, res) => {
     res.render(useExistingServiceListedBuilding, {
       acpLink: 'https://acp.planninginspectorate.gov.uk/',
     });

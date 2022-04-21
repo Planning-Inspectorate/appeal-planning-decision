@@ -3,6 +3,6 @@ const useExistingServiceListedBuilding = require('./../../controllers/before-you
 
 const router = express.Router();
 
-router.get('/use-existing-service-listed-building', useExistingServiceListedBuilding.getUseExistingServiceCosts);
+router.get('/use-existing-service-listed-building', useExistingServiceListedBuilding.getUseExistingServiceListedBuilding);
 
 module.exports = router;

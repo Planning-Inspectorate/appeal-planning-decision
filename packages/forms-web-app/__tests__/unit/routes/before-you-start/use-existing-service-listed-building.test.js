@@ -1,5 +1,5 @@
 const { get } = require('../router-mock');
-const checkAnswersController = require('../../../../src/controllers/before-you-start/use-existing-service-listed-building');
+const useExistingServiceListedBuildingController = require('../../../../src/controllers/before-you-start/use-existing-service-listed-building');
 
 describe('routes/use-existing-service-listed-building', () => {
   beforeEach(() => {
@@ -14,7 +14,7 @@ describe('routes/use-existing-service-listed-building', () => {
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
       '/use-existing-service-listed-building',
-      checkAnswersController.getUseExistingServiceCosts
+      useExistingServiceListedBuildingController.getUseExistingServiceListedBuilding
     );
   });
 });
