@@ -24,7 +24,7 @@ export const pageURLAppeal = {
    goToLandingPage: '' ,
    goToListedBuildingOutPage: 'eligibility/listed-out' ,
    goToListedBuildingPage: 'eligibility/listed-building' ,
-   goToLocalPlanningDepartment: 'before-you-start/local-planning-depart' ,
+   goToLocalPlanningDepartment: 'before-you-start/local-planning-department' ,
    goToNoDecisionOnPermissionPage: 'eligibility/no-decision' ,
    goToOtherSiteOwnerToldPage: 'appellant-submission/site-ownership-certb' ,
    goToPageAfterYouAppeal: 'after-you-appeal' ,

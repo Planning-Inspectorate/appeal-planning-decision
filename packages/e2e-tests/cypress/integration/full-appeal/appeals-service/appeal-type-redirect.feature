@@ -58,7 +58,7 @@ Feature: As an Appellant/Agent
     Then they are not redirected back to the first question and remain on the '<URL>' page
     Examples:
       | Test | URL                                               |
-      | 44   | before-you-start/local-planning-depart            |
+      | 44   | before-you-start/local-planning-department            |
       | 45   | before-you-start/type-of-planning-application     |
       | 46   | before-you-start/use-a-different-service          |
       | 47   | full-appeal/submit-appeal/declaration-information |

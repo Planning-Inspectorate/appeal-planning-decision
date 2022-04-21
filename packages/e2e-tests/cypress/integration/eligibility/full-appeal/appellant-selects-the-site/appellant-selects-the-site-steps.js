@@ -28,7 +28,7 @@ const pageHeading = 'Was your planning application about any of the following?';
 const url = 'before-you-start/any-of-following';
 const pageTitle = 'Was your planning application about any of the following? - Before you start - Appeal a planning decision - GOV.UK';
 Given('an appellant is on the is your appeal about any of the following page for {string}', (application_type) => {
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getSaveAndContinueButton().click();

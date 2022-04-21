@@ -16,13 +16,13 @@ describe('routes/full-appeal/local-planning-department', () => {
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      '/local-planning-depart',
+      '/local-planning-department',
       [fetchExistingAppealMiddleware],
       localPlanningDepartmentController.getPlanningDepartment
     );
 
     expect(post).toHaveBeenCalledWith(
-      '/local-planning-depart',
+      '/local-planning-department',
       localPlanningDepartmentValidationRules(),
       validationErrorHandler,
       localPlanningDepartmentController.postPlanningDepartment
