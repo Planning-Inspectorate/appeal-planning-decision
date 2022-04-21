@@ -2,6 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
+const beforeYouStartRouter = require('./before-you-start');
 const appellantSubmissionRouter = require('./appellant-submission');
 const fullAppealAppellantSubmissionRouter = require('./full-appeal/submit-appeal');
 const eligibilityRouter = require('./eligibility');
@@ -32,6 +33,7 @@ router.use(
 );
 router.use('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
 router.use('/your-planning-appeal', yourPlanningAppealRouter);
+router.use('/before-you-start', beforeYouStartRouter);
 router.use('/before-you-start', checkAppealTypeExists, checkDecisionDateDeadline, fullAppealRouter);
 router.use(
   '/before-you-start',
