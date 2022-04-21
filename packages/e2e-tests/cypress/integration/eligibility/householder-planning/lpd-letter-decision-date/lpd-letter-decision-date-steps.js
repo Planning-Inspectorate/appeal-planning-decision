@@ -43,7 +43,7 @@ const grantedOrRefusedPageUrl = '/granted-or-refused-householder';
 const shutterPageUrl = '/you-cannot-appeal';
 
 Given('appellant navigates to decision date received page for householder appeal',()=>{
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getContinueButton().click();

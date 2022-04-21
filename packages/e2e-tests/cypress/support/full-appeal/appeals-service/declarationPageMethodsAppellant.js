@@ -24,7 +24,7 @@ import {
   selectWrittenRepresentations,
 } from './page-objects/decide-your-appeal-po';
 export const declarationPageMethodsAppellant = (count) => {
-  // goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-depart','Full planning');
+  // goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-department','Full planning');
   contactDetailsLink().click();
   originalApplicantYes().click();
   getSaveAndContinueButton().click();
