@@ -61,7 +61,7 @@ const goToMultipleAppealsPage = (url, applicationType) => {
   cy.checkPageA11y();
 };
 const declarationPageMethodsMultipleAppealsAppellant = () => {
-  goToMultipleAppealsPage('before-you-start/local-planning-depart','Full planning');
+  goToMultipleAppealsPage('before-you-start/local-planning-department','Full planning');
 //contact Details section
   contactDetailsLink().click();
   originalApplicantYes().click();
@@ -111,7 +111,7 @@ const declarationPageMethodsMultipleAppealsAppellant = () => {
   checkYourAnswersLink().click();
 };
 const declarationPageMethodsMultipleAppealsAgent = () => {
-  goToMultipleAppealsPage('before-you-start/local-planning-depart','Full planning');
+  goToMultipleAppealsPage('before-you-start/local-planning-department','Full planning');
 //contact Details section for Agent
   contactDetailsLink().click();
   originalApplicantNo().click();
@@ -180,7 +180,7 @@ When("the Appellant start their second Appeal in the same browser", () => {
   cy.url().should('include', declarationUrl);
 });
 When("the Appellant start their third Appeal in the same browser", () => {
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   getLocalPlanningDepart().select('System Test Borough Council');
   getSaveAndContinueButton().click();
 });
@@ -199,7 +199,7 @@ When("the Agent start their second Appeal in the same browser", () => {
   cy.url().should('include', declarationUrl);
 });
 When("the Agent start their third Appeal in the same browser", () => {
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   getLocalPlanningDepart().select('System Test Borough Council');
   getSaveAndContinueButton().click();
 });

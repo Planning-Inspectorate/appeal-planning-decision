@@ -40,7 +40,7 @@ const shutterPageUrl = '/you-cannot-appeal';
 let pastDate;
 
 Given('appellant navigates to decision date received page for {string}',(application_type)=>{
-  goToAppealsPage('before-you-start/local-planning-depart');
+  goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
   getLocalPlanningDepart().select('System Test Borough Council');
   getSaveAndContinueButton().click();
