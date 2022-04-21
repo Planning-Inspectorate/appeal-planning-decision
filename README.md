@@ -448,7 +448,7 @@ above.
 To make a change you will need to update the function image.
 
 > At this stage, developers do not have push access to the PINS Docker registry. In `functions.yml`, change the
-> `image` from `pinscommonukscontainers3887default.azurecr.io` to your own Docker username. This will push images there
+> `image` from `pinscrsharedtoolinguks.azurecr.io` to your own Docker username. This will push images there
 > and the cluster will download from there.
 
 Once you've made a change, enter `make update-functions` and this will build the image and deploy to the cluster.

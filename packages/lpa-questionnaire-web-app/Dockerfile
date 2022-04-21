@@ -11,8 +11,8 @@ ENV VERSION="${VERSION}"
 #ENV PORT=3000
 
 # This must be built locally from the common package
-COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
-COPY --from=pinscommonukscontainers3887default.azurecr.io/business-rules:latest /opt/app ../business-rules
+COPY --from=pinscrsharedtoolinguks.azurecr.io/common:latest /opt/app ../common
+COPY --from=pinscrsharedtoolinguks.azurecr.io/business-rules:latest /opt/app ../business-rules
 
 ADD package.json package.json
 ADD package-lock.json package-lock.json

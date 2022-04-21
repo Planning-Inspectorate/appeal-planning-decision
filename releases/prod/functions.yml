@@ -19,7 +19,7 @@ spec:
     pingHorizon:
       replicaCount: 1
       image:
-        repository: pinscommonukscontainers3887default.azurecr.io/ping
+        repository: pinscrsharedtoolinguks.azurecr.io/ping
         tag: 1.0.0
       config:
         ping:
@@ -27,20 +27,20 @@ spec:
 
     functions:
       horizon-add-document:
-        image: pinscommonukscontainers3887default.azurecr.io/horizon-add-document
+        image: pinscrsharedtoolinguks.azurecr.io/horizon-add-document
         tag: 1.2.1
         envvars:
           DOCUMENT_SERVICE_URL: http://app.app-prod.svc.cluster.local:3001
           HORIZON_URL: http://10.224.161.68:8000
 
       horizon-create-contact:
-        image: pinscommonukscontainers3887default.azurecr.io/horizon-create-contact
+        image: pinscrsharedtoolinguks.azurecr.io/horizon-create-contact
         tag: 1.1.0
         envvars:
           HORIZON_URL: http://10.224.161.68:8000
 
       horizon-householder-appeal-publish:
-        image: pinscommonukscontainers3887default.azurecr.io/horizon-householder-appeal-publish
+        image: pinscrsharedtoolinguks.azurecr.io/horizon-householder-appeal-publish
         tag: 1.3.0
         envvars:
           APPEALS_SERVICE_URL: http://app.app-prod.svc.cluster.local:3000

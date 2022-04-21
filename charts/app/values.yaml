@@ -13,7 +13,7 @@ appealReplyServiceApi:
     name: areply-src-api
     port: 3002
   image:
-    repository: pinscommonukscontainers3887default.azurecr.io/appeal-reply-service-api
+    repository: pinscrsharedtoolinguks.azurecr.io/appeal-reply-service-api
     pullPolicy: Always
     tag: latest
   config:
@@ -34,7 +34,7 @@ appealsServiceApi:
     name: appeals-srv-api
     port: 3000
   image:
-    repository: pinscommonukscontainers3887default.azurecr.io/appeals-service-api
+    repository: pinscrsharedtoolinguks.azurecr.io/appeals-service-api
     pullPolicy: Always
     tag: latest
   config:
@@ -58,7 +58,7 @@ documentServiceApi:
     name: docs-srv-api
     port: 3001
   image:
-    repository: pinscommonukscontainers3887default.azurecr.io/document-service-api
+    repository: pinscrsharedtoolinguks.azurecr.io/document-service-api
     pullPolicy: Always
     tag: latest
   config:
@@ -82,7 +82,7 @@ formsWebApp:
     name: forms-web-app
     port: 9003
   image:
-    repository: pinscommonukscontainers3887default.azurecr.io/forms-web-app
+    repository: pinscrsharedtoolinguks.azurecr.io/forms-web-app
     pullPolicy: Always
     tag: latest
   config:
@@ -102,7 +102,7 @@ lpaQuestionnaireWebApp:
     name: lpaq-web-app
     port: 9001
   image:
-    repository: pinscommonukscontainers3887default.azurecr.io/lpa-questionnaire-web-app
+    repository: pinscrsharedtoolinguks.azurecr.io/lpa-questionnaire-web-app
     pullPolicy: Always
     tag: latest
   config:
@@ -121,7 +121,7 @@ pdfServiceApi:
     name: pdf-srv-api
     port: 3003
   image:
-    repository: pinscommonukscontainers3887default.azurecr.io/pdf-service-api
+    repository: pinscrsharedtoolinguks.azurecr.io/pdf-service-api
     pullPolicy: Always
     tag: latest
   config:
@@ -133,7 +133,7 @@ queueRetryService:
   service:
     name: queue-retry-api
   image:
-    repository: pinscommonukscontainers3887default.azurecr.io/queue-retry
+    repository: pinscrsharedtoolinguks.azurecr.io/queue-retry
     pullPolicy: Always
     tag: latest
   config:
@@ -286,7 +286,7 @@ horizon-householder-appeal-publish:
   imagePullSecrets:
     - name: azure-docker-registry
   image:
-    repository: pinscommonukscontainers3887default.azurecr.io/openfaas-amqp1.0-connector
+    repository: pinscrsharedtoolinguks.azurecr.io/openfaas-amqp1.0-connector
     tag: latest
   amqp:
     connection:

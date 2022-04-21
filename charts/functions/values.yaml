@@ -12,7 +12,7 @@ pingHorizon:
   enabled: true
   replicaCount: 1
   image:
-    repository: pinscommonukscontainers3887default.azurecr.io/ping
+    repository: pinscrsharedtoolinguks.azurecr.io/ping
     pullPolicy: Always
     tag: latest
   config:
@@ -25,7 +25,7 @@ pingHorizon:
 
 functions:
   horizon-add-document:
-    image: pinscommonukscontainers3887default.azurecr.io/horizon-add-document
+    image: pinscrsharedtoolinguks.azurecr.io/horizon-add-document
     tag: latest
     scale:
       min: 1
@@ -37,7 +37,7 @@ functions:
     secrets: []
 
   horizon-create-contact:
-    image: pinscommonukscontainers3887default.azurecr.io/horizon-create-contact
+    image: pinscrsharedtoolinguks.azurecr.io/horizon-create-contact
     tag: latest
     scale:
       min: 1
@@ -48,7 +48,7 @@ functions:
     secrets: []
 
   horizon-householder-appeal-publish:
-    image: pinscommonukscontainers3887default.azurecr.io/horizon-householder-appeal-publish
+    image: pinscrsharedtoolinguks.azurecr.io/horizon-householder-appeal-publish
     tag: latest
     scale:
       min: 1

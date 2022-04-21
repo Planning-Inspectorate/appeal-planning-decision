@@ -27,7 +27,7 @@ variables:
   # Container registry service connection established during pipeline creation
   appealsReplyApiDockerfilePath: '$(Build.SourcesDirectory)/packages/appeal-reply-service-api/Dockerfile'
   imageRepository: 'appeal-reply-service-api'
-  containerRegistry: 'pinscommonukscontainers3887default.azurecr.io'
+  containerRegistry: 'pinscrsharedtoolinguks.azurecr.io'
   dockerRegistryServiceConnection: 'appeals-service-api-registry-connection' ## this needs renamed
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
