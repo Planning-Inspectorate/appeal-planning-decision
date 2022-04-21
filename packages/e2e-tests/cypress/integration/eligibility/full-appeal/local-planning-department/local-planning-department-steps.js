@@ -1,5 +1,5 @@
 import {Given, When,Then} from 'cypress-cucumber-preprocessor/steps';
-import { enterLocalPlanningDepart } from '../../../../support/eligibility/local-planning-department/enter-local-planning-department';
+import { enterLocalPlanningDepartment } from '../../../../support/eligibility/local-planning-department/enter-local-planning-department';
 import { getErrorMessageSummary} from '../../../../support/common-page-objects/common-po';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
@@ -20,11 +20,11 @@ Given('appellant is on the Local Planning Authority Page',()=> {
 });
 
 When('appellant selects the {string} where the application needs to be submitted',(departmentName)=>{
-enterLocalPlanningDepart(departmentName);
+enterLocalPlanningDepartment(departmentName);
 });
 
 When('an appellant selects an ineligible LPA',()=>{
-  enterLocalPlanningDepart('Ashfield');
+  enterLocalPlanningDepartment('Ashfield');
 })
 
 When('appellant clicks the continue button',()=>{
