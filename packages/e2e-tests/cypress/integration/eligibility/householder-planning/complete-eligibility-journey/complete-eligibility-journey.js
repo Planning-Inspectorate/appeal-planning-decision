@@ -4,7 +4,7 @@ import {acceptCookiesBanner} from "../../../../support/common/accept-cookies-ban
 import {verifyPageTitle} from "../../../../support/common/verify-page-title";
 import {verifyPageHeading} from "../../../../support/common/verify-page-heading";
 import {
-  enterLocalPlanningDepart
+  enterLocalPlanningDepartment
 } from "../../../../support/eligibility/local-planning-department/enter-local-planning-department";
 import {
   selectPlanningApplicationType
@@ -54,7 +54,7 @@ Given('appellant selects local planning department',()=>{
   acceptCookiesBanner();
   verifyPageTitle('Which local planning department dealt with your planning application? - Before you start - Appeal a planning decision - GOV.UK');
   verifyPageHeading('Which local planning department dealt with your planning application?');
-  enterLocalPlanningDepart('System Test Borough Council');
+  enterLocalPlanningDepartment('System Test Borough Council');
 });
 
 Given('appellant clicks on the continue button',()=>{
