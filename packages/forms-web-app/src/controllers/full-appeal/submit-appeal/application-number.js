@@ -28,9 +28,9 @@ exports.postApplicationNumber = async (req, res) => {
     },
   } = req.session;
 
-  console.log('==========SESSION=============');
-  console.log(req.session);
-  console.log('=======================');
+  logger.info('==========SESSION=============');
+  logger.info(req.session);
+  logger.info('=======================');
 
   const task = appeal[sectionName];
 
