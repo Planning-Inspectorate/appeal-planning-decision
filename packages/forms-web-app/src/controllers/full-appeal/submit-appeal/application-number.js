@@ -27,9 +27,16 @@ exports.postApplicationNumber = async (req, res) => {
       [sectionName]: { applicationNumber },
     },
   } = req.session;
+
+  console.log('==========SESSION=============');
+  console.log(req.session);
+  console.log('=======================');
+
   const task = appeal[sectionName];
 
   task.applicationNumber = body['application-number'];
+
+  appeal.applicationNumber = applicationNumber;
 
   if (Object.keys(errors).length > 0) {
     res.render(APPLICATION_NUMBER, {
