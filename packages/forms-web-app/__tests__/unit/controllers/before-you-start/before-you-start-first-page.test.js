@@ -11,7 +11,7 @@ describe('controllers/before-you-start/before-you-start-first-page', () => {
     await beforeYouStartController.getBeforeYouStartFirstPage(req, res);
 
     expect(res.render).toBeCalledWith(VIEW.BEFORE_YOU_START.FIRST_PAGE, {
-      nextPage: '/before-you-start/local-planning-depart',
+      nextPage: '/before-you-start/local-planning-department',
     });
   });
 });
