@@ -9,7 +9,9 @@
 version: '3.7'
 services:
   pdf-service-api:
-    build: './packages/pdf-service-api'
+    build:
+      context: .
+      dockerfile: ./packages/pdf-service-api/Dockerfile
     environment:
       SERVER_SHOW_ERRORS: 'true'
       LOGGER_LEVEL: 'debug'

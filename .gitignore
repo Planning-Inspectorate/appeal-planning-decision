@@ -175,3 +175,6 @@ packages/**/src/public/javascripts
 
 # OpenFaaS
 build
+
+# Jest
+**/junit.xml
