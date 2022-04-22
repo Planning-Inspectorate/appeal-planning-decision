@@ -1,25 +1,35 @@
-FROM node:14
-ARG APP_NAME
-ARG BUILD_ID
-ARG VERSION
+# Stage 1/3: Build
+FROM node:14-alpine AS build
+
 WORKDIR /opt/app
-ENV APP_NAME="${APP_NAME}"
-ENV BUILD_ID="${BUILD_ID}"
-ENV VERSION="${VERSION}"
 
-# This must be built locally from the common package
-COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
-ADD src src
-ADD test test
-ADD jest.config.js jest.config.js
+COPY packages/common ../common
+COPY packages/document-service-api/package*.json ./
+COPY packages/document-service-api/src ./src
 
-ADD package.json package.json
-ADD package-lock.json package-lock.json
+RUN npm i --production
 
-RUN npm i
+# Stage 2/3: Run Tests
+FROM node:14 AS test
+
+WORKDIR /opt/app 
+
+COPY --from=build /opt/app ./
+
+COPY packages/document-service-api/test ./test
+COPY packages/document-service-api/jest.config.js ./jest.config.js
 
 RUN npm run documentation; echo $? > /npm.exitcode
 
+# Stage 3/3: App Run
+FROM node:14-alpine AS app
+
+WORKDIR /opt/app 
+
+COPY --from=build /opt/app ./
+
 EXPOSE 4000
+
 USER node
+
 CMD [ "npm", "start" ]
