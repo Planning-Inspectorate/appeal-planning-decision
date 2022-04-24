@@ -82,6 +82,10 @@ const VIEW = {
   MESSAGES: {
     COOKIES_UPDATED_SUCCESSFULLY: 'messages/cookies-updated-successfully',
   },
+
+  BEFORE_YOU_START: {
+    USE_EXISTING_SERVICE_DEVELOPMENT_TYPE : 'before-you-start/use-existing-service-development-type',
+  }
 };
 
 module.exports = {
