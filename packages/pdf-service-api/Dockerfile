@@ -1,4 +1,6 @@
-FROM node:14
+# Stage 1/3: Build
+FROM node:14 AS build
+
 WORKDIR /puppeteer
 RUN apt-get update && \
     apt-get install -y fonts-liberation gconf-service libappindicator1 \
@@ -7,17 +9,36 @@ RUN apt-get update && \
     libnss3 libpango-1.0-0 libpangocairo-1.0-0 libpng-dev libx11-6 \
     libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 \
     libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 xdg-utils
+
 WORKDIR /opt/app
-ENV APP_NAME="pdf-service-api"
-ENV BUILD_ID="1"
-ENV VERSION="1.0.0"
-ADD src src
-ADD test test
-ADD package.json package.json
-ADD package-lock.json package-lock.json
-RUN npm i
+
+COPY packages/pdf-service-api/package*.json ./
+COPY packages/pdf-service-api/src ./src
+
+RUN npm i --production
 RUN chmod -R o+rwx node_modules/puppeteer/.local-chromium
+
+# Stage 2/3: Run Tests
+FROM node:14-alpine AS test
+
+WORKDIR /opt/app 
+
+COPY --from=build /opt/app ./
+
+COPY packages/pdf-service-api/test ./test
+COPY packages/pdf-service-api/jest.config.js ./jest.config.js
+
 RUN npm run documentation; echo $? > /npm.exitcode
+
+# Stage 3/3: App Run
+FROM node:14-alpine AS app
+
+WORKDIR /opt/app 
+
+COPY --from=build /opt/app ./
+
 EXPOSE 3000
+
 USER node
+
 CMD [ "npm", "start" ]

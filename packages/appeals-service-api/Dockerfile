@@ -1,33 +1,40 @@
-FROM node:14
-ARG APP_NAME
-ARG BUILD_ID
-ARG VERSION
-WORKDIR /opt/app
-ENV APP_NAME="${APP_NAME}"
-ENV BUILD_ID="${BUILD_ID}"
-ENV VERSION="${VERSION}"
-RUN mkdir -p /opt/app/data
-COPY data/lpa-trialists.json /opt/app/data/
-COPY data/lpa-list.csv /opt/app/data/
+# Stage 1/3: Build
+FROM node:14-alpine AS build
 
-# This must be built locally from the common package
-COPY --from=pinscommonukscontainers3887default.azurecr.io/common:latest /opt/app ../common
-COPY --from=pinscommonukscontainers3887default.azurecr.io/business-rules:latest /opt/app ../business-rules
-ADD api api
-ADD src src
-ADD __tests__ __tests__
-ADD jest.config.js jest.config.js
+WORKDIR /opt/app 
 
-# ADD node_modules node_modules
-ADD package.json package.json
-ADD package-lock.json package-lock.json
+COPY packages/common ../common
+COPY packages/common ../business-rules
+COPY packages/appeals-service-api/package*.json ./
+COPY packages/appeals-service-api/data/lpa-trialists.json ./data/lpa-trialists.json
+COPY packages/appeals-service-api/data/lpa-list.csv ./data/lpa-list.csv
+COPY packages/appeals-service-api/api ./api
+COPY packages/appeals-service-api/src ./src
 
 RUN npm i --production
-# RUN npm prune --production \
-# && npm rebuild \
-# && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
+
+# Stage 2/3: Run Tests
+FROM node:14 AS test
+
+WORKDIR /opt/app 
+
+COPY --from=build /opt/app ./
+
+COPY packages/appeals-service-api/__tests__ ./__tests__
+COPY packages/appeals-service-api/jest.config.js ./jest.config.js
+COPY packages/appeals-service-api/jest-mongodb-config.js ./jest-mongodb-config.js
+
 RUN npm run documentation; echo $? > /npm.exitcode
+
+# Stage 3/3: App Run
+FROM node:14-alpine AS app
+
+WORKDIR /opt/app 
+
+COPY --from=build /opt/app ./
+
 EXPOSE 3000
+
 USER node
-#VOLUME [ "data" ]
+
 CMD [ "npm", "start" ]

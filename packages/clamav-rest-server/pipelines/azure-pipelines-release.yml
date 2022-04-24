@@ -1,0 +1,48 @@
+parameters:
+  - name: deploymentTag
+    displayName: Deployment Tag
+    type: string
+    default: none
+  - name: region
+    displayName: Region
+    type: string
+    values:
+      - UK West
+      - UK South
+    default: UK West
+
+trigger: none
+
+pr: none
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      endpoint: Planning-Inspectorate
+      name: Planning-Inspectorate/common-pipeline-templates
+  pipelines:
+    - pipeline: clamav-rest-server-ci
+      source: clamav-rest-server CI
+      trigger: 
+        branches:
+          include: 
+            - master
+
+extends:
+  template: stages/wrapper_web_app_cd.yml@templates
+  parameters:
+    appName: $(webAppNamePrefix)-$(ENVIRONMENT)-$(REGION_SHORT)-001
+    artifactSourcePipeline: clamav-rest-server CI
+    azurecrName: $(azurecrName)
+    azurecrServiceConnection: $(azurecrServiceConnection)
+    deploymentTag: ${{ parameters.deploymentTag }}
+    globalVariables:
+      - template: azure-pipelines-variables.yml@self
+      - template: packages/clamav-rest-server/pipelines/azure-pipelines-variables.yml@self
+    projectName: $(projectName) 
+    releaseVersion: $(version.MajorMinor)
+    repository: $(repository)
+    ${{ if in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'ResourceTrigger') }}:
+      environments:
+        - name: Dev
