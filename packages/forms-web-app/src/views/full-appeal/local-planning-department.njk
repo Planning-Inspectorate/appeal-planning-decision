@@ -55,4 +55,10 @@
       </form>
     </div>
   </div>
+  <script src="/assets/accessible-autocomplete.min.js"></script>
+  <script>
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: document.querySelector('#local-planning-department')
+    })
+  </script>
 {% endblock %}
