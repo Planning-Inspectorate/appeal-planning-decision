@@ -1,0 +1,890 @@
+{
+  "id": "d2b1d367-5ac5-451e-b34b-93ce1f3ae583",
+  "version": "2.0",
+  "name": "Appeals",
+  "url": "https://appeals-dev.planninginspectorate.gov.uk/before-you-start/local-planning-depart",
+  "tests": [{
+    "id": "e4c883a7-fe5e-4d8e-977d-7058571e8ef6",
+    "name": "BugLocal",
+    "commands": [{
+      "id": "ff0512eb-f65a-4b89-875a-7d208e640423",
+      "comment": "",
+      "command": "open",
+      "target": "https://pins-app-appeals-service-appeals-wfe-dev-ukw-001.azurewebsites.net/before-you-start/local-planning-depart",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "010666e0-4642-4970-9516-be6fe49ee33c",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1680x1025",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6bfc447a-dcdd-4db8-a5ec-2dbdc1d7451f",
+      "comment": "",
+      "command": "click",
+      "target": "name=cookie_banner",
+      "targets": [
+        ["name=cookie_banner", "name"],
+        ["css=#cookie-banner-consent .govuk-button:nth-child(1)", "css:finder"],
+        ["xpath=//button[@name='cookie_banner']", "xpath:attributes"],
+        ["xpath=//div[@id='cookie-banner-consent']/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Accept analytics cookies')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2e9e852d-d2a9-4f8c-8de6-bbfd17a7e01f",
+      "comment": "",
+      "command": "click",
+      "target": "name=cookie_banner_accepted",
+      "targets": [
+        ["name=cookie_banner_accepted", "name"],
+        ["css=#cookie-banner-accepted .govuk-button", "css:finder"],
+        ["xpath=//button[@name='cookie_banner_accepted']", "xpath:attributes"],
+        ["xpath=//div[@id='cookie-banner-accepted']/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Hide this message')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "89ed0892-c939-481e-9e92-eaa249dfa28d",
+      "comment": "",
+      "command": "click",
+      "target": "id=local-planning-department",
+      "targets": [
+        ["id=local-planning-department", "id"],
+        ["name=local-planning-department", "name"],
+        ["css=#local-planning-department", "css:finder"],
+        ["xpath=//select[@id='local-planning-department']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/div/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9d489821-2472-470d-90c0-55cbd0f8190c",
+      "comment": "",
+      "command": "select",
+      "target": "id=local-planning-department",
+      "targets": [],
+      "value": "label=Bradford"
+    }, {
+      "id": "da58ff34-5eba-4004-bff7-417235d16a70",
+      "comment": "",
+      "command": "click",
+      "target": "css=form > .govuk-button",
+      "targets": [
+        ["css=form > .govuk-button", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "08686624-cb5b-49ee-9cc3-cfc609051be4",
+      "comment": "",
+      "command": "click",
+      "target": "id=type-of-planning-application-2",
+      "targets": [
+        ["id=type-of-planning-application-2", "id"],
+        ["css=#type-of-planning-application-2", "css:finder"],
+        ["xpath=//input[@id='type-of-planning-application-2']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/div/fieldset/div/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "cd166f2e-a9d3-4f68-93b5-dda75997fa4c",
+      "comment": "",
+      "command": "click",
+      "target": "css=form > .govuk-button",
+      "targets": [
+        ["css=form > .govuk-button", "css:finder"],
+        ["xpath=//button[@type='Submit']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e727298b-800d-4992-b270-38b1794555f1",
+      "comment": "",
+      "command": "click",
+      "target": "id=listed-building-householder-2",
+      "targets": [
+        ["id=listed-building-householder-2", "id"],
+        ["css=#listed-building-householder-2", "css:finder"],
+        ["xpath=//input[@id='listed-building-householder-2']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/div/fieldset/div/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "17d72d90-918d-4ee0-a3c9-cc6a219aaaf5",
+      "comment": "",
+      "command": "click",
+      "target": "css=form > .govuk-button",
+      "targets": [
+        ["css=form > .govuk-button", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "45901109-433e-4fab-b4c5-c2851a5c1bf8",
+      "comment": "",
+      "command": "click",
+      "target": "id=granted-or-refused-4",
+      "targets": [
+        ["id=granted-or-refused-4", "id"],
+        ["css=#granted-or-refused-4", "css:finder"],
+        ["xpath=//input[@id='granted-or-refused-4']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/fieldset/div/div[4]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0102ae37-eb2d-41d8-aa2d-6897cca6edc2",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-button:nth-child(3)",
+      "targets": [
+        ["css=.govuk-button:nth-child(3)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "cfa0c187-69bb-4768-949a-4f7f8c7b7317",
+      "comment": "",
+      "command": "click",
+      "target": "id=decision-date-day",
+      "targets": [
+        ["id=decision-date-day", "id"],
+        ["name=decision-date-day", "name"],
+        ["css=#decision-date-day", "css:finder"],
+        ["xpath=//input[@id='decision-date-day']", "xpath:attributes"],
+        ["xpath=//div[@id='decision-date']/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e2db06b5-f28f-4e5d-9ba3-6960672e64f5",
+      "comment": "",
+      "command": "type",
+      "target": "id=decision-date-day",
+      "targets": [
+        ["id=decision-date-day", "id"],
+        ["name=decision-date-day", "name"],
+        ["css=#decision-date-day", "css:finder"],
+        ["xpath=//input[@id='decision-date-day']", "xpath:attributes"],
+        ["xpath=//div[@id='decision-date']/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "11"
+    }, {
+      "id": "e0bdf761-30e0-4bfa-bffc-f079752c3e4e",
+      "comment": "",
+      "command": "click",
+      "target": "id=decision-date-month",
+      "targets": [
+        ["id=decision-date-month", "id"],
+        ["name=decision-date-month", "name"],
+        ["css=#decision-date-month", "css:finder"],
+        ["xpath=//input[@id='decision-date-month']", "xpath:attributes"],
+        ["xpath=//div[@id='decision-date']/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "47aee4ba-d0ea-42a0-a548-75f8e2bf25ba",
+      "comment": "",
+      "command": "type",
+      "target": "id=decision-date-month",
+      "targets": [
+        ["id=decision-date-month", "id"],
+        ["name=decision-date-month", "name"],
+        ["css=#decision-date-month", "css:finder"],
+        ["xpath=//input[@id='decision-date-month']", "xpath:attributes"],
+        ["xpath=//div[@id='decision-date']/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "04"
+    }, {
+      "id": "9b9c63d1-6ae3-417c-a4cb-98036d3e44a8",
+      "comment": "",
+      "command": "click",
+      "target": "id=decision-date-year",
+      "targets": [
+        ["id=decision-date-year", "id"],
+        ["name=decision-date-year", "name"],
+        ["css=#decision-date-year", "css:finder"],
+        ["xpath=//input[@id='decision-date-year']", "xpath:attributes"],
+        ["xpath=//div[@id='decision-date']/div[3]/div/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f9f8d742-10a7-4218-9cb0-8d64c30a4e9e",
+      "comment": "",
+      "command": "type",
+      "target": "id=decision-date-year",
+      "targets": [
+        ["id=decision-date-year", "id"],
+        ["name=decision-date-year", "name"],
+        ["css=#decision-date-year", "css:finder"],
+        ["xpath=//input[@id='decision-date-year']", "xpath:attributes"],
+        ["xpath=//div[@id='decision-date']/div[3]/div/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": "2022"
+    }, {
+      "id": "a7111ba9-b16d-4388-a0f7-edb5bb80b8bf",
+      "comment": "",
+      "command": "click",
+      "target": "css=form > .govuk-button",
+      "targets": [
+        ["css=form > .govuk-button", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d47ae83a-ee23-4957-a8c1-bf038a69d04a",
+      "comment": "",
+      "command": "click",
+      "target": "id=enforcement-notice-2",
+      "targets": [
+        ["id=enforcement-notice-2", "id"],
+        ["css=#enforcement-notice-2", "css:finder"],
+        ["xpath=//input[@id='enforcement-notice-2']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/fieldset/div/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "532e5166-857a-4e2f-a4a7-26c7a5b9adc5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-button:nth-child(3)",
+      "targets": [
+        ["css=.govuk-button:nth-child(3)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2ed7b6db-c787-4d7a-b0a3-2e37b823ec89",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Tell us about the appeal site",
+      "targets": [
+        ["linkText=Tell us about the appeal site", "linkText"],
+        ["css=.moj-task-list__item:nth-child(2) > .moj-task-list__task-name", "css:finder"],
+        ["xpath=//a[contains(text(),'Tell us about the appeal site')]", "xpath:link"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/ol/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/full-appeal/submit-appeal/appeal-site-address')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Tell us about the appeal site')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7f7c5413-58c8-4791-9fd9-c7a2e329af57",
+      "comment": "",
+      "command": "click",
+      "target": "id=site-address-line-one",
+      "targets": [
+        ["id=site-address-line-one", "id"],
+        ["name=site-address-line-one", "name"],
+        ["css=#site-address-line-one", "css:finder"],
+        ["xpath=//input[@id='site-address-line-one']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/fieldset/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4e09c5fe-b276-43b8-a29c-2419652187f4",
+      "comment": "",
+      "command": "type",
+      "target": "id=site-address-line-one",
+      "targets": [
+        ["id=site-address-line-one", "id"],
+        ["name=site-address-line-one", "name"],
+        ["css=#site-address-line-one", "css:finder"],
+        ["xpath=//input[@id='site-address-line-one']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/fieldset/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Asdasdasdasdas"
+    }, {
+      "id": "527d0abe-e146-4658-b46a-e862b52449ec",
+      "comment": "",
+      "command": "click",
+      "target": "id=site-postcode",
+      "targets": [
+        ["id=site-postcode", "id"],
+        ["name=site-postcode", "name"],
+        ["css=#site-postcode", "css:finder"],
+        ["xpath=//input[@id='site-postcode']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/fieldset/div[5]/input", "xpath:idRelative"],
+        ["xpath=//div[5]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0afef4a0-665e-46b4-9995-91cb9acf611b",
+      "comment": "",
+      "command": "type",
+      "target": "id=site-postcode",
+      "targets": [
+        ["id=site-postcode", "id"],
+        ["name=site-postcode", "name"],
+        ["css=#site-postcode", "css:finder"],
+        ["xpath=//input[@id='site-postcode']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/fieldset/div[5]/input", "xpath:idRelative"],
+        ["xpath=//div[5]/input", "xpath:position"]
+      ],
+      "value": "N13AH"
+    }, {
+      "id": "ffdc5a8e-adea-451b-aa31-3052dc0bae4b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-form-group:nth-child(7)",
+      "targets": [
+        ["css=.govuk-form-group:nth-child(7)", "css:finder"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/fieldset/div[5]", "xpath:idRelative"],
+        ["xpath=//div[5]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c0851e37-d42f-4450-9ca5-c07609d5903c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-button:nth-child(3)",
+      "targets": [
+        ["css=.govuk-button:nth-child(3)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "70b32e63-67e2-4cb4-b5f4-c35101cac915",
+      "comment": "",
+      "command": "click",
+      "target": "id=own-all-the-land-2",
+      "targets": [
+        ["id=own-all-the-land-2", "id"],
+        ["css=#own-all-the-land-2", "css:finder"],
+        ["xpath=//input[@id='own-all-the-land-2']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/fieldset/div/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3cf58686-09c1-4854-add2-e9eee44396ce",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-button:nth-child(3)",
+      "targets": [
+        ["css=.govuk-button:nth-child(3)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "cd28dc84-b353-4318-bcb0-196fa8cde5e3",
+      "comment": "",
+      "command": "click",
+      "target": "id=own-some-of-the-land-2",
+      "targets": [
+        ["id=own-some-of-the-land-2", "id"],
+        ["css=#own-some-of-the-land-2", "css:finder"],
+        ["xpath=//input[@id='own-some-of-the-land-2']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/fieldset/div/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "cbcd4e1b-c21c-40d5-8978-b0ada3a63fe8",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-button:nth-child(3)",
+      "targets": [
+        ["css=.govuk-button:nth-child(3)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "8a9c2751-d5d2-4fd6-ae81-7764be6134c4",
+      "comment": "",
+      "command": "click",
+      "target": "id=know-the-owners-3",
+      "targets": [
+        ["id=know-the-owners-3", "id"],
+        ["css=#know-the-owners-3", "css:finder"],
+        ["xpath=//input[@id='know-the-owners-3']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/fieldset/div/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f5680e70-06d7-44e6-a1de-ce48421cb140",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-button:nth-child(3)",
+      "targets": [
+        ["css=.govuk-button:nth-child(3)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e2d206cf-a62d-4d15-8894-2c0522857423",
+      "comment": "",
+      "command": "click",
+      "target": "id=identifying-the-owners",
+      "targets": [
+        ["id=identifying-the-owners", "id"],
+        ["name=identifying-the-owners", "name"],
+        ["css=#identifying-the-owners", "css:finder"],
+        ["xpath=//input[@id='identifying-the-owners']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5b682ed9-b722-4499-aa1f-afadfcc02617",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-button:nth-child(6)",
+      "targets": [
+        ["css=.govuk-button:nth-child(6)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5b291ec7-4193-4e99-a6c5-eac8262e7b65",
+      "comment": "",
+      "command": "click",
+      "target": "id=advertising-your-appeal",
+      "targets": [
+        ["id=advertising-your-appeal", "id"],
+        ["name=advertising-your-appeal", "name"],
+        ["css=#advertising-your-appeal", "css:finder"],
+        ["xpath=//input[@id='advertising-your-appeal']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "76d0342e-5d10-4ef3-8282-631e892134a4",
+      "comment": "",
+      "command": "click",
+      "target": "id=advertising-your-appeal-2",
+      "targets": [
+        ["id=advertising-your-appeal-2", "id"],
+        ["css=#advertising-your-appeal-2", "css:finder"],
+        ["xpath=//input[@id='advertising-your-appeal-2']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/div/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d6445ba9-a5e2-42ad-a8ad-2beffdaf26ee",
+      "comment": "",
+      "command": "click",
+      "target": "id=advertising-your-appeal-3",
+      "targets": [
+        ["id=advertising-your-appeal-3", "id"],
+        ["css=#advertising-your-appeal-3", "css:finder"],
+        ["xpath=//input[@id='advertising-your-appeal-3']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/div/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8da62d8b-2005-42cf-b6b5-d27165b5c620",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-button:nth-child(8)",
+      "targets": [
+        ["css=.govuk-button:nth-child(8)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "3c48453e-e29c-4a5b-a1e8-317ec5bfd249",
+      "comment": "",
+      "command": "click",
+      "target": "id=agricultural-holding-2",
+      "targets": [
+        ["id=agricultural-holding-2", "id"],
+        ["css=#agricultural-holding-2", "css:finder"],
+        ["xpath=//input[@id='agricultural-holding-2']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/fieldset/div[2]/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "35875c71-fd95-47ac-aa7e-726d83ee35b6",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-button:nth-child(3)",
+      "targets": [
+        ["css=.govuk-button:nth-child(3)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6d5e6669-0a9d-4843-be39-bd28c1332250",
+      "comment": "",
+      "command": "click",
+      "target": "id=visible-from-road",
+      "targets": [
+        ["id=visible-from-road", "id"],
+        ["name=visible-from-road", "name"],
+        ["css=#visible-from-road", "css:finder"],
+        ["xpath=//input[@id='visible-from-road']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/fieldset/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f7f9f674-81c4-4eaa-a9dd-a7c5b20664c8",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-button:nth-child(3)",
+      "targets": [
+        ["css=.govuk-button:nth-child(3)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "053a44d9-615f-4936-9c96-e3c64fbed5dc",
+      "comment": "",
+      "command": "click",
+      "target": "id=health-safety-issues-2",
+      "targets": [
+        ["id=health-safety-issues-2", "id"],
+        ["css=#health-safety-issues-2", "css:finder"],
+        ["xpath=//input[@id='health-safety-issues-2']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/div/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "16c4dc59-c947-4b24-8cb4-a914a5886f41",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-button:nth-child(7)",
+      "targets": [
+        ["css=.govuk-button:nth-child(7)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5767ce14-7d6c-49f3-a2cb-c9070b0e1716",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Provide your contact details",
+      "targets": [
+        ["linkText=Provide your contact details", "linkText"],
+        ["css=.moj-task-list__item:nth-child(1) > .moj-task-list__task-name", "css:finder"],
+        ["xpath=//a[contains(text(),'Provide your contact details')]", "xpath:link"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/ol/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/full-appeal/submit-appeal/original-applicant')]", "xpath:href"],
+        ["xpath=//li/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Provide your contact details')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "273c89b6-f409-41bc-9a1e-84f1646f4b9c",
+      "comment": "",
+      "command": "click",
+      "target": "id=original-application-your-name-2",
+      "targets": [
+        ["id=original-application-your-name-2", "id"],
+        ["css=#original-application-your-name-2", "css:finder"],
+        ["xpath=//input[@id='original-application-your-name-2']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/fieldset/div[2]/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bd00b44c-f516-4445-bd3d-41b8c8e2c3e4",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-button:nth-child(3)",
+      "targets": [
+        ["css=.govuk-button:nth-child(3)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "40f5bcb9-c7c9-4fcc-b746-6944788b3003",
+      "comment": "",
+      "command": "click",
+      "target": "id=behalf-appellant-name",
+      "targets": [
+        ["id=behalf-appellant-name", "id"],
+        ["name=behalf-appellant-name", "name"],
+        ["css=#behalf-appellant-name", "css:finder"],
+        ["xpath=//input[@id='behalf-appellant-name']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/fieldset/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "86d0a133-3071-4b87-8a32-c3095678f9ff",
+      "comment": "",
+      "command": "type",
+      "target": "id=behalf-appellant-name",
+      "targets": [
+        ["id=behalf-appellant-name", "id"],
+        ["name=behalf-appellant-name", "name"],
+        ["css=#behalf-appellant-name", "css:finder"],
+        ["xpath=//input[@id='behalf-appellant-name']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/fieldset/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "asdasdasd"
+    }, {
+      "id": "7024aca6-e367-47e1-b447-96188622d015",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-form-group:nth-child(3) > .govuk-label",
+      "targets": [
+        ["css=.govuk-form-group:nth-child(3) > .govuk-label", "css:finder"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/fieldset/div[2]/label", "xpath:idRelative"],
+        ["xpath=//div[2]/label", "xpath:position"],
+        ["xpath=//label[contains(.,'Company name (optional)')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a1cff5da-37e9-49fd-a9e2-a6bdaa05c7be",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-button:nth-child(3)",
+      "targets": [
+        ["css=.govuk-button:nth-child(3)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "46ba5185-c8f0-4abc-81b1-96eb39fc1188",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-button:nth-child(3)",
+      "targets": [
+        ["css=.govuk-button:nth-child(3)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "50b0dee2-5197-4ab1-ae52-1c79b7369348",
+      "comment": "",
+      "command": "doubleClick",
+      "target": "css=.govuk-button:nth-child(3)",
+      "targets": [
+        ["css=.govuk-button:nth-child(3)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d88aeb42-f74a-47b4-a3da-4e7540409448",
+      "comment": "",
+      "command": "click",
+      "target": "id=appellant-name",
+      "targets": [
+        ["id=appellant-name", "id"],
+        ["name=appellant-name", "name"],
+        ["css=#appellant-name", "css:finder"],
+        ["xpath=//input[@id='appellant-name']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7248739c-1167-4c27-9e37-16c9f0dff1e9",
+      "comment": "",
+      "command": "type",
+      "target": "id=appellant-name",
+      "targets": [
+        ["id=appellant-name", "id"],
+        ["name=appellant-name", "name"],
+        ["css=#appellant-name", "css:finder"],
+        ["xpath=//input[@id='appellant-name']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "asdasdasdasd"
+    }, {
+      "id": "973f52b1-2b03-4ee2-b0c4-3d120706772f",
+      "comment": "",
+      "command": "click",
+      "target": "id=appellant-email",
+      "targets": [
+        ["id=appellant-email", "id"],
+        ["name=appellant-email", "name"],
+        ["css=#appellant-email", "css:finder"],
+        ["xpath=//input[@id='appellant-email']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d128bc98-878f-45ef-a65a-e144fecb1772",
+      "comment": "",
+      "command": "type",
+      "target": "id=appellant-email",
+      "targets": [
+        ["id=appellant-email", "id"],
+        ["name=appellant-email", "name"],
+        ["css=#appellant-email", "css:finder"],
+        ["xpath=//input[@id='appellant-email']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "asdasdas@asdasdasd.com"
+    }, {
+      "id": "4cea359d-ca79-4ed0-a661-784be29d9aa7",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-button:nth-child(6)",
+      "targets": [
+        ["css=.govuk-button:nth-child(6)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "515b40b6-1eba-450c-b0df-eece400952ae",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Tell us how you would prefer us to decide your appeal",
+      "targets": [
+        ["linkText=Tell us how you would prefer us to decide your appeal", "linkText"],
+        ["css=.moj-task-list__item:nth-child(3) > .moj-task-list__task-name", "css:finder"],
+        ["xpath=//a[contains(text(),'Tell us how you would prefer us to decide your appeal')]", "xpath:link"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/ol/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/full-appeal/submit-appeal/how-decide-appeal')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Tell us how you would prefer us to decide your appeal')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1f0f8068-eb2a-408a-a291-ee5111ea5cd1",
+      "comment": "",
+      "command": "click",
+      "target": "id=procedure-type",
+      "targets": [
+        ["id=procedure-type", "id"],
+        ["name=procedure-type", "name"],
+        ["css=#procedure-type", "css:finder"],
+        ["xpath=//input[@id='procedure-type']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/fieldset/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ef0b46e6-8451-48ca-b2c1-ce79be04ba51",
+      "comment": "",
+      "command": "click",
+      "target": "css=.govuk-button:nth-child(3)",
+      "targets": [
+        ["css=.govuk-button:nth-child(3)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[5]", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a07591ef-7a14-4da1-a211-523dbed40c92",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Upload documents from your planning application",
+      "targets": [
+        ["linkText=Upload documents from your planning application", "linkText"],
+        ["css=.moj-task-list__item:nth-child(4) > .moj-task-list__task-name", "css:finder"],
+        ["xpath=//a[contains(text(),'Upload documents from your planning application')]", "xpath:link"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/ol/li[4]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/full-appeal/submit-appeal/application-form')]", "xpath:href"],
+        ["xpath=//li[4]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Upload documents from your planning application')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b636c6f4-2872-4b82-a81f-dea7f346c78b",
+      "comment": "",
+      "command": "click",
+      "target": "id=file-upload",
+      "targets": [
+        ["id=file-upload", "id"],
+        ["name=file-upload", "name"],
+        ["css=#file-upload", "css:finder"],
+        ["xpath=//input[@id='file-upload']", "xpath:attributes"],
+        ["xpath=//main[@id='main-content']/div[2]/div/div/form/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "d80e2239-401e-4886-b6bf-5da6d87b4dd2",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["https://appeals-service-dev.planninginspectorate.gov.uk/", "http://localhost:9003/", "https://appeals-dev.planninginspectorate.gov.uk/before-you-start/local-planning-depart"],
+  "plugins": []
+}

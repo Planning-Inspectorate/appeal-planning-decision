@@ -12,11 +12,4 @@ describe('lib/clamd', () => {
       clamd.sendFile('hello').rejects.toThrowError('invalid file type, requires a buffer')
     );
   });
-
-  it('should send valid file with valid input', async () => {
-    const fileBuffer = Buffer.from([]);
-
-    const result = await clamd.sendFile(fileBuffer);
-    expect(result.isInfected).toBeDefined();
-  });
 });

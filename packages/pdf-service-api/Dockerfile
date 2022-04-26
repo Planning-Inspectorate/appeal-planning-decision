@@ -2,6 +2,7 @@
 FROM node:14 AS build
 
 WORKDIR /puppeteer
+
 RUN apt-get update && \
     apt-get install -y fonts-liberation gconf-service libappindicator1 \
     libasound2 libatk1.0-0 libcairo2 libcups2 libfontconfig1 libgbm-dev \
@@ -15,13 +16,13 @@ WORKDIR /opt/app
 COPY packages/pdf-service-api/package*.json ./
 COPY packages/pdf-service-api/src ./src
 
-RUN npm i --production
+RUN npm ci
 RUN chmod -R o+rwx node_modules/puppeteer/.local-chromium
 
 # Stage 2/3: Run Tests
 FROM node:14-alpine AS test
 
-WORKDIR /opt/app 
+WORKDIR /opt/app
 
 COPY --from=build /opt/app ./
 
@@ -31,14 +32,14 @@ COPY packages/pdf-service-api/jest.config.js ./jest.config.js
 RUN npm run documentation; echo $? > /npm.exitcode
 
 # Stage 3/3: App Run
-FROM node:14-alpine AS app
+FROM build AS app
 
-WORKDIR /opt/app 
+WORKDIR /opt/app
 
-COPY --from=build /opt/app ./
+RUN npm prune --production
 
 EXPOSE 3000
 
 USER node
 
-CMD [ "npm", "start" ]
+CMD ["npm", "start"]

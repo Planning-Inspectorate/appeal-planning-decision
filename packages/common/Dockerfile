@@ -6,7 +6,7 @@ WORKDIR /opt/app
 COPY packages/common/src ./src
 COPY packages/common/package*.json ./
 
-RUN npm ci --production
+RUN npm ci
 
 # Stage 2/3: Run Tests
 FROM node:14 AS test
@@ -20,8 +20,10 @@ COPY packages/business-rules/jest.config.js ./jest.config.js
 RUN npm run documentation; echo $? > /npm.exitcode
 
 # Stage 3/3: Final image
-FROM node:14-alpine AS app
+FROM build AS app
 
-WORKDIR /opt/app 
+WORKDIR /opt/app
+
+RUN npm prune --production
 
 USER node
