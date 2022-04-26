@@ -20,7 +20,7 @@ import { allowedDatePart, getPastDate } from '../../../../support/common/getDate
 import { enterDateDecisionDue } from '../../../../support/eligibility/date-decision-due/enter-date-decision-due';
 import { getDate, getMonth, getYear } from 'date-fns';
 import { selectSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/select-site-option';
-import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
 import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 const pageHeading = 'Have you received an enforcement notice?';
 const pageTitle =
@@ -31,7 +31,7 @@ const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 Given('appellant is on the enforcement notice page', () => {
   goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getSaveAndContinueButton().click();
   cy.url().should('contain', typeOfPlanningPageUrl);
   selectPlanningApplicationType('Full planning');
@@ -54,7 +54,7 @@ Given('appellant is on the enforcement notice page', () => {
 
 Given('appellant is on the enforcement notice page for {string}', (application_type) => {
   goToAppealsPage('before-you-start/local-planning-department');
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getSaveAndContinueButton().click();
   cy.url().should('contain', typeOfPlanningPageUrl);
   selectPlanningApplicationType(application_type);

@@ -14,11 +14,9 @@ import {goToAppealsPage} from '../../../../support/common/go-to-page/goToAppeals
 import {verifyPageTitle} from '../../../../support/common/verify-page-title';
 import {verifyPageHeading} from '../../../../support/common/verify-page-heading';
 import {getBackLink, getErrorMessageSummary,} from '../../../../support/common-page-objects/common-po';
-import {getContinueButton} from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
-import {getLocalPlanningDepart} from '../../../../support/eligibility/page-objects/local-planning-department-po';
-import {
-  selectPlanningApplicationType
-} from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
+import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
+import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
+import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
 
 const pageTitle =
   'Is your appeal about a listed building? - Before you start - Appeal a planning decision - GOV.UK';
@@ -26,13 +24,13 @@ const pageHeading = 'Is your appeal about a listed building?';
 const errorMessage = 'Select yes if your appeal about a listed building';
 const url = 'before-you-start/listed-building-householder';
 const grantedorrefusedPageUrl = '/granted-or-refused-householder';
-const useADifferentServicePageUrl = '/use-a-different-service'
+const useADifferentServicePageUrl = '/use-a-different-service';
 const typeOfPlanningApplicationPageUrl = '/type-of-planning-application';
 
 Given('appellant is on the is your application about a Listed Building Page', () => {
   goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getContinueButton().click();
   selectPlanningApplicationType('Householder');
   getContinueButton().click();

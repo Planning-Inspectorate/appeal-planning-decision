@@ -4,22 +4,30 @@ import {
   getSaveAndContinueButton,
 } from '../../../../support/common-page-objects/common-po';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
-import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
 import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
 import {
-  aboutAppealSiteSectionLink, appealDocumentsSectionLink, checkYourAnswersLink,
+  aboutAppealSiteSectionLink,
+  appealDocumentsSectionLink,
+  checkYourAnswersLink,
   contactDetailsLink,
   grantedOrRefused,
-  noneOfTheseOption, planningApplicationDocumentsLink,
+  noneOfTheseOption,
+  planningApplicationDocumentsLink,
 } from '../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 import { allowedDatePart, getPastDate } from '../../../../support/common/getDate';
 import { enterDateDecisionDue } from '../../../../support/eligibility/date-decision-due/enter-date-decision-due';
 import { getDate, getMonth, getYear } from 'date-fns';
-import { selectNo, selectYes } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
+import {
+  selectNo,
+  selectYes,
+} from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 import {
   contactDetailsCompanyName,
   contactDetailsEmail,
-  contactDetailsFullName, originalApplicantName, originalApplicantNo,
+  contactDetailsFullName,
+  originalApplicantName,
+  originalApplicantNo,
   originalApplicantYes,
 } from '../../../../support/full-appeal/appeals-service/page-objects/original-applicant-or-not-po';
 import { provideAddressLine1 } from '../../../../support/common/appeal-submission-appeal-site-address/provideAddressLine1';
@@ -38,11 +46,10 @@ const AgentFullNameText = 'Agent Zoopla';
 const AgentCompanyNameText = 'Agent Zoopla Test Company Ltd';
 const AgentEmailText = 'agent-zoopla@hotmail.com';
 
-
 const goToMultipleAppealsPage = (url, applicationType) => {
   goToAppealsPage(url);
   cy.url().should('include', url);
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getSaveAndContinueButton().click();
   selectPlanningApplicationType(applicationType);
   getSaveAndContinueButton().click();
@@ -52,7 +59,11 @@ const goToMultipleAppealsPage = (url, applicationType) => {
   getSaveAndContinueButton().click();
   cy.url().should('contain', 'before-you-start/decision-date');
   const validDate = getPastDate(allowedDatePart.MONTH, 1);
-  enterDateDecisionDue( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate) } );
+  enterDateDecisionDue({
+    day: ('0' + getDate(validDate)).slice(-2),
+    month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+    year: getYear(validDate),
+  });
   getSaveAndContinueButton().click();
   cy.url().should('contain', 'before-you-start/enforcement-notice');
   selectNo().click();
@@ -69,7 +80,7 @@ const declarationPageMethodsMultipleAppealsAppellant = () => {
   contactDetailsFullName().clear().type('Original Applicant Teddy');
   contactDetailsEmail().clear().type('teddy@gmail.com');
   getSaveAndContinueButton().click();
-//site address section
+  //site address section
   aboutAppealSiteSectionLink().click();
   provideAddressLine1('101 Bradmore Way, Reading');
   providePostcode('RG6 1DC');
@@ -82,11 +93,11 @@ const declarationPageMethodsMultipleAppealsAppellant = () => {
   getSaveAndContinueButton().click();
   selectNo().click();
   getSaveAndContinueButton().click();
-//decide your appeal section
+  //decide your appeal section
   linkDecideYourAppeal().click();
   selectWrittenRepresentations().click();
   getSaveAndContinueButton().click();
-//planning application section
+  //planning application section
   planningApplicationDocumentsLink().click();
   getFileUploadButton().attachFile('appeal-statement-valid.jpeg');
   getSaveAndContinueButton().click();
@@ -98,7 +109,7 @@ const declarationPageMethodsMultipleAppealsAppellant = () => {
   getSaveAndContinueButton().click();
   getFileUploadButton().attachFile('appeal-statement-valid.jpeg');
   getSaveAndContinueButton().click();
-//appeal statement section
+  //appeal statement section
   appealDocumentsSectionLink().click();
   getFileUploadButton().attachFile('appeal-statement-valid.jpeg');
   checkboxConfirmSensitiveInfo().click();
@@ -107,7 +118,7 @@ const declarationPageMethodsMultipleAppealsAppellant = () => {
   getSaveAndContinueButton().click();
   selectNo().click();
   getSaveAndContinueButton().click();
-//check your answers
+  //check your answers
   checkYourAnswersLink().click();
 };
 const declarationPageMethodsMultipleAppealsAgent = () => {
@@ -122,7 +133,7 @@ const declarationPageMethodsMultipleAppealsAgent = () => {
   contactDetailsCompanyName().clear().type(AgentCompanyNameText);
   contactDetailsEmail().clear().type(AgentEmailText);
   getSaveAndContinueButton().click();
-//site address section
+  //site address section
   aboutAppealSiteSectionLink().click();
   provideAddressLine1('101 Bradmore Way, Reading');
   providePostcode('RG6 1DC');
@@ -135,11 +146,11 @@ const declarationPageMethodsMultipleAppealsAgent = () => {
   getSaveAndContinueButton().click();
   selectNo().click();
   getSaveAndContinueButton().click();
-//decide your appeal section
+  //decide your appeal section
   linkDecideYourAppeal().click();
   selectWrittenRepresentations().click();
   getSaveAndContinueButton().click();
-//planning application section
+  //planning application section
   planningApplicationDocumentsLink().click();
   getFileUploadButton().attachFile('appeal-statement-valid.jpeg');
   getSaveAndContinueButton().click();
@@ -151,7 +162,7 @@ const declarationPageMethodsMultipleAppealsAgent = () => {
   getSaveAndContinueButton().click();
   getFileUploadButton().attachFile('appeal-statement-valid.jpeg');
   getSaveAndContinueButton().click();
-//appeal statement section
+  //appeal statement section
   appealDocumentsSectionLink().click();
   getFileUploadButton().attachFile('appeal-statement-valid.jpeg');
   checkboxConfirmSensitiveInfo().click();
@@ -160,9 +171,9 @@ const declarationPageMethodsMultipleAppealsAgent = () => {
   getSaveAndContinueButton().click();
   selectNo().click();
   getSaveAndContinueButton().click();
-//check your answers
+  //check your answers
   checkYourAnswersLink().click();
-}
+};
 Given("an Appellant is on the 'Declaration' page", () => {
   declarationPageMethodsAppellant();
   getSaveAndContinueButton().click();
@@ -174,14 +185,15 @@ When("they click on 'Confirm and submit appeal' button", () => {
 Then("they are taken to the 'Appeal submitted' page", () => {
   cy.url().should('include', appealSubmittedUrl);
 });
-When("the Appellant start their second Appeal in the same browser", () => {
+When('the Appellant start their second Appeal in the same browser', () => {
   declarationPageMethodsMultipleAppealsAppellant();
   getSaveAndContinueButton().click();
   cy.url().should('include', declarationUrl);
 });
+
 When("the Appellant start their third Appeal in the same browser", () => {
   goToAppealsPage('before-you-start/local-planning-department');
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getSaveAndContinueButton().click();
 });
 Then("they are on the 'What type of planning application is your appeal about?' page", () => {
@@ -193,13 +205,14 @@ Given("an Agent is on the 'Declaration' page", () => {
   getSaveAndContinueButton().click();
   cy.url().should('include', declarationUrl);
 });
-When("the Agent start their second Appeal in the same browser", () => {
+When('the Agent start their second Appeal in the same browser', () => {
   declarationPageMethodsMultipleAppealsAgent();
   getSaveAndContinueButton().click();
   cy.url().should('include', declarationUrl);
 });
+
 When("the Agent start their third Appeal in the same browser", () => {
   goToAppealsPage('before-you-start/local-planning-department');
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getSaveAndContinueButton().click();
 });

@@ -16,33 +16,35 @@ import {
 } from '../../../../support/eligibility/page-objects/appellant-selects-the-site-po';
 import {verifyErrorMessage} from '../../../../support/common/verify-error-message';
 import {goToAppealsPage} from '../../../../support/common/go-to-page/goToAppealsPage';
-import {getContinueButton} from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
-import {getLocalPlanningDepart} from '../../../../support/eligibility/page-objects/local-planning-department-po';
-import {
-  selectPlanningApplicationType
-} from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
-import {selectNo} from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
-import {acceptCookiesBanner} from "../../../../support/common/accept-cookies-banner";
+import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
+import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
+import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
+import { selectNo } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 
 const pageHeading = 'Was your planning application about any of the following?';
 const url = 'before-you-start/any-of-following';
 const pageTitle = 'Was your planning application about any of the following? - Before you start - Appeal a planning decision - GOV.UK';
 Given('an appellant is on the is your appeal about any of the following page for {string}', (application_type) => {
   goToAppealsPage('before-you-start/local-planning-department');
-  acceptCookiesBanner();
-  getLocalPlanningDepart().select('System Test Borough Council');
-  getSaveAndContinueButton().click();
-  selectPlanningApplicationType(application_type);
-  getSaveAndContinueButton().click();
-  if (application_type === 'Prior approval' || application_type === 'Removal or variation of conditions') {
-    selectNo().click();
+    acceptCookiesBanner();
+    selectLocalPlanningDepartment('System Test Borough Council');
     getSaveAndContinueButton().click();
-  }
+    selectPlanningApplicationType(application_type);
+    getSaveAndContinueButton().click();
+    if (
+      application_type === 'Prior approval' ||
+      application_type === 'Removal or variation of conditions'
+    ) {
+      selectNo().click();
+      getSaveAndContinueButton().click();
+    }
 
-  cy.url().should('contain', url);
-  verifyPageHeading(pageHeading);
-  verifyPageTitle(pageTitle);
-});
+    cy.url().should('contain', url);
+    verifyPageHeading(pageHeading);
+    verifyPageTitle(pageTitle);
+  },
+);
 
 When('appellant selects {string} from the list of options', (option) => {
   selectSiteOption(option);

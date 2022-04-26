@@ -18,10 +18,8 @@ import {
 } from '../../../../support/eligibility/page-objects/date-decision-due-po';
 import { getAppealDeadline } from '../../../../support/eligibility/page-objects/shutter-page-po';
 import format from 'date-fns/format';
-import {
-  selectListedBuildingDecision
-} from '../../../../support/eligibility/listed-building/select-listed-building-decision';
-import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { selectListedBuildingDecision } from '../../../../support/eligibility/listed-building/select-listed-building-decision';
+import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
 import {
   enterDateDecisionDue,
   verifyHighlightsDecisionDue,
@@ -38,7 +36,7 @@ let pastDate;
 
 Given('appellant navigates to decision date page for householder appeal', () => {
   goToAppealsPage('before-you-start/local-planning-department');
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getContinueButton().click();
   selectPlanningApplicationType('Householder');
   clickContinueButton();
@@ -51,7 +49,7 @@ Given('appellant navigates to decision date page for householder appeal', () => 
 Given('appellant navigates to date decision due page', () => {
   goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getContinueButton().click();
   selectPlanningApplicationType('Householder');
   clickContinueButton();

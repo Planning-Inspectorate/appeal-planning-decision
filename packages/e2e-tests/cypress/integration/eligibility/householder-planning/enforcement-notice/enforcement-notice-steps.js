@@ -15,7 +15,7 @@ import { selectPlanningApplicationType } from '../../../../support/eligibility/p
 import { selectPlanningApplicationDecision } from '../../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
 import { getDate, getMonth, getYear } from 'date-fns';
 import { allowedDatePart, getPastDate } from '../../../../support/common/getDate';
-import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
 import { getIsNotListedBuilding } from '../../../../support/eligibility/page-objects/listed-building-po';
 import { enterDateHouseholderDecisionReceived } from '../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received';
 import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
@@ -27,7 +27,7 @@ const url = `before-you-start/enforcement-notice-householder`;
 Given('appellant is on the enforcement notice page for householder planning', () => {
   goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getContinueButton().click();
   selectPlanningApplicationType('Householder');
   getContinueButton().click();
@@ -49,7 +49,7 @@ Given('appellant is on the enforcement notice page for householder planning', ()
 
 Given('appellant is on the enforcement notice page for {string}', (application_type) => {
   goToAppealsPage('before-you-start/local-planning-department');
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getContinueButton().click();
   selectPlanningApplicationType(application_type);
   getContinueButton().click();

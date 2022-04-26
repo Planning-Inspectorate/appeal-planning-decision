@@ -2,59 +2,56 @@ import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
-import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
 import {
   getBackLink,
   getErrorMessageSummary,
   getSaveAndContinueButton,
 } from '../../../../support/common-page-objects/common-po';
+import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
 import {
-  selectPlanningApplicationType
-} from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
-import { selectNo, selectYes } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
+  selectNo,
+  selectYes,
+} from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 import { selectSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/select-site-option';
 import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
-import {
-  selectPlanningApplicationDecision
-} from '../../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
+import { selectPlanningApplicationDecision } from '../../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
 import { allowedDatePart, getPastDate } from '../../../../support/common/getDate';
-import {
-  enterDateHouseholderDecisionReceived
-} from '../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received';
+import { enterDateHouseholderDecisionReceived } from '../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received';
 import { getDate, getMonth, getYear } from 'date-fns';
-import {
-  enterDateDecisionReceived
-} from '../../../../support/eligibility/date-decision-received/enter-date-decision-received';
+import { enterDateDecisionReceived } from '../../../../support/eligibility/date-decision-received/enter-date-decision-received';
 import { enterDateDecisionDue } from '../../../../support/eligibility/date-decision-due/enter-date-decision-due';
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
 import {
-  getPriorApprovalExistingHomeError, getPriorApprovalPlanningRadio,
+  getPriorApprovalExistingHomeError,
+  getPriorApprovalPlanningRadio,
 } from '../../../../support/eligibility/page-objects/planning-application-type-po';
-import {
-  selectListedBuildingDecision
-} from '../../../../support/eligibility/listed-building/select-listed-building-decision';
+import { selectListedBuildingDecision } from '../../../../support/eligibility/listed-building/select-listed-building-decision';
 
 const pageHeading = 'Did you apply for prior approval to extend an existing home?';
 const url = '/before-you-start/prior-approval-existing-home';
-const pageTitle = 'Did you apply for prior approval to extend an existing home? - Before you start - Appeal a planning decision - GOV.UK';
+const pageTitle =
+  'Did you apply for prior approval to extend an existing home? - Before you start - Appeal a planning decision - GOV.UK';
 
 Given('an appellant is on the is your appeal about any of the following page',()=>{
   goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getSaveAndContinueButton().click();
 });
 
 Given('the appellant is on the Did you apply for prior approval to extend an existing home page',()=>{
   goToAppealsPage('before-you-start/local-planning-department');
-  getLocalPlanningDepart().select('System Test Borough Council');
-  getSaveAndContinueButton().click();
-  selectPlanningApplicationType('Prior approval');
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', url);
-  cy.checkPageA11y();
-})
+    selectLocalPlanningDepartment('System Test Borough Council');
+    getSaveAndContinueButton().click();
+    selectPlanningApplicationType('Prior approval');
+    getSaveAndContinueButton().click();
+    cy.url().should('contain', url);
+    cy.checkPageA11y();
+  },
+);
+
 When('appellant selects {string} and clicks continue', (application_type) =>{
   selectPlanningApplicationType(application_type);
   getSaveAndContinueButton().click();
