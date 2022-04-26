@@ -28,14 +28,12 @@ import {getPlanningApplicationHouseholderDecisionError} from "../../../../suppor
 import {
   selectListedBuildingDecision
 } from '../../../../support/eligibility/listed-building/select-listed-building-decision';
-import {
-  enterDateHouseholderDecisionReceived
-} from '../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received';
-import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { enterDateHouseholderDecisionReceived } from '../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received';
+import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 import { getPlanningApplicationDecisionError } from '../../../../support/eligibility/page-objects/date-decision-due-po';
-import {acceptCookiesBanner} from "../../../../support/common/accept-cookies-banner";
-const pageHeading = 'What\'s the decision date on the letter from the local planning department?';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
+const pageHeading = "What's the decision date on the letter from the local planning department?";
 const url = `/decision-date`;
 const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 const enforcementNoticePageUrl = '/enforcement-notice';
@@ -45,7 +43,7 @@ const shutterPageUrl = '/you-cannot-appeal';
 Given('appellant navigates to decision date received page for householder appeal',()=>{
   goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getContinueButton().click();
   selectPlanningApplicationType('Householder');
   verifyPage(typeOfPlanningPageUrl);

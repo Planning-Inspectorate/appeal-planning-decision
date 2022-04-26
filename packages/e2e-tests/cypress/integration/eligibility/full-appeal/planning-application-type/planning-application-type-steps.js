@@ -14,10 +14,12 @@ import {
 } from '../../../../support/common-page-objects/common-po';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
-import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
+
 import { clickContinueButton } from '../../../../support/common/clickContinueButton';
 
-const pageTitle = 'What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK';
+const pageTitle =
+  'What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'What type of planning application is your appeal about?';
 const url = 'before-you-start/type-of-planning-application';
 const listedBuildingHouseholderUrl = '/before-you-start/listed-building-householder';
@@ -25,7 +27,7 @@ const listedBuildingHouseholderUrl = '/before-you-start/listed-building-househol
 Given('an appellant is on the select the type of planning application you made page',()=>{
   goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getSaveAndContinueButton().click();
   cy.url().should('contain', url);
   verifyPageTitle(pageTitle);

@@ -26,12 +26,13 @@ import {
   getErrorMessageSummary,
   getSaveAndContinueButton,
 } from '../../../../support/common-page-objects/common-po';
-import {getAppealDeadline} from "../../../../support/eligibility/page-objects/shutter-page-po";
-import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { getAppealDeadline } from '../../../../support/eligibility/page-objects/shutter-page-po';
+import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
 import { selectNo } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
-import {acceptCookiesBanner} from "../../../../support/common/accept-cookies-banner";
-const pageHeading = 'What\'s the decision date on the letter from the local planning department?';
-const pageTitle = 'What\'s the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
+const pageHeading = "What's the decision date on the letter from the local planning department?";
+const pageTitle =
+  "What's the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK";
 const url = `/decision-date`;
 const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 const enforcementNoticePageUrl = '/enforcement-notice';
@@ -42,16 +43,16 @@ let pastDate;
 Given('appellant navigates to decision date received page for {string}',(application_type)=>{
   goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getSaveAndContinueButton().click();
   selectPlanningApplicationType(application_type);
   verifyPage(typeOfPlanningPageUrl);
   clickContinueButton();
-  if(application_type==='Prior approval'){
+  if (application_type === 'Prior approval') {
     selectNo().click();
     clickContinueButton();
   }
-  if(application_type==='Removal or variation of conditions'){
+  if (application_type === 'Removal or variation of conditions') {
     selectNo().click();
     clickContinueButton();
   }

@@ -13,14 +13,13 @@ import {goToAppealsPage} from '../../../../support/common/go-to-page/goToAppeals
 import {verifyPageTitle} from '../../../../support/common/verify-page-title';
 import {verifyPageHeading} from '../../../../support/common/verify-page-heading';
 import {getBackLink, getErrorMessageSummary,} from '../../../../support/common-page-objects/common-po';
-import {getContinueButton} from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
-import {getLocalPlanningDepart} from '../../../../support/eligibility/page-objects/local-planning-department-po';
-import {
-  selectPlanningApplicationType
-} from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
-import {getIsNotListedBuilding} from '../../../../support/eligibility/page-objects/listed-building-po';
+import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
+import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
+import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
+import { getIsNotListedBuilding } from '../../../../support/eligibility/page-objects/listed-building-po';
 
-const pageTitle = 'Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK';
+const pageTitle =
+  'Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Was your planning application granted or refused?';
 const url = 'before-you-start/granted-or-refused-householder';
 const houseHolderDecisionDatePageUrl = '/before-you-start/decision-date-householder';
@@ -31,7 +30,7 @@ const previousPageUrl = '/before-you-start/listed-building-householder';
 Given('appellant is on the was your planning application granted or refused householder page', () => {
   goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getContinueButton().click();
   selectPlanningApplicationType('Householder');
   getContinueButton().click();

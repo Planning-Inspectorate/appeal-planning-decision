@@ -15,10 +15,10 @@ import {getDate, getMonth, getYear} from "date-fns";
 import {
   enterDateDecisionReceived
 } from "../../../../support/eligibility/date-decision-received/enter-date-decision-received";
-import {clickContinueButton} from "../../../../support/common/clickContinueButton";
-import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { clickContinueButton } from '../../../../support/common/clickContinueButton';
+import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
 import { getSaveAndContinueButton } from '../../../../support/common-page-objects/common-po';
-import {acceptCookiesBanner} from "../../../../support/common/accept-cookies-banner";
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 
 const pageHeading = 'You cannot appeal.';
 const pageTitle = 'You cannot appeal - Before you start - Appeal a planning decision - GOV.UK';
@@ -27,7 +27,7 @@ const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 Given('an appellant is on the shutter page for date passed for appeal',()=>{
   goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getSaveAndContinueButton().click();
   selectPlanningApplicationType('Full planning');
   verifyPage(typeOfPlanningPageUrl);
@@ -37,7 +37,11 @@ Given('an appellant is on the shutter page for date passed for appeal',()=>{
   selectPlanningApplicationDecision('I have not received a decision');
   clickContinueButton();
   const pastDate = getPastDate(allowedDatePart.MONTH, 7);
-  enterDateDecisionReceived( {day: getDate(pastDate), month: getMonth(pastDate) + 1, year: getYear(pastDate) } );
+  enterDateDecisionReceived({
+    day: getDate(pastDate),
+    month: getMonth(pastDate) + 1,
+    year: getYear(pastDate),
+  });
   clickContinueButton();
 });
 

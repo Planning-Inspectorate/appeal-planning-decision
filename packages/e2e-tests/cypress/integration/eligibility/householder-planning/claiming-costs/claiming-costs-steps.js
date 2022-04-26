@@ -14,7 +14,7 @@ import {
   getBackLink,
   getErrorMessageSummary,
 } from '../../../../support/common-page-objects/common-po';
-import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
 import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
 import { selectPlanningApplicationDecision } from '../../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
 import { allowedDatePart, getPastDate } from '../../../../support/common/getDate';
@@ -31,7 +31,7 @@ const pageHeading = 'Are you claiming costs as part of your appeal?';
 Given('appellant is on the claiming cost page', () => {
   goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getContinueButton().click();
   selectPlanningApplicationType('Householder');
   getContinueButton().click();

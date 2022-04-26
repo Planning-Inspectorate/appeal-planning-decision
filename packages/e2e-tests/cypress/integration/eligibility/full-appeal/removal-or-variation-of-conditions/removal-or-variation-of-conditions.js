@@ -1,9 +1,10 @@
 import { Given, Then, When } from 'cypress-cucumber-preprocessor/steps';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
 import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
-import { getLocalPlanningDepart } from '../../../../support/eligibility/page-objects/local-planning-department-po';
+import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
 import {
-  errorMessageConditionsHouseholder, getBackLink,
+  errorMessageConditionsHouseholder,
+  getBackLink,
   getErrorMessageSummary,
   getSaveAndContinueButton,
 } from '../../../../support/common-page-objects/common-po';
@@ -11,7 +12,10 @@ import { selectPlanningApplicationType } from '../../../../support/eligibility/p
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { pageCaptionText } from '../../../../support/full-appeal/appeals-service/page-objects/appeal-form-task-list-po';
-import { selectNo, selectYes } from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
+import {
+  selectNo,
+  selectYes,
+} from '../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
 import { selectListedBuildingDecision } from '../../../../support/eligibility/listed-building/select-listed-building-decision';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 import { selectPlanningApplicationDecision } from '../../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
@@ -36,38 +40,44 @@ const grantedOrRefusedUrl = 'before-you-start/granted-or-refused';
 const enforcmentNoticeUrl = 'before-you-start/enforcement-notice';
 const costsUrl = 'before-you-start/claiming-costs-householder';
 const houseHolderTasklistUrl = 'appellant-submission/task-list';
-const fullAppealTasklistUrl = 'full-appeal/submit-appeal/task-list'
+const fullAppealTasklistUrl = 'full-appeal/submit-appeal/task-list';
 const anyOfTheFollowingUrl = 'before-you-start/any-of-following';
 const decisionDateUrl = 'before-you-start/decision-date';
 const dateDecisionDueUrl = 'before-you-start/date-decision-due';
-const pageTitle = 'Are the conditions for householder planning permission? - Before you start - Appeal a planning decision - GOV.UK';
-
+const pageTitle =
+  'Are the conditions for householder planning permission? - Before you start - Appeal a planning decision - GOV.UK';
 
 Given('the appellant is on the is your appeal about any of the following page',()=>{
   goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
-  getLocalPlanningDepart().select('System Test Borough Council');
+  selectLocalPlanningDepartment('System Test Borough Council');
   getSaveAndContinueButton().click();
 });
-When('they select {string} and click continue', (application_type) =>{
+When('they select {string} and click continue', (application_type) => {
   selectPlanningApplicationType(application_type);
   getSaveAndContinueButton().click();
 });
-Then("they are presented with the next page 'Are the conditions for householder planning permission?'",()=>{
-  cy.url().should('contain', url);
-  verifyPageHeading(pageHeading);
-  verifyPageTitle(pageTitle);
-  pageCaptionText().should('contain', 'Before you start');
-});
-Given("the appellant is on the 'Are the conditions for householder planning permission?' page", () => {
-  goToAppealsPage('before-you-start/local-planning-department');
-  acceptCookiesBanner();
-  getLocalPlanningDepart().select('System Test Borough Council');
-  getSaveAndContinueButton().click();
-  selectPlanningApplicationType('Removal or variation of conditions');
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', url);
-});
+Then(
+  "they are presented with the next page 'Are the conditions for householder planning permission?'",
+  () => {
+    cy.url().should('contain', url);
+    verifyPageHeading(pageHeading);
+    verifyPageTitle(pageTitle);
+    pageCaptionText().should('contain', 'Before you start');
+  },
+);
+Given(
+  "the appellant is on the 'Are the conditions for householder planning permission?' page",
+  () => {
+    goToAppealsPage('before-you-start/local-planning-department');
+    acceptCookiesBanner();
+    selectLocalPlanningDepartment('System Test Borough Council');
+    getSaveAndContinueButton().click();
+    selectPlanningApplicationType('Removal or variation of conditions');
+    getSaveAndContinueButton().click();
+    cy.url().should('contain', url);
+  },
+);
 When('they select the option {string} and click Continue',(option)=>{
   if(option==='Yes')
   {
