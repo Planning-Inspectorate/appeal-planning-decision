@@ -39,6 +39,7 @@ extends:
           azurecrName: $(azurecrName)
           dockerfilePath: $(dockerFilePath)
           repository: $(repository)
+          runTests: true
           testRunTitle: Appeals Service Business Rules Jest Tests
           versionNumber: $(versionNumber)
           workingDirectory: $(Build.Repository.LocalPath)

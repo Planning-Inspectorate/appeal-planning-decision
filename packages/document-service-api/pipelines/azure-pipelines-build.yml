@@ -41,6 +41,7 @@ extends:
           azurecrName: $(azurecrName)
           dockerfilePath: $(dockerFilePath)
           repository: $(repository)
+          runTests: true
           testRunTitle: Document Service API Jest Tests
           versionNumber: $(versionNumber)
           workingDirectory: $(Build.Repository.LocalPath)
