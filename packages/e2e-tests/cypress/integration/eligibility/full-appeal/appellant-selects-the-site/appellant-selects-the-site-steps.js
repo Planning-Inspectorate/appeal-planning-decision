@@ -60,7 +60,7 @@ When('an appellant selects the back button', () => {
   getBackLink().click();
 });
 Then('an appellants gets routed to shutter page which notifies them to use a different service', () => {
-  cy.url().should('contain', '/before-you-start/use-a-different-service');
+  cy.url().should('contain', '/before-you-start/use-existing-service-development-type');
 });
 
 Then('an appellant is taken back to the {string} for {string}', (page, application_type) => {
