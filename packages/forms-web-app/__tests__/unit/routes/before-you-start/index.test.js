@@ -5,7 +5,7 @@ describe('routes/before-you-start/index', () => {
     jest.resetModules();
 
     // eslint-disable-next-line global-require
-    require('../../../../src/routes/before-you-start');
+    require('../../../../src/routes/before-you-start/index');
   });
 
   afterEach(() => {
