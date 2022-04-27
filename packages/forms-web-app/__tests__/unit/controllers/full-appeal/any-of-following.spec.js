@@ -69,7 +69,7 @@ describe('controllers/full-appeal/any-of-following', () => {
       };
 
       await anyOfFollowingController.postAnyOfFollowing(mockRequest, res);
-      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/use-a-different-service');
+      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/use-existing-service-development-type');
     });
 
     it('should send user to shutter page when choosing wrong multiple options', async () => {
@@ -81,7 +81,7 @@ describe('controllers/full-appeal/any-of-following', () => {
       };
 
       await anyOfFollowingController.postAnyOfFollowing(mockRequest, res);
-      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/use-a-different-service');
+      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/use-existing-service-development-type');
     });
 
     it('should send user to shutter page when sending invalid inputs', async () => {
@@ -93,7 +93,7 @@ describe('controllers/full-appeal/any-of-following', () => {
       };
 
       await anyOfFollowingController.postAnyOfFollowing(mockRequest, res);
-      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/use-a-different-service');
+      expect(res.redirect).toHaveBeenCalledWith('/before-you-start/use-existing-service-development-type');
     });
 
     it('should send user to enforcement page when choosing none of these option', async () => {

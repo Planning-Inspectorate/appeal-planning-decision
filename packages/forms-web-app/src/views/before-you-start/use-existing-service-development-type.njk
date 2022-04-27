@@ -1,0 +1,22 @@
+{% extends "layouts/main-no-back-link.njk" %}
+
+{% set title="You need to use a existing service - Before you start - Appeal a planning decision - GOV.UK" %}
+
+{% block pageTitle %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">You need to use the existing service</h1>
+
+      <p class="govuk-body">This new service is only for appeals about certain types of development.</p>
+      <p class="govuk-body">You need to submit your appeal using the existing service, the Appeals Casework Portal.</p>
+
+      <h2 class="govuk-heading-m">How to begin your appeal</h2>
+      <p class="govuk-body">To begin your appeal, log in or register on the Appeals Casework Portal</p>
+      <a href={{acpLink}} class="govuk-button">Continue to the Appeals Casework Portal</a>
+    </div>
+  </div>
+{% endblock %}
