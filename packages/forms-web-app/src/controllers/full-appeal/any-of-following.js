@@ -56,7 +56,7 @@ const postAnyOfFollowing = async (req, res) => {
 
   return applicationCategories.includes('none_of_these')
     ? res.redirect('/before-you-start/granted-or-refused')
-    : res.redirect('/before-you-start/use-a-different-service');
+    : res.redirect('/before-you-start/use-existing-service-development-type');
 };
 
 module.exports = {

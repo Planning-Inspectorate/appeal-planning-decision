@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const beforeYouStartRouter = require('./before-you-start');
+const beforeYouStartRouter = require('./before-you-start/index');
 const appellantSubmissionRouter = require('./appellant-submission');
 const fullAppealAppellantSubmissionRouter = require('./full-appeal/submit-appeal');
 const eligibilityRouter = require('./eligibility');

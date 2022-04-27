@@ -12,6 +12,8 @@ describe('lib/views', () => {
         FIRST_PAGE: 'before-you-start/first-page',
         USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE:
           'before-you-start/use-existing-service-enforcement-notice',
+        USE_EXISTING_SERVICE_DEVELOPMENT_TYPE:
+          'before-you-start/use-existing-service-development-type',
       },
 
       ELIGIBILITY: {
