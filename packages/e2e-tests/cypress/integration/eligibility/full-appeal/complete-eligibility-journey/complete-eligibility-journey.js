@@ -13,8 +13,10 @@ import { getDate, getMonth, getYear } from 'date-fns';
 import { enterDateDecisionDue } from '../../../../support/eligibility/date-decision-due/enter-date-decision-due';
 import { getEnforcementNoticeNo } from '../../../../support/eligibility/page-objects/enforcement-notice-po';
 import { verifyPage } from '../../../../support/common/verifyPage';
-import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
-import { viewLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
+import {
+  selectLocalPlanningDepartment,
+  viewLocalPlanningDepartment,
+} from '../../../../support/before-you-start/local-planning-department';
 import { getPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/get-planning-application-type';
 import { getSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/get-site-option';
 import { getPlanningApplicationDecision } from '../../../../support/eligibility/granted-or-refused-application/get-planning-application-decision';

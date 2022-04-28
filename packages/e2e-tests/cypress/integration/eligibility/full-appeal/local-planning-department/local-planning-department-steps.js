@@ -1,6 +1,5 @@
-import {Given, When,Then} from 'cypress-cucumber-preprocessor/steps';
-import { enterLocalPlanningDepartment } from '../../../../support/eligibility/local-planning-department/enter-local-planning-department';
-import { getErrorMessageSummary} from '../../../../support/common-page-objects/common-po';
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { getErrorMessageSummary } from '../../../../support/common-page-objects/common-po';
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
@@ -14,7 +13,7 @@ const pageTitle =
   'Which local planning department dealt with your planning application? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Which local planning department dealt with your planning application?';
 const url = 'before-you-start/local-planning-department';
-Given('appellant is on the Local Planning Authority Page',()=> {
+Given('appellant is on the Local Planning Authority Page', () => {
   goToAppealsPage(url);
   acceptCookiesBanner();
   verifyPageTitle(pageTitle);
@@ -32,19 +31,21 @@ When('an appellant selects an ineligible LPA', () => {
   selectLocalPlanningDepartment('Ashfield');
 });
 
-When('appellant clicks the continue button',()=>{
+When('appellant clicks the continue button', () => {
   getContinueButton().click();
 });
 
-Then('appellant is navigated to the planning application decision type page',()=>{
-  cy.url().should('contain','/type-of-planning-application');
+Then('appellant is navigated to the planning application decision type page', () => {
+  cy.url().should('contain', '/type-of-planning-application');
 });
 
-Then('appellant sees an error message {string}',(errorMessage)=>{
-verifyErrorMessage(errorMessage, getLocalPlanningDepartmentError,getErrorMessageSummary);
+Then('appellant sees an error message {string}', (errorMessage) => {
+  verifyErrorMessage(errorMessage, getLocalPlanningDepartmentError, getErrorMessageSummary);
 });
 
-Then('an appellants gets routed to shutter page which notifies them to use an existing service',()=>{
-cy.url().should('contain', '/before-you-start/use-existing-service-local-planning-department');
-});
-
+Then(
+  'an appellants gets routed to shutter page which notifies them to use an existing service',
+  () => {
+    cy.url().should('contain', '/before-you-start/use-existing-service-local-planning-department');
+  },
+);

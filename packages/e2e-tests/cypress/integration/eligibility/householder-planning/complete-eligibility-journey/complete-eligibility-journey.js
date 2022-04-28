@@ -21,8 +21,10 @@ import {
   getBackLink,
   getSaveAndContinueButton,
 } from '../../../../support/common-page-objects/common-po';
-import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
-import { viewLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
+import {
+  selectLocalPlanningDepartment,
+  viewLocalPlanningDepartment,
+} from '../../../../support/before-you-start/local-planning-department';
 import { selectSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/select-site-option';
 import { enterDateDecisionReceived } from '../../../../support/eligibility/date-decision-received/enter-date-decision-received';
 import { enterDateDecisionDue } from '../../../../support/eligibility/date-decision-due/enter-date-decision-due';
