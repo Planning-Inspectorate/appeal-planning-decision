@@ -39,37 +39,25 @@
         If you refer to any documents in your appeal statement, for example photographs, you can upload them in the next step.
       </p>
       <p class="govuk-body">
-        You cannot include any sensitive information in your statement. If you do, you'll be asked to resubmit, which will delay your appeal.
+        You should avoid including sensitive information (also called special category information) if it's not relevant to your appeal. Any sensitive information you share may be shared publicly if the Planning Inspectorate agrees that it's relevant to your appeal. 
+      </p>
+      <p class='govuk-body'>
+        You must not include inflammatory or abusive language.
       </p>
       {{ govukDetails({
-          summaryText: "What is sensitive information?",
-          html: "<h2 class='govuk-heading-m'>Use of language and sensitive information</h2>
-                <p class='govuk-body'>
-                  Your statement must not include racist, inflammatory or abusive language.
-                </p>
-                <p class='govuk-body'>
-                  Do not include sensitive information in your statement, as you'll be asked to resubmit and this will delay your appeal.
-                </p>
-                <p class='govuk-body'>Sensitive information refers to:</p>
-                <ul class='govuk-list govuk-list--bullet'>
-                  <li>comments from children</li>
-                  <li>information relating to children</li>
-                  <li>information relating to health</li>
-                  <li>information relating to crime</li>
-                  <li>
-                  Any information relating to an individual's:
-                  <ul class='govuk-list govuk-list--bullet'>
-                    <li>race</li>
-                    <li>ethnic origin</li>
-                    <li>politics</li>
-                    <li>religion</li>
-                    <li>trade union membership</li>
-                    <li>genetics</li>
-                    <li>physical characteristics</li>
-                    <li>sex life</li>
-                    <li>sexual orientation</li>
-                  </ul>
-                  </li>
+          summaryText: "See a full list of what counts as sensitive information",
+          html: "<ul class='govuk-list govuk-list--bullet'>
+                  <li>comments relating to children</li>
+                  <li>personal data revealing racial or ethnic origin</li>
+                  <li>personal data revealing political opinions</li>
+                  <li>personal data revealing religious or philosophical beliefs</li> 
+                  <li>personal data revealing trade union membership</li>
+                  <li>genetic data</li> 
+                  <li>biometric data (where used for identification purposes)</li>
+                  <li>data concerning health</li>
+                  <li>data concerning a person’s sex life</li>
+                  <li>data concerning a person’s sexual orientation</li>
+                  <li>criminal convictions and offences</li>
                 </ul>"
         }) }}
       {% if uploadedFile.id %}
