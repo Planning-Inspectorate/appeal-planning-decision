@@ -43,7 +43,7 @@ exports.postSupportingDocuments = async (req, res) => {
         const document = await createDocument(
           appeal,
           file,
-          null,
+          file.name,
           documentTypes.otherDocuments.name
         );
 

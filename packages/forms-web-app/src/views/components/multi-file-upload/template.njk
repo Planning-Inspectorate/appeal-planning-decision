@@ -11,7 +11,7 @@
                  data-file-location="{{ item.location }}"
                  data-file-size="{{ item.size }}"
             >
-              {{- item.message.html | safe if item.message.html else item.message.text -}}
+              {{- item.name | safe if item.name else item.message.text -}}
             </div>
           </div>
         {% endfor %}
