@@ -1,5 +1,5 @@
 const express = require('express');
-const beforeYouStartController = require('../controllers/before-you-start');
+const beforeYouStartController = require('../../controllers/before-you-start/before-you-start');
 
 const router = express.Router();
 

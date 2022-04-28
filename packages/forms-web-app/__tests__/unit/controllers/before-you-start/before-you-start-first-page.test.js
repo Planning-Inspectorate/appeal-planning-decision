@@ -1,4 +1,4 @@
-const beforeYouStartController = require('../../../../src/controllers/before-you-start');
+const beforeYouStartController = require('../../../../src/controllers/before-you-start/before-you-start');
 
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
