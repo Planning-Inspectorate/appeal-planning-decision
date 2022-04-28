@@ -1,4 +1,4 @@
-const { VIEW } = require('../lib/views');
+const { VIEW } = require('../../lib/views');
 
 exports.getBeforeYouStartFirstPage = async (_, res) => {
   res.render(VIEW.BEFORE_YOU_START.FIRST_PAGE, {

@@ -16,7 +16,7 @@
       <h2 class="govuk-heading-m">Check if you can use this service</h2>
       <p class="govuk-body">Before you start, we'll check if you can use this service by asking some questions about your appeal.</p>
       <p class="govuk-body">If you cannot use this service, you can still appeal using the existing service.</p>
-      {{ govukButton({ text: "Continue", href: nextPage }) }}
+      {{ govukButton({ text: "Continue", type: button, href: nextPage, attributes: { "data-cy":"start-button"} }) }}
     </div>
   </div>
 {% endblock %}
