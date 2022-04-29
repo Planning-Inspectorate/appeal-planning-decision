@@ -1,4 +1,4 @@
-const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
+  const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
 const { documentTypes } = require('@pins/common');
 const supportingDocumentsController = require('../../../../src/controllers/appellant-submission/supporting-documents');
 const { mockReq, mockRes } = require('../../mocks');
@@ -222,7 +222,7 @@ describe('controllers/appellant-submission/supporting-documents', () => {
           expect(createDocument).toHaveBeenCalledWith(
             updatedAppeal,
             { name: fakeFile1Name },
-            null,
+            fakeFile1Name,
             documentTypes.otherDocuments.name
           );
 
