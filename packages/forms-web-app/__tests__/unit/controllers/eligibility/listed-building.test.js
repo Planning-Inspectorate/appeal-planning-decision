@@ -89,7 +89,7 @@ describe('controllers/eligibility/listed-building', () => {
       });
     });
 
-    it('should redirect to `/eligibility/listed-out` if `is-your-appeal-about-a-listed-building` is `yes`', async () => {
+    it('should redirect to `/before-you-start/use-existing-service-listed-building` if `is-your-appeal-about-a-listed-building` is `yes`', async () => {
       const mockRequest = {
         ...req,
         body: {
@@ -106,7 +106,9 @@ describe('controllers/eligibility/listed-building', () => {
         },
       });
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.LISTED_OUT}`);
+      expect(res.redirect).toHaveBeenCalledWith(
+        `/${VIEW.BEFORE_YOU_START.USE_EXISTING_SERVICE_LISTED_BUILDING}`
+      );
     });
 
     it('should redirect to `/eligibility/costs` if `is-your-appeal-about-a-listed-building` is `no`', async () => {
