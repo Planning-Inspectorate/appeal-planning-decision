@@ -8,8 +8,12 @@ const VIEW = {
     FIRST_PAGE: 'before-you-start/first-page',
     USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE:
       'before-you-start/use-existing-service-enforcement-notice',
+<<<<<<< HEAD
     USE_EXISTING_SERVICE_DEVELOPMENT_TYPE: 'before-you-start/use-existing-service-development-type',
     USE_EXISTING_SERVICE_LISTED_BUILDING: 'before-you-start/use-existing-service-listed-building',
+=======
+    CAN_USE_SERVICE: 'before-you-start/can-use-service',
+>>>>>>> ca9f7dc0c9 (feat(as-4619 check your answers page): implemented "Check Your Answers" for Householder Planning)
   },
 
   ELIGIBILITY: {

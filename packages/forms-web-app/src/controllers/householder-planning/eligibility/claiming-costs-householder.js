@@ -10,7 +10,7 @@ const {
 } = require('../../../lib/householder-planning/views');
 
 const backLink = `/before-you-start/enforcement-notice-householder`;
-const nextPage = `/appellant-submission/task-list`;
+const nextPage = `/before-you-start/can-use-service`;
 
 exports.getClaimingCostsHouseholder = async (req, res) => {
   const { appeal } = req.session;

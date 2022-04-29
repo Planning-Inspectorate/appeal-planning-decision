@@ -39,14 +39,13 @@ import { provideAnswerNo } from '../appellant-submission-your-details/provideAns
 import { goToAppealsPage } from '../../../common/go-to-page/goToAppealsPage';
 import { pageURLAppeal } from '../../../../integration/common/householder-planning/appeals-service/pageURLAppeal';
 
-
 export const provideCompleteAppeal = (appeal, options = {}) => {
   goToAppealsPage(pageURLAppeal.goToHouseholderQuestionPage);
 
   if (appeal.eligibility.householderPlanningPermission) {
-   provideHouseholderAnswerYes();
+    provideHouseholderAnswerYes();
   } else {
-   provideHouseholderAnswerNo();
+    provideHouseholderAnswerNo();
   }
   clickSaveAndContinue();
 
@@ -59,9 +58,9 @@ export const provideCompleteAppeal = (appeal, options = {}) => {
   provideDecisionDate(appeal.decisionDate);
 
   if (appeal.eligibility.eligibleLocalPlanningDepartment) {
-   provideEligibleLocalPlanningDepartment(options);
+    provideEligibleLocalPlanningDepartment(options);
   } else {
-   provideIneligibleLocalPlanningDepartment();
+    provideIneligibleLocalPlanningDepartment();
   }
   clickSaveAndContinue();
 
@@ -71,16 +70,16 @@ export const provideCompleteAppeal = (appeal, options = {}) => {
   clickSaveAndContinue();
 
   if (appeal.eligibility.isListedBuilding) {
-   stateCaseInvolvesListedBuilding();
+    stateCaseInvolvesListedBuilding();
   } else {
-   stateCaseDoesNotInvolveAListedBuilding();
+    stateCaseDoesNotInvolveAListedBuilding();
   }
 
   goToAppealsPage(pageURLAppeal.goToCostsPage);
   if (appeal.eligibility.isClaimingCosts) {
-   provideCostsAnswerYes();
+    provideCostsAnswerYes();
   } else {
-   provideCostsAnswerNo();
+    provideCostsAnswerNo();
   }
   clickSaveAndContinue();
 
@@ -100,8 +99,8 @@ export const provideCompleteAppeal = (appeal, options = {}) => {
   clickSaveAndContinue();
 
   if (!appeal.aboutYouSection.yourDetails.isOriginalApplicant) {
-   provideNameOfOriginalApplicant(appeal.aboutYouSection.yourDetails.appealingOnBehalfOf);
-   clickSaveAndContinue();
+    provideNameOfOriginalApplicant(appeal.aboutYouSection.yourDetails.appealingOnBehalfOf);
+    clickSaveAndContinue();
   }
 
   goToAppealsPage(pageURLAppeal.goToPlanningApplicationNumberPage);
@@ -123,54 +122,54 @@ export const provideCompleteAppeal = (appeal, options = {}) => {
   clickSaveAndContinue();
 
   if (appeal.yourAppealSection.otherDocuments.uploadedFiles.length > 0) {
-   goToAppealsPage(pageURLAppeal.goToSupportingDocumentsPage);
-   uploadSupportingDocuments(
+    goToAppealsPage(pageURLAppeal.goToSupportingDocumentsPage);
+    uploadSupportingDocuments(
       appeal.yourAppealSection.otherDocuments.uploadedFiles.map((file) => file.name),
     );
-   clickSaveAndContinue();
+    clickSaveAndContinue();
   }
 
- //goToSiteAddressPage();
+  //goToSiteAddressPage();
   goToAppealsPage(pageURLAppeal.goToSiteAddressPage);
 
- provideAddressLine1(appeal.appealSiteSection.siteAddress.addressLine1);
- provideAddressLine2(appeal.appealSiteSection.siteAddress.addressLine2);
- provideTownOrCity(appeal.appealSiteSection.siteAddress.town);
- provideCounty(appeal.appealSiteSection.siteAddress.county);
- providePostcode(appeal.appealSiteSection.siteAddress.postcode);
- clickSaveAndContinue();
+  provideAddressLine1(appeal.appealSiteSection.siteAddress.addressLine1);
+  provideAddressLine2(appeal.appealSiteSection.siteAddress.addressLine2);
+  provideTownOrCity(appeal.appealSiteSection.siteAddress.town);
+  provideCounty(appeal.appealSiteSection.siteAddress.county);
+  providePostcode(appeal.appealSiteSection.siteAddress.postcode);
+  clickSaveAndContinue();
 
   goToAppealsPage(pageURLAppeal.goToWholeSiteOwnerPage);
   if (appeal.appealSiteSection.siteOwnership.ownsWholeSite) {
-   answerOwnsTheWholeAppeal();
-   clickSaveAndContinue();
+    answerOwnsTheWholeAppeal();
+    clickSaveAndContinue();
   } else {
-   answerDoesNotOwnTheWholeAppeal();
-   clickSaveAndContinue();
+    answerDoesNotOwnTheWholeAppeal();
+    clickSaveAndContinue();
 
     if (appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold) {
-     answerHaveToldOtherOwnersAppeal();
+      answerHaveToldOtherOwnersAppeal();
     } else {
-     answerHaveNotToldOtherOwnersAppeal();
+      answerHaveNotToldOtherOwnersAppeal();
     }
-   clickSaveAndContinue();
+    clickSaveAndContinue();
   }
 
   goToAppealsPage(pageURLAppeal.goToSiteAccessPage);
   if (appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad) {
-   answerCanSeeTheWholeAppeal();
+    answerCanSeeTheWholeAppeal();
   } else {
-   answerCannotSeeTheWholeAppeal();
-   provideMoreDetails(appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted);
+    answerCannotSeeTheWholeAppeal();
+    provideMoreDetails(appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted);
   }
   clickSaveAndContinue();
 
   goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
   if (appeal.appealSiteSection.healthAndSafety.hasIssues) {
-   answerSiteHasIssues();
-   provideSafetyIssuesConcerns(appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues);
+    answerSiteHasIssues();
+    provideSafetyIssuesConcerns(appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues);
   } else {
-   answerSiteHasNoIssues();
+    answerSiteHasNoIssues();
   }
   clickSaveAndContinue();
 };
