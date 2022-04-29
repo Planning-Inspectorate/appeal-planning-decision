@@ -25,4 +25,4 @@ Scenario: AC04 Appeal against a listed building
   Given appellant is on the is your application about a Listed Building Page
   When appellant selects the option as "Yes"
   And appellant clicks on the continue button
-  Then appellant is navigated to the use a different service page
+  Then appellant is navigated to the use an existing service for listed buildings page
