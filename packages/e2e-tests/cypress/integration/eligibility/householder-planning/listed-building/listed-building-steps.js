@@ -68,7 +68,7 @@ Then('appellant is navigated to the what type of planning application did you ma
   cy.url().should('contain', typeOfPlanningApplicationPageUrl);
 });
 
-Then('appellant is navigated to the use a different service page', () => {
+Then('appellant is navigated to the use an existing service for listed buildings page', () => {
   cy.url().should('contain', useExistingServiceListedBuildingUrl);
 });
 
