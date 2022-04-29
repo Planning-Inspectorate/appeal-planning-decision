@@ -33,7 +33,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
       );
     });
 
-    it('should redirect to the use-a-different-service page', async () => {
+    it('should redirect to the use-existing-service-listed-building page', async () => {
       const mockRequest = {
         ...req,
         body: { 'listed-building-householder': 'yes' },
@@ -44,7 +44,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
       expect(appeal.eligibility.isListedBuilding).toEqual(true);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({ ...appeal });
 
-      expect(res.redirect).toBeCalledWith('/before-you-start/use-a-different-service');
+      expect(res.redirect).toBeCalledWith('/before-you-start/use-existing-service-listed-building');
     });
 
     it('should redirect to the granted-or-refused-householder page', async () => {

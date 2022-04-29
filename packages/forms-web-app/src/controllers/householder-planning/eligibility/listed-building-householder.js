@@ -55,7 +55,7 @@ const postListedBuildingHouseholder = async (req, res) => {
   }
 
   return isListedBuilding
-    ? res.redirect(`/before-you-start/use-a-different-service`)
+    ? res.redirect(`/before-you-start/use-existing-service-listed-building`)
     : res.redirect('/before-you-start/granted-or-refused-householder');
 };
 
