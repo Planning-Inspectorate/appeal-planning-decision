@@ -1,19 +1,20 @@
-import {Given, Then, When} from 'cypress-cucumber-preprocessor/steps';
+import { Given, Then, When } from 'cypress-cucumber-preprocessor/steps';
 
-import {
-  selectListedBuildingDecision
-} from '../../../../support/eligibility/listed-building/select-listed-building-decision';
-import {verifyErrorMessage} from '../../../../support/common/verify-error-message';
-import {acceptCookiesBanner} from '../../../../support/common/accept-cookies-banner';
+import { selectListedBuildingDecision } from '../../../../support/eligibility/listed-building/select-listed-building-decision';
+import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 import {
   getIsListedBuilding,
   getIsNotListedBuilding,
   getListedBuildingDecisionError,
 } from '../../../../support/eligibility/page-objects/listed-building-po';
-import {goToAppealsPage} from '../../../../support/common/go-to-page/goToAppealsPage';
-import {verifyPageTitle} from '../../../../support/common/verify-page-title';
-import {verifyPageHeading} from '../../../../support/common/verify-page-heading';
-import {getBackLink, getErrorMessageSummary,} from '../../../../support/common-page-objects/common-po';
+import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
+import {
+  getBackLink,
+  getErrorMessageSummary,
+} from '../../../../support/common-page-objects/common-po';
 import { getContinueButton } from '../../../../support/householder-planning/appeals-service/page-objects/common-po';
 import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
 import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
@@ -24,8 +25,9 @@ const pageHeading = 'Is your appeal about a listed building?';
 const errorMessage = 'Select yes if your appeal about a listed building';
 const url = 'before-you-start/listed-building-householder';
 const grantedorrefusedPageUrl = '/granted-or-refused-householder';
-const useADifferentServicePageUrl = '/use-a-different-service';
 const typeOfPlanningApplicationPageUrl = '/type-of-planning-application';
+const useExistingServiceListedBuildingUrl =
+  '/before-you-start/use-existing-service-listed-building';
 
 Given('appellant is on the is your application about a Listed Building Page', () => {
   goToAppealsPage('before-you-start/local-planning-department');
@@ -48,8 +50,7 @@ When('appellant clicks on the continue button', () => {
   getContinueButton().click();
 });
 
-When('appellant has not made any selection', () => {
-});
+When('appellant has not made any selection', () => {});
 
 When('appellant selects the back link', () => {
   getBackLink().click();
@@ -68,7 +69,7 @@ Then('appellant is navigated to the what type of planning application did you ma
 });
 
 Then('appellant is navigated to the use a different service page', () => {
-  cy.url().should('contain', useADifferentServicePageUrl);
+  cy.url().should('contain', useExistingServiceListedBuildingUrl);
 });
 
 And('any information they have inputted will not be saved', () => {
