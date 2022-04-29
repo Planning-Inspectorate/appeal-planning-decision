@@ -15,6 +15,7 @@ const VIEW = {
       LISTED_BUILDING: 'householder-planning/eligibility/listed-building-householder',
       CONDITIONS_HOUSEHOLDER_PERMISSION:
         'householder-planning/eligibility/conditions-householder-permission',
+      CAN_USE_SERVICE: 'before-you-start/can-use-service',
     },
   },
 };

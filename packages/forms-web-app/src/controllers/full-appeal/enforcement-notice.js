@@ -13,9 +13,11 @@ const {
 } = require('../../validators/full-appeal/enforcement-notice');
 
 const navigationPages = {
-  nextPage: '/full-appeal/submit-appeal/task-list',
+  nextPage: '/before-you-start/can-use-service',
   shutterPage: '/before-you-start/use-existing-service-enforcement-notice',
 };
+
+// /full-appeal/submit-appeal/task-list
 
 const decisionDateEnforcementNoticeMapper = (key) => {
   const pages = {
