@@ -3,8 +3,7 @@ const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 const { createDocument } = require('../../lib/documents-api-wrapper');
-const { getNextTask } = require('../../services/task.service');
-const { getTaskStatus } = require('../../services/task.service');
+const { getNextTask, setTaskStatusComplete } = require('../../services/task.service');
 
 const sectionName = 'yourAppealSection';
 const taskName = 'otherDocuments';
@@ -63,7 +62,7 @@ exports.postSupportingDocuments = async (req, res) => {
       }
     }
 
-    appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+    appeal.sectionStates[sectionName][taskName] = setTaskStatusComplete();
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (e) {
     logger.error(e);
