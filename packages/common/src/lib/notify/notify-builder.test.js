@@ -115,7 +115,7 @@ describe('lib/notify/notify-builder', () => {
       describe('guards', () => {
         test('throws if template id is not set', async () => {
           try {
-            await NotifyBuilder.sendEmail();
+            await NotifyBuilder.sendEmailClient();
           } catch (e) {
             expect(e).toEqual(new Error('Template ID must be set before an email can be sent.'));
           }
