@@ -314,7 +314,13 @@ const updateAppeal = async (appeal, isFirstSubmission = false) => {
   const updatedDocument = await replaceAppeal(appeal);
 
   if (isFirstSubmission) {
+    logger.debug('======================================');
+    logger.debug('HERE BEFORE');
+    logger.debug('======================================');
     await queue.addAppeal(updatedDocument.value);
+    logger.debug('======================================');
+    logger.debug('HERE AFTER');
+    logger.debug('======================================');
     await sendSubmissionConfirmationEmailToAppellant(updatedDocument.value.appeal);
     await sendSubmissionReceivedEmailToLpa(updatedDocument.value.appeal);
   }
