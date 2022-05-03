@@ -12,7 +12,7 @@ jest.mock('@pins/common/src/lib/notify/notify-builder', () => ({
   setDestinationEmailAddress: jest.fn().mockReturnThis(),
   setTemplateVariablesFromObject: jest.fn().mockReturnThis(),
   setReference: jest.fn().mockReturnThis(),
-  sendEmail: jest.fn().mockReturnThis(),
+  sendEmailClient: jest.fn().mockReturnThis(),
 }));
 jest.mock('../../../src/services/lpa.service', () => ({
   getLpa: jest
@@ -75,7 +75,7 @@ describe('lib/notify', () => {
           .setTemplateId()
           .setDestinationEmailAddress()
           .setTemplateVariablesFromObject()
-          .setReference().sendEmail
+          .setReference().sendEmailClient
       ).toBeCalled();
     });
 
@@ -118,7 +118,7 @@ describe('lib/notify', () => {
           .setTemplateId()
           .setDestinationEmailAddress()
           .setTemplateVariablesFromObject()
-          .setReference().sendEmail
+          .setReference().sendEmailClient
       ).toBeCalled();
     });
 
