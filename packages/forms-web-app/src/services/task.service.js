@@ -25,7 +25,10 @@ function statusAppealStatement(appeal) {
 
 function statusSupportingDocuments(appeal) {
   const task = appeal.yourAppealSection.otherDocuments;
-  return task.uploadedFiles.length > 0 ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
+  return task.uploadedFiles.length > 0 ||
+    appeal.sectionStates.yourAppealSection.otherDocuments === 'COMPLETED'
+    ? TASK_STATUS.COMPLETED
+    : TASK_STATUS.NOT_STARTED;
 }
 
 function statusOriginalApplication(appeal) {
@@ -175,7 +178,11 @@ const FULL_APPEAL_SECTIONS = {
   },
 };
 
-const getTaskStatus = (appeal, sectionName, taskName, sections = SECTIONS) => {
+const setTaskStatusComplete = () => {
+  return TASK_STATUS.COMPLETED;
+};
+
+const getTaskStatus = (appeal, sectionName, taskName, sections = SECTIONS, required = true) => {
   try {
     const { rule } = taskName ? sections[sectionName][taskName] : sections[sectionName];
     return rule(appeal);
@@ -222,4 +229,5 @@ module.exports = {
   FULL_APPEAL_SECTIONS,
   getTaskStatus,
   getNextTask,
+  setTaskStatusComplete,
 };
