@@ -86,12 +86,6 @@ const validateFullAppeal = (appeal) => {
     );
   }
 
-  if (isAgriculturalHolding && !tellingTheTenants) {
-    errors.push(
-      'If the appeal site is part of an agricultural holding then you must confirm that you have told the other tenants'
-    );
-  }
-
   if (procedureType === PROCEDURE_TYPE.HEARING && !hearing.reason) {
     errors.push(
       'If you would prefer your appeal to be decided by hearing then you must give a reason'

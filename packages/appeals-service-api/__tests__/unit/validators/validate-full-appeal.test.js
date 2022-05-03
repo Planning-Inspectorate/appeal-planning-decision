@@ -114,14 +114,6 @@ describe('validators/validate-full-appeal', () => {
     ]);
   });
 
-  it('should return an error if isAgriculturalHolding = true and tellingTheTenants = null', () => {
-    appeal.appealSiteSection.agriculturalHolding.tellingTheTenants = null;
-    const errors = validateFullAppeal(appeal);
-    expect(errors).toEqual([
-      'If the appeal site is part of an agricultural holding then you must confirm that you have told the other tenants',
-    ]);
-  });
-
   it('should return an error if procedureType = hearing and hearing.reason = null', () => {
     appeal.appealDecisionSection.procedureType = PROCEDURE_TYPE.HEARING;
     appeal.appealDecisionSection.hearing.reason = null;
