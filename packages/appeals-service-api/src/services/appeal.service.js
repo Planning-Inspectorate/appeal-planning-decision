@@ -314,13 +314,11 @@ const updateAppeal = async (appeal, isFirstSubmission = false) => {
   const updatedDocument = await replaceAppeal(appeal);
 
   if (isFirstSubmission) {
-    logger.debug('======================================');
-    logger.debug('HERE BEFORE');
-    logger.debug('======================================');
-    await queue.addAppeal(updatedDocument.value);
-    logger.debug('======================================');
-    logger.debug('HERE AFTER');
-    logger.debug('======================================');
+    try {
+      await queue.addAppeal(updatedDocument.value);
+    } catch (err) {
+      logger.error({ err, appealId: appeal.id }, 'Unable to queue confirmation email to appellant');
+    }
     await sendSubmissionConfirmationEmailToAppellant(updatedDocument.value.appeal);
     await sendSubmissionReceivedEmailToLpa(updatedDocument.value.appeal);
   }
