@@ -182,6 +182,10 @@ const setTaskStatusComplete = () => {
   return TASK_STATUS.COMPLETED;
 };
 
+const setTaskStatusNotStarted = () => {
+  return TASK_STATUS.NOT_STARTED;
+};
+
 const getTaskStatus = (appeal, sectionName, taskName, sections = SECTIONS, required = true) => {
   try {
     const { rule } = taskName ? sections[sectionName][taskName] : sections[sectionName];
@@ -230,4 +234,5 @@ module.exports = {
   getTaskStatus,
   getNextTask,
   setTaskStatusComplete,
+  setTaskStatusNotStarted,
 };
