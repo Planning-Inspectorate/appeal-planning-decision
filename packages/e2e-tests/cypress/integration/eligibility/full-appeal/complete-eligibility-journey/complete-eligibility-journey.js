@@ -1,8 +1,8 @@
-import {Given, When, Then} from 'cypress-cucumber-preprocessor/steps';
-import {goToAppealsPage} from "../../../../support/common/go-to-page/goToAppealsPage";
-import {acceptCookiesBanner} from "../../../../support/common/accept-cookies-banner";
-import {verifyPageTitle} from "../../../../support/common/verify-page-title";
-import {verifyPageHeading} from "../../../../support/common/verify-page-heading";
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
+import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
+import { verifyPageTitle } from '../../../../support/common/verify-page-title';
+import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { selectPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/select-planning-application-type';
 import { selectSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/select-site-option';
 import { selectPlanningApplicationDecision } from '../../../../support/eligibility/granted-or-refused-application/select-planning-application-decision';
@@ -249,44 +249,61 @@ Then('data is persisted for local planning department', () => {
   viewLocalPlanningDepartment().should('have.value', 'System Test Borough Council');
 });
 
-Then('appellant is navigated to full appeal task list page',()=>{
-verifyPage('full-appeal/submit-appeal/task-list');
+Then('appellant is navigated to full appeal check your answers page', () => {
+  verifyPage('before-you-start/can-use-service');
 });
 
-Then('data is persisted for {string} planning application type',(applicationType)=>{
-  verifyPageTitle('What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK');
+Then('appellant is navigated to full appeal task list page', () => {
+  verifyPage('full-appeal/submit-appeal/task-list');
+});
+
+Then('data is persisted for {string} planning application type', (applicationType) => {
+  verifyPageTitle(
+    'What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK',
+  );
   verifyPageHeading('What type of planning application is your appeal about?');
   getPlanningApplicationType(applicationType);
 });
 
-Then('data is persisted for {string} from the list of options',(option)=>{
-  verifyPageTitle('Was your planning application about any of the following? - Before you start - Appeal a planning decision - GOV.UK');
+Then('data is persisted for {string} from the list of options', (option) => {
+  verifyPageTitle(
+    'Was your planning application about any of the following? - Before you start - Appeal a planning decision - GOV.UK',
+  );
   verifyPageHeading('Was your planning application about any of the following?');
-getSiteOption(option);
+  getSiteOption(option);
 });
 
-Then('data is persisted for {string}',(application_decision)=>{
-  verifyPageTitle('Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK');
+Then('data is persisted for {string}', (application_decision) => {
+  verifyPageTitle(
+    'Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK',
+  );
   verifyPageHeading('Was your planning application granted or refused?');
-getPlanningApplicationDecision(application_decision);
+  getPlanningApplicationDecision(application_decision);
 });
 
-Then('data is persisted for enforcement notice',()=>{
-  verifyPageTitle('Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK');
+Then('data is persisted for enforcement notice', () => {
+  verifyPageTitle(
+    'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK',
+  );
   verifyPageHeading('Have you received an enforcement notice?');
   getEnforcementNoticeNo().should('be.checked');
 });
 
-Then('appellant clicks on browser back',()=>{
+Then('appellant clicks on browser back', () => {
   cy.go('back');
 });
 
-Then('data is persisted for option no for prior approval existing house',()=>{
-  verifyPageTitle('Did you apply for prior approval to extend an existing home? - Before you start - Appeal a planning decision - GOV.UK');
+Then('data is persisted for option no for prior approval existing house', () => {
+  verifyPageTitle(
+    'Did you apply for prior approval to extend an existing home? - Before you start - Appeal a planning decision - GOV.UK',
+  );
   verifyPageHeading('Did you apply for prior approval to extend an existing home?');
   selectNo().should('be.checked');
 });
-Then("data is persisted for option no for 'Are the conditions for householder planning permission?'",()=>{
-  verifyPageHeading('Are the conditions for householder planning permission?');
-  selectNo().should('be.checked');
-})
+Then(
+  "data is persisted for option no for 'Are the conditions for householder planning permission?'",
+  () => {
+    verifyPageHeading('Are the conditions for householder planning permission?');
+    selectNo().should('be.checked');
+  },
+);

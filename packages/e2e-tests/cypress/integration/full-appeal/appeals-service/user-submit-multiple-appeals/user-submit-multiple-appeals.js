@@ -1,6 +1,7 @@
 import { declarationPageMethodsAppellant } from '../../../../support/full-appeal/appeals-service/declarationPageMethodsAppellant';
 import {
-  confirmAndSubmitAppealButton, getFileUploadButton,
+  confirmAndSubmitAppealButton,
+  getFileUploadButton,
   getSaveAndContinueButton,
 } from '../../../../support/common-page-objects/common-po';
 import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppealsPage';
@@ -68,12 +69,14 @@ const goToMultipleAppealsPage = (url, applicationType) => {
   cy.url().should('contain', 'before-you-start/enforcement-notice');
   selectNo().click();
   getSaveAndContinueButton().click();
+  cy.url().should('contain', 'before-you-start/can-use-service');
+  getSaveAndContinueButton().click();
   cy.url().should('contain', 'full-appeal/submit-appeal/task-list');
   cy.checkPageA11y();
 };
 const declarationPageMethodsMultipleAppealsAppellant = () => {
-  goToMultipleAppealsPage('before-you-start/local-planning-department','Full planning');
-//contact Details section
+  goToMultipleAppealsPage('before-you-start/local-planning-department', 'Full planning');
+  //contact Details section
   contactDetailsLink().click();
   originalApplicantYes().click();
   getSaveAndContinueButton().click();
@@ -122,8 +125,8 @@ const declarationPageMethodsMultipleAppealsAppellant = () => {
   checkYourAnswersLink().click();
 };
 const declarationPageMethodsMultipleAppealsAgent = () => {
-  goToMultipleAppealsPage('before-you-start/local-planning-department','Full planning');
-//contact Details section for Agent
+  goToMultipleAppealsPage('before-you-start/local-planning-department', 'Full planning');
+  //contact Details section for Agent
   contactDetailsLink().click();
   originalApplicantNo().click();
   getSaveAndContinueButton().click();
@@ -191,7 +194,7 @@ When('the Appellant start their second Appeal in the same browser', () => {
   cy.url().should('include', declarationUrl);
 });
 
-When("the Appellant start their third Appeal in the same browser", () => {
+When('the Appellant start their third Appeal in the same browser', () => {
   goToAppealsPage('before-you-start/local-planning-department');
   selectLocalPlanningDepartment('System Test Borough Council');
   getSaveAndContinueButton().click();
@@ -211,7 +214,7 @@ When('the Agent start their second Appeal in the same browser', () => {
   cy.url().should('include', declarationUrl);
 });
 
-When("the Agent start their third Appeal in the same browser", () => {
+When('the Agent start their third Appeal in the same browser', () => {
   goToAppealsPage('before-you-start/local-planning-department');
   selectLocalPlanningDepartment('System Test Borough Council');
   getSaveAndContinueButton().click();
