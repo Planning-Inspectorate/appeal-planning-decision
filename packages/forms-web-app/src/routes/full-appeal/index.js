@@ -12,7 +12,7 @@ const decisionDateRouter = require('./decision-date');
 const dateDecisionDueRouter = require('./date-decision-due');
 const priorApprovalExistingHomeRouter = require('./prior-approval-existing-home');
 const useExistingServiceEnforcementNotice = require('./use-existing-service-enforcement-notice');
-const checkYourAnswers = require('./can-use-service');
+const checkYourAnswers = require('../before-you-start/can-use-service');
 
 const router = express.Router();
 

@@ -9,7 +9,7 @@ const {
 const getPreviousPagePath = require('../../../../src/lib/get-previous-page-path');
 
 const navigationPages = {
-  nextPage: '/full-appeal/submit-appeal/task-list',
+  nextPage: '/before-you-start/can-use-service',
   shutterPage: '/before-you-start/use-existing-service-enforcement-notice',
   previousPage: '/before-you-start/decision-date',
 };
@@ -130,7 +130,7 @@ describe('controllers/full-appeal/enforcement-notice', () => {
       expect(res.redirect).toHaveBeenCalledWith(navigationPages.shutterPage);
     });
 
-    it('should redirect to `/full-appeal/granted-or-refused` if `enforcement-notice` is `no`', async () => {
+    it('should redirect to `/before-you-start/can-use-service` if `enforcement-notice` is `no`', async () => {
       const mockRequest = {
         ...req,
         body: {

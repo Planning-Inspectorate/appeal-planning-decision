@@ -25,6 +25,7 @@ describe('/lib/full-appeal/views', () => {
         TELLING_THE_LANDOWNERS: 'full-appeal/submit-appeal/telling-the-landowners',
         IDENTIFYING_THE_OWNERS: 'full-appeal/submit-appeal/identifying-the-owners',
         ARE_YOU_A_TENANT: 'full-appeal/submit-appeal/are-you-a-tenant',
+        CAN_USE_SERVICE_FULL_APPEAL: 'full-appeal/can-use-service',
         VISIBLE_FROM_ROAD: 'full-appeal/submit-appeal/visible-from-road',
         OTHER_TENANTS: 'full-appeal/submit-appeal/other-tenants',
         TELLING_THE_TENANTS: 'full-appeal/submit-appeal/telling-the-tenants',

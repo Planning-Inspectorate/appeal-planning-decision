@@ -11,7 +11,7 @@ const decisionDateHouseholderRouter = require('./decision-date-householder');
 const conditionsHouseholderPermissionRouter = require('./conditions-householder-permission');
 const useExistingServiceCosts = require('./use-existing-service-costs');
 const useExistingServiceEnforcementNotice = require('./use-existing-service-enforcement-notice');
-const checkYourAnswers = require('./can-use-service');
+const checkYourAnswers = require('../../before-you-start/can-use-service');
 
 router.use(claimingCostsHouseholderRouter);
 router.use(enforcementNoticeRouter);

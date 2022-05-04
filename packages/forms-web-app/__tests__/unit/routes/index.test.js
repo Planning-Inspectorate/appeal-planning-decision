@@ -9,7 +9,7 @@ const fullAppealAppellantSubmissionRouter = require('../../../src/routes/full-ap
 const fullAppealRouter = require('../../../src/routes/full-appeal/index');
 const householderPlanningRouter = require('../../../src/routes/householder-planning/index');
 const documentRouter = require('../../../src/routes/document');
-const beforeYouStartRouter = require('../../../src/routes/before-you-start');
+const beforeYouStartRouter = require('../../../src/routes/before-you-start/before-you-start');
 const checkDecisionDateDeadline = require('../../../src/middleware/check-decision-date-deadline');
 const checkAppealTypeExists = require('../../../src/middleware/check-appeal-type-exists');
 
