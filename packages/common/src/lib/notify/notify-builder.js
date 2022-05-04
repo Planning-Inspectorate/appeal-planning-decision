@@ -148,7 +148,7 @@ module.exports = {
    * @see https://docs.notifications.service.gov.uk/node.html#send-an-email-method
    * @returns {Promise<void>}
    */
-  async sendEmailClient() {
+  async sendEmail() {
     logger.info(`Sending email via notify`);
 
     logger.debug({

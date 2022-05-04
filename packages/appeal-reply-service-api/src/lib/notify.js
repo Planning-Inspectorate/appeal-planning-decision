@@ -63,7 +63,7 @@ async function sendAppealReplySubmissionConfirmationEmailToLpa(reply) {
       })
       .addFileToTemplateVariables('link to appeal questionnaire pdf', pdf)
       .setReference(`${appeal.id}.SubmissionConfirmation`)
-      .sendEmailClient();
+      .sendEmail();
   } catch (e) {
     logger.error(
       { err: e, lpa },

@@ -24,7 +24,7 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
       .setDestinationEmailAddress(recipientEmail)
       .setTemplateVariablesFromObject(variables)
       .setReference(reference)
-      .sendEmailClient();
+      .sendEmail();
   } catch (err) {
     logger.error(
       { err, appealId: appeal.id },
@@ -48,7 +48,7 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
       .setDestinationEmailAddress(recipientEmail)
       .setTemplateVariablesFromObject(variables)
       .setReference(reference)
-      .sendEmailClient();
+      .sendEmail();
   } catch (err) {
     logger.error(
       { err, lpaCode: appeal.lpaCode },
