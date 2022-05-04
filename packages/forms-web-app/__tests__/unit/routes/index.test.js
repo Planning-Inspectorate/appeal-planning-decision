@@ -57,6 +57,6 @@ describe('routes/index', () => {
 
     expect(use).toHaveBeenCalledWith('/before-you-start', beforeYouStartRouter);
 
-    expect(use.mock.calls.length).toBe(11);
+    expect(use.mock.calls.length).toBe(15);
   });
 });
