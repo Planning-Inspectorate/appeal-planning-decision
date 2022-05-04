@@ -32,6 +32,8 @@ export const goToFullAppealSubmitAppealTaskList = (url, applicationType) => {
   cy.url().should('contain', 'before-you-start/enforcement-notice');
   selectNo().click();
   getSaveAndContinueButton().click();
+  cy.url().should('contain', 'before-you-start/can-use-service');
+  getSaveAndContinueButton().click();
   cy.url().should('contain', 'full-appeal/submit-appeal/task-list');
   cy.checkPageA11y();
 };
