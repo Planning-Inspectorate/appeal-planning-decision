@@ -5,7 +5,7 @@
       "type": "serviceBusTrigger",
       "direction": "in",
       "queueName": "sql-householder-lpa-publish",
-      "connection": "pinsuksmessagequeuedev_SERVICEBUS"
+      "connection": "HORIZON_SERVICE_BUS_CONNECTION"
     }
   ]
 }

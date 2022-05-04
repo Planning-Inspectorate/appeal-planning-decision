@@ -5,8 +5,7 @@
         "type": "serviceBusTrigger",
         "direction": "in",
         "queueName": "horizon-householder-appeal-publish",
-        "connection": "pinsuksmessagequeuedev_SERVICEBUS"
+        "connection": "HORIZON_SERVICE_BUS_CONNECTION"
       }
     ]
   }
-  
