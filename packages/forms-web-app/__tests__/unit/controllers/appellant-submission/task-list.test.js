@@ -371,6 +371,11 @@ describe('controllers/appellant-submission/task-list', () => {
 
     it('All the mandatory tasks should be completed and check your answer can be started', () => {
       const req = mockReq({
+        sectionStates: {
+          yourAppealSection: {
+            otherDocuments: 'NOT STARTED',
+          },
+        },
         aboutYouSection: {
           yourDetails: { isOriginalApplicant: true, name: 'Joe', email: 'joe@email.com' },
         },

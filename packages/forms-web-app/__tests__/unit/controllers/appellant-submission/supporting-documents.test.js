@@ -5,7 +5,11 @@ const { mockReq, mockRes } = require('../../mocks');
 const logger = require('../../../../src/lib/logger');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { createDocument } = require('../../../../src/lib/documents-api-wrapper');
-const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
+const {
+  getNextTask,
+  getTaskStatus,
+  setTaskStatusComplete,
+} = require('../../../../src/services/task.service');
 const { VIEW } = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -90,7 +94,7 @@ describe('controllers/appellant-submission/supporting-documents', () => {
       };
       await supportingDocumentsController.postSupportingDocuments(mockRequest, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+      expect(setTaskStatusComplete).toHaveBeenCalled();
 
       expect(res.redirect).not.toHaveBeenCalled();
 
@@ -179,7 +183,7 @@ describe('controllers/appellant-submission/supporting-documents', () => {
         },
       ].forEach(({ nextStep, request, expectedNextUrl }) => {
         it(`should redirect - ${nextStep} - if valid - single file`, async () => {
-          getTaskStatus.mockImplementation(() => fakeTaskStatus);
+          setTaskStatusComplete.mockImplementation(() => fakeTaskStatus);
 
           createDocument.mockImplementation(() => ({ id: fakeFile1Id }));
           getNextTask.mockReturnValue({
@@ -272,7 +276,7 @@ describe('controllers/appellant-submission/supporting-documents', () => {
         },
       ].forEach(({ nextStep, request, expectedNextUrl }) => {
         it(`should redirect - ${nextStep} if valid - multiple file`, async () => {
-          getTaskStatus.mockImplementation(() => fakeTaskStatus);
+          setTaskStatusComplete.mockImplementation(() => fakeTaskStatus);
 
           createDocument
             .mockImplementationOnce(() => ({ id: fakeFile1Id }))

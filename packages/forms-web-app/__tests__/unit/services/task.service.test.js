@@ -118,6 +118,11 @@ describe('services/task.service', () => {
     it('should return COMPLETED from statusSupportingDocuments if the appeal has other documents', () => {
       expect(
         SECTIONS.yourAppealSection.otherDocuments.rule({
+          sectionStates: {
+            yourAppealSection: {
+              otherDocuments: 'NOT_STARTED',
+            },
+          },
           yourAppealSection: {
             otherDocuments: {
               uploadedFiles: [{}],
@@ -126,6 +131,25 @@ describe('services/task.service', () => {
         })
       ).toEqual(COMPLETED);
     });
+
+    it('should return COMPLETED from statusSupportingDocuments if appeal has no documents but sectionState is complete', () => {
+      expect(
+        SECTIONS.yourAppealSection.otherDocuments.rule({
+          sectionStates: {
+            yourAppealSection: {
+              otherDocuments: 'COMPLETED',
+            },
+          },
+          yourAppealSection: {
+            otherDocuments: {
+              uploadedFiles: [],
+            },
+          },
+        })
+      ).toEqual(COMPLETED);
+    });
+
+
     it('should return NOT_STARTED from statusAppealStatement if id is empty', () => {
       expect(
         SECTIONS.yourAppealSection.appealStatement.rule({
@@ -137,9 +161,14 @@ describe('services/task.service', () => {
         })
       ).toEqual(NOT_STARTED);
     });
-    it('should return NOT_STARTED from statusSupportingDocuments if uploadedFiles empty', () => {
+    it('should return NOT_STARTED from statusSupportingDocuments if uploadedFiles empty and sectionState is not complete', () => {
       expect(
         SECTIONS.yourAppealSection.otherDocuments.rule({
+          sectionStates: {
+            yourAppealSection: {
+              otherDocuments: 'NOT_STARTED',
+            },
+          },
           yourAppealSection: {
             otherDocuments: {
               uploadedFiles: [],
