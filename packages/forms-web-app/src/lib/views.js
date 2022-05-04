@@ -9,11 +9,14 @@ const VIEW = {
     USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE:
       'before-you-start/use-existing-service-enforcement-notice',
 <<<<<<< HEAD
+<<<<<<< HEAD
     USE_EXISTING_SERVICE_DEVELOPMENT_TYPE: 'before-you-start/use-existing-service-development-type',
     USE_EXISTING_SERVICE_LISTED_BUILDING: 'before-you-start/use-existing-service-listed-building',
 =======
     CAN_USE_SERVICE: 'before-you-start/can-use-service',
 >>>>>>> ca9f7dc0c9 (feat(as-4619 check your answers page): implemented "Check Your Answers" for Householder Planning)
+=======
+>>>>>>> d2824524b9 (feat(as-4619 created check your answers page): as-4619 created check your answers page)
   },
 
   ELIGIBILITY: {

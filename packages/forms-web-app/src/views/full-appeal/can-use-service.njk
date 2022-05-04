@@ -64,17 +64,17 @@
             },
             {
               key: {
-                text: "Is your appeal about a listed building?"
+                text: "Your appeal is not about"
               },
               value: {
-                text: summaryField(isListedBuilding, { 'data-cy': "listed-building" })
+                html: "A listed building<br>Major dwellings<br>Major general industry, storage or warehousing<br>Major retail and services<br>Major travelling and caravan pitches"
               },
               actions: {
                 items: [
                   {
-                    href: "/before-you-start/listed-building-householder",
+                    href: "/before-you-start/any-of-following",
                     text: "Change",
-                    visuallyHiddenText: "Decision letter",
+                    visuallyHiddenText: "Your appeal is not about",
                     attributes: { "data-cy":"listedBuilding"}
                   }
                 ]
@@ -90,7 +90,7 @@
               actions: {
                 items: [
                   {
-                    href: "/before-you-start/granted-or-refused-householder",
+                    href: "/before-you-start/granted-or-refused",
                     text: "Change",
                     visuallyHiddenText: "Was your planning application granted or refused?",
                     attributes: { "data-cy":"decisionLetter"}
@@ -108,7 +108,7 @@
               actions: {
                 items: [
                   {
-                    href: "/before-you-start/decision-date-householder",
+                    href: "/before-you-start/decision-date",
                     text: "Change",
                     visuallyHiddenText: "Decision letter",
                     attributes: { "data-cy":"decisionDate"}
@@ -126,7 +126,7 @@
               actions: {
                 items: [
                   {
-                    href: "/before-you-start/enforcement-notice-householder",
+                    href: "/before-you-start/enforcement-notice",
                     text: "Change",
                     visuallyHiddenText: "Have you received an enforcement notice?",
                     attributes: { "data-cy":"enforcementNotice"}
@@ -172,7 +172,7 @@
             </div>
           </details>
 
-        <a href="/appellant-submission/task-list" class="govuk-button" role="button" data-cy="button-save-and-continue"> Continue to my appeal</a>
+        <a href="/full-appeal/submit-appeal/task-list" class="govuk-button" role="button" data-cy="button-save-and-continue"> Continue to my appeal</a>
       </form>
     </div>
   </div>

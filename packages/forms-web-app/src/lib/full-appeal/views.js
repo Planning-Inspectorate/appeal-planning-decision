@@ -38,7 +38,7 @@ const VIEW = {
     DRAFT_STATEMENT_COMMON_GROUND: 'full-appeal/submit-appeal/draft-statement-common-ground',
     EXPECT_ENQUIRY_LAST: 'full-appeal/submit-appeal/expect-inquiry-last',
     PLANS_DRAWINGS_DOCUMENTS: 'full-appeal/submit-appeal/plans-drawings-documents',
-    CAN_USE_SERVICE: 'before-you-start/can-use-service',
+    CAN_USE_SERVICE_FULL_APPEAL: 'full-appeal/can-use-service',
   },
 };
 
