@@ -17,7 +17,7 @@ jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
     setDestinationEmailAddress: jest.fn(() => mock),
     setEmailReplyToId: jest.fn(() => mock),
     setReference: jest.fn(() => mock),
-    sendEmail: jest.fn(() => Promise.resolve('done')),
+    sendEmailClient: jest.fn(() => Promise.resolve('done')),
   };
   return mock;
 });

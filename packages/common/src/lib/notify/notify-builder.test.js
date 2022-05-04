@@ -45,7 +45,7 @@ describe('lib/notify/notify-builder', () => {
         await NotifyBuilder.setTemplateId(templateId)
           .setReference('abc/123')
           .setDestinationEmailAddress(destinationEmail)
-          .sendEmail();
+          .sendEmailClient();
 
         expect(mockInfo.mock.calls).toEqual([
           ['Resetting the notify client'],
@@ -79,7 +79,7 @@ describe('lib/notify/notify-builder', () => {
         .setReference('abc/123')
         .setDestinationEmailAddress(destinationEmail)
         .setTemplateVariablesFromObject(templatePersonalisation)
-        .sendEmail();
+        .sendEmailClient();
 
       expect(mockInfo.mock.calls).toEqual([
         ['Resetting the notify client'],
@@ -115,7 +115,7 @@ describe('lib/notify/notify-builder', () => {
       describe('guards', () => {
         test('throws if template id is not set', async () => {
           try {
-            await NotifyBuilder.sendEmail();
+            await NotifyBuilder.sendEmailClient();
           } catch (e) {
             expect(e).toEqual(new Error('Template ID must be set before an email can be sent.'));
           }
@@ -123,7 +123,7 @@ describe('lib/notify/notify-builder', () => {
 
         test('throws if destination email address is not set', async () => {
           try {
-            await NotifyBuilder.setTemplateId('123').sendEmail();
+            await NotifyBuilder.setTemplateId('123').sendEmailClient();
           } catch (e) {
             expect(e).toEqual(
               new Error('A destination email address must be set before an email can be sent.')
@@ -135,7 +135,7 @@ describe('lib/notify/notify-builder', () => {
           try {
             await NotifyBuilder.setTemplateId('123')
               .setDestinationEmailAddress('abc@example.com')
-              .sendEmail();
+              .sendEmailClient();
           } catch (e) {
             expect(e).toEqual(new Error('A reference must be set before an email can be sent.'));
           }
@@ -264,9 +264,9 @@ describe('lib/notify/notify-builder', () => {
             .setDestinationEmailAddress(destinationEmail)
             .setTemplateVariablesFromObject(templatePersonalisation)
             .setEmailReplyToId(emailReplyToId)
-            .sendEmail();
+            .sendEmailClient();
 
-          expect(mockNotifySendEmailFn).toHaveBeenCalledWith(templateId, destinationEmail, {
+          expect(mockNotifysendEmailClientFn).toHaveBeenCalledWith(templateId, destinationEmail, {
             personalisation: templatePersonalisation,
             reference,
             emailReplyToId,

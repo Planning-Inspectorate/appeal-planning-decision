@@ -48,7 +48,7 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
       .setDestinationEmailAddress(recipientEmail)
       .setTemplateVariablesFromObject(variables)
       .setReference(reference)
-      .sendEmail();
+      .sendEmailClient();
   } catch (err) {
     logger.error(
       { err, lpaCode: appeal.lpaCode },
