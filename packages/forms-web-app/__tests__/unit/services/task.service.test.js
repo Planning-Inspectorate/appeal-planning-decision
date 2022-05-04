@@ -6,7 +6,13 @@ const {
   IN_PROGRESS,
   NOT_STARTED,
 } = require('../../../src/services/task-status/task-statuses');
-const { SECTIONS, getNextTask, getTaskStatus } = require('../../../src/services/task.service');
+const {
+  SECTIONS,
+  getNextTask,
+  getTaskStatus,
+  setTaskStatusComplete,
+  setTaskStatusNotStarted,
+} = require('../../../src/services/task.service');
 
 beforeEach(() => {
   jest.resetAllMocks();
@@ -148,7 +154,6 @@ describe('services/task.service', () => {
         })
       ).toEqual(COMPLETED);
     });
-
 
     it('should return NOT_STARTED from statusAppealStatement if id is empty', () => {
       expect(
@@ -385,6 +390,18 @@ describe('services/task.service', () => {
       });
       expect(ruleUnderSection).toBeCalledTimes(1);
       expect(taskStatus).toBeUndefined();
+    });
+  });
+
+  describe('setTaskStatusComplete', () => {
+    it('should return completed task status', () => {
+      expect(setTaskStatusComplete()).toBe(COMPLETED);
+    });
+  });
+
+  describe('setTaskStatusNotStarted', () => {
+    it('should return not started task status', () => {
+      expect(setTaskStatusNotStarted()).toBe(NOT_STARTED);
     });
   });
 });
