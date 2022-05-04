@@ -9,6 +9,7 @@ const {
   getNextTask,
   getTaskStatus,
   setTaskStatusComplete,
+  setTaskStatusNotStarted,
 } = require('../../../../src/services/task.service');
 const { VIEW } = require('../../../../src/lib/views');
 
@@ -94,7 +95,7 @@ describe('controllers/appellant-submission/supporting-documents', () => {
       };
       await supportingDocumentsController.postSupportingDocuments(mockRequest, res);
 
-      expect(setTaskStatusComplete).toHaveBeenCalled();
+      expect(setTaskStatusNotStarted).toHaveBeenCalled();
 
       expect(res.redirect).not.toHaveBeenCalled();
 
