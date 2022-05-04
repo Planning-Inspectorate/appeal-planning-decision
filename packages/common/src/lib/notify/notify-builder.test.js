@@ -13,7 +13,7 @@ const mockPrepareUploadFn = jest.fn();
 
 const mockCreateNotifyClient = jest.fn(() => ({
   prepareUpload: mockPrepareUploadFn,
-  sendEmail: mockNotifySendEmailFn,
+  sendEmailClient: mockNotifySendEmailFn,
 }));
 
 jest.doMock('./notify-factory', () => ({

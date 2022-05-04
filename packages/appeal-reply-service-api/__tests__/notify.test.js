@@ -239,7 +239,7 @@ describe('Notify', () => {
           'link to appeal questionnaire pdf',
           fakeFileData
         );
-        expect(NotifyBuilder.sendEmail).toHaveBeenCalled();
+        expect(NotifyBuilder.sendEmailClient).toHaveBeenCalled();
       });
     });
   });

@@ -19,5 +19,5 @@ const { NotifyClient } = require('notifications-node-client');
 
   const notify = new NotifyClient(...args);
 
-  await notify.sendEmail('123', 'test@test.com', {});
+  await notify.sendEmailClient('123', 'test@test.com', {});
 })();
