@@ -1,5 +1,6 @@
 const { NotifyClient } = require('notifications-node-client');
 const config = require('../../config');
+const logger = require('../../../src/lib/logger');
 
 function getNotifyClientArguments(baseUrl, serviceId, apiKey) {
   const args = [];
@@ -17,6 +18,11 @@ function createNotifyClient({ baseUrl, serviceId, apiKey } = config.services.not
   const activeBaseUrl = baseUrl || config.services.notify.baseUrl;
   const activeServiceId = serviceId || config.services.notify.serviceId;
   const activeApiKey = apiKey || config.services.notify.apiKey;
+
+  logger.debug('=====================');
+  logger.debug('HERE 1');
+  logger.debug({ baseUrl, serviceId, apiKey });
+  logger.debug('=====================');
 
   return new NotifyClient(
     ...getNotifyClientArguments(activeBaseUrl, activeServiceId, activeApiKey)

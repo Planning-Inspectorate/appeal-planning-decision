@@ -183,6 +183,10 @@ module.exports = {
         requestData.emailReplyToId = this.emailReplyToId;
       }
 
+      logger.debug('=====================');
+      logger.debug('HERE 2');
+      logger.debug('=====================');
+
       await this.getNotifyClient().sendEmail(this.templateId, this.destinationEmail, requestData);
     } catch (err) {
       const message = 'Problem sending email';
