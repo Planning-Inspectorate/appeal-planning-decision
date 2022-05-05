@@ -58,7 +58,7 @@ Feature: Householder appeal Eligibility Journey
     And appellant clicks on browser back
     Then data is persisted for No from the claiming costs option
     When appellant clicks on the continue button
-    Then appellant is navigated to householder appeal task list page
+    Then appellant is navigated to householder appeal check your answers page
     Examples:
       | application_type | application_decision | deadline_duration |
       | Householder      | Refused              | 12 weeks          |
@@ -104,7 +104,7 @@ Feature: Householder appeal Eligibility Journey
     And appellant clicks on browser back
     Then data is persisted for No from the claiming costs option
     When appellant clicks on the continue button
-    Then appellant is navigated to householder appeal task list page
+    Then appellant is navigated to householder appeal check your answers page
     Examples:
       | application_type | application_decision | deadline_duration |
       | Prior approval   | Refused              | 12 weeks          |
@@ -150,7 +150,7 @@ Feature: Householder appeal Eligibility Journey
     And appellant clicks on browser back
     Then data is persisted for No from the claiming costs option
     When appellant clicks on the continue button
-    Then appellant is navigated to householder appeal task list page
+    Then appellant is navigated to householder appeal check your answers page
     Examples:
       | application_type                   | application_decision | deadline_duration |
       | Removal or variation of conditions | Refused              | 12 weeks          |
@@ -170,7 +170,7 @@ Feature: Householder appeal Eligibility Journey
     And appellant clicks on the continue button
     And appellant selects No from the claiming costs option
     And appellant clicks on the continue button
-    Then appellant is navigated to householder appeal task list page
+    Then appellant is navigated to householder appeal check your answers page
     When appellant clicks on browser back
     And data is persisted for No from the claiming costs option
     And appellant clicks on back link
@@ -221,7 +221,7 @@ Feature: Householder appeal Eligibility Journey
     And appellant clicks on the continue button
     And appellant selects No from the claiming costs option
     And appellant clicks on the continue button
-    Then appellant is navigated to householder appeal task list page
+    Then appellant is navigated to householder appeal check your answers page
     When appellant clicks on browser back
     And data is persisted for No from the claiming costs option
     And appellant clicks on back link
@@ -244,7 +244,7 @@ Feature: Householder appeal Eligibility Journey
     And appellant clicks on the continue button
     And appellant selects No from the enforcement notice options
     And appellant clicks on the continue button
-    Then appellant is navigated to full appeal task list page
+    Then appellant is navigated to full appeal check your answers page
     Examples:
       | application_type | application_decision           |
       | Prior approval   | Granted                        |
@@ -265,7 +265,7 @@ Feature: Householder appeal Eligibility Journey
     And appellant clicks on the continue button
     And appellant selects No from the claiming costs option
     And appellant clicks on the continue button
-    Then appellant is navigated to householder appeal task list page
+    Then appellant is navigated to householder appeal check your answers page
     When appellant clicks on browser back
     And data is persisted for No from the claiming costs option
     And appellant clicks on back link
@@ -288,7 +288,7 @@ Feature: Householder appeal Eligibility Journey
     And appellant clicks on the continue button
     And appellant selects No from the enforcement notice options
     And appellant clicks on the continue button
-    Then appellant is navigated to full appeal task list page
+    Then appellant is navigated to full appeal check your answers page
     Examples:
       | application_type                   | application_decision           |
       | Removal or variation of conditions | Granted                        |

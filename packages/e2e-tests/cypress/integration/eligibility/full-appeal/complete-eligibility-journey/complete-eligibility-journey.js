@@ -238,7 +238,7 @@ When('appellant enters the date within 12 weeks when the Refused decision was re
 });
 
 Then('appellant is navigated to householder appeal check your answers page', () => {
-  verifyPage('appellant-submission/task-list');
+  verifyPage('before-you-start/can-use-service');
 });
 
 Then('data is persisted for local planning department', () => {
