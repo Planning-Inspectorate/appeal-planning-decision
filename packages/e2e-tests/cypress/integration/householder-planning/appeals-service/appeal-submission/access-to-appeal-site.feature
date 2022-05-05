@@ -1,4 +1,4 @@
-@wip @has
+@has
 Feature: Access to the Appeal Site
 I want to notify the Planning Inspectorate if access to the appeal site is restricted so they are aware to contact me for access.
 

@@ -1,4 +1,4 @@
-@wip @has
+@has
 Feature: Submit an appeal using the System Test Borough Council LPA
   To be able to verify the deployment of the application to production we need the ability
    to submit an appeal and create a case for it in Horizon with no negative impact

@@ -1,4 +1,4 @@
-@wip @has
+@has
 Feature: Appeal Submission - Creation of submission information file
 
   As a Planning Inspectorate case worker

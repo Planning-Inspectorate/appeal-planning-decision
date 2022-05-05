@@ -1,4 +1,4 @@
-@wip @has
+@has
 Feature: Appeal submission to Horizon - other Appellant submission scenarios
 
 As a case officer
