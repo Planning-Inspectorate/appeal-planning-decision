@@ -20,9 +20,9 @@ resources:
   pipelines:
     - pipeline: horizon-functions-ci
       source: horizon-functions CI
-      trigger: 
+      trigger:
         branches:
-          include: 
+          include:
             - master
 
 extends:
@@ -32,3 +32,6 @@ extends:
     artifactSourcePipeline: horizon-functions CI
     project: appeal-planning-decision
     resourceGroup: pins-rg-appeals-service-$(ENVIRONMENT)-${{ parameters.region }}-001
+    ${{ if in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'ResourceTrigger') }}:
+      environments:
+        - name: Dev
