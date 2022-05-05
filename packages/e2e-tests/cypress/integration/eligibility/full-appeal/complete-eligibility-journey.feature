@@ -64,7 +64,7 @@ Feature: Full Appeal Eligibility Journey
     And appellant clicks on browser back
     Then data is persisted for enforcement notice
     When appellant clicks on the continue button
-    Then appellant is navigated to full appeal task list page
+    Then appellant is navigated to full appeal check your answers page
     Examples:
       | application_type | application_decision           |
       | Full planning    | Granted                        |
@@ -113,7 +113,7 @@ Feature: Full Appeal Eligibility Journey
     And appellant clicks on browser back
     Then data is persisted for enforcement notice
     When appellant clicks on the continue button
-    Then appellant is navigated to full appeal task list page
+    Then appellant is navigated to full appeal check your answers page
     Examples:
       | application_type | application_decision           |
       | Prior approval   | Granted                        |
@@ -156,7 +156,7 @@ Feature: Full Appeal Eligibility Journey
     And appellant clicks on browser back
     Then data is persisted for enforcement notice
     When appellant clicks on the continue button
-    Then appellant is navigated to full appeal task list page
+    Then appellant is navigated to full appeal check your answers page
     Examples:
       | application_type                   | application_decision           |
       | Removal or variation of conditions | Granted                        |
@@ -176,7 +176,7 @@ Feature: Full Appeal Eligibility Journey
     And appellant clicks on the continue button
     And appellant selects No from the enforcement notice options
     And appellant clicks on the continue button
-    Then appellant is navigated to full appeal task list page
+    Then appellant is navigated to full appeal check your answers page
     When appellant clicks on browser back
     And data is persisted for enforcement notice
     And appellant clicks on back link
@@ -226,7 +226,7 @@ Feature: Full Appeal Eligibility Journey
     And appellant clicks on the continue button
     And appellant selects No from the enforcement notice options
     And appellant clicks on the continue button
-    Then appellant is navigated to full appeal task list page
+    Then appellant is navigated to full appeal check your answers page
     When appellant clicks on browser back
     And data is persisted for enforcement notice
     And appellant clicks on back link
@@ -271,7 +271,7 @@ Feature: Full Appeal Eligibility Journey
     And appellant clicks on the continue button
     And appellant selects No from the enforcement notice options
     And appellant clicks on the continue button
-    Then appellant is navigated to full appeal task list page
+    Then appellant is navigated to full appeal check your answers page
     When appellant clicks on browser back
     And data is persisted for enforcement notice
     And appellant clicks on back link
