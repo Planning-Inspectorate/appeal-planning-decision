@@ -22,7 +22,6 @@ import { getDate, getMonth, getYear } from 'date-fns';
 import { selectSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/select-site-option';
 import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
 import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
-import { cy } from 'date-fns/locale';
 const pageHeading = 'Have you received an enforcement notice?';
 const pageTitle =
   'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK';
