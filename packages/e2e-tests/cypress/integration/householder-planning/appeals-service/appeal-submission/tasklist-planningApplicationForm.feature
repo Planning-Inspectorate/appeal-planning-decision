@@ -1,4 +1,3 @@
-@has
 Feature: User chooses to provide their appeal submission document
 
 Scenario: The user needs to provide their appeal submission document

@@ -1,4 +1,3 @@
-@has
 Feature: User chooses to provide their planning application number
 
   Scenario: The user needs to provide their planning application number
