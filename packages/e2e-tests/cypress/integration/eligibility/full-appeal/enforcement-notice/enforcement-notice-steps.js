@@ -22,6 +22,7 @@ import { getDate, getMonth, getYear } from 'date-fns';
 import { selectSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/select-site-option';
 import { selectLocalPlanningDepartment } from '../../../../support/before-you-start/local-planning-department';
 import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
+import { cy } from 'date-fns/locale';
 const pageHeading = 'Have you received an enforcement notice?';
 const pageTitle =
   'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK';
@@ -87,8 +88,8 @@ When('appellant selects the back button', () => {
   getBackLink().click();
 });
 
-Then('appellant gets navigated to appeal a planning decision task list page', () => {
-  cy.url().should('contain', '/full-appeal/submit-appeal/task-list');
+Then('appellant gets navigated to full appeal check your answers page', () => {
+  cy.url().should('contain', '/before-you-start/can-use-service');
 });
 
 Then('appellant is navigated to the shutter page', () => {

@@ -72,8 +72,8 @@ Then('appellant gets navigated to HAS Appeal form', () => {
   verifyPage('/results');
 });
 
-Then('appellant gets navigated to HAS task list', () => {
-  verifyPage('/task-list');
+Then('appellant gets navigated to HAS check your answers page', () => {
+  verifyPage('/before-you-start/can-use-service');
 });
 
 Then(
