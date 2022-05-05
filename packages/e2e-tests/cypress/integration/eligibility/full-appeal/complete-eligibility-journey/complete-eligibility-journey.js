@@ -237,7 +237,7 @@ When('appellant enters the date within 12 weeks when the Refused decision was re
   });
 });
 
-Then('appellant is navigated to householder appeal task list page', () => {
+Then('appellant is navigated to householder appeal check your answers page', () => {
   verifyPage('appellant-submission/task-list');
 });
 
@@ -251,10 +251,6 @@ Then('data is persisted for local planning department', () => {
 
 Then('appellant is navigated to full appeal check your answers page', () => {
   verifyPage('before-you-start/can-use-service');
-});
-
-Then('appellant is navigated to full appeal task list page', () => {
-  verifyPage('full-appeal/submit-appeal/task-list');
 });
 
 Then('data is persisted for {string} planning application type', (applicationType) => {

@@ -13,7 +13,7 @@ Feature: Full Appeal Eligibility Journey
     And appellant clicks on the continue button
     And appellant selects No from the enforcement notice options
     And appellant clicks on the continue button
-    Then appellant is navigated to full appeal task list page
+    Then appellant is navigated to full appeal check your answers page
     Examples:
       | application_type                   | application_decision           |
       | Full planning                      | Granted                        |
@@ -199,7 +199,7 @@ Feature: Full Appeal Eligibility Journey
     And appellant clicks on the continue button
     And appellant selects No from the claiming costs option
     And appellant clicks on the continue button
-    Then appellant is navigated to householder appeal task list page
+    Then appellant is navigated to householder appeal check your answers page
     Examples:
       | application_type | application_decision           |
       | Full planning    | Granted                        |
@@ -251,7 +251,7 @@ Feature: Full Appeal Eligibility Journey
     And appellant clicks on the continue button
     And appellant selects No from the claiming costs option
     And appellant clicks on the continue button
-    Then appellant is navigated to householder appeal task list page
+    Then appellant is navigated to householder appeal check your answers page
     Examples:
       | application_type                   | application_decision           |
       | Prior approval                     | Granted                        |
@@ -296,7 +296,7 @@ Feature: Full Appeal Eligibility Journey
     And appellant clicks on the continue button
     And appellant selects No from the claiming costs option
     And appellant clicks on the continue button
-    Then appellant is navigated to householder appeal task list page
+    Then appellant is navigated to householder appeal check your answers page
     Examples:
       | application_type                   | application_decision           |
       | Removal or variation of conditions | Granted                        |

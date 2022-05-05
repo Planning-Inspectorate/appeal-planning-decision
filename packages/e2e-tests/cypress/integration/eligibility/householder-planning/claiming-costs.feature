@@ -6,7 +6,7 @@ Feature: Claiming Cost
     Given appellant is on the claiming cost page
     When appellant selects 'No' from the options
     And appellant clicks on the continue button
-    Then appellant gets navigated to HAS task list
+    Then appellant gets navigated to HAS check your answers page
 
   Scenario: AC02 - Appellant claims cost
     Given appellant is on the claiming cost page
