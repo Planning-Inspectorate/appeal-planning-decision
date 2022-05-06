@@ -58,7 +58,7 @@ exports.getCanUseService = async (req, res) => {
   const applicationType = req.session.appeal.typeOfPlanningApplication;
   if (applicationType === 'householder-planning') {
     await canUseServiceHouseholderPlanning(req, res);
-  } else if (applicationType === 'full-appeal') {
+  } else {
     await canUseServiceFullAppeal(req, res);
   }
 };
