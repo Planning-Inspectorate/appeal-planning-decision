@@ -15,7 +15,7 @@ Feature: Householder appeal Eligibility Journey
     And appellant clicks on the continue button
     And appellant selects No from the claiming costs option
     And appellant clicks on the continue button
-    Then appellant is navigated to householder check your answers page
+    Then appellant is navigated to householder appeal check your answers page
     Examples:
       | application_type                   | application_decision | deadline_duration |
       | Householder                        | Refused              | 12 weeks          |
