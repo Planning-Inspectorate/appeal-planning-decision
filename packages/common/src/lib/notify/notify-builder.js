@@ -87,8 +87,14 @@ module.exports = {
    */
   setTemplateVariablesFromObject(templateVariableObject) {
     logger.debug('Setting template variables from object.');
-    Object.entries(templateVariableObject).forEach(([key, value]) =>
-      this.setTemplateVariable(key, value)
+    Object.entries(templateVariableObject).forEach(
+      ([key, value]) => {
+        this.templatePersonalisation = {
+          ...(this.templatePersonalisation || {}),
+          [key]: value,
+        };
+      }
+      // this.setTemplateVariable(key, value)
     );
 
     return this;

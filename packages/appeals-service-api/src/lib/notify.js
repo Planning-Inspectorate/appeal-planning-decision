@@ -3,12 +3,23 @@ const {
     appeal: { type: appealTypeConfig },
   },
 } = require('@pins/business-rules');
-const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
+const { NotifyClient } = require('notifications-node-client');
 const config = require('./config');
 const logger = require('./logger');
 const { getLpa } = require('../services/lpa.service');
 
 const { templates } = config.services.notify;
+
+const personalisation = (templateVariableObject) => {
+  let templatePersonalisation;
+  Object.entries(templateVariableObject).forEach(([key, value]) => {
+    templatePersonalisation = {
+      ...(templatePersonalisation || {}),
+      [key]: value,
+    };
+  });
+  return templatePersonalisation;
+};
 
 const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
   try {
@@ -19,12 +30,19 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 
     logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
 
-    await NotifyBuilder.reset()
-      .setTemplateId(templates[appeal.appealType].appealSubmissionConfirmationEmailToAppellant)
-      .setDestinationEmailAddress(recipientEmail)
-      .setTemplateVariablesFromObject(variables)
-      .setReference(reference)
-      .sendEmail();
+    const notifyClient = new NotifyClient(config.services.notify.apiKey);
+    const personalisationTemplate = personalisation(variables);
+    notifyClient
+      .sendEmail(
+        templates[appeal.appealType].appealSubmissionConfirmationEmailToAppellant,
+        recipientEmail,
+        {
+          personalisationTemplate,
+          reference,
+        }
+      )
+      .then((response) => logger.log(response))
+      .catch((err) => logger.error(err));
   } catch (err) {
     logger.error(
       { err, appealId: appeal.id },
@@ -43,12 +61,15 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 
     logger.debug({ recipientEmail, variables, reference }, 'Sending email to LPA');
 
-    await NotifyBuilder.reset()
-      .setTemplateId(templates[appeal.appealType].appealNotificationEmailToLpa)
-      .setDestinationEmailAddress(recipientEmail)
-      .setTemplateVariablesFromObject(variables)
-      .setReference(reference)
-      .sendEmail();
+    const notifyClient = new NotifyClient(config.services.notify.apiKey);
+    const personalisationTemplate = personalisation(variables);
+    notifyClient
+      .sendEmail(templates[appeal.appealType].appealNotificationEmailToLpa, recipientEmail, {
+        personalisationTemplate,
+        reference,
+      })
+      .then((response) => logger.log(response))
+      .catch((err) => logger.error(err));
   } catch (err) {
     logger.error(
       { err, lpaCode: appeal.lpaCode },
