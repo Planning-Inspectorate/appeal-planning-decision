@@ -12,7 +12,16 @@ const statusPlanningApplicationDocumentsSection = (appeal) => {
   } = appeal;
   const section = appeal.sectionStates.planningApplicationDocumentsSection;
 
-  const sectionPath = new SectionPath(section)
+  const sectionPath = new SectionPath(section);
+
+  if (
+    appeal.typeOfPlanningApplication === 'removal-or-variation-of-conditions' &&
+    appeal.eligibility.applicationDecision === 'nodecisionreceived'
+  ) {
+    sectionPath.add('originalDecisionNotice');
+  }
+
+  sectionPath
     .add('originalApplication')
     .add('applicationNumber')
     .add('plansDrawingsSupportingDocuments')
