@@ -188,7 +188,7 @@ When(
   },
 );
 
-Then('appellant is navigated to householder check your answers page', () => {
+Then('appellant is navigated to householder appeal check your answers page', () => {
   verifyPage('before-you-start/can-use-service');
 });
 

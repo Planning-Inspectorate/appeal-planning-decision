@@ -117,6 +117,8 @@ Then('appellant is navigated to Appeal a householder planning decision', () => {
   cy.url().should('contain', 'before-you-start/claiming-costs-householder');
   selectNo().click();
   getSaveAndContinueButton().click();
+  cy.url().should('contain', 'before-you-start/can-use-service');
+  getSaveAndContinueButton().click();
   cy.url().should('contain', 'appellant-submission/task-list');
 });
 
