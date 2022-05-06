@@ -34,15 +34,17 @@ const url = '/before-you-start/prior-approval-existing-home';
 const pageTitle =
   'Did you apply for prior approval to extend an existing home? - Before you start - Appeal a planning decision - GOV.UK';
 
-Given('an appellant is on the is your appeal about any of the following page',()=>{
+Given('an appellant is on the is your appeal about any of the following page', () => {
   goToAppealsPage('before-you-start/local-planning-department');
   acceptCookiesBanner();
   selectLocalPlanningDepartment('System Test Borough Council');
   getSaveAndContinueButton().click();
 });
 
-Given('the appellant is on the Did you apply for prior approval to extend an existing home page',()=>{
-  goToAppealsPage('before-you-start/local-planning-department');
+Given(
+  'the appellant is on the Did you apply for prior approval to extend an existing home page',
+  () => {
+    goToAppealsPage('before-you-start/local-planning-department');
     selectLocalPlanningDepartment('System Test Borough Council');
     getSaveAndContinueButton().click();
     selectPlanningApplicationType('Prior approval');
@@ -52,98 +54,124 @@ Given('the appellant is on the Did you apply for prior approval to extend an exi
   },
 );
 
-When('appellant selects {string} and clicks continue', (application_type) =>{
+When('appellant selects {string} and clicks continue', (application_type) => {
   selectPlanningApplicationType(application_type);
   getSaveAndContinueButton().click();
 });
 
-Then('appellant is presented with the next page Did you apply for prior approval to extend an existing home?',()=>{
-  cy.url().should('contain', url);
-  verifyPageHeading(pageHeading);
-  verifyPageTitle(pageTitle);
-});
+Then(
+  'appellant is presented with the next page Did you apply for prior approval to extend an existing home?',
+  () => {
+    cy.url().should('contain', url);
+    verifyPageHeading(pageHeading);
+    verifyPageTitle(pageTitle);
+  },
+);
 
-When('appellant selects {string} and click continue',(approval_answer)=>{
-  if(approval_answer==='yes'){
+When('appellant selects {string} and click continue', (approval_answer) => {
+  if (approval_answer === 'yes') {
     selectYes().click();
-  }else if(approval_answer==='no'){
+  } else if (approval_answer === 'no') {
     selectNo().click();
   }
   getSaveAndContinueButton().click();
 });
 
-When('appellant clicks on the continue button',()=>{
+When('appellant clicks on the continue button', () => {
   getSaveAndContinueButton().click();
 });
 
-Then('appellant is presented with the next page Is your appeal about a listed building',()=>{
-  cy.url().should('contain','before-you-start/listed-building-householder');
+Then('appellant is presented with the next page Is your appeal about a listed building', () => {
+  cy.url().should('contain', 'before-you-start/listed-building-householder');
 });
 
-Given('appellant selects the option as No for listed building',()=>{
-  cy.url().should('contain','before-you-start/listed-building-householder');
+Given('appellant selects the option as No for listed building', () => {
+  cy.url().should('contain', 'before-you-start/listed-building-householder');
   selectListedBuildingDecision('No');
   getContinueButton().click();
-})
-Given('appellant is on the was your planning application granted or refused page for householder', () => {
-  cy.url().should('contain', 'before-you-start/granted-or-refused-householder');
 });
+Given(
+  'appellant is on the was your planning application granted or refused page for householder',
+  () => {
+    cy.url().should('contain', 'before-you-start/granted-or-refused-householder');
+  },
+);
 
-When('the appellant selects the option as {string}', (decision)=>{
+When('the appellant selects the option as {string}', (decision) => {
   selectPlanningApplicationDecision(decision);
   getContinueButton().click();
 });
 
-Then('appellant is navigated to Appeal a householder planning decision',()=>{
-  cy.url().should('contain','before-you-start/decision-date-householder');
+Then('appellant is navigated to Appeal a householder planning decision', () => {
+  cy.url().should('contain', 'before-you-start/decision-date-householder');
   const validDate = getPastDate(allowedDatePart.WEEK, 7);
-  enterDateHouseholderDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate) } );
+  enterDateHouseholderDecisionReceived({
+    day: ('0' + getDate(validDate)).slice(-2),
+    month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+    year: getYear(validDate),
+  });
   getSaveAndContinueButton().click();
-  cy.url().should('contain','before-you-start/enforcement-notice-householder');
+  cy.url().should('contain', 'before-you-start/enforcement-notice-householder');
   selectNo().click();
   getSaveAndContinueButton().click();
-  cy.url().should('contain','before-you-start/claiming-costs-householder');
+  cy.url().should('contain', 'before-you-start/claiming-costs-householder');
   selectNo().click();
   getSaveAndContinueButton().click();
-  cy.url().should('contain','appellant-submission/task-list');
+  cy.url().should('contain', 'appellant-submission/task-list');
 });
 
-Then('appellant is navigated to Appeal a planning decision for {string}',(decision)=>{
-  if(decision === 'Granted' ||  decision === 'Refused'){
-    cy.url().should('contain','before-you-start/decision-date');
+Then('appellant is navigated to Appeal a planning decision for {string}', (decision) => {
+  if (decision === 'Granted' || decision === 'Refused') {
+    cy.url().should('contain', 'before-you-start/decision-date');
     const validDate = getPastDate(allowedDatePart.MONTH, 3);
-    enterDateDecisionReceived( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate) } );
+    enterDateDecisionReceived({
+      day: ('0' + getDate(validDate)).slice(-2),
+      month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+      year: getYear(validDate),
+    });
     getSaveAndContinueButton().click();
-  }else if(decision === 'I have not received a decision'){
-    cy.url().should('contain','before-you-start/date-decision-due');
+  } else if (decision === 'I have not received a decision') {
+    cy.url().should('contain', 'before-you-start/date-decision-due');
     const validDate = getPastDate(allowedDatePart.MONTH, 3);
-    enterDateDecisionDue( {day: ("0" + getDate(validDate)).slice(-2), month: ("0" + (getMonth(validDate)+1)).slice(-2) , year: getYear(validDate) } );
+    enterDateDecisionDue({
+      day: ('0' + getDate(validDate)).slice(-2),
+      month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+      year: getYear(validDate),
+    });
     getSaveAndContinueButton().click();
   }
-  cy.url().should('contain','before-you-start/enforcement-notice');
+  cy.url().should('contain', 'before-you-start/enforcement-notice');
   selectNo().click();
   getSaveAndContinueButton().click();
-  cy.url().should('contain','full-appeal/submit-appeal/task-list');
-});
-
-Then('appellant is presented with the next page Was your planning application about any of the following',()=>{
-  cy.url().should('contain','before-you-start/any-of-following');
-  selectSiteOption('None of these');
+  cy.url().should('contain', 'before-you-start/can-use-service');
   getSaveAndContinueButton().click();
-})
-
-Then('appellant is on the was your planning application granted or refused page',()=>{
-  cy.url().should('contain','before-you-start/granted-or-refused');
+  cy.url().should('contain', 'full-appeal/submit-appeal/task-list');
 });
 
-Then('appellant sees an error message {string}',(error_message)=>{
-  verifyErrorMessage(error_message,getPriorApprovalExistingHomeError,getErrorMessageSummary);
+Then(
+  'appellant is presented with the next page Was your planning application about any of the following',
+  () => {
+    cy.url().should('contain', 'before-you-start/any-of-following');
+    selectSiteOption('None of these');
+    getSaveAndContinueButton().click();
+  },
+);
+
+Then('appellant is on the was your planning application granted or refused page', () => {
+  cy.url().should('contain', 'before-you-start/granted-or-refused');
 });
-When('appellant clicks on back link',()=>{
+
+Then('appellant sees an error message {string}', (error_message) => {
+  verifyErrorMessage(error_message, getPriorApprovalExistingHomeError, getErrorMessageSummary);
+});
+When('appellant clicks on back link', () => {
   getBackLink().click();
 });
 
-Then('appellant is presented with the What type of planning application if your appeal about page',()=>{
-  cy.url().should('contain','before-you-start/type-of-planning-application');
-  getPriorApprovalPlanningRadio().should('be.checked');
-})
+Then(
+  'appellant is presented with the What type of planning application if your appeal about page',
+  () => {
+    cy.url().should('contain', 'before-you-start/type-of-planning-application');
+    getPriorApprovalPlanningRadio().should('be.checked');
+  },
+);

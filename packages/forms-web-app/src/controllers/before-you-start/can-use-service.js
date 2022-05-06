@@ -55,8 +55,12 @@ const canUseServiceFullAppeal = async (req, res) => {
 };
 
 exports.getCanUseService = async (req, res) => {
-  const applicationType = req.session.appeal.typeOfPlanningApplication;
-  if (applicationType === 'householder-planning') {
+  const { appeal } = req.session;
+  const applicationType = appeal.typeOfPlanningApplication;
+  if (
+    applicationType === 'householder-planning' ||
+    appeal.eligibility.hasHouseholderPermissionConditions
+  ) {
     await canUseServiceHouseholderPlanning(req, res);
   } else {
     await canUseServiceFullAppeal(req, res);
