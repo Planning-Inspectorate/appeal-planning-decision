@@ -10,6 +10,8 @@ const { getLpa } = require('../services/lpa.service');
 
 const { templates } = config.services.notify;
 
+const notifyClient = new NotifyClient(config.services.notify.apiKey);
+
 const personalisation = (templateVariableObject) => {
   let templatePersonalisation;
   Object.entries(templateVariableObject).forEach(([key, value]) => {
@@ -30,7 +32,6 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 
     logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
 
-    const notifyClient = new NotifyClient(config.services.notify.apiKey);
     const personalisationTemplate = personalisation(variables);
     notifyClient
       .sendEmail(
@@ -61,7 +62,6 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 
     logger.debug({ recipientEmail, variables, reference }, 'Sending email to LPA');
 
-    const notifyClient = new NotifyClient(config.services.notify.apiKey);
     const personalisationTemplate = personalisation(variables);
     notifyClient
       .sendEmail(templates[appeal.appealType].appealNotificationEmailToLpa, recipientEmail, {
