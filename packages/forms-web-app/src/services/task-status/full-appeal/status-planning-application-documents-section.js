@@ -1,7 +1,7 @@
 const {
   constants: {
     APPLICATION_DECISION: { NODECISIONRECEIVED },
-  }
+  },
 } = require('@pins/business-rules');
 const { getStatusOfPath, SectionPath } = require('../task-statuses');
 
