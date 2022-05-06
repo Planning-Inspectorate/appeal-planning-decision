@@ -154,6 +154,10 @@ Given('appellant selects No from the claiming costs option', () => {
   getClaimingCostNo().check();
 });
 
+Then('appellant is navigated to householder appeal check your answers page', () => {
+  verifyPage('before-you-start/can-use-service');
+});
+
 When('appellant clicks on back link', () => {
   getBackLink().click();
 });
