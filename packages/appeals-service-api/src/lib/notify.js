@@ -37,7 +37,7 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
         templates[appeal.appealType].appealSubmissionConfirmationEmailToAppellant,
         recipientEmail,
         {
-          personalisationTemplate,
+          personalisation: personalisationTemplate,
           reference,
         }
       )
@@ -65,7 +65,7 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
     const notifyClient = new NotifyClient(config.services.notify.apiKey);
     notifyClient
       .sendEmail(templates[appeal.appealType].appealNotificationEmailToLpa, recipientEmail, {
-        personalisationTemplate,
+        personalisation: personalisationTemplate,
         reference,
       })
       .then((response) => logger.log(response))
