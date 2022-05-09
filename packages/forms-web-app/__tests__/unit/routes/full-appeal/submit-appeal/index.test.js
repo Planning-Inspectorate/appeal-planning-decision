@@ -40,6 +40,7 @@ const plansDrawingsDocumentsRouter = require('../../../../../src/routes/full-app
 const originalDecisionNoticeRouter = require('../../../../../src/routes/full-appeal/submit-appeal/original-decision-notice');
 const planningObligationPlannedRouter = require('../../../../../src/routes/full-appeal/submit-appeal/planning-obligation-planned');
 const planningObligationStatusRouter = require('../../../../../src/routes/full-appeal/submit-appeal/planning-obligation-status');
+const certificatesRouter = require('../../../../../src/routes/full-appeal/submit-appeal/certificates');
 
 describe('routes/full-appeal/submit-appeal/index', () => {
   beforeEach(() => {
@@ -90,5 +91,6 @@ describe('routes/full-appeal/submit-appeal/index', () => {
     expect(use).toHaveBeenCalledWith(originalDecisionNoticeRouter);
     expect(use).toHaveBeenCalledWith(planningObligationPlannedRouter);
     expect(use).toHaveBeenCalledWith(planningObligationStatusRouter);
+    expect(use).toHaveBeenCalledWith(certificatesRouter);
   });
 });

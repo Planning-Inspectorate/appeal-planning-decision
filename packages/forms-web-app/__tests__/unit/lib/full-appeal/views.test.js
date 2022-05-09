@@ -8,6 +8,7 @@ describe('/lib/full-appeal/views', () => {
         CHECK_YOUR_ANSWERS: 'full-appeal/submit-appeal/check-your-answers',
         CONTACT_DETAILS: 'full-appeal/submit-appeal/contact-details',
         APPLICATION_FORM: 'full-appeal/submit-appeal/application-form',
+        CERTIFICATES: 'full-appeal/submit-appeal/certificates',
         APPLICATION_NUMBER: 'full-appeal/submit-appeal/application-number',
         DESIGN_ACCESS_STATEMENT: 'full-appeal/submit-appeal/design-access-statement',
         DESIGN_ACCESS_STATEMENT_SUBMITTED:
