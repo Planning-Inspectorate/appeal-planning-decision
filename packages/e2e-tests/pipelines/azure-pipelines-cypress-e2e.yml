@@ -14,7 +14,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/1.2.0
+      ref: refs/tags/release/1.2.1
 
 variables:
   - group: pipeline_secrets
