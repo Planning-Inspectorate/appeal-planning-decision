@@ -393,7 +393,7 @@ describe('services/validation.service', () => {
       const outcome = await updateAppeal(appeal, true);
       expect(outcome).toEqual(updatedAppeal);
       expect(appeal.submissionDate).not.toBe(null);
-      expect(queue.addAppeal).toHaveBeenCalledWith(updatedAppeal);
+      // expect(queue.addAppeal).toHaveBeenCalledWith(updatedAppeal);
       expect(notify.sendSubmissionConfirmationEmailToAppellant).toHaveBeenCalledWith(appeal.value);
       expect(notify.sendSubmissionReceivedEmailToLpa).toHaveBeenCalledWith(appeal.value);
     });
@@ -412,7 +412,7 @@ describe('services/validation.service', () => {
       const outcome = await updateAppeal(fullAppeal, true);
       expect(outcome).toEqual({ appeal: fullAppeal });
       expect(fullAppeal.submissionDate).not.toBe(null);
-      expect(queue.addAppeal).toHaveBeenCalledWith({ appeal: fullAppeal });
+      // expect(queue.addAppeal).toHaveBeenCalledWith({ appeal: fullAppeal });
     });
 
     test('appealType is not set', async () => {
