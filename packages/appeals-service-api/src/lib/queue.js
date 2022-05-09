@@ -1,5 +1,4 @@
 const container = require('rhea');
-const containerSQL = require('rhea');
 const config = require('./config');
 const logger = require('./logger');
 
@@ -23,25 +22,6 @@ function addAppeal(message) {
 
   container.on('error', (err) => {
     logger.error({ err }, 'There was a problem with the queue');
-  });
-
-  containerSQL.connect(options).open_sender(config.messageQueue.sqlHASAppealsPublisher.queue);
-
-  containerSQL.once('sendable', (context) => {
-    context.sender.send({
-      body: container.message.data_section(Buffer.from(JSON.stringify(message), 'utf-8')),
-      content_type: 'application/json',
-    });
-    logger.info({ message }, 'Appeal message placed on SQL queue');
-  });
-
-  containerSQL.on('accepted', (context) => {
-    context.connection.close();
-    logger.info(`SQL ueue closed on message accepted`);
-  });
-
-  containerSQL.on('error', (err) => {
-    logger.error({ err }, 'There was a problem with the SQL queue');
   });
 }
 
