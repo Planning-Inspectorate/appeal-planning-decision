@@ -1,7 +1,7 @@
 trigger:
   paths:
     include:
-      - packages/pdf-service-api
+      - packages/ping
 
 pr:
   branches:
@@ -9,7 +9,7 @@ pr:
       - master
   paths:
     include:
-      - packages/pdf-service-api
+      - packages/ping
 
 resources:
   repositories:
@@ -25,10 +25,10 @@ extends:
     azurecrName: $(azurecrName)
     authType: acr
     globalVariables:
+      - template: packages/ping/pipelines/azure-pipelines-variables.yml@self
       - template: azure-pipelines-variables.yml@self
-      - template: packages/pdf-service-api/pipelines/azure-pipelines-variables.yml@self
     projectName: $(projectName)
-    validateName: Build Test and Push
+    validateName: Build and Push
     validationSteps:
       - script: |
           buildName=$(versionNumber)_$(Build.BuildId)
@@ -40,8 +40,6 @@ extends:
           azurecrName: $(azurecrName)
           dockerfilePath: $(dockerFilePath)
           repository: $(repository)
-          runTests: true
-          testRunTitle: PDF Service API Jest Tests
+          runTests: false
           versionNumber: $(versionNumber)
           workingDirectory: $(Build.Repository.LocalPath)
-

@@ -21,6 +21,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
+      ref: refs/tags/release/1.2.0
   pipelines:
     - pipeline: document-service-api-ci
       source: document-service-api CI

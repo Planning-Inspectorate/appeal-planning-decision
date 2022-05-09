@@ -1,0 +1,27 @@
+trigger: none
+
+pr:
+  branches:
+    include:
+      - master
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      endpoint: Planning-Inspectorate
+      name: Planning-Inspectorate/common-pipeline-templates
+      ref: refs/tags/release/1.2.0
+
+pool:
+  name: pins-odt-agent-pool
+
+steps:
+  - template: steps/node_script.yml@templates
+    parameters:
+      nodeVersion: 14
+      script: npm ci
+  - template: steps/node_script.yml@templates
+    parameters:
+      nodeVersion: 14
+      script: npm run commitlint -s -- --color=false

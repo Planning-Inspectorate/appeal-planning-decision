@@ -1,0 +1,41 @@
+trigger: none
+
+pr:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - packages
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      endpoint: Planning-Inspectorate
+      name: Planning-Inspectorate/common-pipeline-templates
+      ref: refs/tags/release/1.2.0
+
+variables:
+  - group: pipeline_secrets
+
+extends:
+  template: jobs/cypress_e2e_tests.yml@templates
+  parameters:
+    cypressGroupName: Appeals Service
+    cypressRecordKey: $(CYPRESS_RECORD_KEY)
+    nodeVersion: 14
+    preTestRunSteps:
+      - template: steps/node_script.yml@templates
+        parameters:
+          ${{ if eq(variables.CYPRESS_CACHE_RESTORED, 'true') }}:
+            environmentVariables:
+              CYPRESS_INSTALL_BINARY: 0
+          nodeVersion: 14
+          script: make install
+    postTestRunSteps:
+      - template: steps/node_script.yml@templates
+        parameters:
+          nodeVersion: 14
+          script: npm run test:e2e:postprocess
+    workingDirectory: packages/e2e-tests
