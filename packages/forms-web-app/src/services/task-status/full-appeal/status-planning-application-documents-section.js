@@ -7,6 +7,7 @@ const { getStatusOfPath, SectionPath } = require('../task-statuses');
 
 const statusPlanningApplicationDocumentsSection = (appeal) => {
   const {
+    typeOfPlanningApplication,
     eligibility: { applicationDecision },
     planningApplicationDocumentsSection: { designAccessStatement },
   } = appeal;
@@ -15,8 +16,8 @@ const statusPlanningApplicationDocumentsSection = (appeal) => {
   const sectionPath = new SectionPath(section);
 
   if (
-    appeal.typeOfPlanningApplication === 'removal-or-variation-of-conditions' &&
-    appeal.eligibility.applicationDecision === 'nodecisionreceived'
+    typeOfPlanningApplication === 'removal-or-variation-of-conditions' &&
+    applicationDecision === NODECISIONRECEIVED
   ) {
     sectionPath.add('originalDecisionNotice');
   }

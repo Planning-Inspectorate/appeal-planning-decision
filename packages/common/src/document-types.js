@@ -99,6 +99,11 @@ const documentTypes = {
     multiple: false,
     displayName: '',
   },
+  originalDecisionNotice: {
+    name: 'originalDecisionNotice',
+    multiple: false,
+    displayName: 'Original Decision Notice',
+  },
 };
 
 module.exports = documentTypes;

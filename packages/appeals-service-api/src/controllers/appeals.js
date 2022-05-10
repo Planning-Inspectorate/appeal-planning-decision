@@ -12,7 +12,7 @@ const { featureFlag } = require('../lib/config');
 
 module.exports = {
   async createAppeal(req, res) {
-    let appeal = {};
+    const appeal = {};
 
     const now = new Date(new Date().toISOString());
     appeal.id = uuid.v4();
@@ -59,6 +59,7 @@ module.exports = {
   },
 
   async updateAppeal(req, res) {
+    logger.info('IN UPDATE APPEAL METHOD :/');
     const idParam = req.params.id;
     logger.debug(`Updating appeal ${idParam} ...`);
 

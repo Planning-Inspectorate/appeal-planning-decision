@@ -10,6 +10,23 @@ const HEADERS = {
   submitYourAppealSection: 'Check your answers and submit your appeal',
 };
 
+const checkSpecialCases = {
+  checkIfDecisionNoticeRequired: (appeal, sectionName) => {
+    return sectionName === 'planningApplicationDocumentsSection' &&
+      appeal.typeOfPlanningApplication === 'removal-or-variation-of-conditions'
+      ? '/full-appeal/submit-appeal/original-decision-notice'
+      : '';
+  },
+};
+
+function getHref(appeal, sectionName, section) {
+  let href;
+  Object.keys(checkSpecialCases).forEach((rule) => {
+    href = checkSpecialCases[rule](appeal, sectionName);
+  });
+  return href !== '' ? href : section.href;
+}
+
 function buildTaskLists(appeal) {
   const taskList = [];
   const { ...sections } = FULL_APPEAL_SECTIONS;
@@ -21,7 +38,7 @@ function buildTaskLists(appeal) {
 
     taskList.push({
       text: HEADERS[sectionName],
-      href: section.href,
+      href: getHref(appeal, sectionName, section),
       attributes: {
         name: sectionName,
         [`${sectionName}-status`]: status,
