@@ -16,4 +16,4 @@ https://pins-ds.atlassian.net/browse/AS-
 
 ## Important
 
-Please do not merge from `master` (please only [rebase](https://github.com/foundry4/appeal-planning-decision/wiki/An-intro-to-Git-Rebase)). This keeps the history linear and easier to debug.
+Please do not merge from `main` (please only [rebase](https://github.com/foundry4/appeal-planning-decision/wiki/An-intro-to-Git-Rebase)). This keeps the history linear and easier to debug.

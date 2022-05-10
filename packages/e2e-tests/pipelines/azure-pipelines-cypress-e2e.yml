@@ -3,7 +3,7 @@ trigger: none
 pr:
   branches:
     include:
-      - master
+      - main
   paths:
     include:
       - packages
@@ -14,7 +14,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/1.2.1
+      ref: fix/cypress-artifact-publish
 
 variables:
   - group: pipeline_secrets

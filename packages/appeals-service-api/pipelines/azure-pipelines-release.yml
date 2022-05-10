@@ -21,14 +21,14 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/1.2.1
+      ref: refs/tags/release/1.2.2
   pipelines:
     - pipeline: appeals-service-api-ci
       source: appeals-service-api CI
       trigger: 
         branches:
           include: 
-            - master
+            - main
 
 extends:
   template: stages/wrapper_web_app_cd.yml@templates
