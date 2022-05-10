@@ -13,7 +13,7 @@ Feature: As an appellant/agent
   Scenario Outline: 2. Appellant/agent uploads valid file using File Upload
     Given an appellant is on the 'Planning Application form' page
     When they upload a file '<filename>' and click on Continue button
-    Then 'What is your planning application number' page is displayed
+    Then 'Does the application form include site ownership and agricultural holdings certificate' page is displayed
     # When they click on the 'Back' link
     # Then 'Planning Application form' page is displayed
     # And the uploaded file '<filename>' is displayed
@@ -31,7 +31,7 @@ Feature: As an appellant/agent
   Scenario: 3. Appellant/agent uploads valid file using Drag and Drop
     Given an appellant is on the 'Planning Application form' page
     When they drag and drop a file and click on Continue button
-    Then 'What is your planning application number' page is displayed
+    Then 'Does the application form include site ownership and agricultural holdings certificate' page is displayed
 
   Scenario: 4. Appellant does not upload any document
     Given an appellant has not uploaded any document

@@ -159,6 +159,7 @@ import { verifyFullAppealCYAAnswer } from '../../../../support/full-appeal/appea
 import { notVisibleFromLandProvideDetails } from '../../../../support/full-appeal/appeals-service/page-objects/visible-from-road-po';
 import { healthAndSafetyIssuesProvideDetails } from '../../../../support/full-appeal/appeals-service/page-objects/health-safety-issues-po';
 import { checkboxConfirmSensitiveInfo } from '../../../../support/full-appeal/appeals-service/page-objects/your-appeal-statement-po';
+import { selectApplicationCertificatesIncluded } from '../../../../support/full-appeal/appeals-service/selectApplicationCertificatesIncluded';
 
 const url = 'full-appeal/submit-appeal/check-your-answers';
 const pageTitle = 'Check your answers - Appeal a planning decision - GOV.UK';
@@ -191,7 +192,8 @@ const planningAppFormUrl = 'full-appeal/submit-appeal/application-form';
 const planningAppNumberUrl = 'full-appeal/submit-appeal/application-number';
 const advertisingTheAppealUrl = '/full-appeal/submit-appeal/advertising-your-appeal';
 const knowTheOwnersUrl = 'full-appeal/submit-appeal/know-the-owners';
-const designAccessStatementSubmittedUrl = 'full-appeal/submit-appeal/design-access-statement-submitted';
+const designAccessStatementSubmittedUrl =
+  'full-appeal/submit-appeal/design-access-statement-submitted';
 const tellingTheLandownersUrl = '/full-appeal/submit-appeal/telling-the-landowners';
 const identifyingTheOwnersUrl = '/full-appeal/submit-appeal/identifying-the-owners';
 const designAccessStatementUrl = 'full-appeal/submit-appeal/design-access-statement';
@@ -220,231 +222,247 @@ const healthAndSafetyConcern = 'The site has no mobile reception';
 const plansAndDrawingsDocumentsUrl = 'full-appeal/submit-appeal/plans-drawings-documents';
 const plansAndDrawingsDocument = 'upload-file-valid.pdf';
 
-
-Given('the appellant has provided details for {string} and status is {string}', (contact_Details, progress) => {
-  cy.url().should('contain', taskListUrl);
-  linkProvideYourContactDetails().click();
-  if (contact_Details === 'appellant') {
-    originalApplicantYes().click();
-    getSaveAndContinueButton().click();
-    contactDetailsFullName().clear().type(originalAppellantFullNameText);
-    contactDetailsCompanyName().clear().type(originalAppellantCompanyNameText);
-    contactDetailsEmail().clear().type(originalAppellantEmailText);
-    getSaveAndContinueButton().click();
-  } else if (contact_Details === 'agent') {
-    originalApplicantNo().click();
-    getSaveAndContinueButton().click();
-    originalApplicantName().clear().type(applicantName);
-    applicantCompanyName().clear().type(originalAppellantCompanyNameText);
-    getSaveAndContinueButton().click();
-    contactDetailsFullName().clear().type(agentFullNameText);
-    contactDetailsCompanyName().clear().type(agentCompanyNameText);
-    contactDetailsEmail().clear().type(agentEmailText);
-    getSaveAndContinueButton().click();
-  }
-  cy.url().should('contain', taskListUrl);
-  statusProvideYourContactDetails().should('contain.text', progress);
-});
-
-Given('appellant provides the details for {string}, {string}, {string}, {string}, {string}, {string}, {string} and {string} and status is {string}', (own_land, own_some_land, knowTheOwners, agricultural_holding, visible_publicLand, tenant, other_tenants, health_and_safety, progress) => {
-  linkTellAboutTheAppealSite().click();
-  cy.url().should('contain', siteAddressUrl);
-  provideAddressLine1(addressLine1);
-  provideAddressLine2(addressLine2);
-  provideTownOrCity(townCity);
-  provideCounty(county);
-  providePostcode(postcode);
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', ownAllOfLandUrl);
-  if (own_land === 'yes') {
-    selectYes().click();
-  } else if (own_land === 'no') {
-    selectNo().click();
-    getSaveAndContinueButton().click();
-    cy.url().should('contain', ownSomeOfLandUrl);
-    if (own_some_land === 'yes') {
-      selectYes().click();
+Given(
+  'the appellant has provided details for {string} and status is {string}',
+  (contact_Details, progress) => {
+    cy.url().should('contain', taskListUrl);
+    linkProvideYourContactDetails().click();
+    if (contact_Details === 'appellant') {
+      originalApplicantYes().click();
       getSaveAndContinueButton().click();
-      cy.url().should('contain', knowTheOwnersUrl)
-      selectTheOwners(knowTheOwners);
-      if (knowTheOwners === 'No, I do not know who owns any of the land') {
-        cy.url().should('contain', identifyingTheOwnersUrl)
-        checkBoxIdentifyingTheOwners().check();
-        getSaveAndContinueButton().click();
-        cy.url().should('contain', advertisingTheAppealUrl);
-        advertisingYourAppealToldAboutAppeal().check();
-        advertisingYourAppealWithinLast21Days().check();
-        advertisingYourAppealUseCopyOfTheForm().check();
+      contactDetailsFullName().clear().type(originalAppellantFullNameText);
+      contactDetailsCompanyName().clear().type(originalAppellantCompanyNameText);
+      contactDetailsEmail().clear().type(originalAppellantEmailText);
+      getSaveAndContinueButton().click();
+    } else if (contact_Details === 'agent') {
+      originalApplicantNo().click();
+      getSaveAndContinueButton().click();
+      originalApplicantName().clear().type(applicantName);
+      applicantCompanyName().clear().type(originalAppellantCompanyNameText);
+      getSaveAndContinueButton().click();
+      contactDetailsFullName().clear().type(agentFullNameText);
+      contactDetailsCompanyName().clear().type(agentCompanyNameText);
+      contactDetailsEmail().clear().type(agentEmailText);
+      getSaveAndContinueButton().click();
     }
-      else if(knowTheOwners === 'I know who owns some of the land'){
-        cy.url().should('contain', identifyingTheOwnersUrl)
-        checkBoxIdentifyingTheOwners().check();
-        getSaveAndContinueButton().click();
-        cy.url().should('contain', advertisingTheAppealUrl);
-        advertisingYourAppealToldAboutAppeal().check();
-        advertisingYourAppealWithinLast21Days().check();
-        advertisingYourAppealUseCopyOfTheForm().check();
-        getSaveAndContinueButton().click();
-        cy.url().should('contain', tellingTheLandownersUrl);
-        tellingTheLandOwnersToldAboutAppeal().check();
-        tellingTheLandOwnersWithinLast21Days().check();
-        tellingTheLandOwnersUseCopyOfTheForm().check();
-      }else{
-        cy.url().should('contain', tellingTheLandownersUrl);
-        tellingTheLandOwnersToldAboutAppeal().check();
-        tellingTheLandOwnersWithinLast21Days().check();
-        tellingTheLandOwnersUseCopyOfTheForm().check();
-      }
-    }
-    else if(own_some_land=== 'no'){
+    cy.url().should('contain', taskListUrl);
+    statusProvideYourContactDetails().should('contain.text', progress);
+  },
+);
+
+Given(
+  'appellant provides the details for {string}, {string}, {string}, {string}, {string}, {string}, {string} and {string} and status is {string}',
+  (
+    own_land,
+    own_some_land,
+    knowTheOwners,
+    agricultural_holding,
+    visible_publicLand,
+    tenant,
+    other_tenants,
+    health_and_safety,
+    progress,
+  ) => {
+    linkTellAboutTheAppealSite().click();
+    cy.url().should('contain', siteAddressUrl);
+    provideAddressLine1(addressLine1);
+    provideAddressLine2(addressLine2);
+    provideTownOrCity(townCity);
+    provideCounty(county);
+    providePostcode(postcode);
+    getSaveAndContinueButton().click();
+    cy.url().should('contain', ownAllOfLandUrl);
+    if (own_land === 'yes') {
+      selectYes().click();
+    } else if (own_land === 'no') {
       selectNo().click();
       getSaveAndContinueButton().click();
-      cy.url().should('contain', knowTheOwnersUrl)
-      selectTheOwners(knowTheOwners);
-      if (knowTheOwners === 'No, I do not know who owns any of the land') {
-        cy.url().should('contain', identifyingTheOwnersUrl)
-        checkBoxIdentifyingTheOwners().check();
-        getSaveAndContinueButton().click();
-        cy.url().should('contain', advertisingTheAppealUrl);
-        advertisingYourAppealToldAboutAppeal().check();
-        advertisingYourAppealWithinLast21Days().check();
-        advertisingYourAppealUseCopyOfTheForm().check();
-    }
-      else if(knowTheOwners === 'I know who owns some of the land'){
-        cy.url().should('contain', identifyingTheOwnersUrl)
-        checkBoxIdentifyingTheOwners().check();
-        getSaveAndContinueButton().click();
-        cy.url().should('contain', advertisingTheAppealUrl);
-        advertisingYourAppealToldAboutAppeal().check();
-        advertisingYourAppealWithinLast21Days().check();
-        advertisingYourAppealUseCopyOfTheForm().check();
-        getSaveAndContinueButton().click();
-        cy.url().should('contain', tellingTheLandownersUrl);
-        tellingTheLandOwnersToldAboutAppeal().check();
-        tellingTheLandOwnersWithinLast21Days().check();
-        tellingTheLandOwnersUseCopyOfTheForm().check();
-      }
-      else{
-        cy.url().should('contain', tellingTheLandownersUrl);
-        tellingTheLandOwnersToldAboutAppeal().check();
-        tellingTheLandOwnersWithinLast21Days().check();
-        tellingTheLandOwnersUseCopyOfTheForm().check();
-      }
-    }
-  }
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', agriculturalLandHoldingUrl);
-  if (agricultural_holding === 'no') {
-    selectNo().click();
-  } else if (agricultural_holding === 'yes') {
-    selectYes().click();
-    getSaveAndContinueButton().click();
-    cy.url().should('contain',areYouTenantUrl);
-    if(tenant === 'yes'){
-      selectYes().click();
-      getSaveAndContinueButton().click();
-      cy.url().should('contain',otherTenantsUrl);
-      if(other_tenants==='yes'){
+      cy.url().should('contain', ownSomeOfLandUrl);
+      if (own_some_land === 'yes') {
         selectYes().click();
         getSaveAndContinueButton().click();
-        cy.url().should('contain',tellingTheTenantsUrl);
+        cy.url().should('contain', knowTheOwnersUrl);
+        selectTheOwners(knowTheOwners);
+        if (knowTheOwners === 'No, I do not know who owns any of the land') {
+          cy.url().should('contain', identifyingTheOwnersUrl);
+          checkBoxIdentifyingTheOwners().check();
+          getSaveAndContinueButton().click();
+          cy.url().should('contain', advertisingTheAppealUrl);
+          advertisingYourAppealToldAboutAppeal().check();
+          advertisingYourAppealWithinLast21Days().check();
+          advertisingYourAppealUseCopyOfTheForm().check();
+        } else if (knowTheOwners === 'I know who owns some of the land') {
+          cy.url().should('contain', identifyingTheOwnersUrl);
+          checkBoxIdentifyingTheOwners().check();
+          getSaveAndContinueButton().click();
+          cy.url().should('contain', advertisingTheAppealUrl);
+          advertisingYourAppealToldAboutAppeal().check();
+          advertisingYourAppealWithinLast21Days().check();
+          advertisingYourAppealUseCopyOfTheForm().check();
+          getSaveAndContinueButton().click();
+          cy.url().should('contain', tellingTheLandownersUrl);
+          tellingTheLandOwnersToldAboutAppeal().check();
+          tellingTheLandOwnersWithinLast21Days().check();
+          tellingTheLandOwnersUseCopyOfTheForm().check();
+        } else {
+          cy.url().should('contain', tellingTheLandownersUrl);
+          tellingTheLandOwnersToldAboutAppeal().check();
+          tellingTheLandOwnersWithinLast21Days().check();
+          tellingTheLandOwnersUseCopyOfTheForm().check();
+        }
+      } else if (own_some_land === 'no') {
+        selectNo().click();
+        getSaveAndContinueButton().click();
+        cy.url().should('contain', knowTheOwnersUrl);
+        selectTheOwners(knowTheOwners);
+        if (knowTheOwners === 'No, I do not know who owns any of the land') {
+          cy.url().should('contain', identifyingTheOwnersUrl);
+          checkBoxIdentifyingTheOwners().check();
+          getSaveAndContinueButton().click();
+          cy.url().should('contain', advertisingTheAppealUrl);
+          advertisingYourAppealToldAboutAppeal().check();
+          advertisingYourAppealWithinLast21Days().check();
+          advertisingYourAppealUseCopyOfTheForm().check();
+        } else if (knowTheOwners === 'I know who owns some of the land') {
+          cy.url().should('contain', identifyingTheOwnersUrl);
+          checkBoxIdentifyingTheOwners().check();
+          getSaveAndContinueButton().click();
+          cy.url().should('contain', advertisingTheAppealUrl);
+          advertisingYourAppealToldAboutAppeal().check();
+          advertisingYourAppealWithinLast21Days().check();
+          advertisingYourAppealUseCopyOfTheForm().check();
+          getSaveAndContinueButton().click();
+          cy.url().should('contain', tellingTheLandownersUrl);
+          tellingTheLandOwnersToldAboutAppeal().check();
+          tellingTheLandOwnersWithinLast21Days().check();
+          tellingTheLandOwnersUseCopyOfTheForm().check();
+        } else {
+          cy.url().should('contain', tellingTheLandownersUrl);
+          tellingTheLandOwnersToldAboutAppeal().check();
+          tellingTheLandOwnersWithinLast21Days().check();
+          tellingTheLandOwnersUseCopyOfTheForm().check();
+        }
+      }
+    }
+    getSaveAndContinueButton().click();
+    cy.url().should('contain', agriculturalLandHoldingUrl);
+    if (agricultural_holding === 'no') {
+      selectNo().click();
+    } else if (agricultural_holding === 'yes') {
+      selectYes().click();
+      getSaveAndContinueButton().click();
+      cy.url().should('contain', areYouTenantUrl);
+      if (tenant === 'yes') {
+        selectYes().click();
+        getSaveAndContinueButton().click();
+        cy.url().should('contain', otherTenantsUrl);
+        if (other_tenants === 'yes') {
+          selectYes().click();
+          getSaveAndContinueButton().click();
+          cy.url().should('contain', tellingTheTenantsUrl);
+          tellingTheTenantsToldAboutAppeal().check();
+          tellingTheTenantsWithinLast21Days().check();
+          tellingTheTenantsCopyOfTheForm().check();
+        } else if (other_tenants === 'no') {
+          selectNo().click();
+        }
+      } else if (tenant === 'no') {
+        selectNo().click();
+        getSaveAndContinueButton().click();
+        cy.url().should('contain', tellingTheTenantsUrl);
         tellingTheTenantsToldAboutAppeal().check();
         tellingTheTenantsWithinLast21Days().check();
         tellingTheTenantsCopyOfTheForm().check();
       }
-      else if(other_tenants==='no'){
-        selectNo().click();
-      }
     }
-    else if(tenant==='no'){
+    getSaveAndContinueButton().click();
+    cy.url().should('contain', visibleFromPublicLandUrl);
+    if (visible_publicLand === 'yes') {
+      selectYes().click();
+    } else if (visible_publicLand === 'no') {
       selectNo().click();
-      getSaveAndContinueButton().click();
-      cy.url().should('contain',tellingTheTenantsUrl);
-      tellingTheTenantsToldAboutAppeal().check();
-      tellingTheTenantsWithinLast21Days().check();
-      tellingTheTenantsCopyOfTheForm().check();
+      notVisibleFromLandProvideDetails().type(`{selectall}{backspace}${visibleFromRoadText}`);
     }
-  }
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', visibleFromPublicLandUrl);
-  if (visible_publicLand === 'yes') {
-    selectYes().click();
-  }else if(visible_publicLand === 'no'){
-    selectNo().click();
-    notVisibleFromLandProvideDetails().type(`{selectall}{backspace}${visibleFromRoadText}`);
-  }
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', healthAndSafetyUrl);
-  if (health_and_safety === 'no') {
-    selectNo().click();
-  }else if(health_and_safety === 'yes'){
-    selectYes().click();
-    healthAndSafetyIssuesProvideDetails().type(`{selectall}{backspace}${healthAndSafetyConcern}`);
-  }
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', taskListUrl);
-  statusTellAboutTheAppealSite().should('contain.text', progress)
-});
+    getSaveAndContinueButton().click();
+    cy.url().should('contain', healthAndSafetyUrl);
+    if (health_and_safety === 'no') {
+      selectNo().click();
+    } else if (health_and_safety === 'yes') {
+      selectYes().click();
+      healthAndSafetyIssuesProvideDetails().type(`{selectall}{backspace}${healthAndSafetyConcern}`);
+    }
+    getSaveAndContinueButton().click();
+    cy.url().should('contain', taskListUrl);
+    statusTellAboutTheAppealSite().should('contain.text', progress);
+  },
+);
 
-Given('appellant provides the details about {string} preference and status is {string}', (appeal_decision, progress) => {
-  linkDecideYourAppeal().click();
-  cy.url().should('contain', decideAppealUrl);
-  if (appeal_decision === 'Written representations') {
-    selectWrittenRepresentations().click();
-    getSaveAndContinueButton().click();
-  } else if (appeal_decision === 'Hearing') {
-    selectHearing().click();
-    getSaveAndContinueButton().click();
-    cy.url().should('include', whyHearingUrl);
-    textBoxWhyHearing().clear().type(textHearing);
-    getSaveAndContinueButton().click();
-    cy.url().should('include', draftStatementUrl);
-    getFileUploadButton().attachFile(draftStatementDocument);
-    getSaveAndContinueButton().click();
-  } else if (appeal_decision === 'Inquiry') {
-    selectInquiry().click();
-    getSaveAndContinueButton().click();
-    cy.url().should('include', whyInquiryUrl);
-    textBoxInquiry().clear().type(textInquiry);
-    getSaveAndContinueButton().click();
-    cy.url().should('include', daysToExpectTheInquiryUrl);
-    textBoxExpectDays().clear().type(validNumberDays);
-    getSaveAndContinueButton().click();
-    cy.url().should('include', draftStatementUrl);
-    getFileUploadButton().attachFile(draftStatementDocument);
-    getSaveAndContinueButton().click();
-  }
-  cy.url().should('contain', taskListUrl);
-  statusAppealDecisionSection().should('contain.text', progress);
-});
+Given(
+  'appellant provides the details about {string} preference and status is {string}',
+  (appeal_decision, progress) => {
+    linkDecideYourAppeal().click();
+    cy.url().should('contain', decideAppealUrl);
+    if (appeal_decision === 'Written representations') {
+      selectWrittenRepresentations().click();
+      getSaveAndContinueButton().click();
+    } else if (appeal_decision === 'Hearing') {
+      selectHearing().click();
+      getSaveAndContinueButton().click();
+      cy.url().should('include', whyHearingUrl);
+      textBoxWhyHearing().clear().type(textHearing);
+      getSaveAndContinueButton().click();
+      cy.url().should('include', draftStatementUrl);
+      getFileUploadButton().attachFile(draftStatementDocument);
+      getSaveAndContinueButton().click();
+    } else if (appeal_decision === 'Inquiry') {
+      selectInquiry().click();
+      getSaveAndContinueButton().click();
+      cy.url().should('include', whyInquiryUrl);
+      textBoxInquiry().clear().type(textInquiry);
+      getSaveAndContinueButton().click();
+      cy.url().should('include', daysToExpectTheInquiryUrl);
+      textBoxExpectDays().clear().type(validNumberDays);
+      getSaveAndContinueButton().click();
+      cy.url().should('include', draftStatementUrl);
+      getFileUploadButton().attachFile(draftStatementDocument);
+      getSaveAndContinueButton().click();
+    }
+    cy.url().should('contain', taskListUrl);
+    statusAppealDecisionSection().should('contain.text', progress);
+  },
+);
 
-Given('appellant uploads documents from planning application and design and access statement as {string} and status is {string}', (design_access_statement, progress) => {
-  linkUploadDocsFromPlanningApplication().click();
-  cy.url().should('contain', planningAppFormUrl);
-  getFileUploadButton().attachFile(planningAppFormDocument);
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', planningAppNumberUrl);
-  planningApplicationNumber().clear().type(planningAppNumberText);
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', plansAndDrawingsDocumentsUrl);
-  getFileUploadButton().attachFile(plansAndDrawingsDocument);
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', designAccessStatementSubmittedUrl);
-  if (design_access_statement === 'no') {
-    selectNo().click();
-  } else if (design_access_statement === 'yes') {
-    selectYes().click();
+Given(
+  'appellant uploads documents from planning application and design and access statement as {string} and status is {string}',
+  (design_access_statement, progress) => {
+    linkUploadDocsFromPlanningApplication().click();
+    cy.url().should('contain', planningAppFormUrl);
+    getFileUploadButton().attachFile(planningAppFormDocument);
     getSaveAndContinueButton().click();
-    cy.url().should('contain', designAccessStatementUrl);
-    getFileUploadButton().attachFile(designAccessStatementDocument);
-  }
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', decisionLetterUrl);
-  getFileUploadButton().attachFile(decisionLetter);
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', taskListUrl);
-  statusUploadDocsFromPlanningApplication().should('contain.text', progress);
-});
+    selectApplicationCertificatesIncluded('Yes');
+    cy.url().should('contain', planningAppNumberUrl);
+    planningApplicationNumber().clear().type(planningAppNumberText);
+    getSaveAndContinueButton().click();
+    cy.url().should('contain', plansAndDrawingsDocumentsUrl);
+    getFileUploadButton().attachFile(plansAndDrawingsDocument);
+    getSaveAndContinueButton().click();
+    cy.url().should('contain', designAccessStatementSubmittedUrl);
+    if (design_access_statement === 'no') {
+      selectNo().click();
+    } else if (design_access_statement === 'yes') {
+      selectYes().click();
+      getSaveAndContinueButton().click();
+      cy.url().should('contain', designAccessStatementUrl);
+      getFileUploadButton().attachFile(designAccessStatementDocument);
+    }
+    getSaveAndContinueButton().click();
+    cy.url().should('contain', decisionLetterUrl);
+    getFileUploadButton().attachFile(decisionLetter);
+    getSaveAndContinueButton().click();
+    cy.url().should('contain', taskListUrl);
+    statusUploadDocsFromPlanningApplication().should('contain.text', progress);
+  },
+);
 
 Given('appellant uploads documents for appeal for plans and drawings {string} and supporting documents {string} and status is {string}', (plans_and_drawings, supporting_documents, progress) => {
   linkUploadDocsForYourAppeal().click();

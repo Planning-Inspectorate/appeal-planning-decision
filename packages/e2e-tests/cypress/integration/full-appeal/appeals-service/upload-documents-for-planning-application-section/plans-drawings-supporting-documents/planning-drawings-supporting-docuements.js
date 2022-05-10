@@ -17,6 +17,7 @@ import {
   uploadedFileName,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/file-upload-po';
 import { verifyErrorMessage } from '../../../../../support/common/verify-error-message';
+import { selectApplicationCertificatesIncluded } from '../../../../../support/full-appeal/appeals-service/selectApplicationCertificatesIncluded';
 
 const pageHeading = 'Plans, drawings and supporting documents';
 const url = '/full-appeal/submit-appeal/plans-drawings-documents';
@@ -39,6 +40,7 @@ Given('an appellant is on the What is your planning application number? page', (
   cy.url().should('contain', planningAppFormUrl);
   getFileUploadButton().attachFile('upload-file-valid.jpeg');
   getSaveAndContinueButton().click();
+  selectApplicationCertificatesIncluded('Yes');
   cy.url().should('contain', planningApplicationNumberUrl);
 });
 
@@ -47,6 +49,7 @@ Given('an appellant is navigated to the Plans, drawings and supporting documents
   cy.url().should('contain', planningAppFormUrl);
   getFileUploadButton().attachFile('upload-file-valid.jpeg');
   getSaveAndContinueButton().click();
+  selectApplicationCertificatesIncluded('Yes');
   cy.url().should('contain', planningApplicationNumberUrl);
   planningApplicationNumber().clear().type(planningAppNumberText);
   getSaveAndContinueButton().click();
