@@ -1,6 +1,6 @@
 const {
   VIEW: {
-    FULL_APPEAL: { APPLICATION_FORM, CERTIFICATES },
+    FULL_APPEAL: { APPLICATION_FORM, APPLICATION_CERTIFICATES_INCLUDED },
   },
 } = require('../../../lib/full-appeal/views');
 const logger = require('../../../lib/logger');
@@ -77,7 +77,7 @@ const postApplicationForm = async (req, res) => {
     });
   }
 
-  return res.redirect(`/${CERTIFICATES}`);
+  return res.redirect(`/${APPLICATION_CERTIFICATES_INCLUDED}`);
 };
 
 module.exports = {
