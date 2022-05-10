@@ -54,6 +54,8 @@ Feature: As an appellant/agent
    Then the user are presented with plans and drawings documents page
    When they click on the Back link
    Then they are presented with the What is your planning application number? page
+   When they click on the Back link  
+   Then they are presented with the 'Does the application form include site ownership and agricultural holdings certificate' page
    When they click on the Back link
    Then the user is presented with the 'Planning application form' page
    When they click on the Back link

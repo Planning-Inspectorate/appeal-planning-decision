@@ -7,7 +7,7 @@ Feature: As an agent
 
   Scenario: 1. Navigate from 'Planning Application form page' to 'What is your Planning Application Number’ page
     Given an agent is on the 'Planning Application form' page
-    When they click the 'Continue' on File upload page
+    When they click the 'Continue' on File upload page, and select 'yes' and continue on certificates page
     Then 'What is your Planning Application Number' page is displayed
 
   Scenario: 2. Agent enters letters/numbers into the text box
@@ -27,5 +27,7 @@ Feature: As an agent
 
   Scenario: 5. Navigate from 'What is your Planning Application number' page back to Task List
     Given an agent is on the 'What is your Planning Application number' page
+    When they click on the 'Back' link
+    Then they are presented with the 'Does the application form include site ownership and agricultural holdings certificate' page
     When they click on the 'Back' link
     Then they are presented with the 'Planning Application form' page

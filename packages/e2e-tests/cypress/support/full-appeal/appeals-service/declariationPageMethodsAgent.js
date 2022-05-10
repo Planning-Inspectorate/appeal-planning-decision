@@ -23,9 +23,10 @@ import {
 } from './page-objects/planning-application-number-po';
 import { submitADesignStNo } from './page-objects/design-access-statement-submitted-po';
 import { checkboxConfirmSensitiveInfo } from './page-objects/your-appeal-statement-po';
+import { selectApplicationCertificatesIncluded } from './selectApplicationCertificatesIncluded';
 
 export const declariationPageMethodsAgent = () => {
-//  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-department','Full planning');
+  //  goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-department','Full planning');
 
   contactDetailsLink().click();
   originalApplicantNo().click();
@@ -57,6 +58,7 @@ export const declariationPageMethodsAgent = () => {
   planningApplicationDocumentsLink().click();
   getFileUploadButton().attachFile('appeal-statement-valid.jpeg');
   getSaveAndContinueButton().click();
+  selectApplicationCertificatesIncluded('Yes');
   planningApplicationNumber().type('PNO-1001');
   getSaveAndContinueButton().click();
   getFileUploadButton().attachFile('upload-file-valid.pdf');
@@ -76,4 +78,4 @@ export const declariationPageMethodsAgent = () => {
   getSaveAndContinueButton().click();
 
   checkYourAnswersLink().click();
-}
+};

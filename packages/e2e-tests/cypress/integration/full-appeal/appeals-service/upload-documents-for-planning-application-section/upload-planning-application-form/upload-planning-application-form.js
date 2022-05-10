@@ -19,31 +19,31 @@ import { pageCaption } from '../../../../../support/full-appeal/appeals-service/
 
 const url = 'full-appeal/submit-appeal/application-form';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
-const planningAppNumberUrl ='full-appeal/submit-appeal/application-number';
+const applicationCertificatesUrl = 'full-appeal/submit-appeal/application-certificates-included';
 const textPageCaption = 'Upload documents from your planning application';
-const pageTitle = "Planning application form - Appeal a planning decision - GOV.UK";
+const pageTitle = 'Planning application form - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Planning application form';
-const pageHeadingText = "If you do not have your planning application form, you can find it by searching for your planning application on your local planning department's website.";
+const pageHeadingText =
+  "If you do not have your planning application form, you can find it by searching for your planning application on your local planning department's website.";
 
+Given("an appellant is on the 'Appeal a Planning Decision page'", () => {
+  cy.url().should('contain', taskListUrl);
+});
 
-Given("an appellant is on the 'Appeal a Planning Decision page'",()=> {
- cy.url().should('contain',taskListUrl);
- })
-
-When("they select 'Upload documents from your planning application' link",()=> {
+When("they select 'Upload documents from your planning application' link", () => {
   planningApplicationDocumentsLink().click();
-})
-When("they select the 'Continue' button",()=> {
+});
+When("they select the 'Continue' button", () => {
   getSaveAndContinueButton().click();
 });
-Then("'Planning Application form' page is displayed",()=> {
+Then("'Planning Application form' page is displayed", () => {
   cy.url().should('contain', url);
-})
-Then("the uploaded file {string} is displayed", (filename) => {
+});
+Then('the uploaded file {string} is displayed', (filename) => {
   uploadedFileLabel().should('exist');
   uploadedFileName().should('contain', filename);
-})
-Given( "an appellant is on the 'Planning Application form' page", () => {
+});
+Given("an appellant is on the 'Planning Application form' page", () => {
   planningApplicationDocumentsLink().click();
   pageCaption().should('contain', textPageCaption);
   verifyPageTitle(pageTitle);
@@ -52,19 +52,22 @@ Given( "an appellant is on the 'Planning Application form' page", () => {
   filesCanUploadHintText().should('exist');
   filesCanUploadHintText().click();
   cy.checkPageA11y();
- } );
-When( "they upload a file {string} and click on Continue button", (filename) => {
+});
+When('they upload a file {string} and click on Continue button', (filename) => {
   getFileUploadButton().attachFile(filename);
   getSaveAndContinueButton().click();
-} );
+});
 
-When( "they drag and drop a file and click on Continue button", () => {
+When('they drag and drop a file and click on Continue button', () => {
   getFileUploadButton().attachFile('appeal-statement-valid.jpeg', { subjectType: 'drag-n-drop' });
   getSaveAndContinueButton().click();
 });
-Then( "'What is your planning application number' page is displayed", () => {
-  cy.url().should('contain', planningAppNumberUrl);
-} );
+Then(
+  "'Does the application form include site ownership and agricultural holdings certificate' page is displayed",
+  () => {
+    cy.url().should('contain', applicationCertificatesUrl);
+  },
+);
 
 When( "they select 'Save and Continue'", () => {
   getSaveAndContinueButton().click();

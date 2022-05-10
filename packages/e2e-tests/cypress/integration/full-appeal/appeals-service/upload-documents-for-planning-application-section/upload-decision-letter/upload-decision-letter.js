@@ -18,6 +18,7 @@ import {
   pageCaptionText,
   planningApplicationDocumentsLink,
 } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
+import { selectApplicationCertificatesIncluded } from '../../../../../support/full-appeal/appeals-service/selectApplicationCertificatesIncluded';
 
 const url = 'full-appeal/submit-appeal/decision-letter';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -31,6 +32,8 @@ const pageTitle = "Decision letter - Appeal a planning decision - GOV.UK";
 const pageHeading = 'Decision letter';
 const decisionLetterSectionText = 'This is the letter from the local planning department telling you about the decision on your planning application.';
 const planningAppNumberText = 'PNO-TEST123';
+const applicationCertificatesIncludedUrl =
+  'full-appeal/submit-appeal/application-certificates-included';
 
 
 Given("an appellant is on the 'Design and access statement submitted' page",()=> {
@@ -38,6 +41,7 @@ Given("an appellant is on the 'Design and access statement submitted' page",()=>
   cy.url().should('contain', planningAppFormUrl);
   getFileUploadButton().attachFile('upload-file-valid.jpeg');
   getSaveAndContinueButton().click();
+  selectApplicationCertificatesIncluded('Yes');
   planningApplicationNumber().clear().type(planningAppNumberText);
   getSaveAndContinueButton().click();
   cy.url().should('contain', plansAndDrawingsDocumentsUrl);
@@ -68,6 +72,7 @@ Given( "an appellant is on the 'Decision Letter' page", () => {
   cy.url().should('contain', planningAppFormUrl);
   getFileUploadButton().attachFile('upload-file-valid.jpeg');
   getSaveAndContinueButton().click();
+  selectApplicationCertificatesIncluded('Yes');
   planningApplicationNumber().clear().type(planningAppNumberText);
   getSaveAndContinueButton().click();
   cy.url().should('contain', plansAndDrawingsDocumentsUrl);
@@ -100,6 +105,7 @@ Given("an appellant has uploaded a file {string}", (filename) => {
   cy.url().should('contain', planningAppFormUrl);
   getFileUploadButton().attachFile('upload-file-valid.jpeg');
   getSaveAndContinueButton().click();
+  selectApplicationCertificatesIncluded('Yes');
   planningApplicationNumber().clear().type(planningAppNumberText);
   getSaveAndContinueButton().click();
   cy.url().should('contain', plansAndDrawingsDocumentsUrl);
@@ -119,6 +125,7 @@ Given("an appellant has not uploaded any document",()=> {
   cy.url().should('contain', planningAppFormUrl);
   getFileUploadButton().attachFile('upload-file-valid.jpeg');
   getSaveAndContinueButton().click();
+  selectApplicationCertificatesIncluded('Yes');
   planningApplicationNumber().clear().type(planningAppNumberText);
   getSaveAndContinueButton().click();
   cy.url().should('contain', plansAndDrawingsDocumentsUrl);
@@ -153,3 +160,10 @@ Then("they are presented with the 'Planning application form' page", () => {
 Then('the user are presented with plans and drawings documents page', () => {
   cy.url().should('contain', plansAndDrawingsDocumentsUrl);
 });
+
+Then(
+  "they are presented with the 'Does the application form include site ownership and agricultural holdings certificate' page",
+  () => {
+    cy.url().should('contain', applicationCertificatesIncludedUrl);
+  },
+);
