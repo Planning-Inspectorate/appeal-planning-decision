@@ -1,6 +1,6 @@
 const {
   VIEW: {
-    FULL_APPEAL: { APPLICATION_NUMBER, PLANS_DRAWINGS_DOCUMENTS },
+    FULL_APPEAL: { APPLICATION_NUMBER, PROPOSED_DEVELOPMENT_CHANGED },
   },
 } = require('../../../lib/full-appeal/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
@@ -53,5 +53,5 @@ exports.postApplicationNumber = async (req, res) => {
     return;
   }
 
-  res.redirect(`/${PLANS_DRAWINGS_DOCUMENTS}`);
+  res.redirect(`/${PROPOSED_DEVELOPMENT_CHANGED}`);
 };
