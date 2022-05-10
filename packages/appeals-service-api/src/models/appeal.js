@@ -98,9 +98,16 @@ exports.appealDocument = {
     },
   },
   contactDetailsSection: {
-    name: null,
-    email: null,
-    companyName: null,
+    appealingOnBehalfOf: {
+      companyName: '',
+      name: '',
+    },
+    contact: {
+      email: '',
+      companyName: '',
+      name: '',
+    },
+    isOriginalApplicant: null,
   },
   planningApplicationDocumentsSection: {
     applicationNumber: null,
@@ -118,6 +125,12 @@ exports.appealDocument = {
       },
     },
     designAccessStatement: {
+      uploadedFile: {
+        name: '',
+        id: null,
+      },
+    },
+    originalDecisionNotice: {
       uploadedFile: {
         name: '',
         id: null,
@@ -153,11 +166,16 @@ exports.appealDocument = {
       hasHealthSafetyIssues: 'NOT STARTED',
       healthSafetyIssuesDetails: 'NOT STARTED',
     },
-    contactDetailsSection: 'NOT STARTED',
+    contactDetailsSection: {
+      appealingOnBehalfOf: 'NOT STARTED',
+      contact: 'NOT STARTED',
+      isOriginalApplicant: 'NOT STARTED',
+    },
     aboutAppealSiteSection: 'NOT STARTED',
     planningApplicationDocumentsSection: {
       isDesignAccessStatementSubmitted: 'NOT STARTED',
       originalApplication: 'NOT STARTED',
+      originalDecisionNotice: 'NOT STARTED',
       decisionLetter: 'NOT STARTED',
       designAccessStatement: 'NOT STARTED',
     },
