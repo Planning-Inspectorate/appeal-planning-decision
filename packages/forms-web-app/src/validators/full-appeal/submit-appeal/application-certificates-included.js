@@ -1,17 +1,17 @@
 const { body } = require('express-validator');
 
-const validCertificateOptions = ['yes', 'no'];
+const validCertificateIncludedOptions = ['yes', 'no'];
 
-const ruleCertificates = () =>
+const ruleIncludedCertificates = () =>
   body('do-you-have-certificates')
     .notEmpty()
     .withMessage('Select your site ownership and agricultural holdings certificate')
     .bail()
-    .isIn(validCertificateOptions);
+    .isIn(validCertificateIncludedOptions);
 
-const rules = () => [ruleCertificates()];
+const rules = () => [ruleIncludedCertificates()];
 
 module.exports = {
   rules,
-  validCertificateOptions,
+  validCertificateIncludedOptions,
 };

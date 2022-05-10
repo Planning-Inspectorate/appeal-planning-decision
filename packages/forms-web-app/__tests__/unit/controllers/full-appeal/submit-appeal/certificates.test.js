@@ -7,8 +7,15 @@ const { VIEW } = require('../../../../../src/lib/full-appeal/views');
 const { mockReq, mockRes } = require('../../../mocks');
 
 describe('controllers/full-appeal/submit-appeal/certificates', () => {
-  const req = mockReq();
-  const res = mockRes();
+  let req;
+  let res;
+
+  beforeEach(() => {
+    req = mockReq();
+    res = mockRes();
+
+    jest.resetAllMocks();
+  });
 
   describe('getCertificates', () => {
     it('calls correct template', async () => {
