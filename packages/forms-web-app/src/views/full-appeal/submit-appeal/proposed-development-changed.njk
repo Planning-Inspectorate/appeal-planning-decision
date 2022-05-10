@@ -7,6 +7,20 @@
 
 {% set title="Did your proposed development change after you submitted your application?  - Before you start - Appeal a planning decision - GOV.UK" %}
 
+{% set visibleProposedDevelopmentChangedHtml %}
+  {{ govukTextarea({
+    name: "proposed-development-changed-details",
+    id: "proposed-development-changed-details",
+    label: {
+      text: "Enter the agreed description of development’"
+    },
+    value: proposedDevelopmentChanged.details,
+    errorMessage: errors['proposed-development-changed-details'] and {
+      text: errors['proposed-development-changed-details'].msg
+    }
+  }) }}
+{% endset %}
+
 {% block pageTitle %}
   {% if errors %}
     {% set title="Error: " + title %}
@@ -34,12 +48,16 @@
       {% endif %}
 
       <form action="" method="post" novalidate>
-        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Before you start</span>
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Update documents from planning application</span>
 
         {{ govukRadios({
           classes: "govuk-radios",
           idPrefix: "enforcement-notice",
           name: "enforcement-notice",
+          hint: {
+            html: "<p>Only tell us about changes you agreed with the local planning department.</p>
+            <p>For example, if you applied to build 5 houses, but agreed to change this to 4 during the application process</p>"
+          },
           errorMessage: errors['enforcement-notice'] and {
             text: errors['enforcement-notice'].msg
           },
@@ -56,6 +74,9 @@
               text: "Yes",
               attributes: { "data-cy": "answer-yes" },
               checked: appeal.eligibility.enforcementNotice == true
+              conditional: {
+                html: visibleProposedDevelopmentChangedHtml
+              }
             },
             {
               value: "no",

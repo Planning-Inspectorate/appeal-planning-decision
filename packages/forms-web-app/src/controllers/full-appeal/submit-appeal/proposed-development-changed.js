@@ -11,61 +11,50 @@ const sectionName = 'appealSiteSection';
 const taskName = 'proposedDevelopmentChanged';
 
 const getProposedDevelopmentChanged = (req, res) => {
-  const {
-    [sectionName]: {
-      [taskName]: { isProposedDevelopmentChanged },
-      siteOwnership: { ownsAllTheLand, knowsTheOwners },
-    },
-  } = req.session.appeal;
+  const { isProposedDevelopmentChanged } = req.session.appeal[sectionName];
   res.render(PROPOSED_DEVELOPMENT_CHANGED, {
     isProposedDevelopmentChanged,
-    ownsAllTheLand,
-    knowsTheOwners,
   });
 };
 
 const postProposedDevelopmentChanged = async (req, res) => {
+  const { body } = req;
+  const { errors = {}, errorSummary = [] } = body;
+
   const {
-    body,
-    body: { errors = {}, errorSummary = [] },
-    session: {
-      appeal,
-      appeal: {
-        [sectionName]: {
-          siteOwnership: { ownsAllTheLand, knowsTheOwners },
-        },
-      },
+    appeal,
+    appeal: {
+      [sectionName]: { isProposedDevelopmentChanged },
     },
-  } = req;
+  } = req.session;
+  const task = appeal[sectionName];
+
+  task.applicationNumber = body['application-number'];
 
   if (Object.keys(errors).length > 0) {
-    return res.render(PROPOSED_DEVELOPMENT_CHANGED, {
-      ownsAllTheLand,
-      knowsTheOwners,
+    res.render(PROPOSED_DEVELOPMENT_CHANGED, {
+      isProposedDevelopmentChanged,
       errors,
       errorSummary,
     });
+    return;
   }
 
-  const isProposedDevelopmentChanged = body['proposed-development-changed'] === 'yes';
-
   try {
-    appeal[sectionName][taskName].isAgriculturalHolding = isProposedDevelopmentChanged;
     appeal.sectionStates[sectionName][taskName] = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);
 
-    return res.render(PROPOSED_DEVELOPMENT_CHANGED, {
+    res.render(PROPOSED_DEVELOPMENT_CHANGED, {
       isProposedDevelopmentChanged,
-      ownsAllTheLand,
-      knowsTheOwners,
       errors,
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
+    return;
   }
 
-  return res.redirect(`/${PLANS_DRAWINGS_DOCUMENTS}`);
+  res.redirect(`/${PLANS_DRAWINGS_DOCUMENTS}`);
 };
 
 module.exports = {
