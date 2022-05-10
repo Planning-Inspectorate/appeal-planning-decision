@@ -8,7 +8,7 @@ trigger:
 pr:
   branches:
     include:
-      - master
+      - main
   paths:
     include:
       - packages/forms-web-app
@@ -21,7 +21,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/1.2.1
+      ref: refs/tags/release/1.2.2
 
 extends:
   template: stages/wrapper_ci.yml@templates

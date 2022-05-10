@@ -126,9 +126,9 @@ appealsServiceApi:
     tag: 1.15.3
 ````
 
-Once this change to the HelmRelease chart has been pushed to master, it will be detected by Flux and deployed to the cluster.
+Once this change to the HelmRelease chart has been pushed to main, it will be detected by Flux and deployed to the cluster.
 
-Note that, as Flux automation has been disabled, Flux will never automatically commit to master. This will remove the potential for race conditions and semantic-release errors when the version of master checked out by a Github Workflow is rendered out of date by Flux commits.
+Note that, as Flux automation has been disabled, Flux will never automatically commit to main. This will remove the potential for race conditions and semantic-release errors when the version of main checked out by a Github Workflow is rendered out of date by Flux commits.
 
 ## Commit Message Format
 
@@ -138,7 +138,7 @@ done using the [correct format](https://www.conventionalcommits.org/en/v1.0.0/#s
 
 Commits to the `develop` branch will create release candidates. These are a release
 of software that may or may not be made public. Under normal circumstance, releases
-should be made directly to the `master` branch.
+should be made directly to the `main` branch.
 
 ## Commit Message Rules
 
@@ -162,10 +162,10 @@ Without the `feat`, it would create no new release.
    called `Next version` which will tell you the version number that this should create
    if successful.
 2. Check a [new release was made](https://github.com/foundry4/appeal-planning-decision/releases).
-   Dependent upon whether it was made from the `develop` or `master` branch, you will be
+   Dependent upon whether it was made from the `develop` or `main` branch, you will be
    looking for either a pre-release version or a release. If no release has been made,
    ensure that your commit message was formatted correctly and begins with `feat` or `fix`.
-3. Check the [/releases](https://github.com/Planning-Inspectorate/appeal-planning-decision/tree/master/releases)
+3. Check the [/releases](https://github.com/Planning-Inspectorate/appeal-planning-decision/tree/main/releases)
    folder against the cluster you are expecting to see it deployed on. If the `app.yml` file does
    not contain the tag you are expecting then the deployment may have failed. It takes up to
    5 minutes for a new release to be detected.

@@ -37,7 +37,7 @@ variables required are declared as environment variables.
 
 The document service has a local container that mimics the same functionality the Azure blob storage provides, to browse the storage you need to [download Azure Storage browser](https://azure.microsoft.com/en-gb/features/storage-explorer/).
 
-First you'll need to [configure and run the development stack](https://github.com/Planning-Inspectorate/appeal-planning-decision/blob/master/README.md) and then find the BLOB_STORAGE_CONNECTION_STRING from the [docker-compose.yml](https://github.com/Planning-Inspectorate/appeal-planning-decision/blob/master/docker-compose.yml) file in the project root.
+First you'll need to [configure and run the development stack](https://github.com/Planning-Inspectorate/appeal-planning-decision/blob/main/README.md) and then find the BLOB_STORAGE_CONNECTION_STRING from the [docker-compose.yml](https://github.com/Planning-Inspectorate/appeal-planning-decision/blob/main/docker-compose.yml) file in the project root.
 
 Go into Azure Storage Browser, select the connection icon from the bar on the left, select `Local storage emulator` and enter the following:
 
@@ -67,7 +67,7 @@ Document metadata is now being stored as attributes of the document in Blob Stor
 
 The tool gets the metadata records from Cosmos DB, formats them and saves them to the corresponding document in Blob Storage. This way the metadata for the documents in Blob Storage is overwritten each time the tool is run so it can be run multiple times without duplicating any metadata and any documents that already have metadata in Blob Storage and don't have an associated Cosmos DB record will be ignored.
 
-To use, [configure and run the development stack](https://github.com/Planning-Inspectorate/appeal-planning-decision/blob/master/README.md) and go to http://localhost:3001/api/v1/migrate-metadata.
+To use, [configure and run the development stack](https://github.com/Planning-Inspectorate/appeal-planning-decision/blob/main/README.md) and go to http://localhost:3001/api/v1/migrate-metadata.
 
 The output will include the following:
 
