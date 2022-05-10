@@ -75,6 +75,7 @@ const VIEW = {
       'full-appeal/use-existing-service-local-planning-department',
     YOU_CANNOT_APPEAL: 'full-appeal/you-cannot-appeal',
     PRIOR_APPROVAL_EXISTING_HOME: 'full-appeal/prior-approval-existing-home',
+    PROPOSED_DEVELOPMENT_CHANGED: '',
   },
 
   YOUR_PLANNING_APPEAL: {

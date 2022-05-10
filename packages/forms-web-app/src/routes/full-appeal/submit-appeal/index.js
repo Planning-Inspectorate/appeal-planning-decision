@@ -37,6 +37,7 @@ const draftStatementOfCommonGroundRouter = require('./draft-statement-common-gro
 const advertisingYourAppealRouter = require('./advertising-your-appeal');
 const plansDrawingsDocumentsRouter = require('./plans-drawings-documents');
 const originalDecisionNoticeRouter = require('./original-decision-notice');
+const proposedDevelopmentChanged = require('./proposed-development-changed');
 
 const router = express.Router();
 
@@ -78,5 +79,6 @@ router.use(draftStatementOfCommonGroundRouter);
 router.use(advertisingYourAppealRouter);
 router.use(plansDrawingsDocumentsRouter);
 router.use(originalDecisionNoticeRouter);
+router.use(proposedDevelopmentChanged);
 
 module.exports = router;
