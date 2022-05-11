@@ -10,6 +10,8 @@ const {
       ELIGIBILITY: {
         CAN_USE_SERVICE_HOUSEHOLDER: canUseServiceHouseholder,
         CAN_USE_SERVICE_PRIOR_APPROVAL: canUseServicePriorApprovalHouseholder,
+        CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
+          canUseServiceRemovalOrVariationOfConditionsHouseholder,
       },
     },
   },
@@ -19,6 +21,8 @@ const {
     FULL_APPEAL: {
       CAN_USE_SERVICE_FULL_APPEAL: canUseServiceFullAppealUrl,
       CAN_USE_SERVICE_PRIOR_APPROVAL: canUseServicePriorApprovalFull,
+      CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
+        canUseServiceRemovalOrVariationOfConditionsFullAppeal,
     },
   },
 } = require('../../lib/full-appeal/views');
@@ -134,7 +138,55 @@ const canUseServicePriorApproval = async (req, res) => {
   }
 };
 
-const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {};
+const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
+  const { appeal } = req.session;
+  const {
+    appealLPD,
+    applicationType,
+    applicationDecision,
+    decisionDate,
+    enforcementNotice,
+    dateOfDecisionLabel,
+  } = await extractAppealProps(appeal);
+
+  const hasHouseholderPermissionConditions = appeal.eligibility.hasHouseholderPermissionConditions
+    ? 'Yes'
+    : 'No';
+
+  if (appeal.eligibility.hasHouseholderPermissionConditions) {
+    const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
+
+    const deadlineDate = calculateDeadline.householderApplication(appeal.decisionDate);
+
+    const claimingCosts = appeal.eligibility.isClaimingCosts ? 'Yes' : 'No';
+
+    res.render(canUseServiceRemovalOrVariationOfConditionsHouseholder, {
+      deadlineDate,
+      appealLPD,
+      applicationType,
+      isListedBuilding,
+      applicationDecision,
+      decisionDate,
+      enforcementNotice,
+      claimingCosts,
+      dateOfDecisionLabel,
+      hasHouseholderPermissionConditions,
+    });
+  } else {
+    const deadlineDate = calculateDeadline.fullAppealApplication(appeal.decisionDate);
+
+    res.render(canUseServiceRemovalOrVariationOfConditionsFullAppeal, {
+      deadlineDate,
+      appealLPD,
+      applicationType,
+      applicationDecision,
+      decisionDate,
+      enforcementNotice,
+      dateOfDecisionLabel,
+      hasHouseholderPermissionConditions,
+    });
+  }
+};
 
 exports.getCanUseService = async (req, res) => {
   const { appeal } = req.session;

@@ -1,10 +1,10 @@
-{% extends "../../layouts/main.njk" %}
+{% extends "../../../layouts/main.njk" %}
 
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-{% from "../../macros/bool-to-sentence-case.njk" import boolToSentenceCaseField %}
-{% from "../../macros/multifile-upload-to-list.njk" import multifileUploadToList %}
-{% from "../../macros/summary-field.njk" import summaryField %}
+{% from "../../../macros/bool-to-sentence-case.njk" import boolToSentenceCaseField %}
+{% from "../../../macros/multifile-upload-to-list.njk" import multifileUploadToList %}
+{% from "../../../macros/summary-field.njk" import summaryField %}
 
 {% block pageTitle %}
   You can appeal using this service - Before you start - Appeal a planning decision - GOV.UK
@@ -58,6 +58,24 @@
                     text: "Change",
                     visuallyHiddenText: "Type of application",
                     attributes: { "data-cy":"applicationType"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Are the conditions for householder planning permission?"
+              },
+              value: {
+                text: hasHouseholderPermissionConditions
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/conditions-householder-permission",
+                    text: "Change",
+                    visuallyHiddenText: "Are the conditions for householder planning permission?",
+                    attributes: { "data-cy":"householderPermissionConditions"}
                   }
                 ]
               }

@@ -18,6 +18,8 @@ const VIEW = {
       CAN_USE_SERVICE_HOUSEHOLDER: 'householder-planning/eligibility/can-use-service',
       CAN_USE_SERVICE_PRIOR_APPROVAL:
         'householder-planning/eligibility/prior-approval/can-use-service',
+      CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
+        'householder-planning/eligibility/removal-or-variation-of-conditions/can-use-service',
     },
   },
 };
