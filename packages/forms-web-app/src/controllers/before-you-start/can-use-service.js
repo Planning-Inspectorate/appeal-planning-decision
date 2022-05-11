@@ -1,7 +1,3 @@
-const {
-  constants: { APPLICATION_DECISION },
-} = require('@pins/business-rules');
-
 const { extractAppealProps } = require('../../lib/extract-appeal-props');
 const { calculateDeadline } = require('../../lib/calculate-deadline');
 const {
@@ -39,9 +35,6 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
     dateOfDecisionLabel,
   } = await extractAppealProps(appeal);
 
-  const dateOfDecisionLabel =
-    applicationDecision === 'No Decision Received' ? 'Date decision due' : 'Date of Decision';
-
   const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
   const deadlineDate = calculateDeadline.householderApplication(appeal.decisionDate);
@@ -71,9 +64,6 @@ const canUseServiceFullAppeal = async (req, res) => {
     enforcementNotice,
     dateOfDecisionLabel,
   } = await extractAppealProps(appeal);
-
-  const dateOfDecisionLabel =
-    applicationDecision === 'No Decision Received' ? 'Date decision due' : 'Date of Decision';
 
   const deadlineDate = calculateDeadline.fullAppealApplication(appeal.decisionDate);
 
