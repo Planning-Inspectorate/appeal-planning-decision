@@ -21,7 +21,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/1.2.2
+      ref: refs/tags/release/2.0.0
   pipelines:
     - pipeline: appeal-reply-service-api-ci
       source: appeal-reply-service-api CI
@@ -31,19 +31,17 @@ resources:
             - main
 
 extends:
-  template: stages/wrapper_web_app_cd.yml@templates
+  template: stages/wrapper_cd.yml@templates
   parameters:
-    appName: $(webAppNamePrefix)-$(ENVIRONMENT)-$(REGION_SHORT)-001
-    artifactSourcePipeline: appeals-service-api CI
-    azurecrName: $(azurecrName)
-    azurecrServiceConnection: $(azurecrServiceConnection)
-    deploymentTag: ${{ parameters.deploymentTag }}
+    deploymentStages:
+      - name: Deploy
+        deploymentSteps:
+          - template: ../steps/azure_web_app_deploy.yml
+            parameters:
+              appName: $(webAppName)
+              appResourceGroup: $(resourceGroup)
+              azurecrName: $(azurecrName)
+              repository: $(repository)
     globalVariables:
       - template: azure-pipelines-variables.yml@self
       - template: packages/appeal-reply-service-api/pipelines/azure-pipelines-variables.yml@self
-    projectName: $(projectName) 
-    releaseVersion: $(version.MajorMinor)
-    repository: $(repository)
-    ${{ if in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'ResourceTrigger') }}:
-      environments:
-        - name: Dev
