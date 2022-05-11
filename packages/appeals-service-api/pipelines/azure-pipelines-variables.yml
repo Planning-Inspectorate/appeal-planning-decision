@@ -7,4 +7,4 @@ variables:
 
   dockerFilePath: $(Build.SourcesDirectory)/packages/appeals-service-api/Dockerfile
   repository: appeal-planning-decision/appeals-service-api
-  webAppNamePrefix: pins-app-appeals-service-appeals-api
+  webAppName: pins-app-appeals-service-appeals-api-$(ENVIRONMENT)-$(REGION_SHORT)-001

@@ -1,4 +1,3 @@
 variables:
   azurecrName: pinscrsharedtoolinguks
-  azurecrServiceConnection: appeal-planning-decision-tooling
-  projectName: appeal-planning-decision
+  resourceGroup: pins-rg-appeals-service-$(ENVIRONMENT)-$(REGION_SHORT)-001
