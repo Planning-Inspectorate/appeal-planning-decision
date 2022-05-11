@@ -40,6 +40,7 @@ const VIEW = {
     EXPECT_ENQUIRY_LAST: 'full-appeal/submit-appeal/expect-inquiry-last',
     PLANS_DRAWINGS_DOCUMENTS: 'full-appeal/submit-appeal/plans-drawings-documents',
     CAN_USE_SERVICE_FULL_APPEAL: 'full-appeal/can-use-service',
+    CAN_USE_SERVICE_PRIOR_APPROVAL: 'full-appeal/prior-approval/can-use-service',
   },
 };
 

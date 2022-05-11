@@ -16,6 +16,8 @@ const VIEW = {
       CONDITIONS_HOUSEHOLDER_PERMISSION:
         'householder-planning/eligibility/conditions-householder-permission',
       CAN_USE_SERVICE_HOUSEHOLDER: 'householder-planning/eligibility/can-use-service',
+      CAN_USE_SERVICE_PRIOR_APPROVAL:
+        'householder-planning/eligibility/prior-approval/can-use-service',
     },
   },
 };

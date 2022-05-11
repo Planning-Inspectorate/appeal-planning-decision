@@ -1,0 +1,197 @@
+{% extends "../../layouts/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "../../macros/bool-to-sentence-case.njk" import boolToSentenceCaseField %}
+{% from "../../macros/multifile-upload-to-list.njk" import multifileUploadToList %}
+{% from "../../macros/summary-field.njk" import summaryField %}
+
+{% block pageTitle %}
+  You can appeal using this service - Before you start - Appeal a planning decision - GOV.UK
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form action="" method="post">
+        <h1 class="govuk-heading-l">
+          You can appeal using this service
+        </h1>
+        <p>Based on your answers, you can appeal using this service.</p>
+        <p>Your deadline to appeal is 11.59pm on {{ deadlineDate.day }} {{deadlineDate.date}} {{deadlineDate.month}} {{deadlineDate.year}}.</p>
+
+        <h2 class="govuk-heading-m">Check your answers</h2>
+
+        {{ govukSummaryList({
+          classes: "govuk-summary-list govuk-!-margin-bottom-9",
+          rows: [
+            {
+              key: {
+                text: "Local planning department"
+              },
+              value: {
+                text: summaryField(appealLPD, { 'data-cy': "local-planning-department" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/local-planning-department",
+                    text: "Change",
+                    visuallyHiddenText: "Local planning department",
+                    attributes: { "data-cy":"localPlanningDepartment"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Type of application"
+              },
+              value: {
+                text: summaryField(applicationType, { 'data-cy': "application-type" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/type-of-planning-application",
+                    text: "Change",
+                    visuallyHiddenText: "Type of application",
+                    attributes: { "data-cy":"applicationType"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Did you apply for prior approval to extend an existing home?"
+              },
+              value: {
+                text: hasPriorApprovalForExistingHome
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/prior-approval-existing-home",
+                    text: "Change",
+                    visuallyHiddenText: "Did you apply for prior approval to extend an existing home?",
+                    attributes: { "data-cy":"priorApproval"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Your appeal is not about"
+              },
+              value: {
+                html: "A listed building<br>Major dwellings<br>Major general industry, storage or warehousing<br>Major retail and services<br>Major travelling and caravan pitches"
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/any-of-following",
+                    text: "Change",
+                    visuallyHiddenText: "Your appeal is not about",
+                    attributes: { "data-cy":"appealNotAbout"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Was your planning application granted or refused?"
+              },
+              value: {
+                text: summaryField(applicationDecision, { 'data-cy': "application-decision" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/granted-or-refused",
+                    text: "Change",
+                    visuallyHiddenText: "Was your planning application granted or refused?",
+                    attributes: { "data-cy":"applicationDecision"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: dateOfDecisionLabel
+              },
+              value: {
+                text: summaryField(decisionDate, { 'data-cy': "decision-date" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/decision-date",
+                    text: "Change",
+                    visuallyHiddenText: dateOfDecisionLabel,
+                    attributes: { "data-cy":"decisionDate"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Have you received an enforcement notice?"
+              },
+              value: {
+                text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/enforcement-notice",
+                    text: "Change",
+                    visuallyHiddenText: "Have you received an enforcement notice?",
+                    attributes: { "data-cy":"enforcementNotice"}
+                  }
+                ]
+              }
+            }
+          ]
+        }) }}
+        <h2 class="govuk-heading-m">Before you continue</h2>
+
+        <p>You cannot save your progress and come back later. Before you continue, make sure you have everything you need for your appeal.</p>
+
+        <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">
+                Check what you need to submit
+              </span>
+            </summary>
+            <div class="govuk-details__text">
+              <p class="govuk-body">
+                You need to submit these documents with your appeal:
+              </p>
+              <ul class="govuk-list govuk-list--bullet">
+                <li>your planning application form</li>
+                <li>the plans, drawings and supporting documents you submitted with your application</li>
+                
+                  <li>the decision letter from your local planning department</li>
+                
+                <li>your design and access statement, if you submitted one with your application</li>
+                <li>your appeal statement</li>
+              </ul>
+              <p class="govuk-body">
+                If you do not have a copy of your planning application form, you can search for it on your local planning department's website.
+              </p>
+              <p class="govuk-body">
+                You also have the option to submit:
+              </p>
+              <ul class="govuk-list govuk-list--bullet">
+                <li>plans or drawings that have been updated or created since your application</li>
+                <li>any other documents that you'd like to submit in support of your appeal</li>
+              </ul>
+            </div>
+          </details>
+
+        <a href="/full-appeal/submit-appeal/task-list" class="govuk-button" role="button" data-cy="button-save-and-continue"> Continue to my appeal</a>
+      </form>
+    </div>
+  </div>
+{% endblock %}
