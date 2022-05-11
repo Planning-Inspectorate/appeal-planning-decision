@@ -4,6 +4,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 
 {% set title="Did your proposed development change after you submitted your application?  - Before you start - Appeal a planning decision - GOV.UK" %}
 
@@ -52,14 +53,14 @@
 
         {{ govukRadios({
           classes: "govuk-radios",
-          idPrefix: "enforcement-notice",
-          name: "enforcement-notice",
+          idPrefix: "proposed-development-changed",
+          name: "proposed-development-changed",
           hint: {
             html: "<p>Only tell us about changes you agreed with the local planning department.</p>
             <p>For example, if you applied to build 5 houses, but agreed to change this to 4 during the application process</p>"
           },
-          errorMessage: errors['enforcement-notice'] and {
-            text: errors['enforcement-notice'].msg
+          errorMessage: errors['proposed-development-changed'] and {
+            text: errors['proposed-development-changed'].msg
           },
           fieldset: {
             legend: {
@@ -73,7 +74,7 @@
               value: "yes",
               text: "Yes",
               attributes: { "data-cy": "answer-yes" },
-              checked: appeal.eligibility.enforcementNotice == true
+              checked: appeal.planningApplicationDocumentsSection.proposedDevelopmentChanged == true,
               conditional: {
                 html: visibleProposedDevelopmentChangedHtml
               }
@@ -82,7 +83,7 @@
               value: "no",
               text: "No",
               attributes: { "data-cy": "answer-no" },
-              checked: appeal.eligibility.enforcementNotice == false
+              checked: appeal.planningApplicationDocumentsSection.proposedDevelopmentChanged == false
             }
           ]
         }) }}

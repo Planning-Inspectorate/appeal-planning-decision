@@ -4,8 +4,8 @@ const logger = require('../lib/logger');
 const checkAppealTypeExists = (req, res, next) => {
   const { session: { appeal } = {} } = req;
 
-  logger.debug({ appeal }, 'Appeal data in checkAppealTypeExists');
-  logger.debug({ featureFlag }, 'Feature flag in checkAppealTypeExists');
+  // logger.debug({ appeal }, 'Appeal data in checkAppealTypeExists');
+  // logger.debug({ featureFlag }, 'Feature flag in checkAppealTypeExists');
 
   const allowList = [
     '/before-you-start/local-planning-department',
