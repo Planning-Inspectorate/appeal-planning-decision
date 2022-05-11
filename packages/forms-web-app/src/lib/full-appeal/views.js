@@ -42,6 +42,8 @@ const VIEW = {
     PLANS_DRAWINGS_DOCUMENTS: 'full-appeal/submit-appeal/plans-drawings-documents',
     CAN_USE_SERVICE_FULL_APPEAL: 'full-appeal/can-use-service',
     CAN_USE_SERVICE_PRIOR_APPROVAL: 'full-appeal/prior-approval/can-use-service',
+    CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
+      'full-appeal/removal-or-variation-of-conditions/can-use-service',
   },
 };
 

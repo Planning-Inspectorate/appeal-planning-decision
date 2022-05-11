@@ -151,6 +151,24 @@
                   }
                 ]
               }
+            },
+            {
+              key: {
+                text: "Are you claiming costs as part of your appeal?"
+              },
+              value: {
+                text: summaryField(claimingCosts, { 'data-cy': "claiming-costs" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/claiming-costs-householder",
+                    text: "Change",
+                    visuallyHiddenText: "Are you claiming costs as part of your appeal?",
+                    attributes: { "data-cy":"claimingCosts"}
+                  }
+                ]
+              }
             }
           ]
         }) }}
