@@ -22,6 +22,10 @@ describe('/lib/householder-planning/views', () => {
           LISTED_BUILDING: 'householder-planning/eligibility/listed-building-householder',
           CONDITIONS_HOUSEHOLDER_PERMISSION:
             'householder-planning/eligibility/conditions-householder-permission',
+          CAN_USE_SERVICE_PRIOR_APPROVAL:
+            'householder-planning/eligibility/prior-approval/can-use-service',
+          CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
+            'householder-planning/eligibility/removal-or-variation-of-conditions/can-use-service',
         },
       },
     });
