@@ -29,7 +29,7 @@ const postProposedDevelopmentChanged = async (req, res) => {
   } = req.session;
   const task = appeal[sectionName];
 
-  task.applicationNumber = body['application-number'];
+  task.isProposedDevelopmentChanged = body['proposed-development-changed'];
 
   if (Object.keys(errors).length > 0) {
     res.render(PROPOSED_DEVELOPMENT_CHANGED, {
