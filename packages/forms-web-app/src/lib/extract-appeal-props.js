@@ -30,12 +30,16 @@ const extractAppealProps = async (appeal) => {
 
   const enforcementNotice = appeal.eligibility.enforcementNotice ? 'Yes' : 'No';
 
+  const dateOfDecisionLabel =
+    applicationDecision === 'No Decision Received' ? 'Date decision due' : 'Date of Decision';
+
   return {
     appealLPD,
     applicationType,
     applicationDecision,
     decisionDate,
     enforcementNotice,
+    dateOfDecisionLabel,
   };
 };
 

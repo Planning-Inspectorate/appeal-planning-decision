@@ -7,21 +7,33 @@ const { calculateDeadline } = require('../../lib/calculate-deadline');
 const {
   VIEW: {
     HOUSEHOLDER_PLANNING: {
-      ELIGIBILITY: { CAN_USE_SERVICE_HOUSEHOLDER: canUseServiceHouseholder },
+      ELIGIBILITY: {
+        CAN_USE_SERVICE_HOUSEHOLDER: canUseServiceHouseholder,
+        CAN_USE_SERVICE_PRIOR_APPROVAL: canUseServicePriorApprovalHouseholder,
+      },
     },
   },
 } = require('../../lib/householder-planning/views');
 const {
   VIEW: {
-    FULL_APPEAL: { CAN_USE_SERVICE_FULL_APPEAL: canUseServiceFullAppealUrl },
+    FULL_APPEAL: {
+      CAN_USE_SERVICE_FULL_APPEAL: canUseServiceFullAppealUrl,
+      CAN_USE_SERVICE_PRIOR_APPROVAL: canUseServicePriorApprovalFull,
+    },
   },
 } = require('../../lib/full-appeal/views');
 
 const canUseServiceHouseholderPlanning = async (req, res) => {
   const { appeal } = req.session;
 
-  const { appealLPD, applicationType, applicationDecision, decisionDate, enforcementNotice } =
-    await extractAppealProps(appeal);
+  const {
+    appealLPD,
+    applicationType,
+    applicationDecision,
+    decisionDate,
+    enforcementNotice,
+    dateOfDecisionLabel,
+  } = await extractAppealProps(appeal);
 
   const dateOfDecisionLabel =
     applicationDecision === 'No Decision Received' ? 'Date decision due' : 'Date of Decision';
@@ -47,8 +59,14 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 
 const canUseServiceFullAppeal = async (req, res) => {
   const { appeal } = req.session;
-  const { appealLPD, applicationType, applicationDecision, decisionDate, enforcementNotice } =
-    await extractAppealProps(appeal);
+  const {
+    appealLPD,
+    applicationType,
+    applicationDecision,
+    decisionDate,
+    enforcementNotice,
+    dateOfDecisionLabel,
+  } = await extractAppealProps(appeal);
 
   const dateOfDecisionLabel =
     applicationDecision === 'No Decision Received' ? 'Date decision due' : 'Date of Decision';
@@ -66,15 +84,75 @@ const canUseServiceFullAppeal = async (req, res) => {
   });
 };
 
+const canUseServicePriorApproval = async (req, res) => {
+  const { appeal } = req.session;
+  const {
+    appealLPD,
+    applicationType,
+    applicationDecision,
+    decisionDate,
+    enforcementNotice,
+    dateOfDecisionLabel,
+  } = await extractAppealProps(appeal);
+
+  const hasPriorApprovalForExistingHome = appeal.eligibility.hasPriorApprovalForExistingHome
+    ? 'Yes'
+    : 'No';
+
+  if (appeal.eligibility.hasPriorApprovalForExistingHome) {
+    const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
+
+    const deadlineDate = calculateDeadline.householderApplication(appeal.decisionDate);
+
+    const claimingCosts = appeal.eligibility.isClaimingCosts ? 'Yes' : 'No';
+
+    res.render(canUseServicePriorApprovalHouseholder, {
+      deadlineDate,
+      appealLPD,
+      applicationType,
+      isListedBuilding,
+      applicationDecision,
+      decisionDate,
+      enforcementNotice,
+      claimingCosts,
+      dateOfDecisionLabel,
+      hasPriorApprovalForExistingHome,
+    });
+  } else {
+    const deadlineDate = calculateDeadline.fullAppealApplication(appeal.decisionDate);
+
+    res.render(canUseServicePriorApprovalFull, {
+      deadlineDate,
+      appealLPD,
+      applicationType,
+      applicationDecision,
+      decisionDate,
+      enforcementNotice,
+      dateOfDecisionLabel,
+      hasPriorApprovalForExistingHome,
+    });
+  }
+};
+
+const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {};
+
 exports.getCanUseService = async (req, res) => {
   const { appeal } = req.session;
   const applicationType = appeal.typeOfPlanningApplication;
-  if (
-    applicationType === 'householder-planning' ||
-    appeal.eligibility.hasHouseholderPermissionConditions
-  ) {
-    await canUseServiceHouseholderPlanning(req, res);
-  } else {
-    await canUseServiceFullAppeal(req, res);
+
+  switch (applicationType) {
+    case 'full-appeal':
+    case 'outline-planning':
+    case 'reserved-matters':
+      await canUseServiceFullAppeal(req, res);
+      break;
+    case 'prior-approval':
+      await canUseServicePriorApproval(req, res);
+      break;
+    case 'removal-or-variation-of-conditions':
+      await canUseServiceRemovalOrVariationOfConditions(req, res);
+      break;
+    default:
+      await canUseServiceHouseholderPlanning(req, res);
   }
 };
