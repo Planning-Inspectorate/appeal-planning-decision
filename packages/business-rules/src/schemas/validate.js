@@ -12,10 +12,6 @@ const validate = (action, data, config = { abortEarly: false }) => {
     throw new BusinessRulesError(`${appealType} is not a valid appeal type`);
   }
 
-  if (!featureFlag.newAppealJourney) {
-    return householderAppeal[action].validate(data, config);
-  }
-
   switch (appealType) {
     case APPEAL_ID.HOUSEHOLDER:
       return householderAppeal[action].validate(data, config);

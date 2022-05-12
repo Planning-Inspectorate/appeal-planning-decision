@@ -84,18 +84,6 @@ describe('appeals.controllers', () => {
         updatedAt: expect.any(Date),
       });
     });
-
-    it('responds with a newly created appeal when the newAppealJourney feature flag is not set', async () => {
-      config.featureFlag.newAppealJourney = false;
-      appealDocument.id = expect.any(String);
-      appealDocument.createdAt = expect.any(Date);
-      appealDocument.updatedAt = expect.any(Date);
-
-      await createAppeal(req, res);
-
-      expect(res.status).toHaveBeenCalledWith(201);
-      expect(res.send).toHaveBeenCalledWith(appealDocument);
-    });
   });
 
   describe('updateAppeal', () => {

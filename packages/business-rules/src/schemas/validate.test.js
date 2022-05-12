@@ -121,28 +121,4 @@ describe('schemas/validate', () => {
       expect(result).toEqual(appeal);
     });
   });
-
-  it('should use the householder validation schema if featureFlag.newAppealJourney is false', () => {
-    featureFlag.newAppealJourney = false;
-
-    householderAppeal.insert.validate.mockReturnValue(appeal);
-
-    const result = insert(appeal);
-
-    expect(householderAppeal.insert.validate).toHaveBeenCalledTimes(1);
-    expect(householderAppeal.insert.validate).toHaveBeenCalledWith(appeal, config);
-    expect(result).toEqual(appeal);
-  });
-
-  it('should use the householder validation schema if featureFlag.newAppealJourney is not set', () => {
-    delete featureFlag.newAppealJourney;
-
-    householderAppeal.insert.validate.mockReturnValue(appeal);
-
-    const result = insert(appeal);
-
-    expect(householderAppeal.insert.validate).toHaveBeenCalledTimes(1);
-    expect(householderAppeal.insert.validate).toHaveBeenCalledWith(appeal, config);
-    expect(result).toEqual(appeal);
-  });
 });

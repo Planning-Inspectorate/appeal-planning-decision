@@ -234,9 +234,6 @@ const config = {
       },
     },
   },
-  featureFlag: {
-    newAppealJourney: process.env.FEATURE_FLAG_NEW_APPEAL_JOURNEY === 'true' || true,
-  },
 };
 
 module.exports = config;
