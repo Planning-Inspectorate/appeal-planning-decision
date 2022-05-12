@@ -228,22 +228,22 @@ services:
 #    command: npm run start:dev
 
   # This does not work locally with RabbitMQ
-  queue-retry:
-    image: library/node:14-alpine
-    environment:
-      HORIZON_HAS_PUBLISHER_HOST: rabbitmq
-      HORIZON_HAS_PUBLISHER_PASSWORD: admin
-      HORIZON_HAS_PUBLISHER_QUEUES: docker_queue
-      HORIZON_HAS_PUBLISHER_USERNAME: admin
-    ports:
-      - 9002:3000
-    working_dir: /opt/app
-    links:
-      - rabbitmq
-    volumes:
-      - ./packages/common:/opt/app/node_modules/@pins/common
-      - ./packages/queue-retry:/opt/app
-    command: npm run start:dev
+#  queue-retry:
+#    image: library/node:14-alpine
+#    environment:
+#      HORIZON_HAS_PUBLISHER_HOST: rabbitmq
+#      HORIZON_HAS_PUBLISHER_PASSWORD: admin
+#      HORIZON_HAS_PUBLISHER_QUEUES: docker_queue
+#      HORIZON_HAS_PUBLISHER_USERNAME: admin
+#    ports:
+#      - 9002:3000
+#    working_dir: /opt/app
+#    links:
+#      - rabbitmq
+#    volumes:
+#      - ./packages/common:/opt/app/node_modules/@pins/common
+#      - ./packages/queue-retry:/opt/app
+#    command: npm run start:dev
 
   # Populate the database with data - one instance per service
   appeals-service-api-data:
@@ -315,15 +315,15 @@ services:
       - 4000:27017
 
   # In prod we use Azure Service Bus which uses AMQP1.0
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    environment:
-      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbit default_pass admin default_user admin"
-    ports:
-      - 4004:5672
-      - 4005:15672
-    volumes:
-      - .rabbitmq_plugins:/etc/rabbitmq/enabled_plugins
+#  rabbitmq:
+#    image: rabbitmq:3-management-alpine
+#    environment:
+#      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbit default_pass admin default_user admin"
+#    ports:
+#      - 4004:5672
+#      - 4005:15672
+#    volumes:
+#      - .rabbitmq_plugins:/etc/rabbitmq/enabled_plugins
 
   mongoExpress:
     image: mongo-express

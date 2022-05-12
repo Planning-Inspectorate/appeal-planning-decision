@@ -8,6 +8,7 @@ const designAccessStatementRouter = require('../../../../../src/routes/full-appe
 const designAccessStatementSubmittedRouter = require('../../../../../src/routes/full-appeal/submit-appeal/design-access-statement-submitted');
 const applicationSiteAddressRouter = require('../../../../../src/routes/full-appeal/submit-appeal/appeal-site-address');
 const applicantNameRouter = require('../../../../../src/routes/full-appeal/submit-appeal/applicant-name');
+const proposedDevelopmentChanged = require('../../../../../src/routes/full-appeal/submit-appeal/proposed-development-changed');
 const decisionLetterRouter = require('../../../../../src/routes/full-appeal/submit-appeal/decision-letter');
 const appealStatementRouter = require('../../../../../src/routes/full-appeal/submit-appeal/appeal-statement');
 const originalApplicantRouter = require('../../../../../src/routes/full-appeal/submit-appeal/original-applicant');
@@ -45,7 +46,6 @@ describe('routes/full-appeal/submit-appeal/index', () => {
   });
 
   it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(38);
     expect(use).toHaveBeenCalledWith(taskListRouter);
     expect(use).toHaveBeenCalledWith(checkAnswersRouter);
     expect(use).toHaveBeenCalledWith(contactDetailsRouter);
@@ -55,6 +55,7 @@ describe('routes/full-appeal/submit-appeal/index', () => {
     expect(use).toHaveBeenCalledWith(designAccessStatementSubmittedRouter);
     expect(use).toHaveBeenCalledWith(applicationSiteAddressRouter);
     expect(use).toHaveBeenCalledWith(applicantNameRouter);
+    expect(use).toHaveBeenCalledWith(proposedDevelopmentChanged);
     expect(use).toHaveBeenCalledWith(decisionLetterRouter);
     expect(use).toHaveBeenCalledWith(appealStatementRouter);
     expect(use).toHaveBeenCalledWith(originalApplicantRouter);
