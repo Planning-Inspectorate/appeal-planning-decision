@@ -17,10 +17,6 @@ const checkAppealTypeExists = (req, res, next) => {
     '/full-appeal/submit-appeal/declaration-information',
   ];
 
-  if (!featureFlag.newAppealJourney) {
-    return next();
-  }
-
   const isInAllowList = allowList.some((path) => req.originalUrl.includes(path));
 
   if (isInAllowList) {

@@ -98,11 +98,4 @@ describe('middleware/check-appeal-type-exists', () => {
     checkAppealTypeExists(req, res, next);
     expect(res.redirect).toBeCalledWith('/before-you-start/local-planning-department');
   });
-
-  it('should call next() if featureFlag.newAppealJourney is not set', () => {
-    featureFlag.newAppealJourney = false;
-    checkAppealTypeExists(req, res, next);
-    expect(next).toBeCalled();
-    expect(res.redirect).not.toBeCalled();
-  });
 });
