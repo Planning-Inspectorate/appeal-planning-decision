@@ -155,7 +155,7 @@ Then(
   () => {
     cy.url().should('contain', 'before-you-start/decision-date');
     const validDate = getPastDate(allowedDatePart.WEEK, 7);
-    enterDateHouseholderDecisionReceived({
+    enterDateDecisionReceived({
       day: ('0' + getDate(validDate)).slice(-2),
       month: ('0' + (getMonth(validDate) + 1)).slice(-2),
       year: getYear(validDate),
