@@ -151,6 +151,29 @@ Then('appellant is navigated to Appeal a planning decision for {string}', (decis
 });
 
 Then(
+  'appellant is navigated to Appeal a householder planning decision for granted planning application',
+  () => {
+    cy.url().should('contain', 'before-you-start/decision-date');
+    const validDate = getPastDate(allowedDatePart.WEEK, 7);
+    enterDateHouseholderDecisionReceived({
+      day: ('0' + getDate(validDate)).slice(-2),
+      month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+      year: getYear(validDate),
+    });
+    getSaveAndContinueButton().click();
+    cy.url().should('contain', 'before-you-start/enforcement-notice-householder');
+    selectNo().click();
+    getSaveAndContinueButton().click();
+    cy.url().should('contain', 'before-you-start/claiming-costs-householder');
+    selectNo().click();
+    getSaveAndContinueButton().click();
+    cy.url().should('contain', 'before-you-start/can-use-service');
+    getSaveAndContinueButton().click();
+    cy.url().should('contain', 'appellant-submission/task-list');
+  },
+);
+
+Then(
   'appellant is presented with the next page Was your planning application about any of the following',
   () => {
     cy.url().should('contain', 'before-you-start/any-of-following');
