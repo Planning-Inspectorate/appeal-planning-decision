@@ -6,6 +6,7 @@ const {
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
 const { rules: optionsValidationRules } = require('../../../validators/common/options');
+const { rules: textfieldValidationRules } = require('../../../validators/common/textfield');
 
 const router = express.Router();
 
@@ -20,6 +21,13 @@ router.post(
     fieldName: 'proposed-development-changed',
     emptyError:
       'Select yes if your proposed development changed after you submitted your application',
+  }),
+  textfieldValidationRules({
+    fieldName: 'proposed-development-changed-details',
+    targetFieldName: 'proposed-development-changed',
+    emptyError:
+      'Select yes if your proposed development changed after you submitted your application',
+    tooLongError: 'How proposed development changed must be $maxLength characters or less',
   }),
   validationErrorHandler,
   postProposedDevelopmentChanged

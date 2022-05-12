@@ -5,7 +5,7 @@ const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wra
 const logger = require('../../../../../src/lib/logger');
 const {
   VIEW: {
-    FULL_APPEAL: { APPLICATION_NUMBER, PLANS_DRAWINGS_DOCUMENTS },
+    FULL_APPEAL: { APPLICATION_NUMBER, PROPOSED_DEVELOPMENT_CHANGED },
   },
 } = require('../../../../../src/lib/full-appeal/views');
 
@@ -107,7 +107,7 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
         },
       });
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${PLANS_DRAWINGS_DOCUMENTS}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${PROPOSED_DEVELOPMENT_CHANGED}`);
     });
   });
 });

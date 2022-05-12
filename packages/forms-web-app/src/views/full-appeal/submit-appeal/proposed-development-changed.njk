@@ -1,19 +1,20 @@
 {% extends "layouts/main.njk" %}
 
-{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
-{% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% set title="Did your proposed development change after you submitted your application?  - Before you start - Appeal a planning decision - GOV.UK" %}
+{% set backLink = '/full-appeal/submit-appeal/application-number' %}
+{% set title = "Did your proposed development change after you submitted your application? - Appeal a planning decision - GOV.UK" %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% set visibleProposedDevelopmentChangedHtml %}
   {{ govukTextarea({
     name: "proposed-development-changed-details",
     id: "proposed-development-changed-details",
     label: {
-      text: "Enter the agreed description of development’"
+      text: "Enter the agreed description of development"
     },
     value: proposedDevelopmentChanged.details,
     errorMessage: errors['proposed-development-changed-details'] and {
@@ -22,43 +23,32 @@
   }) }}
 {% endset %}
 
-{% block pageTitle %}
-  {% if errors %}
-    {% set title="Error: " + title %}
-  {% endif %}
-  {{ title }}
-{% endblock %}
-
 {% block backButton %}
-    {{ govukBackLink({
-    text: "Back",
-    href: previousPage
- })}}
+  {{ govukBackLink({
+    text: 'Back',
+    href: backLink,
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
 {% endblock %}
 
 {% block content %}
-
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-
-      {% if errors %}
+      {% if errorSummary %}
         {{ govukErrorSummary({
           titleText: "There is a problem",
-          errorList: errorSummary
+          errorList: errorSummary,
+          attributes: {"data-cy": "error-wrapper"}
         }) }}
       {% endif %}
-
       <form action="" method="post" novalidate>
         <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Update documents from planning application</span>
-
         {{ govukRadios({
           classes: "govuk-radios",
           idPrefix: "proposed-development-changed",
           name: "proposed-development-changed",
-          hint: {
-            html: "<p>Only tell us about changes you agreed with the local planning department.</p>
-            <p>For example, if you applied to build 5 houses, but agreed to change this to 4 during the application process</p>"
-          },
           errorMessage: errors['proposed-development-changed'] and {
             text: errors['proposed-development-changed'].msg
           },
@@ -84,10 +74,10 @@
               text: "No",
               attributes: { "data-cy": "answer-no" },
               checked: appeal.planningApplicationDocumentsSection.proposedDevelopmentChanged == false
+
             }
           ]
         }) }}
-
         {{ govukButton({
           text: "Continue",
           type: "submit",
@@ -96,5 +86,4 @@
       </form>
     </div>
   </div>
-
 {% endblock %}
