@@ -119,7 +119,7 @@ Then('appellant is navigated to Appeal a householder planning decision', () => {
   getSaveAndContinueButton().click();
   cy.url().should('contain', 'before-you-start/can-use-service');
   getSaveAndContinueButton().click();
-  cy.url().should('contain', 'full-appeal/submit-appeal/task-list');
+  cy.url().should('contain', 'appellant-submission/task-list');
 });
 
 Then('appellant is navigated to Appeal a planning decision for {string}', (decision) => {
@@ -147,7 +147,7 @@ Then('appellant is navigated to Appeal a planning decision for {string}', (decis
   getSaveAndContinueButton().click();
   cy.url().should('contain', 'before-you-start/can-use-service');
   getSaveAndContinueButton().click();
-  cy.url().should('contain', 'full-appeal/submit-appeal/task-list');
+  cy.url().should('contain', 'appellant-submission/task-list');
 });
 
 Then(
