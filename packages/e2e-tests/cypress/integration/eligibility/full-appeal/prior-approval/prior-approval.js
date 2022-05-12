@@ -151,20 +151,31 @@ Then('appellant is navigated to Appeal a planning decision for {string}', (decis
 });
 
 Then(
-  'appellant is navigated to Appeal a householder planning decision for granted planning application',
-  () => {
-    cy.url().should('contain', 'before-you-start/decision-date');
-    const validDate = getPastDate(allowedDatePart.WEEK, 7);
-    enterDateDecisionReceived({
-      day: ('0' + getDate(validDate)).slice(-2),
-      month: ('0' + (getMonth(validDate) + 1)).slice(-2),
-      year: getYear(validDate),
-    });
-    getSaveAndContinueButton().click();
-    cy.url().should('contain', 'before-you-start/enforcement-notice-householder');
+  'appellant is navigated to Appeal a householder planning decision for {string} planning application',
+  (decision) => {
+    if (decision === 'Granted' || decision === 'Refused') {
+      cy.url().should('contain', 'before-you-start/decision-date');
+      const validDate = getPastDate(allowedDatePart.WEEK, 7);
+      enterDateDecisionReceived({
+        day: ('0' + getDate(validDate)).slice(-2),
+        month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+        year: getYear(validDate),
+      });
+      getSaveAndContinueButton().click();
+    } else {
+      cy.url().should('contain', 'before-you-start/decision-date-due');
+      const validDate = getPastDate(allowedDatePart.WEEK, 7);
+      enterDateDecisionReceived({
+        day: ('0' + getDate(validDate)).slice(-2),
+        month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+        year: getYear(validDate),
+      });
+      getSaveAndContinueButton().click();
+    }
+    cy.url().should('contain', 'before-you-start/enforcement-notice');
     selectNo().click();
     getSaveAndContinueButton().click();
-    cy.url().should('contain', 'before-you-start/claiming-costs-householder');
+    // cy.url().should('contain', 'before-you-start/claiming-costs-householder');
     selectNo().click();
     getSaveAndContinueButton().click();
     cy.url().should('contain', 'before-you-start/can-use-service');

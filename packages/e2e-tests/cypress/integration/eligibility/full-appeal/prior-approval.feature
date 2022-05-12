@@ -27,7 +27,7 @@ Feature: As an appellant who has made a prior approval application
     And appellant selects the option as No for listed building
     And appellant is on the was your planning application granted or refused page for householder
     When the appellant selects the option as '<application_decision>'
-    Then appellant is navigated to Appeal a householder planning decision for granted planning application
+    Then appellant is navigated to Appeal a householder planning decision for '<application_decision>' planning application
 
     Examples:
       | application_decision           |
