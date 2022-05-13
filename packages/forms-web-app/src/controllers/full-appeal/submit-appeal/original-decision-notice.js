@@ -13,8 +13,6 @@ const sectionName = 'planningApplicationDocumentsSection';
 const taskName = documentTypes.originalDecisionNotice.name;
 
 const getOriginalDecisionNotice = (req, res) => {
-  //   console.log('!!!!!!!!!!!!!!!!');
-  //   console.log(req.session.appeal);
   const {
     session: {
       appeal: {

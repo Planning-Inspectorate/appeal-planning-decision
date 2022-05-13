@@ -7,8 +7,6 @@ const {
   insertAppeal,
 } = require('../services/appeal.service');
 const ApiError = require('../error/apiError');
-const { appealDocument } = require('../models/appeal');
-const { featureFlag } = require('../lib/config');
 
 module.exports = {
   async createAppeal(req, res) {
@@ -59,7 +57,6 @@ module.exports = {
   },
 
   async updateAppeal(req, res) {
-    logger.info('IN UPDATE APPEAL METHOD :/');
     const idParam = req.params.id;
     logger.debug(`Updating appeal ${idParam} ...`);
 
@@ -70,7 +67,7 @@ module.exports = {
         throw ApiError.appealNotFound(idParam);
       }
 
-      let newAppeal = req.body;
+      const newAppeal = req.body;
       const oldAppeal = document.appeal;
 
       logger.debug({ newAppeal }, 'New appeal data in updateAppeal');
