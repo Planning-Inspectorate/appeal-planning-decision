@@ -76,7 +76,6 @@ exports.createOrUpdateAppeal = (appeal) => {
     appealsServiceApiUrl += `/${appeal.id}`;
     method = 'PUT';
   }
-
   return handler(appealsServiceApiUrl, method, {
     body: JSON.stringify(appeal),
   });

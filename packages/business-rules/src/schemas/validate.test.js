@@ -16,16 +16,12 @@ jest.mock('../config', () => ({
       1005: {},
     },
   },
-  featureFlag: {
-    newAppealJourney: true,
-  },
 }));
 
 const { insert, update, validate } = require('./validate');
 const householderAppeal = require('./householder-appeal');
 const fullAppeal = require('./full-appeal');
 const { APPEAL_ID } = require('../constants');
-const { featureFlag } = require('../config');
 
 describe('schemas/validate', () => {
   let appeal;

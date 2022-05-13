@@ -64,7 +64,7 @@
               value: "yes",
               text: "Yes",
               attributes: { "data-cy": "answer-yes" },
-              checked: appeal.planningApplicationDocumentsSection.proposedDevelopmentChanged == true,
+              checked:  proposedDevelopmentChanged.isProposedDevelopmentChanged == true,
               conditional: {
                 html: visibleProposedDevelopmentChangedHtml
               }
@@ -73,7 +73,7 @@
               value: "no",
               text: "No",
               attributes: { "data-cy": "answer-no" },
-              checked: appeal.planningApplicationDocumentsSection.proposedDevelopmentChanged == false
+              checked: proposedDevelopmentChanged.isProposedDevelopmentChanged == false
 
             }
           ]
