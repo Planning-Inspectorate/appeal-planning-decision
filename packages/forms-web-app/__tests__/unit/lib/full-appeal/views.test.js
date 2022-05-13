@@ -43,6 +43,7 @@ describe('/lib/full-appeal/views', () => {
         DRAFT_STATEMENT_COMMON_GROUND: 'full-appeal/submit-appeal/draft-statement-common-ground',
         EXPECT_ENQUIRY_LAST: 'full-appeal/submit-appeal/expect-inquiry-last',
         PLANS_DRAWINGS_DOCUMENTS: 'full-appeal/submit-appeal/plans-drawings-documents',
+        ORIGINAL_DECISION_NOTICE: 'full-appeal/submit-appeal/original-decision-notice',
       },
     });
   });
