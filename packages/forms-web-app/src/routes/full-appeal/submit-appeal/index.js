@@ -38,6 +38,8 @@ const advertisingYourAppealRouter = require('./advertising-your-appeal');
 const plansDrawingsDocumentsRouter = require('./plans-drawings-documents');
 const originalDecisionNoticeRouter = require('./original-decision-notice');
 const proposedDevelopmentChanged = require('./proposed-development-changed');
+const planningObligationPlannedRouter = require('./planning-obligation-planned');
+const planningObligationStatusRouter = require('./planning-obligation-status');
 
 const router = express.Router();
 
@@ -80,5 +82,7 @@ router.use(advertisingYourAppealRouter);
 router.use(plansDrawingsDocumentsRouter);
 router.use(originalDecisionNoticeRouter);
 router.use(proposedDevelopmentChanged);
+router.use(planningObligationPlannedRouter);
+router.use(planningObligationStatusRouter);
 
 module.exports = router;

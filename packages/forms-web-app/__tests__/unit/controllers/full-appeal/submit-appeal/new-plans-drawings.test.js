@@ -11,7 +11,7 @@ const TASK_STATUS = require('../../../../../src/services/task-status/task-status
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
-    FULL_APPEAL: { NEW_PLANS_DRAWINGS, SUPPORTING_DOCUMENTS },
+    FULL_APPEAL: { NEW_PLANS_DRAWINGS, PLANNING_OBLIGATION_PLANNED },
   },
 } = require('../../../../../src/lib/full-appeal/views');
 
@@ -125,7 +125,7 @@ describe('controllers/full-appeal/submit-appeal/new-plans-drawings', () => {
         documentTypes.decisionPlans.name
       );
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
-      expect(res.redirect).toHaveBeenCalledWith(`/${SUPPORTING_DOCUMENTS}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${PLANNING_OBLIGATION_PLANNED}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
@@ -166,7 +166,7 @@ describe('controllers/full-appeal/submit-appeal/new-plans-drawings', () => {
         documentTypes.decisionPlans.name
       );
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
-      expect(res.redirect).toHaveBeenCalledWith(`/${SUPPORTING_DOCUMENTS}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${PLANNING_OBLIGATION_PLANNED}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
@@ -183,7 +183,7 @@ describe('controllers/full-appeal/submit-appeal/new-plans-drawings', () => {
 
       expect(createDocument).not.toHaveBeenCalled();
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
-      expect(res.redirect).toHaveBeenCalledWith(`/${SUPPORTING_DOCUMENTS}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${PLANNING_OBLIGATION_PLANNED}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
@@ -228,7 +228,7 @@ describe('controllers/full-appeal/submit-appeal/new-plans-drawings', () => {
         documentTypes.decisionPlans.name
       );
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
-      expect(res.redirect).toHaveBeenCalledWith(`/${SUPPORTING_DOCUMENTS}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${PLANNING_OBLIGATION_PLANNED}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
   });

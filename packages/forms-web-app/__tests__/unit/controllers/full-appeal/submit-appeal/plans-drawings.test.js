@@ -8,7 +8,7 @@ const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wra
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
-    FULL_APPEAL: { PLANS_DRAWINGS, NEW_PLANS_DRAWINGS, SUPPORTING_DOCUMENTS },
+    FULL_APPEAL: { PLANS_DRAWINGS, NEW_PLANS_DRAWINGS, PLANNING_OBLIGATION_PLANNED },
   },
 } = require('../../../../../src/lib/full-appeal/views');
 const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
@@ -130,7 +130,7 @@ describe('controllers/full-appeal/submit-appeal/plans-drawings', () => {
       await postPlansDrawings(req, res);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${SUPPORTING_DOCUMENTS}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${PLANNING_OBLIGATION_PLANNED}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
   });
