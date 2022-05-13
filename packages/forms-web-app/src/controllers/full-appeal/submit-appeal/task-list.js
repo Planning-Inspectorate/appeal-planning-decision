@@ -1,5 +1,6 @@
 const { FULL_APPEAL_SECTIONS } = require('../../../services/task.service');
 const { VIEW } = require('../../../lib/full-appeal/views');
+const getHref = require('../../../lib/get-route-for-special-cases');
 
 const HEADERS = {
   contactDetailsSection: 'Provide your contact details',
@@ -9,23 +10,6 @@ const HEADERS = {
   appealDocumentsSection: 'Upload documents for your appeal',
   submitYourAppealSection: 'Check your answers and submit your appeal',
 };
-
-const checkSpecialCases = {
-  checkIfDecisionNoticeRequired: (appeal, sectionName) => {
-    return sectionName === 'planningApplicationDocumentsSection' &&
-      appeal.typeOfPlanningApplication === 'removal-or-variation-of-conditions'
-      ? '/full-appeal/submit-appeal/original-decision-notice'
-      : '';
-  },
-};
-
-function getHref(appeal, sectionName, section) {
-  let href;
-  Object.keys(checkSpecialCases).forEach((rule) => {
-    href = checkSpecialCases[rule](appeal, sectionName);
-  });
-  return href !== '' ? href : section.href;
-}
 
 function buildTaskLists(appeal) {
   const taskList = [];
