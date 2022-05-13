@@ -5,7 +5,7 @@ const {
 } = require('@pins/common');
 const {
   VIEW: {
-    FULL_APPEAL: { NEW_PLANS_DRAWINGS, SUPPORTING_DOCUMENTS },
+    FULL_APPEAL: { NEW_PLANS_DRAWINGS, PLANNING_OBLIGATION_PLANNED },
   },
 } = require('../../../lib/full-appeal/views');
 const logger = require('../../../lib/logger');
@@ -83,7 +83,7 @@ const postNewPlansDrawings = async (req, res) => {
     });
   }
 
-  return res.redirect(`/${SUPPORTING_DOCUMENTS}`);
+  return res.redirect(`/${PLANNING_OBLIGATION_PLANNED}`);
 };
 
 module.exports = {

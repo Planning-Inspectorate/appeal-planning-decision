@@ -2,7 +2,7 @@ const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   VIEW: {
-    FULL_APPEAL: { PLANS_DRAWINGS, NEW_PLANS_DRAWINGS, SUPPORTING_DOCUMENTS },
+    FULL_APPEAL: { PLANS_DRAWINGS, NEW_PLANS_DRAWINGS, PLANNING_OBLIGATION_PLANNED },
   },
 } = require('../../../lib/full-appeal/views');
 const { COMPLETED } = require('../../../services/task-status/task-statuses');
@@ -50,7 +50,7 @@ const postPlansDrawings = async (req, res) => {
 
   return hasPlansDrawings
     ? res.redirect(`/${NEW_PLANS_DRAWINGS}`)
-    : res.redirect(`/${SUPPORTING_DOCUMENTS}`);
+    : res.redirect(`/${PLANNING_OBLIGATION_PLANNED}`);
 };
 
 module.exports = {

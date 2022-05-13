@@ -1,0 +1,95 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+{% set title = "Do you plan to submit a planning obligation to support your appeal? - Appeal a planning decision - GOV.UK" %}
+
+
+{% block pageTitle %}
+  {{ title }}
+{% endblock %}
+
+{% block backButton %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: backLink,
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: errorSummary
+      }) }}
+    {% endif %}
+    
+    <span class="govuk-caption-l">Upload documents for your appeal</span>
+
+    <form action="" method="post" novalidate>
+
+      {{ govukRadios({
+        classes: "govuk-radios",
+        id: "plan-to-submit-planning-obligation",
+        name: "plan-to-submit-planning-obligation",
+        errorMessage: errors['plan-to-submit-planning-obligation'] and {
+          text: errors['plan-to-submit-planning-obligation'].msg
+        },
+        fieldset: {
+          legend: {
+            html: '<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+              <h1 class="govuk-fieldset__heading">
+                Do you plan to submit a planning obligation to support your appeal? 
+              </h1>
+              </legend>
+              <div id="plan-to-submit-planning-obligation-hint" class="govuk-hint">
+                This can be a section 106 agreement or a unilateral undertaking.
+              </div>',
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        items: [
+          {
+            value: "yes",
+            text: "Yes",
+            attributes: { "data-cy": "answer-yes" },
+            checked: plansPlanningObligation == true
+          },
+          {
+            value: "no",
+            text: "No",
+            attributes: { "data-cy": "answer-no" },
+            checked: plansPlanningObligation == false
+          }
+        ]
+        }) }}
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+      
+      {{ govukDetails({
+        summaryText: "What is a planning obligation?",
+        html: "<p>A planning obligation is a legal agreement linked to your planning permission. It confirms that you agree to do or not do something if your development goes ahead. This is usually to help manage your development's impact on the area.</p>
+          </p>For example, you might agree to:</p>
+          <li>donate to a wildlife charity, if your development will affect local wildlife</li>
+          <li>help fund improvements to nearby roads, if your development will increase traffic</li>
+          <li>only use your garden building as an annexe for family members, instead of a holiday let</li>"
+      }) }}
+  </div>
+</div>
+
+{% endblock %}
