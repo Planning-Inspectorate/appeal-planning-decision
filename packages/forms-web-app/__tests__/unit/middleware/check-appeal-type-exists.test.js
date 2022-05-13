@@ -1,10 +1,6 @@
 const checkAppealTypeExists = require('../../../src/middleware/check-appeal-type-exists');
-const { featureFlag } = require('../../../src/config');
 
 jest.mock('../../../src/config', () => ({
-  featureFlag: {
-    newAppealJourney: true,
-  },
   logger: {
     level: 'info',
   },

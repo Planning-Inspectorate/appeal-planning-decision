@@ -57,6 +57,7 @@ module.exports = {
   },
 
   async updateAppeal(req, res) {
+    logger.debug(req);
     const idParam = req.params.id;
     logger.debug(`Updating appeal ${idParam} ...`);
 
@@ -75,7 +76,6 @@ module.exports = {
       const isFirstSubmission = oldAppeal.state === 'DRAFT' && newAppeal.state === 'SUBMITTED';
 
       const updatedDocument = await updateAppeal(newAppeal, isFirstSubmission);
-
       logger.debug({ updatedDocument }, 'Updated appeal data in updateAppeal');
 
       res.status(200).send(updatedDocument.appeal);

@@ -2,7 +2,6 @@ const {
   constants: { APPEAL_ID },
 } = require('@pins/business-rules');
 const mongodb = require('../db/db');
-const queue = require('../lib/queue');
 const logger = require('../lib/logger');
 const ApiError = require('../error/apiError');
 const {

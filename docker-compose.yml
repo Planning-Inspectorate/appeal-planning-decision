@@ -108,7 +108,7 @@ services:
       - mock-notify
 #      - mock-os-places
       - mongodb
-      - rabbitmq
+      #- rabbitmq
     depends_on:
       - appeals-service-api-data
       - document-service-api
@@ -116,7 +116,7 @@ services:
       - mock-notify
 #      - mock-os-places
       - mongodb
-      - rabbitmq
+      #- rabbitmq
     volumes:
       - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
       - ./packages/common:/opt/app/node_modules/@pins/common

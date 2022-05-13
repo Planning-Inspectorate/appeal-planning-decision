@@ -6,7 +6,7 @@ describe('views/includes/body-start', () => {
     const includePath = '{% include "includes/body-start.njk" %}';
 
     beforeEach(() => {
-      deleteGlobalVars(['featureFlag', 'googleTagManagerId']);
+      deleteGlobalVars(['googleTagManagerId']);
     });
 
     it(`should not render if featureFlag.googleTagManager and googleTagManagerId are not set`, () => {

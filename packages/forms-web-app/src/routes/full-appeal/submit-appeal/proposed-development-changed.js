@@ -25,8 +25,8 @@ router.post(
   textfieldValidationRules({
     fieldName: 'proposed-development-changed-details',
     targetFieldName: 'proposed-development-changed',
-    emptyError:
-      'Select yes if your proposed development changed after you submitted your application',
+    targetFieldValue: 'yes',
+    emptyError: 'Enter the agreed description of development',
     tooLongError: 'How proposed development changed must be $maxLength characters or less',
   }),
   validationErrorHandler,
