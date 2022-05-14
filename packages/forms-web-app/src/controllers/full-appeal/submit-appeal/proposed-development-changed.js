@@ -20,14 +20,14 @@ const getProposedDevelopmentChanged = (req, res) => {
 const postProposedDevelopmentChanged = async (req, res) => {
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
-  const {
-    appeal,
-  } = req.session;
+  const { appeal } = req.session;
 
   const proposedDevelopmentChanged = {
-    isProposedDevelopmentChanged:
-      body['proposed-development-changed'] && body['proposed-development-changed'] === 'yes',
-    details: body['proposed-development-changed-details'],
+    isProposedDevelopmentChanged: body['proposed-development-changed'] === 'yes',
+    details:
+      body['proposed-development-changed'] === 'yes'
+        ? body['proposed-development-changed-details']
+        : '',
   };
 
   if (Object.keys(errors).length > 0) {
