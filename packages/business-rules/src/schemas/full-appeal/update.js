@@ -198,6 +198,23 @@ const update = pinsYup
       .object()
       .shape({
         applicationNumber: pinsYup.string().max(30).required(),
+        proposedDevelopmentChanged: pinsYup
+          .object()
+          .shape({
+            isProposedDevelopmentChanged: pinsYup.bool().nullable(),
+            details: pinsYup.lazy((details) => {
+              return pinsYup.mixed().conditionalText({
+                fieldValue: details,
+                fieldName: 'details',
+                targetFieldName: 'proposed-development-changed',
+                emptyError:
+                  'Select yes if your proposed development changed after you submitted your application',
+                tooLongError:
+                  'How proposed development changed must be $maxLength characters or less',
+              });
+            }),
+          })
+          .noUnknown(true),
         plansDrawingsSupportingDocuments: pinsYup
           .object()
           .shape({
@@ -422,6 +439,10 @@ const update = pinsYup
           .object()
           .shape({
             applicationNumber: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            proposedDevelopmentChanged: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .required(),
             plansDrawingsSupportingDocuments: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
