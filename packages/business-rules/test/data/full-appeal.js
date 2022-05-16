@@ -113,6 +113,16 @@ const appeal = {
         size: 1000,
       },
     },
+    originalDecisionNotice: {
+      uploadedFile: {
+        id: '372c8ba6-dfa6-4bba-bf9c-b024e3d8c282',
+        name: 'originalDecisionNotice.pdf',
+        fileName: 'originalDecisionNotice.pdf',
+        originalFileName: 'originalDecisionNotice.pdf',
+        location: '372c8ba6-dfa6-4bba-bf9c-b024e3d8c282/originalDecisionNotice.pdf',
+        size: 1000,
+      },
+    },
     decisionLetter: {
       uploadedFile: {
         id: '89b73320-8165-43f9-83e8-43bc0d927140',
@@ -237,6 +247,7 @@ const appeal = {
       designAccessStatementSubmitted: 'NOT STARTED',
       designAccessStatement: 'NOT STARTED',
       decisionLetter: 'NOT STARTED',
+      originalDecisionNotice: 'NOT STARTED',
     },
     appealDocumentsSection: {
       appealStatement: 'NOT STARTED',
