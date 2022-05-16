@@ -291,12 +291,12 @@ const update = pinsYup
             uploadedFile: pinsYup
               .object()
               .shape({
-                id: pinsYup.string().trim().uuid().required(),
-                name: pinsYup.string().trim().max(255).required(),
-                fileName: pinsYup.string().trim().max(255).required(),
-                originalFileName: pinsYup.string().trim().max(255).required(),
-                location: pinsYup.string().trim().required(),
-                size: pinsYup.number().required(),
+                id: pinsYup.string().trim().uuid().nullable(),
+                name: pinsYup.string().trim().max(255).nullable(),
+                fileName: pinsYup.string().trim().max(255).nullable(),
+                originalFileName: pinsYup.string().trim().max(255).nullable(),
+                location: pinsYup.string().trim().nullable(),
+                size: pinsYup.number().nullable(),
               })
               .noUnknown(true),
           })
