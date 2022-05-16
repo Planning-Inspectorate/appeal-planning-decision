@@ -43,7 +43,7 @@ describe('controllers/full-appeal/submit-appeal/proposed-development-changed', (
     });
   });
 
-  describe('postApplicationNumber', () => {
+  describe('postProposedDevelopmentChanged', () => {
     it('should re-render the template with errors if submission validation fails', async () => {
       const mockRequest = {
         ...req,
@@ -83,7 +83,7 @@ describe('controllers/full-appeal/submit-appeal/proposed-development-changed', (
       });
     });
 
-    it('should redirect to `/full-appeal/design-access-statement-submitted` if valid', async () => {
+    it('should redirect to `/full-appeal/plans-drawings-documents` if valid', async () => {
       const fakeTaskStatus = 'COMPLETED';
 
       const mockRequest = {
