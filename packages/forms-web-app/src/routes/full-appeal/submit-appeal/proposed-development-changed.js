@@ -27,7 +27,7 @@ router.post(
     targetFieldName: 'proposed-development-changed',
     targetFieldValue: 'yes',
     emptyError: 'Enter the agreed description of development',
-    tooLongError: 'How proposed development changed must be $maxLength characters or less',
+    tooLongError: 'Agreed description of development must be $maxLength characters or less',
   }),
   validationErrorHandler,
   postProposedDevelopmentChanged

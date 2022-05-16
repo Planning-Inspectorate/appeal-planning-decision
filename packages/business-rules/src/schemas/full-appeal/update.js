@@ -210,7 +210,7 @@ const update = pinsYup
                 emptyError:
                   'Select yes if your proposed development changed after you submitted your application',
                 tooLongError:
-                  'How proposed development changed must be $maxLength characters or less',
+                  'Agreed description of development must be $maxLength characters or less',
               });
             }),
           })
