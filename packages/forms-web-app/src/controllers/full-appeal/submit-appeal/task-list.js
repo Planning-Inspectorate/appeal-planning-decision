@@ -1,6 +1,6 @@
 const { FULL_APPEAL_SECTIONS } = require('../../../services/task.service');
 const { VIEW } = require('../../../lib/full-appeal/views');
-const getHref = require('../../../lib/get-route-for-special-cases');
+const { getHref } = require('../../../lib/get-route-for-special-cases');
 
 const HEADERS = {
   contactDetailsSection: 'Provide your contact details',
