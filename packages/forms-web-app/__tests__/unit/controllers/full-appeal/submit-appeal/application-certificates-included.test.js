@@ -10,17 +10,17 @@ const { VIEW } = require('../../../../../src/lib/full-appeal/views');
 const { mockReq, mockRes } = require('../../../mocks');
 
 const errors = {
-  'do-you-have-certificates': {
+  'did-you-submit-separate-certificate': {
     value: undefined,
-    msg: 'Select your site ownership and agricultural holdings certificate',
-    param: 'do-you-have-certificates',
+    msg: 'Select yes if you submitted a separate ownership certificate and agricultural land declaration',
+    param: 'did-you-submit-separate-certificate',
     location: 'body',
   },
 };
 const errorSummary = [
   {
-    text: 'Select your site ownership and agricultural holdings certificate',
-    href: '#do-you-have-certificates',
+    text: 'Select yes if you submitted a separate ownership certificate and agricultural land declaration',
+    href: '#did-you-submit-separate-certificate',
   },
 ];
 const backLink = `/${VIEW.FULL_APPEAL.APPLICATION_FORM}`;
@@ -63,28 +63,28 @@ describe('controllers/full-appeal/submit-appeal/application-certificates-include
       });
     });
 
-    it('it should redirect to the correct page if do-you-have-certificates is yes', async () => {
+    it('it should redirect to the correct page if did-you-submit-separate-certificate is yes', async () => {
       req = {
         ...req,
         body: {
-          'do-you-have-certificates': 'yes',
-        },
-      };
-      await postApplicationCertificatesIncluded(req, res);
-      expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.APPLICATION_NUMBER}`);
-    });
-
-    it('it should redirect to the correct page if do-you-have-certificates is no', async () => {
-      req = {
-        ...req,
-        body: {
-          'do-you-have-certificates': 'no',
+          'did-you-submit-separate-certificate': 'yes',
         },
       };
       await postApplicationCertificatesIncluded(req, res);
       expect(res.render).not.toHaveBeenCalled();
       expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.CERTIFICATES}`);
+    });
+
+    it('it should redirect to the correct page if did-you-submit-separate-certificate is no', async () => {
+      req = {
+        ...req,
+        body: {
+          'did-you-submit-separate-certificate': 'no',
+        },
+      };
+      await postApplicationCertificatesIncluded(req, res);
+      expect(res.render).not.toHaveBeenCalled();
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.APPLICATION_NUMBER}`);
     });
   });
 });

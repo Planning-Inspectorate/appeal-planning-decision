@@ -2,7 +2,7 @@ const { validationResult } = require('express-validator');
 const { testExpressValidatorMiddleware } = require('../../validation-middleware-helper');
 const {
   rules,
-  validCertificateIncludedOptions,
+  separateCertificateSubmittedOptions,
 } = require('../../../../../src/validators/full-appeal/submit-appeal/application-certificates-included');
 
 describe('validators/full-appeal/submit-appeal/application-certificates-included', () => {
@@ -10,12 +10,12 @@ describe('validators/full-appeal/submit-appeal/application-certificates-included
     it('is configured with the expected rules', () => {
       const rule = rules()[0].builder.build();
 
-      expect(rule.fields).toEqual(['do-you-have-certificates']);
+      expect(rule.fields).toEqual(['did-you-submit-separate-certificate']);
       expect(rule.locations).toEqual(['body']);
       expect(rule.optional).toBeFalsy();
       expect(rule.stack).toHaveLength(3);
       expect(rule.stack[0].message).toEqual(
-        'Select your site ownership and agricultural holdings certificate'
+        'Select yes if you submitted a separate ownership certificate and agricultural land declaration'
       );
       expect(rule.stack[2].options).toEqual([['yes', 'no']]);
     });
@@ -32,9 +32,9 @@ describe('validators/full-appeal/submit-appeal/application-certificates-included
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
           expect(result.errors[0].msg).toEqual(
-            'Select your site ownership and agricultural holdings certificate'
+            'Select yes if you submitted a separate ownership certificate and agricultural land declaration'
           );
-          expect(result.errors[0].param).toEqual('do-you-have-certificates');
+          expect(result.errors[0].param).toEqual('did-you-submit-separate-certificate');
           expect(result.errors[0].value).toEqual(undefined);
         },
       },
@@ -42,14 +42,14 @@ describe('validators/full-appeal/submit-appeal/application-certificates-included
         title: 'invalid value - fail',
         given: () => ({
           body: {
-            'do-you-have-certificates': 12,
+            'did-you-submit-separate-certificate': 12,
           },
         }),
         expected: (result) => {
           expect(result.errors).toHaveLength(1);
           expect(result.errors[0].location).toEqual('body');
           expect(result.errors[0].msg).toEqual('Invalid value');
-          expect(result.errors[0].param).toEqual('do-you-have-certificates');
+          expect(result.errors[0].param).toEqual('did-you-submit-separate-certificate');
           expect(result.errors[0].value).toEqual(12);
         },
       },
@@ -57,7 +57,7 @@ describe('validators/full-appeal/submit-appeal/application-certificates-included
         title: 'valid value - "yes" - pass',
         given: () => ({
           body: {
-            'do-you-have-certificates': 'yes',
+            'did-you-submit-separate-certificate': 'yes',
           },
         }),
         expected: (result) => {
@@ -68,7 +68,7 @@ describe('validators/full-appeal/submit-appeal/application-certificates-included
         title: 'valid value - "no" - pass',
         given: () => ({
           body: {
-            'do-you-have-certificates': 'no',
+            'did-you-submit-separate-certificate': 'no',
           },
         }),
         expected: (result) => {
@@ -87,9 +87,9 @@ describe('validators/full-appeal/submit-appeal/application-certificates-included
     });
   });
 
-  describe('validCertificateIncludedOptions', () => {
+  describe('separateCertificateSubmittedOptions', () => {
     it('should define the expected valid certificate options', () => {
-      expect(validCertificateIncludedOptions).toEqual(['yes', 'no']);
+      expect(separateCertificateSubmittedOptions).toEqual(['yes', 'no']);
     });
   });
 });

@@ -1,17 +1,19 @@
 const { body } = require('express-validator');
 
-const validCertificateIncludedOptions = ['yes', 'no'];
+const separateCertificateSubmittedOptions = ['yes', 'no'];
 
-const ruleIncludedCertificates = () =>
-  body('do-you-have-certificates')
+const ruleSeparateCertificates = () =>
+  body('did-you-submit-separate-certificate')
     .notEmpty()
-    .withMessage('Select your site ownership and agricultural holdings certificate')
+    .withMessage(
+      'Select yes if you submitted a separate ownership certificate and agricultural land declaration'
+    )
     .bail()
-    .isIn(validCertificateIncludedOptions);
+    .isIn(separateCertificateSubmittedOptions);
 
-const rules = () => [ruleIncludedCertificates()];
+const rules = () => [ruleSeparateCertificates()];
 
 module.exports = {
   rules,
-  validCertificateIncludedOptions,
+  separateCertificateSubmittedOptions,
 };
