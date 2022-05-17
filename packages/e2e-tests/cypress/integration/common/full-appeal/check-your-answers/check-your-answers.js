@@ -159,7 +159,7 @@ import { verifyFullAppealCYAAnswer } from '../../../../support/full-appeal/appea
 import { notVisibleFromLandProvideDetails } from '../../../../support/full-appeal/appeals-service/page-objects/visible-from-road-po';
 import { healthAndSafetyIssuesProvideDetails } from '../../../../support/full-appeal/appeals-service/page-objects/health-safety-issues-po';
 import { checkboxConfirmSensitiveInfo } from '../../../../support/full-appeal/appeals-service/page-objects/your-appeal-statement-po';
-import { selectApplicationCertificatesIncluded } from '../../../../support/full-appeal/appeals-service/selectApplicationCertificatesIncluded';
+import { selectApplicationCertificatesSeparate } from '../../../../support/full-appeal/appeals-service/selectApplicationCertificatesSeparate';
 
 const url = 'full-appeal/submit-appeal/check-your-answers';
 const pageTitle = 'Check your answers - Appeal a planning decision - GOV.UK';
@@ -439,7 +439,7 @@ Given(
     cy.url().should('contain', planningAppFormUrl);
     getFileUploadButton().attachFile(planningAppFormDocument);
     getSaveAndContinueButton().click();
-    selectApplicationCertificatesIncluded('Yes');
+    selectApplicationCertificatesSeparate('No');
     cy.url().should('contain', planningAppNumberUrl);
     planningApplicationNumber().clear().type(planningAppNumberText);
     getSaveAndContinueButton().click();

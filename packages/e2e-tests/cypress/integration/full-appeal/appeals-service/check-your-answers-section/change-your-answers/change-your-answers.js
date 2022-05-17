@@ -169,7 +169,7 @@ import {
   healthAndSafetyIssuesProvideDetails
 } from "../../../../../support/full-appeal/appeals-service/page-objects/health-safety-issues-po";
 import {selectTheOwners} from "../../../../../support/full-appeal/appeals-service/selectTheOwners";
-import { selectApplicationCertificatesIncluded } from '../../../../../support/full-appeal/appeals-service/selectApplicationCertificatesIncluded';
+import { selectApplicationCertificatesSeparate } from '../../../../../support/full-appeal/appeals-service/selectApplicationCertificatesSeparate';
 
 const applicantName = 'Original applicant Teddy';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -459,7 +459,7 @@ When(
       case 'Planning application form':
         getFileUploadButton().attachFile(change_answers[0].trim());
         getSaveAndContinueButton().click();
-        selectApplicationCertificatesIncluded('Yes');
+        selectApplicationCertificatesSeparate('No');
         cy.url().should('contain', planningAppNumberUrl);
         planningApplicationNumber().clear().type(planningAppNumberText);
         getSaveAndContinueButton().click();

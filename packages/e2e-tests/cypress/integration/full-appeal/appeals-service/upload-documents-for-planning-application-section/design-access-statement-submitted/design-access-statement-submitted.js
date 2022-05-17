@@ -13,7 +13,7 @@ import { planningApplicationDocumentsLink } from '../../../../../support/full-ap
 import { planningApplicationNumber } from '../../../../../support/full-appeal/appeals-service/page-objects/planning-application-number-po';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
-import { selectApplicationCertificatesIncluded } from '../../../../../support/full-appeal/appeals-service/selectApplicationCertificatesIncluded';
+import { selectApplicationCertificatesSeparate } from '../../../../../support/full-appeal/appeals-service/selectApplicationCertificatesSeparate';
 
 const url = 'full-appeal/submit-appeal/design-access-statement-submitted';
 const planningApplicationNoUrl = 'full-appeal/submit-appeal/application-number';
@@ -31,7 +31,7 @@ Given("an appellant or agent is on the 'What is your planning application number
   planningApplicationDocumentsLink().click();
   getFileUploadButton().attachFile(filename);
   getSaveAndContinueButton().click();
-  selectApplicationCertificatesIncluded('Yes');
+  selectApplicationCertificatesSeparate('No');
   cy.url().should('contain', planningApplicationNoUrl);
   planningApplicationNumber().type(`{selectall}{backspace}${textPlanningAppNumber}`);
   getSaveAndContinueButton().click();
@@ -53,7 +53,7 @@ Given(
     planningApplicationDocumentsLink().click();
     getFileUploadButton().attachFile(filename);
     getSaveAndContinueButton().click();
-    selectApplicationCertificatesIncluded('Yes');
+    selectApplicationCertificatesSeparate('No');
     cy.url().should('contain', planningApplicationNoUrl);
     planningApplicationNumber().type(textPlanningAppNumber);
     getSaveAndContinueButton().click();

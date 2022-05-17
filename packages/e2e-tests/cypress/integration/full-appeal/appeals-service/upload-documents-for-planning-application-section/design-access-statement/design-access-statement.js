@@ -16,7 +16,7 @@ import { errorFileUploadField } from '../../../../../support/full-appeal/appeals
 import { planningApplicationDocumentsLink } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
 import { submitADesignStYes } from '../../../../../support/full-appeal/appeals-service/page-objects/design-access-statement-submitted-po';
 import { selectYes } from '../../../../../support/full-appeal/appeals-service/page-objects/own-the-land-po';
-import { selectApplicationCertificatesIncluded } from '../../../../../support/full-appeal/appeals-service/selectApplicationCertificatesIncluded';
+import { selectApplicationCertificatesSeparate } from '../../../../../support/full-appeal/appeals-service/selectApplicationCertificatesSeparate';
 
 const url = 'full-appeal/submit-appeal/design-access-statement';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -41,7 +41,7 @@ Given(
     planningApplicationDocumentsLink().click();
     getFileUploadButton().attachFile(filename);
     getSaveAndContinueButton().click();
-    selectApplicationCertificatesIncluded('Yes');
+    selectApplicationCertificatesSeparate('No');
     cy.url().should('contain', planningApplicationNoUrl);
     planningApplicationNumber().type(textPlanningAppNumber);
     getSaveAndContinueButton().click();
@@ -66,7 +66,7 @@ Given("an appellant is on the 'Design and access statement' page", () => {
   planningApplicationDocumentsLink().click();
   getFileUploadButton().attachFile(filename);
   getSaveAndContinueButton().click();
-  selectApplicationCertificatesIncluded('Yes');
+  selectApplicationCertificatesSeparate('No');
   planningApplicationNumber().type(textPlanningAppNumber);
   getSaveAndContinueButton().click();
   cy.url().should('contain', plansAndDrawingsDocumentsUrl);
@@ -96,7 +96,7 @@ Given('an appellant has not uploaded any document', () => {
   planningApplicationDocumentsLink().click();
   getFileUploadButton().attachFile(filename);
   getSaveAndContinueButton().click();
-  selectApplicationCertificatesIncluded('Yes');
+  selectApplicationCertificatesSeparate('No');
   planningApplicationNumber().type(textPlanningAppNumber);
   getSaveAndContinueButton().click();
   cy.url().should('contain', plansAndDrawingsDocumentsUrl);
@@ -140,7 +140,7 @@ Given("an appellant is on the 'Design and access statement' page from the task l
   planningApplicationDocumentsLink().click();
   getFileUploadButton().attachFile(filename);
   getSaveAndContinueButton().click();
-  selectApplicationCertificatesIncluded('Yes');
+  selectApplicationCertificatesSeparate('No');
   cy.url().should('contain', planningApplicationNoUrl);
   planningApplicationNumber().type(textPlanningAppNumber);
   getSaveAndContinueButton().click();
