@@ -13,7 +13,7 @@ import { verifyErrorMessage } from '../../../../../support/common/verify-error-m
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { getSaveAndContinueButton } from '../../../../../support/householder-planning/lpa-questionnaire/PageObjects/common-page-objects';
 import { planningApplicationDocumentsLink } from '../../../../../support/full-appeal/appeals-service/page-objects/task-list-page-po';
-import { selectApplicationCertificatesIncluded } from '../../../../../support/full-appeal/appeals-service/selectApplicationCertificatesIncluded';
+import { selectApplicationCertificatesSeparate } from '../../../../../support/full-appeal/appeals-service/selectApplicationCertificatesSeparate';
 
 const url = 'full-appeal/submit-appeal/application-number';
 const planningAppFormUrl = 'full-appeal/submit-appeal/application-form';
@@ -40,7 +40,7 @@ When(
   () => {
     getFileUploadButton().attachFile(filename);
     getSaveAndContinueButton().click();
-    selectApplicationCertificatesIncluded('Yes');
+    selectApplicationCertificatesSeparate('No');
     cy.url().should('contain', url);
     cy.checkPageA11y();
     getSaveAndContinueButton().click();
@@ -58,7 +58,7 @@ Given("an agent is on the 'What is your Planning Application number' page", () =
   cy.url().should('contain', planningAppFormUrl);
   getFileUploadButton().attachFile(filename);
   getSaveAndContinueButton().click();
-  selectApplicationCertificatesIncluded('Yes');
+  selectApplicationCertificatesSeparate('No');
   cy.url().should('contain', url);
   pageCaption().should('contain', textPageCaption);
   verifyPageHeading(pageHeading);
@@ -79,7 +79,7 @@ Given('an agent has entered more than 30 characters into the text box', () => {
   planningApplicationDocumentsLink().click();
   getFileUploadButton().attachFile(filename);
   getSaveAndContinueButton().click();
-  selectApplicationCertificatesIncluded('Yes');
+  selectApplicationCertificatesSeparate('No');
   cy.url().should('contain', url);
   planningApplicationNumber().clear().type(largeTextPlanningAppNumber);
 });

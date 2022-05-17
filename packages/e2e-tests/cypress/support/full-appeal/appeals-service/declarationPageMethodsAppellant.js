@@ -23,7 +23,7 @@ import { checkboxConfirmSensitiveInfo } from './page-objects/your-appeal-stateme
 import {
   selectWrittenRepresentations,
 } from './page-objects/decide-your-appeal-po';
-import { selectApplicationCertificatesIncluded } from './selectApplicationCertificatesIncluded';
+import { selectApplicationCertificatesSeparate } from './selectApplicationCertificatesSeparate';
 
 export const declarationPageMethodsAppellant = (count) => {
   // goToFullAppealSubmitAppealTaskList('before-you-start/local-planning-department','Full planning');
@@ -54,7 +54,7 @@ export const declarationPageMethodsAppellant = (count) => {
   planningApplicationDocumentsLink().click();
   getFileUploadButton().attachFile('appeal-statement-valid.jpeg');
   getSaveAndContinueButton().click();
-  selectApplicationCertificatesIncluded('Yes');
+  selectApplicationCertificatesSeparate('No');
   planningApplicationNumber().type('PNO-1001');
   getSaveAndContinueButton().click();
   getFileUploadButton().attachFile('upload-file-valid.pdf');
