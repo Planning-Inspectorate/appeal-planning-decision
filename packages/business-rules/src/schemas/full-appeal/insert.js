@@ -364,6 +364,9 @@ const insert = pinsYup
               .ensure(),
           })
           .noUnknown(true),
+        planningObligations: pinsYup.object().shape({
+          plansPlanningObligation: pinsYup.bool().nullable().default(null),
+        }),
         supportingDocuments: pinsYup
           .object()
           .shape({
@@ -551,6 +554,10 @@ const insert = pinsYup
               .oneOf(Object.values(SECTION_STATE))
               .default('NOT STARTED'),
             newPlansDrawings: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .default('NOT STARTED'),
+            planningObligations: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
               .default('NOT STARTED'),

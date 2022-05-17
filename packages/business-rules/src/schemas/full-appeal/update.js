@@ -463,6 +463,7 @@ const update = pinsYup
             appealStatement: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             plansDrawings: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             newPlansDrawings: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            planningObligations: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             supportingDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             newSupportingDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
           })

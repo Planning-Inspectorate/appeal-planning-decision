@@ -203,6 +203,9 @@ const appeal = {
         },
       ],
     },
+    planningObligations: {
+      plansPlanningObligation: true,
+    },
   },
   appealSubmission: {
     appealPDFStatement: {
@@ -258,6 +261,7 @@ const appeal = {
       appealStatement: 'NOT STARTED',
       plansDrawings: 'NOT STARTED',
       newPlansDrawings: 'NOT STARTED',
+      planningObligations: 'NOT STARTED',
       supportingDocuments: 'NOT STARTED',
       newSupportingDocuments: 'NOT STARTED',
     },
