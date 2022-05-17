@@ -18,11 +18,11 @@ const postApplicationCertificatesIncluded = async (req, res) => {
     });
   }
 
-  const hasCertificates = body['do-you-have-certificates'] === 'yes';
+  const hasSeparateCertificates = body['did-you-submit-separate-certificate'] === 'yes';
 
-  return hasCertificates
-    ? res.redirect(`/${VIEW.FULL_APPEAL.APPLICATION_NUMBER}`)
-    : res.redirect(`/${VIEW.FULL_APPEAL.CERTIFICATES}`);
+  return hasSeparateCertificates
+    ? res.redirect(`/${VIEW.FULL_APPEAL.CERTIFICATES}`)
+    : res.redirect(`/${VIEW.FULL_APPEAL.APPLICATION_NUMBER}`);
 };
 
 module.exports = { getApplicationCertificatesIncluded, postApplicationCertificatesIncluded };

@@ -3,14 +3,12 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 
-{% set title = "Site ownership and agricultural holdings certificates - Appeal a planning decision - GOV.UK" %}
+{% set title = "Did you submit a separate ownership certificate and agricultural land declaration with your application? - Appeal a planning decision - GOV.UK" %}
 
 
 {% block pageTitle %}
-    {% if errors %}
-        {% set title = "Error: " + title %}
-    {% endif %}
     {{ title }}
 {% endblock %}
 
@@ -42,20 +40,21 @@
       
       {{ govukRadios({
         classes: "govuk-radios",
-        id: "do-you-have-certificates",
-        name: "do-you-have-certificates",
-        errorMessage: errors['do-you-have-certificates'] and {
-          text: errors['do-you-have-certificates'].msg
+        id: "did-you-submit-separate-certificate",
+        name: "did-you-submit-separate-certificate",
+        errorMessage: errors['did-you-submit-separate-certificate'] and {
+          text: errors['did-you-submit-separate-certificate'].msg
         },
         fieldset: {
           legend: {
             html: '<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
               <h1 class="govuk-fieldset__heading">
-                Does the application form include site ownership and agricultural holdings certificates?
+                Did you submit a separate ownership certificate and agricultural land declaration with your application?
               </h1>
               </legend>
-              <div id="do-you-have-certificates-hint" class="govuk-hint">
-                Some local planning departments include these on the application form. Others ask you to submit these separately..
+              <div id="did-you-submit-separate-certificate-hint" class="govuk-hint">
+                <p>The &#39;ownership certificate&#39; confirms if you own all or some of the land involved in your application. The &#39;agricultural land declaration&#39; confirms if any of the land is part of an agricultural holding.</p>
+                <p>You would have chosen 1 of 4 options, labelled A, B, C or D.</p>
               </div>',
             isPageHeading: true,
             classes: "govuk-fieldset__legend--l"
@@ -64,15 +63,15 @@
         items: [
           {
             value: "yes",
-            text: "Yes, my application form includes site ownership and agricultural holdings certificates",
+            text: "Yes",
             attributes: { "data-cy": "answer-yes" },
-            checked: hasCertificates == true
+            checked: hasSeparateCertficates == true
           },
           {
             value: "no",
-            text: "No, I submitted these separately",
+            text: "No",
             attributes: { "data-cy": "answer-no" },
-            checked: hasCertificates == false
+            checked: hasSeparateCertificates == false
           }
         ]
         }) }}
@@ -82,6 +81,16 @@
           attributes: { "data-cy":"button-save-and-continue"}
         }) }}
       </form>
+      {{ govukDetails({
+        summaryText: "Did I submit these separately?",
+        html: "<p>You would have submitted these separately if either:</p>
+              <ul class='govuk-list govuk-list--bullet'>
+                  <li>your application form did not have an ownership certificate section</li>
+                  <li>your local planning department asked for a separate document because of a mistake on your application form</li>
+                  <li>you chose to submit a separate ownership certificate section</li>
+              </ul>
+              <p>If you're still not sure, you can find your application on the local planning department's website.</p>"
+}) }}
   </div>
 </div>
 
