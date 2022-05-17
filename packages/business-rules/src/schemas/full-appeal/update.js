@@ -198,6 +198,23 @@ const update = pinsYup
       .object()
       .shape({
         applicationNumber: pinsYup.string().max(30).required(),
+        proposedDevelopmentChanged: pinsYup
+          .object()
+          .shape({
+            isProposedDevelopmentChanged: pinsYup.bool().nullable(),
+            details: pinsYup.lazy((details) => {
+              return pinsYup.mixed().conditionalText({
+                fieldValue: details,
+                fieldName: 'details',
+                targetFieldName: 'proposed-development-changed',
+                emptyError:
+                  'Select yes if your proposed development changed after you submitted your application',
+                tooLongError:
+                  'Agreed description of development must be $maxLength characters or less',
+              });
+            }),
+          })
+          .noUnknown(true),
         plansDrawingsSupportingDocuments: pinsYup
           .object()
           .shape({
@@ -274,12 +291,12 @@ const update = pinsYup
             uploadedFile: pinsYup
               .object()
               .shape({
-                id: pinsYup.string().trim().uuid().required(),
-                name: pinsYup.string().trim().max(255).required(),
-                fileName: pinsYup.string().trim().max(255).required(),
-                originalFileName: pinsYup.string().trim().max(255).required(),
-                location: pinsYup.string().trim().required(),
-                size: pinsYup.number().required(),
+                id: pinsYup.string().trim().uuid().nullable(),
+                name: pinsYup.string().trim().max(255).nullable(),
+                fileName: pinsYup.string().trim().max(255).nullable(),
+                originalFileName: pinsYup.string().trim().max(255).nullable(),
+                location: pinsYup.string().trim().nullable(),
+                size: pinsYup.number().nullable(),
               })
               .noUnknown(true),
           })
@@ -422,6 +439,10 @@ const update = pinsYup
           .object()
           .shape({
             applicationNumber: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            proposedDevelopmentChanged: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .required(),
             plansDrawingsSupportingDocuments: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))

@@ -6,6 +6,7 @@ const VIEW = {
     APPLICATION_FORM: 'full-appeal/submit-appeal/application-form',
     ORIGINAL_DECISION_NOTICE: 'full-appeal/submit-appeal/original-decision-notice',
     APPLICATION_NUMBER: 'full-appeal/submit-appeal/application-number',
+    PROPOSED_DEVELOPMENT_CHANGED: 'full-appeal/submit-appeal/proposed-development-changed',
     DESIGN_ACCESS_STATEMENT: 'full-appeal/submit-appeal/design-access-statement',
     DESIGN_ACCESS_STATEMENT_SUBMITTED:
       'full-appeal/submit-appeal/design-access-statement-submitted',

@@ -3,7 +3,6 @@ const fullAppeal = require('./full-appeal');
 const isValid = require('../validation/appeal/type/is-valid');
 const { APPEAL_ID } = require('../constants');
 const BusinessRulesError = require('../lib/business-rules-error');
-const { featureFlag } = require('../config');
 
 const validate = (action, data, config = { abortEarly: false }) => {
   const { appealType } = data;

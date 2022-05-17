@@ -1,0 +1,89 @@
+{% extends "layouts/main.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set backLink = '/full-appeal/submit-appeal/application-number' %}
+{% set title = "Did your proposed development change after you submitted your application? - Appeal a planning decision - GOV.UK" %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
+
+{% set visibleProposedDevelopmentChangedHtml %}
+  {{ govukTextarea({
+    name: "proposed-development-changed-details",
+    id: "proposed-development-changed-details",
+    label: {
+      text: "Enter the agreed description of development"
+    },
+    value: proposedDevelopmentChanged.details,
+    errorMessage: errors['proposed-development-changed-details'] and {
+      text: errors['proposed-development-changed-details'].msg
+    }
+  }) }}
+{% endset %}
+
+{% block backButton %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: backLink,
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary,
+          attributes: {"data-cy": "error-wrapper"}
+        }) }}
+      {% endif %}
+      <form action="" method="post" novalidate>
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Update documents from planning application</span>
+        {{ govukRadios({
+          classes: "govuk-radios",
+          idPrefix: "proposed-development-changed",
+          name: "proposed-development-changed",
+          errorMessage: errors['proposed-development-changed'] and {
+            text: errors['proposed-development-changed'].msg
+          },
+          fieldset: {
+            legend: {
+              text: "Did the proposed development change after you submitted your application?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              attributes: { "data-cy": "answer-yes" },
+              checked:  proposedDevelopmentChanged.isProposedDevelopmentChanged == true,
+              conditional: {
+                html: visibleProposedDevelopmentChangedHtml
+              }
+            },
+            {
+              value: "no",
+              text: "No",
+              attributes: { "data-cy": "answer-no" },
+              checked: proposedDevelopmentChanged.isProposedDevelopmentChanged == false
+
+            }
+          ]
+        }) }}
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

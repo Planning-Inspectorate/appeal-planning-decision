@@ -1,11 +1,11 @@
 const appeal = require('@pins/business-rules/test/data/full-appeal');
-const applicationNumberController = require('../../../../../src/controllers/full-appeal/submit-appeal/application-number');
+const proposedDevelopmentController = require('../../../../../src/controllers/full-appeal/submit-appeal/proposed-development-changed');
 const { mockReq, mockRes } = require('../../../mocks');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../../src/lib/logger');
 const {
   VIEW: {
-    FULL_APPEAL: { APPLICATION_NUMBER, PROPOSED_DEVELOPMENT_CHANGED },
+    FULL_APPEAL: { PROPOSED_DEVELOPMENT_CHANGED, PLANS_DRAWINGS_DOCUMENTS },
   },
 } = require('../../../../../src/lib/full-appeal/views');
 
@@ -14,10 +14,13 @@ jest.mock('../../../../../src/services/task.service');
 jest.mock('../../../../../src/lib/logger');
 
 const sectionName = 'planningApplicationDocumentsSection';
-const taskName = 'applicationNumber';
-const applicationNumber = 'ABCDE12345';
+const taskName = 'proposedDevelopmentChanged';
+const proposedDevelopmentChanged = {
+  isProposedDevelopmentChanged: true,
+  details: 'some details',
+};
 
-describe('controllers/full-appeal/submit-appeal/application-number', () => {
+describe('controllers/full-appeal/submit-appeal/proposed-development-changed', () => {
   let req;
   let res;
 
@@ -25,21 +28,22 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
     req = mockReq(appeal);
     res = mockRes();
 
-    appeal.planningApplicationDocumentsSection.applicationNumber = applicationNumber;
+    appeal.planningApplicationDocumentsSection.proposedDevelopmentChanged =
+      proposedDevelopmentChanged;
 
     jest.resetAllMocks();
   });
 
-  describe('getApplicationNumber', () => {
+  describe('getProposedDevelopmentChanged', () => {
     it('should call the correct template', () => {
-      applicationNumberController.getApplicationNumber(req, res);
-      expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
-        applicationNumber,
+      proposedDevelopmentController.postProposedDevelopmentChanged(req, res);
+      expect(res.render).toHaveBeenCalledWith(PROPOSED_DEVELOPMENT_CHANGED, {
+        proposedDevelopmentChanged,
       });
     });
   });
 
-  describe('postApplicationNumber', () => {
+  describe('postProposedDevelopmentChanged', () => {
     it('should re-render the template with errors if submission validation fails', async () => {
       const mockRequest = {
         ...req,
@@ -48,11 +52,11 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
           errorSummary: [{ text: 'There were errors here', href: '#' }],
         },
       };
-      await applicationNumberController.postApplicationNumber(mockRequest, res);
+      await proposedDevelopmentController.postProposedDevelopmentChanged(mockRequest, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
-        applicationNumber,
+      expect(res.render).toHaveBeenCalledWith(PROPOSED_DEVELOPMENT_CHANGED, {
+        proposedDevelopmentChanged,
         errorSummary: [{ text: 'There were errors here', href: '#' }],
         errors: { a: 'b' },
       });
@@ -66,37 +70,36 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
         ...req,
         body: {},
       };
-      await applicationNumberController.postApplicationNumber(mockRequest, res);
+      await proposedDevelopmentController.postProposedDevelopmentChanged(mockRequest, res);
 
       expect(logger.error).toHaveBeenCalledWith(error);
 
       expect(res.redirect).not.toHaveBeenCalled();
 
-      expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
-        applicationNumber,
+      expect(res.render).toHaveBeenCalledWith(PROPOSED_DEVELOPMENT_CHANGED, {
+        proposedDevelopmentChanged,
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
       });
     });
 
-    it('should redirect to `/full-appeal/design-access-statement-submitted` if valid', async () => {
-      const fakeApplicationNumber = 'some valid application number';
+    it('should redirect to `/full-appeal/plans-drawings-documents` if valid', async () => {
       const fakeTaskStatus = 'COMPLETED';
 
       const mockRequest = {
         ...req,
         body: {
-          'application-number': fakeApplicationNumber,
+          'proposed-development-changed': proposedDevelopmentChanged,
         },
       };
 
-      await applicationNumberController.postApplicationNumber(mockRequest, res);
+      await proposedDevelopmentController.postProposedDevelopmentChanged(mockRequest, res);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith({
         ...appeal,
         [sectionName]: {
           ...appeal[sectionName],
-          [taskName]: fakeApplicationNumber,
+          [taskName]: taskName,
         },
         sectionStates: {
           ...appeal.sectionStates,
@@ -107,7 +110,7 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
         },
       });
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${PROPOSED_DEVELOPMENT_CHANGED}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${PLANS_DRAWINGS_DOCUMENTS}`);
     });
   });
 });
