@@ -104,6 +104,11 @@ const documentTypes = {
     multiple: false,
     displayName: 'Original Decision Notice',
   },
+  letterConfirmingApplication: {
+    name: 'letterConfirmingApplication',
+    multiple: false,
+    displayName: 'Letter Confirming Application',
+  }
 };
 
 module.exports = documentTypes;
