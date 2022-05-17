@@ -345,6 +345,9 @@ const update = pinsYup
               .ensure(),
           })
           .noUnknown(true),
+        planningObligations: pinsYup.object().shape({
+          plansPlanningObligation: pinsYup.bool().nullable(),
+        }),
         supportingDocuments: pinsYup
           .object()
           .shape({
