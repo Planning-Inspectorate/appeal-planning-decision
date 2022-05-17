@@ -1,6 +1,7 @@
 const { format, parseISO } = require('date-fns');
 const { getDepartmentFromId } = require('../services/department.service');
 const { capitalise } = require('./capitalised-dashed-strings');
+const { chooseAppropriateTaskList } = require('./choose-appropriate-task-list');
 
 const extractAppealProps = async (appeal) => {
   let appealLPD = '';
@@ -26,6 +27,11 @@ const extractAppealProps = async (appeal) => {
     applicationDecision = capitalise(applicationDecision);
   }
 
+  const taskListUrl = chooseAppropriateTaskList(
+    appeal.typeOfPlanningApplication,
+    appeal.eligibility.applicationDecision
+  );
+
   const decisionDate = format(parseISO(appeal.decisionDate), 'dd MMMM yyyy');
 
   const enforcementNotice = appeal.eligibility.enforcementNotice ? 'Yes' : 'No';
@@ -40,6 +46,7 @@ const extractAppealProps = async (appeal) => {
     decisionDate,
     enforcementNotice,
     dateOfDecisionLabel,
+    taskListUrl,
   };
 };
 
