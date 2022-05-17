@@ -33,6 +33,7 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
     decisionDate,
     enforcementNotice,
     dateOfDecisionLabel,
+    taskListUrl,
   } = await extractAppealProps(appeal);
 
   const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
@@ -51,6 +52,7 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
     enforcementNotice,
     claimingCosts,
     dateOfDecisionLabel,
+    taskListUrl,
   });
 };
 
@@ -63,6 +65,7 @@ const canUseServiceFullAppeal = async (req, res) => {
     decisionDate,
     enforcementNotice,
     dateOfDecisionLabel,
+    taskListUrl,
   } = await extractAppealProps(appeal);
 
   const deadlineDate = calculateDeadline.fullAppealApplication(appeal.decisionDate);
@@ -75,6 +78,7 @@ const canUseServiceFullAppeal = async (req, res) => {
     decisionDate,
     enforcementNotice,
     dateOfDecisionLabel,
+    taskListUrl,
   });
 };
 
@@ -87,6 +91,7 @@ const canUseServicePriorApproval = async (req, res) => {
     decisionDate,
     enforcementNotice,
     dateOfDecisionLabel,
+    taskListUrl,
   } = await extractAppealProps(appeal);
 
   const hasPriorApprovalForExistingHome = appeal.eligibility.hasPriorApprovalForExistingHome
@@ -111,6 +116,7 @@ const canUseServicePriorApproval = async (req, res) => {
       claimingCosts,
       dateOfDecisionLabel,
       hasPriorApprovalForExistingHome,
+      taskListUrl,
     });
   } else {
     const deadlineDate = calculateDeadline.fullAppealApplication(appeal.decisionDate);
@@ -124,6 +130,7 @@ const canUseServicePriorApproval = async (req, res) => {
       enforcementNotice,
       dateOfDecisionLabel,
       hasPriorApprovalForExistingHome,
+      taskListUrl,
     });
   }
 };
@@ -137,6 +144,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
     decisionDate,
     enforcementNotice,
     dateOfDecisionLabel,
+    taskListUrl,
   } = await extractAppealProps(appeal);
 
   const hasHouseholderPermissionConditions = appeal.eligibility.hasHouseholderPermissionConditions
@@ -161,6 +169,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
       claimingCosts,
       dateOfDecisionLabel,
       hasHouseholderPermissionConditions,
+      taskListUrl,
     });
   } else {
     const deadlineDate = calculateDeadline.fullAppealApplication(appeal.decisionDate);
@@ -174,6 +183,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
       enforcementNotice,
       dateOfDecisionLabel,
       hasHouseholderPermissionConditions,
+      taskListUrl,
     });
   }
 };
