@@ -50,6 +50,7 @@ describe('/lib/full-appeal/views', () => {
         EXPECT_ENQUIRY_LAST: 'full-appeal/submit-appeal/expect-inquiry-last',
         PLANS_DRAWINGS_DOCUMENTS: 'full-appeal/submit-appeal/plans-drawings-documents',
         ORIGINAL_DECISION_NOTICE: 'full-appeal/submit-appeal/original-decision-notice',
+        LETTER_CONFIRMING_APPLICATION: 'full-appeal/submit-appeal/letter-confirming-application',
         CAN_USE_SERVICE_PRIOR_APPROVAL: 'full-appeal/prior-approval/can-use-service',
         CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
           'full-appeal/removal-or-variation-of-conditions/can-use-service',
