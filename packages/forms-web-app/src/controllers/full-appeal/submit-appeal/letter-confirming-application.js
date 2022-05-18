@@ -1,7 +1,7 @@
 const { documentTypes } = require('@pins/common');
 const {
   VIEW: {
-    FULL_APPEAL: { LETTER_CONFIRMING_APPLICATION, APPLICATION_FORM },
+    FULL_APPEAL: { LETTER_CONFIRMING_APPLICATION, TASK_LIST },
   },
 } = require('../../../lib/full-appeal/views');
 
@@ -10,7 +10,7 @@ const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
-const sectionName = 'letterConfirmingApplicationSection';
+const sectionName = 'planningApplicationDocumentsSection';
 const taskName = documentTypes.letterConfirmingApplication.name;
 
 const getLetterConfirmingApplication = (req, res) => {
@@ -79,10 +79,10 @@ const postLetterConfirmingApplication = async (req, res) => {
     });
   }
 
-  return res.redirect(`/${APPLICATION_FORM}`);
+  return res.redirect(`/${TASK_LIST}`);
 };
 
 module.exports = {
-  getLetterConfirmingApplication: getLetterConfirmingApplication,
-  postLetterConfirmingApplication: postLetterConfirmingApplication,
+   getLetterConfirmingApplication,
+   postLetterConfirmingApplication,
 };

@@ -5,7 +5,7 @@ const {
 } = require('@pins/business-rules');
 const {
   VIEW: {
-    FULL_APPEAL: { DESIGN_ACCESS_STATEMENT, DECISION_LETTER, TASK_LIST },
+    FULL_APPEAL: { DESIGN_ACCESS_STATEMENT, DECISION_LETTER, LETTER_CONFIRMING_APPLICATION, TASK_LIST },
   },
 } = require('../../../lib/full-appeal/views');
 const logger = require('../../../lib/logger');
@@ -86,7 +86,7 @@ const postDesignAccessStatement = async (req, res) => {
 
   return applicationDecision === NODECISIONRECEIVED
     ? res.redirect(`/${TASK_LIST}`)
-    : res.redirect(`/${DECISION_LETTER}`);
+    : res.redirect(`/${LETTER_CONFIRMING_APPLICATION}`);
 };
 
 module.exports = {

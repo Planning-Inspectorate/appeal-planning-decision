@@ -6,14 +6,12 @@ const VIEW = {
     APPLICATION_FORM: 'full-appeal/submit-appeal/application-form',
     ORIGINAL_DECISION_NOTICE: 'full-appeal/submit-appeal/original-decision-notice',
     LETTER_CONFIRMING_APPLICATION: 'full-appeal/submit-appeal/letter-confirming-application',
-    APPLICATION_CERTIFICATES_INCLUDED:
-      'full-appeal/submit-appeal/application-certificates-included',
+    APPLICATION_CERTIFICATES_INCLUDED: 'full-appeal/submit-appeal/application-certificates-included',
     CERTIFICATES: 'full-appeal/submit-appeal/certificates',
     APPLICATION_NUMBER: 'full-appeal/submit-appeal/application-number',
     PROPOSED_DEVELOPMENT_CHANGED: 'full-appeal/submit-appeal/proposed-development-changed',
     DESIGN_ACCESS_STATEMENT: 'full-appeal/submit-appeal/design-access-statement',
-    DESIGN_ACCESS_STATEMENT_SUBMITTED:
-      'full-appeal/submit-appeal/design-access-statement-submitted',
+    DESIGN_ACCESS_STATEMENT_SUBMITTED: 'full-appeal/submit-appeal/design-access-statement-submitted',
     DECISION_LETTER: 'full-appeal/submit-appeal/decision-letter',
     APPEAL_SITE_ADDRESS: 'full-appeal/submit-appeal/appeal-site-address',
     OWN_ALL_THE_LAND: 'full-appeal/submit-appeal/own-all-the-land',
