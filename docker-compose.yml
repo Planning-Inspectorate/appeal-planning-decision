@@ -18,6 +18,11 @@ services:
     ports:
       - 3003:3000
 
+  clamav-server:
+    image: clamav/clamav
+    ports:
+      - 3310:3000
+
   clamav-rest-server:
     image: node:14-alpine
     ports:
@@ -283,12 +288,6 @@ services:
 #      dockerfile: ../Dockerfile
 #    ports:
 #      - 5002:3000
-
-  clamav-server:
-    image: clamav/clamav
-    ports:
-      - 3310:3310
-
   docs-horizon:
     image: swaggerapi/swagger-ui
     environment:
