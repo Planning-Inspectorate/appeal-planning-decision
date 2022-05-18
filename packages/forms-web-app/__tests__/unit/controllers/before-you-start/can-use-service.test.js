@@ -61,6 +61,7 @@ describe('controllers/before-you-start/can-use-service', () => {
         claimingCosts: 'No',
         hasHouseholderPermissionConditions: 'Yes',
         isListedBuilding: 'No',
+        taskListUrl: '/appellant-submission/task-list',
       });
     });
 
@@ -79,6 +80,7 @@ describe('controllers/before-you-start/can-use-service', () => {
         dateOfDecisionLabel: 'Date of Decision',
         enforcementNotice: 'No',
         isListedBuilding: 'No',
+        taskListUrl: '/full-appeal/submit-appeal/task-list',
       });
     });
 
@@ -99,6 +101,7 @@ describe('controllers/before-you-start/can-use-service', () => {
         dateOfDecisionLabel: 'Date decision due',
         enforcementNotice: 'No',
         isListedBuilding: 'No',
+        taskListUrl: '/full-appeal/submit-appeal/task-list',
       });
     });
   });
@@ -118,6 +121,7 @@ describe('controllers/before-you-start/can-use-service', () => {
         enforcementNotice: 'No',
         dateOfDecisionLabel: 'Date of Decision',
         hasPriorApprovalForExistingHome: 'No',
+        taskListUrl: '/appellant-submission/task-list',
       });
     });
 
@@ -137,6 +141,7 @@ describe('controllers/before-you-start/can-use-service', () => {
         claimingCosts: 'No',
         hasPriorApprovalForExistingHome: 'Yes',
         isListedBuilding: 'No',
+        taskListUrl: '/appellant-submission/task-list',
       });
     });
   });
@@ -156,6 +161,7 @@ describe('controllers/before-you-start/can-use-service', () => {
         enforcementNotice: 'No',
         dateOfDecisionLabel: 'Date of Decision',
         hasHouseholderPermissionConditions: 'No',
+        taskListUrl: '/appellant-submission/task-list',
       });
     });
   });
@@ -174,6 +180,7 @@ describe('controllers/before-you-start/can-use-service', () => {
         decisionDate: '04 May 2022',
         enforcementNotice: 'No',
         dateOfDecisionLabel: 'Date of Decision',
+        taskListUrl: '/full-appeal/submit-appeal/task-list',
       });
     });
     it('Test getCanUseService method calls the Full Appeal Check Your Answers page when typeOfPlanningApplication is full-appeal - date of decision', async () => {
@@ -189,6 +196,7 @@ describe('controllers/before-you-start/can-use-service', () => {
         decisionDate: '04 May 2022',
         dateOfDecisionLabel: 'Date of Decision',
         enforcementNotice: 'No',
+        taskListUrl: '/full-appeal/submit-appeal/task-list',
       });
     });
 
@@ -207,6 +215,7 @@ describe('controllers/before-you-start/can-use-service', () => {
         decisionDate: '04 May 2022',
         dateOfDecisionLabel: 'Date decision due',
         enforcementNotice: 'No',
+        taskListUrl: '/full-appeal/submit-appeal/task-list',
       });
     });
   });

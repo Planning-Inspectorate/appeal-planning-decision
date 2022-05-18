@@ -217,6 +217,9 @@ const insert = pinsYup
       .object()
       .shape({
         applicationNumber: pinsYup.string().max(30).nullable(),
+        ownershipCertificate: pinsYup.object().shape({
+          submittedSeparateCertificate: pinsYup.bool().nullable().default(null),
+        }),
         proposedDevelopmentChanged: pinsYup
           .object()
           .shape({
@@ -525,6 +528,10 @@ const insert = pinsYup
           .object()
           .shape({
             applicationNumber: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .default('NOT STARTED'),
+            ownershipCertificate: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
               .default('NOT STARTED'),

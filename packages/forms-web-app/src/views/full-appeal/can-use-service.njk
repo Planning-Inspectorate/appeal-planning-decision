@@ -172,7 +172,12 @@
             </div>
           </details>
 
-        <a href="/full-appeal/submit-appeal/task-list" class="govuk-button" role="button" data-cy="button-save-and-continue"> Continue to my appeal</a>
+        {{ govukButton({
+                    text: "Continue to my appeal",
+                    type: "submit",
+                    href: taskListUrl,
+                    attributes: { "data-cy":"button-save-and-continue"}
+                }) }}
       </form>
     </div>
   </div>

@@ -83,6 +83,9 @@ const appeal = {
   },
   planningApplicationDocumentsSection: {
     applicationNumber: 'ABCDE12345',
+    ownershipCertificate: {
+      submittedSeparateCertificate: true,
+    },
     proposedDevelopmentChanged: {
       details: '',
       isProposedDevelopmentChanged: false,
@@ -250,6 +253,7 @@ const appeal = {
     planningApplicationDocumentsSection: {
       originalApplication: 'NOT STARTED',
       applicationNumber: 'NOT STARTED',
+      ownershipCertificate: 'NOT STARTED',
       proposedDevelopmentChanged: 'NOT STARTED',
       plansDrawingsSupportingDocuments: 'NOT STARTED',
       designAccessStatementSubmitted: 'NOT STARTED',

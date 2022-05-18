@@ -36,7 +36,7 @@ Feature: As an Appellant I want, at a glance, to see what information
     And the status of 'Check your answers and submit your appeal' should be 'CANNOT START YET'
     When they click on 'Upload documents from your planning application' section and are on the 'Planning application form' page
     And they upload a valid file and click Continue button
-    And they use 'Back' link to navigate back to the Task list page from 'planning application number' page
+    And they use 'Back' link to navigate back to the Task list page from 'Does the application form include site ownership and agricultural holdings certificate' page
     Then status of the 'Upload documents from your planning application' section should be 'IN PROGRESS'
     And the status of 'Check your answers and submit your appeal' should be 'CANNOT START YET'
     When they click on 'Upload documents for your appeal' section and are on the 'Your appeal statement' page

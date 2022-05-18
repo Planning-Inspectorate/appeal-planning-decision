@@ -169,6 +169,7 @@ import {
   healthAndSafetyIssuesProvideDetails
 } from "../../../../../support/full-appeal/appeals-service/page-objects/health-safety-issues-po";
 import {selectTheOwners} from "../../../../../support/full-appeal/appeals-service/selectTheOwners";
+import { selectApplicationCertificatesSeparate } from '../../../../../support/full-appeal/appeals-service/selectApplicationCertificatesSeparate';
 
 const applicantName = 'Original applicant Teddy';
 const taskListUrl = 'full-appeal/submit-appeal/task-list';
@@ -194,7 +195,8 @@ const daysToExpectTheInquiryUrl = 'full-appeal/submit-appeal/expect-inquiry-last
 const planningAppNumberUrl = 'full-appeal/submit-appeal/application-number';
 const advertisingTheAppealUrl = '/full-appeal/submit-appeal/advertising-your-appeal';
 const knowTheOwnersUrl = 'full-appeal/submit-appeal/know-the-owners';
-const designAccessStatementSubmittedUrl = 'full-appeal/submit-appeal/design-access-statement-submitted';
+const designAccessStatementSubmittedUrl =
+  'full-appeal/submit-appeal/design-access-statement-submitted';
 const tellingTheLandownersUrl = '/full-appeal/submit-appeal/telling-the-landowners';
 const identifyingTheOwnersUrl = '/full-appeal/submit-appeal/identifying-the-owners';
 const designAccessStatementUrl = 'full-appeal/submit-appeal/design-access-statement';
@@ -384,137 +386,153 @@ When('appellant provides the {string} for contact details section', (change_answ
       getSaveAndContinueButton().click();
       break;
   }
-})
+});
 
-When('appellant provides the {string} for {string} for deciding your appeal section', (change_answer, change_question) => {
-  const change_answers = change_answer.split(',');
-  if (change_question === 'How would you prefer us to decide your appeal?') {
-    switch (change_answers[0]) {
-      case 'Written representations':
-        selectWrittenRepresentations().click();
-        getSaveAndContinueButton().click();
-        break;
-      case 'Inquiry':
-        selectInquiry().click();
-        getSaveAndContinueButton().click();
-        cy.url().should('include', whyInquiryUrl);
-        textBoxInquiry().clear().type(textInquiry);
-        getSaveAndContinueButton().click();
-        cy.url().should('include', daysToExpectTheInquiryUrl);
-        textBoxExpectDays().clear().type(validNumberDays);
-        getSaveAndContinueButton().click();
-        cy.url().should('include', draftStatementUrl);
-        getFileUploadButton().attachFile(draftStatementDocument);
-        getSaveAndContinueButton().click();
-        break;
-      case 'Hearing':
-        selectHearing().click();
-        getSaveAndContinueButton().click();
-        cy.url().should('include', whyHearingUrl);
-        textBoxWhyHearing().clear().type(textHearing);
-        getSaveAndContinueButton().click();
-        cy.url().should('include', draftStatementUrl);
-        getFileUploadButton().attachFile(draftStatementDocument);
-        getSaveAndContinueButton().click();
-        break;
+When(
+  'appellant provides the {string} for {string} for deciding your appeal section',
+  (change_answer, change_question) => {
+    const change_answers = change_answer.split(',');
+    if (change_question === 'How would you prefer us to decide your appeal?') {
+      switch (change_answers[0]) {
+        case 'Written representations':
+          selectWrittenRepresentations().click();
+          getSaveAndContinueButton().click();
+          break;
+        case 'Inquiry':
+          selectInquiry().click();
+          getSaveAndContinueButton().click();
+          cy.url().should('include', whyInquiryUrl);
+          textBoxInquiry().clear().type(textInquiry);
+          getSaveAndContinueButton().click();
+          cy.url().should('include', daysToExpectTheInquiryUrl);
+          textBoxExpectDays().clear().type(validNumberDays);
+          getSaveAndContinueButton().click();
+          cy.url().should('include', draftStatementUrl);
+          getFileUploadButton().attachFile(draftStatementDocument);
+          getSaveAndContinueButton().click();
+          break;
+        case 'Hearing':
+          selectHearing().click();
+          getSaveAndContinueButton().click();
+          cy.url().should('include', whyHearingUrl);
+          textBoxWhyHearing().clear().type(textHearing);
+          getSaveAndContinueButton().click();
+          cy.url().should('include', draftStatementUrl);
+          getFileUploadButton().attachFile(draftStatementDocument);
+          getSaveAndContinueButton().click();
+          break;
+      }
+    } else if (change_question === 'Why would you prefer a hearing?') {
+      textBoxWhyHearing().clear().type(change_answers[0]);
+      getSaveAndContinueButton().click();
+      cy.url().should('include', draftStatementUrl);
+      getFileUploadButton().attachFile(draftStatementDocument);
+      getSaveAndContinueButton().click();
+    } else if (change_question === 'Draft statement of common ground') {
+      cy.url().should('include', draftStatementUrl);
+      getFileUploadButton().attachFile(change_answers[0]);
+      getSaveAndContinueButton().click();
+    } else if (change_question === 'Why would you prefer an inquiry?') {
+      textBoxInquiry().clear().type(change_answers[0]);
+      getSaveAndContinueButton().click();
+      cy.url().should('include', daysToExpectTheInquiryUrl);
+      textBoxExpectDays().clear().type(validNumberDays);
+      getSaveAndContinueButton().click();
+      cy.url().should('include', draftStatementUrl);
+      getFileUploadButton().attachFile(draftStatementDocument);
+      getSaveAndContinueButton().click();
+    } else if (change_question === 'How many days would you expect the inquiry to last?') {
+      textBoxExpectDays().clear().type(change_answer);
+      getSaveAndContinueButton().click();
+      cy.url().should('include', draftStatementUrl);
+      getFileUploadButton().attachFile(draftStatementDocument);
+      getSaveAndContinueButton().click();
     }
-  } else if (change_question === 'Why would you prefer a hearing?') {
-    textBoxWhyHearing().clear().type(change_answers[0]);
-    getSaveAndContinueButton().click();
-    cy.url().should('include', draftStatementUrl);
-    getFileUploadButton().attachFile(draftStatementDocument);
-    getSaveAndContinueButton().click();
-  } else if (change_question === 'Draft statement of common ground') {
-    cy.url().should('include', draftStatementUrl);
-    getFileUploadButton().attachFile(change_answers[0]);
-    getSaveAndContinueButton().click();
-  } else if (change_question === 'Why would you prefer an inquiry?') {
-    textBoxInquiry().clear().type(change_answers[0]);
-    getSaveAndContinueButton().click();
-    cy.url().should('include', daysToExpectTheInquiryUrl);
-    textBoxExpectDays().clear().type(validNumberDays);
-    getSaveAndContinueButton().click();
-    cy.url().should('include', draftStatementUrl);
-    getFileUploadButton().attachFile(draftStatementDocument);
-    getSaveAndContinueButton().click();
-  } else if (change_question === 'How many days would you expect the inquiry to last?') {
-    textBoxExpectDays().clear().type(change_answer);
-    getSaveAndContinueButton().click();
-    cy.url().should('include', draftStatementUrl);
-    getFileUploadButton().attachFile(draftStatementDocument);
-    getSaveAndContinueButton().click();
-  }
-});
+  },
+);
 
-When('appellant provides the {string} for {string} for planning application section', (change_answer, change_link_question) => {
-  const change_answers = change_answer.split(',');
-  switch (change_link_question) {
-    case 'Planning application form':
-      getFileUploadButton().attachFile(change_answers[0].trim());
+When(
+  'appellant provides the {string} for {string} for planning application section',
+  (change_answer, change_link_question) => {
+    const change_answers = change_answer.split(',');
+    switch (change_link_question) {
+      case 'Planning application form':
+        getFileUploadButton().attachFile(change_answers[0].trim());
+        getSaveAndContinueButton().click();
+        selectApplicationCertificatesSeparate('No');
+        cy.url().should('contain', planningAppNumberUrl);
+        planningApplicationNumber().clear().type(planningAppNumberText);
+        getSaveAndContinueButton().click();
+        cy.url().should('contain', plansAndDrawingsDocumentsUrl);
+        getFileUploadButton().attachFile(plansAndDrawingsDocument);
+        getSaveAndContinueButton().click();
+        cy.url().should('contain', designAccessStatementSubmittedUrl);
+        selectNo().click();
+        getSaveAndContinueButton().click();
+        cy.url().should('contain', decisionLetterUrl);
+        getFileUploadButton().attachFile(decisionLetter);
+        getSaveAndContinueButton().click();
+        break;
+      case 'Planning application number':
+        planningApplicationNumber().clear().type(change_answers[0].trim());
+        getSaveAndContinueButton().click();
+        cy.url().should('contain', plansAndDrawingsDocumentsUrl);
+        getFileUploadButton().attachFile(plansAndDrawingsDocument);
+        getSaveAndContinueButton().click();
+        cy.url().should('contain', designAccessStatementSubmittedUrl);
+        selectNo().click();
+        getSaveAndContinueButton().click();
+        cy.url().should('contain', decisionLetterUrl);
+        getFileUploadButton().attachFile(decisionLetter);
+        getSaveAndContinueButton().click();
+        break;
+      case 'Plans, drawings and supporting documents':
+        getFileUploadButton().attachFile(change_answers[0].trim());
+        getSaveAndContinueButton().click();
+        cy.url().should('contain', designAccessStatementSubmittedUrl);
+        selectNo().click();
+        getSaveAndContinueButton().click();
+        cy.url().should('contain', decisionLetterUrl);
+        getFileUploadButton().attachFile(decisionLetter);
+        getSaveAndContinueButton().click();
+        break;
+      case 'Decision letter':
+        getFileUploadButton().attachFile(change_answers[0].trim());
+        getSaveAndContinueButton().click();
+    }
+    if (
+      change_link_question === 'Design and access statement submitted with application' &&
+      change_answers[0].trim() === 'yes'
+    ) {
+      selectYes().click();
       getSaveAndContinueButton().click();
-      cy.url().should('contain', planningAppNumberUrl);
-      planningApplicationNumber().clear().type(planningAppNumberText);
+      cy.url().should('contain', designAccessStatementUrl);
+      getFileUploadButton().attachFile(designAccessStatementDocument);
       getSaveAndContinueButton().click();
-      cy.url().should('contain', plansAndDrawingsDocumentsUrl);
-      getFileUploadButton().attachFile(plansAndDrawingsDocument);
+      cy.url().should('contain', decisionLetterUrl);
+      getFileUploadButton().attachFile(decisionLetter);
       getSaveAndContinueButton().click();
-      cy.url().should('contain', designAccessStatementSubmittedUrl);
+    } else if (
+      change_link_question === 'Design and access statement submitted with application' &&
+      change_answers[0].trim() === 'no'
+    ) {
       selectNo().click();
       getSaveAndContinueButton().click();
       cy.url().should('contain', decisionLetterUrl);
       getFileUploadButton().attachFile(decisionLetter);
       getSaveAndContinueButton().click();
-      break;
-    case 'Planning application number':
-      planningApplicationNumber().clear().type(change_answers[0].trim());
-      getSaveAndContinueButton().click();
-      cy.url().should('contain', plansAndDrawingsDocumentsUrl);
-      getFileUploadButton().attachFile(plansAndDrawingsDocument);
-      getSaveAndContinueButton().click();
-      cy.url().should('contain', designAccessStatementSubmittedUrl);
-      selectNo().click();
+    } else if (
+      change_link_question === 'Design and access statement' &&
+      change_answers[0].trim() === 'yes'
+    ) {
+      getFileUploadButton().attachFile(change_answers[1].trim());
       getSaveAndContinueButton().click();
       cy.url().should('contain', decisionLetterUrl);
       getFileUploadButton().attachFile(decisionLetter);
       getSaveAndContinueButton().click();
-      break;
-    case 'Plans, drawings and supporting documents':
-      getFileUploadButton().attachFile(change_answers[0].trim());
-      getSaveAndContinueButton().click();
-      cy.url().should('contain', designAccessStatementSubmittedUrl);
-      selectNo().click();
-      getSaveAndContinueButton().click();
-      cy.url().should('contain', decisionLetterUrl);
-      getFileUploadButton().attachFile(decisionLetter);
-      getSaveAndContinueButton().click();
-      break;
-    case 'Decision letter':
-      getFileUploadButton().attachFile(change_answers[0].trim());
-      getSaveAndContinueButton().click();
-  }
-  if (change_link_question === 'Design and access statement submitted with application' && change_answers[0].trim() === 'yes') {
-    selectYes().click();
-    getSaveAndContinueButton().click();
-    cy.url().should('contain', designAccessStatementUrl);
-    getFileUploadButton().attachFile(designAccessStatementDocument);
-    getSaveAndContinueButton().click();
-    cy.url().should('contain', decisionLetterUrl);
-    getFileUploadButton().attachFile(decisionLetter);
-    getSaveAndContinueButton().click();
-  } else if (change_link_question === 'Design and access statement submitted with application' && change_answers[0].trim() === 'no') {
-    selectNo().click();
-    getSaveAndContinueButton().click();
-    cy.url().should('contain', decisionLetterUrl);
-    getFileUploadButton().attachFile(decisionLetter);
-    getSaveAndContinueButton().click();
-  } else if (change_link_question === 'Design and access statement' && change_answers[0].trim() === 'yes') {
-    getFileUploadButton().attachFile(change_answers[1].trim());
-    getSaveAndContinueButton().click();
-    cy.url().should('contain', decisionLetterUrl);
-    getFileUploadButton().attachFile(decisionLetter);
-    getSaveAndContinueButton().click();
-  }
-});
+    }
+  },
+);
 
 When('appellant provides the {string} for {string} for your appeal section', (change_answer, change_link_question) => {
   const appeal_change_answers = change_answer.split(',');

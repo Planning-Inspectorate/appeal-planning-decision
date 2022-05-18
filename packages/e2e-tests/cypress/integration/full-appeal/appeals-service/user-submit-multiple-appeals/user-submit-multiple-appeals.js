@@ -39,6 +39,7 @@ import { planningApplicationNumber } from '../../../../support/full-appeal/appea
 import { submitADesignStNo } from '../../../../support/full-appeal/appeals-service/page-objects/design-access-statement-submitted-po';
 import { checkboxConfirmSensitiveInfo } from '../../../../support/full-appeal/appeals-service/page-objects/your-appeal-statement-po';
 import { declariationPageMethodsAgent } from '../../../../support/full-appeal/appeals-service/declariationPageMethodsAgent';
+import { selectApplicationCertificatesSeparate } from '../../../../support/full-appeal/appeals-service/selectApplicationCertificatesSeparate';
 
 const declarationUrl = 'full-appeal/submit-appeal/declaration';
 const appealSubmittedUrl = 'full-appeal/submit-appeal/appeal-submitted';
@@ -104,6 +105,7 @@ const declarationPageMethodsMultipleAppealsAppellant = () => {
   planningApplicationDocumentsLink().click();
   getFileUploadButton().attachFile('appeal-statement-valid.jpeg');
   getSaveAndContinueButton().click();
+  selectApplicationCertificatesSeparate('No');
   planningApplicationNumber().type('PNO-1001');
   getSaveAndContinueButton().click();
   getFileUploadButton().attachFile('upload-file-valid.pdf');
@@ -157,6 +159,7 @@ const declarationPageMethodsMultipleAppealsAgent = () => {
   planningApplicationDocumentsLink().click();
   getFileUploadButton().attachFile('appeal-statement-valid.jpeg');
   getSaveAndContinueButton().click();
+  selectApplicationCertificatesSeparate('No');
   planningApplicationNumber().type('PNO-1001');
   getSaveAndContinueButton().click();
   getFileUploadButton().attachFile('upload-file-valid.pdf');

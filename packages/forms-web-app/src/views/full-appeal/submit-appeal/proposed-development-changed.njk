@@ -54,9 +54,19 @@
           },
           fieldset: {
             legend: {
-              text: "Did the proposed development change after you submitted your application?",
-              isPageHeading: true,
-              classes: "govuk-fieldset__legend--l"
+              html: '<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                       <h1 class="govuk-fieldset__heading">
+                          Did the proposed development change after you submitted your application?
+                       </h1>
+                     </legend>
+                     <div id="plan-to-submit-planning-obligation-hint" class="govuk-hint">
+                        Only tell us about changes you agreed with the local planning department.
+                     </div>
+                     <div id="plan-to-submit-planning-obligation-hint" class="govuk-hint">
+                       For example, if you applied to build 5 houses, but agreed to change this to 4 during the application process.
+                     </div>',
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
             }
           },
           items: [
@@ -64,7 +74,7 @@
               value: "yes",
               text: "Yes",
               attributes: { "data-cy": "answer-yes" },
-              checked:  proposedDevelopmentChanged.isProposedDevelopmentChanged == true,
+              checked:  isProposedDevelopmentChanged == true,
               conditional: {
                 html: visibleProposedDevelopmentChangedHtml
               }
@@ -73,7 +83,7 @@
               value: "no",
               text: "No",
               attributes: { "data-cy": "answer-no" },
-              checked: proposedDevelopmentChanged.isProposedDevelopmentChanged == false
+              checked: isProposedDevelopmentChanged == false
 
             }
           ]
