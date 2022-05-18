@@ -5,13 +5,9 @@ const applicationCertificatesIncludedController = require('../../../../../src/co
 const {
   validationErrorHandler,
 } = require('../../../../../src/validators/validation-error-handler');
-const {
-  rules: certificatesIncludedValidationRules,
-} = require('../../../../../src/validators/full-appeal/submit-appeal/application-certificates-included');
+const { rules: optionsValidationRules } = require('../../../../../src/validators/common/options');
 
-jest.mock(
-  '../../../../../src/validators/full-appeal/submit-appeal/application-certificates-included'
-);
+jest.mock('../../../../../src/validators/common/options');
 
 describe('routes/full-appeal/submit-appeal/application-certificates-included', () => {
   beforeEach(() => {
@@ -26,9 +22,16 @@ describe('routes/full-appeal/submit-appeal/application-certificates-included', (
 
     expect(post).toHaveBeenCalledWith(
       '/submit-appeal/application-certificates-included',
-      certificatesIncludedValidationRules(),
+      optionsValidationRules(),
       validationErrorHandler,
       applicationCertificatesIncludedController.postApplicationCertificatesIncluded
     );
+
+    expect(optionsValidationRules).toHaveBeenCalledWith({
+      fieldName: 'did-you-submit-separate-certificate',
+      emptyError:
+        'Select yes if you submitted a separate ownership certificate and agricultural land declaration',
+      validOptions: ['yes', 'no'],
+    });
   });
 });
