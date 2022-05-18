@@ -1,4 +1,4 @@
-// const validAV = require('pins-clamav');
+const validAV = require('@planning-inspectorate/pins-clamav-rest-client');
 const { validMimeType, validateMimeBinaryType } = require('pins-mime-validation');
 const {
   fileUpload: {
@@ -42,9 +42,8 @@ const schema = (noFilesError) => ({
           );
         });
 
-        // check file for Virus
-        // const { name } = req.files[path];
-        // await validAV(req.files['file-upload'], name);
+        const { name } = req.files[path];
+        await validAV(req.files['file-upload'], name);
 
         await Promise.all(
           uploadedFiles.map((file) =>
@@ -56,8 +55,8 @@ const schema = (noFilesError) => ({
           )
         );
 
-        uploadedFiles.forEach(({ size, name }) => {
-          validateFileSize(size, uploadApplicationMaxFileSize, name);
+        uploadedFiles.forEach(({ size, fileName }) => {
+          validateFileSize(size, uploadApplicationMaxFileSize, fileName);
         });
 
         return true;
