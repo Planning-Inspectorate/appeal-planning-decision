@@ -4,9 +4,8 @@ const router = express.Router();
 const applicationCertificatesIncludedController = require('../../../controllers/full-appeal/submit-appeal/application-certificates-included');
 
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
-const {
-  rules: certificatesIncludedValidationRules,
-} = require('../../../validators/full-appeal/submit-appeal/application-certificates-included');
+
+const { rules: optionsValidationRules } = require('../../../validators/common/options');
 
 router.get(
   '/submit-appeal/application-certificates-included',
@@ -15,7 +14,12 @@ router.get(
 
 router.post(
   '/submit-appeal/application-certificates-included',
-  certificatesIncludedValidationRules(),
+  optionsValidationRules({
+    validOptions: ['yes', 'no'],
+    fieldName: 'did-you-submit-separate-certificate',
+    emptyError:
+      'Select yes if you submitted a separate ownership certificate and agricultural land declaration',
+  }),
   validationErrorHandler,
   applicationCertificatesIncludedController.postApplicationCertificatesIncluded
 );
