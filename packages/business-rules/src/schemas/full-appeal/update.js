@@ -199,9 +199,23 @@ const update = pinsYup
       .object()
       .shape({
         applicationNumber: pinsYup.string().max(30).required(),
-        ownershipCertificate: pinsYup.object().shape({
-          submittedSeparateCertificate: pinsYup.bool().nullable(),
-        }),
+        ownershipCertificate: pinsYup
+          .object()
+          .shape({
+            submittedSeparateCertificate: pinsYup.bool().nullable(),
+            uploadedFile: pinsYup
+              .object()
+              .shape({
+                id: pinsYup.string().trim().uuid().nullable(),
+                name: pinsYup.string().trim().max(255).nullable(),
+                fileName: pinsYup.string().trim().max(255).nullable(),
+                originalFileName: pinsYup.string().trim().max(255).nullable(),
+                location: pinsYup.string().trim().nullable(),
+                size: pinsYup.number().nullable(),
+              })
+              .noUnknown(true),
+          })
+          .noUnknown(true),
         proposedDevelopmentChanged: pinsYup
           .object()
           .shape({
