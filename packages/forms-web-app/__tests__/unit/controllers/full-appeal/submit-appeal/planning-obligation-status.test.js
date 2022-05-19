@@ -1,3 +1,5 @@
+const appeal = require('@pins/business-rules/test/data/full-appeal');
+const v8 = require('v8');
 const {
   getPlanningObligationStatus,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/planning-obligation-status');
@@ -11,7 +13,12 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-status', () 
   let res;
 
   beforeEach(() => {
-    req = mockReq();
+    req = v8.deserialize(
+      v8.serialize({
+        ...mockReq(appeal),
+        body: {},
+      })
+    );
     res = mockRes();
 
     jest.resetAllMocks();
@@ -20,7 +27,9 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-status', () 
   describe('getPlanningObligationStatus', () => {
     it('calls correct template', async () => {
       await getPlanningObligationStatus(req, res);
-      expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.PLANNING_OBLIGATION_STATUS);
+      expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.PLANNING_OBLIGATION_STATUS, {
+        planningObligationStatus: 'finalised',
+      });
     });
   });
 });
