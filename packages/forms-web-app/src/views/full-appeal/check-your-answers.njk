@@ -594,6 +594,33 @@
     }) }}
 
     <h2 class="{{ headingClass }}" data-cy="planning-application-heading">Your planning application</h2>
+    {% set originalDecisionNoticeRowActions = {
+      items: [
+        {
+          href: "/full-appeal/submit-appeal/original-decision-notice",
+          text: "Change",
+          visuallyHiddenText: "the original decision notice",
+          attributes: {
+            "data-cy": "change-original-decision-notice"
+          }
+        }
+      ]
+    } %}
+    {% set originalDecisionNoticeRow = {
+      key: { text: summaryField(
+        "Decision notice from your original planning application",
+        { "data-cy": "original-decision-notice-label" }
+      ) },
+      value: { text: uploadedFileLink(
+        appeal.id,
+        appeal.planningApplicationDocumentsSection.originalDecisionNotice.uploadedFile,
+        { "data-cy": "original-decision-notice" }
+      ) if isPdf !== true else summaryField(
+        appeal.planningApplicationDocumentsSection.originalDecisionNotice.uploadedFile.name,
+        { "data-cy": "original-decision-notice" }
+      ) } ,
+      actions: originalDecisionNoticeRowActions if isPdf !== true
+    } %}
     {% set applicationFormRowActions = {
       items: [
         {
@@ -746,7 +773,11 @@
       ) },
       actions: decisionLetterRowActions if isPdf !== true
     } %}
-    {% set planningApplicationRows = [applicationFormRow, applicationNumberRow, plansDrawingsSupportingDocumentsRow, hasDesignAccessStatementRow] %}
+    {% if appeal.typeOfPlanningApplication === 'removal-or-variation-of-conditions' and appeal.eligibility.applicationDecision === 'nodecisionreceived' %}
+      {% set planningApplicationRows = [originalDecisionNoticeRow, applicationFormRow, applicationNumberRow, plansDrawingsSupportingDocumentsRow, hasDesignAccessStatementRow] %}
+    {% else %}
+      {% set planningApplicationRows = [applicationFormRow, applicationNumberRow, plansDrawingsSupportingDocumentsRow, hasDesignAccessStatementRow] %}
+    {% endif %}
     {% if appeal.planningApplicationDocumentsSection.designAccessStatement.isSubmitted %}
       {% set planningApplicationRows = (planningApplicationRows.push(designAccessStatementRow), planningApplicationRows) %}
     {% endif %}
