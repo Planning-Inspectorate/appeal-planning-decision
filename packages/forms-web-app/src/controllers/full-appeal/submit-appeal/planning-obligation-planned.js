@@ -6,6 +6,21 @@ const logger = require('../../../lib/logger');
 const sectionName = 'appealDocumentsSection';
 const taskName = 'planningObligations';
 
+const getBackLink = (req) => {
+  const {
+    session: {
+      appeal: {
+        appealDocumentsSection: {
+          plansDrawings: { hasPlansDrawings },
+        },
+      },
+    },
+  } = req;
+  return hasPlansDrawings
+    ? `/${VIEW.FULL_APPEAL.NEW_PLANS_DRAWINGS}`
+    : `/${VIEW.FULL_APPEAL.PLANS_DRAWINGS}`;
+};
+
 const getPlanningObligationPlanned = async (req, res) => {
   const backLink = getBackLink(req);
   const { plansPlanningObligation } = req.session.appeal[sectionName][taskName];
@@ -46,21 +61,6 @@ const postPlanningObligationPlanned = async (req, res) => {
   return plansPlanningObligation
     ? res.redirect(`/${VIEW.FULL_APPEAL.PLANNING_OBLIGATION_STATUS}`)
     : res.redirect(`/${VIEW.FULL_APPEAL.SUPPORTING_DOCUMENTS}`);
-};
-
-const getBackLink = (req) => {
-  const {
-    session: {
-      appeal: {
-        appealDocumentsSection: {
-          plansDrawings: { hasPlansDrawings },
-        },
-      },
-    },
-  } = req;
-  return hasPlansDrawings
-    ? `/${VIEW.FULL_APPEAL.NEW_PLANS_DRAWINGS}`
-    : `/${VIEW.FULL_APPEAL.PLANS_DRAWINGS}`;
 };
 
 module.exports = { getPlanningObligationPlanned, postPlanningObligationPlanned };

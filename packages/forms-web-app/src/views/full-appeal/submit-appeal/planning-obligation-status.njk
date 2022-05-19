@@ -1,18 +1,77 @@
 {% extends "layouts/main.njk" %}
 
-{% set title = "What is the status of your planning obligation? - Appeal a planning decision - GOV.UK" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% block pageTitle %}
-  {{ title }}
+{% set heading = "What is the status of your planning obligation?" %}
+
+{% set title = "What is the status of your planning obligation? - Appeal a planning decision - GOV.UK" %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
+
+{% block backButton %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: '/full-appeal/submit-appeal/planning-obligation-planned',
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
 {% endblock %}
 
 {% block content %}
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">What is the status of your planning obligation?</h1>
-      <p class="govuk-body">This page is a work in progress.</p>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary,
+          attributes: {"data-cy": "error-wrapper"}
+        }) }}
+      {% endif %}
+      <form action="" method="post" novalidate>
+        <span class="govuk-caption-l">Upload documents for your appeal</span>
+        {{ govukRadios({
+          classes: "govuk-radios",
+          idPrefix: "planning-obligation-status",
+          name: "planning-obligation-status",
+          errorMessage: errors['planning-obligation-status'] and {
+            text: errors['planning-obligation-status'].msg
+          },
+          fieldset: {
+            legend: {
+              text: heading,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "finalised",
+              text: "Finalised and ready to submit",
+              attributes: { "data-cy": "answer-finalised" },
+              checked: planningObligationStatus == 'finalised'
+            },
+            {
+              value: "draft",
+              text: "In draft",
+              attributes: { "data-cy": "answer-draft" },
+              checked: planningObligationStatus == 'draft'
+            },
+            {
+              value: "not_started",
+              text: "Not started yet",
+              attributes: { "data-cy": "answer-not_started" },
+              checked: planningObligationStatus == 'not_started'
+            }
+          ]
+        }) }}
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+    </div>
   </div>
-</div>
-
-{% endblock %} 
+{% endblock %}
