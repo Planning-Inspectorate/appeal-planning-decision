@@ -121,7 +121,7 @@ describe('controllers/before-you-start/can-use-service', () => {
         enforcementNotice: 'No',
         dateOfDecisionLabel: 'Date of Decision',
         hasPriorApprovalForExistingHome: 'No',
-        taskListUrl: '/appellant-submission/task-list',
+        taskListUrl: '/full-appeal/submit-appeal/task-list',
       });
     });
 
@@ -161,7 +161,7 @@ describe('controllers/before-you-start/can-use-service', () => {
         enforcementNotice: 'No',
         dateOfDecisionLabel: 'Date of Decision',
         hasHouseholderPermissionConditions: 'No',
-        taskListUrl: '/appellant-submission/task-list',
+        taskListUrl: '/full-appeal/submit-appeal/task-list',
       });
     });
   });
