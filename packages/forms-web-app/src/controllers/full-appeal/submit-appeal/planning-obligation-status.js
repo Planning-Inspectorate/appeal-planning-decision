@@ -17,14 +17,11 @@ const {
 const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'appealDocumentsSection';
-const taskName = 'planningObligationStatus';
+const taskName = 'planningObligations';
 
 const getPlanningObligationStatus = (req, res) => {
-  const {
-    [sectionName]: {
-      [taskName]: { planningObligationStatus },
-    },
-  } = req.session.appeal;
+  logger.debug(req.session.appeal);
+  const { planningObligationStatus } = req.session.appeal[sectionName][taskName];
 
   res.render(PLANNING_OBLIGATION_STATUS, {
     planningObligationStatus,
@@ -44,7 +41,7 @@ const postPlanningObligationStatus = async (req, res) => {
     });
   }
 
-  const planningObligationStatus = body['planning-obligation-status'] || {};
+  const planningObligationStatus = body['planning-obligation-status'];
 
   logger.debug('=====================');
   logger.debug(body['planning-obligation-status']);

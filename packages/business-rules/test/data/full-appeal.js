@@ -1,4 +1,7 @@
-const { STANDARD_TRIPLE_CONFIRM_OPTIONS } = require('../../src/constants');
+const {
+  STANDARD_TRIPLE_CONFIRM_OPTIONS,
+  PLANNING_OBLIGATION_STATUS,
+} = require('../../src/constants');
 
 const appeal = {
   id: 'fc7cb757-fe21-46dd-b3fd-121c385cd884',
@@ -208,6 +211,7 @@ const appeal = {
     },
     planningObligations: {
       plansPlanningObligation: true,
+      planningObligationStatus: PLANNING_OBLIGATION_STATUS.FINALISED,
     },
   },
   appealSubmission: {
