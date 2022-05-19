@@ -10,6 +10,7 @@ const {
   SECTION_STATE,
   TYPE_OF_PLANNING_APPLICATION,
   STANDARD_TRIPLE_CONFIRM_OPTIONS,
+  PLANNING_OBLIGATION_STATUS,
 } = require('../../constants');
 
 const update = pinsYup
@@ -351,6 +352,12 @@ const update = pinsYup
         planningObligations: pinsYup.object().shape({
           plansPlanningObligation: pinsYup.bool().nullable(),
         }),
+        planningObligationStatus: pinsYup.lazy((planningObligationStatus) => {
+          if (planningObligationStatus) {
+            return pinsYup.string().oneOf(Object.values(PLANNING_OBLIGATION_STATUS));
+          }
+          return pinsYup.string().nullable();
+        }),
         supportingDocuments: pinsYup
           .object()
           .shape({
@@ -471,6 +478,10 @@ const update = pinsYup
             plansDrawings: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             newPlansDrawings: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             planningObligations: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            planningObligationStatus: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .required(),
             supportingDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             newSupportingDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
           })
