@@ -27,10 +27,7 @@ const extractAppealProps = async (appeal) => {
     applicationDecision = capitalise(applicationDecision);
   }
 
-  const taskListUrl = chooseAppropriateTaskList(
-    appeal.typeOfPlanningApplication,
-    appeal.eligibility.applicationDecision
-  );
+  const taskListUrl = chooseAppropriateTaskList(appeal);
 
   const decisionDate = format(parseISO(appeal.decisionDate), 'dd MMMM yyyy');
 
