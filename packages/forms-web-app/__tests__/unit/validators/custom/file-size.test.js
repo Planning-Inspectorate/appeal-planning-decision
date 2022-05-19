@@ -9,6 +9,21 @@ describe('validators/custom/file-size', () => {
     expect(validateFileSize(1024, 1024)).toBeTruthy();
   });
 
+  it('should throw custom error message if provided and file oversize', () => {
+    expect(() =>
+      validateFileSize(2048, 1024, 'OversizeFile', 'The selected file must be smaller than 1KB')
+    ).toThrow('The selected file must be smaller than 1KB');
+  });
+
+  it('should be valid and not throw custom error message if provided and file not oversize', () => {
+    expect(() =>
+      validateFileSize(1023, 1024, 'OversizeFile', 'The selected file must be smaller than 1KB')
+    ).not.toThrow('The selected file must be smaller than 1KB');
+    expect(
+      validateFileSize(1023, 1024, 'OversizeFile', 'The selected file must be smaller than 1KB')
+    ).toBeTruthy();
+  });
+
   describe('should throw when oversize', () => {
     const testSetup = () => [
       {

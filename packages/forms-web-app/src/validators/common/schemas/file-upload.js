@@ -33,13 +33,16 @@ const schema = (noFilesError) => ({
         }
 
         const uploadedFiles = !Array.isArray(files[path]) ? [files[path]] : files[path];
+        const isSingleFile = uploadedFiles.length === 1;
+        const singleFileMimeTypeErrorMsg =
+          'The selected file must be a pdf, doc, docx, tif, tiff, jpg, jpeg or png';
+        const multiFileMimeTypeErrorMsg = 'must be a DOC, DOCX, PDF, TIF, JPG or PNG';
 
         uploadedFiles.forEach(({ mimetype, name }) => {
-          validMimeType(
-            mimetype,
-            Object.values(mimeTypes),
-            `${name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`
-          );
+          const errorMsg = isSingleFile
+            ? singleFileMimeTypeErrorMsg
+            : `${name} ${multiFileMimeTypeErrorMsg}`;
+          validMimeType(mimetype, Object.values(mimeTypes), errorMsg);
         });
 
         const { name } = req.files[path];
@@ -50,13 +53,17 @@ const schema = (noFilesError) => ({
             validateMimeBinaryType(
               file,
               Object.values(mimeTypes),
-              `${file.name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`
+              isSingleFile
+                ? singleFileMimeTypeErrorMsg
+                : `${file.name} ${multiFileMimeTypeErrorMsg}`
             )
           )
         );
 
+        const sizeErrorMsg = isSingleFile ? 'The selected file must be smaller than 15MB' : null;
+
         uploadedFiles.forEach(({ size, fileName }) => {
-          validateFileSize(size, uploadApplicationMaxFileSize, fileName);
+          validateFileSize(size, uploadApplicationMaxFileSize, fileName, sizeErrorMsg);
         });
 
         return true;
