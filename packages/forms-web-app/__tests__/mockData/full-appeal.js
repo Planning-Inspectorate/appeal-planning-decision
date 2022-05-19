@@ -83,6 +83,17 @@ const appeal = {
   },
   planningApplicationDocumentsSection: {
     applicationNumber: 'ABCDE12345',
+    ownershipCertificate: {
+      submittedSeparateCertificate: true,
+      uploadedFile: {
+        id: '482c8ba6-dfa6-4bba-bf9c-b024e3d8c281',
+        name: 'ownershipCertificate.pdf',
+        fileName: 'ownershipCertificate.pdf',
+        originalFileName: 'ownershipCertificate.pdf',
+        location: '482c8ba6-dfa6-4bba-bf9c-b024e3d8c281/ownershipCertificate.pdf',
+        size: 900,
+      },
+    },
     plansDrawingsSupportingDocuments: {
       uploadedFiles: [
         {

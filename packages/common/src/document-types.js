@@ -104,6 +104,11 @@ const documentTypes = {
     multiple: false,
     displayName: 'Original Decision Notice',
   },
+  ownershipCertificate: {
+    name: 'ownershipCertificate',
+    multiple: false,
+    displayName: 'Ownership certificate and agricultural land declaration',
+  },
 };
 
 module.exports = documentTypes;
