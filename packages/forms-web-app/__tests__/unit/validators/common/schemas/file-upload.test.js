@@ -111,7 +111,7 @@ describe('validators/common/schemas/file-upload', () => {
       expect(validMimeType).toHaveBeenCalledWith(
         file.mimetype,
         Object.values(mimeTypes),
-        `${file.name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`
+        `The selected file must be a pdf, doc, docx, tif, tiff, jpg, jpeg or png`
       );
     });
 
@@ -124,7 +124,7 @@ describe('validators/common/schemas/file-upload', () => {
       expect(validateMimeBinaryType).toHaveBeenCalledWith(
         file,
         Object.values(mimeTypes),
-        `${file.name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`
+        `The selected file must be a pdf, doc, docx, tif, tiff, jpg, jpeg or png`
       );
     });
 
@@ -137,7 +137,8 @@ describe('validators/common/schemas/file-upload', () => {
       expect(validateFileSize).toHaveBeenCalledWith(
         file.size,
         uploadApplicationMaxFileSize,
-        file.name
+        file.name,
+        'The selected file must be smaller than 15MB'
       );
     });
 
@@ -176,7 +177,8 @@ describe('validators/common/schemas/file-upload', () => {
       expect(validateFileSize).toHaveBeenCalledWith(
         file.size,
         uploadApplicationMaxFileSize,
-        file.name
+        file.name,
+        null
       );
     });
 
