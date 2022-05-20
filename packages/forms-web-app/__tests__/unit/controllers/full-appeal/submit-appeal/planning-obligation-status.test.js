@@ -25,7 +25,10 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-status', () 
   });
 
   describe('getPlanningObligationStatus', () => {
-    it('calls correct template', async () => {
+    it('calls getPlanningObligationStatus with the  correct template', async () => {
+      req.session.appeal.appealDocumentsSection.planningObligations = {
+        planningObligationStatus: 'finalised',
+      };
       await getPlanningObligationStatus(req, res);
       expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.PLANNING_OBLIGATION_STATUS, {
         planningObligationStatus: 'finalised',

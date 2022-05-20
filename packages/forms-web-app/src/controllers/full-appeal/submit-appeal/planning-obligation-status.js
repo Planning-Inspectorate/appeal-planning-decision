@@ -1,12 +1,3 @@
-const {
-  constants: {
-    PLANNING_OBLIGATION_STATUS: {
-      FINALISED: PLANNING_OBLIGATION_STATUS_FINALISED,
-      DRAFT: PLANNING_OBLIGATION_STATUS_DRAFT,
-      NOT_STARTED: PLANNING_OBLIGATION_NOT_STARTED,
-    },
-  },
-} = require('@pins/business-rules');
 const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
@@ -20,7 +11,6 @@ const sectionName = 'appealDocumentsSection';
 const taskName = 'planningObligations';
 
 const getPlanningObligationStatus = (req, res) => {
-  logger.debug(req.session.appeal);
   const { planningObligationStatus } = req.session.appeal[sectionName][taskName];
 
   res.render(PLANNING_OBLIGATION_STATUS, {
@@ -35,7 +25,6 @@ const postPlanningObligationStatus = async (req, res) => {
 
   if (Object.keys(errors).length > 0) {
     return res.render(PLANNING_OBLIGATION_STATUS, {
-      appeal,
       errors,
       errorSummary,
     });
@@ -43,12 +32,7 @@ const postPlanningObligationStatus = async (req, res) => {
 
   const planningObligationStatus = body['planning-obligation-status'];
 
-  logger.debug('=====================');
-  logger.debug(body['planning-obligation-status']);
-  logger.debug('=====================');
-
   try {
-
     appeal[sectionName][taskName].planningObligationStatus = planningObligationStatus;
     appeal.sectionStates[sectionName].planningObligationStatus = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
@@ -70,7 +54,7 @@ const postPlanningObligationStatus = async (req, res) => {
     case PLANNING_OBLIGATION_NOT_STARTED:
       return res.redirect(`/${SUPPORTING_DOCUMENTS}`);
     default:
-      throw Error('Could not find');
+      return res.redirect(`/${PLANNING_OBLIGATION_STATUS}`);
   }
 };
 
