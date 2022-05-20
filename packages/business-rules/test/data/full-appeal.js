@@ -270,6 +270,7 @@ const appeal = {
       plansDrawings: 'NOT STARTED',
       newPlansDrawings: 'NOT STARTED',
       planningObligations: 'NOT STARTED',
+      planningObligationStatus: 'NOT STARTED',
       supportingDocuments: 'NOT STARTED',
       newSupportingDocuments: 'NOT STARTED',
     },
