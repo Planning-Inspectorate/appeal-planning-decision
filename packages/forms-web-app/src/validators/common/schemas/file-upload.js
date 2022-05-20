@@ -45,9 +45,6 @@ const schema = (noFilesError) => ({
           validMimeType(mimetype, Object.values(mimeTypes), errorMsg);
         });
 
-        const { name } = req.files[path];
-        await validAV(req.files['file-upload'], name);
-
         await Promise.all(
           uploadedFiles.map((file) =>
             validateMimeBinaryType(
@@ -62,9 +59,12 @@ const schema = (noFilesError) => ({
 
         const sizeErrorMsg = isSingleFile ? 'The selected file must be smaller than 15MB' : null;
 
-        uploadedFiles.forEach(({ size, fileName }) => {
-          validateFileSize(size, uploadApplicationMaxFileSize, fileName, sizeErrorMsg);
+        uploadedFiles.forEach(({ size, name }) => {
+          validateFileSize(size, uploadApplicationMaxFileSize, name, sizeErrorMsg);
         });
+
+        const { name } = req.files[path];
+        await validAV(req.files['file-upload'], name);
 
         return true;
       },
