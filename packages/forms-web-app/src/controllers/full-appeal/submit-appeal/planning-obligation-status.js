@@ -11,7 +11,7 @@ const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   VIEW: {
-    FULL_APPEAL: { PLANNING_OBLIGATION_STATUS, SUPPORTING_DOCUMENTS },
+    FULL_APPEAL: { PLANNING_OBLIGATION_STATUS, PLANNING_OBLIGATION_DEADLINE, SUPPORTING_DOCUMENTS },
   },
 } = require('../../../lib/full-appeal/views');
 const { COMPLETED } = require('../../../services/task-status/task-statuses');
@@ -68,7 +68,7 @@ const postPlanningObligationStatus = async (req, res) => {
     case PLANNING_OBLIGATION_STATUS_DRAFT:
       return res.redirect(`/${SUPPORTING_DOCUMENTS}`);
     case PLANNING_OBLIGATION_NOT_STARTED:
-      return res.redirect(`/${SUPPORTING_DOCUMENTS}`);
+      return res.redirect(`/${PLANNING_OBLIGATION_DEADLINE}`);
     default:
       throw Error('Could not find');
   }

@@ -23,6 +23,7 @@ describe('/lib/full-appeal/views', () => {
         PLANS_DRAWINGS: 'full-appeal/submit-appeal/plans-drawings',
         PROPOSED_DEVELOPMENT_CHANGED: 'full-appeal/submit-appeal/proposed-development-changed',
         PLANNING_OBLIGATION_PLANNED: 'full-appeal/submit-appeal/planning-obligation-planned',
+        PLANNING_OBLIGATION_DEADLINE: 'full-appeal/submit-appeal/planning-obligation-deadline',
         PLANNING_OBLIGATION_STATUS: 'full-appeal/submit-appeal/planning-obligation-status',
         ORIGINAL_APPLICANT: 'full-appeal/submit-appeal/original-applicant',
         OWN_SOME_OF_THE_LAND: 'full-appeal/submit-appeal/own-some-of-the-land',

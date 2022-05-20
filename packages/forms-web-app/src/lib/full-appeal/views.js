@@ -19,6 +19,7 @@ const VIEW = {
     APPLICANT_NAME: 'full-appeal/submit-appeal/applicant-name',
     APPEAL_STATEMENT: 'full-appeal/submit-appeal/appeal-statement',
     PLANS_DRAWINGS: 'full-appeal/submit-appeal/plans-drawings',
+    PLANNING_OBLIGATION_DEADLINE: 'full-appeal/submit-appeal/planning-obligation-deadline',
     PLANNING_OBLIGATION_PLANNED: 'full-appeal/submit-appeal/planning-obligation-planned',
     PLANNING_OBLIGATION_STATUS: 'full-appeal/submit-appeal/planning-obligation-status',
     ORIGINAL_APPLICANT: 'full-appeal/submit-appeal/original-applicant',
