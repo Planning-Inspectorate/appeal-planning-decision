@@ -25,15 +25,15 @@ const appealUpdateValidationRules = async (req, res, next) => {
 
 const appealInsertValidationRules = async (req, res, next) => {
   try {
-    logger.debug(
-      { appeal: req.body },
-      'Appeal data before validation in appealInsertValidationRules'
-    );
+    // logger.debug(
+    //   { appeal: req.body },
+    //   'Appeal data before validation in appealInsertValidationRules'
+    // );
     req.body = await validate.insert(req.body);
-    logger.debug(
-      { appeal: req.body },
-      'Appeal data after validation in appealInsertValidationRules'
-    );
+    // logger.debug(
+    //   { appeal: req.body },
+    //   'Appeal data after validation in appealInsertValidationRules'
+    // );
     logger.debug('Valid input format');
 
     const appealId = req.body.id;

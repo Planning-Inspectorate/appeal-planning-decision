@@ -1,8 +1,15 @@
+const {
+  constants: { PLANNING_OBLIGATION_STATUS_OPTION },
+} = require('@pins/business-rules');
 const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   VIEW: {
-    FULL_APPEAL: { PLANNING_OBLIGATION_STATUS, SUPPORTING_DOCUMENTS },
+    FULL_APPEAL: {
+      PLANNING_OBLIGATION_STATUS,
+      PLANNING_OBLIGATION_DOCUMENTS,
+      SUPPORTING_DOCUMENTS,
+    },
   },
 } = require('../../../lib/full-appeal/views');
 const { COMPLETED } = require('../../../services/task-status/task-statuses');
@@ -12,6 +19,10 @@ const taskName = 'planningObligations';
 
 const getPlanningObligationStatus = (req, res) => {
   const { planningObligationStatus } = req.session.appeal[sectionName][taskName];
+
+  logger.debug('==================');
+  logger.debug(req.session.appeal[sectionName][taskName]);
+  logger.debug('==================');
 
   res.render(PLANNING_OBLIGATION_STATUS, {
     planningObligationStatus,
@@ -24,7 +35,7 @@ const postPlanningObligationStatus = async (req, res) => {
   const { appeal } = req.session;
 
   if (Object.keys(errors).length > 0) {
-    return res.render(PLANNING_OBLIGATION_STATUS, {
+    return res.render(VIEW.PLANNING_OBLIGATION_STATUS, {
       errors,
       errorSummary,
     });
@@ -46,15 +57,19 @@ const postPlanningObligationStatus = async (req, res) => {
     });
   }
 
+  logger.debug('==================');
+  logger.debug(planningObligationStatus);
+  logger.debug('==================');
+
   switch (planningObligationStatus) {
-    case PLANNING_OBLIGATION_STATUS_FINALISED:
+    case PLANNING_OBLIGATION_STATUS_OPTION.FINALISED:
+      return res.redirect(`/${PLANNING_OBLIGATION_DOCUMENTS}`);
+    case PLANNING_OBLIGATION_STATUS_OPTION.DRAFT:
       return res.redirect(`/${SUPPORTING_DOCUMENTS}`);
-    case PLANNING_OBLIGATION_STATUS_DRAFT:
-      return res.redirect(`/${SUPPORTING_DOCUMENTS}`);
-    case PLANNING_OBLIGATION_NOT_STARTED:
+    case PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED:
       return res.redirect(`/${SUPPORTING_DOCUMENTS}`);
     default:
-      return res.redirect(`/${PLANNING_OBLIGATION_STATUS}`);
+      return res.redirect(`/${VIEW.PLANNING_OBLIGATION_STATUS}`);
   }
 };
 

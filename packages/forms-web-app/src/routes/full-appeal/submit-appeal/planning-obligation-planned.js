@@ -1,10 +1,8 @@
 const express = require('express');
+
 const router = express.Router();
-
-const planningObligationPlannedController = require('../../../controllers/full-appeal/submit-appeal/planning-obligation-planned.js');
-
+const planningObligationPlannedController = require('../../../controllers/full-appeal/submit-appeal/planning-obligation-planned');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
-
 const { rules: optionsValidationRules } = require('../../../validators/common/options');
 
 router.get(

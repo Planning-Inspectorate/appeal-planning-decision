@@ -71,12 +71,12 @@ module.exports = {
       const newAppeal = req.body;
       const oldAppeal = document.appeal;
 
-      logger.debug({ newAppeal }, 'New appeal data in updateAppeal');
+      // logger.debug({ newAppeal }, 'New appeal data in updateAppeal');
 
       const isFirstSubmission = oldAppeal.state === 'DRAFT' && newAppeal.state === 'SUBMITTED';
 
       const updatedDocument = await updateAppeal(newAppeal, isFirstSubmission);
-      logger.debug({ updatedDocument }, 'Updated appeal data in updateAppeal');
+      // logger.debug({ updatedDocument }, 'Updated appeal data in updateAppeal');
 
       res.status(200).send(updatedDocument.appeal);
     } catch (e) {
@@ -111,7 +111,7 @@ module.exports = {
 
       const updatedDocument = await updateAppeal(newAppeal, false);
 
-      logger.debug({ updatedDocument }, 'Updated appeal data in updateAppeal');
+      // logger.debug({ updatedDocument }, 'Updated appeal data in updateAppeal');
 
       res.status(200).send(updatedDocument.appeal);
     } catch (e) {
