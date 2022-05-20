@@ -109,6 +109,11 @@ const documentTypes = {
     multiple: false,
     displayName: 'Ownership certificate and agricultural land declaration',
   },
+  planningObligationDocuments: {
+    name: 'planningObligationDocuments',
+    multiple: true,
+    displayName: 'Planning obligation',
+  },
 };
 
 module.exports = documentTypes;

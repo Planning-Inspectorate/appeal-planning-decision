@@ -47,7 +47,7 @@ const postPlanningObligationPlanned = async (req, res) => {
 
   try {
     appeal[sectionName][taskName].plansPlanningObligation = plansPlanningObligation;
-    appeal.sectionStates[sectionName].planningObligations = COMPLETED;
+    appeal.sectionStates[sectionName].plansPlanningObligation = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);

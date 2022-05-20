@@ -9,7 +9,7 @@ const {
   PROCEDURE_TYPE,
   SECTION_STATE,
   TYPE_OF_PLANNING_APPLICATION,
-  STANDARD_TRIPLE_CONFIRM_OPTIONS, PLANNING_OBLIGATION_STATUS,
+  STANDARD_TRIPLE_CONFIRM_OPTIONS, PLANNING_OBLIGATION_STATUS_OPTION,
 } = require('../../constants');
 
 const insert = pinsYup
@@ -381,15 +381,17 @@ const insert = pinsYup
               .ensure(),
           })
           .noUnknown(true),
+
         planningObligations: pinsYup.object().shape({
           plansPlanningObligation: pinsYup.bool().nullable().default(null),
+          planningObligationStatus: pinsYup.lazy((planningObligationStatus) => {
+            if (planningObligationStatus) {
+              return pinsYup.string().oneOf(Object.values(PLANNING_OBLIGATION_STATUS_OPTION));
+            }
+            return pinsYup.string().nullable();
+          }),
         }),
-        planningObligationStatus: pinsYup.lazy((planningObligationStatus) => {
-          if (planningObligationStatus) {
-            return pinsYup.string().oneOf(Object.values(PLANNING_OBLIGATION_STATUS));
-          }
-          return pinsYup.string().nullable();
-        }),
+
         supportingDocuments: pinsYup
           .object()
           .shape({
@@ -584,11 +586,15 @@ const insert = pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
               .default('NOT STARTED'),
-            planningObligations: pinsYup
+            plansPlanningObligation: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
               .default('NOT STARTED'),
             planningObligationStatus: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .default('NOT STARTED'),
+            planningObligationDocuments: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
               .default('NOT STARTED'),
