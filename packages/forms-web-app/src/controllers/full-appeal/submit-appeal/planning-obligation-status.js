@@ -19,11 +19,6 @@ const taskName = 'planningObligations';
 
 const getPlanningObligationStatus = (req, res) => {
   const { planningObligationStatus } = req.session.appeal[sectionName][taskName];
-
-  logger.debug('==================');
-  logger.debug(req.session.appeal[sectionName][taskName]);
-  logger.debug('==================');
-
   res.render(PLANNING_OBLIGATION_STATUS, {
     planningObligationStatus,
   });
@@ -35,7 +30,7 @@ const postPlanningObligationStatus = async (req, res) => {
   const { appeal } = req.session;
 
   if (Object.keys(errors).length > 0) {
-    return res.render(VIEW.PLANNING_OBLIGATION_STATUS, {
+    return res.render(PLANNING_OBLIGATION_STATUS, {
       errors,
       errorSummary,
     });
@@ -57,10 +52,6 @@ const postPlanningObligationStatus = async (req, res) => {
     });
   }
 
-  logger.debug('==================');
-  logger.debug(planningObligationStatus);
-  logger.debug('==================');
-
   switch (planningObligationStatus) {
     case PLANNING_OBLIGATION_STATUS_OPTION.FINALISED:
       return res.redirect(`/${PLANNING_OBLIGATION_DOCUMENTS}`);
@@ -69,7 +60,7 @@ const postPlanningObligationStatus = async (req, res) => {
     case PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED:
       return res.redirect(`/${SUPPORTING_DOCUMENTS}`);
     default:
-      return res.redirect(`/${VIEW.PLANNING_OBLIGATION_STATUS}`);
+      return res.redirect(`/${PLANNING_OBLIGATION_STATUS}`);
   }
 };
 
