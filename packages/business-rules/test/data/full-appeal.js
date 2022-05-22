@@ -1,6 +1,6 @@
 const {
   STANDARD_TRIPLE_CONFIRM_OPTIONS,
-  PLANNING_OBLIGATION_STATUS,
+  PLANNING_OBLIGATION_STATUS_OPTION,
 } = require('../../src/constants');
 
 const appeal = {
@@ -219,7 +219,25 @@ const appeal = {
     },
     planningObligations: {
       plansPlanningObligation: true,
-      planningObligationStatus: PLANNING_OBLIGATION_STATUS.FINALISED,
+      planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.FINALISED,
+      uploadedFiles: [
+        {
+          id: 'e8e26cae-720f-4bc7-8d9b-cc601b0a80ca',
+          name: 'plansDrawingsSupportingDocuments1.pdf',
+          fileName: 'plansDrawingsSupportingDocuments1.pdf',
+          originalFileName: 'plansDrawingsSupportingDocuments1.pdf',
+          location: 'e8e26cae-720f-4bc7-8d9b-cc601b0a80ca/plansDrawingsSupportingDocuments1.pdf',
+          size: 1000,
+        },
+        {
+          id: '73ce77bf-7bdb-40ea-8787-d45fd580c592',
+          name: 'plansDrawingsSupportingDocuments2.pdf',
+          fileName: 'plansDrawingsSupportingDocuments2.pdf',
+          originalFileName: 'plansDrawingsSupportingDocuments2.pdf',
+          location: '73ce77bf-7bdb-40ea-8787-d45fd580c592/plansDrawingsSupportingDocuments2.pdf',
+          size: 1000,
+        },
+      ],
     },
   },
   appealSubmission: {
@@ -279,6 +297,7 @@ const appeal = {
       newPlansDrawings: 'NOT STARTED',
       planningObligations: 'NOT STARTED',
       planningObligationStatus: 'NOT STARTED',
+      planningObligationDocuments: 'NOT STARTED',
       supportingDocuments: 'NOT STARTED',
       newSupportingDocuments: 'NOT STARTED',
     },

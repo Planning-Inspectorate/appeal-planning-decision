@@ -1,6 +1,6 @@
 const {
   documentTypes: {
-    planningObligationDocuments: { name: planningObligationDocuments },
+    planningObligations: { name: planningObligations },
   },
 } = require('@pins/common');
 const {
@@ -63,7 +63,7 @@ const postPlanningObligationDocuments = async (req, res) => {
             appeal,
             file,
             null,
-            planningObligationDocuments
+            planningObligations
           );
           appeal[sectionName][taskName].uploadedFiles.push({
             id,
@@ -77,7 +77,7 @@ const postPlanningObligationDocuments = async (req, res) => {
       );
     }
 
-    appeal.sectionStates[sectionName].planningObligationDocuments = COMPLETED;
+    appeal.sectionStates[sectionName].planningObligations = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);

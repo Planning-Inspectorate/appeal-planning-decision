@@ -109,8 +109,8 @@ const documentTypes = {
     multiple: false,
     displayName: 'Ownership certificate and agricultural land declaration',
   },
-  planningObligationDocuments: {
-    name: 'planningObligationDocuments',
+  planningObligations: {
+    name: 'planningObligations',
     multiple: true,
     displayName: 'Planning obligation',
   },

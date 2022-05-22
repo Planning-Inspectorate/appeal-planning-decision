@@ -501,7 +501,7 @@ const update = pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
               .required(),
-            planningSupportingDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            planningObligationDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             supportingDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             newSupportingDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
           })
