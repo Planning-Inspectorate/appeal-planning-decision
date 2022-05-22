@@ -5,11 +5,7 @@ const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   VIEW: {
-    FULL_APPEAL: {
-      PLANNING_OBLIGATION_STATUS,
-      PLANNING_OBLIGATION_DOCUMENTS,
-      SUPPORTING_DOCUMENTS,
-    },
+    FULL_APPEAL: { PLANNING_OBLIGATION_STATUS, NEW_DOCUMENTS },
   },
 } = require('../../../lib/full-appeal/views');
 const { COMPLETED } = require('../../../services/task-status/task-statuses');
@@ -56,9 +52,9 @@ const postPlanningObligationStatus = async (req, res) => {
     case PLANNING_OBLIGATION_STATUS_OPTION.FINALISED:
       return res.redirect(`/${PLANNING_OBLIGATION_DOCUMENTS}`);
     case PLANNING_OBLIGATION_STATUS_OPTION.DRAFT:
-      return res.redirect(`/${SUPPORTING_DOCUMENTS}`);
+      return res.redirect(`/${NEW_DOCUMENTS}`);
     case PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED:
-      return res.redirect(`/${SUPPORTING_DOCUMENTS}`);
+      return res.redirect(`/${NEW_DOCUMENTS}`);
     default:
       return res.redirect(`/${PLANNING_OBLIGATION_STATUS}`);
   }

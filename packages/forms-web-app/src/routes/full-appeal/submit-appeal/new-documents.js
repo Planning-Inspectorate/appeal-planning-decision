@@ -1,8 +1,8 @@
 const express = require('express');
 const {
-  getSupportingDocuments,
-  postSupportingDocuments,
-} = require('../../../controllers/full-appeal/submit-appeal/supporting-documents');
+  getNewSupportingDocuments,
+  postNewSupportingDocuments,
+} = require('../../../controllers/full-appeal/submit-appeal/new-documents');
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
 const { rules: optionsValidationRules } = require('../../../validators/common/options');
@@ -10,18 +10,18 @@ const { rules: optionsValidationRules } = require('../../../validators/common/op
 const router = express.Router();
 
 router.get(
-  '/submit-appeal/supporting-documents',
+  '/submit-appeal/new-documents',
   [fetchExistingAppealMiddleware],
-  getSupportingDocuments
+  getNewSupportingDocuments
 );
 router.post(
-  '/submit-appeal/supporting-documents',
+  '/submit-appeal/new-documents',
   optionsValidationRules({
     fieldName: 'supporting-documents',
     emptyError: 'Select yes if you want to submit any new supporting documents with your appeal',
   }),
   validationErrorHandler,
-  postSupportingDocuments
+  postNewSupportingDocuments
 );
 
 module.exports = router;

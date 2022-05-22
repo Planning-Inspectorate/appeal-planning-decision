@@ -152,7 +152,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-planned', ()
       };
       await planningObligationPlannedController.postPlanningObligationPlanned(req, res);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.SUPPORTING_DOCUMENTS}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.NEW_DOCUMENTS}`);
     });
   });
 });

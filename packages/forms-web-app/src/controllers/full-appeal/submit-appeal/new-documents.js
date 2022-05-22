@@ -2,28 +2,35 @@ const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   VIEW: {
-    FULL_APPEAL: { NEW_SUPPORTING_DOCUMENTS, SUPPORTING_DOCUMENTS, TASK_LIST },
+    FULL_APPEAL: {
+      OTHER_SUPPORTING_DOCUMENTS,
+      NEW_DOCUMENTS,
+      TASK_LIST,
+      PLANNING_OBLIGATION_PLANNED,
+    },
   },
 } = require('../../../lib/full-appeal/views');
 const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'appealDocumentsSection';
 const taskName = 'supportingDocuments';
+const backLink = `/${PLANNING_OBLIGATION_PLANNED}`;
 
-const getSupportingDocuments = (req, res) => {
+const getNewSupportingDocuments = (req, res) => {
   const {
     [sectionName]: {
       [taskName]: { hasSupportingDocuments },
       plansDrawings: { hasPlansDrawings },
     },
   } = req.session.appeal;
-  res.render(SUPPORTING_DOCUMENTS, {
+  res.render(NEW_DOCUMENTS, {
+    backLink,
     hasSupportingDocuments,
     hasPlansDrawings,
   });
 };
 
-const postSupportingDocuments = async (req, res) => {
+const postNewSupportingDocuments = async (req, res) => {
   const {
     body,
     body: { errors = {}, errorSummary = [] },
@@ -38,7 +45,7 @@ const postSupportingDocuments = async (req, res) => {
   } = req;
 
   if (Object.keys(errors).length > 0) {
-    return res.render(SUPPORTING_DOCUMENTS, {
+    return res.render(NEW_DOCUMENTS, {
       hasPlansDrawings,
       errors,
       errorSummary,
@@ -55,7 +62,7 @@ const postSupportingDocuments = async (req, res) => {
   } catch (err) {
     logger.error(err);
 
-    return res.render(SUPPORTING_DOCUMENTS, {
+    return res.render(NEW_DOCUMENTS, {
       hasSupportingDocuments,
       hasPlansDrawings,
       errors,
@@ -64,11 +71,11 @@ const postSupportingDocuments = async (req, res) => {
   }
 
   return hasSupportingDocuments
-    ? res.redirect(`/${NEW_SUPPORTING_DOCUMENTS}`)
+    ? res.redirect(`/${OTHER_SUPPORTING_DOCUMENTS}`)
     : res.redirect(`/${TASK_LIST}`);
 };
 
 module.exports = {
-  getSupportingDocuments,
-  postSupportingDocuments,
+  getNewSupportingDocuments,
+  postNewSupportingDocuments,
 };
