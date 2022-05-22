@@ -1,8 +1,8 @@
 const { get, post } = require('../../router-mock');
 const {
-  getSupportingDocuments,
-  postSupportingDocuments,
-} = require('../../../../../src/controllers/full-appeal/submit-appeal/supporting-documents');
+  getNewSupportingDocuments,
+  postNewSupportingDocuments,
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/new-documents');
 const fetchExistingAppealMiddleware = require('../../../../../src/middleware/fetch-existing-appeal');
 const {
   validationErrorHandler,
@@ -12,23 +12,23 @@ const { rules: optionsValidationRules } = require('../../../../../src/validators
 jest.mock('../../../../../src/middleware/fetch-existing-appeal');
 jest.mock('../../../../../src/validators/common/options');
 
-describe('routes/full-appeal/submit-appeal/supporting-documents', () => {
+describe('routes/full-appeal/submit-appeal/new-documents', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
-    require('../../../../../src/routes/full-appeal/submit-appeal/supporting-documents');
+    require('../../../../../src/routes/full-appeal/submit-appeal/new-documents');
   });
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      '/submit-appeal/supporting-documents',
+      '/submit-appeal/new-documents',
       [fetchExistingAppealMiddleware],
-      getSupportingDocuments
+      getNewSupportingDocuments
     );
     expect(post).toHaveBeenCalledWith(
-      '/submit-appeal/supporting-documents',
+      '/submit-appeal/new-documents',
       optionsValidationRules(),
       validationErrorHandler,
-      postSupportingDocuments
+      postNewSupportingDocuments
     );
     expect(optionsValidationRules).toHaveBeenCalledWith({
       fieldName: 'supporting-documents',

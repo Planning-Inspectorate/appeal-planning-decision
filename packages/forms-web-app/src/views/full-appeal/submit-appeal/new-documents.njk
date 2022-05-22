@@ -4,10 +4,7 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% set backLink = '/full-appeal/submit-appeal/' %}
-{% set backLink = backLink + 'new-plans-drawings' if hasPlansDrawings else backLink + 'plans-drawings' %}
-{% set title = "Supporting documents - Appeal a planning decision - GOV.UK" %}
-{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
+{% set title = "Do you have any other new documents that support your appeal? - Appeal a planning decision - GOV.UK" %}
 
 {% block backButton %}
   {{ govukBackLink({
@@ -31,14 +28,7 @@
       {% endif %}
       <form action="" method="post" novalidate>
         <span class="govuk-caption-l">Upload documents for your appeal</span>
-        <h1 class="govuk-heading-l">Supporting documents</h1>
-        <p class="govk-body">
-          You do not need to submit the supporting documents from your planning application.
-          We'll get these from the local planning department.
-        </p>
-        <p class="govk-body">
-          You can submit new or updated documents that support your appeal.
-        </p>
+  
         {{ govukRadios({
           classes: "govuk-radios",
           idPrefix: "supporting-documents",
@@ -48,7 +38,9 @@
           },
           fieldset: {
             legend: {
-              text: "Do you want to submit any new supporting documents with your appeal?",
+               html: '<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+              <h1 class="govuk-fieldset__heading">Do you have any other new documents that support your appeal?</h1>
+              </legend>',
               isPageHeading: true,
               classes: "govuk-fieldset__legend--m"
             }
