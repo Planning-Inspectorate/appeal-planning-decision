@@ -21,7 +21,7 @@ router.get(
 router.post(
   '/submit-appeal/planning-obligation',
   setSectionAndTaskNames(sectionName, taskName),
-  fileUploadValidationRules('Select a supporting document'),
+  fileUploadValidationRules('Select your planning obligation'),
   validationErrorHandler,
   postPlanningObligationDocuments
 );
