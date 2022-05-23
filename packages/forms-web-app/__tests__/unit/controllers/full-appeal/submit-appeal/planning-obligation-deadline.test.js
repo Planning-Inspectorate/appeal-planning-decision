@@ -1,7 +1,7 @@
 const appeal = require('@pins/business-rules/test/data/full-appeal');
 const v8 = require('v8');
 const {
-  getPlanningObligationDeadline,
+  getPlanningObligationStatus,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/planning-obligation-deadline');
 
 const { VIEW } = require('../../../../../src/lib/full-appeal/views');
@@ -26,7 +26,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-deadline', (
 
   describe('getPlanningObligationDeadline', () => {
     it('calls correct template', async () => {
-      await getPlanningObligationStatus(req, res);
+      await getPlanningObligationDeadline(req, res);
       expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.PLANNING_OBLIGATION_DEADLINE, {
         planningObligationDeadline: true,
       });
