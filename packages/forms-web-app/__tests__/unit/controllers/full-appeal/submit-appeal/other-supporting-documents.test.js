@@ -2,16 +2,16 @@ const appeal = require('@pins/business-rules/test/data/full-appeal');
 const v8 = require('v8');
 const { documentTypes } = require('@pins/common');
 const {
-  getNewSupportingDocuments,
-  postNewSupportingDocuments,
-} = require('../../../../../src/controllers/full-appeal/submit-appeal/new-supporting-documents');
+  getOtherSupportingDocuments,
+  postOtherSupportingDocuments,
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/other-supporting-documents');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { createDocument } = require('../../../../../src/lib/documents-api-wrapper');
 const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
-    FULL_APPEAL: { NEW_SUPPORTING_DOCUMENTS, TASK_LIST },
+    FULL_APPEAL: { OTHER_SUPPORTING_DOCUMENTS, TASK_LIST },
   },
 } = require('../../../../../src/lib/full-appeal/views');
 
@@ -19,7 +19,7 @@ jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/documents-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
 
-describe('controllers/full-appeal/submit-appeal/new-supporting-documents', () => {
+describe('controllers/full-appeal/submit-appeal/other-supporting-documents', () => {
   let req;
   let res;
   let appealData;
@@ -42,19 +42,19 @@ describe('controllers/full-appeal/submit-appeal/new-supporting-documents', () =>
     jest.resetAllMocks();
   });
 
-  describe('getNewSupportingDocuments', () => {
+  describe('getOtherSupportingDocuments', () => {
     it('should call the correct template', () => {
-      getNewSupportingDocuments(req, res);
+      getOtherSupportingDocuments(req, res);
 
       expect(res.render).toHaveBeenCalledTimes(1);
-      expect(res.render).toHaveBeenCalledWith(NEW_SUPPORTING_DOCUMENTS, {
+      expect(res.render).toHaveBeenCalledWith(OTHER_SUPPORTING_DOCUMENTS, {
         appealId: appealData.id,
         uploadedFiles: appealData[sectionName][taskName].uploadedFiles,
       });
     });
   });
 
-  describe('postNewSupportingDocuments', () => {
+  describe('postOtherSupportingDocuments', () => {
     it('should re-render the template with errors if submission validation fails', async () => {
       req = {
         ...req,
@@ -67,11 +67,11 @@ describe('controllers/full-appeal/submit-appeal/new-supporting-documents', () =>
         },
       };
 
-      await postNewSupportingDocuments(req, res);
+      await postOtherSupportingDocuments(req, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledTimes(1);
-      expect(res.render).toHaveBeenCalledWith(NEW_SUPPORTING_DOCUMENTS, {
+      expect(res.render).toHaveBeenCalledWith(OTHER_SUPPORTING_DOCUMENTS, {
         appealId: appealData.id,
         uploadedFiles: appealData[sectionName][taskName].uploadedFiles,
         errors,
@@ -84,11 +84,11 @@ describe('controllers/full-appeal/submit-appeal/new-supporting-documents', () =>
 
       createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-      await postNewSupportingDocuments(req, res);
+      await postOtherSupportingDocuments(req, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledTimes(1);
-      expect(res.render).toHaveBeenCalledWith(NEW_SUPPORTING_DOCUMENTS, {
+      expect(res.render).toHaveBeenCalledWith(OTHER_SUPPORTING_DOCUMENTS, {
         appealId: appealData.id,
         uploadedFiles: appealData[sectionName][taskName].uploadedFiles,
         errorSummary: [{ text: error.toString(), href: '#' }],
@@ -117,7 +117,7 @@ describe('controllers/full-appeal/submit-appeal/new-supporting-documents', () =>
         },
       };
 
-      await postNewSupportingDocuments(req, res);
+      await postOtherSupportingDocuments(req, res);
 
       expect(createDocument).toHaveBeenCalledWith(
         appealData,
@@ -153,7 +153,7 @@ describe('controllers/full-appeal/submit-appeal/new-supporting-documents', () =>
         },
       };
 
-      await postNewSupportingDocuments(req, res);
+      await postOtherSupportingDocuments(req, res);
 
       expect(createDocument).toHaveBeenCalledWith(
         appealData,
@@ -182,7 +182,7 @@ describe('controllers/full-appeal/submit-appeal/new-supporting-documents', () =>
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 
-      await postNewSupportingDocuments(req, res);
+      await postOtherSupportingDocuments(req, res);
 
       expect(createDocument).not.toHaveBeenCalled();
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
@@ -223,7 +223,7 @@ describe('controllers/full-appeal/submit-appeal/new-supporting-documents', () =>
         },
       };
 
-      await postNewSupportingDocuments(req, res);
+      await postOtherSupportingDocuments(req, res);
 
       expect(createDocument).toHaveBeenCalledWith(
         appealData,
