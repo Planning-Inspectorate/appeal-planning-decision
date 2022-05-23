@@ -9,7 +9,7 @@ const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
     FULL_APPEAL: {
-      OTHER_SUPPORTING_DOCUMENTS,
+      NEW_SUPPORTING_DOCUMENTS,
       NEW_DOCUMENTS,
       TASK_LIST,
       PLANNING_OBLIGATION_PLANNED,
@@ -116,7 +116,7 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
       await postNewSupportingDocuments(req, res);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${OTHER_SUPPORTING_DOCUMENTS}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${NEW_SUPPORTING_DOCUMENTS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
