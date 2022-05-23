@@ -60,7 +60,7 @@ const postPlanningObligationPlanned = async (req, res) => {
   }
   return plansPlanningObligation
     ? res.redirect(`/${VIEW.FULL_APPEAL.PLANNING_OBLIGATION_STATUS}`)
-    : res.redirect(`/${VIEW.FULL_APPEAL.SUPPORTING_DOCUMENTS}`);
+    : res.redirect(`/${VIEW.FULL_APPEAL.NEW_DOCUMENTS}`);
 };
 
 module.exports = { getPlanningObligationPlanned, postPlanningObligationPlanned };
