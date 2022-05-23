@@ -45,9 +45,6 @@ const postTypeOfPlanningApplication = async (req, res) => {
     appeal.appealType = mapPlanningApplication(typeOfPlanningApplication);
     appeal.typeOfPlanningApplication = typeOfPlanningApplication;
     req.session.appeal = await createOrUpdateAppeal(appeal);
-    logger.debug('-------------------------');
-    logger.debug(req.session.appeal);
-    logger.debug('-------------------------');
   } catch (err) {
     logger.error(err);
     return res.render(TYPE_OF_PLANNING_APPLICATION, {
