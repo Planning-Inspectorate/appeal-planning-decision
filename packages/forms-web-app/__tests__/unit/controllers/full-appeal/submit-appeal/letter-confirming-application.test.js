@@ -4,7 +4,7 @@ const appeal = require('../../../../mockData/full-appeal');
 const {
   getLetterConfirmingApplication,
   postLetterConfirmingApplication,
-} = require('../../../../../src/controllers/full-appeal/submit-appeal/letter-confirming-application ');
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/letter-confirming-application');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { createDocument } = require('../../../../../src/lib/documents-api-wrapper');
 const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
