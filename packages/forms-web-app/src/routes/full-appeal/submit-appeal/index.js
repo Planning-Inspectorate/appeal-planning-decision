@@ -42,7 +42,8 @@ const originalDecisionNoticeRouter = require('./original-decision-notice');
 const proposedDevelopmentChanged = require('./proposed-development-changed');
 const planningObligationPlannedRouter = require('./planning-obligation-planned');
 const planningObligationStatusRouter = require('./planning-obligation-status');
-const planningObligationFilesRouter = require('./planning-obligation-documents');
+const planningObligationDocumentsRouter = require('./planning-obligation-documents');
+const planningObligationDraftRouter = require('./draft-planning-obligation');
 
 const router = express.Router();
 
@@ -89,6 +90,7 @@ router.use(originalDecisionNoticeRouter);
 router.use(proposedDevelopmentChanged);
 router.use(planningObligationPlannedRouter);
 router.use(planningObligationStatusRouter);
-router.use(planningObligationFilesRouter);
+router.use(planningObligationDocumentsRouter);
+router.use(planningObligationDraftRouter);
 
 module.exports = router;
