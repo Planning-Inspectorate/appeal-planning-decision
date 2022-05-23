@@ -137,6 +137,12 @@ exports.appealDocument = {
         id: null,
       },
     },
+    letterConfirmingApplication: {
+      uploadedFile: {
+        name: '',
+        id: null,
+      },
+    },
   },
   sectionStates: {
     aboutYouSection: {
