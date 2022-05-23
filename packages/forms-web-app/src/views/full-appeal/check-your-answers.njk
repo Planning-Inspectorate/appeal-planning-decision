@@ -5,6 +5,8 @@
 {% from "../macros/uploaded-file-link.njk" import uploadedFileLink %}
 {% from "../macros/uploaded-file-list.njk" import uploadedFileList %}
 {% from "../macros/summary-field.njk" import summaryField %}
+{% from "../macros/proposed-dev-changed-bool.njk" import boolToSentenceProposedDevelopmentChanged %}
+{% from "../macros/format-planning-obligation-status.njk" import formatPlanningObligationStatus %}
 
 {% macro checkYourAnswers(appeal, isPdf) %}
   {% set headingClass = "govuk-heading-l" if isPdf !== true else "govuk-heading-m" %}
@@ -648,6 +650,56 @@
       ) } ,
       actions: applicationFormRowActions if isPdf !== true
     } %}
+    {% set hasOwnershipCertificateRowActions = {
+      items: [
+        {
+          href: "/full-appeal/submit-appeal/application-certificates-included",
+          text: "Change",
+          visuallyHiddenText: "separate ownership certificate and agricultural land declaration",
+          attributes: {
+            "data-cy": "separate-ownership-certificate"
+          }
+        }
+      ]
+    } %}
+    {% set hasOwnershipCertificateRow = {
+      key: { text: summaryField(
+        "Did you submit a separate ownership certificate and agricultural land declaration with your application?",
+        { "data-cy": "has-ownership-certificate-label" }
+      ) },
+      value: { text: boolToSentenceCaseField(
+        appeal.planningApplicationDocumentsSection.ownershipCertificate.submittedSeparateCertificate,
+        { "data-cy": "has-ownership-certificate" }
+      ) },
+      actions: hasOwnershipCertificateRowActions if isPdf !== true
+    } %}
+    {% set ownershipCertificateRowActions = {
+      items: [
+        {
+          href: "/full-appeal/submit-appeal/certificates",
+          text: "Change",
+          visuallyHiddenText: "the ownership certificate",
+          attributes: {
+            "data-cy": "ownership-certificate"
+          }
+        }
+      ]
+    } %}
+    {% set ownershipCertificateRow = {
+      key: { text: summaryField(
+        "Ownership certificate and agricultural land declaration",
+        { "data-cy": "ownership-certificate-label" }
+      ) },
+      value: { text: uploadedFileLink(
+        appeal.id,
+        appeal.planningApplicationDocumentsSection.ownershipCertificate.uploadedFile,
+        { "data-cy": "ownership-certificate" }
+      ) if isPdf !== true else summaryField(
+        appeal.planningApplicationDocumentsSection.ownershipCertificate.uploadedFile.name,
+        { "data-cy": "ownership-certificate" }
+      ) },
+      actions: ownershipCertificateRowActions if isPdf !== true
+    } %}
     {% set applicationNumberRowActions = {
       items: [
         {
@@ -670,6 +722,30 @@
         { "data-cy": "application-number" }
       ) },
       actions: applicationNumberRowActions if isPdf !== true
+    } %}
+    {% set isProposedDevelopmentChangedRowActions = {
+      items: [
+        {
+          href: "/full-appeal/submit-appeal/proposed-development-changed",
+          text: "Change",
+          visuallyHiddenText: "Proposed development changed after submitting the application",
+          attributes: {
+            "data-cy": "proposed-development-changed"
+          }
+        }
+      ]
+    } %}
+    {% set isProposedDevelopmentChangedRow = {
+      key: { text: summaryField(
+        "Did the proposed development change after you submitted your application?",
+        { "data-cy": "proposed-development-changed-label" }
+      ) },
+      value: { text: boolToSentenceProposedDevelopmentChanged(
+        appeal.planningApplicationDocumentsSection.proposedDevelopmentChanged.isProposedDevelopmentChanged,
+        appeal.planningApplicationDocumentsSection.proposedDevelopmentChanged.details,
+        { "data-cy": "proposed-development-changed" }
+      ) },
+      actions: isProposedDevelopmentChangedRowActions if isPdf !== true
     } %}
     {% set plansDrawingsSupportingDocumentsRowActions = {
       items: [
@@ -774,10 +850,20 @@
       actions: decisionLetterRowActions if isPdf !== true
     } %}
     {% if appeal.typeOfPlanningApplication === 'removal-or-variation-of-conditions' and appeal.eligibility.applicationDecision === 'nodecisionreceived' %}
-      {% set planningApplicationRows = [originalDecisionNoticeRow, applicationFormRow, applicationNumberRow, plansDrawingsSupportingDocumentsRow, hasDesignAccessStatementRow] %}
+      {% set planningApplicationRows = [originalDecisionNoticeRow, applicationFormRow, hasOwnershipCertificateRow] %}
     {% else %}
-      {% set planningApplicationRows = [applicationFormRow, applicationNumberRow, plansDrawingsSupportingDocumentsRow, hasDesignAccessStatementRow] %}
+      {% set planningApplicationRows = [applicationFormRow, hasOwnershipCertificateRow] %}
     {% endif %}
+    {% if appeal.planningApplicationDocumentsSection.ownershipCertificate.submittedSeparateCertificate %}
+      {% set planningApplicationRows = (planningApplicationRows.push(ownershipCertificateRow), planningApplicationRows) %}
+    {% endif %}
+    {% set planningApplicationRows = (planningApplicationRows.push(
+        applicationNumberRow,
+        isProposedDevelopmentChangedRow,
+        plansDrawingsSupportingDocumentsRow, 
+        hasDesignAccessStatementRow
+      ), planningApplicationRows) 
+    %}
     {% if appeal.planningApplicationDocumentsSection.designAccessStatement.isSubmitted %}
       {% set planningApplicationRows = (planningApplicationRows.push(designAccessStatementRow), planningApplicationRows) %}
     {% endif %}
@@ -865,6 +951,79 @@
       ) },
       actions: plansDrawingsRowActions if isPdf !== true
     } %}
+    {% set planToSubmitPlanningObligationRowActions = {
+      items: [
+        {
+          href: "/full-appeal/submit-appeal/planning-obligation-planned",
+          text: "Change",
+          visuallyHiddenText: "if you plan to submit a planning obligation to support your appeal",
+          attrivbutes: {
+            "data-cy": "plan-to-submit-planning-obligation"
+          }
+        }
+      ]
+    } %}
+    {% set planToSubmitPlanningObligationRow = {
+      key: { text: summaryField(
+        "Do you plan to submit a planning obligation to support your appeal?",
+        { "data-cy": "plan-to-submit-planning-obligation-label" }
+      ) },
+      value: { text: boolToSentenceCaseField(
+        appeal.appealDocumentsSection.planningObligations.plansPlanningObligation,
+        { "data-cy": "plan-to-submit-planning-obligation" }
+      ) },
+      actions: planToSubmitPlanningObligationRowActions if isPdf !== true
+    } %}
+    {% set planningObligationStatusRowActions = {
+      items: [
+        {
+          href: "/full-appeal/submit-appeal/planning-obligation-status",
+          text: "Change",
+          visuallyHiddenText: "what is the status of your planning obligation",
+          attrivbutes: {
+            "data-cy": "planning-obligation-status"
+          }
+        }
+      ]
+    } %}
+    {% set planningObligationStatusRow = {
+      key: { text: summaryField(
+        "What is the status of your planning obligation?",
+        { "data-cy": "planning-obligation-status-label" }
+      ) },
+      value: { text: formatPlanningObligationStatus(
+        appeal.appealDocumentsSection.planningObligations.planningObligationStatus,
+        { "data-cy": "planning-obligation-status" }
+      ) },
+      actions: planningObligationStatusRowActions if isPdf !== true
+    } %}
+    {% set planningObligationRowActions = {
+      items: [
+        {
+          href: "/full-appeal/submit-appeal/planning-obligation",
+          text: "Change",
+          visuallyHiddenText: "the planning obligation",
+          attributes: {
+            "data-cy": "planning-obligation"
+          }
+        }
+      ]
+    } %}
+    {% set planningObligationRow = {
+      key: { text: summaryField(
+        "Planning obligation",
+        { "data-cy": "planning-obligation-label" }
+      ) },
+      value: { text: uploadedFileLink(
+        appeal.id,
+        appeal.appealDocumentsSection.planningObligations.uploadedFiles[0],
+        { "data-cy": "planning-obligation" }
+      ) if isPdf !== true else summaryField(
+        appeal.appealDocumentsSection.planningObligations.uploadedFiles[0].name,
+        { "data-cy": "planning-obligation" }
+      ) },
+      actions: planningObligationRowActions if isPdf !== true
+    } %}
     {% set hasSupportingDocumentsRowActions = {
       items: [
         {
@@ -913,7 +1072,13 @@
       ) },
       actions: supportingDocumentsRowActions if isPdf !== true
     } %}
-    {% set yourAppealRows = [appealStatementRow, hasPlansDrawingsRow] %}
+    {% set yourAppealRows = [appealStatementRow, hasPlansDrawingsRow, planToSubmitPlanningObligationRow] %}
+    {% if appeal.appealDocumentsSection.planningObligations.plansPlanningObligation %}
+      {% set yourAppealRows = (yourAppealRows.push(planningObligationStatusRow), yourAppealRows) %}
+      {% if appeal.appealDocumentsSection.planningObligations.planningObligationStatus == 'finalised' %}
+        {% set yourAppealRows = (yourAppealRows.push(planningObligationRow), yourAppealRows) %}
+      {% endif %}
+    {% endif %}
     {% if appeal.appealDocumentsSection.plansDrawings.hasPlansDrawings %}
       {% set yourAppealRows = (yourAppealRows.push(plansDrawingsRow), yourAppealRows) %}
     {% endif %}
