@@ -396,6 +396,22 @@ const update = pinsYup
               .ensure(),
           })
           .noUnknown(true),
+          letterConfirmingApplication: pinsYup
+            .object()
+            .shape({
+              uploadedFile: pinsYup
+                .object()
+                .shape({
+                  id: pinsYup.string().trim().uuid().required(),
+                  name: pinsYup.string().trim().max(255).required(),
+                  fileName: pinsYup.string().trim().max(255).required(),
+                  originalFileName: pinsYup.string().trim().max(255).required(),
+                  location: pinsYup.string().trim().required(),
+                  size: pinsYup.number().required(),
+                })
+                .noUnknown(true),
+            })
+          .noUnknown(true),
       })
       .noUnknown(true),
     appealSubmission: pinsYup

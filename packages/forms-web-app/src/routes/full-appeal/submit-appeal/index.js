@@ -43,6 +43,7 @@ const proposedDevelopmentChanged = require('./proposed-development-changed');
 const planningObligationPlannedRouter = require('./planning-obligation-planned');
 const planningObligationStatusRouter = require('./planning-obligation-status');
 const planningObligationFilesRouter = require('./planning-obligation-documents');
+const letterConfirmingApplicationRouter = require('./letter-confirming-application');
 
 const router = express.Router();
 
@@ -90,5 +91,6 @@ router.use(proposedDevelopmentChanged);
 router.use(planningObligationPlannedRouter);
 router.use(planningObligationStatusRouter);
 router.use(planningObligationFilesRouter);
+router.use(letterConfirmingApplicationRouter);
 
 module.exports = router;

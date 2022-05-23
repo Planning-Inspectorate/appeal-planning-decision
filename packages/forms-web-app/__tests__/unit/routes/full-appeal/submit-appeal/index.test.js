@@ -38,6 +38,7 @@ const draftStatementOfCommonGroundRouter = require('../../../../../src/routes/fu
 const advertisingYourAppealRouter = require('../../../../../src/routes/full-appeal/submit-appeal/advertising-your-appeal');
 const plansDrawingsDocumentsRouter = require('../../../../../src/routes/full-appeal/submit-appeal/plans-drawings-documents');
 const originalDecisionNoticeRouter = require('../../../../../src/routes/full-appeal/submit-appeal/original-decision-notice');
+const letterConfirmingApplicationRouter = require('../../../../../src/routes/full-appeal/submit-appeal/letter-confirming-application');
 const planningObligationPlannedRouter = require('../../../../../src/routes/full-appeal/submit-appeal/planning-obligation-planned');
 const planningObligationStatusRouter = require('../../../../../src/routes/full-appeal/submit-appeal/planning-obligation-status');
 const applicationCertificatesIncludedRouter = require('../../../../../src/routes/full-appeal/submit-appeal/application-certificates-included');
@@ -93,5 +94,6 @@ describe('routes/full-appeal/submit-appeal/index', () => {
     expect(use).toHaveBeenCalledWith(planningObligationStatusRouter);
     expect(use).toHaveBeenCalledWith(applicationCertificatesIncludedRouter);
     expect(use).toHaveBeenCalledWith(certificatesRouter);
+    expect(use).toHaveBeenCalledWith(letterConfirmingApplicationRouter);
   });
 });
