@@ -185,6 +185,7 @@ exports.appealDocument = {
       originalDecisionNotice: 'NOT STARTED',
       decisionLetter: 'NOT STARTED',
       designAccessStatement: 'NOT STARTED',
+      letterConfirmingApplication: 'NOT STARTED'
     },
   },
 };

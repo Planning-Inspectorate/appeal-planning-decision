@@ -44,6 +44,8 @@ const planningObligationPlannedRouter = require('./planning-obligation-planned')
 const planningObligationStatusRouter = require('./planning-obligation-status');
 const planningObligationDocumentsRouter = require('./planning-obligation-documents');
 const planningObligationDraftRouter = require('./draft-planning-obligation');
+const planningObligationFilesRouter = require('./planning-obligation-documents');
+const letterConfirmingApplicationRouter = require('./letter-confirming-application');
 
 const router = express.Router();
 
@@ -92,5 +94,7 @@ router.use(planningObligationPlannedRouter);
 router.use(planningObligationStatusRouter);
 router.use(planningObligationDocumentsRouter);
 router.use(planningObligationDraftRouter);
+router.use(planningObligationFilesRouter);
+router.use(letterConfirmingApplicationRouter);
 
 module.exports = router;

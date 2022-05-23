@@ -114,11 +114,11 @@ const documentTypes = {
     multiple: true,
     displayName: 'Planning obligation',
   },
-  draftPlanningObligations: {
-    name: 'draftPlanningObligations',
-    multiple: true,
-    displayName: 'Draft planning obligation',
-  },
+  letterConfirmingApplication: {
+    name: 'letterConfirmingApplication',
+    multiple: false,
+    displayName: 'Letter Confirming Application',
+  }
 };
 
 module.exports = documentTypes;
