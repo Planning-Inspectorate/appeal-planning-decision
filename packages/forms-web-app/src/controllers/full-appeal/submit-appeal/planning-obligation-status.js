@@ -9,6 +9,7 @@ const {
       PLANNING_OBLIGATION_STATUS,
       PLANNING_OBLIGATION_DOCUMENTS,
       DRAFT_PLANNING_OBLIGATION,
+      PLANNING_OBLIGATION_DEADLINE,
       NEW_DOCUMENTS,
     },
   },
@@ -59,7 +60,7 @@ const postPlanningObligationStatus = async (req, res) => {
     case PLANNING_OBLIGATION_STATUS_OPTION.DRAFT:
       return res.redirect(`/${DRAFT_PLANNING_OBLIGATION}`);
     case PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED:
-      return res.redirect(`/${NEW_DOCUMENTS}`);
+      return res.redirect(`/${PLANNING_OBLIGATION_DEADLINE}`);
     default:
       return res.redirect(`/${PLANNING_OBLIGATION_STATUS}`);
   }
