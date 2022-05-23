@@ -38,7 +38,7 @@ describe('routes/full-appeal/submit-appeal/application-form', () => {
       postLetterConfirmingApplication
     );
     expect(fileUploadValidationRules).toHaveBeenCalledWith(
-      'Select your original decision notice file'
+      'Select your letter confirming application file'
     );
     expect(setSectionAndTaskNames).toHaveBeenCalledWith(
       'planningApplicationDocumentsSection',

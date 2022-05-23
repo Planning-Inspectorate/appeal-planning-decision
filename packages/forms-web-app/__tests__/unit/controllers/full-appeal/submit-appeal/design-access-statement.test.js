@@ -16,7 +16,7 @@ const TASK_STATUS = require('../../../../../src/services/task-status/task-status
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
-    FULL_APPEAL: { DESIGN_ACCESS_STATEMENT, DECISION_LETTER, TASK_LIST },
+    FULL_APPEAL: { DESIGN_ACCESS_STATEMENT, LETTER_CONFIRMING_APPLICATION, TASK_LIST },
   },
 } = require('../../../../../src/lib/full-appeal/views');
 
@@ -128,7 +128,7 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement', () => 
         taskName
       );
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${LETTER_CONFIRMING_APPLICATION}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
@@ -162,7 +162,7 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement', () => 
         taskName
       );
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${LETTER_CONFIRMING_APPLICATION}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
@@ -217,7 +217,7 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement', () => 
 
       expect(createDocument).not.toHaveBeenCalled();
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${LETTER_CONFIRMING_APPLICATION}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
@@ -238,7 +238,7 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement', () => 
 
       expect(createDocument).not.toHaveBeenCalled();
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_LETTER}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${LETTER_CONFIRMING_APPLICATION}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
