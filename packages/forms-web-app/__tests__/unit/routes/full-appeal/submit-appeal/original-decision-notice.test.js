@@ -38,7 +38,7 @@ describe('routes/full-appeal/submit-appeal/application-form', () => {
       postOriginalDecisionNotice
     );
     expect(fileUploadValidationRules).toHaveBeenCalledWith(
-      'Select your original decision notice file'
+      'Select the decision notice from your original planning application'
     );
     expect(setSectionAndTaskNames).toHaveBeenCalledWith(
       'planningApplicationDocumentsSection',
