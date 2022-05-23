@@ -23,7 +23,7 @@ router.get(
 router.post(
   '/submit-appeal/original-decision-notice',
   setSectionAndTaskNames(sectionName, taskName),
-  fileUploadValidationRules('Select your original decision notice file'),
+  fileUploadValidationRules('Select the decision notice from your original planning application'),
   validationErrorHandler,
   postOriginalDecisionNotice
 );
