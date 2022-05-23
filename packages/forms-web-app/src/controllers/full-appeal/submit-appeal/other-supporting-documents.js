@@ -5,7 +5,7 @@ const {
 } = require('@pins/common');
 const {
   VIEW: {
-    FULL_APPEAL: { NEW_SUPPORTING_DOCUMENTS, TASK_LIST },
+    FULL_APPEAL: { OTHER_SUPPORTING_DOCUMENTS, TASK_LIST },
   },
 } = require('../../../lib/full-appeal/views');
 const logger = require('../../../lib/logger');
@@ -16,7 +16,7 @@ const { COMPLETED } = require('../../../services/task-status/task-statuses');
 const sectionName = 'appealDocumentsSection';
 const taskName = 'supportingDocuments';
 
-const getNewSupportingDocuments = (req, res) => {
+const getOtherSupportingDocuments = (req, res) => {
   const {
     session: {
       appeal: {
@@ -27,13 +27,13 @@ const getNewSupportingDocuments = (req, res) => {
       },
     },
   } = req;
-  res.render(NEW_SUPPORTING_DOCUMENTS, {
+  res.render(OTHER_SUPPORTING_DOCUMENTS, {
     appealId,
     uploadedFiles,
   });
 };
 
-const postNewSupportingDocuments = async (req, res) => {
+const postOtherSupportingDocuments = async (req, res) => {
   const {
     body: { errors = {}, errorSummary = [] },
     files,
@@ -44,7 +44,7 @@ const postNewSupportingDocuments = async (req, res) => {
   } = req;
 
   if (Object.keys(errors).length > 0) {
-    return res.render(NEW_SUPPORTING_DOCUMENTS, {
+    return res.render(OTHER_SUPPORTING_DOCUMENTS, {
       appealId,
       uploadedFiles: appeal[sectionName][taskName].uploadedFiles,
       errorSummary,
@@ -76,7 +76,7 @@ const postNewSupportingDocuments = async (req, res) => {
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);
-    return res.render(NEW_SUPPORTING_DOCUMENTS, {
+    return res.render(OTHER_SUPPORTING_DOCUMENTS, {
       appealId,
       uploadedFiles: appeal[sectionName][taskName].uploadedFiles,
       errorSummary: [{ text: err.toString(), href: '#' }],
@@ -87,6 +87,6 @@ const postNewSupportingDocuments = async (req, res) => {
 };
 
 module.exports = {
-  getNewSupportingDocuments,
-  postNewSupportingDocuments,
+  getOtherSupportingDocuments,
+  postOtherSupportingDocuments,
 };

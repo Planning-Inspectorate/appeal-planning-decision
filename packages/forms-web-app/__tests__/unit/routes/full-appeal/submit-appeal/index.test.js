@@ -27,7 +27,7 @@ const identfyingTheOwnersRouter = require('../../../../../src/routes/full-appeal
 const plansDrawingsRouter = require('../../../../../src/routes/full-appeal/submit-appeal/plans-drawings');
 const newDocumentsRouter = require('../../../../../src/routes/full-appeal/submit-appeal/new-documents');
 const newPlansDrawingsRouter = require('../../../../../src/routes/full-appeal/submit-appeal/new-plans-drawings');
-const newSupportingDocumentsRouter = require('../../../../../src/routes/full-appeal/submit-appeal/new-supporting-documents');
+const otherSupportingDocumentsRouter = require('../../../../../src/routes/full-appeal/submit-appeal/other-supporting-documents');
 const tellingTheLandownersRouter = require('../../../../../src/routes/full-appeal/submit-appeal/telling-the-landowners');
 const tellingTheTenantsRouter = require('../../../../../src/routes/full-appeal/submit-appeal/telling-the-tenants');
 const howDecideAppealRouter = require('../../../../../src/routes/full-appeal/submit-appeal/how-decide-appeal');
@@ -78,7 +78,7 @@ describe('routes/full-appeal/submit-appeal/index', () => {
     expect(use).toHaveBeenCalledWith(plansDrawingsRouter);
     expect(use).toHaveBeenCalledWith(newDocumentsRouter);
     expect(use).toHaveBeenCalledWith(newPlansDrawingsRouter);
-    expect(use).toHaveBeenCalledWith(newSupportingDocumentsRouter);
+    expect(use).toHaveBeenCalledWith(otherSupportingDocumentsRouter);
     expect(use).toHaveBeenCalledWith(tellingTheLandownersRouter);
     expect(use).toHaveBeenCalledWith(tellingTheTenantsRouter);
     expect(use).toHaveBeenCalledWith(howDecideAppealRouter);

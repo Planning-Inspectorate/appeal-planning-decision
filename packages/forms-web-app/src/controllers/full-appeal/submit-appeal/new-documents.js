@@ -3,7 +3,7 @@ const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   VIEW: {
     FULL_APPEAL: {
-      NEW_SUPPORTING_DOCUMENTS,
+      OTHER_SUPPORTING_DOCUMENTS,
       NEW_DOCUMENTS,
       TASK_LIST,
       PLANNING_OBLIGATION_PLANNED,
@@ -71,7 +71,7 @@ const postNewSupportingDocuments = async (req, res) => {
   }
 
   return hasSupportingDocuments
-    ? res.redirect(`/${NEW_SUPPORTING_DOCUMENTS}`)
+    ? res.redirect(`/${OTHER_SUPPORTING_DOCUMENTS}`)
     : res.redirect(`/${TASK_LIST}`);
 };
 
