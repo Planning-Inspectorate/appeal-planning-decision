@@ -25,9 +25,8 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-deadline', (
   });
 
   describe('getPlanningObligationDeadline', () => {
-    it('gets calls correct template', async () => {
-      await getPlanningObligationDeadline(req, res);
-
+    it('calls correct template', async () => {
+      await getPlanningObligationStatus(req, res);
       expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.PLANNING_OBLIGATION_DEADLINE, {
         planningObligationDeadline: true,
       });
