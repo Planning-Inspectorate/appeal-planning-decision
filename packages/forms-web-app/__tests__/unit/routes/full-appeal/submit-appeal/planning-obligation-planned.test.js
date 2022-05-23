@@ -1,6 +1,6 @@
 const { get, post } = require('../../router-mock');
 
-const planningObligationPlannedController = require('../../../../../src/controllers//full-appeal/submit-appeal/planning-obligation-planned');
+const planningObligationPlannedController = require('../../../../../src/controllers/full-appeal/submit-appeal/planning-obligation-planned');
 
 const {
   validationErrorHandler,

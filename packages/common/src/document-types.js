@@ -118,6 +118,11 @@ const documentTypes = {
     name: 'letterConfirmingApplication',
     multiple: false,
     displayName: 'Letter Confirming Application',
+  },
+  draftPlanningObligations: {
+    name: 'draftPlanningObligations',
+    multiple: true,
+    displayName: 'Draft planning obligation',
   }
 };
 

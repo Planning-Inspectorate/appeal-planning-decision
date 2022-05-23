@@ -23,6 +23,7 @@ const VIEW = {
     PLANNING_OBLIGATION_PLANNED: 'full-appeal/submit-appeal/planning-obligation-planned',
     PLANNING_OBLIGATION_STATUS: 'full-appeal/submit-appeal/planning-obligation-status',
     PLANNING_OBLIGATION_DOCUMENTS: 'full-appeal/submit-appeal/planning-obligation',
+    DRAFT_PLANNING_OBLIGATION: 'full-appeal/submit-appeal/draft-planning-obligation',
     ORIGINAL_APPLICANT: 'full-appeal/submit-appeal/original-applicant',
     OWN_SOME_OF_THE_LAND: 'full-appeal/submit-appeal/own-some-of-the-land',
     KNOW_THE_OWNERS: 'full-appeal/submit-appeal/know-the-owners',
