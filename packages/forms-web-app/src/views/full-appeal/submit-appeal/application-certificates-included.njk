@@ -6,11 +6,7 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% set title = "Did you submit a separate ownership certificate and agricultural land declaration with your application? - Appeal a planning decision - GOV.UK" %}
-
-
-{% block pageTitle %}
-    {{ title }}
-{% endblock %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% block backButton %}
   {{ govukBackLink({

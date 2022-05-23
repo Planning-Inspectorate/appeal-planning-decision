@@ -6,11 +6,7 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% set title = "Do you plan to submit a planning obligation to support your appeal? - Appeal a planning decision - GOV.UK" %}
-
-
-{% block pageTitle %}
-  {{ title }}
-{% endblock %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% block backButton %}
   {{ govukBackLink({
