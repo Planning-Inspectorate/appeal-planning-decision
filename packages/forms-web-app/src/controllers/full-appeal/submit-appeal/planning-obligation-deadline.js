@@ -35,7 +35,7 @@ const postPlanningObligationDeadline = async (req, res) => {
 
   try {
     appeal[sectionName][taskName].planningObligationDeadline = planningObligationDeadline;
-    appeal.sectionStates[sectionName].planningObligationDeadline = COMPLETED;
+    appeal.sectionStates[sectionName].planningObligationDeadlineStatus = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);
