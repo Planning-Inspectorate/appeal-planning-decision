@@ -322,7 +322,7 @@ const insert = pinsYup
               .noUnknown(true),
           })
           .noUnknown(true),
-        originalDecisionNotice: pinsYup
+        letterConfirmingApplication: pinsYup
           .object()
           .shape({
             uploadedFile: pinsYup
@@ -338,22 +338,22 @@ const insert = pinsYup
               .noUnknown(true),
           })
           .noUnknown(true),
-          letterConfirmingApplication: pinsYup
-            .object()
-            .shape({
-              uploadedFile: pinsYup
-                .object()
-                .shape({
-                  id: pinsYup.string().trim().uuid().nullable().default(null),
-                  name: pinsYup.string().trim().max(255).ensure(),
-                  fileName: pinsYup.string().trim().max(255).ensure(),
-                  originalFileName: pinsYup.string().trim().max(255).ensure(),
-                  location: pinsYup.string().trim().nullable(),
-                  size: pinsYup.number().nullable(),
-                })
-                .noUnknown(true),
-            })
-          .noUnknown(true),
+        originalDecisionNotice: pinsYup
+          .object()
+          .shape({
+            uploadedFile: pinsYup
+              .object()
+              .shape({
+                id: pinsYup.string().trim().uuid().nullable().default(null),
+                name: pinsYup.string().trim().max(255).ensure(),
+                fileName: pinsYup.string().trim().max(255).ensure(),
+                originalFileName: pinsYup.string().trim().max(255).ensure(),
+                location: pinsYup.string().trim().nullable(),
+                size: pinsYup.number().nullable(),
+              })
+              .noUnknown(true),
+          })
+          .noUnknown(true)
       })
       .noUnknown(true),
     appealDocumentsSection: pinsYup
