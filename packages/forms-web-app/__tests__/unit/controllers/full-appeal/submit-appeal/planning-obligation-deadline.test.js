@@ -29,7 +29,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-deadline', (
       await getPlanningObligationDeadline(req, res);
 
       expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.PLANNING_OBLIGATION_DEADLINE, {
-        planningObligationDeadline: undefined,
+        planningObligationDeadline: true,
       });
     });
   });
