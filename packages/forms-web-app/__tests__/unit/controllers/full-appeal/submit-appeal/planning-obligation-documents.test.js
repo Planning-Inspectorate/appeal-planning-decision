@@ -14,7 +14,7 @@ const { createDocument } = require('../../../../../src/lib/documents-api-wrapper
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
-    FULL_APPEAL: { PLANNING_OBLIGATION_DOCUMENTS, SUPPORTING_DOCUMENTS },
+    FULL_APPEAL: { PLANNING_OBLIGATION_DOCUMENTS, NEW_DOCUMENTS },
   },
 } = require('../../../../../src/lib/full-appeal/views');
 
@@ -127,7 +127,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-documents', 
         documentType
       );
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
-      expect(res.redirect).toHaveBeenCalledWith(`/${SUPPORTING_DOCUMENTS}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${NEW_DOCUMENTS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
@@ -168,7 +168,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-documents', 
         documentType
       );
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
-      expect(res.redirect).toHaveBeenCalledWith(`/${SUPPORTING_DOCUMENTS}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${NEW_DOCUMENTS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
@@ -186,7 +186,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-documents', 
 
       expect(createDocument).not.toHaveBeenCalled();
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
-      expect(res.redirect).toHaveBeenCalledWith(`/${SUPPORTING_DOCUMENTS}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${NEW_DOCUMENTS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
@@ -226,7 +226,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-documents', 
 
       expect(createDocument).toHaveBeenCalledWith(appealData, newFile, null, documentType);
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
-      expect(res.redirect).toHaveBeenCalledWith(`/${SUPPORTING_DOCUMENTS}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${NEW_DOCUMENTS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
   });
