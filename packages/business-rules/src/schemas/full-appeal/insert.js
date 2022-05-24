@@ -402,9 +402,15 @@ const insert = pinsYup
             return pinsYup.string().nullable();
           }),
         }),
-
-        draftPlanningObligations: pinsYup.object().shape({
-          plansPlanningObligation: pinsYup.bool().nullable().default(null)
+        
+        planningObligationDeadline: pinsYup.object().shape({
+          planningObligationDeadline: pinsYup.bool().nullable().default(null),
+          planningObligationDeadlineStatus: pinsYup.lazy((planningObligationStatus) => {
+            if (planningObligationStatus) {
+              return pinsYup.string().oneOf(Object.values(PLANNING_OBLIGATION_STATUS_OPTION));
+            }
+            return pinsYup.string().nullable();
+          }),
         }),
 
         supportingDocuments: pinsYup
