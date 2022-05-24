@@ -8,9 +8,7 @@
 {% set title = "Site ownership and agricultural holdings certificates - Appeal a planning decision - GOV.UK" %}
 {% set labelText = "Drag and drop or choose a file" %}
 
-{% block pageTitle %}
-  {{ title }}
-{% endblock %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% block backButton %}
   {{ govukBackLink({
