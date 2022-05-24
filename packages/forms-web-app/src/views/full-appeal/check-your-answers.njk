@@ -849,6 +849,33 @@
       ) },
       actions: decisionLetterRowActions if isPdf !== true
     } %}
+    {% set letterConfirmingPlanningApplicationRowActions = {
+      items: [
+        {
+          href: "/full-appeal/submit-appeal/letter-confirming-application",
+          text: "Change",
+          visuallyHiddenText: "the letter confirming the planning application",
+          attributes: {
+            "data-cy": "change-letter-confirming-planning-application"
+          }
+        }
+      ]
+    } %}
+    {% set letterConfirmingPlanningApplicationRow = {
+      key: { text: summaryField(
+        "Letter confirming your planning application",
+        { "data-cy": "letter-confirming-planning-application-label" }
+      ) },
+      value: { text: uploadedFileLink(
+        appeal.id,
+        appeal.planningApplicationDocumentsSection.letterConfirmingApplication.uploadedFile,
+        { "data-cy": "letter-confirming-planning-application" }
+      ) if isPdf !== true else summaryField(
+        appeal.planningApplicationDocumentsSection.letterConfirmingApplication.uploadedFile.name,
+        { "data-cy": "letter-confirming-planning-application" }
+      ) },
+      actions: letterConfirmingPlanningApplicationRowActions if isPdf !== true
+    } %}
     {% if appeal.typeOfPlanningApplication === 'removal-or-variation-of-conditions' and appeal.eligibility.applicationDecision === 'nodecisionreceived' %}
       {% set planningApplicationRows = [originalDecisionNoticeRow, applicationFormRow, hasOwnershipCertificateRow] %}
     {% else %}
@@ -869,6 +896,8 @@
     {% endif %}
     {% if appeal.eligibility.applicationDecision !== 'nodecisionreceived' %}
       {% set planningApplicationRows = (planningApplicationRows.push(decisionLetterRow), planningApplicationRows) %}
+    {% else %}
+      {% set planningApplicationRows = (planningApplicationRows.push(letterConfirmingPlanningApplicationRow), planningApplicationRows) %}
     {% endif %}
     {{ govukSummaryList({
       classes: "govuk-summary-list govuk-!-margin-bottom-9",
@@ -1024,6 +1053,33 @@
       ) },
       actions: planningObligationRowActions if isPdf !== true
     } %}
+    {% set draftPlanningObligationRowActions = {
+      items: [
+        {
+          href: "/full-appeal/submit-appeal/draft-planning-obligation",
+          text: "Change",
+          visuallyHiddenText: "the draft planning obligation",
+          attributes: {
+            "data-cy": "draft-planning-obligation"
+          }
+        }
+      ]
+    } %}
+    {% set draftPlanningObligationRow = {
+      key: { text: summaryField(
+        "Planning obligation",
+        { "data-cy": "draft-planning-obligation-label" }
+      ) },
+      value: { text: uploadedFileLink(
+        appeal.id,
+        appeal.appealDocumentsSection.draftPlanningObligations.uploadedFiles[0],
+        { "data-cy": "draft-planning-obligation" }
+      ) if isPdf !== true else summaryField(
+        appeal.appealDocumentsSection.draftPlanningObligations.uploadedFiles[0].name,
+        { "data-cy": "draft-planning-obligation" }
+      ) },
+      actions: draftPlanningObligationRowActions if isPdf !== true
+    } %}
     {% set hasSupportingDocumentsRowActions = {
       items: [
         {
@@ -1077,6 +1133,8 @@
       {% set yourAppealRows = (yourAppealRows.push(planningObligationStatusRow), yourAppealRows) %}
       {% if appeal.appealDocumentsSection.planningObligations.planningObligationStatus == 'finalised' %}
         {% set yourAppealRows = (yourAppealRows.push(planningObligationRow), yourAppealRows) %}
+      {% elif appeal.appealDocumentsSection.planningObligations.planningObligationStatus == 'draft' %}
+        {% set yourAppealRows = (yourAppealRows.push(draftPlanningObligationRow), yourAppealRows) %}
       {% endif %}
     {% endif %}
     {% if appeal.appealDocumentsSection.plansDrawings.hasPlansDrawings %}
