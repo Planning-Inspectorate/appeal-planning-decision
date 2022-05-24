@@ -239,6 +239,9 @@ const appeal = {
         },
       ],
     },
+    planningObligationDeadline: {
+      hasSupportingDocuments: true,
+    },
     draftPlanningObligations: {
       plansPlanningObligation: true,
       planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.DRAFT,

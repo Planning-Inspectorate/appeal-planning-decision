@@ -374,8 +374,12 @@ const update = pinsYup
           }),
         }),
         draftPlanningObligations: pinsYup.object().shape({
-          plansPlanningObligation: pinsYup.bool().nullable().default(null),
-          planningObligationStatus: pinsYup.lazy((planningObligationStatus) => {
+          plansPlanningObligation: pinsYup.bool().nullable().default(null)
+        }),
+
+        planningObligationDeadline: pinsYup.object().shape({
+          planningObligationDeadline: pinsYup.bool().nullable().default(null),
+          planningObligationDeadlineStatus: pinsYup.lazy((planningObligationStatus) => {
             if (planningObligationStatus) {
               return pinsYup.string().oneOf(Object.values(PLANNING_OBLIGATION_STATUS_OPTION));
             }
@@ -512,6 +516,7 @@ const update = pinsYup
               .required(),
             planningObligationDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             draftPlanningObligations: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            planningObligationDeadline:pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             supportingDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             newSupportingDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
           })
