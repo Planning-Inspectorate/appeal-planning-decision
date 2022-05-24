@@ -402,7 +402,6 @@ const insert = pinsYup
             return pinsYup.string().nullable();
           }),
         }),
-
         planningObligationDeadline: pinsYup.object().shape({
           planningObligationDeadline: pinsYup.bool().nullable().default(null),
           planningObligationDeadlineStatus: pinsYup.lazy((planningObligationStatus) => {
