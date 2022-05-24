@@ -6,7 +6,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% set labelText = "Drag and drop or choose files" %}
-{% set title = "New supporting documents - Appeal a planning decision - GOV.UK" %}
+{% set title = "Other supporting documents - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% block backButton %}
@@ -30,7 +30,7 @@
         }) }}
       {% endif %}
       <span class="govuk-caption-l">Upload documents for your appeal</span>
-      <h1 class="govuk-heading-l">New supporting documents</h1>
+      <h1 class="govuk-heading-l">Other supporting documents</h1>
       {% if uploadedFiles.length %}
         <h2 class="govuk-heading-m govuk-!-margin-top-8">Uploaded files</h2>
         <ul class="govuk-list">

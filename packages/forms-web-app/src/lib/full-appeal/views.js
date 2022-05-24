@@ -42,7 +42,6 @@ const VIEW = {
     NEW_PLANS_DRAWINGS: 'full-appeal/submit-appeal/new-plans-drawings',
     NEW_DOCUMENTS: 'full-appeal/submit-appeal/new-documents',
     OTHER_SUPPORTING_DOCUMENTS: 'full-appeal/submit-appeal/other-supporting-documents',
-    NEW_SUPPORTING_DOCUMENTS: 'full-appeal/submit-appeal/new-supporting-documents',
     HOW_DECIDE_APPEAL: 'full-appeal/submit-appeal/how-decide-appeal',
     WHY_HEARING: 'full-appeal/submit-appeal/why-hearing',
     WHY_INQUIRY: 'full-appeal/submit-appeal/why-inquiry',

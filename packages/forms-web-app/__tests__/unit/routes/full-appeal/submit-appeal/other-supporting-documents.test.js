@@ -1,8 +1,8 @@
 const { get, post } = require('../../router-mock');
 const {
-  getNewSupportingDocuments,
-  postNewSupportingDocuments,
-} = require('../../../../../src/controllers/full-appeal/submit-appeal/new-supporting-documents');
+  getOtherSupportingDocuments,
+  postOtherSupportingDocuments,
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/other-supporting-documents');
 const fetchExistingAppealMiddleware = require('../../../../../src/middleware/fetch-existing-appeal');
 const {
   validationErrorHandler,
@@ -16,25 +16,25 @@ jest.mock('../../../../../src/middleware/fetch-existing-appeal');
 jest.mock('../../../../../src/validators/common/file-upload');
 jest.mock('../../../../../src/middleware/set-section-and-task-names');
 
-describe('routes/full-appeal/submit-appeal/new-supporting-documents', () => {
+describe('routes/full-appeal/submit-appeal/other-supporting-documents', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
-    require('../../../../../src/routes/full-appeal/submit-appeal/new-supporting-documents');
+    require('../../../../../src/routes/full-appeal/submit-appeal/other-supporting-documents');
   });
 
   it('should define the expected routes', () => {
     expect(get).toHaveBeenCalledWith(
-      '/submit-appeal/new-supporting-documents',
+      '/submit-appeal/other-supporting-documents',
       [fetchExistingAppealMiddleware],
       setSectionAndTaskNames(),
-      getNewSupportingDocuments
+      getOtherSupportingDocuments
     );
     expect(post).toHaveBeenCalledWith(
-      '/submit-appeal/new-supporting-documents',
+      '/submit-appeal/other-supporting-documents',
       setSectionAndTaskNames(),
       fileUploadValidationRules(),
       validationErrorHandler,
-      postNewSupportingDocuments
+      postOtherSupportingDocuments
     );
     expect(fileUploadValidationRules).toHaveBeenCalledWith('Select a supporting document');
     expect(setSectionAndTaskNames).toHaveBeenCalledWith(
