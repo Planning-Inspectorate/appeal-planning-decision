@@ -1,0 +1,13 @@
+{% from "./summary-field.njk" import summaryField %}
+
+{% macro boolToSentenceProposedDevelopmentChanged(value, text, attributes = {}) %}
+  {% if value is null  %}
+    {{ summaryField(value, attributes) }}
+  {% else %}
+    {% if value === true %}
+      {{ summaryField('Yes, ' + text) }}
+    {% else %}
+      {{ summaryField('No', attributes) }}
+    {% endif %}
+  {% endif %}
+{% endmacro %}

@@ -5,7 +5,7 @@ const {
 } = require('@pins/common');
 const {
   VIEW: {
-    FULL_APPEAL: { DRAFT_PLANNING_OBLIGATION, SUPPORTING_DOCUMENTS },
+    FULL_APPEAL: { DRAFT_PLANNING_OBLIGATION, NEW_DOCUMENTS },
   },
 } = require('../../../lib/full-appeal/views');
 const logger = require('../../../lib/logger');
@@ -88,7 +88,7 @@ const postDraftPlanningObligation = async (req, res) => {
     });
   }
 
-  return res.redirect(`/${SUPPORTING_DOCUMENTS}`);
+  return res.redirect(`/${NEW_DOCUMENTS}`);
 };
 
 module.exports = {
