@@ -417,6 +417,10 @@ const insert = pinsYup
           plansPlanningObligation: pinsYup.bool().nullable().default(null)
         }),
 
+        draftPlanningObligations: pinsYup.object().shape({
+          plansPlanningObligation: pinsYup.bool().nullable().default(null)
+        }),
+
         supportingDocuments: pinsYup
           .object()
           .shape({
