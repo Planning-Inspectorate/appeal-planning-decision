@@ -6,7 +6,7 @@ const { validationErrorHandler } = require('../../../validators/validation-error
 const setSectionAndTaskNames = require('../../../middleware/set-section-and-task-names');
 
 const sectionName = 'appealDocumentsSection';
-const taskName = 'supportingDocuments';
+const taskName = 'planningObligationDeadline';
 
 router.get(
   '/submit-appeal/planning-obligation-deadline',
