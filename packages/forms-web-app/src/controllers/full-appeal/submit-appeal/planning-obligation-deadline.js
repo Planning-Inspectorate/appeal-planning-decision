@@ -2,20 +2,19 @@ const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   VIEW: {
-    FULL_APPEAL: { PLANNING_OBLIGATION_DEADLINE, TASK_LIST },
+    FULL_APPEAL: { PLANNING_OBLIGATION_DEADLINE, NEW_DOCUMENTS },
   },
 } = require('../../../lib/full-appeal/views');
 const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'appealDocumentsSection';
-const taskName = 'planningObligations';
+const taskName = 'planningObligationDeadline';
 
 const getPlanningObligationDeadline = (req, res) => {
-  logger.debug(req.session.appeal);
   const { planningObligationDeadline } = req.session.appeal[sectionName][taskName];
 
   res.render(PLANNING_OBLIGATION_DEADLINE, {
-    planningObligationDeadline,
+    planningObligationDeadline
   });
 };
 
@@ -36,7 +35,7 @@ const postPlanningObligationDeadline = async (req, res) => {
 
   try {
     appeal[sectionName][taskName].planningObligationDeadline = planningObligationDeadline;
-    appeal.sectionStates[sectionName].planningObligationDeadline = COMPLETED;
+    appeal.sectionStates[sectionName].planningObligationDeadlineStatus = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);
@@ -48,7 +47,7 @@ const postPlanningObligationDeadline = async (req, res) => {
     });
   }
 
-  return res.redirect(`/${TASK_LIST}`);
+  return res.redirect(`/${NEW_DOCUMENTS}`);
 };
 
 module.exports = {
