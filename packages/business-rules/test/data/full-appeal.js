@@ -131,6 +131,16 @@ const appeal = {
         size: 1000,
       },
     },
+    letterConfirmingApplication: {
+      uploadedFile: {
+        id: '372c8ba6-dfa6-4bba-bf9c-b024e3d8c282',
+        name: 'letterConfirmingApplication.pdf',
+        fileName: 'letterConfirmingApplication.pdf',
+        originalFileName: 'letterConfirmingApplication.pdf',
+        location: '372c8ba6-dfa6-4bba-bf9c-b024e3d8c282/letterConfirmingApplication.pdf',
+        size: 1000,
+      },
+    },
     originalDecisionNotice: {
       uploadedFile: {
         id: '372c8ba6-dfa6-4bba-bf9c-b024e3d8c282',
@@ -309,6 +319,7 @@ const appeal = {
       proposedDevelopmentChanged: 'NOT STARTED',
       plansDrawingsSupportingDocuments: 'NOT STARTED',
       designAccessStatementSubmitted: 'NOT STARTED',
+      letterConfirmingApplication: "NOT STARTED",
       designAccessStatement: 'NOT STARTED',
       decisionLetter: 'NOT STARTED',
       originalDecisionNotice: 'NOT STARTED',

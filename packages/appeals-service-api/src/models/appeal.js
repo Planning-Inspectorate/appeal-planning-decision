@@ -136,13 +136,7 @@ exports.appealDocument = {
         name: '',
         id: null,
       },
-    },
-    letterConfirmingApplication: {
-      uploadedFile: {
-        name: '',
-        id: null,
-      },
-    },
+    }
   },
   sectionStates: {
     aboutYouSection: {
@@ -184,8 +178,7 @@ exports.appealDocument = {
       originalApplication: 'NOT STARTED',
       originalDecisionNotice: 'NOT STARTED',
       decisionLetter: 'NOT STARTED',
-      designAccessStatement: 'NOT STARTED',
-      letterConfirmingApplication: 'NOT STARTED'
+      designAccessStatement: 'NOT STARTED'
     },
   },
 };
