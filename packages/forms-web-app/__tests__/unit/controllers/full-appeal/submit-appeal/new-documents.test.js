@@ -13,9 +13,15 @@ const {
       NEW_DOCUMENTS,
       TASK_LIST,
       PLANNING_OBLIGATION_PLANNED,
+      PLANNING_OBLIGATION_DOCUMENTS,
+      DRAFT_PLANNING_OBLIGATION,
+      PLANNING_OBLIGATION_DEADLINE,
     },
   },
 } = require('../../../../../src/lib/full-appeal/views');
+const {
+  constants: { PLANNING_OBLIGATION_STATUS_OPTION },
+} = require('@pins/business-rules');
 const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
@@ -43,20 +49,66 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
   });
 
   describe('getNewSupportingDocuments', () => {
-    it('should call the correct template', () => {
+    it('should call the correct template - no planning obligation submitted', () => {
+      req.session.appeal.appealDocumentsSection.planningObligations.plansPlanningObligation = false;
+
       getNewSupportingDocuments(req, res);
 
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
         hasSupportingDocuments: true,
-        hasPlansDrawings: true,
         backLink: `/${PLANNING_OBLIGATION_PLANNED}`,
+      });
+    });
+
+    it('should call the correct template - planning obligation submitted', () => {
+      Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
+        plansPlanningObligation: true,
+        planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.FINALISED,
+      });
+
+      getNewSupportingDocuments(req, res);
+
+      expect(res.render).toHaveBeenCalledTimes(1);
+      expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
+        hasSupportingDocuments: true,
+        backLink: `/${PLANNING_OBLIGATION_DOCUMENTS}`,
+      });
+    });
+
+    it('should call the correct template - draft planning obligation submitted', () => {
+      Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
+        plansPlanningObligation: true,
+        planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.DRAFT,
+      });
+
+      getNewSupportingDocuments(req, res);
+
+      expect(res.render).toHaveBeenCalledTimes(1);
+      expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
+        hasSupportingDocuments: true,
+        backLink: `/${DRAFT_PLANNING_OBLIGATION}`,
+      });
+    });
+
+    it('should call the correct template - not started planning obligation yet', () => {
+      Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
+        plansPlanningObligation: true,
+        planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED,
+      });
+
+      getNewSupportingDocuments(req, res);
+
+      expect(res.render).toHaveBeenCalledTimes(1);
+      expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
+        hasSupportingDocuments: true,
+        backLink: `/${PLANNING_OBLIGATION_DEADLINE}`,
       });
     });
   });
 
   describe('postNewSupportingDocuments', () => {
-    it('should re-render the template with errors if submission validation fails', async () => {
+    it('should re-render the template with errors if submission validation fails & no planning obligation submitted', async () => {
       req = {
         ...req,
         body: {
@@ -65,20 +117,98 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
           errorSummary,
         },
       };
+      req.session.appeal.appealDocumentsSection.planningObligations.plansPlanningObligation = false;
 
       await postNewSupportingDocuments(req, res);
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
-        hasPlansDrawings: true,
+        backLink: `/${PLANNING_OBLIGATION_PLANNED}`,
         errors,
         errorSummary,
       });
     });
 
-    it('should re-render the template with errors if an error is thrown', async () => {
+    it('should re-render the template with errors if submission validation fails & planning obligation submitted', async () => {
+      req = {
+        ...req,
+        body: {
+          'supporting-documents': undefined,
+          errors,
+          errorSummary,
+        },
+      };
+      Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
+        plansPlanningObligation: true,
+        planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.FINALISED,
+      });
+
+      await postNewSupportingDocuments(req, res);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledTimes(1);
+      expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
+        backLink: `/${PLANNING_OBLIGATION_DOCUMENTS}`,
+        errors,
+        errorSummary,
+      });
+    });
+
+    it('should re-render the template with errors if submission validation fails & draft planning obligation submitted', async () => {
+      req = {
+        ...req,
+        body: {
+          'supporting-documents': undefined,
+          errors,
+          errorSummary,
+        },
+      };
+      Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
+        plansPlanningObligation: true,
+        planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.DRAFT,
+      });
+
+      await postNewSupportingDocuments(req, res);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledTimes(1);
+      expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
+        backLink: `/${DRAFT_PLANNING_OBLIGATION}`,
+        errors,
+        errorSummary,
+      });
+    });
+
+    it('should re-render the template with errors if submission validation fails & planning obligation not yet started', async () => {
+      req = {
+        ...req,
+        body: {
+          'supporting-documents': undefined,
+          errors,
+          errorSummary,
+        },
+      };
+      Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
+        plansPlanningObligation: true,
+        planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED,
+      });
+
+      await postNewSupportingDocuments(req, res);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledTimes(1);
+      expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
+        backLink: `/${PLANNING_OBLIGATION_DEADLINE}`,
+        errors,
+        errorSummary,
+      });
+    });
+
+    it('should re-render the template with errors if an error is thrown and no planning obligation submitted', async () => {
       const error = new Error('Internal Server Error');
+
+      req.session.appeal.appealDocumentsSection.planningObligations.plansPlanningObligation = false;
 
       createOrUpdateAppeal.mockImplementation(() => {
         throw error;
@@ -90,7 +220,79 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
       expect(res.render).toHaveBeenCalledTimes(1);
       expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
         hasSupportingDocuments: false,
-        hasPlansDrawings: true,
+        backLink: `/${PLANNING_OBLIGATION_PLANNED}`,
+        errors: {},
+        errorSummary: [{ text: error.toString(), href: '#' }],
+      });
+    });
+
+    it('should re-render the template with errors if an error is thrown and planning obligation submitted', async () => {
+      const error = new Error('Internal Server Error');
+
+      Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
+        plansPlanningObligation: true,
+        planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.FINALISED,
+      });
+
+      createOrUpdateAppeal.mockImplementation(() => {
+        throw error;
+      });
+
+      await postNewSupportingDocuments(req, res);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledTimes(1);
+      expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
+        hasSupportingDocuments: false,
+        backLink: `/${PLANNING_OBLIGATION_DOCUMENTS}`,
+        errors: {},
+        errorSummary: [{ text: error.toString(), href: '#' }],
+      });
+    });
+
+    it('should re-render the template with errors if an error is thrown and draft planning obligation submitted', async () => {
+      const error = new Error('Internal Server Error');
+
+      Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
+        plansPlanningObligation: true,
+        planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.DRAFT,
+      });
+
+      createOrUpdateAppeal.mockImplementation(() => {
+        throw error;
+      });
+
+      await postNewSupportingDocuments(req, res);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledTimes(1);
+      expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
+        hasSupportingDocuments: false,
+        backLink: `/${DRAFT_PLANNING_OBLIGATION}`,
+        errors: {},
+        errorSummary: [{ text: error.toString(), href: '#' }],
+      });
+    });
+
+    it('should re-render the template with errors if an error is thrown and no planning obligation not yet started', async () => {
+      const error = new Error('Internal Server Error');
+
+      Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
+        plansPlanningObligation: true,
+        planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED,
+      });
+
+      createOrUpdateAppeal.mockImplementation(() => {
+        throw error;
+      });
+
+      await postNewSupportingDocuments(req, res);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledTimes(1);
+      expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
+        hasSupportingDocuments: false,
+        backLink: `/${PLANNING_OBLIGATION_DEADLINE}`,
         errors: {},
         errorSummary: [{ text: error.toString(), href: '#' }],
       });
