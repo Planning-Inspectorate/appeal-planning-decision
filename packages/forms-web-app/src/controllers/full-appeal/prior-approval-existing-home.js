@@ -43,7 +43,12 @@ const postPriorApprovalExistingHome = async (req, res) => {
     appeal.appealType = APPEAL_ID.PLANNING_SECTION_78;
     if (hasPriorApprovalForExistingHome) {
       appeal.appealType = APPEAL_ID.HOUSEHOLDER;
+      appeal.appealSiteSection.siteOwnership = {
+        ownsWholeSite: null,
+        haveOtherOwnersBeenTold: null,
+      };
     }
+    logger.warn(appeal.appealSiteSection.siteOwnership, 'CONTROLLER');
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);
