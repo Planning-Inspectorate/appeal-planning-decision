@@ -48,7 +48,7 @@ const postPriorApprovalExistingHome = async (req, res) => {
         haveOtherOwnersBeenTold: null,
       };
     }
-    logger.warn(appeal.appealSiteSection.siteOwnership, 'CONTROLLER');
+
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);
