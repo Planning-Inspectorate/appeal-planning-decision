@@ -19,5 +19,5 @@ router.post(
   validationErrorHandler,
   planningObligationStatusController.postPlanningObligationDeadline
 );
-<<<<<<< HEAD
+
 module.exports = router;
