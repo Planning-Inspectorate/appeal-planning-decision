@@ -18,14 +18,14 @@ router.get(
 router.post(
   '/submit-appeal/proposed-development-changed',
   optionsValidationRules({
-    fieldName: 'proposed-development-changed',
+    fieldName: 'description-development-correct',
     emptyError:
-      'Select yes if your proposed development changed after you submitted your application',
+      "Select yes if your proposed development haven't changed after you submitted your application",
   }),
   textfieldValidationRules({
-    fieldName: 'proposed-development-changed-details',
-    targetFieldName: 'proposed-development-changed',
-    targetFieldValue: 'yes',
+    fieldName: 'description-development-correct-details',
+    targetFieldName: 'description-development-correct',
+    targetFieldValue: 'no',
     emptyError: 'Enter the agreed description of development',
     tooLongError: 'Agreed description of development must be $maxLength characters or less',
   }),

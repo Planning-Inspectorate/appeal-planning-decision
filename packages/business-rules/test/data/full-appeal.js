@@ -97,9 +97,9 @@ const appeal = {
         size: 900,
       },
     },
-    proposedDevelopmentChanged: {
+    descriptionDevelopmentCorrect: {
       details: '',
-      isProposedDevelopmentChanged: false,
+      isCorrect: false,
     },
     plansDrawingsSupportingDocuments: {
       uploadedFiles: [
@@ -306,7 +306,7 @@ const appeal = {
       originalApplication: 'NOT STARTED',
       applicationNumber: 'NOT STARTED',
       ownershipCertificate: 'NOT STARTED',
-      proposedDevelopmentChanged: 'NOT STARTED',
+      descriptionDevelopmentCorrect: 'NOT STARTED',
       plansDrawingsSupportingDocuments: 'NOT STARTED',
       designAccessStatementSubmitted: 'NOT STARTED',
       designAccessStatement: 'NOT STARTED',

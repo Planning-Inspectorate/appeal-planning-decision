@@ -16,7 +16,7 @@ jest.mock('../../../../../src/lib/logger');
 const sectionName = 'planningApplicationDocumentsSection';
 const taskName = 'proposedDevelopmentChanged';
 const proposedDevelopmentChanged = {
-  isProposedDevelopmentChanged: true,
+  isDescriptionOfDevelopmentCorrect: true,
   details: 'some details',
 };
 
@@ -89,7 +89,7 @@ describe('controllers/full-appeal/submit-appeal/proposed-development-changed', (
       const mockRequest = {
         ...req,
         body: {
-          'proposed-development-changed': proposedDevelopmentChanged,
+          'description-development-correct': proposedDevelopmentChanged,
         },
       };
 

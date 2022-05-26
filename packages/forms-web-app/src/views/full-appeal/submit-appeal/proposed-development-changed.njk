@@ -6,19 +6,19 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% set backLink = '/full-appeal/submit-appeal/application-number' %}
-{% set title = "Did your proposed development change after you submitted your application? - Appeal a planning decision - GOV.UK" %}
+{% set title = "Is the description of development on  your application form still correct? - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% set visibleProposedDevelopmentChangedHtml %}
   {{ govukTextarea({
-    name: "proposed-development-changed-details",
-    id: "proposed-development-changed-details",
+    name: "description-development-correct-details",
+    id: "description-development-correct-details",
     label: {
       text: "Enter the agreed description of development"
     },
     value: proposedDevelopmentChanged.details,
-    errorMessage: errors['proposed-development-changed-details'] and {
-      text: errors['proposed-development-changed-details'].msg
+    errorMessage: errors['description-development-correct-details'] and {
+      text: errors['description-development-correct-details'].msg
     }
   }) }}
 {% endset %}
@@ -47,16 +47,16 @@
         <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Update documents from planning application</span>
         {{ govukRadios({
           classes: "govuk-radios",
-          idPrefix: "proposed-development-changed",
-          name: "proposed-development-changed",
-          errorMessage: errors['proposed-development-changed'] and {
-            text: errors['proposed-development-changed'].msg
+          idPrefix: "description-development-correct",
+          name: "description-development-correct",
+          errorMessage: errors['description-development-correct'] and {
+            text: errors['description-development-correct'].msg
           },
           fieldset: {
             legend: {
               html: '<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                        <h1 class="govuk-fieldset__heading">
-                          Did the proposed development change after you submitted your application?
+                          Is the description of development on  your application form still correct?
                        </h1>
                      </legend>
                      <div id="plan-to-submit-planning-obligation-hint" class="govuk-hint">
@@ -74,16 +74,16 @@
               value: "yes",
               text: "Yes",
               attributes: { "data-cy": "answer-yes" },
-              checked:  isProposedDevelopmentChanged == true,
-              conditional: {
-                html: visibleProposedDevelopmentChangedHtml
-              }
+              checked:  descriptionDevelopmentCorrect.isCorrect == true
             },
             {
               value: "no",
               text: "No",
               attributes: { "data-cy": "answer-no" },
-              checked: isProposedDevelopmentChanged == false
+              checked: descriptionDevelopmentCorrect.isCorrect == false,
+              conditional: {
+                html: visibleProposedDevelopmentChangedHtml
+              }
 
             }
           ]

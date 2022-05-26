@@ -216,17 +216,17 @@ const update = pinsYup
               .noUnknown(true),
           })
           .noUnknown(true),
-        proposedDevelopmentChanged: pinsYup
+        descriptionDevelopmentCorrect: pinsYup
           .object()
           .shape({
-            isProposedDevelopmentChanged: pinsYup.bool().nullable(),
+            isCorrect: pinsYup.bool().nullable(),
             details: pinsYup.lazy((details) => {
               return pinsYup.mixed().conditionalText({
                 fieldValue: details,
                 fieldName: 'details',
-                targetFieldName: 'proposed-development-changed',
+                targetFieldName: 'description-development-correct',
                 emptyError:
-                  'Select yes if your proposed development changed after you submitted your application',
+                  "Select yes if your proposed development haven't changed after you submitted your application",
                 tooLongError:
                   'Agreed description of development must be $maxLength characters or less',
               });
@@ -478,7 +478,7 @@ const update = pinsYup
           .shape({
             applicationNumber: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             ownershipCertificate: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
-            proposedDevelopmentChanged: pinsYup
+            descriptionDevelopmentCorrect: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
               .required(),

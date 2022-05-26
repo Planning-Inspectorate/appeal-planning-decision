@@ -8,12 +8,12 @@ const {
 const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'planningApplicationDocumentsSection';
-const taskName = 'proposedDevelopmentChanged';
+const taskName = 'descriptionDevelopmentCorrect';
 
 const getProposedDevelopmentChanged = (req, res) => {
-  const { proposedDevelopmentChanged } = req.session.appeal[sectionName];
+  const { descriptionDevelopmentCorrect } = req.session.appeal[sectionName];
   res.render(PROPOSED_DEVELOPMENT_CHANGED, {
-    proposedDevelopmentChanged,
+    descriptionDevelopmentCorrect,
   });
 };
 
@@ -22,17 +22,18 @@ const postProposedDevelopmentChanged = async (req, res) => {
   const { errors = {}, errorSummary = [] } = body;
   const { appeal } = req.session;
 
-  const proposedDevelopmentChanged = {
-    isProposedDevelopmentChanged: body['proposed-development-changed'] === 'yes',
+  const descriptionDevelopmentCorrect = {
+    isCorrect:
+      body['description-development-correct'] && body['description-development-correct'] === 'yes',
     details:
-      body['proposed-development-changed'] === 'yes'
-        ? body['proposed-development-changed-details']
+      body['description-development-correct'] === 'no'
+        ? body['description-development-correct-details']
         : '',
   };
 
   if (Object.keys(errors).length > 0) {
     return res.render(PROPOSED_DEVELOPMENT_CHANGED, {
-      proposedDevelopmentChanged,
+      descriptionDevelopmentCorrect,
       errors,
       errorSummary,
     });
@@ -40,13 +41,13 @@ const postProposedDevelopmentChanged = async (req, res) => {
 
   try {
     appeal.sectionStates[sectionName][taskName] = COMPLETED;
-    appeal[sectionName][taskName] = proposedDevelopmentChanged;
+    appeal[sectionName][taskName] = descriptionDevelopmentCorrect;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);
 
     return res.render(PROPOSED_DEVELOPMENT_CHANGED, {
-      proposedDevelopmentChanged,
+      descriptionDevelopmentCorrect,
       errors,
       errorSummary: [{ text: err.toString(), href: '#' }],
     });

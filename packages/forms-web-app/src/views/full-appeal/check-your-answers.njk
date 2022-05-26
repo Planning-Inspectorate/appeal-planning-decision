@@ -723,29 +723,29 @@
       ) },
       actions: applicationNumberRowActions if isPdf !== true
     } %}
-    {% set isProposedDevelopmentChangedRowActions = {
+    {% set isDescriptionOfDevelopmentCorrectRowActions = {
       items: [
         {
           href: "/full-appeal/submit-appeal/proposed-development-changed",
           text: "Change",
           visuallyHiddenText: "Proposed development changed after submitting the application",
           attributes: {
-            "data-cy": "proposed-development-changed"
+            "data-cy": "description-development-correct"
           }
         }
       ]
     } %}
-    {% set isProposedDevelopmentChangedRow = {
+    {% set isDescriptionOfDevelopmentCorrectRow = {
       key: { text: summaryField(
-        "Did the proposed development change after you submitted your application?",
-        { "data-cy": "proposed-development-changed-label" }
+        "Is the description of development on your application form still correct?",
+        { "data-cy": "description-development-correct-label" }
       ) },
       value: { text: boolToSentenceProposedDevelopmentChanged(
-        appeal.planningApplicationDocumentsSection.proposedDevelopmentChanged.isProposedDevelopmentChanged,
-        appeal.planningApplicationDocumentsSection.proposedDevelopmentChanged.details,
-        { "data-cy": "proposed-development-changed" }
+        appeal.planningApplicationDocumentsSection.descriptionDevelopmentCorrect.isCorrect,
+        appeal.planningApplicationDocumentsSection.descriptionDevelopmentCorrect.details,
+        { "data-cy": "description-development-correct" }
       ) },
-      actions: isProposedDevelopmentChangedRowActions if isPdf !== true
+      actions: isDescriptionOfDevelopmentCorrectRowActions if isPdf !== true
     } %}
     {% set plansDrawingsSupportingDocumentsRowActions = {
       items: [
@@ -886,10 +886,10 @@
     {% endif %}
     {% set planningApplicationRows = (planningApplicationRows.push(
         applicationNumberRow,
-        isProposedDevelopmentChangedRow,
-        plansDrawingsSupportingDocumentsRow, 
+        isDescriptionOfDevelopmentCorrectRow,
+        plansDrawingsSupportingDocumentsRow,
         hasDesignAccessStatementRow
-      ), planningApplicationRows) 
+      ), planningApplicationRows)
     %}
     {% if appeal.planningApplicationDocumentsSection.designAccessStatement.isSubmitted %}
       {% set planningApplicationRows = (planningApplicationRows.push(designAccessStatementRow), planningApplicationRows) %}

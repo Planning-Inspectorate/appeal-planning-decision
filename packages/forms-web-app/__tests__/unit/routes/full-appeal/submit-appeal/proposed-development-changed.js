@@ -36,12 +36,12 @@ describe.only('routes/full-appeal/submit-appeal/proposed-development-changed', (
       postVisibleFromRoad
     );
     expect(optionsValidationRules).toHaveBeenCalledWith({
-      fieldName: 'proposed-development-changed',
+      fieldName: 'description-development-correct',
       emptyError: 'Select yes if the site is visible from a public road',
     });
     expect(textfieldValidationRules).toHaveBeenCalledWith({
-      fieldName: 'proposed-development-changed-details',
-      targetFieldName: 'proposed-development-changed',
+      fieldName: 'description-development-correct-details',
+      targetFieldName: 'description-development-correct',
       emptyError: 'Tell us how visibility is restricted',
       tooLongError: 'How visibility is restricted must be $maxLength characters or less',
     });
