@@ -17,8 +17,8 @@ const getBackLink = (req) => {
     },
   } = req;
   return hasPlansDrawings
-    ? `/${VIEW.FULL_APPEAL.NEW_PLANS_DRAWINGS}`
-    : `/${VIEW.FULL_APPEAL.PLANS_DRAWINGS}`;
+    ? `/${VIEW.FULL_APPEAL.PLANS_DRAWINGS}`
+    : `/${VIEW.FULL_APPEAL.NEW_PLANS_DRAWINGS}`;
 };
 
 const getPlanningObligationPlanned = async (req, res) => {
