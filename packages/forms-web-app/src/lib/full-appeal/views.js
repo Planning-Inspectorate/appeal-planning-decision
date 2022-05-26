@@ -11,6 +11,7 @@ const VIEW = {
     APPLICATION_NUMBER: 'full-appeal/submit-appeal/application-number',
     PROPOSED_DEVELOPMENT_CHANGED: 'full-appeal/submit-appeal/proposed-development-changed',
     DESIGN_ACCESS_STATEMENT: 'full-appeal/submit-appeal/design-access-statement',
+    LETTER_CONFIRMING_APPLICATION: 'full-appeal/submit-appeal/letter-confirming-application',
     DESIGN_ACCESS_STATEMENT_SUBMITTED:
       'full-appeal/submit-appeal/design-access-statement-submitted',
     DECISION_LETTER: 'full-appeal/submit-appeal/decision-letter',

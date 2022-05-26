@@ -1,22 +1,19 @@
-const {
-  constants: {
-    APPLICATION_DECISION: { NODECISIONRECEIVED },
-  },
-} = require('@pins/business-rules');
+const { documentTypes } = require('@pins/common');
 const {
   VIEW: {
-    FULL_APPEAL: { DESIGN_ACCESS_STATEMENT, LETTER_CONFIRMING_APPLICATION, TASK_LIST },
+    FULL_APPEAL: { LETTER_CONFIRMING_APPLICATION, TASK_LIST },
   },
 } = require('../../../lib/full-appeal/views');
+
 const logger = require('../../../lib/logger');
 const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'planningApplicationDocumentsSection';
-const taskName = 'designAccessStatement';
+const taskName = documentTypes.letterConfirmingApplication.name;
 
-const getDesignAccessStatement = (req, res) => {
+const getLetterConfirmingApplication = (req, res) => {
   const {
     session: {
       appeal: {
@@ -27,14 +24,13 @@ const getDesignAccessStatement = (req, res) => {
       },
     },
   } = req;
-
-  res.render(DESIGN_ACCESS_STATEMENT, {
+  res.render(LETTER_CONFIRMING_APPLICATION, {
     appealId,
     uploadedFile,
   });
 };
 
-const postDesignAccessStatement = async (req, res) => {
+const postLetterConfirmingApplication = async (req, res) => {
   const {
     body: { errors = {}, errorSummary = [] },
     files,
@@ -42,7 +38,6 @@ const postDesignAccessStatement = async (req, res) => {
       appeal,
       appeal: {
         id: appealId,
-        eligibility: { applicationDecision },
         [sectionName]: {
           [taskName]: { uploadedFile },
         },
@@ -51,7 +46,7 @@ const postDesignAccessStatement = async (req, res) => {
   } = req;
 
   if (Object.keys(errors).length > 0) {
-    return res.render(DESIGN_ACCESS_STATEMENT, {
+    return res.render(LETTER_CONFIRMING_APPLICATION, {
       appealId,
       uploadedFile,
       errorSummary,
@@ -77,19 +72,17 @@ const postDesignAccessStatement = async (req, res) => {
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);
-    return res.render(DESIGN_ACCESS_STATEMENT, {
+    return res.render(LETTER_CONFIRMING_APPLICATION, {
       appealId,
       uploadedFile,
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
 
-  return applicationDecision === NODECISIONRECEIVED
-    ? res.redirect(`/${TASK_LIST}`)
-    : res.redirect(`/${LETTER_CONFIRMING_APPLICATION}`);
+  return res.redirect(`/${TASK_LIST}`);
 };
 
 module.exports = {
-  getDesignAccessStatement,
-  postDesignAccessStatement,
+   getLetterConfirmingApplication,
+   postLetterConfirmingApplication,
 };
