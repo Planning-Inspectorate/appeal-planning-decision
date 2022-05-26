@@ -1,7 +1,7 @@
 const appeal = require('@pins/business-rules/test/data/full-appeal');
 const v8 = require('v8');
 const {
-  getPlanningObligationStatus,
+  getPlanningObligationDeadline,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/planning-obligation-deadline');
 
 const { VIEW } = require('../../../../../src/lib/full-appeal/views');
