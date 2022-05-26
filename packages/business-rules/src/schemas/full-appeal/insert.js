@@ -417,6 +417,15 @@ const insert = pinsYup
             return pinsYup.string().nullable();
           }),
         }),
+        planningObligationDeadline: pinsYup.object().shape({
+          planningObligationDeadline: pinsYup.bool().nullable().default(null),
+          planningObligationDeadlineStatus: pinsYup.lazy((planningObligationStatus) => {
+            if (planningObligationStatus) {
+              return pinsYup.string().oneOf(Object.values(PLANNING_OBLIGATION_STATUS_OPTION));
+            }
+            return pinsYup.string().nullable();
+          }),
+        }),
 
         supportingDocuments: pinsYup
           .object()
@@ -629,6 +638,10 @@ const insert = pinsYup
               .oneOf(Object.values(SECTION_STATE))
               .default('NOT STARTED'),
             draftPlanningObligations: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .default('NOT STARTED'),
+            planningObligationDeadline: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
               .default('NOT STARTED'),
