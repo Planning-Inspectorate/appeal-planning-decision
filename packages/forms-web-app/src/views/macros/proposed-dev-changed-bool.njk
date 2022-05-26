@@ -5,9 +5,9 @@
     {{ summaryField(value, attributes) }}
   {% else %}
     {% if value === true %}
-      {{ summaryField('Yes, ' + text) }}
+      {{ summaryField('Yes', attributes) }}
     {% else %}
-      {{ summaryField('No', attributes) }}
+      {{ summaryField('No, ' + text ) }}
     {% endif %}
   {% endif %}
 {% endmacro %}

@@ -111,7 +111,7 @@ exports.appealDocument = {
   },
   planningApplicationDocumentsSection: {
     applicationNumber: null,
-    proposedDevelopmentChanged: null,
+    descriptionDevelopmentCorrect: null,
     isDesignAccessStatementSubmitted: null,
     originalApplication: {
       uploadedFile: {
