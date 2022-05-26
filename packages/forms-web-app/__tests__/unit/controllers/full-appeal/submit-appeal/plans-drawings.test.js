@@ -96,7 +96,7 @@ describe('controllers/full-appeal/submit-appeal/plans-drawings', () => {
     });
 
     it('should redirect to the correct page if valid and a single file is being uploaded', async () => {
-      appealData.sectionStates.appealDocumentsSection.newPlansDrawings = TASK_STATUS.COMPLETED;
+      appealData.sectionStates.appealDocumentsSection.plansDrawings = TASK_STATUS.COMPLETED;
       appealData[sectionName][taskName].uploadedFiles.pop();
       req.session.appeal[sectionName][taskName].uploadedFiles = [];
 
@@ -130,7 +130,7 @@ describe('controllers/full-appeal/submit-appeal/plans-drawings', () => {
     });
 
     it('should redirect to the correct page if valid and multiple files are being uploaded', async () => {
-      appealData.sectionStates.appealDocumentsSection.newPlansDrawings = TASK_STATUS.COMPLETED;
+      appealData.sectionStates.appealDocumentsSection.plansDrawings = TASK_STATUS.COMPLETED;
       req.session.appeal[sectionName][taskName].uploadedFiles = [];
 
       const submittedAppeal = {
@@ -171,7 +171,7 @@ describe('controllers/full-appeal/submit-appeal/plans-drawings', () => {
     });
 
     it('should redirect to the correct page if valid and a file is not being uploaded', async () => {
-      appealData.sectionStates.appealDocumentsSection.newPlansDrawings = TASK_STATUS.COMPLETED;
+      appealData.sectionStates.appealDocumentsSection.plansDrawings = TASK_STATUS.COMPLETED;
       const submittedAppeal = {
         ...appealData,
         state: 'SUBMITTED',
@@ -188,7 +188,7 @@ describe('controllers/full-appeal/submit-appeal/plans-drawings', () => {
     });
 
     it('should replace the previously uploaded files with the newly uploaded file', async () => {
-      appealData.sectionStates.appealDocumentsSection.newPlansDrawings = TASK_STATUS.COMPLETED;
+      appealData.sectionStates.appealDocumentsSection.plansDrawings = TASK_STATUS.COMPLETED;
       req.session.appeal[sectionName][taskName].uploadedFiles = [
         appealData[sectionName][taskName].uploadedFiles[0],
         appealData[sectionName][taskName].uploadedFiles[1],

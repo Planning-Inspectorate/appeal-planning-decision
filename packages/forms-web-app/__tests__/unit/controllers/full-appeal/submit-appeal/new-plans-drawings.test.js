@@ -92,7 +92,7 @@ describe('controllers/full-appeal/submit-appeal/new-plans-drawings', () => {
         ...appeal,
         state: 'SUBMITTED',
       };
-      submittedAppeal.sectionStates.appealDocumentsSection.plansDrawings = TASK_STATUS.COMPLETED;
+      submittedAppeal.sectionStates.appealDocumentsSection.newPlansDrawings = TASK_STATUS.COMPLETED;
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 
@@ -116,7 +116,7 @@ describe('controllers/full-appeal/submit-appeal/new-plans-drawings', () => {
         state: 'SUBMITTED',
       };
       submittedAppeal[sectionName][taskName].hasPlansDrawings = false;
-      submittedAppeal.sectionStates.appealDocumentsSection.plansDrawings = TASK_STATUS.COMPLETED;
+      submittedAppeal.sectionStates.appealDocumentsSection.newPlansDrawings = TASK_STATUS.COMPLETED;
 
       createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 

@@ -6,11 +6,11 @@ const statusAppealDocumentsSection = (appeal) => {
 
   const sectionPath = new SectionPath(section)
     .add('appealStatement')
-    .add('plansDrawings')
+    .add('newPlansDrawings')
     .add('supportingDocuments');
 
   if (plansDrawings?.hasPlansDrawings) {
-    sectionPath.add('newPlansDrawings');
+    sectionPath.add('plansDrawings');
   }
 
   if (supportingDocuments?.hasSupportingDocuments) {
