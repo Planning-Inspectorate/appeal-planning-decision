@@ -33,7 +33,7 @@ describe('services/task-status/full-appeal/status-appeal-documents-section.js', 
         sectionStates: {
           appealDocumentsSection: {
             appealStatement: COMPLETED,
-            plansDrawings: COMPLETED,
+            newPlansDrawings: COMPLETED,
             supportingDocuments: COMPLETED,
           },
         },

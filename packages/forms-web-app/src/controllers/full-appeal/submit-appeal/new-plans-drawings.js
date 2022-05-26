@@ -35,7 +35,7 @@ const postNewPlansDrawings = async (req, res) => {
 
   try {
     appeal[sectionName][taskName].hasPlansDrawings = hasPlansDrawings;
-    appeal.sectionStates[sectionName][taskName] = COMPLETED;
+    appeal.sectionStates[sectionName].newPlansDrawings = COMPLETED;
 
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {

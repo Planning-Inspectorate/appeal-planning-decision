@@ -72,7 +72,7 @@ const postPlansDrawings = async (req, res) => {
       );
     }
 
-    appeal.sectionStates[sectionName].newPlansDrawings = COMPLETED;
+    appeal.sectionStates[sectionName][taskName] = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);
