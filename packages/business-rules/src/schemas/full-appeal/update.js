@@ -303,6 +303,22 @@ const update = pinsYup
               .noUnknown(true),
           })
           .noUnknown(true),
+        letterConfirmingApplication: pinsYup
+          .object()
+          .shape({
+            uploadedFile: pinsYup
+              .object()
+              .shape({
+                id: pinsYup.string().trim().uuid().required(),
+                name: pinsYup.string().trim().max(255).required(),
+                fileName: pinsYup.string().trim().max(255).required(),
+                originalFileName: pinsYup.string().trim().max(255).required(),
+                location: pinsYup.string().trim().required(),
+                size: pinsYup.number().required(),
+              })
+              .noUnknown(true),
+          })
+          .noUnknown(true),
         originalDecisionNotice: pinsYup
           .object()
           .shape({
@@ -489,6 +505,7 @@ const update = pinsYup
             originalApplication: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             decisionLetter: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             designAccessStatement: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            letterConfirmingApplication: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             designAccessStatementSubmitted: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
