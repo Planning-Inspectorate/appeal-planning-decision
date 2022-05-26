@@ -1,89 +1,56 @@
-const {
-  documentTypes: {
-    decisionPlans: { name: documentType },
-  },
-} = require('@pins/common');
+const logger = require('../../../lib/logger');
+const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   VIEW: {
-    FULL_APPEAL: { NEW_PLANS_DRAWINGS, PLANNING_OBLIGATION_PLANNED },
+    FULL_APPEAL: { PLANS_DRAWINGS, NEW_PLANS_DRAWINGS, PLANNING_OBLIGATION_PLANNED },
   },
 } = require('../../../lib/full-appeal/views');
-const logger = require('../../../lib/logger');
-const { createDocument } = require('../../../lib/documents-api-wrapper');
-const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'appealDocumentsSection';
 const taskName = 'plansDrawings';
 
 const getNewPlansDrawings = (req, res) => {
-  const {
-    session: {
-      appeal: {
-        id: appealId,
-        [sectionName]: {
-          [taskName]: { uploadedFiles },
-        },
-      },
-    },
-  } = req;
+  const { hasPlansDrawings } = req.session.appeal[sectionName][taskName];
   res.render(NEW_PLANS_DRAWINGS, {
-    appealId,
-    uploadedFiles,
+    hasPlansDrawings,
   });
 };
 
 const postNewPlansDrawings = async (req, res) => {
   const {
+    body,
     body: { errors = {}, errorSummary = [] },
-    files,
-    session: {
-      appeal,
-      appeal: { id: appealId },
-    },
+    session: { appeal },
   } = req;
 
   if (Object.keys(errors).length > 0) {
     return res.render(NEW_PLANS_DRAWINGS, {
-      appealId,
-      uploadedFiles: appeal[sectionName][taskName].uploadedFiles,
-      errorSummary,
       errors,
+      errorSummary,
     });
   }
 
-  try {
-    if (files) {
-      appeal[sectionName][taskName].uploadedFiles = [];
-      const fileUpload = files['file-upload'];
-      const uploadedFiles = Array.isArray(fileUpload) ? fileUpload : [fileUpload];
-      await Promise.all(
-        uploadedFiles.map(async (file) => {
-          const { id, location, size } = await createDocument(appeal, file, null, documentType);
-          appeal[sectionName][taskName].uploadedFiles.push({
-            id,
-            name: file.name,
-            fileName: file.name,
-            originalFileName: file.name,
-            location,
-            size,
-          });
-        })
-      );
-    }
+  const hasPlansDrawings = body['plans-drawings'] === 'yes';
 
-    appeal.sectionStates[sectionName].newPlansDrawings = COMPLETED;
+  try {
+    appeal[sectionName][taskName].hasPlansDrawings = hasPlansDrawings;
+    appeal.sectionStates[sectionName][taskName] = COMPLETED;
+
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);
+
     return res.render(NEW_PLANS_DRAWINGS, {
-      appealId,
-      uploadedFiles: appeal[sectionName][taskName].uploadedFiles,
+      hasPlansDrawings,
+      errors,
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
 
-  return res.redirect(`/${PLANNING_OBLIGATION_PLANNED}`);
+  return hasPlansDrawings
+    ? res.redirect(`/${PLANS_DRAWINGS}`)
+    : res.redirect(`/${PLANNING_OBLIGATION_PLANNED}`);
 };
 
 module.exports = {

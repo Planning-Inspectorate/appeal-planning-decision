@@ -5,17 +5,23 @@ const {
 } = require('../../../controllers/full-appeal/submit-appeal/plans-drawings');
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
-const { rules: optionsValidationRules } = require('../../../validators/common/options');
+const { rules: fileUploadValidationRules } = require('../../../validators/common/file-upload');
+const setSectionAndTaskNames = require('../../../middleware/set-section-and-task-names');
 
 const router = express.Router();
+const sectionName = 'appealDocumentsSection';
+const taskName = 'plansDrawings';
 
-router.get('/submit-appeal/plans-drawings', [fetchExistingAppealMiddleware], getPlansDrawings);
+router.get(
+  '/submit-appeal/plans-drawings',
+  [fetchExistingAppealMiddleware],
+  setSectionAndTaskNames(sectionName, taskName),
+  getPlansDrawings
+);
 router.post(
   '/submit-appeal/plans-drawings',
-  optionsValidationRules({
-    fieldName: 'plans-drawings',
-    emptyError: 'Select yes if you want to submit any new plans and drawings with your appeal',
-  }),
+  setSectionAndTaskNames(sectionName, taskName),
+  fileUploadValidationRules('Select a plan or drawing'),
   validationErrorHandler,
   postPlansDrawings
 );

@@ -11,7 +11,7 @@ const TASK_STATUS = require('../../../../../src/services/task-status/task-status
 const { mockReq, mockRes } = require('../../../mocks');
 const {
   VIEW: {
-    FULL_APPEAL: { APPEAL_STATEMENT, PLANS_DRAWINGS },
+    FULL_APPEAL: { APPEAL_STATEMENT, NEW_PLANS_DRAWINGS },
   },
 } = require('../../../../../src/lib/full-appeal/views');
 
@@ -134,7 +134,7 @@ describe('controllers/full-appeal/submit-appeal/appeal-statement', () => {
         taskName
       );
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${PLANS_DRAWINGS}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${NEW_PLANS_DRAWINGS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
@@ -152,7 +152,7 @@ describe('controllers/full-appeal/submit-appeal/appeal-statement', () => {
 
       expect(createDocument).not.toHaveBeenCalled();
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${PLANS_DRAWINGS}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${NEW_PLANS_DRAWINGS}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
   });

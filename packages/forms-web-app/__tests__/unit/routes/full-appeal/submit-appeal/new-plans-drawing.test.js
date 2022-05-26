@@ -7,14 +7,10 @@ const fetchExistingAppealMiddleware = require('../../../../../src/middleware/fet
 const {
   validationErrorHandler,
 } = require('../../../../../src/validators/validation-error-handler');
-const {
-  rules: fileUploadValidationRules,
-} = require('../../../../../src/validators/common/file-upload');
-const setSectionAndTaskNames = require('../../../../../src/middleware/set-section-and-task-names');
+const { rules: optionsValidationRules } = require('../../../../../src/validators/common/options');
 
 jest.mock('../../../../../src/middleware/fetch-existing-appeal');
-jest.mock('../../../../../src/validators/common/file-upload');
-jest.mock('../../../../../src/middleware/set-section-and-task-names');
+jest.mock('../../../../../src/validators/common/options');
 
 describe('routes/full-appeal/submit-appeal/new-plans-drawings', () => {
   beforeEach(() => {
@@ -26,17 +22,17 @@ describe('routes/full-appeal/submit-appeal/new-plans-drawings', () => {
     expect(get).toHaveBeenCalledWith(
       '/submit-appeal/new-plans-drawings',
       [fetchExistingAppealMiddleware],
-      setSectionAndTaskNames(),
       getNewPlansDrawings
     );
     expect(post).toHaveBeenCalledWith(
       '/submit-appeal/new-plans-drawings',
-      setSectionAndTaskNames(),
-      fileUploadValidationRules(),
+      optionsValidationRules(),
       validationErrorHandler,
       postNewPlansDrawings
     );
-    expect(fileUploadValidationRules).toHaveBeenCalledWith('Select a plan or drawing');
-    expect(setSectionAndTaskNames).toHaveBeenCalledWith('appealDocumentsSection', 'plansDrawings');
+    expect(optionsValidationRules).toHaveBeenCalledWith({
+      fieldName: 'plans-drawings',
+      emptyError: 'Select yes if you want to submit any new plans and drawings with your appeal',
+    });
   });
 });

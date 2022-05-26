@@ -1,6 +1,6 @@
 const {
   VIEW: {
-    FULL_APPEAL: { APPEAL_STATEMENT, PLANS_DRAWINGS },
+    FULL_APPEAL: { APPEAL_STATEMENT, NEW_PLANS_DRAWINGS },
   },
 } = require('../../../lib/full-appeal/views');
 const logger = require('../../../lib/logger');
@@ -78,7 +78,7 @@ const postAppealStatement = async (req, res) => {
     });
   }
 
-  return res.redirect(`/${PLANS_DRAWINGS}`);
+  return res.redirect(`/${NEW_PLANS_DRAWINGS}`);
 };
 
 module.exports = {
