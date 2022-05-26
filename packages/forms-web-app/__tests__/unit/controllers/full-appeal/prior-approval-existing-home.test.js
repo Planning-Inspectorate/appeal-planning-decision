@@ -1,4 +1,4 @@
-const appeal = require('@pins/business-rules/test/data/full-appeal');
+const appeal = require('../../../mockData/full-appeal');
 const v8 = require('v8');
 const {
   getPriorApprovalExistingHome,
@@ -22,6 +22,7 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
   const sectionName = 'eligibility';
   const errors = { 'prior-approval-existing-home': 'Select an option' };
   const errorSummary = [{ text: 'There was an error', href: '#' }];
+  let fullAppealCopy;
 
   beforeEach(() => {
     req = v8.deserialize(
@@ -32,6 +33,7 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
     );
     res = mockRes();
     jest.resetAllMocks();
+    fullAppealCopy = JSON.parse(JSON.stringify(appeal));
   });
 
   describe('getPriorApprovalExistingHome', () => {
@@ -92,11 +94,11 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
     });
 
     it('should redirect to the correct page if `yes` has been selected', async () => {
-      appeal[sectionName].hasPriorApprovalForExistingHome = true;
-      appeal.appealType = '1001';
+      fullAppealCopy[sectionName].hasPriorApprovalForExistingHome = true;
+      fullAppealCopy.appealType = '1001';
 
       const submittedAppeal = {
-        ...appeal,
+        ...fullAppealCopy,
         state: 'SUBMITTED',
       };
 
@@ -111,17 +113,23 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 
       await postPriorApprovalExistingHome(req, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      // const appealCopy = JSON.parse(JSON.stringify(fullAppealCopy));
+      fullAppealCopy.appealSiteSection.siteOwnership = {
+        haveOtherOwnersBeenTold: null,
+        ownsWholeSite: null,
+      };
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(fullAppealCopy);
       expect(res.redirect).toHaveBeenCalledWith('/before-you-start/listed-building-householder');
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
     it('should redirect to the correct page if `no` has been selected', async () => {
-      appeal[sectionName].hasPriorApprovalForExistingHome = false;
-      appeal.appealType = '1005';
+      fullAppealCopy[sectionName].hasPriorApprovalForExistingHome = false;
+      fullAppealCopy.appealType = '1005';
 
       const submittedAppeal = {
-        ...appeal,
+        ...fullAppealCopy,
         state: 'SUBMITTED',
       };
 
@@ -136,7 +144,7 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 
       await postPriorApprovalExistingHome(req, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(fullAppealCopy);
       expect(res.redirect).toHaveBeenCalledWith('/before-you-start/any-of-following');
       expect(req.session.appeal).toEqual(submittedAppeal);
     });

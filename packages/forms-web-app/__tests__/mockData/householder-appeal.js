@@ -27,7 +27,7 @@ const appeal = {
     },
   },
   requiredDocumentsSection: {
-    applicationNumber: 'ABC12345',
+    applicationNumber: 'ABCD12345',
     originalApplication: {
       uploadedFile: {
         name: 'test-pdf.pdf',
@@ -91,8 +91,8 @@ const appeal = {
       postcode: 'SW1 1AA',
     },
     siteOwnership: {
-      ownsWholeSite: false,
-      haveOtherOwnersBeenTold: true,
+      haveOtherOwnersBeenTold: null,
+      ownsWholeSite: null,
     },
     siteAccess: {
       canInspectorSeeWholeSiteFromPublicRoad: false,

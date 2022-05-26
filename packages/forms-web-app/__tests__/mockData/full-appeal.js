@@ -39,12 +39,12 @@ const appeal = {
       postcode: 'SW1 1AA',
     },
     siteOwnership: {
-      ownsAllTheLand: true,
-      ownsSomeOfTheLand: false,
-      knowsTheOwners: 'yes',
-      hasIdentifiedTheOwners: true,
-      tellingTheLandowners: [...STANDARD_TRIPLE_CONFIRM_OPTIONS],
-      advertisingYourAppeal: [...STANDARD_TRIPLE_CONFIRM_OPTIONS],
+      advertisingYourAppeal: null,
+      knowsTheOwners: null,
+      ownsAllTheLand: null,
+      ownsSomeOfTheLand: null,
+      tellingTheLandowners: null,
+      hasIdentifiedTheOwners: null,
     },
     agriculturalHolding: {
       isAgriculturalHolding: true,
