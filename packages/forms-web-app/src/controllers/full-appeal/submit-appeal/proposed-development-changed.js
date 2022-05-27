@@ -24,7 +24,7 @@ const postProposedDevelopmentChanged = async (req, res) => {
 
   const descriptionDevelopmentCorrect = {
     isCorrect:
-      body['description-development-correct'] === 'yes',
+    body['description-development-correct'] && body['description-development-correct'] === 'yes',
     details:
       body['description-development-correct'] === 'no'
         ? body['description-development-correct-details']

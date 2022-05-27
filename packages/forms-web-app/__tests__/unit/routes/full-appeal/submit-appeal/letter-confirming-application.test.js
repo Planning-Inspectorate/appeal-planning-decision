@@ -17,7 +17,7 @@ jest.mock('../../../../../src/middleware/fetch-existing-appeal');
 jest.mock('../../../../../src/validators/common/file-upload');
 jest.mock('../../../../../src/middleware/set-section-and-task-names');
 
-describe('routes/full-appeal/submit-appeal/application-form', () => {
+describe('routes/full-appeal/submit-appeal/letter-confirming-application', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
     require('../../../../../src/routes/full-appeal/submit-appeal/letter-confirming-application');
