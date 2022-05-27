@@ -41,6 +41,7 @@ const originalDecisionNoticeRouter = require('../../../../../src/routes/full-app
 const letterConfirmingApplicationRouter = require('../../../../../src/routes/full-appeal/submit-appeal/letter-confirming-application');
 const planningObligationPlannedRouter = require('../../../../../src/routes/full-appeal/submit-appeal/planning-obligation-planned');
 const planningObligationStatusRouter = require('../../../../../src/routes/full-appeal/submit-appeal/planning-obligation-status');
+const planningObligationDeadlineRouter = require('../../../../../src/routes/full-appeal/submit-appeal/planning-obligation-deadline');
 const applicationCertificatesIncludedRouter = require('../../../../../src/routes/full-appeal/submit-appeal/application-certificates-included');
 const certificatesRouter = require('../../../../../src/routes/full-appeal/submit-appeal/certificates');
 
@@ -92,6 +93,7 @@ describe('routes/full-appeal/submit-appeal/index', () => {
     expect(use).toHaveBeenCalledWith(originalDecisionNoticeRouter);
     expect(use).toHaveBeenCalledWith(planningObligationPlannedRouter);
     expect(use).toHaveBeenCalledWith(planningObligationStatusRouter);
+    expect(use).toHaveBeenCalledWith(planningObligationDeadlineRouter);
     expect(use).toHaveBeenCalledWith(applicationCertificatesIncludedRouter);
     expect(use).toHaveBeenCalledWith(certificatesRouter);
     expect(use).toHaveBeenCalledWith(letterConfirmingApplicationRouter);
