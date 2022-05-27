@@ -23,7 +23,8 @@
 
         <h2 class="govuk-heading-m">Check your answers</h2>
 
-        {{ govukSummaryList({
+        {% if isClaimingCosts !== null and applicationDecision === 'Refused' %}
+          {{ govukSummaryList({
           classes: "govuk-summary-list govuk-!-margin-bottom-9",
           rows: [
             {
@@ -172,6 +173,140 @@
             }
           ]
         }) }}
+        {% else %}
+          {{ govukSummaryList({
+          classes: "govuk-summary-list govuk-!-margin-bottom-9",
+          rows: [
+            {
+              key: {
+                text: "Local planning department"
+              },
+              value: {
+                text: summaryField(appealLPD, { 'data-cy': "local-planning-department" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/local-planning-department",
+                    text: "Change",
+                    visuallyHiddenText: "Local planning department",
+                    attributes: { "data-cy":"localPlanningDepartment"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Type of application"
+              },
+              value: {
+                text: summaryField(applicationType, { 'data-cy': "application-type" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/type-of-planning-application",
+                    text: "Change",
+                    visuallyHiddenText: "Type of application",
+                    attributes: { "data-cy":"applicationType"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Did you apply for prior approval to extend an existing home?"
+              },
+              value: {
+                text: hasPriorApprovalForExistingHome
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/prior-approval-existing-home",
+                    text: "Change",
+                    visuallyHiddenText: "Did you apply for prior approval to extend an existing home?",
+                    attributes: { "data-cy":"priorApproval"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Is your appeal about a listed building?"
+              },
+              value: {
+                text: summaryField(isListedBuilding, { 'data-cy': "listed-building" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/listed-building-householder",
+                    text: "Change",
+                    visuallyHiddenText: "Is your appeal about a listed building?",
+                    attributes: { "data-cy":"listedBuilding"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Was your planning application granted or refused?"
+              },
+              value: {
+                text: summaryField(applicationDecision, { 'data-cy': "application-decision" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/granted-or-refused-householder",
+                    text: "Change",
+                    visuallyHiddenText: "Was your planning application granted or refused?",
+                    attributes: { "data-cy":"applicationDecision"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: dateOfDecisionLabel
+              },
+              value: {
+                text: summaryField(decisionDate, { 'data-cy': "decision-date" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/decision-date-householder",
+                    text: "Change",
+                    visuallyHiddenText: dateOfDecisionLabel,
+                    attributes: { "data-cy":"decisionDate"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Have you received an enforcement notice?"
+              },
+              value: {
+                text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/enforcement-notice-householder",
+                    text: "Change",
+                    visuallyHiddenText: "Have you received an enforcement notice?",
+                    attributes: { "data-cy":"enforcementNotice"}
+                  }
+                ]
+              }
+            }
+          ]
+        }) }}
+        {% endif %}
+
         <h2 class="govuk-heading-m">Before you continue</h2>
 
         <p>You cannot save your progress and come back later. Before you continue, make sure you have everything you need for your appeal.</p>
