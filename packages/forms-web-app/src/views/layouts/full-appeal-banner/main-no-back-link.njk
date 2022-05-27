@@ -1,0 +1,56 @@
+{% extends "govuk/template.njk" %}
+
+{% from "govuk/components/header/macro.njk" import govukHeader %}
+{% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
+
+{% block head %}
+  {% include "includes/head.njk" %}
+{% endblock %}
+
+{% block header %}
+  {% include "includes/cookie-banner.njk" %}
+
+  {{ govukHeader({
+    homepageUrl: "https://www.gov.uk/",
+    serviceName: 'Appeal a planning decision',
+    serviceUrl: "/",
+    containerClasses: "govuk-width-container"
+  }) }}
+{% endblock %}
+
+{% block bodyStart %}
+  {% include "includes/body-start.njk" %}
+{% endblock %}
+
+{% set mainClasses = mainClasses | default("govuk-main-wrapper--auto-spacing") %}
+
+{% block main %}
+  <div class="govuk-width-container govuk-body {{ containerClasses }}">
+
+    <main id="main-content" role="main"{% if mainLang %} lang="{{ mainLang }}"{% endif %}>
+      {% block phaseBanner %}
+        {{ govukPhaseBanner({
+          tag: {
+            text: "beta"
+          },
+          html: 'This is a beta service – your <a class="govuk-link" data-cy="Feedback" href="https://forms.office.com.mcas.ms/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjdUN-o-7ZchJstlDoYRZ9U1UQzM3N1g0TE9VQjhSNzZYTUxHU0haWVNNSSQlQCN0PWcu">feedback</a> will help us to improve it.'
+        }) }}
+      {% endblock %}
+
+      <div class="govuk-main-wrapper {{ mainClasses }}">
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {% include "pins/components/footer.njk" %}
+{% endblock %}
+
+{% block bodyEnd %}
+  {% block scripts %}
+    {% include "includes/scripts.njk" %}
+    {% block pageScripts %}{% endblock %}
+  {% endblock %}
+{% endblock %}
