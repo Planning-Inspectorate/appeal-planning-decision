@@ -14,7 +14,7 @@
     name: "description-development-correct-details",
     id: "description-development-correct-details",
     label: {
-      text: "Enter the agreed description of development"
+      text: "What's the agreed description of development"
     },
     value: descriptionDevelopmentCorrect.details,
     errorMessage: errors['description-development-correct-details'] and {
@@ -44,7 +44,7 @@
         }) }}
       {% endif %}
       <form action="" method="post" novalidate>
-        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Update documents from planning application</span>
+        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Upload documents from your planning application</span>
         {{ govukRadios({
           classes: "govuk-radios",
           idPrefix: "description-development-correct",
@@ -60,10 +60,7 @@
                        </h1>
                      </legend>
                      <div id="plan-to-submit-planning-obligation-hint" class="govuk-hint">
-                        Only tell us about changes you agreed with the local planning department.
-                     </div>
-                     <div id="plan-to-submit-planning-obligation-hint" class="govuk-hint">
-                       For example, if you applied to build 5 houses, but agreed to change this to 4 during the application process.
+                        We need to know if you agreed a new one with the local planning department
                      </div>',
                 isPageHeading: true,
                 classes: "govuk-fieldset__legend--l"
@@ -72,13 +69,13 @@
           items: [
             {
               value: "yes",
-              text: "Yes",
+              text: "Yes, the description of development is still correct",
               attributes: { "data-cy": "answer-yes" },
               checked:  descriptionDevelopmentCorrect.isCorrect == true
             },
             {
               value: "no",
-              text: "No",
+              text: "No, I agreed a new one with the local planning department",
               attributes: { "data-cy": "answer-no" },
               checked: descriptionDevelopmentCorrect.isCorrect == false,
               conditional: {
