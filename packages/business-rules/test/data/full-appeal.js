@@ -271,6 +271,10 @@ const appeal = {
         },
       ],
     },
+    planningObligationDeadline: {
+      plansPlanningObligation: true,
+      planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.FINALISED,
+    },
   },
   appealSubmission: {
     appealPDFStatement: {
@@ -332,6 +336,7 @@ const appeal = {
       planningObligationStatus: 'NOT STARTED',
       planningObligationDocuments: 'NOT STARTED',
       draftPlanningObligations: 'NOT STARTED',
+      planningObligationDeadline: 'NOT STARTED',
       supportingDocuments: 'NOT STARTED',
       newSupportingDocuments: 'NOT STARTED',
     },

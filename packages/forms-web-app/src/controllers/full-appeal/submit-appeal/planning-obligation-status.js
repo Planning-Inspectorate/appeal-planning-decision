@@ -9,14 +9,14 @@ const {
       PLANNING_OBLIGATION_STATUS,
       PLANNING_OBLIGATION_DOCUMENTS,
       DRAFT_PLANNING_OBLIGATION,
-      NEW_DOCUMENTS,
+      PLANNING_OBLIGATION_DEADLINE,
     },
   },
 } = require('../../../lib/full-appeal/views');
 const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
 const sectionName = 'appealDocumentsSection';
-const taskName = 'planningObligations';
+const taskName = 'planningObligationDeadline';
 
 const getPlanningObligationStatus = (req, res) => {
   const { planningObligationStatus } = req.session.appeal[sectionName][taskName];
@@ -59,7 +59,7 @@ const postPlanningObligationStatus = async (req, res) => {
     case PLANNING_OBLIGATION_STATUS_OPTION.DRAFT:
       return res.redirect(`/${DRAFT_PLANNING_OBLIGATION}`);
     case PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED:
-      return res.redirect(`/${NEW_DOCUMENTS}`);
+      return res.redirect(`/${PLANNING_OBLIGATION_DEADLINE}`);
     default:
       return res.redirect(`/${PLANNING_OBLIGATION_STATUS}`);
   }

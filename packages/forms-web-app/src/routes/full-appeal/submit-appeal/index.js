@@ -43,6 +43,7 @@ const proposedDevelopmentChanged = require('./proposed-development-changed');
 const planningObligationPlannedRouter = require('./planning-obligation-planned');
 const planningObligationStatusRouter = require('./planning-obligation-status');
 const planningObligationDocumentsRouter = require('./planning-obligation-documents');
+const planningObligationDeadlineRouter = require('./planning-obligation-deadline');
 const planningObligationDraftRouter = require('./draft-planning-obligation');
 const letterConfirmingApplicationRouter = require('./letter-confirming-application');
 
@@ -93,6 +94,7 @@ router.use(planningObligationPlannedRouter);
 router.use(planningObligationStatusRouter);
 router.use(planningObligationDocumentsRouter);
 router.use(planningObligationDraftRouter);
+router.use(planningObligationDeadlineRouter);
 router.use(letterConfirmingApplicationRouter);
 
 module.exports = router;
