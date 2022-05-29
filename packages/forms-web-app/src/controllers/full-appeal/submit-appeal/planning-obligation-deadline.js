@@ -31,17 +31,14 @@ const postPlanningObligationDeadline = async (req, res) => {
     });
   }
 
-  const planningObligationDeadline = body['planning-obligation-deadline'];
-
   try {
-    appeal[sectionName][taskName].planningObligationDeadline = planningObligationDeadline;
+    appeal[sectionName][taskName].planningObligationDeadline = body['planning-obligation-deadline'];
     appeal.sectionStates[sectionName].planningObligationDeadlineStatus = COMPLETED;
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);
 
     return res.render(PLANNING_OBLIGATION_DEADLINE, {
-      planningObligationDeadline,
       errors,
       errorSummary: [{ text: err.toString(), href: '#' }],
     });

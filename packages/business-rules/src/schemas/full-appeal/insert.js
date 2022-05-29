@@ -641,7 +641,7 @@ const insert = pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
               .default('NOT STARTED'),
-            planningObligationDeadline: pinsYup
+            planningObligationDeadlineStatus: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
               .default('NOT STARTED'),

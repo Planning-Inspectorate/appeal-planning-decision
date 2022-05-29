@@ -336,6 +336,7 @@ const appeal = {
       planningObligationStatus: 'NOT STARTED',
       planningObligationDocuments: 'NOT STARTED',
       planningObligationDeadline: "NOT STARTED",
+      planningObligationDeadlineStatus:"NOT STARTED",
       draftPlanningObligations: 'NOT STARTED',
       supportingDocuments: 'NOT STARTED',
       newSupportingDocuments: 'NOT STARTED',

@@ -533,7 +533,7 @@ const update = pinsYup
               .required(),
             planningObligationDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             draftPlanningObligations: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
-            planningObligationDeadline:pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            planningObligationDeadlineStatus:pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             supportingDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             newSupportingDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
           })
