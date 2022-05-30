@@ -1,6 +1,9 @@
 const appeal = require('@pins/business-rules/test/data/full-appeal');
 const v8 = require('v8');
 const {
+  constants: { PLANNING_OBLIGATION_STATUS_OPTION },
+} = require('@pins/business-rules');
+const {
   getNewSupportingDocuments,
   postNewSupportingDocuments,
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/new-documents');
@@ -19,9 +22,6 @@ const {
     },
   },
 } = require('../../../../../src/lib/full-appeal/views');
-const {
-  constants: { PLANNING_OBLIGATION_STATUS_OPTION },
-} = require('@pins/business-rules');
 const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
@@ -51,6 +51,12 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
   describe('getNewSupportingDocuments', () => {
     it('should call the correct template - no planning obligation submitted', () => {
       req.session.appeal.appealDocumentsSection.planningObligations.plansPlanningObligation = false;
+      req = {
+        ...req,
+        headers: {
+          referer: `/${PLANNING_OBLIGATION_PLANNED}`,
+        },
+      };
 
       getNewSupportingDocuments(req, res);
 
@@ -62,6 +68,12 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
     });
 
     it('should call the correct template - planning obligation submitted', () => {
+      req = {
+        ...req,
+        headers: {
+          referer: `/${PLANNING_OBLIGATION_DOCUMENTS}`,
+        },
+      };
       Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
         plansPlanningObligation: true,
         planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.FINALISED,
@@ -77,6 +89,12 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
     });
 
     it('should call the correct template - draft planning obligation submitted', () => {
+      req = {
+        ...req,
+        headers: {
+          referer: `/${DRAFT_PLANNING_OBLIGATION}`,
+        },
+      };
       Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
         plansPlanningObligation: true,
         planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.DRAFT,
@@ -92,6 +110,12 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
     });
 
     it('should call the correct template - not started planning obligation yet', () => {
+      req = {
+        ...req,
+        headers: {
+          referer: `/${PLANNING_OBLIGATION_DEADLINE}`,
+        },
+      };
       Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
         plansPlanningObligation: true,
         planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED,
@@ -116,6 +140,9 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
           errors,
           errorSummary,
         },
+        headers: {
+          referer: `/${PLANNING_OBLIGATION_PLANNED}`,
+        },
       };
       req.session.appeal.appealDocumentsSection.planningObligations.plansPlanningObligation = false;
 
@@ -137,6 +164,9 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
           'supporting-documents': undefined,
           errors,
           errorSummary,
+        },
+        headers: {
+          referer: `/${PLANNING_OBLIGATION_DOCUMENTS}`,
         },
       };
       Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
@@ -163,6 +193,9 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
           errors,
           errorSummary,
         },
+        headers: {
+          referer: `/${DRAFT_PLANNING_OBLIGATION}`,
+        },
       };
       Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
         plansPlanningObligation: true,
@@ -188,6 +221,9 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
           errors,
           errorSummary,
         },
+        headers: {
+          referer: `/${PLANNING_OBLIGATION_DEADLINE}`,
+        },
       };
       Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
         plansPlanningObligation: true,
@@ -209,6 +245,12 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
       const error = new Error('Internal Server Error');
 
       req.session.appeal.appealDocumentsSection.planningObligations.plansPlanningObligation = false;
+      req = {
+        ...req,
+        headers: {
+          referer: `/${PLANNING_OBLIGATION_PLANNED}`,
+        },
+      };
 
       createOrUpdateAppeal.mockImplementation(() => {
         throw error;
@@ -228,6 +270,13 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
 
     it('should re-render the template with errors if an error is thrown and planning obligation submitted', async () => {
       const error = new Error('Internal Server Error');
+
+      req = {
+        ...req,
+        headers: {
+          referer: `/${PLANNING_OBLIGATION_DOCUMENTS}`,
+        },
+      };
 
       Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
         plansPlanningObligation: true,
@@ -253,6 +302,13 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
     it('should re-render the template with errors if an error is thrown and draft planning obligation submitted', async () => {
       const error = new Error('Internal Server Error');
 
+      req = {
+        ...req,
+        headers: {
+          referer: `/${DRAFT_PLANNING_OBLIGATION}`,
+        },
+      };
+
       Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
         plansPlanningObligation: true,
         planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.DRAFT,
@@ -276,6 +332,13 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
 
     it('should re-render the template with errors if an error is thrown and no planning obligation not yet started', async () => {
       const error = new Error('Internal Server Error');
+
+      req = {
+        ...req,
+        headers: {
+          referer: `/${PLANNING_OBLIGATION_DEADLINE}`,
+        },
+      };
 
       Object.assign(req.session.appeal.appealDocumentsSection.planningObligations, {
         plansPlanningObligation: true,
@@ -313,6 +376,9 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
         body: {
           'supporting-documents': 'yes',
         },
+        headers: {
+          referer: '',
+        },
       };
 
       await postNewSupportingDocuments(req, res);
@@ -337,6 +403,9 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
         ...req,
         body: {
           'supporting-documents': 'no',
+        },
+        headers: {
+          referer: '',
         },
       };
 
