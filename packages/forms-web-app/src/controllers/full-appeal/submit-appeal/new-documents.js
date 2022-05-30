@@ -17,8 +17,8 @@ const getNewSupportingDocuments = (req, res) => {
       [taskName]: { hasSupportingDocuments },
     },
   } = req.session.appeal;
-  logger.info(req);
   const backLink = req.headers.referer;
+
   res.render(NEW_DOCUMENTS, {
     backLink,
     hasSupportingDocuments,
