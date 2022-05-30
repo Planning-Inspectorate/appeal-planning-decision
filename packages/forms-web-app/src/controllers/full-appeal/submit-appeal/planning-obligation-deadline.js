@@ -1,3 +1,4 @@
+const { PLANNING_OBLIGATION_STATUS_OPTION } = require('@pins/business-rules/src/constants');
 const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
@@ -31,7 +32,10 @@ const postPlanningObligationDeadline = async (req, res) => {
     });
   }
 
-  const planningObligationDeadline = body['planning-obligation-deadline'];
+  const planningObligationDeadline = {
+    plansPlanningObligation: true,
+    planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED,
+  };
 
   try {
     appeal[sectionName][taskName].planningObligationDeadline = planningObligationDeadline;
@@ -39,7 +43,6 @@ const postPlanningObligationDeadline = async (req, res) => {
     req.session.appeal = await createOrUpdateAppeal(appeal);
   } catch (err) {
     logger.error(err);
-
     return res.render(PLANNING_OBLIGATION_DEADLINE, {
       planningObligationDeadline,
       errors,

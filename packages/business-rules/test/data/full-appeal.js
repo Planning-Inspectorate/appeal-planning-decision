@@ -273,7 +273,7 @@ const appeal = {
     },
     planningObligationDeadline: {
       plansPlanningObligation: true,
-      planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.FINALISED,
+      planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED,
     },
   },
   appealSubmission: {
@@ -323,7 +323,7 @@ const appeal = {
       descriptionDevelopmentCorrect: 'NOT STARTED',
       plansDrawingsSupportingDocuments: 'NOT STARTED',
       designAccessStatementSubmitted: 'NOT STARTED',
-      letterConfirmingApplication: "NOT STARTED",
+      letterConfirmingApplication: 'NOT STARTED',
       designAccessStatement: 'NOT STARTED',
       decisionLetter: 'NOT STARTED',
       originalDecisionNotice: 'NOT STARTED',
