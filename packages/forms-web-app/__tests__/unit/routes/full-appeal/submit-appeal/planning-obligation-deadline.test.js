@@ -1,6 +1,4 @@
 const { get, post } = require('../../router-mock');
-
-const setSectionAndTaskNames = require('../../../../../src/middleware/set-section-and-task-names');
 const {
   validationErrorHandler,
 } = require('../../../../../src/validators/validation-error-handler');
@@ -22,7 +20,6 @@ describe('routes/full-appeal/submit-appeal/planning-obligation-deadline', () => 
     );
     expect(post).toHaveBeenCalledWith(
       '/submit-appeal/planning-obligation-deadline',
-      //setSectionAndTaskNames('appealDocumentsSection', 'planningObligationDeadline'),
       validationErrorHandler,
       postPlanningObligationDeadline
     );
