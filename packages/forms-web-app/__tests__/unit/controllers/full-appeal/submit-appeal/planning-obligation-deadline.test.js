@@ -43,8 +43,8 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-deadline', (
     });
   });
 
-  describe('postlanningObligationDeadline', () => {
-    it('postlanningObligationDeadline method calls the correct template if clicked continue', async () => {
+  describe('postPlanningObligationDeadline', () => {
+    it('postPlanningObligationDeadline method calls the correct template if clicked continue', async () => {
       req = {
         ...req,
         body: {
@@ -57,7 +57,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-deadline', (
       expect(res.redirect).toBeCalledWith(`/${NEW_DOCUMENTS}`);
     });
 
-    it('postlanningObligationDeadline method calls the correct template if it contains errors', async () => {
+    it('postPlanningObligationDeadline method calls the correct template if it contains errors', async () => {
       req = {
         ...req,
         body: {
@@ -75,7 +75,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-deadline', (
       });
     });
 
-    it('postlanningObligationDeadline method calls the correct template if the service throws errors', async () => {
+    it('postPlanningObligationDeadline method calls the correct template if the service throws errors', async () => {
       req = {
         ...req,
         body: {
