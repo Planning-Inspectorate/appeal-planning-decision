@@ -27,11 +27,11 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-status', () 
   describe('getPlanningObligationStatus', () => {
     it('calls getPlanningObligationStatus with the  correct template', async () => {
       req.session.appeal.appealDocumentsSection.planningObligations = {
-        planningObligationStatus: 'finalised',
+        planningObligationStatus: 'not_started',
       };
       await getPlanningObligationStatus(req, res);
       expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.PLANNING_OBLIGATION_STATUS, {
-        planningObligationStatus: 'finalised',
+        planningObligationStatus: 'not_started',
       });
     });
   });
