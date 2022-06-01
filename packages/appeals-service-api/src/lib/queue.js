@@ -5,8 +5,12 @@ const logger = require('./logger');
 const options = config.messageQueue.horizonHASPublisher.connection;
 
 function addAppeal(message) {
+  let connectionQueue;
   try {
-    container.connect(options).open_sender(config.messageQueue.horizonHASPublisher.queue);
+    connectionQueue = container
+      .connect(options)
+      .open_sender(config.messageQueue.horizonHASPublisher.queue);
+    logger.info(connectionQueue);
   } catch (err) {
     logger.error({ err }, 'Cannot connect to the queue');
   }
