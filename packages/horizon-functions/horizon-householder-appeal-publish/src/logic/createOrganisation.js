@@ -19,8 +19,8 @@ module.exports = async (log, body) => {
 
   const input = {
     AddContact: {
-      __soap_op: 'http://tempuri.org/IContacts/AddContact',
-      __xmlns: 'http://tempuri.org/',
+      __soap_op: `${config.horizon.url}/IContacts/AddContact`,
+      __xmlns: `${config.horizon.url}`,
       contact: organisationData.reduce(
         (result, { key, value }) => ({
           ...result,
