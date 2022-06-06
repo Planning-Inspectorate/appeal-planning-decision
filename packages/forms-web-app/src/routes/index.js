@@ -13,6 +13,7 @@ const cookieRouter = require('./cookies');
 const guidancePagesRouter = require('./guidance-pages');
 const yourPlanningAppealRouter = require('./your-planning-appeal');
 const documentRouter = require('./document');
+const submitAppealRouter = require('./submit-appeal');
 const checkDecisionDateDeadline = require('../middleware/check-decision-date-deadline');
 const checkAppealTypeExists = require('../middleware/check-appeal-type-exists');
 
@@ -42,5 +43,6 @@ router.use(
   householderPlanningRouter
 );
 router.use('/document', documentRouter);
+router.use('/submit-appeal', submitAppealRouter);
 
 module.exports = router;
