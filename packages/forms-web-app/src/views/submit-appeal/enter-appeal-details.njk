@@ -1,0 +1,67 @@
+{% extends "layouts/no-banner-link/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% set title = "Enter your appeal details - Appeal a planning decision - GOV.UK" %}
+{% if errors %}{% set title="Error: " + title %}{% endif %}
+{% block pageTitle %}{{ title }}{% endblock %}
+
+{% block content %}
+
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST" novalidate>
+        <h1 class="govuk-heading-l">Enter your appeal details</h1>
+        <p>We'll use this information to email you a code to continue with your appeal.</p>
+
+        {{ govukInput({
+          label: {
+            text: "Email address for your appeal",
+            classes: "govuk-label",
+            isPageHeading: false
+          },
+          id: "appellant-email",
+          name: "appellant-email",
+          attributes: {"data-cy": "appellant-email"},
+          classes: "govuk-!-width-two-thirds",
+          spellcheck: false,
+          errorMessage: errors['appellant-email'] and {
+            text: errors['appellant-email'].msg
+          }
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "Planning application number",
+            classes: "govuk-label",
+            isPageHeading: false
+          },
+          id: "application-number",
+          name: "application-number",
+          attributes: {"data-cy": "application-number"},
+          classes: "govuk-!-width-two-thirds",
+          spellcheck: false,
+          errorMessage: errors['application-number'] and {
+          text: errors['application-number'].msg
+          }
+        }) }}
+
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
