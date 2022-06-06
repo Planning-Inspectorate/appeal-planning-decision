@@ -17,7 +17,7 @@ const {
       DECISION_LETTER,
       DESIGN_ACCESS_STATEMENT_SUBMITTED,
       DESIGN_ACCESS_STATEMENT,
-      TASK_LIST,
+      LETTER_CONFIRMING_APPLICATION,
     },
   },
 } = require('../../../../../src/lib/full-appeal/views');
@@ -199,7 +199,7 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement-submitte
       await postDesignAccessStatementSubmitted(req, res);
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${LETTER_CONFIRMING_APPLICATION}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
   });
