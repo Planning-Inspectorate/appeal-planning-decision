@@ -11,7 +11,7 @@ const {
       DECISION_LETTER,
       DESIGN_ACCESS_STATEMENT_SUBMITTED,
       DESIGN_ACCESS_STATEMENT,
-      TASK_LIST,
+      LETTER_CONFIRMING_APPLICATION
     },
   },
 } = require('../../../lib/full-appeal/views');
@@ -70,10 +70,8 @@ const postDesignAccessStatementSubmitted = async (req, res) => {
 
   if (isSubmitted) {
     return res.redirect(`/${DESIGN_ACCESS_STATEMENT}`);
-  }
-
-  if (applicationDecision === NODECISIONRECEIVED) {
-    return res.redirect(`/${TASK_LIST}`);
+  } else if (applicationDecision === NODECISIONRECEIVED) {
+    return res.redirect(`/${LETTER_CONFIRMING_APPLICATION}`);
   }
 
   return res.redirect(`/${DECISION_LETTER}`);
