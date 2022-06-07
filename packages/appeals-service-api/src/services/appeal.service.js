@@ -2,6 +2,7 @@ const {
   constants: { APPEAL_ID },
 } = require('@pins/business-rules');
 const mongodb = require('../db/db');
+const queue = require('../lib/queue');
 const logger = require('../lib/logger');
 const ApiError = require('../error/apiError');
 const {
@@ -312,12 +313,16 @@ const updateAppeal = async (appeal, isFirstSubmission = false) => {
 
   const updatedDocument = await replaceAppeal(appeal);
 
+  logger.debug('===============');
+  logger.debug(updatedDocument);
+  logger.debug('===============');
+
   if (isFirstSubmission) {
-    // try {
-    //   await queue.addAppeal(updatedDocument.value);
-    // } catch (err) {
-    //   logger.error({ err, appealId: appeal.id }, 'Unable to queue confirmation email to appellant');
-    // }
+    try {
+      await queue.addAppeal(updatedDocument.value);
+    } catch (err) {
+      logger.error({ err, appealId: appeal.id }, 'Unable to queue confirmation email to appellant');
+    }
     await sendSubmissionConfirmationEmailToAppellant(updatedDocument.value.appeal);
     await sendSubmissionReceivedEmailToLpa(updatedDocument.value.appeal);
   }
