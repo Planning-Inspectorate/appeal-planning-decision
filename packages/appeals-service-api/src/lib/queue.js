@@ -4,15 +4,23 @@ const logger = require('./logger');
 
 const options = config.messageQueue.horizonHASPublisher.connection;
 
-function addAppeal(message) {
-  container.connect(options).open_sender(config.messageQueue.horizonHASPublisher.queue);
+function addAppeal(appeal) {
+  let connectionQueue;
+  try {
+    connectionQueue = container
+      .connect(options)
+      .open_sender(config.messageQueue.horizonHASPublisher.queue);
+    logger.info(connectionQueue);
+  } catch (err) {
+    logger.error({ err }, 'Cannot connect to the queue');
+  }
 
   container.once('sendable', (context) => {
     context.sender.send({
-      body: container.message.data_section(Buffer.from(JSON.stringify(message), 'utf-8')),
+      body: container.message.data_section(Buffer.from(JSON.stringify(appeal), 'utf-8')),
       content_type: 'application/json',
     });
-    logger.info({ message }, 'Appeal message placed on queue');
+    logger.info({ message: appeal }, 'Appeal message placed on queue');
   });
 
   container.on('accepted', (context) => {
