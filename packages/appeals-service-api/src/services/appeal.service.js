@@ -313,10 +313,6 @@ const updateAppeal = async (appeal, isFirstSubmission = false) => {
 
   const updatedDocument = await replaceAppeal(appeal);
 
-  logger.debug('===============');
-  logger.debug(updatedDocument);
-  logger.debug('===============');
-
   if (isFirstSubmission) {
     try {
       await queue.addAppeal(updatedDocument.value);

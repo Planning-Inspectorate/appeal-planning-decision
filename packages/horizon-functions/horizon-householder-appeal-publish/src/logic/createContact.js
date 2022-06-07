@@ -87,6 +87,7 @@ module.exports = async (log, body) => {
   };
 
   log('Adding contact in Horizon');
+  log(input);
 
   try {
     const { data } = await axios.post(`${config.horizon.url}/contacts`, input);
