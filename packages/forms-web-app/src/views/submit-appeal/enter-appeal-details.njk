@@ -40,6 +40,7 @@
           name: "appellant-email",
           attributes: {"data-cy": "appellant-email"},
           classes: "govuk-!-width-two-thirds",
+          value: emailAddress,
           spellcheck: false,
           errorMessage: errors['appellant-email'] and {
             text: errors['appellant-email'].msg
@@ -56,6 +57,7 @@
           name: "application-number",
           attributes: {"data-cy": "application-number"},
           classes: "govuk-!-width-two-thirds",
+          value: applicationNumber,
           spellcheck: false,
           errorMessage: errors['application-number'] and {
           text: errors['application-number'].msg
