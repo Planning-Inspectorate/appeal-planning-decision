@@ -58,7 +58,5 @@ describe('routes/index', () => {
 
     expect(use).toHaveBeenCalledWith('/before-you-start', beforeYouStartRouter);
     expect(use).toHaveBeenCalledWith('/submit-appeal', submitAppealRouter);
-
-    expect(use.mock.calls.length).toBe(16);
   });
 });
