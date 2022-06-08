@@ -1,4 +1,4 @@
-{% extends "layouts/no-banner-link/main.njk" %}
+{% extends "layouts/no-banner-link/main-no-back-link.njk" %}
 
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
@@ -7,13 +7,6 @@
 {% set title = "Enter your appeal details - Appeal a planning decision - GOV.UK" %}
 {% if errors %}{% set title="Error: " + title %}{% endif %}
 {% block pageTitle %}{{ title }}{% endblock %}
-
-{% block backButton %}
-    {{ govukBackLink({
-    text: "Back",
-    href: backLink
- })}}
-{% endblock %}
 
 {% block content %}
 

@@ -1,17 +1,13 @@
 const logger = require('../../lib/logger');
 const { VIEW } = require('../../lib/submit-appeal/views');
 
-const backLinkURL = 'https://www.gov.uk/appeal-planning-decision/make-an-appeal';
-
 // dummy method: remove and replace with import for valid method when built
 exports.sendEmailWithCode = async (email, number) => {
   return;
 };
 
 exports.getEnterAppealDetails = async (_, res) => {
-  res.render(VIEW.SUBMIT_APPEAL.ENTER_APPEAL_DETAILS, {
-    backLink: backLinkURL,
-  });
+  res.render(VIEW.SUBMIT_APPEAL.ENTER_APPEAL_DETAILS);
 };
 
 exports.postEnterAppealDetails = async (req, res) => {
@@ -22,7 +18,6 @@ exports.postEnterAppealDetails = async (req, res) => {
 
   if (Object.keys(errors).length > 0) {
     res.render(VIEW.SUBMIT_APPEAL.ENTER_APPEAL_DETAILS, {
-      backLink: backLinkURL,
       emailAddress: emailAddress,
       applicationNumber: applicationNumber,
       errors,
@@ -37,7 +32,6 @@ exports.postEnterAppealDetails = async (req, res) => {
   } catch (e) {
     logger.error(e);
     res.render(VIEW.SUBMIT_APPEAL.ENTER_APPEAL_DETAILS, {
-      backLink: backLinkURL,
       emailAddress: emailAddress,
       applicationNumber: applicationNumber,
       errorSummary: [{ text: e.toString(), href: '#' }],

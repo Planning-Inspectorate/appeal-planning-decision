@@ -2,7 +2,6 @@ const enterAppealDetailsController = require('../../../../src/controllers/submit
 
 const { VIEW } = require('../../../../src/lib/submit-appeal/views');
 const { mockReq, mockRes } = require('../../mocks');
-const url = 'https://www.gov.uk/appeal-planning-decision/make-an-appeal';
 const errors = {
   'appellant-email': 'Error message',
   'application-number': 'Error message',
@@ -27,7 +26,7 @@ describe('controllers/submit-appeal/enter-appeal-details', () => {
     it('getEnterAppealDetails method calls the correct template', async () => {
       await enterAppealDetailsController.getEnterAppealDetails(req, res);
 
-      expect(res.render).toBeCalledWith(VIEW.SUBMIT_APPEAL.ENTER_APPEAL_DETAILS, { backLink: url });
+      expect(res.render).toBeCalledWith(VIEW.SUBMIT_APPEAL.ENTER_APPEAL_DETAILS);
     });
   });
 
@@ -62,7 +61,6 @@ describe('controllers/submit-appeal/enter-appeal-details', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.SUBMIT_APPEAL.ENTER_APPEAL_DETAILS, {
         applicationNumber: '',
         emailAddress: 'invalid@',
-        backLink: url,
         errorSummary,
         errors,
       });
@@ -78,7 +76,6 @@ describe('controllers/submit-appeal/enter-appeal-details', () => {
 
       expect(res.redirect).not.toHaveBeenCalled();
       expect(res.render).toHaveBeenCalledWith(VIEW.SUBMIT_APPEAL.ENTER_APPEAL_DETAILS, {
-        backLink: url,
         applicationNumber: '123',
         emailAddress: 'test@example.com',
         errorSummary: [{ text: error.toString(), href: '#' }],
