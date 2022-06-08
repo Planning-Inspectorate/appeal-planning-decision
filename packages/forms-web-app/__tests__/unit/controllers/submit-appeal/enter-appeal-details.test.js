@@ -31,7 +31,7 @@ describe('controllers/submit-appeal/enter-appeal-details', () => {
   });
 
   describe('postEnterAppealDetails', () => {
-    it('should call code generation function and redirect to correct page if valid req', async () => {
+    it('should redirect to correct page if valid user input', async () => {
       const email = 'test@example.com';
       const number = '123456789';
       req = {
