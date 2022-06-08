@@ -49,6 +49,7 @@ const config = {
     horizonHASPublisher: {
       connection: {
         host: process.env.HORIZON_HAS_PUBLISHER_HOST,
+        hostname: process.env.HORIZON_HAS_PUBLISHER_HOSTNAME,
         reconnect_limit: Number(process.env.HORIZON_HAS_PUBLISHER_RECONNECT_LIMIT || 1),
         password: process.env.HORIZON_HAS_PUBLISHER_PASSWORD,
         port: Number(process.env.HORIZON_HAS_PUBLISHER_PORT || 5672),
