@@ -17,7 +17,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/2.1.1
+      ref: refs/tags/release/2.5.1
   pipelines:
     - pipeline: appeal-reply-service-api-ci
       source: appeal-reply-service-api CI
@@ -30,14 +30,25 @@ extends:
   template: stages/wrapper_cd.yml@templates
   parameters:
     deploymentStages:
-      - name: Deploy
+      - name: Stage
         deploymentSteps:
           - template: ../steps/azure_web_app_deploy.yml
             parameters:
               appName: $(webAppName)
               appResourceGroup: $(resourceGroup)
+              appSlotName: staging
               azurecrName: $(azurecrName)
               repository: $(repository)
+      - name: Deploy
+        dependsOn:
+          - Stage
+        deploymentSteps:
+          - template: ../steps/azure_web_app_slot_swap.yml
+            parameters:
+              appName: $(webAppName)
+              appResourceGroup: $(resourceGroup)
+              appStagingSlotName: staging
+              appTargetSlotName: production
     globalVariables:
       - template: azure-pipelines-variables.yml@self
       - template: packages/appeal-reply-service-api/pipelines/azure-pipelines-variables.yml@self
