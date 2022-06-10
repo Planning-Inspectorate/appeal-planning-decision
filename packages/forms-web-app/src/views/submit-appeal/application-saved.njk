@@ -1,0 +1,21 @@
+{% extends "layouts/full-appeal-banner/main.njk" %}
+
+{% set title = "Your appeal for application " + applicationNumber + " has been saved - Appeal a planning decision - GOV.UK" %}
+{% block pageTitle %}{{ title }}{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+          Your appeal for application {{ applicationNumber }} has been saved
+        </h1>
+        <p>Follow the link in the email we sent you to continue with your appeal.</p>
+        <div class="govuk-inset-text">
+        You have until {{ deadline.date }} {{ deadline.month }} {{ deadline.year }} to submit your appeal.
+        </div>
+      
+    </div>
+  </div>
+
+{% endblock %}

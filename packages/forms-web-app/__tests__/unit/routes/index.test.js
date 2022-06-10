@@ -57,6 +57,11 @@ describe('routes/index', () => {
     expect(use).toHaveBeenCalledWith('/document', documentRouter);
 
     expect(use).toHaveBeenCalledWith('/before-you-start', beforeYouStartRouter);
-    expect(use).toHaveBeenCalledWith('/submit-appeal', submitAppealRouter);
+    expect(use).toHaveBeenCalledWith(
+      '/submit-appeal',
+      checkAppealTypeExists,
+      checkDecisionDateDeadline,
+      submitAppealRouter
+    );
   });
 });
