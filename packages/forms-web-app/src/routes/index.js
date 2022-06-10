@@ -43,6 +43,6 @@ router.use(
   householderPlanningRouter
 );
 router.use('/document', documentRouter);
-router.use('/submit-appeal', submitAppealRouter);
+router.use('/submit-appeal', checkAppealTypeExists, checkDecisionDateDeadline, submitAppealRouter);
 
 module.exports = router;
