@@ -18,6 +18,5 @@ describe('routes/submit-appeal', () => {
   it('should define the expected routes', () => {
     expect(use).toHaveBeenCalledWith(enterAppealDetailsRouter);
     expect(use).toHaveBeenCalledWith(applicationSavedRouter);
-    expect(use.mock.calls.length).toBe(2);
   });
 });
