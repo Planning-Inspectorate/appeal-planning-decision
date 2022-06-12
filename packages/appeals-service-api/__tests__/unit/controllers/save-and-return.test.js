@@ -1,12 +1,18 @@
 const { mockReq, mockRes } = require('../mocks');
-const { saveAndReturnCreate } = require('../../../src/controllers/save-and-return');
+const {
+  saveAndReturnCreate,
+  saveAndReturnGet,
+} = require('../../../src/controllers/save-and-return');
+const { updateAppeal } = require('../../../src/services/appeal.service');
 const {
   createToken,
   saveAndReturnNotify,
   saveAndReturnCreateService,
+  saveAndReturnGetService
 } = require('../../../src/services/save-and-return.service');
 
 jest.mock('../../../src/services/save-and-return.service');
+jest.mock('../../../src/services/appeal.service');
 jest.mock('../../../../common/src/lib/notify/notify-builder', () => ({}));
 
 describe('Save And Return API', () => {
@@ -24,30 +30,43 @@ describe('Save And Return API', () => {
 
   describe('create and send save and return', () => {
     it('should respond with - OK 200', async () => {
-      req.body = { appealId: '123345', lastPage: 'page', token: '12345' };
+      const appealStub = {
+        appealId: '1233123123',
+      };
+      req.body = appealStub;
 
-      createToken.mockReturnValue('12345');
+      updateAppeal.mockReturnValue(appealStub);
       saveAndReturnNotify.mockReturnValue('12345');
       saveAndReturnCreateService.mockReturnValue('12345');
 
       await saveAndReturnCreate(req, res);
-      expect(createToken).toHaveBeenCalled();
-      expect(saveAndReturnNotify).toHaveBeenCalledWith(req.body.token);
+      expect(updateAppeal).toHaveBeenCalledWith(req.body);
+      expect(saveAndReturnNotify).toHaveBeenCalledWith(req.body);
       expect(saveAndReturnCreateService).toHaveBeenCalledWith(req.body);
       expect(res.status).toHaveBeenCalledWith(201);
     });
 
     it('should respond with - ERROR 400 when appealId is null', async () => {
-      req = { appealId: null };
+      req.body = { appealId: null };
 
-      createToken.mockReturnValue('12345');
       saveAndReturnNotify.mockReturnValue('12345');
       saveAndReturnCreateService.mockReturnValue('12345');
 
       await expect(async () => saveAndReturnCreate(req, res)).rejects.toThrowError('');
-      expect(createToken).toBeCalledTimes(0);
+      expect(res.status).toHaveBeenCalledWith(400);
       expect(saveAndReturnNotify).toBeCalledTimes(0);
       expect(saveAndReturnCreateService).toBeCalledTimes(0);
+    });
+  });
+
+  describe('get saved appeal', () => {
+    it('should retrieve saved appeal by appealId', async () => {
+      req.query = '12345';
+      saveAndReturnGetService.mockReturnValue({ appealId: '12345' });
+      await saveAndReturnGet(req, res);
+      expect(saveAndReturnGetService).toHaveBeenCalledWith(req.query);
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.send).toHaveBeenCalledWith({ appealId: '12345' });
     });
   });
 });

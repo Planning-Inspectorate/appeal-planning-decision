@@ -1,21 +1,28 @@
-const logger = require('../lib/logger');
 const {
-  createToken,
   saveAndReturnCreateService,
   saveAndReturnNotify,
+  saveAndReturnGetService,
 } = require('../services/save-and-return.service');
+const { updateAppeal } = require('../services/appeal.service');
 
 module.exports = {
   async saveAndReturnCreate(req, res) {
-    const { appealId, lastPage } = req.body;
+    const appeal = req.body;
     if (!req.body || !req.body.appealId) {
       res.status(400).send('Invalid Id');
-      return;
+      throw new Error('');
     }
-    const token = await createToken();
 
-    await saveAndReturnCreateService({ appealId, lastPage, token });
-    await saveAndReturnNotify(token);
+    const updatedAppeal = updateAppeal(appeal);
+
+    await saveAndReturnCreateService(updatedAppeal);
+    await saveAndReturnNotify(req.body);
     res.status(201).send('ok');
+  },
+
+  async saveAndReturnGet(req, res) {
+    const token = req.query;
+    const appeal = await saveAndReturnGetService(token);
+    res.status(200).send(appeal);
   },
 };
