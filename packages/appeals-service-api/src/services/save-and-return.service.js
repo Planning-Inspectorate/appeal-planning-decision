@@ -1,10 +1,10 @@
+const { NotifyClient } = require('notifications-node-client').NotifyClient;
+const config = require('@pins/common/src/config');
 const logger = require('../lib/logger');
 const mongodb = require('../db/db');
 
 module.exports = {
   async saveAndReturnCreateService(saved) {
-    logger.debug('XXXXXXXXXXXXXXXXXXXXXXX');
-    logger.debug(saved);
     try {
       await mongodb
         .get()
@@ -25,12 +25,36 @@ module.exports = {
             });
         });
     } catch (err) {
-      logger.error(saved, `Problem creating a reply`);
+      logger.error(saved, `Error when creating in the db`);
     }
   },
 
-  async saveAndReturnNotify(param) {
-    console.log(param);
+  async saveAndReturnGetService(email) {
+    let saved;
+    await mongodb
+      .get()
+      .collection('saveAndReturn')
+      .findOne({ email })
+      .then((doc) => {
+        saved = doc.value;
+      })
+      .catch((err) => {
+        console.log(err);
+        throw new Error(err);
+      });
+    return saved;
+  },
+
+  async saveAndReturnNotify(saved) {
+    // TODO - using the existing builder vs using tthe API directly
+    const notifyClient = new NotifyClient(config.services.notify.apiKey);
+    const options = {
+      personalisation: '',
+      reference: '',
+      emailReplyToId: '',
+    };
+    await notifyClient.sendEmail(this.templateId, this.destinationEmail, options);
+    return true;
   },
 
   createToken() {

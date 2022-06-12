@@ -197,6 +197,25 @@ paths:
                 $ref: '#/components/schemas/LocalPlanningAuthority'
         '404':
           description: The local authority could not be found
+  '/api/v1/save-appeal':
+    post:
+      summary: Creates a saved appeal
+      description: Stores the current state of the given appeal to be retrieved with a token later.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appeal'
+      responses:
+        '200':
+          description: Returns a saved appeal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedAppeal'
+        '400':
+          description: Invalid appeal
 components:
   schemas:
     AboutYouSection:
@@ -371,6 +390,29 @@ components:
         decisionLetter:
           $ref: '#/components/schemas/DecisionLetter'
       description: Section that includes required documents and reference number relating to original apllication
+    SavedAppeal:
+      type: object
+      properties:
+        appealId:
+          type: string
+          maxLength: 20
+          example: '95ecc380-afe9-11e4-9b6c-751b66dd541e'
+        tokenStatus:
+          type: string
+          enum:
+            - 'NOT_SENT'
+            - 'SENT'
+            - 'EXPIRED'
+            - 'USED'
+        token:
+          type: string
+          minLength: 5
+          maxLength: 5
+          example: '12345'
+        createdAt:
+          type: number
+          example:
+
     SectionState:
       type: string
       enum:
