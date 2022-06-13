@@ -94,3 +94,7 @@ exports.getExistingAppeal = async (sessionId) => {
 exports.getLPAList = async () => {
   return handler('/api/v1/local-planning-authorities');
 };
+
+exports.saveAppeal = async (appeal) => {
+  return handler(`/api/v1/save`, 'POST', { body: JSON.stringify(appeal) });
+};
