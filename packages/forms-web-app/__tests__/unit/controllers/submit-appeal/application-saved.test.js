@@ -19,7 +19,7 @@ describe('controllers/submit-appeal/application-saved', () => {
 
     expect(res.render).toBeCalledWith(VIEW.SUBMIT_APPEAL.APPLICATION_SAVED, {
       applicationNumber: '123456',
-      deadline: { date: 20, day: 'Saturday', month: 'August', year: 2022 },
+      deadline: { date: 19, day: 'Friday', month: 'August', year: 2022 },
     });
   });
 });
