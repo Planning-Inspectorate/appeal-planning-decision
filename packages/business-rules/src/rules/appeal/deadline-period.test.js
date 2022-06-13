@@ -28,8 +28,8 @@ describe('business-rules/appeal/deadline-period', () => {
 
   it('should return the correct dealine period for the householder appeal type', () => {
     const { duration, time } = deadlinePeriod(APPEAL_ID.HOUSEHOLDER, APPLICATION_DECISION.GRANTED);
-    expect(time).toEqual(6);
-    expect(duration).toEqual('months');
+    expect(time).toEqual(181);
+    expect(duration).toEqual('days');
   });
 
   it('should return the correct dealine period for the householder appeal type', () => {
@@ -37,7 +37,7 @@ describe('business-rules/appeal/deadline-period', () => {
       APPEAL_ID.PLANNING_SECTION_78,
       APPLICATION_DECISION.GRANTED,
     );
-    expect(time).toEqual(6);
-    expect(duration).toEqual('months');
+    expect(time).toEqual(181);
+    expect(duration).toEqual('days');
   });
 });
