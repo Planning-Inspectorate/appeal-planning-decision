@@ -1,4 +1,4 @@
-const { addWeeks, endOfDay, addMonths } = require('date-fns');
+const { addWeeks, endOfDay, addDays } = require('date-fns');
 const deadlineDate = require('./deadline-date');
 const { APPEAL_ID, APPLICATION_DECISION } = require('../../constants');
 
@@ -41,13 +41,13 @@ describe('business-rules/appeal/deadline-date', () => {
 
   it('should return the deadline date of 6 months for Householder appeal type and non Refused applicationDecision', () => {
     expect(deadlineDate(new Date(), APPEAL_ID.HOUSEHOLDER, APPLICATION_DECISION.GRANTED)).toEqual(
-      addMonths(endOfDay(new Date()), 6),
+      addDays(endOfDay(new Date()), 181),
     );
   });
 
   it('should return the deadline date of 6 months for Full appeal type and any applicationDecision', () => {
     expect(
       deadlineDate(new Date(), APPEAL_ID.PLANNING_SECTION_78, APPLICATION_DECISION.GRANTED),
-    ).toEqual(addMonths(endOfDay(new Date()), 6));
+    ).toEqual(addDays(endOfDay(new Date()), 181));
   });
 });
