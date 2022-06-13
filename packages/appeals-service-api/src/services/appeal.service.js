@@ -346,4 +346,5 @@ module.exports = {
   updateAppeal,
   validateAppeal,
   isAppealSubmitted,
+  replaceAppeal,
 };
