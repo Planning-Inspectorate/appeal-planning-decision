@@ -5,22 +5,26 @@ const mongodb = require('../db/db');
 
 module.exports = {
   async saveAndReturnCreateService(saved) {
+    console.log('$$$$$$$$$$$$$$$');
+    console.log(saved);
+    console.log('$$$$$$$$$$$$$$$');
     try {
       await mongodb
         .get()
         .collection('saveAndReturn')
         .insertOne({
-          token: saved.token,
-          appealId: saved.appealId,
-          lastPage: saved.lastPage,
+          token: null,
+          tokenStatus: 'NOT_SENT',
+          appealId: saved.id,
+          createdAt: new Date(),
         })
         .then(() => {
           mongodb
             .get()
             .collection('saveAndReturn')
-            .findOne({ token: saved.token })
+            .findOne({ appealId: saved.appealId })
             .then((doc) => {
-              logger.debug(doc, 'Reply created');
+              logger.debug(doc, 'Saved appeal created');
               return doc;
             });
         });
@@ -29,12 +33,12 @@ module.exports = {
     }
   },
 
-  async saveAndReturnGetService(email) {
+  async saveAndReturnGetService(appealId) {
     let saved;
     await mongodb
       .get()
       .collection('saveAndReturn')
-      .findOne({ email })
+      .findOne({ appealId })
       .then((doc) => {
         saved = doc.value;
       })
@@ -53,8 +57,46 @@ module.exports = {
       reference: '',
       emailReplyToId: '',
     };
-    await notifyClient.sendEmail(this.templateId, this.destinationEmail, options);
-    return true;
+
+    await notifyClient
+      .sendEmail(
+        'b3651e9d-5cc3-4258-82b4-04ec2ba3d10e',
+        'gui.ribeiro@planninginspectorate.gov.uk',
+        options
+      )
+      .then((res) => {
+        console.log(res);
+        return true;
+      })
+      .catch((err) => {
+        console.log(err);
+        throw new Error(err);
+      });
+  },
+
+  async saveAndReturnTokenService(email) {
+    const token = this.createToken();
+    try {
+      await mongodb
+        .get()
+        .collection('saveAndReturn')
+        .findAndModify({
+          token,
+          email,
+        })
+        .then(() => {
+          mongodb
+            .get()
+            .collection('saveAndReturn')
+            .findOne({ token, tokenStatus: 'SENT' })
+            .then((doc) => {
+              logger.debug(doc, 'Saved appeal token sent');
+              return doc;
+            });
+        });
+    } catch (err) {
+      logger.error(err, `Error when creating in the db`);
+    }
   },
 
   createToken() {

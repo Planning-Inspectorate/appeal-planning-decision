@@ -1,9 +1,17 @@
 const express = require('express');
 
-const { saveAndReturnCreate } = require('../controllers/save-and-return');
+const {
+  saveAndReturnGet,
+  saveAndReturnCreate,
+  saveAndReturnToken,
+} = require('../controllers/save-and-return');
 
 const router = express.Router();
 
+router.get('/:appealId', saveAndReturnGet);
+
 router.post('/', saveAndReturnCreate);
+
+router.patch('/', saveAndReturnToken);
 
 module.exports = router;

@@ -2,27 +2,48 @@ const {
   saveAndReturnCreateService,
   saveAndReturnNotify,
   saveAndReturnGetService,
+  saveAndReturnTokenService,
 } = require('../services/save-and-return.service');
-const { updateAppeal } = require('../services/appeal.service');
+const { replaceAppeal } = require('../services/appeal.service');
 
 module.exports = {
   async saveAndReturnCreate(req, res) {
+    const appeal = req.body;
+    if (!appeal || !appeal.id) {
+      res.status(400).send('Invalid Id');
+      throw new Error('');
+    }
+
+    await replaceAppeal(appeal);
+
+    await saveAndReturnCreateService(appeal)
+      .then(async () => {
+        await saveAndReturnNotify(req.body)
+          .then(() => {
+            res.status(201).send('ok');
+          })
+          .catch((err) => {
+            res.status(500).send(err);
+          });
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      });
+  },
+
+  async saveAndReturnGet(req, res) {
+    const { appealId } = req.params;
+    const appeal = await saveAndReturnGetService(appealId);
+    res.status(200).send(appeal);
+  },
+
+  async saveAndReturnToken(req, res) {
     const appeal = req.body;
     if (!req.body || !req.body.appealId) {
       res.status(400).send('Invalid Id');
       throw new Error('');
     }
-
-    const updatedAppeal = updateAppeal(appeal);
-
-    await saveAndReturnCreateService(updatedAppeal);
-    await saveAndReturnNotify(req.body);
-    res.status(201).send('ok');
-  },
-
-  async saveAndReturnGet(req, res) {
-    const token = req.query;
-    const appeal = await saveAndReturnGetService(token);
-    res.status(200).send(appeal);
+    const saved = saveAndReturnTokenService(appeal.appealId);
+    res.status(200).send(saved);
   },
 };

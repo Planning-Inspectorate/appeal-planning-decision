@@ -2,6 +2,7 @@ const { mockReq, mockRes } = require('../mocks');
 const {
   saveAndReturnCreate,
   saveAndReturnGet,
+  saveAndReturnToken,
 } = require('../../../src/controllers/save-and-return');
 const { updateAppeal } = require('../../../src/services/appeal.service');
 const {
@@ -28,7 +29,7 @@ describe('Save And Return API', () => {
     jest.resetAllMocks();
   });
 
-  describe('create and send save and return', () => {
+  describe('POST - create and send save and return', () => {
     it('should respond with - OK 200', async () => {
       const appealStub = {
         appealId: '1233123123',
@@ -59,7 +60,7 @@ describe('Save And Return API', () => {
     });
   });
 
-  describe('get saved appeal', () => {
+  describe('GET - get saved appeal', () => {
     it('should retrieve saved appeal by appealId', async () => {
       req.query = '12345';
       saveAndReturnGetService.mockReturnValue({ appealId: '12345' });
@@ -69,4 +70,10 @@ describe('Save And Return API', () => {
       expect(res.send).toHaveBeenCalledWith({ appealId: '12345' });
     });
   });
+
+  describe('PATCH - generate token and send it to email', () => {
+    it('should generate the token and send it by email', async () => {
+      await saveAndReturnToken('appealId');
+    });
+  })
 });

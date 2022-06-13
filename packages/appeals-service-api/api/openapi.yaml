@@ -216,6 +216,25 @@ paths:
                 $ref: '#/components/schemas/SavedAppeal'
         '400':
           description: Invalid appeal
+    patch:
+      summary: Generates and send a token for a saved appeal
+      description: Generates and send a token for a saved appeal after doing the checks.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SavedAppeal'
+      responses:
+        '200':
+          description: Returns ok when the email with token is sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedAppeal'
+        '400':
+          description: Invalid appealId
+
 components:
   schemas:
     AboutYouSection:
