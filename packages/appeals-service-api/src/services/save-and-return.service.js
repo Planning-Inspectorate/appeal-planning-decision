@@ -5,9 +5,6 @@ const mongodb = require('../db/db');
 
 module.exports = {
   async saveAndReturnCreateService(saved) {
-    console.log('$$$$$$$$$$$$$$$');
-    console.log(saved);
-    console.log('$$$$$$$$$$$$$$$');
     try {
       await mongodb
         .get()

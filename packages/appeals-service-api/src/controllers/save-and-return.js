@@ -18,13 +18,13 @@ module.exports = {
 
     await saveAndReturnCreateService(appeal)
       .then(async () => {
-        await saveAndReturnNotify(req.body)
-          .then(() => {
-            res.status(201).send('ok');
-          })
-          .catch((err) => {
-            res.status(500).send(err);
-          });
+        // await saveAndReturnNotify(req.body)
+        //   .then(() => {
+        //     res.status(201).send('ok');
+        //   })
+        //   .catch((err) => {
+        //     res.status(500).send(err);
+        //   });
       })
       .catch((err) => {
         res.status(500).send(err);
