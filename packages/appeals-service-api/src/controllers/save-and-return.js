@@ -8,6 +8,7 @@ const { replaceAppeal } = require('../services/appeal.service');
 
 module.exports = {
   async saveAndReturnCreate(req, res) {
+    console.log(req.body)
     const appeal = req.body;
     if (!appeal || !appeal.id) {
       res.status(400).send('Invalid Id');
@@ -16,19 +17,9 @@ module.exports = {
 
     await replaceAppeal(appeal);
 
-    await saveAndReturnCreateService(appeal)
-      .then(async () => {
-        // await saveAndReturnNotify(req.body)
-        //   .then(() => {
-        //     res.status(201).send('ok');
-        //   })
-        //   .catch((err) => {
-        //     res.status(500).send(err);
-        //   });
-      })
-      .catch((err) => {
-        res.status(500).send(err);
-      });
+    await saveAndReturnCreateService(appeal);
+    // await saveAndReturnNotify(req.body)
+    res.status(201).send(appeal);
   },
 
   async saveAndReturnGet(req, res) {
