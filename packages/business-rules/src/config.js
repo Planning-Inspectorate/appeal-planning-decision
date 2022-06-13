@@ -28,16 +28,16 @@ const config = {
         procedureType: [WRITTEN_REPRESENTATION],
         appealDue: {
           granted: {
-            time: 6,
-            duration: 'months',
+            time: 181,
+            duration: 'days',
           },
           refused: {
             time: 12,
             duration: 'weeks',
           },
           nodecisionreceived: {
-            time: 6,
-            duration: 'months',
+            time: 181,
+            duration: 'days',
           },
         },
         questionnaireDue: {
@@ -111,8 +111,8 @@ const config = {
         name: 'Planning Appeal Section 78',
         procedureType: [WRITTEN_REPRESENTATION, HEARING, INQUIRY],
         appealDue: {
-          time: 6,
-          duration: 'months',
+          time: 181,
+          duration: 'days',
         },
         questionnaireDue: {
           time: 1,
