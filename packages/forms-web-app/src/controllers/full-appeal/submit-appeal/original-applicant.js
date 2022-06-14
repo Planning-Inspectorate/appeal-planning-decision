@@ -1,18 +1,11 @@
 const logger = require('../../../lib/logger');
 const { COMPLETED } = require('../../../services/task-status/task-statuses');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
-
 const {
   VIEW: {
     FULL_APPEAL: { ORIGINAL_APPLICANT: currentPage, APPLICANT_NAME, CONTACT_DETAILS },
   },
 } = require('../../../lib/full-appeal/views');
-
-const {
-  VIEW: {
-    SUBMIT_APPEAL: { APPLICATION_SAVED },
-  },
-} = require('../../../lib/submit-appeal/views');
 
 const sectionName = 'contactDetailsSection';
 const taskName = 'isOriginalApplicant';
@@ -44,6 +37,7 @@ exports.getOriginalApplicant = (req, res) => {
 
 exports.postOriginalApplicant = async (req, res) => {
   const { body } = req;
+
   const { errors = {}, errorSummary = [] } = body;
 
   const { appeal } = req.session;
@@ -93,7 +87,5 @@ exports.postOriginalApplicant = async (req, res) => {
     return;
   }
 
-  return body['save-and-return'] !== undefined
-    ? res.redirect(`/${APPLICATION_SAVED}`)
-    : res.redirect(`/${nextPage}`);
+  res.redirect(`/${nextPage}`);
 };
