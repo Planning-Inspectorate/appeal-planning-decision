@@ -1,6 +1,7 @@
 {% extends "layouts/full-appeal-banner/main.njk" %}
 
 {%- from "govuk/components/tag/macro.njk" import govukTag -%}
+{% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
 
 {% block pageTitle %}
   Appeal a planning decision - Appeal a planning decision - GOV.UK
@@ -58,5 +59,11 @@
     </ol>
 
   </div>
+  <div class="govuk-grid-row govuk-!-margin-top-2">
+    <div class="govuk-grid-column-two-thirds">
+    {{ saveAndReturnButton({}) }}
+    </div>
+  </div>
+
 </div>
 {% endblock %}

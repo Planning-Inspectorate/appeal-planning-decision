@@ -4,7 +4,7 @@ const {
   saveAndReturnGet,
   saveAndReturnCreate,
   saveAndReturnToken,
-} = require('../controllers/save-and-return');
+} = require('../controllers/save');
 
 const router = express.Router();
 

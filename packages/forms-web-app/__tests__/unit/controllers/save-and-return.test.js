@@ -1,5 +1,5 @@
 const { mockReq, mockRes } = require('../mocks');
-const saveAndReturnController = require('../../../src/controllers/save-and-return');
+const saveAndReturnController = require('../../../src/controllers/save');
 const { saveAppeal } = require('../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../src/lib/submit-appeal/views');
 

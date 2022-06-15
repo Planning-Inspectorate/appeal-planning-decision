@@ -3,7 +3,7 @@ const {
   saveAndReturnCreate,
   saveAndReturnGet,
   saveAndReturnToken,
-} = require('../../../src/controllers/save-and-return');
+} = require('../../../src/controllers/save');
 const { replaceAppeal } = require('../../../src/services/appeal.service');
 const {
   saveAndReturnNotify,
