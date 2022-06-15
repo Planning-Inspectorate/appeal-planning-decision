@@ -11,6 +11,7 @@ const householderPlanningRouter = require('../../../src/routes/householder-plann
 const documentRouter = require('../../../src/routes/document');
 const beforeYouStartRouter = require('../../../src/routes/before-you-start/before-you-start');
 const submitAppealRouter = require('../../../src/routes/submit-appeal');
+const saveAndReturnRouter = require('../../../src/routes/save-and-return');
 const checkDecisionDateDeadline = require('../../../src/middleware/check-decision-date-deadline');
 const checkAppealTypeExists = require('../../../src/middleware/check-appeal-type-exists');
 
@@ -62,6 +63,12 @@ describe('routes/index', () => {
       checkAppealTypeExists,
       checkDecisionDateDeadline,
       submitAppealRouter
+    );
+    expect(use).toHaveBeenCalledWith(
+      '/save-and-return',
+      checkAppealTypeExists,
+      checkDecisionDateDeadline,
+      saveAndReturnRouter
     );
   });
 });
