@@ -1,0 +1,8 @@
+const express = require('express');
+const saveAndReturnController = require('../controllers/save-and-return');
+
+const router = express.Router();
+
+router.post('/', saveAndReturnController.postSaveAndReturn);
+
+module.exports = router;

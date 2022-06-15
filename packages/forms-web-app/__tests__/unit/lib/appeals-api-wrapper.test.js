@@ -7,7 +7,6 @@ const {
   submitAppeal,
   getExistingAppeal,
   getLPAList,
-  saveAppeal,
 } = require('../../../src/lib/appeals-api-wrapper');
 
 const config = require('../../../src/config');
@@ -139,35 +138,4 @@ describe('lib/appeals-api-wrapper', () => {
       expect(fetch.mock.calls[0][0]).toEqual('http://fake.url/api/v1/local-planning-authorities');
     });
   });
-
-  describe('saveAppeal', () => {
-    it('should call the expected URL', async () => {
-      fetch.mockResponseOnce(JSON.stringify({ shouldBe: 'valid' }));
-      const appealsApiResponse = await saveAppeal({ appeal: 'data' });
-
-      expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/api/v1/save`, {
-        body: '{"appeal":"data"}',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': uuid.v4(),
-        },
-        method: 'POST',
-      });
-      expect(appealsApiResponse).toEqual({ shouldBe: 'valid' });
-    });
-
-    it('should handle api fetch failure', async () => {
-      fetch.mockResponseOnce(JSON.stringify({ errors: ['something went wrong'] }), {
-        status: 400,
-      });
-      try {
-        await saveAppeal({
-          appeal: 'data',
-        });
-      } catch (e) {
-        expect(e.toString()).toEqual('Error: something went wrong');
-      }
-    });
-  });
 });
-
