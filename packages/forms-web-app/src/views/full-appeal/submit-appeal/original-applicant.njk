@@ -55,19 +55,14 @@
             text: errors['original-application-your-name'].msg
           }
         }) }}
-        <div class="govuk-button-group">
           {{ govukButton({
             text: "Continue",
             type: "submit",
             attributes: { "data-cy":"button-save-and-continue"}
           }) }}
         </form>
-        {{ saveAndReturnButton({}) }}
-        </div>
-</div>
-
+      </div>
     </div>
-
   </div>
 {% endblock %}
 
