@@ -1,10 +1,10 @@
 const { post } = require('./router-mock');
-const saveAndReturnController = require('../../../src/controllers/save-and-return');
+const saveAndReturnController = require('../../../src/controllers/save');
 
 describe('routes/save-and-return', () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
-    require('../../../src/routes/save-and-return');
+    require('../../../src/routes/save');
   });
 
   afterEach(() => {

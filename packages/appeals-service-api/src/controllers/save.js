@@ -8,8 +8,10 @@ const { replaceAppeal } = require('../services/appeal.service');
 
 module.exports = {
   async saveAndReturnCreate(req, res) {
-    console.log(req.body)
+
     const appeal = req.body;
+    const { email } = appeal.contactDetailsSection.contact;
+    console.log(email)
     if (!appeal || !appeal.id) {
       res.status(400).send('Invalid Id');
       throw new Error('');

@@ -5,16 +5,24 @@ const mongodb = require('../db/db');
 
 module.exports = {
   async saveAndReturnCreateService(saved) {
+    const query = { appealId: saved.id };
+    const option = { upsert: true };
     try {
       await mongodb
         .get()
         .collection('saveAndReturn')
-        .insertOne({
-          token: null,
-          tokenStatus: 'NOT_SENT',
-          appealId: saved.id,
-          createdAt: new Date(),
-        })
+        .updateOne(
+          query,
+          {
+            $set: {
+              token: null,
+              tokenStatus: 'NOT_SENT',
+              appealId: saved.id,
+              createdAt: new Date(),
+            },
+          },
+          option
+        )
         .then(() => {
           mongodb
             .get()
@@ -26,7 +34,7 @@ module.exports = {
             });
         });
     } catch (err) {
-      logger.error(saved, `Error when creating in the db`);
+      logger.error(err, `Error when creating in the db`);
     }
   },
 

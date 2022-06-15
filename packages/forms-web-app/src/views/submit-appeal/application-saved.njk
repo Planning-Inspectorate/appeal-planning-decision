@@ -3,6 +3,16 @@
 {% set title = "Your appeal for application " + applicationNumber + " has been saved - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ title }}{% endblock %}
 
+{% block backButton %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: '/full-appeal/submit-appeal/task-list',
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
 {% block content %}
 
   <div class="govuk-grid-row">
@@ -14,7 +24,6 @@
         <div class="govuk-inset-text">
         You have until {{ deadline.date }} {{ deadline.month }} {{ deadline.year }} to submit your appeal.
         </div>
-      
     </div>
   </div>
 
