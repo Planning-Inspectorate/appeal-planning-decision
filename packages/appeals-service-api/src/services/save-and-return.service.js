@@ -1,7 +1,9 @@
-const { NotifyClient } = require('notifications-node-client').NotifyClient;
-const config = require('@pins/common/src/config');
 const logger = require('../lib/logger');
 const mongodb = require('../db/db');
+const {
+  sendSaveAndReturnContinueWithAppealEmail,
+  sendSaveAndReturnEnterCodeIntoServiceEmail,
+} = require('../lib/notify');
 
 module.exports = {
   async saveAndReturnCreateService(appeal) {
@@ -56,29 +58,12 @@ module.exports = {
     return saved;
   },
 
-  async saveAndReturnNotify(saved) {
-    // TODO - using the existing builder vs using tthe API directly
-    const notifyClient = new NotifyClient(config.services.notify.apiKey);
-    const options = {
-      personalisation: '',
-      reference: '',
-      emailReplyToId: '',
-    };
+  async saveAndReturnNotifyContinue(saved) {
+    await sendSaveAndReturnContinueWithAppealEmail(saved);
+  },
 
-    await notifyClient
-      .sendEmail(
-        'b3651e9d-5cc3-4258-82b4-04ec2ba3d10e',
-        'gui.ribeiro@planninginspectorate.gov.uk',
-        options
-      )
-      .then((res) => {
-        console.log(res);
-        return true;
-      })
-      .catch((err) => {
-        console.log(err);
-        throw new Error(err);
-      });
+  async saveAndReturnNotifyCode(saved, token) {
+    await sendSaveAndReturnEnterCodeIntoServiceEmail(saved, token);
   },
 
   async saveAndReturnTokenService(email) {

@@ -3,8 +3,12 @@ const {
   APPEAL_ID,
   APPLICATION_DECISION,
   PROCEDURE_TYPE: { WRITTEN_REPRESENTATION, HEARING, INQUIRY },
+  TYPE_OF_PLANNING_APPLICATION,
 } = require('./constants');
+
 const formatAddress = require('./utils/format-address');
+
+const { calculateDeadline } = require('./utils/calculate-deadline');
 
 const config = {
   appeal: {
@@ -62,6 +66,26 @@ const config = {
               date: format(appeal.submissionDate, 'dd MMMM yyyy'),
               'planning application number': appeal.requiredDocumentsSection.applicationNumber,
               'site address': formatAddress(appeal.appealSiteSection.siteAddress),
+            },
+            reference: appeal.id,
+          }),
+          saveAndReturnContinueAppeal: (appeal) => ({
+            recipientEmail: appeal.aboutYourSection.yourDetails.email,
+            variables: {
+              'application number': appeal.requiredDocumentsSection.applicationNumber,
+              date: format(
+                calculateDeadline.householderApplication(appeal.decisionDate),
+                'dd MMMM yyyy',
+              ),
+              link: '', // Link in email to Continue with Appeal
+            },
+            reference: appeal.id,
+          }),
+          saveAndReturnEnterCodeIntoService: (appeal, token) => ({
+            recipientEmail: appeal.aboutYourSection.yourDetails.email,
+            variables: {
+              'application number': appeal.requiredDocumentsSection.applicationNumber,
+              'unique code': token,
             },
             reference: appeal.id,
           }),
@@ -149,6 +173,26 @@ const config = {
                 appeal.eligibility.applicationDecision === APPLICATION_DECISION.NODECISIONRECEIVED
                   ? 'yes'
                   : 'no',
+            },
+            reference: appeal.id,
+          }),
+          saveAndReturnContinueAppeal: (appeal) => ({
+            recipientEmail: appeal.contactDetailsSection.contact.email,
+            variables: {
+              'application number': appeal.planningApplicationDocumentsSection.applicationNumber,
+              date: format(
+                calculateDeadline.fullAppealApplication(appeal.decisionDate),
+                'dd MMMM yyyy',
+              ),
+              link: 'https://www.google.com',
+            },
+            reference: appeal.id,
+          }),
+          saveAndReturnEnterCodeIntoService: (appeal, token) => ({
+            recipientEmail: appeal.contactDetailsSection.contact.email,
+            variables: {
+              'application number': appeal.planningApplicationDocumentsSection.applicationNumber,
+              'unique code': token,
             },
             reference: appeal.id,
           }),
