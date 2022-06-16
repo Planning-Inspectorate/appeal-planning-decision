@@ -57,7 +57,52 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
   }
 };
 
+const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
+  try {
+    const { recipientEmail, variables, reference } =
+      appealTypeConfig[appeal.appealType].email.saveAndReturnContinueAppeal(appeal);
+
+    logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
+
+    await NotifyBuilder.reset()
+      .setTemplateId(templates.SAVE_AND_RETURN.continueWithAppealEmailToAppellant)
+      .setDestinationEmailAddress(recipientEmail)
+      .setTemplateVariablesFromObject(variables)
+      .setReference(reference)
+      .sendEmail();
+  } catch (err) {
+    logger.error(
+      { err, appealId: appeal.id },
+      'Unable to send submission confirmation email to appellant'
+    );
+  }
+};
+
+const sendSaveAndReturnEnterCodeIntoServiceEmail = async (appeal, token) => {
+  try {
+    const { recipientEmail, variables, reference } = appealTypeConfig[
+      appeal.appealType
+    ].email.saveAndReturnEnterCodeIntoService(appeal, token);
+
+    logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
+
+    await NotifyBuilder.reset()
+      .setTemplateId(templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant)
+      .setDestinationEmailAddress(recipientEmail)
+      .setTemplateVariablesFromObject(variables)
+      .setReference(reference)
+      .sendEmail();
+  } catch (err) {
+    logger.error(
+      { err, appealId: appeal.id },
+      'Unable to send submission confirmation email to appellant'
+    );
+  }
+};
+
 module.exports = {
   sendSubmissionReceivedEmailToLpa,
   sendSubmissionConfirmationEmailToAppellant,
+  sendSaveAndReturnContinueWithAppealEmail,
+  sendSaveAndReturnEnterCodeIntoServiceEmail,
 };

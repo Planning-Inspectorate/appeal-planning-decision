@@ -104,6 +104,12 @@ const config = {
           appealNotificationEmailToLpa:
             process.env.SRV_NOTIFY_FULL_APPEAL_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID,
         },
+        SAVE_AND_RETURN: {
+          continueWithAppealEmailToAppellant:
+            process.env.SRV_NOTIFY_SAVE_AND_RETURN_CONTINUE_WITH_APPEAL_TEMPLATE_ID,
+          enterCodeIntoServiceEmailToAppellant:
+            process.env.SRV_NOTIFY_SAVE_AND_RETURN_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID,
+        },
       },
       emailReplyToId: {
         startEmailToLpa: process.env.SRV_NOTIFY_EMAIL_REPLYTO_ID_START_EMAIL_TO_LPA,
