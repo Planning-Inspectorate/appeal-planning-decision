@@ -1,7 +1,9 @@
+const _ = require('lodash');
 const {
   createToken,
   saveAndReturnGetService,
   saveAndReturnNotify,
+  saveAndReturnCreateService,
 } = require('../../../src/services/save-and-return.service');
 const mongodb = require('../../../src/db/db');
 
@@ -44,6 +46,42 @@ describe('save-and-return services', () => {
 
         expect(() => saveAndReturnGetService()).rejects.toThrowError('Some error');
       });
+    });
+
+    describe('saveAndReturnCreateService', () => {
+      it('should save the appeal by appealId', async () => {
+        const saved = {
+          id: '123445',
+          appealId: '123445',
+          token: null,
+          email: 'asd@asd.com',
+          createdAt: new Date(),
+          expirerAt: null,
+        };
+        mongodb.get = jest.fn(() => ({
+          collection: jest.fn(() => ({
+            updateOne: jest.fn().mockResolvedValue(),
+          })),
+        }));
+        mongodb.get = jest.fn(() => ({
+          collection: jest.fn(() => ({
+            findOne: jest.fn().mockRejectedValue(saved),
+          })),
+        }));
+
+        const savedRes = await saveAndReturnCreateService(saved);
+
+        expect(savedRes).toEqual(saved.value);
+      });
+    });
+    it('should throw error', () => {
+      mongodb.get = jest.fn(() => ({
+        collection: jest.fn(() => ({
+          updateOne: jest.fn().mockRejectedValue(new Error('Some error')),
+        })),
+      }));
+
+      expect(() => saveAndReturnCreateService()).rejects.toThrowError('Some error');
     });
   });
 

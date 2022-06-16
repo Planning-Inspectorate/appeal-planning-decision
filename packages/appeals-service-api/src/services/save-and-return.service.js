@@ -4,9 +4,10 @@ const logger = require('../lib/logger');
 const mongodb = require('../db/db');
 
 module.exports = {
-  async saveAndReturnCreateService(saved) {
-    const query = { appealId: saved.id };
+  async saveAndReturnCreateService(appeal) {
+    const query = { appealId: appeal.id };
     const option = { upsert: true };
+    let savedAppeal;
     try {
       await mongodb
         .get()
@@ -17,25 +18,26 @@ module.exports = {
             $set: {
               token: null,
               tokenStatus: 'NOT_SENT',
-              appealId: saved.id,
+              appealId: appeal.id,
               createdAt: new Date(),
             },
           },
           option
         )
-        .then(() => {
-          mongodb
+        .then(async () => {
+          await mongodb
             .get()
             .collection('saveAndReturn')
-            .findOne({ appealId: saved.appealId })
+            .findOne({ appealId: appeal.appealId })
             .then((doc) => {
               logger.debug(doc, 'Saved appeal created');
-              return doc;
+              savedAppeal = doc.value;
             });
         });
     } catch (err) {
       logger.error(err, `Error when creating in the db`);
     }
+    return savedAppeal;
   },
 
   async saveAndReturnGetService(appealId) {
