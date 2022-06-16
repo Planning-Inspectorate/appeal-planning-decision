@@ -10,8 +10,6 @@ module.exports = {
   async saveAndReturnCreate(req, res) {
 
     const appeal = req.body;
-    const { email } = appeal.contactDetailsSection.contact;
-    console.log(email)
     if (!appeal || !appeal.id) {
       res.status(400).send('Invalid Id');
       throw new Error('');
