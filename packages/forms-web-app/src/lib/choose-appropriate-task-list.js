@@ -1,7 +1,7 @@
 const {
   TYPE_OF_PLANNING_APPLICATION,
   APPLICATION_DECISION,
-} = require('../../../business-rules/src/constants');
+} = require('@pins/business-rules/src/constants');
 
 const pages = {
   fullAppealTaskList: '/full-appeal/submit-appeal/task-list',
