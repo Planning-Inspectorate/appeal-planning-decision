@@ -2,6 +2,7 @@
 
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
 
 {% set heading = "Planning obligation deadline" %}
 
@@ -35,12 +36,15 @@
             Your deadline to submit your finalised planning obligation is around 6 weeks after you submit your appeal. We’ll tell you the exact date when we confirm your appeal.
         </p>
 
-        {{ govukButton({
-          text: "Continue",
-          type: "submit",
-          attributes: { "data-cy":"button-save-and-continue"}
-        }) }}
+        <div class="govuk-button-group">        
+          {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: { "data-cy":"button-save-and-continue"}
+          }) }}
       </form>
+          {{ saveAndReturnButton ({}) }}
+        </div>
     </div>
   </div>
 {% endblock %}
