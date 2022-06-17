@@ -4,6 +4,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
 
 {% set title = "Do you plan to submit a planning obligation to support your appeal? - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
@@ -67,12 +68,15 @@
           }
         ]
         }) }}
-        {{ govukButton({
-          text: "Continue",
-          type: "submit",
-          attributes: { "data-cy":"button-save-and-continue"}
-        }) }}
+        <div class="govuk-button-group">        
+          {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: { "data-cy":"button-save-and-continue"}
+          }) }}
       </form>
+          {{ saveAndReturnButton ({}) }}
+        </div>
       
       {{ govukDetails({
         summaryText: "What is a planning obligation?",
