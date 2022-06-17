@@ -3,6 +3,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
 
 {% set heading = "Identifying the "+("other " if ownsSomeOfTheLand else "")+"landowners" %}
 
@@ -71,13 +72,15 @@
             text: errors['identifying-the-owners'].msg
           }
         }) }}
-
+        <div class="govuk-button-group">
         {{ govukButton({
           text: "Continue",
           type: "submit",
           attributes: { "data-cy":"button-save-and-continue"}
         }) }}
       </form>
+      {{ saveAndReturnButton ({}) }}
+        </div>
     </div>
   </div>
 {% endblock %}
