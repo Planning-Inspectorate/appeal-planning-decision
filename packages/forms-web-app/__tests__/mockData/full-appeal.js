@@ -1,4 +1,4 @@
-const { STANDARD_TRIPLE_CONFIRM_OPTIONS } = require('../../../business-rules/src/constants');
+const { STANDARD_TRIPLE_CONFIRM_OPTIONS } = require('@pins/business-rules/src/constants');
 
 const appeal = {
   id: 'fc7cb757-fe21-46dd-b3fd-121c385cd884',
