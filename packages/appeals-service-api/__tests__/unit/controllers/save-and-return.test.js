@@ -6,7 +6,7 @@ const {
 } = require('../../../src/controllers/save');
 const { replaceAppeal } = require('../../../src/services/appeal.service');
 const {
-  saveAndReturnNotify,
+  saveAndReturnNotifyContinue,
   saveAndReturnCreateService,
   saveAndReturnGetService,
   saveAndReturnTokenService,
@@ -37,7 +37,7 @@ describe('Save And Return API', () => {
       req.body = appealStub;
 
       replaceAppeal.mockReturnValue(appealStub);
-      saveAndReturnNotify.mockReturnValue('12345');
+      saveAndReturnNotifyContinue.mockReturnValue('');
       saveAndReturnCreateService.mockReturnValue('12345');
 
       await saveAndReturnCreate(req, res);
@@ -49,12 +49,12 @@ describe('Save And Return API', () => {
     it('should respond with - ERROR 400 when appealId is null', async () => {
       req.body = { appealId: null };
 
-      saveAndReturnNotify.mockReturnValue('12345');
+      saveAndReturnNotifyContinue.mockReturnValue('12345');
       saveAndReturnCreateService.mockReturnValue('12345');
 
       await expect(async () => saveAndReturnCreate(req, res)).rejects.toThrowError('');
       expect(res.status).toHaveBeenCalledWith(400);
-      expect(saveAndReturnNotify).toBeCalledTimes(0);
+      expect(saveAndReturnNotifyContinue).toBeCalledTimes(0);
       expect(saveAndReturnCreateService).toBeCalledTimes(0);
     });
   });

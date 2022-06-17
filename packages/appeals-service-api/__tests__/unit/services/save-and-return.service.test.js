@@ -1,8 +1,6 @@
-const _ = require('lodash');
 const {
   createToken,
   saveAndReturnGetService,
-  saveAndReturnNotify,
   saveAndReturnCreateService,
 } = require('../../../src/services/save-and-return.service');
 const mongodb = require('../../../src/db/db');
@@ -82,13 +80,6 @@ describe('save-and-return services', () => {
       }));
 
       expect(() => saveAndReturnCreateService()).rejects.toThrowError('Some error');
-    });
-  });
-
-  describe(' save and return notify client', () => {
-    it('should send notification with the template', () => {
-      // TODO
-      saveAndReturnNotify();
     });
   });
 });
