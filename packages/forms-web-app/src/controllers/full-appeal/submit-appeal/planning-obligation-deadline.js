@@ -6,7 +6,8 @@ const {
     FULL_APPEAL: { PLANNING_OBLIGATION_DEADLINE, NEW_DOCUMENTS },
   },
 } = require('../../../lib/full-appeal/views');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealDocumentsSection';
 const taskName = 'planningObligationDeadline';
@@ -39,8 +40,14 @@ const postPlanningObligationDeadline = async (req, res) => {
 
   try {
     appeal[sectionName][taskName].planningObligationDeadline = planningObligationDeadline;
-    appeal.sectionStates[sectionName].planningObligationDeadlineStatus = COMPLETED;
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName].planningObligationDeadlineStatus = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return res.redirect(`/${NEW_DOCUMENTS}`);
+    }
+    appeal.sectionStates[sectionName].planningObligationDeadlineStatus = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
     return res.render(PLANNING_OBLIGATION_DEADLINE, {
@@ -49,8 +56,6 @@ const postPlanningObligationDeadline = async (req, res) => {
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
-
-  return res.redirect(`/${NEW_DOCUMENTS}`);
 };
 
 module.exports = {

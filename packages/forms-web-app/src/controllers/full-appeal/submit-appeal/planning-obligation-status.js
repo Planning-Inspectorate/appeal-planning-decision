@@ -13,7 +13,8 @@ const {
     },
   },
 } = require('../../../lib/full-appeal/views');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealDocumentsSection';
 const taskName = 'planningObligationDeadline';
@@ -41,8 +42,23 @@ const postPlanningObligationStatus = async (req, res) => {
 
   try {
     appeal[sectionName][taskName].planningObligationStatus = planningObligationStatus;
-    appeal.sectionStates[sectionName].planningObligationStatus = COMPLETED;
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName].planningObligationStatus = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      switch (planningObligationStatus) {
+        case PLANNING_OBLIGATION_STATUS_OPTION.FINALISED:
+          return res.redirect(`/${PLANNING_OBLIGATION_DOCUMENTS}`);
+        case PLANNING_OBLIGATION_STATUS_OPTION.DRAFT:
+          return res.redirect(`/${DRAFT_PLANNING_OBLIGATION}`);
+        case PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED:
+          return res.redirect(`/${PLANNING_OBLIGATION_DEADLINE}`);
+        default:
+          return res.redirect(`/${PLANNING_OBLIGATION_STATUS}`);
+      }
+    }
+    appeal.sectionStates[sectionName].planningObligationStatus = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
 
@@ -51,17 +67,6 @@ const postPlanningObligationStatus = async (req, res) => {
       errors,
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
-  }
-
-  switch (planningObligationStatus) {
-    case PLANNING_OBLIGATION_STATUS_OPTION.FINALISED:
-      return res.redirect(`/${PLANNING_OBLIGATION_DOCUMENTS}`);
-    case PLANNING_OBLIGATION_STATUS_OPTION.DRAFT:
-      return res.redirect(`/${DRAFT_PLANNING_OBLIGATION}`);
-    case PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED:
-      return res.redirect(`/${PLANNING_OBLIGATION_DEADLINE}`);
-    default:
-      return res.redirect(`/${PLANNING_OBLIGATION_STATUS}`);
   }
 };
 
