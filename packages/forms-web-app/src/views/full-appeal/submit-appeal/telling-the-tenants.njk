@@ -70,13 +70,14 @@
             text: errors['telling-the-tenants'].msg
           }
         }) }}
-
-        {{ govukButton({
-          text: "Continue",
-          type: "submit",
-          attributes: { "data-cy":"button-save-and-continue"}
-        }) }}
-        {{ saveAndReturnButton () }}
+        <div class="govuk-button-group">
+          {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: { "data-cy":"button-save-and-continue"}
+          }) }}
+          {{ saveAndReturnButton() }}
+        </div>
       </form>
     </div>
   </div>

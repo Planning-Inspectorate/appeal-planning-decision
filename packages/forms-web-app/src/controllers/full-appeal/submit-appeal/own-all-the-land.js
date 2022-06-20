@@ -1,12 +1,11 @@
 const logger = require('../../../lib/logger');
-const { createOrUpdateAppeal, saveAppeal } = require('../../../lib/appeals-api-wrapper');
+const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   VIEW: {
     FULL_APPEAL: { AGRICULTURAL_HOLDING, OWN_ALL_THE_LAND, OWN_SOME_OF_THE_LAND },
   },
 } = require('../../../lib/full-appeal/views');
 const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
-const { VIEW } = require('../../../lib/submit-appeal/views');
 const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealSiteSection';

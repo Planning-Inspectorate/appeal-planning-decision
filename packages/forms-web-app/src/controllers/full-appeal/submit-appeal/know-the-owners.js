@@ -69,7 +69,7 @@ const postKnowTheOwners = async (req, res) => {
         ? res.redirect(`/${TELLING_THE_LANDOWNERS}`)
         : res.redirect(`/${IDENTIFYING_THE_OWNERS}`);
     }
-    req.session.appeal.sectionStates[sectionName].otherTenants = IN_PROGRESS;
+    appeal.sectionStates[sectionName].knowTheOwners = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
     return await postSaveAndReturn(req, res);
   } catch (err) {

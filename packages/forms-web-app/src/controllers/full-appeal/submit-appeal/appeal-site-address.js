@@ -6,19 +6,18 @@ const {
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
 const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
-const { saveAppeal } = require('../../../lib/appeals-api-wrapper');
-const { VIEW } = require('../../../lib/submit-appeal/views');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'siteAddress';
 
-exports.getAppealSiteAddress = (req, res) => {
+const getAppealSiteAddress = (req, res) => {
   res.render(currentPage, {
     appeal: req.session.appeal,
   });
 };
 
-exports.postAppealSiteAddress = async (req, res) => {
+const postAppealSiteAddress = async (req, res) => {
   const { body } = req;
   const { errors = {}, errorSummary = [] } = body;
   const { appeal } = req.session;
@@ -32,32 +31,33 @@ exports.postAppealSiteAddress = async (req, res) => {
   };
 
   if (Object.keys(errors).length > 0) {
-    res.render(currentPage, {
+    return res.render(currentPage, {
       appeal,
       errors,
       errorSummary,
     });
-    return;
   }
 
   try {
     if (req.body['save-and-return'] !== '') {
       req.session.appeal.sectionStates[sectionName][taskName] = COMPLETED;
       req.session.appeal = await createOrUpdateAppeal(appeal);
-      res.redirect(`/${OWN_ALL_THE_LAND}`);
-    } else {
-      req.session.navigationHistory.shift();
-      await saveAppeal(req.session.appeal);
-      req.session.appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
-      req.session.appeal = await createOrUpdateAppeal(appeal);
-      res.redirect(`/${VIEW.SUBMIT_APPEAL.APPLICATION_SAVED}`);
+      return res.redirect(`/${OWN_ALL_THE_LAND}`);
     }
+    appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
+    req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (e) {
     logger.error(e);
-    res.render(currentPage, {
+    return res.render(currentPage, {
       appeal,
       errors,
       errorSummary: [{ text: e.toString(), href: '#' }],
     });
   }
+};
+
+module.exports = {
+  getAppealSiteAddress,
+  postAppealSiteAddress,
 };

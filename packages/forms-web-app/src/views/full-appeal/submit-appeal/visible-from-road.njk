@@ -86,14 +86,14 @@
           ]
         }) }}
         <div class="govuk-button-group">
-        {{ govukButton({
-          text: "Continue",
-          type: "submit",
-          attributes: { "data-cy":"button-save-and-continue"}
-        }) }}
-      </form>
-      {{ saveAndReturnButton () }}
+          {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: { "data-cy":"button-save-and-continue"}
+          }) }}
+          {{ saveAndReturnButton() }}
         </div>
+      </form>
     </div>
   </div>
 {% endblock %}

@@ -1,7 +1,10 @@
 const express = require('express');
 
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
-const appealSiteAddressController = require('../../../controllers/full-appeal/submit-appeal/appeal-site-address');
+const {
+  getAppealSiteAddress,
+  postAppealSiteAddress,
+} = require('../../../controllers/full-appeal/submit-appeal/appeal-site-address');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
 const {
   rules: appealSiteAddressValidationRules,
@@ -12,12 +15,12 @@ const router = express.Router();
 router.get(
   '/submit-appeal/appeal-site-address',
   [fetchExistingAppealMiddleware],
-  appealSiteAddressController.getAppealSiteAddress
+  getAppealSiteAddress
 );
 router.post(
   '/submit-appeal/appeal-site-address',
   [appealSiteAddressValidationRules(), validationErrorHandler],
-  appealSiteAddressController.postAppealSiteAddress
+  postAppealSiteAddress
 );
 
 module.exports = router;
