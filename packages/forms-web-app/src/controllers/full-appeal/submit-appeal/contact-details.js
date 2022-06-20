@@ -5,7 +5,8 @@ const {
     FULL_APPEAL: { CONTACT_DETAILS, TASK_LIST },
   },
 } = require('../../../lib/full-appeal/views');
-const TASK_STATUS = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'contactDetailsSection';
 const taskName = 'contact';
@@ -28,25 +29,28 @@ exports.postContactDetails = async (req, res) => {
   };
 
   if (Object.keys(errors).length > 0) {
-    res.render(CONTACT_DETAILS, {
+    return res.render(CONTACT_DETAILS, {
       appeal,
       errors,
       errorSummary,
     });
-    return;
   }
 
   try {
-    appeal.sectionStates[sectionName][taskName] = TASK_STATUS.COMPLETED;
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName][taskName] = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return res.redirect(`/${TASK_LIST}`);
+    }
+    appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (e) {
     logger.error(e);
-    res.render(CONTACT_DETAILS, {
+    return res.render(CONTACT_DETAILS, {
       appeal,
       errors,
       errorSummary: [{ text: e.toString(), href: '#' }],
     });
-    return;
   }
-  res.redirect(`/${TASK_LIST}`);
 };

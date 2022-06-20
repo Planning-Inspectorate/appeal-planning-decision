@@ -1,11 +1,12 @@
 const logger = require('../../../lib/logger');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   VIEW: {
     FULL_APPEAL: { ORIGINAL_APPLICANT: currentPage, APPLICANT_NAME, CONTACT_DETAILS },
   },
 } = require('../../../lib/full-appeal/views');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'contactDetailsSection';
 const taskName = 'isOriginalApplicant';
@@ -26,16 +27,14 @@ const FORM_FIELD = {
   },
 };
 
-exports.FORM_FIELD = FORM_FIELD;
-
-exports.getOriginalApplicant = (req, res) => {
+const getOriginalApplicant = (req, res) => {
   res.render(currentPage, {
     FORM_FIELD,
     appeal: req.session.appeal,
   });
 };
 
-exports.postOriginalApplicant = async (req, res) => {
+const postOriginalApplicant = async (req, res) => {
   const { body } = req;
 
   const { errors = {}, errorSummary = [] } = body;
@@ -62,30 +61,34 @@ exports.postOriginalApplicant = async (req, res) => {
   }
 
   if (Object.keys(errors).length > 0) {
-    res.render(nextPage, {
+    return res.render(nextPage, {
       appeal,
       errors,
       errorSummary,
       FORM_FIELD,
     });
-    return;
   }
 
   try {
-    appeal.sectionStates[sectionName][taskName] = COMPLETED;
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName][taskName] = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return res.redirect(`/${nextPage}`);
+    }
+    appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (e) {
     logger.error(e);
     nextPage = currentPage;
 
-    res.render(nextPage, {
+    return res.render(nextPage, {
       appeal,
       errors,
       errorSummary: [{ text: e.toString(), href: '#' }],
       FORM_FIELD,
     });
-    return;
   }
-
-  res.redirect(`/${nextPage}`);
 };
+
+module.exports = { getOriginalApplicant, postOriginalApplicant, FORM_FIELD };

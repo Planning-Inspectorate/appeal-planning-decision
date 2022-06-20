@@ -5,7 +5,6 @@ const {
   saveAndReturnTokenService,
   saveAndReturnNotifyCode,
 } = require('../services/save-and-return.service');
-const { replaceAppeal } = require('../services/appeal.service');
 
 module.exports = {
   async saveAndReturnCreate(req, res) {
@@ -14,9 +13,6 @@ module.exports = {
       res.status(400).send('Invalid Id');
       throw new Error('');
     }
-
-    await replaceAppeal(appeal);
-
     await saveAndReturnCreateService(appeal);
     await saveAndReturnNotifyContinue(appeal);
     res.status(201).send(appeal);
