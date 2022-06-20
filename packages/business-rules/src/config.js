@@ -70,7 +70,7 @@ const config = {
             reference: appeal.id,
           }),
           saveAndReturnContinueAppeal: (appeal) => ({
-            recipientEmail: appeal.aboutYourSection.yourDetails.email,
+            recipientEmail: appeal.contactDetailsSection.contact.email,
             variables: {
               'application number': appeal.requiredDocumentsSection.applicationNumber,
               date: format(
@@ -82,7 +82,7 @@ const config = {
             reference: appeal.id,
           }),
           saveAndReturnEnterCodeIntoService: (appeal, token) => ({
-            recipientEmail: appeal.aboutYourSection.yourDetails.email,
+            recipientEmail: appeal.contactDetailsSection.contact.email,
             variables: {
               'application number': appeal.requiredDocumentsSection.applicationNumber,
               'unique code': token,

@@ -41,7 +41,6 @@ describe('Save And Return API', () => {
       saveAndReturnCreateService.mockReturnValue('12345');
 
       await saveAndReturnCreate(req, res);
-      expect(replaceAppeal).toHaveBeenCalledWith(req.body);
       expect(saveAndReturnCreateService).toHaveBeenCalledWith(req.body);
       expect(res.status).toHaveBeenCalledWith(201);
     });

@@ -1,5 +1,8 @@
 const express = require('express');
-const originalApplicantController = require('../../../controllers/full-appeal/submit-appeal/original-applicant');
+const {
+  getOriginalApplicant,
+  postOriginalApplicant,
+} = require('../../../controllers/full-appeal/submit-appeal/original-applicant');
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
 const {
@@ -11,13 +14,13 @@ const router = express.Router();
 router.get(
   '/submit-appeal/original-applicant',
   [fetchExistingAppealMiddleware],
-  originalApplicantController.getOriginalApplicant
+  getOriginalApplicant
 );
 router.post(
   '/submit-appeal/original-applicant',
   originalApplicantValidationRules(),
   validationErrorHandler,
-  originalApplicantController.postOriginalApplicant
+  postOriginalApplicant
 );
 
 module.exports = router;

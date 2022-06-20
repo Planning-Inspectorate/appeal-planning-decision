@@ -5,7 +5,8 @@ const {
   },
 } = require('../../../lib/full-appeal/views');
 const logger = require('../../../lib/logger');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'contactDetailsSection';
 const taskName = 'appealingOnBehalfOf';
@@ -27,26 +28,28 @@ exports.postApplicantName = async (req, res) => {
   task.companyName = req.body['company-name'];
 
   if (Object.keys(errors).length > 0) {
-    res.render(currentPage, {
+    return res.render(currentPage, {
       appeal,
       errors,
       errorSummary,
     });
-    return;
   }
 
   try {
-    appeal.sectionStates[sectionName][taskName] = COMPLETED;
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName][taskName] = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return res.redirect(`/${CONTACT_DETAILS}`);
+    }
+    appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (e) {
     logger.error(e);
-    res.render(currentPage, {
+    return res.render(currentPage, {
       appeal,
       errors,
       errorSummary: [{ text: e.toString(), href: '#' }],
     });
-    return;
   }
-
-  res.redirect(`/${CONTACT_DETAILS}`);
 };
