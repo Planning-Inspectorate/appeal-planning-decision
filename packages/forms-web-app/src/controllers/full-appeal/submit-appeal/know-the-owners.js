@@ -14,7 +14,8 @@ const {
     FULL_APPEAL: { IDENTIFYING_THE_OWNERS, KNOW_THE_OWNERS, TELLING_THE_LANDOWNERS },
   },
 } = require('../../../lib/full-appeal/views');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'siteOwnership';
@@ -51,18 +52,26 @@ const postKnowTheOwners = async (req, res) => {
 
   const knowsTheOwners = body['know-the-owners'];
   const knowTheOwnersSomeNo = [KNOW_THE_OWNERS_SOME, KNOW_THE_OWNERS_NO];
+  if (
+    knowTheOwnersSomeNo.includes(knowsTheOwners) &&
+    knowTheOwnersSomeNo.includes(appeal[sectionName][taskName].knowsTheOwners) &&
+    knowsTheOwners !== appeal[sectionName][taskName].knowsTheOwners
+  ) {
+    appeal[sectionName][taskName].hasIdentifiedTheOwners = null;
+  }
 
   try {
-    if (
-      knowTheOwnersSomeNo.includes(knowsTheOwners) &&
-      knowTheOwnersSomeNo.includes(appeal[sectionName][taskName].knowsTheOwners) &&
-      knowsTheOwners !== appeal[sectionName][taskName].knowsTheOwners
-    ) {
-      appeal[sectionName][taskName].hasIdentifiedTheOwners = null;
+    if (req.body['save-and-return'] !== '') {
+      appeal[sectionName][taskName].knowsTheOwners = knowsTheOwners;
+      appeal.sectionStates[sectionName].knowTheOwners = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return knowsTheOwners === KNOW_THE_OWNERS_YES
+        ? res.redirect(`/${TELLING_THE_LANDOWNERS}`)
+        : res.redirect(`/${IDENTIFYING_THE_OWNERS}`);
     }
-    appeal[sectionName][taskName].knowsTheOwners = knowsTheOwners;
-    appeal.sectionStates[sectionName].knowTheOwners = COMPLETED;
+    req.session.appeal.sectionStates[sectionName].otherTenants = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
 
@@ -73,10 +82,6 @@ const postKnowTheOwners = async (req, res) => {
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
-
-  return knowsTheOwners === KNOW_THE_OWNERS_YES
-    ? res.redirect(`/${TELLING_THE_LANDOWNERS}`)
-    : res.redirect(`/${IDENTIFYING_THE_OWNERS}`);
 };
 
 module.exports = {

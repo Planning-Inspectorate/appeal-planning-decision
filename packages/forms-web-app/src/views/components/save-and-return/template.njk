@@ -1,7 +1,5 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-<form action="/save-and-return" method="POST" novalidate style="display: flex; margin-top: 30px;margin-left: 13px;">
-
 {{ govukButton({
     text: "Save and come back later",
     type: "submit",
@@ -9,4 +7,3 @@
     classes: "govuk-button--secondary",
     attributes: { "data-cy":"button-save-and-return"}
 }) }}
-</form>

@@ -1,11 +1,13 @@
 const logger = require('../../../lib/logger');
-const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
+const { createOrUpdateAppeal, saveAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
   VIEW: {
     FULL_APPEAL: { AGRICULTURAL_HOLDING, OWN_ALL_THE_LAND, OWN_SOME_OF_THE_LAND },
   },
 } = require('../../../lib/full-appeal/views');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { VIEW } = require('../../../lib/submit-appeal/views');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'siteOwnership';
@@ -32,11 +34,19 @@ const postOwnAllTheLand = async (req, res) => {
   }
 
   const ownsAllTheLand = body['own-all-the-land'] === 'yes';
+  appeal[sectionName][taskName].ownsAllTheLand = ownsAllTheLand;
 
   try {
-    appeal[sectionName][taskName].ownsAllTheLand = ownsAllTheLand;
-    appeal.sectionStates[sectionName].ownsAllTheLand = COMPLETED;
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName].ownsAllTheLand = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return ownsAllTheLand
+        ? res.redirect(`/${AGRICULTURAL_HOLDING}`)
+        : res.redirect(`/${OWN_SOME_OF_THE_LAND}`);
+    }
+    appeal.sectionStates[sectionName].ownsAllTheLand = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
 
@@ -46,10 +56,6 @@ const postOwnAllTheLand = async (req, res) => {
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
-
-  return ownsAllTheLand
-    ? res.redirect(`/${AGRICULTURAL_HOLDING}`)
-    : res.redirect(`/${OWN_SOME_OF_THE_LAND}`);
 };
 
 module.exports = {

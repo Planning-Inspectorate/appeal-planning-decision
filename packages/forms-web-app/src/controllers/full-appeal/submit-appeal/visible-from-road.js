@@ -5,7 +5,8 @@ const {
     FULL_APPEAL: { HEALTH_SAFETY_ISSUES, VISIBLE_FROM_ROAD },
   },
 } = require('../../../lib/full-appeal/views');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'visibleFromRoad';
@@ -59,9 +60,14 @@ const postVisibleFromRoad = async (req, res) => {
 
   try {
     appeal[sectionName][taskName] = visibleFromRoad;
-    appeal.sectionStates[sectionName][taskName] = COMPLETED;
-
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName][taskName] = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return res.redirect(`/${HEALTH_SAFETY_ISSUES}`);
+    }
+    appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
 
@@ -74,8 +80,6 @@ const postVisibleFromRoad = async (req, res) => {
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
-
-  return res.redirect(`/${HEALTH_SAFETY_ISSUES}`);
 };
 
 module.exports = {

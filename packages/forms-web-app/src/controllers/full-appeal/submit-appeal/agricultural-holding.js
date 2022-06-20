@@ -5,7 +5,8 @@ const {
     FULL_APPEAL: { AGRICULTURAL_HOLDING, ARE_YOU_A_TENANT, VISIBLE_FROM_ROAD },
   },
 } = require('../../../lib/full-appeal/views');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'agriculturalHolding';
@@ -48,11 +49,19 @@ const postAgriculturalHolding = async (req, res) => {
   }
 
   const isAgriculturalHolding = body['agricultural-holding'] === 'yes';
+  appeal[sectionName][taskName].isAgriculturalHolding = isAgriculturalHolding;
 
   try {
-    appeal[sectionName][taskName].isAgriculturalHolding = isAgriculturalHolding;
-    appeal.sectionStates[sectionName][taskName] = COMPLETED;
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName][taskName] = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return isAgriculturalHolding
+        ? res.redirect(`/${ARE_YOU_A_TENANT}`)
+        : res.redirect(`/${VISIBLE_FROM_ROAD}`);
+    }
+    req.session.appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
 
@@ -64,10 +73,6 @@ const postAgriculturalHolding = async (req, res) => {
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
-
-  return isAgriculturalHolding
-    ? res.redirect(`/${ARE_YOU_A_TENANT}`)
-    : res.redirect(`/${VISIBLE_FROM_ROAD}`);
 };
 
 module.exports = {

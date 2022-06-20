@@ -54,6 +54,7 @@ const ruleAddressPostCode = () =>
     .custom((postcode) => validatePostcode(postcode));
 
 const rules = () => {
+  console.log(body);
   return [
     ruleAddressLine1(),
     ruleAddressLine2(),
