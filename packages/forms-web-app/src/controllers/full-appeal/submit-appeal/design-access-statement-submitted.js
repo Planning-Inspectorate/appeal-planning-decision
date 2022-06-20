@@ -11,11 +11,12 @@ const {
       DECISION_LETTER,
       DESIGN_ACCESS_STATEMENT_SUBMITTED,
       DESIGN_ACCESS_STATEMENT,
-      LETTER_CONFIRMING_APPLICATION
+      LETTER_CONFIRMING_APPLICATION,
     },
   },
 } = require('../../../lib/full-appeal/views');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'planningApplicationDocumentsSection';
 const taskName = 'designAccessStatement';
@@ -55,9 +56,21 @@ const postDesignAccessStatementSubmitted = async (req, res) => {
   const isSubmitted = body['design-access-statement-submitted'] === 'yes';
 
   try {
+    if (req.body['save-and-return'] !== '') {
+      appeal[sectionName][taskName].isSubmitted = isSubmitted;
+      appeal.sectionStates[sectionName].designAccessStatementSubmitted = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      if (isSubmitted) {
+        return res.redirect(`/${DESIGN_ACCESS_STATEMENT}`);
+      } else if (applicationDecision === NODECISIONRECEIVED) {
+        return res.redirect(`/${LETTER_CONFIRMING_APPLICATION}`);
+      }
+      return res.redirect(`/${DECISION_LETTER}`);
+    }
     appeal[sectionName][taskName].isSubmitted = isSubmitted;
-    appeal.sectionStates[sectionName].designAccessStatementSubmitted = COMPLETED;
+    appeal.sectionStates[sectionName].designAccessStatementSubmitted = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
 
@@ -67,14 +80,6 @@ const postDesignAccessStatementSubmitted = async (req, res) => {
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
-
-  if (isSubmitted) {
-    return res.redirect(`/${DESIGN_ACCESS_STATEMENT}`);
-  } else if (applicationDecision === NODECISIONRECEIVED) {
-    return res.redirect(`/${LETTER_CONFIRMING_APPLICATION}`);
-  }
-
-  return res.redirect(`/${DECISION_LETTER}`);
 };
 
 module.exports = {
