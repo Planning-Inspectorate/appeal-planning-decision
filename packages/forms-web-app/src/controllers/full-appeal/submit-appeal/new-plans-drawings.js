@@ -5,7 +5,8 @@ const {
     FULL_APPEAL: { PLANS_DRAWINGS, NEW_PLANS_DRAWINGS, PLANNING_OBLIGATION_PLANNED },
   },
 } = require('../../../lib/full-appeal/views');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealDocumentsSection';
 const taskName = 'plansDrawings';
@@ -35,9 +36,16 @@ const postNewPlansDrawings = async (req, res) => {
 
   try {
     appeal[sectionName][taskName].hasPlansDrawings = hasPlansDrawings;
-    appeal.sectionStates[sectionName].newPlansDrawings = COMPLETED;
-
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName].newPlansDrawings = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return hasPlansDrawings
+        ? res.redirect(`/${PLANS_DRAWINGS}`)
+        : res.redirect(`/${PLANNING_OBLIGATION_PLANNED}`);
+    }
+    appeal.sectionStates[sectionName].newPlansDrawings = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
 
@@ -47,10 +55,6 @@ const postNewPlansDrawings = async (req, res) => {
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
-
-  return hasPlansDrawings
-    ? res.redirect(`/${PLANS_DRAWINGS}`)
-    : res.redirect(`/${PLANNING_OBLIGATION_PLANNED}`);
 };
 
 module.exports = {

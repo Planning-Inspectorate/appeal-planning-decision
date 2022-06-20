@@ -5,8 +5,8 @@ const {
     FULL_APPEAL: { NEW_DOCUMENTS, OTHER_SUPPORTING_DOCUMENTS, TASK_LIST },
   },
 } = require('../../../lib/full-appeal/views');
-
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealDocumentsSection';
 const taskName = 'supportingDocuments';
@@ -45,9 +45,17 @@ const postNewSupportingDocuments = async (req, res) => {
 
   try {
     appeal[sectionName][taskName].hasSupportingDocuments = hasSupportingDocuments;
-    appeal.sectionStates[sectionName][taskName] = COMPLETED;
 
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName][taskName] = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return hasSupportingDocuments
+        ? res.redirect(`/${OTHER_SUPPORTING_DOCUMENTS}`)
+        : res.redirect(`/${TASK_LIST}`);
+    }
+    appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
 
@@ -58,10 +66,6 @@ const postNewSupportingDocuments = async (req, res) => {
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
-
-  return hasSupportingDocuments
-    ? res.redirect(`/${OTHER_SUPPORTING_DOCUMENTS}`)
-    : res.redirect(`/${TASK_LIST}`);
 };
 
 module.exports = {

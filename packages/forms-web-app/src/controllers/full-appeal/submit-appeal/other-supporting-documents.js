@@ -11,7 +11,8 @@ const {
 const logger = require('../../../lib/logger');
 const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealDocumentsSection';
 const taskName = 'supportingDocuments';
@@ -72,8 +73,14 @@ const postOtherSupportingDocuments = async (req, res) => {
       );
     }
 
-    appeal.sectionStates[sectionName].newSupportingDocuments = COMPLETED;
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName].newSupportingDocuments = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return res.redirect(`/${TASK_LIST}`);
+    }
+    appeal.sectionStates[sectionName].newSupportingDocuments = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
     return res.render(OTHER_SUPPORTING_DOCUMENTS, {
@@ -82,8 +89,6 @@ const postOtherSupportingDocuments = async (req, res) => {
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
-
-  return res.redirect(`/${TASK_LIST}`);
 };
 
 module.exports = {

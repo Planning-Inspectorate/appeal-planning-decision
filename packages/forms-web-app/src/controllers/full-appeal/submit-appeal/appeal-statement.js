@@ -6,7 +6,8 @@ const {
 const logger = require('../../../lib/logger');
 const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealDocumentsSection';
 const taskName = 'appealStatement';
@@ -66,8 +67,14 @@ const postAppealStatement = async (req, res) => {
       };
     }
 
-    appeal.sectionStates[sectionName][taskName] = COMPLETED;
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName][taskName] = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return res.redirect(`/${NEW_PLANS_DRAWINGS}`);
+    }
+    appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
     return res.render(APPEAL_STATEMENT, {
@@ -77,8 +84,6 @@ const postAppealStatement = async (req, res) => {
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
-
-  return res.redirect(`/${NEW_PLANS_DRAWINGS}`);
 };
 
 module.exports = {
