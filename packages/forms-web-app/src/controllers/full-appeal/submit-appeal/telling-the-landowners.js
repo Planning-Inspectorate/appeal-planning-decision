@@ -5,8 +5,9 @@ const {
 } = require('../../../lib/full-appeal/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
 const toArray = require('../../../lib/to-array');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'tellingTheLandowners';
@@ -60,10 +61,14 @@ const postTellingTheLandowners = async (req, res) => {
 
   try {
     appeal.appealSiteSection.siteOwnership.tellingTheLandowners = tellingTheLandowners;
-    appeal.sectionStates[sectionName][taskName] = COMPLETED;
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName][taskName] = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return res.redirect(`/${AGRICULTURAL_HOLDING}`);
+    }
+    appeal.sectionStates[sectionName].knowTheOwners = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
-
-    return res.redirect(`/${AGRICULTURAL_HOLDING}`);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
 

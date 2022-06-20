@@ -5,7 +5,8 @@ const {
     FULL_APPEAL: { OWN_SOME_OF_THE_LAND, KNOW_THE_OWNERS },
   },
 } = require('../../../lib/full-appeal/views');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'siteOwnership';
@@ -32,11 +33,17 @@ const postOwnSomeOfTheLand = async (req, res) => {
   }
 
   const ownsSomeOfTheLand = body['own-some-of-the-land'] === 'yes';
+  appeal[sectionName][taskName].ownsSomeOfTheLand = ownsSomeOfTheLand;
 
   try {
-    appeal[sectionName][taskName].ownsSomeOfTheLand = ownsSomeOfTheLand;
-    appeal.sectionStates[sectionName].someOfTheLand = COMPLETED;
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName].someOfTheLand = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return res.redirect(`/${KNOW_THE_OWNERS}`);
+    }
+    appeal.sectionStates[sectionName].someOfTheLand = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
 
@@ -46,8 +53,6 @@ const postOwnSomeOfTheLand = async (req, res) => {
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
-
-  return res.redirect(`/${KNOW_THE_OWNERS}`);
 };
 
 module.exports = {

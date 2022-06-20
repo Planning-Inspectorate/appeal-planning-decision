@@ -5,4 +5,4 @@ exports.postSaveAndReturn = async (req, res) => {
   req.session.navigationHistory.shift();
   await saveAppeal(req.session.appeal);
   res.redirect(`/${VIEW.SUBMIT_APPEAL.APPLICATION_SAVED}`);
-};;
+};
