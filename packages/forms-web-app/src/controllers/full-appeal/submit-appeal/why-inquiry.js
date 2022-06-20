@@ -5,7 +5,8 @@ const {
     FULL_APPEAL: { EXPECT_ENQUIRY_LAST, WHY_INQUIRY },
   },
 } = require('../../../lib/full-appeal/views');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealDecisionSection';
 const taskName = 'inquiry';
@@ -36,9 +37,14 @@ const postWhyInquiry = async (req, res) => {
 
   try {
     appeal[sectionName][taskName].reason = reason;
-    appeal.sectionStates[sectionName][taskName] = COMPLETED;
-
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName][taskName] = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return res.redirect(`/${EXPECT_ENQUIRY_LAST}`);
+    }
+    appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
 
@@ -48,8 +54,6 @@ const postWhyInquiry = async (req, res) => {
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
-
-  return res.redirect(`/${EXPECT_ENQUIRY_LAST}`);
 };
 
 module.exports = {
