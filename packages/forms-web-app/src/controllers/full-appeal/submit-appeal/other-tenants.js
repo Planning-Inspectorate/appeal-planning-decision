@@ -5,7 +5,8 @@ const {
     FULL_APPEAL: { OTHER_TENANTS, TELLING_THE_TENANTS, VISIBLE_FROM_ROAD },
   },
 } = require('../../../lib/full-appeal/views');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'agriculturalHolding';
@@ -32,12 +33,19 @@ const postOtherTenants = async (req, res) => {
   }
 
   const hasOtherTenants = body['other-tenants'] === 'yes';
+  appeal[sectionName][taskName].hasOtherTenants = hasOtherTenants;
 
   try {
-    appeal[sectionName][taskName].hasOtherTenants = hasOtherTenants;
-    appeal.sectionStates[sectionName].otherTenants = COMPLETED;
-
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName].otherTenants = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return hasOtherTenants
+        ? res.redirect(`/${TELLING_THE_TENANTS}`)
+        : res.redirect(`/${VISIBLE_FROM_ROAD}`);
+    }
+    req.session.appeal.sectionStates[sectionName].otherTenants = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
 
@@ -47,10 +55,6 @@ const postOtherTenants = async (req, res) => {
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
-
-  return hasOtherTenants
-    ? res.redirect(`/${TELLING_THE_TENANTS}`)
-    : res.redirect(`/${VISIBLE_FROM_ROAD}`);
 };
 
 module.exports = {

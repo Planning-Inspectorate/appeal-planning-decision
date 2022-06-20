@@ -5,7 +5,8 @@ const {
     FULL_APPEAL: { HEALTH_SAFETY_ISSUES, TASK_LIST },
   },
 } = require('../../../lib/full-appeal/views');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'healthAndSafety';
@@ -38,10 +39,15 @@ const postHealthSafetyIssues = async (req, res) => {
   }
 
   try {
-    appeal[sectionName][taskName] = healthAndSafety;
-    appeal.sectionStates[sectionName][taskName] = COMPLETED;
-
+    if (req.body['save-and-return'] !== '') {
+      appeal[sectionName][taskName] = healthAndSafety;
+      appeal.sectionStates[sectionName][taskName] = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return res.redirect(`/${TASK_LIST}`);
+    }
+    appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
 
@@ -51,8 +57,6 @@ const postHealthSafetyIssues = async (req, res) => {
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
   }
-
-  return res.redirect(`/${TASK_LIST}`);
 };
 
 module.exports = {

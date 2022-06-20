@@ -5,7 +5,9 @@ const {
 } = require('../../../lib/full-appeal/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { saveAppeal } = require('../../../lib/appeals-api-wrapper');
+const { VIEW } = require('../../../lib/submit-appeal/views');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'siteAddress';
@@ -39,8 +41,17 @@ exports.postAppealSiteAddress = async (req, res) => {
   }
 
   try {
-    req.session.appeal.sectionStates[sectionName][taskName] = COMPLETED;
-    req.session.appeal = await createOrUpdateAppeal(appeal);
+    if (req.body['save-and-return'] !== '') {
+      req.session.appeal.sectionStates[sectionName][taskName] = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      res.redirect(`/${OWN_ALL_THE_LAND}`);
+    } else {
+      req.session.navigationHistory.shift();
+      await saveAppeal(req.session.appeal);
+      req.session.appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      res.redirect(`/${VIEW.SUBMIT_APPEAL.APPLICATION_SAVED}`);
+    }
   } catch (e) {
     logger.error(e);
     res.render(currentPage, {
@@ -48,8 +59,5 @@ exports.postAppealSiteAddress = async (req, res) => {
       errors,
       errorSummary: [{ text: e.toString(), href: '#' }],
     });
-    return;
   }
-
-  res.redirect(`/${OWN_ALL_THE_LAND}`);
 };

@@ -6,7 +6,8 @@ const {
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
 const toArray = require('../../../lib/to-array');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'tellingTheTenants';
@@ -57,12 +58,16 @@ const postTellingTheTenants = async (req, res) => {
     });
   }
 
+  appeal.appealSiteSection.agriculturalHolding.tellingTheTenants = tellingTheTenants;
   try {
-    appeal.appealSiteSection.agriculturalHolding.tellingTheTenants = tellingTheTenants;
-    appeal.sectionStates[sectionName][taskName] = COMPLETED;
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName][taskName] = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      return res.redirect(`/${VISIBLE_FROM_ROAD}`);
+    }
+    appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
-
-    return res.redirect(`/${VISIBLE_FROM_ROAD}`);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
 

@@ -3,6 +3,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
 
 {% set other = "other " if isOther else "" %}
 {% set heading = "Telling the "+other+"tenants" %}
@@ -75,6 +76,7 @@
           type: "submit",
           attributes: { "data-cy":"button-save-and-continue"}
         }) }}
+        {{ saveAndReturnButton () }}
       </form>
     </div>
   </div>
