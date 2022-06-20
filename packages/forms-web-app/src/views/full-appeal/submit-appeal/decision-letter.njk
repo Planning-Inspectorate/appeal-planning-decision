@@ -4,6 +4,7 @@
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
 
 {% set labelText = "Drag and drop or choose a file" %}
 {% set backLink = '/full-appeal/submit-appeal/' %}
@@ -70,12 +71,14 @@
                   Your file must be smaller than 15MB.
                 </p>'
         }) }}
-
-        {{ govukButton({
-          text: "Continue",
-          type: "submit",
-          attributes: { "data-cy":"button-save-and-continue"}
-        }) }}
+        <div class="govuk-button-group">
+                  {{ govukButton({
+                    text: "Continue",
+                    type: "submit",
+                    attributes: { "data-cy":"button-save-and-continue"}
+                  }) }}
+                  {{ saveAndReturnButton() }}
+        </div>
       </form>
     </div>
   </div>
