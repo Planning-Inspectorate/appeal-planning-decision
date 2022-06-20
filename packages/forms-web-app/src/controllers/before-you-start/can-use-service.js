@@ -38,7 +38,11 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 
   const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
-  const deadlineDate = calculateDeadline.householderApplication(appeal.decisionDate);
+  const deadlineDate = calculateDeadline.businessRulesDeadline(
+    appeal.decisionDate,
+    appeal.appealType,
+    appeal.eligibility.applicationDecision
+  );
 
   const claimingCosts = appeal.eligibility.isClaimingCosts ? 'Yes' : 'No';
 
@@ -68,7 +72,11 @@ const canUseServiceFullAppeal = async (req, res) => {
     taskListUrl,
   } = await extractAppealProps(appeal);
 
-  const deadlineDate = calculateDeadline.fullAppealApplication(appeal.decisionDate);
+  const deadlineDate = calculateDeadline.businessRulesDeadline(
+    appeal.decisionDate,
+    appeal.appealType,
+    appeal.eligibility.applicationDecision
+  );
 
   res.render(canUseServiceFullAppealUrl, {
     deadlineDate,
@@ -101,7 +109,11 @@ const canUseServicePriorApproval = async (req, res) => {
   if (appeal.eligibility.hasPriorApprovalForExistingHome) {
     const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
-    const deadlineDate = calculateDeadline.householderApplication(appeal.decisionDate);
+    const deadlineDate = calculateDeadline.businessRulesDeadline(
+      appeal.decisionDate,
+      appeal.appealType,
+      appeal.eligibility.applicationDecision
+    );
 
     const claimingCosts = appeal.eligibility.isClaimingCosts ? 'Yes' : 'No';
 
@@ -119,7 +131,11 @@ const canUseServicePriorApproval = async (req, res) => {
       taskListUrl,
     });
   } else {
-    const deadlineDate = calculateDeadline.fullAppealApplication(appeal.decisionDate);
+    const deadlineDate = calculateDeadline.businessRulesDeadline(
+      appeal.decisionDate,
+      appeal.appealType,
+      appeal.eligibility.applicationDecision
+    );
 
     res.render(canUseServicePriorApprovalFull, {
       deadlineDate,
@@ -154,7 +170,11 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
   if (appeal.eligibility.hasHouseholderPermissionConditions) {
     const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
-    const deadlineDate = calculateDeadline.householderApplication(appeal.decisionDate);
+    const deadlineDate = calculateDeadline.businessRulesDeadline(
+      appeal.decisionDate,
+      appeal.appealType,
+      appeal.eligibility.applicationDecision
+    );
 
     const claimingCosts = appeal.eligibility.isClaimingCosts ? 'Yes' : 'No';
 
@@ -172,7 +192,11 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
       taskListUrl,
     });
   } else {
-    const deadlineDate = calculateDeadline.fullAppealApplication(appeal.decisionDate);
+    const deadlineDate = calculateDeadline.businessRulesDeadline(
+      appeal.decisionDate,
+      appeal.appealType,
+      appeal.eligibility.applicationDecision
+    );
 
     res.render(canUseServiceRemovalOrVariationOfConditionsFullAppeal, {
       deadlineDate,
