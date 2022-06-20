@@ -11,8 +11,9 @@ const {
 } = require('../../../lib/full-appeal/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
 const toArray = require('../../../lib/to-array');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'advertisingYourAppeal';
@@ -69,12 +70,15 @@ const postAdvertisingYourAppeal = async (req, res) => {
 
   try {
     appeal.appealSiteSection.siteOwnership.advertisingYourAppeal = advertisingYourAppeal;
-    appeal.sectionStates[sectionName][taskName] = COMPLETED;
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName][taskName] = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      const nextPage = variables.isAll ? `/${TELLING_THE_LANDOWNERS}` : `/${AGRICULTURAL_HOLDING}`;
+      return res.redirect(nextPage);
+    }
+    appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
-
-    const nextPage = variables.isAll ? `/${TELLING_THE_LANDOWNERS}` : `/${AGRICULTURAL_HOLDING}`;
-
-    return res.redirect(nextPage);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
 
