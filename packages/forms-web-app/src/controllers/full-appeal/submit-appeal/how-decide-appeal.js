@@ -10,7 +10,8 @@ const {
     FULL_APPEAL: { HOW_DECIDE_APPEAL, TASK_LIST, WHY_HEARING, WHY_INQUIRY },
   },
 } = require('../../../lib/full-appeal/views');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealDecisionSection';
 const taskName = 'procedureType';
@@ -40,9 +41,21 @@ const postHowDecideAppeal = async (req, res) => {
 
   try {
     appeal[sectionName][taskName] = procedureType;
-    appeal.sectionStates[sectionName][taskName] = COMPLETED;
-
+    if (req.body['save-and-return'] !== '') {
+      appeal.sectionStates[sectionName][taskName] = COMPLETED;
+      req.session.appeal = await createOrUpdateAppeal(appeal);
+      switch (procedureType) {
+        case HEARING:
+          return res.redirect(`/${WHY_HEARING}`);
+        case INQUIRY:
+          return res.redirect(`/${WHY_INQUIRY}`);
+        default:
+          return res.redirect(`/${TASK_LIST}`);
+      }
+    }
+    appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
 
@@ -51,15 +64,6 @@ const postHowDecideAppeal = async (req, res) => {
       errors,
       errorSummary: [{ text: err.toString(), href: '#' }],
     });
-  }
-
-  switch (procedureType) {
-    case HEARING:
-      return res.redirect(`/${WHY_HEARING}`);
-    case INQUIRY:
-      return res.redirect(`/${WHY_INQUIRY}`);
-    default:
-      return res.redirect(`/${TASK_LIST}`);
   }
 };
 
