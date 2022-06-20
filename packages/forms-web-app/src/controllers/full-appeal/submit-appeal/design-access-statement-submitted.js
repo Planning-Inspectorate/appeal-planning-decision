@@ -56,8 +56,8 @@ const postDesignAccessStatementSubmitted = async (req, res) => {
   const isSubmitted = body['design-access-statement-submitted'] === 'yes';
 
   try {
+    appeal[sectionName][taskName].isSubmitted = isSubmitted;
     if (req.body['save-and-return'] !== '') {
-      appeal[sectionName][taskName].isSubmitted = isSubmitted;
       appeal.sectionStates[sectionName].designAccessStatementSubmitted = COMPLETED;
       req.session.appeal = await createOrUpdateAppeal(appeal);
       if (isSubmitted) {
@@ -67,7 +67,6 @@ const postDesignAccessStatementSubmitted = async (req, res) => {
       }
       return res.redirect(`/${DECISION_LETTER}`);
     }
-    appeal[sectionName][taskName].isSubmitted = isSubmitted;
     appeal.sectionStates[sectionName].designAccessStatementSubmitted = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
     return await postSaveAndReturn(req, res);
