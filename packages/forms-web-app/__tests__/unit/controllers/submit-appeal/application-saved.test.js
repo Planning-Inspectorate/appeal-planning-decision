@@ -10,6 +10,8 @@ describe('controllers/submit-appeal/application-saved', () => {
     req = {
       session: {
         appeal: {
+          eligibility: { applicationDecision: 'refused' },
+          appealType: '1005',
           decisionDate: '2022-02-20T00:00:00.000Z',
           planningApplicationDocumentsSection: { applicationNumber: '123456' },
         },
@@ -19,7 +21,7 @@ describe('controllers/submit-appeal/application-saved', () => {
 
     expect(res.render).toBeCalledWith(VIEW.SUBMIT_APPEAL.APPLICATION_SAVED, {
       applicationNumber: '123456',
-      deadline: { date: 19, day: 'Friday', month: 'August', year: 2022 },
+      deadline: { date: 20, day: 'Saturday', month: 'August', year: 2022 },
     });
   });
 });
