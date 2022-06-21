@@ -4,7 +4,11 @@ const { calculateDeadline } = require('../../lib/calculate-deadline');
 exports.getApplicationSaved = async (req, res) => {
   const { appeal } = req.session;
   const applicationNumber = appeal.planningApplicationDocumentsSection.applicationNumber;
-  const deadlineData = calculateDeadline.fullAppealApplication(appeal.decisionDate);
+  const deadlineData = calculateDeadline.businessRulesDeadline(
+    appeal.decisionDate,
+    appeal.appealType,
+    appeal.eligibility.applicationDecision
+  );
   res.render(VIEW.SUBMIT_APPEAL.APPLICATION_SAVED, {
     applicationNumber: applicationNumber,
     deadline: deadlineData,
