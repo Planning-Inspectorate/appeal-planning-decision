@@ -12,9 +12,11 @@ const {
   },
 } = require('../../../../../src/lib/full-appeal/views');
 const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../../../../src/controllers/save');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
+jest.mock('../../../../../src/controllers/save');
 
 describe('controllers/full-appeal/submit-appeal/expect-inquiry-last', () => {
   let req;
@@ -116,6 +118,82 @@ describe('controllers/full-appeal/submit-appeal/expect-inquiry-last', () => {
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${DRAFT_STATEMENT_COMMON_GROUND}`);
+      expect(req.session.appeal).toEqual(submittedAppeal);
+    });
+
+    it('should re-render the template with errors if submission validation fails (save and return)', async () => {
+      req = {
+        ...req,
+        body: {
+          'save-and-return': '',
+          'expected-days': appeal[sectionName][taskName].expectedDays,
+          errors,
+          errorSummary,
+        },
+      };
+
+      await postExpectInquiryLast(req, res);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(postSaveAndReturn).not.toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledTimes(1);
+      expect(res.render).toHaveBeenCalledWith(EXPECT_ENQUIRY_LAST, {
+        expectedDays: appeal[sectionName][taskName].expectedDays,
+        errors,
+        errorSummary,
+      });
+    });
+
+    it('should re-render the template with errors if an error is thrown (save and return)', async () => {
+      const error = new Error('Internal Server Error');
+
+      createOrUpdateAppeal.mockImplementation(() => {
+        throw error;
+      });
+
+      req = {
+        ...req,
+        body: {
+          'save-and-return': '',
+          'expected-days': appeal[sectionName][taskName].expectedDays,
+        },
+      };
+
+      await postExpectInquiryLast(req, res);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(postSaveAndReturn).not.toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledTimes(1);
+      expect(res.render).toHaveBeenCalledWith(EXPECT_ENQUIRY_LAST, {
+        expectedDays: appeal[sectionName][taskName].expectedDays,
+        errors: {},
+        errorSummary: [{ text: error.toString(), href: '#' }],
+      });
+    });
+
+    it('should redirect to the correct page if a valid value has been entered (save and return)', async () => {
+      const submittedAppeal = {
+        ...appeal,
+        state: 'SUBMITTED',
+      };
+      submittedAppeal.sectionStates.appealDecisionSection.inquiryExpectedDays =
+        TASK_STATUS.IN_PROGRESS;
+
+      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+      req = {
+        ...req,
+        body: {
+          'save-and-return': '',
+          'expected-days': appeal[sectionName][taskName].expectedDays,
+        },
+      };
+
+      await postExpectInquiryLast(req, res);
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(postSaveAndReturn).toHaveBeenCalledWith(req, res);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
   });

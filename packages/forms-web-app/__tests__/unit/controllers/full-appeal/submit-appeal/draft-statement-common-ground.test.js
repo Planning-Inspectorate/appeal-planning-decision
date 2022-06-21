@@ -18,10 +18,12 @@ const {
     FULL_APPEAL: { DRAFT_STATEMENT_COMMON_GROUND, TASK_LIST },
   },
 } = require('../../../../../src/lib/full-appeal/views');
+const { postSaveAndReturn } = require('../../../../../src/controllers/save');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/documents-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
+jest.mock('../../../../../src/controllers/save');
 
 describe('controllers/full-appeal/submit-appeal/draft-statement-common-ground', () => {
   let req;
@@ -146,6 +148,103 @@ describe('controllers/full-appeal/submit-appeal/draft-statement-common-ground', 
       expect(createDocument).not.toHaveBeenCalled();
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
+      expect(req.session.appeal).toEqual(submittedAppeal);
+    });
+
+    it('should re-render the template with errors if submission validation fails (save and return)', async () => {
+      req = {
+        ...req,
+        body: {
+          ['save-and-return']: '',
+          errors,
+          errorSummary,
+        },
+        files: {
+          'file-upload': {},
+        },
+      };
+
+      await postDraftStatementCommonGround(req, res);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(postSaveAndReturn).not.toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledTimes(1);
+      expect(res.render).toHaveBeenCalledWith(DRAFT_STATEMENT_COMMON_GROUND, {
+        appealId: appeal.id,
+        uploadedFile: appeal[sectionName][taskName].uploadedFile,
+        procedureType: appeal[sectionName].procedureType,
+        errors,
+        errorSummary,
+      });
+    });
+
+    it('should re-render the template with errors if an error is thrown (save and return)', async () => {
+      req.body['save-and-return'] = '';
+      const error = new Error('Internal Server Error');
+
+      createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
+
+      await postDraftStatementCommonGround(req, res);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(postSaveAndReturn).not.toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledTimes(1);
+      expect(res.render).toHaveBeenCalledWith(DRAFT_STATEMENT_COMMON_GROUND, {
+        appealId: appeal.id,
+        uploadedFile: appeal[sectionName][taskName].uploadedFile,
+        procedureType: appeal[sectionName].procedureType,
+        errorSummary: [{ text: error.toString(), href: '#' }],
+      });
+    });
+
+    it('should redirect correctly if valid and a file is being uploaded (save and return)', async () => {
+      const submittedAppeal = {
+        ...appeal,
+        state: 'SUBMITTED',
+      };
+      submittedAppeal.sectionStates.appealDecisionSection.draftStatementOfCommonGround =
+        TASK_STATUS.IN_PROGRESS;
+
+      createDocument.mockReturnValue(appeal[sectionName][taskName].uploadedFile);
+      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+      req = {
+        ...req,
+        body: { ['save-and-return']: '' },
+        files: {
+          'file-upload': appeal[sectionName][taskName].uploadedFile,
+        },
+      };
+
+      await postDraftStatementCommonGround(req, res);
+
+      expect(createDocument).toHaveBeenCalledWith(
+        appeal,
+        appeal[sectionName][taskName].uploadedFile,
+        null,
+        taskName
+      );
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(postSaveAndReturn).toHaveBeenCalledWith(req, res);
+      expect(req.session.appeal).toEqual(submittedAppeal);
+    });
+
+    it('should redirect to the correct page if valid and a file is not being uploaded (save and return)', async () => {
+      req.body['save-and-return'] = '';
+      const submittedAppeal = {
+        ...appeal,
+        state: 'SUBMITTED',
+      };
+      submittedAppeal.sectionStates.appealDecisionSection.draftStatementOfCommonGround =
+        TASK_STATUS.IN_PROGRESS;
+
+      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+      await postDraftStatementCommonGround(req, res);
+
+      expect(createDocument).not.toHaveBeenCalled();
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(postSaveAndReturn).toHaveBeenCalledWith(req, res);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
   });

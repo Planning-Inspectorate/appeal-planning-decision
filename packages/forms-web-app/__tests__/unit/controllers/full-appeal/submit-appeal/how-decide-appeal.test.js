@@ -12,9 +12,11 @@ const {
   },
 } = require('../../../../../src/lib/full-appeal/views');
 const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../../../../src/controllers/save');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
+jest.mock('../../../../../src/controllers/save');
 
 describe('controllers/full-appeal/submit-appeal/how-decide-appeal', () => {
   let req;
@@ -164,6 +166,81 @@ describe('controllers/full-appeal/submit-appeal/how-decide-appeal', () => {
 
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
       expect(res.redirect).toHaveBeenCalledWith(`/${WHY_INQUIRY}`);
+      expect(req.session.appeal).toEqual(submittedAppeal);
+    });
+
+    it('should re-render the template with errors if submission validation fails (save and return)', async () => {
+      req = {
+        ...req,
+        body: {
+          'procedure-type': undefined,
+          'save-and-return': '',
+          errors,
+          errorSummary,
+        },
+      };
+
+      await postHowDecideAppeal(req, res);
+
+      expect(postSaveAndReturn).not.toHaveBeenCalled();
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledTimes(1);
+      expect(res.render).toHaveBeenCalledWith(HOW_DECIDE_APPEAL, {
+        errors,
+        errorSummary,
+      });
+    });
+
+    it('should re-render the template with errors if an error is thrown (save and return)', async () => {
+      const error = new Error('Internal Server Error');
+
+      createOrUpdateAppeal.mockImplementation(() => {
+        throw error;
+      });
+
+      req = {
+        ...req,
+        body: {
+          'procedure-type': 'Hearing',
+          'save-and-return': '',
+        },
+      };
+
+      await postHowDecideAppeal(req, res);
+
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(postSaveAndReturn).not.toHaveBeenCalled();
+      expect(res.render).toHaveBeenCalledTimes(1);
+      expect(res.render).toHaveBeenCalledWith(HOW_DECIDE_APPEAL, {
+        procedureType,
+        errors: {},
+        errorSummary: [{ text: error.toString(), href: '#' }],
+      });
+    });
+
+    it('should redirect to the correct page if save and return', async () => {
+      const submittedAppeal = {
+        ...appeal,
+        state: 'SUBMITTED',
+      };
+      submittedAppeal[sectionName][taskName] = 'Written Representation';
+      submittedAppeal.sectionStates.appealDecisionSection.procedureType = TASK_STATUS.IN_PROGRESS;
+
+      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+      req = {
+        ...req,
+        body: {
+          'procedure-type': 'Written Representation',
+          'save-and-return': '',
+        },
+      };
+
+      await postHowDecideAppeal(req, res);
+
+      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+      expect(res.redirect).not.toHaveBeenCalled();
+      expect(postSaveAndReturn).toHaveBeenCalledWith(req, res);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
   });
