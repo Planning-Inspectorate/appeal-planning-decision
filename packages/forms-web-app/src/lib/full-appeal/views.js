@@ -53,6 +53,8 @@ const VIEW = {
     CAN_USE_SERVICE_PRIOR_APPROVAL: 'full-appeal/prior-approval/can-use-service',
     CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
       'full-appeal/removal-or-variation-of-conditions/can-use-service',
+    PLANNING_APPLICATION_NUMBER: 'full-appeal/submit-appeal/planning-application-number',
+    EMAIL_ADDRESS: 'full-appeal/submit-appeal/email-address',
   },
 };
 

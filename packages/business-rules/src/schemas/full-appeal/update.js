@@ -20,6 +20,7 @@ const update = pinsYup
     id: pinsYup.string().trim().uuid().required(),
     horizonId: pinsYup.string().trim().max(20).nullable(),
     lpaCode: pinsYup.string().trim().max(20).required(),
+    planningApplicationNumber: pinsYup.string().max(30).required(),
     decisionDate: pinsYup.lazy((decisionDate) => {
       return pinsYup
         .date()
