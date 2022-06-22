@@ -47,7 +47,7 @@ const postHealthSafetyIssues = async (req, res) => {
     }
     appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
     req.session.appeal = await createOrUpdateAppeal(appeal);
-    return await postSaveAndReturn(req, res, appeal);
+    return await postSaveAndReturn(req, res);
   } catch (err) {
     logger.error(err);
 
