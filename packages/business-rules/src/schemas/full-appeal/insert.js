@@ -20,6 +20,7 @@ const insert = pinsYup
     id: pinsYup.string().trim().uuid().required(),
     horizonId: pinsYup.string().trim().max(20).nullable(),
     lpaCode: pinsYup.string().trim().max(20).nullable(),
+    planningApplicationNumber: pinsYup.string().max(30).nullable(),
     decisionDate: pinsYup.date().transform(parseDateString).nullable(),
     createdAt: pinsYup.date().transform(parseDateString).required(),
     updatedAt: pinsYup.date().transform(parseDateString).required(),

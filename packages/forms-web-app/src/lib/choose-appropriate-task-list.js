@@ -4,7 +4,7 @@ const {
 } = require('@pins/business-rules/src/constants');
 
 const pages = {
-  fullAppealTaskList: '/full-appeal/submit-appeal/task-list',
+  fullAppeal: '/full-appeal/submit-appeal/planning-application-number',
   householderPlanningTaskList: '/appellant-submission/task-list',
 };
 
@@ -21,12 +21,12 @@ const chooseAppropriateTaskList = (appeal) => {
       if (applicationDecision === APPLICATION_DECISION.REFUSED) {
         return pages.householderPlanningTaskList;
       }
-      return pages.fullAppealTaskList;
+      return pages.fullAppeal;
     case TYPE_OF_PLANNING_APPLICATION.PRIOR_APPROVAL:
       if (hasPriorApprovalForExistingHome && applicationDecision === APPLICATION_DECISION.REFUSED) {
         return pages.householderPlanningTaskList;
       }
-      return pages.fullAppealTaskList;
+      return pages.fullAppeal;
     case TYPE_OF_PLANNING_APPLICATION.REMOVAL_OR_VARIATION_OF_CONDITIONS:
       if (
         hasHouseholderPermissionConditions &&
@@ -34,9 +34,9 @@ const chooseAppropriateTaskList = (appeal) => {
       ) {
         return pages.householderPlanningTaskList;
       }
-      return pages.fullAppealTaskList;
+      return pages.fullAppeal;
     default:
-      return pages.fullAppealTaskList;
+      return pages.fullAppeal;
   }
 };
 
