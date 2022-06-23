@@ -1110,7 +1110,7 @@ describe('schemas/full-appeal/insert', () => {
             appeal.email = 'apellant@example';
 
             await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'contactDetailsSection.contact.email must be a valid email',
+              'email must be a valid email',
             );
           });
 
@@ -1118,7 +1118,7 @@ describe('schemas/full-appeal/insert', () => {
             appeal.email = `${'a'.repeat(244)}@example.com`;
 
             await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'contactDetailsSection.contact.email must be at most 255 characters',
+              'email must be at most 255 characters',
             );
           });
 

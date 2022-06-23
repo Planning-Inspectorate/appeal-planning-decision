@@ -14,6 +14,7 @@ const appeal = {
   state: 'SUBMITTED',
   appealType: '1005',
   typeOfPlanningApplication: 'full-appeal',
+  email: 'testemail@example.com',
   eligibility: {
     applicationCategories: ['none_of_these'],
     applicationDecision: 'granted',
@@ -25,7 +26,6 @@ const appeal = {
     isOriginalApplicant: true,
     contact: {
       name: 'a name',
-      email: 'testemail@example.com',
       companyName: 'Test Company',
     },
     appealingOnBehalfOf: {
