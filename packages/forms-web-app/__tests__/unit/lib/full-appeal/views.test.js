@@ -58,6 +58,7 @@ describe('/lib/full-appeal/views', () => {
           'full-appeal/removal-or-variation-of-conditions/can-use-service',
         PLANNING_APPLICATION_NUMBER: 'full-appeal/submit-appeal/planning-application-number',
         EMAIL_ADDRESS: 'full-appeal/submit-appeal/email-address',
+        CONFIRM_EMAIL_ADDRESS: 'full-appeal/submit-appeal/confirm-email-address',
       },
     });
   });

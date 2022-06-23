@@ -45,6 +45,7 @@ const planningObligationDeadlineRouter = require('../../../../../src/routes/full
 const applicationCertificatesIncludedRouter = require('../../../../../src/routes/full-appeal/submit-appeal/application-certificates-included');
 const certificatesRouter = require('../../../../../src/routes/full-appeal/submit-appeal/certificates');
 const planningApplicationNumberRouter = require('../../../../../src/routes/full-appeal/submit-appeal/planning-application-number');
+const confirmEmailAddressRouter = require('../../../../../src/routes/full-appeal/submit-appeal/confirm-email-address');
 
 describe('routes/full-appeal/submit-appeal/index', () => {
   beforeEach(() => {
@@ -99,5 +100,6 @@ describe('routes/full-appeal/submit-appeal/index', () => {
     expect(use).toHaveBeenCalledWith(certificatesRouter);
     expect(use).toHaveBeenCalledWith(letterConfirmingApplicationRouter);
     expect(use).toHaveBeenCalledWith(planningApplicationNumberRouter);
+    expect(use).toHaveBeenCalledWith(confirmEmailAddressRouter);
   });
 });
