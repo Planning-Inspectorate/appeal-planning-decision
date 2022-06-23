@@ -37,6 +37,7 @@ const update = pinsYup
       .string()
       .oneOf(Object.values(TYPE_OF_PLANNING_APPLICATION))
       .required(),
+    email: pinsYup.string().email().max(255).required(),
     eligibility: pinsYup
       .object()
       .shape({
@@ -64,7 +65,6 @@ const update = pinsYup
               .matches(/^[a-z\-' ]+$/i)
               .required(),
             companyName: pinsYup.string().max(50).nullable(),
-            email: pinsYup.string().email().max(255).required(),
           })
           .noUnknown(true),
         appealingOnBehalfOf: pinsYup
@@ -513,7 +513,10 @@ const update = pinsYup
             originalApplication: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             decisionLetter: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             designAccessStatement: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
-            letterConfirmingApplication: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            letterConfirmingApplication: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .required(),
             designAccessStatementSubmitted: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
@@ -535,7 +538,10 @@ const update = pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))
               .required(),
-            planningObligationDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
+            planningObligationDocuments: pinsYup
+              .string()
+              .oneOf(Object.values(SECTION_STATE))
+              .required(),
             planningObligationDeadline: pinsYup
               .string()
               .oneOf(Object.values(SECTION_STATE))

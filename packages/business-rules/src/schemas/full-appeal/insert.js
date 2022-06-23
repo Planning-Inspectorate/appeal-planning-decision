@@ -37,6 +37,7 @@ const insert = pinsYup
       }
       return pinsYup.string().nullable();
     }),
+    email: pinsYup.string().email().max(255).nullable(),
     eligibility: pinsYup
       .object()
       .shape({
@@ -78,7 +79,6 @@ const insert = pinsYup
               return pinsYup.string().nullable();
             }),
             companyName: pinsYup.string().max(50).nullable(),
-            email: pinsYup.string().email().max(255).nullable(),
           })
           .noUnknown(true),
         appealingOnBehalfOf: pinsYup

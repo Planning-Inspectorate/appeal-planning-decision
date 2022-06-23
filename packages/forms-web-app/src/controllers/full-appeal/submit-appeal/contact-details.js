@@ -25,7 +25,6 @@ exports.postContactDetails = async (req, res) => {
   appeal[sectionName][taskName] = {
     name: req.body['appellant-name'],
     companyName: req.body['appellant-company-name'],
-    email: req.body['appellant-email'],
   };
 
   if (Object.keys(errors).length > 0) {

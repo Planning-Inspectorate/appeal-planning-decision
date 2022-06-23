@@ -29,6 +29,8 @@
           Contact details
         </h1>
 
+        <p class="govuk-body">This is the email you gave us for this appeal: <br> {{ appeal.email }} </p>
+
         {{ govukInput({
           label: {
             text: "Your full name",
@@ -55,21 +57,6 @@
           value: section['companyName'],
           errorMessage: errors['appellant-company-name'] and {
             text: errors['appellant-company-name'].msg
-          }
-        }) }}
-
-        {{ govukInput({
-          label: {
-            text: "Your email address",
-            classes: "govuk-label",
-            isPageHeading: false
-          },
-          id: "appellant-email",
-          name: "appellant-email",
-          spellcheck: false,
-          value: section['email'],
-          errorMessage: errors['appellant-email'] and {
-            text: errors['appellant-email'].msg
           }
         }) }}
 

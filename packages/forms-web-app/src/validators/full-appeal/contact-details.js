@@ -25,6 +25,7 @@ function validateEmail(email) {
   throw new Error('Enter an email address in the correct format, like name@example.com');
 }
 
+// This rule was used for the email field on the page
 const ruleYourEmail = () =>
   body('appellant-email')
     .notEmpty()
@@ -39,7 +40,7 @@ const ruleYourEmail = () =>
     .custom((email) => validateEmail(email));
 
 const rules = () => {
-  return [ruleYourName(), ruleYourEmail()];
+  return [ruleYourName()];
 };
 
 module.exports = {
