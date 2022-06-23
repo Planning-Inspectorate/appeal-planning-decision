@@ -110,7 +110,6 @@ exports.appealDocument = {
     isOriginalApplicant: null,
   },
   planningApplicationDocumentsSection: {
-    applicationNumber: null,
     descriptionDevelopmentCorrect: null,
     isDesignAccessStatementSubmitted: null,
     originalApplication: {
