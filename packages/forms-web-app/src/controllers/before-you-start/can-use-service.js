@@ -33,7 +33,7 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
     decisionDate,
     enforcementNotice,
     dateOfDecisionLabel,
-    taskListUrl,
+    nextPageUrl,
   } = await extractAppealProps(appeal);
 
   const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
@@ -56,7 +56,7 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
     enforcementNotice,
     claimingCosts,
     dateOfDecisionLabel,
-    taskListUrl,
+    nextPageUrl,
   });
 };
 
@@ -69,7 +69,7 @@ const canUseServiceFullAppeal = async (req, res) => {
     decisionDate,
     enforcementNotice,
     dateOfDecisionLabel,
-    taskListUrl,
+    nextPageUrl,
   } = await extractAppealProps(appeal);
 
   const deadlineDate = calculateDeadline.businessRulesDeadline(
@@ -86,7 +86,7 @@ const canUseServiceFullAppeal = async (req, res) => {
     decisionDate,
     enforcementNotice,
     dateOfDecisionLabel,
-    taskListUrl,
+    nextPageUrl,
   });
 };
 
@@ -99,7 +99,7 @@ const canUseServicePriorApproval = async (req, res) => {
     decisionDate,
     enforcementNotice,
     dateOfDecisionLabel,
-    taskListUrl,
+    nextPageUrl,
   } = await extractAppealProps(appeal);
 
   const hasPriorApprovalForExistingHome = appeal.eligibility.hasPriorApprovalForExistingHome
@@ -128,7 +128,7 @@ const canUseServicePriorApproval = async (req, res) => {
       claimingCosts,
       dateOfDecisionLabel,
       hasPriorApprovalForExistingHome,
-      taskListUrl,
+      nextPageUrl,
     });
   } else {
     const deadlineDate = calculateDeadline.businessRulesDeadline(
@@ -146,7 +146,7 @@ const canUseServicePriorApproval = async (req, res) => {
       enforcementNotice,
       dateOfDecisionLabel,
       hasPriorApprovalForExistingHome,
-      taskListUrl,
+      nextPageUrl,
     });
   }
 };
@@ -160,7 +160,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
     decisionDate,
     enforcementNotice,
     dateOfDecisionLabel,
-    taskListUrl,
+    nextPageUrl,
   } = await extractAppealProps(appeal);
 
   const hasHouseholderPermissionConditions = appeal.eligibility.hasHouseholderPermissionConditions
@@ -189,7 +189,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
       claimingCosts,
       dateOfDecisionLabel,
       hasHouseholderPermissionConditions,
-      taskListUrl,
+      nextPageUrl,
     });
   } else {
     const deadlineDate = calculateDeadline.businessRulesDeadline(
@@ -207,7 +207,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
       enforcementNotice,
       dateOfDecisionLabel,
       hasHouseholderPermissionConditions,
-      taskListUrl,
+      nextPageUrl,
     });
   }
 };
