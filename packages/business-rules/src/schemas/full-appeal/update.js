@@ -199,7 +199,6 @@ const update = pinsYup
     planningApplicationDocumentsSection: pinsYup
       .object()
       .shape({
-        applicationNumber: pinsYup.string().max(30).required(),
         ownershipCertificate: pinsYup
           .object()
           .shape({
@@ -501,7 +500,6 @@ const update = pinsYup
         planningApplicationDocumentsSection: pinsYup
           .object()
           .shape({
-            applicationNumber: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             ownershipCertificate: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
             descriptionDevelopmentCorrect: pinsYup
               .string()

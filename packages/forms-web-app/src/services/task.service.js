@@ -97,10 +97,6 @@ const SECTIONS = {
     },
   },
   requiredDocumentsSection: {
-    applicationNumber: {
-      href: `/${VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER}`,
-      rule: statusApplicationNumber,
-    },
     originalApplication: {
       href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`,
       rule: statusOriginalApplication,
