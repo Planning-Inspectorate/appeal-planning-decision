@@ -72,7 +72,7 @@ const postCertificates = async (req, res) => {
     });
   }
 
-  return res.redirect(`/${VIEW.FULL_APPEAL.APPLICATION_NUMBER}`);
+  return res.redirect(`/${VIEW.FULL_APPEAL.PROPOSED_DEVELOPMENT_CHANGED}`);
 };
 
 module.exports = { getCertificates, postCertificates };

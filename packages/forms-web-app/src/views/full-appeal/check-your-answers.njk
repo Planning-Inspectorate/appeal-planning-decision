@@ -700,29 +700,6 @@
       ) },
       actions: ownershipCertificateRowActions if isPdf !== true
     } %}
-    {% set applicationNumberRowActions = {
-      items: [
-        {
-          href: "/full-appeal/submit-appeal/application-number",
-          text: "Change",
-          visuallyHiddenText: "the planning application number",
-          attributes: {
-            "data-cy": "change-application-number"
-          }
-        }
-      ]
-    } %}
-    {% set applicationNumberRow = {
-      key: { text: summaryField(
-        "Planning application number",
-        { "data-cy": "application-number-label" }
-      ) },
-      value: { text: summaryField(
-        appeal.planningApplicationNumber,
-        { "data-cy": "application-number" }
-      ) },
-      actions: applicationNumberRowActions if isPdf !== true
-    } %}
     {% set isDescriptionOfDevelopmentCorrectRowActions = {
       items: [
         {
