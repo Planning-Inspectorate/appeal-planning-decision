@@ -3,7 +3,7 @@ const { calculateDeadline } = require('../../lib/calculate-deadline');
 
 exports.getApplicationSaved = async (req, res) => {
   const { appeal } = req.session;
-  const applicationNumber = appeal.planningApplicationDocumentsSection.applicationNumber;
+  const applicationNumber = appeal.planningApplicationNumber;
   const deadlineData = calculateDeadline.businessRulesDeadline(
     appeal.decisionDate,
     appeal.appealType,

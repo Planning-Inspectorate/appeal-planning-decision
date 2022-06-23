@@ -10,10 +10,10 @@ describe('controllers/submit-appeal/application-saved', () => {
     req = {
       session: {
         appeal: {
+          planningApplicationNumber: '123456',
           eligibility: { applicationDecision: 'refused' },
           appealType: '1005',
           decisionDate: '2022-02-20T00:00:00.000Z',
-          planningApplicationDocumentsSection: { applicationNumber: '123456' },
         },
       },
     };
