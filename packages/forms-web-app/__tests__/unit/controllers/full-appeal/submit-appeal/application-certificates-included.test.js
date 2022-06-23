@@ -120,7 +120,7 @@ describe('controllers/full-appeal/submit-appeal/application-certificates-include
       };
       await postApplicationCertificatesIncluded(req, res);
       expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.APPLICATION_NUMBER}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.PROPOSED_DEVELOPMENT_CHANGED}`);
     });
   });
 });

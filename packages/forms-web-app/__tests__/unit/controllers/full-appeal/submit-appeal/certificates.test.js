@@ -117,7 +117,7 @@ describe('controllers/full-appeal/submit-appeal/certificates', () => {
         taskName
       );
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.APPLICATION_NUMBER}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.PROPOSED_DEVELOPMENT_CHANGED}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
 
@@ -135,7 +135,7 @@ describe('controllers/full-appeal/submit-appeal/certificates', () => {
 
       expect(createDocument).not.toHaveBeenCalled();
       expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.APPLICATION_NUMBER}`);
+      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.PROPOSED_DEVELOPMENT_CHANGED}`);
       expect(req.session.appeal).toEqual(submittedAppeal);
     });
   });
