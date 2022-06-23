@@ -8,7 +8,7 @@ const pages = {
   householderPlanningTaskList: '/appellant-submission/task-list',
 };
 
-const chooseAppropriateTaskList = (appeal) => {
+const chooseAppropriateApplicationNumberPage = (appeal) => {
   const applicationType = appeal.typeOfPlanningApplication;
   const {
     applicationDecision,
@@ -41,5 +41,5 @@ const chooseAppropriateTaskList = (appeal) => {
 };
 
 module.exports = {
-  chooseAppropriateTaskList,
+  chooseAppropriateApplicationNumberPage,
 };
