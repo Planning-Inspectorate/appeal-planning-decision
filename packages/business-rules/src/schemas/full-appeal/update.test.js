@@ -1152,7 +1152,7 @@ describe('schemas/full-appeal/update', () => {
             appeal.email = 'apellant@example';
 
             await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              'contactDetailsSection.contact.email must be a valid email',
+              'email must be a valid email',
             );
           });
 
@@ -1160,7 +1160,7 @@ describe('schemas/full-appeal/update', () => {
             appeal.email = `${'a'.repeat(244)}@example.com`;
 
             await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              'contactDetailsSection.contact.email must be at most 255 characters',
+              'email must be at most 255 characters',
             );
           });
 
@@ -1168,7 +1168,7 @@ describe('schemas/full-appeal/update', () => {
             delete appeal.email;
 
             await expect(() => update.validate(appeal, config)).rejects.toThrow(
-              'contactDetailsSection.contact.email is a required field',
+              'email is a required field',
             );
           });
         });
