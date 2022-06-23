@@ -48,7 +48,7 @@ const postApplicationCertificatesIncluded = async (req, res) => {
 
   return submittedSeparateCertificate
     ? res.redirect(`/${VIEW.FULL_APPEAL.CERTIFICATES}`)
-    : res.redirect(`/${VIEW.FULL_APPEAL.APPLICATION_NUMBER}`);
+    : res.redirect(`/${VIEW.FULL_APPEAL.PROPOSED_DEVELOPMENT_CHANGED}`);
 };
 
 module.exports = { getApplicationCertificatesIncluded, postApplicationCertificatesIncluded };
