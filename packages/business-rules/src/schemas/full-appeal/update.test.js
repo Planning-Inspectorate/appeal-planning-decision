@@ -1149,7 +1149,7 @@ describe('schemas/full-appeal/update', () => {
 
         describe('contactDetailsSection.contact.email', () => {
           it('should throw an error when not given an email value', async () => {
-            appeal.contactDetailsSection.contact.email = 'apellant@example';
+            appeal.email = 'apellant@example';
 
             await expect(() => update.validate(appeal, config)).rejects.toThrow(
               'contactDetailsSection.contact.email must be a valid email',
@@ -1157,7 +1157,7 @@ describe('schemas/full-appeal/update', () => {
           });
 
           it('should throw an error when given a value with more than 255 characters', async () => {
-            appeal.contactDetailsSection.contact.email = `${'a'.repeat(244)}@example.com`;
+            appeal.email = `${'a'.repeat(244)}@example.com`;
 
             await expect(() => update.validate(appeal, config)).rejects.toThrow(
               'contactDetailsSection.contact.email must be at most 255 characters',
@@ -1165,7 +1165,7 @@ describe('schemas/full-appeal/update', () => {
           });
 
           it('should not throw an error when not given a value', async () => {
-            delete appeal.contactDetailsSection.contact.email;
+            delete appeal.email;
 
             await expect(() => update.validate(appeal, config)).rejects.toThrow(
               'contactDetailsSection.contact.email is a required field',

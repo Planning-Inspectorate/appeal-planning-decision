@@ -55,7 +55,7 @@ describe('config', () => {
     );
 
     expect(result).toEqual({
-      recipientEmail: fullAppeal.contactDetailsSection.contact.email,
+      recipientEmail: fullAppeal.email,
       variables: {
         name: fullAppeal.contactDetailsSection.contact.name,
         'appeal site address': formatAddress(fullAppeal.appealSiteSection.siteAddress),

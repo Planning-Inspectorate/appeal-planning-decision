@@ -144,7 +144,7 @@ const config = {
         },
         email: {
           appellant: (appeal, lpa) => ({
-            recipientEmail: appeal.contactDetailsSection.contact.email,
+            recipientEmail: appeal.email,
             variables: {
               name: appeal.contactDetailsSection.contact.name,
               'appeal site address': formatAddress(appeal.appealSiteSection.siteAddress),
@@ -177,7 +177,7 @@ const config = {
             reference: appeal.id,
           }),
           saveAndReturnContinueAppeal: (appeal) => ({
-            recipientEmail: appeal.contactDetailsSection.contact.email,
+            recipientEmail: appeal.email,
             variables: {
               'application number': appeal.planningApplicationDocumentsSection.applicationNumber,
               date: format(
@@ -189,7 +189,7 @@ const config = {
             reference: appeal.id,
           }),
           saveAndReturnEnterCodeIntoService: (appeal, token) => ({
-            recipientEmail: appeal.contactDetailsSection.contact.email,
+            recipientEmail: appeal.email,
             variables: {
               'application number': appeal.planningApplicationDocumentsSection.applicationNumber,
               'unique code': token,
