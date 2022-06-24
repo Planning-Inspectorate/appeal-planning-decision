@@ -2124,22 +2124,6 @@ describe('schemas/full-appeal/insert', () => {
           'planningApplicationDocumentsSection must be a `object` type, but the final value was: `null`',
         );
       });
-
-      describe('planningApplicationDocumentsSection.applicationNumber', () => {
-        it('should throw an error when given a value with more than 30 characters', async () => {
-          appeal.planningApplicationDocumentsSection.applicationNumber = 'a'.repeat(31);
-
-          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-            'planningApplicationDocumentsSection.applicationNumber must be at most 30 characters',
-          );
-        });
-
-        it('should not throw an error when not given a value', async () => {
-          delete appeal.planningApplicationDocumentsSection.applicationNumber;
-
-          const result = await insert.validate(appeal, config);
-          expect(result).toEqual(appeal);
-        });
       });
 
       describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments', () => {
@@ -3118,7 +3102,6 @@ describe('schemas/full-appeal/insert', () => {
 
         [
           'originalApplication',
-          'applicationNumber',
           'plansDrawingsSupportingDocuments',
           'designAccessStatementSubmitted',
           'decisionLetter',

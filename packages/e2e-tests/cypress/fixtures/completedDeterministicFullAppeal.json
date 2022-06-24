@@ -25,7 +25,6 @@
     }
   },
   "requiredDocumentsSection": {
-    "applicationNumber": "ValidNumber/12345",
     "originalApplication": {
       "uploadedFile": {
         "name": "original-application-valid.doc",

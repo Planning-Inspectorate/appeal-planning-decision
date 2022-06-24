@@ -18,7 +18,6 @@
     }
   },
   "requiredDocumentsSection": {
-    "applicationNumber": "ValidNumber/12345",
     "originalApplication": {
       "uploadedFile": {
         "name": "appeal-statement-valid.doc",

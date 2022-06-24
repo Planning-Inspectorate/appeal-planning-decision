@@ -11,7 +11,6 @@ describe('/lib/full-appeal/views', () => {
         APPLICATION_CERTIFICATES_INCLUDED:
           'full-appeal/submit-appeal/application-certificates-included',
         CERTIFICATES: 'full-appeal/submit-appeal/certificates',
-        APPLICATION_NUMBER: 'full-appeal/submit-appeal/application-number',
         DESIGN_ACCESS_STATEMENT: 'full-appeal/submit-appeal/design-access-statement',
         DESIGN_ACCESS_STATEMENT_SUBMITTED:
           'full-appeal/submit-appeal/design-access-statement-submitted',
