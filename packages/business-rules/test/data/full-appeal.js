@@ -86,7 +86,6 @@ const appeal = {
     },
   },
   planningApplicationDocumentsSection: {
-    applicationNumber: 'ABCDE12345',
     ownershipCertificate: {
       submittedSeparateCertificate: true,
       uploadedFile: {
@@ -319,7 +318,6 @@ const appeal = {
     },
     planningApplicationDocumentsSection: {
       originalApplication: 'NOT STARTED',
-      applicationNumber: 'NOT STARTED',
       ownershipCertificate: 'NOT STARTED',
       descriptionDevelopmentCorrect: 'NOT STARTED',
       plansDrawingsSupportingDocuments: 'NOT STARTED',

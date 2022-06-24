@@ -25,7 +25,6 @@
     }
   },
   "requiredDocumentsSection": {
-    "applicationNumber": "ValidNumber/12345",
     "originalApplication": {
       "uploadedFile": {
         "name": "original-application-valid.doc",
@@ -107,7 +106,6 @@
     "companyName": ""
   },
   "planningApplicationDocumentsSection": {
-    "applicationNumber": "12345",
     "isDesignAccessStatementSubmitted": false,
     "originalApplication": {
       "uploadedFile": {
@@ -133,7 +131,6 @@
       "yourDetails": "COMPLETED"
     },
     "requiredDocumentsSection": {
-      "applicationNumber": "COMPLETED",
       "originalApplication": "COMPLETED",
       "decisionLetter": "COMPLETED"
     },
