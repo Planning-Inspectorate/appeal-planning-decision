@@ -3,7 +3,6 @@ const {
   APPEAL_ID,
   APPLICATION_DECISION,
   PROCEDURE_TYPE: { WRITTEN_REPRESENTATION, HEARING, INQUIRY },
-  TYPE_OF_PLANNING_APPLICATION,
 } = require('./constants');
 
 const formatAddress = require('./utils/format-address');
@@ -69,7 +68,7 @@ const config = {
             },
             reference: appeal.id,
           }),
-          saveAndReturnContinueAppeal: (appeal) => ({
+          saveAndReturnContinueAppeal: (appeal, link) => ({
             recipientEmail: appeal.aboutYouSection.yourDetails.email,
             variables: {
               'application number': appeal.requiredDocumentsSection.applicationNumber,
@@ -77,7 +76,7 @@ const config = {
                 calculateDeadline.householderApplication(appeal.decisionDate),
                 'dd MMMM yyyy',
               ),
-              link: '', // Link in email to Continue with Appeal
+              link,
             },
             reference: appeal.id,
           }),
@@ -176,7 +175,7 @@ const config = {
             },
             reference: appeal.id,
           }),
-          saveAndReturnContinueAppeal: (appeal) => ({
+          saveAndReturnContinueAppeal: (appeal, link) => ({
             recipientEmail: appeal.email,
             variables: {
               'application number': appeal.planningApplicationDocumentsSection.applicationNumber,
@@ -184,7 +183,7 @@ const config = {
                 calculateDeadline.fullAppealApplication(appeal.decisionDate),
                 'dd MMMM yyyy',
               ),
-              link: 'https://www.google.com',
+              link,
             },
             reference: appeal.id,
           }),

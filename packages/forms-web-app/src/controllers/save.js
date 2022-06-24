@@ -1,8 +1,18 @@
-const { saveAppeal } = require('../lib/appeals-api-wrapper');
+const { saveAppeal, sendToken } = require('../lib/appeals-api-wrapper');
 const { VIEW } = require('../lib/submit-appeal/views');
 
-exports.postSaveAndReturn = async (req, res) => {
+const postSaveAndReturn = async (req, res) => {
   req.session.navigationHistory.shift();
   await saveAppeal(req.session.appeal);
   res.redirect(`/${VIEW.SUBMIT_APPEAL.APPLICATION_SAVED}`);
+};
+
+const continueAppeal = async (req, res) => {
+  await sendToken(req.session.appeal);
+  res.redirect(`/${VIEW.SUBMIT_APPEAL.ENTER_CODE}`);
+};
+
+module.exports = {
+  postSaveAndReturn,
+  continueAppeal,
 };

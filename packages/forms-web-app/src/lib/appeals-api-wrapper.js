@@ -98,3 +98,7 @@ exports.getLPAList = async () => {
 exports.saveAppeal = async (appeal) => {
   return handler(`/api/v1/save`, 'POST', { body: JSON.stringify(appeal) });
 };
+
+exports.sendToken = async (appeal) => {
+  return handler(`/api/v1/save`, 'PATCH', { body: JSON.stringify(appeal) });
+};
