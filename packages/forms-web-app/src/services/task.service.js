@@ -62,7 +62,6 @@ function statusSiteAccess(appeal) {
 
 const houseHolderTasksRules = [
   statusYourDetails,
-  statusApplicationNumber,
   statusOriginalApplication,
   statusDecisionLetter,
   statusAppealStatement,

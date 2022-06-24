@@ -6,7 +6,6 @@ const HEADERS = {
   aboutYouSection: 'About you',
   yourDetails: 'Your details',
   requiredDocumentsSection: 'About the original planning application',
-  applicationNumber: 'Planning application number',
   originalApplication: 'Upload the original planning application form',
   decisionLetter: 'Upload the decision letter',
   dateApplied: 'Date you applied for planning permission',
