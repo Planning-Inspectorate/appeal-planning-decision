@@ -4,7 +4,7 @@ const {
 
 const {
   VIEW: {
-    FULL_APPEAL: { CONFIRM_EMAIL_ADDRESS },
+    FULL_APPEAL: { CONFIRM_EMAIL_ADDRESS, EMAIL_ADDRESS },
   },
 } = require('../../../../../src/lib/full-appeal/views');
 
@@ -27,6 +27,7 @@ describe('controllers/full-appeal/submit-appeal/confirm-email-address', () => {
       await getConfirmEmailAddress(req, res);
       expect(res.render).toBeCalledWith(CONFIRM_EMAIL_ADDRESS, {
         emailAddress: 'test@example.com',
+        backLink: `/${EMAIL_ADDRESS}`,
       });
     });
   });
