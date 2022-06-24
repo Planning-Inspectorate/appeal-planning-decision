@@ -857,7 +857,7 @@
       "id": "52cad12c-2333-40a0-8e88-43e515ef1273",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:9003/before-you-start/local-planning-department",
+      "target": "https://appeals-service-dev.planninginspectorate.gov.uk/before-you-start/local-planning-department",
       "targets": [],
       "value": ""
     }, {
@@ -915,7 +915,7 @@
       "command": "type",
       "target": "id=local-planning-department",
       "targets": [],
-      "value": "Bradford"
+      "value": "System Test Borough Council"
     }, {
       "id": "8e994745-46a4-42a5-b364-c7590bae95da",
       "comment": "",
@@ -933,7 +933,7 @@
       "id": "88e4953f-a2fb-44c5-9346-09d4d32ed5b4",
       "comment": "",
       "command": "click",
-      "target": "id=type-of-planning-application-2",
+      "target": "id=type-of-planning-application",
       "targets": [
         ["id=type-of-planning-application-2", "id"],
         ["css=#type-of-planning-application-2", "css:finder"],
@@ -2159,6 +2159,6 @@
     "timeout": 300,
     "tests": []
   }],
-  "urls": ["https://appeals-service-dev.planninginspectorate.gov.uk/", "http://localhost:9003/", "https://appeals-dev.planninginspectorate.gov.uk/before-you-start/local-planning-depart"],
+  "urls": ["https://appeals-service-dev.planninginspectorate.gov.uk/", "http://localhost:9003/", "https://appeals-dev.planninginspectorate.gov.uk/before-you-start/local-planning-depart", "http://localhost:9003/before-you-start/local-planning-department"],
   "plugins": []
 }

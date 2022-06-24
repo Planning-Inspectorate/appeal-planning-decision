@@ -2,7 +2,7 @@ const householderAppeal = require('@pins/business-rules/test/data/householder-ap
 const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
 const {
   sendSubmissionReceivedEmailToLpa,
-  sendSubmissionConfirmationEmailToAppellant,
+  sendSubmissionConfirmationEmailToAppellant, createToken,
 } = require('../../../src/lib/notify');
 const logger = require('../../../src/lib/logger');
 
@@ -129,6 +129,11 @@ describe('lib/notify', () => {
         { err: new Error('Internal Server Error'), lpaCode: householderAppeal.lpaCode },
         'Unable to send submission received email to LPA'
       );
+    });
+  });
+  describe('save and return token', () => {
+    it('should create token', () => {
+      expect(createToken().toString()).toMatch(/\d{5}/);
     });
   });
 });
