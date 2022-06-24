@@ -57,10 +57,13 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
   }
 };
 
-const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
+const sendSaveAndReturnContinueWithAppealEmail = async (appeal, token) => {
   try {
-    const { recipientEmail, variables, reference } =
-      appealTypeConfig[appeal.appealType].email.saveAndReturnContinueAppeal(appeal);
+    const { baseUrl } = config.apps.appeals;
+    const link = `${baseUrl}/enter-code/${token}`;
+    const { recipientEmail, variables, reference } = appealTypeConfig[
+      appeal.appealType
+    ].email.saveAndReturnContinueAppeal(appeal, link);
 
     logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
 
