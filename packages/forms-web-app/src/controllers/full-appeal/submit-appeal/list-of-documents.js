@@ -13,10 +13,20 @@ const { postSaveAndReturn } = require('../../save');
 
   const postListOfDocuments = async (req, res) => {
     const { body } = req;
+    const { errors = {}, errorSummary = [] } = body;
+
+    try {
       if (req.body['save-and-return'] !== '') {
         return res.redirect(`/${TASK_LIST}`);
       }
       return await postSaveAndReturn(req, res);
+    } catch (e) {
+      logger.error(e);
+      return res.render(currentPage, {
+        errors,
+        errorSummary: [{ text: e.toString(), href: '#' }],
+      });
+    }
   };
   
   module.exports = {
