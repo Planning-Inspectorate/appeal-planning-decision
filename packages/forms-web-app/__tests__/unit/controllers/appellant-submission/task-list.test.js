@@ -13,8 +13,8 @@ describe('controllers/appellant-submission/task-list', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
         applicationStatus: 'Application incomplete',
         sectionInfo: {
-          nbTasks: 11,
-          nbCompleted: 10,
+          nbTasks: 10,
+          nbCompleted: 9,
           sections: {
             count: 5,
             completed: 4,
@@ -42,15 +42,6 @@ describe('controllers/appellant-submission/task-list', () => {
               text: 'About the original planning application',
             },
             items: [
-              {
-                text: 'Planning application number',
-                href: `/${VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER}`,
-                status: 'COMPLETED',
-                attributes: {
-                  'applicationNumber-status': 'COMPLETED',
-                  name: 'applicationNumber',
-                },
-              },
               {
                 text: 'Upload the original planning application form',
                 href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`,
@@ -179,7 +170,6 @@ describe('controllers/appellant-submission/task-list', () => {
           },
         },
         requiredDocumentsSection: {
-          applicationNumber: '123',
           originalApplication: {
             uploadedFile: {
               id: '123',
@@ -222,8 +212,8 @@ describe('controllers/appellant-submission/task-list', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
         applicationStatus: 'Application incomplete',
         sectionInfo: {
-          nbTasks: 11,
-          nbCompleted: 8,
+          nbTasks: 10,
+          nbCompleted: 7,
           sections: {
             count: 5,
             completed: 2,
@@ -251,15 +241,6 @@ describe('controllers/appellant-submission/task-list', () => {
               text: 'About the original planning application',
             },
             items: [
-              {
-                text: 'Planning application number',
-                href: `/${VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER}`,
-                status: 'COMPLETED',
-                attributes: {
-                  'applicationNumber-status': 'COMPLETED',
-                  name: 'applicationNumber',
-                },
-              },
               {
                 text: 'Upload the original planning application form',
                 href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`,
@@ -397,7 +378,6 @@ describe('controllers/appellant-submission/task-list', () => {
           },
         },
         requiredDocumentsSection: {
-          applicationNumber: '123',
           originalApplication: {
             uploadedFile: {
               id: '123',
@@ -431,8 +411,8 @@ describe('controllers/appellant-submission/task-list', () => {
       expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
         applicationStatus: 'Application incomplete',
         sectionInfo: {
-          nbTasks: 11,
-          nbCompleted: 9,
+          nbTasks: 10,
+          nbCompleted: 8,
           sections: {
             count: 5,
             completed: 3,
@@ -460,15 +440,6 @@ describe('controllers/appellant-submission/task-list', () => {
               text: 'About the original planning application',
             },
             items: [
-              {
-                text: 'Planning application number',
-                href: `/${VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER}`,
-                status: 'COMPLETED',
-                attributes: {
-                  'applicationNumber-status': 'COMPLETED',
-                  name: 'applicationNumber',
-                },
-              },
               {
                 text: 'Upload the original planning application form',
                 href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`,
