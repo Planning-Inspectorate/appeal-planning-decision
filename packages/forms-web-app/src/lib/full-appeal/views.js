@@ -55,6 +55,7 @@ const VIEW = {
     PLANNING_APPLICATION_NUMBER: 'full-appeal/submit-appeal/planning-application-number',
     EMAIL_ADDRESS: 'full-appeal/submit-appeal/email-address',
     CONFIRM_EMAIL_ADDRESS: 'full-appeal/submit-appeal/confirm-email-address',
+    EMAIL_CONFIRMED: 'full-appeal/submit-appeal/email-confirmed',
   },
 };
 
