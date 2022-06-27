@@ -88,6 +88,11 @@ const config = {
             },
             reference: appeal.id,
           }),
+          confirmEmail: (appeal, link) => ({
+            recipientEmail: appeal.aboutYouSection.yourDetails.email,
+            variables: { link },
+            reference: appeal.id,
+          }),
         },
       },
       [APPEAL_ID.ENFORCEMENT_LISTED_BUILDING]: {
@@ -193,6 +198,11 @@ const config = {
               'application number': appeal.planningApplicationDocumentsSection.applicationNumber,
               'unique code': token,
             },
+            reference: appeal.id,
+          }),
+          confirmEmail: (appeal, link) => ({
+            recipientEmail: appeal.email,
+            variables: { link },
             reference: appeal.id,
           }),
         },

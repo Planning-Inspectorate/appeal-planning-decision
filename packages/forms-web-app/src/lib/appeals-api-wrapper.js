@@ -102,3 +102,7 @@ exports.saveAppeal = async (appeal) => {
 exports.sendToken = async (appeal) => {
   return handler(`/api/v1/save`, 'PATCH', { body: JSON.stringify(appeal) });
 };
+
+exports.confirmEmail = async (appeal) => {
+  return handler(`/api/v1/confirm-email`, 'POST', { body: JSON.stringify(appeal) });
+};

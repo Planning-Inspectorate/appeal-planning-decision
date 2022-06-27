@@ -103,6 +103,29 @@ const sendSaveAndReturnEnterCodeIntoServiceEmail = async (appeal, token) => {
   }
 };
 
+const sendConfirmEmailAddressEmail = async (appeal, token) => {
+  try {
+    const { baseUrl } = config.apps.appeals;
+    const link = `${baseUrl}/email-address-confirmed/${token}`;
+    const { recipientEmail, variables, reference } = appealTypeConfig[
+      appeal.appealType
+    ].email.confirmEmail(appeal, link);
+    logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
+
+    await NotifyBuilder.reset()
+      .setTemplateId(templates.CONFIRM_EMAIL.confirmEmail)
+      .setDestinationEmailAddress(recipientEmail)
+      .setTemplateVariablesFromObject(variables)
+      .setReference(reference)
+      .sendEmail();
+  } catch (err) {
+    logger.error(
+      { err, appealId: appeal.id },
+      'Unable to send confirm email address confirmation email to appellant'
+    );
+  }
+};
+
 const createToken = () => {
   const token = [];
   for (let i = 0; i < 5; i += 1) {
@@ -117,5 +140,6 @@ module.exports = {
   sendSubmissionConfirmationEmailToAppellant,
   sendSaveAndReturnContinueWithAppealEmail,
   sendSaveAndReturnEnterCodeIntoServiceEmail,
+  sendConfirmEmailAddressEmail,
   createToken,
 };

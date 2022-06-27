@@ -12,11 +12,13 @@ const saveRouter = require('./save');
 const appealsHorizonRouter = require('./appealsHorizon');
 const localPlanningAuthoritiesRouter = require('./local-planning-authorities');
 const apiDocsRouter = require('./api-docs');
+const confirmEmailRouter = require('./confirm-email');
 
 router.use('/api/v1/appeals', appealsRouter);
 router.use('/api/v1/appeals-horizon', appealsHorizonRouter);
 router.use('/api/v1/local-planning-authorities', localPlanningAuthoritiesRouter);
 router.use('/api-docs', apiDocsRouter);
 router.use('/api/v1/save', saveRouter);
+router.use('/api/v1/confirm-email', confirmEmailRouter);
 
 module.exports = router;
