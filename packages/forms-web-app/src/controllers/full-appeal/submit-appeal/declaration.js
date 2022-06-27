@@ -16,10 +16,7 @@ const postDeclaration = async (req, res) => {
   const { body } = req;
   const { errors = {} } = body;
   const {
-    appeal,
-    appeal: {
-      planningApplicationDocumentsSection: { applicationNumber },
-    },
+    appeal
   } = req.session;
 
   const log = logger.child({ appealId: appeal.id, uuid: uuid.v4() });
@@ -33,7 +30,7 @@ const postDeclaration = async (req, res) => {
   try {
     const { id, name, location, size } = await storePdfAppeal(
       appeal,
-      `planning-appeal-for-planning-application-${applicationNumber.replace(/\//g, '-')}`
+      `planning-appeal-for-planning-application-${appeal.planningApplicationNumber.replace(/\//g, '-')}`
     );
 
     appeal.state = 'SUBMITTED';

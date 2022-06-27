@@ -18,7 +18,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
     location: 'here',
     size: '123',
   };
-  const fileName = `planning-appeal-for-planning-application-${appeal.planningApplicationDocumentsSection.applicationNumber.replace(
+  const fileName = `planning-appeal-for-planning-application-${appeal.planningApplicationNumber.replace(
     /\//g,
     '-'
   )}`;
