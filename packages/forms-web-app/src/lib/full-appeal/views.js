@@ -59,7 +59,8 @@ const VIEW = {
 		EMAIL_CONFIRMED: 'full-appeal/submit-appeal/email-confirmed',
 		LIST_OF_DOCUMENTS: 'full-appeal/submit-appeal/list-of-documents',
 		SENT_ANOTHER_LINK: 'full-appeal/submit-appeal/sent-another-link',
-		CANNOT_APPEAL: 'full-appeal/submit-appeal/cannot-appeal'
+		CANNOT_APPEAL: 'full-appeal/submit-appeal/cannot-appeal',
+		APPEAL_ALREADY_SUBMITTED: 'full-appeal/submit-appeal/appeal-already-submitted',
 	}
 };
 

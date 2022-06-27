@@ -55,6 +55,8 @@ const listOfDocuments = require('./list-of-documents');
 const listOfDocumentsRouter = require('./list-of-documents');
 const sentAnotherLinkRouter = require('./sent-another-link');
 const cannotAppealRouter = require('./cannot-appeal');
+const appealAlreadySubmittedRouter = require('./appeal-already-submitted');
+
 
 const router = express.Router();
 
@@ -114,5 +116,6 @@ router.use(listOfDocuments);
 router.use(listOfDocumentsRouter);
 router.use(sentAnotherLinkRouter);
 router.use(cannotAppealRouter);
+router.use(appealAlreadySubmittedRouter);
 
 module.exports = router;
