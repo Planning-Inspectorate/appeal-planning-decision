@@ -7,13 +7,20 @@
     "npm": ">=6.0.0 <7.0.0"
   },
   "description": "Appeal a planning decision - these are utility scripts for the whole repo",
-  "main": "index.js",
+  "workspaces": [
+    "packages/*",
+    "!packages/appeal-reply-service-api",
+    "!packages/e2e-tests",
+    "!packages/lpa-questionnaire-web-app",
+    "!packages/openfaas-amqp1.0-connector"
+  ],
   "scripts": {
     "commit": "cz",
-    "commitlint": "commitlint --from 58844f55ff --to HEAD",
+    "commitlint": "commitlint --from=$(git log origin/main..$(git rev-parse HEAD) --pretty=format:\"%H\" | tail -n 1)",
     "format": "prettier --write \"*.js\" \"data/*.js\"",
-    "semantic-release": "semantic-release",
+    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
     "test:e2e": "cd ./packages/e2e-tests && npm run test:e2e",
+    "release": "multi-semantic-release --ignore-packages=\"packages/appeal-reply-service-api,packages/common,packages/business-rules,packages/ping,packages/queue-retry\"",
     "test:e2e:demo": "cd ./packages/e2e-tests && npm run test:e2e:demo",
     "test:e2e:postprocess": "cd ./packages/e2e-tests && npm run test:e2e:postprocess",
     "test:e2e:files": "cd ./packages/e2e-tests && ./create-large-test-files.sh",
@@ -39,27 +46,46 @@
   },
   "homepage": "https://github.com/foundry4/appeal-planning-decision#readme",
   "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
-    "@semantic-release/changelog": "^5.0.1",
-    "@semantic-release/git": "^9.0.0",
-    "commitizen": "^4.2.2",
+    "@commitlint/cli": "^17.0.1",
+    "@commitlint/config-conventional": "^17.0.0",
+    "@semantic-release/exec": "^6.0.3",
+    "commitizen": "^4.2.4",
     "cypress-downloadfile": "^1.2.1",
     "cypress-file-upload": "^5.0.8",
-    "husky": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^8.0.0",
     "lint-staged": "^10.5.0",
+    "multi-semantic-release": "^2.13.0",
     "prettier": "^2.1.2",
-    "semantic-release": "^17.2.3",
-    "semantic-release-monorepo": "^7.0.3"
+    "semantic-release": "^19.0.3"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "bash .husky/pre-commit.sh \"packages\"",
-      "pre-push": "npm run commitlint"
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "dependencies": {
-    "moment": "^2.29.1"
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix"
+    ],
+    "*.{js,ts,json,md}": [
+      "prettier --write"
+    ]
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/github",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/exec",
+        {
+          "prepareCmd": "echo \"${nextRelease.version}\" > .release-version"
+        }
+      ]
+    ]
   }
 }

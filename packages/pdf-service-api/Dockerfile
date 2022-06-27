@@ -1,4 +1,4 @@
-# Stage 1/3: Build
+# Stage 1/2: Build
 FROM node:14 AS build
 
 WORKDIR /puppeteer
@@ -19,19 +19,7 @@ COPY packages/pdf-service-api/src ./src
 RUN npm ci
 RUN chmod -R o+rwx node_modules/puppeteer/.local-chromium
 
-# Stage 2/3: Run Tests
-FROM node:14-alpine AS test
-
-WORKDIR /opt/app
-
-COPY --from=build /opt/app ./
-
-COPY packages/pdf-service-api/test ./test
-COPY packages/pdf-service-api/jest.config.js ./jest.config.js
-
-RUN npm run documentation; echo $? > /npm.exitcode
-
-# Stage 3/3: App Run
+# Stage 2/2: App Run
 FROM build AS app
 
 WORKDIR /opt/app
