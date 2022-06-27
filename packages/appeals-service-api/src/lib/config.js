@@ -110,6 +110,9 @@ const config = {
           enterCodeIntoServiceEmailToAppellant:
             process.env.SRV_NOTIFY_SAVE_AND_RETURN_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID,
         },
+        CONFIRM_EMAIL: {
+          confirmEmail: process.env.SRV_NOTIFY_CONFIRM_EMAIL_TEMPLATE_ID,
+        },
       },
       emailReplyToId: {
         startEmailToLpa: process.env.SRV_NOTIFY_EMAIL_REPLYTO_ID_START_EMAIL_TO_LPA,
