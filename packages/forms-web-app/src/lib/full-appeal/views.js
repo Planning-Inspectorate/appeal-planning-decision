@@ -58,6 +58,7 @@ const VIEW = {
     CONFIRM_EMAIL_ADDRESS: 'full-appeal/submit-appeal/confirm-email-address',
     EMAIL_CONFIRMED: 'full-appeal/submit-appeal/email-confirmed',
     LIST_OF_DOCUMENTS: 'full-appeal/submit-appeal/list-of-documents',
+    SENT_ANOTHER_LINK: 'full-appeal/submit-appeal/sent-another-link',
   },
 };
 

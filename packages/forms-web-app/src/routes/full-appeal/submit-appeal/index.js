@@ -53,6 +53,7 @@ const emailAddressRouter = require('./email-address');
 const emailConfirmedRouter = require('./email-confirmed');
 const listOfDocuments = require('./list-of-documents');
 const listOfDocumentsRouter = require('./list-of-documents');
+const sentAnotherLinkRouter = require('./sent-another-link');
 
 const router = express.Router();
 
@@ -110,5 +111,6 @@ router.use(emailAddressRouter);
 router.use(emailConfirmedRouter);
 router.use(listOfDocuments);
 router.use(listOfDocumentsRouter);
+router.use(sentAnotherLinkRouter);
 
 module.exports = router;
