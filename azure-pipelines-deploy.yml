@@ -1,0 +1,114 @@
+parameters:
+  - name: deployAppealsApi
+    displayName: Deploy Appeals Service API
+    type: boolean
+    default: true
+  - name: deployClamAv
+    displayName: Deploy ClamAV API
+    type: boolean
+    default: true  
+  - name: deployDocumentsApi
+    displayName: Deploy Documents Service API
+    type: boolean
+    default: true
+  - name: deployHorizonFunctions
+    displayName: Deploy Horizon Functions
+    type: boolean
+    default: true
+  - name: deployPdfApi
+    displayName: Deploy PDF Service API
+    type: boolean
+    default: true
+  - name: deployWeb
+    displayName: Deploy Web
+    type: boolean
+    default: true
+  - name: region
+    displayName: Region
+    type: string
+    values:
+      - UK West
+      - UK South
+    default: UK West
+
+pr: none
+trigger: none
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      endpoint: Planning-Inspectorate
+      name: Planning-Inspectorate/common-pipeline-templates
+      ref: refs/tags/release/3.0.3
+  pipelines:
+    - pipeline: build
+      source: Appeals Service Build
+      trigger:
+        branches:
+          include:
+            - main
+
+extends:
+  template: stages/wrapper_cd.yml@templates
+  parameters:
+    deploymentStages:
+      - name: Deploy Applications
+        deploymentJobs:
+          - name: Deploy Appeals API
+            condition: eq(${{ parameters.deployAppealsApi }}, 'true')
+            steps:
+              - template: ../steps/azure_web_app_deploy.yml
+                parameters:
+                  appName: pins-app-appeals-service-appeals-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/appeals-service-api
+          - name: Deploy ClamAV API
+            condition: eq(${{ parameters.deployClamAv }}, 'true')
+            steps:
+              - template: ../steps/azure_web_app_deploy.yml
+                parameters:
+                  appName: pins-app-appeals-service-clamav-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/clamav-api
+          - name: Deploy Documents API
+            condition: eq(${{ parameters.deployDocumentsApi }}, 'true')
+            steps:
+              - template: ../steps/azure_web_app_deploy.yml
+                parameters:
+                  appName: pins-app-appeals-service-documents-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/documents-api
+          - name: Deploy Horizon Functions
+            artifact:
+              name: azure-functions
+              sourcePipeline: Appeals Service Build
+            condition: eq(${{ parameters.deployHorizonFunctions }}, 'true')
+            steps:
+              - template: ../steps/function_app_deploy.yml
+                parameters:
+                  appName: pins-func-appeals-service-horizon-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  resourceGroup: $(resourceGroup)
+          - name: Deploy PDF API
+            condition: eq(${{ parameters.deployPdfApi }}, 'true')
+            steps:
+              - template: ../steps/azure_web_app_deploy.yml
+                parameters:
+                  appName: pins-app-appeals-service-pdf-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/pdf-service-api
+          - name: Deploy Web
+            condition: eq(${{ parameters.deployWeb }}, 'true')
+            steps:
+              - template: ../steps/azure_web_app_deploy.yml
+                parameters:
+                  appName: pins-app-appeals-service-appeals-wfe-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/forms-web-app
+    globalVariables:
+      - template: azure-pipelines-variables.yml@self

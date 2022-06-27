@@ -1,0 +1,271 @@
+parameters:
+  - name: region
+    displayName: Region
+    type: string
+    values:
+      - UK West
+      - UK South
+    default: UK West
+
+pr: none
+trigger: none
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      endpoint: Planning-Inspectorate
+      name: Planning-Inspectorate/common-pipeline-templates
+      ref: refs/tags/release/3.0.3
+
+extends:
+  template: stages/wrapper_cd.yml@templates
+  parameters:
+    deploymentStages:
+      - name: Stage Web Apps
+        condition: eq(dependencies.semantic_release.outputs['run_semantic_release.versions.release'], 'true')
+        deploymentJobs:
+          - name: Stage Appeals API
+            condition: eq(dependencies.semantic_release.outputs['run_semantic_release.versions.appealsApiRelease'], 'true')
+            steps:
+              - template: ../steps/azure_web_app_docker_tag.yml
+                parameters:
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/appeals-service-api
+                  tag: v$(appealsApiVersion)
+              - template: ../steps/azure_web_app_deploy.yml
+                parameters:
+                  appName: pins-app-appeals-service-appeals-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  appSlotName: staging
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/appeals-service-api
+                  tag: v$(appealsApiVersion)
+            variables:
+              - name: appealsApiVersion
+                value: $[ stageDependencies.semantic_release.run_semantic_release.outputs['versions.appealsApiVersion'] ]
+          - name: Stage ClamAV API
+            condition: eq(dependencies.semantic_release.outputs['run_semantic_release.versions.clamAvApiRelease'], 'true')
+            steps:
+              - template: ../steps/azure_web_app_docker_tag.yml
+                parameters:
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/clamav-api
+                  tag: v$(clamAvApiVersion)
+              - template: ../steps/azure_web_app_deploy.yml
+                parameters:
+                  appName: pins-app-appeals-service-clamav-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  appSlotName: staging
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/clamav-api
+                  tag: v$(appealsApiVersion)
+            variables:
+              - name: clamAvApiVersion
+                value: $[ stageDependencies.semantic_release.run_semantic_release.outputs['versions.clamAvApiVersion'] ]
+          - name: Stage Documents API
+            condition: eq(dependencies.semantic_release.outputs['run_semantic_release.versions.documentsApiRelease'], 'true')
+            steps:
+              - template: ../steps/azure_web_app_docker_tag.yml
+                parameters:
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/documents-api
+                  tag: v$(documentsApiVersion)
+              - template: ../steps/azure_web_app_deploy.yml
+                parameters:
+                  appName: pins-app-appeals-service-documents-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  appSlotName: staging
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/documents-api
+                  tag: v$(documentsApiVersion)
+            variables:
+              - name: documentsApiVersion
+                value: $[ stageDependencies.semantic_release.run_semantic_release.outputs['versions.documentsApiVersion'] ]
+          - name: Stage PDF API
+            condition: eq(dependencies.semantic_release.outputs['run_semantic_release.versions.pdfApiRelease'], 'true')
+            steps:
+              - template: ../steps/azure_web_app_docker_tag.yml
+                parameters:
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/pdf-service-api
+                  tag: v$(pdfApiVersion)
+              - template: ../steps/azure_web_app_deploy.yml
+                parameters:
+                  appName: pins-app-appeals-service-documents-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  appSlotName: staging
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/pdf-service-api
+                  tag: v$(pdfApiVersion)
+            variables:
+              - name: pdfApiVersion
+                value: $[ stageDependencies.semantic_release.run_semantic_release.outputs['versions.pdfApiVersion'] ]
+          - name: Stage Web
+            condition: eq(dependencies.semantic_release.outputs['run_semantic_release.versions.webRelease'], 'true')
+            steps:
+              - template: ../steps/azure_web_app_docker_tag.yml
+                parameters:
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/forms-web-app
+                  tag: v$(webVersion)
+              - template: ../steps/azure_web_app_deploy.yml
+                parameters:
+                  appName: pins-app-appeals-service-applications-wfe-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  appSlotName: staging
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/forms-web-app
+                  tag: v$(webVersion)
+            variables:
+              - name: webVersion
+                value: $[ stageDependencies.semantic_release.run_semantic_release.outputs['versions.webVersion'] ]
+      - name: Deploy Web Apps
+        dependsOn:
+          - Stage Web Apps
+        deploymentJobs:
+          - name: Deploy Appeals API
+            steps:
+              - template: ../steps/azure_web_app_slot_swap.yml
+                parameters:
+                  appName: pins-app-appeals-service-appeals-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  appStagingSlotName: staging
+                  appTargetSlotName: production
+          - name: Deploy ClamAV API
+            steps:
+              - template: ../steps/azure_web_app_slot_swap.yml
+                parameters:
+                  appName: pins-app-appeals-service-clamav-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  appStagingSlotName: staging
+                  appTargetSlotName: production
+          - name: Deploy Documents API
+            steps:
+              - template: ../steps/azure_web_app_slot_swap.yml
+                parameters:
+                  appName: pins-app-appeals-service-documents-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  appStagingSlotName: staging
+                  appTargetSlotName: production
+          - name: Deploy PDF API
+            steps:
+              - template: ../steps/azure_web_app_slot_swap.yml
+                parameters:
+                  appName: pins-app-appeals-service-pdf-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  appStagingSlotName: staging
+                  appTargetSlotName: production
+          - name: Deploy Web
+            steps:
+              - template: ../steps/azure_web_app_slot_swap.yml
+                parameters:
+                  appName: pins-app-applications-service-applications-wfe-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  appStagingSlotName: staging
+                  appTargetSlotName: production
+      - name: Deploy Function Apps
+        deploymentJobs:
+          - name: Deploy Horizon Functions
+            steps:
+              - template: ../steps/function_app_deploy.yml
+                parameters:
+                  appName: pins-func-appeals-service-horizon-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  resourceGroup: $(resourceGroup)
+    preDeploymentStages:
+      - name: Semantic Release
+        jobs:
+          - name: Run Semantic Release
+            steps:
+              - checkout: self
+                clean: true
+                persistCredentials: true
+              - template: ../steps/node_script.yml
+                parameters:
+                  nodeVersion: 14
+                  script: npm ci
+              - template: ../steps/node_script.yml
+                parameters:
+                  nodeVersion: 14
+                  script: npm run release
+                  environmentVariables:
+                    GH_TOKEN: $(GH_TOKEN)
+              - script: |
+                  APPEALS_API_VERSION=$(cat packages/appeals-service-api/.release-version)
+                  CLAMAV_API_VERSION=$(cat packages/clamav-rest-server/.release-version)
+                  DOCUMENTS_API_VERSION=$(cat packages/document-service-api/.release-version)
+                  HORIZON_FUNCTIONS_VERSION=$(cat packages/horizon-functions/.release-version)
+                  PDF_API_VERSION=$(cat packages/pdf-service-api/.release-version)
+                  WEB_VERSION=$(cat packages/forms-web-app/.release-version)
+
+                  RELEASE=false
+
+                  if [[ ! -z "$APPEALS_API_VERSION" ]]; then
+                    echo "API version: $APPEALS_API_VERSION"
+                    echo "##vso[task.setvariable variable=appealsApiVersion;isOutput=true]$APPEALS_API_VERSION"
+                    echo "##vso[task.setvariable variable=appealsApiRelease;isOutput=true]true"
+                    RELEASE=true
+                  else
+                    APPEALS_API_VERSION=$(git describe --match "applications-service-api@*" --abbrev=0 --tags $(git rev-list --tags --max-count=1))
+                    echo "API version: $APPEALS_API_VERSION (No change)"
+                  fi
+
+                  if [[ ! -z "$CLAMAV_API_VERSION" ]]; then
+                    echo "API version: $CLAMAV_API_VERSION"
+                    echo "##vso[task.setvariable variable=clamAvApiVersion;isOutput=true]$CLAMAV_API_VERSION"
+                    echo "##vso[task.setvariable variable=clamAvApiRelease;isOutput=true]true"
+                    RELEASE=true
+                  else
+                    CLAMAV_API_VERSION=$(git describe --match "applications-service-api@*" --abbrev=0 --tags $(git rev-list --tags --max-count=1))
+                    echo "API version: $CLAMAV_API_VERSION (No change)"
+                  fi
+
+                  if [[ ! -z "$DOCUMENTS_API_VERSION" ]]; then
+                    echo "API version: $DOCUMENTS_API_VERSION"
+                    echo "##vso[task.setvariable variable=documentsApiVersion;isOutput=true]$DOCUMENTS_API_VERSION"
+                    echo "##vso[task.setvariable variable=documentsApiRelease;isOutput=true]true"
+                    RELEASE=true
+                  else
+                    DOCUMENTS_API_VERSION=$(git describe --match "applications-service-api@*" --abbrev=0 --tags $(git rev-list --tags --max-count=1))
+                    echo "API version: $DOCUMENTS_API_VERSION (No change)"
+                  fi
+
+                  if [[ ! -z "$HORIZON_FUNCTIONS_VERSION" ]]; then
+                    echo "API version: $HORIZON_FUNCTIONS_VERSION"
+                    echo "##vso[task.setvariable variable=horizonFunctionsVersion;isOutput=true]$HORIZON_FUNCTIONS_VERSION"
+                    echo "##vso[task.setvariable variable=horizonFunctionsRelease;isOutput=true]true"
+                    RELEASE=true
+                  else
+                    HORIZON_FUNCTIONS_VERSION=$(git describe --match "applications-service-api@*" --abbrev=0 --tags $(git rev-list --tags --max-count=1))
+                    echo "API version: $HORIZON_FUNCTIONS_VERSION (No change)"
+                  fi
+
+                  if [[ ! -z "$PDF_API_VERSION" ]]; then
+                    echo "API version: $PDF_API_VERSION"
+                    echo "##vso[task.setvariable variable=pdfApiVersion;isOutput=true]$PDF_API_VERSION"
+                    echo "##vso[task.setvariable variable=pdfApiRelease;isOutput=true]true"
+                    RELEASE=true
+                  else
+                    PDF_API_VERSION=$(git describe --match "applications-service-api@*" --abbrev=0 --tags $(git rev-list --tags --max-count=1))
+                    echo "API version: $PDF_API_VERSION (No change)"
+                  fi
+
+                  if [[ ! -z "$WEB_VERSION" ]]; then
+                    echo "Web version: $WEB_VERSION"
+                    echo "##vso[task.setvariable variable=webVersion;isOutput=true]$WEB_VERSION"
+                    echo "##vso[task.setvariable variable=webRelease;isOutput=true]true"
+                    RELEASE=true
+                  else
+                    WEB_VERSION=$(git describe --match "forms-web-app@*" --abbrev=0 --tags $(git rev-list --tags --max-count=1))
+                    echo "API version: $WEB_VERSION (No change)"
+                  fi
+
+                  if [[ $RELEASE == true ]]; then
+                    echo "##vso[task.setvariable variable=release;isOutput=true]true"
+                  fi
+                displayName: Display next versions
+                name: versions
+    environments:
+      - name: Prod
+    globalVariables:
+      - template: azure-pipelines-variables.yml@self
