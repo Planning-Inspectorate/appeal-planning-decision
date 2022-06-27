@@ -7,9 +7,9 @@ const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
 
 const getEmailAddress = (req, res) => {
-  const { emailAddress } = req.session.appeal;
+  const { email } = req.session.appeal;
   res.render(EMAIL_ADDRESS, {
-    emailAddress,
+    email,
   });
 };
 
@@ -21,9 +21,8 @@ const postEmailAddress = async (req, res) => {
     appeal,
     appeal: { email },
   } = req.session;
-  const task = appeal;
 
-  task.email = body['email-address'];
+  appeal.email = body['email-address'];
 
   if (Object.keys(errors).length > 0) {
     res.render(EMAIL_ADDRESS, {

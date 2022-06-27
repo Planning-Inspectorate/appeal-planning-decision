@@ -16,7 +16,7 @@ function validateEmail(email) {
 
 // This rule was used for the email field on the page
 const ruleYourEmail = () =>
-  body('appellant-email')
+  body('email-address')
     .notEmpty()
     .withMessage('Enter your email address')
     .bail()
