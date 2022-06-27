@@ -41,11 +41,6 @@ function statusDecisionLetter(appeal) {
   return task.uploadedFile.id ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
 }
 
-function statusApplicationNumber(appeal) {
-  const task = appeal.requiredDocumentsSection;
-  return task.applicationNumber ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
-}
-
 function statusHealthAndSafety(appeal) {
   return appeal.appealSiteSection.healthAndSafety &&
     appeal.appealSiteSection.healthAndSafety.hasIssues !== null

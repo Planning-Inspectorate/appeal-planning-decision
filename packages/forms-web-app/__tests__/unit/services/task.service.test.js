@@ -20,7 +20,6 @@ beforeEach(() => {
 
 const completedAppeal = {
   requiredDocumentsSection: {
-    applicationNumber: '2323',
     originalApplication: {
       uploadedFile: {
         id: 'asdsad',
@@ -239,10 +238,12 @@ describe('services/task.service', () => {
     it('should return "CANNOT START YET" from statusCheckYourAnswer if not all sections have been COMPLETED and the appeal is not submitted ', () => {
       const incompletedAppeal = {
         ...completedAppeal,
-        requiredDocumentsSection: {
-          ...completedAppeal.requiredDocumentsSection,
-          applicationNumber: undefined,
-        },
+        aboutYouSection: {
+          yourDetails: {
+            isOriginalApplicant: true,
+            name: undefined,
+          },
+        }
       };
       expect(SECTIONS.submitYourAppealSection.checkYourAnswers.rule(incompletedAppeal)).toEqual(
         CANNOT_START_YET
@@ -340,7 +341,6 @@ describe('services/task.service', () => {
             yourDetails: IN_PROGRESS,
           },
           requiredDocumentsSection: {
-            applicationNumber: NOT_STARTED,
             originalApplication: NOT_STARTED,
             decisionLetter: NOT_STARTED,
           },
@@ -348,12 +348,12 @@ describe('services/task.service', () => {
       };
       const currentTask = {
         sectionName: 'requiredDocumentsSection',
-        taskName: 'applicationNumber',
+        taskName: 'originalApplication',
       };
       expect(getNextTask(appeal, currentTask)).toEqual({
-        href: '/appellant-submission/upload-application',
+        href: '/appellant-submission/upload-decision',
         status: COMPLETED,
-        taskName: 'originalApplication',
+        taskName: 'decisionLetter',
       });
     });
   });
