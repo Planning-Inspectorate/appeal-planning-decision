@@ -49,6 +49,7 @@ const letterConfirmingApplicationRouter = require('./letter-confirming-applicati
 const planningApplicationNumberRouter = require('./planning-application-number');
 const confirmEmailAddressRouter = require('./confirm-email-address');
 const emailAddressRouter = require('./email-address');
+const emailConfirmedRouter = require('./email-confirmed');
 
 const router = express.Router();
 
@@ -102,5 +103,6 @@ router.use(letterConfirmingApplicationRouter);
 router.use(planningApplicationNumberRouter);
 router.use(confirmEmailAddressRouter);
 router.use(emailAddressRouter);
+router.use(emailConfirmedRouter);
 
 module.exports = router;
