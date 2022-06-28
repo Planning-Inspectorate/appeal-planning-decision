@@ -24,7 +24,6 @@ const statusPlanningApplicationDocumentsSection = (appeal) => {
 
   sectionPath
     .add('originalApplication')
-    .add('applicationNumber')
     .add('plansDrawingsSupportingDocuments')
     .add('designAccessStatementSubmitted');
 
