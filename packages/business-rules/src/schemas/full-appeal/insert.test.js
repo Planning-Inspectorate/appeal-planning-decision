@@ -2124,225 +2124,207 @@ describe('schemas/full-appeal/insert', () => {
           'planningApplicationDocumentsSection must be a `object` type, but the final value was: `null`',
         );
       });
-    });
 
-    describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments', () => {
-      it('should remove unknown fields', async () => {
-        appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.unknownField =
-          'unknown field';
-
-        const result = await insert.validate(appeal2, config);
-        expect(result).toEqual(appeal);
-      });
-
-      it('should throw an error when given a null value', async () => {
-        appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments = null;
-
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments must be a `object` type, but the final value was: `null`',
-        );
-      });
-
-      describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles', () => {
-        it('should not throw an error when given a null value', async () => {
-          appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles =
-            null;
-          appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles =
-            [];
-
-          const result = await insert.validate(appeal, config);
-          expect(result).toEqual(appeal2);
-        });
-
-        it('should not throw an error when not given a value', async () => {
-          delete appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments
-            .uploadedFiles;
-          appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles =
-            [];
+      describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments', () => {
+        it('should remove unknown fields', async () => {
+          appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.unknownField =
+            'unknown field';
 
           const result = await insert.validate(appeal2, config);
-          expect(result).toEqual(appeal2);
+          expect(result).toEqual(appeal);
         });
 
-        describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id', () => {
-          it('should strip leading/trailing spaces', async () => {
-            appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id =
-              '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
-            appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id =
-              '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
+        it('should throw an error when given a null value', async () => {
+          appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments = null;
 
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
-          });
+          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+            'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments must be a `object` type, but the final value was: `null`',
+          );
+        });
 
-          it('should throw an error when not given a UUID', async () => {
-            appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id =
-              'abc123';
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id must be a valid UUID',
-            );
-          });
-
-          it('should not throw an error when not given a value', async () => {
-            delete appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments
-              .uploadedFiles[0].id;
-            appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id =
+        describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles', () => {
+          it('should not throw an error when given a null value', async () => {
+            appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles =
               null;
-
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
-          });
-        });
-
-        describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name', () => {
-          it('should throw an error when given a value with more than 255 characters', async () => {
-            appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name =
-              'a'.repeat(256);
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name must be at most 255 characters',
-            );
-          });
-
-          it('should strip leading/trailing spaces', async () => {
-            appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name =
-              '  test-pdf.pdf  ';
-            appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name =
-              'test-pdf.pdf';
-
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
-          });
-
-          it('should not throw an error when not given a value', async () => {
-            appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name =
-              '';
+            appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles =
+              [];
 
             const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal);
-          });
-        });
-
-        describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName', () => {
-          it('should throw an error when given a value with more than 255 characters', async () => {
-            appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName =
-              'a'.repeat(256);
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName must be at most 255 characters',
-            );
-          });
-
-          it('should strip leading/trailing spaces', async () => {
-            appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName =
-              '  test-pdf.pdf  ';
-            appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName =
-              'test-pdf.pdf';
-
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
-          });
-
-          it('should not throw an error when not given a value', async () => {
-            appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName =
-              '';
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal);
-          });
-        });
-
-        describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName', () => {
-          it('should throw an error when given a value with more than 255 characters', async () => {
-            appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName =
-              'a'.repeat(256);
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName must be at most 255 characters',
-            );
-          });
-
-          it('should strip leading/trailing spaces', async () => {
-            appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName =
-              '  test-pdf.pdf  ';
-            appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName =
-              'test-pdf.pdf';
-
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
-          });
-
-          it('should not throw an error when not given a value', async () => {
-            appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName =
-              '';
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal);
-          });
-        });
-
-        describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].location', () => {
-          it('should strip leading/trailing spaces', async () => {
-            appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].location =
-              '  test-pdf.pdf  ';
-            appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].location =
-              'test-pdf.pdf';
-
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
-          });
-
-          it('should not throw an error when not given a value', async () => {
-            appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].location =
-              '';
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal);
-          });
-        });
-
-        describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].size', () => {
-          it('should throw an error when not given a number', async () => {
-            appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].size =
-              'not-a-number';
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].size must be a `number` type, but the final value was: `NaN` (cast from the value `1000`).',
-            );
+            expect(result).toEqual(appeal2);
           });
 
           it('should not throw an error when not given a value', async () => {
             delete appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments
-              .uploadedFiles[0].size;
+              .uploadedFiles;
+            appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles =
+              [];
 
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal);
+            const result = await insert.validate(appeal2, config);
+            expect(result).toEqual(appeal2);
+          });
+
+          describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id', () => {
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id =
+                '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id =
+                '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should throw an error when not given a UUID', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id =
+                'abc123';
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id must be a valid UUID',
+              );
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments
+                .uploadedFiles[0].id;
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].id =
+                null;
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name =
+                'a'.repeat(256);
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name =
+                '  test-pdf.pdf  ';
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].name =
+                '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName =
+                'a'.repeat(256);
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName =
+                '  test-pdf.pdf  ';
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].fileName =
+                '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName =
+                'a'.repeat(256);
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName =
+                '  test-pdf.pdf  ';
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].originalFileName =
+                '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].location', () => {
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].location =
+                '  test-pdf.pdf  ';
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].location =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].location =
+                '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].size', () => {
+            it('should throw an error when not given a number', async () => {
+              appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].size =
+                'not-a-number';
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.uploadedFiles[0].size must be a `number` type, but the final value was: `NaN` (cast from the value `1000`).',
+              );
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments
+                .uploadedFiles[0].size;
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
           });
         });
       });
-    });
 
-    describe('planningApplicationDocumentsSection.originalApplication', () => {
-      it('should remove unknown fields', async () => {
-        appeal2.planningApplicationDocumentsSection.originalApplication.unknownField =
-          'unknown field';
-
-        const result = await insert.validate(appeal2, config);
-        expect(result).toEqual(appeal);
-      });
-
-      it('should throw an error when given a null value', async () => {
-        appeal.planningApplicationDocumentsSection.originalApplication = null;
-
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'planningApplicationDocumentsSection.originalApplication must be a `object` type, but the final value was: `null`',
-        );
-      });
-
-      describe('planningApplicationDocumentsSection.originalApplication.uploadedFile', () => {
+      describe('planningApplicationDocumentsSection.originalApplication', () => {
         it('should remove unknown fields', async () => {
-          appeal2.planningApplicationDocumentsSection.originalApplication.uploadedFile.unknownField =
+          appeal2.planningApplicationDocumentsSection.originalApplication.unknownField =
             'unknown field';
 
           const result = await insert.validate(appeal2, config);
@@ -2350,131 +2332,263 @@ describe('schemas/full-appeal/insert', () => {
         });
 
         it('should throw an error when given a null value', async () => {
-          appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile = null;
+          appeal.planningApplicationDocumentsSection.originalApplication = null;
 
           await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-            'planningApplicationDocumentsSection.originalApplication.uploadedFile must be a `object` type, but the final value was: `null`',
+            'planningApplicationDocumentsSection.originalApplication must be a `object` type, but the final value was: `null`',
           );
         });
 
-        describe('planningApplicationDocumentsSection.originalApplication.uploadedFile.name', () => {
-          it('should throw an error when given a value with more than 255 characters', async () => {
-            appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.name =
-              'a'.repeat(256);
+        describe('planningApplicationDocumentsSection.originalApplication.uploadedFile', () => {
+          it('should remove unknown fields', async () => {
+            appeal2.planningApplicationDocumentsSection.originalApplication.uploadedFile.unknownField =
+              'unknown field';
+
+            const result = await insert.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should throw an error when given a null value', async () => {
+            appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile = null;
 
             await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'planningApplicationDocumentsSection.originalApplication.uploadedFile.name must be at most 255 characters',
+              'planningApplicationDocumentsSection.originalApplication.uploadedFile must be a `object` type, but the final value was: `null`',
             );
           });
 
-          it('should strip leading/trailing spaces', async () => {
-            appeal2.planningApplicationDocumentsSection.originalApplication.uploadedFile.name =
-              '  test-pdf.pdf  ';
-            appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.name =
-              'test-pdf.pdf';
+          describe('planningApplicationDocumentsSection.originalApplication.uploadedFile.name', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.name =
+                'a'.repeat(256);
 
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.originalApplication.uploadedFile.name must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.originalApplication.uploadedFile.name =
+                '  test-pdf.pdf  ';
+              appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.name =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.planningApplicationDocumentsSection.originalApplication.uploadedFile
+                .name;
+              appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.name = '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
           });
 
-          it('should not throw an error when not given a value', async () => {
-            delete appeal2.planningApplicationDocumentsSection.originalApplication.uploadedFile
-              .name;
-            appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.name = '';
+          describe('planningApplicationDocumentsSection.originalApplication.uploadedFile.originalFileName', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.originalFileName =
+                'a'.repeat(256);
 
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal);
-          });
-        });
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.originalApplication.uploadedFile.originalFileName must be at most 255 characters',
+              );
+            });
 
-        describe('planningApplicationDocumentsSection.originalApplication.uploadedFile.originalFileName', () => {
-          it('should throw an error when given a value with more than 255 characters', async () => {
-            appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.originalFileName =
-              'a'.repeat(256);
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.originalApplication.uploadedFile.originalFileName =
+                '  test-pdf.pdf  ';
+              appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.originalFileName =
+                'test-pdf.pdf';
 
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'planningApplicationDocumentsSection.originalApplication.uploadedFile.originalFileName must be at most 255 characters',
-            );
-          });
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
 
-          it('should strip leading/trailing spaces', async () => {
-            appeal2.planningApplicationDocumentsSection.originalApplication.uploadedFile.originalFileName =
-              '  test-pdf.pdf  ';
-            appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.originalFileName =
-              'test-pdf.pdf';
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.planningApplicationDocumentsSection.originalApplication.uploadedFile
+                .originalFileName;
+              appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.originalFileName =
+                '';
 
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
-          });
-
-          it('should not throw an error when not given a value', async () => {
-            delete appeal2.planningApplicationDocumentsSection.originalApplication.uploadedFile
-              .originalFileName;
-            appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.originalFileName =
-              '';
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal);
-          });
-        });
-
-        describe('planningApplicationDocumentsSection.originalApplication.uploadedFile.id', () => {
-          it('should strip leading/trailing spaces', async () => {
-            appeal2.planningApplicationDocumentsSection.originalApplication.uploadedFile.id =
-              '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
-            appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.id =
-              '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
-
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
           });
 
-          it('should throw an error when not given a UUID', async () => {
-            appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.id =
-              'abc123';
+          describe('planningApplicationDocumentsSection.originalApplication.uploadedFile.id', () => {
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.originalApplication.uploadedFile.id =
+                '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
+              appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.id =
+                '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
 
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'planningApplicationDocumentsSection.originalApplication.uploadedFile.id must be a valid UUID',
-            );
-          });
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
 
-          it('should not throw an error when given a null value', async () => {
-            appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.id = null;
+            it('should throw an error when not given a UUID', async () => {
+              appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.id =
+                'abc123';
 
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal);
-          });
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.originalApplication.uploadedFile.id must be a valid UUID',
+              );
+            });
 
-          it('should not throw an error when not given a value', async () => {
-            delete appeal2.planningApplicationDocumentsSection.originalApplication.uploadedFile.id;
-            appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.id = null;
+            it('should not throw an error when given a null value', async () => {
+              appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.id = null;
 
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.planningApplicationDocumentsSection.originalApplication.uploadedFile
+                .id;
+              appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.id = null;
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
           });
         });
       });
-    });
 
-    describe('planningApplicationDocumentsSection.decisionLetter', () => {
-      it('should remove unknown fields', async () => {
-        appeal2.planningApplicationDocumentsSection.decisionLetter.unknownField = 'unknown field';
-
-        const result = await insert.validate(appeal2, config);
-        expect(result).toEqual(appeal);
-      });
-
-      it('should throw an error when given a null value', async () => {
-        appeal.planningApplicationDocumentsSection.decisionLetter = null;
-
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'planningApplicationDocumentsSection.decisionLetter must be a `object` type, but the final value was: `null`',
-        );
-      });
-
-      describe('planningApplicationDocumentsSection.decisionLetter.uploadedFile', () => {
+      describe('planningApplicationDocumentsSection.decisionLetter', () => {
         it('should remove unknown fields', async () => {
-          appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile.unknownField =
+          appeal2.planningApplicationDocumentsSection.decisionLetter.unknownField = 'unknown field';
+
+          const result = await insert.validate(appeal2, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should throw an error when given a null value', async () => {
+          appeal.planningApplicationDocumentsSection.decisionLetter = null;
+
+          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+            'planningApplicationDocumentsSection.decisionLetter must be a `object` type, but the final value was: `null`',
+          );
+        });
+
+        describe('planningApplicationDocumentsSection.decisionLetter.uploadedFile', () => {
+          it('should remove unknown fields', async () => {
+            appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile.unknownField =
+              'unknown field';
+
+            const result = await insert.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should throw an error when given a null value', async () => {
+            appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile = null;
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              'planningApplicationDocumentsSection.decisionLetter.uploadedFile must be a `object` type, but the final value was: `null`',
+            );
+          });
+
+          describe('planningApplicationDocumentsSection.decisionLetter.uploadedFile.name', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.name =
+                'a'.repeat(256);
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.decisionLetter.uploadedFile.name must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile.name =
+                '  test-pdf.pdf  ';
+              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.name =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile.name;
+              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.name = '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('planningApplicationDocumentsSection.decisionLetter.uploadedFile.originalFileName', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.originalFileName =
+                'a'.repeat(256);
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.decisionLetter.uploadedFile.originalFileName must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile.originalFileName =
+                '  test-pdf.pdf  ';
+              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.originalFileName =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile
+                .originalFileName;
+              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.originalFileName =
+                '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+
+          describe('planningApplicationDocumentsSection.decisionLetter.uploadedFile.id', () => {
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id =
+                '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
+              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id =
+                '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should throw an error when not given a UUID', async () => {
+              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id = 'abc123';
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.decisionLetter.uploadedFile.id must be a valid UUID',
+              );
+            });
+
+            it('should not throw an error when given a null value', async () => {
+              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id = null;
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id;
+              appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id = null;
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+          });
+        });
+      });
+
+      describe('planningApplicationDocumentsSection.designAccessStatement', () => {
+        it('should remove unknown fields', async () => {
+          appeal2.planningApplicationDocumentsSection.designAccessStatement.unknownField =
             'unknown field';
 
           const result = await insert.validate(appeal2, config);
@@ -2482,642 +2596,385 @@ describe('schemas/full-appeal/insert', () => {
         });
 
         it('should throw an error when given a null value', async () => {
-          appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile = null;
+          appeal.planningApplicationDocumentsSection.designAccessStatement = null;
 
           await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-            'planningApplicationDocumentsSection.decisionLetter.uploadedFile must be a `object` type, but the final value was: `null`',
+            'planningApplicationDocumentsSection.designAccessStatement must be a `object` type, but the final value was: `null`',
           );
         });
 
-        describe('planningApplicationDocumentsSection.decisionLetter.uploadedFile.name', () => {
-          it('should throw an error when given a value with more than 255 characters', async () => {
-            appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.name =
-              'a'.repeat(256);
+        describe('planningApplicationDocumentsSection.designAccessStatement.isSubmitted', () => {
+          it('should throw an error when not given a boolean value', async () => {
+            appeal.planningApplicationDocumentsSection.designAccessStatement = {
+              isSubmitted: 'yes',
+            };
 
             await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'planningApplicationDocumentsSection.decisionLetter.uploadedFile.name must be at most 255 characters',
+              'planningApplicationDocumentsSection.designAccessStatement.isSubmitted must be a `boolean` type, but the final value was: `"yes"`',
             );
           });
 
-          it('should strip leading/trailing spaces', async () => {
-            appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile.name =
-              '  test-pdf.pdf  ';
-            appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.name =
-              'test-pdf.pdf';
-
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
-          });
-
           it('should not throw an error when not given a value', async () => {
-            delete appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile.name;
-            appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.name = '';
+            delete appeal.planningApplicationDocumentsSection.designAccessStatement.isSubmitted;
 
             const result = await insert.validate(appeal, config);
             expect(result).toEqual(appeal);
           });
         });
 
-        describe('planningApplicationDocumentsSection.decisionLetter.uploadedFile.originalFileName', () => {
-          it('should throw an error when given a value with more than 255 characters', async () => {
-            appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.originalFileName =
-              'a'.repeat(256);
+        describe('planningApplicationDocumentsSection.designAccessStatement.uploadedFile', () => {
+          it('should remove unknown fields', async () => {
+            appeal2.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.unknownField =
+              'unknown field';
+
+            const result = await insert.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should throw an error when given a null value', async () => {
+            appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile = null;
 
             await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'planningApplicationDocumentsSection.decisionLetter.uploadedFile.originalFileName must be at most 255 characters',
+              'planningApplicationDocumentsSection.designAccessStatement.uploadedFile must be a `object` type, but the final value was: `null`',
             );
           });
 
-          it('should strip leading/trailing spaces', async () => {
-            appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile.originalFileName =
-              '  test-pdf.pdf  ';
-            appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.originalFileName =
-              'test-pdf.pdf';
+          describe('planningApplicationDocumentsSection.designAccessStatement.uploadedFile.name', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.name =
+                'a'.repeat(256);
 
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.designAccessStatement.uploadedFile.name must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.name =
+                '  test-pdf.pdf  ';
+              appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.name =
+                'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.planningApplicationDocumentsSection.designAccessStatement.uploadedFile
+                .name;
+              appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.name =
+                '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
           });
 
-          it('should not throw an error when not given a value', async () => {
-            delete appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile
-              .originalFileName;
-            appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.originalFileName =
-              '';
+          describe('planningApplicationDocumentsSection.designAccessStatement.uploadedFile.originalFileName', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.originalFileName =
+                'a'.repeat(256);
 
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal);
-          });
-        });
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.designAccessStatement.uploadedFile.originalFileName must be at most 255 characters',
+              );
+            });
 
-        describe('planningApplicationDocumentsSection.decisionLetter.uploadedFile.id', () => {
-          it('should strip leading/trailing spaces', async () => {
-            appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id =
-              '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
-            appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id =
-              '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.originalFileName =
+                '  test-pdf.pdf  ';
+              appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.originalFileName =
+                'test-pdf.pdf';
 
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
-          });
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
 
-          it('should throw an error when not given a UUID', async () => {
-            appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id = 'abc123';
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.planningApplicationDocumentsSection.designAccessStatement.uploadedFile
+                .originalFileName;
+              appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.originalFileName =
+                '';
 
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'planningApplicationDocumentsSection.decisionLetter.uploadedFile.id must be a valid UUID',
-            );
-          });
-
-          it('should not throw an error when given a null value', async () => {
-            appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id = null;
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal);
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
           });
 
-          it('should not throw an error when not given a value', async () => {
-            delete appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id;
-            appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.id = null;
+          describe('planningApplicationDocumentsSection.designAccessStatement.uploadedFile.id', () => {
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.id =
+                '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
+              appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.id =
+                '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
 
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should throw an error when not given a UUID', async () => {
+              appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.id =
+                'abc123';
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'planningApplicationDocumentsSection.designAccessStatement.uploadedFile.id must be a valid UUID',
+              );
+            });
+
+            it('should not throw an error when given a null value', async () => {
+              appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.id =
+                null;
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.planningApplicationDocumentsSection.designAccessStatement.uploadedFile
+                .id;
+              appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.id =
+                null;
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
           });
         });
       });
     });
 
-    describe('planningApplicationDocumentsSection.designAccessStatement', () => {
+    describe('appealSubmission', () => {
       it('should remove unknown fields', async () => {
-        appeal2.planningApplicationDocumentsSection.designAccessStatement.unknownField =
-          'unknown field';
+        appeal2.appealSubmission.unknownField = 'unknown field';
 
         const result = await insert.validate(appeal2, config);
         expect(result).toEqual(appeal);
       });
 
       it('should throw an error when given a null value', async () => {
-        appeal.planningApplicationDocumentsSection.designAccessStatement = null;
+        appeal.appealSubmission = null;
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'planningApplicationDocumentsSection.designAccessStatement must be a `object` type, but the final value was: `null`',
+          'appealSubmission must be a `object` type, but the final value was: `null`',
         );
       });
 
-      describe('planningApplicationDocumentsSection.designAccessStatement.isSubmitted', () => {
-        it('should throw an error when not given a boolean value', async () => {
-          appeal.planningApplicationDocumentsSection.designAccessStatement = {
-            isSubmitted: 'yes',
-          };
-
-          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-            'planningApplicationDocumentsSection.designAccessStatement.isSubmitted must be a `boolean` type, but the final value was: `"yes"`',
-          );
-        });
-
-        it('should not throw an error when not given a value', async () => {
-          delete appeal.planningApplicationDocumentsSection.designAccessStatement.isSubmitted;
-
-          const result = await insert.validate(appeal, config);
-          expect(result).toEqual(appeal);
-        });
-      });
-
-      describe('planningApplicationDocumentsSection.designAccessStatement.uploadedFile', () => {
+      describe('appealSubmission.appealPDFStatement', () => {
         it('should remove unknown fields', async () => {
-          appeal2.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.unknownField =
-            'unknown field';
+          appeal2.appealSubmission.appealPDFStatement.unknownField = 'unknown field';
 
           const result = await insert.validate(appeal2, config);
           expect(result).toEqual(appeal);
         });
 
         it('should throw an error when given a null value', async () => {
-          appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile = null;
+          appeal.appealSubmission.appealPDFStatement = null;
 
           await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-            'planningApplicationDocumentsSection.designAccessStatement.uploadedFile must be a `object` type, but the final value was: `null`',
+            'appealSubmission.appealPDFStatement must be a `object` type, but the final value was: `null`',
           );
         });
 
-        describe('planningApplicationDocumentsSection.designAccessStatement.uploadedFile.name', () => {
-          it('should throw an error when given a value with more than 255 characters', async () => {
-            appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.name =
-              'a'.repeat(256);
+        describe('appealSubmission.appealPDFStatement.uploadedFile', () => {
+          it('should remove unknown fields', async () => {
+            appeal2.appealSubmission.appealPDFStatement.uploadedFile.unknownField = 'unknown field';
+
+            const result = await insert.validate(appeal2, config);
+            expect(result).toEqual(appeal);
+          });
+
+          it('should throw an error when given a null value', async () => {
+            appeal.appealSubmission.appealPDFStatement.uploadedFile = null;
 
             await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'planningApplicationDocumentsSection.designAccessStatement.uploadedFile.name must be at most 255 characters',
+              'appealSubmission.appealPDFStatement.uploadedFile must be a `object` type, but the final value was: `null`',
             );
           });
 
-          it('should strip leading/trailing spaces', async () => {
-            appeal2.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.name =
-              '  test-pdf.pdf  ';
-            appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.name =
-              'test-pdf.pdf';
+          describe('appealSubmission.appealPDFStatement.uploadedFile.name', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.appealSubmission.appealPDFStatement.uploadedFile.name = 'a'.repeat(256);
 
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'appealSubmission.appealPDFStatement.uploadedFile.name must be at most 255 characters',
+              );
+            });
+
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealSubmission.appealPDFStatement.uploadedFile.name = '  test-pdf.pdf  ';
+              appeal.appealSubmission.appealPDFStatement.uploadedFile.name = 'test-pdf.pdf';
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.appealSubmission.appealPDFStatement.uploadedFile.name;
+              appeal.appealSubmission.appealPDFStatement.uploadedFile.name = '';
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
           });
 
-          it('should not throw an error when not given a value', async () => {
-            delete appeal2.planningApplicationDocumentsSection.designAccessStatement.uploadedFile
-              .name;
-            appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.name = '';
+          describe('appealSubmission.appealPDFStatement.uploadedFile.originalFileName', () => {
+            it('should throw an error when given a value with more than 255 characters', async () => {
+              appeal.appealSubmission.appealPDFStatement.uploadedFile.originalFileName = 'a'.repeat(
+                256,
+              );
 
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal);
-          });
-        });
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'appealSubmission.appealPDFStatement.uploadedFile.originalFileName must be at most 255 characters',
+              );
+            });
 
-        describe('planningApplicationDocumentsSection.designAccessStatement.uploadedFile.originalFileName', () => {
-          it('should throw an error when given a value with more than 255 characters', async () => {
-            appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.originalFileName =
-              'a'.repeat(256);
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealSubmission.appealPDFStatement.uploadedFile.originalFileName =
+                '  test-pdf.pdf  ';
+              appeal.appealSubmission.appealPDFStatement.uploadedFile.originalFileName =
+                'test-pdf.pdf';
 
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'planningApplicationDocumentsSection.designAccessStatement.uploadedFile.originalFileName must be at most 255 characters',
-            );
-          });
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
 
-          it('should strip leading/trailing spaces', async () => {
-            appeal2.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.originalFileName =
-              '  test-pdf.pdf  ';
-            appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.originalFileName =
-              'test-pdf.pdf';
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.appealSubmission.appealPDFStatement.uploadedFile.originalFileName;
+              appeal.appealSubmission.appealPDFStatement.uploadedFile.originalFileName = '';
 
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
-          });
-
-          it('should not throw an error when not given a value', async () => {
-            delete appeal2.planningApplicationDocumentsSection.designAccessStatement.uploadedFile
-              .originalFileName;
-            appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.originalFileName =
-              '';
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal);
-          });
-        });
-
-        describe('planningApplicationDocumentsSection.designAccessStatement.uploadedFile.id', () => {
-          it('should strip leading/trailing spaces', async () => {
-            appeal2.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.id =
-              '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
-            appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.id =
-              '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
-
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
           });
 
-          it('should throw an error when not given a UUID', async () => {
-            appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.id =
-              'abc123';
+          describe('appealSubmission.appealPDFStatement.uploadedFile.id', () => {
+            it('should strip leading/trailing spaces', async () => {
+              appeal2.appealSubmission.appealPDFStatement.uploadedFile.id =
+                '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
+              appeal.appealSubmission.appealPDFStatement.uploadedFile.id =
+                '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
 
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'planningApplicationDocumentsSection.designAccessStatement.uploadedFile.id must be a valid UUID',
-            );
-          });
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
 
-          it('should not throw an error when given a null value', async () => {
-            appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.id = null;
+            it('should throw an error when not given a UUID', async () => {
+              appeal.appealSubmission.appealPDFStatement.uploadedFile.id = 'abc123';
 
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal);
-          });
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                'appealSubmission.appealPDFStatement.uploadedFile.id must be a valid UUID',
+              );
+            });
 
-          it('should not throw an error when not given a value', async () => {
-            delete appeal2.planningApplicationDocumentsSection.designAccessStatement.uploadedFile
-              .id;
-            appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.id = null;
+            it('should not throw an error when given a null value', async () => {
+              appeal.appealSubmission.appealPDFStatement.uploadedFile.id = null;
 
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal);
+            });
+
+            it('should not throw an error when not given a value', async () => {
+              delete appeal2.appealSubmission.appealPDFStatement.uploadedFile.id;
+              appeal.appealSubmission.appealPDFStatement.uploadedFile.id = null;
+
+              const result = await insert.validate(appeal2, config);
+              expect(result).toEqual(appeal);
+            });
           });
         });
       });
     });
-  });
 
-  describe('appealSubmission', () => {
-    it('should remove unknown fields', async () => {
-      appeal2.appealSubmission.unknownField = 'unknown field';
-
-      const result = await insert.validate(appeal2, config);
-      expect(result).toEqual(appeal);
-    });
-
-    it('should throw an error when given a null value', async () => {
-      appeal.appealSubmission = null;
-
-      await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-        'appealSubmission must be a `object` type, but the final value was: `null`',
-      );
-    });
-
-    describe('appealSubmission.appealPDFStatement', () => {
+    describe('sectionStates', () => {
       it('should remove unknown fields', async () => {
-        appeal2.appealSubmission.appealPDFStatement.unknownField = 'unknown field';
+        appeal2.sectionStates.unknownField = 'unknown field';
 
         const result = await insert.validate(appeal2, config);
         expect(result).toEqual(appeal);
       });
 
       it('should throw an error when given a null value', async () => {
-        appeal.appealSubmission.appealPDFStatement = null;
+        appeal.sectionStates = null;
 
         await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'appealSubmission.appealPDFStatement must be a `object` type, but the final value was: `null`',
+          'sectionStates must be a `object` type, but the final value was: `null`',
         );
       });
 
-      describe('appealSubmission.appealPDFStatement.uploadedFile', () => {
+      describe('sectionStates.contactDetailsSection', () => {
         it('should remove unknown fields', async () => {
-          appeal2.appealSubmission.appealPDFStatement.uploadedFile.unknownField = 'unknown field';
+          appeal2.sectionStates.contactDetailsSection.unknownField = 'unknown field';
 
           const result = await insert.validate(appeal2, config);
           expect(result).toEqual(appeal);
         });
 
         it('should throw an error when given a null value', async () => {
-          appeal.appealSubmission.appealPDFStatement.uploadedFile = null;
+          appeal.sectionStates.contactDetailsSection = null;
 
           await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-            'appealSubmission.appealPDFStatement.uploadedFile must be a `object` type, but the final value was: `null`',
+            'sectionStates.contactDetailsSection must be a `object` type, but the final value was: `null`',
           );
         });
 
-        describe('appealSubmission.appealPDFStatement.uploadedFile.name', () => {
-          it('should throw an error when given a value with more than 255 characters', async () => {
-            appeal.appealSubmission.appealPDFStatement.uploadedFile.name = 'a'.repeat(256);
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'appealSubmission.appealPDFStatement.uploadedFile.name must be at most 255 characters',
-            );
-          });
-
-          it('should strip leading/trailing spaces', async () => {
-            appeal2.appealSubmission.appealPDFStatement.uploadedFile.name = '  test-pdf.pdf  ';
-            appeal.appealSubmission.appealPDFStatement.uploadedFile.name = 'test-pdf.pdf';
-
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
-          });
-
-          it('should not throw an error when not given a value', async () => {
-            delete appeal2.appealSubmission.appealPDFStatement.uploadedFile.name;
-            appeal.appealSubmission.appealPDFStatement.uploadedFile.name = '';
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal);
-          });
-        });
-
-        describe('appealSubmission.appealPDFStatement.uploadedFile.originalFileName', () => {
-          it('should throw an error when given a value with more than 255 characters', async () => {
-            appeal.appealSubmission.appealPDFStatement.uploadedFile.originalFileName = 'a'.repeat(
-              256,
-            );
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'appealSubmission.appealPDFStatement.uploadedFile.originalFileName must be at most 255 characters',
-            );
-          });
-
-          it('should strip leading/trailing spaces', async () => {
-            appeal2.appealSubmission.appealPDFStatement.uploadedFile.originalFileName =
-              '  test-pdf.pdf  ';
-            appeal.appealSubmission.appealPDFStatement.uploadedFile.originalFileName =
-              'test-pdf.pdf';
-
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
-          });
-
-          it('should not throw an error when not given a value', async () => {
-            delete appeal2.appealSubmission.appealPDFStatement.uploadedFile.originalFileName;
-            appeal.appealSubmission.appealPDFStatement.uploadedFile.originalFileName = '';
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal);
-          });
-        });
-
-        describe('appealSubmission.appealPDFStatement.uploadedFile.id', () => {
-          it('should strip leading/trailing spaces', async () => {
-            appeal2.appealSubmission.appealPDFStatement.uploadedFile.id =
-              '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
-            appeal.appealSubmission.appealPDFStatement.uploadedFile.id =
-              '271c9b5b-af90-4b45-b0e7-0a7882da1e03';
-
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
-          });
-
-          it('should throw an error when not given a UUID', async () => {
-            appeal.appealSubmission.appealPDFStatement.uploadedFile.id = 'abc123';
-
-            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              'appealSubmission.appealPDFStatement.uploadedFile.id must be a valid UUID',
-            );
-          });
-
-          it('should not throw an error when given a null value', async () => {
-            appeal.appealSubmission.appealPDFStatement.uploadedFile.id = null;
-
-            const result = await insert.validate(appeal, config);
-            expect(result).toEqual(appeal);
-          });
-
-          it('should not throw an error when not given a value', async () => {
-            delete appeal2.appealSubmission.appealPDFStatement.uploadedFile.id;
-            appeal.appealSubmission.appealPDFStatement.uploadedFile.id = null;
-
-            const result = await insert.validate(appeal2, config);
-            expect(result).toEqual(appeal);
-          });
-        });
-      });
-    });
-  });
-
-  describe('sectionStates', () => {
-    it('should remove unknown fields', async () => {
-      appeal2.sectionStates.unknownField = 'unknown field';
-
-      const result = await insert.validate(appeal2, config);
-      expect(result).toEqual(appeal);
-    });
-
-    it('should throw an error when given a null value', async () => {
-      appeal.sectionStates = null;
-
-      await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-        'sectionStates must be a `object` type, but the final value was: `null`',
-      );
-    });
-
-    describe('sectionStates.contactDetailsSection', () => {
-      it('should remove unknown fields', async () => {
-        appeal2.sectionStates.contactDetailsSection.unknownField = 'unknown field';
-
-        const result = await insert.validate(appeal2, config);
-        expect(result).toEqual(appeal);
-      });
-
-      it('should throw an error when given a null value', async () => {
-        appeal.sectionStates.contactDetailsSection = null;
-
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.contactDetailsSection must be a `object` type, but the final value was: `null`',
-        );
-      });
-
-      describe('sectionStates.contactDetailsSection.isOriginalApplicant', () => {
-        it('should throw an error when given an invalid value', async () => {
-          appeal.sectionStates.contactDetailsSection.isOriginalApplicant = 'NOT COMPLETE';
-
-          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-            `sectionStates.contactDetailsSection.isOriginalApplicant must be one of the following values: ${Object.values(
-              SECTION_STATE,
-            ).join(', ')}`,
-          );
-        });
-
-        it('should set a default value of `NOT STARTED` when not given a value', async () => {
-          delete appeal.sectionStates.contactDetailsSection.isOriginalApplicant;
-
-          appeal2.sectionStates.contactDetailsSection.isOriginalApplicant =
-            SECTION_STATE.NOT_STARTED;
-
-          const result = await insert.validate(appeal, config);
-          expect(result).toEqual(appeal2);
-        });
-      });
-
-      describe('sectionStates.contactDetailsSection.contact', () => {
-        it('should throw an error when given an invalid value', async () => {
-          appeal.sectionStates.contactDetailsSection.contact = 'NOT COMPLETE';
-
-          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-            `sectionStates.contactDetailsSection.contact must be one of the following values: ${Object.values(
-              SECTION_STATE,
-            ).join(', ')}`,
-          );
-        });
-
-        it('should set a default value of `NOT STARTED` when not given a value', async () => {
-          delete appeal.sectionStates.contactDetailsSection.contact;
-
-          appeal2.sectionStates.contactDetailsSection.contact = SECTION_STATE.NOT_STARTED;
-
-          const result = await insert.validate(appeal, config);
-          expect(result).toEqual(appeal2);
-        });
-      });
-
-      describe('sectionStates.contactDetailsSection.appealingOnBehalfOf', () => {
-        it('should throw an error when given an invalid value', async () => {
-          appeal.sectionStates.contactDetailsSection.appealingOnBehalfOf = 'NOT COMPLETE';
-
-          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-            `sectionStates.contactDetailsSection.appealingOnBehalfOf must be one of the following values: ${Object.values(
-              SECTION_STATE,
-            ).join(', ')}`,
-          );
-        });
-
-        it('should set a default value of `NOT STARTED` when not given a value', async () => {
-          delete appeal.sectionStates.contactDetailsSection.appealingOnBehalfOf;
-
-          appeal2.sectionStates.contactDetailsSection.appealingOnBehalfOf =
-            SECTION_STATE.NOT_STARTED;
-
-          const result = await insert.validate(appeal, config);
-          expect(result).toEqual(appeal2);
-        });
-      });
-    });
-
-    describe('sectionStates.appealSiteSection', () => {
-      it('should remove unknown fields', async () => {
-        appeal2.sectionStates.appealSiteSection.unknownField = 'unknown field';
-
-        const result = await insert.validate(appeal2, config);
-        expect(result).toEqual(appeal);
-      });
-
-      it('should throw an error when given a null value', async () => {
-        appeal.sectionStates.appealSiteSection = null;
-
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.appealSiteSection must be a `object` type, but the final value was: `null`',
-        );
-      });
-
-      [
-        'siteAddress',
-        'ownsAllTheLand',
-        'agriculturalHolding',
-        'areYouATenant',
-        'tellingTheTenants',
-        'otherTenants',
-        'visibleFromRoad',
-        'healthAndSafety',
-        'someOfTheLand',
-        'knowTheOwners',
-        'identifyingTheLandOwners',
-        'advertisingYourAppeal',
-        'tellingTheLandowners',
-      ].forEach((page) => {
-        describe(`sectionStates.appealSiteSection.${page}`, () => {
+        describe('sectionStates.contactDetailsSection.isOriginalApplicant', () => {
           it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.appealSiteSection[page] = 'NOT COMPLETE';
+            appeal.sectionStates.contactDetailsSection.isOriginalApplicant = 'NOT COMPLETE';
 
             await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.appealSiteSection.${page} must be one of the following values: ${Object.values(
+              `sectionStates.contactDetailsSection.isOriginalApplicant must be one of the following values: ${Object.values(
                 SECTION_STATE,
               ).join(', ')}`,
             );
           });
 
           it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.appealSiteSection[page];
+            delete appeal.sectionStates.contactDetailsSection.isOriginalApplicant;
 
-            appeal2.sectionStates.appealSiteSection[page] = SECTION_STATE.NOT_STARTED;
+            appeal2.sectionStates.contactDetailsSection.isOriginalApplicant =
+              SECTION_STATE.NOT_STARTED;
 
             const result = await insert.validate(appeal, config);
             expect(result).toEqual(appeal2);
           });
         });
-      });
-    });
 
-    describe('sectionStates.appealDecisionSection', () => {
-      it('should remove unknown fields', async () => {
-        appeal2.sectionStates.appealDecisionSection.unknownField = 'unknown field';
-
-        const result = await insert.validate(appeal2, config);
-        expect(result).toEqual(appeal);
-      });
-
-      it('should throw an error when given a null value', async () => {
-        appeal.sectionStates.appealDecisionSection = null;
-
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.appealDecisionSection must be a `object` type, but the final value was: `null`',
-        );
-      });
-
-      [
-        'procedureType',
-        'hearing',
-        'inquiry',
-        'inquiryExpectedDays',
-        'draftStatementOfCommonGround',
-      ].forEach((page) => {
-        describe(`sectionStates.appealDecisionSection.${page}`, () => {
+        describe('sectionStates.contactDetailsSection.contact', () => {
           it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.appealDecisionSection[page] = 'NOT COMPLETE';
+            appeal.sectionStates.contactDetailsSection.contact = 'NOT COMPLETE';
 
             await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.appealDecisionSection.${page} must be one of the following values: ${Object.values(
+              `sectionStates.contactDetailsSection.contact must be one of the following values: ${Object.values(
                 SECTION_STATE,
               ).join(', ')}`,
             );
           });
 
           it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.appealDecisionSection[page];
+            delete appeal.sectionStates.contactDetailsSection.contact;
 
-            appeal2.sectionStates.appealDecisionSection[page] = SECTION_STATE.NOT_STARTED;
+            appeal2.sectionStates.contactDetailsSection.contact = SECTION_STATE.NOT_STARTED;
 
             const result = await insert.validate(appeal, config);
             expect(result).toEqual(appeal2);
           });
         });
-      });
-    });
 
-    describe('sectionStates.planningApplicationDocumentsSection', () => {
-      it('should remove unknown fields', async () => {
-        appeal2.sectionStates.planningApplicationDocumentsSection.unknownField = 'unknown field';
-
-        const result = await insert.validate(appeal2, config);
-        expect(result).toEqual(appeal);
-      });
-
-      it('should throw an error when given a null value', async () => {
-        appeal.sectionStates.planningApplicationDocumentsSection = null;
-
-        await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-          'sectionStates.planningApplicationDocumentsSection must be a `object` type, but the final value was: `null`',
-        );
-      });
-
-      [
-        'originalApplication',
-        'plansDrawingsSupportingDocuments',
-        'designAccessStatementSubmitted',
-        'decisionLetter',
-        'designAccessStatement',
-      ].forEach((page) => {
-        describe(`sectionStates.planningApplicationDocumentsSection.${page}`, () => {
+        describe('sectionStates.contactDetailsSection.appealingOnBehalfOf', () => {
           it('should throw an error when given an invalid value', async () => {
-            appeal.sectionStates.planningApplicationDocumentsSection[page] = 'NOT COMPLETE';
+            appeal.sectionStates.contactDetailsSection.appealingOnBehalfOf = 'NOT COMPLETE';
 
             await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-              `sectionStates.planningApplicationDocumentsSection.${page} must be one of the following values: ${Object.values(
+              `sectionStates.contactDetailsSection.appealingOnBehalfOf must be one of the following values: ${Object.values(
                 SECTION_STATE,
               ).join(', ')}`,
             );
           });
 
           it('should set a default value of `NOT STARTED` when not given a value', async () => {
-            delete appeal.sectionStates.planningApplicationDocumentsSection[page];
+            delete appeal.sectionStates.contactDetailsSection.appealingOnBehalfOf;
 
-            appeal2.sectionStates.planningApplicationDocumentsSection[page] =
+            appeal2.sectionStates.contactDetailsSection.appealingOnBehalfOf =
               SECTION_STATE.NOT_STARTED;
 
             const result = await insert.validate(appeal, config);
@@ -3125,33 +2982,180 @@ describe('schemas/full-appeal/insert', () => {
           });
         });
       });
-    });
 
-    [
-      'appealStatement',
-      'plansDrawings',
-      'newPlansDrawings',
-      'supportingDocuments',
-      'newSupportingDocuments',
-    ].forEach((page) => {
-      describe(`sectionStates.appealDocumentsSection.${page}`, () => {
-        it('should throw an error when given an invalid value', async () => {
-          appeal.sectionStates.appealDocumentsSection[page] = 'NOT COMPLETE';
+      describe('sectionStates.appealSiteSection', () => {
+        it('should remove unknown fields', async () => {
+          appeal2.sectionStates.appealSiteSection.unknownField = 'unknown field';
+
+          const result = await insert.validate(appeal2, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should throw an error when given a null value', async () => {
+          appeal.sectionStates.appealSiteSection = null;
 
           await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-            `sectionStates.appealDocumentsSection.${page} must be one of the following values: ${Object.values(
-              SECTION_STATE,
-            ).join(', ')}`,
+            'sectionStates.appealSiteSection must be a `object` type, but the final value was: `null`',
           );
         });
 
-        it('should set a default value of `NOT STARTED` when not given a value', async () => {
-          delete appeal.sectionStates.appealDocumentsSection[page];
+        [
+          'siteAddress',
+          'ownsAllTheLand',
+          'agriculturalHolding',
+          'areYouATenant',
+          'tellingTheTenants',
+          'otherTenants',
+          'visibleFromRoad',
+          'healthAndSafety',
+          'someOfTheLand',
+          'knowTheOwners',
+          'identifyingTheLandOwners',
+          'advertisingYourAppeal',
+          'tellingTheLandowners',
+        ].forEach((page) => {
+          describe(`sectionStates.appealSiteSection.${page}`, () => {
+            it('should throw an error when given an invalid value', async () => {
+              appeal.sectionStates.appealSiteSection[page] = 'NOT COMPLETE';
 
-          appeal2.sectionStates.appealDocumentsSection[page] = SECTION_STATE.NOT_STARTED;
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                `sectionStates.appealSiteSection.${page} must be one of the following values: ${Object.values(
+                  SECTION_STATE,
+                ).join(', ')}`,
+              );
+            });
 
-          const result = await insert.validate(appeal, config);
-          expect(result).toEqual(appeal2);
+            it('should set a default value of `NOT STARTED` when not given a value', async () => {
+              delete appeal.sectionStates.appealSiteSection[page];
+
+              appeal2.sectionStates.appealSiteSection[page] = SECTION_STATE.NOT_STARTED;
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal2);
+            });
+          });
+        });
+      });
+
+      describe('sectionStates.appealDecisionSection', () => {
+        it('should remove unknown fields', async () => {
+          appeal2.sectionStates.appealDecisionSection.unknownField = 'unknown field';
+
+          const result = await insert.validate(appeal2, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should throw an error when given a null value', async () => {
+          appeal.sectionStates.appealDecisionSection = null;
+
+          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+            'sectionStates.appealDecisionSection must be a `object` type, but the final value was: `null`',
+          );
+        });
+
+        [
+          'procedureType',
+          'hearing',
+          'inquiry',
+          'inquiryExpectedDays',
+          'draftStatementOfCommonGround',
+        ].forEach((page) => {
+          describe(`sectionStates.appealDecisionSection.${page}`, () => {
+            it('should throw an error when given an invalid value', async () => {
+              appeal.sectionStates.appealDecisionSection[page] = 'NOT COMPLETE';
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                `sectionStates.appealDecisionSection.${page} must be one of the following values: ${Object.values(
+                  SECTION_STATE,
+                ).join(', ')}`,
+              );
+            });
+
+            it('should set a default value of `NOT STARTED` when not given a value', async () => {
+              delete appeal.sectionStates.appealDecisionSection[page];
+
+              appeal2.sectionStates.appealDecisionSection[page] = SECTION_STATE.NOT_STARTED;
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal2);
+            });
+          });
+        });
+      });
+
+      describe('sectionStates.planningApplicationDocumentsSection', () => {
+        it('should remove unknown fields', async () => {
+          appeal2.sectionStates.planningApplicationDocumentsSection.unknownField = 'unknown field';
+
+          const result = await insert.validate(appeal2, config);
+          expect(result).toEqual(appeal);
+        });
+
+        it('should throw an error when given a null value', async () => {
+          appeal.sectionStates.planningApplicationDocumentsSection = null;
+
+          await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+            'sectionStates.planningApplicationDocumentsSection must be a `object` type, but the final value was: `null`',
+          );
+        });
+
+        [
+          'originalApplication',
+          'plansDrawingsSupportingDocuments',
+          'designAccessStatementSubmitted',
+          'decisionLetter',
+          'designAccessStatement',
+        ].forEach((page) => {
+          describe(`sectionStates.planningApplicationDocumentsSection.${page}`, () => {
+            it('should throw an error when given an invalid value', async () => {
+              appeal.sectionStates.planningApplicationDocumentsSection[page] = 'NOT COMPLETE';
+
+              await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+                `sectionStates.planningApplicationDocumentsSection.${page} must be one of the following values: ${Object.values(
+                  SECTION_STATE,
+                ).join(', ')}`,
+              );
+            });
+
+            it('should set a default value of `NOT STARTED` when not given a value', async () => {
+              delete appeal.sectionStates.planningApplicationDocumentsSection[page];
+
+              appeal2.sectionStates.planningApplicationDocumentsSection[page] =
+                SECTION_STATE.NOT_STARTED;
+
+              const result = await insert.validate(appeal, config);
+              expect(result).toEqual(appeal2);
+            });
+          });
+        });
+      });
+
+      [
+        'appealStatement',
+        'plansDrawings',
+        'newPlansDrawings',
+        'supportingDocuments',
+        'newSupportingDocuments',
+      ].forEach((page) => {
+        describe(`sectionStates.appealDocumentsSection.${page}`, () => {
+          it('should throw an error when given an invalid value', async () => {
+            appeal.sectionStates.appealDocumentsSection[page] = 'NOT COMPLETE';
+
+            await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+              `sectionStates.appealDocumentsSection.${page} must be one of the following values: ${Object.values(
+                SECTION_STATE,
+              ).join(', ')}`,
+            );
+          });
+
+          it('should set a default value of `NOT STARTED` when not given a value', async () => {
+            delete appeal.sectionStates.appealDocumentsSection[page];
+
+            appeal2.sectionStates.appealDocumentsSection[page] = SECTION_STATE.NOT_STARTED;
+
+            const result = await insert.validate(appeal, config);
+            expect(result).toEqual(appeal2);
+          });
         });
       });
     });

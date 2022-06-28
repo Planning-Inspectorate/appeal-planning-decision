@@ -2,19 +2,17 @@ const logger = require('../lib/logger');
 const mongodb = require('../db/db');
 const { sendConfirmEmailAddressEmail, createToken } = require('../lib/notify');
 
-const confirmEmailCreateService = async (appeal) => {
+const confirmEmailCreateService = async () => {
   const token = createToken();
-  const query = { appealId: appeal.id };
   const option = { upsert: true };
   try {
     await mongodb
       .get()
       .collection('confirmEmail')
       .updateOne(
-        query,
+        { token: token },
         {
           $set: {
-            token,
             tokenStatus: 'NOT_SENT',
             createdAt: new Date(),
           },
@@ -31,7 +29,26 @@ const confirmEmailNotifyContinue = async (saved, token) => {
   await sendConfirmEmailAddressEmail(saved, token);
 };
 
+const confirmEmailGetService = async (token) => {
+  let isToken;
+  let foundToken;
+  await mongodb
+    .get()
+    .collection('confirmEmail')
+    .findOne({ token: token })
+    .then((doc) => {
+      isToken = doc.value;
+      foundToken = doc;
+    })
+    .catch((err) => {
+      console.log(err);
+      throw new Error(err);
+    });
+  return foundToken;
+};
+
 module.exports = {
   confirmEmailCreateService,
   confirmEmailNotifyContinue,
+  confirmEmailGetService,
 };

@@ -1,9 +1,10 @@
 const { mockReq, mockRes } = require('../mocks');
-const { confirmEmailCreate } = require('../../../src/controllers/confirm-email');
+const { confirmEmailCreate, confirmEmailGet } = require('../../../src/controllers/confirm-email');
 const { replaceAppeal } = require('../../../src/services/appeal.service');
 const {
   confirmEmailCreateService,
   confirmEmailNotifyContinue,
+  confirmEmailGetService,
 } = require('../../../src/services/confirm-email.service');
 
 jest.mock('../../../src/services/confirm-email.service');
@@ -23,7 +24,7 @@ describe('Confirm Email API', () => {
     jest.resetAllMocks();
   });
 
-  describe('POST - create and send save and return', () => {
+  describe('POST - create and send email confirmation', () => {
     it('should respond with - OK 201', async () => {
       const appealStub = {
         id: '1233123123',
@@ -35,7 +36,7 @@ describe('Confirm Email API', () => {
       confirmEmailCreateService.mockReturnValue('12345');
 
       await confirmEmailCreate(req, res);
-      expect(confirmEmailCreateService).toHaveBeenCalledWith(req.body);
+      expect(confirmEmailCreateService).toHaveBeenCalledWith();
       expect(confirmEmailNotifyContinue).toHaveBeenCalledWith(appealStub, '12345');
       expect(res.status).toHaveBeenCalledWith(201);
     });
@@ -50,6 +51,17 @@ describe('Confirm Email API', () => {
       expect(res.status).toHaveBeenCalledWith(400);
       expect(confirmEmailNotifyContinue).toBeCalledTimes(0);
       expect(confirmEmailCreateService).toBeCalledTimes(0);
+    });
+  });
+
+  describe('GET - get token', () => {
+    it('should retrieve token', async () => {
+      req.params = { token: '54321' };
+      confirmEmailGetService.mockReturnValue({ token: 54321 });
+      await confirmEmailGet(req, res);
+      expect(confirmEmailGetService).toHaveBeenCalledWith(54321);
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.send).toHaveBeenCalledWith({ token: 54321 });
     });
   });
 });
