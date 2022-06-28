@@ -2124,7 +2124,6 @@ describe('schemas/full-appeal/insert', () => {
           'planningApplicationDocumentsSection must be a `object` type, but the final value was: `null`',
         );
       });
-      });
 
       describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments', () => {
         it('should remove unknown fields', async () => {
