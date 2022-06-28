@@ -5,13 +5,16 @@ import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppea
 import { pageURLAppeal } from '../../../common/householder-planning/appeals-service/pageURLAppeal';
 
 Given('the user checks the status of their appeal', () => {
-  goToAppealsPage(pageURLAppeal.goToTaskListPage);
+	goToAppealsPage(pageURLAppeal.goToTaskListPage);
 });
 
 When('the user selects to upload their appeal submission document', () => {
-  selectToUploadAppealSubmissionDocument();
+	selectToUploadAppealSubmissionDocument();
 });
 
-Then('the user should be presented with opportunity to upload their appeal submission document', () => {
-  confirmUserPresentedWithUploadAppealSubmissionDocument();
-});
+Then(
+	'the user should be presented with opportunity to upload their appeal submission document',
+	() => {
+		confirmUserPresentedWithUploadAppealSubmissionDocument();
+	}
+);

@@ -12,22 +12,22 @@
  * @returns {function(*, *, *): (*)}
  */
 module.exports = (filesPropertyPath) => (req, res, next) => {
-  if (!req.body || !req.files) {
-    return next();
-  }
+	if (!req.body || !req.files) {
+		return next();
+	}
 
-  if (typeof req.files[filesPropertyPath] === 'undefined') {
-    req.body.files = [];
-    return next();
-  }
+	if (typeof req.files[filesPropertyPath] === 'undefined') {
+		req.body.files = [];
+		return next();
+	}
 
-  req.body.files = {
-    ...req.body.files,
-    // Ensure we are always working with an array. Single files would otherwise be an object.
-    [filesPropertyPath]: Array.isArray(req.files[filesPropertyPath])
-      ? req.files[filesPropertyPath]
-      : [req.files[filesPropertyPath]],
-  };
+	req.body.files = {
+		...req.body.files,
+		// Ensure we are always working with an array. Single files would otherwise be an object.
+		[filesPropertyPath]: Array.isArray(req.files[filesPropertyPath])
+			? req.files[filesPropertyPath]
+			: [req.files[filesPropertyPath]]
+	};
 
-  return next();
+	return next();
 };

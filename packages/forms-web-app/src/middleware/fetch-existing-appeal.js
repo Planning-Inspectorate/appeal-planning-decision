@@ -10,21 +10,21 @@ const { createOrUpdateAppeal, getExistingAppeal } = require('../lib/appeals-api-
  * @returns {Promise<*>}
  */
 module.exports = async (req, res, next) => {
-  if (!req.session) {
-    return next();
-  }
+	if (!req.session) {
+		return next();
+	}
 
-  if (!req.session.appeal || !req.session.appeal.id) {
-    req.session.appeal = await createOrUpdateAppeal({});
-    return next();
-  }
+	if (!req.session.appeal || !req.session.appeal.id) {
+		req.session.appeal = await createOrUpdateAppeal({});
+		return next();
+	}
 
-  try {
-    req.log.debug({ id: req.session.appeal.id }, 'Get existing appeal');
-    req.session.appeal = await getExistingAppeal(req.session.appeal.id);
-  } catch (err) {
-    req.log.debug({ err }, 'Error retrieving appeal');
-    req.session.appeal = await createOrUpdateAppeal({});
-  }
-  return next();
+	try {
+		req.log.debug({ id: req.session.appeal.id }, 'Get existing appeal');
+		req.session.appeal = await getExistingAppeal(req.session.appeal.id);
+	} catch (err) {
+		req.log.debug({ err }, 'Error retrieving appeal');
+		req.session.appeal = await createOrUpdateAppeal({});
+	}
+	return next();
 };

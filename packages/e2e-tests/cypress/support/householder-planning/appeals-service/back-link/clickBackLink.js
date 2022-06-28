@@ -1,3 +1,3 @@
 export const clickBackLink = () => {
-  cy.get('[data-cy="back"]').click();
+	cy.get('[data-cy="back"]').click();
 };

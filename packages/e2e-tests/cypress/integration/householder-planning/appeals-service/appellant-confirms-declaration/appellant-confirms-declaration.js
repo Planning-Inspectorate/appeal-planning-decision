@@ -10,21 +10,21 @@ import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppea
 import { pageURLAppeal } from '../../../common/householder-planning/appeals-service/pageURLAppeal';
 
 Given('an appeal is ready to be submitted', () => {
- provideCompleteAppeal(STANDARD_APPEAL);
-  goToAppealsPage(pageURLAppeal.goToSubmissionPage);
+	provideCompleteAppeal(STANDARD_APPEAL);
+	goToAppealsPage(pageURLAppeal.goToSubmissionPage);
 });
 When('the declaration is not agreed', () => {
- doNotAgreeToTheDeclaration();
+	doNotAgreeToTheDeclaration();
 });
 When('the declaration is agreed', () => {
- cy.task('listenToQueue');
- agreeToTheDeclaration();
+	cy.task('listenToQueue');
+	agreeToTheDeclaration();
 });
 
 Then('the submission confirmation is presented', () => {
- confirmAppealSubmitted();
+	confirmAppealSubmitted();
 
- /*cy.task('getLastFromQueue').then((document) => {
+	/*cy.task('getLastFromQueue').then((document) => {
     const applicationId = document.appeal.id;
 
    cy.request('http://localhost:3001/api/v1/' + applicationId).then((resp) => {
@@ -44,6 +44,6 @@ Then('the submission confirmation is presented', () => {
 });
 
 Then('no submission confirmation is presented', () => {
- confirmAppealNotSubmitted();
- confirmDeclarationAreRequired();
+	confirmAppealNotSubmitted();
+	confirmDeclarationAreRequired();
 });

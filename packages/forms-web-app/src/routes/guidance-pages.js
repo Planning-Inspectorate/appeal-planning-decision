@@ -1,10 +1,10 @@
 const express = require('express');
 const {
-  getBeforeAppeal,
-  getWhenAppeal,
-  getAfterAppeal,
-  getStartAppeal,
-  getStagesAppeal,
+	getBeforeAppeal,
+	getWhenAppeal,
+	getAfterAppeal,
+	getStartAppeal,
+	getStagesAppeal
 } = require('../controllers/guidance-pages');
 
 const router = express.Router();

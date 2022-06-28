@@ -5,9 +5,9 @@ const utils = require('./utils');
 const documentTypes = require('./document-types');
 
 module.exports = {
-  functional,
-  healthcheck,
-  prometheus,
-  utils,
-  documentTypes,
+	functional,
+	healthcheck,
+	prometheus,
+	utils,
+	documentTypes
 };

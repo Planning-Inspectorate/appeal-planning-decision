@@ -17,36 +17,36 @@ const BusinessRulesError = require('../../lib/business-rules-error');
  * @throws {BusinessRulesError}
  */
 module.exports = (
-  decisionDate,
-  appealType = APPEAL_ID.HOUSEHOLDER,
-  applicationDecision = APPLICATION_DECISION.REFUSED,
+	decisionDate,
+	appealType = APPEAL_ID.HOUSEHOLDER,
+	applicationDecision = APPLICATION_DECISION.REFUSED
 ) => {
-  const type = appealType === null ? APPEAL_ID.HOUSEHOLDER : appealType;
-  const decision =
-    applicationDecision === null ? APPLICATION_DECISION.REFUSED : applicationDecision;
+	const type = appealType === null ? APPEAL_ID.HOUSEHOLDER : appealType;
+	const decision =
+		applicationDecision === null ? APPLICATION_DECISION.REFUSED : applicationDecision;
 
-  if (!isValidApplicationDecision(decision)) {
-    throw new BusinessRulesError(`${decision} must be a valid application decision`);
-  }
+	if (!isValidApplicationDecision(decision)) {
+		throw new BusinessRulesError(`${decision} must be a valid application decision`);
+	}
 
-  if (!isDateValid(decisionDate)) {
-    throw new BusinessRulesError('The given date must be a valid Date instance');
-  }
+	if (!isDateValid(decisionDate)) {
+		throw new BusinessRulesError('The given date must be a valid Date instance');
+	}
 
-  if (!isValid(type)) {
-    throw new BusinessRulesError(`${type} is not a valid appeal type`);
-  }
+	if (!isValid(type)) {
+		throw new BusinessRulesError(`${type} is not a valid appeal type`);
+	}
 
-  const duration =
-    appeal.type[type].appealDue[decision] === undefined
-      ? appeal.type[type].appealDue.duration
-      : appeal.type[type].appealDue[decision].duration;
-  const time =
-    appeal.type[type].appealDue[decision] === undefined
-      ? appeal.type[type].appealDue.time
-      : appeal.type[type].appealDue[decision].time;
+	const duration =
+		appeal.type[type].appealDue[decision] === undefined
+			? appeal.type[type].appealDue.duration
+			: appeal.type[type].appealDue[decision].duration;
+	const time =
+		appeal.type[type].appealDue[decision] === undefined
+			? appeal.type[type].appealDue.time
+			: appeal.type[type].appealDue[decision].time;
 
-  return add(endOfDay(decisionDate), {
-    [duration]: time,
-  });
+	return add(endOfDay(decisionDate), {
+		[duration]: time
+	});
 };

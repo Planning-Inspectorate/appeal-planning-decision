@@ -5,9 +5,9 @@ const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existin
 const router = express.Router();
 
 router.get(
-  '/submit-appeal/task-list',
-  [fetchExistingAppealMiddleware],
-  taskListController.getTaskList
+	'/submit-appeal/task-list',
+	[fetchExistingAppealMiddleware],
+	taskListController.getTaskList
 );
 
 module.exports = router;

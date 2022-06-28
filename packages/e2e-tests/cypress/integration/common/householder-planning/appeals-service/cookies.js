@@ -1,5 +1,8 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
-import { expectCookieIsNotDefined, expectExpressSessionCookieIsDefined } from '../../../householder-planning/appeals-service/cookies/cookies';
+import {
+	expectCookieIsNotDefined,
+	expectExpressSessionCookieIsDefined
+} from '../../../householder-planning/appeals-service/cookies/cookies';
 import { provideAcceptNotNecessaryCookies } from '../../../../support/householder-planning/appeals-service/cookies/provideAcceptNotNecessaryCookies';
 import { confirmCookieConsentBannerIsVisible } from '../../../../support/householder-planning/appeals-service/cookies/confirmCookieConsentBannerIsVisible';
 import { provideRejectNotNecessaryCookies } from '../../../../support/householder-planning/appeals-service/cookies/provideRejectNotNecessaryCookies';
@@ -11,71 +14,71 @@ import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppea
 import { pageURLAppeal } from './pageURLAppeal';
 
 When('the user neither accepts nor rejects not necessary cookies', () => {
-  goToAppealsPage(pageURLAppeal.goToTaskListPage);
+	goToAppealsPage(pageURLAppeal.goToTaskListPage);
 });
 
 When('the user accepts not necessary cookies', () => {
-  goToAppealsPage(pageURLAppeal.goToTaskListPage);
-  provideAcceptNotNecessaryCookies();
+	goToAppealsPage(pageURLAppeal.goToTaskListPage);
+	provideAcceptNotNecessaryCookies();
 });
 
 When('the user rejects not necessary cookies', () => {
-  goToAppealsPage(pageURLAppeal.goToTaskListPage);
-  provideRejectNotNecessaryCookies();
+	goToAppealsPage(pageURLAppeal.goToTaskListPage);
+	provideRejectNotNecessaryCookies();
 });
 
 Then('the cookie banner remains visible', () => {
-  confirmCookieConsentBannerIsVisible();
+	confirmCookieConsentBannerIsVisible();
 });
 
 Then('the accepted cookie banner becomes visible', () => {
-  confirmAcceptedCookieBannerVisible();
+	confirmAcceptedCookieBannerVisible();
 });
 
 Then('the rejected cookie banner becomes visible', () => {
-  confirmRejectedCookieBannerVisible();
+	confirmRejectedCookieBannerVisible();
 });
 
 Then('the GA cookies are enabled', () => {
-  goToAppealsPage(pageURLAppeal.goToTaskListPage);
-  const expectedCookiePolicy = {
-    essential: true,
-    settings: false,
-    usage: true,
-    campaigns: false,
-  };
-  confirmCookiePolicy(expectedCookiePolicy);
+	goToAppealsPage(pageURLAppeal.goToTaskListPage);
+	const expectedCookiePolicy = {
+		essential: true,
+		settings: false,
+		usage: true,
+		campaigns: false
+	};
+	confirmCookiePolicy(expectedCookiePolicy);
 });
 
 Then('the GA cookies remain disabled', () => {
-  goToAppealsPage(pageURLAppeal.goToTaskListPage);
-  const expectedCookiePolicy = {
-    essential: true,
-    settings: false,
-    usage: false,
-    campaigns: false,
-  };
-  confirmCookiePolicy(expectedCookiePolicy);
+	goToAppealsPage(pageURLAppeal.goToTaskListPage);
+	const expectedCookiePolicy = {
+		essential: true,
+		settings: false,
+		usage: false,
+		campaigns: false
+	};
+	confirmCookiePolicy(expectedCookiePolicy);
 });
 
 Given('a user has not previously submitted cookie preferences', () => {
-  cy.clearCookies();
+	cy.clearCookies();
 });
 
 When('the user visits the service', () => {
-  goToAppealsPage(pageURLAppeal.goToHouseholderQuestionPage);
+	goToAppealsPage(pageURLAppeal.goToHouseholderQuestionPage);
 });
 
 Then('not necessary cookies are disabled', () => {
-  cy.getCookies()
-    .should('have.length', 1)
-    .then((cookies) => {
-      expectExpressSessionCookieIsDefined(cookies);
-      expectCookieIsNotDefined(cookies, 'cookie_policy');
-      expectCookieIsNotDefined(cookies, 'cookie_preferences_set');
-    });
+	cy.getCookies()
+		.should('have.length', 1)
+		.then((cookies) => {
+			expectExpressSessionCookieIsDefined(cookies);
+			expectCookieIsNotDefined(cookies, 'cookie_policy');
+			expectCookieIsNotDefined(cookies, 'cookie_preferences_set');
+		});
 });
 
 Then('the cookie banner does not exist', () => {
-  confirmCookieConsentBannerDoesNotExist();
+	confirmCookieConsentBannerDoesNotExist();
 });

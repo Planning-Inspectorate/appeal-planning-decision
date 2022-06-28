@@ -3,8 +3,8 @@ const useExistingServiceApplicationType = require('../../controllers/full-appeal
 const router = express.Router();
 
 router.get(
-  '/use-existing-service-application-type',
-  useExistingServiceApplicationType.getUseExistingServiceApplicationType
+	'/use-existing-service-application-type',
+	useExistingServiceApplicationType.getUseExistingServiceApplicationType
 );
 
 module.exports = router;

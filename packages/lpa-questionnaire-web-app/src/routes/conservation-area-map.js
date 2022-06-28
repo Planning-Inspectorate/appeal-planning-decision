@@ -13,38 +13,38 @@ const { validationErrorHandler } = require('../validators/validation-error-handl
 const router = express.Router();
 
 const getConfig = (req, res, next) => {
-  res.locals.routeInfo = {
-    sectionName: 'optionalDocumentsSection',
-    taskName: 'conservationAreaMap',
-    view: VIEW.CONSERVATION_AREA_MAP,
-    name: 'Conservation area map and guidance',
-  };
-  req.documentType = documentTypes.conservationAreaMap.name;
+	res.locals.routeInfo = {
+		sectionName: 'optionalDocumentsSection',
+		taskName: 'conservationAreaMap',
+		view: VIEW.CONSERVATION_AREA_MAP,
+		name: 'Conservation area map and guidance'
+	};
+	req.documentType = documentTypes.conservationAreaMap.name;
 
-  next();
+	next();
 };
 
 router.get(
-  '/appeal-questionnaire/:id/conservation-area-map',
-  [
-    fetchAppealMiddleware,
-    fetchExistingAppealReplyMiddleware,
-    clearUploadedFilesMiddleware,
-    alreadySubmittedMiddleware,
-  ],
-  getConfig,
-  uploadQuestionController.getUpload
+	'/appeal-questionnaire/:id/conservation-area-map',
+	[
+		fetchAppealMiddleware,
+		fetchExistingAppealReplyMiddleware,
+		clearUploadedFilesMiddleware,
+		alreadySubmittedMiddleware
+	],
+	getConfig,
+	uploadQuestionController.getUpload
 );
 
 router.post(
-  '/appeal-questionnaire/:id/conservation-area-map',
-  [reqFilesToReqBodyFilesMiddleware('documents'), uploadValidationRules()],
-  validationErrorHandler,
-  getConfig,
-  uploadQuestionController.postUpload
+	'/appeal-questionnaire/:id/conservation-area-map',
+	[reqFilesToReqBodyFilesMiddleware('documents'), uploadValidationRules()],
+	validationErrorHandler,
+	getConfig,
+	uploadQuestionController.postUpload
 );
 
 module.exports = {
-  router,
-  getConfig,
+	router,
+	getConfig
 };

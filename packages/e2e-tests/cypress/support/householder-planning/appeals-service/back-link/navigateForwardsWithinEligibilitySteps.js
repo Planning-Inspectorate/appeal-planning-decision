@@ -5,14 +5,14 @@ import { provideHouseholderPlanningPermissionStatusRefused } from '../eligibilit
 import { provideDecisionDate } from '../eligibility-decision-date/provideDecisionDate';
 
 export const navigateForwardsWithinEligibilitySteps = () => {
-  cy.get('[data-cy="guidance-form-start"]').click();
-  cy.wait(Cypress.env('demoDelay'));
+	cy.get('[data-cy="guidance-form-start"]').click();
+	cy.wait(Cypress.env('demoDelay'));
 
-  provideHouseholderAnswerYes();
-  clickSaveAndContinue();
+	provideHouseholderAnswerYes();
+	clickSaveAndContinue();
 
-  provideHouseholderPlanningPermissionStatusRefused();
-  clickSaveAndContinue();
+	provideHouseholderPlanningPermissionStatusRefused();
+	clickSaveAndContinue();
 
-  provideDecisionDate(eligibleDate);
+	provideDecisionDate(eligibleDate);
 };

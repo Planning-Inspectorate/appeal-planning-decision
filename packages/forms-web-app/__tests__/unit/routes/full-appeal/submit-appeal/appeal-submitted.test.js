@@ -5,20 +5,20 @@ const fetchExistingAppealMiddleware = require('../../../../../src/middleware/fet
 jest.mock('../../../../../src/middleware/fetch-existing-appeal');
 
 describe('routes/full-appeal/submit-appeal/appeal-submitted', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../../../src/routes/full-appeal/submit-appeal/appeal-submitted');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../../../src/routes/full-appeal/submit-appeal/appeal-submitted');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith(
-      '/submit-appeal/appeal-submitted',
-      [fetchExistingAppealMiddleware],
-      appealSubmittedController.getAppealSubmitted
-    );
-  });
+	it('should define the expected routes', () => {
+		expect(get).toHaveBeenCalledWith(
+			'/submit-appeal/appeal-submitted',
+			[fetchExistingAppealMiddleware],
+			appealSubmittedController.getAppealSubmitted
+		);
+	});
 });

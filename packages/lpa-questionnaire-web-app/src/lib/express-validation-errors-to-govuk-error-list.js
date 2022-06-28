@@ -1,20 +1,20 @@
 const expressValidationErrorsToGovUkErrorList = (expressValidationErrors) => {
-  const mappedErrors = [];
+	const mappedErrors = [];
 
-  if (Object.keys(expressValidationErrors).length === 0) {
-    return mappedErrors;
-  }
+	if (Object.keys(expressValidationErrors).length === 0) {
+		return mappedErrors;
+	}
 
-  Object.keys(expressValidationErrors).forEach((key) => {
-    mappedErrors.push({
-      text: expressValidationErrors[key].msg,
-      href: `#${key}`,
-    });
-  });
+	Object.keys(expressValidationErrors).forEach((key) => {
+		mappedErrors.push({
+			text: expressValidationErrors[key].msg,
+			href: `#${key}`
+		});
+	});
 
-  return mappedErrors;
+	return mappedErrors;
 };
 
 module.exports = {
-  expressValidationErrorsToGovUkErrorList,
+	expressValidationErrorsToGovUkErrorList
 };

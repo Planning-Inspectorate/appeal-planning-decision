@@ -7,14 +7,14 @@ const { validationErrorHandler } = require('../../../validators/validation-error
 const router = express.Router();
 
 router.get(
-  '/submit-appeal/contact-details',
-  [fetchExistingAppealMiddleware],
-  contactDetailsController.getContactDetails
+	'/submit-appeal/contact-details',
+	[fetchExistingAppealMiddleware],
+	contactDetailsController.getContactDetails
 );
 router.post(
-  '/submit-appeal/contact-details',
-  [contactDetailsRules(), validationErrorHandler],
-  contactDetailsController.postContactDetails
+	'/submit-appeal/contact-details',
+	[contactDetailsRules(), validationErrorHandler],
+	contactDetailsController.postContactDetails
 );
 
 module.exports = router;

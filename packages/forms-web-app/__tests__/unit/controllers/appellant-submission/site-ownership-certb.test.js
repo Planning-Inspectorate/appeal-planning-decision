@@ -14,104 +14,104 @@ const sectionName = 'appealSiteSection';
 const taskName = 'siteOwnership';
 
 describe('controllers/appellant-submission/site-ownership-certb', () => {
-  let req;
-  let res;
+	let req;
+	let res;
 
-  beforeEach(() => {
-    req = mockReq(appeal);
-    res = mockRes();
+	beforeEach(() => {
+		req = mockReq(appeal);
+		res = mockRes();
 
-    jest.resetAllMocks();
-  });
+		jest.resetAllMocks();
+	});
 
-  describe('getSiteOwnershipCertB', () => {
-    it('should call the correct template', () => {
-      siteOwnershipCertBController.getSiteOwnershipCertB(req, res);
+	describe('getSiteOwnershipCertB', () => {
+		it('should call the correct template', () => {
+			siteOwnershipCertBController.getSiteOwnershipCertB(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB, {
-        appeal: req.session.appeal,
-      });
-    });
-  });
+			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB, {
+				appeal: req.session.appeal
+			});
+		});
+	});
 
-  describe('postSiteOwnershipCertB', () => {
-    it('should re-render the template with errors if there is any validation error', async () => {
-      const mockRequest = {
-        ...req,
-        body: {
-          'have-other-owners-been-told': 'bad value',
-          errors: { a: 'b' },
-          errorSummary: [{ text: 'There were errors here', href: '#' }],
-        },
-      };
-      await siteOwnershipCertBController.postSiteOwnershipCertB(mockRequest, res);
+	describe('postSiteOwnershipCertB', () => {
+		it('should re-render the template with errors if there is any validation error', async () => {
+			const mockRequest = {
+				...req,
+				body: {
+					'have-other-owners-been-told': 'bad value',
+					errors: { a: 'b' },
+					errorSummary: [{ text: 'There were errors here', href: '#' }]
+				}
+			};
+			await siteOwnershipCertBController.postSiteOwnershipCertB(mockRequest, res);
 
-      expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB, {
-        appeal: req.session.appeal,
-        errorSummary: [{ text: 'There were errors here', href: '#' }],
-        errors: { a: 'b' },
-      });
-    });
+			expect(res.redirect).not.toHaveBeenCalled();
+			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB, {
+				appeal: req.session.appeal,
+				errorSummary: [{ text: 'There were errors here', href: '#' }],
+				errors: { a: 'b' }
+			});
+		});
 
-    it('should re-render the template with errors if there is any api call error', async () => {
-      const mockRequest = {
-        ...req,
-        body: {},
-      };
+		it('should re-render the template with errors if there is any api call error', async () => {
+			const mockRequest = {
+				...req,
+				body: {}
+			};
 
-      const error = new Error('Cheers');
-      createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
+			const error = new Error('Cheers');
+			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-      await siteOwnershipCertBController.postSiteOwnershipCertB(mockRequest, res);
+			await siteOwnershipCertBController.postSiteOwnershipCertB(mockRequest, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
-      expect(logger.error).toHaveBeenCalledWith(error);
+			expect(logger.error).toHaveBeenCalledWith(error);
 
-      expect(res.redirect).not.toHaveBeenCalled();
+			expect(res.redirect).not.toHaveBeenCalled();
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB, {
-        appeal: req.session.appeal,
-        errors: {},
-        errorSummary: [{ text: error.toString(), href: '#' }],
-      });
-    });
+			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB, {
+				appeal: req.session.appeal,
+				errors: {},
+				errorSummary: [{ text: error.toString(), href: '#' }]
+			});
+		});
 
-    it('should redirect to the next valid url if valid', async () => {
-      const fakeNextUrl = `/next/valid/url`;
-      const fakeTaskStatus = 'FAKE_STATUS';
+		it('should redirect to the next valid url if valid', async () => {
+			const fakeNextUrl = `/next/valid/url`;
+			const fakeTaskStatus = 'FAKE_STATUS';
 
-      getTaskStatus.mockImplementation(() => fakeTaskStatus);
+			getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
-      getNextTask.mockReturnValue({
-        href: fakeNextUrl,
-      });
+			getNextTask.mockReturnValue({
+				href: fakeNextUrl
+			});
 
-      const mockRequest = {
-        ...req,
-        body: {
-          'have-other-owners-been-told': 'no',
-        },
-      };
+			const mockRequest = {
+				...req,
+				body: {
+					'have-other-owners-been-told': 'no'
+				}
+			};
 
-      await siteOwnershipCertBController.postSiteOwnershipCertB(mockRequest, res);
+			await siteOwnershipCertBController.postSiteOwnershipCertB(mockRequest, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        ...appeal,
-        sectionStates: {
-          ...appeal.sectionStates,
-          [sectionName]: {
-            ...appeal.sectionStates[sectionName],
-            [taskName]: fakeTaskStatus,
-          },
-        },
-      });
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+				...appeal,
+				sectionStates: {
+					...appeal.sectionStates,
+					[sectionName]: {
+						...appeal.sectionStates[sectionName],
+						[taskName]: fakeTaskStatus
+					}
+				}
+			});
 
-      expect(logger.error).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(fakeNextUrl);
-    });
-  });
+			expect(logger.error).not.toHaveBeenCalled();
+			expect(res.redirect).toHaveBeenCalledWith(fakeNextUrl);
+		});
+	});
 });

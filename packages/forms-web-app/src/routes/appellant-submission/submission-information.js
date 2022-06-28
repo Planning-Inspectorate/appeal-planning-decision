@@ -7,9 +7,9 @@ const submissionInformationController = require('../../controllers/appellant-sub
 const router = express.Router();
 
 router.get(
-  '/submission-information/:appealId',
-  [fetchAppealByUrlParam('appealId'), fetchAppealLpdByAppealLpaCode],
-  submissionInformationController.getSubmissionInformation
+	'/submission-information/:appealId',
+	[fetchAppealByUrlParam('appealId'), fetchAppealLpdByAppealLpaCode],
+	submissionInformationController.getSubmissionInformation
 );
 
 module.exports = router;

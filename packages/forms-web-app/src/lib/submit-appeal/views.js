@@ -6,5 +6,5 @@ const VIEW = {
 };
 
 module.exports = {
-  VIEW,
+	VIEW
 };

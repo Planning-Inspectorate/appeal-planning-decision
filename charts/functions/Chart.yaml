@@ -1,6 +1,0 @@
-apiVersion: v2
-name: functions
-description: PINS OpenFaaS functions
-type: application
-version: 0.1.0
-icon: https://github.com/planning-inspectorate.png

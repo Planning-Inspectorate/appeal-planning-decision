@@ -15,25 +15,25 @@ const BusinessRulesError = require('../../lib/business-rules-error');
  * @throws {BusinessRulesError}
  */
 module.exports = (appealType = APPEAL_ID.HOUSEHOLDER, applicationDecision) => {
-  if (!isValid(appealType)) {
-    throw new BusinessRulesError(`${appealType} is not a valid appeal type`);
-  }
+	if (!isValid(appealType)) {
+		throw new BusinessRulesError(`${appealType} is not a valid appeal type`);
+	}
 
-  if (!isValidApplicationDecision(applicationDecision)) {
-    throw new BusinessRulesError(`${applicationDecision} is not a valid application decision`);
-  }
+	if (!isValidApplicationDecision(applicationDecision)) {
+		throw new BusinessRulesError(`${applicationDecision} is not a valid application decision`);
+	}
 
-  const duration =
-    appeal.type[appealType].appealDue[applicationDecision] === undefined
-      ? appeal.type[appealType].appealDue.duration
-      : appeal.type[appealType].appealDue[applicationDecision].duration;
-  const time =
-    appeal.type[appealType].appealDue[applicationDecision] === undefined
-      ? appeal.type[appealType].appealDue.time
-      : appeal.type[appealType].appealDue[applicationDecision].time;
+	const duration =
+		appeal.type[appealType].appealDue[applicationDecision] === undefined
+			? appeal.type[appealType].appealDue.duration
+			: appeal.type[appealType].appealDue[applicationDecision].duration;
+	const time =
+		appeal.type[appealType].appealDue[applicationDecision] === undefined
+			? appeal.type[appealType].appealDue.time
+			: appeal.type[appealType].appealDue[applicationDecision].time;
 
-  return {
-    duration,
-    time,
-  };
+	return {
+		duration,
+		time
+	};
 };

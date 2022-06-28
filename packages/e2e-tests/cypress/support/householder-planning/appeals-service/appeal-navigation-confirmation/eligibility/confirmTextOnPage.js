@@ -1,4 +1,4 @@
 export const confirmTextOnPage = (text) => {
-  cy.contains(text);
-  //cy.wait(Cypress.env('demoDelay'));
-}
+	cy.contains(text);
+	//cy.wait(Cypress.env('demoDelay'));
+};

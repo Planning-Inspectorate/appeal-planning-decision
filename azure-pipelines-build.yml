@@ -49,6 +49,10 @@ extends:
               condition: ne(variables['Build.SourceBranchName'], 'main')
               nodeVersion: 14
               script: npm run commitlint
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: npm run lint
           - template: ../steps/check_changed_files.yml
             parameters:
               pathFilters:

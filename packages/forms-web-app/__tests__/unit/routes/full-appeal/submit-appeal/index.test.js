@@ -50,10 +50,10 @@ const emailConfirmedRouter = require('../../../../../src/routes/full-appeal/subm
 const SentAnotherLinkRouter = require('../../../../../src/routes/full-appeal/submit-appeal/sent-another-link');
 
 describe('routes/full-appeal/submit-appeal/index', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../../../src/routes/full-appeal/submit-appeal');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../../../src/routes/full-appeal/submit-appeal');
+	});
 
   it('should define the expected routes', () => {
     expect(use).toHaveBeenCalledWith(taskListRouter);

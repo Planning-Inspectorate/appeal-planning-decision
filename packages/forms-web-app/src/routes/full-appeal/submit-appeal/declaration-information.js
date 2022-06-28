@@ -7,9 +7,9 @@ const declarationInformationController = require('../../../controllers/full-appe
 const router = express.Router();
 
 router.get(
-  '/submit-appeal/declaration-information/:appealId',
-  [fetchAppealByUrlParam('appealId'), fetchAppealLpdByAppealLpaCode],
-  declarationInformationController.getDeclarationInformation
+	'/submit-appeal/declaration-information/:appealId',
+	[fetchAppealByUrlParam('appealId'), fetchAppealLpdByAppealLpaCode],
+	declarationInformationController.getDeclarationInformation
 );
 
 module.exports = router;

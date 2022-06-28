@@ -4,17 +4,17 @@ import { guidancePageSelectContentList } from '../../../../support/householder-p
 import { userIsNavigatedToPage } from '../../../../support/householder-planning/appeals-service/appeal-navigation/userIsNavigatedToPage';
 
 When('the appellant navigates to the next page', () => {
-  guidancePageNavigation('next');
+	guidancePageNavigation('next');
 });
 
 When('the appellant navigates to the previous page', () => {
- guidancePageNavigation('previous');
+	guidancePageNavigation('previous');
 });
 
 When('the appellant select a link from the content list: {string}', (link) => {
-  guidancePageSelectContentList(link);
+	guidancePageSelectContentList(link);
 });
 
 Then('the appellant is navigated to that page: {string}', (url) => {
-  userIsNavigatedToPage(url);
+	userIsNavigatedToPage(url);
 });

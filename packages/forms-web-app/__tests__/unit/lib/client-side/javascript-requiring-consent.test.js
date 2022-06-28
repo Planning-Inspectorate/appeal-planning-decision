@@ -1,5 +1,5 @@
 const {
-  initialiseOptionalJavaScripts,
+	initialiseOptionalJavaScripts
 } = require('../../../../src/lib/client-side/javascript-requiring-consent');
 
 const { readCookie } = require('../../../../src/lib/client-side/cookie/cookie-jar');
@@ -9,51 +9,51 @@ jest.mock('../../../../src/lib/client-side/cookie/cookie-jar');
 jest.mock('../../../../src/lib/client-side/google-analytics');
 
 describe('lib/client-side/javascript-requiring-consent', () => {
-  describe('initialiseOptionalJavaScripts', () => {
-    test('return early if cookie is null', () => {
-      jest.spyOn(console, 'log').mockImplementation();
+	describe('initialiseOptionalJavaScripts', () => {
+		test('return early if cookie is null', () => {
+			jest.spyOn(console, 'log').mockImplementation();
 
-      readCookie.mockImplementation(() => null);
+			readCookie.mockImplementation(() => null);
 
-      initialiseOptionalJavaScripts();
+			initialiseOptionalJavaScripts();
 
-      // eslint-disable-next-line no-console
-      expect(console.log).toHaveBeenCalledWith('Consent not yet given for optional JavaScripts.');
+			// eslint-disable-next-line no-console
+			expect(console.log).toHaveBeenCalledWith('Consent not yet given for optional JavaScripts.');
 
-      expect(initialiseGoogleAnalytics).not.toHaveBeenCalled();
-    });
+			expect(initialiseGoogleAnalytics).not.toHaveBeenCalled();
+		});
 
-    test('return early if `usage` is not defined', () => {
-      jest.spyOn(console, 'log').mockImplementation();
+		test('return early if `usage` is not defined', () => {
+			jest.spyOn(console, 'log').mockImplementation();
 
-      readCookie.mockImplementation(() => JSON.stringify({ a: 'b' }));
+			readCookie.mockImplementation(() => JSON.stringify({ a: 'b' }));
 
-      initialiseOptionalJavaScripts();
+			initialiseOptionalJavaScripts();
 
-      expect(initialiseGoogleAnalytics).not.toHaveBeenCalled();
-    });
+			expect(initialiseGoogleAnalytics).not.toHaveBeenCalled();
+		});
 
-    test('return early if `usage=false`', () => {
-      jest.spyOn(console, 'log').mockImplementation();
+		test('return early if `usage=false`', () => {
+			jest.spyOn(console, 'log').mockImplementation();
 
-      readCookie.mockImplementation(() => JSON.stringify({ usage: false }));
+			readCookie.mockImplementation(() => JSON.stringify({ usage: false }));
 
-      initialiseOptionalJavaScripts();
+			initialiseOptionalJavaScripts();
 
-      // eslint-disable-next-line no-console
-      expect(console.log).toHaveBeenCalledWith(
-        'Declined consent. Third party cookies are not enabled.'
-      );
+			// eslint-disable-next-line no-console
+			expect(console.log).toHaveBeenCalledWith(
+				'Declined consent. Third party cookies are not enabled.'
+			);
 
-      expect(initialiseGoogleAnalytics).not.toHaveBeenCalled();
-    });
+			expect(initialiseGoogleAnalytics).not.toHaveBeenCalled();
+		});
 
-    test('calls through if `usage=true`', () => {
-      readCookie.mockImplementation(() => JSON.stringify({ usage: true }));
+		test('calls through if `usage=true`', () => {
+			readCookie.mockImplementation(() => JSON.stringify({ usage: true }));
 
-      initialiseOptionalJavaScripts();
+			initialiseOptionalJavaScripts();
 
-      expect(initialiseGoogleAnalytics).toHaveBeenCalled();
-    });
-  });
+			expect(initialiseGoogleAnalytics).toHaveBeenCalled();
+		});
+	});
 });

@@ -2,25 +2,25 @@ const { validate: validateUuid } = require('uuid');
 const { VIEW } = require('../lib/views');
 
 module.exports = (req, res, next) => {
-  const { id: appealId = '' } = req.params;
+	const { id: appealId = '' } = req.params;
 
-  if (!appealId || !validateUuid(appealId)) {
-    res.status(404).send();
-    return;
-  }
+	if (!appealId || !validateUuid(appealId)) {
+		res.status(404).send();
+		return;
+	}
 
-  const questionnaire = req.session?.appealReply;
+	const questionnaire = req.session?.appealReply;
 
-  if (!questionnaire) {
-    req.log.error('Error retrieving questionnaire');
-    res.status(404).send();
-    return;
-  }
+	if (!questionnaire) {
+		req.log.error('Error retrieving questionnaire');
+		res.status(404).send();
+		return;
+	}
 
-  if (questionnaire.state === 'SUBMITTED') {
-    res.redirect(`/appeal-questionnaire/${appealId}/${VIEW.ALREADY_SUBMITTED}`);
-    return;
-  }
+	if (questionnaire.state === 'SUBMITTED') {
+		res.redirect(`/appeal-questionnaire/${appealId}/${VIEW.ALREADY_SUBMITTED}`);
+		return;
+	}
 
-  next();
+	next();
 };

@@ -1,3 +1,3 @@
 {
-  "/v2/notifications/:type/": "/notifications?type=:type"
+	"/v2/notifications/:type/": "/notifications?type=:type"
 }

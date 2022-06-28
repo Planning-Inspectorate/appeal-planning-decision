@@ -1,3 +1,3 @@
 export const provideHouseholderAnswerNo = () => {
-  cy.get('[data-cy="answer-no"]').click();
+	cy.get('[data-cy="answer-no"]').click();
 };

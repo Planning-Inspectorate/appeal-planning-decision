@@ -16,43 +16,43 @@ const logger = require('./lib/logger');
 const routes = require('./routes');
 
 module.exports = () => {
-  const app = express();
+	const app = express();
 
-  prometheus.init(app);
+	prometheus.init(app);
 
-  const server = http.createServer(app);
+	const server = http.createServer(app);
 
-  healthChecks(server);
+	healthChecks(server);
 
-  app
-    .use(
-      pinoExpress({
-        logger,
-        genReqId: (req) => req.headers['x-correlation-id'] || uuid.v4(),
-      })
-    )
-    .use(bodyParser.json())
-    .use('/', routes)
-    .use((req, res) => {
-      /* Handle 404 error */
-      res.status(404).json({
-        message: http.STATUS_CODES[404],
-        url: req.url,
-      });
-    })
-    .use((err, req, res, next) => {
-      /* Unhandled error - four arguments are required */
-      req.log.error({ err }, 'Uncaught exception');
+	app
+		.use(
+			pinoExpress({
+				logger,
+				genReqId: (req) => req.headers['x-correlation-id'] || uuid.v4()
+			})
+		)
+		.use(bodyParser.json())
+		.use('/', routes)
+		.use((req, res) => {
+			/* Handle 404 error */
+			res.status(404).json({
+				message: http.STATUS_CODES[404],
+				url: req.url
+			});
+		})
+		.use((err, req, res, next) => {
+			/* Unhandled error - four arguments are required */
+			req.log.error({ err }, 'Uncaught exception');
 
-      res.status(500).json({
-        message: err.message,
-        stack: config.server.showErrors ? err.stack : undefined,
-      });
+			res.status(500).json({
+				message: err.message,
+				stack: config.server.showErrors ? err.stack : undefined
+			});
 
-      next();
-    });
+			next();
+		});
 
-  server.listen(config.server.port, () => {
-    logger.info({ config }, 'Listening');
-  });
+	server.listen(config.server.port, () => {
+		logger.info({ config }, 'Listening');
+	});
 };

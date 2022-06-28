@@ -7,9 +7,9 @@ const alreadySubmittedMiddleware = require('../middleware/already-submitted');
 const router = express.Router();
 
 router.get(
-  '/appeal-questionnaire/:id/confirm-answers',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
-  confirmAnswersController
+	'/appeal-questionnaire/:id/confirm-answers',
+	[fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+	confirmAnswersController
 );
 
 module.exports = router;

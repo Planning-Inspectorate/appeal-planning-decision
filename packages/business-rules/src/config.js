@@ -1,8 +1,8 @@
 const { format } = require('date-fns');
 const {
-  APPEAL_ID,
-  APPLICATION_DECISION,
-  PROCEDURE_TYPE: { WRITTEN_REPRESENTATION, HEARING, INQUIRY },
+	APPEAL_ID,
+	APPLICATION_DECISION,
+	PROCEDURE_TYPE: { WRITTEN_REPRESENTATION, HEARING, INQUIRY }
 } = require('./constants');
 
 const formatAddress = require('./utils/format-address');

@@ -1,5 +1,0 @@
-# Dependencies for the Flux Helm operator. Add "name" and "url" for chart repos
-
-configureRepositories:
-  enable: false # Change to true if setting repositories
-  repositories: []

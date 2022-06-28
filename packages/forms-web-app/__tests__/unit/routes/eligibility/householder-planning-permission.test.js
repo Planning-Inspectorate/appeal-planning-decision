@@ -3,36 +3,36 @@ const householderPlanningPermissionController = require('../../../../src/control
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const {
-  rules: householderPlanningPermissionValidationRules,
+	rules: householderPlanningPermissionValidationRules
 } = require('../../../../src/validators/eligibility/householder-planning-permission');
 
 jest.mock('../../../../src/validators/eligibility/householder-planning-permission');
 
 describe('routes/eligibility/householder-planning-permission', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../../src/routes/eligibility/householder-planning-permission');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../../src/routes/eligibility/householder-planning-permission');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith(
-      '/householder-planning-permission-out',
-      householderPlanningPermissionController.getServiceOnlyForHouseholderPlanningPermission
-    );
-    expect(get).toHaveBeenCalledWith(
-      '/householder-planning-permission',
-      [fetchExistingAppealMiddleware],
-      householderPlanningPermissionController.getHouseholderPlanningPermission
-    );
-    expect(post).toHaveBeenCalledWith(
-      '/householder-planning-permission',
-      householderPlanningPermissionValidationRules(),
-      validationErrorHandler,
-      householderPlanningPermissionController.postHouseholderPlanningPermission
-    );
-  });
+	it('should define the expected routes', () => {
+		expect(get).toHaveBeenCalledWith(
+			'/householder-planning-permission-out',
+			householderPlanningPermissionController.getServiceOnlyForHouseholderPlanningPermission
+		);
+		expect(get).toHaveBeenCalledWith(
+			'/householder-planning-permission',
+			[fetchExistingAppealMiddleware],
+			householderPlanningPermissionController.getHouseholderPlanningPermission
+		);
+		expect(post).toHaveBeenCalledWith(
+			'/householder-planning-permission',
+			householderPlanningPermissionValidationRules(),
+			validationErrorHandler,
+			householderPlanningPermissionController.postHouseholderPlanningPermission
+		);
+	});
 });

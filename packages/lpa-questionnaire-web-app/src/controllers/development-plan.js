@@ -8,78 +8,78 @@ const sectionName = 'optionalDocumentsSection';
 const taskName = 'developmentOrNeighbourhood';
 
 exports.getDevelopmentPlan = (req, res) => {
-  const developmentPlanSection =
-    req.session.appealReply.optionalDocumentsSection.developmentOrNeighbourhood;
+	const developmentPlanSection =
+		req.session.appealReply.optionalDocumentsSection.developmentOrNeighbourhood;
 
-  let { hasPlanSubmitted } = developmentPlanSection;
+	let { hasPlanSubmitted } = developmentPlanSection;
 
-  if (typeof hasPlanSubmitted === 'boolean') {
-    hasPlanSubmitted = hasPlanSubmitted ? 'yes' : 'no';
-  }
+	if (typeof hasPlanSubmitted === 'boolean') {
+		hasPlanSubmitted = hasPlanSubmitted ? 'yes' : 'no';
+	}
 
-  const values = {
-    'has-plan-submitted': hasPlanSubmitted,
-    'plan-changes-text': developmentPlanSection.planChanges,
-  };
+	const values = {
+		'has-plan-submitted': hasPlanSubmitted,
+		'plan-changes-text': developmentPlanSection.planChanges
+	};
 
-  renderView(res, VIEW.DEVELOPMENT_PLAN, {
-    prefix: 'appeal-questionnaire',
-    appeal: getAppealSideBarDetails(req.session.appeal),
-    backLink: req.session.backLink ? req.session.backLink : `/${req.params.id}/${VIEW.TASK_LIST}`,
-    values,
-  });
+	renderView(res, VIEW.DEVELOPMENT_PLAN, {
+		prefix: 'appeal-questionnaire',
+		appeal: getAppealSideBarDetails(req.session.appeal),
+		backLink: req.session.backLink ? req.session.backLink : `/${req.params.id}/${VIEW.TASK_LIST}`,
+		values
+	});
 };
 
 exports.postDevelopmentPlan = async (req, res) => {
-  const {
-    body,
-    session: { appealReply },
-  } = req;
-  const { errors = {}, errorSummary = [] } = body;
+	const {
+		body,
+		session: { appealReply }
+	} = req;
+	const { errors = {}, errorSummary = [] } = body;
 
-  const values = {
-    'has-plan-submitted': body['has-plan-submitted'],
-    'plan-changes-text': body['plan-changes-text'],
-  };
+	const values = {
+		'has-plan-submitted': body['has-plan-submitted'],
+		'plan-changes-text': body['plan-changes-text']
+	};
 
-  if (Object.keys(errors).length > 0) {
-    renderView(res, VIEW.DEVELOPMENT_PLAN, {
-      prefix: 'appeal-questionnaire',
-      appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
-      errors,
-      errorSummary,
-      values,
-    });
+	if (Object.keys(errors).length > 0) {
+		renderView(res, VIEW.DEVELOPMENT_PLAN, {
+			prefix: 'appeal-questionnaire',
+			appeal: getAppealSideBarDetails(req.session.appeal),
+			backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
+			errors,
+			errorSummary,
+			values
+		});
 
-    return;
-  }
+		return;
+	}
 
-  const task = appealReply[sectionName][taskName];
-  task.hasPlanSubmitted = body['has-plan-submitted'] === 'yes';
-  task.planChanges = body['has-plan-submitted'] === 'yes' ? body['plan-changes-text'] : '';
-  appealReply.sectionStates[sectionName][taskName] = getTaskStatus(
-    appealReply,
-    sectionName,
-    taskName
-  );
+	const task = appealReply[sectionName][taskName];
+	task.hasPlanSubmitted = body['has-plan-submitted'] === 'yes';
+	task.planChanges = body['has-plan-submitted'] === 'yes' ? body['plan-changes-text'] : '';
+	appealReply.sectionStates[sectionName][taskName] = getTaskStatus(
+		appealReply,
+		sectionName,
+		taskName
+	);
 
-  try {
-    req.session.appealReply = await createOrUpdateAppealReply(appealReply);
-  } catch (err) {
-    req.log.error({ err }, 'Error creating or updating appeal');
+	try {
+		req.session.appealReply = await createOrUpdateAppealReply(appealReply);
+	} catch (err) {
+		req.log.error({ err }, 'Error creating or updating appeal');
 
-    renderView(res, VIEW.DEVELOPMENT_PLAN, {
-      prefix: 'appeal-questionnaire',
-      appeal: getAppealSideBarDetails(req.session.appeal),
-      backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
-      errors,
-      errorSummary: [{ text: err.toString() }],
-      values,
-    });
+		renderView(res, VIEW.DEVELOPMENT_PLAN, {
+			prefix: 'appeal-questionnaire',
+			appeal: getAppealSideBarDetails(req.session.appeal),
+			backLink: req.session.backLink || `/${req.params.id}/${VIEW.TASK_LIST}`,
+			errors,
+			errorSummary: [{ text: err.toString() }],
+			values
+		});
 
-    return;
-  }
+		return;
+	}
 
-  redirect(res, 'appeal-questionnaire', `${req.params.id}/${VIEW.TASK_LIST}`, req.session.backLink);
+	redirect(res, 'appeal-questionnaire', `${req.params.id}/${VIEW.TASK_LIST}`, req.session.backLink);
 };

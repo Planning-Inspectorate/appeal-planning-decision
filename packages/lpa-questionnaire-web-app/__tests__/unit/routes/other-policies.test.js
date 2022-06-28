@@ -19,61 +19,61 @@ jest.mock('../../../src/middleware/req-files-to-req-body-files');
 jest.mock('../../../src/validators/upload-tasks');
 
 describe('routes/other-policies', () => {
-  describe('router', () => {
-    beforeEach(() => {
-      // eslint-disable-next-line global-require
-      require('../../../src/routes/other-policies');
-    });
+	describe('router', () => {
+		beforeEach(() => {
+			// eslint-disable-next-line global-require
+			require('../../../src/routes/other-policies');
+		});
 
-    afterEach(() => {
-      jest.resetAllMocks();
-    });
+		afterEach(() => {
+			jest.resetAllMocks();
+		});
 
-    it('should define the expected routes', () => {
-      // eslint-disable-next-line global-require
-      const { getConfig } = require('../../../src/routes/other-policies');
+		it('should define the expected routes', () => {
+			// eslint-disable-next-line global-require
+			const { getConfig } = require('../../../src/routes/other-policies');
 
-      expect(get).toHaveBeenCalledWith(
-        '/appeal-questionnaire/:id/other-policies',
-        [
-          fetchAppealMiddleware,
-          fetchExistingAppealReplyMiddleware,
-          clearUploadedFilesMiddleware,
-          alreadySubmittedMiddleware,
-        ],
-        getConfig,
-        uploadQuestionController.getUpload
-      );
+			expect(get).toHaveBeenCalledWith(
+				'/appeal-questionnaire/:id/other-policies',
+				[
+					fetchAppealMiddleware,
+					fetchExistingAppealReplyMiddleware,
+					clearUploadedFilesMiddleware,
+					alreadySubmittedMiddleware
+				],
+				getConfig,
+				uploadQuestionController.getUpload
+			);
 
-      expect(post).toHaveBeenCalledWith(
-        '/appeal-questionnaire/:id/other-policies',
-        [reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
-        validationErrorHandler,
-        getConfig,
-        uploadQuestionController.postUpload
-      );
-    });
-  });
+			expect(post).toHaveBeenCalledWith(
+				'/appeal-questionnaire/:id/other-policies',
+				[reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
+				validationErrorHandler,
+				getConfig,
+				uploadQuestionController.postUpload
+			);
+		});
+	});
 
-  describe('getConfig', () => {
-    it('should define the expected config', () => {
-      // eslint-disable-next-line global-require
-      const { getConfig } = require('../../../src/routes/other-policies');
+	describe('getConfig', () => {
+		it('should define the expected config', () => {
+			// eslint-disable-next-line global-require
+			const { getConfig } = require('../../../src/routes/other-policies');
 
-      const req = mockReq();
-      const res = mockRes();
-      const next = jest.fn();
+			const req = mockReq();
+			const res = mockRes();
+			const next = jest.fn();
 
-      getConfig(req, res, next);
+			getConfig(req, res, next);
 
-      expect(next).toHaveBeenCalled();
-      expect(res.locals.routeInfo).toEqual({
-        sectionName: 'optionalDocumentsSection',
-        taskName: 'otherPolicies',
-        view: VIEW.OTHER_POLICIES,
-        name: 'Other relevant policies',
-      });
-      expect(req.documentType).toEqual(documentTypes.otherPolicies.name);
-    });
-  });
+			expect(next).toHaveBeenCalled();
+			expect(res.locals.routeInfo).toEqual({
+				sectionName: 'optionalDocumentsSection',
+				taskName: 'otherPolicies',
+				view: VIEW.OTHER_POLICIES,
+				name: 'Other relevant policies'
+			});
+			expect(req.documentType).toEqual(documentTypes.otherPolicies.name);
+		});
+	});
 });

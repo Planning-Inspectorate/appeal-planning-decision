@@ -1,9 +1,9 @@
 export const confirmProvidedDecisionDateErrorHighlight = (highlights) => {
-  const highlightsList = highlights.split(',') || [highlights];
+	const highlightsList = highlights.split(',') || [highlights];
 
-  highlightsList.forEach(input => {
-    cy.get(`#decision-date-${input}`).should('have.class','govuk-input--error');
-  });
+	highlightsList.forEach((input) => {
+		cy.get(`#decision-date-${input}`).should('have.class', 'govuk-input--error');
+	});
 
- // cy.wait(Cypress.env('demoDelay'))
-}
+	// cy.wait(Cypress.env('demoDelay'))
+};

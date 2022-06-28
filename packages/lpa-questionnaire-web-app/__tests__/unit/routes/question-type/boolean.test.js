@@ -7,39 +7,39 @@ const booleanQuestionRules = require('../../../../src/validators/question-type/b
 const alreadySubmittedMiddleware = require('../../../../src/middleware/already-submitted');
 
 const mockQuestions = [
-  {
-    id: 'mockId',
-    emptyError: 'Mock error',
-    url: 'mock-url',
-  },
+	{
+		id: 'mockId',
+		emptyError: 'Mock error',
+		url: 'mock-url'
+	}
 ];
 
 jest.mock('../../../../src/validators/question-type/boolean');
 jest.mock('../../../../src/lib/questionTypes', () => ({ booleanQuestions: mockQuestions }));
 
 describe('routes/question-type/boolean', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../../src/routes/question-type/boolean');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../../src/routes/question-type/boolean');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith(
-      `/appeal-questionnaire/:id/mock-url`,
-      [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
-      expect.any(Function),
-      booleanQuestionController.getBooleanQuestion
-    );
-    expect(post).toHaveBeenCalledWith(
-      `/appeal-questionnaire/:id/mock-url`,
-      booleanQuestionRules('Mock error'),
-      validationErrorHandler,
-      expect.any(Function),
-      booleanQuestionController.postBooleanQuestion
-    );
-  });
+	it('should define the expected routes', () => {
+		expect(get).toHaveBeenCalledWith(
+			`/appeal-questionnaire/:id/mock-url`,
+			[fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+			expect.any(Function),
+			booleanQuestionController.getBooleanQuestion
+		);
+		expect(post).toHaveBeenCalledWith(
+			`/appeal-questionnaire/:id/mock-url`,
+			booleanQuestionRules('Mock error'),
+			validationErrorHandler,
+			expect.any(Function),
+			booleanQuestionController.postBooleanQuestion
+		);
+	});
 });

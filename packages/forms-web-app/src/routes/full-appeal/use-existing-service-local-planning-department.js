@@ -4,8 +4,8 @@ const useExistingServiceLocalPlanningDepartment = require('../../controllers/ful
 const router = express.Router();
 
 router.get(
-  '/use-existing-service-local-planning-department',
-  useExistingServiceLocalPlanningDepartment.getUseExistingServiceLocalPlanningDepartment
+	'/use-existing-service-local-planning-department',
+	useExistingServiceLocalPlanningDepartment.getUseExistingServiceLocalPlanningDepartment
 );
 
 module.exports = router;

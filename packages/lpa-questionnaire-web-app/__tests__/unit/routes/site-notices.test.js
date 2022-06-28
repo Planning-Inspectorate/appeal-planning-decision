@@ -19,61 +19,61 @@ jest.mock('../../../src/middleware/req-files-to-req-body-files');
 jest.mock('../../../src/validators/upload-tasks');
 
 describe('routes/site-notices', () => {
-  describe('router', () => {
-    beforeEach(() => {
-      // eslint-disable-next-line global-require
-      require('../../../src/routes/site-notices');
-    });
+	describe('router', () => {
+		beforeEach(() => {
+			// eslint-disable-next-line global-require
+			require('../../../src/routes/site-notices');
+		});
 
-    afterEach(() => {
-      jest.resetAllMocks();
-    });
+		afterEach(() => {
+			jest.resetAllMocks();
+		});
 
-    it('should define the expected routes', () => {
-      // eslint-disable-next-line global-require
-      const { getConfig } = require('../../../src/routes/site-notices');
+		it('should define the expected routes', () => {
+			// eslint-disable-next-line global-require
+			const { getConfig } = require('../../../src/routes/site-notices');
 
-      expect(get).toHaveBeenCalledWith(
-        '/appeal-questionnaire/:id/site-notice',
-        [
-          fetchAppealMiddleware,
-          fetchExistingAppealReplyMiddleware,
-          clearUploadedFilesMiddleware,
-          alreadySubmittedMiddleware,
-        ],
-        getConfig,
-        uploadQuestionController.getUpload
-      );
+			expect(get).toHaveBeenCalledWith(
+				'/appeal-questionnaire/:id/site-notice',
+				[
+					fetchAppealMiddleware,
+					fetchExistingAppealReplyMiddleware,
+					clearUploadedFilesMiddleware,
+					alreadySubmittedMiddleware
+				],
+				getConfig,
+				uploadQuestionController.getUpload
+			);
 
-      expect(post).toHaveBeenCalledWith(
-        '/appeal-questionnaire/:id/site-notice',
-        [reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
-        validationErrorHandler,
-        getConfig,
-        uploadQuestionController.postUpload
-      );
-    });
-  });
+			expect(post).toHaveBeenCalledWith(
+				'/appeal-questionnaire/:id/site-notice',
+				[reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
+				validationErrorHandler,
+				getConfig,
+				uploadQuestionController.postUpload
+			);
+		});
+	});
 
-  describe('getConfig', () => {
-    it('should define the expected config', () => {
-      // eslint-disable-next-line global-require
-      const { getConfig } = require('../../../src/routes/site-notices');
+	describe('getConfig', () => {
+		it('should define the expected config', () => {
+			// eslint-disable-next-line global-require
+			const { getConfig } = require('../../../src/routes/site-notices');
 
-      const req = mockReq();
-      const res = mockRes();
-      const next = jest.fn();
+			const req = mockReq();
+			const res = mockRes();
+			const next = jest.fn();
 
-      getConfig(req, res, next);
+			getConfig(req, res, next);
 
-      expect(next).toHaveBeenCalled();
-      expect(res.locals.routeInfo).toEqual({
-        sectionName: 'optionalDocumentsSection',
-        taskName: 'siteNotices',
-        view: VIEW.SITE_NOTICES,
-        name: 'Site notices',
-      });
-      expect(req.documentType).toEqual(documentTypes.siteNotices.name);
-    });
-  });
+			expect(next).toHaveBeenCalled();
+			expect(res.locals.routeInfo).toEqual({
+				sectionName: 'optionalDocumentsSection',
+				taskName: 'siteNotices',
+				view: VIEW.SITE_NOTICES,
+				name: 'Site notices'
+			});
+			expect(req.documentType).toEqual(documentTypes.siteNotices.name);
+		});
+	});
 });

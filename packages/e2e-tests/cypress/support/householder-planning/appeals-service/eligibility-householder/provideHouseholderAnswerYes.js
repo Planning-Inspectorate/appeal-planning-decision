@@ -1,4 +1,3 @@
 export const provideHouseholderAnswerYes = () => {
-  cy.get('[data-cy="answer-yes"]').click();
-
+	cy.get('[data-cy="answer-yes"]').click();
 };

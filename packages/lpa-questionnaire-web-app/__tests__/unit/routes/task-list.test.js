@@ -5,20 +5,20 @@ const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/comm
 const alreadySubmittedMiddleware = require('../../../src/middleware/already-submitted');
 
 describe('routes/task-list', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../src/routes/task-list');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../src/routes/task-list');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith(
-      `/appeal-questionnaire/:id/${VIEW.TASK_LIST}`,
-      [fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
-      taskListController.getTaskList
-    );
-  });
+	it('should define the expected routes', () => {
+		expect(get).toHaveBeenCalledWith(
+			`/appeal-questionnaire/:id/${VIEW.TASK_LIST}`,
+			[fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+			taskListController.getTaskList
+		);
+	});
 });

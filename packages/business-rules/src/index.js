@@ -5,9 +5,9 @@ const constants = require('./constants');
 const config = require('./config');
 
 module.exports = {
-  rules,
-  validation,
-  schemas,
-  constants,
-  config,
+	rules,
+	validation,
+	schemas,
+	constants,
+	config
 };

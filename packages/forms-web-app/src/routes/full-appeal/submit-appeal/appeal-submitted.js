@@ -6,9 +6,9 @@ const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existin
 const router = express.Router();
 
 router.get(
-  '/submit-appeal/appeal-submitted',
-  [fetchExistingAppealMiddleware],
-  appealSubmittedController.getAppealSubmitted
+	'/submit-appeal/appeal-submitted',
+	[fetchExistingAppealMiddleware],
+	appealSubmittedController.getAppealSubmitted
 );
 
 module.exports = router;

@@ -4,21 +4,21 @@ const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-a
 const applicationNumberController = require('../../controllers/appellant-submission/application-number');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const {
-  rules: applicationNumberValidationRules,
+	rules: applicationNumberValidationRules
 } = require('../../validators/appellant-submission/application-number');
 
 const router = express.Router();
 
 router.get(
-  '/application-number',
-  [fetchExistingAppealMiddleware],
-  applicationNumberController.getApplicationNumber
+	'/application-number',
+	[fetchExistingAppealMiddleware],
+	applicationNumberController.getApplicationNumber
 );
 router.post(
-  '/application-number',
-  applicationNumberValidationRules(),
-  validationErrorHandler,
-  applicationNumberController.postApplicationNumber
+	'/application-number',
+	applicationNumberValidationRules(),
+	validationErrorHandler,
+	applicationNumberController.postApplicationNumber
 );
 
 module.exports = router;

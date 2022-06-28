@@ -22,34 +22,34 @@ router.use('/', homeRouter);
 router.use(guidancePagesRouter);
 router.use('/cookies', cookieRouter);
 router.use(
-  '/appellant-submission',
-  checkAppealTypeExists,
-  checkDecisionDateDeadline,
-  appellantSubmissionRouter
+	'/appellant-submission',
+	checkAppealTypeExists,
+	checkDecisionDateDeadline,
+	appellantSubmissionRouter
 );
 router.use(
-  '/full-appeal',
-  checkAppealTypeExists,
-  checkDecisionDateDeadline,
-  fullAppealAppellantSubmissionRouter
+	'/full-appeal',
+	checkAppealTypeExists,
+	checkDecisionDateDeadline,
+	fullAppealAppellantSubmissionRouter
 );
 router.use('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
 router.use('/your-planning-appeal', yourPlanningAppealRouter);
 router.use('/before-you-start', beforeYouStartRouter);
 router.use('/before-you-start', checkAppealTypeExists, checkDecisionDateDeadline, fullAppealRouter);
 router.use(
-  '/before-you-start',
-  checkAppealTypeExists,
-  checkDecisionDateDeadline,
-  householderPlanningRouter
+	'/before-you-start',
+	checkAppealTypeExists,
+	checkDecisionDateDeadline,
+	householderPlanningRouter
 );
 router.use('/document', documentRouter);
 router.use('/submit-appeal', checkAppealTypeExists, checkDecisionDateDeadline, submitAppealRouter);
 router.use(
-  '/save-and-return',
-  checkAppealTypeExists,
-  checkDecisionDateDeadline,
-  saveAndReturnRouter
+	'/save-and-return',
+	checkAppealTypeExists,
+	checkDecisionDateDeadline,
+	saveAndReturnRouter
 );
 
 module.exports = router;

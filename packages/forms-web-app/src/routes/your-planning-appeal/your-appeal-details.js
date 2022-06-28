@@ -9,13 +9,13 @@ const getYourPlanningAppealLink = require('../../lib/get-your-planning-appeal-li
 const router = express.Router();
 
 router.get(
-  '/your-appeal-details',
-  [
-    ensureAppealIsAvailable,
-    fetchAppealLpdByAppealLpaCode,
-    setBackLinkFromAppeal(getYourPlanningAppealLink),
-  ],
-  yourAppealDetailsController.getYourAppealDetails
+	'/your-appeal-details',
+	[
+		ensureAppealIsAvailable,
+		fetchAppealLpdByAppealLpaCode,
+		setBackLinkFromAppeal(getYourPlanningAppealLink)
+	],
+	yourAppealDetailsController.getYourAppealDetails
 );
 
 module.exports = router;

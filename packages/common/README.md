@@ -12,8 +12,6 @@ and run`npm install`.
 
 ## Docker
 
-  
-
 ## Modules
 
 Overview of available modules
@@ -25,26 +23,25 @@ will configure an endpoint on `/health` that can be called by Kubernetes etc.
 
 The health checks take the form of an array. The function should return a simple
 `Promise<boolean>` to indicate whether the resource is healthy or not. If an
-error is thrown, this is treated the same way as if it returns `false`. 
+error is thrown, this is treated the same way as if it returns `false`.
 
 ```typescript
 ({
-    server,
-    tasks,
-    logger,
-    timeout = 1000,
-    onTerminate = null,
-    terminationGrace = 5000,
-} : {
-    server: any,
-    tasks: { name: string, test: () => Promise<boolean> },
-    logger,
-    timeout: number,
-    onTerminate: () => Promise<void> | null,
-    terminationGrace: number,
+	server,
+	tasks,
+	logger,
+	timeout = 1000,
+	onTerminate = null,
+	terminationGrace = 5000
+}: {
+	server: any;
+	tasks: { name: string; test: () => Promise<boolean> };
+	logger;
+	timeout: number;
+	onTerminate: () => Promise<void> | null;
+	terminationGrace: number;
 }) => void {};
 ```
-
 
 ### Prometheus
 
@@ -83,8 +80,8 @@ a metric:
 
 ```js
 const counter = new prometheus.promClient.Counter({
-  name: 'metric_name',
-  help: 'metric_help',
+	name: 'metric_name',
+	help: 'metric_help'
 });
 
 counter.inc(); // Increment by 1
@@ -103,6 +100,6 @@ Add a timeout to a promise
 
 ```typescript
 interface promiseTimeout {
-  (timeoutValueInMS: number, promise: Promise) : Promise
+	(timeoutValueInMS: number, promise: Promise): Promise;
 }
 ```

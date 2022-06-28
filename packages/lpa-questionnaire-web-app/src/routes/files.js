@@ -8,11 +8,11 @@ const documentTypeValidator = require('../validators/document-type');
 const router = express.Router();
 
 router.post(
-  '/upload/:documentType',
-  [reqFilesToReqBodyFilesMiddleware('documents'), fileValidationRules()],
-  validationErrorHandler,
-  documentTypeValidator,
-  filesController.uploadFile
+	'/upload/:documentType',
+	[reqFilesToReqBodyFilesMiddleware('documents'), fileValidationRules()],
+	validationErrorHandler,
+	documentTypeValidator,
+	filesController.uploadFile
 );
 router.post('/delete', filesController.deleteFile);
 

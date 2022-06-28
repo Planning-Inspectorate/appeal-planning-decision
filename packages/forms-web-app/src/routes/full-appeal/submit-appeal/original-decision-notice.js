@@ -1,8 +1,8 @@
 const express = require('express');
 const { documentTypes } = require('@pins/common');
 const {
-  getOriginalDecisionNotice,
-  postOriginalDecisionNotice,
+	getOriginalDecisionNotice,
+	postOriginalDecisionNotice
 } = require('../../../controllers/full-appeal/submit-appeal/original-decision-notice');
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
@@ -14,18 +14,18 @@ const sectionName = 'planningApplicationDocumentsSection';
 const taskName = documentTypes.originalDecisionNotice.name;
 
 router.get(
-  '/submit-appeal/original-decision-notice',
-  [fetchExistingAppealMiddleware],
-  setSectionAndTaskNames(sectionName, taskName),
-  getOriginalDecisionNotice
+	'/submit-appeal/original-decision-notice',
+	[fetchExistingAppealMiddleware],
+	setSectionAndTaskNames(sectionName, taskName),
+	getOriginalDecisionNotice
 );
 
 router.post(
-  '/submit-appeal/original-decision-notice',
-  setSectionAndTaskNames(sectionName, taskName),
-  fileUploadValidationRules('Select the decision notice from your original planning application'),
-  validationErrorHandler,
-  postOriginalDecisionNotice
+	'/submit-appeal/original-decision-notice',
+	setSectionAndTaskNames(sectionName, taskName),
+	fileUploadValidationRules('Select the decision notice from your original planning application'),
+	validationErrorHandler,
+	postOriginalDecisionNotice
 );
 
 module.exports = router;

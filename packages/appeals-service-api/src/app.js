@@ -16,15 +16,15 @@ prometheus.init(app);
 app.use(bodyParser.json());
 
 app
-  .use(
-    pinoExpress({
-      logger,
-      genReqId: (req) => req.headers['x-correlation-id'] || uuid.v4(),
-    })
-  )
-  .use(bodyParser.json())
-  .use(compression()) /* gzip compression */
-  .use('/', routes)
-  .use(apiErrorHandler);
+	.use(
+		pinoExpress({
+			logger,
+			genReqId: (req) => req.headers['x-correlation-id'] || uuid.v4()
+		})
+	)
+	.use(bodyParser.json())
+	.use(compression()) /* gzip compression */
+	.use('/', routes)
+	.use(apiErrorHandler);
 
 module.exports = app;

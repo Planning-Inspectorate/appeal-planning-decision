@@ -13,113 +13,113 @@ const sectionName = 'contactDetailsSection';
 const taskName = 'appealingOnBehalfOf';
 
 describe('controllers/full-appeal/submit-appeal/applicant-name', () => {
-  let req;
-  let res;
+	let req;
+	let res;
 
-  beforeEach(() => {
-    req = mockReq(appeal);
-    res = mockRes();
+	beforeEach(() => {
+		req = mockReq(appeal);
+		res = mockRes();
 
-    jest.resetAllMocks();
-  });
+		jest.resetAllMocks();
+	});
 
-  describe('getApplicantName', () => {
-    it('should call the correct template', () => {
-      applicantNameController.getApplicantName(req, res);
+	describe('getApplicantName', () => {
+		it('should call the correct template', () => {
+			applicantNameController.getApplicantName(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPLICANT_NAME, {
-        appeal: req.session.appeal,
-      });
-    });
-  });
+			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPLICANT_NAME, {
+				appeal: req.session.appeal
+			});
+		});
+	});
 
-  describe('postApplicantName', () => {
-    it('should re-render the template with errors if there is any validator error', async () => {
-      const fakeBehalfAppellantName = 'Jim Jacobson';
-      const mockRequest = {
-        ...req,
-        body: {
-          'behalf-appellant-name': fakeBehalfAppellantName,
-          errors: { a: 'b' },
-          errorSummary: [{ text: 'There were errors here', href: '#' }],
-        },
-      };
+	describe('postApplicantName', () => {
+		it('should re-render the template with errors if there is any validator error', async () => {
+			const fakeBehalfAppellantName = 'Jim Jacobson';
+			const mockRequest = {
+				...req,
+				body: {
+					'behalf-appellant-name': fakeBehalfAppellantName,
+					errors: { a: 'b' },
+					errorSummary: [{ text: 'There were errors here', href: '#' }]
+				}
+			};
 
-      await applicantNameController.postApplicantName(mockRequest, res);
+			await applicantNameController.postApplicantName(mockRequest, res);
 
-      expect(res.redirect).not.toHaveBeenCalled();
+			expect(res.redirect).not.toHaveBeenCalled();
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPLICANT_NAME, {
-        appeal: {
-          ...req.session.appeal,
-          [sectionName]: {
-            ...req.session.appeal[sectionName],
-            [taskName]: {
-              name: fakeBehalfAppellantName,
-            },
-          },
-        },
-        errorSummary: [{ text: 'There were errors here', href: '#' }],
-        errors: { a: 'b' },
-      });
-    });
+			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPLICANT_NAME, {
+				appeal: {
+					...req.session.appeal,
+					[sectionName]: {
+						...req.session.appeal[sectionName],
+						[taskName]: {
+							name: fakeBehalfAppellantName
+						}
+					}
+				},
+				errorSummary: [{ text: 'There were errors here', href: '#' }],
+				errors: { a: 'b' }
+			});
+		});
 
-    it('should re-render the template with errors if there is any api call error', async () => {
-      const mockRequest = {
-        ...req,
-        body: {},
-      };
+		it('should re-render the template with errors if there is any api call error', async () => {
+			const mockRequest = {
+				...req,
+				body: {}
+			};
 
-      const error = new Error('Cheers');
-      createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
+			const error = new Error('Cheers');
+			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-      await applicantNameController.postApplicantName(mockRequest, res);
+			await applicantNameController.postApplicantName(mockRequest, res);
 
-      expect(res.redirect).not.toHaveBeenCalled();
+			expect(res.redirect).not.toHaveBeenCalled();
 
-      expect(logger.error).toHaveBeenCalledWith(error);
+			expect(logger.error).toHaveBeenCalledWith(error);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPLICANT_NAME, {
-        appeal: req.session.appeal,
-        errors: {},
-        errorSummary: [{ text: error.toString(), href: '#' }],
-      });
-    });
+			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPLICANT_NAME, {
+				appeal: req.session.appeal,
+				errors: {},
+				errorSummary: [{ text: error.toString(), href: '#' }]
+			});
+		});
 
-    it('should redirect to the task list if valid', async () => {
-      const fakeBehalfAppellantName = 'Jim Jacobson';
-      const fakeCompanyName = 'Test Company';
-      const fakeTaskStatus = 'COMPLETED';
+		it('should redirect to the task list if valid', async () => {
+			const fakeBehalfAppellantName = 'Jim Jacobson';
+			const fakeCompanyName = 'Test Company';
+			const fakeTaskStatus = 'COMPLETED';
 
-      const mockRequest = {
-        ...req,
-        body: {
-          'behalf-appellant-name': 'Jim Jacobson',
-          'company-name': fakeCompanyName,
-        },
-      };
+			const mockRequest = {
+				...req,
+				body: {
+					'behalf-appellant-name': 'Jim Jacobson',
+					'company-name': fakeCompanyName
+				}
+			};
 
-      await applicantNameController.postApplicantName(mockRequest, res);
+			await applicantNameController.postApplicantName(mockRequest, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        ...appeal,
-        [sectionName]: {
-          ...appeal[sectionName],
-          [taskName]: {
-            name: fakeBehalfAppellantName,
-            companyName: fakeCompanyName,
-          },
-        },
-        sectionStates: {
-          ...appeal.sectionStates,
-          [sectionName]: {
-            ...appeal.sectionStates[sectionName],
-            [taskName]: fakeTaskStatus,
-          },
-        },
-      });
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+				...appeal,
+				[sectionName]: {
+					...appeal[sectionName],
+					[taskName]: {
+						name: fakeBehalfAppellantName,
+						companyName: fakeCompanyName
+					}
+				},
+				sectionStates: {
+					...appeal.sectionStates,
+					[sectionName]: {
+						...appeal.sectionStates[sectionName],
+						[taskName]: fakeTaskStatus
+					}
+				}
+			});
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.CONTACT_DETAILS}`);
-    });
-  });
+			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.CONTACT_DETAILS}`);
+		});
+	});
 });

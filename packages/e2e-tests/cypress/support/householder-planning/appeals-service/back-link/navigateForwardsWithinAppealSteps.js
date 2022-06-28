@@ -9,18 +9,18 @@ import { answerCanSeeTheWholeAppeal } from '../appeal-submission-access-to-appea
 import { answerSiteHasNoIssues } from '../appeal-submission-site-health-and-safety-issues/answerSiteHasNoIssues';
 
 export const navigateForwardsWithinAppealSteps = () => {
-  provideAddressLine1('1 Taylor Road');
-  provideAddressLine2('Clifton');
-  provideTownOrCity('Bristol');
-  provideCounty('South Glos');
-  providePostcode('BS8 1TG');
-  clickSaveAndContinue();
+	provideAddressLine1('1 Taylor Road');
+	provideAddressLine2('Clifton');
+	provideTownOrCity('Bristol');
+	provideCounty('South Glos');
+	providePostcode('BS8 1TG');
+	clickSaveAndContinue();
 
-  answerOwnsTheWholeAppeal();
-  clickSaveAndContinue();
+	answerOwnsTheWholeAppeal();
+	clickSaveAndContinue();
 
-  answerCanSeeTheWholeAppeal();
-  clickSaveAndContinue();
+	answerCanSeeTheWholeAppeal();
+	clickSaveAndContinue();
 
-  answerSiteHasNoIssues();
+	answerSiteHasNoIssues();
 };

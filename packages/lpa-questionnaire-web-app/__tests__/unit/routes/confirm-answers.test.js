@@ -6,20 +6,20 @@ const fetchExistingAppealReplyMiddleware = require('../../../src/middleware/comm
 const alreadySubmittedMiddleware = require('../../../src/middleware/already-submitted');
 
 describe('routes/confirm-answers', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../src/routes/confirm-answers');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../src/routes/confirm-answers');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith(
-      `/appeal-questionnaire/:id/${VIEW.CONFIRM_ANSWERS}`,
-      [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
-      confirmAnswersController
-    );
-  });
+	it('should define the expected routes', () => {
+		expect(get).toHaveBeenCalledWith(
+			`/appeal-questionnaire/:id/${VIEW.CONFIRM_ANSWERS}`,
+			[fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+			confirmAnswersController
+		);
+	});
 });

@@ -5,13 +5,13 @@ const logger = require('./lib/logger');
 const app = require('./app');
 
 const {
-  server: { port },
+	server: { port }
 } = config;
 
 module.exports = () => {
-  const server = http.createServer(app);
+	const server = http.createServer(app);
 
-  server.listen(port, () => {
-    logger.info({ config }, 'Listening');
-  });
+	server.listen(port, () => {
+		logger.info({ config }, 'Listening');
+	});
 };

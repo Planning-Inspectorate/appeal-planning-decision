@@ -10,14 +10,14 @@ const fileUploadCompletion = require('./file-upload');
 const supplementaryPlanningDocumentsCompletion = require('./supplementary-planning-documents');
 
 module.exports = {
-  accuracySubmissionCompletion,
-  extraConditionsCompletion,
-  healthSafetyCompletion,
-  otherAppealsCompletion,
-  developmentPlanCompletion,
-  uploadPlansCompletion,
-  officersReportCompletion,
-  booleanCompletion,
-  fileUploadCompletion,
-  supplementaryPlanningDocumentsCompletion,
+	accuracySubmissionCompletion,
+	extraConditionsCompletion,
+	healthSafetyCompletion,
+	otherAppealsCompletion,
+	developmentPlanCompletion,
+	uploadPlansCompletion,
+	officersReportCompletion,
+	booleanCompletion,
+	fileUploadCompletion,
+	supplementaryPlanningDocumentsCompletion
 };

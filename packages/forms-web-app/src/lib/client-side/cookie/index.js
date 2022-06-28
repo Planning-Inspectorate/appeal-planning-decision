@@ -5,15 +5,15 @@ const { cookieConsentHandler } = require('./cookie-consent');
 const noOp = () => {};
 
 const initialiseCookieConsent = (document) => {
-  const cookie = readCookie(document, cookieConfig.COOKIE_POLICY_KEY);
+	const cookie = readCookie(document, cookieConfig.COOKIE_POLICY_KEY);
 
-  if (cookie === null) {
-    return cookieConsentHandler(document);
-  }
+	if (cookie === null) {
+		return cookieConsentHandler(document);
+	}
 
-  return noOp();
+	return noOp();
 };
 
 module.exports = {
-  initialiseCookieConsent,
+	initialiseCookieConsent
 };

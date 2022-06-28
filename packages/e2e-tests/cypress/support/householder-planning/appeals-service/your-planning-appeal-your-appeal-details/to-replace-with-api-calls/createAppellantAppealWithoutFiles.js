@@ -5,14 +5,14 @@ import { agreeToTheDeclaration } from '../../appellant-confirms-declaration/agre
 import { confirmAppealSubmitted } from '../../appellant-confirms-declaration/confirmAppealSubmitted';
 import { STANDARD_APPEAL } from '../../../../../integration/common/householder-planning/appeals-service/standard-appeal';
 export const createAppellantAppealWithoutFiles = () => {
-  provideCompleteAppeal(STANDARD_APPEAL);
-  clickCheckYourAnswers();
-  clickSaveAndContinue();
-  agreeToTheDeclaration();
-  confirmAppealSubmitted();
+	provideCompleteAppeal(STANDARD_APPEAL);
+	clickCheckYourAnswers();
+	clickSaveAndContinue();
+	agreeToTheDeclaration();
+	confirmAppealSubmitted();
 
-  cy.get('[data-cy="submission-information-appeal-id"]')
-    .should('not.be.visible')
-    .invoke('val')
-    .as('appellantAppealWithoutFilesAppealId');
+	cy.get('[data-cy="submission-information-appeal-id"]')
+		.should('not.be.visible')
+		.invoke('val')
+		.as('appellantAppealWithoutFilesAppealId');
 };

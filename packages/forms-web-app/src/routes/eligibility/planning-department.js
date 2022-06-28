@@ -4,26 +4,26 @@ const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-a
 const planningDepartmentController = require('../../controllers/eligibility/planning-department');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const {
-  rules: planningDepartmentValidationRules,
+	rules: planningDepartmentValidationRules
 } = require('../../validators/eligibility/planning-department');
 
 const router = express.Router();
 
 router.get(
-  '/planning-department',
-  [fetchExistingAppealMiddleware],
-  planningDepartmentController.getPlanningDepartment
+	'/planning-department',
+	[fetchExistingAppealMiddleware],
+	planningDepartmentController.getPlanningDepartment
 );
 router.get(
-  '/planning-department-out',
-  [fetchExistingAppealMiddleware],
-  planningDepartmentController.getPlanningDepartmentOut
+	'/planning-department-out',
+	[fetchExistingAppealMiddleware],
+	planningDepartmentController.getPlanningDepartmentOut
 );
 router.post(
-  '/planning-department',
-  planningDepartmentValidationRules(),
-  validationErrorHandler,
-  planningDepartmentController.postPlanningDepartment
+	'/planning-department',
+	planningDepartmentValidationRules(),
+	validationErrorHandler,
+	planningDepartmentController.postPlanningDepartment
 );
 
 module.exports = router;

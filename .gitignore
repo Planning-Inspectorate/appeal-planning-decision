@@ -177,4 +177,8 @@ packages/**/src/public/javascripts
 build
 
 # Jest
-**/junit.xml
+jest-reports
+junit.xml
+
+# CI
+.release-version

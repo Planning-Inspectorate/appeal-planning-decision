@@ -1,24 +1,24 @@
 Cypress.Commands.add(
-  'confirmBodyContentWithJavaScriptEnabled',
-  require('./confirmBodyContentWithJavaScriptEnabled'),
+	'confirmBodyContentWithJavaScriptEnabled',
+	require('./confirmBodyContentWithJavaScriptEnabled')
 );
 
 Cypress.Commands.add(
-  'confirmBodyContentWithoutJavaScriptEnabled',
-  require('./confirmBodyContentWithoutJavaScriptEnabled'),
+	'confirmBodyContentWithoutJavaScriptEnabled',
+	require('./confirmBodyContentWithoutJavaScriptEnabled')
 );
 
 Cypress.Commands.add(
-  'confirmGenericPageContentExists',
-  require('./confirmGenericPageContentExists'),
+	'confirmGenericPageContentExists',
+	require('./confirmGenericPageContentExists')
 );
 
 Cypress.Commands.add(
-  'confirmPageHeadingWithJavaScriptEnabled',
-  require('./confirmPageHeadingWithJavaScriptEnabled'),
+	'confirmPageHeadingWithJavaScriptEnabled',
+	require('./confirmPageHeadingWithJavaScriptEnabled')
 );
 
 Cypress.Commands.add(
-  'confirmPageHeadingWithoutJavaScriptEnabled',
-  require('./confirmPageHeadingWithoutJavaScriptEnabled'),
+	'confirmPageHeadingWithoutJavaScriptEnabled',
+	require('./confirmPageHeadingWithoutJavaScriptEnabled')
 );

@@ -1,9 +1,9 @@
 const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
-  VIEW: {
-    FULL_APPEAL: { PLANS_DRAWINGS_DOCUMENTS, PROPOSED_DEVELOPMENT_CHANGED },
-  },
+	VIEW: {
+		FULL_APPEAL: { PLANS_DRAWINGS_DOCUMENTS, PROPOSED_DEVELOPMENT_CHANGED }
+	}
 } = require('../../../lib/full-appeal/views');
 const { COMPLETED } = require('../../../services/task-status/task-statuses');
 
@@ -11,52 +11,51 @@ const sectionName = 'planningApplicationDocumentsSection';
 const taskName = 'descriptionDevelopmentCorrect';
 
 const getProposedDevelopmentChanged = (req, res) => {
-  const { descriptionDevelopmentCorrect } = req.session.appeal[sectionName];
-  res.render(PROPOSED_DEVELOPMENT_CHANGED, {
-    descriptionDevelopmentCorrect,
-  });
+	const { descriptionDevelopmentCorrect } = req.session.appeal[sectionName];
+	res.render(PROPOSED_DEVELOPMENT_CHANGED, {
+		descriptionDevelopmentCorrect
+	});
 };
 
 const postProposedDevelopmentChanged = async (req, res) => {
-  const { body } = req;
-  const { errors = {}, errorSummary = [] } = body;
-  const { appeal } = req.session;
+	const { body } = req;
+	const { errors = {}, errorSummary = [] } = body;
+	const { appeal } = req.session;
 
-  const descriptionDevelopmentCorrect = {
-    isCorrect:
-      body['description-development-correct'] === 'yes',
-    details:
-      body['description-development-correct'] === 'no'
-        ? body['description-development-correct-details']
-        : '',
-  };
+	const descriptionDevelopmentCorrect = {
+		isCorrect: body['description-development-correct'] === 'yes',
+		details:
+			body['description-development-correct'] === 'no'
+				? body['description-development-correct-details']
+				: ''
+	};
 
-  if (Object.keys(errors).length > 0) {
-    return res.render(PROPOSED_DEVELOPMENT_CHANGED, {
-      descriptionDevelopmentCorrect,
-      errors,
-      errorSummary,
-    });
-  }
+	if (Object.keys(errors).length > 0) {
+		return res.render(PROPOSED_DEVELOPMENT_CHANGED, {
+			descriptionDevelopmentCorrect,
+			errors,
+			errorSummary
+		});
+	}
 
-  try {
-    appeal.sectionStates[sectionName][taskName] = COMPLETED;
-    appeal[sectionName][taskName] = descriptionDevelopmentCorrect;
-    req.session.appeal = await createOrUpdateAppeal(appeal);
-  } catch (err) {
-    logger.error(err);
+	try {
+		appeal.sectionStates[sectionName][taskName] = COMPLETED;
+		appeal[sectionName][taskName] = descriptionDevelopmentCorrect;
+		req.session.appeal = await createOrUpdateAppeal(appeal);
+	} catch (err) {
+		logger.error(err);
 
-    return res.render(PROPOSED_DEVELOPMENT_CHANGED, {
-      descriptionDevelopmentCorrect,
-      errors,
-      errorSummary: [{ text: err.toString(), href: '#' }],
-    });
-  }
+		return res.render(PROPOSED_DEVELOPMENT_CHANGED, {
+			descriptionDevelopmentCorrect,
+			errors,
+			errorSummary: [{ text: err.toString(), href: '#' }]
+		});
+	}
 
-  return res.redirect(`/${PLANS_DRAWINGS_DOCUMENTS}`);
+	return res.redirect(`/${PLANS_DRAWINGS_DOCUMENTS}`);
 };
 
 module.exports = {
-  getProposedDevelopmentChanged,
-  postProposedDevelopmentChanged,
+	getProposedDevelopmentChanged,
+	postProposedDevelopmentChanged
 };

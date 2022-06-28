@@ -24,14 +24,14 @@ const app = express();
 prometheus.init(app);
 
 app.use(
-  pinoExpress({
-    logger,
-    genReqId: () => uuid.v4(),
-  })
+	pinoExpress({
+		logger,
+		genReqId: () => uuid.v4()
+	})
 );
 
 if (config.server.useSecureSessionCookie) {
-  app.set('trust proxy', 1); // trust first proxy
+	app.set('trust proxy', 1); // trust first proxy
 }
 
 app.use(compression());
@@ -44,23 +44,23 @@ app.use(session(sessionConfig()));
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(
-  '/assets',
-  express.static(path.join(__dirname, '..', 'node_modules', 'accessible-autocomplete', 'dist')),
-  express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'assets'))
+	'/assets',
+	express.static(path.join(__dirname, '..', 'node_modules', 'accessible-autocomplete', 'dist')),
+	express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'assets'))
 );
 app.use(
-  '/assets/govuk/all.js',
-  express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'all.js'))
+	'/assets/govuk/all.js',
+	express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'all.js'))
 );
 app.use(
-  '/assets/moj/all.js',
-  express.static(
-    path.join(__dirname, '..', 'node_modules', '@ministryofjustice', 'frontend', 'moj', 'all.js')
-  )
+	'/assets/moj/all.js',
+	express.static(
+		path.join(__dirname, '..', 'node_modules', '@ministryofjustice', 'frontend', 'moj', 'all.js')
+	)
 );
 app.use(
-  '/assets/jquery/jquery.min.js',
-  express.static(path.join(__dirname, '..', 'node_modules', 'jquery', 'dist', 'jquery.min.js'))
+	'/assets/jquery/jquery.min.js',
+	express.static(path.join(__dirname, '..', 'node_modules', 'jquery', 'dist', 'jquery.min.js'))
 );
 app.use(fileUpload(config.fileUpload));
 
@@ -72,33 +72,33 @@ app.set('view engine', 'njk');
 
 // Error handling
 app
-  .use((req, res, next) => {
-    res.status(404).render(VIEW.ERROR.NOT_FOUND);
-    next();
-  })
-  .use((err, req, res, next) => {
-    logger.error({ err }, 'Unhandled exception');
+	.use((req, res, next) => {
+		res.status(404).render(VIEW.ERROR.NOT_FOUND);
+		next();
+	})
+	.use((err, req, res, next) => {
+		logger.error({ err }, 'Unhandled exception');
 
-    res.status(500).render(VIEW.ERROR.UNHANDLED_EXCEPTION, {
-      backLink: req.session.backLink,
-    });
-    next();
-  });
+		res.status(500).render(VIEW.ERROR.UNHANDLED_EXCEPTION, {
+			backLink: req.session.backLink
+		});
+		next();
+	});
 
 const isDev = app.get('env') === 'development';
 
 const nunjucksConfig = {
-  autoescape: true,
-  noCache: true,
-  watch: isDev,
-  express: app,
+	autoescape: true,
+	noCache: true,
+	watch: isDev,
+	express: app
 };
 
 const viewPaths = [
-  path.join(__dirname, '..', 'node_modules', 'govuk-frontend'),
-  path.join(__dirname, '..', 'node_modules', '@ministryofjustice', 'frontend'),
-  path.join(__dirname, '..', 'node_modules', '@pins', 'common', 'src', 'frontend'),
-  path.join(__dirname, 'views'),
+	path.join(__dirname, '..', 'node_modules', 'govuk-frontend'),
+	path.join(__dirname, '..', 'node_modules', '@ministryofjustice', 'frontend'),
+	path.join(__dirname, '..', 'node_modules', '@pins', 'common', 'src', 'frontend'),
+	path.join(__dirname, 'views')
 ];
 
 const env = nunjucks.configure(viewPaths, nunjucksConfig);

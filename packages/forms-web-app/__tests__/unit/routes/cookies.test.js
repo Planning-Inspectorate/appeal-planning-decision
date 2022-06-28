@@ -6,22 +6,22 @@ const { rules: cookieValidationRules } = require('../../../src/validators/cookie
 jest.mock('../../../src/validators/cookies');
 
 describe('routes/cookie', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../src/routes/cookies');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../src/routes/cookies');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith('/', cookiesController.getCookies);
-    expect(post).toHaveBeenCalledWith(
-      '/',
-      cookieValidationRules(),
-      validationErrorHandler,
-      cookiesController.postCookies
-    );
-  });
+	it('should define the expected routes', () => {
+		expect(get).toHaveBeenCalledWith('/', cookiesController.getCookies);
+		expect(post).toHaveBeenCalledWith(
+			'/',
+			cookieValidationRules(),
+			validationErrorHandler,
+			cookiesController.postCookies
+		);
+	});
 });

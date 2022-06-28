@@ -17,64 +17,64 @@ jest.mock('../../../src/middleware/req-files-to-req-body-files');
 jest.mock('../../../src/validators/supplementary-documents');
 
 describe('routes/supplementary-documents', () => {
-  describe('router', () => {
-    beforeEach(() => {
-      // eslint-disable-next-line global-require
-      require('../../../src/routes/supplementary-documents');
-    });
+	describe('router', () => {
+		beforeEach(() => {
+			// eslint-disable-next-line global-require
+			require('../../../src/routes/supplementary-documents');
+		});
 
-    afterEach(() => {
-      jest.resetAllMocks();
-    });
+		afterEach(() => {
+			jest.resetAllMocks();
+		});
 
-    it('should define the expected routes', () => {
-      // eslint-disable-next-line global-require
-      const { getConfig } = require('../../../src/routes/supplementary-documents');
+		it('should define the expected routes', () => {
+			// eslint-disable-next-line global-require
+			const { getConfig } = require('../../../src/routes/supplementary-documents');
 
-      expect(get).toHaveBeenCalledWith(
-        '/appeal-questionnaire/:id/supplementary-documents',
-        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
-        supplementaryDocumentsController.getAddDocument
-      );
+			expect(get).toHaveBeenCalledWith(
+				'/appeal-questionnaire/:id/supplementary-documents',
+				[fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+				supplementaryDocumentsController.getAddDocument
+			);
 
-      expect(post).toHaveBeenCalledWith(
-        '/appeal-questionnaire/:id/supplementary-documents',
-        reqFilesToReqBodyFilesMiddleware('documents'),
-        combineDateInputsMiddleware,
-        supplementaryDocumentsValidationRules(),
-        validationErrorHandler,
-        getConfig,
-        supplementaryDocumentsController.postAddDocument
-      );
+			expect(post).toHaveBeenCalledWith(
+				'/appeal-questionnaire/:id/supplementary-documents',
+				reqFilesToReqBodyFilesMiddleware('documents'),
+				combineDateInputsMiddleware,
+				supplementaryDocumentsValidationRules(),
+				validationErrorHandler,
+				getConfig,
+				supplementaryDocumentsController.postAddDocument
+			);
 
-      expect(get).toHaveBeenCalledWith(
-        '/appeal-questionnaire/:id/supplementary-documents/uploaded-documents',
-        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
-        checkIfSupplementaryDocuments,
-        uploadedDocumentsController.getUploadedDocuments
-      );
+			expect(get).toHaveBeenCalledWith(
+				'/appeal-questionnaire/:id/supplementary-documents/uploaded-documents',
+				[fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+				checkIfSupplementaryDocuments,
+				uploadedDocumentsController.getUploadedDocuments
+			);
 
-      expect(get).toHaveBeenCalledWith(
-        '/appeal-questionnaire/:id/supplementary-documents/delete-document',
-        [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
-        deleteSupplementaryDocumentController.getDeleteDocument
-      );
-    });
-  });
+			expect(get).toHaveBeenCalledWith(
+				'/appeal-questionnaire/:id/supplementary-documents/delete-document',
+				[fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+				deleteSupplementaryDocumentController.getDeleteDocument
+			);
+		});
+	});
 
-  describe('getConfig', () => {
-    it('should define the expected config', () => {
-      // eslint-disable-next-line global-require
-      const { getConfig } = require('../../../src/routes/supplementary-documents');
+	describe('getConfig', () => {
+		it('should define the expected config', () => {
+			// eslint-disable-next-line global-require
+			const { getConfig } = require('../../../src/routes/supplementary-documents');
 
-      const req = mockReq();
-      const res = mockRes();
-      const next = jest.fn();
+			const req = mockReq();
+			const res = mockRes();
+			const next = jest.fn();
 
-      getConfig(req, res, next);
+			getConfig(req, res, next);
 
-      expect(next).toHaveBeenCalled();
-      expect(req.documentType).toEqual(documentTypes.supplementaryDocuments.name);
-    });
-  });
+			expect(next).toHaveBeenCalled();
+			expect(req.documentType).toEqual(documentTypes.supplementaryDocuments.name);
+		});
+	});
 });

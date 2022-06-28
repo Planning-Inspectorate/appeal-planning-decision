@@ -32,26 +32,26 @@ const app = express();
 prometheus.init(app);
 
 app.use(
-  pinoExpress({
-    logger,
-    genReqId: () => uuid.v4(),
-  })
+	pinoExpress({
+		logger,
+		genReqId: () => uuid.v4()
+	})
 );
 
 const isDev = app.get('env') === 'development';
 
 const nunjucksConfig = {
-  autoescape: true,
-  noCache: true,
-  watch: isDev,
-  express: app,
+	autoescape: true,
+	noCache: true,
+	watch: isDev,
+	express: app
 };
 
 const viewPaths = [
-  path.join(__dirname, '..', 'node_modules', 'govuk-frontend'),
-  path.join(__dirname, '..', 'node_modules', '@ministryofjustice', 'frontend'),
-  path.join(__dirname, '..', 'node_modules', '@pins', 'common', 'src', 'frontend'),
-  path.join(__dirname, 'views'),
+	path.join(__dirname, '..', 'node_modules', 'govuk-frontend'),
+	path.join(__dirname, '..', 'node_modules', '@ministryofjustice', 'frontend'),
+	path.join(__dirname, '..', 'node_modules', '@pins', 'common', 'src', 'frontend'),
+	path.join(__dirname, 'views')
 ];
 
 const env = nunjucks.configure(viewPaths, nunjucksConfig);
@@ -70,7 +70,7 @@ env.addGlobal('googleTagManagerId', config.server.googleTagManagerId);
 env.addGlobal('featureFlag', config.featureFlag);
 
 if (config.server.useSecureSessionCookie) {
-  app.set('trust proxy', 1); // trust first proxy
+	app.set('trust proxy', 1); // trust first proxy
 }
 
 app.use(compression());
@@ -83,13 +83,13 @@ app.use(session(sessionConfig()));
 app.use(removeUnwantedCookiesMiddelware);
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(
-  '/assets',
-  express.static(path.join(__dirname, '..', 'node_modules', 'accessible-autocomplete', 'dist')),
-  express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'assets'))
+	'/assets',
+	express.static(path.join(__dirname, '..', 'node_modules', 'accessible-autocomplete', 'dist')),
+	express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'assets'))
 );
 app.use(
-  '/assets/govuk/all.js',
-  express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'all.js'))
+	'/assets/govuk/all.js',
+	express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'all.js'))
 );
 app.use(fileUpload(config.fileUpload));
 app.use(flashMessageCleanupMiddleware);
@@ -108,15 +108,15 @@ app.set('subdomain offset', config.server.subdomainOffset);
 
 // Error handling
 app
-  .use((req, res, next) => {
-    res.status(404).render('error/not-found');
-    next();
-  })
-  .use((err, req, res, next) => {
-    logger.error({ err }, 'Unhandled exception');
+	.use((req, res, next) => {
+		res.status(404).render('error/not-found');
+		next();
+	})
+	.use((err, req, res, next) => {
+		logger.error({ err }, 'Unhandled exception');
 
-    res.status(500).render('error/unhandled-exception');
-    next();
-  });
+		res.status(500).render('error/unhandled-exception');
+		next();
+	});
 
 module.exports = app;

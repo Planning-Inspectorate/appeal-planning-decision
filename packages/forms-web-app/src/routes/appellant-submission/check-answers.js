@@ -6,9 +6,9 @@ const checkAnswersController = require('../../controllers/appellant-submission/c
 const router = express.Router();
 
 router.get(
-  '/check-answers',
-  [fetchExistingAppealMiddleware],
-  checkAnswersController.getCheckAnswers
+	'/check-answers',
+	[fetchExistingAppealMiddleware],
+	checkAnswersController.getCheckAnswers
 );
 
 module.exports = router;

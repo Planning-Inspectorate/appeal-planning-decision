@@ -1,3 +1,3 @@
 export const confirmAcceptedCookieBannerVisible = () => {
-  cy.get(`[data-cy="cookie-banner-accepted"]`)
+	cy.get(`[data-cy="cookie-banner-accepted"]`);
 };

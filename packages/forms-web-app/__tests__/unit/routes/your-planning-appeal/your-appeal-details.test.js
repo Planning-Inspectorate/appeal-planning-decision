@@ -9,24 +9,24 @@ jest.mock('../../../../src/lib/get-your-planning-appeal-link');
 jest.mock('../../../../src/middleware/set-back-link-from-appeal');
 
 describe('routes/your-planning-appeal/your-appeal-details', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../../src/routes/your-planning-appeal/your-appeal-details');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../../src/routes/your-planning-appeal/your-appeal-details');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith(
-      '/your-appeal-details',
-      [
-        ensureAppealIsAvailableMiddleware,
-        fetchAppealLpdByAppealLpaCodeMiddleware,
-        setBackLinkFromAppealMiddleware(getYourPlanningAppealLink),
-      ],
-      yourAppealDetailsController.getYourAppealDetails
-    );
-  });
+	it('should define the expected routes', () => {
+		expect(get).toHaveBeenCalledWith(
+			'/your-appeal-details',
+			[
+				ensureAppealIsAvailableMiddleware,
+				fetchAppealLpdByAppealLpaCodeMiddleware,
+				setBackLinkFromAppealMiddleware(getYourPlanningAppealLink)
+			],
+			yourAppealDetailsController.getYourAppealDetails
+		);
+	});
 });

@@ -4,8 +4,8 @@ const { createDocument } = require('./documents-api-wrapper');
 const suffixes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
 exports.fileSizeDisplayHelper = (bytes) => {
-  const i = Math.floor(Math.log(bytes) / Math.log(1000));
-  return (!bytes && '0 Bytes') || `${(bytes / 1000 ** i).toFixed()} ${suffixes[i]}`;
+	const i = Math.floor(Math.log(bytes) / Math.log(1000));
+	return (!bytes && '0 Bytes') || `${(bytes / 1000 ** i).toFixed()} ${suffixes[i]}`;
 };
 
 exports.MIME_TYPE_DOC = 'application/msword';
@@ -26,33 +26,33 @@ exports.MIME_TYPE_PNG = 'image/png';
  * @returns errorSummary array
  */
 exports.fileErrorSummary = (inputError, files, inputName = 'documents') => {
-  return [
-    ...(inputError
-      ? [
-          {
-            href: `#${inputName}`,
-            text: inputError,
-          },
-        ]
-      : []),
-    ...(Array.isArray(files) && files.length
-      ? files.reduce((errorsOutput, file) => {
-          if (file.error) {
-            const errorObject = {};
-            if (file.name) {
-              errorObject.href = `#${file.name}`;
-            }
-            errorObject.text = file.error;
-            errorsOutput.push(errorObject);
-          }
-          return errorsOutput;
-        }, [])
-      : []),
-  ];
+	return [
+		...(inputError
+			? [
+					{
+						href: `#${inputName}`,
+						text: inputError
+					}
+			  ]
+			: []),
+		...(Array.isArray(files) && files.length
+			? files.reduce((errorsOutput, file) => {
+					if (file.error) {
+						const errorObject = {};
+						if (file.name) {
+							errorObject.href = `#${file.name}`;
+						}
+						errorObject.text = file.error;
+						errorsOutput.push(errorObject);
+					}
+					return errorsOutput;
+			  }, [])
+			: [])
+	];
 };
 
 const getErrorHtml = (error, name) => {
-  return `<span class="moj-multi-file-upload__error" id="${name}">
+	return `<span class="moj-multi-file-upload__error" id="${name}">
       <svg class="moj-banner__icon" fill="currentColor" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" height="25" width="25">
         <path d="M13.6,15.4h-2.3v-4.5h2.3V15.4z M13.6,19.8h-2.3v-2.2h2.3V19.8z M0,23.2h25L12.5,2L0,23.2z"/>
       </svg>
@@ -61,7 +61,7 @@ const getErrorHtml = (error, name) => {
 };
 
 const getSuccessHtml = (name) => {
-  return `<span class="moj-multi-file-upload__success">
+	return `<span class="moj-multi-file-upload__success">
       <svg class="moj-banner__icon" fill="currentColor" role="presentation" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" height="25" width="25">
         <path d="M25,6.2L8.7,23.2L0,14.1l4-4.2l4.7,4.9L21,2L25,6.2z"/>
       </svg>
@@ -70,23 +70,23 @@ const getSuccessHtml = (name) => {
 };
 
 exports.fileUploadNunjucksVariables = (errorMessage, errorSummary, files) => ({
-  errorMessage,
-  errorSummary,
-  ...(files && files.length
-    ? {
-        uploadedFiles: files.map((doc) => ({
-          deleteButton: {
-            text: 'Delete',
-          },
-          fileName: doc.id || doc.name,
-          originalFileName: doc.name,
-          message: {
-            html: doc.error ? getErrorHtml(doc.error, doc.name) : getSuccessHtml(doc.name),
-          },
-        })),
-        documentList: JSON.stringify(files).replace(/[[\]']+/g, ''),
-      }
-    : {}),
+	errorMessage,
+	errorSummary,
+	...(files && files.length
+		? {
+				uploadedFiles: files.map((doc) => ({
+					deleteButton: {
+						text: 'Delete'
+					},
+					fileName: doc.id || doc.name,
+					originalFileName: doc.name,
+					message: {
+						html: doc.error ? getErrorHtml(doc.error, doc.name) : getSuccessHtml(doc.name)
+					}
+				})),
+				documentList: JSON.stringify(files).replace(/[[\]']+/g, '')
+		  }
+		: {})
 });
 
 /**
@@ -97,32 +97,32 @@ exports.fileUploadNunjucksVariables = (errorMessage, errorSummary, files) => ({
  * @returns {Promise} array of files with IDs and data for DB
  */
 exports.uploadFiles = async (files, appealReplyId, documentType) => {
-  try {
-    return await Promise.all(
-      files.map(async (file) => {
-        // skip file if it has an error (keep it in array though)
-        const document =
-          file.id || file.error
-            ? file
-            : await createDocument(appealReplyId, file, null, documentType);
+	try {
+		return await Promise.all(
+			files.map(async (file) => {
+				// skip file if it has an error (keep it in array though)
+				const document =
+					file.id || file.error
+						? file
+						: await createDocument(appealReplyId, file, null, documentType);
 
-        // eslint-disable-next-line consistent-return
-        return {
-          id: document.id,
-          name: file.name,
-          message: {
-            text: file.name,
-          },
-          fileName: file.name,
-          error: file.error,
-          originalFileName: file.name,
-          // needed for Cypress testing
-          location: document.location,
-          size: document.size,
-        };
-      })
-    );
-  } catch (err) {
-    return err;
-  }
+				// eslint-disable-next-line consistent-return
+				return {
+					id: document.id,
+					name: file.name,
+					message: {
+						text: file.name
+					},
+					fileName: file.name,
+					error: file.error,
+					originalFileName: file.name,
+					// needed for Cypress testing
+					location: document.location,
+					size: document.size
+				};
+			})
+		);
+	} catch (err) {
+		return err;
+	}
 };

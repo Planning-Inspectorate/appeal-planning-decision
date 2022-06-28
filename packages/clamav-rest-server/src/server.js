@@ -8,10 +8,10 @@ const logger = require('./lib/logger');
 const app = require('./app');
 
 module.exports = () => {
-  const server = http.createServer(app);
-  healthChecks(server);
+	const server = http.createServer(app);
+	healthChecks(server);
 
-  server.listen(config.server.port, () => {
-    logger.info({ config }, 'Listening');
-  });
+	server.listen(config.server.port, () => {
+		logger.info({ config }, 'Listening');
+	});
 };

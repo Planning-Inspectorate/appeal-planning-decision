@@ -4,22 +4,22 @@ const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-a
 const siteOwnershipController = require('../../controllers/appellant-submission/site-ownership');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const {
-  rules: siteOwnershipValidationRules,
+	rules: siteOwnershipValidationRules
 } = require('../../validators/appellant-submission/site-ownership');
 
 const router = express.Router();
 
 router.get(
-  '/site-ownership',
-  [fetchExistingAppealMiddleware],
-  siteOwnershipController.getSiteOwnership
+	'/site-ownership',
+	[fetchExistingAppealMiddleware],
+	siteOwnershipController.getSiteOwnership
 );
 
 router.post(
-  '/site-ownership',
-  siteOwnershipValidationRules(),
-  validationErrorHandler,
-  siteOwnershipController.postSiteOwnership
+	'/site-ownership',
+	siteOwnershipValidationRules(),
+	validationErrorHandler,
+	siteOwnershipController.postSiteOwnership
 );
 
 module.exports = router;

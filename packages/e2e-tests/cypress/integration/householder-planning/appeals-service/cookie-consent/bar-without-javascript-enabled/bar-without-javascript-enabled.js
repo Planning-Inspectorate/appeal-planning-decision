@@ -5,18 +5,18 @@ import { viewCookiePageUsingCookieConsentBannerLink } from '../../../../../suppo
 import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAppealsPage';
 
 Given('a user visits the site with JavaScript disabled', () => {
-  goToAppealsPage('', { script: false });
+	goToAppealsPage('', { script: false });
 });
 
 When('the user navigates through the service', () => {
-  guidancePageNavigation('next');
-  userIsNavigatedToPage('/when-you-can-appeal');
+	guidancePageNavigation('next');
+	userIsNavigatedToPage('/when-you-can-appeal');
 });
 
 When('the user views the cookie preferences page', () => {
-  viewCookiePageUsingCookieConsentBannerLink();
+	viewCookiePageUsingCookieConsentBannerLink();
 });
 
 Then('the cookies page is presented', () => {
-  userIsNavigatedToPage('/cookies');
+	userIsNavigatedToPage('/cookies');
 });

@@ -5,15 +5,15 @@ const logger = require('../../../src/lib/logger');
 const healthchecks = require('../../../src/lib/healthchecks');
 
 describe('healthchecks', () => {
-  it('should configure the health checks', () => {
-    const server = jest.fn();
+	it('should configure the health checks', () => {
+		const server = jest.fn();
 
-    expect(healthchecks(server)).toBe(undefined);
+		expect(healthchecks(server)).toBe(undefined);
 
-    expect(common.healthcheck).toBeCalledWith({
-      server,
-      logger,
-      tasks: [],
-    });
-  });
+		expect(common.healthcheck).toBeCalledWith({
+			server,
+			logger,
+			tasks: []
+		});
+	});
 });

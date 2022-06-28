@@ -7,36 +7,36 @@ import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppea
 import { pageURLAppeal } from '../../../common/householder-planning/appeals-service/pageURLAppeal';
 
 Given('receipt of an Enforcement Notice is requested', () => {
-  goToAppealsPage(pageURLAppeal.goToEnforcementNoticePage);
+	goToAppealsPage(pageURLAppeal.goToEnforcementNoticePage);
 });
 
 When('receipt of an Enforcement Notice is not provided', () => {
-  provideEnforcementNoticeAnswer(undefined);
+	provideEnforcementNoticeAnswer(undefined);
 });
 
 When('the appellant has received an Enforcement Notice', () => {
-  provideEnforcementNoticeAnswer(true);
+	provideEnforcementNoticeAnswer(true);
 });
 
 When('the appellant has not received an Enforcement Notice', () => {
-  provideEnforcementNoticeAnswer(false);
+	provideEnforcementNoticeAnswer(false);
 });
 
 Then('progress is halted with a message that the Enforcement Notice question is required', () => {
-  confirmThatEnforcementNoticeAnswerIsRequired();
-  // cy.checkPageA11y({
-  //   // known issue: https://github.com/alphagov/govuk-frontend/issues/979
-  //   exclude: ['.govuk-radios__input'],
-  // });
+	confirmThatEnforcementNoticeAnswerIsRequired();
+	// cy.checkPageA11y({
+	//   // known issue: https://github.com/alphagov/govuk-frontend/issues/979
+	//   exclude: ['.govuk-radios__input'],
+	// });
 });
 
 Then(
-  'progress is halted with a message that this service is only for householder planning appeals',
-  () => {
-    confirmProgressHaltedAsServiceIsOnlyForHouseholderPlanningAppeals();
-  },
+	'progress is halted with a message that this service is only for householder planning appeals',
+	() => {
+		confirmProgressHaltedAsServiceIsOnlyForHouseholderPlanningAppeals();
+	}
 );
 
 Then('progress is made to the Listed Building eligibility question', () => {
-  confirmProgressIsMadeToListingBuildingEligibilityQuestion();
+	confirmProgressIsMadeToListingBuildingEligibilityQuestion();
 });

@@ -1,2 +1,0 @@
-List the installed functions with:
-  kubectl -n {{ .Release.Namespace }} get functions

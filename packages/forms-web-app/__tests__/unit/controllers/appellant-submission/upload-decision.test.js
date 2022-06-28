@@ -17,166 +17,166 @@ const sectionName = 'requiredDocumentsSection';
 const taskName = 'decisionLetter';
 
 describe('controllers/appellant-submission/upload-decision', () => {
-  let req;
-  let res;
+	let req;
+	let res;
 
-  beforeEach(() => {
-    req = mockReq(appeal);
-    res = mockRes();
+	beforeEach(() => {
+		req = mockReq(appeal);
+		res = mockRes();
 
-    jest.resetAllMocks();
-  });
+		jest.resetAllMocks();
+	});
 
-  describe('getUploadDecision', () => {
-    it('should call the correct template', () => {
-      uploadDecisionController.getUploadDecision(req, res);
+	describe('getUploadDecision', () => {
+		it('should call the correct template', () => {
+			uploadDecisionController.getUploadDecision(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
-        appeal: req.session.appeal,
-      });
-    });
-  });
+			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
+				appeal: req.session.appeal
+			});
+		});
+	});
 
-  describe('postUploadDecision', () => {
-    it('should re-render the template with errors if submission validation fails', async () => {
-      req = {
-        ...mockReq(appeal),
-        body: {
-          errors: { a: 'b' },
-          errorSummary: [{ text: 'There were errors here', href: '#' }],
-        },
-        files: {
-          'decision-upload': {},
-        },
-      };
-      await uploadDecisionController.postUploadDecision(req, res);
+	describe('postUploadDecision', () => {
+		it('should re-render the template with errors if submission validation fails', async () => {
+			req = {
+				...mockReq(appeal),
+				body: {
+					errors: { a: 'b' },
+					errorSummary: [{ text: 'There were errors here', href: '#' }]
+				},
+				files: {
+					'decision-upload': {}
+				}
+			};
+			await uploadDecisionController.postUploadDecision(req, res);
 
-      expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
-        appeal: req.session.appeal,
-        errorSummary: [{ text: 'There were errors here', href: '#' }],
-        errors: { a: 'b' },
-      });
-    });
+			expect(res.redirect).not.toHaveBeenCalled();
+			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
+				appeal: req.session.appeal,
+				errorSummary: [{ text: 'There were errors here', href: '#' }],
+				errors: { a: 'b' }
+			});
+		});
 
-    it('should log an error if the api call fails, and remain on the same page', async () => {
-      const error = new Error('API is down');
-      createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
+		it('should log an error if the api call fails, and remain on the same page', async () => {
+			const error = new Error('API is down');
+			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-      req = {
-        ...mockReq(appeal),
-        body: {},
-        files: {},
-      };
+			req = {
+				...mockReq(appeal),
+				body: {},
+				files: {}
+			};
 
-      await uploadDecisionController.postUploadDecision(req, res);
+			await uploadDecisionController.postUploadDecision(req, res);
 
-      expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
+			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
-      expect(res.redirect).not.toHaveBeenCalled();
+			expect(res.redirect).not.toHaveBeenCalled();
 
-      expect(logger.error).toHaveBeenCalledWith(error);
+			expect(logger.error).toHaveBeenCalledWith(error);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
-        appeal: req.session.appeal,
-        errors: {},
-        errorSummary: [{ text: error.toString(), href: '#' }],
-      });
-    });
+			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
+				appeal: req.session.appeal,
+				errors: {},
+				errorSummary: [{ text: error.toString(), href: '#' }]
+			});
+		});
 
-    it('should not require req.files to be valid', async () => {
-      const fakeTaskStatus = 'FAKE_STATUS';
-      const fakeNextUrl = `/fake/next/url`;
+		it('should not require req.files to be valid', async () => {
+			const fakeTaskStatus = 'FAKE_STATUS';
+			const fakeNextUrl = `/fake/next/url`;
 
-      getTaskStatus.mockImplementation(() => fakeTaskStatus);
+			getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
-      getNextTask.mockReturnValue({
-        href: fakeNextUrl,
-      });
+			getNextTask.mockReturnValue({
+				href: fakeNextUrl
+			});
 
-      req = {
-        ...mockReq(appeal),
-        body: {},
-      };
-      await uploadDecisionController.postUploadDecision(req, res);
+			req = {
+				...mockReq(appeal),
+				body: {}
+			};
+			await uploadDecisionController.postUploadDecision(req, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        ...appeal,
-        sectionStates: {
-          ...appeal.sectionStates,
-          [sectionName]: {
-            ...appeal.sectionStates[sectionName],
-            [taskName]: fakeTaskStatus,
-          },
-        },
-      });
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+				...appeal,
+				sectionStates: {
+					...appeal.sectionStates,
+					[sectionName]: {
+						...appeal.sectionStates[sectionName],
+						[taskName]: fakeTaskStatus
+					}
+				}
+			});
 
-      expect(createDocument).not.toHaveBeenCalled();
+			expect(createDocument).not.toHaveBeenCalled();
 
-      expect(res.redirect).toHaveBeenCalledWith(fakeNextUrl);
-    });
+			expect(res.redirect).toHaveBeenCalledWith(fakeNextUrl);
+		});
 
-    it('should redirect to `/appellant-submission/task-list` if valid', async () => {
-      const fakeFileId = '123-abc';
-      const fakeFileName = 'a name.jpg';
-      const fakeTaskStatus = 'FAKE_STATUS';
-      const fakeNextUrl = `/fake/next/url`;
+		it('should redirect to `/appellant-submission/task-list` if valid', async () => {
+			const fakeFileId = '123-abc';
+			const fakeFileName = 'a name.jpg';
+			const fakeTaskStatus = 'FAKE_STATUS';
+			const fakeNextUrl = `/fake/next/url`;
 
-      getTaskStatus.mockImplementation(() => fakeTaskStatus);
+			getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
-      createDocument.mockImplementation(() => ({
-        id: fakeFileId,
-        location: '00aa11bb22cc',
-        size: 123,
-      }));
+			createDocument.mockImplementation(() => ({
+				id: fakeFileId,
+				location: '00aa11bb22cc',
+				size: 123
+			}));
 
-      getNextTask.mockReturnValue({
-        href: fakeNextUrl,
-      });
+			getNextTask.mockReturnValue({
+				href: fakeNextUrl
+			});
 
-      req = {
-        ...mockReq(appeal),
-        body: {},
-        files: {
-          'decision-upload': {
-            name: fakeFileName,
-          },
-        },
-      };
-      await uploadDecisionController.postUploadDecision(req, res);
+			req = {
+				...mockReq(appeal),
+				body: {},
+				files: {
+					'decision-upload': {
+						name: fakeFileName
+					}
+				}
+			};
+			await uploadDecisionController.postUploadDecision(req, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        ...appeal,
-        [sectionName]: {
-          ...appeal[sectionName],
-          [taskName]: {
-            uploadedFile: {
-              id: fakeFileId,
-              name: fakeFileName,
-              fileName: fakeFileName,
-              originalFileName: fakeFileName,
-              location: '00aa11bb22cc',
-              size: 123,
-            },
-          },
-        },
-        sectionStates: {
-          ...appeal.sectionStates,
-          [sectionName]: {
-            ...appeal.sectionStates[sectionName],
-            [taskName]: fakeTaskStatus,
-          },
-        },
-      });
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+				...appeal,
+				[sectionName]: {
+					...appeal[sectionName],
+					[taskName]: {
+						uploadedFile: {
+							id: fakeFileId,
+							name: fakeFileName,
+							fileName: fakeFileName,
+							originalFileName: fakeFileName,
+							location: '00aa11bb22cc',
+							size: 123
+						}
+					}
+				},
+				sectionStates: {
+					...appeal.sectionStates,
+					[sectionName]: {
+						...appeal.sectionStates[sectionName],
+						[taskName]: fakeTaskStatus
+					}
+				}
+			});
 
-      expect(createDocument).toHaveBeenCalledWith(
-        appeal,
-        { name: fakeFileName },
-        null,
-        documentTypes.decisionLetter.name
-      );
+			expect(createDocument).toHaveBeenCalledWith(
+				appeal,
+				{ name: fakeFileName },
+				null,
+				documentTypes.decisionLetter.name
+			);
 
-      expect(res.redirect).toHaveBeenCalledWith(fakeNextUrl);
-    });
-  });
+			expect(res.redirect).toHaveBeenCalledWith(fakeNextUrl);
+		});
+	});
 });

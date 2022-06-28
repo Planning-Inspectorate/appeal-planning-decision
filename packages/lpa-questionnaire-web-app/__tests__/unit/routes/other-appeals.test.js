@@ -10,27 +10,27 @@ const { rules: otherAppealsValidationRules } = require('../../../src/validators/
 jest.mock('../../../src/validators/other-appeals');
 
 describe('routes/other-appeals', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../src/routes/other-appeals');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../src/routes/other-appeals');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith(
-      `/appeal-questionnaire/:id/${VIEW.OTHER_APPEALS}`,
-      [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
-      otherAppealsController.getOtherAppeals
-    );
+	it('should define the expected routes', () => {
+		expect(get).toHaveBeenCalledWith(
+			`/appeal-questionnaire/:id/${VIEW.OTHER_APPEALS}`,
+			[fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+			otherAppealsController.getOtherAppeals
+		);
 
-    expect(post).toHaveBeenCalledWith(
-      `/appeal-questionnaire/:id/${VIEW.OTHER_APPEALS}`,
-      otherAppealsValidationRules(),
-      validationErrorHandler,
-      otherAppealsController.postOtherAppeals
-    );
-  });
+		expect(post).toHaveBeenCalledWith(
+			`/appeal-questionnaire/:id/${VIEW.OTHER_APPEALS}`,
+			otherAppealsValidationRules(),
+			validationErrorHandler,
+			otherAppealsController.postOtherAppeals
+		);
+	});
 });

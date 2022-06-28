@@ -1,8 +1,8 @@
 const { createConfirmEmail } = require('../../../lib/appeals-api-wrapper');
 const {
-  VIEW: {
-    FULL_APPEAL: { CONFIRM_EMAIL_ADDRESS, EMAIL_ADDRESS },
-  },
+	VIEW: {
+		FULL_APPEAL: { CONFIRM_EMAIL_ADDRESS, EMAIL_ADDRESS }
+	}
 } = require('../../../lib/full-appeal/views');
 
 const getConfirmEmailAddress = async (req, res) => {

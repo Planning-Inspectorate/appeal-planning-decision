@@ -1,13 +1,13 @@
 const {
-  getConfirmEmailAddress,
+	getConfirmEmailAddress
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/confirm-email-address');
 const { createConfirmEmail } = require('../../../../../src/lib/appeals-api-wrapper');
 const appeal = require('@pins/business-rules/test/data/full-appeal');
 
 const {
-  VIEW: {
-    FULL_APPEAL: { CONFIRM_EMAIL_ADDRESS, EMAIL_ADDRESS },
-  },
+	VIEW: {
+		FULL_APPEAL: { CONFIRM_EMAIL_ADDRESS, EMAIL_ADDRESS }
+	}
 } = require('../../../../../src/lib/full-appeal/views');
 
 const { mockReq, mockRes } = require('../../../mocks');
@@ -15,15 +15,15 @@ const { mockReq, mockRes } = require('../../../mocks');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 
 describe('controllers/full-appeal/submit-appeal/confirm-email-address', () => {
-  let req;
-  let res;
+	let req;
+	let res;
 
   beforeEach(() => {
     req = mockReq(appeal);
     res = mockRes();
 
-    jest.resetAllMocks();
-  });
+		jest.resetAllMocks();
+	});
 
   describe('getConfirmEmailAddress', () => {
     it('calls correct template', async () => {

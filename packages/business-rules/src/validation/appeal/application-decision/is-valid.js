@@ -7,5 +7,5 @@ const { APPLICATION_DECISION } = require('../../../constants');
  * @returns {boolean}
  */
 module.exports = (applicationDecision) => {
-  return Object.values(APPLICATION_DECISION).includes(applicationDecision);
+	return Object.values(APPLICATION_DECISION).includes(applicationDecision);
 };

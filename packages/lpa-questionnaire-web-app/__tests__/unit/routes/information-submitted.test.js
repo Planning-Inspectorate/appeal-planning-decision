@@ -4,20 +4,20 @@ const informationSubmittedController = require('../../../src/controllers/informa
 const fetchAppealMiddleware = require('../../../src/middleware/common/fetch-appeal');
 
 describe('routes/information-submitted', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../src/routes/information-submitted');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../src/routes/information-submitted');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith(
-      `/appeal-questionnaire/:id/${VIEW.INFORMATION_SUBMITTED}`,
-      fetchAppealMiddleware,
-      informationSubmittedController.getInformationSubmitted
-    );
-  });
+	it('should define the expected routes', () => {
+		expect(get).toHaveBeenCalledWith(
+			`/appeal-questionnaire/:id/${VIEW.INFORMATION_SUBMITTED}`,
+			fetchAppealMiddleware,
+			informationSubmittedController.getInformationSubmitted
+		);
+	});
 });

@@ -19,11 +19,11 @@ All these are to be run with `npm run <command>`.
 This application will be deployed as a separate, non-publicly exposed service.
 It exists to allow the Forms Web App to interact with the database
 
- - `/src` - contains the application.
- - `/src/controllers` - the application controllers.
- - `/src/lib` - any common "library" files.
- - `/src/routes` - the HTTP endpoints to be created.
- - `/src/schema` - the Mongoose models. Business logic should be in here.
+- `/src` - contains the application.
+- `/src/controllers` - the application controllers.
+- `/src/lib` - any common "library" files.
+- `/src/routes` - the HTTP endpoints to be created.
+- `/src/schema` - the Mongoose models. Business logic should be in here.
 
 ### Config
 

@@ -12,18 +12,18 @@ const sectionName = 'planningApplicationDocumentsSection';
 const taskName = documentTypes.ownershipCertificate.name;
 
 router.get(
-  '/submit-appeal/certificates',
-  [fetchExistingAppealMiddleware],
-  setSectionAndTaskNames(sectionName, taskName),
-  certificatesController.getCertificates
+	'/submit-appeal/certificates',
+	[fetchExistingAppealMiddleware],
+	setSectionAndTaskNames(sectionName, taskName),
+	certificatesController.getCertificates
 );
 
 router.post(
-  '/submit-appeal/certificates',
-  setSectionAndTaskNames(sectionName, taskName),
-  fileUploadValidationRules('Select your ownership certificate and agricultural land declaration'),
-  validationErrorHandler,
-  certificatesController.postCertificates
+	'/submit-appeal/certificates',
+	setSectionAndTaskNames(sectionName, taskName),
+	fileUploadValidationRules('Select your ownership certificate and agricultural land declaration'),
+	validationErrorHandler,
+	certificatesController.postCertificates
 );
 
 module.exports = router;

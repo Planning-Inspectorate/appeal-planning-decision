@@ -1,53 +1,50 @@
 {
-  "name": "document-service-api",
-  "version": "0.0.0",
-  "private": true,
-  "engines": {
-    "node": ">=14.0.0 <15.0.0",
-    "npm": ">=6.0.0 <7.0.0"
-  },
-  "main": "src/main.js",
-  "scripts": {
-    "format": "prettier --write './**/*.js'",
-    "lint": "eslint ./",
-    "start": "node ./",
-    "start:dev": "nodemon ./ | pino-pretty -tlc",
-    "test": "jest",
-    "test:cov": "jest --coverage",
-    "test:watch": "jest --watch",
-    "documentation": "jest --bail --coverage --coverageReporters=cobertura --reporters=default --reporters=jest-junit"
-  },
-  "author": "Foundry4 <www.foundry4.com>",
-  "lint-staged": {
-    "./**/*.js": "npm run lint -- --fix",
-    "./**/*.{js, json}": "npm run format"
-  },
-  "dependencies": {
-    "@azure/storage-blob": "^12.3.0",
-    "@pins/common": "file:../common",
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1",
-    "express-async-errors": "^3.1.1",
-    "express-pino-logger": "^5.0.0",
-    "jest": "^26.6.3",
-    "jest-junit": "^13.0.0",
-    "jest-when": "^3.0.1",
-    "js-yaml": "^3.14.1",
-    "mongoose": "^5.10.11",
-    "multer": "^1.4.2",
-    "pino": "^6.7.0",
-    "swagger-ui-express": "^4.1.5",
-    "uuid": "^8.3.1"
-  },
-  "devDependencies": {
-    "eslint": "^7.12.1",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jest": "^24.1.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "nodemon": "^2.0.6",
-    "pino-pretty": "^4.3.0",
-    "prettier": "^2.1.2"
-  }
+	"name": "document-service-api",
+	"version": "0.0.0",
+	"private": true,
+	"engines": {
+		"node": ">=14.0.0 <15.0.0",
+		"npm": ">=6.0.0 <7.0.0"
+	},
+	"main": "src/main.js",
+	"scripts": {
+		"format": "prettier --write './**/*.js'",
+		"lint": "eslint ./",
+		"start": "node ./",
+		"start:dev": "nodemon ./ | pino-pretty -tlc",
+		"test": "jest",
+		"test:cov": "jest --coverage",
+		"test:watch": "jest --watch",
+		"documentation": "jest --bail --coverage --coverageReporters=cobertura --reporters=default --reporters=jest-junit"
+	},
+	"author": "Foundry4 <www.foundry4.com>",
+	"lint-staged": {
+		"./**/*.js": "npm run lint -- --fix",
+		"./**/*.{js, json}": "npm run format"
+	},
+	"dependencies": {
+		"@azure/storage-blob": "^12.3.0",
+		"@pins/common": "file:../common",
+		"body-parser": "^1.19.0",
+		"express": "^4.17.1",
+		"express-async-errors": "^3.1.1",
+		"express-pino-logger": "^5.0.0",
+		"js-yaml": "^3.14.1",
+		"mongoose": "^5.10.11",
+		"multer": "^1.4.2",
+		"pino": "^6.7.0",
+		"swagger-ui-express": "^4.1.5",
+		"uuid": "^8.3.1"
+	},
+	"devDependencies": {
+		"eslint": "^8.17.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-jest": "^24.4.0",
+		"jest": "^28.1.1",
+		"jest-junit": "^13.2.0",
+		"jest-when": "^3.0.1",
+		"nodemon": "^2.0.6",
+		"pino-pretty": "^4.3.0",
+		"prettier": "^2.1.2"
+	}
 }

@@ -19,61 +19,61 @@ jest.mock('../../../src/middleware/req-files-to-req-body-files');
 jest.mock('../../../src/validators/upload-tasks');
 
 describe('routes/upload-plans', () => {
-  describe('router', () => {
-    beforeEach(() => {
-      // eslint-disable-next-line global-require
-      require('../../../src/routes/upload-plans');
-    });
+	describe('router', () => {
+		beforeEach(() => {
+			// eslint-disable-next-line global-require
+			require('../../../src/routes/upload-plans');
+		});
 
-    afterEach(() => {
-      jest.resetAllMocks();
-    });
+		afterEach(() => {
+			jest.resetAllMocks();
+		});
 
-    it('should define the expected routes', () => {
-      // eslint-disable-next-line global-require
-      const { getConfig } = require('../../../src/routes/upload-plans');
+		it('should define the expected routes', () => {
+			// eslint-disable-next-line global-require
+			const { getConfig } = require('../../../src/routes/upload-plans');
 
-      expect(get).toHaveBeenCalledWith(
-        '/appeal-questionnaire/:id/plans',
-        [
-          fetchAppealMiddleware,
-          fetchExistingAppealReplyMiddleware,
-          clearUploadedFilesMiddleware,
-          alreadySubmittedMiddleware,
-        ],
-        getConfig,
-        uploadQuestionController.getUpload
-      );
+			expect(get).toHaveBeenCalledWith(
+				'/appeal-questionnaire/:id/plans',
+				[
+					fetchAppealMiddleware,
+					fetchExistingAppealReplyMiddleware,
+					clearUploadedFilesMiddleware,
+					alreadySubmittedMiddleware
+				],
+				getConfig,
+				uploadQuestionController.getUpload
+			);
 
-      expect(post).toHaveBeenCalledWith(
-        '/appeal-questionnaire/:id/plans',
-        [reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
-        validationErrorHandler,
-        getConfig,
-        uploadQuestionController.postUpload
-      );
-    });
-  });
+			expect(post).toHaveBeenCalledWith(
+				'/appeal-questionnaire/:id/plans',
+				[reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
+				validationErrorHandler,
+				getConfig,
+				uploadQuestionController.postUpload
+			);
+		});
+	});
 
-  describe('getConfig', () => {
-    it('should define the expected config', () => {
-      // eslint-disable-next-line global-require
-      const { getConfig } = require('../../../src/routes/upload-plans');
+	describe('getConfig', () => {
+		it('should define the expected config', () => {
+			// eslint-disable-next-line global-require
+			const { getConfig } = require('../../../src/routes/upload-plans');
 
-      const req = mockReq();
-      const res = mockRes();
-      const next = jest.fn();
+			const req = mockReq();
+			const res = mockRes();
+			const next = jest.fn();
 
-      getConfig(req, res, next);
+			getConfig(req, res, next);
 
-      expect(next).toHaveBeenCalled();
-      expect(res.locals.routeInfo).toEqual({
-        sectionName: 'requiredDocumentsSection',
-        taskName: 'plansDecision',
-        view: VIEW.UPLOAD_PLANS,
-        name: 'Upload Plans',
-      });
-      expect(req.documentType).toEqual(documentTypes.decisionPlans.name);
-    });
-  });
+			expect(next).toHaveBeenCalled();
+			expect(res.locals.routeInfo).toEqual({
+				sectionName: 'requiredDocumentsSection',
+				taskName: 'plansDecision',
+				view: VIEW.UPLOAD_PLANS,
+				name: 'Upload Plans'
+			});
+			expect(req.documentType).toEqual(documentTypes.decisionPlans.name);
+		});
+	});
 });

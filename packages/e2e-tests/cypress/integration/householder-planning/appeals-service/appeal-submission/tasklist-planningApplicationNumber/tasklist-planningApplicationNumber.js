@@ -4,13 +4,16 @@ import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAp
 import { pageURLAppeal } from '../../../../common/householder-planning/appeals-service/pageURLAppeal';
 
 Given('the user checks the status of their appeal', () => {
-  goToAppealsPage(pageURLAppeal.goToTaskListPage);
+	goToAppealsPage(pageURLAppeal.goToTaskListPage);
 });
 
 When('the user selects to provide their planning application number', () => {
-  goToAppealsPage(pageURLAppeal.goToPlanningApplicationNumberPage);
+	goToAppealsPage(pageURLAppeal.goToPlanningApplicationNumberPage);
 });
 
-Then('the user should be presented with opportunity to provide their planning application number', () => {
-  confirmUserPresentedWithProvidePlanningApplicationNumber();
-});
+Then(
+	'the user should be presented with opportunity to provide their planning application number',
+	() => {
+		confirmUserPresentedWithProvidePlanningApplicationNumber();
+	}
+);

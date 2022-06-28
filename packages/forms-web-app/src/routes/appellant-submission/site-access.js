@@ -4,17 +4,17 @@ const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-a
 const siteAccessController = require('../../controllers/appellant-submission/site-access');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const {
-  rules: siteAccessValidationRules,
+	rules: siteAccessValidationRules
 } = require('../../validators/appellant-submission/site-access');
 
 const router = express.Router();
 
 router.get('/site-access', [fetchExistingAppealMiddleware], siteAccessController.getSiteAccess);
 router.post(
-  '/site-access',
-  siteAccessValidationRules(),
-  validationErrorHandler,
-  siteAccessController.postSiteAccess
+	'/site-access',
+	siteAccessValidationRules(),
+	validationErrorHandler,
+	siteAccessController.postSiteAccess
 );
 
 module.exports = router;

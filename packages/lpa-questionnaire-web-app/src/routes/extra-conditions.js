@@ -9,16 +9,16 @@ const alreadySubmittedMiddleware = require('../middleware/already-submitted');
 const router = express.Router();
 
 router.get(
-  '/appeal-questionnaire/:id/extra-conditions',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
-  extraConditionsController.getExtraConditions
+	'/appeal-questionnaire/:id/extra-conditions',
+	[fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+	extraConditionsController.getExtraConditions
 );
 
 router.post(
-  '/appeal-questionnaire/:id/extra-conditions',
-  extraConditionsValidationRules(),
-  validationErrorHandler,
-  extraConditionsController.postExtraConditions
+	'/appeal-questionnaire/:id/extra-conditions',
+	extraConditionsValidationRules(),
+	validationErrorHandler,
+	extraConditionsController.postExtraConditions
 );
 
 module.exports = router;

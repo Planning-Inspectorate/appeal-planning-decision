@@ -7,20 +7,18 @@ import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAp
 import { pageURLAppeal } from '../../../../common/householder-planning/appeals-service/pageURLAppeal';
 
 Given('a user has elected to manage their cookie preference without JavaScript enabled', () => {
-  goToAppealsPage(pageURLAppeal.goToHouseholderQuestionPage({ script: false }));
-  //cy.visit('/eligibility/householder-planning-permission', {script: false});
-  cy.wait(2000);
+	goToAppealsPage(pageURLAppeal.goToHouseholderQuestionPage({ script: false }));
+	//cy.visit('/eligibility/householder-planning-permission', {script: false});
 });
 
 When('the user views the Cookie Preferences service page', () => {
- // cy.visit('/cookies');
-  goToAppealsPage('/cookies', { script: false });
-  });
-
-Then('the page content will mention about cookies requiring Javascript to be turned on', () => {
-  userIsNavigatedToPage('cookie');
-  confirmGenericPageContentExists();
-  confirmPageHeadingWithoutJavaScriptEnabled();
-  confirmBodyContentWithoutJavaScriptEnabled();
+	// cy.visit('/cookies');
+	goToAppealsPage('/cookies', { script: false });
 });
 
+Then('the page content will mention about cookies requiring Javascript to be turned on', () => {
+	userIsNavigatedToPage('cookie');
+	confirmGenericPageContentExists();
+	confirmPageHeadingWithoutJavaScriptEnabled();
+	confirmBodyContentWithoutJavaScriptEnabled();
+});

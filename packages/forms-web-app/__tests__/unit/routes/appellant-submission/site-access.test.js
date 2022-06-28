@@ -3,33 +3,33 @@ const siteAccessController = require('../../../../src/controllers/appellant-subm
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const {
-  rules: siteAccessValidationRules,
+	rules: siteAccessValidationRules
 } = require('../../../../src/validators/appellant-submission/site-access');
 
 jest.mock('../../../../src/validators/appellant-submission/site-access');
 
 describe('routes/appellant-submission/site-access', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../../src/routes/appellant-submission/site-access');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../../src/routes/appellant-submission/site-access');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith(
-      '/site-access',
-      [fetchExistingAppealMiddleware],
-      siteAccessController.getSiteAccess
-    );
+	it('should define the expected routes', () => {
+		expect(get).toHaveBeenCalledWith(
+			'/site-access',
+			[fetchExistingAppealMiddleware],
+			siteAccessController.getSiteAccess
+		);
 
-    expect(post).toHaveBeenCalledWith(
-      '/site-access',
-      siteAccessValidationRules(),
-      validationErrorHandler,
-      siteAccessController.postSiteAccess
-    );
-  });
+		expect(post).toHaveBeenCalledWith(
+			'/site-access',
+			siteAccessValidationRules(),
+			validationErrorHandler,
+			siteAccessController.postSiteAccess
+		);
+	});
 });

@@ -27,235 +27,235 @@ import { pageURLAppeal } from '../../../../common/householder-planning/appeals-s
 import { confirmTaskIsNotAvailableForSelection } from '../../../../../support/householder-planning/appeals-service/appeal-submission-tasklist/confirmTaskIsNotAvailableForSelection';
 
 function getTask(sectionTaskName) {
-  let name = '';
-  let url = '';
-  switch (sectionTaskName) {
-    case 'About you - Your details':
-      name = 'yourDetails';
-      url = '/appellant-submission/who-are-you';
-      break;
-    case 'Planning application - Application number':
-      name = 'applicationNumber';
-      url = '/appellant-submission/application-number';
-      break;
-    case 'Planning application - Upload application':
-      name = 'originalApplication';
-      url = '/appellant-submission/upload-application';
-      break;
-    case 'Planning application - Upload decision letter':
-      name = 'decisionLetter';
-      url = '/appellant-submission/upload-decision';
-      break;
-    case 'Your appeal - Appeal statement':
-      name = 'appealStatement';
-      url = '/appellant-submission/appeal-statement';
-      break;
-    case 'Your appeal - Supporting documents':
-      name = 'otherDocuments';
-      url = '/appellant-submission/supporting-documents';
-      break;
-    case 'Appeal site - Site location':
-      name = 'siteAddress';
-      url = '/appellant-submission/site-location';
-      break;
-    case 'Appeal site - Site ownership':
-      name = 'siteOwnership';
-      url = '/appellant-submission/site-ownership';
-      break;
-    case 'Appeal site - Site access':
-      name = 'siteAccess';
-      url = '/appellant-submission/site-access';
-      break;
-    case 'Appeal site - Site safety':
-      name = 'healthAndSafety';
-      url = '/appellant-submission/site-access-safety';
-      break;
-    case 'Appeal submit - Check your answers':
-      name = 'checkYourAnswers';
-      url = '/appellant-submission/check-answers';
-      break;
+	let name = '';
+	let url = '';
+	switch (sectionTaskName) {
+		case 'About you - Your details':
+			name = 'yourDetails';
+			url = '/appellant-submission/who-are-you';
+			break;
+		case 'Planning application - Application number':
+			name = 'applicationNumber';
+			url = '/appellant-submission/application-number';
+			break;
+		case 'Planning application - Upload application':
+			name = 'originalApplication';
+			url = '/appellant-submission/upload-application';
+			break;
+		case 'Planning application - Upload decision letter':
+			name = 'decisionLetter';
+			url = '/appellant-submission/upload-decision';
+			break;
+		case 'Your appeal - Appeal statement':
+			name = 'appealStatement';
+			url = '/appellant-submission/appeal-statement';
+			break;
+		case 'Your appeal - Supporting documents':
+			name = 'otherDocuments';
+			url = '/appellant-submission/supporting-documents';
+			break;
+		case 'Appeal site - Site location':
+			name = 'siteAddress';
+			url = '/appellant-submission/site-location';
+			break;
+		case 'Appeal site - Site ownership':
+			name = 'siteOwnership';
+			url = '/appellant-submission/site-ownership';
+			break;
+		case 'Appeal site - Site access':
+			name = 'siteAccess';
+			url = '/appellant-submission/site-access';
+			break;
+		case 'Appeal site - Site safety':
+			name = 'healthAndSafety';
+			url = '/appellant-submission/site-access-safety';
+			break;
+		case 'Appeal submit - Check your answers':
+			name = 'checkYourAnswers';
+			url = '/appellant-submission/check-answers';
+			break;
 
-    default:
-      throw new Error('Unknown task name = ' + name);
-  }
+		default:
+			throw new Error('Unknown task name = ' + name);
+	}
 
-  return { name, url };
+	return { name, url };
 }
 
 Given('mandatory tasks are not completed', () => {});
 
 Given('mandatory tasks are completed', () => {
-  //goToWhoAreYouPage();
-  goToAppealsPage(pageURLAppeal.goToWhoAreYouPage);
+	//goToWhoAreYouPage();
+	goToAppealsPage(pageURLAppeal.goToWhoAreYouPage);
 
-  provideAnswerYes();
-  clickSaveAndContinue();
+	provideAnswerYes();
+	clickSaveAndContinue();
 
-  provideDetailsName('Valid Name');
-  provideDetailsEmail('valid@email.com');
-  clickSaveAndContinue();
+	provideDetailsName('Valid Name');
+	provideDetailsEmail('valid@email.com');
+	clickSaveAndContinue();
 
-  //goToPlanningApplicationNumberPage();
-  goToAppealsPage(pageURLAppeal.goToPlanningApplicationNumberPage);
-  providePlanningApplicationNumber('ValidNumber/12345');
+	//goToPlanningApplicationNumberPage();
+	goToAppealsPage(pageURLAppeal.goToPlanningApplicationNumberPage);
+	providePlanningApplicationNumber('ValidNumber/12345');
 
-  //goToPlanningApplicationSubmission();
-  goToAppealsPage(pageURLAppeal.goToPlanningApplicationSubmission);
-  uploadPlanningApplicationFile('appeal-statement-valid.doc');
-  clickSaveAndContinue();
+	//goToPlanningApplicationSubmission();
+	goToAppealsPage(pageURLAppeal.goToPlanningApplicationSubmission);
+	uploadPlanningApplicationFile('appeal-statement-valid.doc');
+	clickSaveAndContinue();
 
-  //goToDecisionLetterPage();
-  goToAppealsPage(pageURLAppeal.goToDecisionLetterPage);
-  uploadDecisionLetterFile('appeal-statement-valid.doc');
-  clickSaveAndContinue();
+	//goToDecisionLetterPage();
+	goToAppealsPage(pageURLAppeal.goToDecisionLetterPage);
+	uploadDecisionLetterFile('appeal-statement-valid.doc');
+	clickSaveAndContinue();
 
-  //goToAppealStatementSubmission();
-  goToAppealsPage(pageURLAppeal.goToAppealStatementSubmission);
-  checkNoSensitiveInformation();
-  uploadAppealStatementFile('appeal-statement-valid.doc');
-  clickSaveAndContinue();
+	//goToAppealStatementSubmission();
+	goToAppealsPage(pageURLAppeal.goToAppealStatementSubmission);
+	checkNoSensitiveInformation();
+	uploadAppealStatementFile('appeal-statement-valid.doc');
+	clickSaveAndContinue();
 
-  //goToSiteAddressPage();
-  goToAppealsPage(pageURLAppeal.goToSiteAddressPage);
+	//goToSiteAddressPage();
+	goToAppealsPage(pageURLAppeal.goToSiteAddressPage);
 
-  provideAddressLine1('1 Taylor Road');
-  provideAddressLine2('Clifton');
-  provideTownOrCity('Bristol');
-  provideCounty('South Glos');
-  providePostcode('BS8 1TG');
-  clickSaveAndContinue();
+	provideAddressLine1('1 Taylor Road');
+	provideAddressLine2('Clifton');
+	provideTownOrCity('Bristol');
+	provideCounty('South Glos');
+	providePostcode('BS8 1TG');
+	clickSaveAndContinue();
 
-  //goToWholeSiteOwnerPage();
-  goToAppealsPage(pageURLAppeal.goToWholeSiteOwnerPage);
-  answerOwnsTheWholeAppeal();
-  clickSaveAndContinue();
+	//goToWholeSiteOwnerPage();
+	goToAppealsPage(pageURLAppeal.goToWholeSiteOwnerPage);
+	answerOwnsTheWholeAppeal();
+	clickSaveAndContinue();
 
-  //goToAppealsPage('/appellant-submission/site-access');
-  goToAppealsPage(pageURLAppeal.goToSiteAccessPage);
-  answerCanSeeTheWholeAppeal();
-  clickSaveAndContinue();
+	//goToAppealsPage('/appellant-submission/site-access');
+	goToAppealsPage(pageURLAppeal.goToSiteAccessPage);
+	answerCanSeeTheWholeAppeal();
+	clickSaveAndContinue();
 
-  //goToHealthAndSafetyPage();
-  goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
-  answerSiteHasNoIssues();
-  clickSaveAndContinue();
+	//goToHealthAndSafetyPage();
+	goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
+	answerSiteHasNoIssues();
+	clickSaveAndContinue();
 });
 
 Given('the {string} part of the appeal is not started', () => {});
 
 Given('the {string} part of the appeal are completed', (sectionTaskName) => {
-  switch (sectionTaskName) {
-    case 'About you - Your details':
-      //goToWhoAreYouPage();
-      goToAppealsPage(pageURLAppeal.goToWhoAreYouPage);
-      provideAnswerYes();
-      clickSaveAndContinue();
-      provideDetailsName('Valid Name');
-      provideDetailsEmail('valid@email.com');
-      clickSaveAndContinue();
-      break;
-    case 'Planning application - Application number':
-      //goToPlanningApplicationNumberPage();
-      goToAppealsPage(pageURLAppeal.goToPlanningApplicationNumberPage);
-      providePlanningApplicationNumber('ValidNumber/12345');
-      break;
-    case 'Planning application - Upload application':
-      //goToPlanningApplicationSubmission();
-      goToAppealsPage(pageURLAppeal.goToPlanningApplicationSubmission);
-      uploadPlanningApplicationFile('appeal-statement-valid.doc');
-      clickSaveAndContinue();
-      break;
-    case 'Planning application - Upload decision letter':
-      //goToDecisionLetterPage();
-      goToAppealsPage(pageURLAppeal.goToDecisionLetterPage);
-      uploadDecisionLetterFile('appeal-statement-valid.doc');
-      clickSaveAndContinue();
-      break;
-    case 'Your appeal - Appeal statement':
-      //goToAppealStatementSubmission();
-      goToAppealsPage(pageURLAppeal.goToAppealStatementSubmission);
-      checkNoSensitiveInformation();
-      uploadAppealStatementFile('appeal-statement-valid.doc');
-      clickSaveAndContinue();
-      break;
-    case 'Your appeal - Supporting documents':
-      //goToSupportingDocumentsPage();
-      goToAppealsPage(pageURLAppeal.goToSupportingDocumentsPage);
-      uploadSupportingDocuments([
-        'appeal-statement-valid.tif',
-        'appeal-statement-valid.jpg',
-        'appeal-statement-valid.pdf',
-      ]);
-      clickSaveAndContinue();
-      break;
-    case 'Appeal site - Site location':
-      //goToSiteAddressPage();
-      goToAppealsPage(pageURLAppeal.goToSiteAddressPage);
-      provideAddressLine1('1 Taylor Road');
-      provideAddressLine2('Clifton');
-      provideTownOrCity('Bristol');
-      provideCounty('South Glos');
-      providePostcode('BS8 1TG');
-      clickSaveAndContinue();
-      break;
-    case 'Appeal site - Site ownership':
-      //goToWholeSiteOwnerPage();
-      goToAppealsPage(pageURLAppeal.goToWholeSiteOwnerPage);
-      answerOwnsTheWholeAppeal();
-      clickSaveAndContinue();
-      break;
-    case 'Appeal site - Site access':
-      goToAppealsPage(pageURLAppeal.goToSiteAccessPage);
-      answerCanSeeTheWholeAppeal();
-      clickSaveAndContinue();
-      break;
-    case 'Appeal site - Site safety':
-      goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
-      answerSiteHasNoIssues();
-      clickSaveAndContinue();
-      break;
-    default:
-      throw new Error('Unknown task name = ' + taskName);
-  }
+	switch (sectionTaskName) {
+		case 'About you - Your details':
+			//goToWhoAreYouPage();
+			goToAppealsPage(pageURLAppeal.goToWhoAreYouPage);
+			provideAnswerYes();
+			clickSaveAndContinue();
+			provideDetailsName('Valid Name');
+			provideDetailsEmail('valid@email.com');
+			clickSaveAndContinue();
+			break;
+		case 'Planning application - Application number':
+			//goToPlanningApplicationNumberPage();
+			goToAppealsPage(pageURLAppeal.goToPlanningApplicationNumberPage);
+			providePlanningApplicationNumber('ValidNumber/12345');
+			break;
+		case 'Planning application - Upload application':
+			//goToPlanningApplicationSubmission();
+			goToAppealsPage(pageURLAppeal.goToPlanningApplicationSubmission);
+			uploadPlanningApplicationFile('appeal-statement-valid.doc');
+			clickSaveAndContinue();
+			break;
+		case 'Planning application - Upload decision letter':
+			//goToDecisionLetterPage();
+			goToAppealsPage(pageURLAppeal.goToDecisionLetterPage);
+			uploadDecisionLetterFile('appeal-statement-valid.doc');
+			clickSaveAndContinue();
+			break;
+		case 'Your appeal - Appeal statement':
+			//goToAppealStatementSubmission();
+			goToAppealsPage(pageURLAppeal.goToAppealStatementSubmission);
+			checkNoSensitiveInformation();
+			uploadAppealStatementFile('appeal-statement-valid.doc');
+			clickSaveAndContinue();
+			break;
+		case 'Your appeal - Supporting documents':
+			//goToSupportingDocumentsPage();
+			goToAppealsPage(pageURLAppeal.goToSupportingDocumentsPage);
+			uploadSupportingDocuments([
+				'appeal-statement-valid.tif',
+				'appeal-statement-valid.jpg',
+				'appeal-statement-valid.pdf'
+			]);
+			clickSaveAndContinue();
+			break;
+		case 'Appeal site - Site location':
+			//goToSiteAddressPage();
+			goToAppealsPage(pageURLAppeal.goToSiteAddressPage);
+			provideAddressLine1('1 Taylor Road');
+			provideAddressLine2('Clifton');
+			provideTownOrCity('Bristol');
+			provideCounty('South Glos');
+			providePostcode('BS8 1TG');
+			clickSaveAndContinue();
+			break;
+		case 'Appeal site - Site ownership':
+			//goToWholeSiteOwnerPage();
+			goToAppealsPage(pageURLAppeal.goToWholeSiteOwnerPage);
+			answerOwnsTheWholeAppeal();
+			clickSaveAndContinue();
+			break;
+		case 'Appeal site - Site access':
+			goToAppealsPage(pageURLAppeal.goToSiteAccessPage);
+			answerCanSeeTheWholeAppeal();
+			clickSaveAndContinue();
+			break;
+		case 'Appeal site - Site safety':
+			goToAppealsPage(pageURLAppeal.goToHealthAndSafetyPage);
+			answerSiteHasNoIssues();
+			clickSaveAndContinue();
+			break;
+		default:
+			throw new Error('Unknown task name = ' + sectionTaskName);
+	}
 });
 
 Given('the {string} part of the appeal is started but not completed', (sectionTaskName) => {
-  switch (sectionTaskName) {
-    case 'About you - Your details':
-      goToAppealsPage(pageURLAppeal.goToWhoAreYouPage);
-      provideAnswerNo();
-      clickSaveAndContinue();
-      provideDetailsName('Valid Name');
-      provideDetailsEmail('valid@email.com');
-      clickSaveAndContinue();
-      break;
-    case 'Appeal site - Site ownership':
-      //goToWholeSiteOwnerPage();
-      goToAppealsPage(pageURLAppeal.goToWholeSiteOwnerPage);
-      answerDoesNotOwnTheWholeAppeal();
-      clickSaveAndContinue();
-      break;
-    default:
-      throw new Error('Unknown task name = ' + taskName);
-  }
+	switch (sectionTaskName) {
+		case 'About you - Your details':
+			goToAppealsPage(pageURLAppeal.goToWhoAreYouPage);
+			provideAnswerNo();
+			clickSaveAndContinue();
+			provideDetailsName('Valid Name');
+			provideDetailsEmail('valid@email.com');
+			clickSaveAndContinue();
+			break;
+		case 'Appeal site - Site ownership':
+			//goToWholeSiteOwnerPage();
+			goToAppealsPage(pageURLAppeal.goToWholeSiteOwnerPage);
+			answerDoesNotOwnTheWholeAppeal();
+			clickSaveAndContinue();
+			break;
+		default:
+			throw new Error('Unknown task name = ' + sectionTaskName);
+	}
 });
 
 When('the appeal tasks are presented', () => {
-  goToAppealsPage(pageURLAppeal.goToTaskListPage);
-  confirmBackButtonNotDisplayed();
+	goToAppealsPage(pageURLAppeal.goToTaskListPage);
+	confirmBackButtonNotDisplayed();
 });
 
 Then('the state for {string} is displayed to be {string}', (sectionTaskName, status) => {
-  const task = getTask(sectionTaskName);
-  checkStatusForTask(task.name, status);
+	const task = getTask(sectionTaskName);
+	checkStatusForTask(task.name, status);
 });
 
 Then('the task {string} is available for selection', (sectionTaskName) => {
-  const task = getTask(sectionTaskName);
-  confirmTaskIsAvailableForSelection(task.name, task.url);
+	const task = getTask(sectionTaskName);
+	confirmTaskIsAvailableForSelection(task.name, task.url);
 });
 
 Then('the task {string} is not available for selection', (sectionTaskName) => {
-  const task = getTask(sectionTaskName);
-  confirmTaskIsNotAvailableForSelection(task.name);
+	const task = getTask(sectionTaskName);
+	confirmTaskIsNotAvailableForSelection(task.name);
 });

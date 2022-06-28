@@ -4,17 +4,16 @@ import { assertRequestedAccordionStateIsValid } from './assertRequestedAccordion
 const STATE = require('./accordionState');
 const { accordionOpenCloseAllToggleButton } = require('./selectors');
 
-export const toggleAllYourAppealDetailsAccordionPanels = ({ expectedEndState }) =>
-{
-  assertRequestedAccordionStateIsValid(expectedEndState);
+export const toggleAllYourAppealDetailsAccordionPanels = ({ expectedEndState }) => {
+	assertRequestedAccordionStateIsValid(expectedEndState);
 
-  cy.get(accordionOpenCloseAllToggleButton).click();
- // cy.wait(Cypress.env('demoDelay'));
+	cy.get(accordionOpenCloseAllToggleButton).click();
+	// cy.wait(Cypress.env('demoDelay'));
 
-  const expectedButtonText = expectedEndState === STATE.CLOSED ? 'Open' : 'Close';
+	const expectedButtonText = expectedEndState === STATE.CLOSED ? 'Open' : 'Close';
 
-  cy.get(accordionOpenCloseAllToggleButton)
-    .invoke('text')
-    .then((text) => text.trim())
-    .should('eq', `${expectedButtonText} all sections`);
+	cy.get(accordionOpenCloseAllToggleButton)
+		.invoke('text')
+		.then((text) => text.trim())
+		.should('eq', `${expectedButtonText} all sections`);
 };

@@ -8,11 +8,11 @@ const subdomainArrayToString = (subdomains) => subdomains.reverse().join('.');
  * @returns {*}
  */
 const extractRootDomainNameFromHostnameAndSubdomains = (hostname, subdomains) => {
-  const subdomain = subdomains.length > 0 ? `${subdomainArrayToString(subdomains)}.` : '';
-  return hostname.replace(subdomain, '');
+	const subdomain = subdomains.length > 0 ? `${subdomainArrayToString(subdomains)}.` : '';
+	return hostname.replace(subdomain, '');
 };
 
 module.exports = {
-  extractRootDomainNameFromHostnameAndSubdomains,
-  subdomainArrayToString,
+	extractRootDomainNameFromHostnameAndSubdomains,
+	subdomainArrayToString
 };

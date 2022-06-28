@@ -3,20 +3,20 @@ const taskListController = require('../../../../src/controllers/appellant-submis
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 
 describe('routes/task-list', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../../src/routes/appellant-submission/task-list');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../../src/routes/appellant-submission/task-list');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith(
-      '/task-list',
-      [fetchExistingAppealMiddleware],
-      taskListController.getTaskList
-    );
-  });
+	it('should define the expected routes', () => {
+		expect(get).toHaveBeenCalledWith(
+			'/task-list',
+			[fetchExistingAppealMiddleware],
+			taskListController.getTaskList
+		);
+	});
 });

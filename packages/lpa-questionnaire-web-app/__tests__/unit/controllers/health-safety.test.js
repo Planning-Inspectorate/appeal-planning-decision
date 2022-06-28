@@ -11,213 +11,213 @@ jest.mock('../../../src/services/task.service');
 jest.mock('../../../src/lib/logger');
 
 describe('controllers/health-safety', () => {
-  const mockTaskStatus = 'MOCK_STATUS';
-  const backLinkUrl = '/appeal-questionnaire/mock-id/mock-back-link';
+	const mockTaskStatus = 'MOCK_STATUS';
+	const backLinkUrl = '/appeal-questionnaire/mock-id/mock-back-link';
 
-  let req;
-  let res;
-  let mockAppealReply;
+	let req;
+	let res;
+	let mockAppealReply;
 
-  beforeEach(() => {
-    req = mockReq();
-    res = mockRes();
-    mockAppealReply = { ...appealReply };
+	beforeEach(() => {
+		req = mockReq();
+		res = mockRes();
+		mockAppealReply = { ...appealReply };
 
-    jest.resetAllMocks();
-  });
+		jest.resetAllMocks();
+	});
 
-  describe('getHealthSafety', () => {
-    const values = {
-      'has-health-safety': null,
-      'health-safety-text': '',
-    };
+	describe('getHealthSafety', () => {
+		const values = {
+			'has-health-safety': null,
+			'health-safety-text': ''
+		};
 
-    it('should call the correct template', () => {
-      req.session.backLink = backLinkUrl;
-      healthSafetyController.getHealthSafety(req, res);
+		it('should call the correct template', () => {
+			req.session.backLink = backLinkUrl;
+			healthSafetyController.getHealthSafety(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.HEALTH_SAFETY, {
-        appeal: null,
-        backLink: backLinkUrl,
-        values,
-      });
-    });
+			expect(res.render).toHaveBeenCalledWith(VIEW.HEALTH_SAFETY, {
+				appeal: null,
+				backLink: backLinkUrl,
+				values
+			});
+		});
 
-    it('it should have the correct backlink when no request session object exists.', () => {
-      healthSafetyController.getHealthSafety(req, res);
+		it('it should have the correct backlink when no request session object exists.', () => {
+			healthSafetyController.getHealthSafety(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.HEALTH_SAFETY, {
-        appeal: null,
-        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
-        values,
-      });
-    });
+			expect(res.render).toHaveBeenCalledWith(VIEW.HEALTH_SAFETY, {
+				appeal: null,
+				backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
+				values
+			});
+		});
 
-    it('should pass the health and safety data if yes and text passes', () => {
-      mockAppealReply.healthSafety = {
-        hasHealthSafety: true,
-        healthSafetyIssues: 'some-text',
-      };
+		it('should pass the health and safety data if yes and text passes', () => {
+			mockAppealReply.healthSafety = {
+				hasHealthSafety: true,
+				healthSafetyIssues: 'some-text'
+			};
 
-      const mockRequest = {
-        ...mockReq(),
-        session: {
-          appealReply: mockAppealReply,
-        },
-      };
+			const mockRequest = {
+				...mockReq(),
+				session: {
+					appealReply: mockAppealReply
+				}
+			};
 
-      healthSafetyController.getHealthSafety(mockRequest, res);
+			healthSafetyController.getHealthSafety(mockRequest, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.HEALTH_SAFETY, {
-        appeal: null,
-        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
-        values: {
-          'has-health-safety': 'yes',
-          'health-safety-text': 'some-text',
-        },
-      });
-    });
+			expect(res.render).toHaveBeenCalledWith(VIEW.HEALTH_SAFETY, {
+				appeal: null,
+				backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
+				values: {
+					'has-health-safety': 'yes',
+					'health-safety-text': 'some-text'
+				}
+			});
+		});
 
-    it('should pass the health and safety data if no passed', () => {
-      mockAppealReply.healthSafety = {
-        hasHealthSafety: false,
-      };
+		it('should pass the health and safety data if no passed', () => {
+			mockAppealReply.healthSafety = {
+				hasHealthSafety: false
+			};
 
-      const mockRequest = {
-        ...mockReq(),
-        session: {
-          appealReply: mockAppealReply,
-        },
-      };
+			const mockRequest = {
+				...mockReq(),
+				session: {
+					appealReply: mockAppealReply
+				}
+			};
 
-      healthSafetyController.getHealthSafety(mockRequest, res);
+			healthSafetyController.getHealthSafety(mockRequest, res);
 
-      expect(res.render).toHaveBeenCalledWith(VIEW.HEALTH_SAFETY, {
-        appeal: null,
-        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
-        values: {
-          'has-health-safety': 'no',
-          'health-safety-text': undefined,
-        },
-      });
-    });
-  });
+			expect(res.render).toHaveBeenCalledWith(VIEW.HEALTH_SAFETY, {
+				appeal: null,
+				backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
+				values: {
+					'has-health-safety': 'no',
+					'health-safety-text': undefined
+				}
+			});
+		});
+	});
 
-  describe('postHealthSafety', () => {
-    it('should redirect with health-safety set to false', async () => {
-      getTaskStatus.mockImplementation(() => mockTaskStatus);
+	describe('postHealthSafety', () => {
+		it('should redirect with health-safety set to false', async () => {
+			getTaskStatus.mockImplementation(() => mockTaskStatus);
 
-      mockAppealReply.healthSafety.hasHealthSafety = false;
+			mockAppealReply.healthSafety.hasHealthSafety = false;
 
-      const mockRequest = {
-        ...mockReq(),
-        body: {
-          'health-safety': 'no',
-        },
-      };
+			const mockRequest = {
+				...mockReq(),
+				body: {
+					'health-safety': 'no'
+				}
+			};
 
-      await healthSafetyController.postHealthSafety(mockRequest, res);
+			await healthSafetyController.postHealthSafety(mockRequest, res);
 
-      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
-      expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
-    });
+			expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
+			expect(res.render).not.toHaveBeenCalled();
+			expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
+		});
 
-    it('should redirect to the back link specified', async () => {
-      getTaskStatus.mockImplementation(() => mockTaskStatus);
+		it('should redirect to the back link specified', async () => {
+			getTaskStatus.mockImplementation(() => mockTaskStatus);
 
-      mockAppealReply.healthSafety.hasHealthSafety = false;
+			mockAppealReply.healthSafety.hasHealthSafety = false;
 
-      const mockRequest = {
-        ...mockReq(),
-        body: {
-          'has-health-safety': 'no',
-        },
-      };
-      mockRequest.session.backLink = `/mock-id/mock-back-link`;
+			const mockRequest = {
+				...mockReq(),
+				body: {
+					'has-health-safety': 'no'
+				}
+			};
+			mockRequest.session.backLink = `/mock-id/mock-back-link`;
 
-      await healthSafetyController.postHealthSafety(mockRequest, res);
+			await healthSafetyController.postHealthSafety(mockRequest, res);
 
-      expect(res.redirect).toHaveBeenCalledWith(backLinkUrl);
-    });
+			expect(res.redirect).toHaveBeenCalledWith(backLinkUrl);
+		});
 
-    it('should redirect with has-health-safety set to true and health-safety-text passed', async () => {
-      getTaskStatus.mockImplementation(() => mockTaskStatus);
+		it('should redirect with has-health-safety set to true and health-safety-text passed', async () => {
+			getTaskStatus.mockImplementation(() => mockTaskStatus);
 
-      mockAppealReply.healthSafety = {
-        hasHealthSafety: true,
-        healthSafetyIssues: 'some-text',
-      };
+			mockAppealReply.healthSafety = {
+				hasHealthSafety: true,
+				healthSafetyIssues: 'some-text'
+			};
 
-      const mockRequest = {
-        ...mockReq(),
-        body: {
-          'has-health-safety': 'yes',
-          'health-safety-text': 'some-text',
-        },
-      };
-      mockRequest.session.backLink = `/mock-id/${VIEW.TASK_LIST}`;
+			const mockRequest = {
+				...mockReq(),
+				body: {
+					'has-health-safety': 'yes',
+					'health-safety-text': 'some-text'
+				}
+			};
+			mockRequest.session.backLink = `/mock-id/${VIEW.TASK_LIST}`;
 
-      await healthSafetyController.postHealthSafety(mockRequest, res);
+			await healthSafetyController.postHealthSafety(mockRequest, res);
 
-      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
-      expect(res.render).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
-    });
+			expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
+			expect(res.render).not.toHaveBeenCalled();
+			expect(res.redirect).toHaveBeenCalledWith(`/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`);
+		});
 
-    it('should re-render the template with errors if there is any validator error', async () => {
-      const mockRequest = {
-        ...mockReq(),
-        body: {
-          'has-health-safety': 'yes',
-          'health-safety-text': null,
-          errors: { a: 'b' },
-          errorSummary: [{ text: 'There were errors here', href: '#' }],
-        },
-      };
-      await healthSafetyController.postHealthSafety(mockRequest, res);
+		it('should re-render the template with errors if there is any validator error', async () => {
+			const mockRequest = {
+				...mockReq(),
+				body: {
+					'has-health-safety': 'yes',
+					'health-safety-text': null,
+					errors: { a: 'b' },
+					errorSummary: [{ text: 'There were errors here', href: '#' }]
+				}
+			};
+			await healthSafetyController.postHealthSafety(mockRequest, res);
 
-      expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith(VIEW.HEALTH_SAFETY, {
-        appeal: null,
-        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
-        errorSummary: [{ text: 'There were errors here', href: '#' }],
-        errors: { a: 'b' },
-        values: {
-          'has-health-safety': 'yes',
-          'health-safety-text': null,
-        },
-      });
-    });
+			expect(res.redirect).not.toHaveBeenCalled();
+			expect(res.render).toHaveBeenCalledWith(VIEW.HEALTH_SAFETY, {
+				appeal: null,
+				backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
+				errorSummary: [{ text: 'There were errors here', href: '#' }],
+				errors: { a: 'b' },
+				values: {
+					'has-health-safety': 'yes',
+					'health-safety-text': null
+				}
+			});
+		});
 
-    it('should re-render the template with an error if there is an API error', async () => {
-      mockAppealReply.healthSafety.hasHealthSafety = false;
-      mockAppealReply.sectionStates.healthSafety = mockTaskStatus;
+		it('should re-render the template with an error if there is an API error', async () => {
+			mockAppealReply.healthSafety.hasHealthSafety = false;
+			mockAppealReply.sectionStates.healthSafety = mockTaskStatus;
 
-      const mockRequest = {
-        ...mockReq(),
-        body: {
-          'has-health-safety': 'no',
-        },
-      };
+			const mockRequest = {
+				...mockReq(),
+				body: {
+					'has-health-safety': 'no'
+				}
+			};
 
-      createOrUpdateAppealReply.mockRejectedValue('mock api error');
+			createOrUpdateAppealReply.mockRejectedValue('mock api error');
 
-      await healthSafetyController.postHealthSafety(mockRequest, res);
+			await healthSafetyController.postHealthSafety(mockRequest, res);
 
-      expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
-      expect(res.redirect).not.toHaveBeenCalled();
-      expect(logger.error).toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith(VIEW.HEALTH_SAFETY, {
-        appeal: null,
-        backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
-        errorSummary: [{ text: 'mock api error' }],
-        errors: {},
-        values: {
-          'has-health-safety': 'no',
-          'health-safety-text': undefined,
-        },
-      });
-    });
-  });
+			expect(createOrUpdateAppealReply).toHaveBeenCalledWith(mockAppealReply);
+			expect(res.redirect).not.toHaveBeenCalled();
+			expect(logger.error).toHaveBeenCalled();
+			expect(res.render).toHaveBeenCalledWith(VIEW.HEALTH_SAFETY, {
+				appeal: null,
+				backLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
+				errorSummary: [{ text: 'mock api error' }],
+				errors: {},
+				values: {
+					'has-health-safety': 'no',
+					'health-safety-text': undefined
+				}
+			});
+		});
+	});
 });

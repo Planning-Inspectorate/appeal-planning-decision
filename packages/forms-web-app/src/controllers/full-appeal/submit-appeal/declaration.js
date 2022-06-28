@@ -5,63 +5,64 @@ const { submitAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
 
 const {
-  FULL_APPEAL: { DECLARATION, APPEAL_SUBMITTED },
+	FULL_APPEAL: { DECLARATION, APPEAL_SUBMITTED }
 } = VIEW;
 
 const getDeclaration = (req, res) => {
-  res.render(DECLARATION);
+	res.render(DECLARATION);
 };
 
 const postDeclaration = async (req, res) => {
-  const { body } = req;
-  const { errors = {} } = body;
-  const {
-    appeal
-  } = req.session;
+	const { body } = req;
+	const { errors = {} } = body;
+	const { appeal } = req.session;
 
-  const log = logger.child({ appealId: appeal.id, uuid: uuid.v4() });
+	const log = logger.child({ appealId: appeal.id, uuid: uuid.v4() });
 
-  log.info(appeal);
-  if (!appeal.eligibility.applicationCategories) {
-    appeal.eligibility.applicationCategories = ['none_of_these'];
-  }
-  log.info('Submitting the appeal');
+	log.info(appeal);
+	if (!appeal.eligibility.applicationCategories) {
+		appeal.eligibility.applicationCategories = ['none_of_these'];
+	}
+	log.info('Submitting the appeal');
 
-  try {
-    const { id, name, location, size } = await storePdfAppeal(
-      appeal,
-      `planning-appeal-for-planning-application-${appeal.planningApplicationNumber.replace(/\//g, '-')}`
-    );
+	try {
+		const { id, name, location, size } = await storePdfAppeal(
+			appeal,
+			`planning-appeal-for-planning-application-${appeal.planningApplicationNumber.replace(
+				/\//g,
+				'-'
+			)}`
+		);
 
-    appeal.state = 'SUBMITTED';
-    appeal.appealSubmission = {
-      appealPDFStatement: {
-        uploadedFile: {
-          id,
-          name,
-          fileName: name,
-          originalFileName: name,
-          location,
-          size,
-        },
-      },
-    };
+		appeal.state = 'SUBMITTED';
+		appeal.appealSubmission = {
+			appealPDFStatement: {
+				uploadedFile: {
+					id,
+					name,
+					fileName: name,
+					originalFileName: name,
+					location,
+					size
+				}
+			}
+		};
 
-    log.debug({ appealSubmission: appeal.appealSubmission }, 'Appeal submission');
+		log.debug({ appealSubmission: appeal.appealSubmission }, 'Appeal submission');
 
-    req.session.appeal = await submitAppeal(appeal);
-    log.debug('Appeal successfully submitted');
-    res.redirect(`/${APPEAL_SUBMITTED}`);
-  } catch (err) {
-    log.error({ err }, 'The appeal submission failed');
-    res.render(DECLARATION, {
-      errors,
-      errorSummary: [{ text: err.toString(), href: '#' }],
-    });
-  }
+		req.session.appeal = await submitAppeal(appeal);
+		log.debug('Appeal successfully submitted');
+		res.redirect(`/${APPEAL_SUBMITTED}`);
+	} catch (err) {
+		log.error({ err }, 'The appeal submission failed');
+		res.render(DECLARATION, {
+			errors,
+			errorSummary: [{ text: err.toString(), href: '#' }]
+		});
+	}
 };
 
 module.exports = {
-  getDeclaration,
-  postDeclaration,
+	getDeclaration,
+	postDeclaration
 };

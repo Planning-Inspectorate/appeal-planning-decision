@@ -1,234 +1,234 @@
 const { extractAppealProps } = require('../../lib/extract-appeal-props');
 const { calculateDeadline } = require('../../lib/calculate-deadline');
 const {
-  VIEW: {
-    HOUSEHOLDER_PLANNING: {
-      ELIGIBILITY: {
-        CAN_USE_SERVICE_HOUSEHOLDER: canUseServiceHouseholder,
-        CAN_USE_SERVICE_PRIOR_APPROVAL: canUseServicePriorApprovalHouseholder,
-        CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
-          canUseServiceRemovalOrVariationOfConditionsHouseholder,
-      },
-    },
-  },
+	VIEW: {
+		HOUSEHOLDER_PLANNING: {
+			ELIGIBILITY: {
+				CAN_USE_SERVICE_HOUSEHOLDER: canUseServiceHouseholder,
+				CAN_USE_SERVICE_PRIOR_APPROVAL: canUseServicePriorApprovalHouseholder,
+				CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
+					canUseServiceRemovalOrVariationOfConditionsHouseholder
+			}
+		}
+	}
 } = require('../../lib/householder-planning/views');
 const {
-  VIEW: {
-    FULL_APPEAL: {
-      CAN_USE_SERVICE_FULL_APPEAL: canUseServiceFullAppealUrl,
-      CAN_USE_SERVICE_PRIOR_APPROVAL: canUseServicePriorApprovalFull,
-      CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
-        canUseServiceRemovalOrVariationOfConditionsFullAppeal,
-    },
-  },
+	VIEW: {
+		FULL_APPEAL: {
+			CAN_USE_SERVICE_FULL_APPEAL: canUseServiceFullAppealUrl,
+			CAN_USE_SERVICE_PRIOR_APPROVAL: canUseServicePriorApprovalFull,
+			CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
+				canUseServiceRemovalOrVariationOfConditionsFullAppeal
+		}
+	}
 } = require('../../lib/full-appeal/views');
 
 const canUseServiceHouseholderPlanning = async (req, res) => {
-  const { appeal } = req.session;
+	const { appeal } = req.session;
 
-  const {
-    appealLPD,
-    applicationType,
-    applicationDecision,
-    decisionDate,
-    enforcementNotice,
-    dateOfDecisionLabel,
-    nextPageUrl,
-  } = await extractAppealProps(appeal);
+	const {
+		appealLPD,
+		applicationType,
+		applicationDecision,
+		decisionDate,
+		enforcementNotice,
+		dateOfDecisionLabel,
+		nextPageUrl
+	} = await extractAppealProps(appeal);
 
-  const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
+	const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
-  const deadlineDate = calculateDeadline.businessRulesDeadline(
-    appeal.decisionDate,
-    appeal.appealType,
-    appeal.eligibility.applicationDecision
-  );
+	const deadlineDate = calculateDeadline.businessRulesDeadline(
+		appeal.decisionDate,
+		appeal.appealType,
+		appeal.eligibility.applicationDecision
+	);
 
-  const claimingCosts = appeal.eligibility.isClaimingCosts ? 'Yes' : 'No';
+	const claimingCosts = appeal.eligibility.isClaimingCosts ? 'Yes' : 'No';
 
-  res.render(canUseServiceHouseholder, {
-    deadlineDate,
-    appealLPD,
-    applicationType,
-    isListedBuilding,
-    applicationDecision,
-    decisionDate,
-    enforcementNotice,
-    claimingCosts,
-    dateOfDecisionLabel,
-    nextPageUrl,
-  });
+	res.render(canUseServiceHouseholder, {
+		deadlineDate,
+		appealLPD,
+		applicationType,
+		isListedBuilding,
+		applicationDecision,
+		decisionDate,
+		enforcementNotice,
+		claimingCosts,
+		dateOfDecisionLabel,
+		nextPageUrl
+	});
 };
 
 const canUseServiceFullAppeal = async (req, res) => {
-  const { appeal } = req.session;
-  const {
-    appealLPD,
-    applicationType,
-    applicationDecision,
-    decisionDate,
-    enforcementNotice,
-    dateOfDecisionLabel,
-    nextPageUrl,
-  } = await extractAppealProps(appeal);
+	const { appeal } = req.session;
+	const {
+		appealLPD,
+		applicationType,
+		applicationDecision,
+		decisionDate,
+		enforcementNotice,
+		dateOfDecisionLabel,
+		nextPageUrl
+	} = await extractAppealProps(appeal);
 
-  const deadlineDate = calculateDeadline.businessRulesDeadline(
-    appeal.decisionDate,
-    appeal.appealType,
-    appeal.eligibility.applicationDecision
-  );
+	const deadlineDate = calculateDeadline.businessRulesDeadline(
+		appeal.decisionDate,
+		appeal.appealType,
+		appeal.eligibility.applicationDecision
+	);
 
-  res.render(canUseServiceFullAppealUrl, {
-    deadlineDate,
-    appealLPD,
-    applicationType,
-    applicationDecision,
-    decisionDate,
-    enforcementNotice,
-    dateOfDecisionLabel,
-    nextPageUrl,
-  });
+	res.render(canUseServiceFullAppealUrl, {
+		deadlineDate,
+		appealLPD,
+		applicationType,
+		applicationDecision,
+		decisionDate,
+		enforcementNotice,
+		dateOfDecisionLabel,
+		nextPageUrl
+	});
 };
 
 const canUseServicePriorApproval = async (req, res) => {
-  const { appeal } = req.session;
-  const {
-    appealLPD,
-    applicationType,
-    applicationDecision,
-    decisionDate,
-    enforcementNotice,
-    dateOfDecisionLabel,
-    nextPageUrl,
-  } = await extractAppealProps(appeal);
+	const { appeal } = req.session;
+	const {
+		appealLPD,
+		applicationType,
+		applicationDecision,
+		decisionDate,
+		enforcementNotice,
+		dateOfDecisionLabel,
+		nextPageUrl
+	} = await extractAppealProps(appeal);
 
-  const hasPriorApprovalForExistingHome = appeal.eligibility.hasPriorApprovalForExistingHome
-    ? 'Yes'
-    : 'No';
+	const hasPriorApprovalForExistingHome = appeal.eligibility.hasPriorApprovalForExistingHome
+		? 'Yes'
+		: 'No';
 
-  if (appeal.eligibility.hasPriorApprovalForExistingHome) {
-    const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
+	if (appeal.eligibility.hasPriorApprovalForExistingHome) {
+		const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
-    const deadlineDate = calculateDeadline.businessRulesDeadline(
-      appeal.decisionDate,
-      appeal.appealType,
-      appeal.eligibility.applicationDecision
-    );
+		const deadlineDate = calculateDeadline.businessRulesDeadline(
+			appeal.decisionDate,
+			appeal.appealType,
+			appeal.eligibility.applicationDecision
+		);
 
-    const claimingCosts = appeal.eligibility.isClaimingCosts ? 'Yes' : 'No';
+		const claimingCosts = appeal.eligibility.isClaimingCosts ? 'Yes' : 'No';
 
-    res.render(canUseServicePriorApprovalHouseholder, {
-      deadlineDate,
-      appealLPD,
-      applicationType,
-      isListedBuilding,
-      applicationDecision,
-      decisionDate,
-      enforcementNotice,
-      claimingCosts,
-      dateOfDecisionLabel,
-      hasPriorApprovalForExistingHome,
-      nextPageUrl,
-    });
-  } else {
-    const deadlineDate = calculateDeadline.businessRulesDeadline(
-      appeal.decisionDate,
-      appeal.appealType,
-      appeal.eligibility.applicationDecision
-    );
+		res.render(canUseServicePriorApprovalHouseholder, {
+			deadlineDate,
+			appealLPD,
+			applicationType,
+			isListedBuilding,
+			applicationDecision,
+			decisionDate,
+			enforcementNotice,
+			claimingCosts,
+			dateOfDecisionLabel,
+			hasPriorApprovalForExistingHome,
+			nextPageUrl
+		});
+	} else {
+		const deadlineDate = calculateDeadline.businessRulesDeadline(
+			appeal.decisionDate,
+			appeal.appealType,
+			appeal.eligibility.applicationDecision
+		);
 
-    res.render(canUseServicePriorApprovalFull, {
-      deadlineDate,
-      appealLPD,
-      applicationType,
-      applicationDecision,
-      decisionDate,
-      enforcementNotice,
-      dateOfDecisionLabel,
-      hasPriorApprovalForExistingHome,
-      nextPageUrl,
-    });
-  }
+		res.render(canUseServicePriorApprovalFull, {
+			deadlineDate,
+			appealLPD,
+			applicationType,
+			applicationDecision,
+			decisionDate,
+			enforcementNotice,
+			dateOfDecisionLabel,
+			hasPriorApprovalForExistingHome,
+			nextPageUrl
+		});
+	}
 };
 
 const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
-  const { appeal } = req.session;
-  const {
-    appealLPD,
-    applicationType,
-    applicationDecision,
-    decisionDate,
-    enforcementNotice,
-    dateOfDecisionLabel,
-    nextPageUrl,
-  } = await extractAppealProps(appeal);
+	const { appeal } = req.session;
+	const {
+		appealLPD,
+		applicationType,
+		applicationDecision,
+		decisionDate,
+		enforcementNotice,
+		dateOfDecisionLabel,
+		nextPageUrl
+	} = await extractAppealProps(appeal);
 
-  const hasHouseholderPermissionConditions = appeal.eligibility.hasHouseholderPermissionConditions
-    ? 'Yes'
-    : 'No';
+	const hasHouseholderPermissionConditions = appeal.eligibility.hasHouseholderPermissionConditions
+		? 'Yes'
+		: 'No';
 
-  if (appeal.eligibility.hasHouseholderPermissionConditions) {
-    const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
+	if (appeal.eligibility.hasHouseholderPermissionConditions) {
+		const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
-    const deadlineDate = calculateDeadline.businessRulesDeadline(
-      appeal.decisionDate,
-      appeal.appealType,
-      appeal.eligibility.applicationDecision
-    );
+		const deadlineDate = calculateDeadline.businessRulesDeadline(
+			appeal.decisionDate,
+			appeal.appealType,
+			appeal.eligibility.applicationDecision
+		);
 
-    const claimingCosts = appeal.eligibility.isClaimingCosts ? 'Yes' : 'No';
+		const claimingCosts = appeal.eligibility.isClaimingCosts ? 'Yes' : 'No';
 
-    res.render(canUseServiceRemovalOrVariationOfConditionsHouseholder, {
-      deadlineDate,
-      appealLPD,
-      applicationType,
-      isListedBuilding,
-      applicationDecision,
-      decisionDate,
-      enforcementNotice,
-      claimingCosts,
-      dateOfDecisionLabel,
-      hasHouseholderPermissionConditions,
-      nextPageUrl,
-    });
-  } else {
-    const deadlineDate = calculateDeadline.businessRulesDeadline(
-      appeal.decisionDate,
-      appeal.appealType,
-      appeal.eligibility.applicationDecision
-    );
+		res.render(canUseServiceRemovalOrVariationOfConditionsHouseholder, {
+			deadlineDate,
+			appealLPD,
+			applicationType,
+			isListedBuilding,
+			applicationDecision,
+			decisionDate,
+			enforcementNotice,
+			claimingCosts,
+			dateOfDecisionLabel,
+			hasHouseholderPermissionConditions,
+			nextPageUrl
+		});
+	} else {
+		const deadlineDate = calculateDeadline.businessRulesDeadline(
+			appeal.decisionDate,
+			appeal.appealType,
+			appeal.eligibility.applicationDecision
+		);
 
-    res.render(canUseServiceRemovalOrVariationOfConditionsFullAppeal, {
-      deadlineDate,
-      appealLPD,
-      applicationType,
-      applicationDecision,
-      decisionDate,
-      enforcementNotice,
-      dateOfDecisionLabel,
-      hasHouseholderPermissionConditions,
-      nextPageUrl,
-    });
-  }
+		res.render(canUseServiceRemovalOrVariationOfConditionsFullAppeal, {
+			deadlineDate,
+			appealLPD,
+			applicationType,
+			applicationDecision,
+			decisionDate,
+			enforcementNotice,
+			dateOfDecisionLabel,
+			hasHouseholderPermissionConditions,
+			nextPageUrl
+		});
+	}
 };
 
 exports.getCanUseService = async (req, res) => {
-  const { appeal } = req.session;
-  const applicationType = appeal.typeOfPlanningApplication;
+	const { appeal } = req.session;
+	const applicationType = appeal.typeOfPlanningApplication;
 
-  switch (applicationType) {
-    case 'full-appeal':
-    case 'outline-planning':
-    case 'reserved-matters':
-      await canUseServiceFullAppeal(req, res);
-      break;
-    case 'prior-approval':
-      await canUseServicePriorApproval(req, res);
-      break;
-    case 'removal-or-variation-of-conditions':
-      await canUseServiceRemovalOrVariationOfConditions(req, res);
-      break;
-    default:
-      await canUseServiceHouseholderPlanning(req, res);
-  }
+	switch (applicationType) {
+		case 'full-appeal':
+		case 'outline-planning':
+		case 'reserved-matters':
+			await canUseServiceFullAppeal(req, res);
+			break;
+		case 'prior-approval':
+			await canUseServicePriorApproval(req, res);
+			break;
+		case 'removal-or-variation-of-conditions':
+			await canUseServiceRemovalOrVariationOfConditions(req, res);
+			break;
+		default:
+			await canUseServiceHouseholderPlanning(req, res);
+	}
 };

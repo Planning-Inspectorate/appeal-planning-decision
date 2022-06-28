@@ -5,24 +5,24 @@ const isValid = require('./appeal/type/is-valid');
 const isValidApplicationDecision = require('./appeal/application-decision/is-valid');
 
 describe('validation/index', () => {
-  it(`should export the expected data shape`, () => {
-    expect(index).toEqual({
-      appeal: {
-        applicationDecision: {
-          isValidApplicationDecision,
-        },
-        decisionDate: {
-          isWithinDecisionDateExpiryPeriod,
-        },
-        type: {
-          isValid,
-        },
-      },
-      generic: {
-        date: {
-          isInThePast,
-        },
-      },
-    });
-  });
+	it(`should export the expected data shape`, () => {
+		expect(index).toEqual({
+			appeal: {
+				applicationDecision: {
+					isValidApplicationDecision
+				},
+				decisionDate: {
+					isWithinDecisionDateExpiryPeriod
+				},
+				type: {
+					isValid
+				}
+			},
+			generic: {
+				date: {
+					isInThePast
+				}
+			}
+		});
+	});
 });

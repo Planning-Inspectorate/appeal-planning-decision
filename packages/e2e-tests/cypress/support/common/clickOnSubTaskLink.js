@@ -1,3 +1,3 @@
 export const clickOnSubTaskLink = (taskName) => {
-  cy.get(`[data-cy="${taskName}"]`).click();
+	cy.get(`[data-cy="${taskName}"]`).click();
 };

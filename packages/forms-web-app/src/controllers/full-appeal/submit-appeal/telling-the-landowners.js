@@ -1,7 +1,7 @@
 const {
-  VIEW: {
-    FULL_APPEAL: { TELLING_THE_LANDOWNERS, AGRICULTURAL_HOLDING },
-  },
+	VIEW: {
+		FULL_APPEAL: { TELLING_THE_LANDOWNERS, AGRICULTURAL_HOLDING }
+	}
 } = require('../../../lib/full-appeal/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
@@ -13,74 +13,74 @@ const sectionName = 'appealSiteSection';
 const taskName = 'tellingTheLandowners';
 
 const buildVariables = (knowsTheOwners, ownsSomeOfTheLand, tellingTheLandowners) => {
-  return {
-    knowsTheOwners,
-    ownsSomeOfTheLand,
-    tellingTheLandowners: toArray(tellingTheLandowners),
-  };
+	return {
+		knowsTheOwners,
+		ownsSomeOfTheLand,
+		tellingTheLandowners: toArray(tellingTheLandowners)
+	};
 };
 
 const getTellingTheLandowners = (req, res) => {
-  const {
-    appeal: {
-      appealSiteSection: {
-        siteOwnership: { knowsTheOwners, ownsSomeOfTheLand, tellingTheLandowners },
-      },
-    },
-  } = req.session;
+	const {
+		appeal: {
+			appealSiteSection: {
+				siteOwnership: { knowsTheOwners, ownsSomeOfTheLand, tellingTheLandowners }
+			}
+		}
+	} = req.session;
 
-  res.render(
-    TELLING_THE_LANDOWNERS,
-    buildVariables(knowsTheOwners, ownsSomeOfTheLand, tellingTheLandowners)
-  );
+	res.render(
+		TELLING_THE_LANDOWNERS,
+		buildVariables(knowsTheOwners, ownsSomeOfTheLand, tellingTheLandowners)
+	);
 };
 
 const postTellingTheLandowners = async (req, res) => {
-  const {
-    body,
-    body: { errors = {}, errorSummary = [] },
-    session: {
-      appeal,
-      appeal: {
-        appealSiteSection: {
-          siteOwnership: { knowsTheOwners, ownsSomeOfTheLand },
-        },
-      },
-    },
-  } = req;
+	const {
+		body,
+		body: { errors = {}, errorSummary = [] },
+		session: {
+			appeal,
+			appeal: {
+				appealSiteSection: {
+					siteOwnership: { knowsTheOwners, ownsSomeOfTheLand }
+				}
+			}
+		}
+	} = req;
 
-  const tellingTheLandowners = toArray(body['telling-the-landowners']);
+	const tellingTheLandowners = toArray(body['telling-the-landowners']);
 
-  if (Object.keys(errors).length > 0) {
-    return res.render(TELLING_THE_LANDOWNERS, {
-      ...buildVariables(knowsTheOwners, ownsSomeOfTheLand, tellingTheLandowners),
-      errors,
-      errorSummary,
-    });
-  }
+	if (Object.keys(errors).length > 0) {
+		return res.render(TELLING_THE_LANDOWNERS, {
+			...buildVariables(knowsTheOwners, ownsSomeOfTheLand, tellingTheLandowners),
+			errors,
+			errorSummary
+		});
+	}
 
-  try {
-    appeal.appealSiteSection.siteOwnership.tellingTheLandowners = tellingTheLandowners;
-    if (req.body['save-and-return'] !== '') {
-      appeal.sectionStates[sectionName][taskName] = COMPLETED;
-      req.session.appeal = await createOrUpdateAppeal(appeal);
-      return res.redirect(`/${AGRICULTURAL_HOLDING}`);
-    }
-    appeal.sectionStates[sectionName].knowTheOwners = IN_PROGRESS;
-    req.session.appeal = await createOrUpdateAppeal(appeal);
-    return await postSaveAndReturn(req, res);
-  } catch (err) {
-    logger.error(err);
+	try {
+		appeal.appealSiteSection.siteOwnership.tellingTheLandowners = tellingTheLandowners;
+		if (req.body['save-and-return'] !== '') {
+			appeal.sectionStates[sectionName][taskName] = COMPLETED;
+			req.session.appeal = await createOrUpdateAppeal(appeal);
+			return res.redirect(`/${AGRICULTURAL_HOLDING}`);
+		}
+		appeal.sectionStates[sectionName].knowTheOwners = IN_PROGRESS;
+		req.session.appeal = await createOrUpdateAppeal(appeal);
+		return await postSaveAndReturn(req, res);
+	} catch (err) {
+		logger.error(err);
 
-    return res.render(TELLING_THE_LANDOWNERS, {
-      ...buildVariables(knowsTheOwners, ownsSomeOfTheLand, tellingTheLandowners),
-      errors,
-      errorSummary: [{ text: err.toString(), href: '#' }],
-    });
-  }
+		return res.render(TELLING_THE_LANDOWNERS, {
+			...buildVariables(knowsTheOwners, ownsSomeOfTheLand, tellingTheLandowners),
+			errors,
+			errorSummary: [{ text: err.toString(), href: '#' }]
+		});
+	}
 };
 
 module.exports = {
-  getTellingTheLandowners,
-  postTellingTheLandowners,
+	getTellingTheLandowners,
+	postTellingTheLandowners
 };

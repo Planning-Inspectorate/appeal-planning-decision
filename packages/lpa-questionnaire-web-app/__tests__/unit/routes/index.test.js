@@ -22,41 +22,41 @@ const { router: otherPoliciesRouter } = require('../../../src/routes/other-polic
 const { router: statutoryDevelopmentRouter } = require('../../../src/routes/statutory-development');
 const booleanQuestionRouter = require('../../../src/routes/question-type/boolean');
 const {
-  router: supplementaryDocumentsRouter,
+	router: supplementaryDocumentsRouter
 } = require('../../../src/routes/supplementary-documents');
 const contactUsRouter = require('../../../src/routes/contact-us');
 const fullAppealRouter = require('../../../src/routes/full-appeal');
 
 describe('routes/index', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../src/routes');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../src/routes');
+	});
 
-  it('should define the expected routes', () => {
-    expect(use).toHaveBeenCalledWith(homeRouter);
-    expect(use).toHaveBeenCalledWith(filesRouter);
-    expect(use).toHaveBeenCalledWith(taskListRouter);
-    expect(use).toHaveBeenCalledWith(confirmAnswersRouter);
-    expect(use).toHaveBeenCalledWith(accuracySubmissionRouter);
-    expect(use).toHaveBeenCalledWith(otherAppealsRouter);
-    expect(use).toHaveBeenCalledWith(extraConditionsRouter);
-    expect(use).toHaveBeenCalledWith(interestedPartiesRouter);
-    expect(use).toHaveBeenCalledWith(representationsRouter);
-    expect(use).toHaveBeenCalledWith(notifyingPartiesRouter);
-    expect(use).toHaveBeenCalledWith(healthSafetyRouter);
-    expect(use).toHaveBeenCalledWith(developmentPlanRouter);
-    expect(use).toHaveBeenCalledWith(uploadPlansRouter);
-    expect(use).toHaveBeenCalledWith(informationSubmittedRouter);
-    expect(use).toHaveBeenCalledWith(officersReportRouter);
-    expect(use).toHaveBeenCalledWith(siteNoticesRouter);
-    expect(use).toHaveBeenCalledWith(conservationAreaMapRouter);
-    expect(use).toHaveBeenCalledWith(planningHistoryRouter);
-    expect(use).toHaveBeenCalledWith(otherPoliciesRouter);
-    expect(use).toHaveBeenCalledWith(statutoryDevelopmentRouter);
-    expect(use).toHaveBeenCalledWith(booleanQuestionRouter);
-    expect(use).toHaveBeenCalledWith(supplementaryDocumentsRouter);
-    expect(use).toHaveBeenCalledWith(contactUsRouter);
-    expect(use).toHaveBeenCalledWith(fullAppealRouter);
-  });
+	it('should define the expected routes', () => {
+		expect(use).toHaveBeenCalledWith(homeRouter);
+		expect(use).toHaveBeenCalledWith(filesRouter);
+		expect(use).toHaveBeenCalledWith(taskListRouter);
+		expect(use).toHaveBeenCalledWith(confirmAnswersRouter);
+		expect(use).toHaveBeenCalledWith(accuracySubmissionRouter);
+		expect(use).toHaveBeenCalledWith(otherAppealsRouter);
+		expect(use).toHaveBeenCalledWith(extraConditionsRouter);
+		expect(use).toHaveBeenCalledWith(interestedPartiesRouter);
+		expect(use).toHaveBeenCalledWith(representationsRouter);
+		expect(use).toHaveBeenCalledWith(notifyingPartiesRouter);
+		expect(use).toHaveBeenCalledWith(healthSafetyRouter);
+		expect(use).toHaveBeenCalledWith(developmentPlanRouter);
+		expect(use).toHaveBeenCalledWith(uploadPlansRouter);
+		expect(use).toHaveBeenCalledWith(informationSubmittedRouter);
+		expect(use).toHaveBeenCalledWith(officersReportRouter);
+		expect(use).toHaveBeenCalledWith(siteNoticesRouter);
+		expect(use).toHaveBeenCalledWith(conservationAreaMapRouter);
+		expect(use).toHaveBeenCalledWith(planningHistoryRouter);
+		expect(use).toHaveBeenCalledWith(otherPoliciesRouter);
+		expect(use).toHaveBeenCalledWith(statutoryDevelopmentRouter);
+		expect(use).toHaveBeenCalledWith(booleanQuestionRouter);
+		expect(use).toHaveBeenCalledWith(supplementaryDocumentsRouter);
+		expect(use).toHaveBeenCalledWith(contactUsRouter);
+		expect(use).toHaveBeenCalledWith(fullAppealRouter);
+	});
 });

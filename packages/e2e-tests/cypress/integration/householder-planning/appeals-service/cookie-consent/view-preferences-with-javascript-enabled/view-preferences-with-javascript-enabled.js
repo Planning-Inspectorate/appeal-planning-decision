@@ -7,18 +7,18 @@ import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAp
 import { pageURLAppeal } from '../../../../common/householder-planning/appeals-service/pageURLAppeal';
 
 Given('a user has elected to manage their cookie preference', () => {
-  //goToHouseholderQuestionPage();
-  goToAppealsPage(pageURLAppeal.goToHouseholderQuestionPage);
+	//goToHouseholderQuestionPage();
+	goToAppealsPage(pageURLAppeal.goToHouseholderQuestionPage);
 });
 
 When('the user views the Cookie Preferences service', () => {
-   //goToCookiePreferences();
-  goToAppealsPage(pageURLAppeal.goToCookiePreferences);
+	//goToCookiePreferences();
+	goToAppealsPage(pageURLAppeal.goToCookiePreferences);
 });
 
 Then('the user is provided information of what task each cookie is performing', () => {
-  userIsNavigatedToPage('cookie');
-  confirmGenericPageContentExists();
-  confirmPageHeadingWithJavaScriptEnabled();
-  confirmBodyContentWithJavaScriptEnabled();
+	userIsNavigatedToPage('cookie');
+	confirmGenericPageContentExists();
+	confirmPageHeadingWithJavaScriptEnabled();
+	confirmBodyContentWithJavaScriptEnabled();
 });

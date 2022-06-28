@@ -10,11 +10,11 @@ const router = express.Router();
 router.get('/costs-out', [fetchExistingAppealMiddleware], costsController.getCostsOut);
 router.get('/costs', [fetchExistingAppealMiddleware], costsController.getCosts);
 router.post(
-  '/costs',
-  [fetchExistingAppealMiddleware],
-  costsValidationRules(),
-  validationErrorHandler,
-  costsController.postCosts
+	'/costs',
+	[fetchExistingAppealMiddleware],
+	costsValidationRules(),
+	validationErrorHandler,
+	costsController.postCosts
 );
 
 module.exports = router;

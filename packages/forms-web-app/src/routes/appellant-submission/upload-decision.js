@@ -4,21 +4,21 @@ const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-a
 const uploadDecisionController = require('../../controllers/appellant-submission/upload-decision');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const {
-  rules: uploadDecisionValidationRules,
+	rules: uploadDecisionValidationRules
 } = require('../../validators/appellant-submission/upload-decision');
 
 const router = express.Router();
 
 router.get(
-  '/upload-decision',
-  [fetchExistingAppealMiddleware],
-  uploadDecisionController.getUploadDecision
+	'/upload-decision',
+	[fetchExistingAppealMiddleware],
+	uploadDecisionController.getUploadDecision
 );
 router.post(
-  '/upload-decision',
-  uploadDecisionValidationRules(),
-  validationErrorHandler,
-  uploadDecisionController.postUploadDecision
+	'/upload-decision',
+	uploadDecisionValidationRules(),
+	validationErrorHandler,
+	uploadDecisionController.postUploadDecision
 );
 
 module.exports = router;

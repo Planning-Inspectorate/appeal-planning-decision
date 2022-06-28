@@ -4,8 +4,8 @@ const useExistingServiceEnforcementNotice = require('../../controllers/full-appe
 const router = express.Router();
 
 router.get(
-  '/use-existing-service-enforcement-notice',
-  useExistingServiceEnforcementNotice.getUseExistingServiceEnforcementNotice
+	'/use-existing-service-enforcement-notice',
+	useExistingServiceEnforcementNotice.getUseExistingServiceEnforcementNotice
 );
 
 module.exports = router;

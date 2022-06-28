@@ -11,29 +11,29 @@ const cookieConfig = require('../lib/client-side/cookie/cookie-config');
  * @returns {*}
  */
 module.exports = (req, res, next) => {
-  if (!req.cookies) {
-    return next();
-  }
+	if (!req.cookies) {
+		return next();
+	}
 
-  if (typeof req.cookies[cookieConfig.COOKIE_POLICY_KEY] === 'undefined') {
-    removeUnwantedCookies(req, res);
-    return next();
-  }
+	if (typeof req.cookies[cookieConfig.COOKIE_POLICY_KEY] === 'undefined') {
+		removeUnwantedCookies(req, res);
+		return next();
+	}
 
-  let activeCookiePolicy;
-  try {
-    activeCookiePolicy = JSON.parse(req.cookies[cookieConfig.COOKIE_POLICY_KEY]);
-  } catch (e) {
-    // something went wrong decoding the cookie policy JSON, so lets wipe it and start again
-    removeUnwantedCookies(req, res, ['connect.sid']);
-    req.log.warn(e, 'Erasing all cookies due to JSON decoding error in the stored cookie policy.');
-    return next();
-  }
+	let activeCookiePolicy;
+	try {
+		activeCookiePolicy = JSON.parse(req.cookies[cookieConfig.COOKIE_POLICY_KEY]);
+	} catch (e) {
+		// something went wrong decoding the cookie policy JSON, so lets wipe it and start again
+		removeUnwantedCookies(req, res, ['connect.sid']);
+		req.log.warn(e, 'Erasing all cookies due to JSON decoding error in the stored cookie policy.');
+		return next();
+	}
 
-  if (activeCookiePolicy.usage) {
-    return next();
-  }
+	if (activeCookiePolicy.usage) {
+		return next();
+	}
 
-  removeUnwantedCookies(req, res);
-  return next();
+	removeUnwantedCookies(req, res);
+	return next();
 };

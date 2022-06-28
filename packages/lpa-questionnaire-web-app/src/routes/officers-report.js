@@ -13,41 +13,41 @@ const { validationErrorHandler } = require('../validators/validation-error-handl
 const router = express.Router();
 
 const getConfig = (req, res, next) => {
-  res.locals.routeInfo = {
-    sectionName: 'requiredDocumentsSection',
-    taskName: 'officersReport',
-    view: VIEW.OFFICERS_REPORT,
-    name: "Planning Officer's report",
-  };
-  req.documentType = documentTypes.officersReport.name;
+	res.locals.routeInfo = {
+		sectionName: 'requiredDocumentsSection',
+		taskName: 'officersReport',
+		view: VIEW.OFFICERS_REPORT,
+		name: "Planning Officer's report"
+	};
+	req.documentType = documentTypes.officersReport.name;
 
-  next();
+	next();
 };
 
 router.get(
-  '/appeal-questionnaire/:id/officers-report',
-  [
-    fetchAppealMiddleware,
-    fetchExistingAppealReplyMiddleware,
-    clearUploadedFilesMiddleware,
-    alreadySubmittedMiddleware,
-  ],
-  getConfig,
-  uploadQuestionController.getUpload
+	'/appeal-questionnaire/:id/officers-report',
+	[
+		fetchAppealMiddleware,
+		fetchExistingAppealReplyMiddleware,
+		clearUploadedFilesMiddleware,
+		alreadySubmittedMiddleware
+	],
+	getConfig,
+	uploadQuestionController.getUpload
 );
 
 router.post(
-  '/appeal-questionnaire/:id/officers-report',
-  [
-    reqFilesToReqBodyFilesMiddleware('documents'),
-    uploadValidationRules("Upload the planning officer's report or other documents and minutes"),
-  ],
-  validationErrorHandler,
-  getConfig,
-  uploadQuestionController.postUpload
+	'/appeal-questionnaire/:id/officers-report',
+	[
+		reqFilesToReqBodyFilesMiddleware('documents'),
+		uploadValidationRules("Upload the planning officer's report or other documents and minutes")
+	],
+	validationErrorHandler,
+	getConfig,
+	uploadQuestionController.postUpload
 );
 
 module.exports = {
-  router,
-  getConfig,
+	router,
+	getConfig
 };

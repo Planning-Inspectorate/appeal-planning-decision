@@ -7,20 +7,20 @@ jest.mock('../../../../src/middleware/fetch-appeal-by-url-param');
 jest.mock('../../../../src/middleware/fetch-appeal-lpd-by-appeal-lpa-code');
 
 describe('routes/submission-information', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../../src/routes/appellant-submission/submission-information');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../../src/routes/appellant-submission/submission-information');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith(
-      '/submission-information/:appealId',
-      [fetchAppealByUrlParam('appealId'), fetchAppealLpdByAppealLpaCode],
-      submissionInformationController.getSubmissionInformation
-    );
-  });
+	it('should define the expected routes', () => {
+		expect(get).toHaveBeenCalledWith(
+			'/submission-information/:appealId',
+			[fetchAppealByUrlParam('appealId'), fetchAppealLpdByAppealLpaCode],
+			submissionInformationController.getSubmissionInformation
+		);
+	});
 });

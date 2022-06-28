@@ -2,127 +2,127 @@ const uuid = require('uuid');
 const { _ } = require('lodash');
 const logger = require('../lib/logger');
 const {
-  getAppeal: getAppealFromAppealApiService,
-  updateAppeal,
-  insertAppeal,
+	getAppeal: getAppealFromAppealApiService,
+	updateAppeal,
+	insertAppeal
 } = require('../services/appeal.service');
 const ApiError = require('../error/apiError');
 
 module.exports = {
-  async createAppeal(req, res) {
-    const appeal = {};
+	async createAppeal(req, res) {
+		const appeal = {};
 
-    const now = new Date(new Date().toISOString());
-    appeal.id = uuid.v4();
-    appeal.createdAt = now;
-    appeal.updatedAt = now;
+		const now = new Date(new Date().toISOString());
+		appeal.id = uuid.v4();
+		appeal.createdAt = now;
+		appeal.updatedAt = now;
 
-    logger.debug(`Creating appeal ${appeal.id} ...`);
-    logger.debug({ appeal }, 'Appeal data in createAppeal');
+		logger.debug(`Creating appeal ${appeal.id} ...`);
+		logger.debug({ appeal }, 'Appeal data in createAppeal');
 
-    const document = await insertAppeal(appeal);
+		const document = await insertAppeal(appeal);
 
-    if (document.result && document.result.ok) {
-      logger.debug(`Appeal ${appeal.id} created`);
-      res.status(201).send(appeal);
-      return;
-    }
+		if (document.result && document.result.ok) {
+			logger.debug(`Appeal ${appeal.id} created`);
+			res.status(201).send(appeal);
+			return;
+		}
 
-    logger.error(`Problem while ${appeal.id} created`);
-    res.status(500).send(appeal);
-  },
+		logger.error(`Problem while ${appeal.id} created`);
+		res.status(500).send(appeal);
+	},
 
-  async getAppeal(req, res) {
-    const idParam = req.params.id;
+	async getAppeal(req, res) {
+		const idParam = req.params.id;
 
-    logger.debug(`Retrieving appeal ${idParam} ...`);
-    try {
-      const document = await getAppealFromAppealApiService(idParam);
+		logger.debug(`Retrieving appeal ${idParam} ...`);
+		try {
+			const document = await getAppealFromAppealApiService(idParam);
 
-      if (document === null) {
-        throw ApiError.appealNotFound(idParam);
-      }
+			if (document === null) {
+				throw ApiError.appealNotFound(idParam);
+			}
 
-      logger.debug(`Appeal ${idParam} retrieved`);
-      res.status(200).send(document.appeal);
-    } catch (e) {
-      if (e instanceof ApiError) {
-        logger.debug(e.message);
-        res.status(e.code).send({ code: e.code, errors: e.message.errors });
-        return;
-      }
-      logger.error(e.message);
-      res.status(500).send(`Problem getting the appeal ${idParam}\n${e}`);
-    }
-  },
+			logger.debug(`Appeal ${idParam} retrieved`);
+			res.status(200).send(document.appeal);
+		} catch (e) {
+			if (e instanceof ApiError) {
+				logger.debug(e.message);
+				res.status(e.code).send({ code: e.code, errors: e.message.errors });
+				return;
+			}
+			logger.error(e.message);
+			res.status(500).send(`Problem getting the appeal ${idParam}\n${e}`);
+		}
+	},
 
-  async updateAppeal(req, res) {
-    logger.debug(req);
-    const idParam = req.params.id;
-    logger.debug(`Updating appeal ${idParam} ...`);
+	async updateAppeal(req, res) {
+		logger.debug(req);
+		const idParam = req.params.id;
+		logger.debug(`Updating appeal ${idParam} ...`);
 
-    try {
-      const document = await getAppealFromAppealApiService(idParam);
+		try {
+			const document = await getAppealFromAppealApiService(idParam);
 
-      if (document === null) {
-        throw ApiError.appealNotFound(idParam);
-      }
+			if (document === null) {
+				throw ApiError.appealNotFound(idParam);
+			}
 
-      const newAppeal = req.body;
-      const oldAppeal = document.appeal;
+			const newAppeal = req.body;
+			const oldAppeal = document.appeal;
 
-      // logger.debug({ newAppeal }, 'New appeal data in updateAppeal');
+			// logger.debug({ newAppeal }, 'New appeal data in updateAppeal');
 
-      const isFirstSubmission = oldAppeal.state === 'DRAFT' && newAppeal.state === 'SUBMITTED';
+			const isFirstSubmission = oldAppeal.state === 'DRAFT' && newAppeal.state === 'SUBMITTED';
 
-      const updatedDocument = await updateAppeal(newAppeal, isFirstSubmission);
-      // logger.debug({ updatedDocument }, 'Updated appeal data in updateAppeal');
+			const updatedDocument = await updateAppeal(newAppeal, isFirstSubmission);
+			// logger.debug({ updatedDocument }, 'Updated appeal data in updateAppeal');
 
-      res.status(200).send(updatedDocument.appeal);
-    } catch (e) {
-      logger.error(e.message);
+			res.status(200).send(updatedDocument.appeal);
+		} catch (e) {
+			logger.error(e.message);
 
-      if (e instanceof ApiError) {
-        res.status(e.code).send({ code: e.code, errors: e.message.errors });
-        return;
-      }
+			if (e instanceof ApiError) {
+				res.status(e.code).send({ code: e.code, errors: e.message.errors });
+				return;
+			}
 
-      res.status(500).send(`Problem updating appeal ${idParam}\n${e}`);
-    }
-  },
+			res.status(500).send(`Problem updating appeal ${idParam}\n${e}`);
+		}
+	},
 
-  async patchAppeal(req, res) {
-    const idParam = req.params.id;
-    logger.debug(`Patching appeal ${idParam} ...`);
+	async patchAppeal(req, res) {
+		const idParam = req.params.id;
+		logger.debug(`Patching appeal ${idParam} ...`);
 
-    try {
-      const document = await getAppealFromAppealApiService(idParam);
+		try {
+			const document = await getAppealFromAppealApiService(idParam);
 
-      if (document === null) {
-        throw ApiError.appealNotFound(idParam);
-      }
+			if (document === null) {
+				throw ApiError.appealNotFound(idParam);
+			}
 
-      let newAppeal = req.body;
-      const oldAppeal = document.appeal;
+			let newAppeal = req.body;
+			const oldAppeal = document.appeal;
 
-      logger.debug({ newAppeal }, 'New appeal data in updateAppeal');
+			logger.debug({ newAppeal }, 'New appeal data in updateAppeal');
 
-      newAppeal = _.merge(oldAppeal, newAppeal);
+			newAppeal = _.merge(oldAppeal, newAppeal);
 
-      const updatedDocument = await updateAppeal(newAppeal, false);
+			const updatedDocument = await updateAppeal(newAppeal, false);
 
-      // logger.debug({ updatedDocument }, 'Updated appeal data in updateAppeal');
+			// logger.debug({ updatedDocument }, 'Updated appeal data in updateAppeal');
 
-      res.status(200).send(updatedDocument.appeal);
-    } catch (e) {
-      logger.error(e.message);
+			res.status(200).send(updatedDocument.appeal);
+		} catch (e) {
+			logger.error(e.message);
 
-      if (e instanceof ApiError) {
-        res.status(e.code).send({ code: e.code, errors: e.message.errors });
-        return;
-      }
+			if (e instanceof ApiError) {
+				res.status(e.code).send({ code: e.code, errors: e.message.errors });
+				return;
+			}
 
-      res.status(500).send(`Problem patching appeal ${idParam}\n${e}`);
-    }
-  },
+			res.status(500).send(`Problem patching appeal ${idParam}\n${e}`);
+		}
+	}
 };

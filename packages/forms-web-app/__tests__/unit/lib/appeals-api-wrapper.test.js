@@ -17,11 +17,11 @@ const config = require('../../../src/config');
 const mockLogger = jest.fn();
 
 jest.mock('../../../src/lib/logger', () => ({
-  child: () => ({
-    debug: mockLogger,
-    error: mockLogger,
-    warn: mockLogger,
-  }),
+	child: () => ({
+		debug: mockLogger,
+		error: mockLogger,
+		warn: mockLogger
+	})
 }));
 
 config.appeals.url = 'http://fake.url';

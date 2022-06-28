@@ -9,22 +9,22 @@ import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppea
 import { pageURLAppeal } from './pageURLAppeal';
 
 Given('an appeal exists', () => {
-  provideCompleteAppeal(STANDARD_APPEAL);
-  goToAppealsPage(pageURLAppeal.goToSubmissionPage);
+	provideCompleteAppeal(STANDARD_APPEAL);
+	goToAppealsPage(pageURLAppeal.goToSubmissionPage);
 });
 
 When('the user confirms their answers', () => {
-  clickSaveAndContinue();
+	clickSaveAndContinue();
 });
 
 Then('the user should be presented with the Terms and Conditions of the service', () => {
-  confirmNavigationTermsAndConditionsPage();
+	confirmNavigationTermsAndConditionsPage();
 });
 
 When('the appeal confirmation is presented', () => {
-  agreeToTheDeclaration();
+	agreeToTheDeclaration();
 });
 
 Then('the required link is displayed in the page body', () => {
-  confirmFeedbackLinkIsDisplayedInPageBody();
+	confirmFeedbackLinkIsDisplayedInPageBody();
 });

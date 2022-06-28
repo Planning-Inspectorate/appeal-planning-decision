@@ -9,46 +9,46 @@ const sectionName = 'planningApplicationDocumentsSection';
 const taskName = 'ownershipCertificate';
 
 const getApplicationCertificatesIncluded = async (req, res) => {
-  const { submittedSeparateCertificate } = req.session.appeal[sectionName][taskName];
-  res.render(VIEW.FULL_APPEAL.APPLICATION_CERTIFICATES_INCLUDED, {
-    backLink,
-    submittedSeparateCertificate,
-  });
+	const { submittedSeparateCertificate } = req.session.appeal[sectionName][taskName];
+	res.render(VIEW.FULL_APPEAL.APPLICATION_CERTIFICATES_INCLUDED, {
+		backLink,
+		submittedSeparateCertificate
+	});
 };
 
 const postApplicationCertificatesIncluded = async (req, res) => {
-  const {
-    body,
-    session: { appeal },
-  } = req;
-  const { errors = {}, errorSummary = [] } = body;
+	const {
+		body,
+		session: { appeal }
+	} = req;
+	const { errors = {}, errorSummary = [] } = body;
 
-  if (Object.keys(errors).length > 0) {
-    return res.render(VIEW.FULL_APPEAL.APPLICATION_CERTIFICATES_INCLUDED, {
-      errors,
-      errorSummary,
-      backLink,
-    });
-  }
+	if (Object.keys(errors).length > 0) {
+		return res.render(VIEW.FULL_APPEAL.APPLICATION_CERTIFICATES_INCLUDED, {
+			errors,
+			errorSummary,
+			backLink
+		});
+	}
 
-  const submittedSeparateCertificate = body['did-you-submit-separate-certificate'] === 'yes';
+	const submittedSeparateCertificate = body['did-you-submit-separate-certificate'] === 'yes';
 
-  try {
-    appeal[sectionName][taskName].submittedSeparateCertificate = submittedSeparateCertificate;
-    appeal.sectionStates[sectionName][taskName] = COMPLETED;
-    req.session.appeal = await createOrUpdateAppeal(appeal);
-  } catch (err) {
-    logger.error(err);
-    return res.render(VIEW.FULL_APPEAL.APPLICATION_CERTIFICATES_INCLUDED, {
-      submittedSeparateCertificate,
-      errors,
-      errorSummary: [{ text: err.toString(), href: '#' }],
-    });
-  }
+	try {
+		appeal[sectionName][taskName].submittedSeparateCertificate = submittedSeparateCertificate;
+		appeal.sectionStates[sectionName][taskName] = COMPLETED;
+		req.session.appeal = await createOrUpdateAppeal(appeal);
+	} catch (err) {
+		logger.error(err);
+		return res.render(VIEW.FULL_APPEAL.APPLICATION_CERTIFICATES_INCLUDED, {
+			submittedSeparateCertificate,
+			errors,
+			errorSummary: [{ text: err.toString(), href: '#' }]
+		});
+	}
 
-  return submittedSeparateCertificate
-    ? res.redirect(`/${VIEW.FULL_APPEAL.CERTIFICATES}`)
-    : res.redirect(`/${VIEW.FULL_APPEAL.PROPOSED_DEVELOPMENT_CHANGED}`);
+	return submittedSeparateCertificate
+		? res.redirect(`/${VIEW.FULL_APPEAL.CERTIFICATES}`)
+		: res.redirect(`/${VIEW.FULL_APPEAL.PROPOSED_DEVELOPMENT_CHANGED}`);
 };
 
 module.exports = { getApplicationCertificatesIncluded, postApplicationCertificatesIncluded };
