@@ -47,6 +47,7 @@ const planningObligationDeadlineRouter = require('./planning-obligation-deadline
 const planningObligationDraftRouter = require('./draft-planning-obligation');
 const letterConfirmingApplicationRouter = require('./letter-confirming-application');
 const planningApplicationNumberRouter = require('./planning-application-number');
+const enterCodeRouter = require('./enter-code');
 const confirmEmailAddressRouter = require('./confirm-email-address');
 const emailAddressRouter = require('./email-address');
 const emailConfirmedRouter = require('./email-confirmed');
@@ -103,6 +104,7 @@ router.use(planningObligationDraftRouter);
 router.use(planningObligationDeadlineRouter);
 router.use(letterConfirmingApplicationRouter);
 router.use(planningApplicationNumberRouter);
+router.use(enterCodeRouter);
 router.use(confirmEmailAddressRouter);
 router.use(emailAddressRouter);
 router.use(emailConfirmedRouter);
