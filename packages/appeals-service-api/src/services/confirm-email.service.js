@@ -16,7 +16,6 @@ const confirmEmailCreateService = async (appeal) => {
           $set: {
             token,
             tokenStatus: 'NOT_SENT',
-            appealId: appeal.id,
             createdAt: new Date(),
           },
         },

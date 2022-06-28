@@ -126,4 +126,28 @@ describe('config', () => {
       reference: fullAppeal.id,
     });
   });
+
+  it('should return correct confirmEmail config for full appeal', () => {
+    const result = config.appeal.type[APPEAL_ID.PLANNING_SECTION_78].email.confirmEmail(
+      fullAppeal,
+      '12345',
+    );
+    expect(result).toEqual({
+      recipientEmail: fullAppeal.email,
+      reference: fullAppeal.id,
+      variables: { link: '12345' },
+    });
+  });
+  it('should return correct confirmEmail config for householder appeal', () => {
+    const result = config.appeal.type[APPEAL_ID.HOUSEHOLDER].email.confirmEmail(
+      householderAppeal,
+      '12345',
+    );
+    expect(result).toEqual({
+      recipientEmail: householderAppeal.aboutYouSection.yourDetails.email,
+      reference: householderAppeal.id,
+      variables: { link: '12345' },
+    });
+  });
+
 });
