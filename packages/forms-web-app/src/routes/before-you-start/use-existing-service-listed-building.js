@@ -4,8 +4,8 @@ const useExistingServiceListedBuilding = require('../../controllers/before-you-s
 const router = express.Router();
 
 router.get(
-  '/use-existing-service-listed-building',
-  useExistingServiceListedBuilding.getUseExistingServiceListedBuilding
+	'/use-existing-service-listed-building',
+	useExistingServiceListedBuilding.getUseExistingServiceListedBuilding
 );
 
 module.exports = router;

@@ -1,0 +1,6 @@
+.idea
+jest-reports
+README.md
+tmp
+*.njk
+*.bundle.js

@@ -6,7 +6,7 @@
 const { initialiseCookieConsent } = require('../../../../../src/lib/client-side/cookie/index');
 
 const {
-  cookieConsentHandler,
+	cookieConsentHandler
 } = require('../../../../../src/lib/client-side/cookie/cookie-consent');
 
 const { readCookie } = require('../../../../../src/lib/client-side/cookie/cookie-jar');
@@ -17,27 +17,27 @@ jest.mock('../../../../../src/lib/client-side/cookie/cookie-consent');
 const getExampleDom = () => document.createElement('div');
 
 describe('lib/client-side/cookie/index', () => {
-  let document;
+	let document;
 
-  beforeEach(() => {
-    document = getExampleDom();
-  });
+	beforeEach(() => {
+		document = getExampleDom();
+	});
 
-  describe('initialiseCookieConsent', () => {
-    test('when cookie is null', () => {
-      readCookie.mockImplementation(() => null);
+	describe('initialiseCookieConsent', () => {
+		test('when cookie is null', () => {
+			readCookie.mockImplementation(() => null);
 
-      initialiseCookieConsent(document);
+			initialiseCookieConsent(document);
 
-      expect(cookieConsentHandler).toHaveBeenCalledWith(document);
-    });
+			expect(cookieConsentHandler).toHaveBeenCalledWith(document);
+		});
 
-    test('when cookie is not null', () => {
-      readCookie.mockImplementation(() => 'a value');
+		test('when cookie is not null', () => {
+			readCookie.mockImplementation(() => 'a value');
 
-      initialiseCookieConsent(document);
+			initialiseCookieConsent(document);
 
-      expect(cookieConsentHandler).not.toHaveBeenCalled();
-    });
-  });
+			expect(cookieConsentHandler).not.toHaveBeenCalled();
+		});
+	});
 });

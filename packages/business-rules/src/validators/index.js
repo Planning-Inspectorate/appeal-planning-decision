@@ -3,13 +3,13 @@ const conditionalText = require('./common/conditional-text');
 const { allOfValidOptions, allOfSelectedOptions } = require('./common/array');
 
 module.exports = {
-  appeal: {
-    decisionDate: {
-      isInThePast,
-      isWithinDeadlinePeriod,
-    },
-    conditionalText,
-    allOfValidOptions,
-    allOfSelectedOptions,
-  },
+	appeal: {
+		decisionDate: {
+			isInThePast,
+			isWithinDeadlinePeriod
+		},
+		conditionalText,
+		allOfValidOptions,
+		allOfSelectedOptions
+	}
 };

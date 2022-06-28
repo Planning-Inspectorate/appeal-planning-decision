@@ -4,7 +4,7 @@ import { confirmFlashMessageExists } from '../../../../support/householder-plann
 import { confirmFlashMessageContainerDoesNotExist } from '../../../../support/householder-planning/appeals-service/flash-message/confirmFlashMessageContainerDoesNotExist';
 
 Then('the user sees a one time message to denote action success', () => {
-  confirmFlashMessageExists('flash-message-success-1');
-  cy.reload();
-  confirmFlashMessageContainerDoesNotExist();
+	confirmFlashMessageExists('flash-message-success-1');
+	cy.reload();
+	confirmFlashMessageContainerDoesNotExist();
 });

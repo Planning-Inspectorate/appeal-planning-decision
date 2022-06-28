@@ -2,8 +2,8 @@ const express = require('express');
 
 const appealsController = require('../controllers/appeals');
 const {
-  appealInsertValidationRules,
-  appealUpdateValidationRules,
+	appealInsertValidationRules,
+	appealUpdateValidationRules
 } = require('../validators/appeals/appeals.validator');
 
 const router = express.Router();

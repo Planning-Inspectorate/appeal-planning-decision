@@ -1,5 +1,5 @@
 module.exports = (req) => {
-  delete req.session;
+	delete req.session;
 
-  return req;
+	return req;
 };

@@ -13,16 +13,16 @@ const isValid = require('../../generic/date/is-valid');
  * @returns {boolean}
  */
 module.exports = (givenDate, appealType, applicationDecision, now = new Date()) => {
-  [givenDate, now].forEach(isValid);
+	[givenDate, now].forEach(isValid);
 
-  const yesterday = sub(endOfDay(now), {
-    days: 1,
-  });
-  const deadlineDate = businessRules.appeal.deadlineDate(
-    givenDate,
-    appealType,
-    applicationDecision,
-  );
+	const yesterday = sub(endOfDay(now), {
+		days: 1
+	});
+	const deadlineDate = businessRules.appeal.deadlineDate(
+		givenDate,
+		appealType,
+		applicationDecision
+	);
 
-  return isBefore(yesterday, deadlineDate);
+	return isBefore(yesterday, deadlineDate);
 };

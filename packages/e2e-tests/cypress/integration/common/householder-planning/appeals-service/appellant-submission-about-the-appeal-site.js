@@ -10,44 +10,44 @@ import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppea
 import { pageURLAppeal } from './pageURLAppeal';
 
 When('appeal site address is requested', () => {
-   goToAppealsPage(pageURLAppeal.goToSiteAddressPage);
+	goToAppealsPage(pageURLAppeal.goToSiteAddressPage);
 });
 
 When('valid appeal site address is submitted', () => {
-  provideAddressLine1('Address line 1');
-  provideAddressLine2('Address line 2');
-  provideCounty('Some county');
-  provideTownOrCity('Some town');
-  providePostcode('SA18 2TY');
-  clickSaveAndContinue();
+	provideAddressLine1('Address line 1');
+	provideAddressLine2('Address line 2');
+	provideCounty('Some county');
+	provideTownOrCity('Some town');
+	providePostcode('SA18 2TY');
+	clickSaveAndContinue();
 });
 
 When('invalid appeal site address is submitted', () => {
-  provideAddressLine1('');
-  provideAddressLine2('');
-  provideCounty('');
-  provideTownOrCity('');
-  providePostcode('');
-  clickSaveAndContinue();
+	provideAddressLine1('');
+	provideAddressLine2('');
+	provideCounty('');
+	provideTownOrCity('');
+	providePostcode('');
+	clickSaveAndContinue();
 });
 
 Then('Address of the appeal site section is {string}', (status) => {
-  //goToTaskListPage();
-  goToAppealsPage(pageURLAppeal.goToTaskListPage);
-  checkStatusForTask('SiteAddress', status);
+	//goToTaskListPage();
+	goToAppealsPage(pageURLAppeal.goToTaskListPage);
+	checkStatusForTask('SiteAddress', status);
 });
 
 Then('Ownership of the appeal site section is {string}', (status) => {
-  goToAppealsPage(pageURLAppeal.goToTaskListPage);
-  checkStatusForTask('SiteOwnership', status);
+	goToAppealsPage(pageURLAppeal.goToTaskListPage);
+	checkStatusForTask('SiteOwnership', status);
 });
 
 Then('Access to the appeal site section is {string}', (status) => {
-  goToAppealsPage(pageURLAppeal.goToTaskListPage);
-  checkStatusForTask('SiteAccess', status);
+	goToAppealsPage(pageURLAppeal.goToTaskListPage);
+	checkStatusForTask('SiteAccess', status);
 });
 
 Then('Health and Safety issues section is {string}', (status) => {
-  goToAppealsPage(pageURLAppeal.goToTaskListPage);
-  checkStatusForTask('HealthAndSafety', status);
+	goToAppealsPage(pageURLAppeal.goToTaskListPage);
+	checkStatusForTask('HealthAndSafety', status);
 });

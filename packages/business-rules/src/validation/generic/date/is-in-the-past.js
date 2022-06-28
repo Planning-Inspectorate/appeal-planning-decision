@@ -16,9 +16,9 @@ const isValid = require('./is-valid');
  * @throws {Error} if the givenDate or now value are invalid.
  */
 module.exports = (givenDate, now = new Date()) => {
-  [givenDate, now].forEach(isValid);
+	[givenDate, now].forEach(isValid);
 
-  const today = endOfDay(now);
+	const today = endOfDay(now);
 
-  return !isAfter(givenDate, today);
+	return !isAfter(givenDate, today);
 };

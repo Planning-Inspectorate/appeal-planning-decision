@@ -5,14 +5,13 @@ import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAp
 import { pageURLAppeal } from '../../../../common/householder-planning/appeals-service/pageURLAppeal';
 
 Given('the appellant is on the start your appeal page', () => {
-  goToAppealsPage(pageURLAppeal.goToPageStartYourAppeal);
+	goToAppealsPage(pageURLAppeal.goToPageStartYourAppeal);
 });
 
 When('the appellant has selected to start the service', () => {
-  guidancePageNavigation('start');
+	guidancePageNavigation('start');
 });
 
-
 Then('the appellant can begin an appeal', () => {
-  userIsNavigatedToPage('/eligibility/householder-planning-permission');
+	userIsNavigatedToPage('/eligibility/householder-planning-permission');
 });

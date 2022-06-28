@@ -3,10 +3,10 @@ import { pageURLAppeal } from '../../../../integration/common/householder-planni
 import { goToAppealsPage } from '../../../common/go-to-page/goToAppealsPage';
 
 export const stateCaseInvolvesListedBuilding = () => {
-  //cy.visit('/eligibility/listed-building');
-  goToAppealsPage(pageURLAppeal.goToListedBuildingPage);
+	//cy.visit('/eligibility/listed-building');
+	goToAppealsPage(pageURLAppeal.goToListedBuildingPage);
 
-  cy.get('#is-your-appeal-about-a-listed-building').click();
+	cy.get('#is-your-appeal-about-a-listed-building').click();
 
-  clickSaveAndContinue();
+	clickSaveAndContinue();
 };

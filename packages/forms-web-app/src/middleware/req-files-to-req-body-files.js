@@ -12,30 +12,30 @@
  * @returns {function(*, *, *): (*)}
  */
 module.exports = (filesPropertyPath) => (req, res, next) => {
-  if (!req.body || !req.files) {
-    return next();
-  }
+	if (!req.body || !req.files) {
+		return next();
+	}
 
-  if (typeof req.files[filesPropertyPath] === 'undefined') {
-    req.body.files = [];
-    return next();
-  }
+	if (typeof req.files[filesPropertyPath] === 'undefined') {
+		req.body.files = [];
+		return next();
+	}
 
-  try {
-    req.body.files = {
-      ...req.body.files,
-      // Ensure we are always working with an array. Single files would otherwise be an object.
-      [filesPropertyPath]: Array.isArray(req.files[filesPropertyPath])
-        ? req.files[filesPropertyPath]
-        : [req.files[filesPropertyPath]],
-    };
-  } catch (err) {
-    // this feels like it should never happen, as nothing in the try block throws. This is a precaution.
-    /* istanbul ignore next */
-    req.log.debug({ err, filesPropertyPath }, 'Error extracting req.files[filesPropertyPath]');
-    /* istanbul ignore next */
-    req.body.files = [];
-  }
+	try {
+		req.body.files = {
+			...req.body.files,
+			// Ensure we are always working with an array. Single files would otherwise be an object.
+			[filesPropertyPath]: Array.isArray(req.files[filesPropertyPath])
+				? req.files[filesPropertyPath]
+				: [req.files[filesPropertyPath]]
+		};
+	} catch (err) {
+		// this feels like it should never happen, as nothing in the try block throws. This is a precaution.
+		/* istanbul ignore next */
+		req.log.debug({ err, filesPropertyPath }, 'Error extracting req.files[filesPropertyPath]');
+		/* istanbul ignore next */
+		req.body.files = [];
+	}
 
-  return next();
+	return next();
 };

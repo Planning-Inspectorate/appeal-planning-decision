@@ -8,20 +8,20 @@ const logger = require('../lib/logger');
  * @returns {(function(*, *, *): Promise<*>)|*}
  */
 module.exports = (appealKey) => async (req, res, next) => {
-  const appealId = req.params[appealKey];
+	const appealId = req.params[appealKey];
 
-  if (!appealId) {
-    delete req.session.appeal;
-    return next();
-  }
+	if (!appealId) {
+		delete req.session.appeal;
+		return next();
+	}
 
-  try {
-    logger.debug({ id: appealId }, `Get existing appeal from req.params[${appealKey}]`);
-    req.session.appeal = await getExistingAppeal(appealId);
-  } catch (err) {
-    logger.debug({ err }, `Error retrieving appeal using req.params[${appealKey}]`);
-    delete req.session.appeal;
-  }
+	try {
+		logger.debug({ id: appealId }, `Get existing appeal from req.params[${appealKey}]`);
+		req.session.appeal = await getExistingAppeal(appealId);
+	} catch (err) {
+		logger.debug({ err }, `Error retrieving appeal using req.params[${appealKey}]`);
+		delete req.session.appeal;
+	}
 
-  return next();
+	return next();
 };

@@ -3,133 +3,133 @@ const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
 describe('controllers/uploaded-documents', () => {
-  const uploadedDocumentsUrl = 'mock-protocol://mock-hostmock-url';
-  const view = VIEW.SUPPLEMENTARY_DOCUMENTS.UPLOADED_DOCUMENTS;
-  let req;
-  let res;
-  let mockAppealReply;
-  let uploadedFiles;
-  let renderObject;
+	const uploadedDocumentsUrl = 'mock-protocol://mock-hostmock-url';
+	const view = VIEW.SUPPLEMENTARY_DOCUMENTS.UPLOADED_DOCUMENTS;
+	let req;
+	let res;
+	let mockAppealReply;
+	let uploadedFiles;
+	let renderObject;
 
-  beforeEach(() => {
-    req = mockReq(mockAppealReply);
-    res = mockRes();
+	beforeEach(() => {
+		req = mockReq(mockAppealReply);
+		res = mockRes();
 
-    req.protocol = 'mock-protocol';
-    req.headers = { host: 'mock-host' };
-    req.url = 'mock-url';
+		req.protocol = 'mock-protocol';
+		req.headers = { host: 'mock-host' };
+		req.url = 'mock-url';
 
-    mockAppealReply = {
-      id: 'mock-id',
-      optionalDocumentsSection: {
-        supplementaryPlanningDocuments: { uploadedFiles: [] },
-      },
-    };
+		mockAppealReply = {
+			id: 'mock-id',
+			optionalDocumentsSection: {
+				supplementaryPlanningDocuments: { uploadedFiles: [] }
+			}
+		};
 
-    uploadedFiles = [];
+		uploadedFiles = [];
 
-    renderObject = {
-      appeal: null,
-      backLink: '/appeal-questionnaire/mock-id/mock-back-link',
-      question: uploadedDocumentsController.question,
-      uploadedDocumentsUrl,
-      uploadedFiles,
-    };
+		renderObject = {
+			appeal: null,
+			backLink: '/appeal-questionnaire/mock-id/mock-back-link',
+			question: uploadedDocumentsController.question,
+			uploadedDocumentsUrl,
+			uploadedFiles
+		};
 
-    jest.resetAllMocks();
-  });
+		jest.resetAllMocks();
+	});
 
-  describe('getUploadedDocuments', () => {
-    it.only('should call the correct template', () => {
-      req = mockReq(mockAppealReply);
-      const mockRequest = {
-        ...req,
-        protocol: 'mock-protocol',
-        backLink: '/appeal-questionnaire/mock-id/mock-back-link',
-        headers: {
-          host: 'mock-host',
-        },
-        url: 'mock-url',
-      };
+	describe('getUploadedDocuments', () => {
+		it.only('should call the correct template', () => {
+			req = mockReq(mockAppealReply);
+			const mockRequest = {
+				...req,
+				protocol: 'mock-protocol',
+				backLink: '/appeal-questionnaire/mock-id/mock-back-link',
+				headers: {
+					host: 'mock-host'
+				},
+				url: 'mock-url'
+			};
 
-      req.session.backLink = '/appeal-questionnaire/mock-id/mock-back-link';
-      renderObject.continueLink = '/appeal-questionnaire/mock-id/mock-back-link';
-      uploadedDocumentsController.getUploadedDocuments(mockRequest, res);
+			req.session.backLink = '/appeal-questionnaire/mock-id/mock-back-link';
+			renderObject.continueLink = '/appeal-questionnaire/mock-id/mock-back-link';
+			uploadedDocumentsController.getUploadedDocuments(mockRequest, res);
 
-      expect(res.render).toHaveBeenCalledWith(view, {
-        continueLink: '/appeal-questionnaire/mock-id/mock-back-link',
-        ...renderObject,
-      });
-    });
+			expect(res.render).toHaveBeenCalledWith(view, {
+				continueLink: '/appeal-questionnaire/mock-id/mock-back-link',
+				...renderObject
+			});
+		});
 
-    it.only('should call task-list as a default back link if nothing set in session', () => {
-      uploadedDocumentsController.getUploadedDocuments(req, res);
-      renderObject.backLink = `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`;
-      renderObject.continueLink = '/appeal-questionnaire/mock-id/task-list';
+		it.only('should call task-list as a default back link if nothing set in session', () => {
+			uploadedDocumentsController.getUploadedDocuments(req, res);
+			renderObject.backLink = `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`;
+			renderObject.continueLink = '/appeal-questionnaire/mock-id/task-list';
 
-      expect(res.render).toHaveBeenCalledWith(view, renderObject);
-    });
+			expect(res.render).toHaveBeenCalledWith(view, renderObject);
+		});
 
-    it.only('should call back link from locals as priority if provided', () => {
-      req.session.backLink = '/appeal-questionnaire/mock-id/mock-back-link';
-      res.locals.backLink = '/appeal-questionnaire/some/other/backlink';
-      renderObject.backLink = '/appeal-questionnaire/some/other/backlink';
-      renderObject.continueLink = '/appeal-questionnaire/some/other/backlink';
+		it.only('should call back link from locals as priority if provided', () => {
+			req.session.backLink = '/appeal-questionnaire/mock-id/mock-back-link';
+			res.locals.backLink = '/appeal-questionnaire/some/other/backlink';
+			renderObject.backLink = '/appeal-questionnaire/some/other/backlink';
+			renderObject.continueLink = '/appeal-questionnaire/some/other/backlink';
 
-      uploadedDocumentsController.getUploadedDocuments(req, res);
+			uploadedDocumentsController.getUploadedDocuments(req, res);
 
-      expect(res.render).toHaveBeenCalledWith(view, {
-        continueLink: '/appeal-questionnaire/some/other/backlink',
-        ...renderObject,
-      });
-    });
+			expect(res.render).toHaveBeenCalledWith(view, {
+				continueLink: '/appeal-questionnaire/some/other/backlink',
+				...renderObject
+			});
+		});
 
-    it.only('should be called with the correct uploadedFiles structure', () => {
-      const mockRequest = {
-        ...req,
-        session: {
-          backLink: '/appeal-questionnaire/mock-id/mock-back-link',
-          appealReply: {
-            ...mockAppealReply,
-            optionalDocumentsSection: {
-              supplementaryPlanningDocuments: {
-                uploadedFiles: [
-                  {
-                    documentName: 'mock-document-name-no',
-                    adoptedDate: '0-0',
-                    stageReached: 'mock-staged-reached',
-                  },
-                  {
-                    documentName: 'mock-document-name-yes',
-                    adoptedDate: '01-01-2000',
-                    stageReached: '',
-                  },
-                ],
-              },
-            },
-          },
-        },
-      };
+		it.only('should be called with the correct uploadedFiles structure', () => {
+			const mockRequest = {
+				...req,
+				session: {
+					backLink: '/appeal-questionnaire/mock-id/mock-back-link',
+					appealReply: {
+						...mockAppealReply,
+						optionalDocumentsSection: {
+							supplementaryPlanningDocuments: {
+								uploadedFiles: [
+									{
+										documentName: 'mock-document-name-no',
+										adoptedDate: '0-0',
+										stageReached: 'mock-staged-reached'
+									},
+									{
+										documentName: 'mock-document-name-yes',
+										adoptedDate: '01-01-2000',
+										stageReached: ''
+									}
+								]
+							}
+						}
+					}
+				}
+			};
 
-      renderObject.uploadedFiles = [
-        [
-          { text: 'mock-document-name-no' },
-          { text: 'No - mock-staged-reached' },
-          { class: 'govuk-link', html: '<a href="delete-document?row=0">Delete</a>' },
-        ],
-        [
-          { text: 'mock-document-name-yes' },
-          { text: 'Yes - Adopted on 1 January 2000' },
-          { class: 'govuk-link', html: '<a href="delete-document?row=1">Delete</a>' },
-        ],
-      ];
-      renderObject.continueLink = '/appeal-questionnaire/mock-id/mock-back-link';
+			renderObject.uploadedFiles = [
+				[
+					{ text: 'mock-document-name-no' },
+					{ text: 'No - mock-staged-reached' },
+					{ class: 'govuk-link', html: '<a href="delete-document?row=0">Delete</a>' }
+				],
+				[
+					{ text: 'mock-document-name-yes' },
+					{ text: 'Yes - Adopted on 1 January 2000' },
+					{ class: 'govuk-link', html: '<a href="delete-document?row=1">Delete</a>' }
+				]
+			];
+			renderObject.continueLink = '/appeal-questionnaire/mock-id/mock-back-link';
 
-      uploadedDocumentsController.getUploadedDocuments(mockRequest, res);
-      expect(res.render).toHaveBeenCalledWith(view, {
-        ...renderObject,
-        continueLink: '/appeal-questionnaire/mock-id/mock-back-link',
-      });
-    });
-  });
+			uploadedDocumentsController.getUploadedDocuments(mockRequest, res);
+			expect(res.render).toHaveBeenCalledWith(view, {
+				...renderObject,
+				continueLink: '/appeal-questionnaire/mock-id/mock-back-link'
+			});
+		});
+	});
 });

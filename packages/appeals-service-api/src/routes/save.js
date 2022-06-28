@@ -1,9 +1,9 @@
 const express = require('express');
 
 const {
-  saveAndReturnGet,
-  saveAndReturnCreate,
-  saveAndReturnToken,
+	saveAndReturnGet,
+	saveAndReturnCreate,
+	saveAndReturnToken
 } = require('../controllers/save');
 
 const router = express.Router();

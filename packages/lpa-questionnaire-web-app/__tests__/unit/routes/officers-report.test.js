@@ -19,61 +19,61 @@ jest.mock('../../../src/middleware/req-files-to-req-body-files');
 jest.mock('../../../src/validators/upload-tasks');
 
 describe('routes/officers-report', () => {
-  describe('router', () => {
-    beforeEach(() => {
-      // eslint-disable-next-line global-require
-      require('../../../src/routes/officers-report');
-    });
+	describe('router', () => {
+		beforeEach(() => {
+			// eslint-disable-next-line global-require
+			require('../../../src/routes/officers-report');
+		});
 
-    afterEach(() => {
-      jest.resetAllMocks();
-    });
+		afterEach(() => {
+			jest.resetAllMocks();
+		});
 
-    it('should define the expected routes', () => {
-      // eslint-disable-next-line global-require
-      const { getConfig } = require('../../../src/routes/officers-report');
+		it('should define the expected routes', () => {
+			// eslint-disable-next-line global-require
+			const { getConfig } = require('../../../src/routes/officers-report');
 
-      expect(get).toHaveBeenCalledWith(
-        '/appeal-questionnaire/:id/officers-report',
-        [
-          fetchAppealMiddleware,
-          fetchExistingAppealReplyMiddleware,
-          clearUploadedFilesMiddleware,
-          alreadySubmittedMiddleware,
-        ],
-        getConfig,
-        uploadQuestionController.getUpload
-      );
+			expect(get).toHaveBeenCalledWith(
+				'/appeal-questionnaire/:id/officers-report',
+				[
+					fetchAppealMiddleware,
+					fetchExistingAppealReplyMiddleware,
+					clearUploadedFilesMiddleware,
+					alreadySubmittedMiddleware
+				],
+				getConfig,
+				uploadQuestionController.getUpload
+			);
 
-      expect(post).toHaveBeenCalledWith(
-        '/appeal-questionnaire/:id/officers-report',
-        [reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
-        validationErrorHandler,
-        getConfig,
-        uploadQuestionController.postUpload
-      );
-    });
-  });
+			expect(post).toHaveBeenCalledWith(
+				'/appeal-questionnaire/:id/officers-report',
+				[reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
+				validationErrorHandler,
+				getConfig,
+				uploadQuestionController.postUpload
+			);
+		});
+	});
 
-  describe('getConfig', () => {
-    it('should define the expected config', () => {
-      // eslint-disable-next-line global-require
-      const { getConfig } = require('../../../src/routes/officers-report');
+	describe('getConfig', () => {
+		it('should define the expected config', () => {
+			// eslint-disable-next-line global-require
+			const { getConfig } = require('../../../src/routes/officers-report');
 
-      const req = mockReq();
-      const res = mockRes();
-      const next = jest.fn();
+			const req = mockReq();
+			const res = mockRes();
+			const next = jest.fn();
 
-      getConfig(req, res, next);
+			getConfig(req, res, next);
 
-      expect(next).toHaveBeenCalled();
-      expect(res.locals.routeInfo).toEqual({
-        sectionName: 'requiredDocumentsSection',
-        taskName: 'officersReport',
-        view: VIEW.OFFICERS_REPORT,
-        name: "Planning Officer's report",
-      });
-      expect(req.documentType).toEqual(documentTypes.officersReport.name);
-    });
-  });
+			expect(next).toHaveBeenCalled();
+			expect(res.locals.routeInfo).toEqual({
+				sectionName: 'requiredDocumentsSection',
+				taskName: 'officersReport',
+				view: VIEW.OFFICERS_REPORT,
+				name: "Planning Officer's report"
+			});
+			expect(req.documentType).toEqual(documentTypes.officersReport.name);
+		});
+	});
 });

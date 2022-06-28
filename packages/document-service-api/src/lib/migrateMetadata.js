@@ -5,69 +5,69 @@ const logger = require('./logger');
 const getDocuments = () => Documents.find();
 
 const mapMetadata = ({ applicationId, name, uploadDate, id, size, mimeType }) => ({
-  application_id: applicationId,
-  name,
-  upload_date: new Date(uploadDate).toISOString(),
-  mime_type: mimeType,
-  location: `${applicationId}/${id}/${name}`,
-  size: String(size),
-  id,
+	application_id: applicationId,
+	name,
+	upload_date: new Date(uploadDate).toISOString(),
+	mime_type: mimeType,
+	location: `${applicationId}/${id}/${name}`,
+	size: String(size),
+	id
 });
 
 const saveMetadata = async (metadata) => {
-  try {
-    const containerClient = await blobStorage.initContainerClient();
-    const isSaved = await blobStorage.saveMetadata(containerClient, metadata);
-    return isSaved;
-  } catch (err) {
-    logger.error({ err }, 'Error saving blob storage metadata for document');
-    throw err;
-  }
+	try {
+		const containerClient = await blobStorage.initContainerClient();
+		const isSaved = await blobStorage.saveMetadata(containerClient, metadata);
+		return isSaved;
+	} catch (err) {
+		logger.error({ err }, 'Error saving blob storage metadata for document');
+		throw err;
+	}
 };
 
 const migrateMetadata = async () => {
-  const migratedDocuments = [];
-  const failedDocuments = [];
+	const migratedDocuments = [];
+	const failedDocuments = [];
 
-  try {
-    const documents = await getDocuments();
+	try {
+		const documents = await getDocuments();
 
-    for (let inc = 0; inc < documents.length; inc += 1) {
-      const cosmosDbMetadata = documents[inc];
+		for (let inc = 0; inc < documents.length; inc += 1) {
+			const cosmosDbMetadata = documents[inc];
 
-      try {
-        const blobStorageMetadata = mapMetadata(cosmosDbMetadata);
-        // eslint-disable-next-line no-await-in-loop
-        await saveMetadata(blobStorageMetadata);
+			try {
+				const blobStorageMetadata = mapMetadata(cosmosDbMetadata);
+				// eslint-disable-next-line no-await-in-loop
+				await saveMetadata(blobStorageMetadata);
 
-        migratedDocuments.push({
-          cosmosDbMetadata,
-          blobStorageMetadata,
-        });
-      } catch (err) {
-        failedDocuments.push({
-          documentId: cosmosDbMetadata.id,
-          message: err.message,
-        });
-      }
-    }
+				migratedDocuments.push({
+					cosmosDbMetadata,
+					blobStorageMetadata
+				});
+			} catch (err) {
+				failedDocuments.push({
+					documentId: cosmosDbMetadata.id,
+					message: err.message
+				});
+			}
+		}
 
-    return {
-      documentsFound: documents.length,
-      documentsMigrated: migratedDocuments.length,
-      documentsFailed: failedDocuments.length,
-      migratedDocuments,
-      failedDocuments,
-    };
-  } catch (err) {
-    logger.error({ err }, 'Error migrating metadata');
-    throw err;
-  }
+		return {
+			documentsFound: documents.length,
+			documentsMigrated: migratedDocuments.length,
+			documentsFailed: failedDocuments.length,
+			migratedDocuments,
+			failedDocuments
+		};
+	} catch (err) {
+		logger.error({ err }, 'Error migrating metadata');
+		throw err;
+	}
 };
 
 module.exports = {
-  getDocuments,
-  mapMetadata,
-  saveMetadata,
-  migrateMetadata,
+	getDocuments,
+	mapMetadata,
+	saveMetadata,
+	migrateMetadata
 };

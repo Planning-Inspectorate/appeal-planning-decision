@@ -4,25 +4,25 @@ const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-a
 const householderPlanningPermissionController = require('../../controllers/eligibility/householder-planning-permission');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const {
-  rules: householderPlanningPermissionValidationRules,
+	rules: householderPlanningPermissionValidationRules
 } = require('../../validators/eligibility/householder-planning-permission');
 
 const router = express.Router();
 
 router.get(
-  '/householder-planning-permission-out',
-  householderPlanningPermissionController.getServiceOnlyForHouseholderPlanningPermission
+	'/householder-planning-permission-out',
+	householderPlanningPermissionController.getServiceOnlyForHouseholderPlanningPermission
 );
 router.get(
-  '/householder-planning-permission',
-  [fetchExistingAppealMiddleware],
-  householderPlanningPermissionController.getHouseholderPlanningPermission
+	'/householder-planning-permission',
+	[fetchExistingAppealMiddleware],
+	householderPlanningPermissionController.getHouseholderPlanningPermission
 );
 router.post(
-  '/householder-planning-permission',
-  householderPlanningPermissionValidationRules(),
-  validationErrorHandler,
-  householderPlanningPermissionController.postHouseholderPlanningPermission
+	'/householder-planning-permission',
+	householderPlanningPermissionValidationRules(),
+	validationErrorHandler,
+	householderPlanningPermissionController.postHouseholderPlanningPermission
 );
 
 module.exports = router;

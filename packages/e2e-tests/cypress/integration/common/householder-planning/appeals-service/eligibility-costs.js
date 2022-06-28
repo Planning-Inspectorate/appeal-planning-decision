@@ -12,57 +12,55 @@ import { provideCostsAnswerNo } from '../../../../support/householder-planning/a
 import { provideCostsAnswerYes } from '../../../../support/householder-planning/appeals-service/eligibility-costs/provideCostsAnswerYes';
 
 Given('an answer to the Costs question is requested', () => {
-  //cy.goToCostsPage();
-  goToAppealsPage(pageURLAppeal.goToCostsPage);
+	//cy.goToCostsPage();
+	goToAppealsPage(pageURLAppeal.goToCostsPage);
 });
 
 Given('an Appeal exists', () => {
-  //cy.goToTaskListPage();
-  goToAppealsPage(pageURLAppeal.goToTaskListPage);
-
+	//cy.goToTaskListPage();
+	goToAppealsPage(pageURLAppeal.goToTaskListPage);
 });
 
 When('not claiming Costs is confirmed', () => {
-  provideCostsAnswerNo();
-  clickSaveAndContinue();
+	provideCostsAnswerNo();
+	clickSaveAndContinue();
 });
 
 When('claiming Costs is confirmed', () => {
-  provideCostsAnswerYes();
-  clickSaveAndContinue();
+	provideCostsAnswerYes();
+	clickSaveAndContinue();
 });
 
 When('the Costs question is not answered', () => {
-  clickSaveAndContinue();
+	clickSaveAndContinue();
 });
 
 Then('progress is made to Your appeal statement', () => {
-  confirmNavigationYourAppealStatementPage();
+	confirmNavigationYourAppealStatementPage();
 });
 
 Then('progress is halted with a message that claiming for Costs is not supported', () => {
-  confirmNavigationCostsOutPage();
-  confirmTextOnPage('This service is not available if you are claiming costs');
+	confirmNavigationCostsOutPage();
+	confirmTextOnPage('This service is not available if you are claiming costs');
 });
 
 Then('progress is halted with a message that an answer to the Costs question is required', () => {
-  confirmNavigationCostsPage();
-  confirmTextOnPage('Select yes if you are claiming for costs as part of your appeal');
-  cy.title().should('match', /^Error: /);
-  //Accessibility Testing
-  //cy.checkPageA11y({
-    // known issue: https://github.com/alphagov/govuk-frontend/issues/979
-    exclude: ['.govuk-radios__input']
-  });
-
+	confirmNavigationCostsPage();
+	confirmTextOnPage('Select yes if you are claiming for costs as part of your appeal');
+	cy.title().should('match', /^Error: /);
+	//Accessibility Testing
+	//cy.checkPageA11y({
+	// known issue: https://github.com/alphagov/govuk-frontend/issues/979
+	['.govuk-radios__input'];
+});
 
 Then(
-  'access is available to guidance while an answer to the Costs question is still requested',
-  () => {
-    confirmGuidanceLinkDisplayed();
-  },
+	'access is available to guidance while an answer to the Costs question is still requested',
+	() => {
+		confirmGuidanceLinkDisplayed();
+	}
 );
 
 Then('access is available to ACP', () => {
-  confirmAcpLinkDisplayed();
+	confirmAcpLinkDisplayed();
 });

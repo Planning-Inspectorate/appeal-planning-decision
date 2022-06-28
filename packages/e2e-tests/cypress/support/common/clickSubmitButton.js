@@ -1,3 +1,3 @@
 export const clickSubmitButton = () => {
-  cy.get('[data-cy="submit"]').click();
+	cy.get('[data-cy="submit"]').click();
 };

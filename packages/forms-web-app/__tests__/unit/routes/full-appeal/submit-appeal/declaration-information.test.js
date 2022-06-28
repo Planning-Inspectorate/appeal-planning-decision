@@ -7,20 +7,20 @@ jest.mock('../../../../../src/middleware/fetch-appeal-by-url-param');
 jest.mock('../../../../../src/middleware/fetch-appeal-lpd-by-appeal-lpa-code');
 
 describe('routes/full-appeal/submit-appeal/declaration-information', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../../../src/routes/full-appeal/submit-appeal/declaration-information');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../../../src/routes/full-appeal/submit-appeal/declaration-information');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith(
-      '/submit-appeal/declaration-information/:appealId',
-      [fetchAppealByUrlParam('appealId'), fetchAppealLpdByAppealLpaCode],
-      declarationInformationController.getDeclarationInformation
-    );
-  });
+	it('should define the expected routes', () => {
+		expect(get).toHaveBeenCalledWith(
+			'/submit-appeal/declaration-information/:appealId',
+			[fetchAppealByUrlParam('appealId'), fetchAppealLpdByAppealLpaCode],
+			declarationInformationController.getDeclarationInformation
+		);
+	});
 });

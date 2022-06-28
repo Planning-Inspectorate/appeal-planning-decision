@@ -1,7 +1,7 @@
 const express = require('express');
 const {
-  getPlanningObligationDocuments,
-  postPlanningObligationDocuments,
+	getPlanningObligationDocuments,
+	postPlanningObligationDocuments
 } = require('../../../controllers/full-appeal/submit-appeal/planning-obligation-documents');
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
@@ -13,17 +13,17 @@ const sectionName = 'appealDocumentsSection';
 const taskName = 'planningObligations';
 
 router.get(
-  '/submit-appeal/planning-obligation',
-  [fetchExistingAppealMiddleware],
-  setSectionAndTaskNames(sectionName, taskName),
-  getPlanningObligationDocuments
+	'/submit-appeal/planning-obligation',
+	[fetchExistingAppealMiddleware],
+	setSectionAndTaskNames(sectionName, taskName),
+	getPlanningObligationDocuments
 );
 router.post(
-  '/submit-appeal/planning-obligation',
-  setSectionAndTaskNames(sectionName, taskName),
-  fileUploadValidationRules('Select your planning obligation'),
-  validationErrorHandler,
-  postPlanningObligationDocuments
+	'/submit-appeal/planning-obligation',
+	setSectionAndTaskNames(sectionName, taskName),
+	fileUploadValidationRules('Select your planning obligation'),
+	validationErrorHandler,
+	postPlanningObligationDocuments
 );
 
 module.exports = router;

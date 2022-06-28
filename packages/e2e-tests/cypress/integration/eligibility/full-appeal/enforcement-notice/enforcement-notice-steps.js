@@ -3,13 +3,13 @@ import { goToAppealsPage } from '../../../../support/common/go-to-page/goToAppea
 import { verifyPageHeading } from '../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../support/common/verify-page-title';
 import {
-  getEnforcementNoticeErrorMessage,
-  getEnforcementNoticeNo,
-  getEnforcementNoticeYes,
+	getEnforcementNoticeErrorMessage,
+	getEnforcementNoticeNo,
+	getEnforcementNoticeYes
 } from '../../../../support/eligibility/page-objects/enforcement-notice-po';
 import {
-  getErrorMessageSummary,
-  getSaveAndContinueButton,
+	getErrorMessageSummary,
+	getSaveAndContinueButton
 } from '../../../../support/common-page-objects/common-po';
 import { verifyErrorMessage } from '../../../../support/common/verify-error-message';
 import { getBackLink } from '../../../../support/common-page-objects/common-po';
@@ -24,87 +24,87 @@ import { selectLocalPlanningDepartment } from '../../../../support/before-you-st
 import { acceptCookiesBanner } from '../../../../support/common/accept-cookies-banner';
 const pageHeading = 'Have you received an enforcement notice?';
 const pageTitle =
-  'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK';
+	'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK';
 const url = `before-you-start/enforcement-notice`;
 const typeOfPlanningPageUrl = `before-you-start/type-of-planning-application`;
 
 Given('appellant is on the enforcement notice page', () => {
-  goToAppealsPage('before-you-start/local-planning-department');
-  acceptCookiesBanner();
-  selectLocalPlanningDepartment('System Test Borough Council');
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', typeOfPlanningPageUrl);
-  selectPlanningApplicationType('Full planning');
-  getContinueButton().click();
-  selectSiteOption('None of these');
-  getContinueButton().click();
-  selectPlanningApplicationDecision('I have not received a decision');
-  getContinueButton().click();
-  const validDate = getPastDate(allowedDatePart.MONTH, 3);
-  enterDateDecisionDue({
-    day: ('0' + getDate(validDate)).slice(-2),
-    month: ('0' + (getMonth(validDate) + 1)).slice(-2),
-    year: getYear(validDate),
-  });
-  getContinueButton().click();
-  cy.url().should('contain', url);
-  verifyPageHeading(pageHeading);
-  verifyPageTitle(pageTitle);
+	goToAppealsPage('before-you-start/local-planning-department');
+	acceptCookiesBanner();
+	selectLocalPlanningDepartment('System Test Borough Council');
+	getSaveAndContinueButton().click();
+	cy.url().should('contain', typeOfPlanningPageUrl);
+	selectPlanningApplicationType('Full planning');
+	getContinueButton().click();
+	selectSiteOption('None of these');
+	getContinueButton().click();
+	selectPlanningApplicationDecision('I have not received a decision');
+	getContinueButton().click();
+	const validDate = getPastDate(allowedDatePart.MONTH, 3);
+	enterDateDecisionDue({
+		day: ('0' + getDate(validDate)).slice(-2),
+		month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+		year: getYear(validDate)
+	});
+	getContinueButton().click();
+	cy.url().should('contain', url);
+	verifyPageHeading(pageHeading);
+	verifyPageTitle(pageTitle);
 });
 
 Given('appellant is on the enforcement notice page for {string}', (application_type) => {
-  goToAppealsPage('before-you-start/local-planning-department');
-  selectLocalPlanningDepartment('System Test Borough Council');
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', typeOfPlanningPageUrl);
-  selectPlanningApplicationType(application_type);
-  getContinueButton().click();
-  selectSiteOption('None of these');
-  getContinueButton().click();
-  selectPlanningApplicationDecision('I have not received a decision');
-  getContinueButton().click();
-  const validDate = getPastDate(allowedDatePart.MONTH, 3);
-  enterDateDecisionDue({
-    day: ('0' + getDate(validDate)).slice(-2),
-    month: ('0' + (getMonth(validDate) + 1)).slice(-2),
-    year: getYear(validDate),
-  });
-  getContinueButton().click();
+	goToAppealsPage('before-you-start/local-planning-department');
+	selectLocalPlanningDepartment('System Test Borough Council');
+	getSaveAndContinueButton().click();
+	cy.url().should('contain', typeOfPlanningPageUrl);
+	selectPlanningApplicationType(application_type);
+	getContinueButton().click();
+	selectSiteOption('None of these');
+	getContinueButton().click();
+	selectPlanningApplicationDecision('I have not received a decision');
+	getContinueButton().click();
+	const validDate = getPastDate(allowedDatePart.MONTH, 3);
+	enterDateDecisionDue({
+		day: ('0' + getDate(validDate)).slice(-2),
+		month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+		year: getYear(validDate)
+	});
+	getContinueButton().click();
 });
 
 When('appellant selects {string} from the options', (enforcementOption) => {
-  if (enforcementOption === 'No') {
-    getEnforcementNoticeNo().click();
-  } else {
-    getEnforcementNoticeYes().check();
-  }
+	if (enforcementOption === 'No') {
+		getEnforcementNoticeNo().click();
+	} else {
+		getEnforcementNoticeYes().check();
+	}
 });
 When('appellant clicks on the continue button', () => {
-  getContinueButton().click();
+	getContinueButton().click();
 });
 
 When('appellant selects the back button', () => {
-  getBackLink().click();
+	getBackLink().click();
 });
 
 Then('appellant gets navigated to full appeal check your answers page', () => {
-  cy.url().should('contain', '/before-you-start/can-use-service');
+	cy.url().should('contain', '/before-you-start/can-use-service');
 });
 
 Then('appellant is navigated to the shutter page', () => {
-  cy.url().should('contain', '/before-you-start/use-existing-service-enforcement-notice');
+	cy.url().should('contain', '/before-you-start/use-existing-service-enforcement-notice');
 });
 
 Then('appellant is navigated to the date decision due page', () => {
-  cy.url().should('contain', '/before-you-start/date-decision-due');
+	cy.url().should('contain', '/before-you-start/date-decision-due');
 });
 
 Then('appellant sees an error message {string}', (errorMessage) => {
-  verifyErrorMessage(errorMessage, getEnforcementNoticeErrorMessage, getErrorMessageSummary);
+	verifyErrorMessage(errorMessage, getEnforcementNoticeErrorMessage, getErrorMessageSummary);
 });
 
 Then('information they have inputted will not be saved', () => {
-  cy.url().should('contain', '/before-you-start/date-decision-due');
-  getContinueButton().click();
-  getEnforcementNoticeYes().should('not.be.checked');
+	cy.url().should('contain', '/before-you-start/date-decision-due');
+	getContinueButton().click();
+	getEnforcementNoticeYes().should('not.be.checked');
 });

@@ -1,3 +1,3 @@
-export const clickReEnterTheDecisionDate= () => {
-  cy.get('[data-cy="reEnterTheDecisionDate"]').first().click();
+export const clickReEnterTheDecisionDate = () => {
+	cy.get('[data-cy="reEnterTheDecisionDate"]').first().click();
 };

@@ -9,12 +9,11 @@ import { clickSaveAndContinue } from '../../../../../support/householder-plannin
 import { STANDARD_APPEAL } from '../../../../common/householder-planning/appeals-service/standard-appeal';
 
 Given('an appeal is ready to be submitted with System Test Borough Council LPA', () => {
- provideCompleteAppeal(STANDARD_APPEAL, {
-    chosenLocalPlanningDepartment: 'System Test Borough Council',
-  });
-  clickCheckYourAnswers();
+	provideCompleteAppeal(STANDARD_APPEAL, {
+		chosenLocalPlanningDepartment: 'System Test Borough Council'
+	});
+	clickCheckYourAnswers();
 
-  // /appellant-submission/check-answers
-  clickSaveAndContinue();
+	// /appellant-submission/check-answers
+	clickSaveAndContinue();
 });
-

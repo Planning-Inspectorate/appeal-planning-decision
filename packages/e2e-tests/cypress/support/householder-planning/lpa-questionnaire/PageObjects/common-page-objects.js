@@ -11,7 +11,10 @@ export const labelLegend = (labelLegendId) => cy.get(`[data-cy="${labelLegendId}
 export const labelHint = (labelHintId) => cy.get(`div[data-cy="${labelHintId}"]`);
 export const input = (inputId) => cy.get(`input[data-cy="${inputId}"]`);
 export const errorMessage = (errorMessageId) => cy.get(`[data-cy="${errorMessageId}"]`);
-export const summaryErrorMessage = (summaryErrorMessageId) => cy.get(`a[href="#${summaryErrorMessageId}"]`);
+export const summaryErrorMessage = (summaryErrorMessageId) =>
+	cy.get(`a[href="#${summaryErrorMessageId}"]`);
 export const summaryFileUploadErrorMessage = () => cy.get(`a[href="#documents"]`);
-export const findoutAboutCallCharges = () => cy.findAllByRole('link', {name: 'Find out about call charges (opens in new tab)'});
-export const enquiriesEmailLink = () => cy.findAllByRole('link', {name: 'enquiries@planninginspectorate.gov.uk'});
+export const findoutAboutCallCharges = () =>
+	cy.findAllByRole('link', { name: 'Find out about call charges (opens in new tab)' });
+export const enquiriesEmailLink = () =>
+	cy.findAllByRole('link', { name: 'enquiries@planninginspectorate.gov.uk' });

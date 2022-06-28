@@ -9,6 +9,6 @@ const pino = require('pino');
 const config = require('../config');
 
 module.exports = pino({
-  level: config.logger.level,
-  redact: config.logger.redact,
+	level: config.logger.level,
+	redact: config.logger.redact
 });

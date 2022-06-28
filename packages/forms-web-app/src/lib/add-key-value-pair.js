@@ -1,10 +1,10 @@
 module.exports = (dict, key, value) => {
-  if (!key) {
-    return dict;
-  }
+	if (!key) {
+		return dict;
+	}
 
-  return {
-    ...dict,
-    [key]: value,
-  };
+	return {
+		...dict,
+		[key]: value
+	};
 };

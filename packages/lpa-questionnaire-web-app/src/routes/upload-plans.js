@@ -13,41 +13,41 @@ const { validationErrorHandler } = require('../validators/validation-error-handl
 const router = express.Router();
 
 const getConfig = (req, res, next) => {
-  res.locals.routeInfo = {
-    sectionName: 'requiredDocumentsSection',
-    taskName: 'plansDecision',
-    view: VIEW.UPLOAD_PLANS,
-    name: 'Upload Plans',
-  };
-  req.documentType = documentTypes.decisionPlans.name;
+	res.locals.routeInfo = {
+		sectionName: 'requiredDocumentsSection',
+		taskName: 'plansDecision',
+		view: VIEW.UPLOAD_PLANS,
+		name: 'Upload Plans'
+	};
+	req.documentType = documentTypes.decisionPlans.name;
 
-  next();
+	next();
 };
 
 router.get(
-  '/appeal-questionnaire/:id/plans',
-  [
-    fetchAppealMiddleware,
-    fetchExistingAppealReplyMiddleware,
-    clearUploadedFilesMiddleware,
-    alreadySubmittedMiddleware,
-  ],
-  getConfig,
-  uploadQuestionController.getUpload
+	'/appeal-questionnaire/:id/plans',
+	[
+		fetchAppealMiddleware,
+		fetchExistingAppealReplyMiddleware,
+		clearUploadedFilesMiddleware,
+		alreadySubmittedMiddleware
+	],
+	getConfig,
+	uploadQuestionController.getUpload
 );
 
 router.post(
-  '/appeal-questionnaire/:id/plans',
-  [
-    reqFilesToReqBodyFilesMiddleware('documents'),
-    uploadValidationRules('Upload plans used to reach the decision'),
-  ],
-  validationErrorHandler,
-  getConfig,
-  uploadQuestionController.postUpload
+	'/appeal-questionnaire/:id/plans',
+	[
+		reqFilesToReqBodyFilesMiddleware('documents'),
+		uploadValidationRules('Upload plans used to reach the decision')
+	],
+	validationErrorHandler,
+	getConfig,
+	uploadQuestionController.postUpload
 );
 
 module.exports = {
-  router,
-  getConfig,
+	router,
+	getConfig
 };

@@ -5,9 +5,9 @@ const config = require('../lib/config');
 const getYamlAsJson = require('../lib/getYamlAsJson');
 
 const {
-  docs: {
-    api: { path: apiDocsPath },
-  },
+	docs: {
+		api: { path: apiDocsPath }
+	}
 } = config;
 
 const router = express.Router();

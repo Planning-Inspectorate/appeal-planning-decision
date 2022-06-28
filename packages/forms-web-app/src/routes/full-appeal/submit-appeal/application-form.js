@@ -1,8 +1,8 @@
 const express = require('express');
 const { documentTypes } = require('@pins/common');
 const {
-  getApplicationForm,
-  postApplicationForm,
+	getApplicationForm,
+	postApplicationForm
 } = require('../../../controllers/full-appeal/submit-appeal/application-form');
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
@@ -14,17 +14,17 @@ const sectionName = 'planningApplicationDocumentsSection';
 const taskName = documentTypes.originalApplication.name;
 
 router.get(
-  '/submit-appeal/application-form',
-  [fetchExistingAppealMiddleware],
-  setSectionAndTaskNames(sectionName, taskName),
-  getApplicationForm
+	'/submit-appeal/application-form',
+	[fetchExistingAppealMiddleware],
+	setSectionAndTaskNames(sectionName, taskName),
+	getApplicationForm
 );
 router.post(
-  '/submit-appeal/application-form',
-  setSectionAndTaskNames(sectionName, taskName),
-  fileUploadValidationRules('Select your planning application form'),
-  validationErrorHandler,
-  postApplicationForm
+	'/submit-appeal/application-form',
+	setSectionAndTaskNames(sectionName, taskName),
+	fileUploadValidationRules('Select your planning application form'),
+	validationErrorHandler,
+	postApplicationForm
 );
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { stateCaseInvolvesListedBuilding } from '../../../../support/householder-planning/appeals-service/eligibility-listed-building-status/stateCaseInvolvesListedBuilding';
 import { provideNoListedBuildingStatement } from '../../../../support/householder-planning/appeals-service/eligibility-listed-building-status/provideNoListedBuildingStatement';
 import { stateCaseDoesNotInvolveAListedBuilding } from '../../../../support/householder-planning/appeals-service/eligibility-listed-building-status/stateCaseDoesNotInvolveAListedBuilding';
@@ -10,40 +10,40 @@ import { confirmListedBuildingStatementIsRequired } from '../../../../support/ho
 import { confirmProvidedAnswerIsDisplayed } from '../../../../support/householder-planning/appeals-service/eligibility-listed-building-status/confirmProvidedAnswerIsDisplayed';
 
 When('the user does not provide a Listed Building statement', () => {
-  provideNoListedBuildingStatement();
+	provideNoListedBuildingStatement();
 });
 
 When('the user states that their case concerns a Listed Building', () => {
-  stateCaseInvolvesListedBuilding();
+	stateCaseInvolvesListedBuilding();
 });
 
 When('the user states that their case does not concern a Listed Building', () => {
-  stateCaseDoesNotInvolveAListedBuilding();
+	stateCaseDoesNotInvolveAListedBuilding();
 });
 
 When('the user returns to the listed building page', () => {
-  browseBackToTheListedBuildingPage();
+	browseBackToTheListedBuildingPage();
 });
 
 Then('the user can proceed to the claiming Costs eligibility check', () => {
-  confirmUserCanProceedWithNonListedBuilding();
+	confirmUserCanProceedWithNonListedBuilding();
 });
 
 Then(
-  'the user is informed that cases concerning a Listed Building cannot be processed via this service',
-  () => {
-    confirmListedBuildingsCannotProceed();
-  },
+	'the user is informed that cases concerning a Listed Building cannot be processed via this service',
+	() => {
+		confirmListedBuildingsCannotProceed();
+	}
 );
 
 Then('the user is directed to the Appeal a Planning Decision service', () => {
-  confirmRedirectToExternalService();
+	confirmRedirectToExternalService();
 });
 
 Then('the user is informed that a Listed Building statement is required', () => {
-  confirmListedBuildingStatementIsRequired();
+	confirmListedBuildingStatementIsRequired();
 });
 
 Then('the user sees their previous given answer is correctly displayed', () => {
-  confirmProvidedAnswerIsDisplayed();
+	confirmProvidedAnswerIsDisplayed();
 });

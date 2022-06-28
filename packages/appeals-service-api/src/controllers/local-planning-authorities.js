@@ -10,44 +10,44 @@
 const LPASchema = require('../schemas/lpa');
 
 module.exports = {
-  async get(req, res, next) {
-    const { id } = req.params;
+	async get(req, res, next) {
+		const { id } = req.params;
 
-    req.log.info({ id }, 'Retrieving LPA');
+		req.log.info({ id }, 'Retrieving LPA');
 
-    /* Make code case-insensitive */
-    const data = await LPASchema.findOne({
-      id: new RegExp(id, 'i'),
-    });
+		/* Make code case-insensitive */
+		const data = await LPASchema.findOne({
+			id: new RegExp(id, 'i')
+		});
 
-    if (!data) {
-      req.log.debug({ id }, 'No LPA found');
-      next();
-      return;
-    }
+		if (!data) {
+			req.log.debug({ id }, 'No LPA found');
+			next();
+			return;
+		}
 
-    res.send(data);
-  },
+		res.send(data);
+	},
 
-  async list(req, res) {
-    const { name } = req.query;
+	async list(req, res) {
+		const { name } = req.query;
 
-    const filter = {};
-    if (name) {
-      filter.name = new RegExp(name, 'i');
-    }
+		const filter = {};
+		if (name) {
+			filter.name = new RegExp(name, 'i');
+		}
 
-    const data = await LPASchema.find(filter);
+		const data = await LPASchema.find(filter);
 
-    /* Use a paginated output in case we wish to put data into database in future */
-    const output = {
-      data,
-      page: 1,
-      limit: data.length, // total per page
-      totalPages: 1,
-      totalResult: data.length, // overall total
-    };
+		/* Use a paginated output in case we wish to put data into database in future */
+		const output = {
+			data,
+			page: 1,
+			limit: data.length, // total per page
+			totalPages: 1,
+			totalResult: data.length // overall total
+		};
 
-    res.send(output);
-  },
+		res.send(output);
+	}
 };

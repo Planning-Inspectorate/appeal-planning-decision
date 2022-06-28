@@ -19,61 +19,61 @@ jest.mock('../../../src/middleware/req-files-to-req-body-files');
 jest.mock('../../../src/validators/upload-tasks');
 
 describe('routes/conservation-area-map', () => {
-  describe('router', () => {
-    beforeEach(() => {
-      // eslint-disable-next-line global-require
-      require('../../../src/routes/conservation-area-map');
-    });
+	describe('router', () => {
+		beforeEach(() => {
+			// eslint-disable-next-line global-require
+			require('../../../src/routes/conservation-area-map');
+		});
 
-    afterEach(() => {
-      jest.resetAllMocks();
-    });
+		afterEach(() => {
+			jest.resetAllMocks();
+		});
 
-    it('should define the expected routes', () => {
-      // eslint-disable-next-line global-require
-      const { getConfig } = require('../../../src/routes/conservation-area-map');
+		it('should define the expected routes', () => {
+			// eslint-disable-next-line global-require
+			const { getConfig } = require('../../../src/routes/conservation-area-map');
 
-      expect(get).toHaveBeenCalledWith(
-        '/appeal-questionnaire/:id/conservation-area-map',
-        [
-          fetchAppealMiddleware,
-          fetchExistingAppealReplyMiddleware,
-          clearUploadedFilesMiddleware,
-          alreadySubmittedMiddleware,
-        ],
-        getConfig,
-        uploadQuestionController.getUpload
-      );
+			expect(get).toHaveBeenCalledWith(
+				'/appeal-questionnaire/:id/conservation-area-map',
+				[
+					fetchAppealMiddleware,
+					fetchExistingAppealReplyMiddleware,
+					clearUploadedFilesMiddleware,
+					alreadySubmittedMiddleware
+				],
+				getConfig,
+				uploadQuestionController.getUpload
+			);
 
-      expect(post).toHaveBeenCalledWith(
-        '/appeal-questionnaire/:id/conservation-area-map',
-        [reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
-        validationErrorHandler,
-        getConfig,
-        uploadQuestionController.postUpload
-      );
-    });
-  });
+			expect(post).toHaveBeenCalledWith(
+				'/appeal-questionnaire/:id/conservation-area-map',
+				[reqFilesToReqBodyFilesMiddleware('documents'), uploadTasksValidationRules()],
+				validationErrorHandler,
+				getConfig,
+				uploadQuestionController.postUpload
+			);
+		});
+	});
 
-  describe('getConfig', () => {
-    it('should define the expected config', () => {
-      // eslint-disable-next-line global-require
-      const { getConfig } = require('../../../src/routes/conservation-area-map');
+	describe('getConfig', () => {
+		it('should define the expected config', () => {
+			// eslint-disable-next-line global-require
+			const { getConfig } = require('../../../src/routes/conservation-area-map');
 
-      const req = mockReq();
-      const res = mockRes();
-      const next = jest.fn();
+			const req = mockReq();
+			const res = mockRes();
+			const next = jest.fn();
 
-      getConfig(req, res, next);
+			getConfig(req, res, next);
 
-      expect(next).toHaveBeenCalled();
-      expect(res.locals.routeInfo).toEqual({
-        sectionName: 'optionalDocumentsSection',
-        taskName: 'conservationAreaMap',
-        view: VIEW.CONSERVATION_AREA_MAP,
-        name: 'Conservation area map and guidance',
-      });
-      expect(req.documentType).toEqual(documentTypes.conservationAreaMap.name);
-    });
-  });
+			expect(next).toHaveBeenCalled();
+			expect(res.locals.routeInfo).toEqual({
+				sectionName: 'optionalDocumentsSection',
+				taskName: 'conservationAreaMap',
+				view: VIEW.CONSERVATION_AREA_MAP,
+				name: 'Conservation area map and guidance'
+			});
+			expect(req.documentType).toEqual(documentTypes.conservationAreaMap.name);
+		});
+	});
 });

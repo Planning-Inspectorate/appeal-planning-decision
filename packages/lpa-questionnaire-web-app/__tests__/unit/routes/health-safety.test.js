@@ -9,27 +9,27 @@ const alreadySubmittedMiddleware = require('../../../src/middleware/already-subm
 jest.mock('../../../src/validators/health-safety');
 
 describe('routes/health-safety', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../src/routes/health-safety');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../src/routes/health-safety');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith(
-      `/appeal-questionnaire/:id/health-safety`,
-      [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
-      healthSafetyController.getHealthSafety
-    );
+	it('should define the expected routes', () => {
+		expect(get).toHaveBeenCalledWith(
+			`/appeal-questionnaire/:id/health-safety`,
+			[fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+			healthSafetyController.getHealthSafety
+		);
 
-    expect(post).toHaveBeenCalledWith(
-      '/appeal-questionnaire/:id/health-safety',
-      healthSafetyValidationRules(),
-      validationErrorHandler,
-      healthSafetyController.postHealthSafety
-    );
-  });
+		expect(post).toHaveBeenCalledWith(
+			'/appeal-questionnaire/:id/health-safety',
+			healthSafetyValidationRules(),
+			validationErrorHandler,
+			healthSafetyController.postHealthSafety
+		);
+	});
 });

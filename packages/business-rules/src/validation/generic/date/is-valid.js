@@ -8,9 +8,9 @@ const BusinessRulesError = require('../../../lib/business-rules-error');
  * @returns {boolean}
  */
 module.exports = (givenDate) => {
-  if (!isValid(givenDate)) {
-    throw new BusinessRulesError('The given date must be a valid Date instance');
-  }
+	if (!isValid(givenDate)) {
+		throw new BusinessRulesError('The given date must be a valid Date instance');
+	}
 
-  return true;
+	return true;
 };

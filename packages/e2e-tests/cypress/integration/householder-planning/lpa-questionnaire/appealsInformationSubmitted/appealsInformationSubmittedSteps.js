@@ -6,20 +6,20 @@ import { goToLPAPage } from '../../../../support/common/go-to-page/goToLPAPage';
 
 const informationSubmittedUrl = 'information-submitted';
 const informationSubmittedPageTitle =
-  'Information submitted - Appeal questionnaire - Appeal a householder planning decision - GOV.UK';
+	'Information submitted - Appeal questionnaire - Appeal a householder planning decision - GOV.UK';
 
 Given(`the Information Submitted page is requested`, () => {
-  goToLPAPage(informationSubmittedUrl);
+	goToLPAPage(informationSubmittedUrl);
 });
 
 Then(`the Information Submitted page will be shown`, () => {
-  verifyPage(informationSubmittedUrl);
-  verifyPageTitle(informationSubmittedPageTitle);
+	verifyPage(informationSubmittedUrl);
+	verifyPageTitle(informationSubmittedPageTitle);
 });
 
 Then(`the LPA email address is displayed on the Information Submitted page`, () => {
-  visibleWithText(
-    `We’ve sent a confirmation email to AppealPlanningDecisionTest@planninginspectorate.gov.uk.`,
-    '[data-cy=lpaEmailString]',
-  );
+	visibleWithText(
+		`We’ve sent a confirmation email to AppealPlanningDecisionTest@planninginspectorate.gov.uk.`,
+		'[data-cy=lpaEmailString]'
+	);
 });

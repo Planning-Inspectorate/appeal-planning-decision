@@ -1,6 +1,6 @@
 const {
-  saveAndReturnGetService,
-  saveAndReturnCreateService,
+	saveAndReturnGetService,
+	saveAndReturnCreateService
 } = require('../../../src/services/save-and-return.service');
 const mongodb = require('../../../src/db/db');
 const { createToken } = require('../../../src/lib/notify');
@@ -9,76 +9,76 @@ jest.mock('../../../src/db/db');
 jest.mock('../../../src/lib/notify');
 
 describe('save-and-return services', () => {
-  describe('save-and-return token service', () => {
-    describe('saveAndReturnGetService', () => {
-      it('should retrieve saved appeal by appealId', async () => {
-        const saved = {
-          value: {
-            appealId: '123445',
-            token: null,
-            email: 'asd@asd.com',
-            createdAt: new Date(),
-            expirerAt: null,
-          },
-        };
-        mongodb.get = jest.fn(() => ({
-          collection: jest.fn(() => ({
-            findOne: jest.fn().mockResolvedValue(saved),
-          })),
-        }));
+	describe('save-and-return token service', () => {
+		describe('saveAndReturnGetService', () => {
+			it('should retrieve saved appeal by appealId', async () => {
+				const saved = {
+					value: {
+						appealId: '123445',
+						token: null,
+						email: 'asd@asd.com',
+						createdAt: new Date(),
+						expirerAt: null
+					}
+				};
+				mongodb.get = jest.fn(() => ({
+					collection: jest.fn(() => ({
+						findOne: jest.fn().mockResolvedValue(saved)
+					}))
+				}));
 
-        const savedRes = await saveAndReturnGetService('12345');
+				const savedRes = await saveAndReturnGetService('12345');
 
-        expect(savedRes).toEqual(saved.value);
-      });
+				expect(savedRes).toEqual(saved.value);
+			});
 
-      it('should throw error', () => {
-        mongodb.get = jest.fn(() => ({
-          collection: jest.fn(() => ({
-            findOne: jest.fn().mockRejectedValue(new Error('Some error')),
-          })),
-        }));
+			it('should throw error', () => {
+				mongodb.get = jest.fn(() => ({
+					collection: jest.fn(() => ({
+						findOne: jest.fn().mockRejectedValue(new Error('Some error'))
+					}))
+				}));
 
-        expect(() => saveAndReturnGetService()).rejects.toThrowError('Some error');
-      });
-    });
+				expect(() => saveAndReturnGetService()).rejects.toThrowError('Some error');
+			});
+		});
 
-    describe('saveAndReturnCreateService', () => {
-      it('should save the appeal by appealId', async () => {
-        const saved = {
-          id: '123445',
-          appealId: '123445',
-          token: 12345,
-          email: 'asd@asd.com',
-          createdAt: new Date(),
-          expirerAt: null,
-        };
-        mongodb.get = jest.fn(() => ({
-          collection: jest.fn(() => ({
-            updateOne: jest.fn().mockResolvedValue(),
-          })),
-        }));
-        mongodb.get = jest.fn(() => ({
-          collection: jest.fn(() => ({
-            findOne: jest.fn().mockRejectedValue(saved),
-          })),
-        }));
+		describe('saveAndReturnCreateService', () => {
+			it('should save the appeal by appealId', async () => {
+				const saved = {
+					id: '123445',
+					appealId: '123445',
+					token: 12345,
+					email: 'asd@asd.com',
+					createdAt: new Date(),
+					expirerAt: null
+				};
+				mongodb.get = jest.fn(() => ({
+					collection: jest.fn(() => ({
+						updateOne: jest.fn().mockResolvedValue()
+					}))
+				}));
+				mongodb.get = jest.fn(() => ({
+					collection: jest.fn(() => ({
+						findOne: jest.fn().mockRejectedValue(saved)
+					}))
+				}));
 
-        createToken.mockReturnValue(12345);
+				createToken.mockReturnValue(12345);
 
-        const token = await saveAndReturnCreateService(saved);
+				const token = await saveAndReturnCreateService(saved);
 
-        expect(token).toEqual(saved.token);
-      });
-    });
-    it('should throw error', () => {
-      mongodb.get = jest.fn(() => ({
-        collection: jest.fn(() => ({
-          updateOne: jest.fn().mockRejectedValue(new Error('Some error')),
-        })),
-      }));
+				expect(token).toEqual(saved.token);
+			});
+		});
+		it('should throw error', () => {
+			mongodb.get = jest.fn(() => ({
+				collection: jest.fn(() => ({
+					updateOne: jest.fn().mockRejectedValue(new Error('Some error'))
+				}))
+			}));
 
-      expect(() => saveAndReturnCreateService()).rejects.toThrowError('Some error');
-    });
-  });
+			expect(() => saveAndReturnCreateService()).rejects.toThrowError('Some error');
+		});
+	});
 });

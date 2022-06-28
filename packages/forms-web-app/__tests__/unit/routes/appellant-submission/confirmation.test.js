@@ -5,20 +5,20 @@ const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-
 jest.mock('../../../../src/middleware/fetch-existing-appeal');
 
 describe('routes/appellant-submission/confirmation', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../../src/routes/appellant-submission/confirmation');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../../src/routes/appellant-submission/confirmation');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith(
-      '/confirmation',
-      [fetchExistingAppealMiddleware],
-      confirmationController.getConfirmation
-    );
-  });
+	it('should define the expected routes', () => {
+		expect(get).toHaveBeenCalledWith(
+			'/confirmation',
+			[fetchExistingAppealMiddleware],
+			confirmationController.getConfirmation
+		);
+	});
 });

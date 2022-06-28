@@ -10,8 +10,8 @@ const logger = require('./lib/logger');
 const server = require('./server');
 
 main()
-  .then(() => server())
-  .catch((err) => {
-    logger.fatal({ err }, 'Unable to start application');
-    process.exit(1);
-  });
+	.then(() => server())
+	.catch((err) => {
+		logger.fatal({ err }, 'Unable to start application');
+		process.exit(1);
+	});

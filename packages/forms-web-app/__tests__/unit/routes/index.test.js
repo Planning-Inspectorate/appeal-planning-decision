@@ -16,59 +16,59 @@ const checkDecisionDateDeadline = require('../../../src/middleware/check-decisio
 const checkAppealTypeExists = require('../../../src/middleware/check-appeal-type-exists');
 
 describe('routes/index', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../src/routes');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../src/routes');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(use).toHaveBeenCalledWith('/', homeRouter);
-    expect(use).toHaveBeenCalledWith('/', guidancePagesRouter);
-    expect(use).toHaveBeenCalledWith('/cookies', cookieRouter);
-    expect(use).toHaveBeenCalledWith(
-      '/appellant-submission',
-      checkAppealTypeExists,
-      checkDecisionDateDeadline,
-      appellantSubmissionRouter
-    );
-    expect(use).toHaveBeenCalledWith(
-      '/full-appeal',
-      checkAppealTypeExists,
-      checkDecisionDateDeadline,
-      fullAppealAppellantSubmissionRouter
-    );
-    expect(use).toHaveBeenCalledWith('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
-    expect(use).toHaveBeenCalledWith('/your-planning-appeal', yourPlanningAppealRouter);
-    expect(use).toHaveBeenCalledWith(
-      '/before-you-start',
-      checkAppealTypeExists,
-      checkDecisionDateDeadline,
-      fullAppealRouter
-    );
-    expect(use).toHaveBeenCalledWith(
-      '/before-you-start',
-      checkAppealTypeExists,
-      checkDecisionDateDeadline,
-      householderPlanningRouter
-    );
-    expect(use).toHaveBeenCalledWith('/document', documentRouter);
+	it('should define the expected routes', () => {
+		expect(use).toHaveBeenCalledWith('/', homeRouter);
+		expect(use).toHaveBeenCalledWith('/', guidancePagesRouter);
+		expect(use).toHaveBeenCalledWith('/cookies', cookieRouter);
+		expect(use).toHaveBeenCalledWith(
+			'/appellant-submission',
+			checkAppealTypeExists,
+			checkDecisionDateDeadline,
+			appellantSubmissionRouter
+		);
+		expect(use).toHaveBeenCalledWith(
+			'/full-appeal',
+			checkAppealTypeExists,
+			checkDecisionDateDeadline,
+			fullAppealAppellantSubmissionRouter
+		);
+		expect(use).toHaveBeenCalledWith('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
+		expect(use).toHaveBeenCalledWith('/your-planning-appeal', yourPlanningAppealRouter);
+		expect(use).toHaveBeenCalledWith(
+			'/before-you-start',
+			checkAppealTypeExists,
+			checkDecisionDateDeadline,
+			fullAppealRouter
+		);
+		expect(use).toHaveBeenCalledWith(
+			'/before-you-start',
+			checkAppealTypeExists,
+			checkDecisionDateDeadline,
+			householderPlanningRouter
+		);
+		expect(use).toHaveBeenCalledWith('/document', documentRouter);
 
-    expect(use).toHaveBeenCalledWith('/before-you-start', beforeYouStartRouter);
-    expect(use).toHaveBeenCalledWith(
-      '/submit-appeal',
-      checkAppealTypeExists,
-      checkDecisionDateDeadline,
-      submitAppealRouter
-    );
-    expect(use).toHaveBeenCalledWith(
-      '/save-and-return',
-      checkAppealTypeExists,
-      checkDecisionDateDeadline,
-      saveAndReturnRouter
-    );
-  });
+		expect(use).toHaveBeenCalledWith('/before-you-start', beforeYouStartRouter);
+		expect(use).toHaveBeenCalledWith(
+			'/submit-appeal',
+			checkAppealTypeExists,
+			checkDecisionDateDeadline,
+			submitAppealRouter
+		);
+		expect(use).toHaveBeenCalledWith(
+			'/save-and-return',
+			checkAppealTypeExists,
+			checkDecisionDateDeadline,
+			saveAndReturnRouter
+		);
+	});
 });

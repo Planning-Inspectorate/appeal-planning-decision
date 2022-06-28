@@ -1,4 +1,5 @@
-export const selectWrittenRepresentations= () => cy.get('[data-cy="answer-written-representation"]');
+export const selectWrittenRepresentations = () =>
+	cy.get('[data-cy="answer-written-representation"]');
 export const selectHearing = () => cy.get('[data-cy="answer-hearing"]');
 export const selectInquiry = () => cy.get('[data-cy="answer-inquiry"]');
 export const procedureErrorMessage = () => cy.get('#procedure-type-error');
@@ -8,4 +9,3 @@ export const textBoxExpectDays = () => cy.get('#expected-days');
 export const expectedDaysErrorMessage = () => cy.get('#expected-days-error');
 export const textBoxWhyHearing = () => cy.get('#why-hearing');
 export const whyHearingErrorMessage = () => cy.get('#why-hearing-error');
-

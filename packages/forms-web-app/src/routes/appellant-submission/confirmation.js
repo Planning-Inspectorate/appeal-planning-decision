@@ -6,9 +6,9 @@ const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-a
 const router = express.Router();
 
 router.get(
-  '/confirmation',
-  [fetchExistingAppealMiddleware],
-  confirmationController.getConfirmation
+	'/confirmation',
+	[fetchExistingAppealMiddleware],
+	confirmationController.getConfirmation
 );
 
 module.exports = router;

@@ -30,30 +30,30 @@ healthChecks(server);
  * Event listener for HTTP server "error" event.
  */
 function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+	if (error.syscall !== 'listen') {
+		throw error;
+	}
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      logger.error({ port }, `App requires elevated privileges`);
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      logger.error({ port }, `Port already in use`);
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
+	// handle specific listen errors with friendly messages
+	switch (error.code) {
+		case 'EACCES':
+			logger.error({ port }, `App requires elevated privileges`);
+			process.exit(1);
+			break;
+		case 'EADDRINUSE':
+			logger.error({ port }, `Port already in use`);
+			process.exit(1);
+			break;
+		default:
+			throw error;
+	}
 }
 
 /**
  * Event listener for HTTP server "listening" event.
  */
 function onListening() {
-  logger.info({ config }, 'Listening');
+	logger.info({ config }, 'Listening');
 }
 
 /**

@@ -14,8 +14,8 @@ import { enterDateDecisionDue } from '../../../../support/eligibility/date-decis
 import { getEnforcementNoticeNo } from '../../../../support/eligibility/page-objects/enforcement-notice-po';
 import { verifyPage } from '../../../../support/common/verifyPage';
 import {
-  selectLocalPlanningDepartment,
-  viewLocalPlanningDepartment,
+	selectLocalPlanningDepartment,
+	viewLocalPlanningDepartment
 } from '../../../../support/before-you-start/local-planning-department';
 import { getPlanningApplicationType } from '../../../../support/eligibility/planning-application-type/get-planning-application-type';
 import { getSiteOption } from '../../../../support/eligibility/appellant-selects-the-site/get-site-option';
@@ -23,8 +23,8 @@ import { getPlanningApplicationDecision } from '../../../../support/eligibility/
 import { getDateDecisionReceived } from '../../../../support/eligibility/date-decision-received/get-date-decision-received';
 import { getDateDecisionDue } from '../../../../support/eligibility/date-decision-due/get-date-decision-due';
 import {
-  getBackLink,
-  getSaveAndContinueButton,
+	getBackLink,
+	getSaveAndContinueButton
 } from '../../../../support/common-page-objects/common-po';
 import { selectListedBuildingDecision } from '../../../../support/eligibility/listed-building/select-listed-building-decision';
 import { enterDateHouseholderDecisionReceived } from '../../../../support/eligibility/date-decision-received/enter-date-householder-decision-received';
@@ -34,272 +34,272 @@ const url = 'before-you-start/local-planning-department';
 let validDate;
 
 Given('appellant selects local planning department', () => {
-  goToAppealsPage(url);
-  acceptCookiesBanner();
-  verifyPageTitle(
-    'Which local planning department dealt with your planning application? - Before you start - Appeal a planning decision - GOV.UK',
-  );
-  verifyPageHeading('Which local planning department dealt with your planning application?');
-  selectLocalPlanningDepartment('System Test Borough Council');
+	goToAppealsPage(url);
+	acceptCookiesBanner();
+	verifyPageTitle(
+		'Which local planning department dealt with your planning application? - Before you start - Appeal a planning decision - GOV.UK'
+	);
+	verifyPageHeading('Which local planning department dealt with your planning application?');
+	selectLocalPlanningDepartment('System Test Borough Council');
 });
 
 Given('appellant clicks on the continue button', () => {
-  clickContinueButton();
+	clickContinueButton();
 });
 
 Given('appellant selects {string} planning application type', (applicationType) => {
-  verifyPageTitle(
-    'What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK',
-  );
-  verifyPageHeading('What type of planning application is your appeal about?');
-  selectPlanningApplicationType(applicationType);
-  if (applicationType === 'Prior approval') {
-    getSaveAndContinueButton().click();
-    selectNo().click();
-  }
-  if (applicationType === 'Removal or variation of conditions') {
-    getSaveAndContinueButton().click();
-    selectNo().click();
-  }
+	verifyPageTitle(
+		'What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK'
+	);
+	verifyPageHeading('What type of planning application is your appeal about?');
+	selectPlanningApplicationType(applicationType);
+	if (applicationType === 'Prior approval') {
+		getSaveAndContinueButton().click();
+		selectNo().click();
+	}
+	if (applicationType === 'Removal or variation of conditions') {
+		getSaveAndContinueButton().click();
+		selectNo().click();
+	}
 });
 Given('appellant selects Prior approval planning application type', () => {
-  verifyPageTitle(
-    'What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK',
-  );
-  verifyPageHeading('What type of planning application is your appeal about?');
-  selectPlanningApplicationType('Prior approval');
+	verifyPageTitle(
+		'What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK'
+	);
+	verifyPageHeading('What type of planning application is your appeal about?');
+	selectPlanningApplicationType('Prior approval');
 });
 Given(
-  "appellant selects the planning application type as 'Removal or variation of conditions'",
-  () => {
-    verifyPageTitle(
-      'What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK',
-    );
-    verifyPageHeading('What type of planning application is your appeal about?');
-    selectPlanningApplicationType('Removal or variation of conditions');
-  },
+	"appellant selects the planning application type as 'Removal or variation of conditions'",
+	() => {
+		verifyPageTitle(
+			'What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK'
+		);
+		verifyPageHeading('What type of planning application is your appeal about?');
+		selectPlanningApplicationType('Removal or variation of conditions');
+	}
 );
 
 Given('appellant selects {string} from the list of options', (option) => {
-  verifyPageTitle(
-    'Was your planning application about any of the following? - Before you start - Appeal a planning decision - GOV.UK',
-  );
-  verifyPageHeading('Was your planning application about any of the following?');
-  selectSiteOption(option);
+	verifyPageTitle(
+		'Was your planning application about any of the following? - Before you start - Appeal a planning decision - GOV.UK'
+	);
+	verifyPageHeading('Was your planning application about any of the following?');
+	selectSiteOption(option);
 });
 Given('appellant selects the {string}', (application_decision) => {
-  verifyPageTitle(
-    'Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK',
-  );
-  verifyPageHeading('Was your planning application granted or refused?');
-  selectPlanningApplicationDecision(application_decision);
+	verifyPageTitle(
+		'Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK'
+	);
+	verifyPageHeading('Was your planning application granted or refused?');
+	selectPlanningApplicationDecision(application_decision);
 });
 
 Given('appellant selects the option no for prior approval existing house', () => {
-  verifyPageTitle(
-    'Did you apply for prior approval to extend an existing home? - Before you start - Appeal a planning decision - GOV.UK',
-  );
-  verifyPageHeading('Did you apply for prior approval to extend an existing home?');
-  selectNo().click();
+	verifyPageTitle(
+		'Did you apply for prior approval to extend an existing home? - Before you start - Appeal a planning decision - GOV.UK'
+	);
+	verifyPageHeading('Did you apply for prior approval to extend an existing home?');
+	selectNo().click();
 });
 Given(
-  "appellant selects the option no for 'Are the conditions for householder planning permission?'",
-  () => {
-    verifyPageTitle(
-      'Are the conditions for householder planning permission? - Before you start - Appeal a planning decision - GOV.UK',
-    );
-    verifyPageHeading('Are the conditions for householder planning permission?');
-    selectNo().click();
-  },
+	"appellant selects the option no for 'Are the conditions for householder planning permission?'",
+	() => {
+		verifyPageTitle(
+			'Are the conditions for householder planning permission? - Before you start - Appeal a planning decision - GOV.UK'
+		);
+		verifyPageHeading('Are the conditions for householder planning permission?');
+		selectNo().click();
+	}
 );
 
 Given(
-  'appellant enters the date within 6 months when the {string} was received',
-  (application_decision) => {
-    validDate = getPastDate(allowedDatePart.MONTH, 3);
-    if (application_decision === 'Granted' || application_decision === 'Refused') {
-      verifyPageTitle(
-        "What's the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK",
-      );
-      verifyPageHeading(
-        "What's the decision date on the letter from the local planning department?",
-      );
-      enterDateDecisionReceived({
-        day: ('0' + getDate(validDate)).slice(-2),
-        month: ('0' + (getMonth(validDate) + 1)).slice(-2),
-        year: getYear(validDate),
-      });
-    } else {
-      verifyPageTitle(
-        'What date was your decision due? - Before you start - Appeal a planning decision - GOV.UK',
-      );
-      verifyPageHeading('What date was your decision due?');
-      enterDateDecisionDue({
-        day: ('0' + getDate(validDate)).slice(-2),
-        month: ('0' + (getMonth(validDate) + 1)).slice(-2),
-        year: getYear(validDate),
-      });
-    }
-  },
+	'appellant enters the date within 6 months when the {string} was received',
+	(application_decision) => {
+		validDate = getPastDate(allowedDatePart.MONTH, 3);
+		if (application_decision === 'Granted' || application_decision === 'Refused') {
+			verifyPageTitle(
+				"What's the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK"
+			);
+			verifyPageHeading(
+				"What's the decision date on the letter from the local planning department?"
+			);
+			enterDateDecisionReceived({
+				day: ('0' + getDate(validDate)).slice(-2),
+				month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+				year: getYear(validDate)
+			});
+		} else {
+			verifyPageTitle(
+				'What date was your decision due? - Before you start - Appeal a planning decision - GOV.UK'
+			);
+			verifyPageHeading('What date was your decision due?');
+			enterDateDecisionDue({
+				day: ('0' + getDate(validDate)).slice(-2),
+				month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+				year: getYear(validDate)
+			});
+		}
+	}
 );
 
 Given('appellant selects No from the enforcement notice options', () => {
-  verifyPageTitle(
-    'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK',
-  );
-  verifyPageHeading('Have you received an enforcement notice?');
-  getEnforcementNoticeNo().check();
+	verifyPageTitle(
+		'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK'
+	);
+	verifyPageHeading('Have you received an enforcement notice?');
+	getEnforcementNoticeNo().check();
 });
 
 Given('appellant selects the option as No for listed building', () => {
-  verifyPageTitle(
-    'Is your appeal about a listed building? - Before you start - Appeal a planning decision - GOV.UK',
-  );
-  verifyPageHeading('Is your appeal about a listed building?');
-  selectListedBuildingDecision('No');
+	verifyPageTitle(
+		'Is your appeal about a listed building? - Before you start - Appeal a planning decision - GOV.UK'
+	);
+	verifyPageHeading('Is your appeal about a listed building?');
+	selectListedBuildingDecision('No');
 });
 
 When('appellant clicks on back link', () => {
-  getBackLink().click();
+	getBackLink().click();
 });
 
 Given(
-  'appellant enters the date within 12 weeks when the {string} was received',
-  (application_decision) => {
-    validDate = getPastDate(allowedDatePart.WEEK, 8);
-    if (application_decision === 'Granted' || application_decision === 'Refused') {
-      verifyPageTitle(
-        "What's the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK",
-      );
-      verifyPageHeading(
-        "What's the decision date on the letter from the local planning department?",
-      );
-      enterDateDecisionReceived({
-        day: ('0' + getDate(validDate)).slice(-2),
-        month: ('0' + (getMonth(validDate) + 1)).slice(-2),
-        year: getYear(validDate),
-      });
-    } else {
-      verifyPageTitle(
-        'What date was your decision due? - Before you start - Appeal a planning decision - GOV.UK',
-      );
-      verifyPageHeading('What date was your decision due?');
-      enterDateDecisionDue({
-        day: ('0' + getDate(validDate)).slice(-2),
-        month: ('0' + (getMonth(validDate) + 1)).slice(-2),
-        year: getYear(validDate),
-      });
-    }
-  },
+	'appellant enters the date within 12 weeks when the {string} was received',
+	(application_decision) => {
+		validDate = getPastDate(allowedDatePart.WEEK, 8);
+		if (application_decision === 'Granted' || application_decision === 'Refused') {
+			verifyPageTitle(
+				"What's the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK"
+			);
+			verifyPageHeading(
+				"What's the decision date on the letter from the local planning department?"
+			);
+			enterDateDecisionReceived({
+				day: ('0' + getDate(validDate)).slice(-2),
+				month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+				year: getYear(validDate)
+			});
+		} else {
+			verifyPageTitle(
+				'What date was your decision due? - Before you start - Appeal a planning decision - GOV.UK'
+			);
+			verifyPageHeading('What date was your decision due?');
+			enterDateDecisionDue({
+				day: ('0' + getDate(validDate)).slice(-2),
+				month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+				year: getYear(validDate)
+			});
+		}
+	}
 );
 Given('data is persisted for the date when the {string} was received', (application_decision) => {
-  if (application_decision === 'Granted' || application_decision === 'Refused') {
-    verifyPageTitle(
-      "What's the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK",
-    );
-    verifyPageHeading("What's the decision date on the letter from the local planning department?");
-    getDateDecisionReceived({
-      day: ('0' + getDate(validDate)).slice(-2),
-      month: ('0' + (getMonth(validDate) + 1)).slice(-2),
-      year: getYear(validDate),
-    });
-  } else {
-    verifyPageTitle(
-      'What date was your decision due? - Before you start - Appeal a planning decision - GOV.UK',
-    );
-    verifyPageHeading('What date was your decision due?');
-    getDateDecisionDue({
-      day: ('0' + getDate(validDate)).slice(-2),
-      month: ('0' + (getMonth(validDate) + 1)).slice(-2),
-      year: getYear(validDate),
-    });
-  }
+	if (application_decision === 'Granted' || application_decision === 'Refused') {
+		verifyPageTitle(
+			"What's the decision date on the letter from the local planning department? - Before you start - Appeal a planning decision - GOV.UK"
+		);
+		verifyPageHeading("What's the decision date on the letter from the local planning department?");
+		getDateDecisionReceived({
+			day: ('0' + getDate(validDate)).slice(-2),
+			month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+			year: getYear(validDate)
+		});
+	} else {
+		verifyPageTitle(
+			'What date was your decision due? - Before you start - Appeal a planning decision - GOV.UK'
+		);
+		verifyPageHeading('What date was your decision due?');
+		getDateDecisionDue({
+			day: ('0' + getDate(validDate)).slice(-2),
+			month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+			year: getYear(validDate)
+		});
+	}
 });
 
 Given('appellant selects No from the claiming costs option', () => {
-  verifyPageTitle(
-    'Are you claiming costs as part of your appeal? - Before you start - Appeal a planning decision - GOV.UK',
-  );
-  verifyPageHeading('Are you claiming costs as part of your appeal?');
-  getClaimingCostNo().check();
+	verifyPageTitle(
+		'Are you claiming costs as part of your appeal? - Before you start - Appeal a planning decision - GOV.UK'
+	);
+	verifyPageHeading('Are you claiming costs as part of your appeal?');
+	getClaimingCostNo().check();
 });
 
 When('appellant enters the date within 12 weeks when the Refused decision was received', () => {
-  validDate = getPastDate(allowedDatePart.WEEK, 8);
-  verifyPageTitle(
-    "What's the decision date on the letter from the local planning department? - Before you start - Appeal a householder planning decision - GOV.UK",
-  );
-  verifyPageHeading("What's the decision date on the letter from the local planning department?");
-  enterDateHouseholderDecisionReceived({
-    day: ('0' + getDate(validDate)).slice(-2),
-    month: ('0' + (getMonth(validDate) + 1)).slice(-2),
-    year: getYear(validDate),
-  });
+	validDate = getPastDate(allowedDatePart.WEEK, 8);
+	verifyPageTitle(
+		"What's the decision date on the letter from the local planning department? - Before you start - Appeal a householder planning decision - GOV.UK"
+	);
+	verifyPageHeading("What's the decision date on the letter from the local planning department?");
+	enterDateHouseholderDecisionReceived({
+		day: ('0' + getDate(validDate)).slice(-2),
+		month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+		year: getYear(validDate)
+	});
 });
 
 Then('appellant is navigated to householder appeal check your answers page', () => {
-  verifyPage('before-you-start/can-use-service');
+	verifyPage('before-you-start/can-use-service');
 });
 
 Then('data is persisted for local planning department', () => {
-  verifyPageTitle(
-    'Which local planning department dealt with your planning application? - Before you start - Appeal a planning decision - GOV.UK',
-  );
-  verifyPageHeading('Which local planning department dealt with your planning application?');
-  viewLocalPlanningDepartment().should('have.value', 'System Test Borough Council');
+	verifyPageTitle(
+		'Which local planning department dealt with your planning application? - Before you start - Appeal a planning decision - GOV.UK'
+	);
+	verifyPageHeading('Which local planning department dealt with your planning application?');
+	viewLocalPlanningDepartment().should('have.value', 'System Test Borough Council');
 });
 
 Then('appellant is navigated to full appeal check your answers page', () => {
-  verifyPage('before-you-start/can-use-service');
+	verifyPage('before-you-start/can-use-service');
 });
 
 Then('data is persisted for {string} planning application type', (applicationType) => {
-  verifyPageTitle(
-    'What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK',
-  );
-  verifyPageHeading('What type of planning application is your appeal about?');
-  getPlanningApplicationType(applicationType);
+	verifyPageTitle(
+		'What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK'
+	);
+	verifyPageHeading('What type of planning application is your appeal about?');
+	getPlanningApplicationType(applicationType);
 });
 
 Then('data is persisted for {string} from the list of options', (option) => {
-  verifyPageTitle(
-    'Was your planning application about any of the following? - Before you start - Appeal a planning decision - GOV.UK',
-  );
-  verifyPageHeading('Was your planning application about any of the following?');
-  getSiteOption(option);
+	verifyPageTitle(
+		'Was your planning application about any of the following? - Before you start - Appeal a planning decision - GOV.UK'
+	);
+	verifyPageHeading('Was your planning application about any of the following?');
+	getSiteOption(option);
 });
 
 Then('data is persisted for {string}', (application_decision) => {
-  verifyPageTitle(
-    'Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK',
-  );
-  verifyPageHeading('Was your planning application granted or refused?');
-  getPlanningApplicationDecision(application_decision);
+	verifyPageTitle(
+		'Was your planning application granted or refused? - Before you start - Appeal a planning decision - GOV.UK'
+	);
+	verifyPageHeading('Was your planning application granted or refused?');
+	getPlanningApplicationDecision(application_decision);
 });
 
 Then('data is persisted for enforcement notice', () => {
-  verifyPageTitle(
-    'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK',
-  );
-  verifyPageHeading('Have you received an enforcement notice?');
-  getEnforcementNoticeNo().should('be.checked');
+	verifyPageTitle(
+		'Have you received an enforcement notice? - Before you start - Appeal a planning decision - GOV.UK'
+	);
+	verifyPageHeading('Have you received an enforcement notice?');
+	getEnforcementNoticeNo().should('be.checked');
 });
 
 Then('appellant clicks on browser back', () => {
-  cy.go('back');
+	cy.go('back');
 });
 
 Then('data is persisted for option no for prior approval existing house', () => {
-  verifyPageTitle(
-    'Did you apply for prior approval to extend an existing home? - Before you start - Appeal a planning decision - GOV.UK',
-  );
-  verifyPageHeading('Did you apply for prior approval to extend an existing home?');
-  selectNo().should('be.checked');
+	verifyPageTitle(
+		'Did you apply for prior approval to extend an existing home? - Before you start - Appeal a planning decision - GOV.UK'
+	);
+	verifyPageHeading('Did you apply for prior approval to extend an existing home?');
+	selectNo().should('be.checked');
 });
 Then(
-  "data is persisted for option no for 'Are the conditions for householder planning permission?'",
-  () => {
-    verifyPageHeading('Are the conditions for householder planning permission?');
-    selectNo().should('be.checked');
-  },
+	"data is persisted for option no for 'Are the conditions for householder planning permission?'",
+	() => {
+		verifyPageHeading('Are the conditions for householder planning permission?');
+		selectNo().should('be.checked');
+	}
 );

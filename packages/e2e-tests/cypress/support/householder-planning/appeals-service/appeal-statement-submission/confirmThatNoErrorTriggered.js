@@ -1,3 +1,3 @@
 export const confirmThatNoErrorTriggered = () => {
-  cy.get('.govuk-error-summary__list').should('not.exist');
+	cy.get('.govuk-error-summary__list').should('not.exist');
 };

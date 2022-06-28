@@ -1,6 +1,6 @@
 const { VIEW } = require('../lib/views');
 const {
-  VIEW: { FULL_APPEAL },
+	VIEW: { FULL_APPEAL }
 } = require('../lib/full-appeal/views');
 const TASK_STATUS = require('./task-status/task-statuses');
 const { statusAppealSiteAddress } = require('./task-status/status-appeal-site-address');
@@ -9,220 +9,220 @@ const { statusYourDetails } = require('./task-status/status-your-details');
 const { statusContactDetails } = require('./task-status/full-appeal/status-contact-details');
 const { statusAppealSiteSection } = require('./task-status/full-appeal/status-appeal-site-section');
 const {
-  statusAppealDecisionSection,
+	statusAppealDecisionSection
 } = require('./task-status/full-appeal/status-appeal-decision-section');
 const {
-  statusPlanningApplicationDocumentsSection,
+	statusPlanningApplicationDocumentsSection
 } = require('./task-status/full-appeal/status-planning-application-documents-section');
 const {
-  statusAppealDocumentsSection,
+	statusAppealDocumentsSection
 } = require('./task-status/full-appeal/status-appeal-documents-section');
 
 function statusAppealStatement(appeal) {
-  const task = appeal.yourAppealSection.appealStatement;
-  return task.uploadedFile.id ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
+	const task = appeal.yourAppealSection.appealStatement;
+	return task.uploadedFile.id ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
 }
 
 function statusSupportingDocuments(appeal) {
-  const task = appeal.yourAppealSection.otherDocuments;
-  return task.uploadedFiles.length > 0 ||
-    appeal.sectionStates.yourAppealSection.otherDocuments === 'COMPLETED'
-    ? TASK_STATUS.COMPLETED
-    : TASK_STATUS.NOT_STARTED;
+	const task = appeal.yourAppealSection.otherDocuments;
+	return task.uploadedFiles.length > 0 ||
+		appeal.sectionStates.yourAppealSection.otherDocuments === 'COMPLETED'
+		? TASK_STATUS.COMPLETED
+		: TASK_STATUS.NOT_STARTED;
 }
 
 function statusOriginalApplication(appeal) {
-  const task = appeal.requiredDocumentsSection.originalApplication;
-  return task.uploadedFile.id ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
+	const task = appeal.requiredDocumentsSection.originalApplication;
+	return task.uploadedFile.id ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
 }
 
 function statusDecisionLetter(appeal) {
-  const task = appeal.requiredDocumentsSection.decisionLetter;
-  return task.uploadedFile.id ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
+	const task = appeal.requiredDocumentsSection.decisionLetter;
+	return task.uploadedFile.id ? TASK_STATUS.COMPLETED : TASK_STATUS.NOT_STARTED;
 }
 
 function statusHealthAndSafety(appeal) {
-  return appeal.appealSiteSection.healthAndSafety &&
-    appeal.appealSiteSection.healthAndSafety.hasIssues !== null
-    ? TASK_STATUS.COMPLETED
-    : TASK_STATUS.NOT_STARTED;
+	return appeal.appealSiteSection.healthAndSafety &&
+		appeal.appealSiteSection.healthAndSafety.hasIssues !== null
+		? TASK_STATUS.COMPLETED
+		: TASK_STATUS.NOT_STARTED;
 }
 
 function statusSiteAccess(appeal) {
-  const task = appeal.appealSiteSection.siteAccess;
-  return task.canInspectorSeeWholeSiteFromPublicRoad !== null
-    ? TASK_STATUS.COMPLETED
-    : TASK_STATUS.NOT_STARTED;
+	const task = appeal.appealSiteSection.siteAccess;
+	return task.canInspectorSeeWholeSiteFromPublicRoad !== null
+		? TASK_STATUS.COMPLETED
+		: TASK_STATUS.NOT_STARTED;
 }
 
 const houseHolderTasksRules = [
-  statusYourDetails,
-  statusOriginalApplication,
-  statusDecisionLetter,
-  statusAppealStatement,
-  statusAppealSiteAddress,
-  statusSiteOwnership,
-  statusSiteAccess,
-  statusHealthAndSafety,
+	statusYourDetails,
+	statusOriginalApplication,
+	statusDecisionLetter,
+	statusAppealStatement,
+	statusAppealSiteAddress,
+	statusSiteOwnership,
+	statusSiteAccess,
+	statusHealthAndSafety
 ];
 
 const statusCheckYourAnswer = (tasksRules) => (appeal) => {
-  if (appeal.state === 'SUBMITTED') {
-    return TASK_STATUS.COMPLETED;
-  }
+	if (appeal.state === 'SUBMITTED') {
+		return TASK_STATUS.COMPLETED;
+	}
 
-  for (let i = 0; i < tasksRules.length; i += 1) {
-    const rule = tasksRules[i];
-    const taskStatus = rule(appeal);
+	for (let i = 0; i < tasksRules.length; i += 1) {
+		const rule = tasksRules[i];
+		const taskStatus = rule(appeal);
 
-    if (taskStatus !== TASK_STATUS.COMPLETED) {
-      return TASK_STATUS.CANNOT_START_YET;
-    }
-  }
+		if (taskStatus !== TASK_STATUS.COMPLETED) {
+			return TASK_STATUS.CANNOT_START_YET;
+		}
+	}
 
-  return TASK_STATUS.NOT_STARTED;
+	return TASK_STATUS.NOT_STARTED;
 };
 
 const SECTIONS = {
-  aboutYouSection: {
-    yourDetails: {
-      href: `/${VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU}`,
-      rule: statusYourDetails,
-    },
-  },
-  requiredDocumentsSection: {
-    originalApplication: {
-      href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`,
-      rule: statusOriginalApplication,
-    },
-    decisionLetter: {
-      href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION}`,
-      rule: statusDecisionLetter,
-    },
-  },
-  yourAppealSection: {
-    appealStatement: {
-      href: `/${VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT}`,
-      rule: statusAppealStatement,
-    },
-    otherDocuments: {
-      href: `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
-      rule: statusSupportingDocuments,
-    },
-  },
-  appealSiteSection: {
-    siteAddress: {
-      href: `/${VIEW.APPELLANT_SUBMISSION.SITE_LOCATION}`,
-      rule: statusAppealSiteAddress,
-    },
-    siteOwnership: {
-      href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
-      rule: statusSiteOwnership,
-    },
-    siteAccess: { href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`, rule: statusSiteAccess },
-    healthAndSafety: {
-      href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
-      rule: statusHealthAndSafety,
-    },
-  },
-  submitYourAppealSection: {
-    checkYourAnswers: {
-      href: `/${VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS}`,
-      rule: statusCheckYourAnswer(houseHolderTasksRules),
-    },
-  },
+	aboutYouSection: {
+		yourDetails: {
+			href: `/${VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU}`,
+			rule: statusYourDetails
+		}
+	},
+	requiredDocumentsSection: {
+		originalApplication: {
+			href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`,
+			rule: statusOriginalApplication
+		},
+		decisionLetter: {
+			href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION}`,
+			rule: statusDecisionLetter
+		}
+	},
+	yourAppealSection: {
+		appealStatement: {
+			href: `/${VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT}`,
+			rule: statusAppealStatement
+		},
+		otherDocuments: {
+			href: `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
+			rule: statusSupportingDocuments
+		}
+	},
+	appealSiteSection: {
+		siteAddress: {
+			href: `/${VIEW.APPELLANT_SUBMISSION.SITE_LOCATION}`,
+			rule: statusAppealSiteAddress
+		},
+		siteOwnership: {
+			href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
+			rule: statusSiteOwnership
+		},
+		siteAccess: { href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`, rule: statusSiteAccess },
+		healthAndSafety: {
+			href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
+			rule: statusHealthAndSafety
+		}
+	},
+	submitYourAppealSection: {
+		checkYourAnswers: {
+			href: `/${VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS}`,
+			rule: statusCheckYourAnswer(houseHolderTasksRules)
+		}
+	}
 };
 
 const fullAppealTasksRules = [
-  statusContactDetails,
-  statusAppealSiteSection,
-  statusAppealDecisionSection,
-  statusPlanningApplicationDocumentsSection,
-  statusAppealDocumentsSection,
+	statusContactDetails,
+	statusAppealSiteSection,
+	statusAppealDecisionSection,
+	statusPlanningApplicationDocumentsSection,
+	statusAppealDocumentsSection
 ];
 
 const FULL_APPEAL_SECTIONS = {
-  contactDetailsSection: {
-    href: `/${FULL_APPEAL.ORIGINAL_APPLICANT}`,
-    rule: statusContactDetails,
-  },
-  appealSiteSection: {
-    href: `/${FULL_APPEAL.APPEAL_SITE_ADDRESS}`,
-    rule: statusAppealSiteSection,
-  },
-  appealDecisionSection: {
-    href: `/${FULL_APPEAL.HOW_DECIDE_APPEAL}`,
-    rule: statusAppealDecisionSection,
-  },
-  planningApplicationDocumentsSection: {
-    href: `/${FULL_APPEAL.APPLICATION_FORM}`,
-    rule: statusPlanningApplicationDocumentsSection,
-  },
-  appealDocumentsSection: {
-    href: `/${FULL_APPEAL.APPEAL_STATEMENT}`,
-    rule: statusAppealDocumentsSection,
-  },
-  submitYourAppealSection: {
-    href: `/${FULL_APPEAL.CHECK_YOUR_ANSWERS}`,
-    rule: statusCheckYourAnswer(fullAppealTasksRules),
-  },
+	contactDetailsSection: {
+		href: `/${FULL_APPEAL.ORIGINAL_APPLICANT}`,
+		rule: statusContactDetails
+	},
+	appealSiteSection: {
+		href: `/${FULL_APPEAL.APPEAL_SITE_ADDRESS}`,
+		rule: statusAppealSiteSection
+	},
+	appealDecisionSection: {
+		href: `/${FULL_APPEAL.HOW_DECIDE_APPEAL}`,
+		rule: statusAppealDecisionSection
+	},
+	planningApplicationDocumentsSection: {
+		href: `/${FULL_APPEAL.APPLICATION_FORM}`,
+		rule: statusPlanningApplicationDocumentsSection
+	},
+	appealDocumentsSection: {
+		href: `/${FULL_APPEAL.APPEAL_STATEMENT}`,
+		rule: statusAppealDocumentsSection
+	},
+	submitYourAppealSection: {
+		href: `/${FULL_APPEAL.CHECK_YOUR_ANSWERS}`,
+		rule: statusCheckYourAnswer(fullAppealTasksRules)
+	}
 };
 
 const setTaskStatusComplete = () => {
-  return TASK_STATUS.COMPLETED;
+	return TASK_STATUS.COMPLETED;
 };
 
 const setTaskStatusNotStarted = () => {
-  return TASK_STATUS.NOT_STARTED;
+	return TASK_STATUS.NOT_STARTED;
 };
 
-const getTaskStatus = (appeal, sectionName, taskName, sections = SECTIONS, required = true) => {
-  try {
-    const { rule } = taskName ? sections[sectionName][taskName] : sections[sectionName];
-    return rule(appeal);
-  } catch (e) {
-    return null;
-  }
+const getTaskStatus = (appeal, sectionName, taskName, sections = SECTIONS) => {
+	try {
+		const { rule } = taskName ? sections[sectionName][taskName] : sections[sectionName];
+		return rule(appeal);
+	} catch (e) {
+		return null;
+	}
 };
 
 // Get next section task
 const getNextTask = (appeal, currentTask, sections = SECTIONS) => {
-  const { sectionName, taskName } = currentTask;
+	const { sectionName, taskName } = currentTask;
 
-  const section = sections[sectionName];
+	const section = sections[sectionName];
 
-  const tasksNames = Object.keys(section);
-  const tasks = Object.entries(section);
+	const tasksNames = Object.keys(section);
+	const tasks = Object.entries(section);
 
-  const taskIndex = tasksNames.indexOf(taskName);
+	const taskIndex = tasksNames.indexOf(taskName);
 
-  for (let i = taskIndex + 1; i < tasks.length; i += 1) {
-    const nextTaskName = tasks[i][0];
+	for (let i = taskIndex + 1; i < tasks.length; i += 1) {
+		const nextTaskName = tasks[i][0];
 
-    let status = getTaskStatus(appeal, sectionName, nextTaskName);
-    if (!status && status !== TASK_STATUS.CANNOT_START_YET) {
-      // eslint-disable-next-line prefer-destructuring
-      status = tasks[i][1];
-    }
+		let status = getTaskStatus(appeal, sectionName, nextTaskName);
+		if (!status && status !== TASK_STATUS.CANNOT_START_YET) {
+			// eslint-disable-next-line prefer-destructuring
+			status = tasks[i][1];
+		}
 
-    const nextTask = {
-      taskName: nextTaskName,
-      status,
-      href: sections[sectionName][nextTaskName].href,
-    };
-    if (TASK_STATUS.CANNOT_START_YET !== nextTask.status) {
-      return nextTask;
-    }
-  }
+		const nextTask = {
+			taskName: nextTaskName,
+			status,
+			href: sections[sectionName][nextTaskName].href
+		};
+		if (TASK_STATUS.CANNOT_START_YET !== nextTask.status) {
+			return nextTask;
+		}
+	}
 
-  return { href: `/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}` };
+	return { href: `/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}` };
 };
 
 module.exports = {
-  SECTIONS,
-  FULL_APPEAL_SECTIONS,
-  getTaskStatus,
-  getNextTask,
-  setTaskStatusComplete,
-  setTaskStatusNotStarted,
+	SECTIONS,
+	FULL_APPEAL_SECTIONS,
+	getTaskStatus,
+	getNextTask,
+	setTaskStatusComplete,
+	setTaskStatusNotStarted
 };

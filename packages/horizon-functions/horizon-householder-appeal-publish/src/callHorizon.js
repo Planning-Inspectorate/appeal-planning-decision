@@ -12,30 +12,30 @@ const config = require('./config');
  * @returns {Promise<string>}
  */
 const callHorizon = async (log, input) => {
-  log(input, 'Calling Horizon');
+	log(input, 'Calling Horizon');
 
-  const { data } = await axios.post('/horizon', input, {
-    baseURL: config.horizon.url,
-  });
+	const { data } = await axios.post('/horizon', input, {
+		baseURL: config.horizon.url
+	});
 
-  log({ data }, 'Horizon response');
+	log({ data }, 'Horizon response');
 
-  // case IDs are in format APP/W4705/D/21/3218521 - we need last 7 digits or numbers after final slash (always the same)
-  const horizonFullCaseId = data?.Envelope?.Body?.CreateCaseResponse?.CreateCaseResult?.value;
+	// case IDs are in format APP/W4705/D/21/3218521 - we need last 7 digits or numbers after final slash (always the same)
+	const horizonFullCaseId = data?.Envelope?.Body?.CreateCaseResponse?.CreateCaseResult?.value;
 
-  if (!horizonFullCaseId) {
-    log(
-      { input: data?.Envelope?.Body?.CreateCaseResponse?.CreateCaseResult },
-      'Horizon ID malformed'
-    );
-    throw new Error('Horizon ID malformed');
-  }
+	if (!horizonFullCaseId) {
+		log(
+			{ input: data?.Envelope?.Body?.CreateCaseResponse?.CreateCaseResult },
+			'Horizon ID malformed'
+		);
+		throw new Error('Horizon ID malformed');
+	}
 
-  const parsedHorizonId = horizonFullCaseId.split('/').slice(-1).pop();
+	const parsedHorizonId = horizonFullCaseId.split('/').slice(-1).pop();
 
-  log({ parsedHorizonId, horizonFullCaseId }, 'Horizon ID parsed');
+	log({ parsedHorizonId, horizonFullCaseId }, 'Horizon ID parsed');
 
-  return parsedHorizonId;
+	return parsedHorizonId;
 };
 
 module.exports = { callHorizon };

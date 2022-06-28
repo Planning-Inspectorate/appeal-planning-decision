@@ -11,23 +11,23 @@ const useExistingServiceCostsRouter = require('../../../../../src/routes/househo
 const useExistingServiceEnforcementNotice = require('../../../../../src/routes/householder-planning/eligibility/use-existing-service-enforcement-notice');
 
 describe('routes/householder-planning/eligibility/index', () => {
-  beforeEach(() => {
-    jest.resetModules();
+	beforeEach(() => {
+		jest.resetModules();
 
-    // eslint-disable-next-line global-require
-    require('../../../../../src/routes/householder-planning/eligibility/index');
-  });
+		// eslint-disable-next-line global-require
+		require('../../../../../src/routes/householder-planning/eligibility/index');
+	});
 
-  it('should define the expected routes', () => {
-    expect(use.mock.calls.length).toBe(9);
-    expect(use).toHaveBeenCalledWith(claimingCostsHouseholderRouter);
-    expect(use).toHaveBeenCalledWith(enforcementNoticeHouseholderRouter);
-    expect(use).toHaveBeenCalledWith(grantedOrRefusedHouseholderRouter);
-    expect(use).toHaveBeenCalledWith(listedBuildingHouseholderRouter);
-    expect(use).toHaveBeenCalledWith(dateDecisionDueHouseholderRouter);
-    expect(use).toHaveBeenCalledWith(decisionDateHouseholderRouter);
-    expect(use).toHaveBeenCalledWith(conditionsHouseholderPermissionRouter);
-    expect(use).toHaveBeenCalledWith(useExistingServiceCostsRouter);
-    expect(use).toHaveBeenCalledWith(useExistingServiceEnforcementNotice);
-  });
+	it('should define the expected routes', () => {
+		expect(use.mock.calls.length).toBe(9);
+		expect(use).toHaveBeenCalledWith(claimingCostsHouseholderRouter);
+		expect(use).toHaveBeenCalledWith(enforcementNoticeHouseholderRouter);
+		expect(use).toHaveBeenCalledWith(grantedOrRefusedHouseholderRouter);
+		expect(use).toHaveBeenCalledWith(listedBuildingHouseholderRouter);
+		expect(use).toHaveBeenCalledWith(dateDecisionDueHouseholderRouter);
+		expect(use).toHaveBeenCalledWith(decisionDateHouseholderRouter);
+		expect(use).toHaveBeenCalledWith(conditionsHouseholderPermissionRouter);
+		expect(use).toHaveBeenCalledWith(useExistingServiceCostsRouter);
+		expect(use).toHaveBeenCalledWith(useExistingServiceEnforcementNotice);
+	});
 });

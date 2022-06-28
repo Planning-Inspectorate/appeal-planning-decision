@@ -1,5 +1,5 @@
 export const clearSession = () => {
-  cy.window().then((win) => {
-    win.sessionStorage.clear();
-  });
+	cy.window().then((win) => {
+		win.sessionStorage.clear();
+	});
 };

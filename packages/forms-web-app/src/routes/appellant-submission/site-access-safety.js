@@ -4,21 +4,21 @@ const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-a
 const siteAccessController = require('../../controllers/appellant-submission/site-access-safety');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const {
-  rules: siteAccessValidationRules,
+	rules: siteAccessValidationRules
 } = require('../../validators/appellant-submission/site-access-safety');
 
 const router = express.Router();
 
 router.get(
-  '/site-access-safety',
-  [fetchExistingAppealMiddleware],
-  siteAccessController.getSiteAccessSafety
+	'/site-access-safety',
+	[fetchExistingAppealMiddleware],
+	siteAccessController.getSiteAccessSafety
 );
 router.post(
-  '/site-access-safety',
-  siteAccessValidationRules(),
-  validationErrorHandler,
-  siteAccessController.postSiteAccessSafety
+	'/site-access-safety',
+	siteAccessValidationRules(),
+	validationErrorHandler,
+	siteAccessController.postSiteAccessSafety
 );
 
 module.exports = router;

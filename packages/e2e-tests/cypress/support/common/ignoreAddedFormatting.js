@@ -1,3 +1,3 @@
 export const ignoreAddedFormatting = (content) => {
-  return content.replace(/\n/g, ' ');
+	return content.replace(/\n/g, ' ');
 };

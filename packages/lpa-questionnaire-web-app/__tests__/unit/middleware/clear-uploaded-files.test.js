@@ -2,30 +2,30 @@ const clearUploadedFilesMiddleware = require('../../../src/middleware/clear-uplo
 const { mockReq, mockRes } = require('../mocks');
 
 describe('middleware/clear-uploaded-files', () => {
-  let req;
-  let next;
+	let req;
+	let next;
 
-  beforeEach(() => {
-    req = mockReq();
-    next = jest.fn();
+	beforeEach(() => {
+		req = mockReq();
+		next = jest.fn();
 
-    jest.resetAllMocks();
-  });
+		jest.resetAllMocks();
+	});
 
-  it('should call next immediately if no session', () => {
-    req.session = null;
+	it('should call next immediately if no session', () => {
+		req.session = null;
 
-    clearUploadedFilesMiddleware(req, mockRes, next);
+		clearUploadedFilesMiddleware(req, mockRes, next);
 
-    expect(next).toHaveBeenCalled();
-  });
+		expect(next).toHaveBeenCalled();
+	});
 
-  it('should clear uploaded files if not empty', () => {
-    req.session.uploadedFiles = ['some file'];
+	it('should clear uploaded files if not empty', () => {
+		req.session.uploadedFiles = ['some file'];
 
-    clearUploadedFilesMiddleware(req, mockRes, next);
+		clearUploadedFilesMiddleware(req, mockRes, next);
 
-    expect(next).toHaveBeenCalled();
-    expect(req.session.uploadedFiles).toEqual([]);
-  });
+		expect(next).toHaveBeenCalled();
+		expect(req.session.uploadedFiles).toEqual([]);
+	});
 });

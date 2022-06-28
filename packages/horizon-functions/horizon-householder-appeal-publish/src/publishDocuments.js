@@ -12,31 +12,31 @@ const addDocument = require('./logic/addDocument');
  * @param {string} horizonId
  */
 const publishDocuments = async (log, documents, serviceId, horizonId) => {
-  await Promise.all(
-    documents
-      /* Remove any undefined keys */
-      .filter(({ id }) => id)
-      .map(async ({ id: documentId, type: documentType }) => {
-        log(
-          {
-            documentId,
-            documentType,
-            horizonId,
-            serviceId,
-          },
-          'Publish document to Horizon'
-        );
+	await Promise.all(
+		documents
+			/* Remove any undefined keys */
+			.filter(({ id }) => id)
+			.map(async ({ id: documentId, type: documentType }) => {
+				log(
+					{
+						documentId,
+						documentType,
+						horizonId,
+						serviceId
+					},
+					'Publish document to Horizon'
+				);
 
-        await addDocument(log, {
-          documentId,
-          documentType,
-          caseReference: horizonId,
-          applicationId: serviceId,
-        });
+				await addDocument(log, {
+					documentId,
+					documentType,
+					caseReference: horizonId,
+					applicationId: serviceId
+				});
 
-        log('Publish document request accepted');
-      })
-  );
+				log('Publish document request accepted');
+			})
+	);
 };
 
 module.exports = { publishDocuments };

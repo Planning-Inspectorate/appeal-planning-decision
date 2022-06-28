@@ -15,47 +15,47 @@ const alreadySubmittedMiddleware = require('../middleware/already-submitted');
 const router = express.Router();
 
 const getConfig = (req, res, next) => {
-  req.documentType = documentTypes.supplementaryDocuments.name;
+	req.documentType = documentTypes.supplementaryDocuments.name;
 
-  next();
+	next();
 };
 
 router.get(
-  '/appeal-questionnaire/:id/supplementary-documents',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
-  addSupplementaryDocumentController.getAddDocument
+	'/appeal-questionnaire/:id/supplementary-documents',
+	[fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+	addSupplementaryDocumentController.getAddDocument
 );
 
 router.post(
-  '/appeal-questionnaire/:id/supplementary-documents',
-  reqFilesToReqBodyFilesMiddleware('documents'),
-  combineDateInputsMiddleware,
-  supplementaryDocumentsValidationRules(),
-  validationErrorHandler,
-  getConfig,
-  addSupplementaryDocumentController.postAddDocument
+	'/appeal-questionnaire/:id/supplementary-documents',
+	reqFilesToReqBodyFilesMiddleware('documents'),
+	combineDateInputsMiddleware,
+	supplementaryDocumentsValidationRules(),
+	validationErrorHandler,
+	getConfig,
+	addSupplementaryDocumentController.postAddDocument
 );
 
 router.get(
-  '/appeal-questionnaire/:id/supplementary-documents/uploaded-documents',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
-  checkIfSupplementaryDocuments,
-  uploadedDocumentsController.getUploadedDocuments
+	'/appeal-questionnaire/:id/supplementary-documents/uploaded-documents',
+	[fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+	checkIfSupplementaryDocuments,
+	uploadedDocumentsController.getUploadedDocuments
 );
 
 router.get(
-  '/appeal-questionnaire/:id/supplementary-documents/delete-document',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
-  deleteSupplementaryDocumentController.getDeleteDocument
+	'/appeal-questionnaire/:id/supplementary-documents/delete-document',
+	[fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+	deleteSupplementaryDocumentController.getDeleteDocument
 );
 
 router.post(
-  '/appeal-questionnaire/:id/supplementary-documents/delete-document',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
-  deleteSupplementaryDocumentController.postDeleteDocument
+	'/appeal-questionnaire/:id/supplementary-documents/delete-document',
+	[fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+	deleteSupplementaryDocumentController.postDeleteDocument
 );
 
 module.exports = {
-  router,
-  getConfig,
+	router,
+	getConfig
 };

@@ -7,14 +7,14 @@ const { validationErrorHandler } = require('../../../validators/validation-error
 const router = express.Router();
 
 router.get(
-  '/submit-appeal/declaration',
-  [fetchExistingAppealMiddleware],
-  declarationController.getDeclaration
+	'/submit-appeal/declaration',
+	[fetchExistingAppealMiddleware],
+	declarationController.getDeclaration
 );
 router.post(
-  '/submit-appeal/declaration',
-  validationErrorHandler,
-  declarationController.postDeclaration
+	'/submit-appeal/declaration',
+	validationErrorHandler,
+	declarationController.postDeclaration
 );
 
 module.exports = router;

@@ -6,14 +6,14 @@ import { agreeToTheDeclaration } from '../../appellant-confirms-declaration/agre
 import { confirmAppealSubmitted } from '../../appellant-confirms-declaration/confirmAppealSubmitted';
 
 export const createAgentAppealWithoutFiles = () => {
-  provideCompleteAppeal(AGENT_APPEAL_WITHOUT_FILES);
-  clickCheckYourAnswers();
-  clickSaveAndContinue();
-  agreeToTheDeclaration();
-  confirmAppealSubmitted();
+	provideCompleteAppeal(AGENT_APPEAL_WITHOUT_FILES);
+	clickCheckYourAnswers();
+	clickSaveAndContinue();
+	agreeToTheDeclaration();
+	confirmAppealSubmitted();
 
-  cy.get('[data-cy="submission-information-appeal-id"]')
-    .should('not.be.visible')
-    .invoke('val')
-    .as('agentAppealWithoutFilesAppealId');
+	cy.get('[data-cy="submission-information-appeal-id"]')
+		.should('not.be.visible')
+		.invoke('val')
+		.as('agentAppealWithoutFilesAppealId');
 };

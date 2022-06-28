@@ -7,9 +7,9 @@ const logger = require('./lib/logger');
 const server = require('./server');
 
 async function main() {
-  server();
+	server();
 }
 
 main().catch((err) => {
-  logger.fatal({ err }, 'Unable to start application');
+	logger.fatal({ err }, 'Unable to start application');
 });

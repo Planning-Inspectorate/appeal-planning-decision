@@ -1,6 +1,6 @@
 Cypress.Commands.add(
-  'alterDetailsAboutVisitingTheAppealSite',
-  require('./alterDetailsAboutVisitingTheAppealSite'),
+	'alterDetailsAboutVisitingTheAppealSite',
+	require('./alterDetailsAboutVisitingTheAppealSite')
 );
 
 Cypress.Commands.add('clickBackLink', require('./clickBackLink'));
@@ -12,62 +12,62 @@ Cypress.Commands.add('hasErrorOnCurrentPage', require('./hasErrorOnCurrentPage')
 Cypress.Commands.add('hasErrorOnPreviousPage', require('./hasErrorOnPreviousPage'));
 
 Cypress.Commands.add(
-  'navigateForwardsWithinAppealSteps',
-  require('./navigateForwardsWithinAppealSteps'),
+	'navigateForwardsWithinAppealSteps',
+	require('./navigateForwardsWithinAppealSteps')
 );
 
 Cypress.Commands.add(
-  'navigateForwardsWithinEligibilitySteps',
-  require('./navigateForwardsWithinEligibilitySteps'),
+	'navigateForwardsWithinEligibilitySteps',
+	require('./navigateForwardsWithinEligibilitySteps')
 );
 
 Cypress.Commands.add(
-  'provideDetailsAboutTheOriginalPlanningApplication',
-  require('./provideDetailsAboutTheOriginalPlanningApplication'),
+	'provideDetailsAboutTheOriginalPlanningApplication',
+	require('./provideDetailsAboutTheOriginalPlanningApplication')
 );
 
 Cypress.Commands.add('validateBackLinkIsNotAvailable', require('./validateBackLinkIsNotAvailable'));
 
 Cypress.Commands.add(
-  'validateBackStepsFromOriginalPlanningApplicationToTaskList',
-  require('./validateBackStepsFromOriginalPlanningApplicationToTaskList'),
+	'validateBackStepsFromOriginalPlanningApplicationToTaskList',
+	require('./validateBackStepsFromOriginalPlanningApplicationToTaskList')
 );
 
 Cypress.Commands.add(
-  'validateBackStepsFromVisitingAppealSiteToCheckYourAnswers',
-  require('./validateBackStepsFromVisitingAppealSiteToCheckYourAnswers'),
+	'validateBackStepsFromVisitingAppealSiteToCheckYourAnswers',
+	require('./validateBackStepsFromVisitingAppealSiteToCheckYourAnswers')
 );
 
 Cypress.Commands.add(
-  'validateBackStepsWithinAppealJourney',
-  require('./validateBackStepsWithinAppealJourney'),
+	'validateBackStepsWithinAppealJourney',
+	require('./validateBackStepsWithinAppealJourney')
 );
 
 Cypress.Commands.add(
-  'validateBackStepsWithinEligibilityJourney',
-  require('./validateBackStepsWithinEligibilityJourney'),
+	'validateBackStepsWithinEligibilityJourney',
+	require('./validateBackStepsWithinEligibilityJourney')
 );
 
 Cypress.Commands.add('validateBreadcrumbsAreVisible', require('./validateBreadcrumbsAreVisible'));
 
 Cypress.Commands.add(
-  'validatePreviousPageDisplayedWithoutCurrentPageRefreshed',
-  require('./validatePreviousPageDisplayedWithoutCurrentPageRefreshed'),
+	'validatePreviousPageDisplayedWithoutCurrentPageRefreshed',
+	require('./validatePreviousPageDisplayedWithoutCurrentPageRefreshed')
 );
 
 Cypress.Commands.add(
-  'validateThePreviousPageDisplaysWithoutError',
-  require('./validateThePreviousPageDisplaysWithoutError'),
+	'validateThePreviousPageDisplaysWithoutError',
+	require('./validateThePreviousPageDisplaysWithoutError')
 );
 
 Cypress.Commands.add(
-  'validateUserIsOnServiceStartPage',
-  require('./validateUserIsOnServiceStartPage'),
+	'validateUserIsOnServiceStartPage',
+	require('./validateUserIsOnServiceStartPage')
 );
 
 Cypress.Commands.add(
-  'visitServiceByDirectlyBrowsingToUnexpectedFirstPage',
-  require('./visitServiceByDirectlyBrowsingToUnexpectedFirstPage'),
+	'visitServiceByDirectlyBrowsingToUnexpectedFirstPage',
+	require('./visitServiceByDirectlyBrowsingToUnexpectedFirstPage')
 );
 
 Cypress.Commands.add('visitServiceStartPage', require('./visitServiceStartPage'));

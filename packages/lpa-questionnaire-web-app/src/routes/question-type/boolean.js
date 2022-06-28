@@ -10,26 +10,26 @@ const alreadySubmittedMiddleware = require('../../middleware/already-submitted')
 const router = express.Router();
 
 booleanQuestions.forEach((question) => {
-  /* istanbul ignore next */
-  const getConfig = (_, res, next) => {
-    res.locals.question = question;
-    next();
-  };
+	/* istanbul ignore next */
+	const getConfig = (_, res, next) => {
+		res.locals.question = question;
+		next();
+	};
 
-  router.get(
-    `/appeal-questionnaire/:id/${question.url}`,
-    [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
-    getConfig,
-    booleanQuestionController.getBooleanQuestion
-  );
+	router.get(
+		`/appeal-questionnaire/:id/${question.url}`,
+		[fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+		getConfig,
+		booleanQuestionController.getBooleanQuestion
+	);
 
-  router.post(
-    `/appeal-questionnaire/:id/${question.url}`,
-    booleanQuestionRules(question.emptyError, question.text),
-    validationErrorHandler,
-    getConfig,
-    booleanQuestionController.postBooleanQuestion
-  );
+	router.post(
+		`/appeal-questionnaire/:id/${question.url}`,
+		booleanQuestionRules(question.emptyError, question.text),
+		validationErrorHandler,
+		getConfig,
+		booleanQuestionController.postBooleanQuestion
+	);
 });
 
 module.exports = router;

@@ -6,16 +6,16 @@ const checkAnswersSections = require('../../../src/lib/check-answers-sections');
 jest.mock('../../../src/lib/check-answers-sections');
 
 describe('controllers/confirm-answers', () => {
-  it('should call the correct template', () => {
-    checkAnswersSections.mockReturnValue(undefined);
-    const req = mockReq();
-    const res = mockRes();
+	it('should call the correct template', () => {
+		checkAnswersSections.mockReturnValue(undefined);
+		const req = mockReq();
+		const res = mockRes();
 
-    confirmAnswersController(req, res);
+		confirmAnswersController(req, res);
 
-    expect(res.render).toHaveBeenCalledWith(VIEW.CONFIRM_ANSWERS, {
-      taskListLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
-      submissionLink: `/appeal-questionnaire/mock-id/${VIEW.INFORMATION_SUBMITTED}`,
-    });
-  });
+		expect(res.render).toHaveBeenCalledWith(VIEW.CONFIRM_ANSWERS, {
+			taskListLink: `/appeal-questionnaire/mock-id/${VIEW.TASK_LIST}`,
+			submissionLink: `/appeal-questionnaire/mock-id/${VIEW.INFORMATION_SUBMITTED}`
+		});
+	});
 });

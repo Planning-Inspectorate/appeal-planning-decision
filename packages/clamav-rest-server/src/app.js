@@ -15,14 +15,14 @@ const app = express();
 prometheus.init(app);
 
 app
-  .use(
-    pinoExpress({
-      logger,
-      genReqId: (req) => req.headers['x-correlation-id'] || uuid.v4(),
-    })
-  )
-  .use(bodyParser.json())
-  .get('/', (req, res) => res.sendStatus(200))
-  .post('/', upload.fields([{ name: 'file' }]), proxyController.processFile);
+	.use(
+		pinoExpress({
+			logger,
+			genReqId: (req) => req.headers['x-correlation-id'] || uuid.v4()
+		})
+	)
+	.use(bodyParser.json())
+	.get('/', (req, res) => res.sendStatus(200))
+	.post('/', upload.fields([{ name: 'file' }]), proxyController.processFile);
 
 module.exports = app;

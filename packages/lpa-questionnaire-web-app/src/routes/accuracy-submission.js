@@ -9,16 +9,16 @@ const alreadySubmittedMiddleware = require('../middleware/already-submitted');
 const router = express.Router();
 
 router.get(
-  '/appeal-questionnaire/:id/accuracy-submission',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
-  accuracySubmissionController.getAccuracySubmission
+	'/appeal-questionnaire/:id/accuracy-submission',
+	[fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+	accuracySubmissionController.getAccuracySubmission
 );
 
 router.post(
-  '/appeal-questionnaire/:id/accuracy-submission',
-  accuracySubmissionValidationRules(),
-  validationErrorHandler,
-  accuracySubmissionController.postAccuracySubmission
+	'/appeal-questionnaire/:id/accuracy-submission',
+	accuracySubmissionValidationRules(),
+	validationErrorHandler,
+	accuracySubmissionController.postAccuracySubmission
 );
 
 module.exports = router;

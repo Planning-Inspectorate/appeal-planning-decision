@@ -1,6 +1,6 @@
 export const accordionState = {
-  OPEN: 'open',
-  CLOSED: 'closed',
+	OPEN: 'open',
+	CLOSED: 'closed'
 };
 
 // module.exports = {

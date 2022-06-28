@@ -2,51 +2,51 @@ const { format, parseISO } = require('date-fns');
 const { getDepartmentFromId } = require('../services/department.service');
 const { capitalise } = require('./capitalised-dashed-strings');
 const {
-  chooseAppropriateApplicationNumberPage,
+	chooseAppropriateApplicationNumberPage
 } = require('./choose-appropriate-application-number-page');
 
 const extractAppealProps = async (appeal) => {
-  let appealLPD = '';
+	let appealLPD = '';
 
-  if (appeal.lpaCode) {
-    const lpd = await getDepartmentFromId(appeal.lpaCode);
-    if (lpd) {
-      appealLPD = lpd.name;
-    }
-  }
+	if (appeal.lpaCode) {
+		const lpd = await getDepartmentFromId(appeal.lpaCode);
+		if (lpd) {
+			appealLPD = lpd.name;
+		}
+	}
 
-  let applicationType;
+	let applicationType;
 
-  if (appeal.typeOfPlanningApplication) {
-    applicationType = appeal.typeOfPlanningApplication;
-    applicationType = capitalise(applicationType);
-  }
+	if (appeal.typeOfPlanningApplication) {
+		applicationType = appeal.typeOfPlanningApplication;
+		applicationType = capitalise(applicationType);
+	}
 
-  let { applicationDecision } = appeal.eligibility;
-  if (applicationDecision === 'nodecisionreceived') {
-    applicationDecision = 'No Decision Received';
-  } else {
-    applicationDecision = capitalise(applicationDecision);
-  }
+	let { applicationDecision } = appeal.eligibility;
+	if (applicationDecision === 'nodecisionreceived') {
+		applicationDecision = 'No Decision Received';
+	} else {
+		applicationDecision = capitalise(applicationDecision);
+	}
 
-  const nextPageUrl = chooseAppropriateApplicationNumberPage(appeal);
+	const nextPageUrl = chooseAppropriateApplicationNumberPage(appeal);
 
-  const decisionDate = format(parseISO(appeal.decisionDate), 'dd MMMM yyyy');
+	const decisionDate = format(parseISO(appeal.decisionDate), 'dd MMMM yyyy');
 
-  const enforcementNotice = appeal.eligibility.enforcementNotice ? 'Yes' : 'No';
+	const enforcementNotice = appeal.eligibility.enforcementNotice ? 'Yes' : 'No';
 
-  const dateOfDecisionLabel =
-    applicationDecision === 'No Decision Received' ? 'Date decision due' : 'Date of Decision';
+	const dateOfDecisionLabel =
+		applicationDecision === 'No Decision Received' ? 'Date decision due' : 'Date of Decision';
 
-  return {
-    appealLPD,
-    applicationType,
-    applicationDecision,
-    decisionDate,
-    enforcementNotice,
-    dateOfDecisionLabel,
-    nextPageUrl,
-  };
+	return {
+		appealLPD,
+		applicationType,
+		applicationDecision,
+		decisionDate,
+		enforcementNotice,
+		dateOfDecisionLabel,
+		nextPageUrl
+	};
 };
 
 module.exports = { extractAppealProps };

@@ -12,83 +12,83 @@ const { createDocument } = require('../lib/documents-api-wrapper');
 const logger = require('../lib/logger');
 
 nunjucks.configure([
-  path.join(__dirname, '../..', 'node_modules', 'govuk-frontend'),
-  path.join(__dirname, '../views'),
+	path.join(__dirname, '../..', 'node_modules', 'govuk-frontend'),
+	path.join(__dirname, '../views')
 ]);
 
 const getAppealDetails = (appeal) => {
-  const sidebarDetails = appealSidebarDetails(appeal);
-  return {
-    'Planning Application Number': sidebarDetails.number,
-    'Appellant Name': sidebarDetails.appellant,
-    'Site Address': sidebarDetails.address,
-  };
+	const sidebarDetails = appealSidebarDetails(appeal);
+	return {
+		'Planning Application Number': sidebarDetails.number,
+		'Appellant Name': sidebarDetails.appellant,
+		'Site Address': sidebarDetails.address
+	};
 };
 
 const buildAppealDetailsRows = (appealData) => {
-  return {
-    id: 'appealDataSection',
-    heading: 'Appeal Details',
-    subTasks: Object.keys(appealData).map((heading) => {
-      return {
-        key: {
-          text: heading,
-        },
-        value: {
-          html: `<p>${appealData[heading]}</p>`,
-        },
-      };
-    }),
-  };
+	return {
+		id: 'appealDataSection',
+		heading: 'Appeal Details',
+		subTasks: Object.keys(appealData).map((heading) => {
+			return {
+				key: {
+					text: heading
+				},
+				value: {
+					html: `<p>${appealData[heading]}</p>`
+				}
+			};
+		})
+	};
 };
 
 const convertToHtml = (appealReply, appeal) => {
-  const submissionDate = format(appealReply.submissionDate, 'dd MMMM yyyy', gbLocale);
-  const sections = checkAnswersSections(appealReply, null, false);
-  const appealDetails = getAppealDetails(appeal);
-  const appealDetailsRows = buildAppealDetailsRows(appealDetails);
-  sections.unshift(appealDetailsRows);
+	const submissionDate = format(appealReply.submissionDate, 'dd MMMM yyyy', gbLocale);
+	const sections = checkAnswersSections(appealReply, null, false);
+	const appealDetails = getAppealDetails(appeal);
+	const appealDetailsRows = buildAppealDetailsRows(appealDetails);
+	sections.unshift(appealDetailsRows);
 
-  const css = fs.readFileSync(path.resolve(__dirname, '../public/stylesheets/main.css'), 'utf8');
+	const css = fs.readFileSync(path.resolve(__dirname, '../public/stylesheets/main.css'), 'utf8');
 
-  return nunjucks.render(path.resolve(__dirname, '../views/pdf-generation.njk'), {
-    css,
-    submissionDate,
-    sections,
-  });
+	return nunjucks.render(path.resolve(__dirname, '../views/pdf-generation.njk'), {
+		css,
+		submissionDate,
+		sections
+	});
 };
 
 const createPdf = async (appealReply, appeal) => {
-  const { id } = appealReply;
+	const { id } = appealReply;
 
-  const log = logger.child({ appealReplyId: id, uuid: uuid.v4() });
+	const log = logger.child({ appealReplyId: id, uuid: uuid.v4() });
 
-  try {
-    log.info('Creating PDF appeal document');
+	try {
+		log.info('Creating PDF appeal document');
 
-    const renderedHtml = convertToHtml(appealReply, appeal);
-    const pdfBuffer = await generatePDF(renderedHtml);
+		const renderedHtml = convertToHtml(appealReply, appeal);
+		const pdfBuffer = await generatePDF(renderedHtml);
 
-    log.debug('Creating document from PDF buffer');
-    const document = await createDocument(
-      id,
-      pdfBuffer,
-      'lpa-questionnaire.pdf',
-      documentTypes.questionnairePdf.name
-    );
+		log.debug('Creating document from PDF buffer');
+		const document = await createDocument(
+			id,
+			pdfBuffer,
+			'lpa-questionnaire.pdf',
+			documentTypes.questionnairePdf.name
+		);
 
-    log.debug('PDF document successfully created');
+		log.debug('PDF document successfully created');
 
-    return document;
-  } catch (err) {
-    const msg = 'Error generating PDF';
-    log.error({ err }, msg);
+		return document;
+	} catch (err) {
+		const msg = 'Error generating PDF';
+		log.error({ err }, msg);
 
-    throw new Error(msg);
-  }
+		throw new Error(msg);
+	}
 };
 
 module.exports = {
-  convertToHtml,
-  createPdf,
+	convertToHtml,
+	createPdf
 };

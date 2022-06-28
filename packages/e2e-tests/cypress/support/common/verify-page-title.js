@@ -1,5 +1,5 @@
 import { getPageTitle } from '../common-page-objects/common-po';
 
-export const verifyPageTitle = (pageTitle) =>{
-  getPageTitle().should('eq', pageTitle);
-}
+export const verifyPageTitle = (pageTitle) => {
+	getPageTitle().should('eq', pageTitle);
+};

@@ -7,17 +7,17 @@ const { getHorizonId } = require('./src/getHorizonId');
 // ***** OBJECTS ***** //
 
 const documentsSections = {
-  plansDecision: 'requiredDocumentsSection',
-  officersReport: 'requiredDocumentsSection',
-  interestedPartiesApplication: 'optionalDocumentsSection',
-  representationsInterestedParties: 'optionalDocumentsSection',
-  interestedPartiesAppeal: 'optionalDocumentsSection',
-  siteNotices: 'optionalDocumentsSection',
-  conservationAreaMap: 'optionalDocumentsSection',
-  planningHistory: 'optionalDocumentsSection',
-  statutoryDevelopment: 'optionalDocumentsSection',
-  otherPolicies: 'optionalDocumentsSection',
-  supplementaryPlanningDocuments: 'optionalDocumentsSection',
+	plansDecision: 'requiredDocumentsSection',
+	officersReport: 'requiredDocumentsSection',
+	interestedPartiesApplication: 'optionalDocumentsSection',
+	representationsInterestedParties: 'optionalDocumentsSection',
+	interestedPartiesAppeal: 'optionalDocumentsSection',
+	siteNotices: 'optionalDocumentsSection',
+	conservationAreaMap: 'optionalDocumentsSection',
+	planningHistory: 'optionalDocumentsSection',
+	statutoryDevelopment: 'optionalDocumentsSection',
+	otherPolicies: 'optionalDocumentsSection',
+	supplementaryPlanningDocuments: 'optionalDocumentsSection'
 };
 
 // ***** FUNCTIONALITY ***** //
@@ -31,9 +31,9 @@ const documentsSections = {
  * @returns {documents} documents object for Horizon
  */
 const convertDocumentArray = (arrayOfFiles, type) => {
-  return arrayOfFiles.map((file) => {
-    return { id: file.id, type };
-  });
+	return arrayOfFiles.map((file) => {
+		return { id: file.id, type };
+	});
 };
 
 /**
@@ -45,22 +45,22 @@ const convertDocumentArray = (arrayOfFiles, type) => {
  * @returns {documents} documents object for Horizon
  */
 const populateDocuments = (log, body) => {
-  const documents = [];
+	const documents = [];
 
-  Object.keys(documentsSections).forEach((key) => {
-    if (body[documentsSections[key]] !== undefined) {
-      documents.push(
-        convertDocumentArray(
-          body[documentsSections[key]][key]?.uploadedFiles || [],
-          sectionTypes[`${key}Type`]
-        )
-      );
-    }
-  });
+	Object.keys(documentsSections).forEach((key) => {
+		if (body[documentsSections[key]] !== undefined) {
+			documents.push(
+				convertDocumentArray(
+					body[documentsSections[key]][key]?.uploadedFiles || [],
+					sectionTypes[`${key}Type`]
+				)
+			);
+		}
+	});
 
-  // const id = body.submission.pdfStatement?.uploadedFile?.id;
+	// const id = body.submission.pdfStatement?.uploadedFile?.id;
 
-  /*
+	/*
   if (typeof id === 'undefined') {
     const message = 'PDF not present in submission';
     log.error(
@@ -74,7 +74,7 @@ const populateDocuments = (log, body) => {
     documents.push({ id, type: sectionTypes.pdfType });
   } */
 
-  return documents.flat();
+	return documents.flat();
 };
 
 // ***** MAIN FUNCTION ***** //
@@ -93,53 +93,53 @@ const populateDocuments = (log, body) => {
  * @returns {horizonCaseId | errorMessage}
  */
 const handlerReply = async (context, event) => {
-  context.log({ config }, 'Received householder reply publish request');
-  let horizonId;
+	context.log({ config }, 'Received householder reply publish request');
+	let horizonId;
 
-  try {
-    horizonId = await getHorizonId(event?.appealId);
-  } catch (err) {
-    const message = 'Horizon failed due to non-existant horizonId';
-    context.httpStatus = 500;
-    context.log(
-      {
-        message,
-        data: event?.appealId,
-        status: 500,
-        headers: null,
-      },
-      message
-    );
-    context.log(
-      {
-        message,
-        data: event?.appealId,
-        status: 500,
-        headers: null,
-      },
-      message
-    );
-    context.done();
-    return {
-      message,
-    };
-  }
+	try {
+		horizonId = await getHorizonId(event?.appealId);
+	} catch (err) {
+		const message = 'Horizon failed due to non-existant horizonId';
+		context.httpStatus = 500;
+		context.log(
+			{
+				message,
+				data: event?.appealId,
+				status: 500,
+				headers: null
+			},
+			message
+		);
+		context.log(
+			{
+				message,
+				data: event?.appealId,
+				status: 500,
+				headers: null
+			},
+			message
+		);
+		context.done();
+		return {
+			message
+		};
+	}
 
-  try {
-    const replyId = event.id;
-    context.log(`publishing documents with reply id: ${replyId}`);
-    await publishDocuments(context.log, populateDocuments(context.log, event), replyId, horizonId);
-    context.done();
-    return {
-      id: horizonId,
-    };
-  } catch (err) {
-    const [message, httpStatus] = catchErrorHandling(context.log, err);
-    context.httpStatus = httpStatus;
-    return {
-      message,
-    };
-  }
+	try {
+		const replyId = event.id;
+		context.log(`publishing documents with reply id: ${replyId}`);
+		await publishDocuments(context.log, populateDocuments(context.log, event), replyId, horizonId);
+		context.done();
+		return {
+			id: horizonId
+		};
+	} catch (err) {
+		const [message, httpStatus] = catchErrorHandling(context.log, err);
+		context.httpStatus = httpStatus;
+		return {
+			message
+		};
+	}
 };
 
 // ***** EXPORTS ***** //

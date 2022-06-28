@@ -3,20 +3,20 @@ const checkAnswersController = require('../../../../src/controllers/appellant-su
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 
 describe('routes/check-answers', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../../src/routes/appellant-submission/check-answers');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../../src/routes/appellant-submission/check-answers');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(get).toHaveBeenCalledWith(
-      '/check-answers',
-      [fetchExistingAppealMiddleware],
-      checkAnswersController.getCheckAnswers
-    );
-  });
+	it('should define the expected routes', () => {
+		expect(get).toHaveBeenCalledWith(
+			'/check-answers',
+			[fetchExistingAppealMiddleware],
+			checkAnswersController.getCheckAnswers
+		);
+	});
 });

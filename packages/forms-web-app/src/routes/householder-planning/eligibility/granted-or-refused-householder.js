@@ -4,22 +4,22 @@ const grantedOrRefusedHouseholderController = require('../../../controllers/hous
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
 const {
-  rules: householderPlanningApplicationStatusRules,
+	rules: householderPlanningApplicationStatusRules
 } = require('../../../validators/householder-planning/eligibility/granted-or-refused-householder');
 
 const router = express.Router();
 
 router.get(
-  '/granted-or-refused-householder',
-  fetchExistingAppealMiddleware,
-  grantedOrRefusedHouseholderController.getGrantedOrRefusedHouseholder
+	'/granted-or-refused-householder',
+	fetchExistingAppealMiddleware,
+	grantedOrRefusedHouseholderController.getGrantedOrRefusedHouseholder
 );
 
 router.post(
-  '/granted-or-refused-householder',
-  householderPlanningApplicationStatusRules(),
-  validationErrorHandler,
-  grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder
+	'/granted-or-refused-householder',
+	householderPlanningApplicationStatusRules(),
+	validationErrorHandler,
+	grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder
 );
 
 module.exports = router;

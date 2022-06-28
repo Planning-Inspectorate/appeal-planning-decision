@@ -10,4 +10,3 @@ export const sitePostcode = () => cy.get('[data-cy="site-postcode"]');
 export const sitePostcodeErrorMessage = () => cy.get('#site-postcode-error');
 export const pageCaption = () => cy.get('[data-cy="caption"]');
 export const pageText = () => cy.get('[data-cy="text"]');
-

@@ -5,41 +5,41 @@
 
 const { getByTestId } = require('@testing-library/dom');
 const {
-  initialiseCookiePreferencePage,
+	initialiseCookiePreferencePage
 } = require('../../../../../src/lib/client-side/cookie-preferences');
 
 const getExampleDom = () => {
-  const div = document.createElement('div');
+	const div = document.createElement('div');
 
-  div.innerHTML = `
+	div.innerHTML = `
 <span class="cookie-settings__no-js" data-testid="without"></span>
 <span class="cookie-settings__with-js govuk-!-display-none" data-testid="with"></span>
     `;
 
-  return div;
+	return div;
 };
 
 describe('lib/client-side/cookie-preferences', () => {
-  const govUkDisplayNoneCssClass = 'govuk-!-display-none';
+	const govUkDisplayNoneCssClass = 'govuk-!-display-none';
 
-  let document;
-  let elementWith;
-  let elementWithout;
+	let document;
+	let elementWith;
+	let elementWithout;
 
-  beforeEach(() => {
-    document = getExampleDom();
+	beforeEach(() => {
+		document = getExampleDom();
 
-    elementWithout = getByTestId(document, 'without');
-    elementWith = getByTestId(document, 'with');
-  });
+		elementWithout = getByTestId(document, 'without');
+		elementWith = getByTestId(document, 'with');
+	});
 
-  test('calls the expected functions', () => {
-    expect(elementWithout).not.toHaveClass(govUkDisplayNoneCssClass);
-    expect(elementWith).toHaveClass(govUkDisplayNoneCssClass);
+	test('calls the expected functions', () => {
+		expect(elementWithout).not.toHaveClass(govUkDisplayNoneCssClass);
+		expect(elementWith).toHaveClass(govUkDisplayNoneCssClass);
 
-    initialiseCookiePreferencePage(document);
+		initialiseCookiePreferencePage(document);
 
-    expect(elementWithout).toHaveClass(govUkDisplayNoneCssClass);
-    expect(elementWith).not.toHaveClass(govUkDisplayNoneCssClass);
-  });
+		expect(elementWithout).toHaveClass(govUkDisplayNoneCssClass);
+		expect(elementWith).not.toHaveClass(govUkDisplayNoneCssClass);
+	});
 });

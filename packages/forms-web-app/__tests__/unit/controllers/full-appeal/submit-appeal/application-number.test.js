@@ -4,9 +4,9 @@ const { mockReq, mockRes } = require('../../../mocks');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../../src/lib/logger');
 const {
-  VIEW: {
-    FULL_APPEAL: { APPLICATION_NUMBER, PROPOSED_DEVELOPMENT_CHANGED },
-  },
+	VIEW: {
+		FULL_APPEAL: { APPLICATION_NUMBER, PROPOSED_DEVELOPMENT_CHANGED }
+	}
 } = require('../../../../../src/lib/full-appeal/views');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
@@ -18,96 +18,96 @@ const taskName = 'applicationNumber';
 const applicationNumber = 'ABCDE12345';
 
 describe('controllers/full-appeal/submit-appeal/application-number', () => {
-  let req;
-  let res;
+	let req;
+	let res;
 
-  beforeEach(() => {
-    req = mockReq(appeal);
-    res = mockRes();
+	beforeEach(() => {
+		req = mockReq(appeal);
+		res = mockRes();
 
-    appeal.planningApplicationDocumentsSection.applicationNumber = applicationNumber;
+		appeal.planningApplicationDocumentsSection.applicationNumber = applicationNumber;
 
-    jest.resetAllMocks();
-  });
+		jest.resetAllMocks();
+	});
 
-  describe('getApplicationNumber', () => {
-    it('should call the correct template', () => {
-      applicationNumberController.getApplicationNumber(req, res);
-      expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
-        applicationNumber,
-      });
-    });
-  });
+	describe('getApplicationNumber', () => {
+		it('should call the correct template', () => {
+			applicationNumberController.getApplicationNumber(req, res);
+			expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
+				applicationNumber
+			});
+		});
+	});
 
-  describe('postApplicationNumber', () => {
-    it('should re-render the template with errors if submission validation fails', async () => {
-      const mockRequest = {
-        ...req,
-        body: {
-          errors: { a: 'b' },
-          errorSummary: [{ text: 'There were errors here', href: '#' }],
-        },
-      };
-      await applicationNumberController.postApplicationNumber(mockRequest, res);
+	describe('postApplicationNumber', () => {
+		it('should re-render the template with errors if submission validation fails', async () => {
+			const mockRequest = {
+				...req,
+				body: {
+					errors: { a: 'b' },
+					errorSummary: [{ text: 'There were errors here', href: '#' }]
+				}
+			};
+			await applicationNumberController.postApplicationNumber(mockRequest, res);
 
-      expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
-        applicationNumber,
-        errorSummary: [{ text: 'There were errors here', href: '#' }],
-        errors: { a: 'b' },
-      });
-    });
+			expect(res.redirect).not.toHaveBeenCalled();
+			expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
+				applicationNumber,
+				errorSummary: [{ text: 'There were errors here', href: '#' }],
+				errors: { a: 'b' }
+			});
+		});
 
-    it('should log an error if the api call fails, and remain on the same page', async () => {
-      const error = new Error('API is down');
+		it('should log an error if the api call fails, and remain on the same page', async () => {
+			const error = new Error('API is down');
 
-      createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
-      const mockRequest = {
-        ...req,
-        body: {},
-      };
-      await applicationNumberController.postApplicationNumber(mockRequest, res);
+			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
+			const mockRequest = {
+				...req,
+				body: {}
+			};
+			await applicationNumberController.postApplicationNumber(mockRequest, res);
 
-      expect(logger.error).toHaveBeenCalledWith(error);
+			expect(logger.error).toHaveBeenCalledWith(error);
 
-      expect(res.redirect).not.toHaveBeenCalled();
+			expect(res.redirect).not.toHaveBeenCalled();
 
-      expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
-        applicationNumber,
-        errors: {},
-        errorSummary: [{ text: error.toString(), href: '#' }],
-      });
-    });
+			expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
+				applicationNumber,
+				errors: {},
+				errorSummary: [{ text: error.toString(), href: '#' }]
+			});
+		});
 
-    it('should redirect to `/full-appeal/design-access-statement-submitted` if valid', async () => {
-      const fakeApplicationNumber = 'some valid application number';
-      const fakeTaskStatus = 'COMPLETED';
+		it('should redirect to `/full-appeal/design-access-statement-submitted` if valid', async () => {
+			const fakeApplicationNumber = 'some valid application number';
+			const fakeTaskStatus = 'COMPLETED';
 
-      const mockRequest = {
-        ...req,
-        body: {
-          'application-number': fakeApplicationNumber,
-        },
-      };
+			const mockRequest = {
+				...req,
+				body: {
+					'application-number': fakeApplicationNumber
+				}
+			};
 
-      await applicationNumberController.postApplicationNumber(mockRequest, res);
+			await applicationNumberController.postApplicationNumber(mockRequest, res);
 
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-        ...appeal,
-        [sectionName]: {
-          ...appeal[sectionName],
-          [taskName]: fakeApplicationNumber,
-        },
-        sectionStates: {
-          ...appeal.sectionStates,
-          [sectionName]: {
-            ...appeal.sectionStates[sectionName],
-            [taskName]: fakeTaskStatus,
-          },
-        },
-      });
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+				...appeal,
+				[sectionName]: {
+					...appeal[sectionName],
+					[taskName]: fakeApplicationNumber
+				},
+				sectionStates: {
+					...appeal.sectionStates,
+					[sectionName]: {
+						...appeal.sectionStates[sectionName],
+						[taskName]: fakeTaskStatus
+					}
+				}
+			});
 
-      expect(res.redirect).toHaveBeenCalledWith(`/${PROPOSED_DEVELOPMENT_CHANGED}`);
-    });
-  });
+			expect(res.redirect).toHaveBeenCalledWith(`/${PROPOSED_DEVELOPMENT_CHANGED}`);
+		});
+	});
 });

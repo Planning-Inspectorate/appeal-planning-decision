@@ -15,26 +15,26 @@ const priorApprovalExistingHomeRouter = require('../../../../src/routes/full-app
 const useExistingServiceEnforcementNotice = require('../../../../src/routes/full-appeal/use-existing-service-enforcement-notice');
 
 describe('routes/full-appeal/index', () => {
-  beforeEach(() => {
-    jest.resetModules();
+	beforeEach(() => {
+		jest.resetModules();
 
-    // eslint-disable-next-line global-require
-    require('../../../../src/routes/full-appeal/index');
-  });
+		// eslint-disable-next-line global-require
+		require('../../../../src/routes/full-appeal/index');
+	});
 
-  it('should define the expected routes', () => {
-    expect(use).toHaveBeenCalledWith(localPlanningDepartmentRouter);
-    expect(use).toHaveBeenCalledWith(typeOfPlanningRouter);
-    expect(use).toHaveBeenCalledWith(anyOfFollowingRouter);
-    expect(use).toHaveBeenCalledWith(grantedOrRefusedRouter);
-    expect(use).toHaveBeenCalledWith(useADifferentServiceRouter);
-    expect(use).toHaveBeenCalledWith(useExistingServiceApplicationType);
-    expect(use).toHaveBeenCalledWith(useExistingServiceLocalPlanningDepartment);
-    expect(use).toHaveBeenCalledWith(outOfTimeRouter);
-    expect(use).toHaveBeenCalledWith(enforcementNoticeRouter);
-    expect(use).toHaveBeenCalledWith(decisionDateRouter);
-    expect(use).toHaveBeenCalledWith(dateDecisionDueRouter);
-    expect(use).toHaveBeenCalledWith(priorApprovalExistingHomeRouter);
-    expect(use).toHaveBeenCalledWith(useExistingServiceEnforcementNotice);
-  });
+	it('should define the expected routes', () => {
+		expect(use).toHaveBeenCalledWith(localPlanningDepartmentRouter);
+		expect(use).toHaveBeenCalledWith(typeOfPlanningRouter);
+		expect(use).toHaveBeenCalledWith(anyOfFollowingRouter);
+		expect(use).toHaveBeenCalledWith(grantedOrRefusedRouter);
+		expect(use).toHaveBeenCalledWith(useADifferentServiceRouter);
+		expect(use).toHaveBeenCalledWith(useExistingServiceApplicationType);
+		expect(use).toHaveBeenCalledWith(useExistingServiceLocalPlanningDepartment);
+		expect(use).toHaveBeenCalledWith(outOfTimeRouter);
+		expect(use).toHaveBeenCalledWith(enforcementNoticeRouter);
+		expect(use).toHaveBeenCalledWith(decisionDateRouter);
+		expect(use).toHaveBeenCalledWith(dateDecisionDueRouter);
+		expect(use).toHaveBeenCalledWith(priorApprovalExistingHomeRouter);
+		expect(use).toHaveBeenCalledWith(useExistingServiceEnforcementNotice);
+	});
 });

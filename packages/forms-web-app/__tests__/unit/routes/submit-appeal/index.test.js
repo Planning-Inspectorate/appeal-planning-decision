@@ -4,19 +4,19 @@ const enterAppealDetailsRouter = require('../../../../src/routes/submit-appeal/e
 const applicationSavedRouter = require('../../../../src/routes/submit-appeal/application-saved');
 
 describe('routes/submit-appeal', () => {
-  beforeEach(() => {
-    jest.resetModules();
+	beforeEach(() => {
+		jest.resetModules();
 
-    // eslint-disable-next-line global-require
-    require('../../../../src/routes/submit-appeal/index');
-  });
+		// eslint-disable-next-line global-require
+		require('../../../../src/routes/submit-appeal/index');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(use).toHaveBeenCalledWith(enterAppealDetailsRouter);
-    expect(use).toHaveBeenCalledWith(applicationSavedRouter);
-  });
+	it('should define the expected routes', () => {
+		expect(use).toHaveBeenCalledWith(enterAppealDetailsRouter);
+		expect(use).toHaveBeenCalledWith(applicationSavedRouter);
+	});
 });

@@ -6,13 +6,13 @@ const constants = require('./constants');
 const config = require('./config');
 
 describe('index', () => {
-  it('should export the expected data shape', () => {
-    expect(index).toEqual({
-      rules,
-      validation,
-      schemas,
-      constants,
-      config,
-    });
-  });
+	it('should export the expected data shape', () => {
+		expect(index).toEqual({
+			rules,
+			validation,
+			schemas,
+			constants,
+			config
+		});
+	});
 });

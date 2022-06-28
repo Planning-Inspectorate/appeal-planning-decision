@@ -8,20 +8,20 @@ const isValidApplicationDecision = require('./appeal/application-decision/is-val
  * at call site.
  */
 module.exports = {
-  appeal: {
-    applicationDecision: {
-      isValidApplicationDecision,
-    },
-    decisionDate: {
-      isWithinDecisionDateExpiryPeriod,
-    },
-    type: {
-      isValid,
-    },
-  },
-  generic: {
-    date: {
-      isInThePast: dateIsInThePast,
-    },
-  },
+	appeal: {
+		applicationDecision: {
+			isValidApplicationDecision
+		},
+		decisionDate: {
+			isWithinDecisionDateExpiryPeriod
+		},
+		type: {
+			isValid
+		}
+	},
+	generic: {
+		date: {
+			isInThePast: dateIsInThePast
+		}
+	}
 };

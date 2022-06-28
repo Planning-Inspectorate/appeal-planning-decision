@@ -1,23 +1,23 @@
 const { validationResult } = require('express-validator');
 const {
-  expressValidationErrorsToGovUkErrorList,
+	expressValidationErrorsToGovUkErrorList
 } = require('../lib/express-validation-errors-to-govuk-error-list');
 
 const validationErrorHandler = (req, res, next) => {
-  const errors = validationResult(req);
+	const errors = validationResult(req);
 
-  if (errors.isEmpty()) {
-    return next();
-  }
+	if (errors.isEmpty()) {
+		return next();
+	}
 
-  const mappedErrors = errors.mapped();
+	const mappedErrors = errors.mapped();
 
-  req.body.errors = mappedErrors;
-  req.body.errorSummary = expressValidationErrorsToGovUkErrorList(mappedErrors);
+	req.body.errors = mappedErrors;
+	req.body.errorSummary = expressValidationErrorsToGovUkErrorList(mappedErrors);
 
-  return next();
+	return next();
 };
 
 module.exports = {
-  validationErrorHandler,
+	validationErrorHandler
 };

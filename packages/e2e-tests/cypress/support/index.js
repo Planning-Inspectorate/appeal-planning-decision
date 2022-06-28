@@ -23,8 +23,8 @@ import 'cypress-downloadfile/lib/downloadFileCommand';
 
 import 'cypress-html-validate/dist/commands';
 
-Cypress.on('uncaught:exception',(err, runnable)=>{
-  return false
+Cypress.on('uncaught:exception', () => {
+	return false;
 });
 
 // Alternatively you can use CommonJS syntax:

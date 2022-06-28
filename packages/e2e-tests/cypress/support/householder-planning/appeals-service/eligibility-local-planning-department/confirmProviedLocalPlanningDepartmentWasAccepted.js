@@ -1,3 +1,3 @@
-export const confirmProviedLocalPlanningDepartmentWasAccepted = (text) => {
-  cy.url().should('include', '/eligibility/listed-building');
+export const confirmProviedLocalPlanningDepartmentWasAccepted = () => {
+	cy.url().should('include', '/eligibility/listed-building');
 };

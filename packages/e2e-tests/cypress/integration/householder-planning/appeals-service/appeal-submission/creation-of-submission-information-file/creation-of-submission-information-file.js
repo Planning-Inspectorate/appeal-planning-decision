@@ -11,38 +11,38 @@ import { navigateToSubmissionInformationPage } from '../../../../../support/hous
 import { confirmSubmissionInformationDisplayItems } from '../../../../../support/householder-planning/appeals-service/appeal-submission-information/confirmSubmissionInformationDisplayItems';
 
 Given('a prospective appellant has provided valid appeal information', () => {
-  provideCompleteAppeal(STANDARD_APPEAL);
-  clickCheckYourAnswers();
+	provideCompleteAppeal(STANDARD_APPEAL);
+	clickCheckYourAnswers();
 
-  // /appellant-submission/check-answers
-  clickSaveAndContinue();
+	// /appellant-submission/check-answers
+	clickSaveAndContinue();
 });
 
 When('the appeal is submitted', () => {
-  confirmNavigationTermsAndConditionsPage();
+	confirmNavigationTermsAndConditionsPage();
 
-  // /appellant-submission/submission
-  agreeToTheDeclaration();
+	// /appellant-submission/submission
+	agreeToTheDeclaration();
 });
 
 Then('a submission information file is created', () => {
-  // /appellant-submission/confirmation
-  confirmAppealSubmitted();
+	// /appellant-submission/confirmation
+	confirmAppealSubmitted();
 
-  navigateToSubmissionInformationPage();
+	navigateToSubmissionInformationPage();
 
-  confirmSubmissionInformationDisplayItems({
-    'who-are-you': 'Yes',
-    'appellant-name': 'Valid Name',
-    'appellant-email': 'valid@email.com',
-    'application-number': 'ValidNumber/12345',
-    'upload-application': 'appeal-statement-valid.doc',
-    'upload-decision': 'appeal-statement-valid.doc',
-    'appeal-statement': 'appeal-statement-valid.doc',
-    'supporting-documents-no-files': 'No files uploaded',
-    'site-location': '1 Taylor Road\nClifton\nBristol\nSouth Glos\nBS8 1TG',
-    'site-ownership': 'Yes',
-    'site-access': 'Yes',
-    'site-access-safety': 'No',
-  });
+	confirmSubmissionInformationDisplayItems({
+		'who-are-you': 'Yes',
+		'appellant-name': 'Valid Name',
+		'appellant-email': 'valid@email.com',
+		'application-number': 'ValidNumber/12345',
+		'upload-application': 'appeal-statement-valid.doc',
+		'upload-decision': 'appeal-statement-valid.doc',
+		'appeal-statement': 'appeal-statement-valid.doc',
+		'supporting-documents-no-files': 'No files uploaded',
+		'site-location': '1 Taylor Road\nClifton\nBristol\nSouth Glos\nBS8 1TG',
+		'site-ownership': 'Yes',
+		'site-access': 'Yes',
+		'site-access-safety': 'No'
+	});
 });

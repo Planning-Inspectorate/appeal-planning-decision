@@ -7,56 +7,56 @@ const { createPdf } = require('../services/pdf.service');
 const { renderView, redirect } = require('../util/render');
 
 exports.getInformationSubmitted = async (req, res) => {
-  const { lpaCode } = req.session.appeal;
-  const path = `/api/v1/local-planning-authorities/${lpaCode}`;
-  const url = `${config.appeals.url}${path}`;
-  let lpaEmailString;
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    lpaEmailString = `We’ve sent a confirmation email to ${data.email}.`;
-    req.log.info('LPA Email recevied successfully');
-  } catch (error) {
-    lpaEmailString = '';
-    req.log.error({ error }, 'Get LPA Email failed');
-  }
+	const { lpaCode } = req.session.appeal;
+	const path = `/api/v1/local-planning-authorities/${lpaCode}`;
+	const url = `${config.appeals.url}${path}`;
+	let lpaEmailString;
+	try {
+		const response = await fetch(url);
+		const data = await response.json();
+		lpaEmailString = `We’ve sent a confirmation email to ${data.email}.`;
+		req.log.info('LPA Email recevied successfully');
+	} catch (error) {
+		lpaEmailString = '';
+		req.log.error({ error }, 'Get LPA Email failed');
+	}
 
-  renderView(res, VIEW.INFORMATION_SUBMITTED, {
-    prefix: 'appeal-questionnaire',
-    lpaEmailString,
-  });
+	renderView(res, VIEW.INFORMATION_SUBMITTED, {
+		prefix: 'appeal-questionnaire',
+		lpaEmailString
+	});
 };
 
 exports.postInformationSubmitted = async (req, res) => {
-  const { appealReply, appeal } = req.session;
-  const log = logger.child({ appealReplyId: appealReply.id });
+	const { appealReply, appeal } = req.session;
+	const log = logger.child({ appealReplyId: appealReply.id });
 
-  log.info('Submitting the appeal reply');
+	log.info('Submitting the appeal reply');
 
-  try {
-    appealReply.submissionDate = new Date();
-    const { id, name } = await createPdf(appealReply, appeal);
+	try {
+		appealReply.submissionDate = new Date();
+		const { id, name } = await createPdf(appealReply, appeal);
 
-    appealReply.state = 'SUBMITTED';
+		appealReply.state = 'SUBMITTED';
 
-    appealReply.submission = {
-      pdfStatement: {
-        uploadedFile: {
-          id,
-          name,
-        },
-      },
-    };
+		appealReply.submission = {
+			pdfStatement: {
+				uploadedFile: {
+					id,
+					name
+				}
+			}
+		};
 
-    req.session.appealReply = await createOrUpdateAppealReply(appealReply);
+		req.session.appealReply = await createOrUpdateAppealReply(appealReply);
 
-    log.debug('Appeal Reply successfully submitted');
-  } catch (err) {
-    log.error({ err }, 'Appeal Reply submission failed');
-    res.status(500).send();
-    return;
-  }
+		log.debug('Appeal Reply successfully submitted');
+	} catch (err) {
+		log.error({ err }, 'Appeal Reply submission failed');
+		res.status(500).send();
+		return;
+	}
 
-  // redirect ensures any custom handling in get runs as expected
-  redirect(res, 'appeal-questionnaire', `${req.params.id}/${VIEW.INFORMATION_SUBMITTED}`);
+	// redirect ensures any custom handling in get runs as expected
+	redirect(res, 'appeal-questionnaire', `${req.params.id}/${VIEW.INFORMATION_SUBMITTED}`);
 };

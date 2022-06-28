@@ -1,10 +1,10 @@
 const { Router } = require('express');
 const {
-  getDocumentsForApplication,
-  getDocumentById,
-  serveDocumentById,
-  uploadDocument,
-  deleteDocument,
+	getDocumentsForApplication,
+	getDocumentById,
+	serveDocumentById,
+	uploadDocument,
+	deleteDocument
 } = require('../controllers/documents');
 const uploadLocalFile = require('../lib/uploadLocalFile');
 const addFileMetadata = require('../lib/addFileMetadata');

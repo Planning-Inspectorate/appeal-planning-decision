@@ -21,92 +21,92 @@
  */
 
 exports.booleanQuestions = [
-  {
-    id: 'siteSeenPublicLand',
-    heading: 'Can the Inspector see the relevant parts of the appeal site from public land?',
-    section: 'About the appeal site',
-    title:
-      'Can the Inspector see the relevant parts of the appeal site from public land? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
-    emptyError: 'Select yes if relevant parts of the site can be seen from public land',
-    url: 'public-land',
-  },
-  {
-    id: 'enterAppealSite',
-    heading: 'Would the Inspector need to enter the appeal site?',
-    section: 'About the appeal site',
-    title:
-      'Would the Inspector need to enter the appeal site? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
-    emptyError: 'Select yes if the Inspector would need to enter the appeal site',
-    url: 'site-access',
-    dataId: 'mustEnter',
-    text: {
-      id: 'enterReasons',
-      emptyError: 'Enter the reasons the Inspector would need to enter the appeal site',
-      parentValue: true,
-      label: 'Tell us why the Inspector will need to enter the appeal site',
-      textarea: true,
-    },
-  },
-  {
-    id: 'accessNeighboursLand',
-    heading: "Would the Inspector need access to a neighbour's land?",
-    section: 'About the appeal site',
-    title:
-      "Would the Inspector need access to a neighbour's land? - Appeal questionnaire - Appeal a householder planning decision - GOV.UK",
-    emptyError: 'Select yes if the Inspector needs access to a neighbour’s land',
-    url: 'neighbours-land',
-    dataId: 'needsAccess',
-    text: {
-      id: 'addressAndReason',
-      emptyError: "Enter the reasons the Inspector would need to enter a neighbour's land",
-      parentValue: true,
-      label: 'Tell us the full address and why you think a visit is required',
-      textarea: true,
-    },
-  },
-  {
-    id: 'listedBuilding',
-    heading: 'Would the development affect the setting of a listed building?',
-    section: 'About the appeal site',
-    title:
-      'Would the development affect the setting of a listed building? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
-    emptyError: 'Select yes if the development affects the setting of a listed building',
-    url: 'listed-building',
-    dataId: 'affectSetting',
-    text: {
-      id: 'buildingDetails',
-      emptyError: 'Enter the details for the listed building',
-      parentValue: true,
-      label:
-        'Add the relevant listing description from the List of Buildings of Special Architectural or Historic Interest',
-      textarea: true,
-    },
-  },
-  {
-    id: 'greenBelt',
-    heading: 'Is the appeal site in a green belt?',
-    section: 'About the appeal site',
-    title:
-      'Is the appeal site in a greenbelt? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
-    url: 'green-belt',
-    emptyError: 'Select yes if the appeal site is in a green belt',
-  },
-  {
-    id: 'nearConservationArea',
-    heading: 'Is the appeal site in or near a conservation area?',
-    section: 'About the appeal site',
-    title:
-      'Is the appeal site in or near a conservation area? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
-    url: 'conservation-area',
-    emptyError: 'Select yes if the appeal site is in or near a conservation area',
-  },
-  {
-    id: 'originalPlanningApplicationPublicised',
-    heading: 'Did you publicise the original planning application?',
-    section: 'Optional supporting documents',
-    title:
-      'Original planning application publicity - Appeal questionnaire - Appeal a householder planning decision - GOV.UK',
-    url: 'application-publicity',
-    emptyError: 'Select yes if you publicised the original plan',
-  },
+	{
+		id: 'siteSeenPublicLand',
+		heading: 'Can the Inspector see the relevant parts of the appeal site from public land?',
+		section: 'About the appeal site',
+		title:
+			'Can the Inspector see the relevant parts of the appeal site from public land? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
+		emptyError: 'Select yes if relevant parts of the site can be seen from public land',
+		url: 'public-land'
+	},
+	{
+		id: 'enterAppealSite',
+		heading: 'Would the Inspector need to enter the appeal site?',
+		section: 'About the appeal site',
+		title:
+			'Would the Inspector need to enter the appeal site? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
+		emptyError: 'Select yes if the Inspector would need to enter the appeal site',
+		url: 'site-access',
+		dataId: 'mustEnter',
+		text: {
+			id: 'enterReasons',
+			emptyError: 'Enter the reasons the Inspector would need to enter the appeal site',
+			parentValue: true,
+			label: 'Tell us why the Inspector will need to enter the appeal site',
+			textarea: true
+		}
+	},
+	{
+		id: 'accessNeighboursLand',
+		heading: "Would the Inspector need access to a neighbour's land?",
+		section: 'About the appeal site',
+		title:
+			"Would the Inspector need access to a neighbour's land? - Appeal questionnaire - Appeal a householder planning decision - GOV.UK",
+		emptyError: 'Select yes if the Inspector needs access to a neighbour’s land',
+		url: 'neighbours-land',
+		dataId: 'needsAccess',
+		text: {
+			id: 'addressAndReason',
+			emptyError: "Enter the reasons the Inspector would need to enter a neighbour's land",
+			parentValue: true,
+			label: 'Tell us the full address and why you think a visit is required',
+			textarea: true
+		}
+	},
+	{
+		id: 'listedBuilding',
+		heading: 'Would the development affect the setting of a listed building?',
+		section: 'About the appeal site',
+		title:
+			'Would the development affect the setting of a listed building? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
+		emptyError: 'Select yes if the development affects the setting of a listed building',
+		url: 'listed-building',
+		dataId: 'affectSetting',
+		text: {
+			id: 'buildingDetails',
+			emptyError: 'Enter the details for the listed building',
+			parentValue: true,
+			label:
+				'Add the relevant listing description from the List of Buildings of Special Architectural or Historic Interest',
+			textarea: true
+		}
+	},
+	{
+		id: 'greenBelt',
+		heading: 'Is the appeal site in a green belt?',
+		section: 'About the appeal site',
+		title:
+			'Is the appeal site in a greenbelt? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
+		url: 'green-belt',
+		emptyError: 'Select yes if the appeal site is in a green belt'
+	},
+	{
+		id: 'nearConservationArea',
+		heading: 'Is the appeal site in or near a conservation area?',
+		section: 'About the appeal site',
+		title:
+			'Is the appeal site in or near a conservation area? - Appeal Questionnaire - Appeal a householder planning decision - GOV.UK',
+		url: 'conservation-area',
+		emptyError: 'Select yes if the appeal site is in or near a conservation area'
+	},
+	{
+		id: 'originalPlanningApplicationPublicised',
+		heading: 'Did you publicise the original planning application?',
+		section: 'Optional supporting documents',
+		title:
+			'Original planning application publicity - Appeal questionnaire - Appeal a householder planning decision - GOV.UK',
+		url: 'application-publicity',
+		emptyError: 'Select yes if you publicised the original plan'
+	}
 ];

@@ -1,13 +1,14 @@
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
 import { linkDecideYourAppeal } from '../../../../../support/full-appeal/appeals-service/page-objects/appeal-form-task-list-po';
 import {
-  selectHearing,
-  textBoxWhyHearing, whyHearingErrorMessage,
+	selectHearing,
+	textBoxWhyHearing,
+	whyHearingErrorMessage
 } from '../../../../../support/full-appeal/appeals-service/page-objects/decide-your-appeal-po';
 import {
-  getBackLink,
-  getErrorMessageSummary,
-  getSaveAndContinueButton,
+	getBackLink,
+	getErrorMessageSummary,
+	getSaveAndContinueButton
 } from '../../../../../support/common-page-objects/common-po';
 import { verifyPageHeading } from '../../../../../support/common/verify-page-heading';
 import { verifyPageTitle } from '../../../../../support/common/verify-page-title';
@@ -23,66 +24,68 @@ const pageTitle = 'Why would you prefer a hearing? - Appeal a planning decision 
 const pageHeading = 'Why would you prefer a hearing?';
 const textHearing = 'I want to provide the facts of the Appeal for the formal decision';
 
-
-Given('an Appellant or Agent is on the How would you prefer us to decide your appeal for hearing', () => {
-  cy.url().should('contain', taskListUrl);
-  linkDecideYourAppeal().click();
-  cy.url().should('include', decideAppealUrl);
-});
+Given(
+	'an Appellant or Agent is on the How would you prefer us to decide your appeal for hearing',
+	() => {
+		cy.url().should('contain', taskListUrl);
+		linkDecideYourAppeal().click();
+		cy.url().should('include', decideAppealUrl);
+	}
+);
 When("they select the option 'Hearing'", () => {
-  selectHearing().click();
-  getSaveAndContinueButton().click();
+	selectHearing().click();
+	getSaveAndContinueButton().click();
 });
 Then("'Why would you prefer a hearing?' page is displayed", () => {
-  cy.url().should('include', Url);
-  verifyPageTitle(pageTitle);
-  verifyPageHeading(pageHeading);
-  pageCaptionText().should('contain', textPageCaption);
-  cy.checkPageA11y();
+	cy.url().should('include', Url);
+	verifyPageTitle(pageTitle);
+	verifyPageHeading(pageHeading);
+	pageCaptionText().should('contain', textPageCaption);
+	cy.checkPageA11y();
 });
 Given("an Appellant or Agent is on the 'Why would your prefer a hearing?' page", () => {
-  cy.url().should('include', taskListUrl);
-  linkDecideYourAppeal().click();
-  selectHearing().click();
-  getSaveAndContinueButton().click();
-  cy.url().should('include', Url);
+	cy.url().should('include', taskListUrl);
+	linkDecideYourAppeal().click();
+	selectHearing().click();
+	getSaveAndContinueButton().click();
+	cy.url().should('include', Url);
 });
 When("they enter text into the box and click 'Continue'", () => {
-  textBoxWhyHearing().clear().type(textHearing);
-  getSaveAndContinueButton().click();
+	textBoxWhyHearing().clear().type(textHearing);
+	getSaveAndContinueButton().click();
 });
 Then("the page 'Upload your draft statement of common ground' page is displayed", () => {
-  cy.url().should('include', draftStatementUrl);
+	cy.url().should('include', draftStatementUrl);
 });
-Given("an Appellant or Agent has not provided any details", () => {
-  cy.url().should('include', taskListUrl);
-  linkDecideYourAppeal().click();
-  selectHearing().click();
-  getSaveAndContinueButton().click();
-  cy.url().should('include', Url);
+Given('an Appellant or Agent has not provided any details', () => {
+	cy.url().should('include', taskListUrl);
+	linkDecideYourAppeal().click();
+	selectHearing().click();
+	getSaveAndContinueButton().click();
+	cy.url().should('include', Url);
 });
-Given("an appellant agent has entered more than 255 characters into the text box", () => {
-  cy.url().should('include', taskListUrl);
-  linkDecideYourAppeal().click();
-  selectHearing().click();
-  getSaveAndContinueButton().click();
-  cy.url().should('include', Url);
-  const count = 255;
-  const value = 'x'.repeat(count+1);
-  textBoxWhyHearing().clear().type(value);
+Given('an appellant agent has entered more than 255 characters into the text box', () => {
+	cy.url().should('include', taskListUrl);
+	linkDecideYourAppeal().click();
+	selectHearing().click();
+	getSaveAndContinueButton().click();
+	cy.url().should('include', Url);
+	const count = 255;
+	const value = 'x'.repeat(count + 1);
+	textBoxWhyHearing().clear().type(value);
 });
 When("they click 'Continue'", () => {
-  getSaveAndContinueButton().click();
+	getSaveAndContinueButton().click();
 });
 Then('they are presented with an error message {string}', (errormessage) => {
-  verifyErrorMessage(errormessage,whyHearingErrorMessage,getErrorMessageSummary);
+	verifyErrorMessage(errormessage, whyHearingErrorMessage, getErrorMessageSummary);
 });
 When("they click on the 'Back' link", () => {
-  getBackLink().click();
+	getBackLink().click();
 });
 Then("they are presented with the 'How would you prefer us to decide your appeal' page", () => {
-  cy.url().should('include', decideAppealUrl);
+	cy.url().should('include', decideAppealUrl);
 });
-Then("the option Hearing is selected", () => {
-  selectHearing().should('be.checked');
-})
+Then('the option Hearing is selected', () => {
+	selectHearing().should('be.checked');
+});

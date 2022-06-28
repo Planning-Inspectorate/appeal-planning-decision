@@ -1,8 +1,8 @@
 const express = require('express');
 const { STANDARD_TRIPLE_CONFIRM_OPTIONS } = require('@pins/business-rules/src/constants');
 const {
-  getTellingTheTenants,
-  postTellingTheTenants,
+	getTellingTheTenants,
+	postTellingTheTenants
 } = require('../../../controllers/full-appeal/submit-appeal/telling-the-tenants');
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
@@ -17,12 +17,12 @@ router.get(controllerUrl, [fetchExistingAppealMiddleware], getTellingTheTenants)
 const errorMessage = `Confirm if you've told the tenants`;
 
 const checkboxValidations = buildCheckboxValidation(
-  'telling-the-tenants',
-  STANDARD_TRIPLE_CONFIRM_OPTIONS,
-  {
-    notEmptyMessage: errorMessage,
-    allMandatoryMessage: errorMessage,
-  }
+	'telling-the-tenants',
+	STANDARD_TRIPLE_CONFIRM_OPTIONS,
+	{
+		notEmptyMessage: errorMessage,
+		allMandatoryMessage: errorMessage
+	}
 );
 
 router.post(controllerUrl, checkboxValidations, validationErrorHandler, postTellingTheTenants);

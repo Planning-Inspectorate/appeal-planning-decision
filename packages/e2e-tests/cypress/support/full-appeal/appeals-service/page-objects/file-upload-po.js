@@ -11,6 +11,3 @@ export const dragAndDropAFile = () => cy.findAllByText('Drag and drop or choose 
 export const dragAndDropMultipleFiles = () => cy.findAllByText('Drag and drop or choose files');
 export const plansOrDrawingsErrorMessage = () => cy.get('#plans-drawings-error');
 export const supportingDocumentsErrorMessage = () => cy.get('#supporting-documents-error');
-
-
-

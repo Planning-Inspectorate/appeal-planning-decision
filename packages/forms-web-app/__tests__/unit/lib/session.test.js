@@ -9,47 +9,47 @@ jest.mock('../../../src/lib/logger');
 const mockOn = jest.fn();
 
 jest.mock('connect-mongodb-session', () =>
-  jest.fn().mockImplementation(() =>
-    jest.fn().mockImplementation(() => ({
-      on: mockOn,
-    }))
-  )
+	jest.fn().mockImplementation(() =>
+		jest.fn().mockImplementation(() => ({
+			on: mockOn
+		}))
+	)
 );
 
 describe('lib/session', () => {
-  it('should throw if unable to find the session secret', () => {
-    expect(() => session()).toThrow('Session secret must be set');
-  });
+	it('should throw if unable to find the session secret', () => {
+		expect(() => session()).toThrow('Session secret must be set');
+	});
 
-  it('should configure the MongoDBStore with the expected config', () => {
-    config.server.sessionSecret = 'a fake session secret';
+	it('should configure the MongoDBStore with the expected config', () => {
+		config.server.sessionSecret = 'a fake session secret';
 
-    const configuredSession = session();
+		const configuredSession = session();
 
-    expect(configuredSession.cookie).toEqual({});
-    expect(configuredSession.resave).toEqual(false);
-    expect(configuredSession.saveUninitialized).toEqual(true);
-    expect(configuredSession.secret).toEqual(config.server.sessionSecret);
-    expect(configuredSession.store.on).toBeDefined();
+		expect(configuredSession.cookie).toEqual({});
+		expect(configuredSession.resave).toEqual(false);
+		expect(configuredSession.saveUninitialized).toEqual(true);
+		expect(configuredSession.secret).toEqual(config.server.sessionSecret);
+		expect(configuredSession.store.on).toBeDefined();
 
-    expect(connectMongodb).toHaveBeenCalledWith(expressSession);
-    expect(mockOn.mock.calls[0][0]).toEqual('error');
-  });
+		expect(connectMongodb).toHaveBeenCalledWith(expressSession);
+		expect(mockOn.mock.calls[0][0]).toEqual('error');
+	});
 
-  it('should configure the MongoDBStore with the expected config when useSecureSessionCookie', () => {
-    config.server.sessionSecret = 'a fake session secret';
-    config.server.useSecureSessionCookie = true;
+	it('should configure the MongoDBStore with the expected config when useSecureSessionCookie', () => {
+		config.server.sessionSecret = 'a fake session secret';
+		config.server.useSecureSessionCookie = true;
 
-    const configuredSession = session();
+		const configuredSession = session();
 
-    expect(configuredSession.cookie.secure).toEqual(true);
-    expect(configuredSession.resave).toEqual(false);
-    expect(configuredSession.saveUninitialized).toEqual(true);
-    expect(configuredSession.secret).toEqual(config.server.sessionSecret);
-    expect(configuredSession.store.on).toBeDefined();
-    expect(configuredSession.store.on).toHaveBeenCalledWith('error', expect.any(Function));
+		expect(configuredSession.cookie.secure).toEqual(true);
+		expect(configuredSession.resave).toEqual(false);
+		expect(configuredSession.saveUninitialized).toEqual(true);
+		expect(configuredSession.secret).toEqual(config.server.sessionSecret);
+		expect(configuredSession.store.on).toBeDefined();
+		expect(configuredSession.store.on).toHaveBeenCalledWith('error', expect.any(Function));
 
-    expect(connectMongodb).toHaveBeenCalledWith(expressSession);
-    expect(mockOn.mock.calls[0][0]).toEqual('error');
-  });
+		expect(connectMongodb).toHaveBeenCalledWith(expressSession);
+		expect(mockOn.mock.calls[0][0]).toEqual('error');
+	});
 });

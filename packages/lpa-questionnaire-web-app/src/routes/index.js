@@ -56,9 +56,9 @@ router.use(supplementaryDocumentsRouter);
 router.use(alreadySubmittedRouter);
 
 router.use(
-  '/full-appeal/:id/questionnaire',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
-  fullAppealRouter
+	'/full-appeal/:id/questionnaire',
+	[fetchAppealMiddleware, fetchExistingAppealReplyMiddleware],
+	fullAppealRouter
 );
 
 module.exports = router;

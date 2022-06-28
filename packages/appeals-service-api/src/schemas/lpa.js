@@ -14,107 +14,107 @@ const config = require('../lib/config');
 const logger = require('../lib/logger');
 
 module.exports = class LPA {
-  constructor({ id, name, inTrial, email, domain, england, wales, horizonId }) {
-    this.id = id;
-    this.name = name;
-    this.inTrial = inTrial;
-    this.email = email;
-    this.domain = domain;
+	constructor({ id, name, inTrial, email, domain, england, wales, horizonId }) {
+		this.id = id;
+		this.name = name;
+		this.inTrial = inTrial;
+		this.email = email;
+		this.domain = domain;
 
-    this.england = england;
-    this.wales = wales;
-    this.horizonId = horizonId;
-  }
+		this.england = england;
+		this.wales = wales;
+		this.horizonId = horizonId;
+	}
 
-  static async find(filter = {}) {
-    const data = await LPA.loadData();
+	static async find(filter = {}) {
+		const data = await LPA.loadData();
 
-    if (filter) {
-      return data.filter((item) =>
-        Object.keys(filter).every((key) => {
-          const value = item[key];
-          const filterValue = filter[key];
+		if (filter) {
+			return data.filter((item) =>
+				Object.keys(filter).every((key) => {
+					const value = item[key];
+					const filterValue = filter[key];
 
-          if (filterValue.test) {
-            /* Regex */
-            return filterValue.test(value);
-          }
-          /* Value matcher */
-          return value === filterValue;
-        })
-      );
-    }
+					if (filterValue.test) {
+						/* Regex */
+						return filterValue.test(value);
+					}
+					/* Value matcher */
+					return value === filterValue;
+				})
+			);
+		}
 
-    return data;
-  }
+		return data;
+	}
 
-  static async findOne(filter) {
-    const items = await LPA.find(filter);
+	static async findOne(filter) {
+		const items = await LPA.find(filter);
 
-    if (items.length > 0) {
-      return items[0];
-    }
+		if (items.length > 0) {
+			return items[0];
+		}
 
-    return undefined;
-  }
+		return undefined;
+	}
 
-  /**
-   * @private
-   * @return {Promise<LPA[]>}
-   */
-  static async loadData() {
-    const { listPath, trialistPath } = config.data.lpa;
+	/**
+	 * @private
+	 * @return {Promise<LPA[]>}
+	 */
+	static async loadData() {
+		const { listPath, trialistPath } = config.data.lpa;
 
-    logger.debug({ listPath, trialistPath }, 'Retrieving LPA data from file');
+		logger.debug({ listPath, trialistPath }, 'Retrieving LPA data from file');
 
-    const lpaList = await fs.readFile(listPath, 'utf8');
-    const trialists = JSON.parse(await fs.readFile(trialistPath, 'utf8'));
+		const lpaList = await fs.readFile(listPath, 'utf8');
+		const trialists = JSON.parse(await fs.readFile(trialistPath, 'utf8'));
 
-    logger.trace({ lpaList, trialists }, 'Retrieved LPA data');
+		logger.trace({ lpaList, trialists }, 'Retrieved LPA data');
 
-    return (await csvParser(lpaList))
-      .filter(({ LPA19CD }) => {
-        /* Filter out Scotland and Northern Ireland LPAs */
-        const include =
-          LPA19CD.startsWith('S') === false &&
-          LPA19CD.startsWith('N') === false &&
-          LPA19CD.startsWith('W') === false;
-        logger.trace(
-          { include, id: LPA19CD },
-          'Filtering out Scottish, Northern Irish and Welsh LPAs'
-        );
-        return include;
-      })
-      .map(({ LPA19CD: id, LPA19NM: name, EMAIL: email, DOMAIN: domain }) => {
-        /* Use our own data model format */
-        const trialist = trialists.find(({ id: trialistId }) => trialistId === id);
+		return (await csvParser(lpaList))
+			.filter(({ LPA19CD }) => {
+				/* Filter out Scotland and Northern Ireland LPAs */
+				const include =
+					LPA19CD.startsWith('S') === false &&
+					LPA19CD.startsWith('N') === false &&
+					LPA19CD.startsWith('W') === false;
+				logger.trace(
+					{ include, id: LPA19CD },
+					'Filtering out Scottish, Northern Irish and Welsh LPAs'
+				);
+				return include;
+			})
+			.map(({ LPA19CD: id, LPA19NM: name, EMAIL: email, DOMAIN: domain }) => {
+				/* Use our own data model format */
+				const trialist = trialists.find(({ id: trialistId }) => trialistId === id);
 
-        const { inTrial = false, horizonId = null } = trialist || {};
+				const { inTrial = false, horizonId = null } = trialist || {};
 
-        logger.trace({ inTrial, id }, 'Adding in trialist status');
+				logger.trace({ inTrial, id }, 'Adding in trialist status');
 
-        return new LPA({
-          name,
-          horizonId,
-          inTrial,
-          email,
-          domain,
-          england: id.startsWith('E'),
-          wales: id.startsWith('W'),
-          id: id.toUpperCase(),
-        });
-      })
-      .sort(
-        /* istanbul ignore next */ (a, b) => {
-          /* Put into order */
-          if (a.name > b.name) {
-            return 1;
-          }
-          if (a.name < b.name) {
-            return -1;
-          }
-          return 0;
-        }
-      );
-  }
+				return new LPA({
+					name,
+					horizonId,
+					inTrial,
+					email,
+					domain,
+					england: id.startsWith('E'),
+					wales: id.startsWith('W'),
+					id: id.toUpperCase()
+				});
+			})
+			.sort(
+				/* istanbul ignore next */ (a, b) => {
+					/* Put into order */
+					if (a.name > b.name) {
+						return 1;
+					}
+					if (a.name < b.name) {
+						return -1;
+					}
+					return 0;
+				}
+			);
+	}
 };

@@ -9,16 +9,16 @@ const alreadySubmittedMiddleware = require('../middleware/already-submitted');
 const router = express.Router();
 
 router.get(
-  '/appeal-questionnaire/:id/health-safety',
-  [fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
-  healthSafetyController.getHealthSafety
+	'/appeal-questionnaire/:id/health-safety',
+	[fetchAppealMiddleware, fetchExistingAppealReplyMiddleware, alreadySubmittedMiddleware],
+	healthSafetyController.getHealthSafety
 );
 
 router.post(
-  '/appeal-questionnaire/:id/health-safety',
-  healthSafetyValidationRules(),
-  validationErrorHandler,
-  healthSafetyController.postHealthSafety
+	'/appeal-questionnaire/:id/health-safety',
+	healthSafetyValidationRules(),
+	validationErrorHandler,
+	healthSafetyController.postHealthSafety
 );
 
 module.exports = router;

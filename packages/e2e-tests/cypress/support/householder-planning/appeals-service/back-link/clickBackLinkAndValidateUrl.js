@@ -1,7 +1,7 @@
 import { clickBackLink } from './clickBackLink';
 
 export const clickBackLinkAndValidateUrl = ({ expectedUrl }) => {
-  clickBackLink();
+	clickBackLink();
 
-  cy.url().should('match', expectedUrl);
+	cy.url().should('match', expectedUrl);
 };

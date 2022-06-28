@@ -1,16 +1,16 @@
 {
-  "name": "notify",
-  "version": "0.0.0",
-  "description": "Notify mocks",
-  "main": "index.js",
-  "scripts": {
-    "start": "json-server --host 0.0.0.0 --middlewares ./middlewares/add_type.js --routes routes.json --watch db.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "json-server": "^0.16.2",
-    "notifications-node-client": "^5.0.0"
-  }
+	"name": "notify",
+	"version": "0.0.0",
+	"description": "Notify mocks",
+	"main": "index.js",
+	"scripts": {
+		"start": "json-server --host 0.0.0.0 --middlewares ./middlewares/add_type.js --routes routes.json --watch db.json",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"json-server": "^0.16.2",
+		"notifications-node-client": "^5.0.0"
+	}
 }

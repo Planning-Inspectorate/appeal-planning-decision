@@ -1,241 +1,241 @@
 const appeal = {
-  sectionStates: {
-    appealSiteSection: {
-      healthAndSafety: 'NOT STARTED',
+	sectionStates: {
+		appealSiteSection: {
+			healthAndSafety: 'NOT STARTED',
 
-      siteOwnership: 'NOT STARTED',
+			siteOwnership: 'NOT STARTED',
 
-      siteAccess: 'NOT STARTED',
+			siteAccess: 'NOT STARTED',
 
-      siteAddress: 'NOT STARTED',
-    },
+			siteAddress: 'NOT STARTED'
+		},
 
-    yourAppealSection: {
-      otherDocuments: 'NOT STARTED',
+		yourAppealSection: {
+			otherDocuments: 'NOT STARTED',
 
-      appealStatement: 'NOT STARTED',
-    },
+			appealStatement: 'NOT STARTED'
+		},
 
-    requiredDocumentsSection: {
-      decisionLetter: 'NOT STARTED',
+		requiredDocumentsSection: {
+			decisionLetter: 'NOT STARTED',
 
-      originalApplication: 'NOT STARTED',
+			originalApplication: 'NOT STARTED',
 
-      applicationNumber: 'NOT STARTED',
-    },
+			applicationNumber: 'NOT STARTED'
+		},
 
-    aboutYouSection: {
-      yourDetails: 'NOT STARTED',
-    },
+		aboutYouSection: {
+			yourDetails: 'NOT STARTED'
+		},
 
-    appealDocumentsSection: {
-      newSupportingDocuments: 'NOT STARTED',
+		appealDocumentsSection: {
+			newSupportingDocuments: 'NOT STARTED',
 
-      supportingDocuments: 'NOT STARTED',
+			supportingDocuments: 'NOT STARTED',
 
-      newPlansDrawings: 'NOT STARTED',
+			newPlansDrawings: 'NOT STARTED',
 
-      plansDrawings: 'NOT STARTED',
+			plansDrawings: 'NOT STARTED',
 
-      appealStatement: 'NOT STARTED',
-    },
+			appealStatement: 'NOT STARTED'
+		},
 
-    planningApplicationDocumentsSection: {
-      designAccessStatementSubmitted: 'NOT STARTED',
+		planningApplicationDocumentsSection: {
+			designAccessStatementSubmitted: 'NOT STARTED',
 
-      designAccessStatement: 'NOT STARTED',
+			designAccessStatement: 'NOT STARTED',
 
-      decisionLetter: 'NOT STARTED',
+			decisionLetter: 'NOT STARTED',
 
-      originalApplication: 'NOT STARTED',
+			originalApplication: 'NOT STARTED',
 
-      plansDrawingsSupportingDocuments: 'NOT STARTED',
+			plansDrawingsSupportingDocuments: 'NOT STARTED',
 
-      applicationNumber: 'NOT STARTED',
-    },
+			applicationNumber: 'NOT STARTED'
+		},
 
-    appealDecisionSection: {
-      draftStatementOfCommonGround: 'NOT STARTED',
+		appealDecisionSection: {
+			draftStatementOfCommonGround: 'NOT STARTED',
 
-      inquiryExpectedDays: 'NOT STARTED',
+			inquiryExpectedDays: 'NOT STARTED',
 
-      inquiry: 'NOT STARTED',
+			inquiry: 'NOT STARTED',
 
-      hearing: 'NOT STARTED',
+			hearing: 'NOT STARTED',
 
-      procedureType: 'NOT STARTED',
-    },
+			procedureType: 'NOT STARTED'
+		},
 
-    contactDetailsSection: {
-      appealingOnBehalfOf: 'NOT STARTED',
+		contactDetailsSection: {
+			appealingOnBehalfOf: 'NOT STARTED',
 
-      contact: 'NOT STARTED',
+			contact: 'NOT STARTED',
 
-      isOriginalApplicant: 'NOT STARTED',
-    },
-  },
+			isOriginalApplicant: 'NOT STARTED'
+		}
+	},
 
-  appealSiteSection: {
-    healthAndSafety: {
-      healthAndSafetyIssues: '',
+	appealSiteSection: {
+		healthAndSafety: {
+			healthAndSafetyIssues: '',
 
-      hasIssues: null,
-    },
+			hasIssues: null
+		},
 
-    siteAccess: {
-      howIsSiteAccessRestricted: null,
+		siteAccess: {
+			howIsSiteAccessRestricted: null,
 
-      canInspectorSeeWholeSiteFromPublicRoad: null,
-    },
+			canInspectorSeeWholeSiteFromPublicRoad: null
+		},
 
-    siteOwnership: {},
+		siteOwnership: {},
 
-    siteAddress: {
-      postcode: null,
+		siteAddress: {
+			postcode: null,
 
-      county: null,
+			county: null,
 
-      town: null,
+			town: null,
 
-      addressLine2: null,
+			addressLine2: null,
 
-      addressLine1: null,
-    },
+			addressLine1: null
+		},
 
-    visibleFromRoad: {
-      details: null,
+		visibleFromRoad: {
+			details: null,
 
-      isVisible: null,
-    },
+			isVisible: null
+		},
 
-    agriculturalHolding: {
-      tellingTheTenants: null,
+		agriculturalHolding: {
+			tellingTheTenants: null,
 
-      hasOtherTenants: null,
+			hasOtherTenants: null,
 
-      isTenant: null,
+			isTenant: null,
 
-      isAgriculturalHolding: null,
-    },
-  },
+			isAgriculturalHolding: null
+		}
+	},
 
-  appealSubmission: {
-    appealPDFStatement: {
-      uploadedFile: {
-        size: null,
+	appealSubmission: {
+		appealPDFStatement: {
+			uploadedFile: {
+				size: null,
 
-        location: null,
+				location: null,
 
-        originalFileName: '',
+				originalFileName: '',
 
-        fileName: '',
+				fileName: '',
 
-        name: '',
+				name: '',
 
-        id: null,
-      },
-    },
-  },
+				id: null
+			}
+		}
+	},
 
-  yourAppealSection: {
-    otherDocuments: {
-      uploadedFiles: [],
-    },
+	yourAppealSection: {
+		otherDocuments: {
+			uploadedFiles: []
+		},
 
-    appealStatement: {
-      hasSensitiveInformation: null,
+		appealStatement: {
+			hasSensitiveInformation: null,
 
-      uploadedFile: {
-        size: null,
+			uploadedFile: {
+				size: null,
 
-        location: null,
+				location: null,
 
-        originalFileName: '',
+				originalFileName: '',
 
-        fileName: '',
+				fileName: '',
 
-        name: '',
+				name: '',
 
-        id: null,
-      },
-    },
-  },
+				id: null
+			}
+		}
+	},
 
-  requiredDocumentsSection: {
-    decisionLetter: {
-      uploadedFile: {
-        size: null,
+	requiredDocumentsSection: {
+		decisionLetter: {
+			uploadedFile: {
+				size: null,
 
-        location: null,
+				location: null,
 
-        originalFileName: '',
+				originalFileName: '',
 
-        fileName: '',
+				fileName: '',
 
-        name: '',
+				name: '',
 
-        id: null,
-      },
-    },
+				id: null
+			}
+		},
 
-    originalApplication: {
-      uploadedFile: {
-        size: null,
+		originalApplication: {
+			uploadedFile: {
+				size: null,
 
-        location: null,
+				location: null,
 
-        originalFileName: '',
+				originalFileName: '',
 
-        fileName: '',
+				fileName: '',
 
-        name: '',
+				name: '',
 
-        id: null,
-      },
-    },
+				id: null
+			}
+		},
 
-    applicationNumber: null,
-  },
+		applicationNumber: null
+	},
 
-  aboutYouSection: {
-    yourDetails: {
-      appealingOnBehalfOf: null,
+	aboutYouSection: {
+		yourDetails: {
+			appealingOnBehalfOf: null,
 
-      email: null,
+			email: null,
 
-      name: null,
+			name: null,
 
-      isOriginalApplicant: null,
-    },
-  },
+			isOriginalApplicant: null
+		}
+	},
 
-  eligibility: {
-    hasHouseholderPermissionConditions: null,
+	eligibility: {
+		hasHouseholderPermissionConditions: null,
 
-    hasPriorApprovalForExistingHome: true,
+		hasPriorApprovalForExistingHome: true,
 
-    enforcementNotice: false,
+		enforcementNotice: false,
 
-    applicationDecision: 'refused',
+		applicationDecision: 'refused',
 
-    isListedBuilding: false,
-  },
+		isListedBuilding: false
+	},
 
-  typeOfPlanningApplication: 'prior-approval',
+	typeOfPlanningApplication: 'prior-approval',
 
-  appealType: '1001',
+	appealType: '1001',
 
-  state: 'DRAFT',
+	state: 'DRAFT',
 
-  updatedAt: '2022-05-11T16:52:03.466Z',
+	updatedAt: '2022-05-11T16:52:03.466Z',
 
-  createdAt: '2022-05-11T16:49:51.636Z',
+	createdAt: '2022-05-11T16:49:51.636Z',
 
-  decisionDate: '2022-02-20T00:00:00.000Z',
+	decisionDate: '2022-02-20T00:00:00.000Z',
 
-  lpaCode: 'E60000068',
+	lpaCode: 'E60000068',
 
-  id: '431ef050-68b6-450e-8e90-72eea26f93f7',
+	id: '431ef050-68b6-450e-8e90-72eea26f93f7'
 };
 
 module.exports = appeal;

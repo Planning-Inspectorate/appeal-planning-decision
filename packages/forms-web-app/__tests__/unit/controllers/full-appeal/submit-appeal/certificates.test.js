@@ -1,6 +1,6 @@
 const {
-  getCertificates,
-  postCertificates,
+	getCertificates,
+	postCertificates
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/certificates');
 const { documentTypes } = require('@pins/common');
 const { VIEW } = require('../../../../../src/lib/full-appeal/views');
@@ -18,125 +18,129 @@ jest.mock('../../../../../src/lib/documents-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
 
 describe('controllers/full-appeal/submit-appeal/certificates', () => {
-  let req;
-  let res;
+	let req;
+	let res;
 
-  const sectionName = 'planningApplicationDocumentsSection';
-  const taskName = documentTypes.ownershipCertificate.name;
-  const errors = {
-    'file-upload': 'Select your ownership certificate and agricultural land declaration',
-  };
-  const errorSummary = [{ text: 'There was an error', href: '#' }];
+	const sectionName = 'planningApplicationDocumentsSection';
+	const taskName = documentTypes.ownershipCertificate.name;
+	const errors = {
+		'file-upload': 'Select your ownership certificate and agricultural land declaration'
+	};
+	const errorSummary = [{ text: 'There was an error', href: '#' }];
 
-  beforeEach(() => {
-    req = v8.deserialize(
-      v8.serialize({
-        ...mockReq(appeal),
-        body: {},
-      })
-    );
-    res = mockRes();
+	beforeEach(() => {
+		req = v8.deserialize(
+			v8.serialize({
+				...mockReq(appeal),
+				body: {}
+			})
+		);
+		res = mockRes();
 
-    jest.resetAllMocks();
-  });
+		jest.resetAllMocks();
+	});
 
-  describe('getCertificates', () => {
-    it('calls correct template', async () => {
-      await getCertificates(req, res);
-      expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.CERTIFICATES, {
-        appealId: appeal.id,
-        uploadedFile: appeal[sectionName][taskName].uploadedFile,
-      });
-    });
-  });
+	describe('getCertificates', () => {
+		it('calls correct template', async () => {
+			await getCertificates(req, res);
+			expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.CERTIFICATES, {
+				appealId: appeal.id,
+				uploadedFile: appeal[sectionName][taskName].uploadedFile
+			});
+		});
+	});
 
-  describe('postOriginalDecisionNotice', () => {
-    it('should re-render the template with errors if submission validation fails', async () => {
-      req = {
-        ...req,
-        body: {
-          errors,
-          errorSummary,
-        },
-        files: {
-          'file-upload': {},
-        },
-      };
+	describe('postOriginalDecisionNotice', () => {
+		it('should re-render the template with errors if submission validation fails', async () => {
+			req = {
+				...req,
+				body: {
+					errors,
+					errorSummary
+				},
+				files: {
+					'file-upload': {}
+				}
+			};
 
-      await postCertificates(req, res);
+			await postCertificates(req, res);
 
-      expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.CERTIFICATES, {
-        appealId: appeal.id,
-        uploadedFile: appeal[sectionName][taskName].uploadedFile,
-        errorSummary,
-        errors,
-      });
-    });
+			expect(res.redirect).not.toHaveBeenCalled();
+			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.CERTIFICATES, {
+				appealId: appeal.id,
+				uploadedFile: appeal[sectionName][taskName].uploadedFile,
+				errorSummary,
+				errors
+			});
+		});
 
-    it('should re-render the template with errors if an error is thrown', async () => {
-      const error = new Error('Internal Server Error');
+		it('should re-render the template with errors if an error is thrown', async () => {
+			const error = new Error('Internal Server Error');
 
-      createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
+			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-      await postCertificates(req, res);
+			await postCertificates(req, res);
 
-      expect(res.redirect).not.toHaveBeenCalled();
-      expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.CERTIFICATES, {
-        appealId: appeal.id,
-        uploadedFile: appeal[sectionName][taskName].uploadedFile,
-        errorSummary: [{ text: error.toString(), href: '#' }],
-      });
-    });
+			expect(res.redirect).not.toHaveBeenCalled();
+			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.CERTIFICATES, {
+				appealId: appeal.id,
+				uploadedFile: appeal[sectionName][taskName].uploadedFile,
+				errorSummary: [{ text: error.toString(), href: '#' }]
+			});
+		});
 
-    it('should redirect to the correct page if valid and a file is being uploaded', async () => {
-      appeal.sectionStates.planningApplicationDocumentsSection.ownershipCertificate =
-        TASK_STATUS.COMPLETED;
-      const submittedAppeal = {
-        ...appeal,
-        state: 'SUBMITTED',
-      };
+		it('should redirect to the correct page if valid and a file is being uploaded', async () => {
+			appeal.sectionStates.planningApplicationDocumentsSection.ownershipCertificate =
+				TASK_STATUS.COMPLETED;
+			const submittedAppeal = {
+				...appeal,
+				state: 'SUBMITTED'
+			};
 
-      createDocument.mockReturnValue(appeal[sectionName][taskName].uploadedFile);
-      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+			createDocument.mockReturnValue(appeal[sectionName][taskName].uploadedFile);
+			createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 
-      req = {
-        ...req,
-        body: {},
-        files: {
-          'file-upload': appeal[sectionName][taskName].uploadedFile,
-        },
-      };
+			req = {
+				...req,
+				body: {},
+				files: {
+					'file-upload': appeal[sectionName][taskName].uploadedFile
+				}
+			};
 
-      await postCertificates(req, res);
+			await postCertificates(req, res);
 
-      expect(createDocument).toHaveBeenCalledWith(
-        appeal,
-        appeal[sectionName][taskName].uploadedFile,
-        null,
-        taskName
-      );
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.PROPOSED_DEVELOPMENT_CHANGED}`);
-      expect(req.session.appeal).toEqual(submittedAppeal);
-    });
+			expect(createDocument).toHaveBeenCalledWith(
+				appeal,
+				appeal[sectionName][taskName].uploadedFile,
+				null,
+				taskName
+			);
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+			expect(res.redirect).toHaveBeenCalledWith(
+				`/${VIEW.FULL_APPEAL.PROPOSED_DEVELOPMENT_CHANGED}`
+			);
+			expect(req.session.appeal).toEqual(submittedAppeal);
+		});
 
-    it('should redirect to the correct page if valid and a file is not being uploaded', async () => {
-      appeal.sectionStates.planningApplicationDocumentsSection.ownershipCertificate =
-        TASK_STATUS.COMPLETED;
-      const submittedAppeal = {
-        ...appeal,
-        state: 'SUBMITTED',
-      };
+		it('should redirect to the correct page if valid and a file is not being uploaded', async () => {
+			appeal.sectionStates.planningApplicationDocumentsSection.ownershipCertificate =
+				TASK_STATUS.COMPLETED;
+			const submittedAppeal = {
+				...appeal,
+				state: 'SUBMITTED'
+			};
 
-      createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+			createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 
-      await postCertificates(req, res);
+			await postCertificates(req, res);
 
-      expect(createDocument).not.toHaveBeenCalled();
-      expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-      expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.PROPOSED_DEVELOPMENT_CHANGED}`);
-      expect(req.session.appeal).toEqual(submittedAppeal);
-    });
-  });
+			expect(createDocument).not.toHaveBeenCalled();
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+			expect(res.redirect).toHaveBeenCalledWith(
+				`/${VIEW.FULL_APPEAL.PROPOSED_DEVELOPMENT_CHANGED}`
+			);
+			expect(req.session.appeal).toEqual(submittedAppeal);
+		});
+	});
 });

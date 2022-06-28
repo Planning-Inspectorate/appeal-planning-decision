@@ -4,7 +4,7 @@ const grantedOrRefusedPermissionController = require('../../controllers/eligibil
 const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const {
-  rules: householderPlanningPermissionStatusRules,
+	rules: householderPlanningPermissionStatusRules
 } = require('../../validators/eligibility/granted-or-refused-permission');
 
 const router = express.Router();
@@ -12,21 +12,21 @@ const router = express.Router();
 router.get('/no-decision', grantedOrRefusedPermissionController.getNoDecision);
 
 router.get(
-  '/granted-or-refused-permission-out',
-  grantedOrRefusedPermissionController.getGrantedOrRefusedPermissionOut
+	'/granted-or-refused-permission-out',
+	grantedOrRefusedPermissionController.getGrantedOrRefusedPermissionOut
 );
 
 router.get(
-  '/granted-or-refused-permission',
-  fetchExistingAppealMiddleware,
-  grantedOrRefusedPermissionController.getGrantedOrRefusedPermission
+	'/granted-or-refused-permission',
+	fetchExistingAppealMiddleware,
+	grantedOrRefusedPermissionController.getGrantedOrRefusedPermission
 );
 
 router.post(
-  '/granted-or-refused-permission',
-  householderPlanningPermissionStatusRules(),
-  validationErrorHandler,
-  grantedOrRefusedPermissionController.postGrantedOrRefusedPermission
+	'/granted-or-refused-permission',
+	householderPlanningPermissionStatusRules(),
+	validationErrorHandler,
+	grantedOrRefusedPermissionController.postGrantedOrRefusedPermission
 );
 
 module.exports = router;

@@ -1,5 +1,5 @@
 export const answerCannotSeeTheWholeAppeal = () => {
-  cy.get('#site-access-2').click();
+	cy.get('#site-access-2').click();
 
-  //cy.wait(Cypress.env('demoDelay'));
+	//cy.wait(Cypress.env('demoDelay'));
 };

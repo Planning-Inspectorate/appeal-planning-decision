@@ -7,7 +7,7 @@
  */
 
 const {
-  constants: { APPEAL_ID },
+	constants: { APPEAL_ID }
 } = require('@pins/business-rules');
 const path = require('path');
 

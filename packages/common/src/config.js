@@ -7,15 +7,15 @@
  */
 
 module.exports = {
-  logger: {
-    level: process.env.LOGGER_LEVEL || 'info',
-    redact: ['config.services.notify.apiKey'],
-  },
-  services: {
-    notify: {
-      baseUrl: process.env.SRV_NOTIFY_BASE_URL,
-      serviceId: process.env.SRV_NOTIFY_SERVICE_ID,
-      apiKey: process.env.SRV_NOTIFY_API_KEY,
-    },
-  },
+	logger: {
+		level: process.env.LOGGER_LEVEL || 'info',
+		redact: ['config.services.notify.apiKey']
+	},
+	services: {
+		notify: {
+			baseUrl: process.env.SRV_NOTIFY_BASE_URL,
+			serviceId: process.env.SRV_NOTIFY_SERVICE_ID,
+			apiKey: process.env.SRV_NOTIFY_API_KEY
+		}
+	}
 };

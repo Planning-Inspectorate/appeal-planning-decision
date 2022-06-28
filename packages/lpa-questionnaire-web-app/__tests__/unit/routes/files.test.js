@@ -9,24 +9,24 @@ jest.mock('../../../src/middleware/req-files-to-req-body-files');
 jest.mock('../../../src/validators/files');
 
 describe('routes/placeholder', () => {
-  beforeEach(() => {
-    // eslint-disable-next-line global-require
-    require('../../../src/routes/files');
-  });
+	beforeEach(() => {
+		// eslint-disable-next-line global-require
+		require('../../../src/routes/files');
+	});
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 
-  it('should define the expected routes', () => {
-    expect(post).toHaveBeenCalledWith(
-      '/upload/:documentType',
-      [reqFilesToReqBodyFilesMiddleware('documents'), filesValidationRules()],
-      validationErrorHandler,
-      documentTypeValidator,
-      filesController.uploadFile
-    );
+	it('should define the expected routes', () => {
+		expect(post).toHaveBeenCalledWith(
+			'/upload/:documentType',
+			[reqFilesToReqBodyFilesMiddleware('documents'), filesValidationRules()],
+			validationErrorHandler,
+			documentTypeValidator,
+			filesController.uploadFile
+		);
 
-    expect(post).toHaveBeenCalledWith('/delete', filesController.deleteFile);
-  });
+		expect(post).toHaveBeenCalledWith('/delete', filesController.deleteFile);
+	});
 });

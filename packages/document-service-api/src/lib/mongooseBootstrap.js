@@ -11,21 +11,21 @@ const logger = require('./logger');
 const config = require('./config');
 
 module.exports = async () => {
-  try {
-    /* Mongoose is a singleton internally, so connect before accepting connections */
-    logger.info('Attempting to create Mongoose connection');
-    await mongoose.connect(config.db.mongodb.url, config.db.mongodb.opts);
-    logger.info('Connected to Mongoose');
-  } catch (err) {
-    logger.fatal({ err }, 'Unable to connect to Mongoose');
+	try {
+		/* Mongoose is a singleton internally, so connect before accepting connections */
+		logger.info('Attempting to create Mongoose connection');
+		await mongoose.connect(config.db.mongodb.url, config.db.mongodb.opts);
+		logger.info('Connected to Mongoose');
+	} catch (err) {
+		logger.fatal({ err }, 'Unable to connect to Mongoose');
 
-    /* Connection may be open */
-    if (mongoose.connection.readyState === 1) {
-      logger.debug('Killing Mongo connection before terminating');
-      await mongoose.connection.close();
-    }
+		/* Connection may be open */
+		if (mongoose.connection.readyState === 1) {
+			logger.debug('Killing Mongo connection before terminating');
+			await mongoose.connection.close();
+		}
 
-    /* Preserve the error */
-    throw err;
-  }
+		/* Preserve the error */
+		throw err;
+	}
 };

@@ -4,5 +4,5 @@ const fileUploadSchema = require('./schemas/file-upload');
 const rules = (noFilesError) => [checkSchema(fileUploadSchema(noFilesError))];
 
 module.exports = {
-  rules,
+	rules
 };

@@ -8,9 +8,9 @@ const router = express.Router();
 
 router.use(yourAppealDetailsRouter);
 router.get(
-  '/:appealId',
-  [fetchAppealByUrlParam('appealId'), fetchAppealLpdByAppealLpaCode],
-  yourPlanningAppealController.getYourPlanningAppeal
+	'/:appealId',
+	[fetchAppealByUrlParam('appealId'), fetchAppealLpdByAppealLpaCode],
+	yourPlanningAppealController.getYourPlanningAppeal
 );
 
 module.exports = router;

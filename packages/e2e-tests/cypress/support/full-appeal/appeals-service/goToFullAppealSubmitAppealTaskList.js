@@ -10,30 +10,30 @@ import { selectNo } from './page-objects/own-the-land-po';
 import { selectLocalPlanningDepartment } from '../../before-you-start/local-planning-department';
 
 export const goToFullAppealSubmitAppealTaskList = (url, applicationType) => {
-  goToAppealsPage(url);
-  cy.url().should('include', url);
-  acceptCookiesBanner();
-  selectLocalPlanningDepartment('System Test Borough Council');
-  getSaveAndContinueButton().click();
-  selectPlanningApplicationType(applicationType);
-  getSaveAndContinueButton().click();
-  noneOfTheseOption().click();
-  getSaveAndContinueButton().click();
-  grantedOrRefused().click();
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', 'before-you-start/decision-date');
-  const validDate = getPastDate(allowedDatePart.MONTH, 1);
-  enterDateDecisionDue({
-    day: ('0' + getDate(validDate)).slice(-2),
-    month: ('0' + (getMonth(validDate) + 1)).slice(-2),
-    year: getYear(validDate),
-  });
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', 'before-you-start/enforcement-notice');
-  selectNo().click();
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', 'before-you-start/can-use-service');
-  getSaveAndContinueButton().click();
-  cy.url().should('contain', 'full-appeal/submit-appeal/task-list');
-  cy.checkPageA11y();
+	goToAppealsPage(url);
+	cy.url().should('include', url);
+	acceptCookiesBanner();
+	selectLocalPlanningDepartment('System Test Borough Council');
+	getSaveAndContinueButton().click();
+	selectPlanningApplicationType(applicationType);
+	getSaveAndContinueButton().click();
+	noneOfTheseOption().click();
+	getSaveAndContinueButton().click();
+	grantedOrRefused().click();
+	getSaveAndContinueButton().click();
+	cy.url().should('contain', 'before-you-start/decision-date');
+	const validDate = getPastDate(allowedDatePart.MONTH, 1);
+	enterDateDecisionDue({
+		day: ('0' + getDate(validDate)).slice(-2),
+		month: ('0' + (getMonth(validDate) + 1)).slice(-2),
+		year: getYear(validDate)
+	});
+	getSaveAndContinueButton().click();
+	cy.url().should('contain', 'before-you-start/enforcement-notice');
+	selectNo().click();
+	getSaveAndContinueButton().click();
+	cy.url().should('contain', 'before-you-start/can-use-service');
+	getSaveAndContinueButton().click();
+	cy.url().should('contain', 'full-appeal/submit-appeal/task-list');
+	cy.checkPageA11y();
 };

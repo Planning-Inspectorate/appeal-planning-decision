@@ -6,11 +6,11 @@
  * @param next
  */
 module.exports = async (req, res, next) => {
-  if (!req.session) {
-    return next();
-  }
+	if (!req.session) {
+		return next();
+	}
 
-  req.session.uploadedFiles = [];
+	req.session.uploadedFiles = [];
 
-  return next();
+	return next();
 };

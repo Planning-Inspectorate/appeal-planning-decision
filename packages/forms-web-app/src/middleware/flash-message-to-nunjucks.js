@@ -5,7 +5,7 @@
  * @returns {(function(*, *, *): void)|*}
  */
 module.exports = (env) => (req, res, next) => {
-  env.addGlobal('flashMessages', res.locals.flashMessages || []);
+	env.addGlobal('flashMessages', res.locals.flashMessages || []);
 
-  next();
+	next();
 };

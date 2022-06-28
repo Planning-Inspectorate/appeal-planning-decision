@@ -3,14 +3,14 @@ import { pageURLAppeal } from '../../../../integration/common/householder-planni
 import { validateIndividualFileUpload } from '../file-upload/validateIndividualFileUpload';
 
 export const confirmPlanningApplicationAccepted = (filename) => {
-  goToAppealsPage(pageURLAppeal.goToPlanningApplicationSubmission);
-  cy.get('#application-upload-file-name')
-    .invoke('text')
-    .then((text) => {
-      expect(text).to.eq(filename);
-    });
+	goToAppealsPage(pageURLAppeal.goToPlanningApplicationSubmission);
+	cy.get('#application-upload-file-name')
+		.invoke('text')
+		.then((text) => {
+			expect(text).to.eq(filename);
+		});
 
-  validateIndividualFileUpload('#application-upload-file-name');
+	validateIndividualFileUpload('#application-upload-file-name');
 
-  cy.wait(Cypress.env('demoDelay'));
+	cy.wait(Cypress.env('demoDelay'));
 };

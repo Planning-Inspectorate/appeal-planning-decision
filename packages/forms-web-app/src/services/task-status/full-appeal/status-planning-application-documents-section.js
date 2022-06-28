@@ -1,7 +1,7 @@
 const {
-  constants: {
-    APPLICATION_DECISION: { NODECISIONRECEIVED },
-  },
+	constants: {
+		APPLICATION_DECISION: { NODECISIONRECEIVED }
+	}
 } = require('@pins/business-rules');
 const { getStatusOfPath, SectionPath } = require('../task-statuses');
 
@@ -39,5 +39,5 @@ const statusPlanningApplicationDocumentsSection = (appeal) => {
 };
 
 module.exports = {
-  statusPlanningApplicationDocumentsSection,
+	statusPlanningApplicationDocumentsSection
 };

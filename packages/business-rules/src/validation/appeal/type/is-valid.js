@@ -7,5 +7,5 @@ const { appeal } = require('../../../config');
  * @returns {boolean}
  */
 module.exports = (appealType) => {
-  return Object.keys(appeal.type).includes(appealType);
+	return Object.keys(appeal.type).includes(appealType);
 };

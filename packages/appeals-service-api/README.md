@@ -25,11 +25,11 @@ The app will serve this at the `/api-docs` endpoint.
 This application will be deployed as a separate, non-publicly exposed service.
 It exists to allow the Forms Web App to interact with the database
 
- - `/src` - contains the application.
- - `/src/controllers` - the application controllers.
- - `/src/lib` - any common "library" files.
- - `/src/routes` - the HTTP endpoints to be created.
- 
+- `/src` - contains the application.
+- `/src/controllers` - the application controllers.
+- `/src/lib` - any common "library" files.
+- `/src/routes` - the HTTP endpoints to be created.
+
 ### Config
 
 See `/src/lib/config.js`
@@ -45,10 +45,9 @@ See `/src/lib/logger.js`
 This application uses [Pino](http://getpino.io). All logs are sent to the
 STDOut so they can be picked up when deployed by the Kubernetes pod(s). It
 is important to use the log levels (trace, debug, info, warn, error, fatal)
-appropriately so that filtering can be done during production. 
+appropriately so that filtering can be done during production.
 
 Also installed is `express-pino-logger` which add `req.log` to the incoming
 HTTP request. This automatically logs incoming HTTP requests and apply a unique
 correlation ID to make tracing errors through easier. For the most part, this
 should be the instance used for logging.
-

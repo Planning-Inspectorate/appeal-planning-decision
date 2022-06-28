@@ -4,16 +4,14 @@ import { goToAppealsPage } from '../../../../../support/common/go-to-page/goToAp
 import { pageURLAppeal } from '../../../../common/householder-planning/appeals-service/pageURLAppeal';
 
 Given('the appellant is on after you appeal page', () => {
-  //goToPageAfterYouAppeal();
-  goToAppealsPage(pageURLAppeal.goToPageAfterYouAppeal);
+	//goToPageAfterYouAppeal();
+	goToAppealsPage(pageURLAppeal.goToPageAfterYouAppeal);
 });
 
-
 Then('information about start your appeal is provided', () => {
-  userIsNavigatedToPage('/start-your-appeal');
+	userIsNavigatedToPage('/start-your-appeal');
 });
 
 Then('information about the stages of an appeal is provided', () => {
-  userIsNavigatedToPage('/stages-of-an-appeal');
+	userIsNavigatedToPage('/stages-of-an-appeal');
 });
-

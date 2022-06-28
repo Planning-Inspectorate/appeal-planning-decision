@@ -1,8 +1,8 @@
 const { validate: validateUuid } = require('uuid');
 const config = require('../../config');
 const {
-  createOrUpdateAppealReply,
-  getAppealReplyByAppeal,
+	createOrUpdateAppealReply,
+	getAppealReplyByAppeal
 } = require('../../lib/appeal-reply-api-wrapper');
 
 /**
@@ -15,29 +15,29 @@ const {
  * @returns {Promise<*>}
  */
 module.exports = async (req, res, next) => {
-  const { id: appealId = '' } = req.params;
+	const { id: appealId = '' } = req.params;
 
-  if (!appealId || !validateUuid(appealId)) {
-    res.status(404).send();
-    return;
-  }
+	if (!appealId || !validateUuid(appealId)) {
+		res.status(404).send();
+		return;
+	}
 
-  try {
-    req.log.debug({ appealId }, 'Get existing appeal reply by appeal ID');
+	try {
+		req.log.debug({ appealId }, 'Get existing appeal reply by appeal ID');
 
-    req.session.appealReply = await getAppealReplyByAppeal(appealId);
-  } catch (err) {
-    req.log.error({ err }, 'Error retrieving appeal reply');
+		req.session.appealReply = await getAppealReplyByAppeal(appealId);
+	} catch (err) {
+		req.log.error({ err }, 'Error retrieving appeal reply');
 
-    if (config.appealReply.allowCreate) {
-      req.session.appealReply = await createOrUpdateAppealReply({ appealId });
-    } else {
-      req.log.info({ appealId }, 'Allow Create is disabled for Get existing appeal, returning 404');
+		if (config.appealReply.allowCreate) {
+			req.session.appealReply = await createOrUpdateAppealReply({ appealId });
+		} else {
+			req.log.info({ appealId }, 'Allow Create is disabled for Get existing appeal, returning 404');
 
-      res.status(404).send();
-      return;
-    }
-  }
+			res.status(404).send();
+			return;
+		}
+	}
 
-  next();
+	next();
 };
