@@ -48,6 +48,22 @@ const saveAndReturnGetService = async (appealId) => {
   return saved;
 };
 
+const saveAndReturnGetServiceToken = async (tokenA) => {
+  let saved;
+  await mongodb
+    .get()
+    .collection('saveAndReturn')
+    .findOne({ token: tokenA })
+    .then((doc) => {
+      saved = doc;
+    })
+    .catch((err) => {
+      console.log(err);
+      throw new Error(err);
+    });
+  return saved;
+};
+
 const saveAndReturnNotifyContinue = async (saved, token) => {
   await sendSaveAndReturnContinueWithAppealEmail(saved, token);
 };
@@ -87,4 +103,5 @@ module.exports = {
   saveAndReturnTokenService,
   saveAndReturnNotifyContinue,
   saveAndReturnNotifyCode,
+  saveAndReturnGetServiceToken,
 };

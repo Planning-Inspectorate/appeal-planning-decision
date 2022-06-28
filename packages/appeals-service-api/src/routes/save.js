@@ -8,7 +8,7 @@ const {
 
 const router = express.Router();
 
-router.get('/:appealId', saveAndReturnGet);
+router.get('/:token', saveAndReturnGet);
 
 router.post('/', saveAndReturnCreate);
 

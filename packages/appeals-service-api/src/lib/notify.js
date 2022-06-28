@@ -132,7 +132,7 @@ const createToken = () => {
     const num = Math.floor(Math.random() * 9 + 1);
     token.push(num);
   }
-  return +token.join('');
+  return token.join('');
 };
 
 module.exports = {

@@ -6,7 +6,6 @@ describe('lib/submit-appeal/views', () => {
       SUBMIT_APPEAL: {
         ENTER_APPEAL_DETAILS: 'submit-appeal/enter-appeal-details',
         APPLICATION_SAVED: 'submit-appeal/application-saved',
-        ENTER_CODE: 'submit-appeal/enter-code',
       },
     });
   });

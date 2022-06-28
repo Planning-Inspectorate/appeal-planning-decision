@@ -4,6 +4,7 @@ const {
   saveAndReturnGetService,
   saveAndReturnTokenService,
   saveAndReturnNotifyCode,
+  saveAndReturnGetServiceToken,
 } = require('../services/save-and-return.service');
 
 async function saveAndReturnCreate(req, res) {
@@ -18,8 +19,8 @@ async function saveAndReturnCreate(req, res) {
 }
 
 async function saveAndReturnGet(req, res) {
-  const { appealId } = req.params;
-  const appeal = await saveAndReturnGetService(appealId);
+  const { token } = req.params;
+  const appeal = await saveAndReturnGetServiceToken(token);
   res.status(200).send(appeal);
 }
 

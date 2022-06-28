@@ -1,0 +1,58 @@
+{% extends "layouts/full-appeal-banner/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+
+{% set title="Enter the code we sent to your email address - Appeal a planning decision - GOV.UK" %}
+
+{% block pageTitle %}
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary
+    }) }}
+  {% endif %}
+  <div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST" novalidate>
+        {% call govukFieldset({
+          legend: {
+            text: "Enter the code we sent to your email address",
+            classes: "govuk-fieldset__legend--l",
+            isPageHeading: true
+          }
+        }) %}
+
+          {{ govukInput({
+            id: "email-code",
+            name: "email-code",
+            spellcheck: false,
+            value: appeal.email,
+            errorMessage: errors['email-code-name'] and {
+              text: errors['email-code-name'].msg
+            }
+
+          }) }}
+
+        {% endcall %}
+
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}
