@@ -1,8 +1,11 @@
 const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
+const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
 const {
   sendSubmissionReceivedEmailToLpa,
-  sendSubmissionConfirmationEmailToAppellant, createToken,
+  sendSubmissionConfirmationEmailToAppellant,
+  createToken,
+  sendConfirmEmailAddressEmail,
 } = require('../../../src/lib/notify');
 const logger = require('../../../src/lib/logger');
 
@@ -40,11 +43,19 @@ jest.mock('../../../src/lib/config', () => ({
           appealSubmissionConfirmationEmailToAppellant: 'appellant-template',
           appealNotificationEmailToLpa: 'lpa-template',
         },
+        CONFIRM_EMAIL: {
+          confirmEmail: 'confirm-email-template',
+        },
       },
     },
   },
   logger: {
     level: 'info',
+  },
+  apps: {
+    appeals: {
+      baseUrl: 'baseUrl',
+    },
   },
 }));
 jest.mock('../../../src/lib/logger', () => ({
@@ -134,6 +145,48 @@ describe('lib/notify', () => {
   describe('save and return token', () => {
     it('should create token', () => {
       expect(createToken().toString()).toMatch(/\d{5}/);
+    });
+  });
+
+  describe('sendConfirmEmailAddressEmail', () => {
+    it('should call NotifyBuilder with the correct data', async () => {
+      await sendConfirmEmailAddressEmail(fullAppeal, '12345');
+
+      expect(NotifyBuilder.reset).toBeCalled();
+      expect(NotifyBuilder.reset().setTemplateId).toBeCalledWith('confirm-email-template');
+      expect(NotifyBuilder.reset().setTemplateId().setDestinationEmailAddress).toBeCalledWith(
+        fullAppeal.email
+      );
+      expect(
+        NotifyBuilder.reset().setTemplateId().setDestinationEmailAddress()
+          .setTemplateVariablesFromObject
+      ).toBeCalledWith({ link: 'baseUrl/email-address-confirmed/12345' });
+      expect(
+        NotifyBuilder.reset()
+          .setTemplateId()
+          .setDestinationEmailAddress()
+          .setTemplateVariablesFromObject().setReference
+      ).toBeCalledWith(fullAppeal.id);
+
+      expect(
+        NotifyBuilder.reset()
+          .setTemplateId()
+          .setDestinationEmailAddress()
+          .setTemplateVariablesFromObject()
+          .setReference().sendEmail
+      ).toBeCalled();
+    });
+
+    it('log the error when an error is thrown', async () => {
+      NotifyBuilder.reset.mockImplementationOnce(() => {
+        throw new Error('error message');
+      });
+      await sendConfirmEmailAddressEmail(fullAppeal, '12345');
+
+      expect(logger.error).toBeCalledWith(
+        { err: new Error('error message'), appealId: fullAppeal.id },
+        'Unable to send confirm email address confirmation email to appellant'
+      );
     });
   });
 });
