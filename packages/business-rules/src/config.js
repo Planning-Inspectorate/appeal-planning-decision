@@ -63,7 +63,7 @@ const config = {
             variables: {
               LPA: lpa.name,
               date: format(appeal.submissionDate, 'dd MMMM yyyy'),
-              'planning application number': appeal.requiredDocumentsSection.applicationNumber,
+              'planning application number': appeal.planningApplicationNumber,
               'site address': formatAddress(appeal.appealSiteSection.siteAddress),
             },
             reference: appeal.id,
@@ -71,7 +71,7 @@ const config = {
           saveAndReturnContinueAppeal: (appeal, link) => ({
             recipientEmail: appeal.email,
             variables: {
-              'application number': appeal.requiredDocumentsSection.applicationNumber,
+              'application number': appeal.planningApplicationNumber,
               date: format(
                 calculateDeadline.householderApplication(appeal.decisionDate),
                 'dd MMMM yyyy',
@@ -83,7 +83,7 @@ const config = {
           saveAndReturnEnterCodeIntoService: (appeal, token) => ({
             recipientEmail: appeal.email,
             variables: {
-              'application number': appeal.requiredDocumentsSection.applicationNumber,
+              'application number': appeal.planningApplicationNumber,
               'unique code': token,
             },
             reference: appeal.id,
@@ -163,7 +163,7 @@ const config = {
               'loca planning department': lpa.name,
               'submission date': format(appeal.submissionDate, 'dd MMMM yyyy'),
               'planning application number':
-                appeal.planningApplicationDocumentsSection.applicationNumber,
+              appeal.planningApplicationNumber,
               'site address': formatAddress(appeal.appealSiteSection.siteAddress),
               refused:
                 appeal.eligibility.applicationDecision === APPLICATION_DECISION.REFUSED
@@ -183,7 +183,7 @@ const config = {
           saveAndReturnContinueAppeal: (appeal, link) => ({
             recipientEmail: appeal.email,
             variables: {
-              'application number': appeal.planningApplicationDocumentsSection.applicationNumber,
+              'application number': appeal.planningApplicationNumber,
               date: format(
                 calculateDeadline.fullAppealApplication(appeal.decisionDate),
                 'dd MMMM yyyy',
@@ -195,7 +195,7 @@ const config = {
           saveAndReturnEnterCodeIntoService: (appeal, token) => ({
             recipientEmail: appeal.email,
             variables: {
-              'application number': appeal.planningApplicationDocumentsSection.applicationNumber,
+              'application number': appeal.planningApplicationNumber,
               'unique code': token,
             },
             reference: appeal.id,
