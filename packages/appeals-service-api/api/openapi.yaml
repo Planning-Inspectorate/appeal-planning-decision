@@ -253,7 +253,7 @@ paths:
                 $ref: '#/components/schemas/ConfirmEmail'
         '400':
           description: Invalid appeal
-  '/api/v1/confirm-email/{id}':
+  '/api/v1/confirm-email/{token}':
     get:
       summary: Retrieves an existing token 
       description: Retrieves existing email confirmation token if it exists
@@ -472,7 +472,7 @@ components:
     ConfirmEmail:
       type: object
       properties:
-           token:
+        token:
           type: string
           minLength: 5
           maxLength: 5
