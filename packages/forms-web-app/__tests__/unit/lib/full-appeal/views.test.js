@@ -60,7 +60,6 @@ describe('/lib/full-appeal/views', () => {
         EMAIL_ADDRESS: 'full-appeal/submit-appeal/email-address',
         CONFIRM_EMAIL_ADDRESS: 'full-appeal/submit-appeal/confirm-email-address',
         EMAIL_CONFIRMED: 'full-appeal/submit-appeal/email-confirmed',
-        'full-appeal/removal-or-variation-of-conditions/can-use-service',
         LIST_OF_DOCUMENTS: 'full-appeal/submit-appeal/list-of-documents',
       },
     });
