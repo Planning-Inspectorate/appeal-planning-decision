@@ -253,7 +253,7 @@ paths:
                 $ref: '#/components/schemas/ConfirmEmail'
         '400':
           description: Invalid appeal
-  '/api/v1/local-planning-authorities/{id}':
+  '/api/v1/confirm-email/{id}':
     get:
       summary: Retrieves an existing token 
       description: Retrieves existing email confirmation token if it exists
