@@ -1,10 +1,9 @@
 const {
-  saveAndReturnCreateService,
-  saveAndReturnNotifyContinue,
-  saveAndReturnGetService,
-  saveAndReturnTokenService,
-  saveAndReturnNotifyCode,
-  saveAndReturnGetServiceToken,
+	saveAndReturnCreateService,
+	saveAndReturnNotifyContinue,
+	saveAndReturnTokenService,
+	saveAndReturnNotifyCode,
+	saveAndReturnGetServiceToken
 } = require('../services/save-and-return.service');
 
 async function saveAndReturnCreate(req, res) {
@@ -19,9 +18,9 @@ async function saveAndReturnCreate(req, res) {
 }
 
 async function saveAndReturnGet(req, res) {
-  const { token } = req.params;
-  const appeal = await saveAndReturnGetServiceToken(token);
-  res.status(200).send(appeal);
+	const { token } = req.params;
+	const appeal = await saveAndReturnGetServiceToken(token);
+	res.status(200).send(appeal);
 }
 
 async function saveAndReturnToken(req, res) {

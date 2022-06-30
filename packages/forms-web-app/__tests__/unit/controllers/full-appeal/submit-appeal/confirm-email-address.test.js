@@ -18,23 +18,23 @@ describe('controllers/full-appeal/submit-appeal/confirm-email-address', () => {
 	let req;
 	let res;
 
-  beforeEach(() => {
-    req = mockReq(appeal);
-    res = mockRes();
+	beforeEach(() => {
+		req = mockReq(appeal);
+		res = mockRes();
 
 		jest.resetAllMocks();
 	});
 
-  describe('getConfirmEmailAddress', () => {
-    it('calls correct template', async () => {
-      req.session.appeal = appeal;
-      req.session.appeal.emailAddress = 'test@example.com';
-      await getConfirmEmailAddress(req, res);
-      expect(createConfirmEmail).toBeCalledWith(appeal);
-      expect(res.render).toBeCalledWith(CONFIRM_EMAIL_ADDRESS, {
-        emailAddress: 'test@example.com',
-        backLink: `/${EMAIL_ADDRESS}`,
-      });
-    });
-  });
+	describe('getConfirmEmailAddress', () => {
+		it('calls correct template', async () => {
+			req.session.appeal = appeal;
+			req.session.appeal.emailAddress = 'test@example.com';
+			await getConfirmEmailAddress(req, res);
+			expect(createConfirmEmail).toBeCalledWith(appeal);
+			expect(res.render).toBeCalledWith(CONFIRM_EMAIL_ADDRESS, {
+				emailAddress: 'test@example.com',
+				backLink: `/${EMAIL_ADDRESS}`
+			});
+		});
+	});
 });

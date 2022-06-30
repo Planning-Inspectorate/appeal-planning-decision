@@ -4,21 +4,21 @@ const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existin
 const emailAddressController = require('../../../controllers/full-appeal/submit-appeal/email-address');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
 const {
-  rules: emailAddressValidationRules,
+	rules: emailAddressValidationRules
 } = require('../../../validators/full-appeal/email-address');
 
 const router = express.Router();
 
 router.get(
-  '/submit-appeal/email-address',
-  [fetchExistingAppealMiddleware],
-  emailAddressController.getEmailAddress
+	'/submit-appeal/email-address',
+	[fetchExistingAppealMiddleware],
+	emailAddressController.getEmailAddress
 );
 router.post(
-  '/submit-appeal/email-address',
-  emailAddressValidationRules(),
-  validationErrorHandler,
-  emailAddressController.postEmailAddress
+	'/submit-appeal/email-address',
+	emailAddressValidationRules(),
+	validationErrorHandler,
+	emailAddressController.postEmailAddress
 );
 
 module.exports = router;

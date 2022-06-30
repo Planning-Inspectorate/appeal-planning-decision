@@ -1,4 +1,5 @@
 .idea
+dist
 jest-reports
 README.md
 tmp
