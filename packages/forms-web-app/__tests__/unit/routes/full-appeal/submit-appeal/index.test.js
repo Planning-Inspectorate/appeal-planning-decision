@@ -47,6 +47,7 @@ const certificatesRouter = require('../../../../../src/routes/full-appeal/submit
 const planningApplicationNumberRouter = require('../../../../../src/routes/full-appeal/submit-appeal/planning-application-number');
 const confirmEmailAddressRouter = require('../../../../../src/routes/full-appeal/submit-appeal/confirm-email-address');
 const emailConfirmedRouter = require('../../../../../src/routes/full-appeal/submit-appeal/email-confirmed');
+const SentAnotherLinkRouter = require('../../../../../src/routes/full-appeal/submit-appeal/sent-another-link');
 
 describe('routes/full-appeal/submit-appeal/index', () => {
   beforeEach(() => {
@@ -103,5 +104,6 @@ describe('routes/full-appeal/submit-appeal/index', () => {
     expect(use).toHaveBeenCalledWith(planningApplicationNumberRouter);
     expect(use).toHaveBeenCalledWith(confirmEmailAddressRouter);
     expect(use).toHaveBeenCalledWith(emailConfirmedRouter);
+    expect(use).toHaveBeenCalledWith(SentAnotherLinkRouter);
   });
 });
