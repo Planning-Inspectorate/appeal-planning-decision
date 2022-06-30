@@ -8,8 +8,8 @@ const {
     res.render(currentPage, {
     });
   };
-
     
   module.exports = {
     getSentAnotherLink,
   };
+  
