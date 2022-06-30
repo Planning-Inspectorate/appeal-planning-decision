@@ -49,19 +49,19 @@ const saveAndReturnGetService = async (appealId) => {
 };
 
 const saveAndReturnGetServiceToken = async (tokenA) => {
-  let saved;
-  await mongodb
-    .get()
-    .collection('saveAndReturn')
-    .findOne({ token: tokenA })
-    .then((doc) => {
-      saved = doc;
-    })
-    .catch((err) => {
-      console.log(err);
-      throw new Error(err);
-    });
-  return saved;
+	let saved;
+	await mongodb
+		.get()
+		.collection('saveAndReturn')
+		.findOne({ token: tokenA })
+		.then((doc) => {
+			saved = doc;
+		})
+		.catch((err) => {
+			console.log(err);
+			throw new Error(err);
+		});
+	return saved;
 };
 
 const saveAndReturnNotifyContinue = async (saved, token) => {
@@ -98,10 +98,10 @@ const saveAndReturnTokenService = async (email) => {
 };
 
 module.exports = {
-  saveAndReturnCreateService,
-  saveAndReturnGetService,
-  saveAndReturnTokenService,
-  saveAndReturnNotifyContinue,
-  saveAndReturnNotifyCode,
-  saveAndReturnGetServiceToken,
+	saveAndReturnCreateService,
+	saveAndReturnGetService,
+	saveAndReturnTokenService,
+	saveAndReturnNotifyContinue,
+	saveAndReturnNotifyCode,
+	saveAndReturnGetServiceToken
 };

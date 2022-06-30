@@ -1,8 +1,8 @@
 const express = require('express');
 
 const {
-  getEnterCode,
-  postEnterCode,
+	getEnterCode,
+	postEnterCode
 } = require('../../../controllers/full-appeal/submit-appeal/enter-code');
 
 const router = express.Router();

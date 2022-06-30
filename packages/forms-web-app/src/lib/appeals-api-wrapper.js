@@ -96,7 +96,7 @@ exports.getLPAList = async () => {
 };
 
 exports.getSavedAppeal = async (token) => {
-  return handler(`/api/v1/save/${token}`, 'GET');
+	return handler(`/api/v1/save/${token}`, 'GET');
 };
 
 exports.saveAppeal = async (appeal) => {
@@ -104,13 +104,13 @@ exports.saveAppeal = async (appeal) => {
 };
 
 exports.sendToken = async (token) => {
-  return handler(`/api/v1/save`, 'PATCH', { body: token });
+	return handler(`/api/v1/save`, 'PATCH', { body: token });
 };
 
 exports.createConfirmEmail = async (appeal) => {
-  return handler(`/api/v1/confirm-email`, 'POST', { body: JSON.stringify(appeal) });
+	return handler(`/api/v1/confirm-email`, 'POST', { body: JSON.stringify(appeal) });
 };
 
 exports.getConfirmEmail = async (token) => {
-  return handler(`/api/v1/confirm-email/${token}`);
+	return handler(`/api/v1/confirm-email/${token}`);
 };
