@@ -6,10 +6,10 @@ module.exports = {
 	coveragePathIgnorePatterns: ['node_modules', '<rootDir>/src/app.js', '<rootDir>/src/server.js'],
 	coverageThreshold: {
 		global: {
-			branches: 60,
-			functions: 60,
-			lines: 60,
-			statements: 60
+			branches: 50,
+			functions: 20,
+			lines: 50,
+			statements: 50
 		}
 	},
 	setupFiles: ['<rootDir>/__tests__/setup-jest.js']

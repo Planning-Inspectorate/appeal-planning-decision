@@ -49,7 +49,7 @@ const config = {
 				},
 				email: {
 					appellant: (appeal, lpa) => ({
-						recipientEmail: appeal.email,
+						recipientEmail: appeal.aboutYouSection.yourDetails.email,
 						variables: {
 							name: appeal.aboutYouSection.yourDetails.name,
 							'appeal site address': formatAddress(appeal.appealSiteSection.siteAddress),
@@ -63,7 +63,7 @@ const config = {
 						variables: {
 							LPA: lpa.name,
 							date: format(appeal.submissionDate, 'dd MMMM yyyy'),
-							'planning application number': appeal.planningApplicationNumber,
+							'planning application number': appeal.requiredDocumentsSection.applicationNumber,
 							'site address': formatAddress(appeal.appealSiteSection.siteAddress)
 						},
 						reference: appeal.id

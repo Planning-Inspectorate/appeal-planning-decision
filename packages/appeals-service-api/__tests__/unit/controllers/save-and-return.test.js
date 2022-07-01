@@ -4,12 +4,13 @@ const {
 	saveAndReturnGet,
 	saveAndReturnToken
 } = require('../../../src/controllers/save');
-const { replaceAppeal } = require('../../../src/services/appeal.service');
+const { replaceAppeal, getAppeal } = require('../../../src/services/appeal.service');
 const {
 	saveAndReturnNotifyContinue,
 	saveAndReturnCreateService,
 	saveAndReturnTokenService,
-	saveAndReturnGetServiceToken
+	saveAndReturnGetServiceToken,
+	saveAndReturnNotifyCode
 } = require('../../../src/services/save-and-return.service');
 
 jest.mock('../../../src/services/save-and-return.service');
@@ -71,11 +72,13 @@ describe('Save And Return API', () => {
 
 	describe('PATCH - generate token and send it to email', () => {
 		it('should generate the token and send it by email', async () => {
-			req.body = { appealId: '12345' };
+			req.params = { token: '12345' };
 			saveAndReturnTokenService.mockReturnValue({ appealId: '12345' });
+			getAppeal.mockReturnValue({ appealId: '12345' });
+			saveAndReturnNotifyCode.mockReturnValue({});
 			await saveAndReturnToken(req, res);
 			expect(res.status).toHaveBeenCalledWith(200);
-			expect(res.send).toHaveBeenCalledWith({ appealId: '12345' });
+			expect(res.send).toHaveBeenCalledWith('12345');
 		});
 	});
 });

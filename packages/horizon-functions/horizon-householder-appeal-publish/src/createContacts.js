@@ -27,7 +27,7 @@ const createContacts = async (log, body) => {
 				logMessage = 'User is original applicant';
 				contacts.push({
 					type: 'Appellant',
-					email: body.appeal.aboutYouSection.yourDetails.email,
+					email: body.appeal.email,
 					name: body.appeal.aboutYouSection.yourDetails.name
 				});
 			} else {
@@ -36,7 +36,7 @@ const createContacts = async (log, body) => {
 				contacts.push(
 					{
 						type: 'Agent',
-						email: body.appeal.aboutYouSection.yourDetails.email,
+						email: body.appeal.email,
 						name: body.appeal.aboutYouSection.yourDetails.name,
 						company: null
 					},
