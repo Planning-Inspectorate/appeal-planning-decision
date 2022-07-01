@@ -53,6 +53,10 @@ extends:
             parameters:
               condition: succeededOrFailed()
               script: npm run lint
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: npm run test
           - template: ../steps/check_changed_files.yml
             parameters:
               pathFilters:

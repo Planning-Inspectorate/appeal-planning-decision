@@ -3,14 +3,12 @@
 	"version": "1.0.0",
 	"main": "src/main.js",
 	"scripts": {
+		"lint": "eslint ./",
 		"start": "node ./",
 		"start:dev": "nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
 		"test": "jest",
-		"test:cov": "jest --coverage",
-		"test:watch": "jest --watch",
-		"format": "prettier --write './**/*.js'",
-		"lint": "eslint ./",
-		"documentation": "jest --bail --coverage --coverageReporters=cobertura --reporters=default --reporters=jest-junit"
+		"test:cov": "jest --coverage --verbose",
+		"test:watch": "jest --watchAll --runInBand"
 	},
 	"dependencies": {
 		"body-parser": "^1.19.0",
@@ -27,7 +25,6 @@
 		"jest": "^28.1.1",
 		"jest-junit": "^13.2.0",
 		"nodemon": "^2.0.12",
-		"pino-pretty": "^4.8.0",
-		"prettier": "^2.3.2"
+		"pino-pretty": "^4.8.0"
 	}
 }

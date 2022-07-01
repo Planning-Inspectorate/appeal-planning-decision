@@ -9,7 +9,6 @@
 	"description": "Appeal a planning decision - these are utility scripts for the whole repo",
 	"workspaces": [
 		"packages/*",
-		"!packages/appeal-reply-service-api",
 		"!packages/e2e-tests",
 		"!packages/lpa-questionnaire-web-app"
 	],
@@ -40,8 +39,13 @@
 		"prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
 		"release": "multi-semantic-release --ignore-packages=\"packages/appeal-reply-service-api,packages/common,packages/business-rules,packages/ping,packages/queue-retry\"",
 		"test": "run-s --continue-on-error --print-label \"test:*\"",
-		"test:api": "cd packages/applications-service-api; npm run test:cov",
+		"test:appeals-api": "cd packages/appeals-service-api; npm run test:cov",
+		"test:business-rules": "cd packages/business-rules; npm run test:cov",
+		"test:clamav-rest-server": "cd packages/clamav-rest-server; npm run test:cov",
 		"test:common": "cd packages/common; npm run test:cov",
+		"test:documents-api": "cd packages/document-service-api; npm run test:cov",
+		"test:horizon-functions": "cd packages/horizon-functions; npm run test:cov",
+		"test:pdf-api": "cd packages/pdf-service-api; npm run test:cov",
 		"test:web": "cd packages/forms-web-app; npm run test:cov"
 	},
 	"repository": {
@@ -67,8 +71,7 @@
 		"lint-staged": "^10.5.0",
 		"multi-semantic-release": "^2.13.0",
 		"npm-run-all": "^4.1.5",
-		"prettier": "^2.1.2",
-		"semantic-release": "^19.0.3"
+		"prettier": "^2.1.2"
 	},
 	"config": {
 		"commitizen": {
