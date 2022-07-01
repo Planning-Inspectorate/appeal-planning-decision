@@ -74,8 +74,7 @@ describe('config', () => {
 			variables: {
 				'loca planning department': lpa.name,
 				'submission date': format(fullAppeal.submissionDate, 'dd MMMM yyyy'),
-				'planning application number':
-					fullAppeal.planningApplicationDocumentsSection.applicationNumber,
+				'planning application number': fullAppeal.planningApplicationNumber,
 				'site address': formatAddress(fullAppeal.appealSiteSection.siteAddress),
 				refused: 'no',
 				granted: 'yes',
@@ -95,8 +94,7 @@ describe('config', () => {
 			variables: {
 				'loca planning department': lpa.name,
 				'submission date': format(fullAppeal.submissionDate, 'dd MMMM yyyy'),
-				'planning application number':
-					fullAppeal.planningApplicationDocumentsSection.applicationNumber,
+				'planning application number': fullAppeal.planningApplicationNumber,
 				'site address': formatAddress(fullAppeal.appealSiteSection.siteAddress),
 				refused: 'yes',
 				granted: 'no',
@@ -116,8 +114,7 @@ describe('config', () => {
 			variables: {
 				'loca planning department': lpa.name,
 				'submission date': format(fullAppeal.submissionDate, 'dd MMMM yyyy'),
-				'planning application number':
-					fullAppeal.planningApplicationDocumentsSection.applicationNumber,
+				'planning application number': fullAppeal.planningApplicationNumber,
 				'site address': formatAddress(fullAppeal.appealSiteSection.siteAddress),
 				refused: 'no',
 				granted: 'no',

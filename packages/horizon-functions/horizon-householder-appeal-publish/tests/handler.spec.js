@@ -119,11 +119,12 @@ describe('handler', () => {
 						aboutYouSection: {
 							yourDetails: {
 								isOriginalApplicant: true,
-								email: 'bob@smith.com',
+
 								name: 'Bob Smith'
 							}
 						},
-						updatedAt: '2021-02-07T08:15:01Z'
+						updatedAt: '2021-02-07T08:15:01Z',
+						email: 'bob@smith.com'
 					},
 					_id: appealId
 				}
@@ -326,7 +327,7 @@ describe('handler', () => {
 				{
 					firstName,
 					lastName: lastName.join(' '), // Treat multiple spaces as part of last name
-					email: event.body.appeal.aboutYouSection.yourDetails.email
+					email: event.body.appeal.email
 				},
 				{
 					baseURL: process.env.GATEWAY_URL
@@ -690,7 +691,7 @@ describe('handler', () => {
 				{
 					firstName: agentFirstName,
 					lastName: agentLastName.join(' '), // Treat multiple spaces as part of last name
-					email: event.body.appeal.aboutYouSection.yourDetails.email
+					email: event.body.appeal.email
 				},
 				{
 					baseURL: process.env.GATEWAY_URL
@@ -1000,7 +1001,7 @@ describe('handler', () => {
 				{
 					firstName,
 					lastName: lastName.join(' '), // Treat multiple spaces as part of last name
-					email: event.body.appeal.aboutYouSection.yourDetails.email
+					email: event.body.appeal.email
 				},
 				{
 					baseURL: process.env.GATEWAY_URL
@@ -1364,7 +1365,7 @@ describe('handler', () => {
 				{
 					firstName: agentFirstName,
 					lastName: agentLastName.join(' '), // Treat multiple spaces as part of last name
-					email: event.body.appeal.aboutYouSection.yourDetails.email
+					email: event.body.appeal.email
 				},
 				{
 					baseURL: process.env.GATEWAY_URL
@@ -1699,7 +1700,7 @@ describe('handler', () => {
 				{
 					firstName,
 					lastName: lastName.join(' '), // Treat multiple spaces as part of last name
-					email: event.body.appeal.aboutYouSection.yourDetails.email
+					email: event.body.appeal.email
 				},
 				{
 					baseURL: process.env.GATEWAY_URL
@@ -2059,7 +2060,7 @@ describe('handler', () => {
 				{
 					firstName,
 					lastName: lastName.join(' '), // Treat multiple spaces as part of last name
-					email: event.body.appeal.aboutYouSection.yourDetails.email
+					email: event.body.appeal.email
 				},
 				{
 					baseURL: process.env.GATEWAY_URL
@@ -2426,7 +2427,7 @@ describe('handler', () => {
 				{
 					firstName,
 					lastName: lastName.join(' '), // Treat multiple spaces as part of last name
-					email: event.body.appeal.aboutYouSection.yourDetails.email
+					email: event.body.appeal.email
 				},
 				{
 					baseURL: process.env.GATEWAY_URL
@@ -2790,7 +2791,7 @@ describe('handler', () => {
 				{
 					firstName,
 					lastName: lastName.join(' '), // Treat multiple spaces as part of last name
-					email: event.body.appeal.aboutYouSection.yourDetails.email
+					email: event.body.appeal.email
 				},
 				{
 					baseURL: process.env.GATEWAY_URL
@@ -3155,7 +3156,7 @@ describe('handler', () => {
 				{
 					firstName,
 					lastName: lastName.join(' '), // Treat multiple spaces as part of last name
-					email: event.body.appeal.aboutYouSection.yourDetails.email
+					email: event.body.appeal.email
 				},
 				{
 					baseURL: process.env.GATEWAY_URL
@@ -3523,7 +3524,7 @@ describe('handler', () => {
 				{
 					firstName,
 					lastName: lastName.join(' '), // Treat multiple spaces as part of last name
-					email: event.body.appeal.aboutYouSection.yourDetails.email
+					email: event.body.appeal.email
 				},
 				{
 					baseURL: process.env.GATEWAY_URL
@@ -3891,7 +3892,7 @@ describe('handler', () => {
 				{
 					firstName,
 					lastName: lastName.join(' '), // Treat multiple spaces as part of last name
-					email: event.body.appeal.aboutYouSection.yourDetails.email
+					email: event.body.appeal.email
 				},
 				{
 					baseURL: process.env.GATEWAY_URL
@@ -4373,7 +4374,7 @@ describe('handler', () => {
 				{
 					firstName,
 					lastName: lastName.join(' '), // Treat multiple spaces as part of last name
-					email: event.body.appeal.aboutYouSection.yourDetails.email
+					email: event.body.appeal.email
 				},
 				{
 					baseURL: process.env.GATEWAY_URL

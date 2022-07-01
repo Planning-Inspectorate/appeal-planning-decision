@@ -18,6 +18,6 @@ describe('routes/appeals', () => {
 	it('should define the expected routes', () => {
 		expect(get).toHaveBeenCalledWith('/:token', saveAndReturnGet);
 		expect(post).toHaveBeenCalledWith('/', saveAndReturnCreate);
-		expect(patch).toHaveBeenCalledWith('/', saveAndReturnToken);
+		expect(patch).toHaveBeenCalledWith('/:token', saveAndReturnToken);
 	});
 });

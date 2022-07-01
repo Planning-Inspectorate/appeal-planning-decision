@@ -165,6 +165,8 @@ module.exports = async (context, event) => {
 
 		context.log({ caseworkReason }, 'Case Work Reason');
 
+		console.log(event.appeal);
+
 		let attributeData;
 		let appealType;
 
@@ -200,7 +202,7 @@ module.exports = async (context, event) => {
 					},
 					{
 						key: 'Planning Application:LPA Application Reference',
-						value: event.appeal.requiredDocumentsSection.applicationNumber
+						value: event.appeal.planningApplicationNumber
 					},
 					{
 						key: 'Case Site:Site Address Line 1',
