@@ -6,13 +6,11 @@
 	"main": "src/index.js",
 	"scripts": {
 		"doc": "jsdoc -c jsdoc.conf.json",
-		"format": "prettier --write './**/*.js'",
 		"lint": "eslint ./",
 		"lint:fix": "eslint ./ --fix",
 		"test": "jest",
-		"test:cov": "jest --coverage",
-		"test:watch": "jest --watchAll --runInBand --coverage",
-		"documentation": "jest --bail --coverage --coverageReporters=cobertura --reporters=default --reporters=jest-junit"
+		"test:cov": "jest --coverage --verbose",
+		"test:watch": "jest --watchAll --runInBand"
 	},
 	"author": "",
 	"dependencies": {
@@ -24,7 +22,6 @@
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-jest": "^24.4.0",
 		"jest": "^28.1.1",
-		"jest-junit": "^13.2.0",
-		"prettier": "^2.1.2"
+		"jest-junit": "^13.2.0"
 	}
 }
