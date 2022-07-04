@@ -19,8 +19,10 @@ exports.postPlanningApplicationNumber = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
 
-	const { appeal } = req.session;
-	const { planningApplicationNumber } = appeal;
+	const {
+		appeal,
+		appeal: { planningApplicationNumber }
+	} = req.session;
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(PLANNING_APPLICATION_NUMBER, {
