@@ -44,7 +44,6 @@
 		"test:clamav-rest-server": "cd packages/clamav-rest-server; npm run test:cov",
 		"test:common": "cd packages/common; npm run test:cov",
 		"test:documents-api": "cd packages/document-service-api; npm run test:cov",
-		"test:horizon-functions": "cd packages/horizon-functions; npm run test:cov",
 		"test:pdf-api": "cd packages/pdf-service-api; npm run test:cov",
 		"test:web": "cd packages/forms-web-app; npm run test:cov"
 	},
