@@ -104,6 +104,8 @@ describe('routes/full-appeal/submit-appeal/index', () => {
     expect(use).toHaveBeenCalledWith(letterConfirmingApplicationRouter);
     expect(use).toHaveBeenCalledWith(planningApplicationNumberRouter);
     expect(use).toHaveBeenCalledWith(confirmEmailAddressRouter);
+    expect(use).toHaveBeenCalledWith(emailConfirmedRouter);
+    expect(use).toHaveBeenCalledWith(SentAnotherLinkRouter);
     expect(use).toHaveBeenCalledWith(appealAlreadySubmittedRouter);
   });
 });
