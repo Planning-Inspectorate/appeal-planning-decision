@@ -25,15 +25,15 @@ async function saveAndReturnGet(req, res) {
 }
 
 async function saveAndReturnToken(req, res) {
-  const { token } = req.params;
-  if (!req.params || !req.params.token) {
-    res.status(400).send('Invalid Id');
-    throw new Error('');
-  }
-  const savedAppeal = await saveAndReturnTokenService(token);
-  const appeal = await getAppeal(savedAppeal.appealId);
-  await saveAndReturnNotifyCode(appeal, savedAppeal.token);
-  res.status(200).send(savedAppeal.appealId);
+	const { token } = req.params;
+	if (!req.params || !req.params.token) {
+		res.status(400).send('Invalid Id');
+		throw new Error('');
+	}
+	const savedAppeal = await saveAndReturnTokenService(token);
+	const appeal = await getAppeal(savedAppeal.appealId);
+	await saveAndReturnNotifyCode(appeal, savedAppeal.token);
+	res.status(200).send({});
 }
 
 module.exports = {
