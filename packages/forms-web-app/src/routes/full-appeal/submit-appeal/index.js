@@ -57,6 +57,7 @@ const sentAnotherLinkRouter = require('./sent-another-link');
 const cannotAppealRouter = require('./cannot-appeal');
 const appealAlreadySubmittedRouter = require('./appeal-already-submitted');
 
+const requestNewCodeRouter = require('./request-new-code');
 
 const router = express.Router();
 
@@ -117,5 +118,6 @@ router.use(listOfDocumentsRouter);
 router.use(sentAnotherLinkRouter);
 router.use(cannotAppealRouter);
 router.use(appealAlreadySubmittedRouter);
+router.use(requestNewCodeRouter);
 
 module.exports = router;
