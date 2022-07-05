@@ -39,7 +39,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				id: 'appealId'
 			});
 			await postEnterCode(req, res);
-			expect(res.render).toBeCalledWith(`${TASK_LIST}`);
+			expect(res.redirect).toBeCalledWith(`/${TASK_LIST}`);
 			expect(req.session.appeal).toEqual({ id: 'appealId' });
 		});
 	});
