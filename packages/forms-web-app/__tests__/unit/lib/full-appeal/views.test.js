@@ -1,6 +1,7 @@
 const { VIEW } = require('../../../../src/lib/full-appeal/views');
 
 describe('/lib/full-appeal/views', () => {
+
 	it('should have the expected defined constants', () => {
 		expect(VIEW).toEqual({
 			FULL_APPEAL: {
