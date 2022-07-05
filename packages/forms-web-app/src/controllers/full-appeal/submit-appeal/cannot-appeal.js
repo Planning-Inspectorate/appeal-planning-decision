@@ -17,6 +17,12 @@ const getCannotAppeal = (req, res) => {
 		appeal.appealType,
 		appeal.eligibility.applicationDecision
 	);
+
+	if (deadlinePeriod.time === 181 && deadlinePeriod.duration === 'days') {
+		deadlinePeriod.time = 6;
+		deadlinePeriod.duration = 'months';
+	}
+
 	res.render(CANNOT_APPEAL, {
 		beforeYouStartFirstPage,
 		deadlineDate,
