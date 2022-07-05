@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.get('/submit-appeal/enter-code/:token', getEnterCode);
 
-router.post('/submit-appeal/enter-code', postEnterCode);
+router.post('/submit-appeal/enter-code/:token', postEnterCode);
 
 module.exports = router;
