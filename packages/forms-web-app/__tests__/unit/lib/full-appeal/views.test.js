@@ -62,7 +62,8 @@ describe('/lib/full-appeal/views', () => {
 				CONFIRM_EMAIL_ADDRESS: 'full-appeal/submit-appeal/confirm-email-address',
 				EMAIL_CONFIRMED: 'full-appeal/submit-appeal/email-confirmed',
 				LIST_OF_DOCUMENTS: 'full-appeal/submit-appeal/list-of-documents',
-				SENT_ANOTHER_LINK: 'full-appeal/submit-appeal/sent-another-link'
+				SENT_ANOTHER_LINK: 'full-appeal/submit-appeal/sent-another-link',
+				CANNOT_APPEAL: 'full-appeal/submit-appeal/cannot-appeal'
 			}
 		});
 	});
