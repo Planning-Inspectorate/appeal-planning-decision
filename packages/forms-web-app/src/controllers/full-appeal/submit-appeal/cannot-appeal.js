@@ -4,6 +4,7 @@ const {
 	}
 } = require('../../../lib/full-appeal/views');
 const { calculateDeadline } = require('../../../lib/calculate-deadline');
+const { arraysEqual } = require('../../../lib/arrays-equal');
 
 const getCannotAppeal = (req, res) => {
 	const { appeal } = req.session;
@@ -13,14 +14,16 @@ const getCannotAppeal = (req, res) => {
 		appeal.appealType,
 		appeal.eligibility.applicationDecision
 	);
-	const deadlinePeriod = calculateDeadline.getDeadlinePeriod(
+	let deadlinePeriod = calculateDeadline.getDeadlinePeriod(
 		appeal.appealType,
 		appeal.eligibility.applicationDecision
 	);
 
-	if (deadlinePeriod.time === 181 && deadlinePeriod.duration === 'days') {
-		deadlinePeriod.time = 6;
-		deadlinePeriod.duration = 'months';
+	if (arraysEqual(Object.values(deadlinePeriod), ['days', 181])) {
+		deadlinePeriod = {
+			time: 6,
+			duration: 'months'
+		};
 	}
 
 	res.render(CANNOT_APPEAL, {
