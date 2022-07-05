@@ -54,6 +54,7 @@ const emailConfirmedRouter = require('./email-confirmed');
 const listOfDocuments = require('./list-of-documents');
 const listOfDocumentsRouter = require('./list-of-documents');
 const sentAnotherLinkRouter = require('./sent-another-link');
+const cannotAppealRouter = require('./cannot-appeal');
 
 const router = express.Router();
 
@@ -112,5 +113,6 @@ router.use(emailConfirmedRouter);
 router.use(listOfDocuments);
 router.use(listOfDocumentsRouter);
 router.use(sentAnotherLinkRouter);
+router.use(cannotAppealRouter);
 
 module.exports = router;
