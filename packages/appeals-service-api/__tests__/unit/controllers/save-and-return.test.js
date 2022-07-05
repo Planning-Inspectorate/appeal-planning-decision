@@ -78,7 +78,7 @@ describe('Save And Return API', () => {
 			saveAndReturnNotifyCode.mockReturnValue({});
 			await saveAndReturnToken(req, res);
 			expect(res.status).toHaveBeenCalledWith(200);
-			expect(res.send).toHaveBeenCalledWith('12345');
+			expect(res.send).toHaveBeenCalledWith({});
 		});
 	});
 });
