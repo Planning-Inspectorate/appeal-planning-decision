@@ -12,11 +12,6 @@ const {
 const getEnterCode = async (req, res) => {
 	const { token } = req.params;
 	await sendToken(token);
-
-	console.log(')()()()()()())()');
-	console.log(req.session);
-	console.log(')()()()()()())()');
-
 	res.render(ENTER_CODE);
 };
 
@@ -24,12 +19,7 @@ const postEnterCode = async (req, res) => {
 	const token = req.body['email-code'];
 
 	const saved = await getSavedAppeal(token);
-	const existingAppeal = await getExistingAppeal(saved.appealId);
-	console.log('PPPPPPP');
-	console.log(existingAppeal);
-	console.log('PPPPPPPP');
-	// req.session.appeal = null
-	req.session.appeal = existingAppeal;
+	req.session.appeal = await getExistingAppeal(saved.appealId);
 	res.redirect(`/${TASK_LIST}`);
 };
 
