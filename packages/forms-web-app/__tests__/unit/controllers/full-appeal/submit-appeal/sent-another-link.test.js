@@ -23,6 +23,7 @@ describe('controllers/full-appeal/submit-appeal/sent-another-link', () => {
 
 	describe('getSentAnotherLink', () => {
 		it('calls correct template', async () => {
+			req.session = {};
 			await getSentAnotherLink(req, res);
 			expect(res.render).toBeCalledWith(currentPage, {});
 		});
