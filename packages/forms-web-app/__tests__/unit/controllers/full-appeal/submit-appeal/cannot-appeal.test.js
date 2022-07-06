@@ -13,7 +13,7 @@ jest.mock('../../../../../src/services/task.service');
 jest.mock('../../../../../src/lib/logger');
 jest.mock('../../../../../src/lib/calculate-deadline');
 
-describe('controllers/full-appeal/submit-appeal/email-address', () => {
+describe('controllers/full-appeal/submit-appeal/cannot-appeal', () => {
 	let req;
 	let res;
 
@@ -26,6 +26,10 @@ describe('controllers/full-appeal/submit-appeal/email-address', () => {
 	describe('getCannotAppeal', () => {
 		it('should call the correct template', () => {
 			calculateDeadline.hasDeadlineDatePassed.mockResolvedValue(false);
+			calculateDeadline.getDeadlinePeriod.mockResolvedValue({
+				time: 181,
+				duration: 'days'
+			});
 			cannotAppealController.getCannotAppeal(req, res);
 			const { appeal } = req.session;
 			const beforeYouStartFirstPage = '/before-you-start';
@@ -35,10 +39,15 @@ describe('controllers/full-appeal/submit-appeal/email-address', () => {
 				appeal.appealType,
 				appeal.eligibility.applicationDecision
 			);
+			const deadlinePeriod = calculateDeadline.getDeadlinePeriod(
+				appeal.appealType,
+				appeal.eligibility.applicationDecision
+			);
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(CANNOT_APPEAL, {
 				beforeYouStartFirstPage,
-				deadlineDate
+				deadlineDate,
+				deadlinePeriod
 			});
 		});
 	});
