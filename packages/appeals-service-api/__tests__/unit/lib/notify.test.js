@@ -160,7 +160,7 @@ describe('lib/notify', () => {
 			expect(
 				NotifyBuilder.reset().setTemplateId().setDestinationEmailAddress()
 					.setTemplateVariablesFromObject
-			).toBeCalledWith({ link: 'baseUrl/email-address-confirmed/12345' });
+			).toBeCalledWith({ link: 'baseUrl/full-appeal/submit-appeal/email-confirmed/12345' });
 			expect(
 				NotifyBuilder.reset()
 					.setTemplateId()
