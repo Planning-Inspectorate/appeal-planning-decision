@@ -17,7 +17,7 @@ describe('validators/your-details', () => {
 			expect(rule.stack[0].message).toEqual('Enter your name');
 
 			expect(rule.stack[2].validator.name).toEqual('matches');
-			expect(rule.stack[2].options[0]).toEqual(/^[a-z\-' ]+$/i);
+			expect(rule.stack[2].options[0]).toEqual("^[a-z\\-' ]+$");
 			expect(rule.stack[2].message).toEqual(
 				'Name must only include letters a to z, hyphens, spaces and apostrophes'
 			);
