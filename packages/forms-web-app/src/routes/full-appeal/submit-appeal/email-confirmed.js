@@ -8,7 +8,11 @@ const {
 
 const router = express.Router();
 
-router.get('/submit-appeal/email-confirmed', [fetchExistingAppealMiddleware], getEmailConfirmed);
-router.post('/submit-appeal/email-confirmed', postEmailConfirmed);
+router.get(
+	'/submit-appeal/email-confirmed/:token',
+	[fetchExistingAppealMiddleware],
+	getEmailConfirmed
+);
+router.post('/submit-appeal/email-confirmed/:token', postEmailConfirmed);
 
 module.exports = router;
