@@ -24,7 +24,9 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 	describe('getEmailConfirmed', () => {
 		it('calls correct template', async () => {
 			await getEmailConfirmed(req, res);
-			expect(res.render).toBeCalledWith(EMAIL_CONFIRMED, {});
+			expect(res.render).toBeCalledWith(EMAIL_CONFIRMED, {
+				listOfDocumentsUrl: '/full-appeal/submit-appeal/list-of-documents'
+			});
 		});
 	});
 });
