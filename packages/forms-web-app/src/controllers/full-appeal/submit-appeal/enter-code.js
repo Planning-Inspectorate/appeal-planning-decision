@@ -10,10 +10,11 @@ const {
 } = require('../../../lib/full-appeal/views');
 
 const getEnterCode = async (req, res) => {
+	const {
+		session: { appeal }
+	} = req;
 	const url = `/${REQUEST_NEW_CODE}`;
-	const { token } = req.params;
-	await sendToken(token);
-
+	await sendToken(appeal);
 	res.render(ENTER_CODE, {
 		requestNewCodeLink: url
 	});

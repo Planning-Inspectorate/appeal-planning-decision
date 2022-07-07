@@ -7,8 +7,8 @@ const {
 
 const router = express.Router();
 
-router.get('/submit-appeal/enter-code/:token', getEnterCode);
+router.get('/submit-appeal/enter-code/', getEnterCode);
 
-router.post('/submit-appeal/enter-code/:token', postEnterCode);
+router.post('/submit-appeal/enter-code/', postEnterCode);
 
 module.exports = router;

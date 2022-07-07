@@ -12,6 +12,6 @@ router.get('/:token', saveAndReturnGet);
 
 router.post('/', saveAndReturnCreate);
 
-router.patch('/:token', saveAndReturnToken);
+router.patch('/', saveAndReturnToken);
 
 module.exports = router;
