@@ -3,7 +3,6 @@ const {
 	saveAndReturnCreateService
 } = require('../../../src/services/save-and-return.service');
 const mongodb = require('../../../src/db/db');
-const { createToken } = require('../../../src/lib/notify');
 
 jest.mock('../../../src/db/db');
 jest.mock('../../../src/lib/notify');
@@ -48,7 +47,7 @@ describe('save-and-return services', () => {
 				const saved = {
 					id: '123445',
 					appealId: '123445',
-					token: 12345,
+					token: null,
 					email: 'asd@asd.com',
 					createdAt: new Date(),
 					expirerAt: null
@@ -64,11 +63,9 @@ describe('save-and-return services', () => {
 					}))
 				}));
 
-				createToken.mockReturnValue(12345);
+				const createAppealSaveData = await saveAndReturnCreateService(saved);
 
-				const token = await saveAndReturnCreateService(saved);
-
-				expect(token).toEqual(saved.token);
+				expect(createAppealSaveData).toEqual({ appealId: saved.appealId });
 			});
 		});
 		it('should throw error', () => {

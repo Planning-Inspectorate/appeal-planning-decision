@@ -1,7 +1,6 @@
 const { VIEW } = require('../../../../src/lib/full-appeal/views');
 
 describe('/lib/full-appeal/views', () => {
-
 	it('should have the expected defined constants', () => {
 		expect(VIEW).toEqual({
 			FULL_APPEAL: {
@@ -65,7 +64,8 @@ describe('/lib/full-appeal/views', () => {
 				LIST_OF_DOCUMENTS: 'full-appeal/submit-appeal/list-of-documents',
 				SENT_ANOTHER_LINK: 'full-appeal/submit-appeal/sent-another-link',
 				CANNOT_APPEAL: 'full-appeal/submit-appeal/cannot-appeal',
-        APPEAL_ALREADY_SUBMITTED: 'full-appeal/submit-appeal/appeal-already-submitted',
+				APPEAL_ALREADY_SUBMITTED: 'full-appeal/submit-appeal/appeal-already-submitted',
+				REQUEST_NEW_CODE: 'full-appeal/submit-appeal/request-new-code'
 			}
 		});
 	});
