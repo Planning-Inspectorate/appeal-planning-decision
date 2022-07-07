@@ -2,6 +2,7 @@ const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 const { getTaskStatus, getNextTask } = require('../../services/task.service');
 const { VIEW } = require('../../lib/views');
+const { postSaveAndReturn } = require('../save');
 
 const sectionName = 'aboutYouSection';
 const taskName = 'yourDetails';
@@ -37,7 +38,15 @@ exports.postYourDetails = async (req, res) => {
 		}
 
 		appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+		if (req.body['save-and-return'] !== '') {
+			req.session.appeal = await createOrUpdateAppeal(appeal);
+			if (!task.isOriginalApplicant) {
+				return res.redirect(`/${VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME}`);
+			}
+			return res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
+		}
 		req.session.appeal = await createOrUpdateAppeal(appeal);
+		return await postSaveAndReturn(req, res);
 	} catch (e) {
 		logger.error(e);
 		res.render(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
@@ -47,10 +56,4 @@ exports.postYourDetails = async (req, res) => {
 		});
 		return;
 	}
-
-	if (!task.isOriginalApplicant) {
-		res.redirect(`/${VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME}`);
-		return;
-	}
-	res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
 };

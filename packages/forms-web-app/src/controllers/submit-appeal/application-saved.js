@@ -1,5 +1,6 @@
 const { VIEW } = require('../../lib/submit-appeal/views');
 const { calculateDeadline } = require('../../lib/calculate-deadline');
+const { chooseAppropriateTaskList } = require('../../lib/choose-appropriate-task-list');
 
 exports.getApplicationSaved = async (req, res) => {
 	const { appeal } = req.session;
@@ -9,8 +10,12 @@ exports.getApplicationSaved = async (req, res) => {
 		appeal.appealType,
 		appeal.eligibility.applicationDecision
 	);
+
+	const taskListUrl = chooseAppropriateTaskList(appeal);
+
 	res.render(VIEW.SUBMIT_APPEAL.APPLICATION_SAVED, {
 		applicationNumber: applicationNumber,
-		deadline: deadlineData
+		deadline: deadlineData,
+		taskListUrl
 	});
 };

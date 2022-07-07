@@ -2,6 +2,7 @@ const logger = require('../../lib/logger');
 const { getTaskStatus } = require('../../services/task.service');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../lib/views');
+const { postSaveAndReturn } = require('../save');
 
 const sectionName = 'aboutYouSection';
 const taskName = 'yourDetails';
@@ -66,7 +67,12 @@ exports.postWhoAreYou = async (req, res) => {
 
 	try {
 		appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+		if (req.body['save-and-return'] !== '') {
+			req.session.appeal = await createOrUpdateAppeal(appeal);
+			return res.redirect(`/${VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS}`);
+		}
 		req.session.appeal = await createOrUpdateAppeal(appeal);
+		return await postSaveAndReturn(req, res);
 	} catch (e) {
 		logger.error(e);
 
@@ -78,6 +84,4 @@ exports.postWhoAreYou = async (req, res) => {
 		});
 		return;
 	}
-
-	res.redirect(`/${VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS}`);
 };
