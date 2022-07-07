@@ -8,7 +8,7 @@ const getRequestNewCode = async (_, res) => {
 	res.render(REQUEST_NEW_CODE);
 };
 
-const postRequestNewCode = async (req, res) => {
+const postRequestNewCode = async (_, res) => {
 	res.redirect(`/${ENTER_CODE}`);
 };
 
