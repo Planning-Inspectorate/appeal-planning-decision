@@ -107,7 +107,7 @@ const sendSaveAndReturnEnterCodeIntoServiceEmail = async (saved, token) => {
 const sendConfirmEmailAddressEmail = async (appeal, token) => {
 	try {
 		const { baseUrl } = config.apps.appeals;
-		const link = `${baseUrl}/full-appeal/submit-appeal/email-confirmed/${token}`;
+		const link = `${baseUrl}/full-appeal/submit-appeal/email-address-confirmed/${token}`;
 		const { recipientEmail, variables, reference } = appealTypeConfig[
 			appeal.appealType
 		].email.confirmEmail(appeal, link);

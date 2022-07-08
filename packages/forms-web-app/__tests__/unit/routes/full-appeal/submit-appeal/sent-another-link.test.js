@@ -5,7 +5,7 @@ const {
 	getSentAnotherLink
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/sent-another-link');
 
-describe('routes/full-appeal/submit-appeal/email-confirmed', () => {
+describe('routes/full-appeal/submit-appeal/email-address-confirmed', () => {
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
 		require('../../../../../src/routes/full-appeal/submit-appeal/sent-another-link');
