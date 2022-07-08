@@ -65,7 +65,8 @@ describe('controllers/full-appeal/submit-appeal/declaration-information', () => 
 				session: {
 					appeal: {
 						some: 'data',
-						lpaCode: '123-abc'
+						lpaCode: '123-abc',
+						planningApplicationNumber: '1234567890'
 					},
 					appealLPD: {
 						name: lpdName
@@ -88,6 +89,7 @@ describe('controllers/full-appeal/submit-appeal/declaration-information', () => 
 					appeal: {
 						some: 'data',
 						lpaCode: '123-abc',
+						planningApplicationNumber: '1234567890',
 						submissionDate
 					},
 					appealLPD: {
