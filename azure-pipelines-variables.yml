@@ -1,3 +1,4 @@
 variables:
   azurecrName: pinscrsharedtoolinguks
   resourceGroup: pins-rg-appeals-service-$(ENVIRONMENT)-$(REGION_SHORT)-001
+  tagPrefix: appeal-planning-decision
