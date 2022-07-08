@@ -13,8 +13,8 @@ async function saveAndReturnCreate(req, res) {
 		res.status(400).send('Invalid Id');
 		throw new Error('');
 	}
-	const token = await saveAndReturnCreateService(appeal);
-	await saveAndReturnNotifyContinue(appeal, token);
+	await saveAndReturnCreateService(appeal);
+	await saveAndReturnNotifyContinue(appeal);
 	res.status(201).send(appeal);
 }
 
@@ -25,14 +25,10 @@ async function saveAndReturnGet(req, res) {
 }
 
 async function saveAndReturnToken(req, res) {
-	const { token } = req.params;
-	if (!req.params || !req.params.token) {
-		res.status(400).send('Invalid Id');
-		throw new Error('');
-	}
-	const savedAppeal = await saveAndReturnTokenService(token);
-	const appeal = await getAppeal(savedAppeal.appealId);
-	await saveAndReturnNotifyCode(appeal, savedAppeal.token);
+	const appeal = req.body;
+	const appealSaveData = await saveAndReturnTokenService(appeal.id);
+	const savedAppeal = await getAppeal(appeal.id);
+	await saveAndReturnNotifyCode(savedAppeal, appealSaveData.token);
 	res.status(200).send({});
 }
 

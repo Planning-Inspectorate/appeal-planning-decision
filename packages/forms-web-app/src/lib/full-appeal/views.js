@@ -56,11 +56,12 @@ const VIEW = {
 		EMAIL_ADDRESS: 'full-appeal/submit-appeal/email-address',
 		ENTER_CODE: 'full-appeal/submit-appeal/enter-code',
 		CONFIRM_EMAIL_ADDRESS: 'full-appeal/submit-appeal/confirm-email-address',
-		EMAIL_CONFIRMED: 'full-appeal/submit-appeal/email-confirmed',
+		EMAIL_CONFIRMED: 'full-appeal/submit-appeal/email-address-confirmed',
 		LIST_OF_DOCUMENTS: 'full-appeal/submit-appeal/list-of-documents',
 		SENT_ANOTHER_LINK: 'full-appeal/submit-appeal/sent-another-link',
 		CANNOT_APPEAL: 'full-appeal/submit-appeal/cannot-appeal',
 		APPEAL_ALREADY_SUBMITTED: 'full-appeal/submit-appeal/appeal-already-submitted',
+		REQUEST_NEW_CODE: 'full-appeal/submit-appeal/request-new-code'
 	}
 };
 

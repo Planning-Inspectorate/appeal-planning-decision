@@ -50,13 +50,14 @@ const planningApplicationNumberRouter = require('./planning-application-number')
 const enterCodeRouter = require('./enter-code');
 const confirmEmailAddressRouter = require('./confirm-email-address');
 const emailAddressRouter = require('./email-address');
-const emailConfirmedRouter = require('./email-confirmed');
+const emailConfirmedRouter = require('./email-address-confirmed');
 const listOfDocuments = require('./list-of-documents');
 const listOfDocumentsRouter = require('./list-of-documents');
 const sentAnotherLinkRouter = require('./sent-another-link');
 const cannotAppealRouter = require('./cannot-appeal');
 const appealAlreadySubmittedRouter = require('./appeal-already-submitted');
 
+const requestNewCodeRouter = require('./request-new-code');
 
 const router = express.Router();
 
@@ -117,5 +118,6 @@ router.use(listOfDocumentsRouter);
 router.use(sentAnotherLinkRouter);
 router.use(cannotAppealRouter);
 router.use(appealAlreadySubmittedRouter);
+router.use(requestNewCodeRouter);
 
 module.exports = router;
