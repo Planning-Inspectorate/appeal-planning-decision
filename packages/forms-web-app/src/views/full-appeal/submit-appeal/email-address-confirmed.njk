@@ -11,13 +11,10 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">Your email address is confirmed</h1>
-    </div>
-    <div class="govuk-button-group">
-          {{ govukButton({
-            text: "Continue",
-            type: "submit",
-            attributes: { "data-cy":"button-save-and-continue"}
-          }) }}
-    </div>
+			{{ govukButton({
+				text: "Continue",
+				type: "submit",
+				attributes: { "data-cy":"button-save-and-continue"}
+			}) }}
   </div>
 {% endblock %}
