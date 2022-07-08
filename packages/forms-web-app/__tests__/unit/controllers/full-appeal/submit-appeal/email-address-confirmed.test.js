@@ -1,6 +1,6 @@
 const {
 	getEmailConfirmed
-} = require('../../../../../src/controllers/full-appeal/submit-appeal/email-confirmed');
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/email-address-confirmed');
 
 const {
 	VIEW: {
@@ -10,7 +10,7 @@ const {
 
 const { mockReq, mockRes } = require('../../../mocks');
 
-describe('controllers/full-appeal/submit-appeal/email-confirmed', () => {
+describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => {
 	let req;
 	let res;
 
