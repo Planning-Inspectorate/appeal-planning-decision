@@ -78,14 +78,24 @@
         }
       ]
     } %}
-    {% set contactDetailsRow = {
-      key: { text: summaryField(
-        "Your contact details",
-        { "data-cy": "contact-details-label" }
-      ) },
-      value: { text: contactDetails(appeal.contactDetailsSection.contact) },
-      actions: contactDetailsRowActions if isPdf !== true
-    } %}
+    {% if isPdf === true %}
+      {% set contactDetailsRow = {
+        key: { text: summaryField(
+          "Your contact details",
+          { "data-cy": "contact-details-label" }
+        ) },
+        value: { text: contactDetails(appeal.contactDetailsSection.contact, appeal.email) },
+      } %}
+    {% else %}
+      {% set contactDetailsRow = {
+        key: { text: summaryField(
+          "Your contact details",
+          { "data-cy": "contact-details-label" }
+        ) },
+        value: { text: contactDetails(appeal.contactDetailsSection.contact) },
+        actions: contactDetailsRowActions
+      } %}
+    {% endif %}
     {% set contactDetailsRows = [isOriginalApplicantRow] %}
     {% if not appeal.contactDetailsSection.isOriginalApplicant %}
       {% set contactDetailsRows = (contactDetailsRows.push(appealingOnBehalfOfRow), contactDetailsRows) %}
