@@ -698,11 +698,11 @@
     {% set planningApplicationNumberRow = {
       key: { text: summaryField(
         "Planning application number",
-        { "data-cy": "planning-application-number" }
+        { "data-cy": "planning-application-number-label" }
       ) },
       value: { text: summaryField(
         appeal.planningApplicationNumber,
-        { "data-cy": "planning-application-number-label" }
+        { "data-cy": "planning-application-number" }
       ) },
       actions: planningApplicationNumberRowActions if isPdf !== true
     } %}
@@ -887,7 +887,7 @@
       actions: letterConfirmingPlanningApplicationRowActions if isPdf !== true
     } %}
     {% if appeal.typeOfPlanningApplication === 'removal-or-variation-of-conditions' and appeal.eligibility.applicationDecision === 'nodecisionreceived' %}
-      {% set planningApplicationRows = [originalDecisionNoticeRow, applicationFormRow, hasOwnershipCertificateRow, planningApplicationNumberRowActions] %}
+      {% set planningApplicationRows = [originalDecisionNoticeRow, applicationFormRow, hasOwnershipCertificateRow, planningApplicationNumberRow] %}
     {% else %}
       {% set planningApplicationRows = [applicationFormRow, hasOwnershipCertificateRow, planningApplicationNumberRow] %}
     {% endif %}
