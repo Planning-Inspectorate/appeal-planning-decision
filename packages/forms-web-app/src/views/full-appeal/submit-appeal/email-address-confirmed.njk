@@ -12,12 +12,10 @@
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">Your email address is confirmed</h1>
     </div>
-    <div class="govuk-button-group">
-          {{ govukButton({
+    {{ govukButton({
             text: "Continue",
-            type: "submit",
+            href: listOfDocumentsUrl,
             attributes: { "data-cy":"button-save-and-continue"}
           }) }}
-    </div>
   </div>
 {% endblock %}

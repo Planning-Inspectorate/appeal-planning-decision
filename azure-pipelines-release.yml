@@ -26,7 +26,7 @@ extends:
         condition: eq(dependencies.semantic_release.outputs['run_semantic_release.versions.release'], 'true')
         deploymentJobs:
           - name: Stage Appeals API
-            condition: eq(dependencies.semantic_release.outputs['run_semantic_release.versions.appealsApiRelease'], 'true')
+            condition: eq(stageDependencies.semantic_release.run_semantic_release.outputs['versions.appealsApiRelease'], 'true')
             steps:
               - template: ../steps/azure_web_app_docker_tag.yml
                 parameters:
@@ -45,7 +45,7 @@ extends:
               - name: appealsApiVersion
                 value: $[ stageDependencies.semantic_release.run_semantic_release.outputs['versions.appealsApiVersion'] ]
           - name: Stage ClamAV API
-            condition: eq(dependencies.semantic_release.outputs['run_semantic_release.versions.clamAvApiRelease'], 'true')
+            condition: eq(stageDependencies.semantic_release.run_semantic_release.outputs['versions.clamAvApiVersion'], 'true')
             steps:
               - template: ../steps/azure_web_app_docker_tag.yml
                 parameters:
@@ -64,7 +64,7 @@ extends:
               - name: clamAvApiVersion
                 value: $[ stageDependencies.semantic_release.run_semantic_release.outputs['versions.clamAvApiVersion'] ]
           - name: Stage Documents API
-            condition: eq(dependencies.semantic_release.outputs['run_semantic_release.versions.documentsApiRelease'], 'true')
+            condition: eq(stageDependencies.semantic_release.run_semantic_release.outputs['versions.documentsApiVersion'], 'true')
             steps:
               - template: ../steps/azure_web_app_docker_tag.yml
                 parameters:
@@ -83,7 +83,7 @@ extends:
               - name: documentsApiVersion
                 value: $[ stageDependencies.semantic_release.run_semantic_release.outputs['versions.documentsApiVersion'] ]
           - name: Stage PDF API
-            condition: eq(dependencies.semantic_release.outputs['run_semantic_release.versions.pdfApiRelease'], 'true')
+            condition: eq(stageDependencies.semantic_release.run_semantic_release.outputs['versions.pdfApiVersion'], 'true')
             steps:
               - template: ../steps/azure_web_app_docker_tag.yml
                 parameters:
@@ -102,7 +102,7 @@ extends:
               - name: pdfApiVersion
                 value: $[ stageDependencies.semantic_release.run_semantic_release.outputs['versions.pdfApiVersion'] ]
           - name: Stage Web
-            condition: eq(dependencies.semantic_release.outputs['run_semantic_release.versions.webRelease'], 'true')
+            condition: eq(stageDependencies.semantic_release.run_semantic_release.outputs['versions.webVersion'], 'true')
             steps:
               - template: ../steps/azure_web_app_docker_tag.yml
                 parameters:
