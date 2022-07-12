@@ -114,3 +114,11 @@ exports.createConfirmEmail = async (appeal) => {
 exports.getConfirmEmail = async (token) => {
 	return handler(`/api/v1/confirm-email/${token}`);
 };
+
+exports.isEmailLinkExpired = async (token) => {
+	// dummy functionality for testing front end
+	if (token) {
+		return true;
+	}
+	return false;
+};
