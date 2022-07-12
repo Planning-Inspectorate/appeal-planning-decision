@@ -695,29 +695,29 @@
         }
       ]
     } %}
-      {% set planningApplicationNumberRow = {
-        key: { text: summaryField(
-          "Planning application number",
-          { "data-cy": "planning-application-number-label" }
-        ) },
-        value: { text: summaryField(
-          appeal.planningApplicationNumber,
-          { "data-cy": "planning-application-number" }
-        ) },
-        actions: planningApplicationNumberRowActions if isPdf !== true
-      } %}
-      {% set planningApplicationNumberRowActions = {
-        items: [
-          {
-            href: "/full-appeal/submit-appeal/planning-application-number",
-            text: "Change",
-            visuallyHiddenText: "the planning application number",
-            attributes: {
-              "data-cy": "planning-application-number"
-            }
+    {% set planningApplicationNumberRow = {
+      key: { text: summaryField(
+        "Planning application number",
+        { "data-cy": "planning-application-number-label" }
+      ) },
+      value: { text: summaryField(
+        appeal.planningApplicationNumber,
+        { "data-cy": "planning-application-number" }
+      ) },
+      actions: planningApplicationNumberRowActions if isPdf !== true
+    } %}
+    {% set planningApplicationNumberRowActions = {
+      items: [
+        {
+          href: "/full-appeal/submit-appeal/planning-application-number",
+          text: "Change",
+          visuallyHiddenText: "the planning application number",
+          attributes: {
+            "data-cy": "planning-application-number"
           }
-        ]
-      } %}
+        }
+      ]
+    } %}
     {% set ownershipCertificateRow = {
       key: { text: summaryField(
         "Ownership certificate and agricultural land declaration",
