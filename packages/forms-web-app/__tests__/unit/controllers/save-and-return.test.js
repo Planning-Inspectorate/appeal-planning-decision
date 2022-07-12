@@ -5,7 +5,6 @@ const { VIEW } = require('../../../src/lib/submit-appeal/views');
 const { calculateDeadline } = require('../../../src/lib/calculate-deadline');
 
 jest.mock('../../../src/lib/appeals-api-wrapper');
-jest.mock('../../../src/lib/calculate-deadline');
 
 describe('controllers/save-and-return', () => {
 	let req;
@@ -37,7 +36,6 @@ describe('controllers/save-and-return', () => {
 
 	describe('continueAppeal', () => {
 		it('should continue with appeal', async () => {
-			calculateDeadline.hasDeadlineDatePassed.mockResolvedValue(false);
 			await continueAppeal(req, res);
 			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.SUBMIT_APPEAL.ENTER_CODE}`);
 		});
