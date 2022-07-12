@@ -2,6 +2,7 @@ const { use } = require('../router-mock');
 
 const enterAppealDetailsRouter = require('../../../../src/routes/submit-appeal/enter-appeal-details');
 const applicationSavedRouter = require('../../../../src/routes/submit-appeal/application-saved');
+const linkExpiredRouter = require('../../../../src/routes/submit-appeal/link-expired');
 
 describe('routes/submit-appeal', () => {
 	beforeEach(() => {
@@ -18,5 +19,6 @@ describe('routes/submit-appeal', () => {
 	it('should define the expected routes', () => {
 		expect(use).toHaveBeenCalledWith(enterAppealDetailsRouter);
 		expect(use).toHaveBeenCalledWith(applicationSavedRouter);
+		expect(use).toHaveBeenCalledWith(linkExpiredRouter);
 	});
 });
