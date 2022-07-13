@@ -887,9 +887,12 @@
       actions: letterConfirmingPlanningApplicationRowActions if isPdf !== true
     } %}
     {% if appeal.typeOfPlanningApplication === 'removal-or-variation-of-conditions' and appeal.eligibility.applicationDecision === 'nodecisionreceived' %}
-      {% set planningApplicationRows = [originalDecisionNoticeRow, applicationFormRow, hasOwnershipCertificateRow, planningApplicationNumberRow] %}
+      {% set planningApplicationRows = [originalDecisionNoticeRow, applicationFormRow, hasOwnershipCertificateRow] %}
     {% else %}
-      {% set planningApplicationRows = [applicationFormRow, hasOwnershipCertificateRow, planningApplicationNumberRow] %}
+      {% set planningApplicationRows = [applicationFormRow, hasOwnershipCertificateRow] %}
+    {% endif %}
+    {% if ispdf === true %}
+       {% set planningApplicationRows = (planningApplicationRows.push(planningApplicationNumberRow), planningApplicationRows) %}
     {% endif %}
     {% if appeal.planningApplicationDocumentsSection.ownershipCertificate.submittedSeparateCertificate %}
       {% set planningApplicationRows = (planningApplicationRows.push(ownershipCertificateRow), planningApplicationRows) %}
