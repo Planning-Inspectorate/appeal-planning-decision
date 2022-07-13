@@ -2,7 +2,6 @@ const { mockReq, mockRes } = require('../mocks');
 const { postSaveAndReturn, continueAppeal } = require('../../../src/controllers/save');
 const { saveAppeal } = require('../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../src/lib/submit-appeal/views');
-const { calculateDeadline } = require('../../../src/lib/calculate-deadline');
 
 jest.mock('../../../src/lib/appeals-api-wrapper');
 
