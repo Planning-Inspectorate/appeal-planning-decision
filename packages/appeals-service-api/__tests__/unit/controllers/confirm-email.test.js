@@ -36,7 +36,7 @@ describe('Confirm Email API', () => {
 			confirmEmailCreateService.mockReturnValue('12345');
 
 			await confirmEmailCreate(req, res);
-			expect(confirmEmailCreateService).toHaveBeenCalledWith();
+			expect(confirmEmailCreateService).toHaveBeenCalledWith(appealStub);
 			expect(confirmEmailNotifyContinue).toHaveBeenCalledWith(appealStub, '12345');
 			expect(res.status).toHaveBeenCalledWith(201);
 		});
