@@ -13,8 +13,9 @@
       <h1 class="govuk-heading-l">Your email address is confirmed</h1>
 			{{ govukButton({
 				text: "Continue",
-				type: "submit",
+				href: listOfDocumentsUrl,
 				attributes: { "data-cy":"button-save-and-continue"}
 			}) }}
+    </div>
   </div>
 {% endblock %}
