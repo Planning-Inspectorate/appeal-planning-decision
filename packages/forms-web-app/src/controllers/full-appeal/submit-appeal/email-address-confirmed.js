@@ -17,8 +17,10 @@ const getEmailConfirmed = async (req, res) => {
 	const tokenCreated = new Date(retrievedToken.createdAt);
 
 	if (isTokenExpired(30, tokenCreated)) {
+		req.session.confirmEmailId = retrievedToken.appealId;
 		return res.redirect(`/${LINK_EXPIRED}`);
 	}
+
 	res.render(EMAIL_CONFIRMED, {
 		listOfDocumentsUrl: `/${LIST_OF_DOCUMENTS}`
 	});
