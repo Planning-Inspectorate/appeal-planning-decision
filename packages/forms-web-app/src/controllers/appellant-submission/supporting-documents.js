@@ -3,6 +3,8 @@ const { VIEW } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 const { createDocument } = require('../../lib/documents-api-wrapper');
+const { postSaveAndReturn } = require('../appeal-householder-decision/save');
+
 const {
 	getNextTask,
 	setTaskStatusComplete,
@@ -66,38 +68,38 @@ exports.postSupportingDocuments = async (req, res) => {
 			}
 		}
 
+		if (Object.keys(errors).length > 0) {
+			return res.render(VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS, {
+				appeal,
+				errors,
+				// multi-file upload validation would otherwise map these errors individual to e.g.
+				// `#files.supporting-documents[3]` which does not meet the gov uk presentation requirements.
+				errorSummary: errorSummary.map((error) => ({
+					...error,
+					href: '#supporting-documents-error'
+				}))
+			});
+		}
+
+		// this is the `name` of the 'upload' button in the template.
+		if (body['upload-and-remain-on-page']) {
+			return res.redirect(`/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`);
+		}
+
 		appeal.sectionStates[sectionName][taskName] = setTaskStatusComplete();
+		if (req.body['save-and-return'] !== '') {
+			req.session.appeal = await createOrUpdateAppeal(appeal);
+			return res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
+		}
 		req.session.appeal = await createOrUpdateAppeal(appeal);
+		return await postSaveAndReturn(req, res);
 	} catch (e) {
 		logger.error(e);
 		appeal.sectionStates[sectionName][taskName] = setTaskStatusNotStarted();
-		res.render(VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS, {
+		return res.render(VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS, {
 			appeal,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
 		});
-		return;
 	}
-
-	if (Object.keys(errors).length > 0) {
-		res.render(VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS, {
-			appeal,
-			errors,
-			// multi-file upload validation would otherwise map these errors individual to e.g.
-			// `#files.supporting-documents[3]` which does not meet the gov uk presentation requirements.
-			errorSummary: errorSummary.map((error) => ({
-				...error,
-				href: '#supporting-documents-error'
-			}))
-		});
-		return;
-	}
-
-	// this is the `name` of the 'upload' button in the template.
-	if (body['upload-and-remain-on-page']) {
-		res.redirect(`/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`);
-		return;
-	}
-
-	res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
 };

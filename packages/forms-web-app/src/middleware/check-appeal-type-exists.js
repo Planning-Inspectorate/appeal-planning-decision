@@ -8,7 +8,13 @@ const checkAppealTypeExists = (req, res, next) => {
 		'/before-you-start/use-existing-service-application-type',
 		'/before-you-start/use-existing-service-local-planning-department',
 		'/appellant-submission/submission-information',
-		'/full-appeal/submit-appeal/declaration-information'
+		'/full-appeal/submit-appeal/declaration-information',
+		'/appeal-householder-decision/planning-application-number',
+		'/appeal-householder-decision/email-address',
+		'/appeal-householder-decision/email-address-confirmed',
+		'/appeal-householder-decision/confirm-email-address',
+		'/appeal-householder-decision/list-of-documents',
+		'/appeal-householder-decision/application-saved'
 	];
 
 	const isInAllowList = allowList.some((path) => req.originalUrl.includes(path));

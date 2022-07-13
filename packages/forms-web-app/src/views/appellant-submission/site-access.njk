@@ -4,6 +4,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
 
 {% set cannotSeeAppealSiteHtml %}
   {{ govukTextarea({
@@ -78,11 +79,14 @@
           ]
         }) }}
 
-        {{ govukButton({
-          text: "Save and continue",
-          type: "submit",
-          attributes: { "data-cy":"button-save-and-continue"}
-        }) }}
+        <div class="govuk-button-group">
+					{{ govukButton({
+						text: "Save and continue",
+						type: "submit",
+						attributes: { "data-cy":"button-save-and-continue"}
+					}) }}
+					{{ saveAndReturnButton() }}
+				</div>
 
       </form>
     </section>

@@ -3,6 +3,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
 
 {% set title = "Do you own the whole appeal site? - Appeal a planning decision - GOV.UK" %}
 
@@ -62,12 +63,14 @@
           }
         }) }}
 
-
-        {{ govukButton({
-          text: "Save and continue",
-          type: "submit",
-          attributes: { "data-cy":"button-save-and-continue"}
-        }) }}
+        <div class="govuk-button-group">
+					{{ govukButton({
+						text: "Save and continue",
+						type: "submit",
+						attributes: { "data-cy":"button-save-and-continue"}
+					}) }}
+					{{ saveAndReturnButton() }}
+				</div>
       </form>
     </div>
 

@@ -9,6 +9,8 @@ const appeal = {
 	state: 'DRAFT',
 	appealType: '1001',
 	typeOfPlanningApplication: 'householder-planning',
+	planningApplicationNumber: '12345',
+	email: 'test@pins.com',
 	eligibility: {
 		applicationDecision: 'granted',
 		enforcementNotice: false,
@@ -22,12 +24,10 @@ const appeal = {
 		yourDetails: {
 			isOriginalApplicant: true,
 			name: 'Appellant Name',
-			email: 'appellant@example.com',
 			appealingOnBehalfOf: ''
 		}
 	},
 	requiredDocumentsSection: {
-		applicationNumber: 'ABC12345',
 		originalApplication: {
 			uploadedFile: {
 				name: 'test-pdf.pdf',
@@ -120,7 +120,6 @@ const appeal = {
 			yourDetails: 'COMPLETED'
 		},
 		requiredDocumentsSection: {
-			applicationNumber: 'COMPLETED',
 			originalApplication: 'COMPLETED',
 			decisionLetter: 'COMPLETED'
 		},

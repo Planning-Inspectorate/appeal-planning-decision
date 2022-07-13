@@ -15,6 +15,7 @@ const yourPlanningAppealRouter = require('./your-planning-appeal');
 const documentRouter = require('./document');
 const submitAppealRouter = require('./submit-appeal');
 const saveAndReturnRouter = require('./save');
+const appealHouseholderdecision = require('./appeal-householder-decision');
 const checkDecisionDateDeadline = require('../middleware/check-decision-date-deadline');
 const checkAppealTypeExists = require('../middleware/check-appeal-type-exists');
 
@@ -50,6 +51,13 @@ router.use(
 	checkAppealTypeExists,
 	checkDecisionDateDeadline,
 	saveAndReturnRouter
+);
+
+router.use(
+	'/appeal-householder-decision',
+	checkAppealTypeExists,
+	checkDecisionDateDeadline,
+	appealHouseholderdecision
 );
 
 module.exports = router;

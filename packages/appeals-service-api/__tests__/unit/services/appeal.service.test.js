@@ -36,28 +36,6 @@ describe('services/validation.service', () => {
 			);
 		});
 
-		test('Appeal appellant name must be valued if email is.', async () => {
-			appeal.aboutYouSection.yourDetails.email = 'jim@john.com';
-			appeal.aboutYouSection.yourDetails.name = '';
-
-			const errors = validateAppeal(appeal);
-
-			expect(errors).toContain(
-				'The appeal appellant details must have email and name valued.The name is missing.'
-			);
-		});
-
-		test('Appeal appellant email must be valued if name is.', async () => {
-			appeal.aboutYouSection.yourDetails.email = '';
-			appeal.aboutYouSection.yourDetails.name = 'Jim John';
-
-			const errors = validateAppeal(appeal);
-
-			expect(errors).toContain(
-				'The appeal appellant details must have email and name valued.The email is missing.'
-			);
-		});
-
 		test('Appeal statement upload file cannot have name without id', async () => {
 			appeal.yourAppealSection.appealStatement.uploadedFile.name =
 				'my_uploaded_file_appeal_statement.pdf';

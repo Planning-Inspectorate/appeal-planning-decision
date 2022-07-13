@@ -5,7 +5,7 @@ const {
 
 const pages = {
 	fullAppeal: '/full-appeal/submit-appeal/planning-application-number',
-	householderPlanningTaskList: '/appellant-submission/task-list'
+	householderPlanningTaskList: '/appeal-householder-decision/planning-application-number'
 };
 
 const chooseAppropriateApplicationNumberPage = (appeal) => {

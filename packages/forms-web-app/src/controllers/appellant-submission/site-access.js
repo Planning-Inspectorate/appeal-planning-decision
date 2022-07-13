@@ -4,6 +4,7 @@ const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../lib/views');
 const { getTaskStatus } = require('../../services/task.service');
 const { validSiteAccessOptions } = require('../../validators/appellant-submission/site-access');
+const { postSaveAndReturn } = require('../appeal-householder-decision/save');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'siteAccess';
@@ -35,27 +36,28 @@ exports.postSiteAccess = async (req, res) => {
 	task.howIsSiteAccessRestricted = howIsSiteAccessRestricted;
 
 	if (Object.keys(errors).length > 0) {
-		res.render(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS, {
+		return res.render(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS, {
 			appeal,
 			errors,
 			errorSummary
 		});
-		return;
 	}
 
 	try {
 		appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+		if (req.body['save-and-return'] !== '') {
+			req.session.appeal = await createOrUpdateAppeal(appeal);
+			return res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
+		}
 		req.session.appeal = await createOrUpdateAppeal(appeal);
+		return await postSaveAndReturn(req, res);
 	} catch (e) {
 		logger.error(e);
 
-		res.render(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS, {
+		return res.render(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS, {
 			appeal,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
 		});
-		return;
 	}
-
-	res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
 };

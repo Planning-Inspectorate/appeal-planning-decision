@@ -18,17 +18,17 @@ const validateAppeal = (appeal) => {
 
 	// Your Details
 	// Only accepted states are name and email both empty or both valued
-	if (
-		(!appeal.aboutYouSection.yourDetails.name && appeal.aboutYouSection.yourDetails.email) ||
-		(appeal.aboutYouSection.yourDetails.name && !appeal.aboutYouSection.yourDetails.email)
-	) {
-		let yourDetailsErrorMessage = 'The appeal appellant details must have email and name valued.';
-		yourDetailsErrorMessage += appeal.aboutYouSection.yourDetails.name
-			? 'The email is missing.'
-			: 'The name is missing.';
-
-		errors.push(yourDetailsErrorMessage);
-	}
+	// if (
+	// 	(!appeal.aboutYouSection.yourDetails.name && appeal.aboutYouSection.yourDetails.email) ||
+	// 	(appeal.aboutYouSection.yourDetails.name && !appeal.aboutYouSection.yourDetails.email)
+	// ) {
+	// 	let yourDetailsErrorMessage = 'The appeal appellant details must have email and name valued.';
+	// 	yourDetailsErrorMessage += appeal.aboutYouSection.yourDetails.name
+	// 		? 'The email is missing.'
+	// 		: 'The name is missing.';
+	//
+	// 	errors.push(yourDetailsErrorMessage);
+	// }
 
 	// Appeal Site Section
 

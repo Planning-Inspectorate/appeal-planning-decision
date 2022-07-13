@@ -61,7 +61,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				claimingCosts: 'No',
 				hasHouseholderPermissionConditions: 'Yes',
 				isListedBuilding: 'No',
-				nextPageUrl: '/appellant-submission/task-list'
+				nextPageUrl: '/appeal-householder-decision/planning-application-number'
 			});
 		});
 
@@ -141,7 +141,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				claimingCosts: 'No',
 				hasPriorApprovalForExistingHome: 'Yes',
 				isListedBuilding: 'No',
-				nextPageUrl: '/appellant-submission/task-list'
+				nextPageUrl: '/appeal-householder-decision/planning-application-number'
 			});
 		});
 	});

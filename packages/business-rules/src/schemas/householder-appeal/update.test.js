@@ -505,14 +505,6 @@ describe('schemas/householder-appeal/update', () => {
 					'aboutYouSection must be a `object` type, but the final value was: `null`'
 				);
 			});
-
-			it('should throw an error when not given a value', async () => {
-				delete appeal.aboutYouSection;
-
-				await expect(() => update.validate(appeal, config)).rejects.toThrow(
-					'aboutYouSection.yourDetails.email is a required field'
-				);
-			});
 		});
 
 		describe('aboutYouSection.yourDetails', () => {
@@ -521,14 +513,6 @@ describe('schemas/householder-appeal/update', () => {
 
 				await expect(() => update.validate(appeal, config)).rejects.toThrow(
 					'aboutYouSection.yourDetails must be a `object` type, but the final value was: `null`'
-				);
-			});
-
-			it('should throw an error when not given a value', async () => {
-				delete appeal.aboutYouSection.yourDetails;
-
-				await expect(() => update.validate(appeal, config)).rejects.toThrow(
-					'aboutYouSection.yourDetails.email is a required field'
 				);
 			});
 		});
@@ -613,40 +597,6 @@ describe('schemas/householder-appeal/update', () => {
 			});
 		});
 
-		describe('aboutYouSection.yourDetails.email', () => {
-			it('should throw an error when not given an email value', async () => {
-				appeal.aboutYouSection.yourDetails.email = 'apellant@example';
-
-				await expect(() => update.validate(appeal, config)).rejects.toThrow(
-					'aboutYouSection.yourDetails.email must be a valid email'
-				);
-			});
-
-			it('should throw an error when given a value with more than 255 characters', async () => {
-				appeal.aboutYouSection.yourDetails.email = `${'a'.repeat(244)}@example.com`;
-
-				await expect(() => update.validate(appeal, config)).rejects.toThrow(
-					'aboutYouSection.yourDetails.email must be at most 255 characters'
-				);
-			});
-
-			it('should throw an error when given a null value', async () => {
-				appeal.aboutYouSection.yourDetails.email = null;
-
-				await expect(() => update.validate(appeal, config)).rejects.toThrow(
-					'aboutYouSection.yourDetails.email must be a `string` type, but the final value was: `null`'
-				);
-			});
-
-			it('should throw an error when not given a value', async () => {
-				delete appeal.aboutYouSection.yourDetails.email;
-
-				await expect(() => update.validate(appeal, config)).rejects.toThrow(
-					'aboutYouSection.yourDetails.email is a required field'
-				);
-			});
-		});
-
 		describe('aboutYouSection.yourDetails.appealingOnBehalfOf', () => {
 			it('should throw an error when not given a string value', async () => {
 				appeal.aboutYouSection.yourDetails.appealingOnBehalfOf = 123;
@@ -693,40 +643,6 @@ describe('schemas/householder-appeal/update', () => {
 
 				await expect(() => update.validate(appeal, config)).rejects.toThrow(
 					'requiredDocumentsSection must be a `object` type, but the final value was: `null`'
-				);
-			});
-
-			it('should throw an error when not given a value', async () => {
-				delete appeal.requiredDocumentsSection;
-
-				await expect(() => update.validate(appeal, config)).rejects.toThrow(
-					'requiredDocumentsSection.applicationNumber is a required field'
-				);
-			});
-		});
-
-		describe('requiredDocumentsSection.applicationNumber', () => {
-			it('should throw an error when given a value with more than 30 characters', async () => {
-				appeal.requiredDocumentsSection.applicationNumber = 'a'.repeat(31);
-
-				await expect(() => update.validate(appeal, config)).rejects.toThrow(
-					'requiredDocumentsSection.applicationNumber must be at most 30 characters'
-				);
-			});
-
-			it('should throw an error when given a null value', async () => {
-				appeal.requiredDocumentsSection.applicationNumber = null;
-
-				await expect(() => update.validate(appeal, config)).rejects.toThrow(
-					'requiredDocumentsSection.applicationNumber must be a `string` type, but the final value was: `null`'
-				);
-			});
-
-			it('should throw an error when not given a value', async () => {
-				delete appeal.requiredDocumentsSection.applicationNumber;
-
-				await expect(() => update.validate(appeal, config)).rejects.toThrow(
-					'requiredDocumentsSection.applicationNumber is a required field'
 				);
 			});
 		});
@@ -1310,34 +1226,6 @@ describe('schemas/householder-appeal/update', () => {
 
 				await expect(() => update.validate(appeal, config)).rejects.toThrow(
 					'sectionStates.requiredDocumentsSection.decisionLetter is a required field'
-				);
-			});
-		});
-
-		describe('sectionStates.requiredDocumentsSection.applicationNumber', () => {
-			it('should throw an error when given an invalid value', async () => {
-				appeal.sectionStates.requiredDocumentsSection.applicationNumber = 'PENDING';
-
-				await expect(() => update.validate(appeal, config)).rejects.toThrow(
-					`sectionStates.requiredDocumentsSection.applicationNumber must be one of the following values: ${Object.values(
-						SECTION_STATE
-					).join(', ')}`
-				);
-			});
-
-			it('should throw an error when given a null value', async () => {
-				appeal.sectionStates.requiredDocumentsSection.applicationNumber = null;
-
-				await expect(() => update.validate(appeal, config)).rejects.toThrow(
-					'sectionStates.requiredDocumentsSection.applicationNumber must be a `string` type, but the final value was: `null`'
-				);
-			});
-
-			it('should throw an error when not given a value', async () => {
-				delete appeal.sectionStates.requiredDocumentsSection.applicationNumber;
-
-				await expect(() => update.validate(appeal, config)).rejects.toThrow(
-					'sectionStates.requiredDocumentsSection.applicationNumber is a required field'
 				);
 			});
 		});

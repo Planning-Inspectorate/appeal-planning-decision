@@ -15,6 +15,7 @@ const update = pinsYup
 		id: pinsYup.string().uuid().required(),
 		horizonId: pinsYup.string().trim().max(20).nullable(),
 		lpaCode: pinsYup.string().trim().max(20).required(),
+		planningApplicationNumber: pinsYup.string().max(30).required(),
 		appealType: pinsYup.lazy((appealType) => {
 			if (appealType) {
 				return pinsYup.string().oneOf(Object.values(APPEAL_ID));
@@ -39,6 +40,7 @@ const update = pinsYup
 		updatedAt: pinsYup.date().transform(parseDateString).required(),
 		submissionDate: pinsYup.date().transform(parseDateString).nullable(),
 		state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).required(),
+		email: pinsYup.string().email().max(255).required(),
 		eligibility: pinsYup
 			.object()
 			.shape({
@@ -84,7 +86,6 @@ const update = pinsYup
 						.max(80)
 						.matches(/^[a-z\-' ]+$/i)
 						.required(),
-					email: pinsYup.string().email().max(255).required(),
 					appealingOnBehalfOf: pinsYup
 						.string()
 						.max(80)
@@ -96,7 +97,6 @@ const update = pinsYup
 		requiredDocumentsSection: pinsYup
 			.object()
 			.shape({
-				applicationNumber: pinsYup.string().max(30).required(),
 				originalApplication: pinsYup
 					.object()
 					.shape({
@@ -229,7 +229,6 @@ const update = pinsYup
 			requiredDocumentsSection: pinsYup
 				.object()
 				.shape({
-					applicationNumber: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
 					originalApplication: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
 					decisionLetter: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required()
 				})

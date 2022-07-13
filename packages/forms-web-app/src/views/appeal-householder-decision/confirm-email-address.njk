@@ -1,0 +1,41 @@
+{% extends "../layouts/full-appeal-banner/main.njk" %}
+
+{% set title="Confirm your email address - Appeal a planning decision - GOV.UK" %}
+{% set resendLink="/full-appeal/submit-appeal/sent-another-link" %}
+
+{% block pageTitle %}
+  {{ title }}
+{% endblock %}
+
+{% block backButton %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: '/appeal-householder-decision/email-address',
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Confirm your email address</h1>
+      <p class="govuk-body">We've sent an email to:<br>
+        {{ emailAddress }}
+      </p>
+      <p class="govuk-body">Go to your inbox to confirm that this is the correct email address. The link in the email will expire after 30 minutes.</p>
+      <h2 class="govuk-heading-m">If you're having problems</h2>
+      <p class="govuk-body">Check that the email has not gone into your spam or junk folder.</p>
+      <p class="govuk-body">We can <a href="{{resendLink}}">resend the email</a>.</p>
+      <p class="govuk-body">If you're still having problems, you can contact our customer support team:</p>
+      <p class="govuk-body">Email: <a href="mailto:enquiries@planninginspectorate.gov.uk">enquiries@planninginspectorate.gov.uk</a><br>
+        We aim to respond within 5 working days.
+      </p>
+      <p class="govuk-body">Telephone: 0303 444 5000<br>
+        Monday to Friday, 9am to 5pm (except public holidays)
+      </p>
+      <p class="govuk-body"><a href="https://www.gov.uk/call-charges">Find out about call charges</a></p>
+    </div>
+  </div>
+{% endblock %}

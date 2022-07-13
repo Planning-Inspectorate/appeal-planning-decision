@@ -15,6 +15,7 @@ const insert = pinsYup
 		id: pinsYup.string().uuid().required(),
 		horizonId: pinsYup.string().trim().max(20).nullable(),
 		lpaCode: pinsYup.string().trim().max(20).nullable(),
+		planningApplicationNumber: pinsYup.string().max(30).nullable(),
 		decisionDate: pinsYup.date().transform(parseDateString).nullable(),
 		createdAt: pinsYup.date().transform(parseDateString).required(),
 		updatedAt: pinsYup.date().transform(parseDateString).required(),
@@ -32,6 +33,7 @@ const insert = pinsYup
 			}
 			return pinsYup.string().nullable();
 		}),
+		email: pinsYup.string().email().max(255).nullable(),
 		eligibility: pinsYup
 			.object()
 			.shape({
@@ -65,7 +67,6 @@ const insert = pinsYup
 						}
 						return pinsYup.string().nullable();
 					}),
-					email: pinsYup.string().email().max(255).nullable(),
 					appealingOnBehalfOf: pinsYup
 						.string()
 						.max(80)
@@ -77,7 +78,6 @@ const insert = pinsYup
 		requiredDocumentsSection: pinsYup
 			.object()
 			.shape({
-				applicationNumber: pinsYup.string().max(30).nullable(),
 				originalApplication: pinsYup
 					.object()
 					.shape({
@@ -214,10 +214,6 @@ const insert = pinsYup
 			requiredDocumentsSection: pinsYup
 				.object()
 				.shape({
-					applicationNumber: pinsYup
-						.string()
-						.oneOf(Object.values(SECTION_STATE))
-						.default('NOT STARTED'),
 					originalApplication: pinsYup
 						.string()
 						.oneOf(Object.values(SECTION_STATE))
