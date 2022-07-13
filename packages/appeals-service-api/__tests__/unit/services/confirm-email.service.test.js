@@ -35,8 +35,12 @@ describe('confirm-email services', () => {
 	});
 	describe('confirmEmailCreateService', () => {
 		it('should record token and date', async () => {
+			const appeal = {
+				id: '98765'
+			};
 			const saved = {
-				token: 12345,
+				appealId: '98765',
+				token: '12345',
 				email: 'test@example.com',
 				createdAt: new Date()
 			};
@@ -51,9 +55,9 @@ describe('confirm-email services', () => {
 				}))
 			}));
 
-			createToken.mockReturnValue(12345);
+			createToken.mockReturnValue('12345');
 
-			const token = await confirmEmailCreateService();
+			const token = await confirmEmailCreateService(appeal);
 
 			expect(token).toEqual(saved.token);
 		});
