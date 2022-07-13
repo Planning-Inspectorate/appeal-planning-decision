@@ -33,12 +33,11 @@ exports.postSiteOwnership = async (req, res) => {
 	task.haveOtherOwnersBeenTold = ownsWholeSite ? null : task.haveOtherOwnersBeenTold;
 
 	if (Object.keys(errors).length > 0) {
-		res.render(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP, {
+		return res.render(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP, {
 			appeal,
 			errors,
 			errorSummary
 		});
-		return;
 	}
 
 	if (!task.ownsWholeSite) {
