@@ -73,7 +73,12 @@ const config = {
 						variables: {
 							'application number': appeal.planningApplicationNumber,
 							date: format(
-								calculateDeadline.householderApplication(appeal.decisionDate),
+								calculateDeadline.businessRulesDeadline(
+									appeal.decisionDate,
+									appeal.appealType,
+									appeal.eligibility.applicationDecision,
+									true
+								),
 								'dd MMMM yyyy'
 							),
 							link
@@ -184,7 +189,12 @@ const config = {
 						variables: {
 							'application number': appeal.planningApplicationNumber,
 							date: format(
-								calculateDeadline.fullAppealApplication(appeal.decisionDate),
+								calculateDeadline.businessRulesDeadline(
+									appeal.decisionDate,
+									appeal.appealType,
+									appeal.eligibility.applicationDecision,
+									true
+								),
 								'dd MMMM yyyy'
 							),
 							link
