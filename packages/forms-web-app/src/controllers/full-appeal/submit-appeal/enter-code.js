@@ -9,12 +9,12 @@ const {
 	}
 } = require('../../../lib/full-appeal/views');
 
-const { calculateDeadline } = require('../lib/calculate-deadline');
+const { calculateDeadline } = require('../../../lib/calculate-deadline');
 const {
 	VIEW: {
 		FULL_APPEAL: { CANNOT_APPEAL }
 	}
-} = require('../lib/full-appeal/views');
+} = require('../../../lib/full-appeal/views');
 
 const getEnterCode = async (req, res) => {
 	const {
