@@ -1,4 +1,8 @@
-{% extends "layouts/no-banner-link/main-no-back-link.njk" %}
+{% if appealType === '1005' %}
+  {% extends "layouts/full-appeal-banner/main-no-back-link.njk" %}
+{% else %}
+  {% extends "layouts/no-banner-link/main-no-back-link.njk" %}
+{% endif %}
 
 {% block pageTitle %}{{ "The link has expired - Appeal a planning decision - GOV.UK" }}{% endblock %}
 

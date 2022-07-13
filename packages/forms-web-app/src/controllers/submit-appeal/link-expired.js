@@ -4,9 +4,10 @@ const {
 	}
 } = require('../../lib/submit-appeal/views');
 
-const getLinkExpired = (_, res) => {
+const getLinkExpired = (req, res) => {
 	const newLinkUrl = '/full-appeal/submit-appeal/sent-another-link';
-	res.render(LINK_EXPIRED, { sendNewLinkUrl: newLinkUrl });
+	const appealType = req.session.appeal.appealType;
+	res.render(LINK_EXPIRED, { sendNewLinkUrl: newLinkUrl, appealType: appealType });
 };
 
 module.exports = { getLinkExpired };
