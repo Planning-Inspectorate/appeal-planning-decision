@@ -1,13 +1,26 @@
+const { getConfirmEmail } = require('../../../lib/appeals-api-wrapper');
+const { isTokenExpired } = require('../../../lib/is-token-expired');
+
 const {
 	VIEW: {
-		FULL_APPEAL: { EMAIL_CONFIRMED }
+		FULL_APPEAL: { EMAIL_CONFIRMED, LIST_OF_DOCUMENTS }
 	}
 } = require('../../../lib/full-appeal/views');
+const {
+	VIEW: {
+		SUBMIT_APPEAL: { LINK_EXPIRED }
+	}
+} = require('../../../lib/submit-appeal/views');
 
-const getEmailConfirmed = (req, res) => {
-	const listOfDocumentsUrl = '/full-appeal/submit-appeal/list-of-documents';
+const getEmailConfirmed = async (req, res) => {
+	const retrievedToken = await getConfirmEmail(req.params.token);
+	const tokenCreated = new Date(retrievedToken.createdAt);
+
+	if (isTokenExpired(30, tokenCreated)) {
+		return res.redirect(`/${LINK_EXPIRED}`);
+	}
 	res.render(EMAIL_CONFIRMED, {
-		listOfDocumentsUrl
+		listOfDocumentsUrl: `/${LIST_OF_DOCUMENTS}`
 	});
 };
 

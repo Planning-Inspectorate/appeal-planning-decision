@@ -6,7 +6,7 @@ const {
 
 async function confirmEmailGet(req, res) {
 	const { token } = req.params;
-	const foundToken = await confirmEmailGetService(parseInt(token));
+	const foundToken = await confirmEmailGetService(token);
 	res.status(200).send(foundToken);
 }
 
