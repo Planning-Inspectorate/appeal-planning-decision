@@ -2,6 +2,7 @@ const logger = require('../../lib/logger');
 const { getTaskStatus } = require('../../services/task.service');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../lib/views');
+const { postSaveAndReturn } = require('../appeal-householder-decision/save');
 
 const sectionName = 'aboutYouSection';
 const taskName = 'yourDetails';
@@ -55,29 +56,30 @@ exports.postWhoAreYou = async (req, res) => {
 	}
 
 	if (Object.keys(errors).length > 0) {
-		res.render(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
+		return res.render(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
 			appeal,
 			errors,
 			errorSummary,
 			FORM_FIELD
 		});
-		return;
 	}
 
 	try {
 		appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+		if (req.body['save-and-return'] !== '') {
+			req.session.appeal = await createOrUpdateAppeal(appeal);
+			return res.redirect(`/${VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS}`);
+		}
 		req.session.appeal = await createOrUpdateAppeal(appeal);
+		return await postSaveAndReturn(req, res);
 	} catch (e) {
 		logger.error(e);
 
-		res.render(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
+		return res.render(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
 			appeal,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }],
 			FORM_FIELD
 		});
-		return;
 	}
-
-	res.redirect(`/${VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS}`);
 };

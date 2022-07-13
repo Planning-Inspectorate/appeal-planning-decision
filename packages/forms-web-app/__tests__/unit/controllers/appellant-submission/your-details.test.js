@@ -169,7 +169,6 @@ describe('controllers/appellant-submission/your-details', () => {
 					...appeal[sectionName],
 					[taskName]: {
 						appealingOnBehalfOf: '',
-						email: fakeEmail,
 						isOriginalApplicant: false,
 						name: fakeName
 					}

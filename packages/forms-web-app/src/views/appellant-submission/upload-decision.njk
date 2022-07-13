@@ -4,6 +4,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
 
 {% set title = "Upload the decision letter - Appeal a planning decision - GOV.UK" %}
 {% if errors %}{% set title="Error: " + title %}{% endif %}
@@ -74,11 +75,14 @@
           </div>
         </details>
 
-        {{ govukButton({
-          text: "Save and continue",
-          type: "submit",
-          attributes: { "data-cy":"button-save-and-continue"}
-        }) }}
+        <div class="govuk-button-group">
+					{{ govukButton({
+						text: "Save and continue",
+						type: "submit",
+						attributes: { "data-cy":"button-save-and-continue"}
+					}) }}
+					{{ saveAndReturnButton() }}
+				</div>
       </form>
     </div>
   </div>

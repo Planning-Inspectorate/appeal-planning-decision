@@ -5,6 +5,7 @@
 {%- from "govuk/components/error-summary/macro.njk" import govukErrorSummary -%}
 {%- from "govuk/components/inset-text/macro.njk" import govukInsetText -%}
 {%- from "components/multi-file-upload/macro.njk" import mojMultiFileUpload -%}
+{% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
 
 {% set title = "Any other documents to support your appeal - Appeal a planning decision - GOV.UK" %}
 
@@ -78,11 +79,14 @@
           uploadHtml: uploadHtml
         }) }}
 
-        {{ govukButton({
-          text: "Continue",
-          type: "submit",
-          attributes: { "data-cy":"button-save-and-continue"}
-        }) }}
+        <div class="govuk-button-group">
+					{{ govukButton({
+						text: "Save and continue",
+						type: "submit",
+						attributes: { "data-cy":"button-save-and-continue"}
+					}) }}
+					{{ saveAndReturnButton() }}
+				</div>
       </form>
     </div>
   </div>

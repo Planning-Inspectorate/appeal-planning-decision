@@ -5,6 +5,7 @@ const { VIEW } = require('../../lib/views');
 const {
 	validSiteOwnershipOptions
 } = require('../../validators/appellant-submission/site-ownership');
+const { postSaveAndReturn } = require('../appeal-householder-decision/save');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'siteOwnership';
@@ -40,24 +41,25 @@ exports.postSiteOwnership = async (req, res) => {
 		return;
 	}
 
+	if (!task.ownsWholeSite) {
+		return res.redirect(`/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB}`);
+	}
+
 	try {
 		appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+		if (req.body['save-and-return'] !== '') {
+			req.session.appeal = await createOrUpdateAppeal(appeal);
+			return res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
+		}
 		req.session.appeal = await createOrUpdateAppeal(appeal);
+		return await postSaveAndReturn(req, res);
 	} catch (e) {
 		logger.error(e);
 
-		res.render(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP, {
+		return res.render(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP, {
 			appeal,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
 		});
-		return;
 	}
-
-	if (!task.ownsWholeSite) {
-		res.redirect(`/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB}`);
-		return;
-	}
-
-	res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
 };

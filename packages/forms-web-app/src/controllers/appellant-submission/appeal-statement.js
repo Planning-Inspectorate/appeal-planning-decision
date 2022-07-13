@@ -5,6 +5,7 @@ const { createDocument } = require('../../lib/documents-api-wrapper');
 const logger = require('../../lib/logger');
 const { getNextTask } = require('../../services/task.service');
 const { getTaskStatus } = require('../../services/task.service');
+const { postSaveAndReturn } = require('../appeal-householder-decision/save');
 
 const sectionName = 'yourAppealSection';
 const taskName = 'appealStatement';
@@ -57,16 +58,18 @@ exports.postAppealStatement = async (req, res) => {
 			}
 		}
 		appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+		if (req.body['save-and-return'] !== '') {
+			req.session.appeal = await createOrUpdateAppeal(appeal);
+			return res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
+		}
 		req.session.appeal = await createOrUpdateAppeal(appeal);
+		return await postSaveAndReturn(req, res);
 	} catch (e) {
 		logger.error(e);
-		res.render(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
+		return res.render(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
 			appeal,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
 		});
-		return;
 	}
-
-	res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
 };

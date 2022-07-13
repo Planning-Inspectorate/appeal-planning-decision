@@ -3,6 +3,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
 
 {% set title = "Your details - Appeal a planning decision - GOV.UK" %}
 {% if errors %}{% set title="Error: " + title %}{% endif %}
@@ -41,27 +42,15 @@
           }
         }) }}
 
-        {{ govukInput({
-          label: {
-            text: "Your email",
-            classes: "govuk-label",
-            isPageHeading: false
-          },
-          id: "appellant-email",
-          name: "appellant-email",
-          spellcheck: false,
-          value: appeal['aboutYouSection']['yourDetails']['email'],
-          errorMessage: errors['appellant-email'] and {
-            text: errors['appellant-email'].msg
-          }
-        }) }}
-
-        {{ govukButton({
-          text: "Save and continue",
-          type: "submit",
-          attributes: { "data-cy":"button-save-and-continue"}
-        }) }}
+        <div class="govuk-button-group">
+					{{ govukButton({
+						text: "Save and continue",
+						type: "submit",
+						attributes: { "data-cy":"button-save-and-continue"}
+					}) }}
+					{{ saveAndReturnButton() }}
+				</div>
       </form>
-    </div>
+    </div>z
   </div>
 {% endblock %}

@@ -496,31 +496,6 @@ describe('schemas/householder-appeal/insert', () => {
 			});
 		});
 
-		describe('aboutYouSection.yourDetails.email', () => {
-			it('should throw an error when not given an email value', async () => {
-				appeal.aboutYouSection.yourDetails.email = 'apellant@example';
-
-				await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-					'aboutYouSection.yourDetails.email must be a valid email'
-				);
-			});
-
-			it('should throw an error when given a value with more than 255 characters', async () => {
-				appeal.aboutYouSection.yourDetails.email = `${'a'.repeat(244)}@example.com`;
-
-				await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-					'aboutYouSection.yourDetails.email must be at most 255 characters'
-				);
-			});
-
-			it('should not throw an error when not given a value', async () => {
-				delete appeal.aboutYouSection.yourDetails.email;
-
-				const result = await insert.validate(appeal, config);
-				expect(result).toEqual(appeal);
-			});
-		});
-
 		describe('aboutYouSection.yourDetails.appealingOnBehalfOf', () => {
 			it('should throw an error when not given a string value', async () => {
 				appeal.aboutYouSection.yourDetails.appealingOnBehalfOf = 123;
@@ -568,23 +543,6 @@ describe('schemas/householder-appeal/insert', () => {
 				await expect(() => insert.validate(appeal, config)).rejects.toThrow(
 					'requiredDocumentsSection must be a `object` type, but the final value was: `null`'
 				);
-			});
-		});
-
-		describe('requiredDocumentsSection.applicationNumber', () => {
-			it('should throw an error when given a value with more than 30 characters', async () => {
-				appeal.requiredDocumentsSection.applicationNumber = 'a'.repeat(31);
-
-				await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-					'requiredDocumentsSection.applicationNumber must be at most 30 characters'
-				);
-			});
-
-			it('should not throw an error when not given a value', async () => {
-				delete appeal.requiredDocumentsSection.applicationNumber;
-
-				const result = await insert.validate(appeal, config);
-				expect(result).toEqual(appeal);
 			});
 		});
 
@@ -1050,28 +1008,6 @@ describe('schemas/householder-appeal/insert', () => {
 				await expect(() => insert.validate(appeal, config)).rejects.toThrow(
 					'sectionStates.requiredDocumentsSection must be a `object` type, but the final value was: `null`'
 				);
-			});
-		});
-
-		describe('sectionStates.requiredDocumentsSection.applicationNumber', () => {
-			it('should throw an error when given an invalid value', async () => {
-				appeal.sectionStates.requiredDocumentsSection.applicationNumber = 'NOT COMPLETE';
-
-				await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-					`sectionStates.requiredDocumentsSection.applicationNumber must be one of the following values: ${Object.values(
-						SECTION_STATE
-					).join(', ')}`
-				);
-			});
-
-			it('should set a default value of `NOT STARTED` when not given a value', async () => {
-				delete appeal.sectionStates.requiredDocumentsSection.applicationNumber;
-
-				appeal2.sectionStates.requiredDocumentsSection.applicationNumber =
-					SECTION_STATE.NOT_STARTED;
-
-				const result = await insert.validate(appeal, config);
-				expect(result).toEqual(appeal2);
 			});
 		});
 

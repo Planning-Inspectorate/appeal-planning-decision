@@ -71,7 +71,7 @@ module.exports = {
 			const newAppeal = req.body;
 			const oldAppeal = document.appeal;
 
-			// logger.debug({ newAppeal }, 'New appeal data in updateAppeal');
+			logger.debug({ newAppeal }, 'New appeal data in updateAppeal');
 
 			const isFirstSubmission = oldAppeal.state === 'DRAFT' && newAppeal.state === 'SUBMITTED';
 
