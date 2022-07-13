@@ -891,7 +891,7 @@
     {% else %}
       {% set planningApplicationRows = [applicationFormRow, hasOwnershipCertificateRow] %}
     {% endif %}
-    {% if ispdf === true %}
+    {% if isPdf === true %}
        {% set planningApplicationRows = (planningApplicationRows.push(planningApplicationNumberRow), planningApplicationRows) %}
     {% endif %}
     {% if appeal.planningApplicationDocumentsSection.ownershipCertificate.submittedSeparateCertificate %}
