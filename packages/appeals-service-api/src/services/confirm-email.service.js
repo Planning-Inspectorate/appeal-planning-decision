@@ -30,19 +30,13 @@ const confirmEmailNotifyContinue = async (saved, token) => {
 };
 
 const confirmEmailGetService = async (token) => {
-	let foundToken;
-	await mongodb
-		.get()
-		.collection('confirmEmail')
-		.findOne({ token: token })
-		.then((doc) => {
-			foundToken = doc;
-		})
-		.catch((err) => {
-			console.log(err);
-			throw new Error(err);
-		});
-	return foundToken;
+	try {
+		const foundToken = await mongodb.get().collection('confirmEmail').findOne({ token: token });
+		return foundToken;
+	} catch (err) {
+		console.log(err);
+		throw new Error(err);
+	}
 };
 
 module.exports = {

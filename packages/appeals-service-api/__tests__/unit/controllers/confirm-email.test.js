@@ -57,11 +57,11 @@ describe('Confirm Email API', () => {
 	describe('GET - get token', () => {
 		it('should retrieve token', async () => {
 			req.params = { token: '54321' };
-			confirmEmailGetService.mockReturnValue({ token: 54321 });
+			confirmEmailGetService.mockReturnValue({ token: '54321' });
 			await confirmEmailGet(req, res);
-			expect(confirmEmailGetService).toHaveBeenCalledWith(54321);
+			expect(confirmEmailGetService).toHaveBeenCalledWith('54321');
 			expect(res.status).toHaveBeenCalledWith(200);
-			expect(res.send).toHaveBeenCalledWith({ token: 54321 });
+			expect(res.send).toHaveBeenCalledWith({ token: '54321' });
 		});
 	});
 });

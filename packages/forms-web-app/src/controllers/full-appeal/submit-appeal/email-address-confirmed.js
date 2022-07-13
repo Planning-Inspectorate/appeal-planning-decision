@@ -1,4 +1,5 @@
-const { isEmailLinkExpired } = require('../../../lib/appeals-api-wrapper');
+const { getConfirmEmail } = require('../../../lib/appeals-api-wrapper');
+const { isTokenExpired } = require('../../../lib/is-token-expired');
 
 const {
 	VIEW: {
@@ -12,8 +13,10 @@ const {
 } = require('../../../lib/submit-appeal/views');
 
 const getEmailConfirmed = async (req, res) => {
-	let emailLinkExpired = await isEmailLinkExpired(req.params.token);
-	if (emailLinkExpired) {
+	const retrievedToken = await getConfirmEmail(req.params.token);
+	const tokenCreated = new Date(retrievedToken.createdAt);
+
+	if (isTokenExpired(30, tokenCreated)) {
 		return res.redirect(`/${LINK_EXPIRED}`);
 	}
 	res.render(EMAIL_CONFIRMED, {
