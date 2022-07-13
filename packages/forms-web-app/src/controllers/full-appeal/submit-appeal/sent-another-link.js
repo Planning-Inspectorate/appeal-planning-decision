@@ -1,12 +1,17 @@
+const { createConfirmEmail, getExistingAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
 	VIEW: {
 		FULL_APPEAL: { SENT_ANOTHER_LINK: currentPage }
 	}
 } = require('../../../lib/full-appeal/views');
 
-const getSentAnotherLink = (req, res) => {
+const getSentAnotherLink = async (req, res) => {
+	const appealId = req.session.confirmEmailId;
+	req.session.confirmEmailId = null;
+	const appeal = await getExistingAppeal(appealId);
+	createConfirmEmail(appeal);
 	res.render(currentPage, {
-		appeal: req.session.appeal
+		appeal: appeal
 	});
 };
 

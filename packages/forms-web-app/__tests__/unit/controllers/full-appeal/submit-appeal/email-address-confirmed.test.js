@@ -26,7 +26,6 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 	beforeEach(() => {
 		req = mockReq();
 		res = mockRes();
-
 		jest.resetAllMocks();
 	});
 
@@ -39,6 +38,7 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 			await getEmailConfirmed(req, res);
 			expect(getConfirmEmail).toBeCalledWith('12345');
 			expect(isTokenExpired).toBeCalledWith(30, date);
+			expect(req.session.confirmEmailId).toBeUndefined();
 			expect(res.render).toBeCalledWith(EMAIL_CONFIRMED, {
 				listOfDocumentsUrl: '/full-appeal/submit-appeal/list-of-documents'
 			});
@@ -47,11 +47,15 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 		it('calls correct template: token expired', async () => {
 			req.params.token = '12345';
 			const date = new Date('2022-05-11T17:19:37.227Z');
-			getConfirmEmail.mockReturnValue({ createdAt: '2022-05-11T17:19:37.227Z' });
+			getConfirmEmail.mockReturnValue({
+				createdAt: '2022-05-11T17:19:37.227Z',
+				appealId: 'fake-123'
+			});
 			isTokenExpired.mockReturnValue(true);
 			await getEmailConfirmed(req, res);
 			expect(getConfirmEmail).toBeCalledWith('12345');
 			expect(isTokenExpired).toBeCalledWith(30, date);
+			expect(req.session.confirmEmailId).toEqual('fake-123');
 			expect(res.render).not.toBeCalled();
 			expect(res.redirect).toBeCalledWith(`/${LINK_EXPIRED}`);
 		});
