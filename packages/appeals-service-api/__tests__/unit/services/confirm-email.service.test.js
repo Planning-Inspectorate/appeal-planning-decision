@@ -9,7 +9,7 @@ jest.mock('../../../src/db/db');
 jest.mock('../../../src/lib/notify');
 
 describe('confirm-email services', () => {
-	describe('confirmEmailService', () => {
+	describe('confirmEmailGetService', () => {
 		it('should retrieve saved token', async () => {
 			const saved = { value: { token: '12345', createdAt: new Date() } };
 			mongodb.get = jest.fn(() => ({

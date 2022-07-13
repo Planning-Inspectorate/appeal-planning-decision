@@ -5,7 +5,8 @@ describe('lib/submit-appeal/views', () => {
 		expect(VIEW).toEqual({
 			SUBMIT_APPEAL: {
 				ENTER_APPEAL_DETAILS: 'submit-appeal/enter-appeal-details',
-				APPLICATION_SAVED: 'submit-appeal/application-saved'
+				APPLICATION_SAVED: 'submit-appeal/application-saved',
+				LINK_EXPIRED: 'submit-appeal/link-expired'
 			}
 		});
 	});

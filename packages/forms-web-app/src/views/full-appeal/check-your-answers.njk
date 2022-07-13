@@ -78,14 +78,24 @@
         }
       ]
     } %}
-    {% set contactDetailsRow = {
-      key: { text: summaryField(
-        "Your contact details",
-        { "data-cy": "contact-details-label" }
-      ) },
-      value: { text: contactDetails(appeal.contactDetailsSection.contact) },
-      actions: contactDetailsRowActions if isPdf !== true
-    } %}
+    {% if isPdf === true %}
+      {% set contactDetailsRow = {
+        key: { text: summaryField(
+          "Your contact details",
+          { "data-cy": "contact-details-label" }
+        ) },
+        value: { text: contactDetails(appeal.contactDetailsSection.contact, appeal.email) }
+      } %}
+    {% else %}
+      {% set contactDetailsRow = {
+        key: { text: summaryField(
+          "Your contact details",
+          { "data-cy": "contact-details-label" }
+        ) },
+        value: { text: contactDetails(appeal.contactDetailsSection.contact) },
+        actions: contactDetailsRowActions
+      } %}
+    {% endif %}
     {% set contactDetailsRows = [isOriginalApplicantRow] %}
     {% if not appeal.contactDetailsSection.isOriginalApplicant %}
       {% set contactDetailsRows = (contactDetailsRows.push(appealingOnBehalfOfRow), contactDetailsRows) %}
@@ -685,6 +695,29 @@
         }
       ]
     } %}
+    {% set planningApplicationNumberRow = {
+      key: { text: summaryField(
+        "Planning application number",
+        { "data-cy": "planning-application-number-label" }
+      ) },
+      value: { text: summaryField(
+        appeal.planningApplicationNumber,
+        { "data-cy": "planning-application-number" }
+      ) },
+      actions: planningApplicationNumberRowActions if isPdf !== true
+    } %}
+    {% set planningApplicationNumberRowActions = {
+      items: [
+        {
+          href: "/full-appeal/submit-appeal/planning-application-number",
+          text: "Change",
+          visuallyHiddenText: "the planning application number",
+          attributes: {
+            "data-cy": "planning-application-number"
+          }
+        }
+      ]
+    } %}
     {% set ownershipCertificateRow = {
       key: { text: summaryField(
         "Ownership certificate and agricultural land declaration",
@@ -857,6 +890,9 @@
       {% set planningApplicationRows = [originalDecisionNoticeRow, applicationFormRow, hasOwnershipCertificateRow] %}
     {% else %}
       {% set planningApplicationRows = [applicationFormRow, hasOwnershipCertificateRow] %}
+    {% endif %}
+    {% if ispdf === true %}
+       {% set planningApplicationRows = (planningApplicationRows.push(planningApplicationNumberRow), planningApplicationRows) %}
     {% endif %}
     {% if appeal.planningApplicationDocumentsSection.ownershipCertificate.submittedSeparateCertificate %}
       {% set planningApplicationRows = (planningApplicationRows.push(ownershipCertificateRow), planningApplicationRows) %}

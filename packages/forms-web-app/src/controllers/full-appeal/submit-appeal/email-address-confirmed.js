@@ -1,30 +1,29 @@
-const logger = require('../../../lib/logger');
+const { getConfirmEmail } = require('../../../lib/appeals-api-wrapper');
+const { isTokenExpired } = require('../../../lib/is-token-expired');
+
 const {
 	VIEW: {
 		FULL_APPEAL: { EMAIL_CONFIRMED, LIST_OF_DOCUMENTS }
 	}
 } = require('../../../lib/full-appeal/views');
-
-const getEmailConfirmed = (req, res) => {
-	res.render(EMAIL_CONFIRMED, {});
-};
-
-const postEmailConfirmed = async (req, res) => {
-	const { body } = req;
-	const { errors = {} } = body;
-
-	try {
-		return res.redirect(`/${LIST_OF_DOCUMENTS}`);
-	} catch (e) {
-		logger.error(e);
-		return res.render(EMAIL_CONFIRMED, {
-			errors,
-			errorSummary: [{ text: e.toString(), href: '#' }]
-		});
+const {
+	VIEW: {
+		SUBMIT_APPEAL: { LINK_EXPIRED }
 	}
+} = require('../../../lib/submit-appeal/views');
+
+const getEmailConfirmed = async (req, res) => {
+	const retrievedToken = await getConfirmEmail(req.params.token);
+	const tokenCreated = new Date(retrievedToken.createdAt);
+
+	if (isTokenExpired(30, tokenCreated)) {
+		return res.redirect(`/${LINK_EXPIRED}`);
+	}
+	res.render(EMAIL_CONFIRMED, {
+		listOfDocumentsUrl: `/${LIST_OF_DOCUMENTS}`
+	});
 };
 
 module.exports = {
-	getEmailConfirmed,
-	postEmailConfirmed
+	getEmailConfirmed
 };
