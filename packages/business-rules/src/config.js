@@ -187,8 +187,7 @@ const config = {
 								calculateDeadline.businessRulesDeadline(
 									appeal.decisionDate,
 									appeal.appealType,
-									appeal.eligibility.applicationDecision,
-									true
+									appeal.eligibility.applicationDecision
 								),
 								'dd MMMM yyyy'
 							),

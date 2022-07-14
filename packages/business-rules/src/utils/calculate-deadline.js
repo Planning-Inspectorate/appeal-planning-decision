@@ -1,3 +1,6 @@
+const { appeal } = require('../rules/index');
+const { parseISO } = require('date-fns');
+
 const calculateDeadline = {
 	householderApplication: (decisionDate) => {
 		const numOfWeeksToDeadline = 12;
@@ -11,6 +14,9 @@ const calculateDeadline = {
 		tempDate.setMonth(tempDate.getMonth() + numOfMonthsToDeadline);
 		tempDate.setDate(tempDate.getDate() - 1);
 		return tempDate;
+	},
+	businessRulesDeadline: (decisionDate, appealType, applicationDecision) => {
+		return appeal.deadlineDate(parseISO(decisionDate), appealType, applicationDecision);
 	}
 };
 
