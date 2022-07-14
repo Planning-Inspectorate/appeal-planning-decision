@@ -80,7 +80,12 @@ const saveAndReturnTokenService = async (appealId) => {
 			.collection('saveAndReturn')
 			.findOneAndUpdate(
 				{ appealId: appealId },
-				{ $set: { token } },
+				{
+					$set: {
+						token: token,
+						createdAt: new Date()
+					}
+				},
 				{ returnOriginal: true, upsert: false }
 			)
 			.then(async () => {
