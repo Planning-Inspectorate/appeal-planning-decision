@@ -50,6 +50,7 @@ const emailConfirmedRouter = require('../../../../../src/routes/full-appeal/subm
 const SentAnotherLinkRouter = require('../../../../../src/routes/full-appeal/submit-appeal/sent-another-link');
 const appealAlreadySubmittedRouter = require('../../../../../src/routes/full-appeal/submit-appeal/appeal-already-submitted');
 const requestNewCodeRouter = require('../../../../../src/routes/full-appeal/submit-appeal/request-new-code');
+const codeExpiredRouter = require('../../../../../src/routes/full-appeal/submit-appeal/code-expired');
 
 describe('routes/full-appeal/submit-appeal/index', () => {
 	beforeEach(() => {
@@ -109,5 +110,6 @@ describe('routes/full-appeal/submit-appeal/index', () => {
 		expect(use).toHaveBeenCalledWith(SentAnotherLinkRouter);
 		expect(use).toHaveBeenCalledWith(appealAlreadySubmittedRouter);
 		expect(use).toHaveBeenCalledWith(requestNewCodeRouter);
+		expect(use).toHaveBeenCalledWith(codeExpiredRouter);
 	});
 });
