@@ -133,7 +133,9 @@ describe('config', () => {
 		expect(result).toEqual({
 			recipientEmail: fullAppeal.email,
 			reference: fullAppeal.id,
-			variables: 'http://localhost/full-appeal/submit-appeal/email-address-confirmed/12345'
+			variables: {
+				link: 'http://localhost/full-appeal/submit-appeal/email-address-confirmed/12345'
+			}
 		});
 	});
 	it('should return correct confirmEmail config for householder appeal', () => {
@@ -145,7 +147,7 @@ describe('config', () => {
 		expect(result).toEqual({
 			recipientEmail: householderAppeal.email,
 			reference: householderAppeal.id,
-			variables: 'http://localhost/appeal-householder-decision/12345'
+			variables: { link: 'http://localhost/appeal-householder-decision/12345' }
 		});
 	});
 });
