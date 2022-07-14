@@ -65,7 +65,9 @@ describe('/lib/full-appeal/views', () => {
 				SENT_ANOTHER_LINK: 'full-appeal/submit-appeal/sent-another-link',
 				CANNOT_APPEAL: 'full-appeal/submit-appeal/cannot-appeal',
 				APPEAL_ALREADY_SUBMITTED: 'full-appeal/submit-appeal/appeal-already-submitted',
-				REQUEST_NEW_CODE: 'full-appeal/submit-appeal/request-new-code'
+				REQUEST_NEW_CODE: 'full-appeal/submit-appeal/request-new-code',
+				CODE_EXPIRED: 'full-appeal/submit-appeal/code-expired'
+
 			}
 		});
 	});
