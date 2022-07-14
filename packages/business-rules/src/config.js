@@ -90,7 +90,7 @@ const config = {
 					}),
 					confirmEmail: (appeal, baseUrl, token) => ({
 						recipientEmail: appeal.email,
-						variables: `${baseUrl}/appeal-householder-decision/${token}`,
+						variables: { link: `${baseUrl}/appeal-householder-decision/${token}` },
 						reference: appeal.id
 					})
 				}
@@ -206,7 +206,9 @@ const config = {
 					}),
 					confirmEmail: (appeal, baseUrl, token) => ({
 						recipientEmail: appeal.email,
-						variables: `${baseUrl}/full-appeal/submit-appeal/email-address-confirmed/${token}`,
+						variables: {
+							link: `${baseUrl}/full-appeal/submit-appeal/email-address-confirmed/${token}`
+						},
 						reference: appeal.id
 					})
 				}
