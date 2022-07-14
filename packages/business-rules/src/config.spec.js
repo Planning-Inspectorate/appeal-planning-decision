@@ -22,7 +22,7 @@ describe('config', () => {
 		);
 
 		expect(result).toEqual({
-			recipientEmail: householderAppeal.aboutYouSection.yourDetails.email,
+			recipientEmail: householderAppeal.email,
 			variables: {
 				name: householderAppeal.aboutYouSection.yourDetails.name,
 				'appeal site address': formatAddress(householderAppeal.appealSiteSection.siteAddress),
@@ -41,7 +41,7 @@ describe('config', () => {
 			variables: {
 				LPA: lpa.name,
 				date: format(householderAppeal.submissionDate, 'dd MMMM yyyy'),
-				'planning application number': householderAppeal.requiredDocumentsSection.applicationNumber,
+				'planning application number': householderAppeal.planningApplicationNumber,
 				'site address': formatAddress(householderAppeal.appealSiteSection.siteAddress)
 			},
 			reference: householderAppeal.id
@@ -127,23 +127,25 @@ describe('config', () => {
 	it('should return correct confirmEmail config for full appeal', () => {
 		const result = config.appeal.type[APPEAL_ID.PLANNING_SECTION_78].email.confirmEmail(
 			fullAppeal,
+			process.env.APP_APPEALS_BASE_URL,
 			'12345'
 		);
 		expect(result).toEqual({
 			recipientEmail: fullAppeal.email,
 			reference: fullAppeal.id,
-			variables: { link: '12345' }
+			variables: 'http://localhost/full-appeal/submit-appeal/email-address-confirmed/12345'
 		});
 	});
 	it('should return correct confirmEmail config for householder appeal', () => {
 		const result = config.appeal.type[APPEAL_ID.HOUSEHOLDER].email.confirmEmail(
 			householderAppeal,
+			process.env.APP_APPEALS_BASE_URL,
 			'12345'
 		);
 		expect(result).toEqual({
-			recipientEmail: householderAppeal.aboutYouSection.yourDetails.email,
+			recipientEmail: householderAppeal.email,
 			reference: householderAppeal.id,
-			variables: { link: '12345' }
+			variables: 'http://localhost/appeal-householder-decision/12345'
 		});
 	});
 });
