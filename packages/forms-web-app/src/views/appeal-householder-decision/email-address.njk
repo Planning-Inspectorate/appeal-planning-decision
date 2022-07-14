@@ -13,6 +13,16 @@
   {{ title }}
 {% endblock %}
 
+{% block backButton %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: '/appeal-householder-decision/planning-application-number',
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -34,7 +44,7 @@
           </label>
 
           <p class="govuk-body">
-            We’ll use this email to contact you about your appeal. 
+            We’ll use this email to contact you about your appeal.
           </p>
 
           <p class="govuk-body">

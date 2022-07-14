@@ -68,10 +68,6 @@ const saveAndReturnNotifyContinue = async (saved) => {
 };
 
 const saveAndReturnNotifyCode = async (saved, token) => {
-	console.log('=============');
-	console.log(saved);
-	console.log(token);
-	console.log('=============');
 	await sendSaveAndReturnEnterCodeIntoServiceEmail(saved, token);
 };
 
