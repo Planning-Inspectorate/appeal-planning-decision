@@ -1,7 +1,7 @@
 const { get, post } = require('../../router-mock');
 const {
-	getcodeExpired,
-	postcodeExpired
+	getCodeExpired,
+	postCodeExpired
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/code-expired');
 describe('routes/full-appeal/submit-appeal/code-expired', () => {
 	beforeEach(() => {
@@ -14,7 +14,7 @@ describe('routes/full-appeal/submit-appeal/code-expired', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenCalledWith('/submit-appeal/code-expired/', getcodeExpired);
-		expect(post).toHaveBeenCalledWith('/submit-appeal/code-expired/', postcodeExpired);
+		expect(get).toHaveBeenCalledWith('/submit-appeal/code-expired', getCodeExpired);
+		expect(post).toHaveBeenCalledWith('/submit-appeal/code-expired', postCodeExpired);
 	});
 });
