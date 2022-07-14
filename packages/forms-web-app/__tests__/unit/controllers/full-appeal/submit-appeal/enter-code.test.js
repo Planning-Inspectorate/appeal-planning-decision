@@ -4,7 +4,7 @@ const {
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/enter-code');
 const {
 	VIEW: {
-		FULL_APPEAL: { TASK_LIST, ENTER_CODE }
+		FULL_APPEAL: { TASK_LIST, ENTER_CODE, CODE_EXPIRED }
 	}
 } = require('../../../../../src/lib/full-appeal/views');
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
@@ -16,9 +16,11 @@ const {
 	}
 } = require('../../../../../src/lib/full-appeal/views');
 const { calculateDeadline } = require('../../../../../src/lib/calculate-deadline');
+const { isTokenExpired } = require('../../../../../src/lib/is-token-expired');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/calculate-deadline');
+jest.mock('../../../../../src/lib/is-token-expired')
 
 describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 	let req;
@@ -48,17 +50,37 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 		});
 	});
 	describe('postEnterCode', () => {
-		it('should render task list page when entering the token from email', async () => {
+		it('should render task list page when entering valid token', async () => {
 			req.body = { token: '12312' };
+			const createdDate = new Date('2022-07-14T13:00:48.024Z');
 			getSavedAppeal.mockReturnValue({
-				token: '12312'
+				token: '12312',
+				createdAt: '2022-07-14T13:00:48.024Z'
+			});
+			isTokenExpired.mockReturnValue(false);
+			getExistingAppeal.mockReturnValue({
+				id: 'appealId'
+			});
+
+			await postEnterCode(req, res);
+			expect(isTokenExpired).toBeCalledWith(30, createdDate)
+			expect(res.redirect).toBeCalledWith(`/${TASK_LIST}`);
+			expect(req.session.appeal).toEqual({ id: 'appealId' });
+		});
+		it('should render code expired page when token is expired', async () => {
+			req.body = { token: '12312' };
+			const createdDate = new Date('2022-07-14T13:00:48.024Z');
+			getSavedAppeal.mockReturnValue({
+				token: '12312',
+				createdAt: '2022-07-14T13:00:48.024Z'
 			});
 			getExistingAppeal.mockReturnValue({
 				id: 'appealId'
 			});
+			isTokenExpired.mockReturnValue(true);
 			await postEnterCode(req, res);
-			expect(res.redirect).toBeCalledWith(`/${TASK_LIST}`);
-			expect(req.session.appeal).toEqual({ id: 'appealId' });
+			expect(isTokenExpired).toBeCalledWith(30, createdDate);
+			expect(res.redirect).toBeCalledWith(`/${CODE_EXPIRED}`);
 		});
 	});
 });
