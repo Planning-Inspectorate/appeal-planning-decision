@@ -1,4 +1,3 @@
-const logger = require('../../../lib/logger');
 const {
   VIEW: {
     FULL_APPEAL: { CODE_EXPIRED, ENTER_CODE },
