@@ -73,7 +73,7 @@ describe('lib/notify', () => {
 			expect(NotifyBuilder.reset).toBeCalled();
 			expect(NotifyBuilder.reset().setTemplateId).toBeCalledWith('appellant-template');
 			expect(NotifyBuilder.reset().setTemplateId().setDestinationEmailAddress).toBeCalledWith(
-				householderAppeal.aboutYouSection.yourDetails.email
+				householderAppeal.email
 			);
 			expect(
 				NotifyBuilder.reset()
@@ -115,7 +115,7 @@ describe('lib/notify', () => {
 			).toBeCalledWith({
 				LPA: 'System Test Borough Council',
 				date: expect.any(String),
-				'planning application number': householderAppeal.requiredDocumentsSection.applicationNumber,
+				'planning application number': householderAppeal.planningApplicationNumber,
 				'site address': 'Site Address 1\nSite Address 2\nSite Town\nSite County\nSW1 1AA'
 			});
 			expect(
@@ -157,10 +157,6 @@ describe('lib/notify', () => {
 			expect(NotifyBuilder.reset().setTemplateId().setDestinationEmailAddress).toBeCalledWith(
 				fullAppeal.email
 			);
-			expect(
-				NotifyBuilder.reset().setTemplateId().setDestinationEmailAddress()
-					.setTemplateVariablesFromObject
-			).toBeCalledWith({ link: 'baseUrl/full-appeal/submit-appeal/email-address-confirmed/12345' });
 			expect(
 				NotifyBuilder.reset()
 					.setTemplateId()
