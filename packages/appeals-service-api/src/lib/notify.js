@@ -60,10 +60,9 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
 	try {
 		const { baseUrl } = config.apps.appeals;
-		const link = `${baseUrl}/full-appeal/submit-appeal/enter-code/`;
 		const { recipientEmail, variables, reference } = appealTypeConfig[
 			appeal.appealType
-		].email.saveAndReturnContinueAppeal(appeal, link);
+		].email.saveAndReturnContinueAppeal(appeal, baseUrl);
 
 		logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
 
@@ -107,10 +106,9 @@ const sendSaveAndReturnEnterCodeIntoServiceEmail = async (saved, token) => {
 const sendConfirmEmailAddressEmail = async (appeal, token) => {
 	try {
 		const { baseUrl } = config.apps.appeals;
-		const link = `${baseUrl}/full-appeal/submit-appeal/email-address-confirmed/${token}`;
 		const { recipientEmail, variables, reference } = appealTypeConfig[
 			appeal.appealType
-		].email.confirmEmail(appeal, link);
+		].email.confirmEmail(appeal, baseUrl, token);
 		logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
 
 		await NotifyBuilder.reset()

@@ -49,7 +49,7 @@ const config = {
 				},
 				email: {
 					appellant: (appeal, lpa) => ({
-						recipientEmail: appeal.aboutYouSection.yourDetails.email,
+						recipientEmail: appeal.email,
 						variables: {
 							name: appeal.aboutYouSection.yourDetails.name,
 							'appeal site address': formatAddress(appeal.appealSiteSection.siteAddress),
@@ -63,25 +63,20 @@ const config = {
 						variables: {
 							LPA: lpa.name,
 							date: format(appeal.submissionDate, 'dd MMMM yyyy'),
-							'planning application number': appeal.requiredDocumentsSection.applicationNumber,
+							'planning application number': appeal.planningApplicationNumber,
 							'site address': formatAddress(appeal.appealSiteSection.siteAddress)
 						},
 						reference: appeal.id
 					}),
-					saveAndReturnContinueAppeal: (appeal, link) => ({
+					saveAndReturnContinueAppeal: (appeal, baseUrl) => ({
 						recipientEmail: appeal.email,
 						variables: {
 							'application number': appeal.planningApplicationNumber,
 							date: format(
-								calculateDeadline.businessRulesDeadline(
-									appeal.decisionDate,
-									appeal.appealType,
-									appeal.eligibility.applicationDecision,
-									true
-								),
+								calculateDeadline.householderApplication(appeal.decisionDate),
 								'dd MMMM yyyy'
 							),
-							link
+							link: `${baseUrl}/appeal-householder-decision/enter-code/`
 						},
 						reference: appeal.id
 					}),
@@ -93,9 +88,9 @@ const config = {
 						},
 						reference: appeal.id
 					}),
-					confirmEmail: (appeal, link) => ({
-						recipientEmail: appeal.aboutYouSection.yourDetails.email,
-						variables: { link },
+					confirmEmail: (appeal, baseUrl, token) => ({
+						recipientEmail: appeal.email,
+						variables: `${baseUrl}/appeal-householder-decision/${token}`,
 						reference: appeal.id
 					})
 				}
@@ -184,7 +179,7 @@ const config = {
 						},
 						reference: appeal.id
 					}),
-					saveAndReturnContinueAppeal: (appeal, link) => ({
+					saveAndReturnContinueAppeal: (appeal, baseUrl, token) => ({
 						recipientEmail: appeal.email,
 						variables: {
 							'application number': appeal.planningApplicationNumber,
@@ -197,7 +192,7 @@ const config = {
 								),
 								'dd MMMM yyyy'
 							),
-							link
+							link: `${baseUrl}/full-appeal/submit-appeal/email-address-confirmed/${token}`
 						},
 						reference: appeal.id
 					}),
@@ -209,9 +204,9 @@ const config = {
 						},
 						reference: appeal.id
 					}),
-					confirmEmail: (appeal, link) => ({
+					confirmEmail: (appeal, baseUrl, token) => ({
 						recipientEmail: appeal.email,
-						variables: { link },
+						variables: `${baseUrl}/full-appeal/submit-appeal/email-address-confirmed/${token}`,
 						reference: appeal.id
 					})
 				}
