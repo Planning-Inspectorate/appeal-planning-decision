@@ -5,7 +5,7 @@ const {
 } = require('../../../lib/appeals-api-wrapper');
 const {
 	VIEW: {
-		FULL_APPEAL: { TASK_LIST, ENTER_CODE, REQUEST_NEW_CODE, CODE_EXPIRED }
+		FULL_APPEAL: { TASK_LIST, ENTER_CODE, REQUEST_NEW_CODE, CODE_EXPIRED, APPEAL_ALREADY_SUBMITTED }
 	}
 } = require('../../../lib/full-appeal/views');
 const { calculateDeadline } = require('../../../lib/calculate-deadline');
@@ -40,12 +40,16 @@ const postEnterCode = async (req, res) => {
 	const saved = await getSavedAppeal(token);
 	const tokenCreatedTime = new Date(saved.createdAt);
 
-
-	if(!isTokenExpired(30, tokenCreatedTime)){
+	if (!isTokenExpired(30, tokenCreatedTime)) {
 		req.session.appeal = await getExistingAppeal(saved.appealId);
-		res.redirect(`/${TASK_LIST}`);
+		if (req.session.appeal.state === 'SUBMITTED') {
+			res.redirect(`/${APPEAL_ALREADY_SUBMITTED}`);
+		} else {
+			res.redirect(`/${TASK_LIST}`);
+		}
+	} else {
+		res.redirect(`/${CODE_EXPIRED}`);
 	}
-	res.redirect(`/${CODE_EXPIRED}`);
 };
 
 module.exports = {

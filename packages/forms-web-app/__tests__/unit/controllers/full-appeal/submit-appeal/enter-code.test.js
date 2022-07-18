@@ -4,7 +4,7 @@ const {
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/enter-code');
 const {
 	VIEW: {
-		FULL_APPEAL: { TASK_LIST, ENTER_CODE, CODE_EXPIRED }
+		FULL_APPEAL: { TASK_LIST, ENTER_CODE, CODE_EXPIRED, APPEAL_ALREADY_SUBMITTED }
 	}
 } = require('../../../../../src/lib/full-appeal/views');
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
@@ -20,7 +20,7 @@ const { isTokenExpired } = require('../../../../../src/lib/is-token-expired');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/calculate-deadline');
-jest.mock('../../../../../src/lib/is-token-expired')
+jest.mock('../../../../../src/lib/is-token-expired');
 
 describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 	let req;
@@ -63,7 +63,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			});
 
 			await postEnterCode(req, res);
-			expect(isTokenExpired).toBeCalledWith(30, createdDate)
+			expect(isTokenExpired).toBeCalledWith(30, createdDate);
 			expect(res.redirect).toBeCalledWith(`/${TASK_LIST}`);
 			expect(req.session.appeal).toEqual({ id: 'appealId' });
 		});
@@ -81,6 +81,19 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			await postEnterCode(req, res);
 			expect(isTokenExpired).toBeCalledWith(30, createdDate);
 			expect(res.redirect).toBeCalledWith(`/${CODE_EXPIRED}`);
+		});
+		it('should render appeal already submitted page when appeal is already complete', async () => {
+			req.body = { token: '12312' };
+			getSavedAppeal.mockReturnValue({
+				token: '12312',
+				createdAt: '2022-07-14T13:00:48.024Z'
+			});
+			getExistingAppeal.mockReturnValue({
+				id: 'appealId',
+				state: 'SUBMITTED'
+			});
+			await postEnterCode(req, res);
+			expect(res.redirect).toBeCalledWith(`/${APPEAL_ALREADY_SUBMITTED}`);
 		});
 	});
 });
