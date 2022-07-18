@@ -76,7 +76,7 @@ const config = {
 								calculateDeadline.householderApplication(appeal.decisionDate),
 								'dd MMMM yyyy'
 							),
-							link: `${baseUrl}/appeal-householder-decision/enter-code/`
+							link: `${baseUrl}/appeal-householder-decision/enter-code`
 						},
 						reference: appeal.id
 					}),
@@ -90,7 +90,7 @@ const config = {
 					}),
 					confirmEmail: (appeal, baseUrl) => ({
 						recipientEmail: appeal.email,
-						variables: { link: `${baseUrl}/appeal-householder-decision/` },
+						variables: { link: `${baseUrl}/appeal-householder-decision/email-address-confirmed` },
 						reference: appeal.id
 					})
 				}
@@ -179,7 +179,7 @@ const config = {
 						},
 						reference: appeal.id
 					}),
-					saveAndReturnContinueAppeal: (appeal, baseUrl, token) => ({
+					saveAndReturnContinueAppeal: (appeal, baseUrl) => ({
 						recipientEmail: appeal.email,
 						variables: {
 							'application number': appeal.planningApplicationNumber,
@@ -191,7 +191,7 @@ const config = {
 								),
 								'dd MMMM yyyy'
 							),
-							link: `${baseUrl}/full-appeal/submit-appeal/email-address-confirmed/${token}`
+							link: `${baseUrl}/full-appeal/submit-appeal/enter-code`
 						},
 						reference: appeal.id
 					}),
@@ -203,10 +203,10 @@ const config = {
 						},
 						reference: appeal.id
 					}),
-					confirmEmail: (appeal, baseUrl, token) => ({
+					confirmEmail: (appeal, baseUrl) => ({
 						recipientEmail: appeal.email,
 						variables: {
-							link: `${baseUrl}/full-appeal/submit-appeal/email-address-confirmed/${token}`
+							link: `${baseUrl}/full-appeal/submit-appeal/email-address-confirmed`
 						},
 						reference: appeal.id
 					})
