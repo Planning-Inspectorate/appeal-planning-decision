@@ -12,6 +12,12 @@ const {
 	}
 } = require('../../../lib/submit-appeal/views');
 
+const getEmailConfirmedNoToken = (_, res) => {
+	res.render(EMAIL_CONFIRMED, {
+		listOfDocumentsUrl: `/${LIST_OF_DOCUMENTS}`
+	});
+};
+
 const getEmailConfirmed = async (req, res) => {
 	const retrievedToken = await getConfirmEmail(req.params.token);
 	const tokenCreated = new Date(retrievedToken.createdAt);
@@ -26,5 +32,6 @@ const getEmailConfirmed = async (req, res) => {
 };
 
 module.exports = {
-	getEmailConfirmed
+	getEmailConfirmed,
+	getEmailConfirmedNoToken
 };
