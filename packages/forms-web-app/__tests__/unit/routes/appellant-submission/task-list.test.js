@@ -1,11 +1,11 @@
 const { get } = require('../router-mock');
-const taskListController = require('../../../../src/controllers/appellant-submission/task-list');
+const taskListController = require('../../../../src/controllers/appeal-householder-decision/task-list');
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 
 describe('routes/task-list', () => {
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
-		require('../../../../src/routes/appellant-submission/task-list');
+		require('../../../../src/routes/appeal-householder-decision/task-list');
 	});
 
 	afterEach(() => {
