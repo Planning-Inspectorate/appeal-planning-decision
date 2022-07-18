@@ -4,7 +4,7 @@ const { confirmEmailCreate, confirmEmailGet } = require('../controllers/confirm-
 
 const router = express.Router();
 
-router.get('/:token', confirmEmailGet);
+router.get('/:id', confirmEmailGet);
 
 router.post('/', confirmEmailCreate);
 

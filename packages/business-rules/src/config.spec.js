@@ -141,13 +141,12 @@ describe('config', () => {
 	it('should return correct confirmEmail config for householder appeal', () => {
 		const result = config.appeal.type[APPEAL_ID.HOUSEHOLDER].email.confirmEmail(
 			householderAppeal,
-			process.env.APP_APPEALS_BASE_URL,
-			'12345'
+			process.env.APP_APPEALS_BASE_URL
 		);
 		expect(result).toEqual({
 			recipientEmail: householderAppeal.email,
 			reference: householderAppeal.id,
-			variables: { link: 'http://localhost/appeal-householder-decision/12345' }
+			variables: { link: 'http://localhost/appeal-householder-decision/' }
 		});
 	});
 });

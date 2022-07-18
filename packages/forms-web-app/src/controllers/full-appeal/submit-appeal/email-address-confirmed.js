@@ -12,17 +12,11 @@ const {
 	}
 } = require('../../../lib/submit-appeal/views');
 
-const getEmailConfirmedNoToken = (_, res) => {
-	res.render(EMAIL_CONFIRMED, {
-		listOfDocumentsUrl: `/${LIST_OF_DOCUMENTS}`
-	});
-};
-
 const getEmailConfirmed = async (req, res) => {
-	const retrievedToken = await getConfirmEmail(req.params.token);
-	const tokenCreated = new Date(retrievedToken.createdAt);
+	const retrievedEmailConfirmation = await getConfirmEmail(req.session.appeal.id);
+	const emailConfirmationCreated = new Date(retrievedEmailConfirmation.createdAt);
 
-	if (isTokenExpired(30, tokenCreated)) {
+	if (isTokenExpired(30, emailConfirmationCreated)) {
 		return res.redirect(`/${LINK_EXPIRED}`);
 	}
 
@@ -32,6 +26,5 @@ const getEmailConfirmed = async (req, res) => {
 };
 
 module.exports = {
-	getEmailConfirmed,
-	getEmailConfirmedNoToken
+	getEmailConfirmed
 };

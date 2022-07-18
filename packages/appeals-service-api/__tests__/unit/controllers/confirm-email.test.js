@@ -1,6 +1,5 @@
 const { mockReq, mockRes } = require('../mocks');
 const { confirmEmailCreate, confirmEmailGet } = require('../../../src/controllers/confirm-email');
-const { replaceAppeal } = require('../../../src/services/appeal.service');
 const {
 	confirmEmailCreateService,
 	confirmEmailNotifyContinue,
@@ -8,8 +7,6 @@ const {
 } = require('../../../src/services/confirm-email.service');
 
 jest.mock('../../../src/services/confirm-email.service');
-jest.mock('../../../src/services/appeal.service');
-jest.mock('../../../../common/src/lib/notify/notify-builder', () => ({}));
 
 describe('Confirm Email API', () => {
 	let req;
@@ -31,13 +28,9 @@ describe('Confirm Email API', () => {
 			};
 			req.body = appealStub;
 
-			replaceAppeal.mockReturnValue(appealStub);
-			confirmEmailNotifyContinue.mockReturnValue('');
-			confirmEmailCreateService.mockReturnValue('12345');
-
 			await confirmEmailCreate(req, res);
 			expect(confirmEmailCreateService).toHaveBeenCalledWith(appealStub);
-			expect(confirmEmailNotifyContinue).toHaveBeenCalledWith(appealStub, '12345');
+			expect(confirmEmailNotifyContinue).toHaveBeenCalledWith(appealStub);
 			expect(res.status).toHaveBeenCalledWith(201);
 		});
 
@@ -56,12 +49,12 @@ describe('Confirm Email API', () => {
 
 	describe('GET - get token', () => {
 		it('should retrieve token', async () => {
-			req.params = { token: '54321' };
-			confirmEmailGetService.mockReturnValue({ token: '54321' });
+			req.params = { id: '54321' };
+			confirmEmailGetService.mockReturnValue('fakeReturnValue');
 			await confirmEmailGet(req, res);
 			expect(confirmEmailGetService).toHaveBeenCalledWith('54321');
 			expect(res.status).toHaveBeenCalledWith(200);
-			expect(res.send).toHaveBeenCalledWith({ token: '54321' });
+			expect(res.send).toHaveBeenCalledWith('fakeReturnValue');
 		});
 	});
 });

@@ -2,8 +2,7 @@ const { get } = require('../../router-mock');
 const fetchExistingAppealMiddleware = require('../../../../../src/middleware/fetch-existing-appeal');
 
 const {
-	getEmailConfirmed,
-	getEmailConfirmedNoToken
+	getEmailConfirmed
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/email-address-confirmed');
 
 describe('routes/full-appeal/submit-appeal/email-address-confirmed/:token', () => {
@@ -13,17 +12,10 @@ describe('routes/full-appeal/submit-appeal/email-address-confirmed/:token', () =
 	});
 
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenNthCalledWith(
-			1,
-			'/submit-appeal/email-address-confirmed/:token',
-			[fetchExistingAppealMiddleware],
-			getEmailConfirmed
-		);
-		expect(get).toHaveBeenNthCalledWith(
-			2,
+		expect(get).toHaveBeenCalledWith(
 			'/submit-appeal/email-address-confirmed',
 			[fetchExistingAppealMiddleware],
-			getEmailConfirmedNoToken
+			getEmailConfirmed
 		);
 	});
 });

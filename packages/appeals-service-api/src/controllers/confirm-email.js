@@ -5,9 +5,9 @@ const {
 } = require('../services/confirm-email.service');
 
 async function confirmEmailGet(req, res) {
-	const { token } = req.params;
-	const foundToken = await confirmEmailGetService(token);
-	res.status(200).send(foundToken);
+	const { id } = req.params;
+	const foundSaved = await confirmEmailGetService(id);
+	res.status(200).send(foundSaved);
 }
 
 async function confirmEmailCreate(req, res) {
@@ -16,9 +16,9 @@ async function confirmEmailCreate(req, res) {
 		res.status(400).send('Invalid Id');
 		throw new Error('');
 	}
-	const token = await confirmEmailCreateService(appeal);
-	await confirmEmailNotifyContinue(appeal, token);
-	res.status(201).send(appeal);
+	const saved = await confirmEmailCreateService(appeal);
+	await confirmEmailNotifyContinue(appeal);
+	res.status(201).send(saved);
 }
 
 module.exports = {

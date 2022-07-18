@@ -88,9 +88,9 @@ const config = {
 						},
 						reference: appeal.id
 					}),
-					confirmEmail: (appeal, baseUrl, token) => ({
+					confirmEmail: (appeal, baseUrl) => ({
 						recipientEmail: appeal.email,
-						variables: { link: `${baseUrl}/appeal-householder-decision/${token}` },
+						variables: { link: `${baseUrl}/appeal-householder-decision/` },
 						reference: appeal.id
 					})
 				}

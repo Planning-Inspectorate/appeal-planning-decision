@@ -3,22 +3,21 @@ const {
 	confirmEmailGetService
 } = require('../../../src/services/confirm-email.service');
 const mongodb = require('../../../src/db/db');
-const { createToken } = require('../../../src/lib/notify');
 
 jest.mock('../../../src/db/db');
 jest.mock('../../../src/lib/notify');
 
 describe('confirm-email services', () => {
 	describe('confirmEmailGetService', () => {
-		it('should retrieve saved token', async () => {
-			const saved = { value: { token: '12345', createdAt: new Date() } };
+		it('should retrieve saved data', async () => {
+			const saved = { value: { appealId: '1234', createdAt: new Date() } };
 			mongodb.get = jest.fn(() => ({
 				collection: jest.fn(() => ({
 					findOne: jest.fn().mockResolvedValue(saved)
 				}))
 			}));
 
-			const savedRes = await confirmEmailGetService('12345');
+			const savedRes = await confirmEmailGetService('1234');
 
 			expect(savedRes).toEqual(saved);
 		});
@@ -34,14 +33,12 @@ describe('confirm-email services', () => {
 		});
 	});
 	describe('confirmEmailCreateService', () => {
-		it('should record token and date', async () => {
+		it('should record data', async () => {
 			const appeal = {
 				id: '98765'
 			};
 			const saved = {
 				appealId: '98765',
-				token: '12345',
-				email: 'test@example.com',
 				createdAt: new Date()
 			};
 			mongodb.get = jest.fn(() => ({
@@ -55,11 +52,9 @@ describe('confirm-email services', () => {
 				}))
 			}));
 
-			createToken.mockReturnValue('12345');
+			const result = await confirmEmailCreateService(appeal);
 
-			const token = await confirmEmailCreateService(appeal);
-
-			expect(token).toEqual(saved.token);
+			expect(result).toEqual(saved.appealId);
 		});
 	});
 	it('should throw error', () => {
