@@ -1,4 +1,4 @@
-const taskListController = require('../../../../src/controllers/appellant-submission/task-list');
+const taskListController = require('../../../../src/controllers/appeal-householder-decision/task-list');
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
