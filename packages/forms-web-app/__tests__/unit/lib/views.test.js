@@ -38,7 +38,7 @@ describe('lib/views', () => {
 			},
 
 			APPELLANT_SUBMISSION: {
-				TASK_LIST: 'appellant-submission/task-list',
+				TASK_LIST: 'appeal-householder-decision/task-list',
 				APPEAL_STATEMENT: 'appellant-submission/appeal-statement',
 				APPLICATION_NUMBER: 'appellant-submission/application-number',
 				SITE_LOCATION: 'appellant-submission/site-location',

@@ -329,7 +329,7 @@ describe('services/task.service', () => {
 				taskName: 'yourDetails'
 			};
 			expect(getNextTask(appeal, currentTask)).toEqual({
-				href: '/appellant-submission/task-list'
+				href: '/appeal-householder-decision/task-list'
 			});
 		});
 
