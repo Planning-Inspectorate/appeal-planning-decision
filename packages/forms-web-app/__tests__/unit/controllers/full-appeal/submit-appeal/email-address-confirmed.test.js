@@ -1,6 +1,5 @@
 const {
-	getEmailConfirmed,
-	getEmailConfirmedNoToken
+	getEmailConfirmed
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/email-address-confirmed');
 const { getConfirmEmail } = require('../../../../../src/lib/appeals-api-wrapper');
 const { isTokenExpired } = require('../../../../../src/lib/is-token-expired');
@@ -32,12 +31,12 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 
 	describe('getEmailConfirmed', () => {
 		it('calls correct template: token valid', async () => {
-			req.params.token = '12345';
+			req.session.appeal.id = '12345-abc';
 			const date = new Date('2022-05-11T17:19:37.227Z');
 			getConfirmEmail.mockReturnValue({ createdAt: '2022-05-11T17:19:37.227Z' });
 			isTokenExpired.mockReturnValue(false);
 			await getEmailConfirmed(req, res);
-			expect(getConfirmEmail).toBeCalledWith('12345');
+			expect(getConfirmEmail).toBeCalledWith('12345-abc');
 			expect(isTokenExpired).toBeCalledWith(30, date);
 			expect(res.render).toBeCalledWith(EMAIL_CONFIRMED, {
 				listOfDocumentsUrl: '/full-appeal/submit-appeal/list-of-documents'
@@ -45,27 +44,18 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 		});
 
 		it('calls correct template: token expired', async () => {
-			req.params.token = '12345';
+			req.session.appeal.id = '12345-def';
 			const date = new Date('2022-05-11T17:19:37.227Z');
 			getConfirmEmail.mockReturnValue({
 				createdAt: '2022-05-11T17:19:37.227Z',
-				appealId: 'fake-123'
+				appealId: '12345-def'
 			});
 			isTokenExpired.mockReturnValue(true);
 			await getEmailConfirmed(req, res);
-			expect(getConfirmEmail).toBeCalledWith('12345');
+			expect(getConfirmEmail).toBeCalledWith('12345-def');
 			expect(isTokenExpired).toBeCalledWith(30, date);
 			expect(res.render).not.toBeCalled();
 			expect(res.redirect).toBeCalledWith(`/${LINK_EXPIRED}`);
-		});
-	});
-
-	describe('getEmailConfirmedNoToken', () => {
-		it('calls correct template', () => {
-			getEmailConfirmedNoToken(req, res);
-			expect(res.render).toBeCalledWith(EMAIL_CONFIRMED, {
-				listOfDocumentsUrl: '/full-appeal/submit-appeal/list-of-documents'
-			});
 		});
 	});
 });

@@ -2,22 +2,15 @@ const express = require('express');
 
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const {
-	getEmailConfirmed,
-	getEmailConfirmedNoToken
+	getEmailConfirmed
 } = require('../../../controllers/full-appeal/submit-appeal/email-address-confirmed');
 
 const router = express.Router();
 
 router.get(
-	'/submit-appeal/email-address-confirmed/:token',
-	[fetchExistingAppealMiddleware],
-	getEmailConfirmed
-);
-
-router.get(
 	'/submit-appeal/email-address-confirmed',
 	[fetchExistingAppealMiddleware],
-	getEmailConfirmedNoToken
+	getEmailConfirmed
 );
 
 module.exports = router;

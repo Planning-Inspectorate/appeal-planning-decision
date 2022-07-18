@@ -10,6 +10,6 @@ describe('routes/confirm-email', () => {
 
 	it('should define the expected routes', () => {
 		expect(post).toHaveBeenCalledWith('/', confirmEmailController.confirmEmailCreate);
-		expect(get).toHaveBeenCalledWith('/:token', confirmEmailController.confirmEmailGet);
+		expect(get).toHaveBeenCalledWith('/:id', confirmEmailController.confirmEmailGet);
 	});
 });

@@ -111,6 +111,6 @@ exports.createConfirmEmail = async (appeal) => {
 	return handler(`/api/v1/confirm-email`, 'POST', { body: JSON.stringify(appeal) });
 };
 
-exports.getConfirmEmail = async (token) => {
-	return handler(`/api/v1/confirm-email/${token}`);
+exports.getConfirmEmail = async (id) => {
+	return handler(`/api/v1/confirm-email/${id}`);
 };

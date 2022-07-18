@@ -103,12 +103,12 @@ const sendSaveAndReturnEnterCodeIntoServiceEmail = async (saved, token) => {
 	}
 };
 
-const sendConfirmEmailAddressEmail = async (appeal, token) => {
+const sendConfirmEmailAddressEmail = async (appeal) => {
 	try {
 		const { baseUrl } = config.apps.appeals;
 		const { recipientEmail, variables, reference } = appealTypeConfig[
 			appeal.appealType
-		].email.confirmEmail(appeal, baseUrl, token);
+		].email.confirmEmail(appeal, baseUrl);
 		logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
 
 		await NotifyBuilder.reset()
