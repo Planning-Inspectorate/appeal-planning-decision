@@ -11,7 +11,7 @@ const postListOfDocuments = async (req, res) => {
 
 	try {
 		if (req.body['save-and-return'] !== '') {
-			return res.redirect('/appellant-submission/task-list');
+			return res.redirect('/appeal-householder-decision/task-list');
 		}
 		return await postSaveAndReturn(req, res);
 	} catch (e) {
