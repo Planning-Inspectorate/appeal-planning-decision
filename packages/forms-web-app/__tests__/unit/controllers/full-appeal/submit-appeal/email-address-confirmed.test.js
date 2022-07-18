@@ -1,5 +1,6 @@
 const {
-	getEmailConfirmed
+	getEmailConfirmed,
+	getEmailConfirmedNoToken
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/email-address-confirmed');
 const { getConfirmEmail } = require('../../../../../src/lib/appeals-api-wrapper');
 const { isTokenExpired } = require('../../../../../src/lib/is-token-expired');
@@ -56,6 +57,15 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 			expect(isTokenExpired).toBeCalledWith(30, date);
 			expect(res.render).not.toBeCalled();
 			expect(res.redirect).toBeCalledWith(`/${LINK_EXPIRED}`);
+		});
+	});
+
+	describe('getEmailConfirmedNoToken', () => {
+		it('calls correct template', () => {
+			getEmailConfirmedNoToken(req, res);
+			expect(res.render).toBeCalledWith(EMAIL_CONFIRMED, {
+				listOfDocumentsUrl: '/full-appeal/submit-appeal/list-of-documents'
+			});
 		});
 	});
 });
