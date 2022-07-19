@@ -7,8 +7,6 @@ const {
 
 const formatAddress = require('./utils/format-address');
 
-const { calculateDeadline } = require('./utils/calculate-deadline');
-
 const config = {
 	appeal: {
 		type: {
@@ -68,14 +66,11 @@ const config = {
 						},
 						reference: appeal.id
 					}),
-					saveAndReturnContinueAppeal: (appeal, baseUrl) => ({
+					saveAndReturnContinueAppeal: (appeal, baseUrl, deadlineDate) => ({
 						recipientEmail: appeal.email,
 						variables: {
 							'application number': appeal.planningApplicationNumber,
-							date: format(
-								calculateDeadline.householderApplication(appeal.decisionDate),
-								'dd MMMM yyyy'
-							),
+							date: format(deadlineDate, 'dd MMMM yyyy'),
 							link: `${baseUrl}/appeal-householder-decision/enter-code`
 						},
 						reference: appeal.id
@@ -179,18 +174,11 @@ const config = {
 						},
 						reference: appeal.id
 					}),
-					saveAndReturnContinueAppeal: (appeal, baseUrl) => ({
+					saveAndReturnContinueAppeal: (appeal, baseUrl, deadlineDate) => ({
 						recipientEmail: appeal.email,
 						variables: {
 							'application number': appeal.planningApplicationNumber,
-							date: format(
-								calculateDeadline.businessRulesDeadline(
-									appeal.decisionDate,
-									appeal.appealType,
-									appeal.eligibility.applicationDecision
-								),
-								'dd MMMM yyyy'
-							),
+							date: format(deadlineDate, 'dd MMMM yyyy'),
 							link: `${baseUrl}/full-appeal/submit-appeal/enter-code`
 						},
 						reference: appeal.id
