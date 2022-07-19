@@ -5,6 +5,8 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
 
+{% set section = appeal['contactDetailsSection']['contact'] %}
+
 {% set title = "Your details - Appeal a planning decision - GOV.UK" %}
 {% if errors %}{% set title="Error: " + title %}{% endif %}
 {% block pageTitle %}{{ title }}{% endblock %}
@@ -26,7 +28,7 @@
         <h1 class="govuk-heading-l">
           Your details
         </h1>
-        <p>We ask for your name and email address so we can contact you about your appeal.</p>
+        <p>This is the email you gave us for the appeal: <br> {{ appeal.email }} </p>
 
         {{ govukInput({
           label: {
