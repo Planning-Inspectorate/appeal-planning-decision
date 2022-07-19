@@ -1,12 +1,14 @@
 const {
 	config: {
 		appeal: { type: appealTypeConfig }
-	}
+	},
+	rules
 } = require('@pins/business-rules');
 const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
 const config = require('./config');
 const logger = require('./logger');
 const { getLpa } = require('../services/lpa.service');
+const { parseISO } = require('date-fns');
 
 const { templates } = config.services.notify;
 
@@ -60,9 +62,14 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
 	try {
 		const { baseUrl } = config.apps.appeals;
+		const deadlineDate = rules.appeal.deadlineDate(
+			parseISO(appeal.decisionDate),
+			appeal.appealType,
+			appeal.eligibility.applicationDecision
+		);
 		const { recipientEmail, variables, reference } = appealTypeConfig[
 			appeal.appealType
-		].email.saveAndReturnContinueAppeal(appeal, baseUrl);
+		].email.saveAndReturnContinueAppeal(appeal, baseUrl, deadlineDate);
 
 		logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
 
