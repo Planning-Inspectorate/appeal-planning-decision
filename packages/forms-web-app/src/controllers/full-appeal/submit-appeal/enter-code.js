@@ -36,8 +36,29 @@ const getEnterCode = async (req, res) => {
 };
 
 const postEnterCode = async (req, res) => {
+	const { body } = req;
+	const { errors = {}, errorSummary = [] } = body;
 	const token = req.body['email-code'];
-	const saved = await getSavedAppeal(token);
+
+	if (Object.keys(errors).length > 0) {
+		res.render(ENTER_CODE, {
+			token,
+			errors,
+			errorSummary
+		});
+		return;
+	}
+
+	let saved;
+	try {
+		saved = await getSavedAppeal(token);
+	} catch (err) {
+		return res.render(ENTER_CODE, {
+			errors,
+			errorSummary: [{ text: 'No appeal was found for the given token', href: '#' }]
+		});
+	}
+
 	const tokenCreatedTime = new Date(saved.createdAt);
 
 	if (!isTokenExpired(30, tokenCreatedTime)) {
