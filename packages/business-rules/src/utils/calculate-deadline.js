@@ -1,4 +1,4 @@
-const { appeal } = require('../rules/index');
+const calc = require('../rules/appeal/deadline-date');
 const { parseISO } = require('date-fns');
 
 const calculateDeadline = {
@@ -16,7 +16,10 @@ const calculateDeadline = {
 		return tempDate;
 	},
 	businessRulesDeadline: (decisionDate, appealType, applicationDecision) => {
-		return appeal.deadlineDate(parseISO(decisionDate), appealType, applicationDecision);
+		console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+		console.log(require('../rules/appeal/deadline-date'));
+		console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+		return calc(parseISO(decisionDate), appealType, applicationDecision);
 	}
 };
 

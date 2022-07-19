@@ -16,11 +16,11 @@ const BusinessRulesError = require('../../lib/business-rules-error');
  *
  * @throws {BusinessRulesError}
  */
-module.exports = (
+module.exports = function calc(
 	decisionDate,
 	appealType = APPEAL_ID.HOUSEHOLDER,
 	applicationDecision = APPLICATION_DECISION.REFUSED
-) => {
+) {
 	const type = appealType === null ? APPEAL_ID.HOUSEHOLDER : appealType;
 	const decision =
 		applicationDecision === null ? APPLICATION_DECISION.REFUSED : applicationDecision;
