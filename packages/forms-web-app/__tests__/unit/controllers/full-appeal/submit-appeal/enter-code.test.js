@@ -10,11 +10,6 @@ const {
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const { mockReq, mockRes } = require('../../../mocks');
 const { getSavedAppeal, getExistingAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const {
-	VIEW: {
-		FULL_APPEAL: { CANNOT_APPEAL }
-	}
-} = require('../../../../../src/lib/full-appeal/views');
 const { calculateDeadline } = require('../../../../../src/lib/calculate-deadline');
 const { isTokenExpired } = require('../../../../../src/lib/is-token-expired');
 
