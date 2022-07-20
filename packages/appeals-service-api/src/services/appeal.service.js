@@ -244,7 +244,6 @@ const validateAppeal = (appeal) => {
 	if (
 		appeal.state === 'SUBMITTED' &&
 		(appeal.sectionStates.aboutYouSection.yourDetails !== 'COMPLETED' ||
-			appeal.sectionStates.requiredDocumentsSection.applicationNumber !== 'COMPLETED' ||
 			appeal.sectionStates.requiredDocumentsSection.originalApplication !== 'COMPLETED' ||
 			appeal.sectionStates.requiredDocumentsSection.decisionLetter !== 'COMPLETED' ||
 			appeal.sectionStates.yourAppealSection.appealStatement !== 'COMPLETED' ||
