@@ -1,6 +1,7 @@
 const { VIEW } = require('../../../lib/full-appeal/views');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
+const { postSaveAndReturn } = require('../../save');
 
 const logger = require('../../../lib/logger');
 
@@ -37,6 +38,20 @@ const postApplicationCertificatesIncluded = async (req, res) => {
 		appeal[sectionName][taskName].submittedSeparateCertificate = submittedSeparateCertificate;
 		appeal.sectionStates[sectionName][taskName] = COMPLETED;
 		req.session.appeal = await createOrUpdateAppeal(appeal);
+
+		if (req.body['save-and-return'] !== '') {
+			req.session.appeal.sectionStates[sectionName][taskName] = COMPLETED;
+			req.session.appeal = await createOrUpdateAppeal(appeal);
+
+			return submittedSeparateCertificate
+				? res.redirect(`/${VIEW.FULL_APPEAL.CERTIFICATES}`)
+				: res.redirect(`/${VIEW.FULL_APPEAL.PROPOSED_DEVELOPMENT_CHANGED}`);
+		}
+
+		appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
+		req.session.appeal = await createOrUpdateAppeal(appeal);
+
+		return await postSaveAndReturn(req, res);
 	} catch (err) {
 		logger.error(err);
 		return res.render(VIEW.FULL_APPEAL.APPLICATION_CERTIFICATES_INCLUDED, {
@@ -45,10 +60,6 @@ const postApplicationCertificatesIncluded = async (req, res) => {
 			errorSummary: [{ text: err.toString(), href: '#' }]
 		});
 	}
-
-	return submittedSeparateCertificate
-		? res.redirect(`/${VIEW.FULL_APPEAL.CERTIFICATES}`)
-		: res.redirect(`/${VIEW.FULL_APPEAL.PROPOSED_DEVELOPMENT_CHANGED}`);
 };
 
 module.exports = { getApplicationCertificatesIncluded, postApplicationCertificatesIncluded };

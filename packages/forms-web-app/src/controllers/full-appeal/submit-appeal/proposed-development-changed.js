@@ -5,7 +5,8 @@ const {
 		FULL_APPEAL: { PLANS_DRAWINGS_DOCUMENTS, PROPOSED_DEVELOPMENT_CHANGED }
 	}
 } = require('../../../lib/full-appeal/views');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'planningApplicationDocumentsSection';
 const taskName = 'descriptionDevelopmentCorrect';
@@ -41,7 +42,18 @@ const postProposedDevelopmentChanged = async (req, res) => {
 	try {
 		appeal.sectionStates[sectionName][taskName] = COMPLETED;
 		appeal[sectionName][taskName] = descriptionDevelopmentCorrect;
+
+		if (req.body['save-and-return'] !== '') {
+			req.session.appeal.sectionStates[sectionName][taskName] = COMPLETED;
+			req.session.appeal = await createOrUpdateAppeal(appeal);
+
+			return res.redirect(`/${PLANS_DRAWINGS_DOCUMENTS}`);
+		}
+
+		appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
 		req.session.appeal = await createOrUpdateAppeal(appeal);
+
+		return await postSaveAndReturn(req, res);
 	} catch (err) {
 		logger.error(err);
 
@@ -51,8 +63,6 @@ const postProposedDevelopmentChanged = async (req, res) => {
 			errorSummary: [{ text: err.toString(), href: '#' }]
 		});
 	}
-
-	return res.redirect(`/${PLANS_DRAWINGS_DOCUMENTS}`);
 };
 
 module.exports = {
