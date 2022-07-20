@@ -40,14 +40,6 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			await getEnterCode(req, res);
 			expect(res.render).toBeCalledWith(`${ENTER_CODE}`, { requestNewCodeLink: url });
 		});
-		it('should render cannot appeal page when deadline has passed', async () => {
-			calculateDeadline.hasDeadlineDatePassed.mockReturnValue(true);
-			getSavedAppeal.mockReturnValue({
-				token: '12312'
-			});
-			await getEnterCode(req, res);
-			expect(res.redirect).toBeCalledWith(`/${CANNOT_APPEAL}`);
-		});
 	});
 	describe('postEnterCode', () => {
 		it('should render task list page when entering valid token', async () => {

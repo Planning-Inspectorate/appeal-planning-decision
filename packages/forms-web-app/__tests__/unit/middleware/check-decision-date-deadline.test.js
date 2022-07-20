@@ -32,7 +32,7 @@ describe('middleware/check-decision-date-deadline', () => {
 		checkDecisionDateDeadline(req, res, next);
 
 		expect(res.redirect).toHaveBeenCalledTimes(1);
-		expect(res.redirect).toHaveBeenCalledWith('/before-you-start/you-cannot-appeal');
+		expect(res.redirect).toHaveBeenCalledWith('/full-appeal/submit-appeal/cannot-appeal');
 	});
 
 	it('should redirect the user to the you cannot appeal page if the decision date is outside the expiry period for Householder and the decision date page is not being rendered', () => {
@@ -43,7 +43,7 @@ describe('middleware/check-decision-date-deadline', () => {
 		checkDecisionDateDeadline(req, res, next);
 
 		expect(res.redirect).toHaveBeenCalledTimes(1);
-		expect(res.redirect).toHaveBeenCalledWith('/before-you-start/you-cannot-appeal');
+		expect(res.redirect).toHaveBeenCalledWith('/full-appeal/submit-appeal/cannot-appeal');
 	});
 
 	it('should continue if the decision date is inside the expiry period for Full-appeal and the decision date page is being rendered', () => {
