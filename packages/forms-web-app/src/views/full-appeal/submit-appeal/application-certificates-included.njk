@@ -4,6 +4,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
 
 {% set title = "Did you submit a separate ownership certificate and agricultural land declaration with your application? - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
@@ -71,11 +72,14 @@
           }
         ]
         }) }}
-        {{ govukButton({
-          text: "Continue",
-          type: "submit",
-          attributes: { "data-cy":"button-save-and-continue"}
-        }) }}
+        <div class="govuk-button-group">
+          {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: { "data-cy":"button-save-and-continue"}
+          }) }}
+          {{ saveAndReturnButton({}) }}
+        </div>
       </form>
       {{ govukDetails({
         summaryText: "Did I submit these separately?",
