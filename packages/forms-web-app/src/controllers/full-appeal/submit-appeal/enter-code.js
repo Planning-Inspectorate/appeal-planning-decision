@@ -8,26 +8,12 @@ const {
 		FULL_APPEAL: { TASK_LIST, ENTER_CODE, REQUEST_NEW_CODE, CODE_EXPIRED, APPEAL_ALREADY_SUBMITTED }
 	}
 } = require('../../../lib/full-appeal/views');
-const { calculateDeadline } = require('../../../lib/calculate-deadline');
 const { isTokenExpired } = require('../../../lib/is-token-expired');
-const {
-	VIEW: {
-		FULL_APPEAL: { CANNOT_APPEAL }
-	}
-} = require('../../../lib/full-appeal/views');
 
 const getEnterCode = async (req, res) => {
 	const {
 		session: { appeal }
 	} = req;
-	const deadlineHasPassed = calculateDeadline.hasDeadlineDatePassed(
-		appeal.decisionDate,
-		appeal.appealType,
-		appeal.eligibility.applicationDecision
-	);
-	if (deadlineHasPassed) {
-		res.redirect(`/${CANNOT_APPEAL}`);
-	}
 	const url = `/${REQUEST_NEW_CODE}`;
 	await sendToken(appeal);
 	res.render(ENTER_CODE, {
