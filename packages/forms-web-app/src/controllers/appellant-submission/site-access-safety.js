@@ -6,6 +6,7 @@ const { getTaskStatus } = require('../../services/task.service');
 const {
 	validSiteAccessSafetyOptions
 } = require('../../validators/appellant-submission/site-access-safety');
+const { postSaveAndReturn } = require('../appeal-householder-decision/save');
 
 const sectionName = 'appealSiteSection';
 const taskName = 'healthAndSafety';
@@ -48,9 +49,13 @@ exports.postSiteAccessSafety = async (req, res) => {
 		if (!task.hasIssues) {
 			task.healthAndSafetyIssues = '';
 		}
-
 		appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
+		if (req.body['save-and-return'] !== '') {
+			req.session.appeal = await createOrUpdateAppeal(appeal);
+			return res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
+		}
 		req.session.appeal = await createOrUpdateAppeal(appeal);
+		return await postSaveAndReturn(req, res);
 	} catch (e) {
 		logger.error(e);
 
@@ -61,6 +66,4 @@ exports.postSiteAccessSafety = async (req, res) => {
 		});
 		return;
 	}
-
-	res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
 };

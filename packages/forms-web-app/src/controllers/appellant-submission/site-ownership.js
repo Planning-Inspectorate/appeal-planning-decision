@@ -40,14 +40,13 @@ exports.postSiteOwnership = async (req, res) => {
 		});
 	}
 
-	if (!task.ownsWholeSite) {
-		return res.redirect(`/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB}`);
-	}
-
 	try {
 		appeal.sectionStates[sectionName][taskName] = getTaskStatus(appeal, sectionName, taskName);
 		if (req.body['save-and-return'] !== '') {
 			req.session.appeal = await createOrUpdateAppeal(appeal);
+			if (!task.ownsWholeSite) {
+				return res.redirect(`/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB}`);
+			}
 			return res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
 		}
 		req.session.appeal = await createOrUpdateAppeal(appeal);
