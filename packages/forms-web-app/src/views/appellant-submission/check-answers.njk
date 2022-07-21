@@ -94,24 +94,6 @@
                 }
               ]
             }
-          },
-          {
-            key: {
-              text: "Your email"
-            },
-            value: {
-              text: summaryField(appeal.aboutYouSection.yourDetails.email, { 'data-cy': "appellant-email" })
-            },
-            actions: {
-              items: [
-                {
-                  href: "/appellant-submission/your-details",
-                  text: "Change",
-                  visuallyHiddenText: "your email",
-                  attributes: { "data-cy": "yourDetailsEmail" }
-                }
-              ]
-            }
           }
         ]
       }) }}
@@ -121,24 +103,6 @@
       {{ govukSummaryList({
         classes: "govuk-summary-list govuk-!-margin-bottom-9",
         rows: [
-          {
-            key: {
-              text: "Planning application number"
-            },
-            value: {
-              text: summaryField(appeal.requiredDocumentsSection.applicationNumber, { 'data-cy': "application-number" })
-            },
-            actions: {
-              items: [
-                {
-                  href: "/appellant-submission/application-number",
-                  text: "Change",
-                  visuallyHiddenText: "Planning application number",
-                  attributes: { "data-cy":"applicationNumber"}
-                }
-              ]
-            }
-          },
           {
             key: {
               text: "Planning application form"
