@@ -36,8 +36,6 @@ const postApplicationCertificatesIncluded = async (req, res) => {
 
 	try {
 		appeal[sectionName][taskName].submittedSeparateCertificate = submittedSeparateCertificate;
-		appeal.sectionStates[sectionName][taskName] = COMPLETED;
-		req.session.appeal = await createOrUpdateAppeal(appeal);
 
 		if (req.body['save-and-return'] !== '') {
 			req.session.appeal.sectionStates[sectionName][taskName] = COMPLETED;
