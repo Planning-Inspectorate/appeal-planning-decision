@@ -40,7 +40,6 @@ const postProposedDevelopmentChanged = async (req, res) => {
 	}
 
 	try {
-		appeal.sectionStates[sectionName][taskName] = COMPLETED;
 		appeal[sectionName][taskName] = descriptionDevelopmentCorrect;
 
 		if (req.body['save-and-return'] !== '') {
