@@ -10,11 +10,6 @@ const {
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const { mockReq, mockRes } = require('../../../mocks');
 const { getSavedAppeal, getExistingAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const {
-	VIEW: {
-		FULL_APPEAL: { CANNOT_APPEAL }
-	}
-} = require('../../../../../src/lib/full-appeal/views');
 const { calculateDeadline } = require('../../../../../src/lib/calculate-deadline');
 const { isTokenExpired } = require('../../../../../src/lib/is-token-expired');
 
@@ -39,14 +34,6 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			});
 			await getEnterCode(req, res);
 			expect(res.render).toBeCalledWith(`${ENTER_CODE}`, { requestNewCodeLink: url });
-		});
-		it('should render cannot appeal page when deadline has passed', async () => {
-			calculateDeadline.hasDeadlineDatePassed.mockReturnValue(true);
-			getSavedAppeal.mockReturnValue({
-				token: '12312'
-			});
-			await getEnterCode(req, res);
-			expect(res.redirect).toBeCalledWith(`/${CANNOT_APPEAL}`);
 		});
 	});
 	describe('postEnterCode', () => {

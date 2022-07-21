@@ -1,5 +1,10 @@
 const { rules, validation } = require('@pins/business-rules');
 const { VIEW } = require('../lib/views');
+const {
+	VIEW: {
+		FULL_APPEAL: { CANNOT_APPEAL }
+	}
+} = require('../lib/full-appeal/views');
 
 const validationExclusionPages = [
 	'/before-you-start/you-cannot-appeal',
@@ -7,9 +12,9 @@ const validationExclusionPages = [
 	'/before-you-start/date-decision-due',
 	'/before-you-start/decision-date-householder',
 	'/before-you-start/date-decision-due-householder',
-	'/before-you-start/type-of-planning-application'
+	'/before-you-start/type-of-planning-application',
+	`/${CANNOT_APPEAL}`
 ];
-const youCannotAppealPage = '/before-you-start/you-cannot-appeal';
 
 const setShutterPageProps = (req) => {
 	const { appeal } = req.session;
@@ -43,7 +48,7 @@ const checkDecisionDateDeadline = (req, res, next) => {
 		if (appeal.appealType && !validationExclusionPages.includes(req.originalUrl)) {
 			if (!isWithinExpiryPeriod(appeal)) {
 				setShutterPageProps(req);
-				res.redirect(youCannotAppealPage);
+				res.redirect(`/${CANNOT_APPEAL}`);
 				return;
 			}
 		}
