@@ -1,0 +1,13 @@
+{% extends "layouts/householder-banner/main.njk" %} 
+
+{% block pageTitle %}{{ "The link has expired - Appeal a planning decision - GOV.UK" }}{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">The link has expired</h1>
+      <p class="govuk-body">The link we sent was available for 30 minutes. It has now expired.</p>
+      <p class="govuk-body"><a href="{{sendNewLinkUrl}}">Send a new link</a></p>
+    </div>
+  </div>
+{% endblock %}
