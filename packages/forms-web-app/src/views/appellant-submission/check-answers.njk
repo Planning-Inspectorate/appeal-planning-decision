@@ -99,10 +99,28 @@
       }) }}
 
       <h2 class="govuk-heading-m">About the original planning application</h2>
-     
+
       {{ govukSummaryList({
         classes: "govuk-summary-list govuk-!-margin-bottom-9",
         rows: [
+          {
+            key: {
+              text: "Planning application number"
+            },
+            value: {
+              text: summaryField(appeal.requiredDocumentsSection.applicationNumber, { 'data-cy': "application-number" })
+            },
+            actions: {
+              items: [
+                {
+                  href: "/appellant-submission/application-number",
+                  text: "Change",
+                  visuallyHiddenText: "Planning application number",
+                  attributes: { "data-cy":"applicationNumber"}
+                }
+              ]
+            }
+          },
           {
             key: {
               text: "Planning application form"
