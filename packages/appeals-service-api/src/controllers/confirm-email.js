@@ -16,7 +16,8 @@ async function confirmEmailCreate(req, res) {
 		res.status(400).send('Invalid Id');
 		throw new Error('');
 	}
-	const saved = await confirmEmailCreateService(appeal);
+	const savedAppealId = await confirmEmailCreateService(appeal);
+	const saved = {appealId: savedAppealId}
 	await confirmEmailNotifyContinue(appeal);
 	res.status(201).send(saved);
 }
