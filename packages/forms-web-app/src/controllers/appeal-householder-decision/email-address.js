@@ -3,7 +3,7 @@ const logger = require('../../lib/logger');
 
 const getEmailAddress = (req, res) => {
 	const { email } = req.session.appeal;
-	res.render('appeal-householder-decision/email-address', {
+	return res.render('appeal-householder-decision/email-address', {
 		email
 	});
 };
@@ -17,30 +17,28 @@ const postEmailAddress = async (req, res) => {
 		appeal: { email }
 	} = req.session;
 
-	appeal.email = body['email-address'];
-
 	if (Object.keys(errors).length > 0) {
-		res.render('appeal-householder-decision/email-address', {
+		return res.render('appeal-householder-decision/email-address', {
 			email,
 			errors,
 			errorSummary
 		});
-		return;
 	}
 
 	try {
+		appeal.email = body['email-address'];
 		req.session.appeal = await createOrUpdateAppeal(appeal);
 	} catch (e) {
 		logger.error(e);
-		res.render('appeal-householder-decision/email-address', {
+		return res.render('appeal-householder-decision/email-address', {
 			email,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
 		});
-		return;
 	}
 
-	res.redirect('confirm-email-address');
+	res.redirect('/appeal-householder-decision/confirm-email-address');
+
 };
 
 module.exports = {
