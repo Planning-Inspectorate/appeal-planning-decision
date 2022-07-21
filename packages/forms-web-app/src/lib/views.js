@@ -50,7 +50,11 @@ const VIEW = {
 		CHECK_ANSWERS: 'appellant-submission/check-answers',
 		SUBMISSION: 'appellant-submission/submission',
 		CONFIRMATION: 'appellant-submission/confirmation',
-		SUBMISSION_INFORMATION: 'appellant-submission/submission-information'
+		SUBMISSION_INFORMATION: 'appellant-submission/submission-information',
+		REQUEST_NEW_CODE: 'appeal-householder-decision/request-new-code',
+		CODE_EXPIRED: 'appeal-householder-decision/code-expired',
+		APPEAL_ALREADY_SUBMITTED: 'appeal-householder-decision/appeal-already-submitted',
+		ENTER_CODE: 'appeal-householder-decision/enter-code'
 	},
 
 	GUIDANCE_PAGES: {

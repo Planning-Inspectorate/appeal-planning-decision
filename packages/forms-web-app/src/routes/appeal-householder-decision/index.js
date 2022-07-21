@@ -9,5 +9,6 @@ router.use(require('./confirm-email-address'));
 router.use(require('./list-of-documents'));
 router.use(require('./application-saved'));
 router.use(require('./save'));
+router.use(require('./enter-code'));
 
 module.exports = router;
