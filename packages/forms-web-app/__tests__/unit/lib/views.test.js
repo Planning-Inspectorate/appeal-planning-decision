@@ -59,7 +59,8 @@ describe('lib/views', () => {
 				REQUEST_NEW_CODE: 'appeal-householder-decision/request-new-code',
 				CODE_EXPIRED: 'appeal-householder-decision/code-expired',
 				APPEAL_ALREADY_SUBMITTED: 'appeal-householder-decision/appeal-already-submitted',
-				ENTER_CODE: 'appeal-householder-decision/enter-code'
+				ENTER_CODE: 'appeal-householder-decision/enter-code',
+				CANNOT_APPEAL: 'appeal-householder-decision/cannot-appeal'
 			},
 
 			GUIDANCE_PAGES: {
