@@ -1,4 +1,4 @@
-const { get, post } = require('../router-mock');
+const { get } = require('../router-mock');
 const {
 	getCannotAppeal
 } = require('../../../../src/controllers/appeal-householder-decision/cannot-appeal');
