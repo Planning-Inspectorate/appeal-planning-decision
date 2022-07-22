@@ -3,10 +3,8 @@ const {
 	getEnterCode,
 	postEnterCode
 } = require('../../../../src/controllers/appeal-householder-decision/enter-code');
-const {
-	rules: ruleEnterCode
-} = require('../../../../src/validators/appeal-householder-decision/enter-code');
-jest.mock('../../../../src/validators/full-appeal/enter-code');
+const { rules: ruleEnterCode } = require('../../../../src/validators/save-and-return/enter-code');
+jest.mock('../../../../src/validators/save-and-return/enter-code');
 const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 
 describe('routes/appeal-householder-planning/enter-code', () => {
