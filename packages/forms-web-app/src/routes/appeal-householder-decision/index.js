@@ -13,5 +13,6 @@ router.use(require('./enter-code'));
 router.use(require('./request-new-code'));
 router.use(require('./cannot-appeal'));
 router.use(require('./link-expired'));
+router.use(require('./code-expired'));
 
 module.exports = router;
