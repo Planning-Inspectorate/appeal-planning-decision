@@ -2,10 +2,14 @@ const { rules, validation } = require('@pins/business-rules');
 const { VIEW } = require('../lib/views');
 const {
 	VIEW: {
-		FULL_APPEAL: { CANNOT_APPEAL }
+		FULL_APPEAL: { CANNOT_APPEAL: cannotAppealFP }
 	}
 } = require('../lib/full-appeal/views');
-
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { CANNOT_APPEAL: cannotAppealHAS }
+	}
+} = require('../lib/views');
 const validationExclusionPages = [
 	'/before-you-start/you-cannot-appeal',
 	'/before-you-start/decision-date',
@@ -13,7 +17,8 @@ const validationExclusionPages = [
 	'/before-you-start/decision-date-householder',
 	'/before-you-start/date-decision-due-householder',
 	'/before-you-start/type-of-planning-application',
-	`/${CANNOT_APPEAL}`
+	`/${cannotAppealFP}`,
+	`/${cannotAppealHAS}`
 ];
 
 const setShutterPageProps = (req) => {
@@ -48,7 +53,11 @@ const checkDecisionDateDeadline = (req, res, next) => {
 		if (appeal.appealType && !validationExclusionPages.includes(req.originalUrl)) {
 			if (!isWithinExpiryPeriod(appeal)) {
 				setShutterPageProps(req);
-				res.redirect(`/${CANNOT_APPEAL}`);
+				if (appeal.appealType === '1001') {
+					res.redirect(`/${cannotAppealHAS}`);
+				} else {
+					res.redirect(`/${cannotAppealFP}`);
+				}
 				return;
 			}
 		}

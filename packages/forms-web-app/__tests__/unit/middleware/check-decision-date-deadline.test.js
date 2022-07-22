@@ -43,7 +43,7 @@ describe('middleware/check-decision-date-deadline', () => {
 		checkDecisionDateDeadline(req, res, next);
 
 		expect(res.redirect).toHaveBeenCalledTimes(1);
-		expect(res.redirect).toHaveBeenCalledWith('/full-appeal/submit-appeal/cannot-appeal');
+		expect(res.redirect).toHaveBeenCalledWith('/appeal-householder-decision/cannot-appeal');
 	});
 
 	it('should continue if the decision date is inside the expiry period for Full-appeal and the decision date page is being rendered', () => {
