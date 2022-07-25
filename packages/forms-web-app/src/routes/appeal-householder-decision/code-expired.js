@@ -7,7 +7,7 @@ const {
 
 const router = express.Router();
 
-router.get('/appeal-householder-decision/code-expired', getCodeExpired);
-router.post('/appeal-householder-decision/code-expired', postCodeExpired);
+router.get('/code-expired', getCodeExpired);
+router.post('/code-expired', postCodeExpired);
 
 module.exports = router;
