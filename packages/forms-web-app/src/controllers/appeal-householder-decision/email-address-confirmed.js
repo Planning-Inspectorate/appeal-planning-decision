@@ -6,7 +6,7 @@ const getEmailConfirmed = async (req, res) => {
 	const emailConfirmationCreated = new Date(retrievedEmailConfirmation.createdAt);
 
 	if (isTokenExpired(30, emailConfirmationCreated)) {
-		return res.redirect(`/appeal-householder-decision/link-expired`);
+		return res.redirect('/appeal-householder-decision/link-expired');
 	}
 	const listOfDocumentsUrl = 'list-of-documents';
 	res.render('appeal-householder-decision/email-address-confirmed', {
