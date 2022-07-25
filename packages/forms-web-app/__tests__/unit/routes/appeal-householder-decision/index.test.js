@@ -1,6 +1,7 @@
 const { use } = require('../router-mock');
 
 const linkExpiredRouter = require('../../../../src/routes/appeal-householder-decision/link-expired');
+const codeExpiredRouter = require('../../../../src/routes/appeal-householder-decision/code-expired');
 
 describe('routes/appeal-householder-decision/index', () => {
 	beforeEach(() => {
@@ -12,5 +13,6 @@ describe('routes/appeal-householder-decision/index', () => {
 
 	it('should define the expected routes', () => {
 		expect(use).toHaveBeenCalledWith(linkExpiredRouter);
+		expect(use).toHaveBeenCalledWith(codeExpiredRouter);
 	});
 });
