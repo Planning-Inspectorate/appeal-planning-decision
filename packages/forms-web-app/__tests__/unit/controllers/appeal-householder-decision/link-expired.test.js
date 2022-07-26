@@ -9,6 +9,8 @@ describe('controllers/submit-appeal/link-expired', () => {
 		req.session.appeal.appealType = '1005';
 		linkExpiredController.getLinkExpired(req, res);
 
-		expect(res.render).toBeCalledWith('appeal-householder-decision/link-expired');
+		expect(res.render).toBeCalledWith('appeal-householder-decision/link-expired', {
+			sendNewLinkUrl: '/appeal-householder-decision/sent-another-link'
+		});
 	});
 });
