@@ -1,5 +1,5 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const { addWeeks, subWeeks, addDays, subDays, endOfDay, format, parseISO } = require('date-fns');
+const { subWeeks, addDays, subDays, endOfDay, format, parseISO } = require('date-fns');
 const dateFilter = require('nunjucks-date-filter');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
