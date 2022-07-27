@@ -1,7 +1,7 @@
-{% extends "../layouts/full-appeal-banner/main-no-back-link.njk" %}
+{% extends "../layouts/householder-banner/main-no-back-link.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% set title="Your email address is confirmed - Appeal a planning decision - GOV.UK" %}
+{% set title="Your email address is confirmed - Appeal a householder planning decision - GOV.UK" %}
 
 {% block pageTitle %}
   {{ title }}
@@ -11,11 +11,12 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">Your email address is confirmed</h1>
-    </div>
+
     {{ govukButton({
             text: "Continue",
             href: listOfDocumentsUrl,
             attributes: { "data-cy":"button-save-and-continue"}
           }) }}
+		</div>
   </div>
 {% endblock %}
