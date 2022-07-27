@@ -4,7 +4,15 @@ const getOutOfTimeShutterPage = async (req, res) => {
 	const { appeal } = req.session;
 	const { appealDeadline, appealPeriod } = appeal.eligibility;
 
-	const appealPeriodToBeDisplayed = appealPeriod === '181 days' ? '6 months' : appealPeriod;
+	let appealPeriodToBeDisplayed;
+
+	if (appealPeriod === '181 days') {
+		appealPeriodToBeDisplayed = '6 months';
+	} else if (appealPeriod === '83 days') {
+		appealPeriodToBeDisplayed = '12 weeks';
+	} else {
+		appealPeriodToBeDisplayed = appealPeriod;
+	}
 
 	return res.render(VIEW.OUT_OF_TIME_SHUTTER_PAGE, {
 		appealDeadline,

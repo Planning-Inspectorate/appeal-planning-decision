@@ -24,6 +24,11 @@ const getCannotAppeal = (req, res) => {
 			time: 6,
 			duration: 'months'
 		};
+	} else if (arraysEqual(Object.values(deadlinePeriod), ['days', 83])) {
+		deadlinePeriod = {
+			time: 12,
+			duration: 'weeks'
+		};
 	}
 
 	res.render(CANNOT_APPEAL, {

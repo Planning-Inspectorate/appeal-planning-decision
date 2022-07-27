@@ -225,8 +225,8 @@ describe('controllers/eligibility/decision-date', () => {
 		it('should call the correct template with deadline date being 12 weeks after decision date', () => {
 			appeal.decisionDate = '2020-10-10';
 
-			const date = addWeeks(endOfDay(parseISO(appeal.decisionDate)), 12);
-			expect(dateFilter(date, 'DD MMMM YYYY')).toBe('02 January 2021');
+			const date = addDays(endOfDay(parseISO(appeal.decisionDate)), 83);
+			expect(dateFilter(date, 'DD MMMM YYYY')).toBe('01 January 2021');
 
 			decisionDateController.getDecisionDatePassed(req, res);
 
