@@ -21,14 +21,11 @@ describe('controllers/save-and-return', () => {
 			req = {
 				...req,
 				session: {
-					appeal,
-					navigationHistory: ['nav/p1', 'nav/p2']
+					appeal
 				}
 			};
 			await postSaveAndReturn(req, res);
 			expect(saveAppeal).toHaveBeenCalledWith(appeal);
-			expect(req.session.navigationHistory).toHaveLength(1);
-			expect(req.session.navigationHistory).toEqual(['nav/p2']);
 			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.SUBMIT_APPEAL.APPLICATION_SAVED}`);
 		});
 	});
