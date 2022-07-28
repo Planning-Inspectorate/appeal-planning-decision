@@ -19,14 +19,17 @@ services:
       - 3003:3000
 
   clamav-server:
-    image: clamav/clamav
+    image: "clamav/clamav:stable"
     ports:
-      - 3310:3000
-
+      - 3310:3310
+    restart: unless-stopped  
+    
   clamav-rest-server:
     image: node:14-alpine
     ports:
       - 3100:3000
+    depends_on:
+      - clamav-server
     links:
       - clamav-server
     environment:
