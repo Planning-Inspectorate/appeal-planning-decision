@@ -13,8 +13,7 @@ const {
 			ELIGIBILITY: {
 				CAN_USE_SERVICE_HOUSEHOLDER: canUseServiceHouseholder,
 				CAN_USE_SERVICE_PRIOR_APPROVAL: canUseServicePriorApprovalHouseholder,
-				CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
-					canUseServiceRemovalOrVariationOfConditionsHouseholder
+				CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS: canUseServiceRemovalOrVariationOfConditionsHouseholder
 			}
 		}
 	}
@@ -24,8 +23,7 @@ const {
 		FULL_APPEAL: {
 			CAN_USE_SERVICE_FULL_APPEAL: canUseServiceFullAppealUrl,
 			CAN_USE_SERVICE_PRIOR_APPROVAL: canUseServicePriorApprovalFull,
-			CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
-				canUseServiceRemovalOrVariationOfConditionsFullAppeal
+			CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS: canUseServiceRemovalOrVariationOfConditionsFullAppeal
 		}
 	}
 } = require('../../../../src/lib/full-appeal/views');
@@ -54,7 +52,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				appealLPD: 'Bradford',
 				applicationDecision: 'Refused',
 				applicationType: 'Removal Or Variation Of Conditions',
-				deadlineDate: { date: 15, day: 'Sunday', month: 'May', year: 2022 },
+				deadlineDate: { date: 14, day: 'Saturday', month: 'May', year: 2022 },
 				decisionDate: '20 February 2022',
 				enforcementNotice: 'No',
 				dateOfDecisionLabel: 'Date of Decision',
@@ -134,7 +132,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				appealLPD: 'Bradford',
 				applicationDecision: 'Refused',
 				applicationType: 'Prior Approval',
-				deadlineDate: { date: 15, day: 'Sunday', month: 'May', year: 2022 },
+				deadlineDate: { date: 14, day: 'Saturday', month: 'May', year: 2022 },
 				decisionDate: '20 February 2022',
 				enforcementNotice: 'No',
 				dateOfDecisionLabel: 'Date of Decision',

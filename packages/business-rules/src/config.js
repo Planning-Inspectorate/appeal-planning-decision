@@ -33,8 +33,8 @@ const config = {
 						duration: 'days'
 					},
 					refused: {
-						time: 12,
-						duration: 'weeks'
+						time: 83,
+						duration: 'days'
 					},
 					nodecisionreceived: {
 						time: 181,

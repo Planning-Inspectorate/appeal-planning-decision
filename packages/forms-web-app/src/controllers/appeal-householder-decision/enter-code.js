@@ -43,7 +43,7 @@ const postEnterCode = async (req, res) => {
 	} catch (err) {
 		return res.render(ENTER_CODE, {
 			errors,
-			errorSummary: [{ text: 'No appeal was found for the given token', href: '#' }]
+			errorSummary: [{ text: 'We did not find your appeal. Enter the correct code', href: '#' }]
 		});
 	}
 
