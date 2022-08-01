@@ -14,6 +14,10 @@ const getEnterCode = async (req, res) => {
 	const {
 		session: { appeal }
 	} = req;
+
+	if (!appeal || !appeal.state || appeal.state === 'SUBMITTED') {
+		return res.redirect(`/${APPEAL_ALREADY_SUBMITTED}`);
+	}
 	const url = `/${REQUEST_NEW_CODE}`;
 	await sendToken(appeal);
 	res.render(ENTER_CODE, {

@@ -60,6 +60,20 @@ describe('middleware/check-appeal-type-exists', () => {
 		expect(res.redirect).not.toBeCalled();
 	});
 
+	it('should call next for the /full-appeal/submit-appeal/enter-code page', () => {
+		req.originalUrl = '/full-appeal/submit-appeal/enter-code';
+		checkAppealTypeExists(req, res, next);
+		expect(next).toBeCalled();
+		expect(res.redirect).not.toBeCalled();
+	});
+
+	it('should call next for the /full-appeal/submit-appeal/appeal-already-submitted', () => {
+		req.originalUrl = '/full-appeal/submit-appeal/appeal-already-submitted';
+		checkAppealTypeExists(req, res, next);
+		expect(next).toBeCalled();
+		expect(res.redirect).not.toBeCalled();
+	});
+
 	it('should call next() if appealType is set', () => {
 		req.session.appeal.appealType = '1005';
 		checkAppealTypeExists(req, res, next);

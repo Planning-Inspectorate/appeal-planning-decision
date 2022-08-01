@@ -27,6 +27,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 	});
 	describe('getEnterCode', () => {
 		it('should render enter code page when receiving the token from email', async () => {
+			req.session.appeal.state = 'DRAFT';
 			const url = '/full-appeal/submit-appeal/request-new-code';
 			calculateDeadline.hasDeadlineDatePassed.mockReturnValue(false);
 			getSavedAppeal.mockReturnValue({
@@ -35,7 +36,26 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			await getEnterCode(req, res);
 			expect(res.render).toBeCalledWith(`${ENTER_CODE}`, { requestNewCodeLink: url });
 		});
+
+		it('should redirect to appeal submitted page if appeal submitted', async () => {
+			req.session.appeal.state = 'SUBMITTED';
+			await getEnterCode(req, res);
+			expect(res.redirect).toBeCalledWith(`/${APPEAL_ALREADY_SUBMITTED}`);
+		});
+
+		it('should redirect to appeal submitted page if no appeal state', async () => {
+			req.session.appeal.state = null;
+			await getEnterCode(req, res);
+			expect(res.redirect).toBeCalledWith(`/${APPEAL_ALREADY_SUBMITTED}`);
+		});
+
+		it('should redirect to appeal submitted page if no appeal object', async () => {
+			req.session.appeal = null;
+			await getEnterCode(req, res);
+			expect(res.redirect).toBeCalledWith(`/${APPEAL_ALREADY_SUBMITTED}`);
+		});
 	});
+
 	describe('postEnterCode', () => {
 		it('should render task list page when entering valid token', async () => {
 			req.body = { token: '12312' };
