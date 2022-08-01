@@ -10,7 +10,6 @@ const checkAppealTypeExists = (req, res, next) => {
 		'/appellant-submission/submission-information',
 		'/full-appeal/submit-appeal/declaration-information',
 		'/full-appeal/submit-appeal/enter-code',
-		'/full-appeal/submit-appeal/appeal-already-submitted',
 		'/appeal-householder-decision/planning-application-number',
 		'/appeal-householder-decision/email-address',
 		'/appeal-householder-decision/email-address-confirmed',
