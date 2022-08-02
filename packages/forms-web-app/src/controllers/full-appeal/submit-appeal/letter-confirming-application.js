@@ -76,6 +76,8 @@ const postLetterConfirmingApplication = async (req, res) => {
 			return res.redirect(`/${TASK_LIST}`);
 		} else {
 			appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
+			req.session.appeal = await createOrUpdateAppeal(appeal);
+
 			return await postSaveAndReturn(req, res);
 		}
 	} catch (err) {
